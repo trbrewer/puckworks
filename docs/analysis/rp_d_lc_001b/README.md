@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — FROZEN, PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C1), PENDING EXACT-HEAD RE-REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -9,6 +9,15 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
+
+> **The first exact-head review returned NOT APPROVED.** At
+> `bbf2304665d09cb78c117353947ce8c6cf2e5d24` the disposition was
+> `RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED`. The
+> **common-mode-port apparatus was accepted in principle**; twelve items of machinery were not,
+> and are corrected under `PREFLIGHT-C1`. Every superseded clause, constant, matrix rule and
+> generated hash is recorded in [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md); the effective
+> protocol is `PROTOCOL.md` §19. **All solving phases remain unauthorized**, and a second
+> exact-head review is required before any of them can be.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
@@ -50,7 +59,9 @@ more**:
 and closing one measurement defect alongside them: 001 recorded only `Σu_x`, so actual mass
 conservation was `NOT_EVALUATED` (errata E4/E4b). Every required plane now retains **both**
 `Σu_x` (the volume flux the inverse consumes) and `Σρu_x` (the conserved mass flux), never
-conflated. This needs **no solver change**: `lb_reference` already exports `rho` and `uy`.
+conflated. This needs **no solver change**: `lb_reference` already exports `rho`, `uy` and
+`uz` — all three are now requested, because the corrected low-Mach control uses the full
+velocity vector and does not assume `uz` vanishes (`PREFLIGHT_ERRATA.md` PE-4).
 
 ## 3. Scope — what this tranche is not
 
@@ -63,10 +74,11 @@ infrastructure is added.
 
 | file | what it is |
 |---|---|
-| `PROTOCOL.md` | the frozen pre-execution protocol: question, similarity law, observable contract, negative control, reachable set, anti-circularity, decision clauses, stop conditions, erratum policy |
+| `PROTOCOL.md` | the frozen pre-execution protocol, with **§19 the effective protocol under `PREFLIGHT-C1`** |
+| `PREFLIGHT_ERRATA.md` | the append-only correction record: PE-0 … PE-12, each with its superseded form, why it was unsafe, and the effective replacement |
 | `VIRTUAL_FIXTURE_SPEC.md` | the corrected deterministic geometry, its exact symmetries, the candidate family and every topology invariant |
 | `EXECUTION_MATRIX.md` | every planned configuration, exact solve counts, ordering and early-stop behaviour |
-| `PRE_EXECUTION_REVIEW.md` | the audit — conserved quantity, similarity, negative-control physics, budgets and margins, unresolved risks, and an explicit readiness recommendation |
+| `PRE_EXECUTION_REVIEW.md` | the audit, with **§11 the post-review re-audit** — including the one risk the correction itself created (§11.6) |
 | `generated/protocol.json` | machine-readable frozen configuration |
 | `generated/fixture_spec.json` | machine-readable geometry, mask hashes and topology audits |
 | `generated/execution_matrix.json` | machine-readable matrix with exact counts |
@@ -78,17 +90,22 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_FROZEN_PENDING_EXACT_HEAD_REVIEW
+RP_D_LC_001B_PREFLIGHT_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REREVIEW
+correction_version: PREFLIGHT-C1
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
+AUTHORISED_SOLVING_PHASES: ()
 ```
 
-The slow driver refuses every solving mode (`ExecutionNotAuthorised`), and the primary phase
-additionally refuses because no bridge-freeze artifact exists (`FreezeMissing`). Both refusals are
-asserted by test.
+Authorisation is **phase-specific** and empty, so all six solving phases raise
+`ExecutionNotAuthorised`. Independently, P3 and P4 raise `FreezeMissing` (no freeze and no
+instantiated P3/P4 matrix exist) and every phase after P0 raises `ManifestMissing` for its
+predecessors — both checked *before* the allowlist, so neither gate is shadowed by it. All three
+refusals are asserted by test.
 
-**Planned:** 62 mandatory solves (P0 + P1), 130 conditional (P2, P3, P4), 3 diagnostic
-replicates — **195 maximum**. None has run.
+**Planned:** **82** mandatory minimum (P0 + P1a), **322** conditional (P1b, P2a, P3, P4), **3**
+diagnostic replicates — **407 adaptive maximum**; **325** rows are refused if the tranche stops at
+the earliest point. None has run.
 
 ## 6. Preflight commands (no solver runs)
 
@@ -97,7 +114,8 @@ python -m puckworks.analysis.rp_d_lc_001b_virtual_fixture --write
 python -m puckworks.analysis.rp_d_lc_001b_virtual_fixture --verify
 python -m pytest tests/test_rp_d_lc_001b_preflight.py -q
 python -m puckworks.validation.slow.rp_d_lc_001b --mode plan     # prints the planned matrix
-python -m puckworks.validation.slow.rp_d_lc_001b --mode p0       # REFUSES
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P0       # REFUSES
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P3       # REFUSES (freeze gate first)
 ```
 
 Heavy LB execution, when authorised, stays in `puckworks/validation/slow/` or local/Colab runs and

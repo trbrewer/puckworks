@@ -1,149 +1,167 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
+VERSION PREFLIGHT-C1 (corrected; supersedes the version at bbf2304)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false
 ```
 
 Machine-readable and authoritative: `generated/execution_matrix.json`, produced by
 `rp_d_lc_001b_virtual_fixture.execution_matrix()`. This document is its human-readable face; where
-they could disagree, the generated file wins and the tests bind the two.
+they could disagree, the generated file wins and the tests bind the two. Every count below is
+**computed**, never transcribed — the superseded 195-row matrix and its inconsistent 131-vs-133
+refused-row figures are recorded in `PREFLIGHT_ERRATA.md` (PE-10, PE-12).
 
-## 1. Ordering and early stops
+## 1. Every row is uniquely executable
 
-Phases run **strictly in order**; within a phase, rows run in the order the generator emits them.
+Each row carries a stable unique `case_id` built from its own configuration, plus:
+
+`phase · kind · S · forcing_level · forcing · tau_plus · state · variant · bridge ·
+coupon_level · coupon_orientation · swapped · perturbation · obstructed · audit_mode ·
+backend · record_schema · prerequisite · class`
+
+`_row()` refuses an under-specified row, and tests assert `case_id` uniqueness, the absence of
+duplicate canonical rows once `case_id` is removed, that both coupon orientations appear
+distinctly, that every conditional row declares a prerequisite, and that every row resolves to
+exactly one fixture and solver configuration.
+
+## 2. Ordering and early stops
 
 ```
-P0  →  P1  →  P2 (freeze)  →  P3  →  P4  →  assemble/adjudicate
+P0 → P1a → P1b → P2a → P2b (freeze, STOP for a second exact-head review) → P3 → P4
 ```
 
 | point | early-stop behaviour |
 |---|---|
-| **P1** | if **no** candidate meets `ARTIFACT_BUDGET_R_ABS = 1e-3` at **both** resolutions, stop with `DESIGN_BLOCKED_PRE_EXECUTION`. P2, P3 and P4 are not run: **131 solves are refused**, and the tranche reports a design-blocked result rather than authorising primary computation |
-| **P2** | if fewer than 3 admitted candidates have coupon-predicted `Ξ` inside the WP6 window, report the calibration-to-assembly gap and stop. **Do not re-select a second post-hoc family in the same frozen execution** |
-| **P3** | any run reaching `max_steps` is `UNCONVERGED` and stops the phase. No retry at a looser tolerance |
+| **P1a** | a candidate whose central identical-path artifact **upper bound** already exceeds `1e-3` at either resolution is rejected; its P1b and P2a rows are refused |
+| **P1b** | if **no** candidate meets the budget across all three forcing levels at both resolutions → `DESIGN_BLOCKED_PRE_EXECUTION` / `NO_CANDIDATE_WITHIN_ARTIFACT_BUDGET`. **325 rows are then refused** |
+| **P2a** | a candidate failing forcing invariance or resolution consistency is not eligible for selection |
+| **P2b** | if the frozen rule cannot fill all 5 unique slots from unambiguous candidates → `DESIGN_BLOCKED_PRE_EXECUTION` with a frozen reason code. **Do not improvise a slot and do not re-select** |
+| **P3** | any run reaching `max_steps` is `UNCONVERGED` and stops the phase; no retry at a looser tolerance |
 | **P4** | a breached Route-A isolation bound gives `INVALID_EXECUTION` — never a relaxed second tolerance, never a switch to Route B |
-| any | a failed required execution-validity control gives `INVALID_EXECUTION`; clauses 2–7 are not reached |
 
-**Rerun / replicate policy.** No statistical replicates: every case is deterministic, with no RNG
-and no shared state. One replicate per phase is run **solely** to demonstrate byte-identical
-reproduction of the compact record. Convergence extensions are the forced-step audit rows only.
+**Replicate policy, stated as a rule rather than an exception.** Three determinism replicates, in
+**P0, P1a and P3** — the three phases producing decision-bearing records from *distinct fixture
+families* (reference-blocked, identical-path, mirror). P2a re-uses those families and P4 re-uses
+P3's fixtures with an obstruction, so a fourth would add no independent evidence. Each replicate
+repeats a case its **own** phase already runs, so P1a's is identical-path and cannot reveal a
+mirror observable. There are no statistical replicates: every case is deterministic with no RNG.
 
-## 2. Counts
+**Reuse policy.** P3 re-uses P2a's candidate blocked-mirror records for the frozen bridges rather
+than re-solving them — identical mask, identical forcing, identical solver configuration, and the
+solver is deterministic. The reuse is recorded per case, never silent.
 
-| class | rows | meaning |
-|---|---|---|
-| **mandatory scheduled** | **62** | P0 (14) + P1 (48) — everything that must run before the next review point |
-| conditional on P1 | 24 | P2 bridge coupons; skipped entirely if no candidate clears the artifact budget |
-| conditional on the freeze | 86 | all of P3; may run only from an expressly approved frozen head |
-| conditional on P3 | 20 | P4 / Arm J |
-| diagnostic only | 3 | determinism replicates |
-| **maximum possible** | **195** | if every phase proceeds |
+## 3. Counts
+
+| class | rows |
+|---|---|
+| **mandatory minimum** (P0 + P1a, incl. their replicates) | **82** |
+| conditional on P1a (P1b) | 104 |
+| conditional on P1b (P2a) | 144 |
+| conditional on the freeze (P3) | 56 |
+| conditional on P3 (P4) | 20 |
+| diagnostic replicates | 3 |
+| **adaptive maximum** | **407** |
+| refused after the earliest stop | **325** |
 
 | phase | rows |
 |---|---|
-| P0 | 15 (14 + 1 determinism replicate) |
-| P1 | 49 (48 + 1) |
-| P2 | 24 |
-| P3 | 87 (86 + 1) |
-| P4 | 20 |
+| P0 | 33 |
+| P1a | 49 |
+| P1b | 104 |
+| P2a | 144 |
+| P2b | 0 (arithmetic only — no solve) |
+| P3 | 57 (templates until instantiation) |
+| P4 | 20 (templates until instantiation) |
 
-## 3. The rows
+P1b and P2a are **adaptive**: they are emitted at their maximum, with every declared scientific
+candidate surviving. Rows for rejected candidates are refused, not run.
 
-### P0 — common blocked characterisation · 14 solves · MANDATORY
+## 4. The phases
 
-| # | kind | S | forcing | state | variant | bridge | retained record |
-|---|---|---|---|---|---|---|---|
-| 1–3 | reference-blocked ladder | 2 | `1.0e-6` / `2.0e-6` / `4.0e-6` | `reference_blocked` | mirror | — | all 9 axial planes (volume **and** mass flux), node pressures + `sd`, lane fluxes at both outlet planes |
-| 4–6 | reference-blocked ladder | 3 | `2.962962962962963e-7` / `5.925925925925926e-7` / `1.1851851851851852e-6` | `reference_blocked` | mirror | — | as above |
-| 7–10 | axial coupon | 2 | central | coupon | high/low × orientation x/y | — | duct conductance `Q/(g L)`, both lattice orientations |
-| 11–14 | axial coupon | 3 | central | coupon | high/low × orientation x/y | — | as above |
+### P0 — common blocked characterisation · 33 rows · MANDATORY
 
-**Produces:** `c_field`, `A₁`, `A₂` for the reachable-set gate; `a_coupon`, `b_coupon`,
-`c_coupon`; the blocked-side componentwise forcing-invariance evidence; the first mass-conservation
+- **reference-blocked mirror ladder** — both resolutions × all three forcing levels (6);
+- **axial coupons** — both resolutions × all three forcing levels × {high, low} × **both lattice
+  orientations** (24). The superseded matrix ran coupons at central forcing only and omitted the
+  orientation field entirely;
+- **`tau_plus = 1.2` cross-check** — both resolutions at central forcing (2), scheduled rather
+  than merely asserted;
+- one determinism replicate.
+
+**Produces:** the reference `c_field`, `A₁`, `A₂`; `a_coupon`, `b_coupon`, `c_coupon`; the
+blocked-side componentwise forcing-invariance evidence; and the first true mass-conservation
 measurement in the programme's history.
 
-### P1 — candidate identical-path controls · 48 solves · MANDATORY · DECISION-BEARING
+### P1a — central identical-path screen · 49 rows · MANDATORY · DECISION-BEARING
 
-12 scientific candidates × {`blocked`, `open`} × {S = 2, S = 3}, **central forcing**,
-`variant = "identical"`.
+12 scientific candidates × {blocked, open} × {S = 2, S = 3}, central forcing,
+`variant = "identical"`, plus one replicate. **No mirror recovery case is run or inspected.**
 
-| candidates | `w ∈ {3,5,7,9} × kz ∈ {2,3,4}` |
-|---|---|
-| retained record | full axial + transverse plane records; `R_identical`, its mass-flux counterpart, and every artifact form in `artifact_metrics()` |
-| gate | `|R_identical − 1| ≤ 1e-3` at **both** resolutions |
+### P1b — forcing extension and continuation · ≤ 104 rows · CONDITIONAL ON P1a
 
-**No mirror recovery case is run or inspected in this phase.** The artifact is a geometry property,
-so it is measured at central forcing only; the forcing ladder for the frozen candidate arrives in
-P3.
+`×0.5` and `×2` identical-path extensions for every candidate still selectable (≤96), plus 8
+continuation runs on the **smallest and largest** bridge at both resolutions and both states. The
+worst continuation movement bounds `u_artifact_R` for every candidate — declared, not assumed
+away. **Final artifact admission uses all three forcing levels at both resolutions.**
 
-### P2 — admissibility and bridge freeze · 24 solves · CONDITIONAL ON P1
+### P2a — coupon ladders and blocked-mirror characterisation · ≤ 144 rows · CONDITIONAL ON P1b
 
-12 scientific candidates × {S = 2, S = 3}, bridge coupon, central forcing.
+- **bridge coupons** — survivors × both resolutions × all three forcing levels (≤72);
+- **candidate blocked mirror** — survivors × both resolutions × all three forcing levels (≤72),
+  the measured basis for each candidate's `[c_lower, c_upper]`.
 
-Then, with **no further solving**:
+A blocked mirror fixture exposes no open coupling-recovery observable, so this is permitted before
+the freeze. **No candidate OPEN mirror case is run.**
 
-1. reject every candidate failing the P1 artifact budget;
-2. apply `reachable_set_admission()` using the **P0 reference-blocked** `c_field` (never a mirror
-   output), the candidate's measured artifact bound and the frozen numerical-uncertainty and
-   safety-margin terms;
-3. apply `FREEZE_RULE` mechanically to the survivors' **coupon-predicted `Ξ`** — largest below the
-   window, smallest above, three log-spaced inside, ties on smaller `w` then `kz`;
-4. write and hash `runs/bridge_freeze.json`, binding the protocol, fixture-spec and matrix hashes.
+### P2b — admissibility, selection and proposed freeze · 0 solves
 
-**Expected selection size: 5.** The driver refuses `--mode p3` until this file exists and matches.
+Apply the artifact upper-bound gate, then the reachable-set admission built on each candidate's own
+measured contrast interval, then the forcing-invariance and resolution-consistency gates, then the
+frozen selection rule. Write and hash `runs/bridge_freeze.json` **and** the instantiated P3/P4
+matrix. **Stop for a second exact-head review.**
 
-### P3 — primary mirror / path-swap experiment · 86 solves · CONDITIONAL ON THE FREEZE
+### P3 — primary mirror / path-swap experiment · 57 rows · CONDITIONAL ON THE FREEZE
 
 | block | rows | detail |
 |---|---|---|
-| primary mirror | **60** | 5 frozen bridges × {S=2, S=3} × {`×0.5`, `×1`, `×2`} × {blocked, open} |
-| path-swap control | **20** | 5 frozen bridges × {S=2, S=3} × {blocked, open}, central forcing, `swapped=True` |
-| one-voxel adversarial | **4** | {`one_voxel_plug`, `one_voxel_slab`} × {blocked, open} at `S_FINE`, first frozen bridge |
-| forced-step convergence audit | **2** | one case per resolution at `1.5 ×` its converged step count |
+| primary mirror **open** | 30 | 5 frozen bridges × {S=2, S=3} × {×0.5, ×1, ×2}; the blocked counterparts are re-used from P2a |
+| path-swap control | 20 | 5 × {S=2, S=3} × {blocked, open}, central forcing, `swapped=True` |
+| one-voxel adversarial | 4 | {plug, slab} × {blocked, open} at `S_FINE`, first frozen bridge |
+| continuation audit | 2 | one per resolution at `1.5 ×` the converged step count |
+| determinism replicate | 1 | |
 
-Retained per row: the full compact record, the boundary record (six keys, allowlist-validated) and
-the field truth — built and recorded **in that order**, so nothing on the truth side can reach the
-inference.
+### P4 — Arm J return-path nuisance isolation · 20 rows · CONDITIONAL ON P3 · DECISION-BEARING
 
-### P4 — Arm J return-path nuisance isolation · 20 solves · CONDITIONAL ON P3 · DECISION-BEARING
+5 frozen bridges × {blocked, open} × {S = 2, S = 3}, central forcing, plenum obstructed. Gate:
+`|R_obstructed/R_nominal − 1| ≤ 1e-3` and `|s_obstructed − s_nominal| ≤ 5e-4`, with the induced
+changes in `ĉ`, `Ξ̂` and the sign of `s − ½` reported and never fitted. Arm J is **not** silently
+omitted to shrink the matrix.
 
-5 frozen bridges × {blocked, open} × {S = 2, S = 3}, central forcing, plenum obstructed.
-
-Gate: `|R_obstructed/R_nominal − 1| ≤ 1e-3` and `|s_obstructed − s_nominal| ≤ 5e-4`, with the
-induced changes in `ĉ`, `Ξ̂` and the sign of `s − ½` reported and never fitted. Arm J is **not**
-silently omitted to shrink the matrix: 001 recorded 24 unrun Arm-J solves as available for this
-tranche, and 20 of them are scheduled here against the corrected 5-candidate selection.
-
-### Determinism replicates · 3 solves · DIAGNOSTIC ONLY
-
-One case re-run in each of P0, P1 and P3; the compact record must reproduce byte-identically.
-
-## 4. Positive and negative controls, by name
+## 5. Positive and negative controls, by name
 
 | control | where | what it proves |
 |---|---|---|
 | uniform-duct coupon (`ΔP = g·L` exactly) | P0 | the frozen pressure definition is coherent in the periodic body-force formulation — an analytic **positive** control |
-| identical-path zero-lateral-driver | **P1** | opening the bridge does not widen the axial channel — the **negative** control that 001 failed |
-| reference-blocked vs candidate-blocked `c_field` | P0 / P3 | the ports do not move the contrast — reported as a diagnostic, not re-gated |
+| `tau_plus` cross-check | P0 | the frozen relaxation time is a time-step economy, not a physics change |
+| identical-path zero-lateral-driver | **P1a/P1b** | opening the bridge does not widen the axial channel — the **negative** control 001 failed |
+| continuation audit | P1b, P3 | the convergence criterion is sufficient for the observables, and it bounds `u_artifact_R` |
+| candidate blocked mirror | P2a | the contrast interval that sets the reachable ceiling, with no open-case exposure |
 | path swap | P3 | the signature reverses where it must and is preserved where it must |
 | one-voxel adversarial asymmetry | P3 | how much a sub-1 % construction asymmetry can bias `Ξ̂` |
 | plenum obstruction (Arm J) | P4 | the return path is isolated to the programme's 0.1 % scale |
-| forced-step audit | P3 | the convergence criterion is sufficient for the observables |
-| determinism replicate | all | the record is reproducible |
+| determinism replicate | P0, P1a, P3 | the record is reproducible byte-for-byte |
 
-## 5. Compute
+## 6. Compute
 
 **Planning information only — clearly separated from every scientific admission criterion, and not
-an assertion.** No wall-time estimate is claimed, because none has been measured for this geometry
-and 001's timings were taken at a different forcing, a different divider and a different step count.
-What is known: the S=2 domain is 112 × 48 × 16 lattice nodes and the S=3 domain is
-168 × 72 × 24, on a float64 NumPy D3Q19 TRT kernel; 001's comparable sweep was recorded as "hours"
-of CPU with `--jobs 6`. Heavy execution stays in `puckworks/validation/slow/` or local/Colab runs
-and **never** enters normal CI (CLAUDE.md rule 3). `RUNDIR` is gitignored; the committed record is
-compact scalars only.
+an assertion.** No wall-time estimate is claimed, because none has been measured for this geometry.
+What is known: the S=2 domain is 112 × 48 × 16 lattice nodes and the S=3 domain 168 × 72 × 24, on
+a float64 NumPy D3Q19 TRT kernel. Heavy execution stays in `puckworks/validation/slow/` or
+local/Colab runs and **never** enters normal CI (CLAUDE.md rule 3).
 
-## 6. What is refused right now
+## 7. What is refused right now
 
-Every row above. The driver's solving modes raise `ExecutionNotAuthorised`, and P3/P4 additionally
-raise `FreezeMissing` because no freeze artifact exists. Both refusals are asserted by test.
+**Every row.** `AUTHORISED_SOLVING_PHASES = ()`, so all six solving phases raise
+`ExecutionNotAuthorised`; P3 and P4 additionally raise `FreezeMissing`, and every phase after P0
+raises `ManifestMissing` for its predecessors. All three refusals are asserted by test.

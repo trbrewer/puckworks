@@ -9,6 +9,16 @@ This is the audit the freeze exists to be checked against: apparatus, similarity
 quantities and negative controls, examined **before** any computation. It states what I believe is
 correct, what remains a genuine risk, and my explicit recommendation.
 
+> ## ⚠ THE REVIEW THIS DOCUMENT ASKED FOR HAPPENED, AND RETURNED **NOT APPROVED**
+>
+> Exact-head review at `bbf2304665d09cb78c117353947ce8c6cf2e5d24`:
+> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED`**.
+>
+> **The common-mode-port apparatus — the design decision §3 flagged for adversarial attention —
+> was ACCEPTED IN PRINCIPLE.** Twelve other blockers were not. They are corrected under
+> `PREFLIGHT-C1`; see `PREFLIGHT_ERRATA.md` for each superseded clause and why it was unsafe, and
+> `PROTOCOL.md` §19 for the effective protocol. **§10 below is superseded by §11.**
+
 ---
 
 ## 1. Audit — the conserved quantity
@@ -286,3 +296,162 @@ selection cannot be contaminated by the result.
 **P3 and P4 remain unauthorized.** Stage B remains unauthorized. Paper 4 remains unauthorized. Card
 box 5 remains OPEN and box 6 remains closed on its existing mathematical result. RP-D-LC-001 remains
 `INVALID_EXECUTION` and its cross-model question remains **unadjudicated, not negative**.
+
+
+---
+
+# 11. POST-REVIEW AUDIT — CORRECTION `PREFLIGHT-C1`
+
+Supersedes §10. The apparatus is unchanged and still accepted; what follows is my assessment of
+the corrected machinery and of one risk the correction itself created.
+
+## 11.1 What the review accepted, and what it did not
+
+**Accepted in principle: the common-mode-port apparatus.** The blocked fixture has two physical
+blind pockets, the open fixture joins those same pockets, this is a physical off/on comparison
+rather than post-hoc subtraction, topology excludes a bridge-confined axial through-conduit, and
+P1 must still *measure* any remaining parallel-detour conductance. Nothing in the correction
+reverts to the 001 aperture, introduces identical-path subtraction, fits away an artifact or
+relaxes the artifact budget.
+
+**Not accepted: twelve items of machinery.** Two of them would have mattered most:
+
+- **PE-2** — the transverse control divided by its own mean, so it was undefined at the
+  zero-lateral-driver identical-path case, *the very case it exists to decide*, and could have
+  reported a spurious failure precisely because the physics was right. My §3 argued the negative
+  control was the decisive gate and then shipped a metric that could not evaluate it. That is the
+  most serious defect in the superseded preflight.
+- **PE-5** — P1 and P2 ran central forcing only, so admission, classification and selection would
+  have rested on quantities whose forcing-invariance evidence first appeared in P3. A candidate
+  chosen on central forcing and validated afterwards is chosen on unvalidated evidence.
+
+## 11.2 Re-audit — conserved quantity
+
+The nine adjudicative planes are now enforced, not assumed. The regression that matters is not
+that the count is nine but that **passing the named records, even tripled, cannot move the
+verdict**, while the same records *admitted* to the statistic demonstrably do — the test asserts
+both. Transverse conservation is state-aware with four frozen semantics and a zero-safe absolute
+metric; the superseded statistic is shown to raise `ZeroDivisionError` on the control's own
+defining input. Non-finite values can no longer be hashed. **Assessment: closed.**
+
+## 11.3 Re-audit — low-Mach validity
+
+The control is now the measured maximum of the full velocity vector over fluid nodes, with the
+argmax and its three components retained, and `uz` is requested rather than assumed to vanish.
+The tests show a `uz` contribution alone determining the maximum and a solid node carrying `99.0`
+being excluded. `design_mach_scale` is demoted to a planning estimate. **Assessment: closed.**
+
+## 11.4 Re-audit — forcing coverage
+
+Every pre-freeze family — reference-blocked, axial coupons (both orientations), identical-path,
+bridge coupons, candidate blocked mirror — now carries the full `×0.5/×1/×2` ladder at both
+resolutions, asserted by test. `candidate_blocked_mirror` is confined to P2a, and no open mirror
+case is scheduled anywhere before the freeze. `TOL_LINEARITY_REL` is untouched at `1e-4`.
+**Assessment: closed.** The cost is real — the pre-freeze budget rises from 86 to ≤ 326 solves —
+and that is the honest price of not selecting on unvalidated evidence.
+
+## 11.5 Re-audit — numerical discrepancy and the artifact gate
+
+The borrowed constant is gone. What replaces it is a **method**, not a number, and it is named a
+conservative numerical-discrepancy bound rather than a rigorous error bound, because that is what
+it is: a linear sum of a measured continuation term, a measured node-offset term and a
+serialisation term, times a declared safety factor. The gate is an upper-bound form, and the test
+that proves it bites is the one where a `5e-4` point estimate — comfortably inside the budget —
+fails on a `1e-3` uncertainty. **Assessment: closed, with one caveat**: the continuation bound is
+measured on the smallest and largest bridge only and applied to all. That is declared, and the
+worst of the two is used, but it is an assumption rather than a per-candidate measurement.
+
+## 11.6 Re-audit — the contrast bound, and a NEW risk the correction created
+
+The fixed 5 % allowance is gone and replaced by a measured interval from each candidate's own
+blocked-mirror characterisation. The admission now takes the signal at the **upper** contrast and
+`Ξ` and the ceiling at the **lower** contrast — conservative on both sides instead of one.
+
+**This makes the gate materially tighter, and that is a live design risk.** At an illustrative
+±2.5 % contrast interval around 001's measured `c_field = 0.3218`:
+
+| quantity | value |
+|---|---|
+| ceiling `K(c_lower)` | `0.1094` |
+| margin `0.10·K` | `0.0109` |
+| max admissible `Ξ` | **≈ 3.91** |
+| WP6 window top | `3.946` |
+
+So the *above-window* categorical slot the freeze rule requires may be **unfillable**: a candidate
+above the window is, almost by definition, one the reachable-set gate excludes. If that is what
+P2a measures, `select_bridges` stops with `NO_UNAMBIGUOUS_ABOVE_CANDIDATE` and the tranche is
+design-blocked before any primary computation.
+
+**I have deliberately not resolved this**, because every available resolution is a scientific
+judgement that belongs to the reviewer, not to me:
+
+1. **accept a design-blocked outcome** — legitimate, and cheap: it costs the pre-freeze solves and
+   nothing more;
+2. **change the frozen rule, before execution, to require four slots** (one below, three inside)
+   and record the above-window slot as excluded by the reachable set — defensible, because clause
+   2 needs three *in-window* cases and the below/above candidates serve monotonicity coverage
+   (clause 5), not the window count;
+3. **revisit the geometry to raise the contrast** — `K = c²/(1−c²)` rises steeply with `c`, and
+   the nominal design contrast from the `h³` ratio is `≈ 0.54` (`K ≈ 0.42`) against the `0.32` the
+   in-situ coarse-graining actually measured in 001. The gap between nominal and measured contrast
+   is itself worth understanding.
+
+**Tuning the margin is not on that list.** The `0.10·K` margin has a conditioning justification
+and is not adjustable to make a candidate fit.
+
+## 11.7 Re-audit — resolution consistency
+
+The feature envelope now includes `bridge_w` — which is *smaller* than `kz` for `w = 3, kz = 4`,
+so the superseded `kz`-only model could omit the governing feature entirely — plus port depth,
+duct traverse and an explicit junction/end allowance, with `R`/`s` split into blocked and open
+forms. Tolerances rise from `1.3–4.7e-2` to `2.1e-2` (lane-only) and `9.6–13.6e-2`
+(bridge-carrying). **That looseness is the honest consequence of accounting for what actually
+varies**, and it remains well inside the factor-of-two criterion it feeds. It is still a
+consistency test at two resolutions and is never called a convergence-order estimate.
+**Assessment: closed.**
+
+## 11.8 Re-audit — selection and authority
+
+Selection now has one deterministic coordinate (the geometric mean over both resolutions and all
+three forcing levels), a conservative envelope, an explicit `boundary_ambiguous` state, and
+exactly-five-or-stop with six frozen reason codes. Authorisation is phase-specific and empty, with
+the freeze and manifest gates checked *before* the allowlist so neither is shadowed, and a freeze
+cannot be assembled from hand-entered candidates. **Assessment: closed.**
+
+## 11.9 Unresolved risks, revised
+
+1. **The above-window slot may be unfillable under the corrected gate.** *(new, highest)* §11.6.
+2. **The artifact may still not clear `1e-3`** — now with an uncertainty term added on top, which
+   makes the gate strictly harder to pass than in the superseded form. Unchanged in kind from the
+   original risk 1, harder in degree.
+3. **The forcing reduction may not fix the componentwise control.** Unchanged.
+4. **The thicker divider lowers `Ξ` at a given footprint**, which now interacts with risk 1: a
+   family that lands low in the window makes an above-window candidate *less* likely, not more.
+5. **The continuation bound is measured on two candidates and applied to twelve.** *(new)* §11.5.
+6. **The node surfaces remain non-equipotential**, and `coarse_graining_surface_stability` can
+   still fail. Unchanged.
+7. **No backend cross-check.** Unchanged — recorded as NOT PERFORMED, never as passed.
+8. **Return-path contamination is bounded, not eliminated.** Unchanged.
+
+## 11.10 Recommendation, revised
+
+**Ready for a second exact-head review; still not ready to execute.**
+
+The twelve blockers are corrected and each has a regression test that proves the defect cannot
+recur — several by demonstrating that the superseded behaviour was wrong. I recommend, unchanged
+in shape but not in extent:
+
+- authorise **P0, P1a, P1b and P2a only** (≤ 326 solves, ending before the freeze), by adding
+  exactly those phases to `AUTHORISED_SOLVING_PHASES` in a reviewed commit;
+- require a **third** review of the proposed freeze artifact and the instantiated P3/P4 matrix
+  before P3 is added to the allowlist.
+
+Before authorising even that, the reviewer should settle **§11.6** — whether an unfillable
+above-window slot is an acceptable design-blocked outcome, a reason to re-freeze the rule at four
+slots, or a reason to revisit the contrast. Answering it after P2a would mean answering it with
+results in hand, which is exactly what the blindness of the freeze exists to prevent.
+
+**P3 and P4 remain unauthorized. Stage B remains unauthorized. Paper 4 remains unauthorized. Card
+box 5 remains OPEN and box 6 remains closed on its existing mathematical result. RP-D-LC-001
+remains `INVALID_EXECUTION` and its cross-model question remains unadjudicated, not negative.**
+

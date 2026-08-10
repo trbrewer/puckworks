@@ -8,6 +8,21 @@ NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
 NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
+> ## ⚠ SECTIONS BELOW ARE PARTLY SUPERSEDED — CORRECTION `PREFLIGHT-C1`
+>
+> The exact-head review at `bbf2304665d09cb78c117353947ce8c6cf2e5d24` returned
+> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED`**. Twelve blockers
+> were corrected. **The frozen text below is not rewritten**; where it and §19 disagree, **§19 is
+> the effective protocol**, and `PREFLIGHT_ERRATA.md` records every superseded clause, constant,
+> matrix rule and generated hash with the reason it was unsafe.
+>
+> Superseded in whole or part: **§4** (fields requested), **§6.5** (feature model), **§8**
+> (conservation set, transverse metric), **§9** (artifact gate form), **§10** (numerical
+> uncertainty, `c` allowance), **§11** (freeze rule), **§12** (phases), **§15** (control wording).
+> Unchanged and reaffirmed: the question, the apparatus, the forcing law and ladders, the
+> `1e-3` artifact budget, `TOL_LINEARITY_REL = 1e-4`, the `0.10·K` margin, the Route-A observable
+> contract, the claim ceiling, and the immutability of RP-D-LC-001.
+
 Programme: `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md` (Stage A only).
 Geometry: `VIRTUAL_FIXTURE_SPEC.md`. Matrix: `EXECUTION_MATRIX.md`. Audit:
 `PRE_EXECUTION_REVIEW.md`. Machine-readable: `generated/protocol.json`,
@@ -620,4 +635,179 @@ Heavy LB execution, when authorised, stays in `puckworks/validation/slow/` or lo
 
 # ERRATA (appended after freeze — the frozen text above is not rewritten)
 
-*None. No RP-D-LC-001b computation has been performed.*
+**Pre-execution errata PE-0 … PE-12 are recorded in `PREFLIGHT_ERRATA.md`** and their effective
+protocol is §19 above. No post-execution erratum exists: no RP-D-LC-001b computation has been
+performed.
+
+
+---
+
+# 19. EFFECTIVE PROTOCOL — CORRECTION `PREFLIGHT-C1`
+
+Appended, not substituted. Full reasoning per blocker: `PREFLIGHT_ERRATA.md` (PE-0 … PE-12).
+
+## 19.1 Conservation (supersedes §8's residual definitions)
+
+The mass-conservation verdict is computed from **exactly nine** adjudicative records
+`cons_0 … cons_8`, validated for count, plane-ID identity, frozen order, nine distinct
+coordinates and axial orientation. The named measurement records (`x_node_in`, `x_meas_in`,
+`x_meas_b`, `x_meas_a`, `x_node_out`, and the lane records) are **reported** and are never
+admitted — the superseded code weighted `x_meas_in` and `x_meas_a` twice and admitted two plenum
+node planes to a lane-flux statistic. Volume flux stays diagnostic; `Σρu_x` stays adjudicative.
+
+**Transverse conservation is state-aware and zero-safe.** A mean-normalised spread is never the
+sole metric, because the defining negative control has exactly zero lateral driver and the correct
+answer is zero net transverse mass flux:
+
+| state | status | metric |
+|---|---|---|
+| `reference_blocked` | `NOT_APPLICABLE_NO_BRIDGE` | none required |
+| candidate `blocked` | `NOT_APPLICABLE_BLOCKED_CONNECTION` | duct-control planes asserted structurally solid; port records retained as blind-pocket recirculation diagnostics |
+| identical-path `open`, zero driver | `EVALUATED_ZERO_SAFE_ABSOLUTE` | `|max−min| / axial mass flux ≤ TOL_BRIDGE_LEAKAGE_REL = 1e-3` |
+| driven `open` | `EVALUATED_HYBRID` | the absolute gate always; the relative gate `≤ TOL_MASS_REL` **only** when the mean lateral mass flux ≥ `LATERAL_FLUX_FLOOR_FACTOR = 10 ×` the absolute ceiling |
+
+Every case records status, absolute plane sums, signed balance, normalisation scale, relative
+value when applicable, tolerance, verdict and reason. **Every adjudicative numeric must be
+finite**, enforced by §19.3.
+
+## 19.2 Low-Mach control (supersedes §4's field request and §15's wording)
+
+Requested fields become `("rho", "uy", "uz")` — all already exported by `lb_reference`, so there is
+still **no solver change**. Over **fluid nodes only**:
+
+```
+max_speed_fluid = max √(ux² + uy² + uz²)        max_mach = √3 · max_speed_fluid ≤ TOL_MACH
+```
+
+with the flat and 3-D argmax, the three components there, the tolerance and the verdict retained.
+`design_mach_scale` is a **pre-execution planning estimate, not a control**. `uz` is not assumed
+to vanish from nominal symmetry.
+
+## 19.3 Canonical serialisation
+
+`NaN` and infinities are **rejected**, not serialised or hashed. Non-applicability is an explicit
+status string with `null` numerics. `execution_authority()` rejects missing files and null hashes.
+
+## 19.4 Phases (supersedes §12)
+
+```
+P0 → P1a → P1b → P2a → P2b (freeze, STOP for a second exact-head review) → P3 → P4
+```
+
+| phase | content | prerequisite |
+|---|---|---|
+| **P0** | reference-blocked mirror over the **full** ladder at both resolutions; axial coupons over the full ladder in **both** lattice orientations; the **scheduled** `tau_plus = 1.2` cross-check | — |
+| **P1a** | central identical-path blocked/open pairs, **all** declared scientific candidates, both resolutions | P0 |
+| **P1b** | `×0.5` and `×2` extensions for every candidate still selectable, plus the continuation runs §19.5 needs | P1a |
+| **P2a** | bridge-coupon **full ladders** for survivors; candidate-specific **BLOCKED MIRROR** characterisation over the same set. **No candidate OPEN mirror case is run** | P1b |
+| **P2b** | arithmetic only: apply every rule, propose the freeze and the instantiated P3/P4 matrix, **stop** | P2a |
+| **P3** | the primary mirror/path-swap experiment | P2b |
+| **P4** | Arm J | P3 |
+
+**No quantity may inform admission, classification or selection before its own forcing-invariance
+evidence exists at both resolutions and all three forcing levels.** A candidate cannot be selected
+on central forcing and validated later in P3.
+
+## 19.5 Numerical discrepancy in `R` (supersedes §10's `NUMERICAL_UNCERTAINTY_R_ABS`)
+
+```
+u_artifact_R = 2.0 · ( |ΔR|_continuation + |ΔR|_node_offset + u_serialisation )
+```
+
+— continuation from a forced re-run at `1.5 ×` the converged step count with the open and blocked
+contributions propagated separately through the ratio as a **linear** sum; node-offset from the
+frozen surface offsets, which need no extra solve; serialisation from the frozen record precision.
+A **conservative numerical-discrepancy bound**, explicitly **not** a rigorous error bound.
+
+The artifact gate becomes an upper-bound form, with the budget unchanged:
+
+```
+|R_identical − 1| + u_artifact_R  ≤  ARTIFACT_BUDGET_R_ABS = 1.0e-3
+```
+
+Point estimate, uncertainty, upper bound and verdict are reported separately. A non-finite or
+negative uncertainty fails closed. **If the measured uncertainty makes the gate unachievable that
+is a design-blocked stop, not grounds to relax the budget.**
+
+## 19.6 Reachable-set admission (supersedes §10's `c` allowance)
+
+The fixed 5 % allowance is **removed**. Candidate-specific **BLOCKED MIRROR** characterisation in
+P2a yields a measured interval `[c_lower, c_upper]` from both resolutions, the full ladder, the
+resolution-consistency tolerance, the §19.5 numerical term and documented surface variability.
+
+```
+predicted_signal_upper(c_upper, Ξ_upper) + artifact_upper + other_nonoverlapping_numerical_upper
+      <  reachable_ceiling(c_lower) − 0.10 · reachable_ceiling(c_lower)
+```
+
+Signal at the **upper** contrast and `Ξ`, ceiling at the **lower** contrast — conservative on both
+sides. The four terms are strictly separate so none is counted twice: `artifact_upper` already
+contains `u_artifact_R`; the contrast uncertainty lives inside the interval; the coupon
+uncertainty lives inside `Ξ_upper`. **No open mirror result may enter this gate.**
+
+**Consequence, recorded rather than tuned:** the corrected gate is materially tighter than the
+superseded single-sided form. See `PRE_EXECUTION_REVIEW.md` §9 risk 1.
+
+## 19.7 Resolution consistency (supersedes §6.5's feature model)
+
+```
+tol = 2.0 · ( Σ_features dd(f) + 1.0 · max_f dd(f) )       dd(f) = |δ(f·2) − δ(f·3)|, δ(h)=0.5/h²
+```
+
+| family | features | quantities |
+|---|---|---|
+| lane-only | `h_low`, `h_high` | `R_blocked`, `s_blocked`, `C_blocked`, `c_field`, `A_field` |
+| bridge-carrying | `h_low`, `h_high`, `bridge_w`, `bridge_kz`, `port_depth`, `duct_traverse` | `R_open`, `s_open`, `C_open`, `G_lat_field`, `Ξ_field`, `Ξ̂`, `Ξ_coupon` |
+
+The superseded model used `bridge_kz` alone — but `w = 3` is **smaller** than `kz = 4`, so the
+smallest feature governing the bridge could be omitted entirely. The extra copy of the worst
+feature is an explicit junction/end allowance. Still a **consistency test at two resolutions, not
+a convergence-order estimate.**
+
+## 19.8 Selection semantics (supersedes §11's freeze rule)
+
+`Ξ` is retained by **resolution × forcing level × coupon source** with an uncertainty term.
+`Ξ_select` is the **geometric mean** of all valid positive estimates. The conservative envelope
+`[Ξ_lower, Ξ_upper]` decides the category: `below`/`inside`/`above` only if the **whole** envelope
+lies there, otherwise **`boundary_ambiguous`** and unavailable for a categorical slot. Nearest log
+target by `Ξ_select`; ties on smaller `w`, then smaller `kz`.
+
+**Exactly five unique candidates are required — one below, three inside, one above.** Any
+shortfall stops with `DESIGN_BLOCKED_PRE_EXECUTION` and one of six frozen reason codes
+(`NO_CANDIDATE_WITHIN_ARTIFACT_BUDGET`, `NO_CANDIDATE_ADMITTED_BY_REACHABLE_SET`,
+`INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES`, `NO_UNAMBIGUOUS_BELOW_CANDIDATE`,
+`NO_UNAMBIGUOUS_ABOVE_CANDIDATE`, `SELECTION_UNDERFILLED_AFTER_DEDUPLICATION`). **No P3 slot is
+ever populated by improvisation, and there is no second post-hoc selection.**
+
+## 19.9 Execution authority (supersedes §12's single switch)
+
+`AUTHORISED_SOLVING_PHASES = ()` — a source-controlled allowlist, empty at this head. Authorising
+the pre-freeze phases cannot authorise P3 or P4; each addition is its own reviewed source commit,
+and the resulting exact head is the object reviewed. P3 stays hard-refused even with a
+syntactically valid freeze.
+
+Runtime execution additionally requires a clean working tree, a real git commit and tree, exact
+protocol/fixture/matrix hashes, complete non-null input-file hashes, `backend == "reference"` (a
+backend argument is never accepted and then silently routed to the reference solver), the exact
+solver configuration, and valid predecessor completion manifests. `execution_authority()` **fails
+closed**. `build_freeze()` requires every candidate to cite record hashes bound to a phase
+manifest, so a freeze cannot be assembled from hand-entered candidates.
+
+## 19.10 Matrix (supersedes §12's counts)
+
+Counts are **recomputed**, not preserved; `195` is superseded. Every row carries a stable unique
+`case_id` and a complete configuration including the previously missing coupon **orientation**,
+plus `tau_plus`, `backend`, audit mode, retained-record schema and prerequisite. P3/P4 are
+**templates** until the selection is known; `instantiate_post_freeze_matrix()` binds them and the
+result is hashed into the proposed freeze.
+
+| quantity | value |
+|---|---|
+| adaptive maximum | **407** |
+| mandatory minimum (P0 + P1a, incl. replicates) | **82** |
+| refused after the earliest stop | **325** |
+| determinism replicates | **3** (P0, P1a, P3) |
+| P0 / P1a / P1b / P2a / P3 / P4 | 33 / 49 / 104 / 144 / 57 / 20 |
+
+Full detail: `EXECUTION_MATRIX.md` and `generated/execution_matrix.json`.
+
