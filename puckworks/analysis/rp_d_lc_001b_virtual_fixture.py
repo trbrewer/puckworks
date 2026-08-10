@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import pathlib
 from fractions import Fraction
 
@@ -46,9 +47,38 @@ from puckworks.analysis import rp_d_lc_virtual_fixture as vf001
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
 
+
+class NonFiniteValue(ValueError):
+    """A quantity that must be finite was NaN or infinite (erratum PE-3). Raised rather than
+    serialised, hashed or adjudicated."""
+
+
+class ExecutionAuthorityError(RuntimeError):
+    """The execution authority could not be established. Always fail closed: never return a
+    partial or None-valued authority record (erratum PE-11)."""
+
 PROGRAM_ID = "RP-D-LATERAL-CROSS-MODEL"
 TRANCHE_ID = "RP-D-LC-001B"
 SCHEMA_VERSION = 1
+
+#: The effective pre-execution correction version. Every generated artifact carries it, so a
+#: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
+#: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
+CORRECTION_VERSION = "PREFLIGHT-C1"
+ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
+#: The exact-head review that required this correction, recorded so the lineage is durable.
+SUPERSEDED_REVIEW = {
+    "reviewed_head": "bbf2304665d09cb78c117353947ce8c6cf2e5d24",
+    "reviewed_tree": "c028f652b85b9b8670f9be03f8093e6bdae9d276",
+    "disposition": "RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED",
+    "apparatus_accepted_in_principle": "common_mode_port_blind_pocket_off_on_comparison",
+    "superseded_artifact_sha256": {
+        "protocol.json": "047d55f4dcd222b79f20f3d08e04b8de0dd13e7ddb8438cb74bf35ee6461cbe7",
+        "fixture_spec.json": "c8592643b861150b534f6f823336a1e14b1d082e9f8c5bcf25957a4417d9fc2f",
+        "execution_matrix.json": "1ff57d57c77eb56017628c52b80f1e70da549132a84b98e07e1ef300ec30fa74",
+        "preflight_status.json": "01244d1c9b129aa22681ec84391adddc14c20a169acf903cfad99ee75fb642f3",
+    },
+}
 
 #: The exact authority this tranche was branched from. Verified by test, never inferred from HEAD.
 BASE_COMMIT = "7d656811e6bf99d447dcd4f6eac04cac233a99f4"
@@ -366,11 +396,22 @@ def fixture_meta(S, bridge=None, connected=False, variant="mirror", swapped=Fals
 #: axial flux is conserved across it even where the per-lane split is not.
 AXIAL_CONSERVATION_BASE = (4, 10, 16, 22, 28, 34, 40, 46)
 
+#: The NINE adjudicative axial conservation plane IDs, in frozen order (erratum PE-1). Only
+#: records carrying exactly these IDs, in this order, may enter the mass-conservation verdict.
+#: The named measurement records (x_node_*, x_meas_*, lane records) are reported separately and
+#: are NEVER admitted here: a min/max spread is decided by its extremes, so admitting a duplicate
+#: of an extreme plane would move an adjudicative residual with no physics changing.
+CONSERVATION_PLANE_IDS = tuple("cons_%d" % i for i in range(len(AXIAL_CONSERVATION_BASE) + 1))
+N_CONSERVATION_PLANES = len(CONSERVATION_PLANE_IDS)
+
 
 def axial_conservation_planes(S: int):
     """Lattice x indices of the frozen axial conservation plane set (the primary outlet plane
     is included so the conservation set and the observable plane cannot drift apart)."""
-    return tuple(b * S for b in AXIAL_CONSERVATION_BASE) + ((BASE["lane_hi"] + 1) * S - 1,)
+    planes = tuple(b * S for b in AXIAL_CONSERVATION_BASE) + ((BASE["lane_hi"] + 1) * S - 1,)
+    if len(set(planes)) != len(planes):                      # pragma: no cover - frozen geometry
+        raise ValueError("axial conservation planes are not unique at S=%r: %r" % (S, planes))
+    return planes
 
 
 def mask_hash(mask) -> str:
@@ -646,10 +687,15 @@ def design_reynolds(S: int, g=None) -> float:
 
 
 def design_mach_scale(S: int, g=None) -> float:
-    """A DIAGNOSTIC lattice-velocity scale, u ~ g L^2 / nu, times sqrt(3). It is deliberately NOT
-    held invariant (it falls as 1/S under the frozen law); low Mach is a numerical admissibility
-    condition, not a similarity parameter, and 001 erratum E2 records that the two are related
-    but not interchangeable."""
+    """A PRE-EXECUTION PLANNING ESTIMATE of the lattice-velocity scale, u ~ g L^2 / nu, times
+    sqrt(3). It is deliberately NOT held invariant (it falls as 1/S under the frozen law); low
+    Mach is a numerical admissibility condition, not a similarity parameter, and 001 erratum E2
+    records that the two are related but not interchangeable.
+
+    **It is not the low-Mach control.** That is ``mach_record``, which measures the actual maximum
+    of the FULL velocity vector over fluid nodes (erratum PE-4). This function estimates a mean
+    scale a priori; the control needs the measured maximum.
+    """
     g = forcing_central(S) if g is None else float(g)
     L = SIMILARITY_LENGTH_BASE * S
     return float(np.sqrt(3.0)) * g * L ** 2 / NU
@@ -787,11 +833,14 @@ QUANTITY_ROLES = {
     "sum_ux": "diagnostic_and_inverse_input",
     "sum_rho_ux": "adjudicative_conservation",
     "sum_uy": "diagnostic_and_truth_input",
-    "sum_rho_uy": "adjudicative_conservation",
+    "sum_rho_uy": "adjudicative_conservation_state_aware",
     "p_mean": "inverse_input_and_truth_input",
     "p_sd": "diagnostic_nonuniformity",
     "rho_mean": "diagnostic",
     "rho_sd": "diagnostic",
+    "max_mach": "adjudicative_low_mach",
+    "max_speed_fluid": "adjudicative_low_mach",
+    "design_mach_scale": "planning_estimate_not_a_control",
 }
 
 
@@ -837,40 +886,281 @@ def transverse_plane_record(plane_id, y, uy, rho, mask, footprint_x, footprint_z
     }
 
 
+def _finite(x, what):
+    v = float(x)
+    if not np.isfinite(v):
+        raise NonFiniteValue("%s is not finite: %r" % (what, v))
+    return v
+
+
 def _spread(values):
+    """Relative min–max spread about the mean. Only ever applied where the mean is guaranteed
+    nonzero by construction — see ``transverse_conservation`` for why a mean-normalised statistic
+    must never be the sole metric for the transverse control (erratum PE-2)."""
     v = [float(x) for x in values]
     if not v:
-        return float("nan")
+        raise ValueError("_spread requires at least one value")
     m = sum(v) / len(v)
     if m == 0.0:
-        return float("nan")
+        raise ZeroDivisionError("_spread called on a set whose mean is exactly zero; a zero-safe "
+                                "absolute metric is required here (erratum PE-2)")
     return (max(v) - min(v)) / abs(m)
 
 
-def conservation_residuals(axial_records, transverse_records=()):
-    """Plane-to-plane residuals, mass and volume kept apart.
+def assert_conservation_records(records):
+    """Admit ONLY the nine frozen adjudicative axial conservation records (erratum PE-1).
 
-    ``mass_flux_residual`` is ADJUDICATIVE against ``TOL_MASS_REL``. ``volume_flux_residual`` is
-    the 001-compatible DIAGNOSTIC proxy and can never on its own decide an execution — nor can a
-    small mass residual be inferred from it.
+    Raises unless there are exactly nine, their plane IDs are the frozen nine in the frozen
+    order, and their intended coordinates are nine distinct values. Named measurement records —
+    ``x_node_in``/``x_node_out`` (plenum planes kept for PRESSURE) and ``x_meas_*`` /lane records
+    (kept for the observables) — can therefore never be double-weighted into a conservation
+    verdict, whatever a caller passes.
     """
+    recs = list(records)
+    if len(recs) != N_CONSERVATION_PLANES:
+        raise ValueError("mass conservation requires exactly %d adjudicative records, got %d"
+                         % (N_CONSERVATION_PLANES, len(recs)))
+    ids = tuple(r["plane_id"] for r in recs)
+    if ids != CONSERVATION_PLANE_IDS:
+        raise ValueError("mass conservation admits only %r in that frozen order; got %r"
+                         % (list(CONSERVATION_PLANE_IDS), list(ids)))
+    if len(set(ids)) != N_CONSERVATION_PLANES:               # pragma: no cover - implied above
+        raise ValueError("duplicate conservation plane IDs: %r" % (list(ids),))
+    idx = tuple(int(r["index"]) for r in recs)
+    if len(set(idx)) != N_CONSERVATION_PLANES:
+        raise ValueError("conservation planes must sit at %d distinct coordinates, got %r"
+                         % (N_CONSERVATION_PLANES, list(idx)))
+    if any(r["orientation"] != "x" for r in recs):
+        raise ValueError("conservation records must all be axial ('x') planes")
+    return recs
+
+
+def conservation_residuals(conservation_records, named_plane_records=()):
+    """Axial plane-to-plane residuals from the NINE adjudicative records only.
+
+    ``mass_flux_residual`` (from ``sum_rho_ux``) is ADJUDICATIVE against ``TOL_MASS_REL``.
+    ``volume_flux_residual`` (from ``sum_ux``) is the 001-compatible DIAGNOSTIC proxy and can
+    never on its own decide an execution — nor can a small mass residual be inferred from it.
+
+    ``named_plane_records`` are REPORTED, never admitted to either statistic.
+    """
+    recs = assert_conservation_records(conservation_records)
     out = {
-        "n_axial_planes": len(axial_records),
-        "mass_flux_residual": _spread(r["sum_rho_ux"] for r in axial_records),
-        "volume_flux_residual": _spread(r["sum_ux"] for r in axial_records),
+        "n_adjudicative_planes": len(recs),
+        "adjudicative_plane_ids": list(CONSERVATION_PLANE_IDS),
+        "adjudicative_plane_indices": [int(r["index"]) for r in recs],
+        "mass_flux_residual": _finite(_spread(r["sum_rho_ux"] for r in recs),
+                                      "mass_flux_residual"),
+        "volume_flux_residual": _finite(_spread(r["sum_ux"] for r in recs),
+                                        "volume_flux_residual"),
         "tol_mass_rel": TOL_MASS_REL,
         "tol_volume_flux_rel": TOL_VOLUME_FLUX_REL,
         "mass_flux_residual_role": "adjudicative",
         "volume_flux_residual_role": "diagnostic",
+        "named_plane_records_reported": [r["plane_id"] for r in named_plane_records],
+        "named_plane_records_admitted_to_verdict": False,
     }
     out["mass_conservation_pass"] = bool(out["mass_flux_residual"] <= TOL_MASS_REL)
     out["volume_flux_uniformity_pass"] = bool(out["volume_flux_residual"] <= TOL_VOLUME_FLUX_REL)
-    if transverse_records:
-        out["n_transverse_planes"] = len(transverse_records)
-        out["bridge_mass_flux_residual"] = _spread(r["sum_rho_uy"] for r in transverse_records)
-        out["bridge_volume_flux_residual"] = _spread(r["sum_uy"] for r in transverse_records)
-        out["bridge_mass_flux_pass"] = bool(out["bridge_mass_flux_residual"] <= TOL_MASS_REL)
     return out
+
+
+# ---- transverse (bridge) conservation: state-aware and zero-safe (erratum PE-2) -------------
+# The DEFINING negative-control case is the identical-path open fixture at exactly zero lateral
+# driver, where the correct physical answer is zero net transverse mass flux. A statistic that
+# divides by its own mean is undefined there and ill-conditioned near it, so a mean-normalised
+# spread must never be the sole metric — it could report a spurious FAILURE precisely because the
+# physics was right. Four states are frozen, each with its own applicability and metric.
+
+TRANSVERSE_STATUS = (
+    "NOT_APPLICABLE_NO_BRIDGE",
+    "NOT_APPLICABLE_BLOCKED_CONNECTION",
+    "EVALUATED_ZERO_SAFE_ABSOLUTE",
+    "EVALUATED_HYBRID",
+)
+
+#: Absolute transverse leakage/imbalance ceiling, normalised by the case's own AXIAL mass flux.
+#: This is the programme's established 0.1 % observable nuisance scale applied to a normalised
+#: observable — the same number as ARTIFACT_BUDGET_R_ABS and TOL_RETURN_PATH_R_REL, not a new one.
+#: It is a CEILING: at the zero-driver control the expected value is orders of magnitude smaller.
+TOL_BRIDGE_LEAKAGE_REL = 1.0e-3
+
+#: The relative four-plane statistic is admitted ONLY when the mean lateral mass flux exceeds the
+#: absolute leakage ceiling by this factor — i.e. only when the signal is an order of magnitude
+#: above the noise the absolute gate already tolerates. Derived before output; not tunable.
+LATERAL_FLUX_FLOOR_FACTOR = 10.0
+
+#: The transverse control planes that must carry the THROUGH-bridge flux when the connection is
+#: open, and must be structurally solid when it is blocked.
+DUCT_CONTROL_PLANE_IDS = ("y_duct_a", "y_duct_b")
+PORT_CONTROL_PLANE_IDS = ("y_portA_in", "y_portB_out")
+
+
+def transverse_conservation(state, transverse_records, axial_mass_scale,
+                            lateral_driver_is_zero=False):
+    """State-aware, zero-safe transverse conservation.
+
+    ``state``               one of FIXTURE_STATES.
+    ``transverse_records``  the four frozen transverse plane records (may be empty when the
+                            fixture carries no bridge).
+    ``axial_mass_scale``    a frozen, NONZERO axial mass-flux scale — the case's own
+                            ``sum_rho_ux`` at the primary outlet plane. Never mean ``q_lat``.
+    ``lateral_driver_is_zero``  True for the identical-path negative control, where the
+                            cross-product gap X is zero EXACTLY and no lateral pressure
+                            difference exists at any bridge conductance.
+
+    Every adjudicative numeric value is checked finite.
+    """
+    if state not in FIXTURE_STATES:
+        raise ValueError("unknown fixture state %r" % (state,))
+    out = {
+        "state": state,
+        "tol_leakage_rel": TOL_BRIDGE_LEAKAGE_REL,
+        "tol_relative": TOL_MASS_REL,
+        "sign_convention": SIGN_CONVENTION_TRANSVERSE,
+        "normalisation_scale": None,
+        "normalisation_scale_source": "sum_rho_ux at x_meas_a (axial mass flux)",
+        "plane_sums_mass": None,
+        "plane_sums_volume": None,
+        "signed_balance": None,
+        "absolute_imbalance": None,
+        "absolute_imbalance_normalised": None,
+        "relative_imbalance": None,
+        "relative_gate_applicable": False,
+        "lateral_flux_floor": None,
+        "mean_lateral_mass_flux": None,
+        "port_pocket_diagnostics": None,
+        "pass": None,
+    }
+
+    if state == "reference_blocked":
+        out.update(status="NOT_APPLICABLE_NO_BRIDGE",
+                   reason="the reference fixture carries no bridge structure, so there is no "
+                          "transverse connection whose conservation could be evaluated")
+        return out
+
+    by_id = {r["plane_id"]: r for r in transverse_records}
+
+    if state == "blocked":
+        missing = [p for p in DUCT_CONTROL_PLANE_IDS if p not in by_id]
+        solid = all(int(by_id[p]["n_fluid"]) == 0 for p in DUCT_CONTROL_PLANE_IDS
+                    if p in by_id)
+        if missing and not solid:
+            solid = True                      # planes absent because the duct row is solid
+        out["duct_planes_structurally_solid"] = bool(solid and not
+                                                     any(int(by_id[p]["n_fluid"]) for p in
+                                                         DUCT_CONTROL_PLANE_IDS if p in by_id))
+        # blind-pocket records are retained as DIAGNOSTICS: they are recirculation inside a
+        # dead-end pocket, not through-flow, and they carry no conservation verdict.
+        pocket = {p: {"sum_rho_uy": by_id[p]["sum_rho_uy"], "sum_uy": by_id[p]["sum_uy"],
+                      "n_fluid": int(by_id[p]["n_fluid"])}
+                  for p in PORT_CONTROL_PLANE_IDS if p in by_id}
+        out["port_pocket_diagnostics"] = {
+            "records": pocket,
+            "interpretation": "BLIND_POCKET_RECIRCULATION_NOT_THROUGH_FLOW",
+        }
+        if not out["duct_planes_structurally_solid"]:
+            out.update(status="NOT_APPLICABLE_BLOCKED_CONNECTION", **{"pass": False},
+                       reason="a blocked candidate must have structurally SOLID duct-control "
+                              "planes; fluid was found there, so the geometry is not the "
+                              "blocked fixture it claims to be")
+            return out
+        out.update(status="NOT_APPLICABLE_BLOCKED_CONNECTION",
+                   reason="the connecting duct is solid, so there is no through-bridge flux to "
+                          "be consistent about; the port pockets are blind and their records "
+                          "are retained as recirculation diagnostics only")
+        return out
+
+    # ---- open ------------------------------------------------------------------------------
+    scale = abs(_finite(axial_mass_scale, "axial_mass_scale"))
+    if scale == 0.0:
+        raise ValueError("the axial mass-flux normalisation scale must be nonzero")
+    out["normalisation_scale"] = scale
+    missing = [p for p in DUCT_CONTROL_PLANE_IDS + PORT_CONTROL_PLANE_IDS if p not in by_id]
+    if missing:
+        raise ValueError("open fixture is missing transverse control planes %r" % (missing,))
+    order = PORT_CONTROL_PLANE_IDS[:1] + DUCT_CONTROL_PLANE_IDS + PORT_CONTROL_PLANE_IDS[1:]
+    mass = [_finite(by_id[p]["sum_rho_uy"], "sum_rho_uy[%s]" % p) for p in order]
+    vol = [_finite(by_id[p]["sum_uy"], "sum_uy[%s]" % p) for p in order]
+    out["plane_sums_mass"] = dict(zip(order, mass))
+    out["plane_sums_volume"] = dict(zip(order, vol))
+    imbalance = max(mass) - min(mass)
+    out["signed_balance"] = mass[0] - mass[-1]           # entry plane minus exit plane
+    out["absolute_imbalance"] = abs(imbalance)
+    out["absolute_imbalance_normalised"] = abs(imbalance) / scale
+    mean_lat = sum(mass) / len(mass)
+    out["mean_lateral_mass_flux"] = mean_lat
+    floor = LATERAL_FLUX_FLOOR_FACTOR * TOL_BRIDGE_LEAKAGE_REL * scale
+    out["lateral_flux_floor"] = floor
+
+    abs_pass = out["absolute_imbalance_normalised"] <= TOL_BRIDGE_LEAKAGE_REL
+
+    if lateral_driver_is_zero:
+        out.update(status="EVALUATED_ZERO_SAFE_ABSOLUTE",
+                   relative_gate_applicable=False,
+                   reason="identical-path negative control: the lateral driver is exactly zero, "
+                          "so the correct net transverse mass flux is zero and a mean-normalised "
+                          "statistic would be undefined. Judged on the absolute imbalance "
+                          "normalised by the axial mass flux.")
+        out["pass"] = bool(abs_pass)
+        return out
+
+    applicable = abs(mean_lat) >= floor
+    out["relative_gate_applicable"] = bool(applicable)
+    if applicable:
+        out["relative_imbalance"] = _finite(abs(imbalance) / abs(mean_lat), "relative_imbalance")
+        rel_pass = out["relative_imbalance"] <= TOL_MASS_REL
+        reason = ("driven bridge: mean lateral mass flux is above the frozen floor, so both the "
+                  "absolute and the relative gates apply")
+    else:
+        rel_pass = True
+        reason = ("driven bridge, but the mean lateral mass flux is below the frozen floor, so "
+                  "the relative statistic is not admitted and the absolute gate alone decides")
+    out.update(status="EVALUATED_HYBRID", reason=reason)
+    out["pass"] = bool(abs_pass and rel_pass)
+    return out
+
+
+# ---- low-Mach validity: the FULL velocity vector over fluid nodes only (erratum PE-4) -------
+
+def mach_record(ux, uy, uz, mask):
+    """Maximum lattice speed and Mach number over FLUID NODES ONLY, from all three components.
+
+    ``design_mach_scale`` is an a-priori planning estimate of the mean lattice velocity; this is
+    the measured maximum the control actually needs. ``uz`` is NOT assumed to vanish from nominal
+    symmetry — the bridge, the ports and the junctions all break that picture, and 001 recorded
+    that low Mach and low Reynolds are related but not interchangeable.
+    """
+    for name, arr in (("ux", ux), ("uy", uy), ("uz", uz)):
+        if arr is None:
+            raise ValueError("mach_record requires %s; the solve must request "
+                             "return_fields covering rho, uy and uz" % name)
+        if not np.isfinite(np.asarray(arr)[~mask]).all():
+            raise NonFiniteValue("%s contains a non-finite value at a fluid node" % name)
+    fluid = ~mask
+    if not fluid.any():                                      # pragma: no cover - degenerate mask
+        raise ValueError("mach_record needs at least one fluid node")
+    sx, sy, sz = np.asarray(ux), np.asarray(uy), np.asarray(uz)
+    speed = np.sqrt(sx * sx + sy * sy + sz * sz)
+    speed = np.where(fluid, speed, -np.inf)                  # solids excluded, never counted
+    flat = int(np.argmax(speed))
+    idx = tuple(int(v) for v in np.unravel_index(flat, speed.shape))
+    max_speed = _finite(speed[idx], "max_speed_fluid")
+    max_mach = float(np.sqrt(3.0)) * max_speed
+    return {
+        "max_speed_fluid": max_speed,
+        "max_mach": max_mach,
+        "argmax_flat_index": flat,
+        "argmax_index": idx,
+        "ux_at_max": _finite(sx[idx], "ux_at_max"),
+        "uy_at_max": _finite(sy[idx], "uy_at_max"),
+        "uz_at_max": _finite(sz[idx], "uz_at_max"),
+        "n_fluid": int(fluid.sum()),
+        "tol_mach": TOL_MACH,
+        "pass": bool(max_mach <= TOL_MACH),
+        "components_used": ["ux", "uy", "uz"],
+        "solid_nodes_excluded": True,
+    }
 
 
 # ==========================================================================================
@@ -1158,14 +1448,19 @@ DESIGN_BLOCKED = "DESIGN_BLOCKED_PRE_EXECUTION"
 #: Execution-validity controls, in evaluation order. ``required`` controls roll into clause 1.
 VALIDITY_CONTROLS = (
     ("convergence", True, "every scientific run converges before MAX_STEPS"),
-    ("low_mach_regime", True, "max Mach <= TOL_MACH (a Mach condition ONLY — not a Re condition)"),
+    ("low_mach_regime", True,
+     "measured max ||u|| over FLUID NODES ONLY from ux, uy AND uz gives max Mach <= TOL_MACH "
+     "(a Mach condition ONLY — not a Re condition); the a-priori design scale is not this control"),
     ("componentwise_creeping_flow_control", True,
      "every Stokes-proportional component divided by g has relative spread <= TOL_LINEARITY_REL "
      "across the resolution's own x0.5/x1/x2 ladder"),
     ("mass_conservation", True,
-     "plane-to-plane sum(rho*u_x) spread <= TOL_MASS_REL — MEASURED, not proxied"),
+     "plane-to-plane sum(rho*u_x) spread over EXACTLY the nine adjudicative planes cons_0..cons_8 "
+     "<= TOL_MASS_REL — MEASURED, not proxied, and never weighted by a named measurement plane"),
     ("bridge_mass_flux_consistency", True,
-     "the four transverse bridge-control planes carry the same sum(rho*u_y) within TOL_MASS_REL"),
+     "state-aware and zero-safe: NOT_APPLICABLE with no bridge or a blocked connection; absolute "
+     "imbalance normalised by the axial mass flux at zero lateral driver; a hybrid absolute + "
+     "relative gate for a driven bridge, the relative part admitted only above the frozen floor"),
     ("topology", True,
      "exact mirror symmetry, one connected fluid domain, no periodic lateral bypass, axial end "
      "caps solid, blocked/open delta exactly the duct footprint, lanes joined in the lane region "
@@ -1474,6 +1769,7 @@ def execution_matrix():
     mandatory = by_class.get("mandatory", 0)
     return {
         "tranche": TRANCHE_ID,
+        "correction_version": CORRECTION_VERSION,
         "solves_executed": 0,
         "rows": rows,
         "n_rows": len(rows),
@@ -1506,22 +1802,35 @@ def execution_matrix():
 # 11. CANONICAL SERIALISATION, HASHING AND THE EXECUTION AUTHORITY
 # ==========================================================================================
 
-def _round(o, nd=_RECORD_DP):
+def _round(o, nd=_RECORD_DP, path="$"):
+    if isinstance(o, bool):
+        return o
     if isinstance(o, float):
+        if not math.isfinite(o):
+            raise NonFiniteValue(
+                "refusing to serialise a non-finite number at %s: %r. A hashed artifact must "
+                "not contain NaN or Infinity — scientific non-applicability is an explicit "
+                "status string with null numeric fields (erratum PE-3)." % (path, o))
         return round(o, nd)
     if isinstance(o, dict):
-        return {k: _round(v, nd) for k, v in o.items()}
+        return {k: _round(v, nd, "%s.%s" % (path, k)) for k, v in o.items()}
     if isinstance(o, (list, tuple)):
-        return [_round(v, nd) for v in o]
+        return [_round(v, nd, "%s[%d]" % (path, i)) for i, v in enumerate(o)]
     return o
 
 
 def canonical_json(obj) -> str:
     """The one serialisation used for every hashed artifact: sorted keys, no insignificant
     whitespace, ASCII-escaped, floats rounded to a frozen precision so a record hash cannot move
-    on a platform's last binary digit."""
+    on a platform's last binary digit — and STRICTLY FINITE.
+
+    ``NaN`` is not valid JSON, is not a number, and hashes to a stable digest for a value that
+    carries no scientific content; a record could then be bound, verified and reproduced while
+    containing a quantity that was never computed. Both this writer and ``json.dumps`` refuse it
+    (erratum PE-3).
+    """
     return json.dumps(_round(obj), sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-                      allow_nan=True)
+                      allow_nan=False)
 
 
 def record_hash(obj) -> str:
@@ -1540,6 +1849,8 @@ def protocol_config():
     executed the configuration that was reviewed."""
     return {
         "schema_version": SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "errata": ERRATA_PATH, "superseded_review": SUPERSEDED_REVIEW,
         "program_id": PROGRAM_ID, "tranche_id": TRANCHE_ID,
         "question": QUESTION,
         "base_commit": BASE_COMMIT, "base_tree": BASE_TREE,
@@ -1600,6 +1911,19 @@ def protocol_config():
             "conservation_evaluated_on": "DENSITY_WEIGHTED_MASS_FLUX sum(rho*u_x)",
             "axial_plane_fields": list(AXIAL_PLANE_FIELDS),
             "transverse_plane_fields": list(TRANSVERSE_PLANE_FIELDS),
+            "adjudicative_conservation_plane_ids": list(CONSERVATION_PLANE_IDS),
+            "named_measurement_planes_admitted_to_conservation": False,
+            "transverse_status_vocabulary": list(TRANSVERSE_STATUS),
+            "tol_bridge_leakage_rel": TOL_BRIDGE_LEAKAGE_REL,
+            "lateral_flux_floor_factor": LATERAL_FLUX_FLOOR_FACTOR,
+            "mach_control": {
+                "definition": "max over FLUID NODES of sqrt(ux^2+uy^2+uz^2), times sqrt(3)",
+                "components": ["ux", "uy", "uz"],
+                "solid_nodes_excluded": True,
+                "retained": ["max_speed_fluid", "max_mach", "argmax_flat_index", "argmax_index",
+                             "ux_at_max", "uy_at_max", "uz_at_max", "tol_mach", "pass"],
+                "design_scale_role": "planning_estimate_not_a_control",
+            },
             "sign_convention_axial": SIGN_CONVENTION_AXIAL,
             "sign_convention_transverse": SIGN_CONVENTION_TRANSVERSE,
             "roles": dict(QUANTITY_ROLES),
@@ -1625,6 +1949,7 @@ def fixture_spec_config():
     can check without running anything."""
     out = {
         "schema_version": SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
         "base_template": dict(BASE),
         "resolutions": {"smoke": S_SMOKE, "coarse": S_COARSE, "fine": S_FINE,
                         "scientific": list(SCIENTIFIC_RESOLUTIONS)},
@@ -1676,6 +2001,8 @@ def preflight_status():
     an executed result."""
     return {
         "schema_version": SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "errata": ERRATA_PATH, "superseded_review": SUPERSEDED_REVIEW,
         "tranche": TRANCHE_ID,
         "status": "PRE_EXECUTION_PREFLIGHT_FROZEN_PENDING_EXACT_HEAD_REVIEW",
         "solves_executed": 0,

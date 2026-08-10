@@ -333,12 +333,13 @@ def test_volume_and_mass_flux_are_distinct_retained_fields_and_are_never_conflat
     assert cfg["conservation_evaluated_on"] == "DENSITY_WEIGHTED_MASS_FLUX sum(rho*u_x)"
 
 
-def _synthetic(S=vf.S_SMOKE, b=None, rho_ramp=0.0, unit_plane_flux=False):
+def _synthetic(S=vf.S_SMOKE, b=None, rho_ramp=0.0, unit_plane_flux=False, uy_amp=0.25,
+               uz_amp=0.0, connected=True, variant="mirror"):
     """A deterministic synthetic field. ``unit_plane_flux`` scales each x plane so that the
     VOLUME flux through every plane is exactly 1 — a divergence-free-by-construction field, which
     is what makes the density-ramp test a clean statement about mass versus volume flux."""
     b = b or {"w": 3, "kz": 2}
-    mask, meta = vf.build_fixture(S, bridge=b, connected=True)
+    mask, meta = vf.build_fixture(S, bridge=b, connected=connected, variant=variant)
     nx, ny, nz = mask.shape
     ux = np.zeros(mask.shape)
     ux[~mask] = 1.0
@@ -348,9 +349,11 @@ def _synthetic(S=vf.S_SMOKE, b=None, rho_ramp=0.0, unit_plane_flux=False):
             if n:
                 ux[x][~mask[x]] = 1.0 / n
     uy = np.zeros(mask.shape)
-    uy[~mask] = 0.25
+    uy[~mask] = uy_amp
+    uz = np.zeros(mask.shape)
+    uz[~mask] = uz_amp
     rho = np.ones(mask.shape) + rho_ramp * np.arange(nx)[:, None, None]
-    return mask, meta, {"ux": ux, "uy": uy, "rho": rho, "steps": 3000}
+    return mask, meta, {"ux": ux, "uy": uy, "uz": uz, "rho": rho, "steps": 3000}
 
 
 def test_the_plane_record_retains_raw_sums_and_the_area_count_not_a_normalised_number():
@@ -431,9 +434,8 @@ def test_a_missing_declared_key_is_rejected_too():
 def test_the_driver_builds_a_boundary_record_that_carries_no_truth_side_quantity():
     mask, meta, res = _synthetic()
     opn = drv.case_record(res, mask, meta, 1e-6, stage="unit")
-    blk_mask, blk_meta = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=False)
-    blk = drv.case_record({"ux": res["ux"], "uy": res["uy"], "rho": res["rho"], "steps": 3000},
-                          blk_mask, blk_meta, 1e-6, stage="unit")
+    blk_mask, blk_meta, blk_res = _synthetic(connected=False, uy_amp=0.0)
+    blk = drv.case_record(blk_res, blk_mask, blk_meta, 1e-6, stage="unit")
     rec = drv.boundary_record(opn, blk)
     assert tuple(sorted(rec)) == tuple(sorted(vf.BOUNDARY_KEYS))
     for k in vf.FORBIDDEN_BOUNDARY_KEYS:

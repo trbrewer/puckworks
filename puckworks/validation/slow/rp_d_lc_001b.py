@@ -44,8 +44,10 @@ FREEZE_GATED_MODES = ("p3", "armj")
 
 #: The macroscopic fields the eventual solve must request. ``rho`` is needed for BOTH the
 #: pressure normalisation and the density-weighted mass flux; ``uy`` for the transverse bridge
-#: flux. No solver change is required: these are already in lb_reference.EXPORTABLE_FIELDS.
-REQUIRED_FIELDS = ("rho", "uy")
+#: flux; ``uz`` for the FULL three-component low-Mach control (erratum PE-4) — uz is not assumed
+#: to vanish from nominal symmetry. No solver change is required: all three are already in
+#: lb_reference.EXPORTABLE_FIELDS, and ux is returned unconditionally.
+REQUIRED_FIELDS = ("rho", "uy", "uz")
 
 
 class ExecutionNotAuthorised(RuntimeError):
@@ -74,18 +76,25 @@ def solve(mask, g, backend="reference", tau=None, fields=REQUIRED_FIELDS, steps=
 # Record construction — pure, solver-free, and therefore testable in CI with synthetic fields.
 # ------------------------------------------------------------------------------------------
 
-def axial_records(res, mask, meta, g):
-    """Every frozen axial plane's compact record, in frozen order."""
+#: The named measurement planes, in frozen order. These are REPORTED and feed the observables;
+#: they are never admitted to the adjudicative conservation set (erratum PE-1).
+NAMED_AXIAL_PLANES = ("x_node_in", "x_meas_in", "x_meas_b", "x_meas_a", "x_node_out")
+
+
+def named_axial_records(res, mask, meta, g):
+    """The named measurement records: node planes (kept for PRESSURE) and the two outlet-flux
+    planes (kept for the observables). Reported separately from the conservation set."""
     ux, rho = res["ux"], res["rho"]
-    out = []
-    named = (("x_node_in", meta["x_node_in"]), ("x_meas_in", meta["x_meas_in"]),
-             ("x_meas_b", meta["x_meas_b"]), ("x_meas_a", meta["x_meas_a"]),
-             ("x_node_out", meta["x_node_out"]))
-    for pid, x in named:
-        out.append(vf.axial_plane_record(pid, x, ux, rho, mask, g))
-    for i, x in enumerate(meta["axial_conservation_planes"]):
-        out.append(vf.axial_plane_record("cons_%d" % i, x, ux, rho, mask, g))
-    return out
+    return [vf.axial_plane_record(pid, meta[pid], ux, rho, mask, g)
+            for pid in NAMED_AXIAL_PLANES]
+
+
+def conservation_axial_records(res, mask, meta, g):
+    """Exactly the nine adjudicative axial conservation records, in frozen order."""
+    ux, rho = res["ux"], res["rho"]
+    recs = [vf.axial_plane_record("cons_%d" % i, x, ux, rho, mask, g)
+            for i, x in enumerate(meta["axial_conservation_planes"])]
+    return vf.assert_conservation_records(recs)
 
 
 def lane_records(res, mask, meta, g):
@@ -100,38 +109,62 @@ def lane_records(res, mask, meta, g):
     return out
 
 
+#: The four frozen transverse bridge-control planes, in frozen order: entry port, both duct
+#: planes, exit port. On a BLOCKED candidate the two duct planes are structurally solid and their
+#: records carry n_fluid = 0 — which is exactly what the blocked-state check asserts.
+TRANSVERSE_PLANES = ("y_portA_in", "y_duct_a", "y_duct_b", "y_portB_out")
+
+
 def transverse_records(res, mask, meta):
     """The four frozen transverse bridge-control planes. Empty for a fixture with no bridge."""
     if meta["bridge"] is None:
         return []
     uy, rho = res["uy"], res["rho"]
     fx, fz = meta["bridge_x"], meta["bridge_z"]
-    out = []
-    for pid in ("y_portA_in", "y_duct_a", "y_duct_b", "y_portB_out"):
-        out.append(vf.transverse_plane_record(pid, meta[pid], uy, rho, mask, fx, fz))
-    return out
+    return [vf.transverse_plane_record(pid, meta[pid], uy, rho, mask, fx, fz)
+            for pid in TRANSVERSE_PLANES]
 
 
-def case_record(res, mask, meta, g, stage):
+def case_record(res, mask, meta, g, stage, lateral_driver_is_zero=None):
     """The complete compact record for one solved case. Large field arrays are NEVER retained;
-    only the frozen plane records and scalars are."""
-    ax = axial_records(res, mask, meta, g)
+    only the frozen plane records and scalars are.
+
+    ``lateral_driver_is_zero`` defaults to the identical-path variant, for which the
+    cross-product gap X vanishes EXACTLY and no lateral pressure difference exists at any bridge
+    conductance — the case the zero-safe transverse metric exists for (erratum PE-2).
+    """
+    missing = [f for f in ("ux", "rho") + REQUIRED_FIELDS if f not in res]
+    if missing:
+        raise ValueError(
+            "case_record fails closed: the solve result is missing %r. Every case must request "
+            "return_fields=%r so the density-weighted mass flux and the FULL three-component "
+            "low-Mach control can be formed (errata PE-1, PE-4)." % (missing, REQUIRED_FIELDS))
+    named = named_axial_records(res, mask, meta, g)
+    cons = conservation_axial_records(res, mask, meta, g)
     ln = lane_records(res, mask, meta, g)
     tr = transverse_records(res, mask, meta)
-    by = {r["plane_id"]: r for r in ax + ln}
+    by = {r["plane_id"]: r for r in named + ln}
+    if lateral_driver_is_zero is None:
+        lateral_driver_is_zero = (meta["variant"] == "identical")
+    axial_mass_scale = by["x_meas_a"]["sum_rho_ux"]
     rec = {
         "stage": stage, "S": meta["S"], "g": float(g), "state": meta["state"],
         "variant": meta["variant"], "swapped": meta["swapped"],
         "perturbation": meta["perturbation"], "bridge": meta["bridge"],
         "mask_sha256": meta["mask_sha256"],
         "steps": int(res["steps"]), "converged": bool(res["steps"] < vf.MAX_STEPS),
-        "axial_planes": ax, "lane_planes": ln, "transverse_planes": tr,
-        "conservation": vf.conservation_residuals(ax, tr),
+        "named_axial_planes": named, "conservation_planes": cons,
+        "lane_planes": ln, "transverse_planes": tr,
+        "conservation": vf.conservation_residuals(cons, named_plane_records=named + ln),
+        "transverse_conservation": vf.transverse_conservation(
+            meta["state"], tr, axial_mass_scale,
+            lateral_driver_is_zero=bool(lateral_driver_is_zero)),
+        "mach": vf.mach_record(res["ux"], res["uy"], res["uz"], mask),
         # the inverse's observables, formed from VOLUME flux only, kept explicitly labelled
         "Q_volume": by["x_meas_a"]["sum_ux"],
         "q1_volume": by["x_meas_a_lane1"]["sum_ux"],
         "q2_volume": by["x_meas_a_lane2"]["sum_ux"],
-        "Q_mass_diagnostic": by["x_meas_a"]["sum_rho_ux"],
+        "Q_mass_diagnostic": axial_mass_scale,
         "dP": by["x_node_in"]["p_mean"] - by["x_node_out"]["p_mean"],
         "p_node_in_sd": by["x_node_in"]["p_sd"], "p_node_out_sd": by["x_node_out"]["p_sd"],
     }
