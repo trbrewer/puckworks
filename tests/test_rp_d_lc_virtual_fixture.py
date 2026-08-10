@@ -465,7 +465,9 @@ def test_bundle_regenerates_deterministically_from_the_committed_record():
                     reason="heavy run record not yet produced")
 def test_result_schema_is_complete():
     doc = json.loads((BUNDLE / "result.json").read_text())
-    for key in ("schema_version", "program_id", "tranche_id", "source_commit", "source_tree",
+    for key in ("schema_version", "program_id", "tranche_id", "base_commit", "provenance",
+                "execution_authorities", "protocol_freeze_commit", "assembly_commit",
+                "assembly_tree", "evidence_use", "cross_model_transfer_adjudicated",
                 "protocol_sha256", "input_sha256", "environment", "solver", "boundary_mode",
                 "resolutions", "aperture_candidates", "aperture_freeze", "geometry", "coupons",
                 "blocked", "cases", "path_swap", "identical_path_control", "asymmetry",
@@ -476,3 +478,50 @@ def test_result_schema_is_complete():
                                   "NO_CROSS_MODEL_TRANSFER", "INVALID_EXECUTION",
                                   "DESIGN_MISSED_TARGET"}
     assert len(doc["decision_clauses"]) == 7
+
+
+# ==========================================================================================
+# forcing-stability must be NUMERICAL, not classification-only
+# ==========================================================================================
+def _stability_rec(**over):
+    base = {"R_rel_spread": 1e-6, "s_abs_spread": 1e-6, "c_field_abs_spread": 1e-6,
+            "c_hat_abs_spread": 1e-6, "Xi_field_rel_spread": 1e-6, "Xi_hat_rel_spread": 1e-6}
+    base.update(over)
+    return base
+
+
+def test_forcing_stability_gate_binds_every_spread_to_the_frozen_tolerance():
+    """A large drift that never crosses a classification boundary must NOT pass."""
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    import numpy as np
+    tol = vf.TOL_LINEARITY_REL
+    for key in ("R_rel_spread", "s_abs_spread", "c_field_abs_spread", "c_hat_abs_spread",
+                "Xi_field_rel_spread", "Xi_hat_rel_spread"):
+        rec = _stability_rec(**{key: 0.10})       # 10 %, classification unchanged
+        assert not all(abs(v) <= tol for v in rec.values()), key
+    assert all(abs(v) <= tol for v in _stability_rec().values())
+    # and the driver's own gate is wired to exactly these six quantities
+    src = inspect.getsource(drv._inference_forcing_stability)
+    for key in ("R_rel_spread", "s_abs_spread", "c_field_abs_spread", "c_hat_abs_spread",
+                "Xi_field_rel_spread", "Xi_hat_rel_spread"):
+        assert key in src, key
+    assert "numerical_stability_pass" in src
+    assert "TOL_LINEARITY_REL" in src
+
+
+def test_no_dead_decision_code_named_lin_ok_remains():
+    """`lin_ok` was computed and never used in any verdict. It must be incorporated or gone."""
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    src = pathlib.Path(drv.__file__).read_text()
+    assert "lin_ok" not in src, "dead forcing-stability verdict variable still present"
+
+
+def test_execution_authorities_are_verified_not_asserted():
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    rep = drv.execution_authority_report()
+    assert set(rep["stages"]) == {"arm_a", "coupons", "primary"}
+    for stage, v in rep["stages"].items():
+        assert v["commit"] and v["tree"], stage
+        assert "executed_symbols_changed_since_launch" in v
+        assert v["rerun_required"] is not v["stage_valid_under_its_own_authority"]
+    assert rep["assembly_commit"] and rep["protocol_freeze_commit"]

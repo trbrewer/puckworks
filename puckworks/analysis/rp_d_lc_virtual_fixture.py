@@ -821,8 +821,20 @@ def assemble():
         "schema_version": SCHEMA_VERSION,
         "program_id": PROGRAM_ID,
         "tranche_id": TRANCHE_ID,
-        "source_commit": BASE_COMMIT,
-        "source_tree": runs["source_tree"],
+        # BASE_COMMIT is the PROGRAMME BASE, not the head that generated any number. Recording
+        # it as "source_commit" conflated three different identities; they are now separate.
+        "base_commit": BASE_COMMIT,
+        "provenance": runs["provenance"],
+        "execution_authorities": {
+            k: {kk: v[kk] for kk in ("commit", "tree", "launched_at", "driver_sha256",
+                                     "analysis_sha256", "lb_reference_sha256",
+                                     "executed_symbols_changed_since_launch",
+                                     "intervening_commits_were_assembly_reporting_or_test_only",
+                                     "stage_valid_under_its_own_authority", "rerun_required")}
+            for k, v in runs["provenance"]["stages"].items()},
+        "protocol_freeze_commit": runs["provenance"]["protocol_freeze_commit"],
+        "assembly_commit": runs["provenance"]["assembly_commit"],
+        "assembly_tree": runs["provenance"]["assembly_tree"],
         "protocol_sha256": _sha(PROTOCOL_PATH),
         "input_sha256": {rel: _sha(rel) for rel in INPUT_FILES},
         "environment": runs["environment"],

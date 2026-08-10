@@ -21,6 +21,7 @@ before the aperture list is committed.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import pathlib
@@ -37,6 +38,134 @@ from puckworks.models.brewer2026 import lb_reference as lbref
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 FREEZE_PATH = REPO_ROOT / vf.BUNDLE_REL / "APERTURE_FREEZE.md"
 FREEZE_JSON = REPO_ROOT / vf.BUNDLE_REL / "runs" / "aperture_freeze.json"
+
+
+# ==========================================================================================
+# EXECUTION PROVENANCE — the head that produced the NUMBERS is not the head that assembles them
+# ==========================================================================================
+#: Each heavy stage was launched from the working tree at the time shown, which the next commit
+#: captured. Recovered from process start times (`ps -o lstart`) against `git reflog --date=iso`,
+#: not from memory: arm_a started 21:13:49 and 9a4b5e8 was committed 21:14:49; the corrected
+#: coupon sweep finished 21:34:13 and its code was committed in 1c10c64 at 21:37:01; primary
+#: started 21:37:18, seventeen seconds after 1c10c64. Later commits (7403b27, b4a8327, e2719e0)
+#: landed WHILE arm_a and primary were already running, so their workers never saw that code.
+EXECUTION_AUTHORITIES = {
+    "arm_a": {"commit": "9a4b5e8e45c0780221410b78a306e17b32ba3cda",
+              "launched_at": "2026-08-09T21:13:49-05:00",
+              "note": "launched from the working tree that 9a4b5e8 captured one minute later"},
+    "coupons": {"commit": "1c10c64ed76e07c3273820d3f737adf7654b4681",
+                "launched_at": "2026-08-09T21:2x-05:00 (finished 21:34:13)",
+                "note": "corrected axis-rotated coupon; code captured by 1c10c64"},
+    "primary": {"commit": "1c10c64ed76e07c3273820d3f737adf7654b4681",
+                "launched_at": "2026-08-09T21:37:18-05:00",
+                "note": "launched 17 s after 1c10c64 was committed"},
+}
+PROTOCOL_FREEZE_COMMIT = "06c1468d47edb1abd0496f1d7354d68f59986007"
+
+#: Symbols whose behaviour determines the NUMBERS a given stage produced. Assembly, reporting and
+#: test symbols are deliberately excluded — changing them cannot move a solver output.
+_GEOM_SYMS = ("BASE", "S_SMOKE", "S_COARSE", "S_FINE", "SCIENTIFIC_RESOLUTIONS", "PERTURBATIONS",
+              "TAU_PLUS", "TAU_CROSS_CHECK", "G_PRIMARY", "G_LINEARITY", "RTOL", "CHECK",
+              "MIN_STEPS", "MAX_STEPS", "_base_is_plenum", "_base_lane_height", "_base_aperture_x",
+              "base_mask", "scale", "mirror_x", "swap_paths", "_apply_perturbation",
+              "build_fixture", "fixture_meta", "mask_hash", "is_mirror_symmetric", "connectivity",
+              "plane_flux", "plane_pressure")
+_LB_SYMS = ("solve", "EXPORTABLE_FIELDS", "feq_all", "C", "W", "OPP")
+_VF_REL = "puckworks/analysis/rp_d_lc_virtual_fixture.py"
+_DRV_REL = "puckworks/validation/slow/rp_d_lc_001.py"
+_LB_REL = "puckworks/models/brewer2026/lb_reference.py"
+STAGE_EXECUTED_SYMBOLS = {
+    "arm_a": {_VF_REL: _GEOM_SYMS,
+              _DRV_REL: ("solve", "_mach", "_conductance", "_plenum_obstruction", "_job_channel",
+                         "_job_return_path", "_job_linearity", "_job_tau", "_job_ladder",
+                         "_job_ladder_at", "arm_a"),
+              _LB_REL: _LB_SYMS},
+    "coupons": {_VF_REL: _GEOM_SYMS + ("build_axial_coupon", "build_bridge_coupon",
+                                       "BRIDGE_COUPON", "APERTURE_CANDIDATES"),
+                _DRV_REL: ("solve", "_coupon_conductance", "_job_axial_coupon",
+                           "_job_bridge_coupon", "arm_b"),
+                _LB_REL: _LB_SYMS},
+    "primary": {_VF_REL: _GEOM_SYMS + ("boundary_record_from_fields", "field_truth",
+                                       "coupon_truth", "infer_from_boundary", "BOUNDARY_KEYS",
+                                       "XI_WINDOW_LO", "XI_WINDOW_HI"),
+                _DRV_REL: ("solve", "_mach", "_conductance", "_run_case", "_job_case",
+                           "_job_blocked", "arm_cdefghi", "SWAP_RESOLUTIONS"),
+                _LB_REL: _LB_SYMS},
+}
+
+
+def _blob(commit, rel):
+    r = subprocess.run(("git", "show", "%s:%s" % (commit, rel)), cwd=REPO_ROOT,
+                       capture_output=True)
+    return r.stdout.decode() if r.returncode == 0 else None
+
+
+def _symbol_digests(src, names):
+    """Docstring- and formatting-insensitive digest of each top-level symbol. A prose change
+    cannot move a number, so it must not be reported as one."""
+    import ast as _ast
+    if src is None:
+        return {n: "<file-absent>" for n in names}
+    tree = _ast.parse(src)
+    found = {}
+    for node in tree.body:
+        if isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef, _ast.ClassDef)):
+            found[node.name] = node
+        elif isinstance(node, _ast.Assign):
+            for t in node.targets:
+                if isinstance(t, _ast.Name):
+                    found[t.id] = node
+
+    def norm(node):
+        n = _ast.parse(_ast.unparse(node))
+        for d in _ast.walk(n):
+            if isinstance(d, (_ast.FunctionDef, _ast.AsyncFunctionDef, _ast.ClassDef,
+                              _ast.Module)):
+                if (d.body and isinstance(d.body[0], _ast.Expr)
+                        and isinstance(d.body[0].value, _ast.Constant)
+                        and isinstance(d.body[0].value.value, str)):
+                    d.body = d.body[1:] or [_ast.Pass()]
+        return _ast.unparse(n)
+
+    import hashlib as _h
+    return {n: (_h.sha256(norm(found[n]).encode()).hexdigest() if n in found else "<absent>")
+            for n in names}
+
+
+def execution_authority_report():
+    """VERIFY, at assembly time, that no symbol a stage actually executed changed after it was
+    launched. Intervening commits that touched only assembly, reporting or tests leave the stage's
+    numbers valid under its own earlier authority; a change to an executed symbol would require a
+    rerun of that stage and is reported as such."""
+    head = _git("rev-parse", "HEAD")
+    out = {"assembly_commit": head, "assembly_tree": _git("rev-parse", "HEAD^{tree}"),
+           "protocol_freeze_commit": PROTOCOL_FREEZE_COMMIT, "stages": {}}
+    for stage, auth in EXECUTION_AUTHORITIES.items():
+        commit = auth["commit"]
+        changed = {}
+        for rel, names in STAGE_EXECUTED_SYMBOLS[stage].items():
+            a = _symbol_digests(_blob(commit, rel), names)
+            b = _symbol_digests(_blob(head, rel), names)
+            diff = [n for n in names if a[n] != b[n]]
+            if diff:
+                changed[rel] = diff
+        out["stages"][stage] = {
+            **auth,
+            "tree": _git("rev-parse", "%s^{tree}" % commit),
+            "driver_sha256": hashlib.sha256(
+                (_blob(commit, _DRV_REL) or "").encode()).hexdigest(),
+            "analysis_sha256": hashlib.sha256(
+                (_blob(commit, _VF_REL) or "").encode()).hexdigest(),
+            "lb_reference_sha256": hashlib.sha256(
+                (_blob(commit, _LB_REL) or "").encode()).hexdigest(),
+            "executed_symbols_changed_since_launch": changed,
+            "intervening_commits_were_assembly_reporting_or_test_only": not changed,
+            "stage_valid_under_its_own_authority": not changed,
+            "rerun_required": bool(changed),
+        }
+    out["all_stages_valid"] = all(v["stage_valid_under_its_own_authority"]
+                                  for v in out["stages"].values())
+    return out
 
 
 # ==========================================================================================
@@ -985,7 +1114,9 @@ def assemble(out_dir):
               and r["aperture"] == c["aperture_freeze"]["selected"][
                   len(c["aperture_freeze"]["selected"]) // 2]]
         lin_R[str(S)] = (max(rs) / min(rs) - 1.0) if len(rs) > 1 else None
-    lin_ok = all(v is not None and v <= vf.TOL_LINEARITY_REL for v in lin_R.values())
+    # lin_R is reported inside boundary_inference_forcing_stability, whose numerical gate now
+    # binds it (and the other five spreads) to TOL_LINEARITY_REL. It is NOT a separate verdict.
+    lin_R_ok = all(v is not None and v <= vf.TOL_LINEARITY_REL for v in lin_R.values())
     mach_ok = all(r["mach"] <= vf.TOL_MACH for r in a["linearity"])
     mass_ok = all(r["plane_ptp_rel"] <= vf.TOL_MASS_REL for r in a["mass_conservation"]) and all(
         r["numerics"]["plane_flux_ptp_rel"] <= vf.TOL_MASS_REL for r in c["cases"])
@@ -1075,8 +1206,13 @@ def assemble(out_dir):
             **_inference_forcing_stability(
                 c, c["aperture_freeze"]["selected"][len(c["aperture_freeze"]["selected"]) // 2]),
             "R_spread_by_resolution": lin_R,
-            "scope": ("Confirms R, s, c_hat and Xi_hat are stable under forcing. Does NOT by "
-                      "itself validate the field truth."),
+            "R_spread_within_tolerance": lin_R_ok,
+            "tol_numerical_rel": vf.TOL_LINEARITY_REL,
+            "scope": ("Confirms R, s, c_field, c_hat, Xi_field and Xi_hat are NUMERICALLY stable "
+                      "under forcing (each spread bound to TOL_LINEARITY_REL) AND that the "
+                      "inverse status, the sign of s - 1/2 and the classification do not move. "
+                      "Does NOT by itself validate the internal field truth — that is "
+                      "componentwise_creeping_flow_control."),
         },
         "coarse_graining_surface_stability": _node_sensitivity_summary(j),
         "mass_conservation": {"pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
@@ -1088,6 +1224,12 @@ def assemble(out_dir):
             # resolved solution can be reduced to the proposed two-node representation is a
             # SEPARATE control, coarse_graining_surface_stability; both roll up into clause 1.
             "pass": bool(topo_ok and ret_ok),
+            # Connectivity evidence and the Route-A isolation portion are distinct. If the masks
+            # pass but Arm J was deliberately omitted, this control is fail-closed but NOT an
+            # evidence-based failure, and the causal record must not report it as one.
+            "status": "EVALUATED" if (not topo_ok or j is not None) else "NOT_EVALUATED",
+            "not_evaluated_because": (None if (not topo_ok or j is not None)
+                                      else "NOT_RUN_UPSTREAM_EXECUTION_INVALID"),
             "masks_and_connectivity": topo_ok,
             "return_path_common_mode_bound_holds": ret_ok,
             "route_a_isolation_gate": {
@@ -1157,9 +1299,10 @@ def assemble(out_dir):
         r["comparison"] = _arm_f(t, i, r["boundary"])
 
     rec = {
-        "source_commit": _git("rev-parse", "HEAD"),
-        "source_tree": _git("rev-parse", "HEAD^{tree}"),
-        "git_status_clean": (_git("status", "--porcelain") == ""),
+        # The head that produced the NUMBERS is not necessarily the head that assembles them.
+        # Never conflate them: `provenance` records each stage's own launch authority, verified.
+        "provenance": execution_authority_report(),
+        "git_status_clean_at_assembly": (_git("status", "--porcelain") == ""),
         "environment": environment(),
         "solver": {"backend": "reference", "kernel": "brewer2026.lb_reference (D3Q19 TRT, "
                                                      "magic Lambda=3/16, full-way bounce-back)",
@@ -1174,7 +1317,9 @@ def assemble(out_dir):
             "why_valid": (
                 "R is a ratio of two independently MEASURED two-terminal conductances Q/dP of the "
                 "same lane sub-network, formed from an open and a blocked run that differ ONLY in "
-                "the aperture voxels, so a common-mode return-path contribution cancels."),
+                "the aperture voxels. The return-path contribution was strongly COMMON-MODE in "
+                "the tested perturbation and its residual effect on R is BOUNDED by Arm J; exact "
+                "cancellation is neither assumed nor claimed."),
             "how_far_that_is_demonstrated": (
                 "BOUNDED, NOT ELIMINATED — see PROTOCOL.md erratum E1. The obstruction probe "
                 "changed the return path by 22.5 % in dP; the two conductances moved by -1.84 % "
@@ -1347,13 +1492,26 @@ def _inference_forcing_stability(c, ap_mid):
             "sign_s_minus_half": sorted({int(np.sign(v - 0.5)) for v in series("boundary", "s")}),
             "window_membership": win, "factor_two_membership": f2,
         }
+        ch = [v for v in rec["c_hat"] if v is not None]
+        rec["c_hat_abs_spread"] = (max(ch) - min(ch)) if len(ch) == len(rows) else float("nan")
         rec["status_constant"] = len(set(rec["inverse_status"])) == 1
         rec["sign_constant"] = len(rec["sign_s_minus_half"]) == 1
         rec["classification_constant"] = len(set(win)) == 1 and len(set(f2)) == 1
+        # NUMERICAL gate. Classification constancy alone is not stability: a 10 % move in R,
+        # Xi_field or Xi_hat that never crosses a window or factor-of-two boundary would pass a
+        # classification-only test. Every spread this function already computes is bound to the
+        # tolerance already stored in this record (TOL_LINEARITY_REL = 1e-4, the frozen
+        # forcing-linearity tolerance) — not a new threshold.
+        _tol = vf.TOL_LINEARITY_REL
+        _spreads = {k: rec[k] for k in ("R_rel_spread", "s_abs_spread", "c_field_abs_spread",
+                                        "c_hat_abs_spread", "Xi_field_rel_spread",
+                                        "Xi_hat_rel_spread")}
+        rec["numerical_spreads"] = _spreads
+        rec["numerical_stability_pass"] = bool(
+            all(v is not None and np.isfinite(v) and abs(v) <= _tol for v in _spreads.values()))
         rec["pass"] = bool(
-            rec["status_constant"] and rec["sign_constant"] and rec["classification_constant"]
-            and np.isfinite(rec["Xi_field_rel_spread"])
-            and np.isfinite(rec["Xi_hat_rel_spread"]))
+            rec["numerical_stability_pass"] and rec["status_constant"]
+            and rec["sign_constant"] and rec["classification_constant"])
         ok = ok and rec["pass"]
         out["by_resolution"][str(S)] = rec
     out["pass"] = bool(ok)
