@@ -7,9 +7,9 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C1`** (see PE-0). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C2`** (see PE-13). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
-the superseded one.
+a superseded one. Lineage: **C0** (frozen at `bbf2304`) → **C1** (frozen at `2cf0b63`) → **C2**.
 
 ---
 
@@ -410,3 +410,292 @@ unsupported backend or incomplete dependencies.
 
 Unchanged by PE-12: **no Route B**, **no new pressure component**, **no solver change**, and
 **RP-D-LC-001's files and result remain byte-identical**.
+
+
+---
+
+# PE-13 — exact-head RE-REVIEW at `2cf0b63` was NOT APPROVED; C2 correction record
+
+**Review disposition:**
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REREVIEW_NOT_APPROVED_C2_AND_PREFREEZE_EXECUTOR_REQUIRED`
+
+**Reviewed head:** `2cf0b63ba2670de423a39f9563822563a3cb59b5`
+**Reviewed tree:** `c8a22d140b75142cdbd5db03dea55f20382bb079`
+
+## C1 outcomes ACCEPTED and preserved unchanged
+
+The common-mode-port apparatus (accepted in principle); RP-D-LC-001 closed and immutable; exactly
+nine unique axial conservation planes; distinct inverse **volume** flux and conservation **mass**
+flux; strict non-finite rejection; the full-vector fluid-node Mach control; full pre-freeze forcing
+ladders; candidate-specific blocked-mirror contrast intervals; the expanded bridge feature model;
+two-sided reachable-set admission; phase-specific authorization with an **empty** allowlist; no
+Route B; no solver-component change; no open mirror case before P3.
+
+## Superseded C1 machine-readable artifacts
+
+Retained so anything bound to them stays traceable. **These supersede the C0 hashes in PE-0; both
+generations are kept.**
+
+| artifact | superseded C1 SHA-256 (`2cf0b63`) |
+|---|---|
+| `generated/protocol.json` | `9b60b4d511d6153d92da14c7f7235f335536fa937958cc035eb4a9d6f163ea11` |
+| `generated/fixture_spec.json` | `11f1798c420373daf4ceff6d71cacf58318852cf01f55b3af85ab562acae0fec` |
+| `generated/execution_matrix.json` | `5d246088a1404ddb2ead1acfa4bc7074de9a8244688d28aca7c698e7d0e3193e` |
+| `generated/preflight_status.json` | `5bc0d5779218554b74106b38dcdcd73901a7502e10dfcec866d1f51891f834e1` |
+
+Superseded C1 counts: **407** adaptive maximum, **82** mandatory, **325** refused,
+`N_FROZEN_BRIDGES = 5`, Arm J **20** solves. No bridge freeze existed at `2cf0b63` and none exists
+now, so no freeze is invalidated.
+
+## C2 blockers
+
+| id | blocker | superseded C1 form | effective C2 form |
+|---|---|---|---|
+| PE-14 | **zero-driver magnitude false-green** | the zero-driver gate tested only `max−min` plane consistency, so four **equal, materially nonzero** transverse mass fluxes passed | the verdict requires **both** a magnitude gate on `max|q_mass|/axial_mass_scale` **and** the consistency gate on the plane range, each against `TOL_BRIDGE_LEAKAGE_REL` |
+| PE-15 | **the lateral pressure gap was never measured** | `y_face1`/`y_face2` existed in the frozen metadata and nothing read them; a geometry label alone certified "zero lateral driver" | compact pressure-face records on both faces over the exact bridge footprint, `Δp_lateral` adjudicated against a frozen tolerance, and `Δp/g` and `q_lat/g` retained for the componentwise checks |
+| PE-16 | **the "continuation" did not force a longer run** | the wrapper raised `max_steps` while leaving `min_steps = 2000`, so the solver could stop at its original convergence point and the audit could be a no-op | a true **fixed-step re-execution**: `min_steps = max_steps = target`, `target = CHECK·⌈1.5·base_steps/CHECK⌉`, with `FIXED_STEP_REEXECUTION_1P5X` naming and distinct run-mode statuses |
+| PE-17 | **numerical-discrepancy coverage was extrapolated** | the bound was measured on the smallest and largest bridge and applied to all twelve, with no proved monotonic envelope | fixed-step evidence for **every selection-bearing case**: each candidate × {blocked, open} × {S=2, S=3} × {low, central, high}, plus the coupon and blocked-mirror rows that build `Ξ` and `c` |
+| PE-18 | **case, manifest and freeze lineage were weak** | a manifest passed on a *nonempty* `completed_cases` list; `build_freeze` accepted free-form candidate dicts, envelopes and record hashes | immutable atomic case records keyed to `case_id` and row hash; validated phase ledgers that reopen and rehash every cited record; `assemble_p2b_from_runs` derives everything from records |
+| PE-19 | **there was no phase runner** | the driver refused, and there was nothing behind the refusal | a real deterministic pre-freeze executor for P0/P1a/P1b/P2a and arithmetic P2b, source-controlled and unreachable because the allowlist is empty |
+| PE-20 | **the freeze required an above-window slot** | five slots: one below, three inside, **one above** — but the corrected two-sided reachable-set gate can make an above-window candidate inadmissible under its own safety requirement | **four** slots: one below, three inside. "Above" is retained as an optional **diagnostic** category. The safety margin is unchanged and is not tunable to fill a slot |
+| PE-21 | **exact forcing identity stopped at the constant** | `G_REF_EXACT` was exact, but rows, records, manifests and freezes carried only the runtime float, and 12-dp JSON rounding became the de-facto identity | every forcing-bearing row and record carries `forcing_exact = {numerator, denominator}` derived from `G_REF_EXACT`, the float is derived **from** it, and the exact form enters `case_id` and row hashing |
+
+## The reviewer's four-slot decision, recorded (PE-20)
+
+C1's own `PRE_EXECUTION_REVIEW.md` §11.6 raised the tension and put three responses to the
+reviewer. **The reviewer chose option 2: re-freeze the rule at four slots.** The rationale is
+recorded here so it is not re-litigated:
+
+- decision clause 2 requires **≥3 in-window cases at each resolution** — the in-window slots carry
+  it, and an above-window candidate contributes nothing to that count;
+- decision clause 5 requires **monotonicity across the frozen family** — one below plus three
+  inside supplies four ordered points, which is sufficient to test monotonicity;
+- the corrected two-sided reachable-set gate can make an above-window candidate **inadmissible
+  under its own safety requirement**, so requiring one would be requiring a candidate the gate is
+  designed to exclude;
+- **the `0.10·K` safety margin is unchanged and is not tunable to fill a slot.**
+
+`NO_UNAMBIGUOUS_ABOVE_CANDIDATE` is removed as a required-selection stop.
+`NO_UNAMBIGUOUS_BELOW_CANDIDATE` and `INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES` are preserved,
+as is exact-four-or-stop.
+
+## What did NOT change in C2
+
+The Stage-A question · the apparatus and the whole geometry · `ARTIFACT_BUDGET_R_ABS = 1.0e-3` ·
+`TOL_LINEARITY_REL = 1.0e-4` · `TOL_MASS_REL = 1.0e-3` · `TOL_BRIDGE_LEAKAGE_REL = 1.0e-3` · the
+forcing law and both ladders · the `0.10·K` reachable-set margin and its conditioning
+justification · the Route-A observable contract (**Route B remains unauthorized**) · **no solver
+change** · the claim ceiling · **RP-D-LC-001 byte-unchanged and historically immutable** ·
+`AUTHORISED_SOLVING_PHASES = ()`.
+
+---
+
+# PE-14 — the zero-driver transverse gate could pass a materially nonzero flux
+
+**Superseded.** For an expected-zero-driver case the verdict was
+`|max(q) − min(q)| / axial_mass_scale ≤ TOL_BRIDGE_LEAKAGE_REL`.
+
+**Why that was unsafe.** That statistic tests whether the four planes **agree**, not whether the
+flux is **zero**. Four *equal* transverse mass fluxes have a range of exactly zero and passed at any
+magnitude — so a fixture leaking a large, perfectly consistent lateral current through the bridge
+with no lateral driver would have returned a green negative control. The control exists to
+establish that opening the bridge creates no flow when nothing drives it; consistency alone cannot
+establish that.
+
+**Effective form.** The expected-zero-driver verdict requires **both**, each against
+`TOL_BRIDGE_LEAKAGE_REL = 1e-3` (unchanged, and not loosened):
+
+```
+magnitude:    max_i |q_mass_i| / axial_mass_scale   ≤  TOL_BRIDGE_LEAKAGE_REL
+consistency:  |max_i q_mass_i − min_i q_mass_i| / axial_mass_scale ≤ TOL_BRIDGE_LEAKAGE_REL
+```
+
+and the record retains, separately and all finite: the four `q_mass_i` and `q_volume_i`;
+`axial_mass_scale`; `max_abs_lateral_mass_flux` and its relative form; `mean_lateral_mass_flux` and
+`|mean|` relative; `plane_range_mass` and its relative form; the signed entry/exit balance;
+both tolerances; and **separate verdicts** for magnitude and consistency.
+
+**The magnitude requirement is NOT applied to a genuinely driven bridge**, where a nonzero lateral
+flux is the physics under test. The driven case keeps the hybrid rule and records the physical
+lateral-flow magnitude, the plane-to-plane consistency and the relative-gate applicability as three
+distinct things.
+
+---
+
+# PE-15 — the lateral pressure gap was declared in metadata and never measured
+
+**Superseded.** `fixture_meta` froze `y_face1` and `y_face2`; nothing read them. The
+identical-path control's "zero lateral driver" was asserted from the **geometry label**
+(`variant == "identical"`), and `case_record` passed that label straight into the transverse gate.
+
+**Why that was unsafe.** The cross-product gap vanishing *analytically* for an identical-path
+network is a statement about the two-node model, not a measurement of the discretised fixture. A
+voxelised fixture with junction effects, an asymmetric solver residual or a construction error can
+carry a nonzero measured mid-face pressure difference while still being labelled identical. A
+label may not certify a physical condition that the fixture can be interrogated for directly —
+especially when that condition is the premise of the decisive negative control.
+
+**Effective form.** Compact pressure-face records on both frozen faces, over the **exact bridge
+`(x, z)` footprint**, using the same effective-pressure convention as the axial records —
+`p_eff = ρ/3 − g·x`, evaluated **nodewise before averaging**, so the body-force potential is
+subtracted correctly across a multi-`x` footprint. Each face retains `plane_id`, orientation, index,
+footprint bounds, `n_fluid`, `rho_mean`/`rho_sd`, `p_mean`/`p_sd`, `p_min`/`p_max`, the sign
+convention and the mask identity. Every bridge-carrying case then derives `p_face1`, `p_face2`,
+`delta_p_lateral`, `delta_p_lateral_over_g`, an axial pressure-normalisation scale, the normalised
+gap, a conservative face uncertainty, `expected_zero_driver`, `measured_zero_driver_pass`, the
+tolerance and a reason.
+
+`TOL_LATERAL_DRIVER_REL` is frozen **before output** at the programme's 0.1 % nuisance scale
+applied to the normalised gap. **For an identical-path control, execution validity now requires the
+MEASURED gap to clear it** — the geometry label supplies only the *expectation*.
+
+`q_lat/g` and `delta_p_lateral/g` are retained so the already-frozen componentwise forcing checks
+can be evaluated on them. No large field arrays are retained.
+
+---
+
+# PE-16 — the "continuation" audit did not force a longer run
+
+**Superseded.** The audit raised `max_steps` while leaving `min_steps = 2000`, so the solver's own
+convergence test could stop it at the original step count and the audit could return the base
+result. An audit that can be a no-op is not evidence.
+
+**Effective form.** A deterministic **fixed-step re-execution**, with no change to the solver core:
+
+```
+target_steps = CHECK · ⌈ CONVERGENCE_AUDIT_FACTOR · base_completed_steps / CHECK ⌉
+min_steps = max_steps = target_steps
+```
+
+Required and checked: the base case actually converged before its normal maximum;
+`target_steps > base_completed_steps`; `target_steps` is an exact multiple of `CHECK`; a frozen
+`MAX_STEPS_AUDIT` large enough for the 1.5× rule; and the audit's actual completed steps equal
+`target_steps` **exactly**.
+
+Named `FIXED_STEP_REEXECUTION_1P5X` in machine-readable records — **not** "continuation", because
+the solver does not resume from saved state.
+
+`converged = steps < MAX_STEPS` is no longer used for audits. Four distinct run statuses:
+`NORMAL_CONVERGED`, `NORMAL_UNCONVERGED`, `FIXED_STEP_AUDIT_COMPLETED`,
+`FIXED_STEP_AUDIT_INCOMPLETE`. **An unconverged normal case stops its phase under the frozen
+UNCONVERGED semantics; an audit may never rescue it.**
+
+Retained: base `case_id` and record hash, base completed steps and convergence status, audit target
+and actual steps, audit completion status, base and audit observables, the discrepancy terms and
+both exact solver configurations.
+
+---
+
+# PE-17 — numerical-discrepancy evidence was extrapolated across candidates
+
+**Superseded.** Eight audit runs on the smallest and largest bridge, with the worst applied to all
+twelve candidates. No monotonic envelope was proved, and geometric extremes are not a proof.
+
+**Effective form.** Fixed-step evidence for **every selection-bearing case** — each candidate ×
+{blocked, open} × {S = 2, S = 3} × {low, central, high} for the identical-path artifact, plus the
+axial-coupon, bridge-coupon and candidate-blocked-mirror rows that build `Ξ` and `c`. The artifact
+gate `|R_identical − 1| + u_R ≤ 1e-3` must pass at **every** required combination.
+
+**P1a is demoted to a triage screen.** It may **reject** a candidate when the point estimate alone
+(or an already-established valid lower bound) makes success mathematically impossible, because
+every omitted uncertainty term is non-negative. It may **not admit** a candidate, and it may not
+call a central result a final artifact upper bound before the fixed-step evidence exists.
+
+The P2b record states, for every uncertainty term: source case IDs, source record hashes, method,
+point estimate, uncertainty, interval, whether it overlaps another term, and its final use in
+artifact, `c` or `Ξ` admission. **No placeholder or caller-supplied uncertainty may enter a
+freeze.**
+
+---
+
+# PE-18 — case, manifest and freeze lineage were too weak to bind a decision
+
+**Superseded.** `require_phase_manifests` accepted any manifest carrying a **nonempty**
+`completed_cases` list with matching configuration hashes; `build_freeze` accepted free-form
+candidate dictionaries, `xi_envelope` values, eligibility booleans and `record_hashes`, checking
+only that the cited hashes appeared *somewhere* in a manifest.
+
+**Why that was unsafe.** A manifest could claim a phase was complete while omitting rows; one
+record hash could be cited for several physically distinct candidates; and the freeze's scientific
+content was whatever the caller passed in. That is a freeze bound to assertions, not to evidence.
+
+**Effective form.** Three layers, each validated:
+
+- **Immutable case records** — one per solve, written atomically (temp file + rename), never
+  overwritten, filename deterministically derived from `case_id`, carrying the schema and
+  correction versions, phase, `case_id`, the canonical row and its SHA-256, the exact forcing
+  rational and the runtime float, geometry and mask identity, source commit/tree, the
+  execution-authority hash, the configuration hashes, backend and dependencies, solver
+  configuration, predecessor-manifest hashes, run mode and status, every required compact
+  scientific record, no large fields and no non-finite values. A resume verifies the existing file
+  and its hash and authority and reuses it **only** on an exact match, otherwise fails closed.
+- **Strong phase manifests** — a validated ledger, not a list: expected mandatory and conditionally
+  eligible case IDs, completed/refused/failed ledgers, per-record paths and hashes, per-row hashes,
+  adaptive-decision inputs and result, terminal status and stop reason, and counts reconciled to
+  the planned phase. Validation reopens every cited record, recomputes its hash, checks its
+  `case_id`, row hash, source commit/tree and authority, rejects missing, duplicate and extra
+  rows, rejects a record reused for a different case or a hash cited for two physically distinct
+  rows, validates predecessor manifest hashes, and recomputes adaptive eligibility and refusal from
+  predecessor records. For P1b and P2a the expected rows are **derived mechanically** from
+  validated predecessor decisions, never supplied by a caller.
+- **Record-derived P2b** — `assemble_p2b_from_runs(runs_dir, …)` supersedes
+  `build_freeze(selection, manifests, instantiated_rows)`. It validates the P0/P1a/P1b/P2a
+  manifests, loads every record itself, and **recomputes** the forcing-invariance,
+  resolution-consistency, zero-driver transverse, measured lateral-pressure-gap, numerical
+  discrepancy, artifact upper bound, blocked-mirror `c` interval, coupon `Ξ` envelope and
+  reachable-set admission before applying the four-slot rule. It accepts no free-form selection,
+  envelope, interval, eligibility flag or hash list. Every candidate quantity in the proposed
+  freeze cites its exact contributing case IDs and record hashes, and a single record hash cannot
+  bind two candidate geometries.
+
+**P3 and P4 remain unauthorized even after a syntactically valid proposed freeze exists.**
+
+---
+
+# PE-19 — the refusal had nothing behind it
+
+**Superseded.** The driver refused every phase and contained no runner, so nothing established
+that the refused work was implementable, deterministic or correctly ordered.
+
+**Effective form.** A real pre-freeze executor for P0, P1a, P1b, P2a and arithmetic P2b:
+validate the phase → validate authorization → resolve the exact execution authority → validate
+predecessor manifests → derive the exact phase rows → apply the frozen adaptive decisions → resolve
+each row to exactly one fixture or coupon → call the single guarded solver call site → build the
+compact record → validate it → write it atomically → build and validate the phase manifest → stop
+on any invalid or unconverged decision-bearing case.
+
+`jobs = 1`; deterministic matrix ordering; no hidden exploratory rows; no overwrite; exact resume;
+no fallback backend; no looser retry; no automatic margin or tolerance adjustment; no open mirror
+case before P3; and **P2b makes no solver call**.
+
+Orchestration is factored so a unit test may inject a fake result provider. **The user-facing CLI
+exposes no option that accepts an arbitrary solver callback.** At this head every solving phase
+still refuses, because `AUTHORISED_SOLVING_PHASES = ()`, and the tests assert that the real
+`lb_reference.solve` was never reached.
+
+---
+
+# PE-20 — the freeze required an above-window slot the gate can exclude
+
+Superseded: `N_FROZEN_BRIDGES = 5` (one below, three inside, one above) and
+`NO_UNAMBIGUOUS_ABOVE_CANDIDATE` as a required-selection stop. Effective: **four** slots (one
+below, three inside), "above" retained as an optional diagnostic category, that stop code removed
+from the required set. Rationale and the reviewer's decision: PE-13 above. All P3/P4 templates,
+Arm J and every count regenerate from four; **no C1 count is preserved for cosmetic continuity.**
+
+---
+
+# PE-21 — exact forcing identity stopped at the constant
+
+**Superseded.** `G_REF_EXACT = Fraction(1, 500_000)` was exact, but `forcing_central` and
+`forcing_ladder` returned floats and every downstream artifact carried only that float. With
+records rounded to twelve decimals, the *scientific identity* of a forcing level had become a
+rounded decimal.
+
+**Effective form.** `forcing_exact(S, level)` returns an exact `Fraction` derived from
+`G_REF_EXACT`, `S` and the frozen factor. Every forcing-bearing matrix row and case record carries
+`forcing_exact = {"numerator": …, "denominator": …}` alongside the runtime float; the float is
+**derived from** the rational and is verified to equal `float(Fraction(n, d))`; the exact
+representation enters `case_id` and row hashing; and the rational is never reconstructed from a
+binary float.
+
