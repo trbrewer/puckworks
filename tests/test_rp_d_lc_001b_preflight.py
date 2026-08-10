@@ -8,6 +8,7 @@ call site refuses while the tranche is pre-execution.
 import ast
 import inspect
 import json
+import math
 import pathlib
 import subprocess
 
@@ -1083,6 +1084,489 @@ def test_no_preflight_test_is_marked_slow(request):
               for d in n.decorator_list
               if isinstance(d, ast.Call) and isinstance(d.func, ast.Attribute)}
     assert marks <= {"parametrize"}, marks
+
+
+# ==========================================================================================
+# 10b. Correction regressions — one per erratum, each proving the defect cannot recur
+# ==========================================================================================
+
+def _cons_recs(S=vf.S_SMOKE, b=None, ramp=0.0):
+    mask, meta, res = _synthetic(S=S, b=b, rho_ramp=ramp, unit_plane_flux=True)
+    return [vf.axial_plane_record("cons_%d" % i, x, res["ux"], res["rho"], mask, 1e-6)
+            for i, x in enumerate(meta["axial_conservation_planes"])], mask, meta, res
+
+
+def test_exactly_nine_unique_adjudicative_axial_planes():
+    recs, _, meta, _ = _cons_recs()
+    assert len(recs) == vf.N_CONSERVATION_PLANES == 9
+    assert [r["plane_id"] for r in recs] == list(vf.CONSERVATION_PLANE_IDS)
+    assert len({r["index"] for r in recs}) == 9
+    assert len(set(meta["axial_conservation_planes"])) == 9
+    assert vf.assert_conservation_records(recs) == recs
+
+
+@pytest.mark.parametrize("bad", ["duplicate", "reordered", "short", "long", "renamed",
+                                 "transverse"])
+def test_a_conservation_set_that_is_not_the_frozen_nine_is_refused(bad):
+    recs, _, _, _ = _cons_recs()
+    if bad == "duplicate":
+        recs = recs[:-1] + [dict(recs[0], plane_id="cons_8")]
+    elif bad == "reordered":
+        recs = list(reversed(recs))
+    elif bad == "short":
+        recs = recs[:-1]
+    elif bad == "long":
+        recs = recs + [dict(recs[0], plane_id="cons_9")]
+    elif bad == "renamed":
+        recs = [dict(recs[0], plane_id="x_meas_a")] + recs[1:]
+    else:
+        recs = [dict(recs[0], orientation="y")] + recs[1:]
+    with pytest.raises(ValueError):
+        vf.conservation_residuals(recs)
+
+
+def test_duplicating_a_measurement_plane_cannot_move_the_conservation_verdict():
+    """Erratum PE-1 in one assertion: a min/max spread is decided by its extremes, so admitting
+    a duplicate of a named plane would move an adjudicative residual with no physics changing.
+    The named records are REPORTED and cannot enter the statistic, whatever a caller passes."""
+    recs, mask, meta, res = _cons_recs(ramp=1e-3)
+    named = drv.named_axial_records(res, mask, meta, 1e-6)
+    lanes = drv.lane_records(res, mask, meta, 1e-6)
+    base = vf.conservation_residuals(recs)
+    with_named = vf.conservation_residuals(recs, named_plane_records=named + lanes)
+    doubled = vf.conservation_residuals(recs, named_plane_records=named * 3 + lanes * 2)
+    for other in (with_named, doubled):
+        assert other["mass_flux_residual"] == base["mass_flux_residual"]
+        assert other["volume_flux_residual"] == base["volume_flux_residual"]
+        assert other["mass_conservation_pass"] == base["mass_conservation_pass"]
+    assert with_named["named_plane_records_admitted_to_verdict"] is False
+    assert set(with_named["named_plane_records_reported"]) >= set(drv.NAMED_AXIAL_PLANES)
+    # and the named planes really would have moved it, had they been admitted
+    contaminated = vf._spread(r["sum_rho_ux"] for r in recs + named)
+    assert contaminated != pytest.approx(base["mass_flux_residual"])
+
+
+def _tv(mass, vol=None, ids=("y_portA_in", "y_duct_a", "y_duct_b", "y_portB_out"), n_fluid=8):
+    vol = mass if vol is None else vol
+    return [{"plane_id": p, "orientation": "y", "index": i, "n_fluid": n_fluid,
+             "sum_uy": v, "sum_rho_uy": m, "footprint_x": (0, 2), "footprint_z": (0, 2),
+             "sign_convention": vf.SIGN_CONVENTION_TRANSVERSE}
+            for i, (p, m, v) in enumerate(zip(ids, mass, vol))]
+
+
+def test_four_exact_zeros_at_the_negative_control_pass_rather_than_divide_by_zero():
+    """The defining case (erratum PE-2): zero lateral driver means the CORRECT answer is zero
+    net transverse mass flux. The superseded mean-normalised metric was undefined here."""
+    r = vf.transverse_conservation("open", _tv([0.0, 0.0, 0.0, 0.0]), axial_mass_scale=10.0,
+                                   lateral_driver_is_zero=True)
+    assert r["status"] == "EVALUATED_ZERO_SAFE_ABSOLUTE"
+    assert r["pass"] is True
+    assert r["absolute_imbalance_normalised"] == 0.0
+    assert r["relative_imbalance"] is None and r["relative_gate_applicable"] is False
+    with pytest.raises(ZeroDivisionError):
+        vf._spread([0.0, 0.0, 0.0, 0.0])            # what the superseded metric would have done
+
+
+@pytest.mark.parametrize("noise", [1e-9, -1e-9, 5e-8, -5e-8])
+def test_near_zero_signed_round_off_still_passes_the_zero_safe_gate(noise):
+    r = vf.transverse_conservation("open", _tv([noise, -noise, noise, -noise]),
+                                   axial_mass_scale=10.0, lateral_driver_is_zero=True)
+    assert r["pass"] is True
+    assert math.isfinite(r["absolute_imbalance_normalised"])
+    assert math.isfinite(r["signed_balance"])
+
+
+def test_a_large_spurious_leakage_at_zero_driver_fails_the_zero_safe_gate():
+    r = vf.transverse_conservation("open", _tv([0.05, 0.0, 0.0, -0.05]), axial_mass_scale=10.0,
+                                   lateral_driver_is_zero=True)
+    assert r["pass"] is False
+    assert r["absolute_imbalance_normalised"] > vf.TOL_BRIDGE_LEAKAGE_REL
+
+
+def test_a_blocked_candidate_reports_not_applicable_and_labels_its_blind_pockets():
+    recs = _tv([0.0, 0.0, 0.0, 0.0])
+    for r in recs:
+        if r["plane_id"] in vf.DUCT_CONTROL_PLANE_IDS:
+            r["n_fluid"] = 0                        # the duct row is structurally solid
+        else:
+            r["sum_rho_uy"] = 1e-6                  # recirculation inside a blind pocket
+    out = vf.transverse_conservation("blocked", recs, axial_mass_scale=10.0)
+    assert out["status"] == "NOT_APPLICABLE_BLOCKED_CONNECTION"
+    assert out["duct_planes_structurally_solid"] is True
+    assert out["port_pocket_diagnostics"]["interpretation"] == (
+        "BLIND_POCKET_RECIRCULATION_NOT_THROUGH_FLOW")
+    assert out["relative_imbalance"] is None
+
+
+def test_a_blocked_candidate_with_fluid_in_its_duct_planes_is_not_the_fixture_it_claims():
+    recs = _tv([0.0, 1e-4, 1e-4, 0.0])
+    out = vf.transverse_conservation("blocked", recs, axial_mass_scale=10.0)
+    assert out["pass"] is False
+
+
+def test_a_fixture_with_no_bridge_needs_no_transverse_record_at_all():
+    out = vf.transverse_conservation("reference_blocked", [], axial_mass_scale=10.0)
+    assert out["status"] == "NOT_APPLICABLE_NO_BRIDGE"
+    assert out["pass"] is None
+
+
+def test_a_driven_bridge_with_consistent_flux_passes_both_halves_of_the_hybrid_gate():
+    q = 0.5                                          # far above the frozen floor
+    out = vf.transverse_conservation("open", _tv([q, q * 1.0001, q * 0.9999, q]),
+                                     axial_mass_scale=10.0)
+    assert out["status"] == "EVALUATED_HYBRID"
+    assert out["relative_gate_applicable"] is True
+    assert out["pass"] is True
+
+
+def test_a_driven_bridge_with_one_inconsistent_plane_fails():
+    q = 0.5
+    out = vf.transverse_conservation("open", _tv([q, q, q * 0.5, q]), axial_mass_scale=10.0)
+    assert out["relative_gate_applicable"] is True
+    assert out["pass"] is False
+
+
+def test_below_the_frozen_floor_only_the_absolute_gate_decides():
+    """A physically small mean lateral flux must not be converted into a failure by a relative
+    statistic. Here the imbalance is comfortably inside the ABSOLUTE gate while the relative one
+    would read 10 % — which is exactly why the relative gate is not admitted below the floor."""
+    scale = 10.0
+    floor = vf.LATERAL_FLUX_FLOOR_FACTOR * vf.TOL_BRIDGE_LEAKAGE_REL * scale
+    mass = [0.05, 0.05, 0.045, 0.05]
+    out = vf.transverse_conservation("open", _tv(mass), axial_mass_scale=scale)
+    assert abs(sum(mass) / len(mass)) < floor
+    assert out["relative_gate_applicable"] is False
+    assert out["relative_imbalance"] is None
+    assert out["absolute_imbalance_normalised"] <= vf.TOL_BRIDGE_LEAKAGE_REL
+    assert out["pass"] is True
+    assert out["lateral_flux_floor"] == pytest.approx(floor)
+    # the relative statistic the floor suppresses would have failed
+    assert 0.005 / (sum(mass) / len(mass)) > vf.TOL_MASS_REL
+
+
+def test_a_zero_normalisation_scale_is_refused_rather_than_dividing_by_it():
+    with pytest.raises(ValueError):
+        vf.transverse_conservation("open", _tv([0.0] * 4), axial_mass_scale=0.0)
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_canonical_serialisation_rejects_every_non_finite_number(bad):
+    for payload in ({"x": bad}, {"a": [1.0, bad]}, {"a": {"b": {"c": bad}}}):
+        with pytest.raises(vf.NonFiniteValue):
+            vf.canonical_json(payload)
+        with pytest.raises(vf.NonFiniteValue):
+            vf.record_hash(payload)
+
+
+def test_a_finite_payload_round_trips_through_the_canonical_writer():
+    payload = {"b": 1.5, "a": [3.0, {"z": -2.25}], "s": "ok", "n": None, "t": True}
+    doc = json.loads(vf.canonical_json(payload))
+    assert doc == payload
+    assert vf.record_hash(payload) == vf.record_hash(json.loads(vf.canonical_json(payload)))
+
+
+def test_non_applicability_is_a_status_string_with_null_numerics_not_a_nan():
+    out = vf.transverse_conservation("reference_blocked", [], axial_mass_scale=10.0)
+    assert isinstance(out["status"], str) and out["relative_imbalance"] is None
+    vf.canonical_json(out)                            # must serialise without raising
+
+
+def _vel(mask, ux=0.0, uy=0.0, uz=0.0):
+    a = [np.zeros(mask.shape) for _ in range(3)]
+    for arr, v in zip(a, (ux, uy, uz)):
+        arr[~mask] = v
+    return a
+
+
+def test_every_velocity_component_contributes_to_the_measured_mach_number():
+    mask, _ = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=True)
+    base = vf.mach_record(*_vel(mask, ux=0.001), mask)["max_mach"]
+    for comp in ("ux", "uy", "uz"):
+        m = vf.mach_record(*_vel(mask, **{comp: 0.002}), mask)
+        assert m["max_mach"] > base, comp
+        assert m["components_used"] == ["ux", "uy", "uz"]
+
+
+def test_a_nonzero_uz_alone_can_determine_the_maximum_mach_number():
+    """Erratum PE-4: uz is NOT assumed to vanish from nominal symmetry, and the superseded
+    driver never even retained it."""
+    mask, _ = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=True)
+    ux, uy, uz = _vel(mask, ux=0.001, uy=0.001)
+    idx = tuple(int(v) for v in np.argwhere(~mask)[0])
+    uz[idx] = 0.02
+    m = vf.mach_record(ux, uy, uz, mask)
+    assert m["argmax_index"] == idx
+    assert m["uz_at_max"] == pytest.approx(0.02)
+    assert m["max_mach"] == pytest.approx(math.sqrt(3.0) * math.sqrt(0.001 ** 2 + 0.001 ** 2
+                                                                    + 0.02 ** 2))
+    assert m["pass"] is False
+
+
+def test_solid_nodes_are_excluded_from_the_mach_maximum():
+    """The kernel leaves g/2 in ux at solid nodes, so counting them would be wrong."""
+    mask, _ = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=True)
+    ux, uy, uz = _vel(mask, ux=0.001)
+    solid = tuple(int(v) for v in np.argwhere(mask)[0])
+    ux[solid] = 99.0
+    m = vf.mach_record(ux, uy, uz, mask)
+    assert m["argmax_index"] != solid
+    assert m["max_mach"] == pytest.approx(math.sqrt(3.0) * 0.001)
+    assert m["solid_nodes_excluded"] is True
+    assert m["n_fluid"] == int((~mask).sum())
+
+
+@pytest.mark.parametrize("missing", ["ux", "uy", "uz"])
+def test_the_mach_record_fails_closed_on_an_absent_component(missing):
+    mask, _ = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=True)
+    arrays = dict(zip(("ux", "uy", "uz"), _vel(mask, ux=0.001)))
+    arrays[missing] = None
+    with pytest.raises(ValueError):
+        vf.mach_record(arrays["ux"], arrays["uy"], arrays["uz"], mask)
+
+
+def test_the_mach_record_fails_closed_on_a_non_finite_fluid_value():
+    mask, _ = vf.build_fixture(vf.S_SMOKE, bridge={"w": 3, "kz": 2}, connected=True)
+    ux, uy, uz = _vel(mask, ux=0.001)
+    ux[tuple(int(v) for v in np.argwhere(~mask)[0])] = float("nan")
+    with pytest.raises(vf.NonFiniteValue):
+        vf.mach_record(ux, uy, uz, mask)
+
+
+def test_the_case_record_fails_closed_without_the_required_fields():
+    mask, meta, res = _synthetic()
+    for drop in ("rho", "uy", "uz"):
+        partial = {k: v for k, v in res.items() if k != drop}
+        with pytest.raises(ValueError):
+            drv.case_record(partial, mask, meta, 1e-6, stage="unit")
+    assert drv.REQUIRED_FIELDS == ("rho", "uy", "uz")
+
+
+def test_the_required_fields_are_all_exportable_without_any_solver_change():
+    from puckworks.models.brewer2026 import lb_reference
+    assert set(drv.REQUIRED_FIELDS) <= set(lb_reference.EXPORTABLE_FIELDS)
+
+
+def test_every_pre_freeze_forcing_ladder_is_complete_at_both_resolutions():
+    """Erratum PE-5: no quantity may inform admission, classification or selection before its own
+    forcing-invariance evidence exists."""
+    rows = vf.execution_matrix()["rows"]
+    want = {lv for lv in vf.FORCING_LEVELS}
+    families = {
+        "reference_blocked_ladder": lambda r: True,
+        "axial_coupon": lambda r: True,
+        "identical_path_control": lambda r: True,
+        "bridge_coupon": lambda r: True,
+        "candidate_blocked_mirror": lambda r: True,
+    }
+    for kind, keep in families.items():
+        sub = [r for r in rows if r["kind"] == kind and keep(r)]
+        assert sub, kind
+        for S in vf.SCIENTIFIC_RESOLUTIONS:
+            got = {r["forcing_level"] for r in sub if r["S"] == S}
+            assert got == want, (kind, S, got)
+
+
+def test_both_coupon_orientations_are_present_over_the_whole_ladder():
+    rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "axial_coupon"]
+    combos = {(r["S"], r["forcing_level"], r["coupon_level"], r["coupon_orientation"])
+              for r in rows}
+    assert len(combos) == len(rows) == 2 * 3 * 2 * 2
+    assert {c[3] for c in combos} == {"x", "y"}
+    assert all(r["coupon_orientation"] is not None for r in rows)
+
+
+def test_no_selection_bearing_quantity_is_first_validated_after_the_freeze():
+    rows = vf.execution_matrix()["rows"]
+    pre = {"P0", "P1a", "P1b", "P2a"}
+    for kind in ("identical_path_control", "bridge_coupon", "candidate_blocked_mirror",
+                 "axial_coupon", "reference_blocked_ladder", "continuation_audit"):
+        phases = {r["phase"] for r in rows if r["kind"] == kind}
+        assert phases & pre, kind
+    # the artifact and the contrast are measured before anything is selected
+    assert {r["phase"] for r in rows if r["kind"] == "candidate_blocked_mirror"} == {"P2a"}
+
+
+def test_every_matrix_row_carries_a_unique_case_id_and_a_complete_configuration():
+    rows = vf.execution_matrix()["rows"]
+    ids = [r["case_id"] for r in rows]
+    assert len(set(ids)) == len(ids)
+    required = ("phase", "kind", "S", "forcing_level", "forcing", "tau_plus", "state",
+                "variant", "backend", "record_schema", "class")
+    for r in rows:
+        for k in required:
+            assert r[k] is not None, (r["case_id"], k)
+        assert r["record_schema"] in vf.RECORD_SCHEMAS
+        assert r["backend"] in vf.SUPPORTED_BACKENDS
+
+
+def test_no_two_matrix_rows_are_canonically_identical_once_the_case_id_is_removed():
+    rows = vf.execution_matrix()["rows"]
+    canon = [json.dumps({k: v for k, v in sorted(r.items()) if k != "case_id"},
+                        sort_keys=True, default=str) for r in rows]
+    assert len(set(canon)) == len(canon)
+
+
+def test_every_conditional_row_declares_a_prerequisite():
+    for r in vf.execution_matrix()["rows"]:
+        if r["class"].startswith("conditional") or r["phase"] != "P0":
+            assert r["prerequisite"], r["case_id"]
+
+
+def test_every_row_resolves_to_exactly_one_fixture_and_solver_configuration():
+    for r in vf.execution_matrix()["rows"]:
+        if r["kind"] in ("axial_coupon", "bridge_coupon"):
+            continue
+        if not isinstance(r["bridge"], dict):
+            continue
+        mask, _ = vf.build_fixture(r["S"], bridge=r["bridge"],
+                                   connected=(r["state"] == "open"),
+                                   variant=r["variant"] if r["variant"] in ("mirror",
+                                                                            "identical")
+                                   else "mirror",
+                                   swapped=bool(r["swapped"]),
+                                   perturbation=r["perturbation"])
+        assert mask is not None
+        assert r["forcing"] == vf.forcing_ladder(r["S"])[r["forcing_level"]]
+
+
+def test_the_tau_cross_check_is_scheduled_rather_than_merely_asserted():
+    rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "tau_cross_check"]
+    assert len(rows) == len(vf.SCIENTIFIC_RESOLUTIONS)
+    assert all(r["tau_plus"] == vf.TAU_CROSS_CHECK for r in rows)
+    assert {r["S"] for r in rows} == set(vf.SCIENTIFIC_RESOLUTIONS)
+
+
+def test_the_p3_p4_matrix_is_instantiated_only_after_selection_is_known():
+    m = vf.execution_matrix()
+    assert m["post_freeze_rows_are_templates"] is True
+    tpl = [r for r in m["rows"] if r["phase"] in ("P3", "P4")]
+    assert tpl and all(isinstance(r["bridge"], str) and r["bridge"].startswith("frozen_slot_")
+                       for r in tpl)
+    sel = [{"w": w, "kz": k} for w, k in ((3, 2), (3, 3), (5, 2), (5, 3), (9, 4))]
+    inst = vf.instantiate_post_freeze_matrix(sel)
+    assert len(inst) == len(tpl)
+    assert all(isinstance(r["bridge"], dict) for r in inst)
+    assert len({r["case_id"] for r in inst}) == len(inst)
+    assert all(r["bridge_slot"].startswith("frozen_slot_") for r in inst)
+
+
+def test_the_artifact_gate_is_an_upper_bound_not_a_point_estimate():
+    """Erratum PE-6: a 5e-4 point estimate with a 1e-3 uncertainty must FAIL."""
+    ok = vf.artifact_metrics(1.0, 1.0, 1.0 + 5e-4, numerical_uncertainty=1e-4)
+    assert ok["within_budget"] is True and ok["artifact_upper_bound"] == pytest.approx(6e-4)
+    bad = vf.artifact_metrics(1.0, 1.0, 1.0 + 5e-4, numerical_uncertainty=1e-3)
+    assert bad["pressure_normalised_R_change"] == pytest.approx(5e-4)
+    assert bad["pressure_normalised_R_change"] < vf.ARTIFACT_BUDGET_R_ABS
+    assert bad["within_budget"] is False        # the POINT estimate alone would have passed
+
+
+def test_a_negative_signed_artifact_is_bounded_by_its_absolute_magnitude():
+    neg = vf.artifact_metrics(1.0, 1.0, 1.0 - 9e-4, numerical_uncertainty=2e-4)
+    assert neg["pressure_normalised_R_change"] < 0
+    assert neg["artifact_upper_bound"] == pytest.approx(9e-4 + 2e-4)
+    assert neg["within_budget"] is False
+
+
+@pytest.mark.parametrize("u", [float("nan"), float("inf"), -1e-6, None])
+def test_a_missing_or_non_finite_uncertainty_fails_closed(u):
+    with pytest.raises(ValueError):
+        vf.artifact_metrics(1.0, 1.0, 1.0004, numerical_uncertainty=u)
+
+
+def test_the_numerical_discrepancy_method_reports_every_term_separately():
+    d = vf.numerical_discrepancy_R(R=1.001, C_open=25.5, C_blocked=25.47,
+                                   C_open_continued=25.5051, C_blocked_continued=25.4725,
+                                   R_node_offsets=[1.0012, 1.0009])
+    for k in ("u_continuation_open_rel", "u_continuation_blocked_rel", "u_continuation_R_abs",
+              "u_node_offset_R_abs", "u_serialisation_R_abs", "safety_factor", "u_R_abs"):
+        assert k in d and math.isfinite(d[k])
+    assert d["kind"].endswith("NOT_A_RIGOROUS_ERROR_BOUND")
+    assert d["u_R_abs"] == pytest.approx(
+        d["safety_factor"] * (d["u_continuation_R_abs"] + d["u_node_offset_R_abs"]
+                              + d["u_serialisation_R_abs"]))
+
+
+def test_the_candidate_contrast_bound_is_measured_not_an_asserted_allowance():
+    """Erratum PE-7: the fixed 5 % allowance is gone."""
+    assert not hasattr(vf, "C_FIELD_GATE_ALLOWANCE")
+    b = vf.candidate_c_bounds([0.320, 0.318, 0.324, 0.322], resolution_tolerance=0.02,
+                              numerical_rel=1e-3, surface_rel=2e-3)
+    assert b["c_lower"] < min(b["c_measurements"]) <= max(b["c_measurements"]) < b["c_upper"]
+    assert b["u_rel_total"] == pytest.approx(0.02 + 1e-3 + 2e-3)
+    assert "no open mirror" in b["source"]
+    with pytest.raises(ValueError):
+        vf.candidate_c_bounds([], resolution_tolerance=0.02, numerical_rel=0.0)
+
+
+def test_a_wider_contrast_interval_admits_less():
+    tight = vf.reachable_set_admission(0.320, 0.324, 1.0, 1e-3)
+    wide = vf.reachable_set_admission(0.300, 0.344, 1.0, 1e-3)
+    assert wide["headroom"] < tight["headroom"]
+    assert wide["max_admissible_Xi"] < tight["max_admissible_Xi"]
+
+
+def test_the_admission_terms_are_kept_separate_so_none_is_counted_twice():
+    a = vf.reachable_set_admission(0.31, 0.33, 1.0, artifact_upper=1e-3,
+                                   other_numerical_upper=0.0)
+    assert a["other_nonoverlapping_numerical_upper"] == 0.0
+    assert "artifact_upper already contains u_R" in a["double_counting_prohibited"]
+    b = vf.reachable_set_admission(0.31, 0.33, 1.0, artifact_upper=1e-3,
+                                   other_numerical_upper=1e-3)
+    assert b["lhs"] == pytest.approx(a["lhs"] + 1e-3)
+
+
+def test_both_bridge_width_and_depth_enter_the_resolution_tolerance():
+    """Erratum PE-8: w is SMALLER than kz over part of the family, so a kz-only model could omit
+    the smallest feature governing the bridge entirely."""
+    base = vf.resolution_consistency_tolerance("Xi_field", {"w": 5, "kz": 3})
+    assert vf.resolution_consistency_tolerance("Xi_field", {"w": 3, "kz": 3}) != base
+    assert vf.resolution_consistency_tolerance("Xi_field", {"w": 5, "kz": 2}) != base
+    feats = vf.RESOLUTION_GOVERNING_FEATURES["Xi_field"]
+    for f in ("bridge_w", "bridge_kz", "port_depth", "duct_traverse", "h_low", "h_high"):
+        assert f in feats
+    # w = 3 with kz = 4 is governed by w, which the superseded kz-only model would have missed
+    assert vf._feature_base_size("bridge_w", {"w": 3, "kz": 4}) < vf._feature_base_size(
+        "bridge_kz", {"w": 3, "kz": 4})
+
+
+def test_open_and_blocked_quantities_have_different_resolution_tolerances():
+    b = {"w": 5, "kz": 3}
+    assert (vf.resolution_consistency_tolerance("R_open", b)
+            > vf.resolution_consistency_tolerance("R_blocked"))
+    assert (vf.resolution_consistency_tolerance("s_open", b)
+            > vf.resolution_consistency_tolerance("s_blocked"))
+    tbl = vf.resolution_consistency_table(b)
+    assert tbl["R_blocked"]["family"] == "lane_only"
+    assert tbl["R_open"]["family"] == "bridge_carrying"
+
+
+def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
+    """Erratum PE-12: Fraction(2.0e-6) is the exact rational of an already-rounded float."""
+    from fractions import Fraction
+    assert vf.G_REF_EXACT == Fraction(1, 500_000) == Fraction("0.000002")
+    assert vf.G_REF == float(vf.G_REF_EXACT)
+    assert vf.G_REF_EXACT != Fraction(vf.G_REF)          # the two are genuinely different
+    src = inspect.getsource(vf.forcing_ladder) + inspect.getsource(vf.forcing_central)
+    assert "Fraction(G_REF)" not in src and "Fraction(forcing_central" not in src
+
+
+def test_the_correction_version_is_stamped_on_every_generated_artifact():
+    for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
+               vf.preflight_status):
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C1"
+    st = vf.preflight_status()
+    assert st["superseded_review"]["reviewed_head"] == (
+        "bbf2304665d09cb78c117353947ce8c6cf2e5d24")
+    assert st["superseded_review"]["disposition"].endswith("CORRECTION_REQUIRED")
+    assert len(st["superseded_review"]["superseded_artifact_sha256"]) == 4
+
+
+def test_the_errata_record_exists_and_names_every_corrected_blocker():
+    txt = (REPO / vf.ERRATA_PATH).read_text()
+    for pe in ["PE-%d" % i for i in range(0, 13)]:
+        assert pe in txt, pe
+    assert "ACCEPTED" in txt and "common-mode-port apparatus" in txt
+    assert "047d55f4dcd222b79f20f3d08e04b8de0dd13e7ddb8438cb74bf35ee6461cbe7" in txt
 
 
 # ==========================================================================================
