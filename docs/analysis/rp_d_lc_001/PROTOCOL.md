@@ -402,9 +402,20 @@ bound should lengthen the plenum so the probe can sit far from both node surface
 forced a smaller obstruction sample, the claim would have been restricted to the tested cases
 rather than asserted across the aperture family; `arm_j.coverage` records what was actually run.
 
-## E2 — the linearity control was also mis-specified, and it also FAILED as written
+## E2 — the frozen exact-linearity criterion FAILED, revealing a finite-Reynolds dependence
 
-**Same root cause as E1: a tolerance placed on the conductance `C` rather than on the ratio `R`.**
+**E2 is NOT the same mistake as E1, and must not be described as one.** E1 asks whether an
+*external nuisance feature* (the common return plenum) changes the two observables the inverse
+consumes — and there, `R` and `s` are the correct quantities, because common-mode cancellation
+between the open and blocked runs is precisely what is being tested. E2 asks a different question:
+
+> Is the simulation close enough to the linear creeping-flow regime that its **internal** pressure
+> and flux fields can be used as independent truth?
+
+**For E2, cancellation in `R` is not sufficient and may never stand in for the test.** The open and
+blocked runs can acquire nearly identical finite-Reynolds errors, leaving `R` untouched while
+biasing the four axial conductances, the bridge conductance, `c_field` and `Ξ_field` — every one of
+which is built from `Q`, `ΔP`, `q_lat` and `(p1 − p2)` **individually**, never from their ratio.
 
 §9 froze *"conductance spread across ×0.5 / ×1 / ×2 forcing ≤ `TOL_LINEARITY_REL` (1e-4)"*.
 Measured:
@@ -419,15 +430,55 @@ inertial correction at `Re ~ 1e-2`. Exact Stokes linearity is an idealisation th
 lattice-Boltzmann equation does not satisfy at finite forcing; the flow is nonetheless deeply
 creeping (Mach ≤ 3.5e-3, four orders below any compressibility concern).
 
-**What the decision needs is linearity of `R`,** which is formed from an open and a blocked run at
-the *same* `g`, so a common-mode O(Re) drift cancels. Arm A did not measure that, because the
-frozen control asked the wrong question. **Added before the primary arm ran** (the aperture freeze
-was already committed, and this reuses a frozen aperture and invents nothing): `linearity_R` cases
-at ×0.5 and ×2 for the middle frozen aperture at both resolutions, so `R` is available at three
-forcings. `result.json` records `R_spread_by_resolution` (the decision gate),
-`conductance_spread_by_resolution`, and `frozen_C_linearity_control` with its failing verdict.
+**Three separate records replace the single failed control**, and none may substitute for another:
 
-**Both E1 and E2 are the same mistake made twice**, and that is worth stating plainly: the frozen
-controls were written against `C` when every scientific claim in this tranche is about `R`. The
-corrections move the gate onto `R` in both cases and preserve the original verdicts in the record.
-A reviewer who regards either move as post-hoc has both numbers and can re-decide.
+| record | asks | status |
+|---|---|---|
+| `frozen_C_linearity_control` | the historical frozen requirement | **FAIL**, preserved verbatim (S=2 2.6e-4, S=3 3.9e-4), never relabelled |
+| `componentwise_creeping_flow_control` | can the **internal fields** serve as truth? | **load-bearing** — decides execution validity |
+| `boundary_inference_forcing_stability` | are `R`, `s`, `ĉ`, `Ξ̂` stable under forcing? | reported and required, but does **not** validate the field truth |
+
+**The componentwise check.** For the same ×0.5 / ×1 / ×2 forcing cases, at **both** `S = 2` and
+`S = 3`, every quantity that Stokes flow requires to be exactly proportional to the forcing is
+divided by `g` and its relative spread taken:
+
+```
+Q_open/g   Q_blocked/g   ΔP_open/g   ΔP_blocked/g   q_lat/g   (p1 − p2)/g
+```
+
+against the protocol's **componentwise `1e-4`** — *not* the observed conductance drift, and *not*
+Arm J's `1e-3` return-path bound. It also reports, without fitting or correction, the forcing
+dependence of `R`, `s`, `c_field`, `Ξ_field`, `ĉ`, `Ξ̂`, the inverse status, the sign of `s − ½`,
+window membership, factor-of-two membership and the final classification.
+
+No extra LB runs were needed: the `linearity_R` cases are full open-and-blocked `_run_case`
+executions whose compact rows already carry `Q`, `Q0`, `ΔP`, `ΔP0`, the complete field truth and
+the boundary inference, so the componentwise result is derived at assembly from data already
+computed. They were added **before** the primary arm ran, reusing a frozen aperture and inventing
+nothing.
+
+**Decision consequences, stated in advance:**
+
+- components pass, the dimensionless truth and inference stay classification-stable, and
+  Mach/conservation pass → the small `C` drift is a **bounded derived-ratio finite-Re residual**
+  and execution remains valid;
+- **components fail the declared tolerance → a stable `R` cannot rescue the execution;
+  `INVALID_EXECUTION`**;
+- components pass but `Ξ_field`, `Ξ̂`, the inverse status or the classification moves materially
+  with forcing → also **invalid** for quantitative cross-model recovery.
+
+`low_mach_linearity` is now scoped to the **Mach regime only** and can no longer be marked green
+from `R` and Mach alone; `tests/test_rp_d_lc_virtual_fixture.py` asserts that a failed componentwise
+control forces `INVALID_EXECUTION` even when every boundary observable is stable, and that the
+preserved `frozen_C_linearity_control` failure does **not** by itself invalidate execution.
+
+## E3 — coarse-graining surface stability is its own control
+
+Recorded separately from `topology` rather than inside it. **Topology** answers whether the intended
+fluid connections exist; **`coarse_graining_surface_stability`** answers whether the spatially
+resolved solution can defensibly be reduced to the proposed two-node representation. Both roll up
+into clause 1, but keeping them apart makes a failure interpretable.
+
+Offset 0 remains the primary frozen surface pair; all frozen offsets are reported; no better-looking
+offset is ever selected; and any change in window membership, factor-of-two status or the final
+classification across the offsets **fails the control**.

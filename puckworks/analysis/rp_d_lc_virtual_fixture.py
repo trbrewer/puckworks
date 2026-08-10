@@ -673,12 +673,24 @@ def decide(runs):
     cl = []
     ctrl = runs["controls"]
 
-    valid = all(ctrl[k]["pass"] for k in ("convergence", "low_mach_linearity", "mass_conservation",
-                                          "topology", "plane_invariance", "grid_refinement"))
+    # Execution validity. `frozen_C_linearity_control` is deliberately ABSENT from the required
+    # set and present in the reported set: it is a preserved historical failure, and the question
+    # it was meant to answer is now answered by `componentwise_creeping_flow_control` (can the
+    # INTERNAL fields serve as truth?) and `boundary_inference_forcing_stability` (are the
+    # BOUNDARY observables stable?). A stable R may never stand in for the componentwise test.
+    REQUIRED = ("convergence", "low_mach_linearity", "componentwise_creeping_flow_control",
+                "boundary_inference_forcing_stability", "mass_conservation", "topology",
+                "coarse_graining_surface_stability", "plane_invariance", "grid_refinement")
+    REPORTED = REQUIRED + ("frozen_C_linearity_control", "backend_cross_check")
+    valid = all(ctrl[k]["pass"] for k in REQUIRED)
     cl.append(_clause("1_execution_valid", valid,
-                      {k: ctrl[k]["pass"] for k in
-                       ("convergence", "low_mach_linearity", "mass_conservation", "topology",
-                        "plane_invariance", "grid_refinement", "backend_cross_check")}))
+                      {"required": {k: ctrl[k]["pass"] for k in REQUIRED},
+                       "reported_not_required": {
+                           k: ctrl[k]["pass"] for k in REPORTED if k not in REQUIRED},
+                       "note": ("componentwise_creeping_flow_control is load-bearing: if the "
+                                "internal components are not proportional to the forcing within "
+                                "1e-4, a stable R cannot rescue the execution and the disposition "
+                                "is INVALID_EXECUTION.")}))
 
     primary = [r for r in runs["cases"]
                if r["role"] == "primary" and r["S"] == max(SCIENTIFIC_RESOLUTIONS)]

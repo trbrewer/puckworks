@@ -311,8 +311,10 @@ def _synthetic_runs(xi_hat_factor=1.0, n_window=3, monotone=True, swap_ok=True, 
     return {
         "cases": cases, "path_swap": swaps,
         "controls": {k: dict(ok) for k in
-                     ("convergence", "low_mach_linearity", "mass_conservation", "topology",
-                      "plane_invariance", "grid_refinement", "backend_cross_check")},
+                     ("convergence", "low_mach_linearity", "componentwise_creeping_flow_control",
+                      "boundary_inference_forcing_stability", "mass_conservation", "topology",
+                      "coarse_graining_surface_stability", "plane_invariance", "grid_refinement",
+                      "frozen_C_linearity_control", "backend_cross_check")},
         "mechanism": {"bridge_flux_consistent": True, "R_direction_consistent": True},
         "grid_refinement": {"classification_by_resolution":
                             {str(S): "factor_two_recovered" for S in vf.SCIENTIFIC_RESOLUTIONS}},
@@ -327,6 +329,34 @@ def test_decision_returns_recovery_when_every_clause_passes():
 
 def test_invalid_execution_dominates_every_other_outcome():
     d, _ = vf.decide(_synthetic_runs(valid=False))
+    assert d == "INVALID_EXECUTION"
+
+
+def test_a_stable_R_cannot_rescue_a_failed_componentwise_creeping_flow_check():
+    """E2's load-bearing property: boundary-observable stability may NOT substitute for the
+    internal components being proportional to the forcing."""
+    runs = _synthetic_runs()
+    runs["controls"]["componentwise_creeping_flow_control"] = {"pass": False}
+    runs["controls"]["boundary_inference_forcing_stability"] = {"pass": True}
+    d, cl = vf.decide(runs)
+    assert d == "INVALID_EXECUTION"
+    assert not cl[0]["pass"]
+
+
+def test_the_preserved_frozen_C_failure_does_not_by_itself_invalidate_execution():
+    """The historical frozen control is REPORTED, never required — it is superseded in role, not
+    relabelled as passed."""
+    runs = _synthetic_runs()
+    runs["controls"]["frozen_C_linearity_control"] = {"pass": False}
+    d, cl = vf.decide(runs)
+    assert d == "CROSS_MODEL_RECOVERY"
+    assert cl[0]["detail"]["reported_not_required"]["frozen_C_linearity_control"] is False
+
+
+def test_unstable_coarse_graining_surfaces_invalidate_execution():
+    runs = _synthetic_runs()
+    runs["controls"]["coarse_graining_surface_stability"] = {"pass": False}
+    d, _ = vf.decide(runs)
     assert d == "INVALID_EXECUTION"
 
 

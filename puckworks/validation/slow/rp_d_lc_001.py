@@ -1039,29 +1039,50 @@ def assemble(out_dir):
             "forced_step_audit": a["convergence_audit"],
             "audit_factor": vf.CONVERGENCE_AUDIT_FACTOR,
             "audit_tol_rel": vf.TOL_CONVERGENCE_REL},
+        # --- E2 is split into THREE records that are never allowed to substitute for one
+        # another. R-stability certifies the boundary observables; it does NOT certify the
+        # internal field truth, which is built from Q, dP, q_lat and (p1-p2) individually.
         "low_mach_linearity": {
-            "pass": bool(lin_ok and mach_ok),
+            # Mach REGIME only. This control can no longer be marked green from R + Mach.
+            "pass": bool(mach_ok),
             "max_mach": max(r["mach"] for r in a["linearity"]),
-            "tol_mach": vf.TOL_MACH, "tol_linearity_rel": vf.TOL_LINEARITY_REL,
-            "R_spread_by_resolution": lin_R,
-            "conductance_spread_by_resolution": lin_C,
-            "frozen_C_linearity_control": {
-                "pass": lin_C_ok,
-                "note": ("MIS-SPECIFIED AND FAILED AS WRITTEN — recorded, not hidden. The frozen "
-                         "tolerance was placed on the CONDUCTANCE C across x0.5/x1/x2 forcing. "
-                         "The measured drift is a genuine O(Re) inertial correction (Re ~ 1e-2), "
-                         "not a defect: C rises monotonically and near-linearly with g. The "
-                         "tranche's observable is the RATIO R, formed from an open and a blocked "
-                         "run at the SAME g, in which that common-mode drift cancels; the "
-                         "decision therefore uses R_spread_by_resolution. See PROTOCOL.md "
-                         "erratum E2.")},
+            "tol_mach": vf.TOL_MACH,
+            "scope": ("Mach/compressibility regime ONLY. Linearity adequacy is decided by "
+                      "componentwise_creeping_flow_control; boundary-observable stability by "
+                      "boundary_inference_forcing_stability."),
         },
+        "frozen_C_linearity_control": {
+            "pass": lin_C_ok,
+            "verdict": "FAIL" if not lin_C_ok else "PASS",
+            "conductance_spread_by_resolution": lin_C,
+            "tol_linearity_rel": vf.TOL_LINEARITY_REL,
+            "note": ("HISTORICAL FROZEN REQUIREMENT, PRESERVED — not relabelled. The frozen "
+                     "exact-linearity criterion FAILED, revealing a small finite-Reynolds-number "
+                     "dependence of the absolute conductance (Re ~ 1e-2). That is NOT the same "
+                     "kind of defect as E1: here the failure is informative about the REGIME, and "
+                     "whether the dependence is bounded enough for the internal field quantities "
+                     "to serve as numerical truth is decided separately by "
+                     "componentwise_creeping_flow_control. See PROTOCOL.md erratum E2."),
+        },
+        "componentwise_creeping_flow_control": _componentwise_creeping_flow(
+            c, c["aperture_freeze"]["selected"][len(c["aperture_freeze"]["selected"]) // 2]),
+        "boundary_inference_forcing_stability": {
+            **_inference_forcing_stability(
+                c, c["aperture_freeze"]["selected"][len(c["aperture_freeze"]["selected"]) // 2]),
+            "R_spread_by_resolution": lin_R,
+            "scope": ("Confirms R, s, c_hat and Xi_hat are stable under forcing. Does NOT by "
+                      "itself validate the field truth."),
+        },
+        "coarse_graining_surface_stability": _node_sensitivity_summary(j),
         "mass_conservation": {"pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
                               "worst_plane_ptp_rel": max(
                                   [r["plane_ptp_rel"] for r in a["mass_conservation"]]
                                   + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]])},
         "topology": {
-            "pass": bool(topo_ok and ret_ok and _node_sensitivity_summary(j)["pass"]),
+            # Topology answers whether the intended fluid connections exist. Whether the
+            # resolved solution can be reduced to the proposed two-node representation is a
+            # SEPARATE control, coarse_graining_surface_stability; both roll up into clause 1.
+            "pass": bool(topo_ok and ret_ok),
             "masks_and_connectivity": topo_ok,
             "return_path_common_mode_bound_holds": ret_ok,
             "route_a_isolation_gate": {
@@ -1079,7 +1100,6 @@ def assemble(out_dir):
                     "planes. Its effects on the open and blocked conductances are strongly "
                     "common-mode, so the pressure-normalised ratio R is insensitive to the tested "
                     "return-path perturbation to bounded numerical accuracy.")},
-            "node_surface_sensitivity": _node_sensitivity_summary(j),
             "return_path_R_probe_smoke": ret_R,
             "frozen_C_invariance_control": {
                 "pass": ret_ok_frozen,
@@ -1214,6 +1234,108 @@ def _tau_independence(a):
             "for the ASSEMBLED 3D fixture, which is the claim that licenses running the tranche "
             "at tau_plus = 2.0 for time-step economy."),
     }
+
+
+def _forcing_rows(c, ap_mid, S):
+    rows = [r for r in c["cases"] if r["S"] == S and r["aperture"] == ap_mid
+            and r["role"] in ("primary", "linearity_R")]
+    return sorted(rows, key=lambda r: r["g"])
+
+
+def _reduced_spread(vals):
+    """Relative spread of a quantity that must be EXACTLY proportional to the forcing."""
+    a = [abs(v) for v in vals if v is not None and np.isfinite(v)]
+    if len(a) < 2 or min(a) == 0.0:
+        return float("nan")
+    return max(a) / min(a) - 1.0
+
+
+def _componentwise_creeping_flow(c, ap_mid):
+    """E2 — is the simulation close enough to LINEAR creeping flow that its INTERNAL pressure and
+    flux fields can serve as independent truth?
+
+    Stability of the derived ratio R is NOT sufficient and must never stand in for this. Open and
+    blocked runs can acquire nearly identical finite-Reynolds-number errors, leaving R unchanged
+    while biasing the four axial conductances, the bridge conductance, c_field and Xi_field — all
+    of which are built from Q, dP, q_lat and (p1 - p2) INDIVIDUALLY, not from their ratio.
+
+    Every component below must be exactly proportional to the forcing in Stokes flow, so each is
+    divided by g and its relative spread across x0.5 / x1 / x2 is taken against the protocol's
+    componentwise tolerance (1e-4) — NOT the observed conductance drift, and NOT Arm J's 1e-3
+    return-path bound.
+    """
+    comps = (("Q", "boundary"), ("Q0", "boundary"), ("dP", "boundary"), ("dP0", "boundary"),
+             ("q_lat", "truth"), ("p_face_gap_open", "truth"))
+    out = {"tol_rel": vf.TOL_LINEARITY_REL, "aperture": ap_mid, "by_resolution": {},
+           "components": [k for k, _ in comps],
+           "why": ("the internal field truth is built from these components individually; a "
+                   "stable R does not certify any of them")}
+    ok = True
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        rows = _forcing_rows(c, ap_mid, S)
+        rec = {"n_forcings": len(rows), "g_values": [r["g"] for r in rows], "reduced_spread": {}}
+        for key, src in comps:
+            sp = _reduced_spread([r[src][key] / r["g"] for r in rows])
+            rec["reduced_spread"][key] = sp
+            if not (np.isfinite(sp) and sp <= vf.TOL_LINEARITY_REL):
+                ok = False
+        rec["worst"] = max((v for v in rec["reduced_spread"].values() if np.isfinite(v)),
+                           default=float("nan"))
+        rec["pass"] = bool(np.isfinite(rec["worst"]) and rec["worst"] <= vf.TOL_LINEARITY_REL
+                           and len(rows) >= 3)
+        if len(rows) < 3:
+            ok = False
+        out["by_resolution"][str(S)] = rec
+    out["pass"] = bool(ok)
+    return out
+
+
+def _inference_forcing_stability(c, ap_mid):
+    """Confirms R, s, c_field, Xi_field, c_hat and Xi_hat are stable under forcing, and that the
+    inverse status, sign of s - 1/2, window membership, factor-of-two membership and the resulting
+    classification do not move. This does NOT by itself validate the field truth — that is the
+    componentwise control's job — and it is reported without any fitting or correction."""
+    out = {"aperture": ap_mid, "tol_rel": vf.TOL_LINEARITY_REL, "by_resolution": {}}
+    ok = True
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        rows = _forcing_rows(c, ap_mid, S)
+        if len(rows) < 3:
+            out["by_resolution"][str(S)] = {"pass": False, "n_forcings": len(rows)}
+            ok = False
+            continue
+
+        def series(src, key):
+            return [r[src][key] for r in rows]
+
+        xi_f = series("truth", "Xi_field")
+        xi_h = series("inference", "Xi_hat")
+        win = [bool(np.isfinite(x) and vf.XI_WINDOW_LO <= x <= vf.XI_WINDOW_HI) for x in xi_f]
+        f2 = [bool(h and np.isfinite(x) and 0.5 <= h / x <= 2.0) for h, x in zip(xi_h, xi_f)]
+        rec = {
+            "n_forcings": len(rows), "g_values": [r["g"] for r in rows],
+            "R": series("boundary", "R"), "s": series("boundary", "s"),
+            "c_field": series("truth", "c_field"), "Xi_field": xi_f,
+            "c_hat": series("inference", "c_hat"), "Xi_hat": xi_h,
+            "inverse_status": series("inference", "status"),
+            "R_rel_spread": _reduced_spread(series("boundary", "R")),
+            "s_abs_spread": max(series("boundary", "s")) - min(series("boundary", "s")),
+            "c_field_abs_spread": max(series("truth", "c_field")) - min(series("truth", "c_field")),
+            "Xi_field_rel_spread": _reduced_spread(xi_f),
+            "Xi_hat_rel_spread": _reduced_spread(xi_h),
+            "sign_s_minus_half": sorted({int(np.sign(v - 0.5)) for v in series("boundary", "s")}),
+            "window_membership": win, "factor_two_membership": f2,
+        }
+        rec["status_constant"] = len(set(rec["inverse_status"])) == 1
+        rec["sign_constant"] = len(rec["sign_s_minus_half"]) == 1
+        rec["classification_constant"] = len(set(win)) == 1 and len(set(f2)) == 1
+        rec["pass"] = bool(
+            rec["status_constant"] and rec["sign_constant"] and rec["classification_constant"]
+            and np.isfinite(rec["Xi_field_rel_spread"])
+            and np.isfinite(rec["Xi_hat_rel_spread"]))
+        ok = ok and rec["pass"]
+        out["by_resolution"][str(S)] = rec
+    out["pass"] = bool(ok)
+    return out
 
 
 def _node_sensitivity_summary(j):
