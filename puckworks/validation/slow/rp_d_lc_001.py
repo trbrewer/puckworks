@@ -963,7 +963,12 @@ def assemble(out_dir):
     a = json.loads((out_dir / "arm_a.json").read_text())
     b = json.loads((out_dir / "arm_b.json").read_text())
     c = json.loads((out_dir / "arm_cdefghi.json").read_text())
-    j = json.loads((out_dir / "arm_j.json").read_text())
+    jp = out_dir / "arm_j.json"
+    # Arm J may be DELIBERATELY NOT RUN when execution validity has already failed on a control
+    # its 24 solves cannot repair (e.g. the componentwise creeping-flow control). In that case its
+    # controls are recorded NOT_EVALUATED and FAIL-closed — never silently treated as passed, and
+    # never omitted so that a missing control reads as an absent objection.
+    j = json.loads(jp.read_text()) if jp.exists() else None
 
     conv_ok = all(r["boundary"]["converged"] and r["boundary"]["converged_blocked"]
                   for r in c["cases"]) and all(r["converged"] for r in c["blocked"])
@@ -1016,7 +1021,7 @@ def assemble(out_dir):
     # obstruction at both scientific resolutions for the blocked fixture and every frozen
     # aperture, against the predeclared 0.1 % bound on R and 5e-4 on the outlet share.
     ret_R["superseded_as_gate_by"] = "arm_j.gate"
-    gate_rows = j["gate"]
+    gate_rows = j["gate"] if j else []
     ret_ok = bool(gate_rows) and all(r["pass"] for r in gate_rows)
 
     prim = [r for r in c["cases"] if r["role"] == "primary"]
@@ -1089,11 +1094,20 @@ def assemble(out_dir):
                 "pass": ret_ok,
                 "tol_R_rel": vf.TOL_RETURN_PATH_R_REL,
                 "tol_s_abs": vf.TOL_RETURN_PATH_S_ABS,
-                "worst_R_rel_change": max(abs(r["R_rel_change"]) for r in gate_rows),
-                "worst_s_abs_change": max(abs(r["s_abs_change"]) for r in gate_rows),
-                "all_signs_preserved": all(r["sign_preserved"] for r in gate_rows),
+                "status": "EVALUATED" if j else "NOT_EVALUATED",
+                "not_evaluated_because": None if j else "NOT_RUN_UPSTREAM_EXECUTION_INVALID",
+                "worst_R_rel_change": max((abs(r["R_rel_change"]) for r in gate_rows),
+                                          default=None),
+                "worst_s_abs_change": max((abs(r["s_abs_change"]) for r in gate_rows),
+                                          default=None),
+                "all_signs_preserved": all(r["sign_preserved"] for r in gate_rows)
+                if gate_rows else None,
                 "rows": gate_rows,
-                "coverage": j["coverage"],
+                "coverage": j["coverage"] if j else {
+                    "note": ("Arm J was deliberately NOT RUN: execution validity had already "
+                             "failed on a control its 24 solves cannot repair. Recorded as "
+                             "NOT_EVALUATED and fail-closed, so the Route-A isolation bound is "
+                             "NOT claimed by this execution.")},
                 "statement": (
                     "The return path does NOT cancel exactly at the level of either absolute "
                     "conductance, because it influences the entrance region near the measurement "
@@ -1188,7 +1202,15 @@ def assemble(out_dir):
         "controls": controls,
         "mechanism": mech,
         "arm_a": a,
-        "arm_j": j,
+        "arm_j": j if j else {
+            "status": "NOT_RUN_UPSTREAM_EXECUTION_INVALID",
+            "gate": "NOT_EVALUATED",
+            "node_surface_sensitivity": "NOT_EVALUATED",
+            "causal_sequence": [
+                "forcing-independence of the internal field truth FAILED",
+                "execution validity therefore FAILED",
+                "the costly downstream nuisance-isolation arm was no longer scientifically necessary"],
+        },
     }
     dest = REPO_ROOT / vf.RUNS_REL / "run_record.json"
     _dump(dest, rec)
@@ -1339,6 +1361,15 @@ def _inference_forcing_stability(c, ap_mid):
 
 
 def _node_sensitivity_summary(j):
+    if j is None:
+        return {"pass": False, "status": "NOT_EVALUATED",
+                "not_evaluated_because": "NOT_RUN_UPSTREAM_EXECUTION_INVALID",
+                "reason": ("Arm J was not run because execution validity had already failed "
+                           "upstream on a control its solves cannot repair. NOT_EVALUATED is "
+                           "neither a pass nor a failure OF THIS CONTROL; it is fail-closed so an "
+                           "unevaluated control can never read as passed, and the disposition is "
+                           "driven by the failed upstream control."),
+                "classification_stable_under_node_offset": None}
     """Moving the frozen node surfaces is LOAD-BEARING, not decorative: the return-path result
     shows the nominal ports are not perfect equipotentials, so the two-node reduction is only
     defensible if the decision quantities and the CLASSIFICATION survive a frozen surface shift.

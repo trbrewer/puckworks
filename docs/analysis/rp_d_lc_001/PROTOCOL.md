@@ -425,10 +425,14 @@ Measured:
 | S = 2 | 25.421442 | 25.423644 | 25.428050 | **2.60e-4** | 1.56e-3 |
 | S = 3 | 85.042742 | 85.053904 | 85.076218 | **3.94e-4** | 3.51e-3 |
 
-**This is physics, not a defect.** `C` rises monotonically and near-linearly with `g` — an O(Re)
-inertial correction at `Re ~ 1e-2`. Exact Stokes linearity is an idealisation the Navier–Stokes
-lattice-Boltzmann equation does not satisfy at finite forcing; the flow is nonetheless deeply
-creeping (Mach ≤ 3.5e-3, four orders below any compressibility concern).
+**A measurable finite-FORCING dependence.** `C` rises monotonically with `g`. This is *consistent*
+with a finite-Reynolds-number correction at `Re ~ 1e-2`, but a single three-point forcing ladder
+does **not** establish that cause and this document does not claim it does — the strongest
+defensible statement is *finite-forcing dependence, consistent with finite-Reynolds effects*. Note
+also that **low Mach and sufficiently low Reynolds number are related but not interchangeable**: a
+Mach of 3.5e-3 is comfortably small while finite-inertia effects remain visible at the few-1e-4
+level. Whether reducing the forcing reduces the drift as expected is for the next execution's
+forcing ladder to demonstrate, not for this one to assume.
 
 **Three separate records replace the single failed control**, and none may substitute for another:
 

@@ -341,6 +341,8 @@ def test_a_stable_R_cannot_rescue_a_failed_componentwise_creeping_flow_check():
     d, cl = vf.decide(runs)
     assert d == "INVALID_EXECUTION"
     assert not cl[0]["pass"]
+    # the CAUSE must be named, and must be the evidence-based failure
+    assert cl[0]["detail"]["primary_cause"] == "componentwise_creeping_flow_control"
 
 
 def test_the_preserved_frozen_C_failure_does_not_by_itself_invalidate_execution():
@@ -350,7 +352,9 @@ def test_the_preserved_frozen_C_failure_does_not_by_itself_invalidate_execution(
     runs["controls"]["frozen_C_linearity_control"] = {"pass": False}
     d, cl = vf.decide(runs)
     assert d == "CROSS_MODEL_RECOVERY"
-    assert cl[0]["detail"]["reported_not_required"]["frozen_C_linearity_control"] is False
+    assert cl[0]["detail"]["reported_not_required"][
+        "frozen_C_linearity_control"]["pass"] is False
+    assert cl[0]["detail"]["primary_cause"] is None
 
 
 def test_unstable_coarse_graining_surfaces_invalidate_execution():
@@ -358,6 +362,22 @@ def test_unstable_coarse_graining_surfaces_invalidate_execution():
     runs["controls"]["coarse_graining_surface_stability"] = {"pass": False}
     d, _ = vf.decide(runs)
     assert d == "INVALID_EXECUTION"
+
+
+def test_a_not_evaluated_downstream_control_is_never_reported_as_the_cause():
+    """An unevaluated downstream control is a CONSEQUENCE of an upstream failure, never the
+    reason execution was judged invalid — and it is never allowed to read as passed."""
+    runs = _synthetic_runs()
+    runs["controls"]["componentwise_creeping_flow_control"] = {"pass": False}
+    runs["controls"]["coarse_graining_surface_stability"] = {
+        "pass": False, "status": "NOT_EVALUATED",
+        "not_evaluated_because": "NOT_RUN_UPSTREAM_EXECUTION_INVALID"}
+    d, cl = vf.decide(runs)
+    assert d == "INVALID_EXECUTION"
+    det = cl[0]["detail"]
+    assert det["primary_cause"] == "componentwise_creeping_flow_control"
+    assert det["failed_on_evidence"] == ["componentwise_creeping_flow_control"]
+    assert "coarse_graining_surface_stability" in det["not_evaluated_downstream"]
 
 
 def test_too_few_window_cases_is_design_missed_target():

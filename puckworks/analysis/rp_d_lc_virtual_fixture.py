@@ -683,10 +683,24 @@ def decide(runs):
                 "coarse_graining_surface_stability", "plane_invariance", "grid_refinement")
     REPORTED = REQUIRED + ("frozen_C_linearity_control", "backend_cross_check")
     valid = all(ctrl[k]["pass"] for k in REQUIRED)
+    # A control that FAILED ON EVIDENCE and one that was NOT EVALUATED are different things, and
+    # the record must not conflate them: an unevaluated downstream control is a CONSEQUENCE of an
+    # upstream failure, never itself the reason execution was judged invalid.
+    def _st(k):
+        return ctrl[k].get("status", "EVALUATED")
+
+    failed_on_evidence = [k for k in REQUIRED
+                          if not ctrl[k]["pass"] and _st(k) == "EVALUATED"]
+    not_evaluated = [k for k in REQUIRED if _st(k) != "EVALUATED"]
     cl.append(_clause("1_execution_valid", valid,
-                      {"required": {k: ctrl[k]["pass"] for k in REQUIRED},
+                      {"required": {k: {"pass": ctrl[k]["pass"], "status": _st(k)}
+                                    for k in REQUIRED},
                        "reported_not_required": {
-                           k: ctrl[k]["pass"] for k in REPORTED if k not in REQUIRED},
+                           k: {"pass": ctrl[k]["pass"], "status": _st(k)}
+                           for k in REPORTED if k not in REQUIRED},
+                       "failed_on_evidence": failed_on_evidence,
+                       "not_evaluated_downstream": not_evaluated,
+                       "primary_cause": failed_on_evidence[0] if failed_on_evidence else None,
                        "note": ("componentwise_creeping_flow_control is load-bearing: if the "
                                 "internal components are not proportional to the forcing within "
                                 "1e-4, a stable R cannot rescue the execution and the disposition "
@@ -830,6 +844,17 @@ def assemble():
         "arm_a_solver_verification": runs["arm_a"],
         "disposition": disposition,
         "decision_clauses": clauses,
+        # Under a failed execution-validity clause every recovery number in this bundle is
+        # DIAGNOSTIC ONLY. It may inform a redesign; it may not be quoted as recovery,
+        # mechanism-only transfer, or a weak quantitative success at ANY strength.
+        "evidence_use": ("DIAGNOSTIC_ONLY_INVALID_EXECUTION"
+                         if disposition == "INVALID_EXECUTION" else "DECISION_BEARING"),
+        "cross_model_transfer_adjudicated": disposition != "INVALID_EXECUTION",
+        "unadjudicated_note": (
+            "The cross-model transfer question remains UNADJUDICATED, not negative: the proposed "
+            "independent truth did not satisfy its forcing-independence requirement, so no "
+            "quantitative statement about recovery of Xi is licensed in either direction."
+            if disposition == "INVALID_EXECUTION" else None),
         "claim_ceiling": list(CLAIM_CEILING),
         "evidence_classification": [
             "CROSS_MODEL_NUMERICAL_VERIFICATION", "DETERMINISTIC_SYNTHETIC_GEOMETRY",
@@ -997,10 +1022,22 @@ def figure(doc=None, path=None):
     ax.set_title("D  subcomponent composability and node nonuniformity", fontsize=9)
     ax.legend(fontsize=7); ax.grid(alpha=0.25, which="both")
 
+    invalid = doc["disposition"] == "INVALID_EXECUTION"
     fig.suptitle("RP-D-LC-001 — deterministic 3D lateral-coupling virtual fixture · "
                  "CROSS-MODEL NUMERICAL VERIFICATION ONLY · not experimental validation · "
                  "disposition: %s" % doc["disposition"], fontsize=9)
-    fig.tight_layout(rect=(0, 0, 1, 0.96))
+    if invalid:
+        # Every recovery number on this figure is diagnostic only. Say so ON the figure, not in a
+        # caption a reader can separate from it.
+        fig.text(0.5, 0.5, "DIAGNOSTIC ONLY\nINVALID EXECUTION\ncross-model transfer NOT adjudicated",
+                 fontsize=34, color="tab:red", alpha=0.16, ha="center", va="center",
+                 rotation=24, zorder=10, fontweight="bold")
+        fig.text(0.5, 0.945,
+                 "EXECUTION VALIDITY FAILED — these panels are DIAGNOSTIC ONLY and may not be "
+                 "quoted as recovery, mechanism-only transfer, or a weak quantitative success. "
+                 "The cross-model transfer question is UNADJUDICATED, not negative.",
+                 fontsize=8, color="tab:red", ha="center", va="top", wrap=True)
+    fig.tight_layout(rect=(0, 0, 1, 0.93 if invalid else 0.96))
     fig.savefig(path, dpi=140)
     plt.close(fig)
     return path
