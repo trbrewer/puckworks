@@ -75,32 +75,56 @@ between the lane sub-network (`R_L`) and the plenum (`R_P`), so `ΔP_lanes = E *
 absorbs about **3.8 %** of the loop driving (`ΔP/(g·L_lane) = 1.0778` where `L_lane = x_B - x_A`,
 against `N_x/L_lane = 1.12` if the lanes took all of it).
 
-### It cancels exactly under the frozen normalisation
+### It does NOT cancel exactly — it cancels as a common mode, to a measured bound
 
-`Q/ΔP` is the **two-terminal conductance of the lane sub-network alone**, measured between two
-frozen planes. It is a property of that sub-network and of nothing else: the plenum sets *what
-value* `ΔP` happens to take, and dividing by the measured `ΔP` removes it. Hence
+**This subsection was falsified by its own probe and is superseded by erratum E1 in
+`PROTOCOL.md`. The original claim is struck through, not deleted.**
+
+> ~~`Q/ΔP` is a property of the lane sub-network and of nothing else, so the return path is absent
+> from `R` **identically**, not to 0.1 %.~~
+
+That is **false**, and the probe designed to demonstrate it disproved it instead. Obstructing the
+plenum moves the absolute conductance by **−1.84 %** (blocked) and **−1.88 %** (open) — far outside
+the `1e-4` the frozen control demanded. The reason is physical, not numerical: the obstruction sits
+about two base voxels from the inlet node plane in a plenum only seven base voxels deep, so it
+alters the lane **entrance** field, and the entrance region is genuinely inside what the
+calculation treats as the measured sub-network. **The absolute lane conductance `Q/ΔP` is not
+separable from the surrounding plenum.**
+
+What survives, and what Route A actually needs, is weaker and is stated exactly:
+
+> The return path does not cancel exactly at the level of either absolute conductance, because it
+> influences the entrance region near the measurement planes. Its effects on the open and blocked
+> conductances are nevertheless **strongly common-mode**, so the pressure-normalised ratio
+> `R = (Q/ΔP)_open / (Q0/ΔP0)_blocked` is insensitive to the tested return-path perturbation **to
+> bounded numerical accuracy**.
+
+Measured: the two conductance shifts differ by only 0.04 percentage points, so `R` moves by
+**3.7e-4** — about **1 %** of the coupling signal `R − 1 = 0.0384` — under a **22.5 %** change in
+`ΔP`. That bound is verified against a predeclared criterion, **not generalised from one probe**:
+Arm J re-runs the obstruction at **both scientific resolutions**, for the blocked fixture and for
+**every frozen aperture that carries a decision clause**, and gates on
 
 ```
-R = (Q/ΔP)_open / (Q0/ΔP0)_blocked
+|R_obstructed / R_nominal − 1|  ≤  1e-3        |s_obstructed − s_nominal|  ≤  5e-4
 ```
 
-is the ratio of two sub-network conductances, and the return path is absent from it **identically**,
-not to 0.1 %.
+with the induced changes in `ĉ`, `Ξ̂` and the sign of `s − ½` reported (never fitted or corrected),
+so that amplification of a small observable perturbation by the inverse would be visible. If either
+bound is exceeded in a decision-carrying case, Route A has **not** been sufficiently isolated and
+the disposition is `INVALID_EXECUTION` — not a relaxed tolerance and not a switch to Route B.
 
-### This is demonstrated, not asserted
+### What is still demonstrated
 
-Two independent numerical demonstrations, both in Arm A of `result.json`:
-
-1. **Forcing invariance.** The lane conductance `Q/ΔP` must be independent of the driving if it is
-   really a sub-network property. Probe (S=1 blocked fixture, `tau_plus=1.2`, `g = 0.5/1/2 × 1e-5`):
-   `Q/ΔP = 6.759357 / 6.759506 / 6.759804`, a spread of **6.6e-5 relative across a factor of four
-   in forcing**, while `ΔP` itself changed by exactly that factor of four.
-2. **Return-path obstruction.** `arm_a.return_path_invariance` plugs the lower half of the plenum
-   cross-section at the wrap plane, raising `R_P` substantially without touching a single lane
-   voxel, and requires the measured `Q/ΔP` to be unchanged within `TOL_LINEARITY_REL = 1e-4` while
-   `ΔP` moves. A quantity that survives a deliberate change to the return path is not contaminated
-   by it. This probe preserves both fixture symmetries, so it cannot itself break the mirror.
+1. **Forcing invariance.** The lane conductance is a linear-response property of the driving.
+   Probe (**S = 1**, `tau_plus = 1.2`, `g = 0.5/1/2 × 1e-5`): `Q/ΔP = 6.759357 / 6.759506 /
+   6.759804`, a spread of **6.6e-5 across a factor of four in forcing**, while `ΔP` itself changed
+   by that same factor of four. **This probe is at the smoke resolution and carries no decision.**
+   The scientific-resolution statement is Arm A's `×0.5/×1/×2` sweep, and it too found the
+   conductance is only *approximately* linear — a genuine O(Re) drift of 2.6e-4 (S=2) and 3.9e-4
+   (S=3) that likewise cancels in `R` (erratum **E2**).
+2. **The obstruction probe preserves both fixture symmetries**, so it cannot itself break the
+   mirror, and it touches no lane voxel.
 
 ### Why `R = Q/Q0` is NOT permitted here
 

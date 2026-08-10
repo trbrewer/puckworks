@@ -180,6 +180,19 @@ TOL_MACH = 0.03              # max lattice speed; Ma = u*sqrt(3)
 TOL_SWAP_R_REL = 5.0e-3      # |R_swap/R - 1| under the exact path-swap transformation
 TOL_SWAP_XI_REL = 5.0e-2     # |Xi_swap/Xi - 1|
 TOL_PLANE_REL = 5.0e-3       # outlet-share difference between the two frozen measurement planes
+#: ROUTE-A ISOLATION GATE (erratum E1, predeclared before Arm J ran). The programme authorization
+#: already established a 0.1 % bound on return-path contribution; these are that bound applied to
+#: the two observables the WP6 inverse actually consumes. They are NOT chosen relative to any
+#: observed value: 1e-3 on the ratio R, and 5e-4 absolute on the outlet share (0.1 % relative
+#: around s = 1/2). Exceeding either in a decision-carrying case means Route A has not been
+#: sufficiently isolated, and the disposition is INVALID_EXECUTION — never a relaxed second
+#: tolerance and never a silent switch to a pressure-boundary route.
+TOL_RETURN_PATH_R_REL = 1.0e-3
+TOL_RETURN_PATH_S_ABS = 5.0e-4
+#: Node-surface sensitivity is LOAD-BEARING, not a nicety: the return-path result shows the nominal
+#: inlet/outlet ports are not perfect equipotentials. Moving the frozen surfaces must not change
+#: the classification, and no surface may be chosen because it improves agreement with Xi_hat.
+TOL_NODE_OFFSET_R_REL = 5.0e-3
 _RECORD_DP = 12
 
 
@@ -671,15 +684,28 @@ def decide(runs):
                if r["role"] == "primary" and r["S"] == max(SCIENTIFIC_RESOLUTIONS)]
     if not primary:
         primary = [r for r in runs["cases"] if r["role"] == "primary"]
-    window = [r for r in runs["cases"] if r["role"] == "primary"
-              and XI_WINDOW_LO <= r["truth"]["Xi_field"] <= XI_WINDOW_HI]
+    # Xi_field is None when the truth was unavailable (zero or sign-inconsistent bridge pressure
+    # gap, e.g. the identical-path control). Such a case is NEVER silently treated as zero, and it
+    # cannot enter the window set.
+    def _usable(x):
+        """None (rounded artifact) and NaN (raw record) both mean 'truth unavailable'."""
+        return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+
+    def _in_window(r):
+        x = r["truth"].get("Xi_field")
+        return _usable(x) and XI_WINDOW_LO <= x <= XI_WINDOW_HI
+
+    window = [r for r in runs["cases"] if r["role"] == "primary" and _in_window(r)]
+    unavailable = [{"S": r["S"], "aperture": r["aperture"]} for r in runs["cases"]
+                   if r["role"] == "primary" and not _usable(r["truth"].get("Xi_field"))]
     per_res = {}
     for S in SCIENTIFIC_RESOLUTIONS:
         per_res[S] = [r for r in window if r["S"] == S]
     n_window_min = min((len(v) for v in per_res.values()), default=0)
     cl.append(_clause("2_three_window_cases", n_window_min >= 3,
                       {"per_resolution_counts": {str(k): len(v) for k, v in per_res.items()},
-                       "window": [XI_WINDOW_LO, XI_WINDOW_HI]}))
+                       "window": [XI_WINDOW_LO, XI_WINDOW_HI],
+                       "primary_cases_with_unavailable_Xi_field": unavailable}))
 
     ratios = [(r["S"], r["aperture"], r["inference"]["status"],
                (r["inference"]["Xi_hat"] / r["truth"]["Xi_field"])
@@ -699,7 +725,8 @@ def decide(runs):
     for S in SCIENTIFIC_RESOLUTIONS:
         pts = sorted(((r["truth"]["Xi_field"], r["inference"]["Xi_hat"])
                       for r in runs["cases"] if r["role"] == "primary" and r["S"] == S
-                      and r["inference"]["Xi_hat"] is not None), key=lambda t: t[0])
+                      and _usable(r["inference"]["Xi_hat"])
+                      and _usable(r["truth"].get("Xi_field"))), key=lambda t: t[0])
         mono[str(S)] = all(b[1] > a[1] for a, b in zip(pts, pts[1:])) if len(pts) > 1 else False
     cl.append(_clause("5_strict_monotonicity", all(mono.values()) and bool(mono), mono))
 

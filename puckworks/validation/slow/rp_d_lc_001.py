@@ -114,8 +114,11 @@ def _plenum_obstruction(mask, S):
     """Adjudication probe (BOUNDARY_TOPOLOGY_ADJUDICATION.md §3): raise the RETURN PATH's
     resistance without touching a single lane voxel, by plugging the lower half of the common
     plenum's cross-section at the wrap plane x = 0. Preserves both fixture symmetries. If the
-    measured two-terminal conductance Q/dP is invariant to this, the return path provably
-    divides out of R rather than merely being small."""
+    NOTE (erratum E1): the frozen control asked whether Q/dP ITSELF is invariant to this. It is
+    NOT — the probe sits ~2 base voxels from the inlet node plane in a 7-base-voxel plenum, so it
+    perturbs the lane entrance, which is inside the measured sub-network. What Arm J gates on is
+    the COMMON-MODE cancellation in the ratio R (and in the outlet share s), at both scientific
+    resolutions and for every frozen aperture."""
     out = mask.copy()
     z0 = vf.BASE["z_lo"] * S
     z1 = (vf.BASE["z_lo"] + vf.BASE["h_low"]) * S
@@ -745,6 +748,176 @@ def arm_cdefghi(backend, out_dir, log):
     return rec
 
 
+# ==========================================================================================
+# ARM J — Route-A isolation gate (erratum E1) + node-surface sensitivity, at BOTH scientific
+# resolutions, for the blocked fixture and every frozen aperture that carries a decision clause.
+# ==========================================================================================
+
+def _node_block(r, mask, meta, g, d):
+    """Boundary observables measured with the node surfaces moved `d` voxels further into the
+    common plenum. d = 0 is the frozen surface pair."""
+    xin, xout = meta["x_node_in"] - d, meta["x_node_out"] + d
+    pin, pin_sd, _ = vf.plane_pressure(r["rho"], mask, xin, g)
+    pout, pout_sd, _ = vf.plane_pressure(r["rho"], mask, xout, g)
+    q1 = vf.plane_flux(r["ux"], mask, meta["x_meas_a"], meta["lane1_y"])
+    q2 = vf.plane_flux(r["ux"], mask, meta["x_meas_a"], meta["lane2_y"])
+    dP = pin - pout
+    return {"offset": d, "x_node_in": xin, "x_node_out": xout, "dP": dP, "Q": q1 + q2,
+            "q1": q1, "q2": q2, "C": (q1 + q2) / dP, "s": q1 / (q1 + q2),
+            "p_node_in": pin, "p_node_out": pout,
+            "p_in_sd_over_dP": pin_sd / dP, "p_out_sd_over_dP": pout_sd / dP}
+
+
+def _face_pressure(r, mask, y, ax, az, g):
+    vals = []
+    for x in range(ax[0], ax[1]):
+        fl = ~mask[x, y, az[0]:az[1]]
+        if fl.any():
+            vals.append(r["rho"][x, y, az[0]:az[1]][fl] / 3.0 - g * x)
+    if not vals:
+        return float("nan"), float("nan")
+    v = np.concatenate(vals)
+    return float(v.mean()), float(v.std())
+
+
+def _job_route_a(spec):
+    """One LB solve for Arm J. `aperture=None` is the blocked fixture (whose face pressures are
+    reported for EVERY frozen aperture footprint, since one blocked run serves them all)."""
+    S, g = spec["S"], vf.G_PRIMARY
+    mask, meta = vf.build_fixture(S, aperture=spec["aperture"])
+    if spec["obstructed"]:
+        mask = _plenum_obstruction(mask, S)
+    r = solve(mask, g, spec["backend"], fields=("rho", "uy", "uz"))
+    out = {"S": S, "aperture": spec["aperture"], "obstructed": spec["obstructed"],
+           "steps": int(r["steps"]), "converged": bool(r["steps"] < vf.MAX_STEPS),
+           "nodes": [_node_block(r, mask, meta, g, d) for d in (0,) + meta["node_offsets"]]}
+    if spec["aperture"] is None:
+        faces = {}
+        for ap in spec["selected"]:
+            m2 = vf.fixture_meta(S, aperture=ap)
+            ax, az = m2["aperture_x"], m2["aperture_z"]
+            p1, p1sd = _face_pressure(r, mask, meta["y_face1"], ax, az, g)
+            p2, p2sd = _face_pressure(r, mask, meta["y_face2"], ax, az, g)
+            faces["%d,%d" % (ap["kx"], ap["kz"])] = {"p1_0": p1, "p2_0": p2,
+                                                     "p1_0_sd": p1sd, "p2_0_sd": p2sd}
+        out["blocked_faces"] = faces
+    else:
+        ax, az = meta["aperture_x"], meta["aperture_z"]
+        p1, p1sd = _face_pressure(r, mask, meta["y_face1"], ax, az, g)
+        p2, p2sd = _face_pressure(r, mask, meta["y_face2"], ax, az, g)
+        yb = meta["y_bridge"]
+        q_lat = float(np.where(mask[:, yb, :], 0.0, r["uy"][:, yb, :])[ax[0]:ax[1],
+                                                                      az[0]:az[1]].sum())
+        out.update({"p1": p1, "p2": p2, "p1_sd": p1sd, "p2_sd": p2sd, "q_lat": q_lat})
+    return out
+
+
+def _derive(blk, opn, i_node):
+    """Truth + boundary + blind inference for one (S, aperture) at one node-surface choice."""
+    b, o = blk["nodes"][i_node], opn["nodes"][i_node]
+    key = "%d,%d" % (opn["aperture"]["kx"], opn["aperture"]["kz"])
+    p1_0, p2_0 = blk["blocked_faces"][key]["p1_0"], blk["blocked_faces"][key]["p2_0"]
+    g1t = b["q1"] / (b["p_node_in"] - p1_0)
+    g1b = b["q1"] / (p1_0 - b["p_node_out"])
+    g2t = b["q2"] / (b["p_node_in"] - p2_0)
+    g2b = b["q2"] / (p2_0 - b["p_node_out"])
+    A1, A2 = g1t + g1b, g2t + g2b
+    gap = opn["p1"] - opn["p2"]
+    ok = bool(np.isfinite(gap) and gap != 0 and np.sign(gap) == np.sign(opn["q_lat"]))
+    G_lat = opn["q_lat"] / gap if ok else float("nan")
+    inf = vf.infer_from_boundary({
+        "Q0": b["Q"], "dP0": b["dP"], "q1": o["q1"], "q2": o["q2"], "dP": o["dP"],
+        "orientation": "nominal", "converged": blk["converged"] and opn["converged"]})
+    return {"offset": b["offset"], "R": inf["R"], "s": inf["s"],
+            "c_hat": inf["c_hat"], "Xi_hat": inf["Xi_hat"], "status": inf["status"],
+            "c_field": (g1t - g1b) / A1, "A1_field": A1, "A2_field": A2,
+            "G_lat_field": G_lat,
+            "Xi_field": G_lat * (1.0 / A1 + 1.0 / A2) if ok else float("nan"),
+            "node_in_sd_over_dP": b["p_in_sd_over_dP"],
+            "node_out_sd_over_dP": b["p_out_sd_over_dP"]}
+
+
+def arm_j(backend, out_dir, log):
+    freeze = load_freeze()
+    selected = [dict(a) for a in freeze["selected"]]
+    specs = []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for obs in (False, True):
+            specs.append({"S": S, "aperture": None, "obstructed": obs, "backend": backend,
+                          "selected": selected})
+            for ap in selected:
+                specs.append({"S": S, "aperture": ap, "obstructed": obs, "backend": backend,
+                              "selected": selected})
+    log("ARM J: %d solves (return-path gate + node-surface sensitivity)" % len(specs))
+    rows = _pmap(_job_route_a, specs)
+
+    def find(S, ap, obs):
+        return next(r for r in rows if r["S"] == S and r["aperture"] == ap
+                    and r["obstructed"] == obs)
+
+    gate, node_sens = [], []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for ap in selected:
+            nom = _derive(find(S, None, False), find(S, ap, False), 0)
+            obs = _derive(find(S, None, True), find(S, ap, True), 0)
+            row = {
+                "S": S, "aperture": ap,
+                "R_nominal": nom["R"], "R_obstructed": obs["R"],
+                "R_rel_change": obs["R"] / nom["R"] - 1.0,
+                "s_nominal": nom["s"], "s_obstructed": obs["s"],
+                "s_abs_change": obs["s"] - nom["s"],
+                "c_hat_nominal": nom["c_hat"], "c_hat_obstructed": obs["c_hat"],
+                "Xi_hat_nominal": nom["Xi_hat"], "Xi_hat_obstructed": obs["Xi_hat"],
+                "Xi_hat_rel_change": (obs["Xi_hat"] / nom["Xi_hat"] - 1.0)
+                if (nom["Xi_hat"] and obs["Xi_hat"]) else None,
+                "sign_s_minus_half_nominal": int(np.sign(nom["s"] - 0.5)),
+                "sign_s_minus_half_obstructed": int(np.sign(obs["s"] - 0.5)),
+                "sign_preserved": bool(np.sign(nom["s"] - 0.5) == np.sign(obs["s"] - 0.5)),
+                "dP_rel_change": obs["R"] and (
+                    find(S, None, True)["nodes"][0]["dP"]
+                    / find(S, None, False)["nodes"][0]["dP"] - 1.0),
+            }
+            row["R_within_bound"] = bool(abs(row["R_rel_change"]) <= vf.TOL_RETURN_PATH_R_REL)
+            row["s_within_bound"] = bool(abs(row["s_abs_change"]) <= vf.TOL_RETURN_PATH_S_ABS)
+            row["pass"] = bool(row["R_within_bound"] and row["s_within_bound"]
+                               and row["sign_preserved"])
+            gate.append(row)
+            log("  J gate S=%d ap=%s dR=%+.3e ds=%+.3e dXi_hat=%s %s"
+                % (S, ap, row["R_rel_change"], row["s_abs_change"],
+                   ("%+.3e" % row["Xi_hat_rel_change"]) if row["Xi_hat_rel_change"] is not None
+                   else "n/a", "OK" if row["pass"] else "FAIL"))
+
+            offs = [_derive(find(S, None, False), find(S, ap, False), i) for i in range(3)]
+            base = offs[0]
+            node_sens.append({
+                "S": S, "aperture": ap, "surfaces": offs,
+                "R_rel_change_by_offset": [o["R"] / base["R"] - 1.0 for o in offs],
+                "c_field_abs_change_by_offset": [o["c_field"] - base["c_field"] for o in offs],
+                "Xi_field_rel_change_by_offset": [o["Xi_field"] / base["Xi_field"] - 1.0
+                                                  for o in offs],
+                "Xi_hat_rel_change_by_offset": [
+                    (o["Xi_hat"] / base["Xi_hat"] - 1.0)
+                    if (o["Xi_hat"] and base["Xi_hat"]) else None for o in offs],
+                "in_window_by_offset": [
+                    bool(np.isfinite(o["Xi_field"])
+                         and vf.XI_WINDOW_LO <= o["Xi_field"] <= vf.XI_WINDOW_HI) for o in offs],
+                "factor_two_by_offset": [
+                    bool(o["Xi_hat"] and np.isfinite(o["Xi_field"])
+                         and 0.5 <= o["Xi_hat"] / o["Xi_field"] <= 2.0) for o in offs],
+            })
+    rec = {"gate": gate, "node_surface_sensitivity": node_sens, "raw": rows,
+           "tolerances": {"R_rel": vf.TOL_RETURN_PATH_R_REL, "s_abs": vf.TOL_RETURN_PATH_S_ABS,
+                          "node_offset_R_rel": vf.TOL_NODE_OFFSET_R_REL},
+           "coverage": {"resolutions": list(vf.SCIENTIFIC_RESOLUTIONS),
+                        "apertures": selected,
+                        "note": ("Every decision-carrying configuration was tested: the blocked "
+                                 "fixture and all frozen apertures at both scientific "
+                                 "resolutions. The bound is therefore not generalised from one "
+                                 "probe.")}}
+    _dump(out_dir / "arm_j.json", rec)
+    return rec
+
+
 def wp6_degenerate_atol():
     from puckworks.analysis import screen_wp6_lateral_identifiability as wp6
     return wp6.DEGENERATE_ATOL
@@ -790,6 +963,7 @@ def assemble(out_dir):
     a = json.loads((out_dir / "arm_a.json").read_text())
     b = json.loads((out_dir / "arm_b.json").read_text())
     c = json.loads((out_dir / "arm_cdefghi.json").read_text())
+    j = json.loads((out_dir / "arm_j.json").read_text())
 
     conv_ok = all(r["boundary"]["converged"] and r["boundary"]["converged_blocked"]
                   for r in c["cases"]) and all(r["converged"] for r in c["blocked"])
@@ -838,7 +1012,12 @@ def assemble(out_dir):
         "tol_swap_r_rel": vf.TOL_SWAP_R_REL,
         "passes_on_R": bool(abs(R_obs / R_nom - 1.0) <= vf.TOL_SWAP_R_REL),
     }
-    ret_ok = ret_R["passes_on_R"]
+    # The single smoke-scale probe above is superseded as a GATE by Arm J, which repeats the
+    # obstruction at both scientific resolutions for the blocked fixture and every frozen
+    # aperture, against the predeclared 0.1 % bound on R and 5e-4 on the outlet share.
+    ret_R["superseded_as_gate_by"] = "arm_j.gate"
+    gate_rows = j["gate"]
+    ret_ok = bool(gate_rows) and all(r["pass"] for r in gate_rows)
 
     prim = [r for r in c["cases"] if r["role"] == "primary"]
     mech = {
@@ -882,10 +1061,26 @@ def assemble(out_dir):
                                   [r["plane_ptp_rel"] for r in a["mass_conservation"]]
                                   + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]])},
         "topology": {
-            "pass": bool(topo_ok and ret_ok),
+            "pass": bool(topo_ok and ret_ok and _node_sensitivity_summary(j)["pass"]),
             "masks_and_connectivity": topo_ok,
-            "return_path_divides_out_of_R": ret_ok,
-            "return_path_R_probe": ret_R,
+            "return_path_common_mode_bound_holds": ret_ok,
+            "route_a_isolation_gate": {
+                "pass": ret_ok,
+                "tol_R_rel": vf.TOL_RETURN_PATH_R_REL,
+                "tol_s_abs": vf.TOL_RETURN_PATH_S_ABS,
+                "worst_R_rel_change": max(abs(r["R_rel_change"]) for r in gate_rows),
+                "worst_s_abs_change": max(abs(r["s_abs_change"]) for r in gate_rows),
+                "all_signs_preserved": all(r["sign_preserved"] for r in gate_rows),
+                "rows": gate_rows,
+                "coverage": j["coverage"],
+                "statement": (
+                    "The return path does NOT cancel exactly at the level of either absolute "
+                    "conductance, because it influences the entrance region near the measurement "
+                    "planes. Its effects on the open and blocked conductances are strongly "
+                    "common-mode, so the pressure-normalised ratio R is insensitive to the tested "
+                    "return-path perturbation to bounded numerical accuracy.")},
+            "node_surface_sensitivity": _node_sensitivity_summary(j),
+            "return_path_R_probe_smoke": ret_R,
             "frozen_C_invariance_control": {
                 "pass": ret_ok_frozen,
                 "worst_C_change_under_return_obstruction": ret_C_worst,
@@ -904,7 +1099,7 @@ def assemble(out_dir):
                             "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS)},
         "backend_cross_check": a["backend_cross_check"],
         "axis_rotation_anisotropy": _anisotropy(b),
-        "tau_independence_fixture": a["tau_independence_fixture"],
+        "tau_independence_fixture": _tau_independence(a),
         "determinism": {"note": "the kernel and every derived quantity are deterministic float "
                                 "operations with no RNG; re-running an identical configuration "
                                 "on identical hardware reproduces the record bit-for-bit."},
@@ -942,10 +1137,21 @@ def assemble(out_dir):
             "name": "periodic body force with a resolved common plenum (ROUTE A)",
             "pressure_definition": "p = rho/3 - g*x  (physical field; the lattice density carries "
                                    "only the periodic part)",
-            "why_valid": "R is a ratio of two independently MEASURED two-terminal conductances "
-                         "Q/dP of the same lane sub-network, so the return path divides out "
-                         "exactly rather than approximately; demonstrated by the return-path "
-                         "obstruction probe in arm_a.return_path_invariance.",
+            "why_valid": (
+                "R is a ratio of two independently MEASURED two-terminal conductances Q/dP of the "
+                "same lane sub-network, formed from an open and a blocked run that differ ONLY in "
+                "the aperture voxels, so a common-mode return-path contribution cancels."),
+            "how_far_that_is_demonstrated": (
+                "BOUNDED, NOT ELIMINATED — see PROTOCOL.md erratum E1. The obstruction probe "
+                "changed the return path by 22.5 % in dP; the two conductances moved by -1.84 % "
+                "(blocked) and -1.88 % (open), i.e. nearly common-mode, and R moved by 3.7e-4, "
+                "about 1 % of the coupling signal R-1. That is an UPPER BOUND from a deliberately "
+                "extreme perturbation, not a calibration of the nominal fixture, and it is not "
+                "negligible against a factor-of-two recovery criterion. The stronger claim that C "
+                "itself is invariant to the return path was the frozen control's form and it is "
+                "measurably FALSE: the probe perturbs the lane entrance, which is genuinely "
+                "inside the measured sub-network. See controls.topology.frozen_C_invariance_"
+                "control for that verdict, preserved."),
         },
         "geometry": {"base_template": vf.BASE, "topology": a["topology"],
                      "min_feature_vox": vf.MIN_FEATURE_VOX,
@@ -962,6 +1168,7 @@ def assemble(out_dir):
         "controls": controls,
         "mechanism": mech,
         "arm_a": a,
+        "arm_j": j,
     }
     dest = REPO_ROOT / vf.RUNS_REL / "run_record.json"
     _dump(dest, rec)
@@ -976,6 +1183,61 @@ def _monotone_by_aperture(prim):
                       for r in prim if r["S"] == S), key=lambda t: t[0])
         out[str(S)] = all(b[1] >= a[1] for a, b in zip(pts, pts[1:])) if len(pts) > 1 else None
     return out
+
+
+def _tau_independence(a):
+    """Compare tau_plus = 2.0 against 1.2 on the fixture in DIMENSIONLESS terms.
+
+    A Darcy conductance is inversely proportional to the dynamic viscosity, so the raw C = Q/dP
+    MUST change by exactly nu(2.0)/nu(1.2) = 2.143 between the two relaxation times — that is the
+    definition of viscosity, not a discretisation error. The quantity that has to be invariant is
+    the REDUCED conductance nu*C (a pure geometry number) and the outlet share s (dimensionless).
+    Arm A recorded the raw ratio; this recomputes the meaningful one.
+    """
+    rows = []
+    for r in a["tau_independence_fixture"]["rows"]:
+        nu = (r["tau_plus"] - 0.5) / 3.0
+        rows.append({**r, "nu": nu, "reduced_C_nu_times_C": nu * r["C"]})
+    hi, lo = rows[0], rows[1]
+    return {
+        "rows": rows,
+        "raw_C_ratio": lo["C"] / hi["C"],
+        "expected_raw_C_ratio_nu_hi_over_nu_lo": hi["nu"] / lo["nu"],
+        "reduced_C_rel_spread": abs(lo["reduced_C_nu_times_C"] / hi["reduced_C_nu_times_C"] - 1.0),
+        "s_abs_spread": abs(lo["s"] - hi["s"]),
+        "tol_rel": vf.TOL_LINEARITY_REL,
+        "pass": bool(abs(lo["reduced_C_nu_times_C"] / hi["reduced_C_nu_times_C"] - 1.0)
+                     <= vf.TOL_LINEARITY_REL and abs(lo["s"] - hi["s"]) <= vf.TOL_LINEARITY_REL),
+        "interpretation": (
+            "TRT with magic Lambda = 3/16 makes the bounce-back wall position viscosity-"
+            "independent. Arm A1 showed that on the analytic plane channel; this shows it holds "
+            "for the ASSEMBLED 3D fixture, which is the claim that licenses running the tranche "
+            "at tau_plus = 2.0 for time-step economy."),
+    }
+
+
+def _node_sensitivity_summary(j):
+    """Moving the frozen node surfaces is LOAD-BEARING, not decorative: the return-path result
+    shows the nominal ports are not perfect equipotentials, so the two-node reduction is only
+    defensible if the decision quantities and the CLASSIFICATION survive a frozen surface shift.
+    No surface is ever chosen because it improves agreement with Xi_hat — the frozen pair is
+    always offset 0, and these are reported around it."""
+    rows = j["node_surface_sensitivity"]
+    worst_R = max(max(abs(v) for v in r["R_rel_change_by_offset"]) for r in rows)
+    worst_c = max(max(abs(v) for v in r["c_field_abs_change_by_offset"]) for r in rows)
+    worst_xi = max(max(abs(v) for v in r["Xi_field_rel_change_by_offset"]) for r in rows)
+    stable = all(len(set(r["in_window_by_offset"])) == 1
+                 and len(set(r["factor_two_by_offset"])) == 1 for r in rows)
+    return {
+        "pass": bool(stable and worst_R <= vf.TOL_NODE_OFFSET_R_REL),
+        "classification_stable_under_node_offset": stable,
+        "worst_R_rel_change": worst_R,
+        "worst_c_field_abs_change": worst_c,
+        "worst_Xi_field_rel_change": worst_xi,
+        "tol_R_rel": vf.TOL_NODE_OFFSET_R_REL,
+        "frozen_surface_is_offset_0": True,
+        "rows": rows,
+    }
 
 
 def _anisotropy(b):
@@ -1040,7 +1302,7 @@ def main(argv=None):
     ap.add_argument("--arch", default="cpu")
     ap.add_argument("--dtype", default="f64")
     ap.add_argument("--mode", required=True,
-                    choices=("arm_a", "coupons", "freeze", "primary", "assemble", "all"))
+                    choices=("arm_a", "coupons", "freeze", "primary", "arm_j", "assemble", "all"))
     ap.add_argument("--output", required=True)
     ap.add_argument("--jobs", type=int, default=1,
                     help="independent LB cases to run concurrently (processes)")
@@ -1067,6 +1329,8 @@ def main(argv=None):
         freeze_apertures(out, log)
     if a.mode in ("primary", "all"):
         arm_cdefghi(a.backend, out, log)
+    if a.mode in ("arm_j", "all"):
+        arm_j(a.backend, out, log)
     if a.mode in ("assemble", "all"):
         assemble(out)
     log("done")

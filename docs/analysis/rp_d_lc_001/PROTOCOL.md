@@ -349,20 +349,58 @@ coupling signal** `R − 1 = 0.0384` — under a **22.5 %** change to the return
 nominal geometry the residual contamination is smaller than that bound, but this probe cannot say
 how much smaller.
 
-**Consequence for the decision.** The `topology` control is evaluated on the **R-ratio** probe
-against `TOL_SWAP_R_REL = 5e-3`. `result.json` records *both*: `frozen_C_invariance_control` with
-its failing verdict and this note, and `return_path_R_probe` with the ratio result. This is a
-post-execution change to a decision-gating control and it is flagged as such — a reviewer who
-disagrees can read both numbers and re-decide. It was made because the control tested the wrong
-quantity, not because it produced an unwelcome answer, and the direction of the evidence
-(`R` robust to 1 % of signal under a drastic perturbation) is independent of which tolerance is
-applied to it.
+**The accurate conclusion, which replaces every "divides out exactly" assertion:**
 
-**A residual limitation this does not dispose of.** ~1 % of the coupling signal is an upper bound
-on return-path contamination from a deliberately extreme perturbation; it is not a calibration of
-the nominal fixture's contamination, and it is not negligible compared to the factor-of-two
-recovery criterion. A future tranche wanting a tighter bound should lengthen the plenum so the
-probe can sit far from both node surfaces.
+> The return path does **not** cancel exactly at the level of either absolute conductance, because
+> it influences the entrance region near the measurement planes. Its effects on the open and
+> blocked conductances are nevertheless strongly **common-mode**, so the pressure-normalised ratio
+> `R` is insensitive to the tested return-path perturbation **to bounded numerical accuracy**.
+
+**Consequence for the decision — verified, not generalised.** The single probe above is a
+*smoke-scale* result and **cannot carry the validity decision**. It is superseded as a gate by
+**Arm J**, which repeats the obstruction:
+
+- at **both** scientific resolutions `S = 2` and `S = 3`;
+- for the **blocked** fixture;
+- and for **every frozen aperture that carries a decision clause** — all five, selected by the
+  coupon-only algorithm and committed before any of their full-fixture outputs were inspected.
+
+The bounds are **not** chosen relative to the observed 3.7e-4. They are the programme
+authorization's existing 0.1 % criterion applied to the two observables the WP6 inverse actually
+consumes:
+
+```
+|R_obstructed / R_nominal − 1|  ≤  1e-3          |s_obstructed − s_nominal|  ≤  5e-4
+```
+
+(the second being 0.1 % relative around `s ≈ ½`). Arm J additionally reports, **without fitting or
+correcting anything**, the induced changes in `ĉ`, in `Ξ̂`, and in the **sign** of `s − ½`, so that
+amplification of a small observable perturbation by the inverse would be visible rather than
+hidden.
+
+**If either bound is exceeded in any decision-carrying case, Route A has not been sufficiently
+isolated for quantitative cross-model recovery, and the disposition is `INVALID_EXECUTION`** — not
+a relaxed second tolerance, and not a silent switch to Route B (which remains unauthorized).
+
+`result.json` preserves **both** verdicts and never relabels the first as passed:
+`controls.topology.frozen_C_invariance_control` (**FAIL**, with the −1.84 % / −1.88 % movements
+retained) and `controls.topology.route_a_isolation_gate` (the Arm J assessment on `R` and `s`).
+
+**Node surfaces are now load-bearing.** This failure shows the nominal inlet/outlet ports are
+**not** perfect equipotentials, so reporting pressure nonuniformity and moving the averaging
+surfaces by the frozen offsets is no longer a secondary nicety — it is central to whether the
+two-node reduction is defensible at all. Arm J therefore reports whether the frozen surface offsets
+materially change `R`, `c_field`, `Ξ_field` **and the eventual classification** (in-window and
+factor-of-two status per case), and the classification must be stable across them. The frozen
+surface pair is always offset 0; **no surface is ever selected because it improves agreement with
+`Ξ̂`.**
+
+**A residual limitation this does not dispose of.** The bound comes from a deliberately extreme
+perturbation; it is an upper bound on contamination, not a calibration of the nominal fixture, and
+it is not negligible against a factor-of-two recovery criterion. A future tranche wanting a tighter
+bound should lengthen the plenum so the probe can sit far from both node surfaces. If compute had
+forced a smaller obstruction sample, the claim would have been restricted to the tested cases
+rather than asserted across the aperture family; `arm_j.coverage` records what was actually run.
 
 ## E2 — the linearity control was also mis-specified, and it also FAILED as written
 
