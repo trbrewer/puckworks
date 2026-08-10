@@ -570,7 +570,7 @@ def test_the_element_error_law_is_the_measured_channel_law():
 
 def test_resolution_consistency_tolerances_are_feature_derived_and_strictly_ordered():
     b = {"w": 5, "kz": 2}
-    tol_R_blocked = vf.resolution_consistency_tolerance("R_blocked")
+    tol_R_blocked = vf.resolution_consistency_tolerance("R_reference_blocked")
     tol_R_open = vf.resolution_consistency_tolerance("R_open", b)
     tol_Xi = vf.resolution_consistency_tolerance("Xi_field", b)
     assert tol_Xi >= tol_R_open > tol_R_blocked > 0
@@ -1512,12 +1512,17 @@ def test_both_bridge_width_and_depth_enter_the_resolution_tolerance():
 def test_open_and_blocked_quantities_have_different_resolution_tolerances():
     b = {"w": 5, "kz": 3}
     assert (vf.resolution_consistency_tolerance("R_open", b)
-            > vf.resolution_consistency_tolerance("R_blocked"))
+            > vf.resolution_consistency_tolerance("R_reference_blocked"))
     assert (vf.resolution_consistency_tolerance("s_open", b)
-            > vf.resolution_consistency_tolerance("s_blocked"))
+            > vf.resolution_consistency_tolerance("s_reference_blocked"))
+    # erratum PE-33: the CANDIDATE blocked fixture carries the common-mode ports, so it is not
+    # lane-only and its tolerance is strictly larger than the reference fixture's
+    assert (vf.resolution_consistency_tolerance("c_field", b)
+            > vf.resolution_consistency_tolerance("R_reference_blocked"))
     tbl = vf.resolution_consistency_table(b)
-    assert tbl["R_blocked"]["family"] == "lane_only"
-    assert tbl["R_open"]["family"] == "bridge_carrying"
+    assert tbl["R_reference_blocked"]["family"] == "reference_blocked_lane_only"
+    assert tbl["R_blocked"]["family"] == "candidate_blocked_common_mode_ports"
+    assert tbl["R_open"]["family"] == "open_bridge_carrying"
 
 
 def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
@@ -1533,16 +1538,19 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C2"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C3"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
     """C0 and C1 hashes are both kept, so anything bound to either stays traceable."""
     revs = vf.SUPERSEDED_REVIEWS
-    assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1"]
+    assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
+                                                      "PREFLIGHT-C2"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
+    assert revs[2]["reviewed_head"] == "c66670770d6b34b355fe29dba384102fc59827d7"
+    assert revs[2]["disposition"].endswith("C3_EXECUTOR_AND_ASSEMBLER_CORRECTION_REQUIRED")
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())
@@ -1570,13 +1578,15 @@ def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
     assert m["solves_executed"] == 0
     assert m["n_rows"] == m["adaptive_maximum"] == len(m["rows"])
     assert sum(m["by_class"].values()) == m["n_rows"]
+    assert (m["planned_normal_solves"] + m["planned_fixed_step_audits"]
+            + m["planned_pressure_plane_diagnostics"]) == m["n_rows"]
     for phase in ("P0", "P1a", "P1b", "P2a", "P3", "P4"):
         assert m["by_phase"][phase] > 0
     assert "P2b" not in m["by_phase"]                     # P2b does arithmetic, not solving
     central = [r for r in m["rows"] if r["kind"] == "identical_path_control"
                and r["forcing_level"] == "central" and r["run_mode"] == "NORMAL"]
     assert len(central) == 2 * 2 * len(SCI) == 48
-    assert m["planned_normal_solves"] + m["planned_fixed_step_audits"] == m["n_rows"]
+
     assert m["by_phase"]["P4"] == vf.ARM_J["planned_solves"]
     assert m["mandatory_minimum"] + m["refused_after_earliest_stop"] == m["n_rows"]
     assert m["diagnostic_replicates"] == 3
@@ -1998,9 +2008,9 @@ def test_no_fraction_is_ever_built_from_a_binary_float():
 
 @pytest.fixture()
 def executed_p0(tmp_path):
-    """A complete, validated P0 phase produced by the executor with a FAKE result provider."""
+    """A complete, validated P0 phase from the PRIVATE TEST_ONLY seam (erratum PE-34)."""
     auth = vf.execution_authority("P0", require_clean=False)
-    man = drv._execute_solving_phase("P0", tmp_path, auth, {}, {}, _fake_provider, "reference")
+    man = drv._test_only_execute("P0", tmp_path, _fake_provider, auth)
     return tmp_path, auth, man
 
 
@@ -2020,10 +2030,12 @@ def _fake_provider(mask, g, phase, row, tau=None, audit=None, backend="reference
 def test_the_executor_completes_a_whole_phase_into_validated_records(executed_p0):
     runs, auth, man = executed_p0
     assert man["terminal_status"] == "PHASE_COMPLETE"
-    assert man["counts"]["completed"] == man["counts"]["expected"] > 0
+    assert man["counts"]["completed"] == man["counts"]["universe"] > 0
     assert man["counts"]["failed"] == 0
-    doc = vf.validate_phase_manifest("P0", runs, authority=auth)
+    doc = vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
     assert len(doc["_records"]) == man["counts"]["completed"]
+    assert man["counts"]["universe"] == (man["counts"]["completed"] + man["counts"]["refused"]
+                                         + man["counts"]["failed"])
 
 
 def test_a_case_record_is_immutable_and_a_resume_needs_an_exact_match(executed_p0):
@@ -2063,7 +2075,7 @@ def test_a_missing_record_breaks_its_manifest(executed_p0):
     runs, auth, man = executed_p0
     (runs / vf.case_record_filename(man["completed"][0]["case_id"])).unlink()
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_a_wrong_record_hash_breaks_its_manifest(executed_p0):
@@ -2072,7 +2084,7 @@ def test_a_wrong_record_hash_breaks_its_manifest(executed_p0):
     doc["completed"][0]["record_sha256"] = "0" * 64
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_a_nonempty_but_incomplete_manifest_fails(executed_p0):
@@ -2084,7 +2096,7 @@ def test_a_nonempty_but_incomplete_manifest_fails(executed_p0):
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     assert doc["completed"]                            # nonempty...
     with pytest.raises(vf.ManifestMissing):            # ...and still not a phase
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_an_extra_case_not_in_the_plan_is_refused(executed_p0):
@@ -2094,7 +2106,7 @@ def test_an_extra_case_not_in_the_plan_is_refused(executed_p0):
     doc["counts"]["completed"] += 1
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_a_duplicate_completed_case_is_refused(executed_p0):
@@ -2104,7 +2116,7 @@ def test_a_duplicate_completed_case_is_refused(executed_p0):
     doc["counts"]["completed"] += 1
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_one_record_hash_cannot_be_cited_for_two_physically_distinct_rows(executed_p0):
@@ -2114,7 +2126,7 @@ def test_one_record_hash_cannot_be_cited_for_two_physically_distinct_rows(execut
     b["record_sha256"] = a["record_sha256"]
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_a_manifest_from_a_superseded_correction_version_is_refused(executed_p0):
@@ -2123,7 +2135,7 @@ def test_a_manifest_from_a_superseded_correction_version_is_refused(executed_p0)
     doc["correction_version"] = "PREFLIGHT-C1"
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_a_manifest_whose_plan_hash_does_not_match_the_derived_plan_is_refused(executed_p0):
@@ -2132,7 +2144,7 @@ def test_a_manifest_whose_plan_hash_does_not_match_the_derived_plan_is_refused(e
     doc["phase_plan_sha256"] = "0" * 64
     (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
     with pytest.raises(vf.ManifestMissing):
-        vf.validate_phase_manifest("P0", runs, authority=auth)
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
 
 
 def test_p1b_expectations_are_derived_from_predecessor_records_not_supplied():
@@ -2151,12 +2163,13 @@ def test_p1b_expectations_are_derived_from_predecessor_records_not_supplied():
 
 def test_the_p2b_assembler_accepts_no_free_form_input():
     src = inspect.signature(vf.assemble_p2b_from_runs).parameters
-    assert set(src) == {"runs_dir", "authority"}
+    assert set(src) == {"runs_dir", "backend"}
     assert not hasattr(vf, "build_freeze")
     body = inspect.getsource(vf.assemble_p2b_from_runs)
-    assert "field_contrast(" in body                   # c is RECOMPUTED, never read back
-    assert "xi_envelope(" in body and "reachable_set_admission(" in body
-    assert "select_bridges(" in body
+    for call in ("field_contrast(", "xi_envelope(", "reachable_set_admission(",
+                 "select_bridges(", "candidate_forcing_gates(", "candidate_resolution_gates(",
+                 "fixed_step_discrepancy(", "_atomic_write_json("):
+        assert call in body, call
 
 
 def test_the_assembler_recomputes_rather_than_trusting_stored_values():
@@ -2182,10 +2195,13 @@ def test_every_matrix_row_resolves_to_exactly_one_fixture_or_coupon():
     assert seen
 
 
-def test_p2b_makes_no_solver_call():
+def test_p2b_makes_no_solver_call_and_has_its_own_authority_gate():
     body = inspect.getsource(drv.execute_phase)
-    assert "NO solver call" in body
     assert "assemble_p2b_from_runs" in body
+    assert "require_assembly_authorisation" in body
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    assert "solver_records" in inspect.getsource(vf.assemble_p2b_from_runs)
 
 
 def test_a_failed_case_stops_the_phase(tmp_path, monkeypatch):
@@ -2200,7 +2216,7 @@ def test_a_failed_case_stops_the_phase(tmp_path, monkeypatch):
             res["steps"] = vf.MAX_STEPS               # NORMAL_UNCONVERGED
         return res
 
-    man = drv._execute_solving_phase("P0", tmp_path, auth, {}, {}, failing, "reference")
+    man = drv._test_only_execute("P0", tmp_path, failing, auth)
     assert man["terminal_status"] == "PHASE_STOPPED_UNCONVERGED"
     assert man["terminal_stop_reason"] == "NORMAL_UNCONVERGED"
     assert man["counts"]["failed"] == 1
@@ -2216,10 +2232,24 @@ def test_the_cli_exposes_no_arbitrary_solver_callback():
     assert "provider" not in dump
 
 
-def test_the_result_provider_is_a_python_keyword_only_test_seam():
+def test_the_production_api_has_no_provider_or_authority_override():
+    """Erratum PE-34: the superseded signature took BOTH a solver callback and an authority."""
     params = inspect.signature(drv.execute_phase).parameters
-    assert "result_provider" in params
-    assert params["result_provider"].default is None
+    assert list(params) == ["phase", "runs_dir", "backend"]
+    assert "result_provider" not in params and "authority" not in params
+    # the seam exists, is private, and marks everything it writes
+    assert drv._test_only_execute.__name__.startswith("_")
+    assert "TEST_ONLY" in inspect.getsource(drv._test_only_execute)
+
+
+def test_a_test_only_record_cannot_enter_a_production_manifest(executed_p0):
+    runs, auth, man = executed_p0
+    assert man["provenance_mode"] == "TEST_ONLY"
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=True)
+    rec, _ = vf.read_case_record(runs, man["completed"][0]["case_id"])
+    with pytest.raises(vf.ManifestMissing):
+        vf.assert_production_record(rec)
 
 
 def test_the_real_solver_is_never_reached_by_any_test(monkeypatch):
@@ -2244,3 +2274,444 @@ def test_all_phases_refuse_at_this_head():
         with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
                             vf.ExecutionAuthorityError)):
             drv.run_phase(phase)
+
+
+# ==========================================================================================
+# 13. C3 correction regressions — PE-22 … PE-39
+# ==========================================================================================
+
+def _pipeline_provider(prune=(9, 4)):
+    """Deterministic TEST_ONLY stand-in. One candidate is given a 1 % axial artifact so the P1a
+    triage screen prunes it. The real kernel is never reached."""
+    def provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
+        nx = mask.shape[0]
+        ux = np.zeros(mask.shape)
+        for x in range(nx):
+            n = int((~mask[x]).sum())
+            if n:
+                ux[x][~mask[x]] = 1.0e-3 / n
+        b = row.get("bridge")
+        if isinstance(b, dict) and (b["w"], b["kz"]) == prune and row["state"] == "open":
+            ux *= 1.01
+        S = row["S"]
+        lo, hi = 4 * S, 52 * S
+        xs = np.arange(nx, dtype=float)
+        frac = np.clip((xs - lo) / float(hi - lo), 0.0, 1.0)
+        p_eff = 1.0 / 3.0 - 1.0e-4 * frac
+        rho = 3.0 * (p_eff + g * xs)[:, None, None] * np.ones(mask.shape)
+        z = np.zeros(mask.shape)
+        steps = 3000 if audit is None else audit["target_steps"]
+        return {"ux": ux, "uy": z.copy(), "uz": z.copy(), "rho": rho, "steps": steps}
+    return provider
+
+
+@pytest.fixture(scope="module")
+def synthetic_prefreeze(tmp_path_factory):
+    """P0 -> P1a -> adaptive P1b -> adaptive P2a, end to end, with NO solver."""
+    d = tmp_path_factory.mktemp("prefreeze")
+    auth = vf.execution_authority("P0", require_clean=False)
+    prov = _pipeline_provider()
+    mans, recs, out = {}, {}, {}
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        out[phase] = drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans),
+                                            records=dict(recs))
+        doc = vf.validate_phase_manifest(phase, d, authority=auth,
+                                         predecessor_records=dict(recs),
+                                         require_production=False)
+        recs.update(doc.pop("_records", {}))
+        mans[phase] = doc
+    return d, auth, out, recs
+
+
+def test_the_whole_pre_freeze_pipeline_runs_with_no_solver(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        m = out[phase]
+        assert m["terminal_status"] == "PHASE_COMPLETE", phase
+        c = m["counts"]
+        assert c["universe"] == c["completed"] + c["refused"] + c["failed"], phase
+    assert out["P1b"]["counts"]["refused"] > 0        # a candidate really was pruned
+    assert out["P2a"]["counts"]["refused"] > 0
+    assert len(recs) > 400
+
+
+def test_p1a_prunes_a_candidate_and_the_refused_rows_stay_in_the_universe(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    triage = vf.p1a_triage(recs)
+    rejected = [k for k, v in triage.items() if v["rejected"]]
+    assert (9, 4) in rejected
+    assert all(v["may_admit"] is False for v in triage.values())
+    m = out["P1b"]
+    for entry in m["refused"]:
+        assert entry["reason"] in vf.REFUSAL_REASONS
+    ids = set(m["phase_universe_case_ids"])
+    assert {e["case_id"] for e in m["refused"]} <= ids     # refused rows remain MEMBERS
+
+
+def test_every_adaptive_ledger_is_an_exact_disjoint_partition(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        m = out[phase]
+        comp = {e["case_id"] for e in m["completed"]}
+        ref = {e["case_id"] for e in m["refused"]}
+        fail = {e["case_id"] for e in m["failed"]}
+        uni = set(m["phase_universe_case_ids"])
+        assert comp | ref | fail == uni, phase
+        assert not (comp & ref) and not (comp & fail) and not (ref & fail), phase
+
+
+def test_the_artifact_evidence_schema_is_flat_and_plural(synthetic_prefreeze):
+    """Erratum PE-23/PE-24: the superseded assembler raised KeyError then TypeError here."""
+    d, auth, out, recs = synthetic_prefreeze
+    adm = vf.artifact_admission_from_records(recs)
+    assert adm and len(adm) == len(SCI)
+    checked = 0
+    for key, e in adm.items():
+        for combo, ev in e["combinations"].items():
+            vf.assert_artifact_evidence(ev)              # flat + plural, or it raises
+            for k in ("normal_record_sha256", "audit_record_sha256",
+                      "pressure_plane_record_sha256"):
+                assert all(isinstance(h, str) and len(h) == 64 for h in ev[k])
+            assert not set(ev["normal_case_ids"]) & set(ev["audit_case_ids"])
+            if e["admitted"]:
+                # an ADMITTED candidate must carry both kinds of evidence; a pruned one has
+                # neither, because its P1b rows were refused
+                assert ev["audit_case_ids"], "fixed-step evidence must be present"
+                assert ev["pressure_plane_case_ids"], "node-offset evidence must be present"
+                checked += 1
+    assert checked > 0
+    assert not adm[(9, 4)]["combinations"][list(adm[(9, 4)]["combinations"])[0]][
+        "audit_case_ids"]                                # the pruned candidate has none
+
+
+def test_eleven_of_twelve_candidates_are_admitted_and_the_pruned_one_is_not(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    adm = vf.artifact_admission_from_records(recs)
+    assert adm[(9, 4)]["admitted"] is False
+    assert sum(1 for v in adm.values() if v["admitted"]) == len(SCI) - 1
+
+
+def test_the_node_offset_term_is_measured_and_not_silently_zero(synthetic_prefreeze):
+    """Erratum PE-32: the superseded term was always exactly 0.0 because nothing was passed."""
+    d, auth, out, recs = synthetic_prefreeze
+    adm = vf.artifact_admission_from_records(recs)
+    ev = list(adm[(3, 2)]["combinations"].values())[0]
+    assert ev["evidence_complete"] is True
+    assert ev["u_pressure_plane_R"] > 0.0
+    assert ev["u_artifact_R"] == pytest.approx(ev["u_fixed_step_R"] + ev["u_pressure_plane_R"]
+                                               + ev["u_serialization_R"])
+
+
+def test_missing_pressure_plane_evidence_fails_rather_than_contributing_zero(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    stripped = {k: v for k, v in recs.items() if v["kind"] != "pressure_plane_diagnostic"}
+    adm = vf.artifact_admission_from_records(stripped)
+    assert adm[(3, 2)]["admitted"] is False
+    ev = list(adm[(3, 2)]["combinations"].values())[0]
+    assert ev["evidence_complete"] is False and ev["pass"] is False
+    assert "pressure-plane" in ev["reason"]
+
+
+def test_audits_are_paired_evidence_and_never_independent_observations(synthetic_prefreeze):
+    """Erratum PE-30: coupon selection matched on `kind`, which is identical for a normal row and
+    its audit, so re-runs entered estimates as new observations."""
+    d, auth, out, recs = synthetic_prefreeze
+    normals = vf._normal_only(recs, "bridge_coupon", (3, 2))
+    audits = vf._audits_for(recs, "bridge_coupon", (3, 2))
+    assert normals and audits
+    assert not set(normals) & set(audits)
+    assert all(r["run_mode"] == "NORMAL" for r in normals.values())
+    pairs = vf._pair_normal_with_audit(normals, audits)
+    assert pairs and set(pairs) <= set(normals)
+    for base_id, pr in pairs.items():
+        assert pr["audit"]["row"]["audit_of_case_id"] == base_id
+        assert pr["audit"]["status"] == "FIXED_STEP_AUDIT_COMPLETED"
+
+
+def test_c_and_xi_uncertainty_come_from_their_own_families(synthetic_prefreeze):
+    """Erratum PE-31: the superseded assembler reused the artifact's u_R for both."""
+    d, auth, out, recs = synthetic_prefreeze
+    key = (3, 2)
+    u_c = vf.fixed_step_discrepancy(
+        vf._pair_normal_with_audit(vf._normal_only(recs, "candidate_blocked_mirror", key),
+                                   vf._audits_for(recs, "candidate_blocked_mirror", key)),
+        lambda r: vf.field_contrast(r["scientific"])["c_field"] if r.get("scientific") else None,
+        "c_field")
+    u_xi = vf.fixed_step_discrepancy(
+        vf._pair_normal_with_audit(vf._normal_only(recs, "bridge_coupon", key),
+                                   vf._audits_for(recs, "bridge_coupon", key)),
+        lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"), "G_bridge_coupon")
+    for u in (u_c, u_xi):
+        assert u["n_pairs"] > 0
+        assert u["normal_case_ids"] and u["audit_case_ids"]
+        assert not set(u["normal_case_ids"]) & set(u["audit_case_ids"])
+        assert u["overlaps"] == "none; this family's own pairs only"
+    assert set(u_c["normal_case_ids"]) != set(u_xi["normal_case_ids"])
+
+
+def test_the_forcing_and_resolution_gates_actually_execute(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    fg = vf.candidate_forcing_gates(recs, (3, 2))
+    rg = vf.candidate_resolution_gates(recs, (3, 2), {"w": 3, "kz": 2})
+    assert fg["n_gates"] > 0 and rg["n_gates"] > 0
+    for g in fg["gates"]:
+        assert g["status"] in vf.FORCING_GATE_STATUS
+        assert g["case_ids"] and g["record_sha256"]
+    for g in rg["gates"]:
+        assert g["kind"].endswith("NOT_A_CONVERGENCE_ORDER_ESTIMATE")
+        assert g["case_ids"] and g["record_sha256"]
+        assert g["status"] in ("PASS", "FAIL")
+    # the gates produce real verdicts with real lineage; whether a SYNTHETIC field passes them is
+    # not the point, and a failure here would correctly make the candidate unavailable
+    assert isinstance(fg["pass"], bool) and isinstance(rg["pass"], bool)
+    assert {g["quantity"].split("@")[0] for g in fg["gates"]} & set(vf.COMPONENTWISE_QUANTITIES)
+
+
+def test_p2b_is_durable_and_design_blocks_without_writing_a_freeze(synthetic_prefreeze,
+                                                                  monkeypatch, tmp_path):
+    """Erratum PE-25: the superseded assembler returned a dict and wrote nothing."""
+    d, auth, out, recs = synthetic_prefreeze
+    real_val, real_auth = vf.validate_phase_manifest, vf.execution_authority
+    monkeypatch.setattr(vf, "validate_phase_manifest",
+                        lambda ph, rd, **kw: real_val(ph, rd, **dict(kw,
+                                                                     require_production=False)))
+    monkeypatch.setattr(vf, "assert_production_record", lambda r: r)
+    monkeypatch.setattr(vf, "execution_authority",
+                        lambda st, backend="reference", require_clean=True:
+                        real_auth(st, backend=backend, require_clean=False))
+    man = vf.assemble_p2b_from_runs(d)
+    assert man["phase_kind"] == "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL"
+    assert man["solver_records"] == []
+    assert (d / "candidate_ledger.json").exists()
+    assert (d / "manifest_P2b.json").exists()
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    assert ledger["n_declared"] == len(SCI)
+    if man["selection_status"] == "DESIGN_BLOCKED":
+        assert man["terminal_status"] == "PHASE_STOPPED_DESIGN_BLOCKED"
+        assert man["terminal_stop_reason"] in vf.DESIGN_BLOCKED_REASONS
+        assert not (d / "proposed_bridge_freeze.json").exists()   # NO freeze on a design block
+    else:                                                          # pragma: no cover
+        fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
+        assert len(fz["frozen_bridges"]) == vf.N_FROZEN_BRIDGES
+        assert fz["status"] == "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW"
+        assert fz["p3_p4_authorised"] is False
+    # a P2b artifact is immutable: re-running must reuse the exact match, never overwrite
+    again = vf.assemble_p2b_from_runs(d)
+    assert again["terminal_status"] == man["terminal_status"]
+
+
+def test_a_p2b_artifact_cannot_be_overwritten_with_different_content(tmp_path):
+    doc = {"a": 1}
+    path = tmp_path / "x.json"
+    assert vf._atomic_write_json(path, doc)[1] == "WRITTEN"
+    assert vf._atomic_write_json(path, doc)[1] == "REUSED_EXACT_MATCH"
+    with pytest.raises(ValueError):
+        vf._atomic_write_json(path, {"a": 2})
+
+
+# ---- PE-27: predecessor success ------------------------------------------------------------
+
+def test_a_stopped_predecessor_cannot_satisfy_the_next_phase(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    import shutil
+    work = tmp_path / "w"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    doc["terminal_status"] = "PHASE_STOPPED_UNCONVERGED"
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.require_phase_manifests("P1a", runs_dir=work, authority=auth,
+                                   require_production=False)
+    assert "PHASE_COMPLETE" in str(exc.value)
+
+
+def test_the_exact_predecessor_key_set_is_required(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    import shutil
+    work = tmp_path / "w2"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P1b.json").read_text())
+    doc["predecessor_manifests"] = {}
+    (work / "manifest_P1b.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.require_phase_manifests("P2a", runs_dir=work, authority=auth)
+
+
+# ---- PE-35: exact per-case solver configuration ---------------------------------------------
+
+@pytest.mark.parametrize("tau", [2.0, 1.2])
+def test_the_effective_solver_configuration_is_per_row(tau):
+    rows = [r for r in vf.execution_matrix()["rows"] if r["tau_plus"] == tau]
+    assert rows
+    cfg = vf.effective_solver_config(rows[0])
+    assert cfg["tau_plus"] == tau
+    assert cfg["return_fields"] == list(vf.RETURN_FIELDS)
+    assert cfg["min_steps"] == vf.MIN_STEPS and cfg["max_steps"] == vf.MAX_STEPS
+
+
+def test_a_fixed_step_row_pins_min_and_max_to_its_target():
+    row = [r for r in vf.execution_matrix()["rows"]
+           if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"][0]
+    plan = vf.fixed_step_audit_plan(3000, "NORMAL_CONVERGED")
+    cfg = vf.effective_solver_config(row, audit=plan)
+    assert cfg["min_steps"] == cfg["max_steps"] == cfg["fixed_step_target"] == plan["target_steps"]
+
+
+def test_a_record_whose_configuration_is_not_the_rows_is_refused(executed_p0):
+    runs, auth, man = executed_p0
+    rec, _ = vf.read_case_record(runs, man["completed"][0]["case_id"])
+    for mutate in ({"tau_plus": 1.2}, {"min_steps": 1}, {"return_fields": ["rho"]},
+                   {"backend": "taichi"}):
+        bad = dict(rec, solver_config=dict(rec["solver_config"], **mutate))
+        with pytest.raises(ValueError):
+            vf.validate_case_record(bad, row=rec["row"], phase="P0")
+
+
+# ---- PE-36: Arm J is physically resolvable ---------------------------------------------------
+
+@pytest.mark.parametrize("S", [vf.S_SMOKE, vf.S_COARSE, vf.S_FINE])
+def test_the_obstruction_changes_only_the_plenum_and_preserves_the_relationship(S):
+    b = {"w": 5, "kz": 3}
+    nom, meta = vf.build_fixture(S, bridge=b, connected=True)
+    obs, meta_o = vf.build_fixture(S, bridge=b, connected=True, obstructed=True)
+    r = vf.obstruction_report(nom, obs, meta)
+    assert r["differs_from_nominal"] and r["n_changed_voxels"] > 0
+    assert r["all_changes_in_plenum"] and r["lane_and_bridge_unchanged"]
+    assert r["relationship_preserved"]
+    c = vf.connectivity(obs, meta_o)
+    assert c["single_connected"] and c["no_lateral_bypass"]
+    assert meta_o["obstructed"] is True and meta_o["obstruction"]["kind"] == "PLENUM_SLAB_001B"
+
+
+def test_an_obstructed_row_resolves_to_an_obstructed_mask():
+    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k}
+                                              for w, k in ((3, 2), (3, 3), (5, 2), (5, 3))])
+    p4 = [r for r in inst if r["obstructed"]]
+    assert p4
+    row = p4[0]
+    mask, meta, kind = drv.resolve_row(row)
+    assert meta["obstructed"] is True
+    nominal = dict(row, obstructed=False)
+    nmask, _, _ = drv.resolve_row(nominal)
+    assert vf.mask_hash(mask) != vf.mask_hash(nmask)
+
+
+def test_resolution_is_deterministic_and_an_unresolved_template_is_refused():
+    rows = [r for r in vf.execution_matrix()["rows"] if r["phase"] == "P3"]
+    tpl = [r for r in rows if isinstance(r["bridge"], str)][0]
+    with pytest.raises(ValueError) as exc:
+        drv.resolve_row(tpl)
+    assert "UNRESOLVED placeholder" in str(exc.value)
+    row = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "identical_path_control"][0]
+    a = drv.resolve_row(row)[1]["mask_sha256"]
+    b = drv.resolve_row(row)[1]["mask_sha256"]
+    assert a == b
+
+
+@pytest.mark.parametrize("bad", [{"kind": "not_a_kind"}, {"variant": "nope"},
+                                 {"state": "nope"}])
+def test_an_unknown_row_attribute_fails_closed(bad):
+    row = dict([r for r in vf.execution_matrix()["rows"]
+                if r["kind"] == "identical_path_control"][0], **bad)
+    with pytest.raises(ValueError):
+        drv.resolve_row(row)
+
+
+# ---- PE-37: replicates ------------------------------------------------------------------------
+
+def test_a_determinism_replicate_must_reproduce_its_base_payload(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    reps = out["P0"]["replicates"]
+    assert reps
+    for r in reps:
+        assert r["pass"] is True
+        assert r["scientific_payload_sha256"] == r["base_scientific_payload_sha256"]
+        assert len(r["scientific_payload_sha256"]) == 64
+
+
+def test_a_replicate_that_does_not_reproduce_its_base_breaks_the_manifest(synthetic_prefreeze,
+                                                                         tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    import shutil
+    work = tmp_path / "w3"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    doc["replicates"][0]["pass"] = False
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+
+
+# ---- PE-38/PE-39: CLI and authority ------------------------------------------------------------
+
+@pytest.mark.parametrize("jobs", [0, 2, 6])
+def test_only_one_job_is_accepted(jobs):
+    with pytest.raises(ValueError) as exc:
+        drv.run_phase("plan", jobs=jobs)
+    assert "--jobs" in str(exc.value)
+
+
+def test_a_non_reference_backend_fails_before_execution():
+    with pytest.raises(ValueError):
+        drv.run_phase("plan", backend="taichi")
+
+
+def test_an_unknown_phase_fails_closed():
+    with pytest.raises(ValueError):
+        drv.run_phase("P9")
+    with pytest.raises(ValueError):
+        drv.execute_phase("P9", "/tmp")
+
+
+def test_the_output_directory_is_the_runs_directory_actually_used(tmp_path, monkeypatch):
+    seen = {}
+    monkeypatch.setattr(drv, "execute_phase",
+                        lambda phase, runs_dir, backend="reference": seen.setdefault(
+                            "runs_dir", pathlib.Path(runs_dir)))
+    drv.run_phase("P0", out_dir=tmp_path)
+    assert seen["runs_dir"] == tmp_path
+
+
+def test_solving_and_assembly_authority_are_separate_and_both_empty():
+    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
+    assert "AUTHORISED_ASSEMBLY_PHASES = ()" in src
+    assert "AUTHORISED_SOLVING_PHASES = ()" in src
+    body = inspect.getsource(drv.require_assembly_authorisation)
+    assert "AUTHORISED_ASSEMBLY_PHASES" in body and "AUTHORISED_SOLVING_PHASES" not in body
+
+
+def test_every_phase_including_p2b_refuses_at_this_head():
+    for phase in drv.SOLVING_MODES + drv.ASSEMBLY_MODES:
+        with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+                            vf.ExecutionAuthorityError)):
+            drv.run_phase(phase)
+
+
+def test_the_real_solver_call_count_is_zero_across_the_whole_pipeline(monkeypatch,
+                                                                     synthetic_prefreeze):
+    from puckworks.models.brewer2026 import lb_reference
+    calls = []
+    monkeypatch.setattr(lb_reference, "solve", lambda *a, **k: calls.append(1))
+    with pytest.raises(drv.ExecutionNotAuthorised):
+        drv.solve(np.ones((4, 4, 4), bool), g=1e-6, phase="P0")
+    for phase in drv.SOLVING_MODES + drv.ASSEMBLY_MODES:
+        with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
+                            vf.ExecutionAuthorityError)):
+            drv.run_phase(phase)
+    assert calls == []
+
+
+# ---- PE-24 unit: flat hash lists ---------------------------------------------------------------
+
+@pytest.mark.parametrize("bad", [[["a" * 64]], ["short"], ["A" * 64], ["a" * 64, "a" * 64],
+                                 "notalist", [None]])
+def test_a_nested_short_uppercase_or_duplicate_hash_list_is_refused(bad):
+    with pytest.raises(ValueError):
+        vf.assert_flat_hash_list(bad, "test")
+
+
+def test_a_valid_flat_hash_list_passes():
+    vals = ["%064x" % i for i in range(3)]
+    assert vf.assert_flat_hash_list(vals, "test") == vals

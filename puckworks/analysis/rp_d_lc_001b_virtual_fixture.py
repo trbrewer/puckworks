@@ -53,6 +53,44 @@ class NonFiniteValue(ValueError):
     serialised, hashed or adjudicated."""
 
 
+_SHA256_CHARS = set("0123456789abcdef")
+
+
+def assert_flat_hash_list(values, what):
+    """A flat, ordered, unique list of canonical lowercase SHA-256 strings (erratum PE-24).
+
+    The superseded assembler built lists OF LISTS and then applied ``set()`` to them. Nesting is
+    rejected here rather than discovered as an unhashable-type error three calls later.
+    """
+    if not isinstance(values, (list, tuple)):
+        raise ValueError("%s must be a flat list of hashes, got %r" % (what, type(values)))
+    out = []
+    for v in values:
+        if isinstance(v, (list, tuple, set, dict)):
+            raise ValueError("%s contains a nested value %r; hash lists must be flat" % (what, v))
+        if not isinstance(v, str) or len(v) != 64 or not set(v) <= _SHA256_CHARS:
+            raise ValueError("%s contains %r, which is not a canonical lowercase SHA-256"
+                             % (what, v))
+        out.append(v)
+    if len(set(out)) != len(out):
+        raise ValueError("%s contains a duplicate hash" % (what,))
+    return out
+
+
+def assert_flat_id_list(values, what):
+    """A flat, ordered, unique list of case IDs."""
+    if not isinstance(values, (list, tuple)):
+        raise ValueError("%s must be a flat list of case IDs, got %r" % (what, type(values)))
+    out = []
+    for v in values:
+        if not isinstance(v, str) or not v:
+            raise ValueError("%s contains %r, which is not a case ID" % (what, v))
+        out.append(v)
+    if len(set(out)) != len(out):
+        raise ValueError("%s contains a duplicate case ID" % (what,))
+    return out
+
+
 class ExecutionAuthorityError(RuntimeError):
     """The execution authority could not be established. Always fail closed: never return a
     partial or None-valued authority record (erratum PE-11)."""
@@ -64,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C2"
+CORRECTION_VERSION = "PREFLIGHT-C3"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -98,6 +136,27 @@ SUPERSEDED_REVIEWS = (
         "superseded_counts": {"adaptive_maximum": 407, "mandatory_minimum": 82,
                               "refused_after_earliest_stop": 325, "n_frozen_bridges": 5,
                               "arm_j_planned_solves": 20},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+    },
+    {
+        "correction_version": "PREFLIGHT-C2",
+        "reviewed_head": "c66670770d6b34b355fe29dba384102fc59827d7",
+        "reviewed_tree": "002f7bae2d5a6c0f890b6144ae515b4af73d97ed",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C3_EXECUTOR_AND_"
+                        "ASSEMBLER_CORRECTION_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(22, 40)],
+        "superseded_artifact_sha256": {
+            "protocol.json": "ae52600c5d2d8ce0a8b86d31545b6fc40b92228fc805542dc3a9ee8ac645a21f",
+            "fixture_spec.json": "d931b3616948995a45237c7c781503dc5fc25618ae04be015f4b03b03fceb074",
+            "execution_matrix.json":
+                "6e6140a1b07b2fbf13e69a12044d5927e3a6f3c10cca91356316dbd85410f81c",
+            "preflight_status.json":
+                "5d8cf61abdac1f4399de1f282441c5fd139b8d3f1e44c7b3c7ac5d1a0708ec73",
+        },
+        "superseded_counts": {"adaptive_maximum": 703, "planned_normal_solves": 383,
+                              "planned_fixed_step_audits": 320, "mandatory_minimum": 112,
+                              "refused_after_earliest_stop": 591},
         "apparatus_accepted_in_principle":
             "common_mode_port_blind_pocket_off_on_comparison",
     },
@@ -356,16 +415,92 @@ def fixture_state(bridge, connected) -> str:
     return "open" if connected else "blocked"
 
 
+#: The RP-D-LC-001b plenum obstruction (erratum PE-36). ADDITIVE: it changes nothing in
+#: RP-D-LC-001, its fixture module, its driver or lb_reference. It acts ONLY inside the common
+#: plenum, touches no lane, port, duct or divider voxel, and is placed symmetrically about the
+#: x = 0 mirror plane so the fixture's mirror relationship survives.
+OBSTRUCTION = {
+    "kind": "PLENUM_SLAB_001B",
+    "base_x": (55, 0, 1),            # inside the plenum; EXACTLY symmetric under b -> (56-b)%56
+    "base_y": (6, 17),               # inclusive band, centred on the full-section plenum
+    "base_z": (2, 4),                # inclusive band, inside the plenum's fluid height
+    "note": ("obstructs the common return path only; preserves every lane, port, duct and "
+             "divider solid, and is symmetric about the x = 0 mirror plane"),
+}
+
+
+def apply_obstruction(mask, S: int):
+    """Return a NEW mask with the frozen plenum obstruction applied (erratum PE-36).
+
+    Raises if the obstruction cannot be constructed exactly — if any target voxel is already
+    solid, the geometry is not the one the specification describes.
+    """
+    out = mask.copy()
+    ylo, yhi = OBSTRUCTION["base_y"]
+    zlo, zhi = OBSTRUCTION["base_z"]
+    ys, ye = ylo * S, (yhi + 1) * S
+    zs, ze = zlo * S, (zhi + 1) * S
+    touched = 0
+    for bx in OBSTRUCTION["base_x"]:
+        if not _base_is_plenum(bx):                          # pragma: no cover - frozen spec
+            raise ValueError("obstruction base station %r is not in the plenum" % (bx,))
+        xs, xe = bx * S, (bx + 1) * S
+        block = out[xs:xe, ys:ye, zs:ze]
+        if block.any():
+            raise ValueError("the obstruction footprint at base x=%d is not entirely fluid; the "
+                             "geometry is not the one the specification describes" % bx)
+        out[xs:xe, ys:ye, zs:ze] = True
+        touched += block.size
+    if touched == 0:                                          # pragma: no cover - frozen spec
+        raise ValueError("the obstruction changed nothing")
+    return out
+
+
+def obstruction_report(mask, obstructed, meta):
+    """Compact proof that the obstruction is confined to the plenum and changes nothing else."""
+    diff = np.argwhere(mask != obstructed)
+    S = meta["S"]
+    lane_x = meta["lane_x"]
+    return {
+        "specification": dict(OBSTRUCTION),
+        "n_changed_voxels": int(diff.shape[0]),
+        "changed_x_range": (int(diff[:, 0].min()), int(diff[:, 0].max())) if diff.size else None,
+        "all_changes_in_plenum": bool(all(
+            not (lane_x[0] <= int(x) < lane_x[1]) for x in diff[:, 0])),
+        "lane_and_bridge_unchanged": bool(np.array_equal(mask[lane_x[0]:lane_x[1]],
+                                                         obstructed[lane_x[0]:lane_x[1]])),
+        # The obstruction must PRESERVE whatever relationship the nominal fixture has: the
+        # mirror variant is mirror-symmetric, the identical-path variant is swap-invariant.
+        # It may not create or destroy either.
+        "nominal_mirror_symmetric": bool(is_mirror_symmetric(mask, S)),
+        "obstructed_mirror_symmetric": bool(is_mirror_symmetric(obstructed, S)),
+        "nominal_swap_invariant": bool(np.array_equal(swap_paths(mask), mask)),
+        "obstructed_swap_invariant": bool(np.array_equal(swap_paths(obstructed), obstructed)),
+        "relationship_preserved": bool(
+            is_mirror_symmetric(mask, S) == is_mirror_symmetric(obstructed, S)
+            and np.array_equal(swap_paths(mask), mask)
+            == np.array_equal(swap_paths(obstructed), obstructed)),
+        "mask_sha256": mask_hash(obstructed),
+        "differs_from_nominal": bool(mask_hash(mask) != mask_hash(obstructed)),
+    }
+
+
 def build_fixture(S: int, bridge=None, connected=False, variant="mirror", swapped=False,
-                  perturbation=None):
+                  perturbation=None, obstructed=False):
     """The full virtual fixture at resolution S, with its frozen region and plane indices."""
     mask = scale(base_mask(bridge=bridge, connected=connected, variant=variant), S)
     if swapped:
         mask = swap_paths(mask)
     if perturbation is not None:
         mask = _apply_perturbation(mask, S, perturbation)
-    return mask, fixture_meta(S, bridge=bridge, connected=connected, variant=variant,
-                              swapped=swapped, perturbation=perturbation, mask=mask)
+    if obstructed:
+        mask = apply_obstruction(mask, S)
+    meta = fixture_meta(S, bridge=bridge, connected=connected, variant=variant,
+                        swapped=swapped, perturbation=perturbation, mask=mask)
+    meta["obstructed"] = bool(obstructed)
+    if obstructed:
+        meta["obstruction"] = dict(OBSTRUCTION)
+    return mask, meta
 
 
 def fixture_meta(S, bridge=None, connected=False, variant="mirror", swapped=False,
@@ -879,30 +1014,47 @@ JUNCTION_ALLOWANCE = 1.0
 #: is SMALLER than ``kz`` over part of the family (w = 3 against kz = 4), so the smallest feature
 #: governing the bridge conductance could be omitted entirely. Port depth and duct traverse were
 #: absent, and ``R``/``s`` did not distinguish a lane-only fixture from a bridge-carrying one.
-LANE_ONLY_FEATURES = ("h_low", "h_high")
-BRIDGE_CARRYING_FEATURES = ("h_low", "h_high", "bridge_w", "bridge_kz", "port_depth",
-                            "duct_traverse")
-
-RESOLUTION_GOVERNING_FEATURES = {
-    # lane-only: the reference and blocked fixtures carry no open connection
-    "R_blocked": LANE_ONLY_FEATURES,
-    "s_blocked": LANE_ONLY_FEATURES,
-    "C_blocked": LANE_ONLY_FEATURES,
-    "c_field": LANE_ONLY_FEATURES,
-    "A_field": LANE_ONLY_FEATURES,
-    # bridge-carrying: an OPEN fixture's R and s carry the bridge, so they are not lane-only
-    "R_open": BRIDGE_CARRYING_FEATURES,
-    "s_open": BRIDGE_CARRYING_FEATURES,
-    "C_open": BRIDGE_CARRYING_FEATURES,
-    "G_lat_field": BRIDGE_CARRYING_FEATURES,
-    "Xi_field": BRIDGE_CARRYING_FEATURES,
-    "Xi_hat": BRIDGE_CARRYING_FEATURES,
-    "Xi_coupon": BRIDGE_CARRYING_FEATURES,
+#: FIVE governing-feature families (erratum PE-33). The superseded model had two, and classified
+#: the CANDIDATE blocked fixture as lane-only — but that fixture carries the common-mode blind
+#: ports, which are a resolved feature of the very geometry whose contrast is being measured.
+FEATURE_FAMILIES = {
+    "reference_blocked_lane_only": ("h_low", "h_high"),
+    "candidate_blocked_common_mode_ports": ("h_low", "h_high", "bridge_w", "bridge_kz",
+                                            "port_depth", "duct_traverse"),
+    "open_bridge_carrying": ("h_low", "h_high", "bridge_w", "bridge_kz", "port_depth",
+                             "duct_traverse"),
+    "axial_coupon": ("h_low", "h_high"),
+    "bridge_coupon": ("bridge_w", "bridge_kz", "duct_traverse"),
 }
+LANE_ONLY_FEATURES = FEATURE_FAMILIES["reference_blocked_lane_only"]
+BRIDGE_CARRYING_FEATURES = FEATURE_FAMILIES["open_bridge_carrying"]
 
+#: Which family governs which decision-bearing quantity. A candidate-blocked quantity uses the
+#: common-mode-ports family; only the bridge-free REFERENCE fixture is lane-only.
+RESOLUTION_GOVERNING_FAMILY = {
+    "R_reference_blocked": "reference_blocked_lane_only",
+    "s_reference_blocked": "reference_blocked_lane_only",
+    "C_reference_blocked": "reference_blocked_lane_only",
+    "R_blocked": "candidate_blocked_common_mode_ports",
+    "s_blocked": "candidate_blocked_common_mode_ports",
+    "C_blocked": "candidate_blocked_common_mode_ports",
+    "c_field": "candidate_blocked_common_mode_ports",
+    "A_field": "candidate_blocked_common_mode_ports",
+    "R_open": "open_bridge_carrying",
+    "s_open": "open_bridge_carrying",
+    "C_open": "open_bridge_carrying",
+    "G_lat_field": "open_bridge_carrying",
+    "Xi_field": "open_bridge_carrying",
+    "Xi_hat": "open_bridge_carrying",
+    "Xi_coupon": "bridge_coupon",
+    "G_axial_coupon": "axial_coupon",
+}
+RESOLUTION_GOVERNING_FEATURES = {q: FEATURE_FAMILIES[f]
+                                 for q, f in RESOLUTION_GOVERNING_FAMILY.items()}
 #: Quantities whose tolerance depends on the candidate geometry and therefore require a bridge.
 BRIDGE_DEPENDENT_QUANTITIES = tuple(
-    q for q, f in RESOLUTION_GOVERNING_FEATURES.items() if f is BRIDGE_CARRYING_FEATURES)
+    q for q, f in RESOLUTION_GOVERNING_FAMILY.items()
+    if any(x.startswith("bridge_") for x in FEATURE_FAMILIES[f]))
 
 
 def element_error(h_vox: float) -> float:
@@ -955,11 +1107,11 @@ def resolution_consistency_tolerance(quantity: str, bridge=None) -> float:
 def resolution_consistency_table(bridge):
     """Every frozen tolerance for one candidate, for the record and for review."""
     out = {}
-    for q in sorted(RESOLUTION_GOVERNING_FEATURES):
+    for q in sorted(RESOLUTION_GOVERNING_FAMILY):
         needs_bridge = q in BRIDGE_DEPENDENT_QUANTITIES
         out[q] = {
             "features": list(RESOLUTION_GOVERNING_FEATURES[q]),
-            "family": "bridge_carrying" if needs_bridge else "lane_only",
+            "family": RESOLUTION_GOVERNING_FAMILY[q],
             "tolerance": resolution_consistency_tolerance(q, bridge if needs_bridge else None),
         }
     return out
@@ -2084,6 +2236,161 @@ def above_window_diagnostics(candidates):
 
 
 # ==========================================================================================
+# 8b. EXECUTABLE FORCING-INVARIANCE AND RESOLUTION-CONSISTENCY GATES (errata PE-28, PE-29)
+# ==========================================================================================
+# Superseded: the x0.5/x1/x2 ladder was scheduled in the matrix and described in the protocol,
+# and NOTHING EVALUATED IT; the resolution tolerance was used only to widen an interval. This is
+# the control whose failure produced INVALID_EXECUTION in RP-D-LC-001, so scheduling the rows
+# without adjudicating them would have reproduced the 001 failure mode one level up.
+#
+# A FAILED GATE MAKES THE CANDIDATE UNAVAILABLE. It never widens an envelope.
+
+#: The frozen componentwise quantities. Each is Stokes-proportional and is divided by g before its
+#: relative spread is taken, against the unchanged TOL_LINEARITY_REL.
+COMPONENTWISE_QUANTITIES = ("Q_open", "Q_blocked", "dP_open", "dP_blocked",
+                            "q_lat", "delta_p_lateral")
+#: Quantities whose expected value is ZERO for the case in question. They are never divided by
+#: their own mean; they are judged on the frozen absolute scale with separate magnitude and
+#: consistency verdicts (the PE-14 rule, applied to the forcing ladder).
+EXPECTED_ZERO_QUANTITIES = ("q_lat", "delta_p_lateral")
+#: The boundary-level quantities whose forcing stability must be established BEFORE any of them
+#: informs artifact admission, a c interval, a Xi envelope, admission, a category or a selection.
+BOUNDARY_STABILITY_QUANTITIES = ("R", "s", "c_field", "Xi")
+
+FORCING_GATE_STATUS = ("PASS", "FAIL", "NOT_APPLICABLE", "INCOMPLETE")
+
+
+def _reduced(value, g):
+    return _finite(value, "value") / _finite(g, "g")
+
+
+def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scale=None,
+                               tol=TOL_LINEARITY_REL, zero_tol=None):
+    """Adjudicate one Stokes-proportional quantity across a forcing ladder.
+
+    ``samples`` is an iterable of ``{"forcing_level", "g", "value", "case_id", "record_sha256"}``
+    from **NORMAL** records only. Fixed-step audits are never observations (erratum PE-30).
+
+    For a nonzero quantity the verdict is the exact frozen componentwise relative spread of
+    ``value/g``. For an expected-zero quantity the mean is not a denominator: magnitude and
+    consistency are judged against ``zero_scale`` with ``zero_tol``.
+    """
+    rows = [dict(s) for s in samples]
+    out = {
+        "quantity": quantity, "expected_zero": bool(expected_zero),
+        "tolerance": (zero_tol if expected_zero else tol),
+        "levels": sorted({r["forcing_level"] for r in rows}),
+        "case_ids": assert_flat_id_list([r["case_id"] for r in rows], "forcing gate case_ids"),
+        "record_sha256": assert_flat_hash_list([r["record_sha256"] for r in rows],
+                                               "forcing gate record hashes"),
+        "reduced": None, "spread": None, "max_abs": None, "range": None,
+        "status": "INCOMPLETE", "pass": None, "reason": None,
+    }
+    missing = [lv for lv in FORCING_LEVELS if lv not in out["levels"]]
+    if missing:
+        out["reason"] = "missing forcing level(s) %r; the ladder is incomplete" % (missing,)
+        out["pass"] = False
+        return out
+    reduced = {}
+    for r in rows:
+        reduced[r["forcing_level"]] = _finite(_reduced(r["value"], r["g"]),
+                                              "%s/g at %s" % (quantity, r["forcing_level"]))
+    out["reduced"] = reduced
+    vals = [reduced[lv] for lv in FORCING_LEVELS]
+    if expected_zero:
+        scale = abs(_finite(zero_scale, "zero_scale"))
+        if scale == 0.0:
+            raise ValueError("an expected-zero forcing gate needs a nonzero absolute scale")
+        if zero_tol is None:
+            raise ValueError("an expected-zero forcing gate needs its frozen zero tolerance")
+        out["max_abs"] = max(abs(v) for v in vals)
+        out["range"] = max(vals) - min(vals)
+        out["zero_scale"] = scale
+        out["magnitude_pass"] = bool(out["max_abs"] / scale <= zero_tol)
+        out["consistency_pass"] = bool(abs(out["range"]) / scale <= zero_tol)
+        out["pass"] = bool(out["magnitude_pass"] and out["consistency_pass"])
+        out["status"] = "PASS" if out["pass"] else "FAIL"
+        out["reason"] = ("expected-zero quantity: judged on the frozen absolute scale with "
+                         "separate magnitude and consistency verdicts; never divided by its own "
+                         "mean")
+        return out
+    mean = sum(vals) / len(vals)
+    if mean == 0.0:
+        out["pass"] = False
+        out["status"] = "FAIL"
+        out["reason"] = ("a nonzero Stokes-proportional quantity reduced to a zero mean; it "
+                         "cannot be adjudicated by a relative spread and is not admitted")
+        return out
+    out["spread"] = _finite((max(vals) - min(vals)) / abs(mean), "%s spread" % quantity)
+    out["pass"] = bool(out["spread"] <= tol)
+    out["status"] = "PASS" if out["pass"] else "FAIL"
+    out["reason"] = ("exact frozen componentwise relative spread of %s/g across the ladder, "
+                     "against TOL_LINEARITY_REL" % quantity)
+    return out
+
+
+def forcing_invariance_verdict(gates):
+    """Aggregate componentwise gates. Every component must pass on its own: an aggregate that
+    cancels while one component drifts is NOT a pass."""
+    gs = [dict(g) for g in gates]
+    failed = [g["quantity"] for g in gs if g["pass"] is not True]
+    return {
+        "n_gates": len(gs), "gates": gs,
+        "failed_quantities": failed,
+        "pass": bool(gs) and not failed,
+        "rule": ("every component passes on its own; aggregate cancellation is never a pass "
+                 "(erratum PE-28)"),
+    }
+
+
+def resolution_consistency_gate(quantity, coarse, fine, bridge=None):
+    """Adjudicate one quantity across S_COARSE and S_FINE as an explicit PASS/FAIL.
+
+    ``coarse``/``fine`` are ``{"value", "case_id", "record_sha256"}`` from NORMAL records. The
+    tolerance is the ex-ante feature envelope for the quantity's own governing family. A failure
+    makes the candidate UNAVAILABLE; it is never absorbed into a wider interval (erratum PE-29).
+
+    This remains a TWO-RESOLUTION CONSISTENCY TEST, not a convergence-order estimate.
+    """
+    family = RESOLUTION_GOVERNING_FAMILY[quantity]
+    needs_bridge = quantity in BRIDGE_DEPENDENT_QUANTITIES
+    tol = resolution_consistency_tolerance(quantity, bridge if needs_bridge else None)
+    a = _finite(coarse["value"], "%s at S_COARSE" % quantity)
+    b = _finite(fine["value"], "%s at S_FINE" % quantity)
+    denom = (abs(a) + abs(b)) / 2.0
+    out = {
+        "quantity": quantity, "family": family,
+        "features": list(RESOLUTION_GOVERNING_FEATURES[quantity]),
+        "S_coarse": S_COARSE, "S_fine": S_FINE,
+        "value_coarse": a, "value_fine": b,
+        "tolerance": tol,
+        "case_ids": assert_flat_id_list([coarse["case_id"], fine["case_id"]],
+                                        "resolution gate case_ids"),
+        "record_sha256": assert_flat_hash_list([coarse["record_sha256"], fine["record_sha256"]],
+                                               "resolution gate record hashes"),
+        "kind": "TWO_RESOLUTION_CONSISTENCY_TEST_NOT_A_CONVERGENCE_ORDER_ESTIMATE",
+    }
+    if denom == 0.0:
+        out.update(discrepancy=None, **{"pass": False}, status="FAIL",
+                   reason="both resolutions returned zero; the quantity cannot be adjudicated")
+        return out
+    out["discrepancy"] = _finite(abs(a - b) / denom, "%s resolution discrepancy" % quantity)
+    out["pass"] = bool(out["discrepancy"] <= tol)
+    out["status"] = "PASS" if out["pass"] else "FAIL"
+    out["reason"] = ("symmetric relative discrepancy against the ex-ante feature envelope for "
+                     "family %r" % family)
+    return out
+
+
+def resolution_consistency_verdict(gates):
+    gs = [dict(g) for g in gates]
+    failed = [g["quantity"] for g in gs if g["pass"] is not True]
+    return {"n_gates": len(gs), "gates": gs, "failed_quantities": failed,
+            "pass": bool(gs) and not failed,
+            "rule": "a failed consistency gate makes the candidate UNAVAILABLE (erratum PE-29)"}
+
+
+# ==========================================================================================
 # 9. DECISION SEMANTICS — carried forward from 001, fail-closed
 # ==========================================================================================
 # Execution validity is the first gate and it dominates. If any clause-1 control fails, the
@@ -2340,6 +2647,8 @@ RECORD_SCHEMAS = {
     "fixed_step_audit": "full_case from a FIXED-STEP re-execution with min_steps = max_steps = "
                         "CHECK*ceil(1.5*base_steps/CHECK), plus the base linkage and both solver "
                         "configurations",
+    "pressure_plane": "R evaluated on each frozen node-surface offset of the SAME solution, plus "
+                      "the base linkage; needs no extra solve but does need a record (PE-32)",
     "obstructed": "full_case plus the induced movements in R, s, c_hat and Xi_hat",
 }
 
@@ -2503,6 +2812,23 @@ def _matrix_rows():
                                     record_schema="full_case", prerequisite="P1a",
                                     adaptive=True, **{"class": "conditional_on_P1a"}))
     rows += ext
+    # PE-32: the node-offset term was named and always ZERO because nothing was passed. The
+    # frozen node-surface offsets need no extra SOLVE, but they do need a record, so a
+    # pressure-plane diagnostic row is scheduled for every artifact combination and its absence
+    # now FAILS the evidence instead of contributing zero.
+    for base in central + ext:
+        d = dict(base)
+        d["phase"] = "P1b"
+        d["kind"] = "pressure_plane_diagnostic"
+        d["record_schema"] = "pressure_plane"
+        d["audit_mode"] = "node_offsets"
+        d["prerequisite"] = "P1a"
+        d["adaptive"] = True
+        d["class"] = "conditional_on_P1a"
+        d["audit_of_case_id"] = base["case_id"]
+        d.pop("case_id")
+        d["case_id"] = _case_id(d)
+        rows.append(d)
     # every candidate x {blocked, open} x {S=2, S=3} x {low, central, high} gets its OWN evidence
     for base in central + ext:
         a = dict(_audit_row(base))
@@ -2633,7 +2959,10 @@ def execution_matrix():
     diagnostic = by_class.get("diagnostic_only", 0)
     total = len(rows)
     n_audit = sum(1 for r in rows if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X")
-    n_normal = total - n_audit
+    # pressure-plane diagnostics re-read the frozen node-surface offsets of the SAME solution and
+    # need no extra solve; they are counted separately so a solve budget is never overstated.
+    n_diag = sum(1 for r in rows if r["kind"] == "pressure_plane_diagnostic")
+    n_normal = total - n_audit - n_diag
     mandatory_with_replicates = mandatory + sum(
         1 for r in rows if r["class"] == "diagnostic_only" and r["phase"] in ("P0", "P1a"))
     return {
@@ -2647,6 +2976,7 @@ def execution_matrix():
         "by_kind": by_kind,
         "planned_normal_solves": n_normal,
         "planned_fixed_step_audits": n_audit,
+        "planned_pressure_plane_diagnostics": n_diag,
         "mandatory_minimum": mandatory_with_replicates,
         "conditional_minimum": 0,
         "adaptive_maximum": total,
@@ -3140,8 +3470,40 @@ def case_record_filename(case_id: str) -> str:
                           hashlib.sha256(case_id.encode("utf-8")).hexdigest())
 
 
+#: The macroscopic fields every solve requests. Recorded per case so the record states what was
+#: actually asked for (erratum PE-35).
+RETURN_FIELDS = ("rho", "uy", "uz")
+
+
+def effective_solver_config(row, backend="reference", audit=None):
+    """The configuration ACTUALLY passed to the solver for this row (erratum PE-35).
+
+    The superseded record copied the authority's GLOBAL solver_config, so a ``tau_plus = 1.2``
+    cross-check row recorded ``tau_plus = 2.0``. This is recomputed from the canonical row and the
+    validator requires exact equality with the record.
+    """
+    if row["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X":
+        if audit is None:
+            raise ValueError("a fixed-step row needs its audit plan to state min/max steps")
+        min_steps = max_steps = int(audit["target_steps"])
+    else:
+        min_steps, max_steps = MIN_STEPS, MAX_STEPS
+    return {
+        "tau_plus": float(row["tau_plus"]),
+        "forcing_exact": dict(row["forcing_exact"]),
+        "forcing_repr": row["forcing_repr"],
+        "rtol": RTOL, "check": CHECK,
+        "min_steps": min_steps, "max_steps": max_steps,
+        "run_mode": row["run_mode"],
+        "fixed_step_target": (None if audit is None else int(audit["target_steps"])),
+        "return_fields": list(RETURN_FIELDS),
+        "backend": backend,
+    }
+
+
 def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scientific,
-                     completed_steps, run_mode="NORMAL", audit=None):
+                     completed_steps, run_mode="NORMAL", audit=None, provenance_mode="PRODUCTION",
+                     scientific_payload_sha256=None):
     """One immutable compact case record. No large fields; no non-finite values (the canonical
     writer enforces both)."""
     if run_mode not in RUN_MODES:
@@ -3170,7 +3532,10 @@ def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scie
         "execution_matrix_sha256": authority["execution_matrix_sha256"],
         "backend": authority["backend"],
         "dependencies": dict(authority["dependencies"]),
-        "solver_config": dict(authority["solver_config"]),
+        "solver_config": effective_solver_config(row, backend=authority["backend"], audit=audit),
+        "fixture_dimensions": list(geometry.get("shape") or ()),
+        "provenance_mode": provenance_mode,
+        "scientific_payload_sha256": scientific_payload_sha256,
         "predecessor_manifest_sha256": dict(predecessor_manifest_sha256),
         "run_mode": run_mode,
         "completed_steps": int(completed_steps),
@@ -3185,7 +3550,7 @@ def validate_case_record(rec, row=None, authority=None, phase=None):
     for k in ("schema_version", "correction_version", "phase", "case_id", "row_sha256", "row",
               "forcing_exact", "forcing_repr", "source_commit", "source_tree",
               "execution_authority_sha256", "run_mode", "completed_steps", "status",
-              "scientific"):
+              "scientific", "solver_config", "provenance_mode"):
         if k not in rec:
             raise ValueError("case record is missing %r" % (k,))
     if rec["correction_version"] != CORRECTION_VERSION:
@@ -3216,8 +3581,37 @@ def validate_case_record(rec, row=None, authority=None, phase=None):
         for k in ("protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256"):
             if rec.get(k) != authority[k]:
                 raise ValueError("case record %s does not bind this configuration" % (k,))
+    if rec["provenance_mode"] not in ("PRODUCTION", "TEST_ONLY"):
+        raise ValueError("unknown provenance_mode %r" % (rec["provenance_mode"],))
+    if row is not None:
+        want = effective_solver_config(row, backend=rec["backend"],
+                                       audit=rec.get("audit"))
+        if rec["solver_config"] != want:
+            raise ValueError(
+                "the record's effective solver configuration is not the one the canonical row "
+                "requires (erratum PE-35): recorded %r, required %r"
+                % (rec["solver_config"], want))
     canonical_json(rec)                       # strict: no NaN/Inf anywhere in a bound record
     return rec
+
+
+def assert_production_record(rec):
+    """Production manifests and freezes accept PRODUCTION records only (erratum PE-34)."""
+    if rec.get("provenance_mode") != "PRODUCTION":
+        raise ManifestMissing(
+            "case record %r carries provenance_mode=%r; a production manifest or freeze accepts "
+            "PRODUCTION records only" % (rec.get("case_id"), rec.get("provenance_mode")))
+    return rec
+
+
+def scientific_payload_hash(effective_config, scientific, mask_sha256):
+    """The canonical payload identity a determinism replicate must reproduce (erratum PE-37).
+
+    Deliberately EXCLUDES case identity, file paths and anything else that differs between a base
+    case and its replicate by construction.
+    """
+    return record_hash({"effective_config": effective_config, "scientific": scientific,
+                        "mask_sha256": mask_sha256})
 
 
 def write_case_record(runs_dir, rec, allow_resume=True):
@@ -3354,58 +3748,245 @@ def _bridge_key(rec_or_row):
     return (int(b["w"]), int(b["kz"]))
 
 
+# ---- P2b: the freeze is DERIVED from records, never supplied (errata PE-23 … PE-25, PE-30, PE-31)
+
+#: The one canonical artifact-evidence schema. Plural throughout, flat throughout (erratum PE-23).
+ARTIFACT_EVIDENCE_FIELDS = (
+    "candidate_id", "resolution", "forcing_level",
+    "normal_case_ids", "normal_record_sha256",
+    "audit_case_ids", "audit_record_sha256",
+    "pressure_plane_case_ids", "pressure_plane_record_sha256",
+    "R_point", "u_fixed_step_R", "u_pressure_plane_R", "u_serialization_R", "u_artifact_R",
+    "artifact_upper", "pass", "lineage",
+)
+
+
+def assert_artifact_evidence(ev):
+    """Validate the evidence schema BEFORE any scientific use (erratum PE-23)."""
+    missing = [k for k in ARTIFACT_EVIDENCE_FIELDS if k not in ev]
+    if missing:
+        raise ValueError("artifact evidence is missing %r" % (missing,))
+    for k in ("normal_case_ids", "audit_case_ids", "pressure_plane_case_ids"):
+        assert_flat_id_list(ev[k], "artifact evidence %s" % k)
+    for k in ("normal_record_sha256", "audit_record_sha256", "pressure_plane_record_sha256"):
+        assert_flat_hash_list(ev[k], "artifact evidence %s" % k)
+    if len(ev["normal_case_ids"]) != len(ev["normal_record_sha256"]):
+        raise ValueError("artifact evidence normal ids and hashes are not paired")
+    if len(ev["audit_case_ids"]) != len(ev["audit_record_sha256"]):
+        raise ValueError("artifact evidence audit ids and hashes are not paired")
+    if set(ev["normal_case_ids"]) & set(ev["audit_case_ids"]):
+        raise ValueError("a case is cited as both normal and audit evidence")
+    for k in ("R_point", "u_fixed_step_R", "u_pressure_plane_R", "u_serialization_R",
+              "u_artifact_R", "artifact_upper"):
+        _finite(ev[k], "artifact evidence %s" % k)
+    return ev
+
+
+def _normal_only(records, kind, key=None):
+    """NORMAL records only. Audits are paired discrepancy evidence, never observations
+    (erratum PE-30): the superseded selection matched on ``kind``, which is identical for a row
+    and its audit, so re-runs of the same configuration entered estimates as new observations."""
+    return {cid: r for cid, r in records.items()
+            if r.get("kind") == kind and r["run_mode"] == "NORMAL"
+            and (key is None or _bridge_key(r) == key)}
+
+
+def _audits_for(records, kind, key=None):
+    return {cid: r for cid, r in records.items()
+            if r.get("kind") == kind and r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"
+            and (key is None or _bridge_key(r) == key)}
+
+
+def _pair_normal_with_audit(normals, audits):
+    """Pair each audit with its EXACT normal base via ``audit_of_case_id`` (erratum PE-30)."""
+    pairs = {}
+    for cid, a in audits.items():
+        base_id = a["row"].get("audit_of_case_id")
+        if base_id is None or base_id not in normals:
+            continue
+        pairs[base_id] = {"normal": normals[base_id], "audit": a}
+    return pairs
+
+
+def fixed_step_discrepancy(pairs, value_of, what):
+    """The relative fixed-step discrepancy of a quantity, from a family's OWN normal/audit pairs.
+
+    ``value_of(record)`` extracts the quantity. Returns the worst relative movement, times the
+    frozen safety factor, with full lineage. Never the artifact's ``u_R`` (erratum PE-31).
+    """
+    terms, n_ids, a_ids, n_h, a_h = [], [], [], [], []
+    for base_id, pr in sorted(pairs.items()):
+        base, aud = value_of(pr["normal"]), value_of(pr["audit"])
+        if base is None or aud is None:
+            continue
+        b = _finite(base, "%s base" % what)
+        if b == 0.0:
+            continue
+        terms.append(abs(_finite(aud, "%s audit" % what) / b - 1.0))
+        n_ids.append(pr["normal"]["case_id"])
+        a_ids.append(pr["audit"]["case_id"])
+        n_h.append(record_hash(pr["normal"]))
+        a_h.append(record_hash(pr["audit"]))
+    worst = max(terms) if terms else None
+    return {
+        "quantity": what,
+        "method": ("worst relative movement between each NORMAL record and its own fixed-step "
+                   "re-execution, times the frozen safety factor"),
+        "normal_case_ids": assert_flat_id_list(n_ids, "%s normal ids" % what),
+        "audit_case_ids": assert_flat_id_list(a_ids, "%s audit ids" % what),
+        "normal_record_sha256": assert_flat_hash_list(n_h, "%s normal hashes" % what),
+        "audit_record_sha256": assert_flat_hash_list(a_h, "%s audit hashes" % what),
+        "n_pairs": len(terms),
+        "worst_relative_movement": worst,
+        "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+        "value": (None if worst is None else NUMERICAL_DISCREPANCY_SAFETY_FACTOR * worst),
+        "overlaps": "none; this family's own pairs only",
+    }
+
+
+def artifact_evidence_from_records(records, bridge_key):
+    """Build validated artifact evidence for one candidate, per (resolution, forcing level).
+
+    The artifact is a property of the blocked/open PAIR. Its uncertainty comes from that pair's
+    OWN fixed-step audits and its OWN pressure-plane diagnostics — never from a borrowed term and
+    never with a silently-zero contribution (errata PE-31, PE-32).
+    """
+    out = {}
+    normals = _normal_only(records, "identical_path_control", bridge_key)
+    audits = _audits_for(records, "identical_path_control", bridge_key)
+    planes = {cid: r for cid, r in records.items()
+              if r.get("kind") == "pressure_plane_diagnostic" and _bridge_key(r) == bridge_key}
+    by_combo = {}
+    for cid, r in normals.items():
+        by_combo.setdefault((r["row"]["S"], r["row"]["forcing_level"]), {})[r["row"]["state"]] = r
+    for (S, level), states in sorted(by_combo.items()):
+        if set(states) != {"blocked", "open"}:
+            continue
+        Cb, Co = _conductance(states["blocked"]), _conductance(states["open"])
+        if Cb == 0.0:
+            raise ValueError("a blocked identical-path case has zero conductance")
+        R = Co / Cb
+        n_ids = [states["blocked"]["case_id"], states["open"]["case_id"]]
+        n_h = [record_hash(states["blocked"]), record_hash(states["open"])]
+        a_ids, a_h, u_fs = [], [], None
+        pair_audits = {}
+        for st in ("blocked", "open"):
+            for cid, a in audits.items():
+                if a["row"].get("audit_of_case_id") == states[st]["case_id"]:
+                    pair_audits[st] = a
+        if set(pair_audits) == {"blocked", "open"}:
+            disc = numerical_discrepancy_R(R, Co, Cb,
+                                           _conductance(pair_audits["open"]),
+                                           _conductance(pair_audits["blocked"]))
+            u_fs = disc["u_continuation_R_abs"] * NUMERICAL_DISCREPANCY_SAFETY_FACTOR
+            a_ids = [pair_audits["blocked"]["case_id"], pair_audits["open"]["case_id"]]
+            a_h = [record_hash(pair_audits["blocked"]), record_hash(pair_audits["open"])]
+        p_ids, p_h, u_pp = [], [], None
+        pp = [r for r in planes.values()
+              if r["row"]["S"] == S and r["row"]["forcing_level"] == level]
+        if pp:
+            movements = []
+            for r in sorted(pp, key=lambda x: x["case_id"]):
+                offs = (r.get("scientific") or {}).get("R_at_node_offsets")
+                if offs:
+                    movements.extend(abs(_finite(v, "R at a node offset") - R) for v in offs)
+                p_ids.append(r["case_id"])
+                p_h.append(record_hash(r))
+            if movements:
+                u_pp = NUMERICAL_DISCREPANCY_SAFETY_FACTOR * max(movements)
+        u_ser = 10.0 ** (-_RECORD_DP) * (1.0 + abs(R))
+        complete = u_fs is not None and u_pp is not None
+        u_total = (None if not complete else u_fs + u_pp + u_ser)
+        upper = (None if u_total is None else abs(R - 1.0) + u_total)
+        ev = {
+            "candidate_id": "w%d_kz%d" % bridge_key,
+            "resolution": S, "forcing_level": level,
+            "normal_case_ids": sorted(n_ids), "normal_record_sha256": sorted(n_h),
+            "audit_case_ids": sorted(a_ids), "audit_record_sha256": sorted(a_h),
+            "pressure_plane_case_ids": sorted(p_ids),
+            "pressure_plane_record_sha256": sorted(p_h),
+            "R_point": R,
+            "u_fixed_step_R": (0.0 if u_fs is None else u_fs),
+            "u_pressure_plane_R": (0.0 if u_pp is None else u_pp),
+            "u_serialization_R": u_ser,
+            "u_artifact_R": (0.0 if u_total is None else u_total),
+            "artifact_upper": (abs(R - 1.0) if upper is None else upper),
+            "pass": bool(complete and upper <= ARTIFACT_BUDGET_R_ABS),
+            "evidence_complete": bool(complete),
+            "lineage": {
+                "R_point": "NORMAL blocked/open pair only",
+                "u_fixed_step_R": "this pair's own fixed-step audits",
+                "u_pressure_plane_R": ("this combination's own node-offset diagnostics; a MISSING "
+                                       "record fails the evidence rather than contributing zero "
+                                       "(erratum PE-32)"),
+                "u_serialization_R": "frozen record precision",
+                "overlaps": "no term appears in more than one sum",
+                "used_in": "artifact admission and the reachable-set inequality",
+            },
+        }
+        if not complete:
+            ev["reason"] = ("incomplete: %s" % ", ".join(
+                [s for s, ok in (("no fixed-step audit pair", u_fs is not None),
+                                 ("no pressure-plane diagnostic", u_pp is not None)) if not ok]))
+        out["%d.%s" % (S, level)] = assert_artifact_evidence(ev)
+    return out
+
+
+def artifact_admission_from_records(records_by_case):
+    """Recompute the artifact upper bound for every candidate from its OWN evidence, at every
+    required (resolution, forcing level) combination."""
+    keys = sorted({_bridge_key(r) for r in records_by_case.values()
+                   if r.get("kind") == "identical_path_control" and _bridge_key(r)})
+    want = {"%d.%s" % (S, lv) for S in SCIENTIFIC_RESOLUTIONS for lv in FORCING_LEVELS}
+    per = {}
+    for key in keys:
+        ev = artifact_evidence_from_records(records_by_case, key)
+        e = {"w": key[0], "kz": key[1], "combinations": ev,
+             "required_combinations": sorted(want),
+             "missing": sorted(want - set(ev)), "admitted": False, "reason": None}
+        e["admitted"] = bool(not e["missing"] and all(v["pass"] for v in ev.values()))
+        if not e["admitted"]:
+            e["reason"] = ("missing required combinations %r" % (e["missing"],) if e["missing"]
+                           else "; ".join(sorted({v.get("reason") or "exceeds the artifact budget"
+                                                  for v in ev.values() if not v["pass"]})))
+        per[key] = e
+    return per
+
+
 def p1a_triage(records_by_case):
     """P1a is a TRIAGE SCREEN (erratum PE-17). It may REJECT — the point estimate alone can make
-    success mathematically impossible, because every omitted uncertainty term is NON-NEGATIVE —
-    but it may NEVER ADMIT, and it may never call a central result a final artifact upper bound.
-    """
+    success impossible, every omitted term being non-negative — but it may NEVER ADMIT."""
     verdicts = {}
-    for key, pair in sorted(identical_path_pairs(records_by_case, phases=("P1a",)).items()):
-        bridge, S, level = key
-        art = artifact_from_pair(pair)
-        v = verdicts.setdefault(bridge, {"w": bridge[0], "kz": bridge[1], "point_estimates": [],
-                                         "rejected": False, "reason": None,
-                                         "verdict": "CONTINUE_PENDING_FIXED_STEP_EVIDENCE",
-                                         "may_admit": False})
-        if art is None:
+    normals = _normal_only(records_by_case, "identical_path_control")
+    by = {}
+    for r in normals.values():
+        if r["row"]["phase"] != "P1a":
             continue
-        v["point_estimates"].append(art["point"])
-        if art["point"] > ARTIFACT_BUDGET_R_ABS:
+        key = _bridge_key(r)
+        if key:
+            by.setdefault((key, r["row"]["S"], r["row"]["forcing_level"]), {})[
+                r["row"]["state"]] = r
+    for (key, S, level), states in sorted(by.items()):
+        v = verdicts.setdefault(key, {"w": key[0], "kz": key[1], "point_estimates": [],
+                                      "rejected": False, "reason": None,
+                                      "verdict": "CONTINUE_PENDING_FIXED_STEP_EVIDENCE",
+                                      "may_admit": False})
+        if set(states) != {"blocked", "open"}:
+            continue
+        Cb, Co = _conductance(states["blocked"]), _conductance(states["open"])
+        if Cb == 0.0:
+            continue
+        pt = abs(Co / Cb - 1.0)
+        v["point_estimates"].append(pt)
+        if pt > ARTIFACT_BUDGET_R_ABS:
             v["rejected"] = True
             v["verdict"] = "REJECTED_POINT_ESTIMATE_ALONE_EXCEEDS_BUDGET"
             v["reason"] = ("|R-1| = %.6g at S=%d already exceeds ARTIFACT_BUDGET_R_ABS = %.6g, "
                            "and every omitted uncertainty term is non-negative, so no additional "
-                           "evidence can rescue it" % (art["point"], S, ARTIFACT_BUDGET_R_ABS))
+                           "evidence can rescue it" % (pt, S, ARTIFACT_BUDGET_R_ABS))
     for v in verdicts.values():
         v["point_estimates"].sort()
     return verdicts
-
-
-def artifact_admission_from_records(records_by_case):
-    """Recompute the artifact upper bound for every candidate from its OWN fixed-step evidence at
-    every required (resolution, forcing level) combination. The artifact is a property of the
-    blocked/open PAIR, and a candidate passes only when ALL required combinations pass."""
-    per = {}
-    for key, pair in sorted(identical_path_pairs(records_by_case).items()):
-        bridge, S, level = key
-        art = artifact_from_pair(pair)
-        if art is None:
-            continue
-        e = per.setdefault(bridge, {"w": bridge[0], "kz": bridge[1], "combinations": {},
-                                    "missing": [], "admitted": False, "reason": None})
-        e["combinations"]["%d.%s" % (S, level)] = art
-    want = {"%d.%s" % (S, lv) for S in SCIENTIFIC_RESOLUTIONS for lv in FORCING_LEVELS}
-    for e in per.values():
-        e["required_combinations"] = sorted(want)
-        e["missing"] = sorted(want - set(e["combinations"]))
-        e["admitted"] = bool(not e["missing"]
-                             and all(v["within_budget"] and v["fixed_step_case_ids"]
-                                     for v in e["combinations"].values()))
-        if not e["admitted"]:
-            e["reason"] = ("missing required combinations %r" % (e["missing"],) if e["missing"]
-                           else "at least one combination exceeds the artifact budget or lacks "
-                                "its own fixed-step evidence")
-    return per
 
 
 def derive_expected_rows(phase, matrix_rows, predecessor_records=None):
@@ -3435,32 +4016,57 @@ def derive_expected_rows(phase, matrix_rows, predecessor_records=None):
 
 # ---- phase manifests --------------------------------------------------------------------------
 
-def make_phase_manifest(phase, expected_rows, completed, refused, failed, authority,
-                        predecessor_manifests, adaptive, terminal_status,
-                        terminal_stop_reason=None):
-    """A validated phase LEDGER, not a list."""
+#: Frozen refusal reasons. Every refused row carries exactly one (erratum PE-26).
+REFUSAL_REASONS = (
+    "ADAPTIVELY_INELIGIBLE",          # a member of the universe that the derived plan excludes
+    "REFUSED_AFTER_PHASE_STOP",       # eligible, but the phase had already stopped
+)
+
+
+def phase_universe(phase, matrix_rows):
+    """EVERY canonical row belonging to a phase. Adaptively ineligible rows remain members
+    (erratum PE-26): the superseded executor refused them while the validator built its universe
+    from the eligible subset and then rejected them as extra."""
+    return [r for r in matrix_rows if r["phase"] == phase]
+
+
+def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused, failed,
+                        authority, predecessor_manifests, adaptive, terminal_status,
+                        terminal_stop_reason=None, provenance_mode="PRODUCTION",
+                        replicates=()):
+    """A validated phase LEDGER over the FULL phase universe."""
     if terminal_status not in TERMINAL_PHASE_STATUSES:
         raise ValueError("unknown terminal phase status %r" % (terminal_status,))
-    plan = [dict(r) for r in expected_rows]
+    uni = [dict(r) for r in universe_rows]
+    elig = [dict(r) for r in eligible_rows]
+    elig_ids = [r["case_id"] for r in elig]
+    uni_ids = [r["case_id"] for r in uni]
     doc = {
         "schema_version": MANIFEST_SCHEMA_VERSION,
         "correction_version": CORRECTION_VERSION,
         "phase": phase,
+        "provenance_mode": provenance_mode,
         "source_commit": authority["source_commit"],
         "source_tree": authority["source_tree"],
         "execution_authority_sha256": record_hash(authority),
         "full_matrix_sha256": record_hash(execution_matrix()),
-        "phase_plan_sha256": record_hash(plan),
-        "expected_case_ids": [r["case_id"] for r in plan],
-        "expected_row_sha256": {r["case_id"]: row_sha256(r) for r in plan},
+        "phase_universe_sha256": record_hash(uni),
+        "phase_plan_sha256": record_hash(elig),
+        "phase_universe_case_ids": uni_ids,
+        "mandatory_case_ids": [r["case_id"] for r in uni if r["class"] == "mandatory"],
+        "conditionally_eligible_case_ids": [i for i in elig_ids
+                                            if i in set(uni_ids)],
+        "adaptively_ineligible_case_ids": [i for i in uni_ids if i not in set(elig_ids)],
+        "expected_row_sha256": {r["case_id"]: row_sha256(r) for r in uni},
         "predecessor_manifests": dict(predecessor_manifests),
         "completed": [dict(c) for c in completed],
         "refused": [dict(c) for c in refused],
         "failed": [dict(c) for c in failed],
+        "replicates": [dict(r) for r in replicates],
         "adaptive": dict(adaptive),
         "terminal_status": terminal_status,
         "terminal_stop_reason": terminal_stop_reason,
-        "counts": {"expected": len(plan), "completed": len(completed),
+        "counts": {"universe": len(uni), "eligible": len(elig), "completed": len(completed),
                    "refused": len(refused), "failed": len(failed)},
     }
     doc.update(config_hashes())
@@ -3468,8 +4074,8 @@ def make_phase_manifest(phase, expected_rows, completed, refused, failed, author
 
 
 def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
-                            predecessor_records=None):
-    """Reopen and rehash EVERYTHING. A nonempty list is not a phase (erratum PE-18)."""
+                            predecessor_records=None, require_production=True):
+    """Reopen and rehash EVERYTHING, over the FULL phase universe (errata PE-18, PE-26)."""
     base = pathlib.Path(runs_dir)
     doc = _load_json(base / ("manifest_%s.json" % phase), "the %s completion manifest" % phase)
     if doc.get("phase") != phase:
@@ -3477,6 +4083,10 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     if doc.get("correction_version") != CORRECTION_VERSION:
         raise ManifestMissing("the %s manifest was produced under correction version %r, not %r"
                               % (phase, doc.get("correction_version"), CORRECTION_VERSION))
+    if require_production and doc.get("provenance_mode") != "PRODUCTION":
+        raise ManifestMissing(
+            "the %s manifest carries provenance_mode=%r; production validation accepts PRODUCTION "
+            "manifests only (erratum PE-34)" % (phase, doc.get("provenance_mode")))
     want = config_hashes()
     bad = {k: (doc.get(k), v) for k, v in want.items() if doc.get(k) != v}
     if bad:
@@ -3486,38 +4096,71 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
         raise ManifestMissing("the %s manifest cites a different full matrix" % (phase,))
 
     rows = matrix_rows if matrix_rows is not None else execution_matrix()["rows"]
-    expected, adaptive = derive_expected_rows(phase, rows,
+    uni = phase_universe(phase, rows)
+    eligible, adaptive = derive_expected_rows(phase, rows,
                                               predecessor_records=predecessor_records)
-    exp_ids = [r["case_id"] for r in expected]
-    if doc.get("phase_plan_sha256") != record_hash([dict(r) for r in expected]):
-        raise ManifestMissing(
-            "the %s manifest's phase plan does not match the plan derived mechanically from the "
-            "matrix and its validated predecessors (erratum PE-18)" % (phase,))
-    if list(doc.get("expected_case_ids") or []) != exp_ids:
-        raise ManifestMissing("the %s manifest's expected case list is not the derived one"
+    if doc.get("phase_universe_sha256") != record_hash([dict(r) for r in uni]):
+        raise ManifestMissing("the %s manifest's universe is not the canonical phase universe"
                               % (phase,))
+    if doc.get("phase_plan_sha256") != record_hash([dict(r) for r in eligible]):
+        raise ManifestMissing(
+            "the %s manifest's eligible plan does not match the plan derived mechanically from "
+            "the matrix and its validated predecessors (erratum PE-18)" % (phase,))
     if doc.get("adaptive", {}).get("rule") != adaptive.get("rule"):
         raise ManifestMissing("the %s manifest's adaptive rule is not the derived one" % (phase,))
 
-    by_row = {r["case_id"]: r for r in expected}
-    comp_list = doc.get("completed", [])
+    by_row = {r["case_id"]: r for r in uni}
+    elig_ids = {r["case_id"] for r in eligible}
+    comp_list, ref_list, fail_list = (doc.get("completed", []), doc.get("refused", []),
+                                      doc.get("failed", []))
     completed = {c["case_id"]: c for c in comp_list}
-    refused = {c["case_id"]: c for c in doc.get("refused", [])}
-    failed = {c["case_id"]: c for c in doc.get("failed", [])}
-    if len(completed) != len(comp_list):
-        raise ManifestMissing("the %s manifest lists a completed case twice" % (phase,))
-    extra = sorted((set(completed) | set(refused) | set(failed)) - set(by_row))
+    refused = {c["case_id"]: c for c in ref_list}
+    failed = {c["case_id"]: c for c in fail_list}
+    for name, seq, uniq in (("completed", comp_list, completed), ("refused", ref_list, refused),
+                            ("failed", fail_list, failed)):
+        if len(seq) != len(uniq):
+            raise ManifestMissing("the %s manifest lists a %s case twice" % (phase, name))
+    # EXACT, mutually exclusive partition of the full universe
+    overlaps = ((set(completed) & set(refused)) | (set(completed) & set(failed))
+                | (set(refused) & set(failed)))
+    if overlaps:
+        raise ManifestMissing("the %s manifest places %r in more than one ledger"
+                              % (phase, sorted(overlaps)[:5]))
+    union = set(completed) | set(refused) | set(failed)
+    extra = sorted(union - set(by_row))
     if extra:
-        raise ManifestMissing("the %s manifest carries cases that are not in its plan: %r"
+        raise ManifestMissing("the %s manifest carries cases outside its phase universe: %r"
                               % (phase, extra[:5]))
-    unaccounted = sorted(set(by_row) - set(completed) - set(refused) - set(failed))
-    if unaccounted:
-        raise ManifestMissing("the %s manifest leaves %d planned rows unaccounted for: %r"
-                              % (phase, len(unaccounted), unaccounted[:5]))
+    missing = sorted(set(by_row) - union)
+    if missing:
+        raise ManifestMissing("the %s manifest leaves %d universe rows unaccounted for: %r"
+                              % (phase, len(missing), missing[:5]))
+    # refusals must be justified, and adaptive refusal is RECOMPUTED, never taken on trust
+    for cid, entry in refused.items():
+        reason = entry.get("reason")
+        if reason not in REFUSAL_REASONS:
+            raise ManifestMissing("refused case %r carries an unknown reason %r" % (cid, reason))
+        if entry.get("row_sha256") != row_sha256(by_row[cid]):
+            raise ManifestMissing("refused case %r cites the wrong matrix-row hash" % (cid,))
+        if reason == "ADAPTIVELY_INELIGIBLE" and cid in elig_ids:
+            raise ManifestMissing("case %r is eligible under the derived plan but was refused as "
+                                  "adaptively ineligible" % (cid,))
+        if reason == "REFUSED_AFTER_PHASE_STOP" and doc["terminal_status"] == "PHASE_COMPLETE":
+            raise ManifestMissing("case %r was refused after a phase stop, but the phase reports "
+                                  "PHASE_COMPLETE" % (cid,))
+    ineligible = {r["case_id"] for r in uni} - elig_ids
+    not_refused = sorted(ineligible - set(refused))
+    if not_refused:
+        raise ManifestMissing("adaptively ineligible rows %r are not recorded as refused"
+                              % (not_refused[:5],))
+    for cid in set(completed) | set(failed):
+        if cid not in elig_ids:
+            raise ManifestMissing("case %r was executed although the derived plan excludes it"
+                                  % (cid,))
 
     records, seen_hash = {}, {}
-    for cid in completed:
-        entry = completed[cid]
+    for cid in sorted(set(completed) | set(failed)):
+        entry = completed.get(cid) or failed[cid]
         rec, path = read_case_record(base, cid)
         raw = pathlib.Path(path).read_bytes()
         actual = hashlib.sha256(raw).hexdigest()
@@ -3527,6 +4170,8 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
         if raw.decode() != canonical_json(rec) + "\n":
             raise ManifestMissing("case record %r is not canonically serialised" % (cid,))
         validate_case_record(rec, row=by_row[cid], authority=authority, phase=phase)
+        if require_production:
+            assert_production_record(rec)
         if entry.get("row_sha256") != row_sha256(by_row[cid]):
             raise ManifestMissing("the %s manifest cites the wrong row hash for %r"
                                   % (phase, cid))
@@ -3536,18 +4181,36 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                 "record hash %r is cited for two physically distinct rows (%r and %r); one hash "
                 "may never bind two different cases" % (actual, prev, cid))
         seen_hash[actual] = cid
-        records[cid] = rec
+        if cid in completed:
+            records[cid] = rec
 
     if doc.get("terminal_status") not in TERMINAL_PHASE_STATUSES:
         raise ManifestMissing("the %s manifest has no valid terminal status" % (phase,))
     counts = doc.get("counts") or {}
-    if counts.get("expected") != len(exp_ids) or counts.get("completed") != len(completed):
-        raise ManifestMissing("the %s manifest's counts do not reconcile to its plan" % (phase,))
+    if (counts.get("universe") != len(uni) or counts.get("completed") != len(completed)
+            or counts.get("refused") != len(refused) or counts.get("failed") != len(failed)):
+        raise ManifestMissing("the %s manifest's counts do not reconcile to its universe"
+                              % (phase,))
+    # PE-37: a claimed determinism replicate must actually reproduce its base payload
+    for rep in doc.get("replicates", []):
+        base_id, rep_id = rep.get("base_case_id"), rep.get("replicate_case_id")
+        for cid in (base_id, rep_id):
+            if cid not in records:
+                raise ManifestMissing("replicate cites %r, which is not a completed case" % (cid,))
+        if (records[base_id].get("scientific_payload_sha256")
+                != records[rep_id].get("scientific_payload_sha256")):
+            raise ManifestMissing(
+                "replicate %r does not reproduce the scientific payload of its base %r; the "
+                "byte-identical claim is not enforced by assertion (erratum PE-37)"
+                % (rep_id, base_id))
+        if rep.get("pass") is not True:
+            raise ManifestMissing("replicate %r is not recorded as passing" % (rep_id,))
     doc["_records"] = records
     return doc
 
 
-def require_phase_manifests(phase: str, runs_dir=None, authority=None):
+def require_phase_manifests(phase: str, runs_dir=None, authority=None,
+                           require_production=True):
     """Every predecessor phase must have a VALIDATED completion manifest bound to this
     configuration, checked in dependency order so each is validated against the one before it."""
     if phase not in PHASE_PREREQUISITES:
@@ -3555,15 +4218,32 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None):
     base = pathlib.Path(runs_dir) if runs_dir is not None else (REPO_ROOT / RUNS_REL)
     rows = execution_matrix()["rows"]
     got, records = {}, {}
+    required = set(PHASE_PREREQUISITES[phase])
     for pre in PHASE_PREREQUISITES[phase]:
         if pre == "P2b":
             doc = _load_json(base / "manifest_P2b.json", "the P2b assembly manifest")
             if doc.get("correction_version") != CORRECTION_VERSION:
                 raise ManifestMissing("the P2b manifest is from a superseded correction version")
+            if doc.get("terminal_status") != "PHASE_COMPLETE":
+                raise ManifestMissing("the P2b manifest is %r, not PHASE_COMPLETE"
+                                      % (doc.get("terminal_status"),))
             got[pre] = doc
             continue
         doc = validate_phase_manifest(pre, base, authority=authority, matrix_rows=rows,
-                                      predecessor_records=dict(records))
+                                      predecessor_records=dict(records),
+                                      require_production=require_production)
+        # PE-27: a stopped, failed, unconverged, invalid or design-blocked predecessor may NOT
+        # satisfy the next phase. The superseded check never looked at terminal_status at all.
+        if doc.get("terminal_status") != "PHASE_COMPLETE":
+            raise ManifestMissing(
+                "the %s manifest terminated %r; a phase may consume a predecessor only at "
+                "PHASE_COMPLETE (erratum PE-27)" % (pre, doc.get("terminal_status")))
+        cited = set(doc.get("predecessor_manifests") or {})
+        want_keys = set(PHASE_PREREQUISITES[pre])
+        if cited != want_keys:
+            raise ManifestMissing(
+                "the %s manifest cites predecessor manifests %r; the exact required set is %r "
+                "(erratum PE-27)" % (pre, sorted(cited), sorted(want_keys)))
         for k, sha in (doc.get("predecessor_manifests") or {}).items():
             path = base / ("manifest_%s.json" % k)
             if not path.exists():
@@ -3574,6 +4254,8 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None):
                                       "hashes to %r" % (pre, k, sha, actual))
         records.update(doc.pop("_records", {}))
         got[pre] = doc
+    if set(got) != required:                                 # pragma: no cover - loop is exact
+        raise ManifestMissing("phase %r requires exactly %r" % (phase, sorted(required)))
     return got, records
 
 
@@ -3584,161 +4266,352 @@ def _terms_from_records(records, kind, key=None):
             if r.get("kind") == kind and (key is None or _bridge_key(r) == key)}
 
 
-def assemble_p2b_from_runs(runs_dir, authority=None):
-    """Derive the PROPOSED bridge freeze from validated records alone (erratum PE-18).
+P2B_ARTIFACTS = ("candidate_ledger.json", "proposed_bridge_freeze.json",
+                 "instantiated_p3_p4_matrix.json", "manifest_P2b.json")
 
-    Supersedes ``build_freeze(selection, manifests, instantiated_rows)``. It accepts NO free-form
-    candidate dictionaries, envelopes, contrast intervals, eligibility booleans, record hashes or
-    caller-selected bridge list: every quantity is recomputed here from case records that have
-    been reopened, rehashed and bound to this configuration.
 
-    It performs **no solve**.
+def _atomic_write_json(path, doc):
+    """Canonical, strict-finite, atomic, no-overwrite, exact-match resume (erratum PE-25)."""
+    path = pathlib.Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = canonical_json(doc) + "\n"
+    if path.exists():
+        if path.read_text() != payload:
+            raise ValueError("%s already exists and differs from the document just produced; a "
+                             "P2b artifact is immutable (erratum PE-25)" % path)
+        return path, "REUSED_EXACT_MATCH"
+    tmp = path.parent / (path.name + ".tmp")
+    tmp.write_text(payload)
+    tmp.replace(path)
+    return path, "WRITTEN"
+
+
+def _samples(records, kind, key, state, quantity, extractor):
+    """NORMAL records only, grouped into a forcing ladder for one fixed configuration."""
+    out = []
+    for r in sorted(_normal_only(records, kind, key).values(), key=lambda x: x["case_id"]):
+        if state is not None and r["row"]["state"] != state:
+            continue
+        v = extractor(r)
+        if v is None:
+            continue
+        out.append({"forcing_level": r["row"]["forcing_level"],
+                    "g": row_forcing(r["row"]), "value": v,
+                    "case_id": r["case_id"], "record_sha256": record_hash(r),
+                    "S": r["row"]["S"]})
+    return out
+
+
+def candidate_forcing_gates(records, key):
+    """Adjudicate the frozen componentwise ladder for one candidate, per resolution and state
+    (erratum PE-28). Every group must pass on its own."""
+    gates = []
+    for S in SCIENTIFIC_RESOLUTIONS:
+        for state, qname in (("blocked", "Q_blocked"), ("open", "Q_open")):
+            sm = [s for s in _samples(records, "identical_path_control", key, state, qname,
+                                      lambda r: (r.get("scientific") or {}).get("Q_volume"))
+                  if s["S"] == S]
+            if sm:
+                gates.append(componentwise_forcing_gate(qname + "@S%d" % S, sm))
+            dp = [s for s in _samples(records, "identical_path_control", key, state, "dP",
+                                      lambda r: (r.get("scientific") or {}).get("dP"))
+                  if s["S"] == S]
+            if dp:
+                gates.append(componentwise_forcing_gate(
+                    ("dP_blocked" if state == "blocked" else "dP_open") + "@S%d" % S, dp))
+        zs = [s for s in _samples(
+            records, "identical_path_control", key, "open", "q_lat",
+            lambda r: ((r.get("scientific") or {}).get("lateral_pressure") or {}).get(
+                "q_lat_mass")) if s["S"] == S]
+        if zs:
+            scale = max(abs(s["value"] / s["g"]) for s in _samples(
+                records, "identical_path_control", key, "open", "Q_open",
+                lambda r: (r.get("scientific") or {}).get("Q_volume")) if s["S"] == S)
+            gates.append(componentwise_forcing_gate(
+                "q_lat@S%d" % S, zs, expected_zero=True, zero_scale=scale,
+                zero_tol=TOL_BRIDGE_LEAKAGE_REL))
+        ps = [s for s in _samples(
+            records, "identical_path_control", key, "open", "delta_p_lateral",
+            lambda r: ((r.get("scientific") or {}).get("lateral_pressure") or {}).get(
+                "delta_p_lateral")) if s["S"] == S]
+        if ps:
+            scale = max(abs(s["value"] / s["g"]) for s in _samples(
+                records, "identical_path_control", key, "open", "dP",
+                lambda r: (r.get("scientific") or {}).get("dP")) if s["S"] == S)
+            gates.append(componentwise_forcing_gate(
+                "delta_p_lateral@S%d" % S, ps, expected_zero=True, zero_scale=scale,
+                zero_tol=TOL_LATERAL_DRIVER_REL))
+    # boundary-level stability for the quantities that later inform admission and selection
+    for S in SCIENTIFIC_RESOLUTIONS:
+        cs = [s for s in _samples(records, "candidate_blocked_mirror", key, "blocked", "c_field",
+                                  lambda r: (field_contrast(r["scientific"])["c_field"]
+                                             if r.get("scientific") else None))
+              if s["S"] == S]
+        if cs:
+            for s in cs:                       # c_field is NOT proportional to g
+                s["g"] = 1.0
+            gates.append(componentwise_forcing_gate("c_field@S%d" % S, cs))
+    return forcing_invariance_verdict(gates)
+
+
+def candidate_resolution_gates(records, key, bridge):
+    """Adjudicate S=2 vs S=3 for one candidate's decision-bearing quantities (erratum PE-29)."""
+    gates = []
+
+    def pick(kind, state, quantity, extractor, level="central"):
+        got = {}
+        for r in sorted(_normal_only(records, kind, key).values(), key=lambda x: x["case_id"]):
+            if state is not None and r["row"]["state"] != state:
+                continue
+            if r["row"]["forcing_level"] != level:
+                continue
+            v = extractor(r)
+            if v is not None:
+                got[r["row"]["S"]] = {"value": v, "case_id": r["case_id"],
+                                      "record_sha256": record_hash(r)}
+        if S_COARSE in got and S_FINE in got:
+            gates.append(resolution_consistency_gate(quantity, got[S_COARSE], got[S_FINE],
+                                                     bridge))
+
+    pick("candidate_blocked_mirror", "blocked", "c_field",
+         lambda r: field_contrast(r["scientific"])["c_field"] if r.get("scientific") else None)
+    pick("candidate_blocked_mirror", "blocked", "C_blocked",
+         lambda r: (_conductance(r) if (r.get("scientific") or {}).get("dP") else None))
+    pick("bridge_coupon", None, "Xi_coupon",
+         lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"))
+    return resolution_consistency_verdict(gates)
+
+
+def assemble_p2b_from_runs(runs_dir, backend="reference"):
+    """Derive the PROPOSED bridge freeze from validated production records alone, and PERSIST it.
+
+    Consumes only the canonical full matrix, the validated production P0/P1a/P1b/P2a manifests
+    and the immutable records they cite. It accepts **no** caller-supplied selection, candidate
+    dictionary, ``c`` or ``Xi`` value, uncertainty, eligibility flag, record hash or externally
+    instantiated P3/P4 matrix (erratum PE-18), and it performs **no solve**.
+
+    Recomputes, in order: lineage · forcing ladders · componentwise invariance · boundary
+    stability · resolution consistency · zero-driver transverse · measured lateral pressure gap ·
+    normal/audit pairing · artifact point estimates and uncertainty · artifact admission ·
+    candidate ``c`` intervals · coupon ``Xi`` envelopes · reachable-set admission · categories ·
+    the exact four-slot selection · the instantiated P3/P4 rows · the durable ledger, proposed
+    freeze and P2b manifest.
     """
     base = pathlib.Path(runs_dir)
-    manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=authority)
-    ledger, admitted = {}, []
-    artifact = artifact_admission_from_records(records)
+    auth = execution_authority("P2b", backend=backend)
+    manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=auth)
+    for rec in records.values():
+        assert_production_record(rec)
 
+    artifact = artifact_admission_from_records(records)
+    ledger, admitted = {}, []
     for key, art in sorted(artifact.items()):
         w, kz = key
         bridge = {"w": w, "kz": kz}
-        entry = {"w": w, "kz": kz, "artifact": art, "eligible": False,
-                 "rejection_reason": None, "evidence": {}}
-        blocked = _terms_from_records(records, "candidate_blocked_mirror", key)
-        coupons = _terms_from_records(records, "bridge_coupon", key)
-        entry["evidence"] = {
-            "artifact_case_ids": sorted(v["case_id"] for v in art["combinations"].values()),
-            "artifact_record_sha256": sorted(v["record_sha256"]
-                                             for v in art["combinations"].values()),
-            "blocked_mirror_case_ids": sorted(blocked),
-            "blocked_mirror_record_sha256": sorted(record_hash(r) for r in blocked.values()),
-            "coupon_case_ids": sorted(coupons),
-            "coupon_record_sha256": sorted(record_hash(r) for r in coupons.values()),
-        }
+        cid = "w%d_kz%d" % key
+        entry = {"candidate_id": cid, "w": w, "kz": kz, "artifact": art,
+                 "eligible": False, "rejection_reason": None}
+
+        # --- gates first: a failure makes the candidate UNAVAILABLE (errata PE-28, PE-29) ---
+        forcing = candidate_forcing_gates(records, key)
+        entry["forcing_invariance"] = forcing
+        resolution = candidate_resolution_gates(records, key, bridge)
+        entry["resolution_consistency"] = resolution
+        if not forcing["pass"]:
+            entry["rejection_reason"] = "FORCING_INVARIANCE: %r" % (forcing["failed_quantities"],)
+            ledger[cid] = entry
+            continue
+        if not resolution["pass"]:
+            entry["rejection_reason"] = ("RESOLUTION_CONSISTENCY: %r"
+                                         % (resolution["failed_quantities"],))
+            ledger[cid] = entry
+            continue
         if not art["admitted"]:
             entry["rejection_reason"] = "ARTIFACT: %s" % art["reason"]
-            ledger["%d_%d" % key] = entry
+            ledger[cid] = entry
             continue
-        contrasts, areas, u_num_c = [], [], 0.0
+
+        # --- candidate c, from its OWN blocked-mirror normals and its OWN audits (PE-31) ---
+        blocked = _normal_only(records, "candidate_blocked_mirror", key)
+        b_pairs = _pair_normal_with_audit(
+            blocked, _audits_for(records, "candidate_blocked_mirror", key))
+        contrasts, areas = [], {}
         for r in sorted(blocked.values(), key=lambda x: x["case_id"]):
             fc = field_contrast(r["scientific"])          # RECOMPUTED, never taken on trust
             contrasts.append(abs(fc["c_field"]))
-            areas.append((r["row"]["S"], r["row"]["forcing_level"], fc["A1"], fc["A2"]))
+            areas[(r["row"]["S"], r["row"]["forcing_level"])] = (fc["A1"], fc["A2"])
         if not contrasts:
             entry["rejection_reason"] = "NO_BLOCKED_MIRROR_CONTRAST_EVIDENCE"
-            ledger["%d_%d" % key] = entry
+            ledger[cid] = entry
             continue
-        # the candidate's own worst measured numerical discrepancy, from its own audits
-        u_terms = [v["u_R"] for v in art["combinations"].values() if v.get("u_R") is not None]
-        u_num_c = max(u_terms) if u_terms else 0.0
-        cb = candidate_c_bounds(contrasts,
-                                resolution_tolerance=resolution_consistency_tolerance("c_field"),
-                                numerical_rel=u_num_c)
+        u_c = fixed_step_discrepancy(
+            b_pairs, lambda r: (field_contrast(r["scientific"])["c_field"]
+                                if r.get("scientific") else None), "c_field")
+        if u_c["value"] is None:
+            entry["rejection_reason"] = "NO_FIXED_STEP_EVIDENCE_FOR_c_field"
+            ledger[cid] = entry
+            continue
+        cb = candidate_c_bounds(
+            contrasts,
+            resolution_tolerance=resolution_consistency_tolerance("c_field", bridge),
+            numerical_rel=u_c["value"])
         entry["c_bounds"] = cb
-        area_by = {(S, lv): (A1, A2) for S, lv, A1, A2 in areas}
-        xi_rows = []
+        entry["u_fixed_step_c"] = u_c
+
+        # --- candidate Xi, from its OWN coupon normals and its OWN audits (PE-30, PE-31) ---
+        coupons = _normal_only(records, "bridge_coupon", key)
+        c_pairs = _pair_normal_with_audit(coupons, _audits_for(records, "bridge_coupon", key))
+        u_xi = fixed_step_discrepancy(
+            c_pairs, lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"),
+            "G_bridge_coupon")
+        if u_xi["value"] is None:
+            entry["rejection_reason"] = "NO_FIXED_STEP_EVIDENCE_FOR_bridge_coupon"
+            ledger[cid] = entry
+            continue
+        xi_rows, xi_ids, xi_h = [], [], []
         for r in sorted(coupons.values(), key=lambda x: x["case_id"]):
             g_bridge = (r.get("scientific") or {}).get("G_bridge_coupon")
             k2 = (r["row"]["S"], r["row"]["forcing_level"])
-            if g_bridge is None or k2 not in area_by:
+            if g_bridge is None or k2 not in areas:
                 continue
-            A1, A2 = area_by[k2]
+            A1, A2 = areas[k2]
             xi_rows.append({"S": k2[0], "forcing_level": k2[1], "coupon_source": "bridge_coupon",
                             "Xi": float(g_bridge) * (1.0 / A1 + 1.0 / A2)})
+            xi_ids.append(r["case_id"])
+            xi_h.append(record_hash(r))
         if not xi_rows:
             entry["rejection_reason"] = "NO_BRIDGE_COUPON_XI_EVIDENCE"
-            ledger["%d_%d" % key] = entry
+            ledger[cid] = entry
             continue
         env = xi_envelope(xi_rows,
-                          resolution_consistency_tolerance("Xi_coupon", bridge) + u_num_c)
+                          resolution_consistency_tolerance("Xi_coupon", bridge) + u_xi["value"])
         entry["xi_envelope"] = env
-        art_upper = max(v["upper"] for v in art["combinations"].values())
+        entry["u_fixed_step_Xi"] = u_xi
+        entry["xi_case_ids"] = assert_flat_id_list(xi_ids, "Xi case ids")
+        entry["xi_record_sha256"] = assert_flat_hash_list(xi_h, "Xi record hashes")
+
+        art_upper = max(v["artifact_upper"] for v in art["combinations"].values())
         adm = reachable_set_admission(cb["c_lower"], cb["c_upper"], env["Xi_upper"], art_upper)
         entry["reachable_set"] = adm
+        entry["category"] = env["category"]
         entry["eligible"] = bool(adm["admitted"])
         entry["uncertainty_lineage"] = {
-            "artifact_upper": {
-                "value": art_upper,
-                "method": "max over required combinations of |R-1| + u_R, each recomputed from "
-                          "the pair's own records and its own fixed-step audits",
-                "source_case_ids": entry["evidence"]["artifact_case_ids"],
-                "source_record_sha256": entry["evidence"]["artifact_record_sha256"],
-                "overlaps": "already contains u_R; never added again downstream",
-                "used_in": "artifact admission and the reachable-set inequality"},
-            "candidate_c": {
-                "interval": [cb["c_lower"], cb["c_upper"]],
-                "method": "measured blocked-mirror contrasts widened by the "
-                          "resolution-consistency and numerical terms",
-                "source_case_ids": entry["evidence"]["blocked_mirror_case_ids"],
-                "source_record_sha256": entry["evidence"]["blocked_mirror_record_sha256"],
-                "overlaps": "folded into the interval; never added as a separate term",
-                "used_in": "the reachable ceiling and the signal upper bound"},
-            "coupon_xi": {
-                "envelope": [env["Xi_lower"], env["Xi_upper"]], "point": env["Xi_select"],
-                "method": "geometric mean of valid positive coupon estimates, widened by the "
-                          "resolution-consistency and numerical terms",
-                "source_case_ids": entry["evidence"]["coupon_case_ids"],
-                "source_record_sha256": entry["evidence"]["coupon_record_sha256"],
-                "overlaps": "carried inside Xi_upper",
-                "used_in": "the predicted-signal upper bound and the category"},
+            "artifact_R": {"value": art_upper, "family": "identical-path pairs",
+                           "overlaps": "contains u_fixed_step_R, u_pressure_plane_R and "
+                                       "u_serialization_R; never added again",
+                           "used_in": "artifact admission and the reachable-set inequality"},
+            "candidate_c": {"interval": [cb["c_lower"], cb["c_upper"]],
+                            "family": "blocked-mirror pairs", "u_fixed_step": u_c,
+                            "overlaps": "folded into the interval; never added separately",
+                            "used_in": "the reachable ceiling and the signal upper bound"},
+            "coupon_Xi": {"envelope": [env["Xi_lower"], env["Xi_upper"]],
+                          "family": "bridge-coupon pairs", "u_fixed_step": u_xi,
+                          "overlaps": "carried inside Xi_upper",
+                          "used_in": "the predicted-signal upper bound and the category"},
         }
         if not entry["eligible"]:
             entry["rejection_reason"] = "REACHABLE_SET: headroom %.6g" % adm["headroom"]
         else:
+            hashes = sorted(set(
+                sum((list(v["normal_record_sha256"]) + list(v["audit_record_sha256"])
+                     + list(v["pressure_plane_record_sha256"])
+                     for v in art["combinations"].values()), [])
+                + [record_hash(r) for r in blocked.values()]
+                + list(entry["xi_record_sha256"])))
             admitted.append({"w": w, "kz": kz, "eligible": True, "xi_envelope": env,
-                             "record_hashes": sorted(set(
-                                 entry["evidence"]["artifact_record_sha256"]
-                                 + entry["evidence"]["blocked_mirror_record_sha256"]
-                                 + entry["evidence"]["coupon_record_sha256"]))})
-        ledger["%d_%d" % key] = entry
+                             "record_hashes": assert_flat_hash_list(hashes, "candidate hashes")})
+        ledger[cid] = entry
 
-    selection = select_bridges(admitted)                # exactly four, or DesignBlocked
-    keys = [(int(c["w"]), int(c["kz"])) for c in selection]
-    if len(set(keys)) != N_FROZEN_BRIDGES:              # pragma: no cover - guarded in selection
-        raise DesignBlocked("SELECTION_UNDERFILLED_AFTER_DEDUPLICATION", str(keys))
-    seen = {}
-    for c in selection:
-        for h in c["record_hashes"]:
-            prev = seen.get(h)
-            if prev is not None and prev != (c["w"], c["kz"]):
-                raise ManifestMissing(
-                    "record hash %r binds two candidate geometries %r and %r; a single case "
-                    "record may never provide evidence for two bridges" % (h, prev,
-                                                                           (c["w"], c["kz"])))
-            seen[h] = (c["w"], c["kz"])
-    instantiated = instantiate_post_freeze_matrix([{"w": c["w"], "kz": c["kz"]}
-                                                   for c in selection])
-    doc = {
-        "tranche": TRANCHE_ID,
-        "correction_version": CORRECTION_VERSION,
-        "freeze_rule": FREEZE_RULE,
-        "n_frozen_bridges": N_FROZEN_BRIDGES,
-        "candidate_ledger": ledger,
-        "admitted": sorted("%d_%d" % (c["w"], c["kz"]) for c in admitted),
-        "rejected": {k: v["rejection_reason"] for k, v in sorted(ledger.items())
-                     if not v["eligible"]},
-        "above_window_diagnostics": above_window_diagnostics(admitted),
-        "frozen_bridges": [{"w": c["w"], "kz": c["kz"], "slot": c["slot"],
-                            "slot_provenance": c["slot_provenance"],
-                            "category": c["category"], "freeze_order": c["freeze_order"],
-                            "xi_envelope": c["xi_envelope"],
-                            "record_hashes": c["record_hashes"]}
-                           for c in selection],
-        "manifest_phases": sorted(k for k in manifests if k != "P2b"),
-        "phase_manifest_sha256": {
-            k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
-            for k in manifests if k != "P2b"},
-        "instantiated_matrix": instantiated,
-        "instantiated_matrix_sha256": record_hash(instantiated),
-        "source_commit": (authority or {}).get("source_commit"),
-        "source_tree": (authority or {}).get("source_tree"),
-        "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
-        "p3_p4_authorised": False,
-        "note": ("P3 and P4 remain unauthorized even with this artifact present: a freeze is "
-                 "necessary, never sufficient."),
+    ledger_doc = {
+        "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+        "phase": "P2b", "candidates": ledger,
+        "n_declared": len(ledger), "n_eligible": len(admitted),
+        "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
+        "execution_authority_sha256": record_hash(auth),
     }
-    doc.update(config_hashes())
-    return doc
+    ledger_doc.update(config_hashes())
+    written = {}
+    written["candidate_ledger.json"] = _atomic_write_json(base / "candidate_ledger.json",
+                                                          ledger_doc)[0].name
+
+    stop_reason, freeze_doc, inst = None, None, None
+    try:
+        selection = select_bridges(admitted)
+    except DesignBlocked as exc:
+        selection, stop_reason = None, exc.reason
+
+    if selection is not None:
+        seen = {}
+        for c in selection:
+            for h in c["record_hashes"]:
+                prev = seen.get(h)
+                if prev is not None and prev != (c["w"], c["kz"]):
+                    raise ManifestMissing(
+                        "record hash %r binds two candidate geometries %r and %r without a "
+                        "declared common-reference role" % (h, prev, (c["w"], c["kz"])))
+                seen[h] = (c["w"], c["kz"])
+        inst = instantiate_post_freeze_matrix([{"w": c["w"], "kz": c["kz"]} for c in selection])
+        inst_doc = {"tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+                    "rows": inst, "n_rows": len(inst),
+                    "content_sha256": record_hash(inst)}
+        inst_doc.update(config_hashes())
+        written["instantiated_p3_p4_matrix.json"] = _atomic_write_json(
+            base / "instantiated_p3_p4_matrix.json", inst_doc)[0].name
+        freeze_doc = {
+            "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+            "freeze_rule": FREEZE_RULE, "n_frozen_bridges": N_FROZEN_BRIDGES,
+            "frozen_bridges": [{"w": c["w"], "kz": c["kz"], "slot": c["slot"],
+                                "slot_provenance": c["slot_provenance"],
+                                "category": c["category"],
+                                "freeze_order": c["freeze_order"],
+                                "xi_envelope": c["xi_envelope"],
+                                "record_hashes": c["record_hashes"]} for c in selection],
+            "above_window_diagnostics": above_window_diagnostics(admitted),
+            "candidate_ledger_sha256": record_hash(ledger_doc),
+            "phase_manifest_sha256": {
+                k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+                for k in manifests},
+            "instantiated_matrix_sha256": record_hash(inst),
+            "instantiated_matrix_wrapper_sha256": record_hash(inst_doc),
+            "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
+            "execution_authority_sha256": record_hash(auth),
+            "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
+            "p3_p4_authorised": False,
+            "note": ("P3 and P4 remain unauthorized even with this artifact present: a freeze is "
+                     "necessary, never sufficient, and it requires its own reviewed "
+                     "authorization commit."),
+        }
+        freeze_doc.update(config_hashes())
+        written["proposed_bridge_freeze.json"] = _atomic_write_json(
+            base / "proposed_bridge_freeze.json", freeze_doc)[0].name
+
+    manifest = {
+        "schema_version": MANIFEST_SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "phase": "P2b", "provenance_mode": "PRODUCTION",
+        "phase_kind": "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL",
+        "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
+        "execution_authority_sha256": record_hash(auth),
+        "full_matrix_sha256": record_hash(execution_matrix()),
+        "predecessor_manifests": {
+            k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+            for k in manifests},
+        "candidate_ledger_sha256": record_hash(ledger_doc),
+        "proposed_freeze_sha256": (None if freeze_doc is None else record_hash(freeze_doc)),
+        "instantiated_matrix_sha256": (None if inst is None else record_hash(inst)),
+        "artifacts_written": written,
+        "n_declared_candidates": len(ledger),
+        "n_eligible_candidates": len(admitted),
+        "selection_status": ("SELECTED" if selection is not None else "DESIGN_BLOCKED"),
+        "terminal_status": ("PHASE_COMPLETE" if selection is not None
+                            else "PHASE_STOPPED_DESIGN_BLOCKED"),
+        "terminal_stop_reason": stop_reason,
+        "solver_records": [],
+    }
+    manifest.update(config_hashes())
+    written["manifest_P2b.json"] = _atomic_write_json(base / "manifest_P2b.json", manifest)[0].name
+    manifest["artifacts_written"] = written
+    return manifest
 
 
 _GENERATED = (
