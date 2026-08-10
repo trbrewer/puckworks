@@ -457,25 +457,30 @@ def test_the_case_record_keeps_the_inverse_input_labelled_as_volume_flux():
 
 def test_the_artifact_budget_is_the_repository_nuisance_scale_not_a_new_number():
     assert vf.ARTIFACT_BUDGET_R_ABS == vf001.TOL_RETURN_PATH_R_REL == 1.0e-3
-    assert vf.NUMERICAL_UNCERTAINTY_R_ABS == vf.TOL_MASS_REL
+    # erratum PE-6: the borrowed constant is GONE; R uncertainty has its own frozen method
+    assert not hasattr(vf, "NUMERICAL_UNCERTAINTY_R_ABS")
+    assert vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR == 2.0
 
 
 def test_the_001_artifact_would_have_failed_the_budget_by_more_than_an_order_of_magnitude():
     m = vf.artifact_metrics(C_open=1.0143, C_blocked=1.0,
                             R_identical=1.0 + vf.PREDECESSOR[
-                                "axial_artifact_at_zero_lateral_driver"])
+                                "axial_artifact_at_zero_lateral_driver"],
+                            numerical_uncertainty=0.0)
     assert m["within_budget"] is False
     assert m["pressure_normalised_R_change"] / vf.ARTIFACT_BUDGET_R_ABS > 14
 
 
 def test_artifact_metrics_report_every_required_form_and_name_the_adjudicative_one():
     m = vf.artifact_metrics(C_open=25.5, C_blocked=25.4, R_identical=1.0004,
-                            R_identical_mass=1.0005)
-    assert m["adjudicative_metric"] == "pressure_normalised_R_change"
+                            R_identical_mass=1.0005, numerical_uncertainty=1e-4)
+    assert m["adjudicative_metric"] == (
+        "abs(pressure_normalised_R_change) + numerical_uncertainty_R_abs")
     assert m["signed_conductance_change"] == pytest.approx(0.1)
     assert m["absolute_conductance_change"] == pytest.approx(0.1)
     assert m["relative_conductance_change"] == pytest.approx(0.1 / 25.4)
     assert m["mass_flux_R_change"] == pytest.approx(5e-4)
+    assert m["artifact_upper_bound"] == pytest.approx(4e-4 + 1e-4)
     assert m["within_budget"] is True
 
 
@@ -503,43 +508,50 @@ def test_the_001_largest_aperture_observation_is_outside_the_reachable_set():
 
 
 def test_the_admission_test_has_the_required_structure_and_a_material_margin():
-    a = vf.reachable_set_admission(c_field_reference=0.3218, Xi_predicted=1.0,
-                                   artifact_bound=5e-4)
-    assert a["lhs"] == pytest.approx(a["predicted_signal"] + a["axial_artifact_bound"]
-                                     + a["numerical_uncertainty_bound"])
+    a = vf.reachable_set_admission(c_lower=0.31, c_upper=0.33, Xi_upper=1.0,
+                                   artifact_upper=5e-4)
+    assert a["lhs"] == pytest.approx(a["predicted_signal_upper"] + a["artifact_upper"]
+                                     + a["other_nonoverlapping_numerical_upper"])
     assert a["rhs"] == pytest.approx(a["reachable_ceiling"] - a["safety_margin"])
     assert a["admitted"] is True
     # the margin is a fixed fraction of the ceiling, not a microscopic point-estimate pass
     assert a["safety_margin"] == pytest.approx(0.10 * a["reachable_ceiling"])
-    assert a["safety_margin"] > 20 * a["axial_artifact_bound"]
-    # the gate uses a conservatively REDUCED contrast
-    assert a["c_gate"] < abs(0.3218)
+    assert a["safety_margin"] > 20 * a["artifact_upper"]
+    # conservative on BOTH sides: ceiling from c_lower, signal from c_upper
+    assert a["reachable_ceiling"] == pytest.approx(vf.reachable_ceiling(0.31))
+    assert a["reachable_ceiling_at_c_upper"] > a["reachable_ceiling"]
 
 
 def test_the_admission_test_rejects_a_candidate_that_saturates_the_model():
-    a = vf.reachable_set_admission(c_field_reference=0.3218, Xi_predicted=50.0,
-                                   artifact_bound=5e-4)
+    a = vf.reachable_set_admission(c_lower=0.31, c_upper=0.33, Xi_upper=50.0,
+                                   artifact_upper=5e-4)
     assert a["admitted"] is False
     assert a["headroom"] < 0
 
 
 def test_a_large_artifact_alone_can_close_the_admission_gate():
-    a = vf.reachable_set_admission(c_field_reference=0.3218, Xi_predicted=1.0,
-                                   artifact_bound=0.5)
+    a = vf.reachable_set_admission(c_lower=0.31, c_upper=0.33, Xi_upper=1.0,
+                                   artifact_upper=0.5)
     assert a["admitted"] is False
 
 
-def test_the_whole_wp6_window_is_admissible_at_the_expected_contrast():
-    """An ex-ante feasibility check: if no candidate could satisfy the gate the tranche would be
-    design-blocked before any computation, which is a legitimate outcome — it is not the case."""
-    for Xi in (vf.XI_WINDOW_LO, 1.0, vf.XI_WINDOW_HI):
-        a = vf.reachable_set_admission(0.3218, Xi, vf.ARTIFACT_BUDGET_R_ABS)
-        assert a["admitted"], Xi
-    assert vf.max_admissible_Xi(0.3218 * 0.95, vf.ARTIFACT_BUDGET_R_ABS) > vf.XI_WINDOW_HI
+def test_most_of_the_wp6_window_is_admissible_at_the_expected_contrast():
+    """Ex-ante feasibility, reported honestly. Under the corrected gate (erratum PE-7) the signal
+    is taken at the UPPER contrast and the ceiling at the LOWER one, which is conservative on both
+    sides and materially tighter than the superseded single-sided form. At an illustrative +/-2.5 %
+    contrast interval around 001's measured c_field the lower half of the window is comfortably
+    admitted while the very top is NOT — a live design risk recorded in PRE_EXECUTION_REVIEW,
+    not something to tune away."""
+    lo, hi = 0.3218 * 0.975, 0.3218 * 1.025
+    for Xi in (vf.XI_WINDOW_LO, 1.0, 2.0):
+        assert vf.reachable_set_admission(lo, hi, Xi, vf.ARTIFACT_BUDGET_R_ABS)["admitted"], Xi
+    top = vf.reachable_set_admission(lo, hi, vf.XI_WINDOW_HI, vf.ARTIFACT_BUDGET_R_ABS)
+    assert top["admitted"] is False
+    assert vf.max_admissible_Xi(lo, vf.ARTIFACT_BUDGET_R_ABS, c_upper=hi) < vf.XI_WINDOW_HI
 
 
 def test_the_artifact_budget_costs_less_than_a_quarter_of_the_factor_of_two_criterion():
-    j = vf.artifact_budget_justification(0.3218)
+    j = vf.artifact_budget_justification(0.3218)  # c_gate is now passed directly, not derived
     assert j["well_inside_factor_of_two"]
     assert j["max_relative_Xi_bias"] < 0.10
 
@@ -557,14 +569,16 @@ def test_the_element_error_law_is_the_measured_channel_law():
 
 def test_resolution_consistency_tolerances_are_feature_derived_and_strictly_ordered():
     b = {"w": 5, "kz": 2}
-    tol_R = vf.resolution_consistency_tolerance("R", b)
+    tol_R_blocked = vf.resolution_consistency_tolerance("R_blocked")
+    tol_R_open = vf.resolution_consistency_tolerance("R_open", b)
     tol_Xi = vf.resolution_consistency_tolerance("Xi_field", b)
-    assert tol_Xi > tol_R > 0
-    # derived, not chosen: R's tolerance is kappa times the two slot-height error differences
-    expect = vf.KAPPA_RES * sum(
-        abs(vf.element_error(f * vf.S_COARSE) - vf.element_error(f * vf.S_FINE))
-        for f in (vf.BASE["h_low"], vf.BASE["h_high"]))
-    assert tol_R == pytest.approx(expect, rel=1e-15)
+    assert tol_Xi >= tol_R_open > tol_R_blocked > 0
+    # derived, not chosen: the lane-only tolerance is kappa times (sum + worst) over the two
+    # slot heights — the explicit junction/end allowance, declared as a factor
+    dd = [abs(vf.element_error(f * vf.S_COARSE) - vf.element_error(f * vf.S_FINE))
+          for f in (vf.BASE["h_low"], vf.BASE["h_high"])]
+    expect = vf.KAPPA_RES * (sum(dd) + vf.JUNCTION_ALLOWANCE * max(dd))
+    assert tol_R_blocked == pytest.approx(expect, rel=1e-15)
     # a smaller bridge feature earns a LOOSER tolerance, because it is less well resolved
     assert (vf.resolution_consistency_tolerance("Xi_field", {"w": 5, "kz": 2})
             > vf.resolution_consistency_tolerance("Xi_field", {"w": 5, "kz": 4}))

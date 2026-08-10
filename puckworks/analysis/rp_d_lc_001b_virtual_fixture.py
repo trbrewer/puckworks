@@ -643,7 +643,11 @@ TAU_PLUS = 2.0
 TAU_CROSS_CHECK = 1.2
 NU = (TAU_PLUS - 0.5) / 3.0                  # = 0.5 exactly, matching lb_reference.solve
 S_REF = 2
-G_REF = 2.0e-6
+#: The reference forcing as an EXACT rational (erratum PE-12). Fraction(2.0e-6) would have been
+#: the exact rational of an already-rounded binary float, which is not the same number and is not
+#: the frozen design value. ``G_REF`` is derived from it, never the source of truth.
+G_REF_EXACT = Fraction(1, 500_000)
+G_REF = float(G_REF_EXACT)
 FORCING_FACTORS = (Fraction(1, 2), Fraction(1), Fraction(2))
 FORCING_LEVELS = ("low", "central", "high")
 
@@ -663,13 +667,13 @@ def forcing_central(S: int) -> float:
     the two resolutions carry no rounded duplicate literals."""
     if not isinstance(S, int) or isinstance(S, bool) or S < 1:
         raise ValueError("S must be a positive int, got %r" % (S,))
-    return float(Fraction(G_REF) * Fraction(S_REF ** 3, S ** 3))
+    return float(G_REF_EXACT * Fraction(S_REF ** 3, S ** 3))
 
 
 def forcing_ladder(S: int):
     """The componentwise x0.5 / x1 / x2 forcing ladder at resolution ``S``, exact by rational
     construction around that resolution's own central forcing."""
-    g0 = Fraction(forcing_central(S))
+    g0 = G_REF_EXACT * Fraction(S_REF ** 3, S ** 3)          # exact, never via a binary float
     return {name: float(g0 * f) for name, f in zip(FORCING_LEVELS, FORCING_FACTORS)}
 
 
@@ -732,20 +736,40 @@ RESOLUTION_CONSISTENCY_PROVENANCE = (
     "error(%) = 50/h^2 over h = 3..31 lattice units (Arm A of the closed RP-D-LC-001 tranche)"
 )
 
-#: Which base-voxel features govern which quantity. A quantity built only from the lane ducts is
-#: governed by the two slot heights; anything carrying the bridge conductance is additionally
-#: governed by the bridge's own smallest feature.
+#: An explicit extra copy of the WORST single feature's error movement, standing for junction and
+#: end effects the single-slot channel law does not describe. Declared as a factor rather than
+#: hidden inside a fitted constant (erratum PE-8).
+JUNCTION_ALLOWANCE = 1.0
+
+#: Two feature families (erratum PE-8). The superseded model governed every bridge quantity by
+#: ``bridge_kz`` ALONE — but the footprint width ``w`` is a resolved feature in its own right and
+#: is SMALLER than ``kz`` over part of the family (w = 3 against kz = 4), so the smallest feature
+#: governing the bridge conductance could be omitted entirely. Port depth and duct traverse were
+#: absent, and ``R``/``s`` did not distinguish a lane-only fixture from a bridge-carrying one.
+LANE_ONLY_FEATURES = ("h_low", "h_high")
+BRIDGE_CARRYING_FEATURES = ("h_low", "h_high", "bridge_w", "bridge_kz", "port_depth",
+                            "duct_traverse")
+
 RESOLUTION_GOVERNING_FEATURES = {
-    "R": ("h_low", "h_high"),
-    "s": ("h_low", "h_high"),
-    "C": ("h_low", "h_high"),
-    "c_field": ("h_low", "h_high"),
-    "A_field": ("h_low", "h_high"),
-    "G_lat_field": ("h_low", "h_high", "bridge_kz"),
-    "Xi_field": ("h_low", "h_high", "bridge_kz"),
-    "Xi_hat": ("h_low", "h_high", "bridge_kz"),
-    "Xi_coupon": ("h_low", "h_high", "bridge_kz"),
+    # lane-only: the reference and blocked fixtures carry no open connection
+    "R_blocked": LANE_ONLY_FEATURES,
+    "s_blocked": LANE_ONLY_FEATURES,
+    "C_blocked": LANE_ONLY_FEATURES,
+    "c_field": LANE_ONLY_FEATURES,
+    "A_field": LANE_ONLY_FEATURES,
+    # bridge-carrying: an OPEN fixture's R and s carry the bridge, so they are not lane-only
+    "R_open": BRIDGE_CARRYING_FEATURES,
+    "s_open": BRIDGE_CARRYING_FEATURES,
+    "C_open": BRIDGE_CARRYING_FEATURES,
+    "G_lat_field": BRIDGE_CARRYING_FEATURES,
+    "Xi_field": BRIDGE_CARRYING_FEATURES,
+    "Xi_hat": BRIDGE_CARRYING_FEATURES,
+    "Xi_coupon": BRIDGE_CARRYING_FEATURES,
 }
+
+#: Quantities whose tolerance depends on the candidate geometry and therefore require a bridge.
+BRIDGE_DEPENDENT_QUANTITIES = tuple(
+    q for q, f in RESOLUTION_GOVERNING_FEATURES.items() if f is BRIDGE_CARRYING_FEATURES)
 
 
 def element_error(h_vox: float) -> float:
@@ -761,23 +785,51 @@ def _feature_base_size(name, bridge):
         return BASE["h_low"]
     if name == "h_high":
         return BASE["h_high"]
+    if name == "port_depth":
+        return BASE["portA_hi"] - BASE["portA_lo"] + 1
+    if name == "duct_traverse":
+        return BASE["portB_hi"] - BASE["portA_lo"] + 1
+    if bridge is None:
+        raise ValueError("feature %r needs a bridge footprint" % (name,))
+    if name == "bridge_w":
+        return int(bridge["w"])
     if name == "bridge_kz":
         return int(bridge["kz"])
     raise KeyError(name)                                          # pragma: no cover - frozen set
 
 
-def resolution_consistency_tolerance(quantity: str, bridge) -> float:
+def resolution_consistency_tolerance(quantity: str, bridge=None) -> float:
     """The frozen relative tolerance for the S_COARSE / S_FINE consistency test of ``quantity``.
 
-    Derived ex ante from the measured discretisation law and the resolved feature sizes only —
-    never from observed agreement between the 001b results.
+    A CONSERVATIVE FEATURE ENVELOPE: the sum over every critical discrete feature that can govern
+    the error, plus one extra copy of the worst of them as an explicit junction/end allowance.
+
+        tol = KAPPA_RES * ( sum_f dd(f) + JUNCTION_ALLOWANCE * max_f dd(f) )
+        dd(f) = |delta(f*S_COARSE) - delta(f*S_FINE)|,   delta(h) = 0.5/h^2
+
+    Derived ex ante from the measured discretisation law and the frozen geometry only — never
+    from observed agreement between the 001b results, which do not exist. Two resolutions support
+    a CONSISTENCY test and nothing stronger; this is not a convergence-order estimate.
     """
     feats = RESOLUTION_GOVERNING_FEATURES[quantity]
-    total = 0.0
+    dd = []
     for f in feats:
         b = _feature_base_size(f, bridge)
-        total += abs(element_error(b * S_COARSE) - element_error(b * S_FINE))
-    return KAPPA_RES * total
+        dd.append(abs(element_error(b * S_COARSE) - element_error(b * S_FINE)))
+    return KAPPA_RES * (sum(dd) + JUNCTION_ALLOWANCE * max(dd))
+
+
+def resolution_consistency_table(bridge):
+    """Every frozen tolerance for one candidate, for the record and for review."""
+    out = {}
+    for q in sorted(RESOLUTION_GOVERNING_FEATURES):
+        needs_bridge = q in BRIDGE_DEPENDENT_QUANTITIES
+        out[q] = {
+            "features": list(RESOLUTION_GOVERNING_FEATURES[q]),
+            "family": "bridge_carrying" if needs_bridge else "lane_only",
+            "tolerance": resolution_consistency_tolerance(q, bridge if needs_bridge else None),
+        }
+    return out
 
 
 # ==========================================================================================
@@ -1213,32 +1265,115 @@ ARTIFACT_BUDGET_PROVENANCE = (
     "programme 0.1 % observable-level nuisance scale; identical to TOL_RETURN_PATH_R_REL frozen "
     "in RP-D-LC-001 erratum E1 for the Route-A isolation gate"
 )
-#: Conservative, non-common-mode upper bound on the numerical uncertainty of R: the frozen
-#: mass-conservation tolerance taken at full value, assuming NO cancellation between the open
-#: and blocked runs. Derived from an existing frozen tolerance, never from observed agreement.
-NUMERICAL_UNCERTAINTY_R_ABS = TOL_MASS_REL
+
+# ---- the R-specific numerical-discrepancy method (erratum PE-6) ----------------------------
+# SUPERSEDED: NUMERICAL_UNCERTAINTY_R_ABS = TOL_MASS_REL. A plane-to-plane mass-flux residual and
+# the numerical discrepancy of a pressure-normalised conductance RATIO are different quantities;
+# equating them was presented as conservative but was simply unrelated, and it happened to equal
+# the entire artifact budget.
+#
+# What is frozen here is a METHOD, evaluated per case, deliberately not a constant and
+# deliberately NOT called a rigorous error bound. It is a CONSERVATIVE NUMERICAL-DISCREPANCY
+# BOUND assembled from three separately measurable contributions:
+#
+#   |dR|_continuation  re-run at CONVERGENCE_AUDIT_FACTOR x the converged step count, separately
+#                      for the OPEN and BLOCKED members of the pair, propagated through the ratio
+#                      as a linear (not quadrature) sum, which is the conservative composition;
+#   |dR|_node_offset   the largest movement of R across the frozen node-surface offsets. Needs NO
+#                      extra solve: the offsets are different planes of the same solution;
+#   u_serialisation    10^-_RECORD_DP * (1 + |R|) — negligible, but declared rather than assumed.
+#
+# times a frozen safety factor.
+NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0
+NUMERICAL_DISCREPANCY_METHOD = (
+    "u_R = SAFETY * ( |dR|_continuation + |dR|_node_offset + u_serialisation ); continuation from "
+    "a forced re-run at CONVERGENCE_AUDIT_FACTOR x the converged step count with the open and "
+    "blocked contributions propagated separately through the conductance ratio; node-offset from "
+    "the frozen surface offsets, which need no extra solve; serialisation from the frozen record "
+    "precision. A CONSERVATIVE NUMERICAL-DISCREPANCY BOUND, not a rigorous error bound."
+)
+
+
+def _rel(a, b):
+    """|a/b - 1| with a finite check — the relative movement of a continuation run."""
+    b = _finite(b, "reference value")
+    if b == 0.0:
+        raise ZeroDivisionError("cannot form a relative discrepancy against zero")
+    return abs(_finite(a, "continuation value") / b - 1.0)
+
+
+def numerical_discrepancy_R(R, C_open, C_blocked, C_open_continued, C_blocked_continued,
+                            R_node_offsets=(), safety=NUMERICAL_DISCREPANCY_SAFETY_FACTOR):
+    """The frozen R-specific numerical-discrepancy bound, with every term reported separately.
+
+    ``C_*_continued`` are the conductances from the forced-step continuation runs.
+    ``R_node_offsets`` are the values of R obtained on the frozen node-surface offsets (offset 0
+    is the primary and is ``R`` itself). Non-finite inputs fail closed.
+    """
+    R = _finite(R, "R")
+    u_open = _rel(C_open_continued, C_open)
+    u_blocked = _rel(C_blocked_continued, C_blocked)
+    # R = C_open / C_blocked, so relative errors add through the ratio; linear sum, not quadrature
+    u_cont = abs(R) * (u_open + u_blocked)
+    offs = [_finite(v, "R at a node offset") for v in R_node_offsets]
+    u_offset = max((abs(v - R) for v in offs), default=0.0)
+    u_serial = 10.0 ** (-_RECORD_DP) * (1.0 + abs(R))
+    total = float(safety) * (u_cont + u_offset + u_serial)
+    return {
+        "method": NUMERICAL_DISCREPANCY_METHOD,
+        "kind": "CONSERVATIVE_NUMERICAL_DISCREPANCY_BOUND_NOT_A_RIGOROUS_ERROR_BOUND",
+        "R": R,
+        "u_continuation_open_rel": u_open,
+        "u_continuation_blocked_rel": u_blocked,
+        "u_continuation_R_abs": u_cont,
+        "u_node_offset_R_abs": u_offset,
+        "u_serialisation_R_abs": u_serial,
+        "safety_factor": float(safety),
+        "u_R_abs": _finite(total, "u_R_abs"),
+    }
 
 
 def artifact_metrics(C_open, C_blocked, R_identical, R_identical_mass=None,
-                     numerical_uncertainty=NUMERICAL_UNCERTAINTY_R_ABS):
+                     numerical_uncertainty=None):
     """Every required form of the zero-lateral-driver axial artifact, physical and normalised.
 
     The ADJUDICATIVE metric is ``pressure_normalised_R_change`` = ``R_identical - 1``: it is the
     quantity the inverse consumes, in the pressure-normalised form Route A requires. The
     mass-flux form is retained as a separate DIAGNOSTIC and is never substituted for it.
+
+    The gate is an UPPER-BOUND form (erratum PE-6):
+
+        abs(R_identical - 1) + u_artifact_R  <=  ARTIFACT_BUDGET_R_ABS
+
+    with the point estimate, the uncertainty term, the upper bound and the verdict reported
+    separately. ``numerical_uncertainty`` is the ``u_R_abs`` of ``numerical_discrepancy_R`` and is
+    REQUIRED: there is no default, because a default would silently reintroduce a borrowed
+    constant. A non-finite uncertainty fails closed.
     """
-    signed = float(C_open) - float(C_blocked)
+    if numerical_uncertainty is None:
+        raise ValueError(
+            "artifact_metrics requires an explicit R-specific numerical uncertainty from "
+            "numerical_discrepancy_R(); the superseded default borrowed TOL_MASS_REL, which is a "
+            "different quantity (erratum PE-6)")
+    u = _finite(numerical_uncertainty, "numerical_uncertainty")
+    if u < 0.0:
+        raise ValueError("numerical uncertainty must be non-negative, got %r" % (u,))
+    signed = _finite(C_open, "C_open") - _finite(C_blocked, "C_blocked")
+    point = _finite(R_identical, "R_identical") - 1.0
+    upper = abs(point) + u
     return {
         "signed_conductance_change": signed,
         "absolute_conductance_change": abs(signed),
-        "relative_conductance_change": signed / float(C_blocked),
-        "pressure_normalised_R_change": float(R_identical) - 1.0,
+        "relative_conductance_change": signed / _finite(C_blocked, "C_blocked"),
+        "pressure_normalised_R_change": point,
+        "pressure_normalised_R_change_abs": abs(point),
         "mass_flux_R_change": (None if R_identical_mass is None
-                               else float(R_identical_mass) - 1.0),
-        "numerical_uncertainty_R_abs": float(numerical_uncertainty),
-        "adjudicative_metric": "pressure_normalised_R_change",
+                               else _finite(R_identical_mass, "R_identical_mass") - 1.0),
+        "numerical_uncertainty_R_abs": u,
+        "artifact_upper_bound": upper,
+        "adjudicative_metric": "abs(pressure_normalised_R_change) + numerical_uncertainty_R_abs",
         "budget_R_abs": ARTIFACT_BUDGET_R_ABS,
-        "within_budget": bool(abs(float(R_identical) - 1.0) <= ARTIFACT_BUDGET_R_ABS),
+        "within_budget": bool(upper <= ARTIFACT_BUDGET_R_ABS),
     }
 
 
@@ -1254,9 +1389,15 @@ def artifact_metrics(C_open, C_blocked, R_identical, R_identical_mass=None,
 # inflating c_hat, which is exactly what happened at 001's largest aperture (observed
 # R - 1 = 0.1338 against a ceiling of 0.1155 at c_field = 0.3218).
 #
-# 001b admits a bridge candidate only if its PREDICTED signal, plus the measured axial-artifact
-# bound, plus a conservative numerical-uncertainty bound, stays below the ceiling by a material
-# predeclared margin.
+# SUPERSEDED (erratum PE-7): a fixed 5 % allowance applied to the REFERENCE-blocked c_field and
+# described as "strictly conservative". The reduction of the ceiling is monotone in c, so the
+# allowance WOULD be conservative if the true candidate contrast were within 5 % — but nothing
+# established that, and the supporting argument was first-order symmetry, which is not a bound.
+#
+# Effective: candidate-specific BLOCKED MIRROR characterisation in P2a (which exposes no open
+# coupling-recovery observable) yields a measured conservative interval [c_lower, c_upper]. The
+# signal is taken at the UPPER end of the contrast and Xi envelopes and the ceiling at the LOWER
+# end, so the inequality is conservative on both sides rather than on one.
 
 #: Safety margin as a fraction of the ceiling. Justified by conditioning, not by taste: with
 #: eps = (R-1)/K the inverse gives Xi = eps/(1-eps), so the RELATIVE error amplification is
@@ -1266,12 +1407,6 @@ REACHABLE_MARGIN_JUSTIFICATION = (
     "eps = (R-1)/K, Xi = eps/(1-eps), d(ln Xi)/d(ln eps) = 1/(1-eps); the frozen margin caps the "
     "inverse's relative-error amplification at 10x"
 )
-#: Conservative allowance applied to the reference-blocked c_field before it is used in the
-#: ceiling. The bridge ports sit in the transition band, symmetric between the lanes and split
-#: symmetrically by the bridge plane, so to first order they cancel in the contrast; 5 % is a
-#: generous bound on the residual. A SMALLER c gives a SMALLER ceiling, so this is strictly
-#: conservative for admission.
-C_FIELD_GATE_ALLOWANCE = 0.05
 
 
 def reachable_ceiling(c: float) -> float:
@@ -1290,66 +1425,122 @@ def predicted_R_minus_1(c: float, Xi: float) -> float:
     return reachable_ceiling(c) * (Xi / (1.0 + Xi))
 
 
-def max_admissible_Xi(c: float, artifact_bound: float,
-                      numerical_uncertainty: float = NUMERICAL_UNCERTAINTY_R_ABS,
-                      margin_fraction: float = REACHABLE_SAFETY_MARGIN_FRACTION) -> float:
-    """The largest Xi that can satisfy the admission inequality at this contrast, or 0.0 if the
-    artifact and numerical bounds already consume the whole margin."""
-    K = reachable_ceiling(c)
-    headroom = K * (1.0 - margin_fraction) - float(artifact_bound) - float(numerical_uncertainty)
+def candidate_c_bounds(c_measurements, resolution_tolerance, numerical_rel,
+                       surface_rel=0.0):
+    """A conservative measured interval for a candidate's blocked-mirror axial contrast.
+
+    ``c_measurements``        every |c_field| measured on that candidate's BLOCKED MIRROR fixture,
+                              across BOTH resolutions and the full forcing ladder. No open mirror
+                              case may contribute.
+    ``resolution_tolerance``  the ex-ante resolution-consistency tolerance for ``c_field``.
+    ``numerical_rel``         the relative numerical-discrepancy term.
+    ``surface_rel``           documented plane/surface variability, relative.
+
+    Replaces the superseded fixed 5 % allowance (erratum PE-7).
+    """
+    vals = [abs(_finite(v, "c measurement")) for v in c_measurements]
+    if not vals:
+        raise ValueError("candidate_c_bounds requires at least one blocked-mirror measurement of "
+                         "|c_field|; the superseded fixed allowance is removed (erratum PE-7)")
+    u_rel = (_finite(resolution_tolerance, "resolution_tolerance")
+             + _finite(numerical_rel, "numerical_rel") + _finite(surface_rel, "surface_rel"))
+    if u_rel < 0.0:
+        raise ValueError("uncertainty terms must be non-negative")
+    lo = min(vals) * (1.0 - u_rel)
+    hi = max(vals) * (1.0 + u_rel)
+    if not 0.0 < lo < 1.0 or not 0.0 < hi < 1.0:
+        raise ValueError("the derived contrast interval [%r, %r] leaves the physical range "
+                         "(0, 1); the candidate cannot be admitted" % (lo, hi))
+    return {
+        "n_measurements": len(vals),
+        "c_measurements": sorted(vals),
+        "resolution_tolerance": float(resolution_tolerance),
+        "numerical_rel": float(numerical_rel),
+        "surface_rel": float(surface_rel),
+        "u_rel_total": u_rel,
+        "c_lower": lo, "c_upper": hi,
+        "source": "candidate BLOCKED MIRROR characterisation only; no open mirror case",
+    }
+
+
+def max_admissible_Xi(c_lower, artifact_upper, other_numerical_upper=0.0,
+                      margin_fraction=REACHABLE_SAFETY_MARGIN_FRACTION, c_upper=None):
+    """The largest Xi that can satisfy the admission inequality, or 0.0 if the artifact and
+    numerical bounds already consume the whole margin."""
+    K_lo = reachable_ceiling(c_lower)
+    K_hi = reachable_ceiling(c_lower if c_upper is None else c_upper)
+    headroom = K_lo * (1.0 - margin_fraction) - float(artifact_upper) - float(
+        other_numerical_upper)
     if headroom <= 0.0:
         return 0.0
-    frac = headroom / K
-    if frac >= 1.0:                                              # pragma: no cover - unreachable
+    frac = headroom / K_hi
+    if frac >= 1.0:
         return float("inf")
     return frac / (1.0 - frac)
 
 
-def reachable_set_admission(c_field_reference, Xi_predicted, artifact_bound,
-                            numerical_uncertainty=NUMERICAL_UNCERTAINTY_R_ABS,
-                            margin_fraction=REACHABLE_SAFETY_MARGIN_FRACTION,
-                            c_allowance=C_FIELD_GATE_ALLOWANCE):
-    """The frozen admission test:
+def reachable_set_admission(c_lower, c_upper, Xi_upper, artifact_upper,
+                            other_numerical_upper=0.0,
+                            margin_fraction=REACHABLE_SAFETY_MARGIN_FRACTION):
+    """The frozen admission test (erratum PE-7):
 
-        predicted_signal + axial_artifact_bound + numerical_uncertainty_bound
-            <  reachable_ceiling - frozen_safety_margin
+        predicted_signal_upper(c_upper, Xi_upper) + artifact_upper
+            + other_nonoverlapping_numerical_upper
+        <  reachable_ceiling(c_lower) - frozen_safety_margin
 
-    ``c_field_reference`` comes from the P0 reference-blocked fixture. It NEVER comes from a
-    mirror open case, so no primary output can enter the gate that decides which candidate is
-    frozen. The point estimate is not permitted to sit microscopically inside the ceiling: the
-    margin is a fixed, predeclared fraction of the ceiling with a conditioning justification.
+    The four terms are kept STRICTLY SEPARATE so no uncertainty is counted twice:
+
+      * ``artifact_upper`` already contains the R-specific numerical discrepancy
+        (``artifact_metrics``'s ``artifact_upper_bound``);
+      * the candidate-c uncertainty is folded into ``[c_lower, c_upper]`` and is never added
+        again;
+      * the predicted-signal/coupon uncertainty is carried by ``Xi_upper``;
+      * ``other_numerical_upper`` is any additional NON-OVERLAPPING term, zero by construction
+        unless one is introduced and declared.
+
+    ``c_lower``/``c_upper`` come from ``candidate_c_bounds`` on the candidate's BLOCKED MIRROR
+    fixture. No open mirror result may enter this gate.
     """
-    c_gate = (1.0 - float(c_allowance)) * abs(float(c_field_reference))
-    K = reachable_ceiling(c_gate)
-    margin = margin_fraction * K
-    signal = predicted_R_minus_1(c_gate, Xi_predicted)
-    lhs = signal + float(artifact_bound) + float(numerical_uncertainty)
-    rhs = K - margin
+    c_lo, c_hi = abs(_finite(c_lower, "c_lower")), abs(_finite(c_upper, "c_upper"))
+    if c_hi < c_lo:
+        raise ValueError("c_upper must not be below c_lower, got %r < %r" % (c_hi, c_lo))
+    K_lo = reachable_ceiling(c_lo)
+    K_hi = reachable_ceiling(c_hi)
+    margin = margin_fraction * K_lo
+    signal = predicted_R_minus_1(c_hi, Xi_upper)         # signal at the UPPER contrast/Xi
+    art = _finite(artifact_upper, "artifact_upper")
+    oth = _finite(other_numerical_upper, "other_numerical_upper")
+    if art < 0.0 or oth < 0.0:
+        raise ValueError("uncertainty upper bounds must be non-negative")
+    lhs = signal + art + oth
+    rhs = K_lo - margin                                   # ceiling at the LOWER contrast
     return {
-        "c_field_reference": float(c_field_reference),
-        "c_gate": c_gate, "c_allowance": float(c_allowance),
-        "reachable_ceiling": K,
+        "c_lower": c_lo, "c_upper": c_hi,
+        "reachable_ceiling": K_lo,
+        "reachable_ceiling_at_c_upper": K_hi,
         "safety_margin": margin,
         "safety_margin_fraction": float(margin_fraction),
         "safety_margin_justification": REACHABLE_MARGIN_JUSTIFICATION,
-        "predicted_signal": signal,
-        "axial_artifact_bound": float(artifact_bound),
-        "numerical_uncertainty_bound": float(numerical_uncertainty),
+        "Xi_upper": float(Xi_upper),
+        "predicted_signal_upper": signal,
+        "artifact_upper": art,
+        "other_nonoverlapping_numerical_upper": oth,
+        "double_counting_prohibited": (
+            "artifact_upper already contains u_R; candidate-c uncertainty is inside "
+            "[c_lower, c_upper]; coupon uncertainty is inside Xi_upper"),
         "lhs": lhs, "rhs": rhs,
         "headroom": rhs - lhs,
         "admitted": bool(lhs < rhs),
-        "max_admissible_Xi": max_admissible_Xi(c_gate, artifact_bound, numerical_uncertainty,
-                                               margin_fraction),
+        "max_admissible_Xi": max_admissible_Xi(c_lo, art, oth, margin_fraction, c_upper=c_hi),
     }
 
 
-def artifact_budget_justification(c_field_reference,
-                                  Xi_lo=vf001.XI_WINDOW_LO, Xi_hi=vf001.XI_WINDOW_HI,
+def artifact_budget_justification(c_gate, Xi_lo=vf001.XI_WINDOW_LO, Xi_hi=vf001.XI_WINDOW_HI,
                                   artifact=ARTIFACT_BUDGET_R_ABS):
     """Bound, ex ante, what the artifact budget costs the science: the relative bias it can
     induce in Xi_hat at each end of the WP6 transition window. Derived from the exact forward map
     and the frozen budget only — no 001b output exists or is consulted."""
-    c = (1.0 - C_FIELD_GATE_ALLOWANCE) * abs(float(c_field_reference))
+    c = abs(_finite(c_gate, "c_gate"))
     K = reachable_ceiling(c)
     out = {"c_gate": c, "reachable_ceiling": K, "artifact": float(artifact), "ends": {}}
     for name, Xi in (("window_lo", float(Xi_lo)), ("window_hi", float(Xi_hi))):
@@ -1887,21 +2078,26 @@ def protocol_config():
             "TOL_RETURN_PATH_S_ABS": TOL_RETURN_PATH_S_ABS,
             "TOL_NODE_OFFSET_R_REL": TOL_NODE_OFFSET_R_REL,
             "ARTIFACT_BUDGET_R_ABS": ARTIFACT_BUDGET_R_ABS,
-            "NUMERICAL_UNCERTAINTY_R_ABS": NUMERICAL_UNCERTAINTY_R_ABS,
+            "NUMERICAL_DISCREPANCY_SAFETY_FACTOR": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+            "TOL_BRIDGE_LEAKAGE_REL": TOL_BRIDGE_LEAKAGE_REL,
+            "LATERAL_FLUX_FLOOR_FACTOR": LATERAL_FLUX_FLOOR_FACTOR,
+            "JUNCTION_ALLOWANCE": JUNCTION_ALLOWANCE,
             "REACHABLE_SAFETY_MARGIN_FRACTION": REACHABLE_SAFETY_MARGIN_FRACTION,
-            "C_FIELD_GATE_ALLOWANCE": C_FIELD_GATE_ALLOWANCE,
             "KAPPA_RES": KAPPA_RES,
         },
         "resolution_consistency": {
             "kind": "FROZEN_RESOLUTION_CONSISTENCY_TEST_NOT_A_CONVERGENCE_ORDER_ESTIMATE",
             "law": CHANNEL_ERR_LAW_PCT, "kappa": KAPPA_RES,
             "provenance": RESOLUTION_CONSISTENCY_PROVENANCE,
+            "junction_allowance": JUNCTION_ALLOWANCE,
+            "composition": "conservative feature envelope: sum over every governing feature, "
+                           "plus one extra copy of the worst as a junction/end allowance",
             "governing_features": {k: list(v) for k, v in RESOLUTION_GOVERNING_FEATURES.items()},
-            "example_tolerances": {
-                "%d_%d" % (b["w"], b["kz"]): {
-                    q: resolution_consistency_tolerance(q, b)
-                    for q in sorted(RESOLUTION_GOVERNING_FEATURES)
-                } for b in SCIENTIFIC_BRIDGE_CANDIDATES
+            "lane_only_features": list(LANE_ONLY_FEATURES),
+            "bridge_carrying_features": list(BRIDGE_CARRYING_FEATURES),
+            "tolerances_by_candidate": {
+                "w%d_kz%d" % (b["w"], b["kz"]): resolution_consistency_table(b)
+                for b in SCIENTIFIC_BRIDGE_CANDIDATES
             },
         },
         "observables": {
@@ -1928,6 +2124,19 @@ def protocol_config():
             "sign_convention_transverse": SIGN_CONVENTION_TRANSVERSE,
             "roles": dict(QUANTITY_ROLES),
             "record_decimal_places": _RECORD_DP,
+        },
+        "numerical_discrepancy": {
+            "method": NUMERICAL_DISCREPANCY_METHOD,
+            "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+            "kind": "CONSERVATIVE_NUMERICAL_DISCREPANCY_BOUND_NOT_A_RIGOROUS_ERROR_BOUND",
+            "artifact_gate": "abs(R_identical - 1) + u_R_abs <= ARTIFACT_BUDGET_R_ABS",
+        },
+        "reachable_set": {
+            "forward_map": "R - 1 = [c^2/(1-c^2)] * [Xi/(1+Xi)]",
+            "admission": "predicted_signal_upper(c_upper, Xi_upper) + artifact_upper + "
+                         "other_nonoverlapping_numerical_upper < ceiling(c_lower) - margin",
+            "c_source": "candidate BLOCKED MIRROR characterisation in P2a; no open mirror case",
+            "double_counting_prohibited": True,
         },
         "boundary_keys": list(BOUNDARY_KEYS),
         "forbidden_boundary_keys": list(FORBIDDEN_BOUNDARY_KEYS),
