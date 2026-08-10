@@ -64,21 +64,46 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C1"
+CORRECTION_VERSION = "PREFLIGHT-C2"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
-#: The exact-head review that required this correction, recorded so the lineage is durable.
-SUPERSEDED_REVIEW = {
-    "reviewed_head": "bbf2304665d09cb78c117353947ce8c6cf2e5d24",
-    "reviewed_tree": "c028f652b85b9b8670f9be03f8093e6bdae9d276",
-    "disposition": "RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED",
-    "apparatus_accepted_in_principle": "common_mode_port_blind_pocket_off_on_comparison",
-    "superseded_artifact_sha256": {
-        "protocol.json": "047d55f4dcd222b79f20f3d08e04b8de0dd13e7ddb8438cb74bf35ee6461cbe7",
-        "fixture_spec.json": "c8592643b861150b534f6f823336a1e14b1d082e9f8c5bcf25957a4417d9fc2f",
-        "execution_matrix.json": "1ff57d57c77eb56017628c52b80f1e70da549132a84b98e07e1ef300ec30fa74",
-        "preflight_status.json": "01244d1c9b129aa22681ec84391adddc14c20a169acf903cfad99ee75fb642f3",
+#: The exact-head reviews that required each correction, oldest first. Every generation's hashes
+#: are kept so anything bound to a superseded artifact stays traceable.
+SUPERSEDED_REVIEWS = (
+    {
+        "correction_version": "PREFLIGHT-C0",
+        "reviewed_head": "bbf2304665d09cb78c117353947ce8c6cf2e5d24",
+        "reviewed_tree": "c028f652b85b9b8670f9be03f8093e6bdae9d276",
+        "disposition": "RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED",
+        "errata": ["PE-%d" % i for i in range(1, 13)],
+        "superseded_artifact_sha256": {
+            "protocol.json": "047d55f4dcd222b79f20f3d08e04b8de0dd13e7ddb8438cb74bf35ee6461cbe7",
+            "fixture_spec.json": "c8592643b861150b534f6f823336a1e14b1d082e9f8c5bcf25957a4417d9fc2f",
+            "execution_matrix.json": "1ff57d57c77eb56017628c52b80f1e70da549132a84b98e07e1ef300ec30fa74",
+            "preflight_status.json": "01244d1c9b129aa22681ec84391adddc14c20a169acf903cfad99ee75fb642f3",
+        },
     },
-}
+    {
+        "correction_version": "PREFLIGHT-C1",
+        "reviewed_head": "2cf0b63ba2670de423a39f9563822563a3cb59b5",
+        "reviewed_tree": "c8a22d140b75142cdbd5db03dea55f20382bb079",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REREVIEW_NOT_APPROVED_C2_AND_"
+                        "PREFREEZE_EXECUTOR_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(13, 22)],
+        "superseded_artifact_sha256": {
+            "protocol.json": "9b60b4d511d6153d92da14c7f7235f335536fa937958cc035eb4a9d6f163ea11",
+            "fixture_spec.json": "11f1798c420373daf4ceff6d71cacf58318852cf01f55b3af85ab562acae0fec",
+            "execution_matrix.json": "5d246088a1404ddb2ead1acfa4bc7074de9a8244688d28aca7c698e7d0e3193e",
+            "preflight_status.json": "5bc0d5779218554b74106b38dcdcd73901a7502e10dfcec866d1f51891f834e1",
+        },
+        "superseded_counts": {"adaptive_maximum": 407, "mandatory_minimum": 82,
+                              "refused_after_earliest_stop": 325, "n_frozen_bridges": 5,
+                              "arm_j_planned_solves": 20},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+    },
+)
+#: Backwards-compatible alias for the most recent superseded review.
+SUPERSEDED_REVIEW = SUPERSEDED_REVIEWS[-1]
 
 #: The exact authority this tranche was branched from. Verified by test, never inferred from HEAD.
 BASE_COMMIT = "7d656811e6bf99d447dcd4f6eac04cac233a99f4"
@@ -1077,10 +1102,18 @@ def transverse_conservation(state, transverse_records, axial_mass_scale,
         "signed_balance": None,
         "absolute_imbalance": None,
         "absolute_imbalance_normalised": None,
+        "plane_range_mass": None,
+        "plane_range_mass_rel": None,
+        "max_abs_lateral_mass_flux": None,
+        "max_abs_lateral_mass_flux_rel": None,
+        "mean_lateral_mass_flux": None,
+        "abs_mean_lateral_mass_flux_rel": None,
         "relative_imbalance": None,
         "relative_gate_applicable": False,
         "lateral_flux_floor": None,
-        "mean_lateral_mass_flux": None,
+        "expected_zero_driver": bool(lateral_driver_is_zero),
+        "magnitude_pass": None,
+        "consistency_pass": None,
         "port_pocket_diagnostics": None,
         "pass": None,
     }
@@ -1136,40 +1169,221 @@ def transverse_conservation(state, transverse_records, axial_mass_scale,
     vol = [_finite(by_id[p]["sum_uy"], "sum_uy[%s]" % p) for p in order]
     out["plane_sums_mass"] = dict(zip(order, mass))
     out["plane_sums_volume"] = dict(zip(order, vol))
-    imbalance = max(mass) - min(mass)
+    rng = max(mass) - min(mass)
     out["signed_balance"] = mass[0] - mass[-1]           # entry plane minus exit plane
-    out["absolute_imbalance"] = abs(imbalance)
-    out["absolute_imbalance_normalised"] = abs(imbalance) / scale
+    out["plane_range_mass"] = rng
+    out["plane_range_mass_rel"] = _finite(abs(rng) / scale, "plane_range_mass_rel")
+    out["absolute_imbalance"] = abs(rng)                  # retained under its C1 name
+    out["absolute_imbalance_normalised"] = out["plane_range_mass_rel"]
+    max_abs = max(abs(v) for v in mass)
+    out["max_abs_lateral_mass_flux"] = max_abs
+    out["max_abs_lateral_mass_flux_rel"] = _finite(max_abs / scale,
+                                                   "max_abs_lateral_mass_flux_rel")
     mean_lat = sum(mass) / len(mass)
     out["mean_lateral_mass_flux"] = mean_lat
+    out["abs_mean_lateral_mass_flux_rel"] = _finite(abs(mean_lat) / scale,
+                                                    "abs_mean_lateral_mass_flux_rel")
     floor = LATERAL_FLUX_FLOOR_FACTOR * TOL_BRIDGE_LEAKAGE_REL * scale
     out["lateral_flux_floor"] = floor
 
-    abs_pass = out["absolute_imbalance_normalised"] <= TOL_BRIDGE_LEAKAGE_REL
+    consistency_pass = out["plane_range_mass_rel"] <= TOL_BRIDGE_LEAKAGE_REL
+    out["consistency_pass"] = bool(consistency_pass)
 
     if lateral_driver_is_zero:
+        # Erratum PE-14: consistency alone cannot establish ZERO. Four EQUAL, materially nonzero
+        # fluxes have a range of exactly zero and passed the superseded gate at any magnitude.
+        magnitude_pass = out["max_abs_lateral_mass_flux_rel"] <= TOL_BRIDGE_LEAKAGE_REL
+        out["magnitude_pass"] = bool(magnitude_pass)
         out.update(status="EVALUATED_ZERO_SAFE_ABSOLUTE",
                    relative_gate_applicable=False,
-                   reason="identical-path negative control: the lateral driver is exactly zero, "
-                          "so the correct net transverse mass flux is zero and a mean-normalised "
-                          "statistic would be undefined. Judged on the absolute imbalance "
-                          "normalised by the axial mass flux.")
-        out["pass"] = bool(abs_pass)
+                   reason="expected-zero-driver control: the verdict requires BOTH that the "
+                          "largest lateral mass flux is negligible against the axial mass flux "
+                          "(magnitude) AND that the four planes agree (consistency). A "
+                          "consistency test alone would pass four equal, materially nonzero "
+                          "fluxes.")
+        out["pass"] = bool(magnitude_pass and consistency_pass)
         return out
 
+    # A DRIVEN bridge must NOT be required to carry zero lateral flux — that is the physics under
+    # test. Magnitude is recorded as a physical quantity, not as a gate.
+    out["magnitude_pass"] = None
     applicable = abs(mean_lat) >= floor
     out["relative_gate_applicable"] = bool(applicable)
     if applicable:
-        out["relative_imbalance"] = _finite(abs(imbalance) / abs(mean_lat), "relative_imbalance")
+        out["relative_imbalance"] = _finite(abs(rng) / abs(mean_lat), "relative_imbalance")
         rel_pass = out["relative_imbalance"] <= TOL_MASS_REL
         reason = ("driven bridge: mean lateral mass flux is above the frozen floor, so both the "
-                  "absolute and the relative gates apply")
+                  "absolute consistency gate and the relative gate apply. The magnitude is "
+                  "recorded as the physical lateral-flow signal, NOT as a gate.")
     else:
         rel_pass = True
         reason = ("driven bridge, but the mean lateral mass flux is below the frozen floor, so "
-                  "the relative statistic is not admitted and the absolute gate alone decides")
+                  "the relative statistic is not admitted and the absolute consistency gate "
+                  "alone decides. The magnitude is recorded, not gated.")
     out.update(status="EVALUATED_HYBRID", reason=reason)
-    out["pass"] = bool(abs_pass and rel_pass)
+    out["pass"] = bool(consistency_pass and rel_pass)
+    return out
+
+
+# ---- lateral pressure faces: the MEASURED zero-driver control (erratum PE-15) ---------------
+# y_face1 and y_face2 were frozen in fixture_meta and never read; "zero lateral driver" was
+# asserted from the geometry label alone. The cross-product gap vanishing ANALYTICALLY for a
+# two-node network is not a measurement of a discretised fixture, and a label may not certify the
+# premise of the decisive negative control.
+
+PRESSURE_FACE_IDS = ("y_face1", "y_face2")
+SIGN_CONVENTION_LATERAL_PRESSURE = (
+    "delta_p_lateral = p_face1 - p_face2; POSITIVE drives lane1 -> lane2 along +y, matching "
+    "lateral_coupling.model1_two_path's canonical q_lat_1to2 = G_lat*(p1 - p2)")
+
+#: Frozen compact-record field names for a lateral pressure face.
+PRESSURE_FACE_FIELDS = (
+    "plane_id", "orientation", "index", "footprint_x", "footprint_z", "n_fluid",
+    "rho_mean", "rho_sd", "p_mean", "p_sd", "p_min", "p_max",
+    "sign_convention", "mask_sha256",
+)
+
+#: Measured zero-driver tolerance on the normalised lateral pressure gap. Frozen BEFORE any 001b
+#: output, at the programme's established 0.1 % observable nuisance scale applied to the gap
+#: normalised by the axial node-to-node pressure drop — the same number as ARTIFACT_BUDGET_R_ABS
+#: and TOL_RETURN_PATH_R_REL, not a new one, and not tuned from any 001b result.
+TOL_LATERAL_DRIVER_REL = 1.0e-3
+
+def lateral_pressure_delta_record(rho, mask, meta, g):
+    """POINTWISE face-to-face effective-pressure difference over the bridge footprint.
+
+    Both faces span the SAME ``(x, z)`` footprint, so the axial pressure gradient across that
+    footprint is common to them and cancels EXACTLY in a pointwise difference. Differencing the
+    two area means first and then attributing the individual faces' spatial spreads to the result
+    would charge that common-mode gradient as uncertainty, which it is not: it is the very thing
+    that cancels. The pointwise spread is therefore the honest measure of genuine face-to-face
+    nonuniformity, and its standard error is the conservative uncertainty on the mean gap.
+    """
+    fx, fz = meta["bridge_x"], meta["bridge_z"]
+    xs, xe = fx
+    zs, ze = fz
+    y1, y2 = meta["y_face1"], meta["y_face2"]
+    m1 = ~mask[xs:xe, y1, zs:ze]
+    m2 = ~mask[xs:xe, y2, zs:ze]
+    both = m1 & m2
+    if not both.any():
+        raise ValueError("the two lateral pressure faces share no fluid node over the footprint")
+    r = np.asarray(rho)
+    xcoord = np.arange(xs, xe, dtype=float)[:, None]
+    p1 = r[xs:xe, y1, zs:ze] / 3.0 - g * xcoord      # nodewise, BEFORE any averaging
+    p2 = r[xs:xe, y2, zs:ze] / 3.0 - g * xcoord
+    d = (p1 - p2)[both]
+    if not np.isfinite(d).all():
+        raise NonFiniteValue("the pointwise lateral pressure difference is not finite")
+    n = int(both.sum())
+    sd = float(d.std())
+    return {
+        "n_paired_fluid": n,
+        "n_fluid_face1": int(m1.sum()), "n_fluid_face2": int(m2.sum()),
+        "faces_share_footprint": bool(int(m1.sum()) == int(m2.sum()) == n),
+        "delta_mean": float(d.mean()), "delta_sd": sd,
+        "delta_min": float(d.min()), "delta_max": float(d.max()),
+        "delta_standard_error": sd / float(np.sqrt(n)),
+        "footprint_x": (int(xs), int(xe)), "footprint_z": (int(zs), int(ze)),
+        "method": "POINTWISE_FACE_DIFFERENCE_COMMON_AXIAL_GRADIENT_CANCELS_EXACTLY",
+        "sign_convention": SIGN_CONVENTION_LATERAL_PRESSURE,
+    }
+
+
+def pressure_face_record(plane_id, y, rho, mask, g, footprint_x, footprint_z):
+    """The frozen compact record for one lateral pressure face.
+
+    The effective pressure is the SAME convention the axial records use,
+    ``p_eff = rho/3 - g*x``, evaluated **nodewise before averaging**, so the body-force potential
+    is subtracted correctly across a multi-``x`` footprint. Fluid nodes only; solids excluded,
+    never counted as zero.
+    """
+    xs, xe = footprint_x
+    zs, ze = footprint_z
+    sub_mask = mask[xs:xe, y, zs:ze]
+    fl = ~sub_mask
+    if not fl.any():
+        raise ValueError("pressure face %r has no fluid node over the bridge footprint"
+                         % (plane_id,))
+    r = np.asarray(rho)[xs:xe, y, zs:ze]
+    xcoord = np.arange(xs, xe, dtype=float)[:, None]
+    p_eff = r / 3.0 - g * xcoord                     # nodewise, BEFORE averaging
+    vals = p_eff[fl]
+    if not np.isfinite(vals).all():
+        raise NonFiniteValue("pressure face %r carries a non-finite effective pressure"
+                             % (plane_id,))
+    rv = r[fl]
+    return {
+        "plane_id": plane_id, "orientation": "y", "index": int(y),
+        "footprint_x": (int(xs), int(xe)), "footprint_z": (int(zs), int(ze)),
+        "n_fluid": int(fl.sum()),
+        "rho_mean": float(rv.mean()), "rho_sd": float(rv.std()),
+        "p_mean": float(vals.mean()), "p_sd": float(vals.std()),
+        "p_min": float(vals.min()), "p_max": float(vals.max()),
+        "sign_convention": SIGN_CONVENTION_LATERAL_PRESSURE,
+        "mask_sha256": mask_hash(mask),
+    }
+
+
+def lateral_pressure_gap(face_records, delta_record, axial_pressure_scale, g, q_lat_mass=None,
+                         expected_zero_driver=False):
+    """The MEASURED lateral driving-pressure difference and its adjudication (erratum PE-15).
+
+    ``axial_pressure_scale`` is the case's own node-to-node axial pressure drop — a frozen,
+    nonzero normalisation that is never the lateral gap itself.
+
+    For an expected-zero-driver control the geometry supplies only the EXPECTATION; execution
+    validity additionally requires the MEASURED gap to clear ``TOL_LATERAL_DRIVER_REL``.
+    """
+    by_id = {r["plane_id"]: r for r in face_records}
+    missing = [p for p in PRESSURE_FACE_IDS if p not in by_id]
+    if missing:
+        raise ValueError("lateral pressure gap needs both faces; missing %r" % (missing,))
+    f1, f2 = by_id["y_face1"], by_id["y_face2"]
+    scale = abs(_finite(axial_pressure_scale, "axial_pressure_scale"))
+    if scale == 0.0:
+        raise ValueError("the axial pressure normalisation scale must be nonzero")
+    gv = _finite(g, "g")
+    if gv == 0.0:
+        raise ValueError("the body force must be nonzero to form delta_p/g")
+    gap = _finite(delta_record["delta_mean"], "delta_mean")
+    u_face = _finite(delta_record["delta_standard_error"] / scale, "face_uncertainty_rel")
+    rel = _finite(abs(gap) / scale, "delta_p_lateral_rel")
+    out = {
+        "p_face1": f1["p_mean"], "p_face2": f2["p_mean"],
+        "p_face1_sd": f1["p_sd"], "p_face2_sd": f2["p_sd"],
+        "face_nonuniformity_rel": _finite((f1["p_sd"] + f2["p_sd"]) / scale,
+                                          "face_nonuniformity_rel"),
+        "face_nonuniformity_role": "diagnostic_coarse_graining_not_an_uncertainty_on_the_gap",
+        "delta_p_lateral": gap,
+        "delta_p_lateral_from_face_means": _finite(f1["p_mean"] - f2["p_mean"],
+                                                   "delta_from_means"),
+        "delta_p_lateral_over_g": _finite(gap / gv, "delta_p_lateral_over_g"),
+        "delta_pointwise": dict(delta_record),
+        "axial_pressure_scale": scale,
+        "axial_pressure_scale_source": "p_mean(x_node_in) - p_mean(x_node_out)",
+        "delta_p_lateral_rel": rel,
+        "face_uncertainty_rel": u_face,
+        "delta_p_lateral_rel_upper": rel + u_face,
+        "sign_convention": SIGN_CONVENTION_LATERAL_PRESSURE,
+        "tolerance": TOL_LATERAL_DRIVER_REL,
+        "expected_zero_driver": bool(expected_zero_driver),
+        "q_lat_mass": (None if q_lat_mass is None else _finite(q_lat_mass, "q_lat_mass")),
+        "q_lat_mass_over_g": (None if q_lat_mass is None
+                              else _finite(float(q_lat_mass) / gv, "q_lat_mass_over_g")),
+    }
+    if expected_zero_driver:
+        out["measured_zero_driver_pass"] = bool(out["delta_p_lateral_rel_upper"]
+                                                <= TOL_LATERAL_DRIVER_REL)
+        out["reason"] = ("identical-path control: the geometry supplies the EXPECTATION of a zero "
+                         "lateral driver, and the measured mid-face pressure gap must confirm it. "
+                         "A geometry label alone may never certify the premise of the negative "
+                         "control (erratum PE-15).")
+    else:
+        out["measured_zero_driver_pass"] = None
+        out["reason"] = ("driven bridge: a nonzero lateral pressure gap is the physics under "
+                         "test, so no zero-driver verdict applies. The gap and delta_p/g are "
+                         "retained for the frozen componentwise forcing checks.")
     return out
 
 
@@ -2321,7 +2535,8 @@ def protocol_config():
     return {
         "schema_version": SCHEMA_VERSION,
         "correction_version": CORRECTION_VERSION,
-        "errata": ERRATA_PATH, "superseded_review": SUPERSEDED_REVIEW,
+        "errata": ERRATA_PATH,
+        "superseded_reviews": [dict(r) for r in SUPERSEDED_REVIEWS],
         "program_id": PROGRAM_ID, "tranche_id": TRANCHE_ID,
         "question": QUESTION,
         "base_commit": BASE_COMMIT, "base_tree": BASE_TREE,
@@ -2491,7 +2706,8 @@ def preflight_status():
     return {
         "schema_version": SCHEMA_VERSION,
         "correction_version": CORRECTION_VERSION,
-        "errata": ERRATA_PATH, "superseded_review": SUPERSEDED_REVIEW,
+        "errata": ERRATA_PATH,
+        "superseded_reviews": [dict(r) for r in SUPERSEDED_REVIEWS],
         "tranche": TRANCHE_ID,
         "status": "PRE_EXECUTION_PREFLIGHT_FROZEN_PENDING_EXACT_HEAD_REVIEW",
         "solves_executed": 0,

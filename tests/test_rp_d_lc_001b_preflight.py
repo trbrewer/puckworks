@@ -1553,12 +1553,24 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C1"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C2"
+
+
+def test_every_superseded_generation_is_retained_not_overwritten():
+    """C0 and C1 hashes are both kept, so anything bound to either stays traceable."""
+    revs = vf.SUPERSEDED_REVIEWS
+    assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1"]
+    assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
+    assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
+    assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
+    for r in revs:
+        assert len(r["superseded_artifact_sha256"]) == 4
+        assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())
+    # the superseded C1 counts are recorded so no C1 number can be quietly carried forward
+    assert revs[1]["superseded_counts"]["n_frozen_bridges"] == 5
+    assert revs[1]["superseded_counts"]["adaptive_maximum"] == 407
     st = vf.preflight_status()
-    assert st["superseded_review"]["reviewed_head"] == (
-        "bbf2304665d09cb78c117353947ce8c6cf2e5d24")
-    assert st["superseded_review"]["disposition"].endswith("CORRECTION_REQUIRED")
-    assert len(st["superseded_review"]["superseded_artifact_sha256"]) == 4
+    assert st["superseded_reviews"] == [dict(r) for r in revs]
 
 
 def test_the_errata_record_exists_and_names_every_corrected_blocker():

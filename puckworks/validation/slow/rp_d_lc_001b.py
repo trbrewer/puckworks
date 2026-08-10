@@ -163,6 +163,16 @@ def transverse_records(res, mask, meta):
             for pid in TRANSVERSE_PLANES]
 
 
+def pressure_face_records(res, mask, meta, g):
+    """The two frozen lateral pressure faces over the exact bridge footprint (erratum PE-15).
+    Empty for a fixture with no bridge."""
+    if meta["bridge"] is None:
+        return []
+    fx, fz = meta["bridge_x"], meta["bridge_z"]
+    return [vf.pressure_face_record(pid, meta[pid], res["rho"], mask, g, fx, fz)
+            for pid in vf.PRESSURE_FACE_IDS]
+
+
 def case_record(res, mask, meta, g, stage, lateral_driver_is_zero=None):
     """The complete compact record for one solved case. Large field arrays are NEVER retained;
     only the frozen plane records and scalars are.
@@ -183,8 +193,20 @@ def case_record(res, mask, meta, g, stage, lateral_driver_is_zero=None):
     tr = transverse_records(res, mask, meta)
     by = {r["plane_id"]: r for r in named + ln}
     if lateral_driver_is_zero is None:
+        # The geometry supplies only the EXPECTATION; the measured gap must confirm it (PE-15).
         lateral_driver_is_zero = (meta["variant"] == "identical")
     axial_mass_scale = by["x_meas_a"]["sum_rho_ux"]
+    dP = by["x_node_in"]["p_mean"] - by["x_node_out"]["p_mean"]
+    faces = pressure_face_records(res, mask, meta, g)
+    lateral = None
+    if faces:
+        q_lat_mass = None
+        for r in tr:
+            if r["plane_id"] == "y_duct_a":
+                q_lat_mass = r["sum_rho_uy"]
+        delta = vf.lateral_pressure_delta_record(res["rho"], mask, meta, g)
+        lateral = vf.lateral_pressure_gap(faces, delta, dP, g, q_lat_mass=q_lat_mass,
+                                          expected_zero_driver=bool(lateral_driver_is_zero))
     rec = {
         "stage": stage, "S": meta["S"], "g": float(g), "state": meta["state"],
         "variant": meta["variant"], "swapped": meta["swapped"],
@@ -192,18 +214,19 @@ def case_record(res, mask, meta, g, stage, lateral_driver_is_zero=None):
         "mask_sha256": meta["mask_sha256"],
         "steps": int(res["steps"]), "converged": bool(res["steps"] < vf.MAX_STEPS),
         "named_axial_planes": named, "conservation_planes": cons,
-        "lane_planes": ln, "transverse_planes": tr,
+        "lane_planes": ln, "transverse_planes": tr, "pressure_faces": faces,
         "conservation": vf.conservation_residuals(cons, named_plane_records=named + ln),
         "transverse_conservation": vf.transverse_conservation(
             meta["state"], tr, axial_mass_scale,
             lateral_driver_is_zero=bool(lateral_driver_is_zero)),
+        "lateral_pressure": lateral,
         "mach": vf.mach_record(res["ux"], res["uy"], res["uz"], mask),
         # the inverse's observables, formed from VOLUME flux only, kept explicitly labelled
         "Q_volume": by["x_meas_a"]["sum_ux"],
         "q1_volume": by["x_meas_a_lane1"]["sum_ux"],
         "q2_volume": by["x_meas_a_lane2"]["sum_ux"],
         "Q_mass_diagnostic": axial_mass_scale,
-        "dP": by["x_node_in"]["p_mean"] - by["x_node_out"]["p_mean"],
+        "dP": dP,
         "p_node_in_sd": by["x_node_in"]["p_sd"], "p_node_out_sd": by["x_node_out"]["p_sd"],
     }
     return rec
