@@ -9,7 +9,10 @@ This is the audit the freeze exists to be checked against: apparatus, similarity
 quantities and negative controls, examined **before** any computation. It states what I believe is
 correct, what remains a genuine risk, and my explicit recommendation.
 
-> ## ⚠ THE REVIEW THIS DOCUMENT ASKED FOR HAPPENED, AND RETURNED **NOT APPROVED**
+> ## ⚠ TWO REVIEWS HAVE HAPPENED, AND BOTH RETURNED **NOT APPROVED**
+>
+> §11 audits the first (`bbf2304`, C0 → C1); **§12 audits the second (`2cf0b63`, C1 → C2) and
+> supersedes §11 where they differ.**
 >
 > Exact-head review at `bbf2304665d09cb78c117353947ce8c6cf2e5d24`:
 > **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED`**.
@@ -454,4 +457,120 @@ results in hand, which is exactly what the blindness of the freeze exists to pre
 **P3 and P4 remain unauthorized. Stage B remains unauthorized. Paper 4 remains unauthorized. Card
 box 5 remains OPEN and box 6 remains closed on its existing mathematical result. RP-D-LC-001
 remains `INVALID_EXECUTION` and its cross-model question remains unadjudicated, not negative.**
+
+
+---
+
+# 12. POST-RE-REVIEW AUDIT — CORRECTION `PREFLIGHT-C2`
+
+Supersedes §11. The apparatus is still unchanged and still accepted.
+
+## 12.1 What the second review found
+
+Eight further blockers (PE-14 … PE-21). Two were defects of substance rather than of machinery,
+and both were in controls I had described in §11 as *closed*:
+
+- **PE-14 — the zero-driver gate could return a false green.** §11.2 reported the transverse
+  control as closed because it was zero-safe. It was zero-*safe* and not zero-*testing*: the
+  verdict was `|max − min| / axial_mass_scale`, which is a **consistency** statistic. Four equal,
+  materially nonzero transverse mass fluxes have a range of exactly zero and passed at any
+  magnitude. A fixture leaking a large but perfectly consistent lateral current, with nothing
+  driving it, would have returned a green negative control. Corrected by requiring magnitude
+  **and** consistency, each against the unchanged `1e-3`.
+
+- **PE-15 — the negative control's premise was asserted, not measured.** `y_face1` and `y_face2`
+  were frozen in the metadata and **never read**. "Zero lateral driver" came from the geometry
+  label `variant == "identical"`, which is a statement about the two-node model's algebra, not a
+  measurement of a voxelised fixture with junctions and a finite solver residual. The gap is now
+  measured, pointwise so the common axial gradient cancels exactly, and an identical-path case
+  whose measured gap is nonzero **fails**.
+
+The remaining six are machinery: the audit that could be a no-op (PE-16), the two-extremes
+extrapolation (PE-17), the manifest that passed on a nonempty list and the freeze that accepted
+free-form input (PE-18), the refusal with nothing behind it (PE-19), the five-slot rule (PE-20),
+and the exact rational that stopped at the constant (PE-21).
+
+## 12.2 Re-audit — zero-driver physics
+
+Magnitude and consistency are now separate gates with separate verdicts, and the regression
+demonstrates the superseded failure directly: four equal fluxes at five times the ceiling have
+`plane_range_mass == 0.0`, pass consistency, and fail magnitude. The driven case is explicitly
+**not** subject to the magnitude gate — a nonzero lateral flux there is the physics under test.
+**Assessment: closed.**
+
+## 12.3 Re-audit — the measured lateral driver
+
+The pointwise construction is the part I would most want challenged, and I think it is right: both
+faces span the same footprint, so the axial pressure gradient across it is common to them and
+cancels exactly in a pointwise difference. Attributing the individual faces' spatial spreads to
+the gap would charge that common-mode gradient as uncertainty — precisely the thing that cancels —
+and would have made the control unpassable for a wide bridge. The face spreads are retained as the
+coarse-graining diagnostic 001 reported. **Assessment: closed**, with the construction flagged for
+review.
+
+## 12.4 Re-audit — fixed-step audits and their coverage
+
+The audit now pins `min_steps = max_steps = target`, so it cannot return the base result, and
+`FIXED_STEP_AUDIT_INCOMPLETE` exists precisely to catch a run that stops early. Coverage is
+per-candidate, per-state, per-resolution, per-forcing-level — the two-extremes extrapolation is
+gone, and with it the assumption §11.5 flagged as its own caveat. **Assessment: closed.** The cost
+is large and is stated: **320** planned fixed-step audits against **383** normal solves.
+
+## 12.5 Re-audit — lineage and the executor
+
+A freeze can no longer be built from assertions. Records are immutable and atomic; manifests are
+ledgers that reopen and rehash everything and derive their own expectations; and the assembler
+recomputes every scientific quantity from records. The executor makes the refusal meaningful: it
+is real, deterministic, and demonstrated end-to-end on a whole P0 phase with a fake provider,
+while the instrumentation confirms the kernel is never reached. **Assessment: closed.**
+
+**One defect the new tests caught in my own work:** an intermediate edit had dropped the
+reachable-set admission block from the assembler, so no candidate could ever have been marked
+eligible. It is restored, with a per-term uncertainty lineage. I record it because a correction
+cycle that only finds other people's defects is not being run honestly.
+
+## 12.6 The four-slot decision
+
+§11.6 put three responses to the reviewer and declined to choose. **The reviewer chose option 2**:
+four slots, one below plus three inside, no above-window slot required. The rationale is in
+`PREFLIGHT_ERRATA.md` PE-13, and the two things I would guard are recorded there too — clause 2
+needs three *in-window* cases, and **the `0.10·K` margin was not touched**. That risk is therefore
+resolved, not carried.
+
+## 12.7 Unresolved risks, revised
+
+1. **The artifact may still not clear `1e-3`.** *(highest)* Now strictly harder than in C1: the
+   gate is an upper bound, and it must hold at **every** one of the six required combinations per
+   candidate rather than once.
+2. **The measured lateral gap may not clear `TOL_LATERAL_DRIVER_REL`** in the identical-path
+   control. *(new)* This is a genuinely new way for the tranche to design-block, and it is the
+   right way: if the discretised "identical" fixture has a real lateral driver, the negative
+   control's premise is false and no amount of consistency in the flux would have told us.
+3. **The forcing reduction may not fix the componentwise control.** Unchanged from C0.
+4. **The thicker divider lowers `Ξ`**, which with four slots is now less dangerous — no
+   above-window candidate is required — but a family landing entirely below the window would still
+   fail `INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES`.
+5. **The pre-freeze budget is large**: up to **640** solves before the freeze. That is the
+   price of per-case evidence, and it is a resource question for the reviewer, not a scientific
+   one.
+6. **Node surfaces remain non-equipotential**; `coarse_graining_surface_stability` can still fail.
+7. **No backend cross-check.** Recorded as NOT PERFORMED, never as passed.
+8. **Return-path contamination is bounded, not eliminated.**
+
+## 12.8 Recommendation
+
+**Ready for another exact-head review; still not ready to execute.**
+
+I recommend authorising **P0, P1a, P1b and P2a only**, by adding exactly those four phases to
+`AUTHORISED_SOLVING_PHASES` in a reviewed commit, and requiring a further review of the proposed
+freeze and the instantiated P3/P4 matrix before P3 is added. Nothing in P0–P2a exposes an open
+mirror recovery observable, so the blindness the design depends on survives that authorisation.
+
+The construction most deserving adversarial attention this round is **§12.3, the pointwise lateral
+pressure gap**: it is the measurement that now decides whether the negative control's premise
+holds at all.
+
+**P3 and P4 remain unauthorized. Stage B remains unauthorized. Paper 4 remains unauthorized. Card
+box 5 remains OPEN and box 6 remains closed. RP-D-LC-001 remains `INVALID_EXECUTION` and its
+cross-model question remains unadjudicated, not negative.**
 

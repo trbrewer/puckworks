@@ -231,6 +231,37 @@ The bridge coupon cannot reproduce the assembled context — its plena are not t
 That is the point: the coupon prediction is a **composability prediction**, deliberately separate
 from the in-situ field truth, and the gap between them is a reported quantity.
 
+## 10b. Lateral pressure faces (correction `PREFLIGHT-C2`)
+
+The two frozen faces that measure the lateral driving-pressure difference, over the **exact bridge
+`(x, z)` footprint**:
+
+| face | lattice row | side |
+|---|---|---|
+| `y_face1` | `9S - 1` | last lane-1 row before the divider |
+| `y_face2` | `15S` | first lane-2 row after the divider |
+
+Both are fully fluid over the footprint in every bridge-carrying state and share it exactly —
+asserted per case. The effective pressure is the same convention the axial records use,
+`p_eff = rho/3 - g*x`, evaluated **nodewise before averaging**, so the body-force potential is
+subtracted correctly across a multi-`x` footprint. Fluid nodes only; solids excluded, never counted
+as zero.
+
+`delta_p_lateral` is formed **pointwise** (face 1 minus face 2 at the same node) and then averaged.
+Because both faces span the same footprint, the axial pressure gradient across it is common to them
+and cancels **exactly**; the pointwise spread therefore measures genuine face-to-face nonuniformity
+and its standard error is the conservative uncertainty on the mean gap. The individual face spreads
+are retained as a **coarse-graining diagnostic** — as 001 reported them — explicitly not as an
+uncertainty on the gap.
+
+Sign convention: `delta_p_lateral = p_face1 - p_face2`, **positive drives lane 1 -> lane 2 along
++y**, matching `lateral_coupling.model1_two_path`'s canonical `q_lat_1to2 = G_lat(p1 - p2)`.
+
+For an identical-path control the geometry supplies only the **expectation** of a zero lateral
+driver; execution validity additionally requires the **measured** gap to clear
+`TOL_LATERAL_DRIVER_REL`. A geometry label may never certify the premise of the negative control
+(`PREFLIGHT_ERRATA.md` PE-15).
+
 ## 11. Recorded per geometry
 
 `geometry dimensions · every named region and measurement plane · solid/fluid counts ·

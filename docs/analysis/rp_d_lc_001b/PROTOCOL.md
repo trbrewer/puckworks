@@ -8,13 +8,14 @@ NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
 NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
-> ## ⚠ SECTIONS BELOW ARE PARTLY SUPERSEDED — CORRECTION `PREFLIGHT-C1`
+> ## ⚠ SECTIONS BELOW ARE PARTLY SUPERSEDED — CORRECTIONS `PREFLIGHT-C1` AND `PREFLIGHT-C2`
 >
 > The exact-head review at `bbf2304665d09cb78c117353947ce8c6cf2e5d24` returned
 > **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_CORRECTION_REQUIRED`**. Twelve blockers
 > were corrected. **The frozen text below is not rewritten**; where it and §19 disagree, **§19 is
-> the effective protocol**, and `PREFLIGHT_ERRATA.md` records every superseded clause, constant,
-> matrix rule and generated hash with the reason it was unsafe.
+> the effective protocol for C1 and **§20 for C2** — where §19 and §20 disagree, **§20 governs**.
+> `PREFLIGHT_ERRATA.md` records every superseded clause, constant, matrix rule and generated
+> hash, for both generations, with the reason each was unsafe.
 >
 > Superseded in whole or part: **§4** (fields requested), **§6.5** (feature model), **§8**
 > (conservation set, transverse metric), **§9** (artifact gate form), **§10** (numerical
@@ -630,6 +631,125 @@ python -m puckworks.validation.slow.rp_d_lc_001b --mode p0            # REFUSES 
 
 Heavy LB execution, when authorised, stays in `puckworks/validation/slow/` or local/Colab runs and
 **never** enters normal CI (CLAUDE.md rule 3).
+
+
+
+---
+
+# 20. EFFECTIVE PROTOCOL — CORRECTION `PREFLIGHT-C2`
+
+Appended, not substituted. Supersedes §19 where they disagree. Reasoning per blocker:
+`PREFLIGHT_ERRATA.md` PE-13 … PE-21.
+
+## 20.1 Zero-driver transverse control (supersedes §19.1)
+
+The expected-zero-driver verdict requires **both**, each against `TOL_BRIDGE_LEAKAGE_REL = 1e-3`
+(unchanged, and not loosened):
+
+```
+magnitude:    max_i |q_mass_i| / axial_mass_scale                    <= 1e-3
+consistency:  |max_i q_mass_i - min_i q_mass_i| / axial_mass_scale   <= 1e-3
+```
+
+The superseded gate tested consistency alone, so four **equal, materially nonzero** fluxes had a
+range of exactly zero and passed at any magnitude. Retained separately and all finite: the four
+`q_mass_i` and `q_volume_i`, `axial_mass_scale`, `max_abs_lateral_mass_flux(_rel)`,
+`mean_lateral_mass_flux` and `abs_mean_lateral_mass_flux_rel`, `plane_range_mass(_rel)`, the
+signed entry/exit balance, both tolerances and **separate** `magnitude_pass` / `consistency_pass`.
+
+**A driven bridge is never required to carry zero lateral flux** — its magnitude is recorded as
+the physical signal, not gated.
+
+## 20.2 The MEASURED lateral pressure gap (new; §19 had none)
+
+`y_face1` and `y_face2` were frozen and never read, and "zero lateral driver" came from the
+geometry label. Compact pressure-face records now exist on both faces over the exact bridge
+footprint, using `p_eff = rho/3 - g*x` evaluated **nodewise before averaging**. The gap is computed
+**pointwise**, so the axial gradient common to both faces cancels exactly; the face spreads are
+retained as a coarse-graining **diagnostic**, never as an uncertainty on the gap.
+
+```
+|delta_p_lateral| / |dP_node_to_node| + u_face  <=  TOL_LATERAL_DRIVER_REL = 1e-3
+```
+
+frozen before output at the programme's 0.1 % scale. **For an identical-path control the geometry
+supplies only the EXPECTATION and execution validity requires the MEASURED gap to confirm it.**
+`delta_p_lateral/g` and `q_lat/g` are retained for the frozen componentwise checks.
+
+## 20.3 Fixed-step re-execution (supersedes §19.5's continuation term)
+
+```
+target = CHECK * ceil(CONVERGENCE_AUDIT_FACTOR * base_steps / CHECK)
+min_steps = max_steps = target
+```
+
+The superseded audit left `min_steps = 2000`, so it could return the base result. Preconditions:
+the base converged normally; the target exceeds the base count and is `CHECK`-aligned; bounded by
+`MAX_STEPS_AUDIT`. Named `FIXED_STEP_REEXECUTION_1P5X`, **not** a continuation, because the solver
+does not resume from saved state. Four statuses: `NORMAL_CONVERGED`, `NORMAL_UNCONVERGED`,
+`FIXED_STEP_AUDIT_COMPLETED`, `FIXED_STEP_AUDIT_INCOMPLETE`. **An unconverged normal case stops its
+phase and may never be rescued by an audit.**
+
+## 20.4 Candidate-specific evidence (supersedes §19.5's coverage)
+
+Fixed-step evidence for **every selection-bearing case**: each candidate x {blocked, open} x
+{S=2, S=3} x {low, central, high}, plus the coupon and blocked-mirror rows that build `Xi` and `c`.
+The artifact is a property of the **pair**, and `|R-1| + u_R <= 1e-3` must hold at every required
+combination. **P1a is a triage screen**: it may reject on the point estimate alone — every omitted
+uncertainty term is non-negative — but it may never admit.
+
+## 20.5 Four frozen bridges (supersedes §19.8's five)
+
+**One below plus three inside**, emitted in ascending `Xi_select` as an ordered ladder. An
+above-window slot is **not required**: clause 2 needs three *in-window* cases, clause 5's
+monotonicity is served by four ordered points, and the corrected two-sided gate can make an
+above-window candidate inadmissible under its own safety requirement. "Above" is retained as a
+**diagnostic** category. `NO_UNAMBIGUOUS_ABOVE_CANDIDATE` is retired from the required stops.
+**The `0.10*K` margin is unchanged and is not tunable to fill a slot.**
+
+## 20.6 Exact forcing identity (supersedes §19's float-carrying rows)
+
+Every forcing-bearing row and record carries `forcing_exact` (numerator and denominator) derived
+from `G_REF_EXACT`, plus a lossless `forcing_repr`; the float is obtained only via `row_forcing()`;
+and the rational enters `case_id` and row hashing. Twelve **decimal places** keeps only about six
+significant digits of a `1e-7` forcing, so a rounded float cannot be the scientific identity.
+
+## 20.7 Records, manifests and a record-derived freeze (supersedes §19.9's lineage)
+
+Immutable atomic case records (never overwritten; exact-match resume or fail closed); validated
+phase ledgers that reopen and rehash every cited record and derive P1b/P2a expectations from
+validated predecessors; and `assemble_p2b_from_runs()` in place of `build_freeze()`, recomputing
+the artifact, the `c` interval, the `Xi` envelope and the reachable-set admission from records
+alone. It accepts no free-form input, and one record hash may never bind two geometries. Every
+uncertainty term records its source case IDs, record hashes, method, interval, overlap status and
+final use.
+
+## 20.8 The pre-freeze executor (new)
+
+A real deterministic executor for P0/P1a/P1b/P2a and arithmetic P2b: validate phase -> validate
+authorization -> resolve authority -> validate predecessor manifests -> derive rows -> apply
+adaptive decisions -> resolve each row to exactly one fixture/coupon -> single guarded call site ->
+build record -> validate -> write atomically -> build and validate the manifest -> stop on any
+invalid or unconverged decision-bearing case. `jobs = 1`, matrix order, no hidden rows, no
+overwrite, no fallback backend, no looser retry, no automatic tolerance adjustment, no open mirror
+before P3. The result provider is a Python-only test seam and is not reachable from the CLI.
+
+**`AUTHORISED_SOLVING_PHASES = ()` — every solving phase still refuses.**
+
+## 20.9 Matrix (supersedes §19.10's counts)
+
+| quantity | value |
+|---|---|
+| planned normal solves | **383** |
+| planned fixed-step audits | **320** |
+| adaptive maximum | **703** |
+| mandatory minimum | **112** |
+| refused after the earliest stop | **591** |
+| determinism replicates | **3** |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+
+Generated by `execution_matrix()` and asserted against it by test. The C1 figures (407 / 82 / 325,
+five bridges, 20 Arm-J solves) are superseded and retained only in `PREFLIGHT_ERRATA.md`.
 
 ---
 
