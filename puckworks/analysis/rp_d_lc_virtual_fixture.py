@@ -696,7 +696,7 @@ def decide(runs):
                       {"required": {k: {"pass": ctrl[k]["pass"], "status": _st(k)}
                                     for k in REQUIRED},
                        "reported_not_required": {
-                           k: {"pass": ctrl[k]["pass"], "status": _st(k)}
+                           k: {"pass": ctrl[k].get("pass"), "status": _st(k)}
                            for k in REPORTED if k not in REQUIRED},
                        "failed_on_evidence": failed_on_evidence,
                        "not_evaluated_downstream": not_evaluated,

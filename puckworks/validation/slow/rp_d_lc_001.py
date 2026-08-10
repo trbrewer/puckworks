@@ -1294,7 +1294,16 @@ def assemble(out_dir):
                                  abs(r["boundary"]["s_plane_delta"]) for r in c["cases"])},
         "grid_refinement": {"pass": grid_ok,
                             "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS)},
-        "backend_cross_check": a["backend_cross_check"],
+        "backend_cross_check": {
+            # Reported, never required. Taichi is absent and its port is cubic-only, so
+            # this is NOT_EVALUATED — recorded as not performed, never as passed.
+            **a["backend_cross_check"],
+            "pass": bool(a["backend_cross_check"].get("taichi_available")),
+            "status": ("EVALUATED" if a["backend_cross_check"].get("taichi_available")
+                       else "NOT_EVALUATED"),
+            "not_evaluated_because": (None if a["backend_cross_check"].get("taichi_available")
+                                      else "TAICHI_UNAVAILABLE_AND_PORT_IS_CUBIC_ONLY"),
+        },
         "axis_rotation_anisotropy": _anisotropy(b),
         "tau_independence_fixture": _tau_independence(a),
         "determinism": {"note": "the kernel and every derived quantity are deterministic float "

@@ -78,6 +78,26 @@ driver refuses to serialise a field array.
 
 ## 4. Compact result
 
+**`INVALID_EXECUTION`** — `evidence_use: DIAGNOSTIC_ONLY_INVALID_EXECUTION`,
+`cross_model_transfer_adjudicated: false`.
+
+Execution validity failed on three evidence-based controls, `primary_cause` being
+`componentwise_creeping_flow_control`: the reduced flux `Q/g` and `Q0/g` drift by 2.4–4.0e-4 across
+×0.5/×1/×2 forcing against a frozen 1e-4, so the internal field quantities could not serve as
+forcing-independent numerical truth. `ΔP/g` is linear to 2.4e-8 on the same rows, so the drift is
+in the flux alone. `mass_conservation` also fails at S=3 (1.028e-3 vs 1e-3).
+
+**The cross-model transfer question is therefore UNADJUDICATED, not negative.** Every `Ξ̂`,
+`Ξ_field`, contrast, monotonicity and path-swap number in this bundle is diagnostic only and may
+not be quoted as recovery, mechanism-only transfer, or a weak quantitative success at any strength.
+
+Two fixture findings came out of it, both from controls doing their job. The identical-path
+negative control shows the bridge aperture **widens the axial channel** — `R − 1 = 0.0143` with
+`X = 0` and zero lateral flux — and at the largest aperture the observed `R − 1 = 0.1338` **exceeds
+the two-node model's hard ceiling** `c²/(1−c²) = 0.1155`, so no `(c, Ξ)` can reproduce it. What held
+up: topology, exact voxel mirror symmetry, connectivity, no periodic bypass, the frozen pressure
+definition, τ-independence, convergence, and a perfect path-swap signature on all ten rows.
+
 See `decision.md` for the adjudicated statement and `result.json` for the machine-readable record.
 
 ## 5. Limitations
@@ -118,10 +138,23 @@ that future experiment.
 
 ## 7. Next-stage entry condition
 
-**Stage B (`RP-D-LC-002`, deterministic porous-segment fixtures) may be proposed only if** this
-tranche returned `CROSS_MODEL_RECOVERY` or `MECHANISM_ONLY` **and** the pressure-nonuniformity
-diagnostics show a two-node coarse-graining is defensible. Deterministic morphology only — no
-seeded ensembles, which are Stage C.
+**Stage B is NOT entered.** Its entry condition was `CROSS_MODEL_RECOVERY` or `MECHANISM_ONLY`;
+this tranche returned `INVALID_EXECUTION`, so the condition is unmet and the transfer question is
+unadjudicated rather than answered.
 
-Stage B is **not** authorized by this bundle. Each later stage needs its own human authorization
+The next step is a **separately frozen `RP-D-LC-001b`** — a re-execution of *this* question, not a
+new one:
+
+1. **Reduce the forcing.** ×4 is the arithmetic minimum against the 3.96e-4 worst case; ×8–10 gives
+   margin. The Re-scaling must be **verified by that protocol's own forcing ladder**, not assumed,
+   and must not be used to rescue this execution. Reduced forcing is also the shared remedy for E4.
+2. **Redesign the bridge so it is a lateral path only.** The identical-path control shows the
+   present aperture adds axial cross-section worth `R − 1 = 0.0143`. Either remove that degree of
+   freedom geometrically, or calibrate and subtract it using the identical-path fixture at every
+   aperture — predeclared, never fitted after seeing `Ξ̂`.
+3. **Keep the design inside the model's reachable set:** require `R − 1 < c²/(1−c²)` with margin at
+   every frozen aperture, checked from coupon output before the freeze.
+
+Also measure mass flux `∫ρu·dA` rather than volume flux (E4). Arm J's 24 solves were not run and
+remain available for that tranche. Each later stage needs its own human authorization
 and its own entry condition; see `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md`.
