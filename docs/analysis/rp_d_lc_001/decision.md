@@ -34,7 +34,8 @@ call order (infer, then evaluate truth) is asserted by AST.
 
 ## Fixture and solver
 
-56×20×8 base template replicated S=2 and S=3 (exactly geometrically similar); `brewer2026.lb_reference`
+56×20×8 base template replicated S=2 and S=3 (exactly **geometrically** similar; **not**
+dynamically similar — same lattice `g` and `nu`, so `Re(S=3)/Re(S=2) = 3.375`, see E5); `brewer2026.lb_reference`
 D3Q19 TRT, magic Λ=3/16, float64, `tau_plus=2.0`, `g=2e-5`, Route A (periodic body force + resolved
 common plenum), `p = rho/3 − g·x`. Aperture subset frozen from coupon output alone before any
 full-fixture observable was inspected.
@@ -47,10 +48,12 @@ full-fixture observable was inspected.
 |---|---|---|
 | `componentwise_creeping_flow_control` | **FAIL** | `Q/g` 2.38e-4 (S=2), 3.61e-4 (S=3); `Q0/g` 2.61e-4, 3.96e-4 — all above the frozen 1e-4 |
 | `boundary_inference_forcing_stability` | **FAIL** | `Ξ̂` spread 1.42e-3 (S=2), 2.30e-3 (S=3); `Ξ_field` 2.23e-4, 3.62e-4 |
-| `mass_conservation` | **FAIL** | S=3 plane-to-plane volume-flux spread 1.028e-3 vs 1e-3 (S=2 passes at 6.58e-4) |
+| `frozen_volume_flux_uniformity_control` | **FAIL** | S=3 plane-to-plane **volume**-flux spread 1.028e-3 vs 1e-3 (S=2 passes at 6.58e-4) — the historical frozen proxy, preserved |
 | `frozen_C_linearity_control` | **FAIL** (reported, not required) | 2.6e-4 (S=2), 3.9e-4 (S=3) — preserved verbatim, never relabelled |
+| `mass_conservation` | **NOT_EVALUATED** | `MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES` — the `ρ` fields needed for `Σρu_x` were not retained. **This execution does not say solver mass conservation failed** (E4b) |
+| `grid_refinement` | **NOT_EVALUATED** | `DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE` — S=2 and S=3 ran at the same lattice `g` and `nu`, so `Re(S=3)/Re(S=2) = (3/2)³ = 3.375` (E5). The paired rows are retained as `fixed_lattice_forcing_resolution_comparison` |
 | `topology`, `coarse_graining_surface_stability` | **NOT_EVALUATED** | Arm J deliberately not run once validity had already failed upstream; fail-closed, and neither is reported as the cause |
-| convergence · low-Mach regime · plane invariance · grid refinement | pass | |
+| convergence · low-Mach regime · plane invariance | pass | |
 | `backend_cross_check` | **NOT_EVALUATED** | Taichi absent, port cubic-only — recorded as not performed, never as passed |
 
 **The drift is entirely in the flux, not the pressure.** `ΔP/g` is linear to **2.4e-8** (S=2) and
@@ -67,11 +70,16 @@ spreads are bound to the frozen 1e-4.
 ## Two findings I did not anticipate
 
 **1. The identical-path negative control fired, and it indicts the fixture.** With both lanes
-identically ordered, `X = 0` exactly, the bridge pressure gap is `−0.0` and `q_lat = −1.2e-7 ≈ 0` —
-so there is **no lateral driving whatsoever**. Yet opening the bridge still raised the total flow:
+identically ordered, `X = 0` **exactly**, the bridge pressure gap is `−0.0` and `q_lat = −1.2e-7` —
+so there is **no lateral driving whatsoever**. That row is therefore
+`truth_status: STRUCTURALLY_DEGENERATE_NO_INFORMATION` with `Ξ_field` and `G_lat_field` set to
+`null`; its round-off-amplified quotient (`Ξ_field_raw ≈ 7.8e7`) is preserved separately as
+`NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH` (E7). The geometry-aware coupon network `(a,b,a,b)`
+predicts `R = 1` and `s = 1/2` for **any** positive `G_lat`, so the residual is exact and
+meaningful — opening the bridge still raised the total flow:
 
 ```
-R − 1 = 0.01427     with zero lateral coupling
+observed R − network R = 0.014277334586     with zero lateral coupling
 ```
 
 The aperture is a hole through the divider, so opening it does not only create a lateral path — it
@@ -110,21 +118,28 @@ own forcing-independence requirement.
   keeps returning a superficially physical `ok`.
 - **Node nonuniformity:** node surfaces 1.83 % of `ΔP`; bridge faces **7.7 %** of the driving gap —
   the mid "node" is materially non-equipotential.
-- **Grid refinement:** `R` moves ~2e-3 between resolutions; `Ξ_field` moves up to 5.5 %.
+- **Fixed-lattice-forcing resolution comparison (diagnostic, NOT grid convergence):** `R` moves
+  ~2e-3 between resolutions and `Ξ_field` up to 5.5 % — but at `Re(S=3)/Re(S=2) = 3.375`, so this
+  compares two different dimensionless problems and is not a convergence result (E5).
 
 ## Strongest alternative explanation
 
 That the failure is an artifact of the *controls* rather than the execution — the same objection
 that already forced errata E1 and E2. It does not hold here. `ΔP/g` is linear to 2.4e-8 on the same
 rows, so the 1e-4 tolerance is demonstrably achievable by the very construction under test; the
-failing quantity is the flux, measured the way the truth actually consumes it. The mass-conservation
-control does have a genuine specification issue (volume vs mass flux, E4), and it is recorded — but
-it is **not** used to soften that verdict, and the disposition does not depend on it: the
-componentwise control fails independently at both resolutions.
+failing quantity is the flux, measured the way the truth actually consumes it. The frozen volume-flux
+control does have a genuine specification issue — it is a proxy for mass conservation, not a
+measurement of it (E4b) — and that is recorded by splitting the two apart rather than by softening
+either. Its own **FAIL** stands as measured; `mass_conservation` is separately marked
+**NOT_EVALUATED** because the `ρ` fields were never retained. Neither move affects the disposition:
+`componentwise_creeping_flow_control` fails independently at both resolutions and remains the
+primary cause.
 
 ## Disposition and why
 
-**`INVALID_EXECUTION`.** The internal field quantities could not serve as sufficiently
+**`INVALID_EXECUTION`.** Clauses 2–7 were computed but **never reached**: each records
+`adjudicative: false`, `status: DIAGNOSTIC_ONLY_NOT_REACHED`, `pass: null`, with its computed
+boolean kept as `diagnostic_computed_pass` (E6). The internal field quantities could not serve as sufficiently
 forcing-independent numerical truth, so the comparison the tranche exists to make was never
 licensed. **This is not a negative result about Ξ.** The cross-model transfer question remains
 **unadjudicated**.
@@ -146,21 +161,35 @@ existing mathematical result** · **Paper 4 remains unauthorized**.
 
 A **separately frozen** `RP-D-LC-001b` at reduced forcing. Three changes, in this order:
 
-1. **Reduce `g`.** Arithmetic minimum is ×4 against the 3.96e-4 worst case; ×8–10 gives credible
-   margin. **The Re-scaling of the drift must be verified by that protocol's own forcing ladder,
-   not assumed, and must not be used to rescue this execution.** Reduced forcing is also the shared
-   remedy for E4: a smaller total pressure drop means a smaller density variation and hence a
-   smaller volume-vs-mass flux residual.
-2. **Redesign the bridge so it is a lateral path only.** The identical-path control shows the
-   present aperture adds axial cross-section worth `R − 1 = 0.0143`. Either remove that degree of
-   freedom geometrically, or calibrate it with the identical-path fixture at every aperture and
-   subtract it — the second option must be predeclared, not fitted after seeing `Ξ̂`.
-3. **Keep `Ξ_field` inside the model's reachable set** by design: require
-   `R − 1 < c²/(1−c²)` with margin for every frozen aperture, checked from coupon output before
-   the freeze.
+**1. Forcing and resolution.** Use the reduced central forcing at a reference resolution, then
+**preserve dynamic similarity across resolutions**. Under the diffusive scaling of E5 that means
 
-Measure mass flux `∫ρu·dA` rather than volume flux. Arm J's 24 solves were not run and remain
-available for that tranche.
+```
+g(S) = g(S_ref) · (S_ref / S)³
+```
+
+with each resolution carrying its **own** ×0.5/×1/×2 ladder around its corresponding central `g`.
+The ×8–10 reduction is design guidance **to be tested**, not a fitted correction, and the Re-scaling
+must be verified by that protocol's own ladder rather than assumed.
+
+**2. Bridge.** Prefer a geometry with **lateral openings and solid axial end caps**, so the bridge
+cannot provide a continuous axial through-path. Identical-path **subtraction is not an equivalent
+safe option** and must not be presented as one: it is allowed only as a separately frozen closure
+hypothesis, after a predeclared superposition / non-interaction test across multiple axial contrasts
+and aperture sizes.
+
+**3. Pre-freeze design gates.** A coupon-only model-ceiling check is **insufficient**, because a
+two-node model automatically obeys its own reachable set. Before viewing any mirror-case boundary
+result the next protocol may use: the common blocked fixture to estimate `c_field`; identical-path
+open/blocked controls for each candidate bridge geometry; a **predeclared axial-artifact budget**;
+a conservative reachable-set margin that **includes that artifact bound**; and coupon `Ξ` only after
+candidates pass those gates.
+
+**4. Mass flux.** Calculate and retain `Σ ρ·u_x` at every required plane, alongside the existing
+volume-flux diagnostic. Lower forcing is expected to reduce the volume-versus-mass proxy
+discrepancy, but actual mass flux must be **measured**.
+
+Arm J's 24 solves were not run and remain available for that tranche.
 
 ## Reproduction
 

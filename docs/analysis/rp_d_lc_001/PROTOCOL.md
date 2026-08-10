@@ -514,3 +514,97 @@ a smaller `g` gives a smaller total pressure drop — hence a smaller density va
 volume-vs-mass discrepancy — **and** a smaller Reynolds number. That coherence is a reason to
 expect the reduced-forcing rerun to address both, and it is a prediction for that protocol to
 test, not a result claimed here.
+
+## E4b — semantic clarification: the frozen control is a VOLUME-flux proxy
+
+**The frozen historical requirement in §9 is not rewritten.** What is corrected is the *name* the
+result gave it, which asserted more than the measurement supports.
+
+The retained Arm-A record measures `Σ u_x` over the fluid nodes of each plane. The conserved
+quantity in a weakly compressible solver is `Σ ρ·u_x`, and **the `ρ` fields needed to form it at the
+required planes were not retained in the compact stage record.** So the result now carries two
+controls instead of one conflated one:
+
+| control | status | meaning |
+|---|---|---|
+| `frozen_volume_flux_uniformity_control` | **EVALUATED — FAIL** | the historical frozen proxy, preserved exactly, with its 6.58e-4 (S=2) and **1.028e-3 (S=3)** values visible |
+| `mass_conservation` | **NOT_EVALUATED**, fail-closed | `MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES` |
+
+**The result does not say solver mass conservation failed.** It says: *the frozen volume-flux proxy
+failed at S = 3; actual mass conservation was not evaluated in this execution.* In decision clause 1
+`mass_conservation` is a required control listed under `not_evaluated_missing_measurement` — kept
+distinct from `not_evaluated_downstream`, which is reserved for controls skipped because Arm J was
+not run. `primary_cause` is unchanged: `componentwise_creeping_flow_control`.
+
+Claims that lower forcing "fixes mass conservation" are withdrawn. The correct statement is: **lower
+forcing is expected to reduce the volume-versus-mass-flux proxy discrepancy; actual mass flux must
+be measured in the next execution.**
+
+## E5 — the two resolutions are not the same dimensionless problem
+
+`S = 2` and `S = 3` were run at **identical lattice `g` and `nu`** with every geometric length
+proportional to `S`. For a Stokes slot,
+
+```
+u  ~  g L² / nu            Re  ~  g L³ / nu²
+```
+
+so at fixed `g` and `nu`
+
+```
+Re(S=3) / Re(S=2)  =  (3/2)³  =  3.375
+```
+
+The two resolutions therefore **do not hold dynamic similarity**, and their paired rows compare two
+different Reynolds numbers. A count of paired rows was never a convergence criterion either. The
+frozen text above is not rewritten; the control structure is corrected:
+
+| control | status |
+|---|---|
+| `fixed_lattice_forcing_resolution_comparison` | `EVALUATED_DIAGNOSTIC` — the existing S=2/S=3 pairs, with all `R`, `s`, `c_field`, `Ξ_field`, `Ξ̂` and classification comparisons retained |
+| `grid_refinement` | **NOT_EVALUATED**, fail-closed: `DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE` |
+
+`grid_refinement` remains a **required** control and is fail-closed, but it must not appear as an
+evidence-based failure or as the primary cause. **Nothing in this bundle may say "grid refinement
+passed."**
+
+## E6 — clauses 2–7 were never reached
+
+Once clause 1 fails, the remaining clauses are counterfactual. Each now records
+`adjudicative: false`, `status: DIAGNOSTIC_ONLY_NOT_REACHED`, `pass: null`, and its computed
+boolean preserved as `diagnostic_computed_pass`, with all numerical detail retained. **No
+downstream `true` is machine-readable as an earned scientific clause after execution validity has
+failed**, and `cross_model_transfer_adjudicated` stays `false`.
+
+## E7 — the identical-path record is structurally degenerate, not quantitative
+
+The retained identical-path row has `X_cross_product = 0` **exactly**, a bridge pressure gap at
+round-off scale and `q_lat` at numerical-residual scale, so the exact quotient
+`G_lat = q_lat/(p1−p2)` emitted a meaningless `Ξ_field ≈ 7.8e7`. That is normalised **at assembly
+only** — `field_truth()`, `_run_case()`, the solver and every geometry symbol are untouched,
+because they generated the retained rows and changing them would correctly invalidate the
+execution-authority record.
+
+```
+truth_status: STRUCTURALLY_DEGENERATE_NO_INFORMATION
+quantitative_truth_available: false
+G_lat_field: null        Xi_field: null
+raw_roundoff_amplified_quotient: { p_face_gap_open, q_lat, G_lat_field_raw, Xi_field_raw,
+                                   evidence_use: NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH }
+```
+
+Degeneracy is decided on `X == 0` **exactly**, never on a tolerance; a nonzero-`X` case with an
+unresolved pressure gap receives the separate status `NUMERICALLY_UNRESOLVED`.
+
+The coupon-network comparator is now **geometry-aware** — `(a,b,b,a)` mirror-nominal,
+`(b,a,a,b)` mirror-swapped, `(a,b,a,b)` identical — and for the identical network the prediction is
+verified to be `R = 1` and `s = 1/2` **for any positive `G_lat`**. The scientifically useful residual
+is therefore
+
+```
+observed R − network R  =  0.014277334586
+```
+
+which is a direct measurement of the fixture's **axial-widening artifact**. The raw boundary-inverse
+output is retained with its `nonphysical_contrast` status and marked unusable for quantitative
+comparison.

@@ -679,9 +679,11 @@ def decide(runs):
     # INTERNAL fields serve as truth?) and `boundary_inference_forcing_stability` (are the
     # BOUNDARY observables stable?). A stable R may never stand in for the componentwise test.
     REQUIRED = ("convergence", "low_mach_linearity", "componentwise_creeping_flow_control",
-                "boundary_inference_forcing_stability", "mass_conservation", "topology",
-                "coarse_graining_surface_stability", "plane_invariance", "grid_refinement")
-    REPORTED = REQUIRED + ("frozen_C_linearity_control", "backend_cross_check")
+                "boundary_inference_forcing_stability", "frozen_volume_flux_uniformity_control",
+                "mass_conservation", "topology", "coarse_graining_surface_stability",
+                "plane_invariance", "grid_refinement")
+    REPORTED = REQUIRED + ("frozen_C_linearity_control", "backend_cross_check",
+                           "fixed_lattice_forcing_resolution_comparison")
     valid = all(ctrl[k]["pass"] for k in REQUIRED)
     # A control that FAILED ON EVIDENCE and one that was NOT EVALUATED are different things, and
     # the record must not conflate them: an unevaluated downstream control is a CONSEQUENCE of an
@@ -691,7 +693,16 @@ def decide(runs):
 
     failed_on_evidence = [k for k in REQUIRED
                           if not ctrl[k]["pass"] and _st(k) == "EVALUATED"]
-    not_evaluated = [k for k in REQUIRED if _st(k) != "EVALUATED"]
+    # Not-evaluated controls fall into two distinct kinds, and conflating them would misreport
+    # the causal sequence: one is a DOWNSTREAM consequence of an upstream failure (Arm J was not
+    # run), the other is a MISSING MEASUREMENT that no amount of downstream work would supply.
+    not_evaluated_downstream = [
+        k for k in REQUIRED if _st(k) != "EVALUATED"
+        and ctrl[k].get("not_evaluated_because") == "NOT_RUN_UPSTREAM_EXECUTION_INVALID"]
+    not_evaluated_missing_measurement = [
+        k for k in REQUIRED if _st(k) != "EVALUATED"
+        and ctrl[k].get("not_evaluated_because") != "NOT_RUN_UPSTREAM_EXECUTION_INVALID"]
+    not_evaluated = not_evaluated_downstream + not_evaluated_missing_measurement
     cl.append(_clause("1_execution_valid", valid,
                       {"required": {k: {"pass": ctrl[k]["pass"], "status": _st(k)}
                                     for k in REQUIRED},
@@ -699,7 +710,10 @@ def decide(runs):
                            k: {"pass": ctrl[k].get("pass"), "status": _st(k)}
                            for k in REPORTED if k not in REQUIRED},
                        "failed_on_evidence": failed_on_evidence,
-                       "not_evaluated_downstream": not_evaluated,
+                       "not_evaluated_downstream": not_evaluated_downstream,
+                       "not_evaluated_missing_measurement": not_evaluated_missing_measurement,
+                       "not_evaluated_reasons": {
+                           k: ctrl[k].get("not_evaluated_because") for k in not_evaluated},
                        "primary_cause": failed_on_evidence[0] if failed_on_evidence else None,
                        "note": ("componentwise_creeping_flow_control is load-bearing: if the "
                                 "internal components are not proportional to the forcing within "
@@ -769,7 +783,20 @@ def decide(runs):
 
     passes = {c["clause"]: c["pass"] for c in cl}
     if not passes["1_execution_valid"]:
+        # Clauses 2-7 were computed but were NEVER REACHED as scientific clauses. Their booleans
+        # are demoted to diagnostics so no downstream `true` can be machine-read as an earned
+        # result after execution validity has failed. All numerical detail is retained.
+        for c in cl[1:]:
+            c["diagnostic_computed_pass"] = c["pass"]
+            c["pass"] = None
+            c["adjudicative"] = False
+            c["status"] = "DIAGNOSTIC_ONLY_NOT_REACHED"
+        cl[0]["adjudicative"] = True
+        cl[0]["status"] = "EVALUATED"
         return "INVALID_EXECUTION", cl
+    for c in cl:
+        c["adjudicative"] = True
+        c["status"] = "EVALUATED"
     if not passes["2_three_window_cases"]:
         return "DESIGN_MISSED_TARGET", cl
     if all(passes.values()):

@@ -574,8 +574,8 @@
    }
   ]
  },
- "assembly_commit": "76024482e93ba987030db19059ee5faea0e33816",
- "assembly_tree": "9520afb117a485ea5c75df11315fe892e00ac775",
+ "assembly_commit": "61000a2f3f618604f9c8bd057c6b17ef406da28c",
+ "assembly_tree": "0b8212bdc0755f7f45ad80dd322de666f573ee6f",
  "asymmetry": [
   {
    "S": 3,
@@ -719,6 +719,17 @@
     "Xi_hat_over_Xi_field": 0.608623751122,
     "c_hat_minus_c_coupon": -0.09270496318,
     "c_hat_minus_c_field": 0.037704122261,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.716377459758,
     "network_coupon_R": 1.031596077643,
     "network_coupon_R_residual": -0.009363240762,
@@ -727,7 +738,9 @@
     "network_field_R": 1.025938537631,
     "network_field_R_residual": -0.00370570075,
     "network_field_s": 0.460697839937,
-    "network_field_s_residual": 0.00906120419
+    "network_field_s_residual": 0.00906120419,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -792,7 +805,9 @@
     "q2_blocked": 0.026324931088,
     "q_lat": 0.003250539257,
     "q_lat_alt_plane": 0.003249728119,
-    "q_lat_plane_rel_diff": 0.000249539464
+    "q_lat_plane_rel_diff": 0.000249539464,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -828,6 +843,17 @@
     "Xi_hat_over_Xi_field": 0.44473902131,
     "c_hat_minus_c_coupon": -0.090041734347,
     "c_hat_minus_c_field": 0.040476895046,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.16896910288,
     "network_coupon_R": 1.082297217571,
     "network_coupon_R_residual": -0.032709095536,
@@ -836,7 +862,9 @@
     "network_field_R": 1.060480613966,
     "network_field_R_residual": -0.010892491931,
     "network_field_s": 0.411355636435,
-    "network_field_s_residual": 0.023435798601
+    "network_field_s_residual": 0.023435798601,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -901,7 +929,9 @@
     "q2_blocked": 0.026324931088,
     "q_lat": 0.007192661751,
     "q_lat_alt_plane": 0.007191713134,
-    "q_lat_plane_rel_diff": 0.000131886811
+    "q_lat_plane_rel_diff": 0.000131886811,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -937,6 +967,17 @@
     "Xi_hat_over_Xi_field": 0.260925225582,
     "c_hat_minus_c_coupon": -0.054769340611,
     "c_hat_minus_c_field": 0.075737019662,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.938291667933,
     "network_coupon_R": 1.138929065652,
     "network_coupon_R_residual": -0.058982055976,
@@ -945,7 +986,9 @@
     "network_field_R": 1.08547304701,
     "network_field_R_residual": -0.005526037334,
     "network_field_s": 0.377626631795,
-    "network_field_s_residual": 0.029263897721
+    "network_field_s_residual": 0.029263897721,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1010,7 +1053,9 @@
     "q2_blocked": 0.026324931088,
     "q_lat": 0.010555659819,
     "q_lat_alt_plane": 0.010555111633,
-    "q_lat_plane_rel_diff": 5.1932887e-05
+    "q_lat_plane_rel_diff": 5.1932887e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1046,6 +1091,17 @@
     "Xi_hat_over_Xi_field": 0.211792752194,
     "c_hat_minus_c_coupon": 0.002066590216,
     "c_hat_minus_c_field": 0.132552778429,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.239274875495,
     "network_coupon_R": 1.165826658046,
     "network_coupon_R_residual": -0.057663623919,
@@ -1054,7 +1110,9 @@
     "network_field_R": 1.089043945286,
     "network_field_R_residual": 0.01911908884,
     "network_field_s": 0.372941088454,
-    "network_field_s_residual": 0.01965151671
+    "network_field_s_residual": 0.01965151671,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1119,7 +1177,9 @@
     "q2_blocked": 0.026324931088,
     "q_lat": 0.012481380181,
     "q_lat_alt_plane": 0.012480600133,
-    "q_lat_plane_rel_diff": 6.2496979e-05
+    "q_lat_plane_rel_diff": 6.2496979e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1155,6 +1215,17 @@
     "Xi_hat_over_Xi_field": 0.110943821098,
     "c_hat_minus_c_coupon": 0.035918971461,
     "c_hat_minus_c_field": 0.166153796484,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.172098774532,
     "network_coupon_R": 1.20620343483,
     "network_coupon_R_residual": -0.0724218723,
@@ -1163,7 +1234,9 @@
     "network_field_R": 1.100774139329,
     "network_field_R_residual": 0.033007423201,
     "network_field_s": 0.357850423533,
-    "network_field_s_residual": 0.021307573755
+    "network_field_s_residual": 0.021307573755,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1228,7 +1301,9 @@
     "q2_blocked": 0.026324931088,
     "q_lat": 0.014352745672,
     "q_lat_alt_plane": 0.014352600946,
-    "q_lat_plane_rel_diff": 1.0083504e-05
+    "q_lat_plane_rel_diff": 1.0083504e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1264,6 +1339,17 @@
     "Xi_hat_over_Xi_field": 0.592925738079,
     "c_hat_minus_c_coupon": -0.097302180853,
     "c_hat_minus_c_field": 0.034231409606,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.754076671422,
     "network_coupon_R": 1.029939151116,
     "network_coupon_R_residual": -0.009066958458,
@@ -1272,7 +1358,9 @@
     "network_field_R": 1.025505440867,
     "network_field_R_residual": -0.004633248209,
     "network_field_s": 0.461301230433,
-    "network_field_s_residual": 0.009979113053
+    "network_field_s_residual": 0.009979113053,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1337,7 +1425,9 @@
     "q2_blocked": 0.132219909234,
     "q_lat": 0.015478561211,
     "q_lat_alt_plane": 0.015474860479,
-    "q_lat_plane_rel_diff": 0.000239087565
+    "q_lat_plane_rel_diff": 0.000239087565,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1373,6 +1463,17 @@
     "Xi_hat_over_Xi_field": 0.432942926777,
     "c_hat_minus_c_coupon": -0.094915209526,
     "c_hat_minus_c_field": 0.036722417151,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.207751242412,
     "network_coupon_R": 1.080378780735,
     "network_coupon_R_residual": -0.032576300776,
@@ -1381,7 +1482,9 @@
     "network_field_R": 1.06070355167,
     "network_field_R_residual": -0.012901071711,
     "network_field_s": 0.410990576058,
-    "network_field_s_residual": 0.025351728015
+    "network_field_s_residual": 0.025351728015,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1446,7 +1549,9 @@
     "q2_blocked": 0.132219909234,
     "q_lat": 0.035207758287,
     "q_lat_alt_plane": 0.035203191996,
-    "q_lat_plane_rel_diff": 0.000129695592
+    "q_lat_plane_rel_diff": 0.000129695592,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1482,6 +1587,17 @@
     "Xi_hat_over_Xi_field": 0.252402166269,
     "c_hat_minus_c_coupon": -0.060169753947,
     "c_hat_minus_c_field": 0.07145688139,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.986203802424,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060299545546,
@@ -1490,7 +1606,9 @@
     "network_field_R": 1.086188232341,
     "network_field_R_residual": -0.008224069276,
     "network_field_s": 0.376611637863,
-    "network_field_s_residual": 0.031390345881
+    "network_field_s_residual": 0.031390345881,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1555,7 +1673,9 @@
     "q2_blocked": 0.132219909234,
     "q_lat": 0.052292795094,
     "q_lat_alt_plane": 0.052290114582,
-    "q_lat_plane_rel_diff": 5.1259677e-05
+    "q_lat_plane_rel_diff": 5.1259677e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1591,6 +1711,17 @@
     "Xi_hat_over_Xi_field": 0.207066413678,
     "c_hat_minus_c_coupon": -0.002833884503,
     "c_hat_minus_c_field": 0.12870146977,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.271834528529,
     "network_coupon_R": 1.164296893277,
     "network_coupon_R_residual": -0.058790832502,
@@ -1599,7 +1730,9 @@
     "network_field_R": 1.089363984686,
     "network_field_R_residual": 0.016142076089,
     "network_field_s": 0.372475266368,
-    "network_field_s_residual": 0.021581927168
+    "network_field_s_residual": 0.021581927168,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1664,7 +1797,9 @@
     "q2_blocked": 0.132219909234,
     "q_lat": 0.061692157563,
     "q_lat_alt_plane": 0.061688465846,
-    "q_lat_plane_rel_diff": 5.9840946e-05
+    "q_lat_plane_rel_diff": 5.9840946e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1700,6 +1835,17 @@
     "Xi_hat_over_Xi_field": 0.105792898971,
     "c_hat_minus_c_coupon": 0.030898352733,
     "c_hat_minus_c_field": 0.162245094081,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.240685300735,
     "network_coupon_R": 1.207561952576,
     "network_coupon_R_residual": -0.076255343593,
@@ -1708,7 +1854,9 @@
     "network_field_R": 1.101368210532,
     "network_field_R_residual": 0.029938398451,
     "network_field_s": 0.357012054018,
-    "network_field_s_residual": 0.023121679407
+    "network_field_s_residual": 0.023121679407,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1773,7 +1921,9 @@
     "q2_blocked": 0.132219909234,
     "q_lat": 0.071355519672,
     "q_lat_alt_plane": 0.071354914195,
-    "q_lat_plane_rel_diff": 8.485359e-06
+    "q_lat_plane_rel_diff": 8.485359e-06,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1809,15 +1959,28 @@
     "Xi_hat_over_Xi_field": 0.608775664672,
     "c_hat_minus_c_coupon": -0.811904732821,
     "c_hat_minus_c_field": -0.037667996974,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.641141716687,
+      62.688421838309,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.716017405492,
     "network_coupon_R": 1.031596077643,
     "network_coupon_R_residual": -0.009363240762,
-    "network_coupon_s": 0.466141925848,
-    "network_coupon_s_residual": 0.064099030025,
+    "network_coupon_s": 0.533858074152,
+    "network_coupon_s_residual": -0.003617118279,
     "network_field_R": 1.025933516904,
     "network_field_R_residual": -0.003700680022,
     "network_field_s": 0.539294751139,
-    "network_field_s_residual": -0.009053795266
+    "network_field_s_residual": -0.009053795266,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1882,7 +2045,9 @@
     "q2_blocked": 0.02632147132,
     "q_lat": -0.003249728119,
     "q_lat_alt_plane": -0.003250539257,
-    "q_lat_plane_rel_diff": 0.000249601749
+    "q_lat_plane_rel_diff": 0.000249601749,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1918,15 +2083,28 @@
     "Xi_hat_over_Xi_field": 0.444797684257,
     "c_hat_minus_c_coupon": -0.814567961653,
     "c_hat_minus_c_field": -0.040440351858,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.641141716687,
+      62.688421838309,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.168778817887,
     "network_coupon_R": 1.082297217571,
     "network_coupon_R_residual": -0.032709095536,
-    "network_coupon_s": 0.415942325307,
-    "network_coupon_s_residual": 0.149266239657,
+    "network_coupon_s": 0.584057674693,
+    "network_coupon_s_residual": -0.018849109729,
     "network_field_R": 1.060476813215,
     "network_field_R_residual": -0.01088869118,
     "network_field_s": 0.588639112565,
-    "network_field_s_residual": -0.023430547601
+    "network_field_s_residual": -0.023430547601,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1991,7 +2169,9 @@
     "q2_blocked": 0.02632147132,
     "q_lat": -0.007191713134,
     "q_lat_alt_plane": -0.007192661751,
-    "q_lat_plane_rel_diff": 0.000131904207
+    "q_lat_plane_rel_diff": 0.000131904207,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2027,15 +2207,28 @@
     "Xi_hat_over_Xi_field": 0.260938776886,
     "c_hat_minus_c_coupon": -0.849840355389,
     "c_hat_minus_c_field": -0.075700576261,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.641141716687,
+      62.688421838309,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.938216742668,
     "network_coupon_R": 1.138929065652,
     "network_coupon_R_residual": -0.058982055976,
-    "network_coupon_s": 0.36515489053,
-    "network_coupon_s_residual": 0.227954579955,
+    "network_coupon_s": 0.63484510947,
+    "network_coupon_s_residual": -0.041735638986,
     "network_field_R": 1.085471892095,
     "network_field_R_residual": -0.005524882418,
     "network_field_s": 0.622371845301,
-    "network_field_s_residual": -0.029262374817
+    "network_field_s_residual": -0.029262374817,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2100,7 +2293,9 @@
     "q2_blocked": 0.02632147132,
     "q_lat": -0.010555111633,
     "q_lat_alt_plane": -0.010555659819,
-    "q_lat_plane_rel_diff": 5.1935584e-05
+    "q_lat_plane_rel_diff": 5.1935584e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2136,15 +2331,28 @@
     "Xi_hat_over_Xi_field": 0.211805989428,
     "c_hat_minus_c_coupon": -0.906676286216,
     "c_hat_minus_c_field": -0.13251828735,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.641141716687,
+      62.688421838309,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.239184708597,
     "network_coupon_R": 1.165826658046,
     "network_coupon_R_residual": -0.057663623919,
-    "network_coupon_s": 0.342761414538,
-    "network_coupon_s_residual": 0.264645980298,
+    "network_coupon_s": 0.657238585462,
+    "network_coupon_s_residual": -0.049831190626,
     "network_field_R": 1.089042668804,
     "network_field_R_residual": 0.019120365323,
     "network_field_s": 0.627057239461,
-    "network_field_s_residual": -0.019649844625
+    "network_field_s_residual": -0.019649844625,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2209,7 +2417,9 @@
     "q2_blocked": 0.02632147132,
     "q_lat": -0.012480600133,
     "q_lat_alt_plane": -0.012481380181,
-    "q_lat_plane_rel_diff": 6.2500885e-05
+    "q_lat_plane_rel_diff": 6.2500885e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2245,15 +2455,28 @@
     "Xi_hat_over_Xi_field": 0.110944939812,
     "c_hat_minus_c_coupon": -0.940528667461,
     "c_hat_minus_c_field": -0.166118313196,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.641141716687,
+      62.688421838309,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.172084227038,
     "network_coupon_R": 1.20620343483,
     "network_coupon_R_residual": -0.0724218723,
-    "network_coupon_s": 0.311020760903,
-    "network_coupon_s_residual": 0.309821241809,
+    "network_coupon_s": 0.688979239097,
+    "network_coupon_s_residual": -0.068137236384,
     "network_field_R": 1.100774007869,
     "network_field_R_residual": 0.033007554661,
     "network_field_s": 0.642149408048,
-    "network_field_s_residual": -0.021307405336
+    "network_field_s_residual": -0.021307405336,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2318,7 +2541,9 @@
     "q2_blocked": 0.02632147132,
     "q_lat": -0.014352600946,
     "q_lat_alt_plane": -0.014352745672,
-    "q_lat_plane_rel_diff": 1.0083606e-05
+    "q_lat_plane_rel_diff": 1.0083606e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2354,15 +2579,28 @@
     "Xi_hat_over_Xi_field": 0.593067533151,
     "c_hat_minus_c_coupon": -0.809199666463,
     "c_hat_minus_c_field": -0.034109251792,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.753731699738,
     "network_coupon_R": 1.029939151116,
     "network_coupon_R_residual": -0.009066958458,
-    "network_coupon_s": 0.467932934301,
-    "network_coupon_s_residual": 0.060786722213,
+    "network_coupon_s": 0.532067065699,
+    "network_coupon_s_residual": -0.003347409185,
     "network_field_R": 1.025500689184,
     "network_field_R_residual": -0.004628496526,
     "network_field_s": 0.53869174857,
-    "network_field_s_residual": -0.009972092055
+    "network_field_s_residual": -0.009972092055,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2427,7 +2665,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.015474860479,
     "q_lat_alt_plane": -0.015478561211,
-    "q_lat_plane_rel_diff": 0.000239144741
+    "q_lat_plane_rel_diff": 0.000239144741,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2463,15 +2703,28 @@
     "Xi_hat_over_Xi_field": 0.43299908485,
     "c_hat_minus_c_coupon": -0.81158663779,
     "c_hat_minus_c_field": -0.036599002814,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.207564119089,
     "network_coupon_R": 1.080378780735,
     "network_coupon_R_residual": -0.032576300776,
-    "network_coupon_s": 0.417927686669,
-    "network_coupon_s_residual": 0.145730009258,
+    "network_coupon_s": 0.582072313331,
+    "network_coupon_s_residual": -0.018414617404,
     "network_field_R": 1.060699819204,
     "network_field_R_residual": -0.012897339245,
     "network_field_s": 0.589004267211,
-    "network_field_s_residual": -0.025346571284
+    "network_field_s_residual": -0.025346571284,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2536,7 +2789,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.035203191996,
     "q_lat_alt_plane": -0.035207758287,
-    "q_lat_plane_rel_diff": 0.000129712415
+    "q_lat_plane_rel_diff": 0.000129712415,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2572,15 +2827,28 @@
     "Xi_hat_over_Xi_field": 0.252415104986,
     "c_hat_minus_c_coupon": -0.846332093368,
     "c_hat_minus_c_field": -0.071333761814,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.986129848447,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060299545546,
-    "network_coupon_s": 0.366002523752,
-    "network_coupon_s_residual": 0.225995492503,
+    "network_coupon_s": 0.633997476248,
+    "network_coupon_s_residual": -0.041999459992,
     "network_field_R": 1.086187113201,
     "network_field_R_residual": -0.008222950136,
     "network_field_s": 0.623386887704,
-    "network_field_s_residual": -0.031388871448
+    "network_field_s_residual": -0.031388871448,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2645,7 +2913,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.052290114582,
     "q_lat_alt_plane": -0.052292795094,
-    "q_lat_plane_rel_diff": 5.1262305e-05
+    "q_lat_plane_rel_diff": 5.1262305e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2681,15 +2951,28 @@
     "Xi_hat_over_Xi_field": 0.20707880547,
     "c_hat_minus_c_coupon": -0.903667962812,
     "c_hat_minus_c_field": -0.128584212799,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.271748193709,
     "network_coupon_R": 1.164296893277,
     "network_coupon_R_residual": -0.058790832502,
-    "network_coupon_s": 0.344332869724,
-    "network_coupon_s_residual": 0.26160993674,
+    "network_coupon_s": 0.655667130276,
+    "network_coupon_s_residual": -0.049724323812,
     "network_field_R": 1.089362774644,
     "network_field_R_residual": 0.016143286131,
     "network_field_s": 0.627523149159,
-    "network_field_s_residual": -0.021580342695
+    "network_field_s_residual": -0.021580342695,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2754,7 +3037,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.061688465846,
     "q_lat_alt_plane": -0.061692157563,
-    "q_lat_plane_rel_diff": 5.9844527e-05
+    "q_lat_plane_rel_diff": 5.9844527e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2790,15 +3075,28 @@
     "Xi_hat_over_Xi_field": 0.105793796669,
     "c_hat_minus_c_coupon": -0.937400200048,
     "c_hat_minus_c_field": -0.162125006359,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.240673058897,
     "network_coupon_R": 1.207561952576,
     "network_coupon_R_residual": -0.076255343593,
-    "network_coupon_s": 0.310386334819,
-    "network_coupon_s_residual": 0.309479931756,
+    "network_coupon_s": 0.689613665181,
+    "network_coupon_s_residual": -0.069747398606,
     "network_field_R": 1.101368104315,
     "network_field_R_residual": 0.029938504668,
     "network_field_s": 0.642987809994,
-    "network_field_s_residual": -0.023121543419
+    "network_field_s_residual": -0.023121543419,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2863,7 +3161,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.071354914195,
     "q_lat_alt_plane": -0.071355519672,
-    "q_lat_plane_rel_diff": 8.485431e-06
+    "q_lat_plane_rel_diff": 8.485431e-06,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2894,20 +3194,33 @@
     "steps_blocked": 2000
    },
    "comparison": {
-    "Xi_coupon_over_Xi_field": 1.5084e-08,
+    "Xi_coupon_over_Xi_field": null,
     "Xi_hat_over_Xi_coupon": null,
     "Xi_hat_over_Xi_field": null,
-    "c_hat_minus_c_coupon": -7924287141223.378,
-    "c_hat_minus_c_field": -7924287141223.248,
+    "axial_widening_artifact_R_minus_1": 0.014277334586,
+    "c_hat_minus_c_coupon": null,
+    "c_hat_minus_c_field": null,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      62.688421838309,
+      23.641141716687
+     ],
+     "swapped": false,
+     "variant": "identical"
+    },
+    "identical_path_network_predicts_R_one": true,
+    "identical_path_network_predicts_s_half": true,
+    "inference_status": "nonphysical_contrast",
     "log2_factor_error_field": null,
-    "network_coupon_R": 1.138929065652,
-    "network_coupon_R_residual": -0.124651731066,
-    "network_coupon_s": 0.36515489053,
-    "network_coupon_s_residual": 0.13484510947,
-    "network_field_R": 1.000000001797,
-    "network_field_R_residual": 0.014277332789,
-    "network_field_s": 0.5,
-    "network_field_s_residual": 0.0
+    "network_coupon_R": 1.0,
+    "network_coupon_R_residual": 0.014277334586,
+    "network_coupon_s": 0.5,
+    "network_coupon_s_residual": 0.0,
+    "not_emitted_because": "truth_status=STRUCTURALLY_DEGENERATE_NO_INFORMATION, inference.status=nonphysical_contrast \u2014 quantitative c/Xi comparisons are suppressed so a round-off-amplified or nonphysical value cannot enter an error statistic.",
+    "quantitative_comparison_emitted": false,
+    "truth_status": "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
    },
    "g": 2e-05,
    "inference": {
@@ -2934,11 +3247,11 @@
     "A1_field": 54.655836460237,
     "A2_field": 54.655836460237,
     "G_bridge_coupon": 50.705592735978,
-    "G_lat_field": 2128228663.0092926,
+    "G_lat_field": null,
     "X_cross_product": 0.0,
     "X_normalised": 0.0,
     "Xi_coupon": 1.17469822962,
-    "Xi_field": 77877452.83370166,
+    "Xi_field": null,
     "a_coupon": 62.688421838309,
     "b_coupon": 23.641141716687,
     "blocked_share": 0.5,
@@ -2972,7 +3285,17 @@
     "q2_blocked": 0.026336740192,
     "q_lat": -1.1814e-07,
     "q_lat_alt_plane": 1.1814e-07,
-    "q_lat_plane_rel_diff": 1.999999999472
+    "q_lat_plane_rel_diff": 1.999999999472,
+    "quantitative_truth_available": false,
+    "raw_roundoff_amplified_quotient": {
+     "G_lat_field_raw": 2128228663.0092926,
+     "Xi_field_raw": 77877452.83370166,
+     "evidence_use": "NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH",
+     "p_face_gap_open": -0.0,
+     "q_lat": -1.1814e-07,
+     "why": "X = 0 exactly, so no uncoupled mid-node pressure gap drives the bridge; the measured gap and lateral flux are at round-off/residual scale and their quotient is meaningless as a conductance."
+    },
+    "truth_status": "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
    },
    "variant": "identical"
   },
@@ -3008,6 +3331,17 @@
     "Xi_hat_over_Xi_field": 0.261029237419,
     "c_hat_minus_c_coupon": -0.054797668172,
     "c_hat_minus_c_field": 0.075699624274,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.937716685343,
     "network_coupon_R": 1.138929065652,
     "network_coupon_R_residual": -0.058973895512,
@@ -3016,7 +3350,9 @@
     "network_field_R": 1.08547467096,
     "network_field_R_residual": -0.00551950082,
     "network_field_s": 0.377640539551,
-    "network_field_s_residual": 0.02923455371
+    "network_field_s_residual": 0.02923455371,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 1e-05,
    "inference": {
@@ -3081,7 +3417,9 @@
     "q2_blocked": 0.013160892794,
     "q_lat": 0.005277761286,
     "q_lat_alt_plane": 0.00527762424,
-    "q_lat_plane_rel_diff": 2.5966778e-05
+    "q_lat_plane_rel_diff": 2.5966778e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3117,6 +3455,17 @@
     "Xi_hat_over_Xi_field": 0.26071739801,
     "c_hat_minus_c_coupon": -0.05471268357,
     "c_hat_minus_c_field": 0.075811726566,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.688421838309,
+      23.641141716687,
+      23.641141716687,
+      62.688421838309
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.939441235891,
     "network_coupon_R": 1.138929065652,
     "network_coupon_R_residual": -0.058998385946,
@@ -3125,7 +3474,9 @@
     "network_field_R": 1.085469844403,
     "network_field_R_residual": -0.005539164697,
     "network_field_s": 0.377598798042,
-    "network_field_s_residual": 0.029322607985
+    "network_field_s_residual": 0.029322607985,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 4e-05,
    "inference": {
@@ -3190,7 +3541,9 @@
     "q2_blocked": 0.052662445759,
     "q_lat": 0.021111869432,
     "q_lat_alt_plane": 0.021109676687,
-    "q_lat_plane_rel_diff": 0.000103863117
+    "q_lat_plane_rel_diff": 0.000103863117,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3226,6 +3579,17 @@
     "Xi_hat_over_Xi_field": 0.252565360755,
     "c_hat_minus_c_coupon": -0.060215543872,
     "c_hat_minus_c_field": 0.071380540641,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.985271307282,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060286770646,
@@ -3234,7 +3598,9 @@
     "network_field_R": 1.086190718248,
     "network_field_R_residual": -0.008213780283,
     "network_field_s": 0.376635544949,
-    "network_field_s_residual": 0.03134173509
+    "network_field_s_residual": 0.03134173509,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 1e-05,
    "inference": {
@@ -3299,7 +3665,9 @@
     "q2_blocked": 0.066097853188,
     "q_lat": 0.026146065161,
     "q_lat_alt_plane": 0.026145395034,
-    "q_lat_plane_rel_diff": 2.5630148e-05
+    "q_lat_plane_rel_diff": 2.5630148e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3335,6 +3703,17 @@
     "Xi_hat_over_Xi_field": 0.252076638228,
     "c_hat_minus_c_coupon": -0.060078268154,
     "c_hat_minus_c_field": 0.071609012667,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.988065675516,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060325148117,
@@ -3343,7 +3722,9 @@
     "network_field_R": 1.086183496942,
     "network_field_R_residual": -0.008244936448,
     "network_field_s": 0.376563763205,
-    "network_field_s_residual": 0.031487647441
+    "network_field_s_residual": 0.031487647441,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 4e-05,
    "inference": {
@@ -3408,7 +3789,9 @@
     "q2_blocked": 0.264536593516,
     "q_lat": 0.104588227852,
     "q_lat_alt_plane": 0.104577505776,
-    "q_lat_plane_rel_diff": 0.000102517043
+    "q_lat_plane_rel_diff": 0.000102517043,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3444,6 +3827,17 @@
     "Xi_hat_over_Xi_field": 0.266119748603,
     "c_hat_minus_c_coupon": -0.063521792552,
     "c_hat_minus_c_field": 0.064398160735,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.909852518936,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.059472605404,
@@ -3452,7 +3846,9 @@
     "network_field_R": 1.087320380187,
     "network_field_R_residual": -0.00852927698,
     "network_field_s": 0.374866277302,
-    "network_field_s_residual": 0.031432132718
+    "network_field_s_residual": 0.031432132718,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3517,7 +3913,9 @@
     "q2_blocked": 0.132219830935,
     "q_lat": 0.052554077492,
     "q_lat_alt_plane": 0.052551356051,
-    "q_lat_plane_rel_diff": 5.1783631e-05
+    "q_lat_plane_rel_diff": 5.1783631e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3553,15 +3951,28 @@
     "Xi_hat_over_Xi_field": 0.246967323449,
     "c_hat_minus_c_coupon": -0.847370047469,
     "c_hat_minus_c_field": -0.074407297709,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.017607925207,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060724050516,
-    "network_coupon_s": 0.366002523752,
-    "network_coupon_s_residual": 0.225289558815,
+    "network_coupon_s": 0.633997476248,
+    "network_coupon_s_residual": -0.04270539368,
     "network_field_R": 1.085609596036,
     "network_field_R_residual": -0.008069937941,
     "network_field_s": 0.622550470395,
-    "network_field_s_residual": -0.031258387828
+    "network_field_s_residual": -0.031258387828,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3626,7 +4037,9 @@
     "q2_blocked": 0.13219286467,
     "q_lat": -0.052082724814,
     "q_lat_alt_plane": -0.052085376016,
-    "q_lat_plane_rel_diff": 5.0903668e-05
+    "q_lat_plane_rel_diff": 5.0903668e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3662,6 +4075,17 @@
     "Xi_hat_over_Xi_field": 0.268834958483,
     "c_hat_minus_c_coupon": -0.069681702487,
     "c_hat_minus_c_field": 0.068978832562,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.975054638116,
+      79.374053287597,
+      79.374053287597,
+      210.975054638116
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.895207340885,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.061773615878,
@@ -3670,7 +4094,9 @@
     "network_field_R": 1.084204119143,
     "network_field_R_residual": -0.00771402641,
     "network_field_s": 0.37627924425,
-    "network_field_s_residual": 0.03109720968
+    "network_field_s_residual": 0.03109720968,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3735,7 +4161,9 @@
     "q2_blocked": 0.132218690686,
     "q_lat": 0.051575684681,
     "q_lat_alt_plane": 0.051573104784,
-    "q_lat_plane_rel_diff": 5.0021586e-05
+    "q_lat_plane_rel_diff": 5.0021586e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3771,15 +4199,28 @@
     "Xi_hat_over_Xi_field": 0.252415104986,
     "c_hat_minus_c_coupon": -0.846332093368,
     "c_hat_minus_c_field": -0.071333761814,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.374053287597,
+      210.975054638116,
+      210.975054638116,
+      79.374053287597
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.986129848447,
     "network_coupon_R": 1.138263708611,
     "network_coupon_R_residual": -0.060299545546,
-    "network_coupon_s": 0.366002523752,
-    "network_coupon_s_residual": 0.225995492503,
+    "network_coupon_s": 0.633997476248,
+    "network_coupon_s_residual": -0.041999459992,
     "network_field_R": 1.086187113201,
     "network_field_R_residual": -0.008222950136,
     "network_field_s": 0.623386887704,
-    "network_field_s_residual": -0.031388871448
+    "network_field_s_residual": -0.031388871448,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3844,7 +4285,9 @@
     "q2_blocked": 0.132192736591,
     "q_lat": -0.052290114582,
     "q_lat_alt_plane": -0.052292795094,
-    "q_lat_plane_rel_diff": 5.1262305e-05
+    "q_lat_plane_rel_diff": 5.1262305e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   }
@@ -3865,7 +4308,7 @@
   "lateral_coupling_feasibility card box 6 remains closed on its existing mathematical result",
   "Paper 4 remains unauthorized"
  ],
- "content_sha256": "8f62dc5e98aceb77a290c7b4b6262a65089b2d03290d4c5ed18e2792598ec9c2",
+ "content_sha256": "ef617f3ab5260e3baa0aa5512f0ffda9fb9af61cf2e29b02314286b385e02842",
  "controls": {
   "axis_rotation_anisotropy": {
    "interpretation": "WEAK BY CONSTRUCTION \u2014 read this before quoting it as an anisotropy result. The two orientations differ by transposing the duct's cross-section (y <-> z) while the forcing stays on +x. Exchanging y and z is an EXACT symmetry of the D3Q19 lattice, its weights and the TRT operator under x-forcing, so an exactly-zero difference is the expected outcome and confirms the implementation is consistent; it is NOT evidence that the lattice is isotropic in a direction the fixture actually probes. A genuinely informative rotation would drive the duct along a different lattice axis or a diagonal, which this kernel (body force in +x only) cannot do. Recorded as a consistency check, never as a passed anisotropy test.",
@@ -4176,6 +4619,112 @@
   "determinism": {
    "note": "the kernel and every derived quantity are deterministic float operations with no RNG; re-running an identical configuration on identical hardware reproduces the record bit-for-bit."
   },
+  "fixed_lattice_forcing_resolution_comparison": {
+   "classification_by_resolution": {
+    "2": "not_recovered",
+    "3": "not_recovered"
+   },
+   "n_pairs": 5,
+   "note": "S=2 and S=3 were run at the SAME lattice g and nu with all lengths proportional to S, so they are NOT the same dimensionless problem: u ~ g L^2 / nu and Re ~ g L^3 / nu^2, giving Re(S=3)/Re(S=2) = (3/2)^3 = 3.375. These rows compare two different Reynolds numbers and are a DIAGNOSTIC, not a grid-convergence result. See PROTOCOL.md erratum E5.",
+   "pairs": [
+    {
+     "R_coarse": 1.022232836881,
+     "R_fine": 1.020872192658,
+     "R_rel_change": -0.00133105118,
+     "Xi_field_coarse": 0.289265490348,
+     "Xi_field_fine": 0.283409617858,
+     "Xi_field_rel_change": -0.020243937442,
+     "Xi_hat_coarse": 0.176053847806,
+     "Xi_hat_fine": 0.168040856847,
+     "aperture": {
+      "kx": 3,
+      "kz": 2
+     },
+     "c_field_coarse": 0.321895762559,
+     "c_field_fine": 0.321717333199,
+     "s_coarse": 0.469759044127,
+     "s_fine": 0.471280343486
+    },
+    {
+     "R_coarse": 1.049588122035,
+     "R_fine": 1.047802479959,
+     "R_rel_change": -0.001701278853,
+     "Xi_field_coarse": 1.098834685627,
+     "Xi_field_fine": 1.109468724803,
+     "Xi_field_rel_change": 0.009677560524,
+     "Xi_hat_coarse": 0.488694662667,
+     "Xi_hat_fine": 0.480336636884,
+     "aperture": {
+      "kx": 3,
+      "kz": 4
+     },
+     "c_field_coarse": 0.321786218607,
+     "c_field_fine": 0.321613296981,
+     "s_coarse": 0.434791435036,
+     "s_fine": 0.436342304073
+    },
+    {
+     "R_coarse": 1.079947009676,
+     "R_fine": 1.077964163065,
+     "R_rel_change": -0.001836059171,
+     "Xi_field_coarse": 2.843600267097,
+     "Xi_field_fine": 2.947808402256,
+     "Xi_field_rel_change": 0.03664654852,
+     "Xi_hat_coarse": 0.741967041156,
+     "Xi_hat_fine": 0.744033226477,
+     "aperture": {
+      "kx": 5,
+      "kz": 4
+     },
+     "c_field_coarse": 0.321798487727,
+     "c_field_fine": 0.321624288321,
+     "s_coarse": 0.406890529516,
+     "s_fine": 0.408001983744
+    },
+    {
+     "R_coarse": 1.108163034127,
+     "R_fine": 1.105506060775,
+     "R_rel_change": -0.002397637595,
+     "Xi_field_coarse": 3.359829888353,
+     "Xi_field_fine": 3.419576745041,
+     "Xi_field_rel_change": 0.017782702897,
+     "Xi_hat_coarse": 0.711587618957,
+     "Xi_hat_fine": 0.708079492894,
+     "aperture": {
+      "kx": 9,
+      "kz": 3
+     },
+     "c_field_coarse": 0.321818659786,
+     "c_field_fine": 0.321715569385,
+     "s_coarse": 0.392592605164,
+     "s_fine": 0.394057193536
+    },
+    {
+     "R_coarse": 1.133781562531,
+     "R_fine": 1.131306608983,
+     "R_rel_change": -0.002182919205,
+     "Xi_field_coarse": 6.729860254576,
+     "Xi_field_fine": 7.098083961454,
+     "Xi_field_rel_change": 0.054714911298,
+     "Xi_hat_coarse": 0.746636412098,
+     "Xi_hat_fine": 0.750926879422,
+     "aperture": {
+      "kx": 9,
+      "kz": 4
+     },
+     "c_field_coarse": 0.322070022977,
+     "c_field_fine": 0.321904182309,
+     "s_coarse": 0.379157997288,
+     "s_fine": 0.380133733425
+    }
+   ],
+   "pass": null,
+   "resolutions": [
+    2,
+    3
+   ],
+   "status": "EVALUATED_DIAGNOSTIC"
+  },
   "frozen_C_linearity_control": {
    "conductance_spread_by_resolution": {
     "2": 0.000259963027,
@@ -4186,12 +4735,31 @@
    "tol_linearity_rel": 0.0001,
    "verdict": "FAIL"
   },
+  "frozen_volume_flux_uniformity_control": {
+   "arm_a_by_resolution": {
+    "2": 0.000657662303,
+    "3": 0.001028357935
+   },
+   "expected_effect_of_lower_forcing": "Lower forcing is EXPECTED to reduce the volume-versus-mass-flux proxy discrepancy, because a smaller total pressure drop means a smaller density variation. It does not evaluate mass conservation. Actual mass flux must be MEASURED in the next execution.",
+   "measured_quantity": "sum(u_x) over the fluid nodes of each plane",
+   "note": "HISTORICAL FROZEN PROXY, PRESERVED EXACTLY. This is a volume-flux uniformity check, not a mass-conservation check. Its verdict stands as measured and is not relabelled.",
+   "pass": false,
+   "specification_note": "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME flux integral of u_x. In a weakly compressible solver the conserved quantity is the MASS flux integral of rho*u_x, so a residual of order the fractional density variation along the fixture is expected and is NOT a violation of the solver's own conservation. The observed magnitude is consistent with that: the density drop implied by the measured node pressures is ~5e-4 at S=2 and larger at S=3, where the domain and hence the total pressure drop are larger. The stored records contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the mass flux is a change for the NEXT protocol, not a repair applicable here. The frozen verdict stands as measured. See PROTOCOL.md erratum E4.",
+   "status": "EVALUATED",
+   "tol_rel": 0.001,
+   "verdict": "FAIL",
+   "worst_plane_ptp_rel": 0.002260737483
+  },
   "grid_refinement": {
-   "pass": true,
+   "not_evaluated_because": "DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE",
+   "pass": false,
    "resolutions": [
     2,
     3
-   ]
+   ],
+   "see": "fixed_lattice_forcing_resolution_comparison",
+   "statement": "Grid refinement was NOT evaluated: dynamic similarity was not held across the two resolutions, and no convergence tolerance was frozen for it. The existing paired rows are retained as fixed_lattice_forcing_resolution_comparison.",
+   "status": "NOT_EVALUATED"
   },
   "low_mach_linearity": {
    "max_mach": 0.003508047056,
@@ -4200,16 +4768,12 @@
    "tol_mach": 0.03
   },
   "mass_conservation": {
-   "arm_a_by_resolution": {
-    "2": 0.000657662303,
-    "3": 0.001028357935
-   },
-   "measured_quantity": "VOLUME flux  sum(u_x) over the plane's fluid nodes",
+   "measured_quantity": "sum(rho * u_x) \u2014 NOT AVAILABLE in the retained record",
+   "not_evaluated_because": "MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES",
    "pass": false,
-   "remedy_shared_with_E2": "Reducing the forcing shrinks BOTH residuals through the same mechanism: a smaller g gives a smaller total pressure drop, hence a smaller density variation and a smaller volume-vs-mass flux discrepancy, AND a smaller Reynolds number. The two independent failures therefore have one remedy.",
-   "specification_note": "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME flux integral of u_x. In a weakly compressible solver the conserved quantity is the MASS flux integral of rho*u_x, so a residual of order the fractional density variation along the fixture is expected and is NOT a violation of the solver's own conservation. The observed magnitude is consistent with that: the density drop implied by the measured node pressures is ~5e-4 at S=2 and larger at S=3, where the domain and hence the total pressure drop are larger. The stored records contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the mass flux is a change for the NEXT protocol, not a repair applicable here. The frozen verdict stands as measured. See PROTOCOL.md erratum E4.",
-   "tol_rel": 0.001,
-   "worst_plane_ptp_rel": 0.002260737483
+   "see": "frozen_volume_flux_uniformity_control",
+   "statement": "The frozen volume-flux proxy FAILED at S=3; actual mass conservation was NOT EVALUATED in this execution.",
+   "status": "NOT_EVALUATED"
   },
   "plane_invariance": {
    "pass": true,
@@ -5104,23 +5668,38 @@
  "cross_model_transfer_adjudicated": false,
  "decision_clauses": [
   {
+   "adjudicative": true,
    "clause": "1_execution_valid",
    "detail": {
     "failed_on_evidence": [
      "componentwise_creeping_flow_control",
      "boundary_inference_forcing_stability",
-     "mass_conservation"
+     "frozen_volume_flux_uniformity_control"
     ],
     "not_evaluated_downstream": [
      "topology",
      "coarse_graining_surface_stability"
     ],
+    "not_evaluated_missing_measurement": [
+     "mass_conservation",
+     "grid_refinement"
+    ],
+    "not_evaluated_reasons": {
+     "coarse_graining_surface_stability": "NOT_RUN_UPSTREAM_EXECUTION_INVALID",
+     "grid_refinement": "DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE",
+     "mass_conservation": "MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES",
+     "topology": "NOT_RUN_UPSTREAM_EXECUTION_INVALID"
+    },
     "note": "componentwise_creeping_flow_control is load-bearing: if the internal components are not proportional to the forcing within 1e-4, a stable R cannot rescue the execution and the disposition is INVALID_EXECUTION.",
     "primary_cause": "componentwise_creeping_flow_control",
     "reported_not_required": {
      "backend_cross_check": {
       "pass": false,
       "status": "NOT_EVALUATED"
+     },
+     "fixed_lattice_forcing_resolution_comparison": {
+      "pass": null,
+      "status": "EVALUATED_DIAGNOSTIC"
      },
      "frozen_C_linearity_control": {
       "pass": false,
@@ -5144,9 +5723,13 @@
       "pass": true,
       "status": "EVALUATED"
      },
-     "grid_refinement": {
-      "pass": true,
+     "frozen_volume_flux_uniformity_control": {
+      "pass": false,
       "status": "EVALUATED"
+     },
+     "grid_refinement": {
+      "pass": false,
+      "status": "NOT_EVALUATED"
      },
      "low_mach_linearity": {
       "pass": true,
@@ -5154,7 +5737,7 @@
      },
      "mass_conservation": {
       "pass": false,
-      "status": "EVALUATED"
+      "status": "NOT_EVALUATED"
      },
      "plane_invariance": {
       "pass": true,
@@ -5166,9 +5749,11 @@
      }
     }
    },
-   "pass": false
+   "pass": false,
+   "status": "EVALUATED"
   },
   {
+   "adjudicative": false,
    "clause": "2_three_window_cases",
    "detail": {
     "per_resolution_counts": {
@@ -5181,9 +5766,12 @@
      3.94598
     ]
    },
-   "pass": true
+   "diagnostic_computed_pass": true,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   },
   {
+   "adjudicative": false,
    "clause": "3_factor_two_recovery",
    "detail": {
     "ratios": [
@@ -5261,9 +5849,12 @@
      ]
     ]
    },
-   "pass": false
+   "diagnostic_computed_pass": false,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   },
   {
+   "adjudicative": false,
    "clause": "4_contrast_sign_and_tolerance",
    "detail": {
     "pairs": [
@@ -5341,17 +5932,23 @@
      ]
     ]
    },
-   "pass": false
+   "diagnostic_computed_pass": false,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   },
   {
+   "adjudicative": false,
    "clause": "5_strict_monotonicity",
    "detail": {
     "2": false,
     "3": false
    },
-   "pass": false
+   "diagnostic_computed_pass": false,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   },
   {
+   "adjudicative": false,
    "clause": "6_path_swap_signature",
    "detail": [
     {
@@ -5475,15 +6072,20 @@
      "share_sign_reversed": true
     }
    ],
-   "pass": true
+   "diagnostic_computed_pass": true,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   },
   {
+   "adjudicative": false,
    "clause": "7_resolution_stable_classification",
    "detail": {
     "2": "not_recovered",
     "3": "not_recovered"
    },
-   "pass": true
+   "diagnostic_computed_pass": true,
+   "pass": null,
+   "status": "DIAGNOSTIC_ONLY_NOT_REACHED"
   }
  ],
  "disposition": "INVALID_EXECUTION",
@@ -5745,13 +6347,13 @@
  },
  "input_sha256": {
   "docs/analysis/rp_d_lc_001/BOUNDARY_TOPOLOGY_ADJUDICATION.md": "f3251ded30082517e3af616f3ab3e8bc70ef743fe26ce714f18db4e9797e45a0",
-  "docs/analysis/rp_d_lc_001/PROTOCOL.md": "c7f31ac50a62282203fe23d6c6f6f1ba1054ce02c815768df4b96e27ddf4dfa0",
+  "docs/analysis/rp_d_lc_001/PROTOCOL.md": "0027211753076338563410cd714bb8769924d080b68033bdac86ebf37728626b",
   "docs/analysis/rp_d_lc_001/VIRTUAL_FIXTURE_SPEC.md": "05af9d97538d2f0a850dfab04414cceaab9d615d2bc03e4e4ad3f0eec6a635fd",
-  "puckworks/analysis/rp_d_lc_virtual_fixture.py": "e1a2fe99b3ffa35c30c482d37026d0c702bfd096aa5145d61ef40cab04d1492a",
+  "puckworks/analysis/rp_d_lc_virtual_fixture.py": "fe16ca7923abf6f61d2b1b8bbc39f8d9288dbca91413c348d65aaedd05f6e4eb",
   "puckworks/analysis/screen_wp6_lateral_identifiability.py": "cc144e37679bdc2c00264421d70061b51d4a90e380de2f4e72439d8b5be0d97f",
   "puckworks/models/brewer2026/lb_reference.py": "2174eabfee8c9dc2e453051bc23a4295d108ad49e88fd824e716aaf8b3d9da82",
   "puckworks/models/lateral_coupling.py": "ba1468993b6daed6ea703dab080727353c9cab3651ea84282df68b9e2e8f4ec0",
-  "puckworks/validation/slow/rp_d_lc_001.py": "6c71f151b57ae08c5a30f499276841d48341e896c37b3a40affade270b9b3327"
+  "puckworks/validation/slow/rp_d_lc_001.py": "029b72d4f63840dadeab7cf6e0bc53baac679aefd334e82d336a71ebd5c4f7e4"
  },
  "mechanism": {
   "G_lat_monotone_in_aperture": {
@@ -6016,11 +6618,11 @@
  ],
  "program_id": "RP-D-LATERAL-CROSS-MODEL",
  "protocol_freeze_commit": "06c1468d47edb1abd0496f1d7354d68f59986007",
- "protocol_sha256": "c7f31ac50a62282203fe23d6c6f6f1ba1054ce02c815768df4b96e27ddf4dfa0",
+ "protocol_sha256": "0027211753076338563410cd714bb8769924d080b68033bdac86ebf37728626b",
  "provenance": {
   "all_stages_valid": true,
-  "assembly_commit": "76024482e93ba987030db19059ee5faea0e33816",
-  "assembly_tree": "9520afb117a485ea5c75df11315fe892e00ac775",
+  "assembly_commit": "61000a2f3f618604f9c8bd057c6b17ef406da28c",
+  "assembly_tree": "0b8212bdc0755f7f45ad80dd322de666f573ee6f",
   "protocol_freeze_commit": "06c1468d47edb1abd0496f1d7354d68f59986007",
   "stages": {
    "arm_a": {

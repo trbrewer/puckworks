@@ -85,15 +85,20 @@ Execution validity failed on three evidence-based controls, `primary_cause` bein
 `componentwise_creeping_flow_control`: the reduced flux `Q/g` and `Q0/g` drift by 2.4–4.0e-4 across
 ×0.5/×1/×2 forcing against a frozen 1e-4, so the internal field quantities could not serve as
 forcing-independent numerical truth. `ΔP/g` is linear to 2.4e-8 on the same rows, so the drift is
-in the flux alone. `mass_conservation` also fails at S=3 (1.028e-3 vs 1e-3).
+in the flux alone. The frozen **volume-flux uniformity proxy** also fails at S=3 (1.028e-3 vs 1e-3);
+actual `mass_conservation` is **NOT_EVALUATED** because `Σρu_x` was never retained (E4b), and
+`grid_refinement` is **NOT_EVALUATED** because the two resolutions did not hold dynamic similarity
+(`Re(S=3)/Re(S=2) = 3.375`, E5). Clauses 2–7 were computed but never reached, and carry
+`adjudicative: false` (E6).
 
 **The cross-model transfer question is therefore UNADJUDICATED, not negative.** Every `Ξ̂`,
 `Ξ_field`, contrast, monotonicity and path-swap number in this bundle is diagnostic only and may
 not be quoted as recovery, mechanism-only transfer, or a weak quantitative success at any strength.
 
 Two fixture findings came out of it, both from controls doing their job. The identical-path
-negative control shows the bridge aperture **widens the axial channel** — `R − 1 = 0.0143` with
-`X = 0` and zero lateral flux — and at the largest aperture the observed `R − 1 = 0.1338` **exceeds
+negative control shows the bridge aperture **widens the axial channel**: with `X = 0` exactly and
+zero lateral flux the geometry-aware `(a,b,a,b)` network predicts `R = 1`, `s = ½` at any coupling,
+yet the observed residual is `R − 1 = 0.014277334586` — and at the largest aperture the observed `R − 1 = 0.1338` **exceeds
 the two-node model's hard ceiling** `c²/(1−c²) = 0.1155`, so no `(c, Ξ)` can reproduce it. What held
 up: topology, exact voxel mirror symmetry, connectivity, no periodic bypass, the frozen pressure
 definition, τ-independence, convergence, and a perfect path-swap signature on all ten rows.
@@ -116,8 +121,10 @@ Beyond the claim ceiling in §6, and stated so they are not mistaken for settled
   is what the coupon-vs-field comparison is for; it is not corrected away.
 - **No backend cross-check.** Taichi is not installed in this environment, and the port asserts
   cubic domains and exports `ux` only. Recorded as NOT PERFORMED — never as passed.
-- **Two resolutions only** (`S = 2, 3`, a 1.5× refinement). Enough to expose voxelisation
-  sensitivity, not enough for a Richardson extrapolation.
+- **The two resolutions are not a grid-convergence study.** They ran at identical lattice `g` and
+  `nu` with lengths ∝ `S`, so `Re(S=3)/Re(S=2) = (3/2)³ = 3.375` — two different dimensionless
+  problems (E5). Their paired rows are retained as `fixed_lattice_forcing_resolution_comparison`,
+  a diagnostic; `grid_refinement` is NOT_EVALUATED.
 - **Smooth slot segments, not porous media.** Whether the conclusion survives when the axial
   elements are genuine Darcy media is Stage B, and is not answered here.
 - **Software reproducibility tolerances are not experimental uncertainties.** Nothing here

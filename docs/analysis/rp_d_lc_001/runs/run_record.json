@@ -644,6 +644,17 @@
     "Xi_hat_over_Xi_field": 0.6086237511217365,
     "c_hat_minus_c_coupon": -0.09270496317959842,
     "c_hat_minus_c_field": 0.03770412226083625,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.7163774597582516,
     "network_coupon_R": 1.0315960776429234,
     "network_coupon_R_residual": -0.009363240761836256,
@@ -652,7 +663,9 @@
     "network_field_R": 1.025938537631497,
     "network_field_R_residual": -0.0037057007504097683,
     "network_field_s": 0.46069783993678326,
-    "network_field_s_residual": 0.009061204190106198
+    "network_field_s_residual": 0.009061204190106198,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -717,7 +730,9 @@
     "q2_blocked": 0.026324931088077312,
     "q_lat": 0.0032505392573037176,
     "q_lat_alt_plane": 0.0032497281194811154,
-    "q_lat_plane_rel_diff": 0.0002495394635765714
+    "q_lat_plane_rel_diff": 0.0002495394635765714,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -753,6 +768,17 @@
     "Xi_hat_over_Xi_field": 0.44473902130985316,
     "c_hat_minus_c_coupon": -0.09004173434663165,
     "c_hat_minus_c_field": 0.04047689504610552,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.1689691028796396,
     "network_coupon_R": 1.0822972175712398,
     "network_coupon_R_residual": -0.03270909553617307,
@@ -761,7 +787,9 @@
     "network_field_R": 1.0604806139655787,
     "network_field_R_residual": -0.010892491930512005,
     "network_field_s": 0.4113556364347516,
-    "network_field_s_residual": 0.02343579860123418
+    "network_field_s_residual": 0.02343579860123418,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -826,7 +854,9 @@
     "q2_blocked": 0.026324931088077312,
     "q_lat": 0.00719266175105843,
     "q_lat_alt_plane": 0.007191713133839175,
-    "q_lat_plane_rel_diff": 0.00013188681076458164
+    "q_lat_plane_rel_diff": 0.00013188681076458164,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -862,6 +892,17 @@
     "Xi_hat_over_Xi_field": 0.26092522558166015,
     "c_hat_minus_c_coupon": -0.054769340610623996,
     "c_hat_minus_c_field": 0.07573701966185759,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9382916679327424,
     "network_coupon_R": 1.138929065652192,
     "network_coupon_R_residual": -0.058982055975804304,
@@ -870,7 +911,9 @@
     "network_field_R": 1.0854730470099514,
     "network_field_R_residual": -0.005526037333563716,
     "network_field_s": 0.3776266317946915,
-    "network_field_s_residual": 0.029263897721051313
+    "network_field_s_residual": 0.029263897721051313,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -935,7 +978,9 @@
     "q2_blocked": 0.026324931088077312,
     "q_lat": 0.010555659819362746,
     "q_lat_alt_plane": 0.010555111633478213,
-    "q_lat_plane_rel_diff": 5.1932886613816215e-05
+    "q_lat_plane_rel_diff": 5.1932886613816215e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -971,6 +1016,17 @@
     "Xi_hat_over_Xi_field": 0.21179275219387322,
     "c_hat_minus_c_coupon": 0.0020665902161262073,
     "c_hat_minus_c_field": 0.13255277842942592,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.2392748754951173,
     "network_coupon_R": 1.165826658045995,
     "network_coupon_R_residual": -0.0576636239192696,
@@ -979,7 +1035,9 @@
     "network_field_R": 1.089043945286477,
     "network_field_R_residual": 0.019119088840248377,
     "network_field_s": 0.3729410884544593,
-    "network_field_s_residual": 0.01965151670976889
+    "network_field_s_residual": 0.01965151670976889,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1044,7 +1102,9 @@
     "q2_blocked": 0.026324931088077312,
     "q_lat": 0.012481380181256519,
     "q_lat_alt_plane": 0.012480600132706037,
-    "q_lat_plane_rel_diff": 6.249697863168421e-05
+    "q_lat_plane_rel_diff": 6.249697863168421e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1080,6 +1140,17 @@
     "Xi_hat_over_Xi_field": 0.11094382109796573,
     "c_hat_minus_c_coupon": 0.03591897146113354,
     "c_hat_minus_c_field": 0.16615379648389428,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.172098774531834,
     "network_coupon_R": 1.2062034348304043,
     "network_coupon_R_residual": -0.07242187229988173,
@@ -1088,7 +1159,9 @@
     "network_field_R": 1.1007741393291872,
     "network_field_R_residual": 0.03300742320133532,
     "network_field_s": 0.357850423533087,
-    "network_field_s_residual": 0.021307573754777154
+    "network_field_s_residual": 0.021307573754777154,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1153,7 +1226,9 @@
     "q2_blocked": 0.026324931088077312,
     "q_lat": 0.014352745671777587,
     "q_lat_alt_plane": 0.014352600945804171,
-    "q_lat_plane_rel_diff": 1.0083504349984915e-05
+    "q_lat_plane_rel_diff": 1.0083504349984915e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1189,6 +1264,17 @@
     "Xi_hat_over_Xi_field": 0.5929257380789684,
     "c_hat_minus_c_coupon": -0.09730218085278558,
     "c_hat_minus_c_field": 0.034231409606416296,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.7540766714216645,
     "network_coupon_R": 1.0299391511155578,
     "network_coupon_R_residual": -0.009066958457768282,
@@ -1197,7 +1283,9 @@
     "network_field_R": 1.0255054408671729,
     "network_field_R_residual": -0.004633248209383378,
     "network_field_s": 0.4613012304331565,
-    "network_field_s_residual": 0.009979113052536848
+    "network_field_s_residual": 0.009979113052536848,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1262,7 +1350,9 @@
     "q2_blocked": 0.13221990923362953,
     "q_lat": 0.015478561210990649,
     "q_lat_alt_plane": 0.015474860479488742,
-    "q_lat_plane_rel_diff": 0.00023908756450042486
+    "q_lat_plane_rel_diff": 0.00023908756450042486,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1298,6 +1388,17 @@
     "Xi_hat_over_Xi_field": 0.4329429267772959,
     "c_hat_minus_c_coupon": -0.09491520952566207,
     "c_hat_minus_c_field": 0.0367224171511098,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.2077512424119443,
     "network_coupon_R": 1.0803787807351841,
     "network_coupon_R_residual": -0.032576300776435474,
@@ -1306,7 +1407,9 @@
     "network_field_R": 1.060703551670144,
     "network_field_R_residual": -0.012901071711395318,
     "network_field_s": 0.4109905760576923,
-    "network_field_s_residual": 0.025351728015278185
+    "network_field_s_residual": 0.025351728015278185,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1371,7 +1474,9 @@
     "q2_blocked": 0.13221990923362953,
     "q_lat": 0.03520775828726446,
     "q_lat_alt_plane": 0.03520319199620531,
-    "q_lat_plane_rel_diff": 0.00012969559214467806
+    "q_lat_plane_rel_diff": 0.00012969559214467806,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1407,6 +1512,17 @@
     "Xi_hat_over_Xi_field": 0.25240216626942324,
     "c_hat_minus_c_coupon": -0.06016975394696722,
     "c_hat_minus_c_field": 0.07145688138954231,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.986203802424497,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06029954554574202,
@@ -1415,7 +1531,9 @@
     "network_field_R": 1.086188232341051,
     "network_field_R_residual": -0.008224069275918788,
     "network_field_s": 0.3766116378630116,
-    "network_field_s_residual": 0.031390345881264325
+    "network_field_s_residual": 0.031390345881264325,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1480,7 +1598,9 @@
     "q2_blocked": 0.13221990923362953,
     "q_lat": 0.05229279509368162,
     "q_lat_alt_plane": 0.052290114581870925,
-    "q_lat_plane_rel_diff": 5.12596774736149e-05
+    "q_lat_plane_rel_diff": 5.12596774736149e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1516,6 +1636,17 @@
     "Xi_hat_over_Xi_field": 0.2070664136783765,
     "c_hat_minus_c_coupon": -0.0028338845028780812,
     "c_hat_minus_c_field": 0.12870146976979852,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.2718345285290282,
     "network_coupon_R": 1.1642968932769637,
     "network_coupon_R_residual": -0.058790832502005896,
@@ -1524,7 +1655,9 @@
     "network_field_R": 1.08936398468604,
     "network_field_R_residual": 0.016142076088917934,
     "network_field_s": 0.372475266368296,
-    "network_field_s_residual": 0.021581927167529324
+    "network_field_s_residual": 0.021581927167529324,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1589,7 +1722,9 @@
     "q2_blocked": 0.13221990923362953,
     "q_lat": 0.06169215756333273,
     "q_lat_alt_plane": 0.06168846584627524,
-    "q_lat_plane_rel_diff": 5.984094580741473e-05
+    "q_lat_plane_rel_diff": 5.984094580741473e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1625,6 +1760,17 @@
     "Xi_hat_over_Xi_field": 0.10579289897103038,
     "c_hat_minus_c_coupon": 0.03089835273295022,
     "c_hat_minus_c_field": 0.16224509408140264,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.240685300734966,
     "network_coupon_R": 1.207561952576119,
     "network_coupon_R_residual": -0.07625534359284059,
@@ -1633,7 +1779,9 @@
     "network_field_R": 1.1013682105318872,
     "network_field_R_residual": 0.029938398451391235,
     "network_field_s": 0.35701205401771124,
-    "network_field_s_residual": 0.02312167940726434
+    "network_field_s_residual": 0.02312167940726434,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1698,7 +1846,9 @@
     "q2_blocked": 0.13221990923362953,
     "q_lat": 0.07135551967194861,
     "q_lat_alt_plane": 0.07135491419474913,
-    "q_lat_plane_rel_diff": 8.485358978151032e-06
+    "q_lat_plane_rel_diff": 8.485358978151032e-06,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1734,15 +1884,28 @@
     "Xi_hat_over_Xi_field": 0.6087756646719769,
     "c_hat_minus_c_coupon": -0.8119047328207671,
     "c_hat_minus_c_field": -0.03766799697445383,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.64114171668749,
+      62.6884218383087,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.7160174054919692,
     "network_coupon_R": 1.0315960776429234,
     "network_coupon_R_residual": -0.009363240761772085,
-    "network_coupon_s": 0.4661419258479835,
-    "network_coupon_s_residual": 0.06409903002512779,
+    "network_coupon_s": 0.5338580741520165,
+    "network_coupon_s_residual": -0.003617118278905207,
     "network_field_R": 1.025933516903628,
     "network_field_R_residual": -0.00370068002247681,
     "network_field_s": 0.5392947511389996,
-    "network_field_s_residual": -0.009053795265888342
+    "network_field_s_residual": -0.009053795265888342,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1807,7 +1970,9 @@
     "q2_blocked": 0.026321471319948164,
     "q_lat": -0.0032497281194811575,
     "q_lat_alt_plane": -0.003250539257303697,
-    "q_lat_plane_rel_diff": 0.0002496017490437867
+    "q_lat_plane_rel_diff": 0.0002496017490437867,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1843,15 +2008,28 @@
     "Xi_hat_over_Xi_field": 0.4447976842568334,
     "c_hat_minus_c_coupon": -0.8145679616531499,
     "c_hat_minus_c_field": -0.04044035185811529,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.64114171668749,
+      62.6884218383087,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.1687788178868215,
     "network_coupon_R": 1.0822972175712398,
     "network_coupon_R_residual": -0.03270909553611556,
-    "network_coupon_s": 0.41594232530743963,
-    "network_coupon_s_residual": 0.14926623965657054,
+    "network_coupon_s": 0.5840576746925604,
+    "network_coupon_s_residual": -0.01884910972855025,
     "network_field_R": 1.0604768132154991,
     "network_field_R_residual": -0.010888691180374943,
     "network_field_s": 0.5886391125647832,
-    "network_field_s_residual": -0.02343054760077301
+    "network_field_s_residual": -0.02343054760077301,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -1916,7 +2094,9 @@
     "q2_blocked": 0.026321471319948164,
     "q_lat": -0.007191713133839348,
     "q_lat_alt_plane": -0.007192661751058538,
-    "q_lat_plane_rel_diff": 0.0001319042071806251
+    "q_lat_plane_rel_diff": 0.0001319042071806251,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -1952,15 +2132,28 @@
     "Xi_hat_over_Xi_field": 0.2609387768858131,
     "c_hat_minus_c_coupon": -0.8498403553885561,
     "c_hat_minus_c_field": -0.07570057626078075,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.64114171668749,
+      62.6884218383087,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9382167426678805,
     "network_coupon_R": 1.138929065652192,
     "network_coupon_R_residual": -0.05898205597584627,
-    "network_coupon_s": 0.365154890529508,
-    "network_coupon_s_residual": 0.22795457995474577,
+    "network_coupon_s": 0.634845109470492,
+    "network_coupon_s_residual": -0.04173563898623822,
     "network_field_R": 1.0854718920946889,
     "network_field_R_residual": -0.005524882418343147,
     "network_field_s": 0.6223718453009313,
-    "network_field_s_residual": -0.029262374816677483
+    "network_field_s_residual": -0.029262374816677483,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2025,7 +2218,9 @@
     "q2_blocked": 0.026321471319948164,
     "q_lat": -0.010555111633478255,
     "q_lat_alt_plane": -0.010555659819363045,
-    "q_lat_plane_rel_diff": 5.193558380292328e-05
+    "q_lat_plane_rel_diff": 5.193558380292328e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2061,15 +2256,28 @@
     "Xi_hat_over_Xi_field": 0.2118059894281614,
     "c_hat_minus_c_coupon": -0.906676286215528,
     "c_hat_minus_c_field": -0.13251828734988408,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.64114171668749,
+      62.6884218383087,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.239184708597096,
     "network_coupon_R": 1.165826658045995,
     "network_coupon_R_residual": -0.05766362391927182,
-    "network_coupon_s": 0.3427614145378321,
-    "network_coupon_s_residual": 0.2646459802979276,
+    "network_coupon_s": 0.657238585462168,
+    "network_coupon_s_residual": -0.049831190626408284,
     "network_field_R": 1.0890426688042016,
     "network_field_R_residual": 0.019120365322521593,
     "network_field_s": 0.6270572394607363,
-    "network_field_s_residual": -0.019649844624976653
+    "network_field_s_residual": -0.019649844624976653,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2134,7 +2342,9 @@
     "q2_blocked": 0.026321471319948164,
     "q_lat": -0.012480600132706543,
     "q_lat_alt_plane": -0.012481380181256408,
-    "q_lat_plane_rel_diff": 6.250088469865852e-05
+    "q_lat_plane_rel_diff": 6.250088469865852e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2170,15 +2380,28 @@
     "Xi_hat_over_Xi_field": 0.11094493981164265,
     "c_hat_minus_c_coupon": -0.9405286674605292,
     "c_hat_minus_c_field": -0.1661183131957238,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      23.64114171668749,
+      62.6884218383087,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.1720842270381504,
     "network_coupon_R": 1.2062034348304043,
     "network_coupon_R_residual": -0.07242187229987196,
-    "network_coupon_s": 0.31102076090348824,
-    "network_coupon_s_residual": 0.3098212418086463,
+    "network_coupon_s": 0.6889792390965118,
+    "network_coupon_s_residual": -0.0681372363843773,
     "network_field_R": 1.1007740078694603,
     "network_field_R_residual": 0.03300755466107197,
     "network_field_s": 0.6421494080480981,
-    "network_field_s_residual": -0.021307405335963536
+    "network_field_s_residual": -0.021307405335963536,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2243,7 +2466,9 @@
     "q2_blocked": 0.026321471319948164,
     "q_lat": -0.014352600945804274,
     "q_lat_alt_plane": -0.01435274567177789,
-    "q_lat_plane_rel_diff": 1.0083606042090401e-05
+    "q_lat_plane_rel_diff": 1.0083606042090401e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2279,15 +2504,28 @@
     "Xi_hat_over_Xi_field": 0.5930675331507537,
     "c_hat_minus_c_coupon": -0.8091996664627329,
     "c_hat_minus_c_field": -0.03410925179163199,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 0.7537316997378881,
     "network_coupon_R": 1.0299391511155578,
     "network_coupon_R_residual": -0.009066958457762064,
-    "network_coupon_s": 0.46793293430104066,
-    "network_coupon_s_residual": 0.0607867222132652,
+    "network_coupon_s": 0.5320670656989593,
+    "network_coupon_s_residual": -0.0033474091846534826,
     "network_field_R": 1.0255006891841356,
     "network_field_R_residual": -0.004628496526339898,
     "network_field_s": 0.5386917485696038,
-    "network_field_s_residual": -0.00997209205529792
+    "network_field_s_residual": -0.00997209205529792,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2352,7 +2590,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.015474860479488737,
     "q_lat_alt_plane": -0.015478561210991053,
-    "q_lat_plane_rel_diff": 0.00023914474106057735
+    "q_lat_plane_rel_diff": 0.00023914474106057735,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2388,15 +2628,28 @@
     "Xi_hat_over_Xi_field": 0.4329990848501751,
     "c_hat_minus_c_coupon": -0.8115866377896586,
     "c_hat_minus_c_field": -0.03659900281359518,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.2075641190889632,
     "network_coupon_R": 1.0803787807351841,
     "network_coupon_R_residual": -0.032576300776443246,
-    "network_coupon_s": 0.4179276866693274,
-    "network_coupon_s_residual": 0.14573000925770724,
+    "network_coupon_s": 0.5820723133306726,
+    "network_coupon_s_residual": -0.018414617403637923,
     "network_field_R": 1.0606998192042139,
     "network_field_R_residual": -0.012897339245472983,
     "network_field_s": 0.589004267211451,
-    "network_field_s_residual": -0.02534657128441642
+    "network_field_s_residual": -0.02534657128441642,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2461,7 +2714,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.035203191996205495,
     "q_lat_alt_plane": -0.03520775828726514,
-    "q_lat_plane_rel_diff": 0.00012971241528717952
+    "q_lat_plane_rel_diff": 0.00012971241528717952,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2497,15 +2752,28 @@
     "Xi_hat_over_Xi_field": 0.2524151049862193,
     "c_hat_minus_c_coupon": -0.846332093368493,
     "c_hat_minus_c_field": -0.07133376181370599,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9861298484469923,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06029954554573025,
-    "network_coupon_s": 0.3660025237522813,
-    "network_coupon_s_residual": 0.2259954925034427,
+    "network_coupon_s": 0.6339974762477186,
+    "network_coupon_s_residual": -0.041999459991994614,
     "network_field_R": 1.0861871132011007,
     "network_field_R_residual": -0.008222950135956753,
     "network_field_s": 0.6233868877038475,
-    "network_field_s_residual": -0.03138887144812352
+    "network_field_s_residual": -0.03138887144812352,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2570,7 +2838,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.052290114581870065,
     "q_lat_alt_plane": -0.05229279509368089,
-    "q_lat_plane_rel_diff": 5.126230516536624e-05
+    "q_lat_plane_rel_diff": 5.126230516536624e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2606,15 +2876,28 @@
     "Xi_hat_over_Xi_field": 0.20707880547014784,
     "c_hat_minus_c_coupon": -0.9036679628124055,
     "c_hat_minus_c_field": -0.12858421279921334,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.2717481937087047,
     "network_coupon_R": 1.1642968932769637,
     "network_coupon_R_residual": -0.05879083250203654,
-    "network_coupon_s": 0.3443328697237794,
-    "network_coupon_s_residual": 0.261609936740396,
+    "network_coupon_s": 0.6556671302762206,
+    "network_coupon_s_residual": -0.04972432381204517,
     "network_field_R": 1.0893627746441492,
     "network_field_R_residual": 0.01614328613077798,
     "network_field_s": 0.6275231491590498,
-    "network_field_s_residual": -0.02158034269487441
+    "network_field_s_residual": -0.02158034269487441,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2679,7 +2962,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.06168846584627541,
     "q_lat_alt_plane": -0.06169215756333364,
-    "q_lat_plane_rel_diff": 5.984452697254495e-05
+    "q_lat_plane_rel_diff": 5.984452697254495e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2715,15 +3000,28 @@
     "Xi_hat_over_Xi_field": 0.10579379666942933,
     "c_hat_minus_c_coupon": -0.9374002000483478,
     "c_hat_minus_c_field": -0.162125006359493,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 3.2406730588969386,
     "network_coupon_R": 1.207561952576119,
     "network_coupon_R_residual": -0.0762553435928437,
-    "network_coupon_s": 0.31038633481860606,
-    "network_coupon_s_residual": 0.3094799317564177,
+    "network_coupon_s": 0.6896136651813939,
+    "network_coupon_s_residual": -0.06974739860637014,
     "network_field_R": 1.101368104315144,
     "network_field_R_residual": 0.029938504668131305,
     "network_field_s": 0.6429878099938433,
-    "network_field_s_residual": -0.023121543418819557
+    "network_field_s_residual": -0.023121543418819557,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -2788,7 +3086,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.0713549141947494,
     "q_lat_alt_plane": -0.07135551967194746,
-    "q_lat_plane_rel_diff": 8.485430960046523e-06
+    "q_lat_plane_rel_diff": 8.485430960046523e-06,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -2819,20 +3119,33 @@
     "steps_blocked": 2000
    },
    "comparison": {
-    "Xi_coupon_over_Xi_field": 1.5083932343406817e-08,
+    "Xi_coupon_over_Xi_field": null,
     "Xi_hat_over_Xi_coupon": null,
     "Xi_hat_over_Xi_field": null,
-    "c_hat_minus_c_coupon": -7924287141223.378,
-    "c_hat_minus_c_field": -7924287141223.248,
+    "axial_widening_artifact_R_minus_1": 0.014277334585863999,
+    "c_hat_minus_c_coupon": null,
+    "c_hat_minus_c_field": null,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      62.6884218383087,
+      23.64114171668749
+     ],
+     "swapped": false,
+     "variant": "identical"
+    },
+    "identical_path_network_predicts_R_one": true,
+    "identical_path_network_predicts_s_half": true,
+    "inference_status": "nonphysical_contrast",
     "log2_factor_error_field": null,
-    "network_coupon_R": 1.138929065652192,
-    "network_coupon_R_residual": -0.12465173106632799,
-    "network_coupon_s": 0.365154890529508,
-    "network_coupon_s_residual": 0.13484510947049289,
-    "network_field_R": 1.0000000017972301,
-    "network_field_R_residual": 0.014277332788633856,
-    "network_field_s": 0.5000000000000003,
-    "network_field_s_residual": 5.551115123125783e-16
+    "network_coupon_R": 1.0,
+    "network_coupon_R_residual": 0.014277334585863999,
+    "network_coupon_s": 0.5,
+    "network_coupon_s_residual": 8.881784197001252e-16,
+    "not_emitted_because": "truth_status=STRUCTURALLY_DEGENERATE_NO_INFORMATION, inference.status=nonphysical_contrast \u2014 quantitative c/Xi comparisons are suppressed so a round-off-amplified or nonphysical value cannot enter an error statistic.",
+    "quantitative_comparison_emitted": false,
+    "truth_status": "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
    },
    "g": 2e-05,
    "inference": {
@@ -2859,11 +3172,11 @@
     "A1_field": 54.65583646023661,
     "A2_field": 54.65583646023654,
     "G_bridge_coupon": 50.705592735978406,
-    "G_lat_field": 2128228663.0092926,
+    "G_lat_field": null,
     "X_cross_product": 0.0,
     "X_normalised": 0.0,
     "Xi_coupon": 1.1746982296204114,
-    "Xi_field": 77877452.83370166,
+    "Xi_field": null,
     "a_coupon": 62.6884218383087,
     "b_coupon": 23.64114171668749,
     "blocked_share": 0.5000000000000002,
@@ -2897,7 +3210,17 @@
     "q2_blocked": 0.0263367401917388,
     "q_lat": -1.1814042316700649e-07,
     "q_lat_alt_plane": 1.1814042310459456e-07,
-    "q_lat_plane_rel_diff": 1.999999999471714
+    "q_lat_plane_rel_diff": 1.999999999471714,
+    "quantitative_truth_available": false,
+    "raw_roundoff_amplified_quotient": {
+     "G_lat_field_raw": 2128228663.0092926,
+     "Xi_field_raw": 77877452.83370166,
+     "evidence_use": "NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH",
+     "p_face_gap_open": -5.551115123125783e-17,
+     "q_lat": -1.1814042316700649e-07,
+     "why": "X = 0 exactly, so no uncoupled mid-node pressure gap drives the bridge; the measured gap and lateral flux are at round-off/residual scale and their quotient is meaningless as a conductance."
+    },
+    "truth_status": "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
    },
    "variant": "identical"
   },
@@ -2933,6 +3256,17 @@
     "Xi_hat_over_Xi_field": 0.2610292374193419,
     "c_hat_minus_c_coupon": -0.05479766817210491,
     "c_hat_minus_c_field": 0.07569962427355459,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.937716685343109,
     "network_coupon_R": 1.138929065652192,
     "network_coupon_R_residual": -0.05897389551203758,
@@ -2941,7 +3275,9 @@
     "network_field_R": 1.0854746709602336,
     "network_field_R_residual": -0.005519500820079237,
     "network_field_s": 0.37764053955092947,
-    "network_field_s_residual": 0.02923455370953676
+    "network_field_s_residual": 0.02923455370953676,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 1e-05,
    "inference": {
@@ -3006,7 +3342,9 @@
     "q2_blocked": 0.013160892794209164,
     "q_lat": 0.005277761286010922,
     "q_lat_alt_plane": 0.005277624239556713,
-    "q_lat_plane_rel_diff": 2.5966777726862022e-05
+    "q_lat_plane_rel_diff": 2.5966777726862022e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3042,6 +3380,17 @@
     "Xi_hat_over_Xi_field": 0.26071739800994814,
     "c_hat_minus_c_coupon": -0.05471268357004255,
     "c_hat_minus_c_field": 0.07581172656552343,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      62.6884218383087,
+      23.64114171668749,
+      23.64114171668749,
+      62.6884218383087
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9394412358912372,
     "network_coupon_R": 1.138929065652192,
     "network_coupon_R_residual": -0.05899838594639717,
@@ -3050,7 +3399,9 @@
     "network_field_R": 1.08546984440302,
     "network_field_R_residual": -0.005539164697225152,
     "network_field_s": 0.37759879804187335,
-    "network_field_s_residual": 0.029322607984645088
+    "network_field_s_residual": 0.029322607984645088,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 4e-05,
    "inference": {
@@ -3115,7 +3466,9 @@
     "q2_blocked": 0.05266244575911391,
     "q_lat": 0.021111869431753298,
     "q_lat_alt_plane": 0.02110967668718692,
-    "q_lat_plane_rel_diff": 0.00010386311707104727
+    "q_lat_plane_rel_diff": 0.00010386311707104727,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3151,6 +3504,17 @@
     "Xi_hat_over_Xi_field": 0.25256536075481656,
     "c_hat_minus_c_coupon": -0.06021554387247291,
     "c_hat_minus_c_field": 0.07138054064112115,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9852713072822388,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06028677064591692,
@@ -3159,7 +3523,9 @@
     "network_field_R": 1.0861907182475952,
     "network_field_R_residual": -0.008213780282637861,
     "network_field_s": 0.3766355449489294,
-    "network_field_s_residual": 0.03134173509016952
+    "network_field_s_residual": 0.03134173509016952,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 1e-05,
    "inference": {
@@ -3224,7 +3590,9 @@
     "q2_blocked": 0.06609785318835959,
     "q_lat": 0.026146065161328044,
     "q_lat_alt_plane": 0.02614539503382022,
-    "q_lat_plane_rel_diff": 2.5630147545724665e-05
+    "q_lat_plane_rel_diff": 2.5630147545724665e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3260,6 +3628,17 @@
     "Xi_hat_over_Xi_field": 0.25207663822836984,
     "c_hat_minus_c_coupon": -0.060078268154042325,
     "c_hat_minus_c_field": 0.07160901266673425,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9880656755160664,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06032514811653056,
@@ -3268,7 +3647,9 @@
     "network_field_R": 1.0861834969423616,
     "network_field_R_residual": -0.008244936448017937,
     "network_field_s": 0.3765637632046061,
-    "network_field_s_residual": 0.031487647440818556
+    "network_field_s_residual": 0.031487647440818556,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 4e-05,
    "inference": {
@@ -3333,7 +3714,9 @@
     "q2_blocked": 0.26453659351648495,
     "q_lat": 0.10458822785211092,
     "q_lat_alt_plane": 0.10457750577629889,
-    "q_lat_plane_rel_diff": 0.00010251704261773274
+    "q_lat_plane_rel_diff": 0.00010251704261773274,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3369,6 +3752,17 @@
     "Xi_hat_over_Xi_field": 0.2661197486025024,
     "c_hat_minus_c_coupon": -0.06352179255242185,
     "c_hat_minus_c_field": 0.06439816073486332,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9098525189364368,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.05947260540386701,
@@ -3377,7 +3771,9 @@
     "network_field_R": 1.0873203801868025,
     "network_field_R_residual": -0.00852927697979533,
     "network_field_s": 0.3748662773021648,
-    "network_field_s_residual": 0.031432132717744365
+    "network_field_s_residual": 0.031432132717744365,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3442,7 +3838,9 @@
     "q2_blocked": 0.13221983093466202,
     "q_lat": 0.05255407749207981,
     "q_lat_alt_plane": 0.05255135605112613,
-    "q_lat_plane_rel_diff": 5.178363094834313e-05
+    "q_lat_plane_rel_diff": 5.178363094834313e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3478,15 +3876,28 @@
     "Xi_hat_over_Xi_field": 0.24696732344945027,
     "c_hat_minus_c_coupon": -0.8473700474687956,
     "c_hat_minus_c_field": -0.07440729770921284,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 2.0176079252070513,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06072405051632579,
-    "network_coupon_s": 0.3660025237522813,
-    "network_coupon_s_residual": 0.22528955881519502,
+    "network_coupon_s": 0.6339974762477186,
+    "network_coupon_s_residual": -0.04270539368024229,
     "network_field_R": 1.0856095960360006,
     "network_field_R_residual": -0.008069937941452165,
     "network_field_s": 0.6225504703952898,
-    "network_field_s_residual": -0.03125838782781343
+    "network_field_s_residual": -0.03125838782781343,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3551,7 +3962,9 @@
     "q2_blocked": 0.13219286466987062,
     "q_lat": -0.05208272481401641,
     "q_lat_alt_plane": -0.05208537601572869,
-    "q_lat_plane_rel_diff": 5.0903667612483e-05
+    "q_lat_plane_rel_diff": 5.0903667612483e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3587,6 +4000,17 @@
     "Xi_hat_over_Xi_field": 0.26883495848261146,
     "c_hat_minus_c_coupon": -0.06968170248712036,
     "c_hat_minus_c_field": 0.06897883256185483,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      210.97505463811592,
+      79.37405328759674,
+      79.37405328759674,
+      210.97505463811592
+     ],
+     "swapped": false,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.895207340884572,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.0617736158781963,
@@ -3595,7 +4019,9 @@
     "network_field_R": 1.0842041191431564,
     "network_field_R_residual": -0.0077140264104784695,
     "network_field_s": 0.37627924424998527,
-    "network_field_s_residual": 0.031097209680474858
+    "network_field_s_residual": 0.031097209680474858,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3660,7 +4086,9 @@
     "q2_blocked": 0.13221869068579084,
     "q_lat": 0.051575684681082236,
     "q_lat_alt_plane": 0.05157310478354052,
-    "q_lat_plane_rel_diff": 5.002158590176525e-05
+    "q_lat_plane_rel_diff": 5.002158590176525e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   },
@@ -3696,15 +4124,28 @@
     "Xi_hat_over_Xi_field": 0.2524151049862193,
     "c_hat_minus_c_coupon": -0.846332093368493,
     "c_hat_minus_c_field": -0.07133376181370599,
+    "coupon_network_geometry": {
+     "conductance_order": [
+      79.37405328759674,
+      210.97505463811592,
+      210.97505463811592,
+      79.37405328759674
+     ],
+     "swapped": true,
+     "variant": "mirror"
+    },
+    "inference_status": "ok",
     "log2_factor_error_field": 1.9861298484469923,
     "network_coupon_R": 1.1382637086108742,
     "network_coupon_R_residual": -0.06029954554573025,
-    "network_coupon_s": 0.3660025237522813,
-    "network_coupon_s_residual": 0.2259954925034427,
+    "network_coupon_s": 0.6339974762477186,
+    "network_coupon_s_residual": -0.041999459991994614,
     "network_field_R": 1.0861871132011007,
     "network_field_R_residual": -0.008222950135956753,
     "network_field_s": 0.6233868877038475,
-    "network_field_s_residual": -0.03138887144812352
+    "network_field_s_residual": -0.03138887144812352,
+    "quantitative_comparison_emitted": true,
+    "truth_status": "QUANTITATIVE"
    },
    "g": 2e-05,
    "inference": {
@@ -3769,7 +4210,9 @@
     "q2_blocked": 0.13219273659122965,
     "q_lat": -0.052290114581870065,
     "q_lat_alt_plane": -0.05229279509368089,
-    "q_lat_plane_rel_diff": 5.126230516536624e-05
+    "q_lat_plane_rel_diff": 5.126230516536624e-05,
+    "quantitative_truth_available": true,
+    "truth_status": "QUANTITATIVE"
    },
    "variant": "mirror"
   }
@@ -4084,6 +4527,112 @@
   "determinism": {
    "note": "the kernel and every derived quantity are deterministic float operations with no RNG; re-running an identical configuration on identical hardware reproduces the record bit-for-bit."
   },
+  "fixed_lattice_forcing_resolution_comparison": {
+   "classification_by_resolution": {
+    "2": "not_recovered",
+    "3": "not_recovered"
+   },
+   "n_pairs": 5,
+   "note": "S=2 and S=3 were run at the SAME lattice g and nu with all lengths proportional to S, so they are NOT the same dimensionless problem: u ~ g L^2 / nu and Re ~ g L^3 / nu^2, giving Re(S=3)/Re(S=2) = (3/2)^3 = 3.375. These rows compare two different Reynolds numbers and are a DIAGNOSTIC, not a grid-convergence result. See PROTOCOL.md erratum E5.",
+   "pairs": [
+    {
+     "R_coarse": 1.0222328368810871,
+     "R_fine": 1.0208721926577895,
+     "R_rel_change": -0.001331051179542464,
+     "Xi_field_coarse": 0.28926549034836246,
+     "Xi_field_fine": 0.2834096178576494,
+     "Xi_field_rel_change": -0.020243937441901005,
+     "Xi_hat_coarse": 0.17605384780588884,
+     "Xi_hat_fine": 0.16804085684692516,
+     "aperture": {
+      "kx": 3,
+      "kz": 2
+     },
+     "c_field_coarse": 0.32189576255924474,
+     "c_field_fine": 0.3217173331985006,
+     "s_coarse": 0.46975904412688946,
+     "s_fine": 0.47128034348569336
+    },
+    {
+     "R_coarse": 1.0495881220350667,
+     "R_fine": 1.0478024799587486,
+     "R_rel_change": -0.0017012788529426892,
+     "Xi_field_coarse": 1.0988346856271292,
+     "Xi_field_fine": 1.1094687248033073,
+     "Xi_field_rel_change": 0.009677560524137485,
+     "Xi_hat_coarse": 0.4886946626671296,
+     "Xi_hat_fine": 0.4803366368842181,
+     "aperture": {
+      "kx": 3,
+      "kz": 4
+     },
+     "c_field_coarse": 0.32178621860694223,
+     "c_field_fine": 0.3216132969809306,
+     "s_coarse": 0.4347914350359858,
+     "s_fine": 0.4363423040729705
+    },
+    {
+     "R_coarse": 1.0799470096763877,
+     "R_fine": 1.0779641630651322,
+     "R_rel_change": -0.0018360591709492002,
+     "Xi_field_coarse": 2.8436002670968556,
+     "Xi_field_fine": 2.9478084022562094,
+     "Xi_field_rel_change": 0.036646548519895905,
+     "Xi_hat_coarse": 0.7419670411563162,
+     "Xi_hat_fine": 0.7440332264766747,
+     "aperture": {
+      "kx": 5,
+      "kz": 4
+     },
+     "c_field_coarse": 0.3217984877271978,
+     "c_field_fine": 0.32162428832119294,
+     "s_coarse": 0.40689052951574284,
+     "s_fine": 0.40800198374427593
+    },
+    {
+     "R_coarse": 1.1081630341267255,
+     "R_fine": 1.1055060607749578,
+     "R_rel_change": -0.0023976375947799555,
+     "Xi_field_coarse": 3.3598298883525355,
+     "Xi_field_fine": 3.4195767450407306,
+     "Xi_field_rel_change": 0.017782702896750324,
+     "Xi_hat_coarse": 0.7115876189574173,
+     "Xi_hat_fine": 0.7080794928935601,
+     "aperture": {
+      "kx": 9,
+      "kz": 3
+     },
+     "c_field_coarse": 0.3218186597863797,
+     "c_field_fine": 0.3217155693850259,
+     "s_coarse": 0.39259260516422817,
+     "s_fine": 0.3940571935358253
+    },
+    {
+     "R_coarse": 1.1337815625305225,
+     "R_fine": 1.1313066089832784,
+     "R_rel_change": -0.002182919205107048,
+     "Xi_field_coarse": 6.72986025457592,
+     "Xi_field_fine": 7.098083961453761,
+     "Xi_field_rel_change": 0.05471491129811645,
+     "Xi_hat_coarse": 0.7466364120979809,
+     "Xi_hat_fine": 0.7509268794219688,
+     "aperture": {
+      "kx": 9,
+      "kz": 4
+     },
+     "c_field_coarse": 0.32207002297691867,
+     "c_field_fine": 0.32190418230925005,
+     "s_coarse": 0.37915799728786415,
+     "s_fine": 0.3801337334249756
+    }
+   ],
+   "pass": null,
+   "resolutions": [
+    2,
+    3
+   ],
+   "status": "EVALUATED_DIAGNOSTIC"
+  },
   "frozen_C_linearity_control": {
    "conductance_spread_by_resolution": {
     "2": 0.00025996302660535875,
@@ -4094,12 +4643,31 @@
    "tol_linearity_rel": 0.0001,
    "verdict": "FAIL"
   },
+  "frozen_volume_flux_uniformity_control": {
+   "arm_a_by_resolution": {
+    "2": 0.0006576623032850762,
+    "3": 0.0010283579352385575
+   },
+   "expected_effect_of_lower_forcing": "Lower forcing is EXPECTED to reduce the volume-versus-mass-flux proxy discrepancy, because a smaller total pressure drop means a smaller density variation. It does not evaluate mass conservation. Actual mass flux must be MEASURED in the next execution.",
+   "measured_quantity": "sum(u_x) over the fluid nodes of each plane",
+   "note": "HISTORICAL FROZEN PROXY, PRESERVED EXACTLY. This is a volume-flux uniformity check, not a mass-conservation check. Its verdict stands as measured and is not relabelled.",
+   "pass": false,
+   "specification_note": "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME flux integral of u_x. In a weakly compressible solver the conserved quantity is the MASS flux integral of rho*u_x, so a residual of order the fractional density variation along the fixture is expected and is NOT a violation of the solver's own conservation. The observed magnitude is consistent with that: the density drop implied by the measured node pressures is ~5e-4 at S=2 and larger at S=3, where the domain and hence the total pressure drop are larger. The stored records contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the mass flux is a change for the NEXT protocol, not a repair applicable here. The frozen verdict stands as measured. See PROTOCOL.md erratum E4.",
+   "status": "EVALUATED",
+   "tol_rel": 0.001,
+   "verdict": "FAIL",
+   "worst_plane_ptp_rel": 0.0022607374834961004
+  },
   "grid_refinement": {
-   "pass": true,
+   "not_evaluated_because": "DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE",
+   "pass": false,
    "resolutions": [
     2,
     3
-   ]
+   ],
+   "see": "fixed_lattice_forcing_resolution_comparison",
+   "statement": "Grid refinement was NOT evaluated: dynamic similarity was not held across the two resolutions, and no convergence tolerance was frozen for it. The existing paired rows are retained as fixed_lattice_forcing_resolution_comparison.",
+   "status": "NOT_EVALUATED"
   },
   "low_mach_linearity": {
    "max_mach": 0.0035080470562023694,
@@ -4108,16 +4676,12 @@
    "tol_mach": 0.03
   },
   "mass_conservation": {
-   "arm_a_by_resolution": {
-    "2": 0.0006576623032850762,
-    "3": 0.0010283579352385575
-   },
-   "measured_quantity": "VOLUME flux  sum(u_x) over the plane's fluid nodes",
+   "measured_quantity": "sum(rho * u_x) \u2014 NOT AVAILABLE in the retained record",
+   "not_evaluated_because": "MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES",
    "pass": false,
-   "remedy_shared_with_E2": "Reducing the forcing shrinks BOTH residuals through the same mechanism: a smaller g gives a smaller total pressure drop, hence a smaller density variation and a smaller volume-vs-mass flux discrepancy, AND a smaller Reynolds number. The two independent failures therefore have one remedy.",
-   "specification_note": "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME flux integral of u_x. In a weakly compressible solver the conserved quantity is the MASS flux integral of rho*u_x, so a residual of order the fractional density variation along the fixture is expected and is NOT a violation of the solver's own conservation. The observed magnitude is consistent with that: the density drop implied by the measured node pressures is ~5e-4 at S=2 and larger at S=3, where the domain and hence the total pressure drop are larger. The stored records contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the mass flux is a change for the NEXT protocol, not a repair applicable here. The frozen verdict stands as measured. See PROTOCOL.md erratum E4.",
-   "tol_rel": 0.001,
-   "worst_plane_ptp_rel": 0.0022607374834961004
+   "see": "frozen_volume_flux_uniformity_control",
+   "statement": "The frozen volume-flux proxy FAILED at S=3; actual mass conservation was NOT EVALUATED in this execution.",
+   "status": "NOT_EVALUATED"
   },
   "plane_invariance": {
    "pass": true,
@@ -5482,8 +6046,8 @@
  ],
  "provenance": {
   "all_stages_valid": true,
-  "assembly_commit": "76024482e93ba987030db19059ee5faea0e33816",
-  "assembly_tree": "9520afb117a485ea5c75df11315fe892e00ac775",
+  "assembly_commit": "61000a2f3f618604f9c8bd057c6b17ef406da28c",
+  "assembly_tree": "0b8212bdc0755f7f45ad80dd322de666f573ee6f",
   "protocol_freeze_commit": "06c1468d47edb1abd0496f1d7354d68f59986007",
   "stages": {
    "arm_a": {

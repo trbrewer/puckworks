@@ -312,9 +312,11 @@ def _synthetic_runs(xi_hat_factor=1.0, n_window=3, monotone=True, swap_ok=True, 
         "cases": cases, "path_swap": swaps,
         "controls": {k: dict(ok) for k in
                      ("convergence", "low_mach_linearity", "componentwise_creeping_flow_control",
-                      "boundary_inference_forcing_stability", "mass_conservation", "topology",
+                      "boundary_inference_forcing_stability",
+                      "frozen_volume_flux_uniformity_control", "mass_conservation", "topology",
                       "coarse_graining_surface_stability", "plane_invariance", "grid_refinement",
-                      "frozen_C_linearity_control", "backend_cross_check")},
+                      "frozen_C_linearity_control", "backend_cross_check",
+                      "fixed_lattice_forcing_resolution_comparison")},
         "mechanism": {"bridge_flux_consistent": True, "R_direction_consistent": True},
         "grid_refinement": {"classification_by_resolution":
                             {str(S): "factor_two_recovered" for S in vf.SCIENTIFIC_RESOLUTIONS}},
@@ -525,3 +527,122 @@ def test_execution_authorities_are_verified_not_asserted():
         assert "executed_symbols_changed_since_launch" in v
         assert v["rerun_required"] is not v["stage_valid_under_its_own_authority"]
     assert rep["assembly_commit"] and rep["protocol_freeze_commit"]
+
+
+# ==========================================================================================
+# assembly-only semantic normalisation (no executed symbol may change to achieve this)
+# ==========================================================================================
+def test_exact_zero_cross_product_never_yields_a_finite_scientific_xi_field():
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    t = {"X_cross_product": 0.0, "p_face_gap_open": -0.0, "q_lat": -1.1814e-07,
+         "G_lat_field": 1.2e8, "Xi_field": 7.79e7, "gap_sign_consistent": True}
+    out = drv._normalise_truth(dict(t))
+    assert out["truth_status"] == "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
+    assert out["quantitative_truth_available"] is False
+    assert out["Xi_field"] is None and out["G_lat_field"] is None
+
+
+def test_the_raw_roundoff_quotient_is_preserved_as_a_labelled_diagnostic():
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    out = drv._normalise_truth({"X_cross_product": 0.0, "p_face_gap_open": -0.0,
+                                "q_lat": -1.1814e-07, "G_lat_field": 1.2e8,
+                                "Xi_field": 7.79e7, "gap_sign_consistent": True})
+    raw = out["raw_roundoff_amplified_quotient"]
+    assert raw["Xi_field_raw"] == 7.79e7 and raw["G_lat_field_raw"] == 1.2e8
+    assert raw["evidence_use"] == "NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH"
+
+
+def test_a_nonzero_X_with_an_unresolved_gap_is_a_separate_status_not_degenerate():
+    """A finite tolerance must never be used to call a nonzero-X case structurally degenerate."""
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    out = drv._normalise_truth({"X_cross_product": 1e-30, "p_face_gap_open": 1e-18,
+                                "q_lat": -1e-18, "G_lat_field": 1.0, "Xi_field": 1.0,
+                                "gap_sign_consistent": False})
+    assert out["truth_status"] == "NUMERICALLY_UNRESOLVED"
+    assert out["Xi_field"] is None
+
+
+def test_no_quantitative_comparison_is_emitted_for_unusable_truth():
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    t = drv._normalise_truth({"X_cross_product": 0.0, "p_face_gap_open": -0.0, "q_lat": -1e-7,
+                              "G_lat_field": 1e8, "Xi_field": 7.8e7, "gap_sign_consistent": True,
+                              "c_field": 0.32, "a_coupon": 62.7, "b_coupon": 23.6,
+                              "c_coupon": 0.45, "G_bridge_coupon": 50.7})
+    cmp = drv._arm_f(t, {"status": "ok", "c_hat": 9.9, "Xi_hat": 3.3}, {"R": 1.0143, "s": 0.5},
+                     variant="identical")
+    assert cmp["quantitative_comparison_emitted"] is False
+    for k in ("c_hat_minus_c_field", "Xi_hat_over_Xi_field", "log2_factor_error_field"):
+        assert cmp[k] is None, k
+    assert "not_emitted_because" in cmp
+
+
+def test_identical_path_coupon_network_predicts_R_one_and_s_half_at_any_coupling():
+    a, b = 62.688421838309, 23.641141716687
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    assert drv.coupon_network_conductances(a, b, "identical", False) == (a, b, a, b)
+    for G in (1e-6, 0.5, 50.7, 1e6):
+        p = vf.network_prediction(a, b, a, b, G)
+        assert p["R"] == pytest.approx(1.0, abs=1e-12), G
+        assert p["s"] == pytest.approx(0.5, abs=1e-12), G
+
+
+def test_mirror_coupon_networks_have_the_correct_outlet_orientation():
+    a, b = 62.688421838309, 23.641141716687
+    from puckworks.validation.slow import rp_d_lc_001 as drv
+    assert drv.coupon_network_conductances(a, b, "mirror", False) == (a, b, b, a)
+    assert drv.coupon_network_conductances(a, b, "mirror", True) == (b, a, a, b)
+    nom = vf.network_prediction(a, b, b, a, 50.7)
+    swp = vf.network_prediction(b, a, a, b, 50.7)
+    assert nom["R"] == pytest.approx(swp["R"], rel=1e-12)      # R preserved under swap
+    assert nom["s"] < 0.5 < swp["s"]                            # outlet share reverses
+    assert (nom["s"] - 0.5) == pytest.approx(-(swp["s"] - 0.5), rel=1e-12)
+
+
+# ==========================================================================================
+# clauses 2-7 are counterfactual once execution validity fails
+# ==========================================================================================
+def test_invalid_execution_makes_downstream_clauses_non_adjudicative():
+    runs = _synthetic_runs()
+    runs["controls"]["componentwise_creeping_flow_control"] = {"pass": False}
+    d, cl = vf.decide(runs)
+    assert d == "INVALID_EXECUTION"
+    assert cl[0]["adjudicative"] is True and cl[0]["pass"] is False
+    for c in cl[1:]:
+        assert c["pass"] is None, c["clause"]
+        assert c["adjudicative"] is False
+        assert c["status"] == "DIAGNOSTIC_ONLY_NOT_REACHED"
+        assert "diagnostic_computed_pass" in c, c["clause"]
+        assert "detail" in c and c["detail"]           # numerical detail retained
+
+
+def test_a_true_downstream_diagnostic_cannot_change_the_disposition():
+    runs = _synthetic_runs()                            # all downstream clauses would pass
+    runs["controls"]["componentwise_creeping_flow_control"] = {"pass": False}
+    d, cl = vf.decide(runs)
+    assert d == "INVALID_EXECUTION"
+    assert any(c.get("diagnostic_computed_pass") is True for c in cl[1:])
+    assert all(c["pass"] is not True for c in cl[1:])
+
+
+def test_valid_execution_leaves_clauses_adjudicative():
+    d, cl = vf.decide(_synthetic_runs())
+    assert d == "CROSS_MODEL_RECOVERY"
+    assert all(c["adjudicative"] is True and c["status"] == "EVALUATED" for c in cl)
+
+
+def test_missing_measurement_and_downstream_non_evaluation_are_distinguished():
+    runs = _synthetic_runs()
+    runs["controls"]["componentwise_creeping_flow_control"] = {"pass": False}
+    runs["controls"]["mass_conservation"] = {
+        "pass": False, "status": "NOT_EVALUATED",
+        "not_evaluated_because": "MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES"}
+    runs["controls"]["coarse_graining_surface_stability"] = {
+        "pass": False, "status": "NOT_EVALUATED",
+        "not_evaluated_because": "NOT_RUN_UPSTREAM_EXECUTION_INVALID"}
+    d, cl = vf.decide(runs)
+    det = cl[0]["detail"]
+    assert d == "INVALID_EXECUTION"
+    assert "mass_conservation" in det["not_evaluated_missing_measurement"]
+    assert "coarse_graining_surface_stability" in det["not_evaluated_downstream"]
+    assert "mass_conservation" not in det["failed_on_evidence"]
+    assert det["primary_cause"] == "componentwise_creeping_flow_control"

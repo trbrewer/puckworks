@@ -1123,7 +1123,7 @@ def assemble(out_dir):
     topo_ok = all(t["mirror_exact"] and t["single_connected"] and t["no_lateral_bypass"]
                   for t in a["topology"])
     plane_ok = all(abs(r["boundary"]["s_plane_delta"]) <= vf.TOL_PLANE_REL for r in c["cases"])
-    grid_ok = len(c["grid_refinement"]["pairs"]) >= 3
+    # NOTE: a paired-row COUNT is not a convergence criterion; see grid_refinement.
     # ---- return-path probe: BOTH the frozen control and the quantity the adjudication claims --
     # The frozen control demanded that the two-terminal conductance C = Q/dP itself be invariant
     # to obstructing the return path. That is STRONGER than the adjudication's claim and it is
@@ -1215,14 +1215,19 @@ def assemble(out_dir):
                       "componentwise_creeping_flow_control."),
         },
         "coarse_graining_surface_stability": _node_sensitivity_summary(j),
-        "mass_conservation": {
-            "pass": mass_ok, "tol_rel": vf.TOL_MASS_REL,
+        "frozen_volume_flux_uniformity_control": {
+            "pass": mass_ok, "status": "EVALUATED",
+            "verdict": "FAIL" if not mass_ok else "PASS",
+            "measured_quantity": "sum(u_x) over the fluid nodes of each plane",
+            "note": ("HISTORICAL FROZEN PROXY, PRESERVED EXACTLY. This is a volume-flux "
+                     "uniformity check, not a mass-conservation check. Its verdict stands as "
+                     "measured and is not relabelled."),
+            "tol_rel": vf.TOL_MASS_REL,
             "worst_plane_ptp_rel": max(
                 [r["plane_ptp_rel"] for r in a["mass_conservation"]]
                 + [r["numerics"]["plane_flux_ptp_rel"] for r in c["cases"]]),
             "arm_a_by_resolution": {str(r["S"]): r["plane_ptp_rel"]
                                     for r in a["mass_conservation"]},
-            "measured_quantity": "VOLUME flux  sum(u_x) over the plane's fluid nodes",
             "specification_note": (
                 "REPORTED, NOT USED TO SOFTEN THE VERDICT. The frozen control measures the VOLUME "
                 "flux integral of u_x. In a weakly compressible solver the conserved quantity is "
@@ -1234,11 +1239,23 @@ def assemble(out_dir):
                 "contain only u_x sums, so rho*u_x cannot be recomputed from them; measuring the "
                 "mass flux is a change for the NEXT protocol, not a repair applicable here. The "
                 "frozen verdict stands as measured. See PROTOCOL.md erratum E4."),
-            "remedy_shared_with_E2": (
-                "Reducing the forcing shrinks BOTH residuals through the same mechanism: a smaller "
-                "g gives a smaller total pressure drop, hence a smaller density variation and a "
-                "smaller volume-vs-mass flux discrepancy, AND a smaller Reynolds number. The two "
-                "independent failures therefore have one remedy."),
+            "expected_effect_of_lower_forcing": (
+                "Lower forcing is EXPECTED to reduce the volume-versus-mass-flux proxy "
+                "discrepancy, because a smaller total pressure drop means a smaller density "
+                "variation. It does not evaluate mass conservation. Actual mass flux must be "
+                "MEASURED in the next execution."),
+        },
+        "mass_conservation": {
+            # The conserved quantity in a weakly compressible solver is sum(rho*u_x). The rho
+            # fields needed to form it at the required planes were not retained in the compact
+            # stage record, so this control CANNOT be evaluated from what exists. Fail-closed,
+            # and explicitly NOT a claim that solver mass conservation failed.
+            "pass": False, "status": "NOT_EVALUATED",
+            "not_evaluated_because": "MASS_FLUX_RHO_U_NOT_RETAINED_AT_REQUIRED_PLANES",
+            "measured_quantity": "sum(rho * u_x) — NOT AVAILABLE in the retained record",
+            "statement": ("The frozen volume-flux proxy FAILED at S=3; actual mass conservation "
+                          "was NOT EVALUATED in this execution."),
+            "see": "frozen_volume_flux_uniformity_control",
         },
         "topology": {
             # Topology answers whether the intended fluid connections exist. Whether the
@@ -1292,8 +1309,30 @@ def assemble(out_dir):
         "plane_invariance": {"pass": plane_ok, "tol_rel": vf.TOL_PLANE_REL,
                              "worst_share_delta": max(
                                  abs(r["boundary"]["s_plane_delta"]) for r in c["cases"])},
-        "grid_refinement": {"pass": grid_ok,
-                            "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS)},
+        "fixed_lattice_forcing_resolution_comparison": {
+            "status": "EVALUATED_DIAGNOSTIC", "pass": None,
+            "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS),
+            "n_pairs": len(c["grid_refinement"]["pairs"]),
+            "pairs": c["grid_refinement"]["pairs"],
+            "classification_by_resolution":
+                c["grid_refinement"]["classification_by_resolution"],
+            "note": ("S=2 and S=3 were run at the SAME lattice g and nu with all lengths "
+                     "proportional to S, so they are NOT the same dimensionless problem: "
+                     "u ~ g L^2 / nu and Re ~ g L^3 / nu^2, giving Re(S=3)/Re(S=2) = (3/2)^3 = "
+                     "3.375. These rows compare two different Reynolds numbers and are a "
+                     "DIAGNOSTIC, not a grid-convergence result. See PROTOCOL.md erratum E5."),
+        },
+        "grid_refinement": {
+            "pass": False, "status": "NOT_EVALUATED",
+            "not_evaluated_because":
+                "DYNAMIC_SIMILARITY_NOT_HELD_AND_NO_FROZEN_CONVERGENCE_TOLERANCE",
+            "resolutions": list(vf.SCIENTIFIC_RESOLUTIONS),
+            "statement": ("Grid refinement was NOT evaluated: dynamic similarity was not held "
+                          "across the two resolutions, and no convergence tolerance was frozen "
+                          "for it. The existing paired rows are retained as "
+                          "fixed_lattice_forcing_resolution_comparison."),
+            "see": "fixed_lattice_forcing_resolution_comparison",
+        },
         "backend_cross_check": {
             # Reported, never required. Taichi is absent and its port is cubic-only, so
             # this is NOT_EVALUATED — recorded as not performed, never as passed.
@@ -1324,9 +1363,10 @@ def assemble(out_dir):
                 r["truth"]["G_bridge_coupon"] = hit["G_bridge"]
                 r["truth"]["a_coupon"] = p["a_coupon"]
                 r["truth"]["b_coupon"] = p["b_coupon"]
-        # ARM F cross-model comparison
-        t, i = r["truth"], r["inference"]
-        r["comparison"] = _arm_f(t, i, r["boundary"])
+        # ASSEMBLY-ONLY normalisation, then ARM F with the case's ACTUAL network geometry
+        t, i = _normalise_truth(r["truth"]), r["inference"]
+        r["comparison"] = _arm_f(t, i, r["boundary"], variant=r.get("variant", "mirror"),
+                                 swapped=bool(r.get("swapped")))
 
     rec = {
         # The head that produced the NUMBERS is not necessarily the head that assembles them.
@@ -1400,6 +1440,64 @@ def _monotone_by_aperture(prim):
                       for r in prim if r["S"] == S), key=lambda t: t[0])
         out[str(S)] = all(b[1] >= a[1] for a, b in zip(pts, pts[1:])) if len(pts) > 1 else None
     return out
+
+
+# ==========================================================================================
+# ASSEMBLY-ONLY SEMANTIC NORMALISATION
+# ==========================================================================================
+# Everything below runs at ASSEMBLY time and touches no symbol in STAGE_EXECUTED_SYMBOLS. The
+# retained numerical rows are re-interpreted, never recomputed: changing field_truth(),
+# _run_case() or any solver/geometry symbol would correctly invalidate the execution-authority
+# record for rows that have already been produced.
+
+def _classify_truth(t):
+    """Is the in-situ field truth quantitatively usable for this case?
+
+    STRUCTURALLY_DEGENERATE_NO_INFORMATION is decided on X == 0 EXACTLY, never on a tolerance:
+    a small nonzero X is a different thing (the map is still one-to-one, merely ill-conditioned)
+    and conflating them would assert exact equality of two provably unequal mid-node pressures.
+    """
+    X = t.get("X_cross_product")
+    if X == 0.0:
+        return "STRUCTURALLY_DEGENERATE_NO_INFORMATION"
+    gap = t.get("p_face_gap_open")
+    if not t.get("gap_sign_consistent") or gap in (0.0, None) or not np.isfinite(gap or 0.0):
+        return "NUMERICALLY_UNRESOLVED"
+    return "QUANTITATIVE"
+
+
+def _normalise_truth(t):
+    """Move a non-quantitative case's round-off-amplified quotient out of the scientific fields
+    and into a clearly separated diagnostic. Nothing is deleted."""
+    status = _classify_truth(t)
+    t["truth_status"] = status
+    t["quantitative_truth_available"] = (status == "QUANTITATIVE")
+    if status == "QUANTITATIVE":
+        return t
+    t["raw_roundoff_amplified_quotient"] = {
+        "p_face_gap_open": t.get("p_face_gap_open"),
+        "q_lat": t.get("q_lat"),
+        "G_lat_field_raw": t.get("G_lat_field"),
+        "Xi_field_raw": t.get("Xi_field"),
+        "evidence_use": "NUMERICAL_DIAGNOSTIC_NOT_PHYSICAL_TRUTH",
+        "why": ("X = 0 exactly, so no uncoupled mid-node pressure gap drives the bridge; the "
+                "measured gap and lateral flux are at round-off/residual scale and their quotient "
+                "is meaningless as a conductance."
+                if status == "STRUCTURALLY_DEGENERATE_NO_INFORMATION" else
+                "X is nonzero but the bridge pressure gap was not resolved with a consistent "
+                "sign, so the quotient is not a dependable conductance."),
+    }
+    t["G_lat_field"] = None
+    t["Xi_field"] = None
+    return t
+
+
+def coupon_network_conductances(a, b, variant, swapped):
+    """The four axial conductances the coupon-calibrated network must be evaluated with, for the
+    ACTUAL geometry of the case. Getting this wrong silently compares the wrong network."""
+    if variant == "identical":
+        return (a, b, a, b)                 # both lanes ordered alike -> X = 0 identically
+    return (b, a, a, b) if swapped else (a, b, b, a)
 
 
 def _tau_independence(a):
@@ -1608,8 +1706,20 @@ def _anisotropy(b):
     }
 
 
-def _arm_f(t, i, bnd):
-    out = {}
+def _arm_f(t, i, bnd, variant="mirror", swapped=False):
+    out = {"truth_status": t.get("truth_status"),
+           "inference_status": i.get("status")}
+    quantitative = bool(t.get("quantitative_truth_available")) and i.get("status") == "ok"
+    out["quantitative_comparison_emitted"] = quantitative
+    if not quantitative:
+        out["not_emitted_because"] = (
+            "truth_status=%s, inference.status=%s — quantitative c/Xi comparisons are suppressed "
+            "so a round-off-amplified or nonphysical value cannot enter an error statistic."
+            % (t.get("truth_status"), i.get("status")))
+        for k in ("c_hat_minus_c_field", "c_hat_minus_c_coupon", "Xi_hat_over_Xi_field",
+                  "Xi_hat_over_Xi_coupon", "log2_factor_error_field", "Xi_coupon_over_Xi_field"):
+            out[k] = None
+        return _arm_f_network(out, t, bnd, variant, swapped)
     xf, xc, xh = t.get("Xi_field"), t.get("Xi_coupon"), i.get("Xi_hat")
     ch, cf, cc = i.get("c_hat"), t.get("c_field"), t.get("c_coupon")
     out["c_hat_minus_c_field"] = (ch - cf) if (ch is not None and cf is not None) else None
@@ -1619,6 +1729,13 @@ def _arm_f(t, i, bnd):
     out["log2_factor_error_field"] = (
         abs(np.log2(xh / xf)) if (xh and xf and xh > 0 and xf > 0) else None)
     out["Xi_coupon_over_Xi_field"] = (xc / xf) if (xc and xf) else None
+    return _arm_f_network(out, t, bnd, variant, swapped)
+
+
+def _arm_f_network(out, t, bnd, variant, swapped):
+    """Forward network predictions. Always emitted — for a structurally degenerate fixture the
+    network's own answer (R = 1, s = 1/2 for ANY G_lat) is exactly what makes the observed
+    residual scientifically useful."""
     if all(t.get(k) for k in ("g1_top", "g1_bot", "g2_top", "g2_bot")) and t.get("G_lat_field"):
         p = vf.network_prediction(t["g1_top"], t["g1_bot"], t["g2_top"], t["g2_bot"],
                                   t["G_lat_field"])
@@ -1626,14 +1743,20 @@ def _arm_f(t, i, bnd):
         out["network_field_s"] = p["s"]
         out["network_field_R_residual"] = bnd["R"] - p["R"]
         out["network_field_s_residual"] = bnd["s"] - p["s"]
-    if t.get("G_bridge_coupon") and t.get("c_coupon") is not None:
-        a, bq = t.get("a_coupon"), t.get("b_coupon")
-        if a and bq:
-            p = vf.network_prediction(a, bq, bq, a, t["G_bridge_coupon"])
-            out["network_coupon_R"] = p["R"]
-            out["network_coupon_s"] = p["s"]
-            out["network_coupon_R_residual"] = bnd["R"] - p["R"]
-            out["network_coupon_s_residual"] = bnd["s"] - p["s"]
+    a, bq = t.get("a_coupon"), t.get("b_coupon")
+    if t.get("G_bridge_coupon") and a and bq:
+        g4 = coupon_network_conductances(a, bq, variant, swapped)
+        p = vf.network_prediction(*g4, t["G_bridge_coupon"])
+        out["coupon_network_geometry"] = {"variant": variant, "swapped": bool(swapped),
+                                          "conductance_order": list(g4)}
+        out["network_coupon_R"] = p["R"]
+        out["network_coupon_s"] = p["s"]
+        out["network_coupon_R_residual"] = bnd["R"] - p["R"]
+        out["network_coupon_s_residual"] = bnd["s"] - p["s"]
+        if variant == "identical":
+            out["identical_path_network_predicts_R_one"] = abs(p["R"] - 1.0) < 1e-12
+            out["identical_path_network_predicts_s_half"] = abs(p["s"] - 0.5) < 1e-12
+            out["axial_widening_artifact_R_minus_1"] = bnd["R"] - p["R"]
     return out
 
 
