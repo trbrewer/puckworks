@@ -58,8 +58,27 @@ quantitatively useful?
   `nu` so the lattice velocity matches what `tau_plus = 1.2, g = 1e-5` would give. Arm A re-runs one
   **assembled fixture** case at `tau_plus = 1.2` to confirm the independence holds for the 3D
   geometry, not only the analytic channel.
-- **Convergence:** `rtol = 1e-9`, `check = 200`, `min_steps = 2000`, `max_steps = 60000`.
-  A run reaching `max_steps` is **UNCONVERGED** and cannot support the decision.
+- **Convergence:** `rtol = 1e-7`, `check = 200`, `min_steps = 2000`, `max_steps = 60000`.
+  A run reaching `max_steps` is **UNCONVERGED** and cannot support the decision. Backed by a
+  **forced-step audit**: one case per resolution is re-run at `1.5 ×` its converged step count and
+  the observables must agree within `TOL_CONVERGENCE_REL = 1e-4`. See the amendment below.
+
+  > **PRE-EXECUTION AMENDMENT (`rtol`, `1e-9 → 1e-7`).** Recorded before any frozen-aperture
+  > full-fixture output existed — the aperture freeze had not been written and only Arm A's
+  > declared non-blind reference aperture had been run. Nothing was tuned against a result.
+  >
+  > `rtol` applies to the kernel's **domain-average superficial velocity**, not to this tranche's
+  > observables, and at `1e-9` it was demanding roughly four times the steps the observables need.
+  > Measured directly on the `S = 2` open fixture by forced-step runs (1000/2000/3000):
+  > `C` moved `5.01e-3` then `2.90e-4`, and `s` moved `9.20e-3` then `5.38e-4` — a decay constant
+  > of ~350 steps, so both observables are settled below `1e-6` by ~5–6 k steps, while the `1e-9`
+  > global criterion had not tripped by 12 k. `1e-7` stops near where the observables have
+  > converged; the forced-step audit and the Arm A6 convergence ladder both demonstrate it rather
+  > than assuming it. **No definition, tolerance, truth construction or decision clause changed.**
+
+- **Parallel execution.** `--jobs N` runs independent LB cases in separate processes. Every case is
+  deterministic with no shared state and no RNG, and `_pmap` preserves input order, so the record
+  is identical to a serial run — only wall time changes.
 - **Determinism:** no RNG anywhere; the kernel and every derived quantity are deterministic float
   operations.
 
@@ -164,6 +183,22 @@ run `--mode primary`** until that file exists.
 
 If the assembled fixture misses the target after selection, report **`DESIGN_MISSED_TARGET`**. Do
 **not** select a second post-hoc aperture set in the same frozen execution.
+
+**The selection rule is algorithmic, not a judgement call.** `FREEZE_RULE` in the driver is applied
+mechanically to the coupon output: from candidates with `kz ≥ 2`, take the largest coupon-predicted
+`Ξ` strictly below the window, the smallest strictly above, and the candidates nearest three
+log-spaced targets inside it, deduplicated, ties broken on smaller `kx` then `kz`. The driver
+**refuses to re-select** once the freeze file exists, and **refuses `--mode primary`** until it
+does.
+
+**Declared non-blind reference aperture.** Arm A's numerical controls — forcing linearity, `tau`
+independence, the convergence ladder and the return-path obstruction probe — are all run on a
+single fixed reference aperture, `{kx: 5, kz: 2}`, hard-coded in the driver frozen at `RP-D.0`.
+Those controls necessarily observe that aperture's full-fixture conductance and outlet share before
+the freeze. This is disclosed rather than hidden, and it cannot bias the selection: `FREEZE_RULE`
+was committed before the coupon sweep ran and reads **coupon output only**, so no full-fixture
+observable — of that aperture or any other — can enter the choice. If `{kx: 5, kz: 2}` is selected
+by the rule, `result.json` flags it as the non-blind reference case.
 
 ## 8. Execution arms
 

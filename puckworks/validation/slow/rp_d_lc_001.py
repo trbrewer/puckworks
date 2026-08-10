@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import pathlib
 import platform
 import subprocess
@@ -41,6 +42,26 @@ FREEZE_JSON = REPO_ROOT / vf.BUNDLE_REL / "runs" / "aperture_freeze.json"
 # ==========================================================================================
 # solver adapters
 # ==========================================================================================
+
+#: Process-pool width (`--jobs`). Every LB case in this tranche is INDEPENDENT and deterministic,
+#: so running several in separate processes changes nothing but wall time: no shared state, no RNG,
+#: no cross-case ordering. Each job must return COMPACT SCALARS ONLY — never a field array — both
+#: to keep pickling cheap and because `_json_default` refuses to serialise an ndarray.
+_JOBS = 1
+
+#: Path-swap control resolutions. Declared BEFORE execution (nothing full-fixture had been
+#: inspected) and equal to the full scientific set unless compute forces otherwise.
+SWAP_RESOLUTIONS = vf.SCIENTIFIC_RESOLUTIONS
+
+
+def _pmap(fn, specs):
+    """Map a module-level job function over specs, in order, optionally across processes."""
+    if _JOBS <= 1 or len(specs) <= 1:
+        return [fn(s) for s in specs]
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=min(_JOBS, len(specs))) as ex:
+        return list(ex.map(fn, specs))          # ex.map preserves input order
+
 
 def solve(mask, g, backend="reference", tau=None, fields=("rho", "uy"), steps=None, **kw):
     """Run one LB solve. `steps`, when given, FORCES exactly that many iterations (no early
@@ -102,23 +123,117 @@ def _plenum_obstruction(mask, S):
     return out
 
 
+# ---- module-level job functions: one LB case each, compact scalars out ----------------------
+
+def _job_channel(spec):
+    r = lbref.channel_verification(Nz=spec["Nz"], N=4, g=1e-6, tau_plus=spec["tau_plus"],
+                                   max_steps=40000, check=200, rtol=1e-9)
+    return {**spec, "err_pct": r["err_pct"], "steps": r["steps"], "converged": r["converged"]}
+
+
+def _job_return_path(spec):
+    S = vf.S_COARSE
+    base, meta = vf.build_fixture(S, aperture=spec["aperture"])
+    mask = _plenum_obstruction(base, S) if spec["tag"] == "obstructed_return" else base
+    r = solve(mask, vf.G_PRIMARY, spec["backend"])
+    return {**spec, **_conductance(r, mask, meta, vf.G_PRIMARY)}
+
+
+def _job_linearity(spec):
+    mask, meta = vf.build_fixture(spec["S"], aperture={"kx": 5, "kz": 2})
+    g = vf.G_PRIMARY * spec["g_factor"]
+    r = solve(mask, g, spec["backend"], fields=("rho", "uy", "uz"))
+    c = _conductance(r, mask, meta, g)
+    umax, ma = _mach(r, mask)
+    out = {**spec, "g": g, "C": c["C"], "s": c["s"], "u_max": umax, "mach": ma,
+           "steps": c["steps"], "converged": c["converged"]}
+    if spec["g_factor"] == 1.0:
+        fl = np.array([vf.plane_flux(r["ux"], mask, x)
+                       for x in range(meta["lane_x"][0], meta["lane_x"][1])])
+        out["mass"] = {"S": spec["S"], "plane_mean": float(fl.mean()),
+                       "plane_ptp_rel": float(np.ptp(fl) / fl.mean()),
+                       "inlet_plane": float(fl[0]), "outlet_plane": float(fl[-1]),
+                       "inlet_outlet_rel_diff": float(fl[-1] / fl[0] - 1.0)}
+    return out
+
+
+def _job_tau(spec):
+    mask, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
+    g = vf.G_PRIMARY * ((spec["tau_plus"] - 0.5) / (vf.TAU_PLUS - 0.5))   # hold u ~ g/nu fixed
+    r = solve(mask, g, spec["backend"], tau=spec["tau_plus"])
+    c = _conductance(r, mask, meta, g)
+    return {"tau_plus": spec["tau_plus"], "g": g, "C": c["C"], "s": c["s"], "steps": c["steps"]}
+
+
+def _job_ladder(spec):
+    mask, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
+    r = solve(mask, vf.G_PRIMARY, spec["backend"], steps=spec["forced_steps"])
+    c = _conductance(r, mask, meta, vf.G_PRIMARY)
+    return {"S": vf.S_COARSE, "forced_steps": spec["forced_steps"], "C": c["C"], "s": c["s"]}
+
+
+def _job_ladder_at(spec):
+    """Forced-step run at an arbitrary resolution (the A6b audit); A6's ladder is S_COARSE only."""
+    mask, meta = vf.build_fixture(spec["S"], aperture={"kx": 5, "kz": 2})
+    r = solve(mask, vf.G_PRIMARY, spec["backend"], steps=spec["forced_steps"])
+    c = _conductance(r, mask, meta, vf.G_PRIMARY)
+    return {"S": spec["S"], "forced_steps": spec["forced_steps"], "C": c["C"], "s": c["s"]}
+
+
+def _job_axial_coupon(spec):
+    mask, meta = vf.build_axial_coupon(spec["S"], spec["level"], spec["orientation"])
+    c = _coupon_conductance(mask, meta, vf.G_PRIMARY, spec["backend"])
+    return {**{k: spec[k] for k in ("S", "level", "orientation")},
+            "mask_sha256": meta["mask_sha256"], **c}
+
+
+def _job_bridge_coupon(spec):
+    mask, meta = vf.build_bridge_coupon(spec["S"], spec["kx"], spec["kz"])
+    c = _coupon_conductance(mask, meta, vf.G_PRIMARY, spec["backend"],
+                            node_in=meta["x_node_in"], node_out=meta["x_node_out"])
+    return {"S": spec["S"], "kx": spec["kx"], "kz": spec["kz"],
+            "mask_sha256": meta["mask_sha256"], **c}
+
+
+def _job_blocked(spec):
+    S, backend = spec["S"], spec["backend"]
+    mb, meta = vf.build_fixture(S, aperture=None)
+    r = solve(mb, vf.G_PRIMARY, backend, fields=("rho", "uy", "uz"))
+    c = _conductance(r, mb, meta, vf.G_PRIMARY)
+    pin, pin_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"], vf.G_PRIMARY)
+    pout, pout_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"], vf.G_PRIMARY)
+    offs = {}
+    for d in meta["node_offsets"]:
+        pi, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"] - d, vf.G_PRIMARY)
+        po, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"] + d, vf.G_PRIMARY)
+        offs["offset_%d" % d] = {"dP": pi - po, "C": c["Q"] / (pi - po),
+                                 "C_rel_change": (c["Q"] / (pi - po)) / c["C"] - 1.0}
+    return {"S": S, "mask_sha256": meta["mask_sha256"], **c, "blocked_share": c["s"],
+            "node_in_sd_over_dP": pin_sd / (pin - pout),
+            "node_out_sd_over_dP": pout_sd / (pin - pout),
+            "node_surface_sensitivity": offs}
+
+
+def _job_case(spec):
+    return _run_case(spec["S"], spec["aperture"], spec["backend"],
+                     variant=spec.get("variant", "mirror"), swapped=spec.get("swapped", False),
+                     perturbation=spec.get("perturbation"), label=spec.get("label", "primary"))
+
+
 def arm_a(backend, out_dir, log):
     rec = {}
     # --- A1 canonical plane channel + tau independence + the discretisation law -------------
-    ch = []
-    for tau in (vf.TAU_CROSS_CHECK, vf.TAU_PLUS, 3.0):
-        r = lbref.channel_verification(Nz=33, N=4, g=1e-6, tau_plus=tau,
-                                       max_steps=40000, check=200, rtol=1e-9)
-        ch.append({"tau_plus": tau, "err_pct": r["err_pct"], "steps": r["steps"],
-                   "converged": r["converged"]})
-        log("A1 channel tau=%.1f err=%+.5f%% steps=%d" % (tau, r["err_pct"], r["steps"]))
+    ch = _pmap(_job_channel, [{"Nz": 33, "tau_plus": t}
+                              for t in (vf.TAU_CROSS_CHECK, vf.TAU_PLUS, 3.0)])
+    for c in ch:
+        log("A1 channel tau=%.1f err=%+.5f%% steps=%d" % (c["tau_plus"], c["err_pct"], c["steps"]))
+    lad_raw = _pmap(_job_channel, [{"Nz": n, "tau_plus": vf.TAU_PLUS}
+                                   for n in (5, 7, 9, 13, 17, 25, 33)])
     ladder = []
-    for Nz in (5, 7, 9, 13, 17, 25, 33):
-        r = lbref.channel_verification(Nz=Nz, N=4, g=1e-6, tau_plus=vf.TAU_PLUS,
-                                       max_steps=40000, check=200, rtol=1e-9)
-        ladder.append({"h_lu": Nz - 2, "err_pct": r["err_pct"],
-                       "law_50_over_h2_pct": 50.0 / (Nz - 2) ** 2})
-        log("A1 ladder h=%2d err=%+.4f%%" % (Nz - 2, r["err_pct"]))
+    for c in lad_raw:
+        h = c["Nz"] - 2
+        ladder.append({"h_lu": h, "err_pct": c["err_pct"], "law_50_over_h2_pct": 50.0 / h ** 2})
+        log("A1 ladder h=%2d err=%+.4f%%" % (h, c["err_pct"]))
     rec["channel"] = {"tau_independence": ch, "resolution_ladder": ladder,
                       "err_law_pct": vf.CHANNEL_ERR_LAW_PCT}
     rec["tau_independence_max_spread_pct"] = max(c["err_pct"] for c in ch) - min(
@@ -136,17 +251,17 @@ def arm_a(backend, out_dir, log):
     log("A2 topology: %d configurations checked" % len(topo))
 
     # --- A3 return-path invariance: the decisive Route-A demonstration ----------------------
-    S = vf.S_COARSE
+    specs = [{"aperture": ap, "tag": t, "backend": backend}
+             for ap in (None, {"kx": 5, "kz": 2})
+             for t in ("nominal", "obstructed_return")]
+    got = _pmap(_job_return_path, specs)
     ret = []
     for ap in (None, {"kx": 5, "kz": 2}):
-        base_m, meta = vf.build_fixture(S, aperture=ap)
-        obs_m = _plenum_obstruction(base_m, S)
         row = {"aperture": ap}
-        for tag, m in (("nominal", base_m), ("obstructed_return", obs_m)):
-            r = solve(m, vf.G_PRIMARY, backend)
-            c = _conductance(r, m, meta, vf.G_PRIMARY)
-            row[tag] = c
-            log("A3 %s ap=%s dP=%.6e C=%.9f steps=%d" % (tag, ap, c["dP"], c["C"], c["steps"]))
+        for t in ("nominal", "obstructed_return"):
+            c = next(x for x in got if x["aperture"] == ap and x["tag"] == t)
+            row[t] = {k: c[k] for k in ("dP", "Q", "q1", "q2", "C", "s", "steps", "converged")}
+            log("A3 %-18s ap=%s dP=%.6e C=%.9f steps=%d" % (t, ap, c["dP"], c["C"], c["steps"]))
         row["dP_change_rel"] = row["obstructed_return"]["dP"] / row["nominal"]["dP"] - 1.0
         row["C_change_rel"] = row["obstructed_return"]["C"] / row["nominal"]["C"] - 1.0
         row["s_change_abs"] = row["obstructed_return"]["s"] - row["nominal"]["s"]
@@ -154,52 +269,59 @@ def arm_a(backend, out_dir, log):
     rec["return_path_invariance"] = ret
 
     # --- A4 low-Mach linearity, mass conservation, plane invariance -------------------------
+    got = _pmap(_job_linearity, [{"S": S, "g_factor": f, "backend": backend}
+                                 for S in vf.SCIENTIFIC_RESOLUTIONS
+                                 for f in (vf.G_LINEARITY[0], 1.0, vf.G_LINEARITY[1])])
     lin, mass = [], []
-    for S in vf.SCIENTIFIC_RESOLUTIONS:
-        m, meta = vf.build_fixture(S, aperture={"kx": 5, "kz": 2})
-        for f in (vf.G_LINEARITY[0], 1.0, vf.G_LINEARITY[1]):
-            g = vf.G_PRIMARY * f
-            r = solve(m, g, backend, fields=("rho", "uy", "uz"))
-            c = _conductance(r, m, meta, g)
-            umax, ma = _mach(r, m)
-            lin.append({"S": S, "g_factor": f, "g": g, "C": c["C"], "s": c["s"],
-                        "u_max": umax, "mach": ma, "steps": c["steps"],
-                        "converged": c["converged"]})
-            log("A4 S=%d g x%.1f C=%.9f Ma=%.2e steps=%d" % (S, f, c["C"], ma, c["steps"]))
-            if f == 1.0:
-                fl = [vf.plane_flux(r["ux"], m, x)
-                      for x in range(meta["lane_x"][0], meta["lane_x"][1])]
-                fl = np.array(fl)
-                mass.append({"S": S, "plane_mean": float(fl.mean()),
-                             "plane_ptp_rel": float(np.ptp(fl) / fl.mean()),
-                             "inlet_plane": float(fl[0]), "outlet_plane": float(fl[-1]),
-                             "inlet_outlet_rel_diff": float(fl[-1] / fl[0] - 1.0)})
+    for r in got:
+        mass_row = r.pop("mass", None)
+        r.pop("backend", None)
+        lin.append(r)
+        if mass_row:
+            mass.append(mass_row)
+        log("A4 S=%d g x%.1f C=%.9f Ma=%.2e steps=%d"
+            % (r["S"], r["g_factor"], r["C"], r["mach"], r["steps"]))
     rec["linearity"] = lin
     rec["mass_conservation"] = mass
 
     # --- A5 tau independence on the ASSEMBLED fixture ---------------------------------------
-    m, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
-    tau_rows = []
-    for tau in (vf.TAU_PLUS, vf.TAU_CROSS_CHECK):
-        g = vf.G_PRIMARY * ((tau - 0.5) / (vf.TAU_PLUS - 0.5))     # hold u ~ g/nu fixed
-        r = solve(m, g, backend, tau=tau)
-        c = _conductance(r, m, meta, g)
-        tau_rows.append({"tau_plus": tau, "g": g, "C": c["C"], "s": c["s"], "steps": c["steps"]})
-        log("A5 fixture tau=%.1f C=%.9f s=%.9f steps=%d" % (tau, c["C"], c["s"], c["steps"]))
+    tau_rows = _pmap(_job_tau, [{"tau_plus": t, "backend": backend}
+                                for t in (vf.TAU_PLUS, vf.TAU_CROSS_CHECK)])
+    for r in tau_rows:
+        log("A5 fixture tau=%.1f C=%.9f s=%.9f steps=%d"
+            % (r["tau_plus"], r["C"], r["s"], r["steps"]))
     rec["tau_independence_fixture"] = {
         "rows": tau_rows,
         "C_rel_spread": abs(tau_rows[1]["C"] / tau_rows[0]["C"] - 1.0),
         "s_abs_spread": abs(tau_rows[1]["s"] - tau_rows[0]["s"])}
 
     # --- A6 convergence ladder (forced step counts) -----------------------------------------
-    lad = []
-    m, meta = vf.build_fixture(vf.S_COARSE, aperture={"kx": 5, "kz": 2})
-    for steps in (1000, 2000, 4000, 8000):
-        r = solve(m, vf.G_PRIMARY, backend, steps=steps)
-        c = _conductance(r, m, meta, vf.G_PRIMARY)
-        lad.append({"S": vf.S_COARSE, "forced_steps": steps, "C": c["C"], "s": c["s"]})
-        log("A6 forced steps=%d C=%.9f s=%.9f" % (steps, c["C"], c["s"]))
+    lad = _pmap(_job_ladder, [{"forced_steps": n, "backend": backend}
+                              for n in (1000, 2000, 4000, 8000)])
+    for r in lad:
+        log("A6 forced steps=%d C=%.9f s=%.9f" % (r["forced_steps"], r["C"], r["s"]))
     rec["convergence_ladder"] = lad
+
+    # --- A6b forced-step convergence audit: does stopping at rtol actually stop late enough? ---
+    audit = []
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        conv = _job_linearity({"S": S, "g_factor": 1.0, "backend": backend})
+        n = int(conv["steps"])
+        longer = _job_ladder_at({"S": S, "forced_steps": int(n * vf.CONVERGENCE_AUDIT_FACTOR),
+                                 "backend": backend})
+        audit.append({"S": S, "converged_steps": n,
+                      "audit_steps": longer["forced_steps"],
+                      "C_converged": conv["C"], "C_audit": longer["C"],
+                      "s_converged": conv["s"], "s_audit": longer["s"],
+                      "C_rel_change": longer["C"] / conv["C"] - 1.0,
+                      "s_abs_change": longer["s"] - conv["s"],
+                      "within_tolerance": bool(
+                          abs(longer["C"] / conv["C"] - 1.0) <= vf.TOL_CONVERGENCE_REL
+                          and abs(longer["s"] - conv["s"]) <= vf.TOL_CONVERGENCE_REL)})
+        log("A6b audit S=%d converged@%d vs forced@%d  dC=%.2e ds=%.2e  %s"
+            % (S, n, longer["forced_steps"], audit[-1]["C_rel_change"],
+               audit[-1]["s_abs_change"], "OK" if audit[-1]["within_tolerance"] else "FAIL"))
+    rec["convergence_audit"] = audit
 
     # --- A7 backend cross-check ---------------------------------------------------------
     try:
@@ -226,10 +348,23 @@ def _coupon_conductance(mask, meta, g, backend, node_in=None, node_out=None):
     r = solve(mask, g, backend, fields=("rho",))
     axis_len = mask.shape[0]
     if node_in is None:
-        # a uniform periodic duct: the whole box length carries the drop, dP = g * L exactly
+        # A uniform periodic duct is FULLY DEVELOPED everywhere: mu*lap(u) = -g pointwise, so the
+        # periodic part of the pressure is constant and dP = g*L exactly. That makes this coupon
+        # the falsification test of the frozen pressure definition p = rho/3 - g*x promised in
+        # BOUNDARY_TOPOLOGY_ADJUDICATION.md section 2 — if the density is NOT uniform here, the
+        # definition is not physically coherent and the tranche stops as INVALID_EXECUTION.
         q = vf.plane_flux(r["ux"], mask, axis_len // 2)
         dP = g * axis_len
         pin = pout = float("nan")
+        rho_f = r["rho"][~mask]
+        planes = np.array([vf.plane_pressure(r["rho"], mask, x, g)[0] for x in range(axis_len)])
+        return {"Q": q, "dP": dP, "G": q / dP, "steps": int(r["steps"]),
+                "converged": bool(r["steps"] < vf.MAX_STEPS),
+                "rho_fluid_mean": float(rho_f.mean()),
+                "rho_fluid_ptp_rel": float(np.ptp(rho_f) / rho_f.mean()),
+                # the periodic pressure part must be flat along the duct; report it, do not assume
+                "periodic_pressure_ptp_over_dP": float(np.ptp(planes + g * np.arange(axis_len))
+                                                       / dP)}
     else:
         q = vf.plane_flux(r["ux"], mask, (node_in + node_out) // 2)
         pin, _, _ = vf.plane_pressure(r["rho"], mask, node_in, g)
@@ -241,22 +376,21 @@ def _coupon_conductance(mask, meta, g, backend, node_in=None, node_out=None):
 
 def arm_b(backend, out_dir, log):
     rec = {"axial": [], "bridge": []}
-    for S in vf.SCIENTIFIC_RESOLUTIONS:
-        for level in ("high", "low"):
-            for orient in ("x", "y"):
-                m, meta = vf.build_axial_coupon(S, level, orient)
-                c = _coupon_conductance(m, meta, vf.G_PRIMARY, backend)
-                rec["axial"].append({"S": S, "level": level, "orientation": orient,
-                                     "mask_sha256": meta["mask_sha256"], **c})
-                log("B axial S=%d %s orient=%s G=%.6f steps=%d" % (S, level, orient, c["G"],
-                                                                   c["steps"]))
-        for cand in vf.APERTURE_CANDIDATES:
-            m, meta = vf.build_bridge_coupon(S, cand["kx"], cand["kz"])
-            c = _coupon_conductance(m, meta, vf.G_PRIMARY, backend,
-                                    node_in=meta["x_node_in"], node_out=meta["x_node_out"])
-            rec["bridge"].append({"S": S, **cand, "mask_sha256": meta["mask_sha256"], **c})
-            log("B bridge S=%d kx=%d kz=%d G=%.6f steps=%d" % (S, cand["kx"], cand["kz"],
-                                                               c["G"], c["steps"]))
+    rec["axial"] = _pmap(_job_axial_coupon,
+                         [{"S": S, "level": lv, "orientation": o, "backend": backend}
+                          for S in vf.SCIENTIFIC_RESOLUTIONS
+                          for lv in ("high", "low") for o in ("x", "y")])
+    for c in rec["axial"]:
+        log("B axial S=%d %-4s orient=%s G=%.6f steps=%d rho_ptp=%.2e"
+            % (c["S"], c["level"], c["orientation"], c["G"], c["steps"],
+               c.get("rho_fluid_ptp_rel", float("nan"))))
+    rec["bridge"] = _pmap(_job_bridge_coupon,
+                          [{"S": S, "backend": backend, **cand}
+                           for S in vf.SCIENTIFIC_RESOLUTIONS
+                           for cand in vf.APERTURE_CANDIDATES])
+    for c in rec["bridge"]:
+        log("B bridge S=%d kx=%d kz=%d G=%.6f steps=%d"
+            % (c["S"], c["kx"], c["kz"], c["G"], c["steps"]))
     # coupon-predicted Xi for every candidate, at the coarse resolution (selection basis)
     pred = {}
     for S in vf.SCIENTIFIC_RESOLUTIONS:
@@ -279,7 +413,7 @@ def arm_b(backend, out_dir, log):
 # ARMS C..I — full fixture. Requires the committed aperture freeze.
 # ==========================================================================================
 
-def _run_case(S, aperture, backend, log, variant="mirror", swapped=False, perturbation=None,
+def _run_case(S, aperture, backend, variant="mirror", swapped=False, perturbation=None,
               g=None, label=""):
     """One (blocked, open) fixture pair -> boundary record, blind inference, then field truth.
 
@@ -330,12 +464,121 @@ def _run_case(S, aperture, backend, log, variant="mirror", swapped=False, pertur
                      "plane_flux_ptp_rel": float(np.ptp(fl_o) / fl_o.mean()),
                      "seconds": round(time.time() - t0, 1)},
     }
-    log("  case S=%d ap=%s%s%s R=%.6f s=%.6f Xi_field=%.4f Xi_hat=%s [%s] %.0fs"
-        % (S, aperture, " swapped" if swapped else "", (" " + perturbation) if perturbation else "",
-           inf["R"], inf["s"], truth["Xi_field"],
-           ("%.4f" % inf["Xi_hat"]) if inf["Xi_hat"] else inf["status"],
-           inf["status"], row["numerics"]["seconds"]))
     return row
+
+
+def _case_line(row):
+    inf, truth = row["inference"], row["truth"]
+    return ("  %-14s S=%d ap=%s%s%s R=%.6f s=%.6f Xi_field=%.4f Xi_hat=%s [%s] %.0fs"
+            % (row["role"], row["S"], row["aperture"],
+               " swapped" if row["swapped"] else "",
+               (" " + row["perturbation"]) if row["perturbation"] else "",
+               row["boundary"]["R"], row["boundary"]["s"], truth["Xi_field"],
+               ("%.4f" % inf["Xi_hat"]) if inf["Xi_hat"] else "-",
+               inf["status"], row["numerics"]["seconds"]))
+
+
+#: PROTOCOL §9 step 1, made ALGORITHMIC so the selection is not a judgement call. Declared before
+#: the coupon sweep was run, and it reads coupon output ONLY — never a full-fixture observable.
+FREEZE_RULE = (
+    "From the coupon-predicted Xi at S_COARSE, over candidates with kz >= 2 (kz = 1 is a "
+    "2-lattice-unit feature at S_COARSE, ~12 % element error under the measured 50/h^2 law): "
+    "take the candidate with the LARGEST Xi_coupon strictly below XI_WINDOW_LO; the candidate "
+    "with the SMALLEST Xi_coupon strictly above XI_WINDOW_HI; and, inside the window, the "
+    "candidates nearest to three log-spaced targets between XI_WINDOW_LO and XI_WINDOW_HI "
+    "(geometric quartiles), deduplicated. Ties break on smaller kx then smaller kz. Selection is "
+    "sorted by Xi_coupon ascending."
+)
+
+
+def freeze_apertures(out_dir, log):
+    """Apply FREEZE_RULE to the coupon output and write the aperture freeze. Refuses to overwrite
+    an existing freeze, so a second pass cannot quietly re-select after seeing anything."""
+    if FREEZE_JSON.exists():
+        raise SystemExit("aperture freeze already exists at %s — refusing to re-select"
+                         % FREEZE_JSON)
+    b = json.loads((out_dir / "arm_b.json").read_text())
+    pred = b["coupon_prediction"][str(vf.S_COARSE)]
+    rows = [r for r in pred["rows"] if r["kz"] >= 2]
+    rows.sort(key=lambda r: (r["Xi_coupon"], r["kx"], r["kz"]))
+    lo, hi = vf.XI_WINDOW_LO, vf.XI_WINDOW_HI
+
+    below = [r for r in rows if r["Xi_coupon"] < lo]
+    above = [r for r in rows if r["Xi_coupon"] > hi]
+    inside = [r for r in rows if lo <= r["Xi_coupon"] <= hi]
+    picked, reasons = [], {}
+
+    def take(r, why):
+        key = (r["kx"], r["kz"])
+        if r is not None and key not in reasons:
+            reasons[key] = why
+            picked.append(r)
+
+    if below:
+        take(below[-1], "largest coupon-predicted Xi strictly BELOW the window")
+    targets = [lo * (hi / lo) ** f for f in (0.25, 0.5, 0.75)]
+    for i, t in enumerate(targets):
+        if inside:
+            r = min(inside, key=lambda r: (abs(math.log(r["Xi_coupon"] / t)), r["kx"], r["kz"]))
+            take(r, "nearest coupon-predicted Xi to log-target %d (%.4f) INSIDE the window"
+                 % (i + 1, t))
+    if above:
+        take(above[0], "smallest coupon-predicted Xi strictly ABOVE the window")
+    picked.sort(key=lambda r: r["Xi_coupon"])
+
+    doc = {
+        "rule": FREEZE_RULE,
+        "selected_from": "coupon output only (arm_b.json); NO full-fixture observable was read",
+        "window": {"lo": lo, "hi": hi, "provenance": vf.XI_WINDOW_PROVENANCE},
+        "excluded_kz1": True,
+        "n_candidates_considered": len(rows),
+        "selected": [{"kx": r["kx"], "kz": r["kz"]} for r in picked],
+        "coupon_predicted": [{"kx": r["kx"], "kz": r["kz"], "Xi_coupon": r["Xi_coupon"],
+                              "G_bridge": r["G_bridge"],
+                              "reason": reasons[(r["kx"], r["kz"])]} for r in picked],
+        "a_coupon": pred["a_coupon"], "b_coupon": pred["b_coupon"],
+        "c_coupon": pred["c_coupon"],
+        "n_predicted_in_window": sum(1 for r in picked if lo <= r["Xi_coupon"] <= hi),
+        "all_candidate_predictions": [
+            {"kx": r["kx"], "kz": r["kz"], "Xi_coupon": r["Xi_coupon"]} for r in rows],
+    }
+    _dump(FREEZE_JSON, doc)
+    lines = [
+        "# RP-D-LC-001 — APERTURE FREEZE (step 2 of the blinded design)", "",
+        "```", "SELECTED FROM COUPON OUTPUT ONLY",
+        "NO FULL-FIXTURE R, s OR Xi-hat WAS INSPECTED BEFORE THIS FILE WAS COMMITTED", "```", "",
+        "The rule below was declared in the driver before the coupon sweep ran and is applied",
+        "mechanically; the driver refuses to re-select once this file exists, and refuses to run",
+        "`--mode primary` until it does.", "",
+        "## Rule", "", "> " + FREEZE_RULE, "",
+        "## Coupon calibration (S = %d)" % vf.S_COARSE, "",
+        "| quantity | value |", "|---|---|",
+        "| `a_coupon` (high segment) | %.6f |" % pred["a_coupon"],
+        "| `b_coupon` (low segment) | %.6f |" % pred["b_coupon"],
+        "| `c_coupon` | %.6f |" % pred["c_coupon"],
+        "| window | %.6f … %.6f |" % (lo, hi), "",
+        "## Selected apertures", "",
+        "| kx | kz | `G_bridge_coupon` | `Xi_coupon` | in window | why |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in picked:
+        lines.append("| %d | %d | %.6f | %.6f | %s | %s |"
+                     % (r["kx"], r["kz"], r["G_bridge"], r["Xi_coupon"],
+                        "yes" if lo <= r["Xi_coupon"] <= hi else "no",
+                        reasons[(r["kx"], r["kz"])]))
+    lines += ["", "Coupon-predicted cases inside the window: **%d**."
+              % doc["n_predicted_in_window"], "",
+              "If the assembled fixture then misses the target, the disposition is",
+              "`DESIGN_MISSED_TARGET` — a second post-hoc aperture set is **not** selected in",
+              "this frozen execution.", "",
+              "## All candidates considered (kz >= 2)", "",
+              "| kx | kz | `Xi_coupon` |", "|---|---|---|"]
+    for r in rows:
+        lines.append("| %d | %d | %.6f |" % (r["kx"], r["kz"], r["Xi_coupon"]))
+    FREEZE_PATH.write_text("\n".join(lines) + "\n")
+    log("froze %d apertures (%d coupon-predicted inside the window) -> %s"
+        % (len(picked), doc["n_predicted_in_window"], FREEZE_PATH))
+    return doc
 
 
 def load_freeze():
@@ -355,38 +598,48 @@ def arm_cdefghi(backend, out_dir, log):
            "identical_path_control": None, "asymmetry": [], "grid_refinement": {}}
 
     # --- ARM C: blocked full fixture (also recorded standalone) -----------------------------
-    for S in vf.SCIENTIFIC_RESOLUTIONS:
-        mb, meta = vf.build_fixture(S, aperture=None)
-        r = solve(mb, vf.G_PRIMARY, backend, fields=("rho", "uy", "uz"))
-        c = _conductance(r, mb, meta, vf.G_PRIMARY)
-        pin, pin_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"], vf.G_PRIMARY)
-        pout, pout_sd, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"], vf.G_PRIMARY)
-        offs = {}
-        for d in meta["node_offsets"]:
-            pi, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_in"] - d, vf.G_PRIMARY)
-            po, _, _ = vf.plane_pressure(r["rho"], mb, meta["x_node_out"] + d, vf.G_PRIMARY)
-            offs["offset_%d" % d] = {"dP": pi - po, "C": c["Q"] / (pi - po),
-                                     "C_rel_change": (c["Q"] / (pi - po)) / c["C"] - 1.0}
-        rec["blocked"].append({"S": S, "mask_sha256": meta["mask_sha256"], **c,
-                               "blocked_share": c["s"],
-                               "node_in_sd_over_dP": pin_sd / (pin - pout),
-                               "node_out_sd_over_dP": pout_sd / (pin - pout),
-                               "node_surface_sensitivity": offs})
-        log("C blocked S=%d C=%.9f share=%.9f dP=%.6e steps=%d" % (S, c["C"], c["s"], c["dP"],
-                                                                   c["steps"]))
+    rec["blocked"] = _pmap(_job_blocked, [{"S": S, "backend": backend}
+                                          for S in vf.SCIENTIFIC_RESOLUTIONS])
+    for c in rec["blocked"]:
+        log("C blocked S=%d C=%.9f share=%.9f dP=%.6e steps=%d"
+            % (c["S"], c["C"], c["s"], c["dP"], c["steps"]))
 
-    # --- ARMS D + E: open fixture, then blind inversion (inside _run_case) ------------------
+    # --- ARMS D+E (open + blind inversion), G (path swap), H (identical path) and I
+    #     (adversarial asymmetry) are all INDEPENDENT deterministic cases, so they are
+    #     dispatched as ONE batch to maximise pool occupancy. Ordering of the output list is
+    #     preserved by _pmap, so the record is identical to a serial run.
+    ap_mid = selected[len(selected) // 2]
+    specs = []
     for S in vf.SCIENTIFIC_RESOLUTIONS:
         for ap in selected:
-            rec["cases"].append(_run_case(S, ap, backend, log))
+            specs.append({"S": S, "aperture": ap, "backend": backend, "label": "primary"})
+    for S in SWAP_RESOLUTIONS:
+        for ap in selected:
+            specs.append({"S": S, "aperture": ap, "backend": backend, "swapped": True,
+                          "label": "path_swap"})
+    specs.append({"S": vf.S_COARSE, "aperture": ap_mid, "backend": backend,
+                  "variant": "identical", "label": "identical_path"})
+    for name in vf.PERTURBATIONS:
+        specs.append({"S": vf.S_FINE, "aperture": ap_mid, "backend": backend,
+                      "perturbation": name, "label": "asymmetry"})
+        specs.append({"S": vf.S_FINE, "aperture": ap_mid, "backend": backend,
+                      "perturbation": name, "swapped": True, "label": "asymmetry_swap"})
+    log("dispatching %d full-fixture cases across %d worker(s)" % (len(specs), _JOBS))
+    rows = _pmap(_job_case, specs)
+    for r in rows:
+        log(_case_line(r))
+    rec["cases"] = list(rows)
+
+    def _find(label, S, ap, swapped=False, perturbation=None):
+        return next(r for r in rows if r["role"] == label and r["S"] == S
+                    and r["aperture"] == ap and r["swapped"] == swapped
+                    and r["perturbation"] == perturbation)
 
     # --- ARM G: exact path-swap control ----------------------------------------------------
-    swap_res = vf.SCIENTIFIC_RESOLUTIONS
-    for S in swap_res:
+    for S in SWAP_RESOLUTIONS:
         for ap in selected:
-            base = next(r for r in rec["cases"] if r["S"] == S and r["aperture"] == ap)
-            sw = _run_case(S, ap, backend, log, swapped=True, label="path_swap")
-            rec["cases"].append(sw)
+            base = _find("primary", S, ap)
+            sw = _find("path_swap", S, ap, swapped=True)
             row = {
                 "S": S, "aperture": ap,
                 "R": base["boundary"]["R"], "R_swap": sw["boundary"]["R"],
@@ -416,9 +669,7 @@ def arm_cdefghi(backend, out_dir, log):
             rec["path_swap"].append(row)
 
     # --- ARM H: identical-path negative control --------------------------------------------
-    ap_mid = selected[len(selected) // 2]
-    ctrl = _run_case(vf.S_COARSE, ap_mid, backend, log, variant="identical", label="identical_path")
-    rec["cases"].append(ctrl)
+    ctrl = _find("identical_path", vf.S_COARSE, ap_mid)
     rec["identical_path_control"] = {
         "S": ctrl["S"], "aperture": ap_mid,
         "R": ctrl["boundary"]["R"], "s": ctrl["boundary"]["s"],
@@ -433,13 +684,9 @@ def arm_cdefghi(backend, out_dir, log):
 
     # --- ARM I: one-voxel adversarial asymmetry, at the finest scientific resolution --------
     for name in vf.PERTURBATIONS:
-        row = _run_case(vf.S_FINE, ap_mid, backend, log, perturbation=name, label="asymmetry")
-        rec["cases"].append(row)
-        base = next(r for r in rec["cases"] if r["S"] == vf.S_FINE and r["aperture"] == ap_mid
-                    and r["role"] == "primary")
-        sw = _run_case(vf.S_FINE, ap_mid, backend, log, swapped=True, perturbation=name,
-                       label="asymmetry_swap")
-        rec["cases"].append(sw)
+        row = _find("asymmetry", vf.S_FINE, ap_mid, perturbation=name)
+        base = _find("primary", vf.S_FINE, ap_mid)
+        sw = _find("asymmetry_swap", vf.S_FINE, ap_mid, swapped=True, perturbation=name)
         rec["asymmetry"].append({
             "perturbation": name, "S": vf.S_FINE, "aperture": ap_mid,
             "blocked_share": row["boundary"]["blocked_share"],
@@ -560,9 +807,17 @@ def assemble(out_dir):
         "G_lat_monotone_in_aperture": _monotone_by_aperture(prim),
     }
     controls = {
-        "convergence": {"pass": conv_ok,
-                        "max_steps": vf.MAX_STEPS,
-                        "worst_steps": max(r["boundary"]["steps"] for r in c["cases"])},
+        "convergence": {
+            # every scientific run must meet the criterion before max_steps AND the criterion
+            # itself must stop late enough — the forced-step audit is what establishes the latter,
+            # so a failed audit fails the control even if every run "converged".
+            "pass": bool(conv_ok and all(r["within_tolerance"] for r in a["convergence_audit"])),
+            "all_runs_converged": conv_ok,
+            "rtol": vf.RTOL, "max_steps": vf.MAX_STEPS,
+            "worst_steps": max(r["boundary"]["steps"] for r in c["cases"]),
+            "forced_step_audit": a["convergence_audit"],
+            "audit_factor": vf.CONVERGENCE_AUDIT_FACTOR,
+            "audit_tol_rel": vf.TOL_CONVERGENCE_REL},
         "low_mach_linearity": {"pass": bool(lin_ok and mach_ok),
                                "max_mach": max(r["mach"] for r in a["linearity"]),
                                "tol_mach": vf.TOL_MACH,
@@ -702,9 +957,13 @@ def main(argv=None):
     ap.add_argument("--arch", default="cpu")
     ap.add_argument("--dtype", default="f64")
     ap.add_argument("--mode", required=True,
-                    choices=("arm_a", "coupons", "primary", "assemble", "all"))
+                    choices=("arm_a", "coupons", "freeze", "primary", "assemble", "all"))
     ap.add_argument("--output", required=True)
+    ap.add_argument("--jobs", type=int, default=1,
+                    help="independent LB cases to run concurrently (processes)")
     a = ap.parse_args(argv)
+    global _JOBS
+    _JOBS = max(1, int(a.jobs))
     out = pathlib.Path(a.output)
     out.mkdir(parents=True, exist_ok=True)
     if a.dtype != "f64":
@@ -718,6 +977,11 @@ def main(argv=None):
         arm_a(a.backend, out, log)
     if a.mode in ("coupons", "all"):
         arm_b(a.backend, out, log)
+    if a.mode == "all" and not FREEZE_JSON.exists():
+        raise SystemExit("--mode all stops here: run `--mode freeze`, review and "
+                         "COMMIT the aperture freeze, then `--mode primary`.")
+    if a.mode == "freeze":
+        freeze_apertures(out, log)
     if a.mode in ("primary", "all"):
         arm_cdefghi(a.backend, out, log)
     if a.mode in ("assemble", "all"):

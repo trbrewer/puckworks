@@ -158,9 +158,13 @@ TAU_CROSS_CHECK = 1.2
 #: matches what tau_plus = 1.2 with g = 1e-5 would have produced: u ~ g/nu.
 G_PRIMARY = 2.0e-5
 G_LINEARITY = (0.5, 2.0)
-RTOL = 1.0e-9
+RTOL = 1.0e-7
 CHECK = 200
 MIN_STEPS = 2000
+#: Forced-step audit multiplier: one case per resolution is re-run at this multiple of its
+#: converged step count and the observables must agree within TOL_CONVERGENCE_REL.
+CONVERGENCE_AUDIT_FACTOR = 1.5
+TOL_CONVERGENCE_REL = 1.0e-4
 MAX_STEPS = 60000
 #: Discretisation law measured on the canonical plane channel (Arm A): the slot-permeability
 #: error is +50/h^2 percent for h in 3..31 lattice units. This is the quantitative justification
