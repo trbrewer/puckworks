@@ -1568,16 +1568,39 @@ XI_WINDOW_LO = vf001.XI_WINDOW_LO
 XI_WINDOW_HI = vf001.XI_WINDOW_HI
 XI_WINDOW_PROVENANCE = vf001.XI_WINDOW_PROVENANCE
 N_LOG_TARGETS = 3
+#: The freeze requires EXACTLY this many unique candidates: one below, three inside, one above.
+N_FROZEN_BRIDGES = N_LOG_TARGETS + 2
+
+#: Category of a candidate, decided on its WHOLE conservative envelope (erratum PE-9).
+XI_CATEGORIES = ("below", "inside", "above", "boundary_ambiguous")
+
+#: Frozen reason codes for a pre-execution design stop. A missing categorical slot is a STOP,
+#: never an improvisation: no P3 slot is ever populated by anything but the frozen rule.
+DESIGN_BLOCKED_REASONS = (
+    "NO_CANDIDATE_WITHIN_ARTIFACT_BUDGET",
+    "NO_CANDIDATE_ADMITTED_BY_REACHABLE_SET",
+    "INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES",
+    "NO_UNAMBIGUOUS_BELOW_CANDIDATE",
+    "NO_UNAMBIGUOUS_ABOVE_CANDIDATE",
+    "SELECTION_UNDERFILLED_AFTER_DEDUPLICATION",
+)
 
 FREEZE_RULE = (
-    "From the SCIENTIFIC bridge candidates that (a) pass the identical-path axial-artifact "
-    "budget at BOTH scientific resolutions and (b) pass the reachable-set admission test, take: "
-    "the candidate with the largest coupon-predicted Xi strictly below XI_WINDOW_LO; the one "
-    "with the smallest coupon-predicted Xi strictly above XI_WINDOW_HI; and the candidates "
-    "nearest to each of 3 log-spaced targets inside the window. Deduplicate preserving order. "
-    "Ties are broken on smaller w, then smaller kz. The rule reads coupon output and the "
-    "identical-path artifact ONLY; no mirror full-fixture R, s or Xi_hat may be inspected before "
-    "the freeze file exists."
+    "Eligibility first: a candidate must pass its forcing-invariance and resolution-consistency "
+    "gates, then the identical-path axial-artifact UPPER-BOUND gate at BOTH scientific "
+    "resolutions and all three forcing levels, then the reachable-set admission test built on "
+    "its own measured blocked-mirror contrast interval. Then, from the eligible set: Xi_select is "
+    "the GEOMETRIC MEAN of every valid positive coupon estimate across both resolutions and all "
+    "three forcing levels; the complete conservative envelope [Xi_lower, Xi_upper] is retained; "
+    "category is decided on the WHOLE envelope (below/inside/above only if the entire envelope "
+    "lies there, otherwise boundary_ambiguous and unavailable for a categorical slot); the below "
+    "slot takes the largest Xi_select among unambiguous 'below' candidates, the above slot the "
+    "smallest among unambiguous 'above', and three inside slots the candidates nearest three "
+    "log-spaced in-window targets by Xi_select. Deduplicate preserving order. Ties break on "
+    "smaller w, then smaller kz. EXACTLY five unique candidates are required; any shortfall is a "
+    "DESIGN_BLOCKED_PRE_EXECUTION stop with a frozen reason code, never an improvised slot. The "
+    "rule reads coupon output, the identical-path artifact and blocked-mirror characterisation "
+    "ONLY; no mirror OPEN full-fixture R, s or Xi_hat may be inspected before the freeze exists."
 )
 
 
@@ -1591,29 +1614,118 @@ def _cand_key(c):
     return (int(c["w"]), int(c["kz"]))
 
 
-def select_bridges(candidates):
-    """Apply FREEZE_RULE. ``candidates`` is an iterable of dicts with ``w``, ``kz``,
-    ``Xi_coupon`` and ``admitted``. Returns the frozen ordered selection. Deterministic: no RNG,
-    no floating-point tie ambiguity (ties resolve on the integer geometry)."""
-    adm = [c for c in candidates if c.get("admitted")]
+def xi_envelope(estimates, uncertainty_rel):
+    """Collapse a candidate's coupon estimates to ONE deterministic selection coordinate and a
+    conservative envelope (erratum PE-9).
+
+    ``estimates`` is an iterable of dicts with ``S``, ``forcing_level``, ``coupon_source`` and
+    ``Xi``. Every valid positive estimate across BOTH resolutions and ALL three forcing levels
+    contributes; the selection coordinate is their GEOMETRIC MEAN, which is the natural centre
+    for a quantity compared against log-spaced targets and spanning more than a decade.
+    """
+    rows = [dict(e) for e in estimates]
+    if not rows:
+        raise ValueError("a candidate must carry at least one coupon Xi estimate")
+    for r in rows:
+        for k in ("S", "forcing_level", "coupon_source", "Xi"):
+            if k not in r:
+                raise ValueError("coupon estimate is missing %r: %r" % (k, r))
+    valid = [r for r in rows if math.isfinite(float(r["Xi"])) and float(r["Xi"]) > 0.0]
+    if not valid:
+        raise ValueError("no valid positive coupon Xi estimate for this candidate")
+    u = _finite(uncertainty_rel, "uncertainty_rel")
+    if u < 0.0:
+        raise ValueError("uncertainty_rel must be non-negative")
+    vals = [float(r["Xi"]) for r in valid]
+    xi_select = float(np.exp(np.mean(np.log(vals))))
+    lower = min(vals) * (1.0 - u)
+    upper = max(vals) * (1.0 + u)
+    resolutions = sorted({int(r["S"]) for r in valid})
+    levels = sorted({str(r["forcing_level"]) for r in valid})
+    if upper < XI_WINDOW_LO:
+        cat = "below"
+    elif lower > XI_WINDOW_HI:
+        cat = "above"
+    elif lower >= XI_WINDOW_LO and upper <= XI_WINDOW_HI:
+        cat = "inside"
+    else:
+        cat = "boundary_ambiguous"
+    return {
+        "estimates": sorted(valid, key=lambda r: (int(r["S"]), str(r["forcing_level"]),
+                                                  str(r["coupon_source"]))),
+        "n_estimates": len(valid),
+        "resolutions": resolutions,
+        "forcing_levels": levels,
+        "uncertainty_rel": u,
+        "Xi_select": xi_select,
+        "Xi_lower": max(lower, 0.0),
+        "Xi_upper": upper,
+        "category": cat,
+        "categorically_usable": cat in ("below", "inside", "above"),
+        "selection_coordinate": "geometric_mean_of_valid_positive_coupon_estimates",
+    }
+
+
+class DesignBlocked(RuntimeError):
+    """A pre-execution design stop. NOT a scientific disposition: the primary experiment did not
+    run and nothing is adjudicated."""
+
+    def __init__(self, reason, detail=""):
+        if reason not in DESIGN_BLOCKED_REASONS:
+            raise ValueError("unknown design-blocked reason %r" % (reason,))
+        self.reason = reason
+        self.detail = detail
+        super().__init__("%s: %s" % (reason, detail) if detail else reason)
+
+
+def select_bridges(candidates, strict=True):
+    """Apply FREEZE_RULE mechanically. Deterministic: no RNG, and every tie resolves on the
+    integer geometry.
+
+    Each candidate is a dict with ``w``, ``kz``, ``eligible`` and an ``xi_envelope`` mapping as
+    returned by :func:`xi_envelope`. With ``strict`` (the default) a shortfall raises
+    ``DesignBlocked`` with a frozen reason code rather than returning an underfilled selection.
+    """
+    cands = [dict(c) for c in candidates]
+    eligible = [c for c in cands if c.get("eligible")]
+    if not eligible and strict:
+        raise DesignBlocked("NO_CANDIDATE_ADMITTED_BY_REACHABLE_SET",
+                            "no candidate survived the artifact and reachable-set gates")
+    by_cat = {k: [c for c in eligible if c["xi_envelope"]["category"] == k]
+              for k in XI_CATEGORIES}
     picked, seen = [], set()
 
     def take(sub, key):
         if not sub:
-            return
+            return False
         best = sorted(sub, key=key)[0]
         k = _cand_key(best)
-        if k not in seen:
-            seen.add(k)
-            picked.append(best)
+        if k in seen:
+            return False
+        seen.add(k)
+        picked.append(best)
+        return True
 
-    below = [c for c in adm if c["Xi_coupon"] < XI_WINDOW_LO]
-    take(below, lambda c: (-c["Xi_coupon"], _cand_key(c)))
-    above = [c for c in adm if c["Xi_coupon"] > XI_WINDOW_HI]
-    take(above, lambda c: (c["Xi_coupon"], _cand_key(c)))
-    inside = [c for c in adm if XI_WINDOW_LO <= c["Xi_coupon"] <= XI_WINDOW_HI]
-    for t in log_targets():
-        take(inside, lambda c, t=t: (abs(np.log(c["Xi_coupon"]) - np.log(t)), _cand_key(c)))
+    below_ok = take(by_cat["below"], lambda c: (-c["xi_envelope"]["Xi_select"], _cand_key(c)))
+    if strict and not below_ok:
+        raise DesignBlocked("NO_UNAMBIGUOUS_BELOW_CANDIDATE",
+                            "no eligible candidate's whole envelope lies below the window")
+    above_ok = take(by_cat["above"], lambda c: (c["xi_envelope"]["Xi_select"], _cand_key(c)))
+    if strict and not above_ok:
+        raise DesignBlocked("NO_UNAMBIGUOUS_ABOVE_CANDIDATE",
+                            "no eligible candidate's whole envelope lies above the window")
+    inside = by_cat["inside"]
+    if strict and len({_cand_key(c) for c in inside}) < N_LOG_TARGETS:
+        raise DesignBlocked("INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES",
+                            "%d unambiguous in-window candidates, %d required"
+                            % (len({_cand_key(c) for c in inside}), N_LOG_TARGETS))
+    for target in log_targets():
+        take(inside, lambda c, t=target: (abs(math.log(c["xi_envelope"]["Xi_select"])
+                                              - math.log(t)), _cand_key(c)))
+    if strict and len(picked) != N_FROZEN_BRIDGES:
+        raise DesignBlocked("SELECTION_UNDERFILLED_AFTER_DEDUPLICATION",
+                            "selected %d unique candidates, exactly %d required"
+                            % (len(picked), N_FROZEN_BRIDGES))
     return picked
 
 
@@ -1800,31 +1912,50 @@ def decide(controls, clauses):
 
 EXECUTION_PHASES = (
     {"id": "P0", "name": "common blocked characterisation",
-     "purpose": "establish the reference-blocked c_field, A1, A2 and the axial coupons; retain "
-                "every volume- and mass-flux diagnostic",
+     "purpose": "the reference-blocked mirror fixture over the FULL forcing ladder at both "
+                "resolutions, the axial coupons over the full ladder in both lattice "
+                "orientations, and the scheduled tau cross-check",
      "reveals": "reference-blocked internals and coupon conductances only",
-     "authorised_now": False},
-    {"id": "P1", "name": "candidate identical-path controls",
-     "purpose": "measure the zero-lateral-driver axial artifact directly, per candidate, at both "
-                "resolutions",
-     "reveals": "identical-path blocked/open observables only; NO mirror recovery case is run "
-                "or inspected",
-     "authorised_now": False},
-    {"id": "P2", "name": "admissibility and bridge freeze",
-     "purpose": "apply the artifact budget, then the reachable-set admission test, then the "
-                "coupon-only FREEZE_RULE; write and hash the freeze artifact",
-     "reveals": "bridge coupon conductances only",
-     "authorised_now": False},
+     "prerequisite": None, "authorised_now": False},
+    {"id": "P1a", "name": "central identical-path screen",
+     "purpose": "central identical-path blocked/open pairs for ALL declared scientific "
+                "candidates at both resolutions",
+     "reveals": "identical-path observables only; NO mirror recovery case is run or inspected",
+     "prerequisite": "P0", "authorised_now": False},
+    {"id": "P1b", "name": "identical-path forcing extension and continuation",
+     "purpose": "reject obvious central failures, then run the x0.5 and x2 extensions for every "
+                "candidate that could still be selected, plus the frozen continuation runs the "
+                "numerical-discrepancy method needs. FINAL artifact admission uses all three "
+                "forcing levels at both resolutions",
+     "reveals": "identical-path observables only",
+     "prerequisite": "P1a", "authorised_now": False},
+    {"id": "P2a", "name": "coupon ladders and candidate blocked-mirror characterisation",
+     "purpose": "full forcing ladders for the bridge coupons of surviving candidates, and "
+                "candidate-specific BLOCKED MIRROR characterisation over the same "
+                "forcing/resolution set — the measured basis for the contrast interval",
+     "reveals": "bridge coupon conductances and blocked-mirror internals. NO candidate OPEN "
+                "mirror recovery case is run",
+     "prerequisite": "P1b", "authorised_now": False},
+    {"id": "P2b", "name": "admissibility, selection and proposed freeze",
+     "purpose": "apply every forcing, resolution, artifact, reachability and selection rule; "
+                "produce the proposed bridge freeze and the INSTANTIATED P3/P4 matrix; stop for "
+                "a second exact-head review",
+     "reveals": "nothing new — no solve; arithmetic over P0/P1/P2a records only",
+     "prerequisite": "P2a", "authorised_now": False},
     {"id": "P3", "name": "primary mirror / path-swap experiment",
      "purpose": "the experiment the tranche exists to perform",
-     "reveals": "the primary observables — may execute only from an expressly approved frozen head",
-     "authorised_now": False},
+     "reveals": "the primary observables — may execute only from an expressly approved frozen "
+                "head, after the second review",
+     "prerequisite": "P2b", "authorised_now": False},
     {"id": "P4", "name": "Arm J return-path nuisance isolation",
      "purpose": "repeat the plenum obstruction for every decision-carrying case and gate Route-A "
                 "isolation on R and s",
      "reveals": "obstructed counterparts of the primary cases",
-     "authorised_now": False},
+     "prerequisite": "P3", "authorised_now": False},
 )
+
+PHASE_IDS = tuple(p["id"] for p in EXECUTION_PHASES)
+SOLVING_PHASE_IDS = ("P0", "P1a", "P1b", "P2a", "P3", "P4")     # P2b does no solving
 
 #: Arm J, preserved from the 001 programme and NOT silently dropped to shrink the matrix.
 ARM_J = {
@@ -1833,157 +1964,306 @@ ARM_J = {
                "extreme obstruction) while the pressure-normalised ratio R moved only 3.7e-4. "
                "Arm J converts that single smoke-scale probe into a gated control.",
     "relationship_to_corrected_geometry": "unchanged by the bridge redesign — the obstruction "
-               "touches only plenum voxels and preserves both fixture symmetries, so it applies "
-               "to the lateral-only bridge exactly as it applied to the 001 aperture. The "
-               "corrected blocked reference makes it STRICTER, because the ports are now "
-               "common-mode and cannot mask a return-path movement.",
+               "touches only plenum voxels and preserves both fixture symmetries. The corrected "
+               "blocked reference makes it STRICTER, because the ports are now common-mode and "
+               "cannot mask a return-path movement.",
     "status": "decision_bearing",
     "gate": {"R_rel": TOL_RETURN_PATH_R_REL, "s_abs": TOL_RETURN_PATH_S_ABS},
     "fail_semantics": "INVALID_EXECUTION — never a relaxed second tolerance and never a switch "
                       "to Route B, which remains unauthorized",
     "ordering": "after P3's nominal cases, before adjudication",
-    "planned_solves": 20,
-    "matrix": "5 frozen bridges x {blocked, open} x {S=2, S=3}, central forcing, plenum obstructed",
+    "planned_solves": N_FROZEN_BRIDGES * 2 * len(SCIENTIFIC_RESOLUTIONS),
+    "matrix": "each frozen bridge x {blocked, open} x {S=2, S=3}, central forcing, obstructed",
 }
+
+#: Retained-record schemas, named so a row states exactly what it must produce.
+RECORD_SCHEMAS = {
+    "full_case": "named axial planes + the nine conservation planes + lane planes + transverse "
+                 "planes + conservation + transverse_conservation + mach + observables",
+    "coupon": "duct conductance Q/(g L) with its plane records and mach",
+    "case_plus_boundary_and_truth": "full_case, then the six-key boundary record, then field "
+                                    "truth — built and recorded in that order",
+    "continuation": "full_case at CONVERGENCE_AUDIT_FACTOR x the converged step count",
+    "obstructed": "full_case plus the induced movements in R, s, c_hat and Xi_hat",
+}
+
+
+def _case_id(row):
+    """A stable, unique identifier built from the row's own configuration. Deterministic and
+    order-independent: two rows with the same id would denote the same run."""
+    parts = [row["phase"], row["kind"], "S%d" % row["S"], row["forcing_level"],
+             "tau%s" % ("%g" % row["tau_plus"]).replace(".", "p"), row["state"], row["variant"]]
+    b = row.get("bridge")
+    if isinstance(b, dict):
+        parts.append("w%dkz%d" % (b["w"], b["kz"]))
+    elif b:
+        parts.append(str(b))
+    for key, pre in (("coupon_level", "lvl"), ("coupon_orientation", "or"),
+                     ("perturbation", "pert"), ("audit_mode", "audit")):
+        if row.get(key):
+            parts.append("%s-%s" % (pre, row[key]))
+    if row.get("swapped"):
+        parts.append("swapped")
+    if row.get("obstructed"):
+        parts.append("obstructed")
+    return ".".join(parts)
+
+
+def _row(**kw):
+    """One fully specified, uniquely executable matrix row (erratum PE-10)."""
+    row = {
+        "phase": None, "kind": None, "S": None, "forcing_level": None, "forcing": None,
+        "tau_plus": TAU_PLUS, "state": None, "variant": None, "bridge": None,
+        "coupon_level": None, "coupon_orientation": None, "swapped": False,
+        "perturbation": None, "obstructed": False, "audit_mode": None,
+        "backend": "reference", "record_schema": None, "prerequisite": None,
+        "class": None, "adaptive": False,
+    }
+    row.update(kw)
+    missing = [k for k in ("phase", "kind", "S", "forcing_level", "forcing", "state", "variant",
+                           "record_schema", "class") if row[k] is None]
+    if missing:
+        raise ValueError("matrix row is under-specified, missing %r: %r" % (missing, row))
+    row["case_id"] = _case_id(row)
+    return row
 
 
 def _matrix_rows():
     rows = []
-    n_sci = len(SCIENTIFIC_BRIDGE_CANDIDATES)
+    sci = SCIENTIFIC_BRIDGE_CANDIDATES
 
-    # ---- P0 --------------------------------------------------------------------------------
+    # ---- P0: reference-blocked ladder, axial coupons (full ladder, BOTH orientations), tau ----
     for S in SCIENTIFIC_RESOLUTIONS:
         for level in FORCING_LEVELS:
-            rows.append({"phase": "P0", "kind": "reference_blocked_ladder", "S": S,
-                         "forcing_level": level, "forcing": forcing_ladder(S)[level],
-                         "state": "reference_blocked", "variant": "mirror", "bridge": None,
-                         "arm": "P0", "class": "mandatory",
-                         "record": "axial planes (volume+mass), node pressures, face pressures"})
+            rows.append(_row(phase="P0", kind="reference_blocked_ladder", S=S,
+                             forcing_level=level, forcing=forcing_ladder(S)[level],
+                             state="reference_blocked", variant="mirror",
+                             record_schema="full_case", **{"class": "mandatory"}))
     for S in SCIENTIFIC_RESOLUTIONS:
-        for level in ("high", "low"):
-            for orient in ("x", "y"):
-                rows.append({"phase": "P0", "kind": "axial_coupon", "S": S,
-                             "forcing_level": "central", "forcing": forcing_central(S),
-                             "state": "coupon", "variant": level, "bridge": None,
-                             "arm": "P0", "class": "mandatory",
-                             "record": "duct conductance Q/(g L), both lattice orientations"})
+        for level in FORCING_LEVELS:
+            for coupon_level in ("high", "low"):
+                for orient in ("x", "y"):
+                    rows.append(_row(phase="P0", kind="axial_coupon", S=S, forcing_level=level,
+                                     forcing=forcing_ladder(S)[level], state="coupon",
+                                     variant="axial_coupon", coupon_level=coupon_level,
+                                     coupon_orientation=orient, record_schema="coupon",
+                                     **{"class": "mandatory"}))
+    for S in SCIENTIFIC_RESOLUTIONS:                    # the SCHEDULED tau cross-check (PE-12)
+        rows.append(_row(phase="P0", kind="tau_cross_check", S=S, forcing_level="central",
+                         forcing=forcing_central(S), tau_plus=TAU_CROSS_CHECK,
+                         state="reference_blocked", variant="mirror",
+                         record_schema="full_case", **{"class": "mandatory"}))
+    rows.append(_row(phase="P0", kind="determinism_replicate", S=S_COARSE,
+                     forcing_level="central", forcing=forcing_central(S_COARSE),
+                     state="reference_blocked", variant="mirror",
+                     record_schema="full_case", **{"class": "diagnostic_only"}))
 
-    # ---- P1 --------------------------------------------------------------------------------
-    for b in SCIENTIFIC_BRIDGE_CANDIDATES:
+    # ---- P1a: central identical-path screen, ALL declared scientific candidates --------------
+    for b in sci:
         for S in SCIENTIFIC_RESOLUTIONS:
             for connected in (False, True):
-                rows.append({"phase": "P1", "kind": "identical_path_control", "S": S,
-                             "forcing_level": "central", "forcing": forcing_central(S),
-                             "state": "open" if connected else "blocked", "variant": "identical",
-                             "bridge": dict(b), "arm": "P1", "class": "mandatory",
-                             "record": "axial planes (volume+mass), transverse planes, node and "
-                                       "face pressures, R_identical"})
+                rows.append(_row(phase="P1a", kind="identical_path_control", S=S,
+                                 forcing_level="central", forcing=forcing_central(S),
+                                 state="open" if connected else "blocked", variant="identical",
+                                 bridge=dict(b), record_schema="full_case",
+                                 prerequisite="P0", **{"class": "mandatory"}))
+    rows.append(_row(phase="P1a", kind="determinism_replicate", S=S_COARSE,
+                     forcing_level="central", forcing=forcing_central(S_COARSE),
+                     state="blocked", variant="identical", bridge=dict(sci[0]),
+                     record_schema="full_case", prerequisite="P0",
+                     **{"class": "diagnostic_only"}))
 
-    # ---- P2 --------------------------------------------------------------------------------
-    for b in SCIENTIFIC_BRIDGE_CANDIDATES:
+    # ---- P1b: forcing extension + continuation, for candidates still selectable --------------
+    for b in sci:
         for S in SCIENTIFIC_RESOLUTIONS:
-            rows.append({"phase": "P2", "kind": "bridge_coupon", "S": S,
-                         "forcing_level": "central", "forcing": forcing_central(S),
-                         "state": "coupon", "variant": "bridge", "bridge": dict(b),
-                         "arm": "P2", "class": "conditional_on_P1",
-                         "record": "transverse bridge conductance G_bridge_coupon"})
+            for level in ("low", "high"):
+                for connected in (False, True):
+                    rows.append(_row(phase="P1b", kind="identical_path_control", S=S,
+                                     forcing_level=level, forcing=forcing_ladder(S)[level],
+                                     state="open" if connected else "blocked",
+                                     variant="identical", bridge=dict(b),
+                                     record_schema="full_case", prerequisite="P1a",
+                                     adaptive=True, **{"class": "conditional_on_P1a"}))
+    # continuation bounds the numerical discrepancy; run on the SMALLEST and LARGEST bridge and
+    # apply the worst as the bound for every candidate — declared, not assumed away.
+    for b in (sci[0], sci[-1]):
+        for S in SCIENTIFIC_RESOLUTIONS:
+            for connected in (False, True):
+                rows.append(_row(phase="P1b", kind="continuation_audit", S=S,
+                                 forcing_level="central", forcing=forcing_central(S),
+                                 state="open" if connected else "blocked", variant="identical",
+                                 bridge=dict(b), audit_mode="forced_step_1p5x",
+                                 record_schema="continuation", prerequisite="P1a",
+                                 adaptive=True, **{"class": "conditional_on_P1a"}))
 
-    # ---- P3 (conditional on the freeze) ----------------------------------------------------
-    n_frozen = N_LOG_TARGETS + 2
-    for i in range(n_frozen):
+    # ---- P2a: bridge coupon ladders + candidate BLOCKED MIRROR characterisation --------------
+    for b in sci:
         for S in SCIENTIFIC_RESOLUTIONS:
             for level in FORCING_LEVELS:
-                for connected in (False, True):
-                    rows.append({"phase": "P3", "kind": "primary_mirror", "S": S,
-                                 "forcing_level": level, "forcing": forcing_ladder(S)[level],
-                                 "state": "open" if connected else "blocked", "variant": "mirror",
-                                 "bridge": "frozen_%d" % i, "arm": "P3",
-                                 "class": "conditional_on_freeze",
-                                 "record": "full compact record + boundary record + field truth"})
-    for i in range(n_frozen):
+                rows.append(_row(phase="P2a", kind="bridge_coupon", S=S, forcing_level=level,
+                                 forcing=forcing_ladder(S)[level], state="coupon",
+                                 variant="bridge_coupon", bridge=dict(b),
+                                 record_schema="coupon", prerequisite="P1b", adaptive=True,
+                                 **{"class": "conditional_on_P1b"}))
+    for b in sci:
         for S in SCIENTIFIC_RESOLUTIONS:
-            for connected in (False, True):
-                rows.append({"phase": "P3", "kind": "path_swap_control", "S": S,
-                             "forcing_level": "central", "forcing": forcing_central(S),
-                             "state": "open" if connected else "blocked", "variant": "mirror",
-                             "swapped": True, "bridge": "frozen_%d" % i, "arm": "G",
-                             "class": "conditional_on_freeze",
-                             "record": "full compact record"})
-    for pert in sorted(PERTURBATIONS):
-        for connected in (False, True):
-            rows.append({"phase": "P3", "kind": "adversarial_perturbation", "S": S_FINE,
-                         "forcing_level": "central", "forcing": forcing_central(S_FINE),
-                         "state": "open" if connected else "blocked", "variant": "mirror",
-                         "perturbation": pert, "bridge": "frozen_0", "arm": "I",
-                         "class": "conditional_on_freeze", "record": "full compact record"})
-    for S in SCIENTIFIC_RESOLUTIONS:
-        rows.append({"phase": "P3", "kind": "forced_step_convergence_audit", "S": S,
-                     "forcing_level": "central", "forcing": forcing_central(S),
-                     "state": "open", "variant": "mirror", "bridge": "frozen_0", "arm": "A",
-                     "class": "conditional_on_freeze",
-                     "record": "observables at 1.5x the converged step count"})
-
-    # ---- P4 Arm J --------------------------------------------------------------------------
-    for i in range(n_frozen):
-        for S in SCIENTIFIC_RESOLUTIONS:
-            for connected in (False, True):
-                rows.append({"phase": "P4", "kind": "arm_j_return_path", "S": S,
-                             "forcing_level": "central", "forcing": forcing_central(S),
-                             "state": "open" if connected else "blocked", "variant": "mirror",
-                             "obstructed": True, "bridge": "frozen_%d" % i, "arm": "J",
-                             "class": "conditional_on_P3",
-                             "record": "R, s and the induced c_hat / Xi_hat movements"})
-
-    # ---- determinism replicates --------------------------------------------------------------
-    # Each replicate repeats a case its OWN phase already runs, so a replicate can never reveal
-    # something the phase is not permitted to see: P1's is an identical-path case, not a mirror
-    # one, and P0's is the bridge-free reference.
-    for phase, state, variant, bridge in (("P0", "reference_blocked", "mirror", None),
-                                          ("P1", "blocked", "identical", "first_scientific"),
-                                          ("P3", "blocked", "mirror", "frozen_0")):
-        rows.append({"phase": phase, "kind": "determinism_replicate", "S": S_COARSE,
-                     "forcing_level": "central", "forcing": forcing_central(S_COARSE),
-                     "state": state, "variant": variant, "bridge": bridge,
-                     "arm": "determinism", "class": "diagnostic_only",
-                     "record": "byte-identical compact record"})
-    assert n_sci  # the family must be non-empty
+            for level in FORCING_LEVELS:
+                rows.append(_row(phase="P2a", kind="candidate_blocked_mirror", S=S,
+                                 forcing_level=level, forcing=forcing_ladder(S)[level],
+                                 state="blocked", variant="mirror", bridge=dict(b),
+                                 record_schema="full_case", prerequisite="P1b", adaptive=True,
+                                 **{"class": "conditional_on_P1b"}))
     return rows
 
 
+def post_freeze_row_templates():
+    """P3/P4 TEMPLATES. The real rows are instantiated only after the bridge selection is known
+    (erratum PE-10) — see :func:`instantiate_post_freeze_matrix`."""
+    rows = []
+    slots = ["frozen_slot_%d" % i for i in range(N_FROZEN_BRIDGES)]
+    for slot in slots:
+        for S in SCIENTIFIC_RESOLUTIONS:
+            for level in FORCING_LEVELS:
+                rows.append(_row(phase="P3", kind="primary_mirror_open", S=S,
+                                 forcing_level=level, forcing=forcing_ladder(S)[level],
+                                 state="open", variant="mirror", bridge=slot,
+                                 record_schema="case_plus_boundary_and_truth",
+                                 prerequisite="P2b", **{"class": "conditional_on_freeze"}))
+    for slot in slots:
+        for S in SCIENTIFIC_RESOLUTIONS:
+            for connected in (False, True):
+                rows.append(_row(phase="P3", kind="path_swap_control", S=S,
+                                 forcing_level="central", forcing=forcing_central(S),
+                                 state="open" if connected else "blocked", variant="mirror",
+                                 swapped=True, bridge=slot, record_schema="full_case",
+                                 prerequisite="P2b", **{"class": "conditional_on_freeze"}))
+    for pert in sorted(PERTURBATIONS):
+        for connected in (False, True):
+            rows.append(_row(phase="P3", kind="adversarial_perturbation", S=S_FINE,
+                             forcing_level="central", forcing=forcing_central(S_FINE),
+                             state="open" if connected else "blocked", variant="mirror",
+                             perturbation=pert, bridge=slots[0], record_schema="full_case",
+                             prerequisite="P2b", **{"class": "conditional_on_freeze"}))
+    for S in SCIENTIFIC_RESOLUTIONS:
+        rows.append(_row(phase="P3", kind="continuation_audit", S=S, forcing_level="central",
+                         forcing=forcing_central(S), state="open", variant="mirror",
+                         bridge=slots[0], audit_mode="forced_step_1p5x",
+                         record_schema="continuation", prerequisite="P2b",
+                         **{"class": "conditional_on_freeze"}))
+    rows.append(_row(phase="P3", kind="determinism_replicate", S=S_COARSE,
+                     forcing_level="central", forcing=forcing_central(S_COARSE),
+                     state="open", variant="mirror", bridge=slots[0],
+                     record_schema="full_case", prerequisite="P2b",
+                     **{"class": "diagnostic_only"}))
+    for slot in slots:
+        for S in SCIENTIFIC_RESOLUTIONS:
+            for connected in (False, True):
+                rows.append(_row(phase="P4", kind="arm_j_return_path", S=S,
+                                 forcing_level="central", forcing=forcing_central(S),
+                                 state="open" if connected else "blocked", variant="mirror",
+                                 obstructed=True, bridge=slot, record_schema="obstructed",
+                                 prerequisite="P3", **{"class": "conditional_on_P3"}))
+    return rows
+
+
+def instantiate_post_freeze_matrix(frozen_bridges):
+    """Bind the P3/P4 templates to the ACTUAL frozen bridges. Refuses unless exactly
+    ``N_FROZEN_BRIDGES`` unique candidates are supplied — a missing slot is a design stop, never
+    an improvised row. The result is hashed into the proposed freeze artifact."""
+    bridges = [dict(b) for b in frozen_bridges]
+    keys = [(int(b["w"]), int(b["kz"])) for b in bridges]
+    if len(bridges) != N_FROZEN_BRIDGES or len(set(keys)) != N_FROZEN_BRIDGES:
+        raise DesignBlocked("SELECTION_UNDERFILLED_AFTER_DEDUPLICATION",
+                            "instantiation needs exactly %d unique frozen bridges, got %r"
+                            % (N_FROZEN_BRIDGES, keys))
+    slot_map = {"frozen_slot_%d" % i: bridges[i] for i in range(N_FROZEN_BRIDGES)}
+    out = []
+    for tpl in post_freeze_row_templates():
+        row = dict(tpl)
+        row["bridge"] = dict(slot_map[row["bridge"]])
+        row["bridge_slot"] = tpl["bridge"]
+        row.pop("case_id")
+        row["case_id"] = _case_id(row)
+        out.append(row)
+    ids = [r["case_id"] for r in out]
+    if len(set(ids)) != len(ids):                            # pragma: no cover - guarded above
+        raise ValueError("instantiated P3/P4 matrix has duplicate case ids")
+    return out
+
+
 def execution_matrix():
-    """The complete planned matrix with exact solve counts. NOTHING here has been executed."""
-    rows = _matrix_rows()
-    by_phase, by_class = {}, {}
+    """The complete PLANNED matrix with exact solve counts. NOTHING here has been executed.
+
+    P0/P1a are unconditional; P1b/P2a are adaptive and are emitted at their MAXIMUM (every
+    declared scientific candidate surviving); P3/P4 are TEMPLATES until the bridge selection is
+    known, at which point ``instantiate_post_freeze_matrix`` binds them and the result is hashed
+    into the proposed freeze artifact.
+    """
+    pre = _matrix_rows()
+    post = post_freeze_row_templates()
+    rows = pre + post
+    ids = [r["case_id"] for r in rows]
+    if len(set(ids)) != len(ids):                            # pragma: no cover - tested directly
+        dup = sorted({i for i in ids if ids.count(i) > 1})
+        raise ValueError("duplicate case ids in the planned matrix: %r" % (dup,))
+    by_phase, by_class, by_kind = {}, {}, {}
     for r in rows:
         by_phase[r["phase"]] = by_phase.get(r["phase"], 0) + 1
         by_class[r["class"]] = by_class.get(r["class"], 0) + 1
+        by_kind[r["kind"]] = by_kind.get(r["kind"], 0) + 1
     mandatory = by_class.get("mandatory", 0)
+    diagnostic = by_class.get("diagnostic_only", 0)
+    total = len(rows)
+    mandatory_with_replicates = mandatory + sum(
+        1 for r in rows if r["class"] == "diagnostic_only" and r["phase"] in ("P0", "P1a"))
     return {
         "tranche": TRANCHE_ID,
         "correction_version": CORRECTION_VERSION,
         "solves_executed": 0,
         "rows": rows,
-        "n_rows": len(rows),
+        "n_rows": total,
         "by_phase": by_phase,
         "by_class": by_class,
-        "mandatory_scheduled": mandatory,
-        "conditional": len(rows) - mandatory - by_class.get("diagnostic_only", 0),
-        "diagnostic_only": by_class.get("diagnostic_only", 0),
-        "maximum_possible": len(rows),
-        "ordering": "P0 -> P1 -> P2 (freeze) -> P3 -> P4, strictly; within a phase, rows in the "
-                    "order emitted here",
+        "by_kind": by_kind,
+        "mandatory_minimum": mandatory_with_replicates,
+        "conditional_minimum": 0,
+        "adaptive_maximum": total,
+        "diagnostic_replicates": diagnostic,
+        "replicate_placement": (
+            "three replicates, in P0, P1a and P3 — the three phases producing decision-bearing "
+            "records from DISTINCT fixture families (reference-blocked, identical-path, mirror). "
+            "P2a re-uses those families and P4 re-uses P3's fixtures with an obstruction, so a "
+            "fourth would add no independent evidence. Each replicate repeats a case its own "
+            "phase already runs, so P1a's is identical-path and cannot reveal a mirror "
+            "observable."),
+        "refused_after_earliest_stop": total - mandatory_with_replicates,
+        "post_freeze_rows_are_templates": True,
+        "n_post_freeze_template_rows": len(post),
+        "ordering": "P0 -> P1a -> P1b -> P2a -> P2b (freeze, STOP for review) -> P3 -> P4; "
+                    "within a phase, rows in the order emitted here",
         "early_stop": {
-            "P1": "if NO candidate meets ARTIFACT_BUDGET_R_ABS at both resolutions, stop with "
-                  "DESIGN_BLOCKED_PRE_EXECUTION; P2, P3 and P4 are not run",
-            "P2": "if fewer than 3 admitted candidates have coupon-predicted Xi inside the "
-                  "window, stop and report the calibration-to-assembly gap; do not re-select",
+            "P1a": "a candidate whose central identical-path artifact upper bound already "
+                   "exceeds ARTIFACT_BUDGET_R_ABS at either resolution is rejected and its P1b "
+                   "and P2a rows are refused",
+            "P1b": "if NO candidate meets the artifact budget across all three forcing levels at "
+                   "both resolutions, stop with DESIGN_BLOCKED_PRE_EXECUTION "
+                   "(NO_CANDIDATE_WITHIN_ARTIFACT_BUDGET)",
+            "P2a": "a candidate failing forcing invariance or resolution consistency is not "
+                   "eligible for selection",
+            "P2b": "if the frozen rule cannot fill all %d unique slots from unambiguous "
+                   "candidates, stop with a frozen DESIGN_BLOCKED reason code; do NOT improvise "
+                   "a slot and do NOT re-select" % N_FROZEN_BRIDGES,
             "P3": "any run reaching MAX_STEPS is UNCONVERGED and stops the phase; no retry at a "
                   "looser tolerance",
             "P4": "a breached Route-A isolation bound gives INVALID_EXECUTION, never a relaxed "
                   "second tolerance",
         },
-        "rerun_policy": "no replicates — every case is deterministic with no RNG; one replicate "
-                        "per phase is run solely to demonstrate byte-identical reproduction",
+        "rerun_policy": "no statistical replicates — every case is deterministic with no RNG; the "
+                        "three replicates exist solely to demonstrate byte-identical reproduction",
+        "reuse_policy": "P3 re-uses P2a's candidate blocked-mirror records for the frozen "
+                        "bridges rather than re-solving them: identical mask, identical forcing, "
+                        "identical solver configuration, and the solver is deterministic. The "
+                        "reuse is recorded per case, never silent.",
         "compute_note": "PLANNING INFORMATION ONLY, not an admission criterion: no wall-time "
                         "estimate is asserted, because none has been measured for this geometry",
     }

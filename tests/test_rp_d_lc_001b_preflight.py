@@ -598,36 +598,103 @@ def test_the_resolution_test_is_never_labelled_a_convergence_order_estimate():
 # 8. Deterministic selection, decision ordering and fail-closed semantics
 # ==========================================================================================
 
-def _cands(xis):
-    return [{"w": w, "kz": kz, "Xi_coupon": x, "admitted": True}
-            for (w, kz), x in zip([(c["w"], c["kz"]) for c in SCI], xis)]
+def _env(xi, u=0.05):
+    est = [{"S": S, "forcing_level": lv, "coupon_source": "bridge_coupon", "Xi": xi * f}
+           for S in vf.SCIENTIFIC_RESOLUTIONS
+           for lv, f in (("low", 0.99), ("central", 1.0), ("high", 1.01))]
+    return vf.xi_envelope(est, u)
 
 
-def test_bridge_selection_is_deterministic_and_reads_coupon_output_only():
-    xis = [0.05, 0.09, 0.15, 0.3, 0.6, 1.1, 1.9, 2.8, 3.6, 4.2, 5.5, 8.0]
-    a = vf.select_bridges(_cands(xis))
-    b = vf.select_bridges(_cands(xis))
+def _cand(w, kz, xi, eligible=True, u=0.05):
+    return {"w": w, "kz": kz, "eligible": eligible, "xi_envelope": _env(xi, u)}
+
+
+def _full_set():
+    """One candidate per categorical slot plus spares — every envelope unambiguous."""
+    return [_cand(3, 2, 0.10), _cand(3, 3, 0.35), _cand(5, 2, 0.9),
+            _cand(5, 3, 2.2), _cand(7, 4, 3.0), _cand(9, 4, 6.0)]
+
+
+def test_the_selection_coordinate_and_envelope_are_frozen_and_cross_resolution():
+    e = _env(1.0)
+    assert e["selection_coordinate"] == "geometric_mean_of_valid_positive_coupon_estimates"
+    assert e["resolutions"] == list(vf.SCIENTIFIC_RESOLUTIONS)
+    assert sorted(e["forcing_levels"]) == ["central", "high", "low"]
+    assert e["n_estimates"] == 6
+    assert e["Xi_lower"] < e["Xi_select"] < e["Xi_upper"]
+    # the geometric mean of a symmetric multiplicative spread returns the centre
+    assert e["Xi_select"] == pytest.approx((0.99 * 1.0 * 1.01) ** (1 / 3), rel=1e-12)
+
+
+def test_a_candidate_is_never_collapsed_to_one_unspecified_xi():
+    e = _env(1.0)
+    for r in e["estimates"]:
+        assert set(r) >= {"S", "forcing_level", "coupon_source", "Xi"}
+
+
+@pytest.mark.parametrize("xi,cat", [(0.05, "below"), (1.0, "inside"), (20.0, "above")])
+def test_category_is_decided_on_the_whole_envelope(xi, cat):
+    assert _env(xi)["category"] == cat
+
+
+def test_an_envelope_straddling_a_window_edge_is_boundary_ambiguous_and_unusable():
+    for xi in (vf.XI_WINDOW_LO, vf.XI_WINDOW_HI):
+        e = _env(xi)
+        assert e["category"] == "boundary_ambiguous"
+        assert e["categorically_usable"] is False
+
+
+def test_bridge_selection_is_deterministic_and_reads_no_mirror_observable():
+    a = vf.select_bridges(_full_set())
+    b = vf.select_bridges(_full_set())
     assert [(c["w"], c["kz"]) for c in a] == [(c["w"], c["kz"]) for c in b]
-    assert len(a) == vf.N_LOG_TARGETS + 2
-    src = inspect.getsource(vf.select_bridges)
-    for forbidden in ("R", "Xi_hat", "c_hat", "s_"):
-        assert '"%s"' % forbidden not in src
+    assert len(a) == vf.N_FROZEN_BRIDGES == 5
+    src = inspect.getsource(vf.select_bridges) + inspect.getsource(vf.xi_envelope)
+    for forbidden in ("Xi_hat", "c_hat", "R_open", "outlet_share"):
+        assert forbidden not in src
 
 
-def test_an_inadmissible_candidate_can_never_be_selected():
-    xis = [0.05, 0.09, 0.15, 0.3, 0.6, 1.1, 1.9, 2.8, 3.6, 4.2, 5.5, 8.0]
-    cs = _cands(xis)
+def test_an_ineligible_candidate_can_never_be_selected():
+    cs = _full_set()
     for c in cs:
-        c["admitted"] = c["Xi_coupon"] < 1.0
+        if (c["w"], c["kz"]) == (5, 3):
+            c["eligible"] = False
     sel = vf.select_bridges(cs)
-    assert all(c["Xi_coupon"] < 1.0 for c in sel)
+    assert (5, 3) not in [(c["w"], c["kz"]) for c in sel]
 
 
 def test_selection_ties_break_on_the_integer_geometry():
-    cs = [{"w": 9, "kz": 2, "Xi_coupon": 1.0, "admitted": True},
-          {"w": 3, "kz": 4, "Xi_coupon": 1.0, "admitted": True}]
+    cs = [_cand(9, 2, 0.05), _cand(3, 4, 0.05), _cand(3, 3, 0.35), _cand(5, 2, 0.9),
+          _cand(5, 3, 2.2), _cand(9, 4, 6.0)]
     sel = vf.select_bridges(cs)
-    assert sel[0]["w"] == 3
+    assert (sel[0]["w"], sel[0]["kz"]) == (3, 4)          # smaller w wins the tie
+
+
+@pytest.mark.parametrize("drop,reason", [
+    ("above", "NO_UNAMBIGUOUS_ABOVE_CANDIDATE"),
+    ("below", "NO_UNAMBIGUOUS_BELOW_CANDIDATE"),
+    ("inside", "INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES"),
+])
+def test_a_missing_categorical_slot_stops_rather_than_improvising(drop, reason):
+    cs = [c for c in _full_set() if c["xi_envelope"]["category"] != drop]
+    with pytest.raises(vf.DesignBlocked) as exc:
+        vf.select_bridges(cs)
+    assert exc.value.reason == reason
+    assert exc.value.reason in vf.DESIGN_BLOCKED_REASONS
+
+
+def test_no_eligible_candidate_at_all_is_a_design_stop():
+    cs = _full_set()
+    for c in cs:
+        c["eligible"] = False
+    with pytest.raises(vf.DesignBlocked) as exc:
+        vf.select_bridges(cs)
+    assert exc.value.reason == "NO_CANDIDATE_ADMITTED_BY_REACHABLE_SET"
+
+
+def test_exactly_five_unique_candidates_or_stop():
+    sel = vf.select_bridges(_full_set())
+    assert len({(c["w"], c["kz"]) for c in sel}) == vf.N_FROZEN_BRIDGES
 
 
 def _all_pass_controls():
@@ -870,13 +937,17 @@ def test_no_preflight_test_is_marked_slow(request):
 def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
     m = vf.execution_matrix()
     assert m["solves_executed"] == 0
-    assert m["n_rows"] == m["maximum_possible"] == len(m["rows"])
-    assert m["mandatory_scheduled"] + m["conditional"] + m["diagnostic_only"] == m["n_rows"]
-    for phase in ("P0", "P1", "P2", "P3", "P4"):
+    assert m["n_rows"] == m["adaptive_maximum"] == len(m["rows"])
+    assert sum(m["by_class"].values()) == m["n_rows"]
+    for phase in ("P0", "P1a", "P1b", "P2a", "P3", "P4"):
         assert m["by_phase"][phase] > 0
-    p1 = [r for r in m["rows"] if r["kind"] == "identical_path_control"]
-    assert len(p1) == 2 * 2 * len(SCI) == 48
+    assert "P2b" not in m["by_phase"]                     # P2b does arithmetic, not solving
+    central = [r for r in m["rows"]
+               if r["kind"] == "identical_path_control" and r["forcing_level"] == "central"]
+    assert len(central) == 2 * 2 * len(SCI) == 48
     assert m["by_phase"]["P4"] == vf.ARM_J["planned_solves"]
+    assert m["mandatory_minimum"] + m["refused_after_earliest_stop"] == m["n_rows"]
+    assert m["diagnostic_replicates"] == 3
 
 
 def test_arm_j_is_preserved_with_its_purpose_matrix_and_decision_status():
@@ -889,15 +960,29 @@ def test_arm_j_is_preserved_with_its_purpose_matrix_and_decision_status():
 
 
 def test_every_phase_is_marked_unauthorised_and_the_ordering_is_declared():
-    assert [p["id"] for p in vf.EXECUTION_PHASES] == ["P0", "P1", "P2", "P3", "P4"]
+    assert [p["id"] for p in vf.EXECUTION_PHASES] == ["P0", "P1a", "P1b", "P2a", "P2b",
+                                                      "P3", "P4"]
     assert all(p["authorised_now"] is False for p in vf.EXECUTION_PHASES)
-    assert "P0 -> P1 -> P2" in vf.execution_matrix()["ordering"]
+    assert "P0 -> P1a -> P1b -> P2a -> P2b" in vf.execution_matrix()["ordering"]
+    # every phase after the first declares what it depends on
+    for p in vf.EXECUTION_PHASES[1:]:
+        assert p["prerequisite"] in [q["id"] for q in vf.EXECUTION_PHASES]
 
 
 def test_p1_never_reveals_a_mirror_recovery_case():
     m = vf.execution_matrix()
-    p1 = [r for r in m["rows"] if r["phase"] == "P1"]
+    p1 = [r for r in m["rows"] if r["phase"] in ("P1a", "P1b")]
     assert p1 and all(r["variant"] == "identical" for r in p1)
+
+
+def test_no_open_mirror_case_is_scheduled_before_the_freeze():
+    """The whole blindness argument: P2a may characterise a candidate's BLOCKED mirror, but no
+    OPEN mirror recovery case exists until P3 (errata PE-5, PE-7)."""
+    m = vf.execution_matrix()
+    pre = [r for r in m["rows"] if r["phase"] in ("P0", "P1a", "P1b", "P2a")]
+    assert pre
+    for r in pre:
+        assert not (r["variant"] == "mirror" and r["state"] == "open"), r["case_id"]
 
 
 def test_the_bundle_documents_exist_and_carry_the_claim_ceiling():
