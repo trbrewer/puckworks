@@ -1448,11 +1448,16 @@ def _matrix_rows():
                              "class": "conditional_on_P3",
                              "record": "R, s and the induced c_hat / Xi_hat movements"})
 
-    # ---- determinism replicates ------------------------------------------------------------
-    for phase in ("P0", "P1", "P3"):
+    # ---- determinism replicates --------------------------------------------------------------
+    # Each replicate repeats a case its OWN phase already runs, so a replicate can never reveal
+    # something the phase is not permitted to see: P1's is an identical-path case, not a mirror
+    # one, and P0's is the bridge-free reference.
+    for phase, state, variant, bridge in (("P0", "reference_blocked", "mirror", None),
+                                          ("P1", "blocked", "identical", "first_scientific"),
+                                          ("P3", "blocked", "mirror", "frozen_0")):
         rows.append({"phase": phase, "kind": "determinism_replicate", "S": S_COARSE,
                      "forcing_level": "central", "forcing": forcing_central(S_COARSE),
-                     "state": "blocked", "variant": "mirror", "bridge": "first_of_phase",
+                     "state": state, "variant": variant, "bridge": bridge,
                      "arm": "determinism", "class": "diagnostic_only",
                      "record": "byte-identical compact record"})
     assert n_sci  # the family must be non-empty
@@ -1773,13 +1778,15 @@ _GENERATED = (
 )
 
 
+GENERATED_DIR = REPO_ROOT / BUNDLE_REL / "generated"
+
+
 def _gen_path(name):
-    return REPO_ROOT / BUNDLE_REL / "generated" / name
+    return GENERATED_DIR / name
 
 
 def write():
-    out = _gen_path(".").parent
-    out.mkdir(parents=True, exist_ok=True)
+    GENERATED_DIR.mkdir(parents=True, exist_ok=True)
     written = []
     for name, fn in _GENERATED:
         p = _gen_path(name)
