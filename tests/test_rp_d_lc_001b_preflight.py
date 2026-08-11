@@ -4110,3 +4110,179 @@ def test_the_post_freeze_deferral_is_explicit_and_names_the_reserved_work():
                    "phase universe", "later authorization tranche"):
         assert phrase in note, phrase
     assert drv.AUTHORISED_SOLVING_PHASES == () and drv.AUTHORISED_ASSEMBLY_PHASES == ()
+
+
+# ---- negative end-to-end cases (§10.3) -------------------------------------------------------
+
+def _drifted(recs, key, kind, state, level, S, field, factor):
+    """Apply a relative drift to ONE forcing level of one configuration."""
+    work = _copy_recs(recs)
+    for cid, r in work.items():
+        if (r.get("kind") == kind and r["run_mode"] == "NORMAL"
+                and vf._bridge_key(r) == key and r["row"]["S"] == S
+                and r["row"]["forcing_level"] == level
+                and (state is None or r["row"]["state"] == state)):
+            r["scientific"][field] = r["scientific"][field] * factor
+            return work, cid
+    raise AssertionError("no record matched %r" % ((kind, state, level, S),))
+
+
+@pytest.mark.parametrize("quantity,kind,state,field", [
+    ("R_identical", "identical_path_control", "open", "Q_volume"),
+    ("s_blocked", "identical_path_control", "blocked", "q1_volume"),
+    ("c_field", "candidate_blocked_mirror", "blocked", "p_face1"),
+])
+def test_a_boundary_forcing_drift_above_the_tolerance_fails(synthetic_prefreeze, quantity,
+                                                            kind, state, field):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (5, 3)
+    clean = vf.candidate_forcing_gates(recs, key)
+    assert clean["boundary"]["pass"] is True
+    work, _ = _drifted(recs, key, kind, state, "high", vf.S_COARSE, field, 1.0 + 1.0e-3)
+    fg = vf.candidate_forcing_gates(work, key)
+    assert fg["boundary"]["pass"] is False
+    assert any(g.startswith(quantity) for g in fg["boundary"]["failed_quantities"]), (
+        quantity, fg["boundary"]["failed_quantities"])
+    assert fg["pass"] is False
+
+
+def test_an_actual_xi_forcing_drift_above_the_tolerance_fails(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (5, 3)
+    work = _copy_recs(recs)
+    for cid, r in work.items():
+        if (r.get("kind") == "bridge_coupon" and r["run_mode"] == "NORMAL"
+                and vf._bridge_key(r) == key and r["row"]["S"] == vf.S_COARSE
+                and r["row"]["forcing_level"] == "low"):
+            r["scientific"]["G_bridge_coupon"] *= 1.0 + 1.0e-3
+    fg = vf.candidate_forcing_gates(work, key)
+    assert fg["boundary"]["pass"] is False
+    assert any(g.startswith("Xi_actual") for g in fg["boundary"]["failed_quantities"])
+
+
+def test_a_p0_axial_coupon_forcing_failure_fails_the_aggregate(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    p0 = {cid: r for cid, r in recs.items() if r["row"]["phase"] == "P0"}
+    assert vf.p0_aggregate_science(p0)["pass"] is True
+    work = _copy_recs(p0)
+    target = next(cid for cid, r in work.items()
+                  if r.get("kind") == "axial_coupon" and r["run_mode"] == "NORMAL"
+                  and r["row"]["coupon_level"] == "low"
+                  and r["row"]["coupon_orientation"] == "y"
+                  and r["row"]["forcing_level"] == "high"
+                  and r["row"]["S"] == vf.S_COARSE)
+    work[target]["scientific"]["Q_volume"] *= 1.0 + 1.0e-3
+    sci = vf.p0_aggregate_science(work)
+    assert sci["pass"] is False
+    assert "forcing:axial_coupon[low,y]" in sci["failed_families"]
+
+
+def test_an_actual_xi_resolution_failure_excludes_the_candidate(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key, bridge = (5, 3), {"w": 5, "kz": 3}
+    assert vf.candidate_resolution_gates(recs, key, bridge)["pass"] is True
+    work = _copy_recs(recs)
+    for cid, r in work.items():
+        if (r.get("kind") == "bridge_coupon" and vf._bridge_key(r) == key
+                and r["row"]["S"] == vf.S_FINE and r["row"]["forcing_level"] == "central"):
+            r["scientific"]["G_bridge_coupon"] *= 2.0
+    rg = vf.candidate_resolution_gates(work, key, bridge)
+    assert rg["pass"] is False
+    assert "Xi_actual" in rg["failed_quantities"] or "G_bridge_coupon" in rg["failed_quantities"]
+
+
+def test_a_tampered_candidate_ledger_breaks_the_p2b_manifest(synthetic_p2b, tmp_path):
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "tampered_ledger"
+    shutil.copytree(d, work)
+    ledger = json.loads((work / "candidate_ledger.json").read_text())
+    ledger["n_eligible"] = ledger["n_eligible"] + 1
+    (work / "candidate_ledger.json").write_text(vf.canonical_json(ledger) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(work, require_production=False)
+
+
+def test_a_tampered_proposed_freeze_breaks_the_p2b_manifest(synthetic_p2b, tmp_path):
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "tampered_freeze"
+    shutil.copytree(d, work)
+    fz = json.loads((work / "proposed_bridge_freeze.json").read_text())
+    fz["frozen_bridges"][0]["w"] = 99
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(work, require_production=False)
+
+
+def test_a_duplicate_selected_candidate_is_refused(synthetic_p2b, tmp_path):
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "duplicate"
+    shutil.copytree(d, work)
+    fz = json.loads((work / "proposed_bridge_freeze.json").read_text())
+    fz["frozen_bridges"][1] = dict(fz["frozen_bridges"][0], slot="inside_0")
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    doc["proposed_freeze_sha256"] = vf.record_hash(fz)
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "twice" in str(exc.value) or "disagree" in str(exc.value) or "stale" in str(exc.value)
+
+
+def _envelope(xi, lo_hi=None):
+    return {"Xi_select": xi, "Xi_lower": xi * 0.99, "Xi_upper": xi * 1.01,
+            "category": ("below" if xi * 1.01 < vf.XI_WINDOW_LO else "inside"),
+            "categorically_usable": True}
+
+
+def test_fewer_than_three_inside_candidates_is_a_design_block():
+    cands = [{"w": 3, "kz": 2, "eligible": True, "xi_envelope": _envelope(0.05)},
+             {"w": 5, "kz": 2, "eligible": True, "xi_envelope": _envelope(0.5)},
+             {"w": 7, "kz": 2, "eligible": True, "xi_envelope": _envelope(1.5)}]
+    with pytest.raises(vf.DesignBlocked) as exc:
+        vf.select_bridges(cands)
+    assert exc.value.reason == "INSUFFICIENT_UNAMBIGUOUS_INSIDE_CANDIDATES"
+
+
+def test_no_below_candidate_is_a_design_block():
+    cands = [{"w": w, "kz": 2, "eligible": True, "xi_envelope": _envelope(x)}
+             for w, x in ((3, 0.5), (5, 1.0), (7, 2.0), (9, 3.0))]
+    with pytest.raises(vf.DesignBlocked) as exc:
+        vf.select_bridges(cands)
+    assert exc.value.reason == "NO_UNAMBIGUOUS_BELOW_CANDIDATE"
+
+
+# ---- machine-derived counts (§15) ------------------------------------------------------------
+
+def test_every_count_is_regenerated_from_one_machine_authority():
+    m = vf.execution_matrix()
+    rows = m["rows"]
+    assert m["n_rows"] == len(rows)
+    n_audit = sum(1 for r in rows if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X")
+    assert m["planned_fixed_step_audits"] == n_audit
+    assert m["planned_normal_solves"] == len(rows) - n_audit
+    assert m["planned_solver_invocations"] == (m["planned_normal_solves"]
+                                               + m["planned_fixed_step_audits"])
+    assert m["planned_pressure_plane_diagnostic_rows"] == 0
+    assert m["same_field_node_offset_summaries"] == sum(
+        1 for r in rows if r["kind"] not in ("axial_coupon", "bridge_coupon"))
+    pre = [r for r in rows if r["phase"] in ("P0", "P1a", "P1b", "P2a")]
+    assert m["pre_freeze_rows"] == len(pre)
+    assert m["provider_calls_fresh_full_pre_freeze_run"] == len(pre)
+    assert m["provider_calls_on_exact_resume"] == 0
+    assert m["arithmetic_only_phases"] == ["P2b"] and m["arithmetic_only_solver_calls"] == 0
+    assert m["p3_p4_planning_template_rows"] == m["n_post_freeze_template_rows"]
+    assert m["post_freeze_executor_ready"] is False
+    assert m["solves_executed"] == 0
+    assert "no separate pressure-diagnostic row" in m["pressure_diagnostic_rows_policy"]
+
+
+def test_observed_provider_calls_equal_newly_executed_rows(resumable_p0):
+    d, auth, man, calls = resumable_p0
+    ec = man["execution_counts"]
+    assert calls == ec["n_provider_calls"] == ec["n_newly_executed"]
+    m = vf.execution_matrix()
+    p0_rows = [r for r in m["rows"] if r["phase"] == "P0"]
+    assert ec["n_newly_executed"] == len(p0_rows)      # a fresh full P0 run

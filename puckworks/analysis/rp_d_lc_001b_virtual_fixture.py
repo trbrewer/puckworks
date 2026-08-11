@@ -3353,6 +3353,13 @@ def execution_matrix():
     n_normal = total - n_audit
     mandatory_with_replicates = mandatory + sum(
         1 for r in rows if r["class"] == "diagnostic_only" and r["phase"] in ("P0", "P1a"))
+    # every count below is DERIVED from the row set in this one place (erratum PE-74 §15); no
+    # number is preserved cosmetically and none is written by hand.
+    pre_rows = [r for r in rows if r["phase"] in ("P0", "P1a", "P1b", "P2a")]
+    pre_normal = sum(1 for r in pre_rows if r["run_mode"] == "NORMAL")
+    pre_audit = len(pre_rows) - pre_normal
+    coupon_kinds = ("axial_coupon", "bridge_coupon")
+    n_node_offset = sum(1 for r in rows if r["kind"] not in coupon_kinds)
     return {
         "tranche": TRANCHE_ID,
         "correction_version": CORRECTION_VERSION,
@@ -3366,8 +3373,30 @@ def execution_matrix():
         "planned_fixed_step_audits": n_audit,
         "planned_pressure_plane_diagnostic_rows": n_diag,
         "planned_solver_invocations": n_normal + n_audit,
+        "same_field_node_offset_summaries": n_node_offset,
         "node_offset_policy": ("node-offset summaries are extracted from the SAME field as their "
                                "case and never increment the provider-call count (PE-41)"),
+        # ---- provider-call accounting, DERIVED here and nowhere else (erratum PE-74) ---------
+        "pre_freeze_rows": len(pre_rows),
+        "pre_freeze_normal_rows": pre_normal,
+        "pre_freeze_fixed_step_rows": pre_audit,
+        "provider_calls_fresh_full_pre_freeze_run": pre_normal + pre_audit,
+        "provider_calls_on_exact_resume": 0,
+        "provider_call_rule": ("observed_provider_calls == newly_executed_rows in every phase; a "
+                               "resumed phase legitimately has FEWER provider calls than "
+                               "completed rows, and an exact manifest resume has none at all "
+                               "(errata PE-74, PE-75)"),
+        "arithmetic_only_phases": ["P2b"],
+        "arithmetic_only_solver_calls": 0,
+        "p3_p4_planning_template_rows": len(post),
+        "post_freeze_executor_ready": False,
+        "post_freeze_deferral": ("P3/P4 orchestration still derives its universe from these "
+                                 "templates; the approved instantiated-matrix loader has not "
+                                 "passed exact-head review and P3/P4 are hard-refused "
+                                 "(erratum PE-76)"),
+        "pressure_diagnostic_rows_policy": ("no separate pressure-diagnostic row exists or may "
+                                            "return; the pressure control is formed from the "
+                                            "SAME record as its case (errata PE-41, PE-60)"),
         "mandatory_minimum": mandatory_with_replicates,
         "conditional_minimum": 0,
         "adaptive_maximum": total,
@@ -5580,6 +5609,19 @@ def _fc(rec):
         return None
 
 
+def _outlet_share(rec):
+    """The exact frozen outlet share ``s = q1/(q1+q2)``, RECOMPUTED from the record's own lane
+    fluxes rather than read from the stored scalar (erratum PE-62)."""
+    sci = rec.get("scientific") or {}
+    q1, q2 = sci.get("q1_volume"), sci.get("q2_volume")
+    if q1 is None or q2 is None:
+        return None
+    tot = _finite(q1, "q1_volume") + _finite(q2, "q2_volume")
+    if tot == 0.0:                                            # pragma: no cover - degenerate
+        return None
+    return float(q1) / tot
+
+
 def _area_quantity(rec, which):
     fc = _fc(rec)
     if fc is None:
@@ -5646,7 +5688,7 @@ def p0_aggregate_science(records):
         "dP_reference_blocked": lambda r: (r.get("scientific") or {}).get("dP"),
         "C_reference_blocked": lambda r: (_conductance(r)
                                           if (r.get("scientific") or {}).get("dP") else None),
-        "s_reference_blocked": lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"),
+        "s_reference_blocked": _outlet_share,
     }
     #: forcing-independent members of the reference family
     ref_independent = {"C_reference_blocked", "s_reference_blocked"}
@@ -5831,12 +5873,10 @@ def candidate_forcing_gates(records, key):
             "R_identical": _identical_R_samples(records, key, S),
             "s_blocked": [s for s in _samples(
                 records, "identical_path_control", key, "blocked", "s_blocked",
-                lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"))
-                if s["S"] == S],
+                _outlet_share) if s["S"] == S],
             "s_open": [s for s in _samples(
                 records, "identical_path_control", key, "open", "s_open",
-                lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"))
-                if s["S"] == S],
+                _outlet_share) if s["S"] == S],
         }
         for q in ("c_field", "A1", "A2", "A_field", "A_series_inverse"):
             bound[q] = [s for s in _samples(
@@ -6125,10 +6165,8 @@ def candidate_resolution_gates(records, key, bridge):
     add("C_blocked", pick("candidate_blocked_mirror", "blocked",
                           lambda r: (_conductance(r)
                                      if (r.get("scientific") or {}).get("dP") else None)))
-    add("s_blocked", pick("identical_path_control", "blocked",
-                          lambda r: (r.get("scientific") or {}).get("s_outlet_share_a")))
-    add("s_open", pick("identical_path_control", "open",
-                       lambda r: (r.get("scientific") or {}).get("s_outlet_share_a")))
+    add("s_blocked", pick("identical_path_control", "blocked", _outlet_share))
+    add("s_open", pick("identical_path_control", "open", _outlet_share))
     add("C_open", pick("identical_path_control", "open",
                        lambda r: (_conductance(r)
                                   if (r.get("scientific") or {}).get("dP") else None)))
