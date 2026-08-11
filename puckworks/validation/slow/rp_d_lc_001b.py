@@ -508,9 +508,20 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                      "outputs and the mask, excluding case identity and file metadata"),
         })
 
+    # PE-64: the phase's durable AGGREGATE scientific verdict, computed from the records this
+    # phase completed. The validator recomputes it, so the executor cannot assert one.
+    phase_science = None
+    if phase in vf.PHASE_AGGREGATE_SCIENCE:
+        done_ids = {e["case_id"] for e in completed}
+        phase_records = {}
+        for cid in sorted(done_ids):
+            rec, _ = vf.read_case_record(base, cid)
+            phase_records[cid] = rec
+        phase_science = vf.PHASE_AGGREGATE_SCIENCE[phase](phase_records)
     manifest = vf.make_phase_manifest(phase, universe, eligible, completed, refused, failed,
                                       auth, pre_sha, adaptive, terminal, stop_reason,
-                                      provenance_mode=provenance_mode, replicates=replicates)
+                                      provenance_mode=provenance_mode, replicates=replicates,
+                                      phase_science=phase_science)
     mpath = base / ("manifest_%s.json" % phase)
     tmp = base / (mpath.name + ".tmp")
     tmp.write_text(vf.canonical_json(manifest) + "\n")

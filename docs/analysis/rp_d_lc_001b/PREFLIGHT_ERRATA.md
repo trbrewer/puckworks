@@ -1223,3 +1223,34 @@ solver-core change** · the claim ceiling · the `0.10·K` reachable-set margin 
 tolerances · the four-slot rule · **RP-D-LC-001 byte-unchanged** · and every phase, solving and
 assembly alike, **unauthorized**: `AUTHORISED_SOLVING_PHASES = ()` and
 `AUTHORISED_ASSEMBLY_PHASES = ()`. No LB solve ran to produce this correction.
+
+## PE-66 supplement — the frozen resolution COMPARISON COORDINATE
+
+Appended while implementing PE-66; nothing above is altered.
+
+Completing the resolution set exposed a defect in the C4 gate itself, not only in its coverage.
+C4 compared the two resolutions' **raw lattice values**. That is correct for a dimensionless
+quantity and wrong for an extensive one: under the frozen forcing law `g(S) = G_REF (S_REF/S)^3`
+and exact geometric similarity, a plane volume flux, a node-to-node pressure drop and a
+conductance each move with `S` by a factor that is **fixed by the frozen configuration** and is
+not a discretisation error. C4's set (`c_field`, `C_blocked`, `Xi_coupon`) hid this because two of
+the three are dimensionless; `C_blocked` was already wrong and would have failed by a factor of
+`(3/2)^3` on real fields.
+
+The coordinate is `value / S**n`, and every exponent is **derived, not chosen**:
+
+| step | relation | consequence |
+|---|---|---|
+| lattice velocity | `u ~ g L^2 / nu`, `L ~ S` | `u ~ g S^2` |
+| plane fluid-node count | geometric similarity | `~ S^2` |
+| plane volume flux | `Q = sum(u_x)` | `Q ~ g S^4` (i.e. `~ S^1` at `g(S)`) |
+| node-to-node drop | `dP ~ g * (lattice length)` | `dP ~ g S` (i.e. `~ S^-2`) |
+| conductance | `C = Q/dP` | `C ~ S^3` |
+| lane areas `A1`, `A2`, coupon `G_bridge`, `G_axial` | conductances | `~ S^3` |
+| `1/A1 + 1/A2` | reciprocal | `~ S^-3` |
+| `Xi`, `R`, `s`, `c` | ratios of the above | `~ S^0` |
+
+The exponent is `0` for every dimensionless quantity, so **no previously frozen dimensionless
+comparison changes**, and nothing here is fitted or tunable: each exponent follows from the
+already-frozen forcing law and the already-frozen geometric similarity. This remains a
+**two-resolution consistency test**, not a convergence-order estimate.

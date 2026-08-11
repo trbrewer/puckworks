@@ -2304,25 +2304,116 @@ def test_all_phases_refuse_at_this_head():
 # 13. C3 correction regressions — PE-22 … PE-39
 # ==========================================================================================
 
-def _pipeline_provider(prune=(9, 4)):
-    """Deterministic TEST_ONLY stand-in. One candidate is given a 1 % axial artifact so the P1a
-    triage screen prunes it. The real kernel is never reached."""
+# ---- the physically coherent TEST_ONLY field generator (erratum PE-69) ----------------------
+# A 1D Stokes network solved on the ACTUAL mask, so the synthetic fields obey the relations the
+# gates test rather than accidentally satisfying them:
+#
+#   per-plane conductance density   k(x) = SCALE * W(x) * H(x)^3      (the plane-channel law)
+#   band resistance                 R    = sum_x 1/k(x)
+#   body-force head over one period dPbox= g * nx
+#   band flux                       q    = dPbox / (12*nu*R)          -> q proportional to g
+#   effective pressure              p(x) = 1/3 - dPbox * cumfrac(x)   -> rho = 3(p + g x) ~ 1
+#
+# Consequences the gates actually consume: every flux is proportional to g; every conductance,
+# outlet share, contrast, area and actual Xi is forcing-independent; Q ~ S, dP ~ S^-2 and C ~ S^3
+# under the frozen g(S) = G_REF (S_REF/S)^3, matching the frozen resolution comparison
+# coordinate; the two lanes of a MIRROR fixture split the drop asymmetrically, so c_field is
+# nondegenerate; the two lanes of an IDENTICAL fixture are exactly equal, so the lateral pressure
+# gap is exactly zero and R_identical is exactly 1.
+#
+# SYNTH_LANE_CONDUCTANCE_SCALE is a TEST-FIXTURE prefactor on the lane conductance only. It
+# exists so the synthetic candidate family straddles the frozen Xi window and exercises the
+# one-below/three-inside selection. It is a property of this test fixture, NOT of the apparatus:
+# it alters no scientific constant, no tolerance, no window and no gate.
+SYNTH_NU = 12.0 * vf.NU
+SYNTH_LANE_CONDUCTANCE_SCALE = 3.0
+#: The candidate the synthetic P1a triage screen prunes.
+SYNTH_PRUNED_CANDIDATE = (9, 2)
+
+
+def _band_profile(mask, y0, y1, scale=1.0):
+    """(W(x), H(x), n(x), k(x)) for one y-band, derived from the mask alone."""
+    nx = mask.shape[0]
+    W = np.zeros(nx)
+    H = np.zeros(nx)
+    n = np.zeros(nx)
+    fl = ~mask[:, y0:y1, :]
+    cols = fl.sum(axis=2)                       # (x, y) fluid depth in z
+    W[:] = (cols > 0).sum(axis=1)
+    H[:] = cols.max(axis=1)
+    n[:] = fl.sum(axis=(1, 2))
+    k = scale * W * H ** 3
+    return W, H, n, k
+
+
+def _band_solution(mask, g, y0, y1, scale=1.0):
+    """The 1D Stokes network solution for one band: flux, per-plane p_eff, node counts."""
+    nx = mask.shape[0]
+    W, H, n, k = _band_profile(mask, y0, y1, scale=scale)
+    if not (k > 0).all():
+        return None
+    r = 1.0 / k
+    R = float(r.sum())
+    dP_box = g * nx
+    q = dP_box / (SYNTH_NU * R)
+    frac = np.cumsum(r) / R
+    p_eff = 1.0 / 3.0 - dP_box * frac
+    return {"q": q, "p_eff": p_eff, "n": n, "R": R}
+
+
+def _coherent_fields(mask, meta, g, kind, lane_gain=(1.0, 1.0)):
+    """ux and rho for one case, from the 1D network above."""
+    ux = np.zeros(mask.shape)
+    rho = np.ones(mask.shape)
+    ny = mask.shape[1]
+    if kind == "coupon":
+        bands = [(0, ny, 1.0, 1.0)]
+    else:
+        y1a, y1b = meta["lane1_y"]
+        y2a, y2b = meta["lane2_y"]
+        bands = [(y1a, y1b, SYNTH_LANE_CONDUCTANCE_SCALE, lane_gain[0]),
+                 (y2a, y2b, SYNTH_LANE_CONDUCTANCE_SCALE, lane_gain[1])]
+    p_sum = np.zeros(mask.shape[0])
+    solved = 0
+    for y0, y1, scale, gain in bands:
+        sol = _band_solution(mask, g, y0, y1, scale=scale)
+        if sol is None:                                    # pragma: no cover - degenerate band
+            continue
+        solved += 1
+        sub = ~mask[:, y0:y1, :]
+        with np.errstate(invalid="ignore", divide="ignore"):
+            per = np.where(sol["n"] > 0, sol["q"] * gain / np.maximum(sol["n"], 1), 0.0)
+        ux[:, y0:y1, :] = np.where(sub, per[:, None, None], 0.0)
+        rho[:, y0:y1, :] = 3.0 * (sol["p_eff"][:, None, None]
+                                  + g * np.arange(mask.shape[0], dtype=float)[:, None, None])
+        p_sum += sol["p_eff"]
+    if kind != "coupon" and solved:
+        # the divider/plenum region is a common node: it carries no net axial flow here, and its
+        # density is the mean of the two lanes' effective pressures
+        mid = p_sum / solved
+        y1b, y2a = meta["lane1_y"][1], meta["lane2_y"][0]
+        rho[:, y1b:y2a, :] = 3.0 * (mid[:, None, None]
+                                    + g * np.arange(mask.shape[0], dtype=float)[:, None, None])
+        rho[:, :meta["lane1_y"][0], :] = rho[:, meta["lane1_y"][0]:meta["lane1_y"][0] + 1, :]
+        rho[:, meta["lane2_y"][1]:, :] = rho[:, meta["lane2_y"][1] - 1:meta["lane2_y"][1], :]
+    return ux, rho
+
+
+def _pipeline_provider(prune=SYNTH_PRUNED_CANDIDATE):
+    """Deterministic, physically coherent TEST_ONLY stand-in. One candidate is given a 1 % axial
+    artifact so the P1a triage screen prunes it. The real kernel is never reached."""
     def provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
-        nx = mask.shape[0]
-        ux = np.zeros(mask.shape)
-        for x in range(nx):
-            n = int((~mask[x]).sum())
-            if n:
-                ux[x][~mask[x]] = 1.0e-3 / n
+        kind = "coupon" if row["kind"] in ("axial_coupon", "bridge_coupon") else "fixture"
+        if kind == "coupon":
+            meta = {}
+        else:
+            _, meta = drv.resolve_row(row)[0], drv.resolve_row(row)[1]
+        gain = (1.0, 1.0)
         b = row.get("bridge")
-        if isinstance(b, dict) and (b["w"], b["kz"]) == prune and row["state"] == "open":
-            ux *= 1.01
-        S = row["S"]
-        lo, hi = 4 * S, 52 * S
-        xs = np.arange(nx, dtype=float)
-        frac = np.clip((xs - lo) / float(hi - lo), 0.0, 1.0)
-        p_eff = 1.0 / 3.0 - 1.0e-4 * frac
-        rho = 3.0 * (p_eff + g * xs)[:, None, None] * np.ones(mask.shape)
+        if (kind == "fixture" and isinstance(b, dict)
+                and (b["w"], b["kz"]) == prune and row["state"] == "open"):
+            gain = (1.01, 1.01)
+        ux, rho = _coherent_fields(mask, meta, g, kind, lane_gain=gain)
         z = np.zeros(mask.shape)
         steps = 3000 if audit is None else audit["target_steps"]
         return {"ux": ux, "uy": z.copy(), "uz": z.copy(), "rho": rho, "steps": steps}
@@ -2363,7 +2454,7 @@ def test_p1a_prunes_a_candidate_and_the_refused_rows_stay_in_the_universe(synthe
     d, auth, out, recs = synthetic_prefreeze
     triage = vf.p1a_triage(recs)
     rejected = [k for k, v in triage.items() if v["rejected"]]
-    assert (9, 4) in rejected
+    assert SYNTH_PRUNED_CANDIDATE in rejected
     assert all(v["may_admit"] is False for v in triage.values())
     m = out["P1b"]
     for entry in m["refused"]:
@@ -2406,14 +2497,14 @@ def test_the_artifact_evidence_schema_is_flat_and_plural(synthetic_prefreeze):
                     "blocked_case_id"]
                 checked += 1
     assert checked > 0
-    assert not adm[(9, 4)]["combinations"][list(adm[(9, 4)]["combinations"])[0]][
-        "audit_case_ids"]                                # the pruned candidate has none
+    pruned = adm[SYNTH_PRUNED_CANDIDATE]["combinations"]
+    assert not pruned[list(pruned)[0]]["audit_case_ids"]   # the pruned candidate has none
 
 
 def test_eleven_of_twelve_candidates_are_admitted_and_the_pruned_one_is_not(synthetic_prefreeze):
     d, auth, out, recs = synthetic_prefreeze
     adm = vf.artifact_admission_from_records(recs)
-    assert adm[(9, 4)]["admitted"] is False
+    assert adm[SYNTH_PRUNED_CANDIDATE]["admitted"] is False
     assert sum(1 for v in adm.values() if v["admitted"]) == len(SCI) - 1
 
 
@@ -2968,8 +3059,12 @@ def test_the_forcing_verdict_requires_the_exact_quantity_set():
 
 def test_the_resolution_gate_uses_actual_xi_not_raw_g_bridge():
     src = inspect.getsource(vf.candidate_resolution_gates)
-    assert "Xi = G_bridge_coupon * (1/A1 + 1/A2), NOT raw G_bridge" in src
+    assert "ACTUAL_XI_DEFINITION" in src
+    assert vf.ACTUAL_XI_DEFINITION.startswith("Xi = G_bridge_coupon * (1/A1 + 1/A2)")
     assert "area_case_ids" in src
+    # erratum PE-62: raw G_bridge is gated too, under its OWN name, and never as Xi
+    assert "G_bridge_coupon" in vf.CANDIDATE_RESOLUTION_QUANTITIES
+    assert "Xi_actual" in vf.CANDIDATE_RESOLUTION_QUANTITIES
 
 
 def test_the_mass_flux_zero_gate_uses_a_mass_scale():
@@ -3237,3 +3332,261 @@ def test_p2a_eligibility_is_the_complete_p1b_verdict_not_the_artifact_alone(synt
     admitted = set(adaptive["admitted"])
     assert admitted == {k for k, v in vf.candidate_admission_from_records(recs).items()
                         if v["admitted"]}
+
+
+# ---- B. forcing completeness (errata PE-62 … PE-65) -----------------------------------------
+
+def test_the_p0_aggregate_verdict_is_durable_complete_and_passing(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / "manifest_P0.json").read_text())
+    sci = doc["phase_science"]
+    assert sci is not None and doc["phase_science_sha256"] == vf.record_hash(sci)
+    assert sci["complete"] is True and sci["pass"] is True
+    assert sci["failed_families"] == []
+    assert sci["n_families"] == sci["expected_families"]
+    # and it RECOMPUTES from the records rather than being taken on trust
+    p0_recs = {c["case_id"]: vf.read_case_record(d, c["case_id"])[0] for c in doc["completed"]}
+    assert vf.record_hash(vf.p0_aggregate_science(p0_recs)) == doc["phase_science_sha256"]
+
+
+def test_the_exact_p0_required_sets_are_adjudicated(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    sci = json.loads((d / "manifest_P0.json").read_text())["phase_science"]
+    ref = sci["reference_blocked_forcing"]
+    assert ref["required_quantities"] == sorted(vf.P0_REFERENCE_FORCING_QUANTITIES)
+    assert ref["present_quantities"] == ref["required_quantities"]
+    assert ref["missing_quantities"] == [] and ref["unexpected_quantities"] == []
+    assert ref["missing_resolutions"] == [] and ref["missing_levels"] == {}
+    assert sci["reference_blocked_resolution"]["required_quantities"] == sorted(
+        vf.P0_REFERENCE_RESOLUTION_QUANTITIES)
+    want = {"%s.%s" % (lv, o) for lv in vf.P0_COUPON_LEVELS for o in vf.P0_COUPON_ORIENTATIONS}
+    assert set(sci["axial_coupon_forcing"]) == want
+    assert set(sci["axial_coupon_resolution"]) == want
+    for v in sci["axial_coupon_forcing"].values():
+        assert v["required_quantities"] == sorted(vf.P0_COUPON_FORCING_QUANTITIES)
+        assert v["pass"] is True
+    # the empty reference contrast/area set is a RECORDED fact, not an omission
+    assert sci["reference_contrast_quantities"] == []
+    assert "no bridge" in sci["reference_contrast_applicability"]
+
+
+def test_p1a_refuses_a_p0_whose_aggregate_verdict_does_not_pass(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    import shutil
+    work = tmp_path / "w"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    sci = dict(doc["phase_science"])
+    sci["pass"] = False
+    sci["failed_families"] = ["forcing:reference_blocked"]
+    doc["phase_science"] = sci
+    doc["phase_science_sha256"] = vf.record_hash(sci)
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing):        # it no longer recomputes...
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+    with pytest.raises(vf.ManifestMissing):        # ...and P1a refuses either way
+        vf.require_phase_manifests("P1a", runs_dir=work, require_production=False)
+
+
+def test_a_p0_manifest_without_an_aggregate_verdict_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    import shutil
+    work = tmp_path / "w2"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    doc["phase_science"] = None
+    doc["phase_science_sha256"] = None
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+    assert "aggregate scientific verdict" in str(exc.value)
+
+
+def test_the_exact_candidate_component_and_boundary_sets(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    fg = vf.candidate_forcing_gates(recs, (5, 3))
+    assert fg["component"]["required_quantities"] == sorted(
+        vf.CANDIDATE_COMPONENT_FORCING_QUANTITIES)
+    assert fg["boundary"]["required_quantities"] == sorted(
+        vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES)
+    for v in (fg["component"], fg["boundary"]):
+        assert v["present_quantities"] == v["required_quantities"]
+        assert v["missing_quantities"] == [] and v["unexpected_quantities"] == []
+        assert v["missing_resolutions"] == [] and v["missing_levels"] == {}
+        assert v["pass"] is True
+    # every gate really carries all three levels at BOTH resolutions
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        for q in vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES:
+            g = next(x for x in fg["boundary"]["gates"] if x["quantity"] == "%s@S%d" % (q, S))
+            assert sorted(g["levels"]) == sorted(vf.FORCING_LEVELS)
+            assert g["forcing_independent"] is True
+            assert g["reduction_rule"] == "FROZEN_DIRECT_RELATIVE_SPREAD_NOT_DIVIDED_BY_g"
+
+
+@pytest.mark.parametrize("drop", ["R_identical", "s_blocked", "s_open", "A1", "A2",
+                                  "A_field", "A_series_inverse", "Xi_actual", "c_field"])
+def test_a_missing_boundary_quantity_fails_the_exact_set(drop):
+    gates = [vf.componentwise_forcing_gate(
+        "%s@S%d" % (q, S),
+        [{"forcing_level": lv, "g": 1.0, "value": 1.0, "case_id": "c%s%s%s" % (q, S, lv),
+          "record_sha256": vf.record_hash([q, S, lv])} for lv in vf.FORCING_LEVELS],
+        forcing_independent=True)
+        for q in vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES if q != drop
+        for S in vf.SCIENTIFIC_RESOLUTIONS]
+    v = vf.forcing_invariance_verdict(gates, vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES)
+    assert v["pass"] is False and v["complete"] is False
+    assert v["missing_quantities"] == [drop]
+
+
+def test_a_quantity_at_one_resolution_or_two_levels_is_not_completeness():
+    one_res = [vf.componentwise_forcing_gate(
+        "%s@S%d" % (q, vf.S_COARSE),
+        [{"forcing_level": lv, "g": 1.0, "value": 1.0, "case_id": "c%s%s" % (q, lv),
+          "record_sha256": vf.record_hash([q, lv])} for lv in vf.FORCING_LEVELS],
+        forcing_independent=True)
+        for q in vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES]
+    v = vf.forcing_invariance_verdict(one_res, vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES)
+    assert v["pass"] is False
+    assert v["missing_per_resolution"]["S%d" % vf.S_FINE]
+    two_levels = vf.componentwise_forcing_gate(
+        "R_identical@S2", [{"forcing_level": lv, "g": 1.0, "value": 1.0, "case_id": "c" + lv,
+                            "record_sha256": vf.record_hash(lv)}
+                           for lv in ("low", "central")], forcing_independent=True)
+    assert two_levels["pass"] is False and two_levels["missing_levels"] == ["high"]
+
+
+def test_a_similarly_named_surrogate_is_unexpected_not_accepted():
+    gates = [vf.componentwise_forcing_gate(
+        "%s@S%d" % (q, S),
+        [{"forcing_level": lv, "g": 1.0, "value": 1.0, "case_id": "c%s%s%s" % (q, S, lv),
+          "record_sha256": vf.record_hash([q, S, lv])} for lv in vf.FORCING_LEVELS],
+        forcing_independent=True)
+        for q in tuple(vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES) + ("A_field_like",)
+        for S in vf.SCIENTIFIC_RESOLUTIONS]
+    v = vf.forcing_invariance_verdict(gates, vf.CANDIDATE_BOUNDARY_FORCING_QUANTITIES)
+    assert v["unexpected_quantities"] == ["A_field_like"]
+    assert v["complete"] is False and v["pass"] is False
+
+
+def test_one_failed_component_cannot_be_cancelled_by_another(synthetic_prefreeze):
+    good = vf.componentwise_forcing_gate(
+        "Q_open@S2", [{"forcing_level": lv, "g": {"low": 0.5, "central": 1.0, "high": 2.0}[lv],
+                       "value": {"low": 0.5, "central": 1.0, "high": 2.0}[lv],
+                       "case_id": "g" + lv, "record_sha256": vf.record_hash("g" + lv)}
+                      for lv in vf.FORCING_LEVELS])
+    bad = vf.componentwise_forcing_gate(
+        "Q_blocked@S2", [{"forcing_level": lv, "g": {"low": 0.5, "central": 1.0, "high": 2.0}[lv],
+                          "value": {"low": 0.4, "central": 1.0, "high": 2.4}[lv],
+                          "case_id": "b" + lv, "record_sha256": vf.record_hash("b" + lv)}
+                         for lv in vf.FORCING_LEVELS])
+    assert good["pass"] is True and bad["pass"] is False
+    v = vf.forcing_invariance_verdict([good, bad], ("Q_open", "Q_blocked"),
+                                      resolutions=(vf.S_COARSE,))
+    assert v["pass"] is False and v["failed_quantities"] == ["Q_blocked@S2"]
+
+
+def test_mass_quantities_use_a_mass_scale(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    fg = vf.candidate_forcing_gates(recs, (5, 3))
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        g = next(x for x in fg["component"]["gates"]
+                 if x["quantity"] == "q_lat_mass@S%d" % S)
+        assert g["expected_zero"] is True
+        assert "MASS" in g["zero_scale_source"] and "Q_volume" in g["zero_scale_source"]
+
+
+def test_the_pressure_component_gate_requires_the_final_upper_bounds(synthetic_prefreeze):
+    """Erratum PE-60 §6.2: three small point means may not substitute for a failed bound."""
+    d, auth, out, recs = synthetic_prefreeze
+    fg = vf.candidate_forcing_gates(recs, (5, 3))
+    g = next(x for x in fg["component"]["gates"] if x["quantity"] == "delta_p_lateral@S2")
+    assert g["pressure_upper_bound_prerequisite"]["failed_or_missing"] == []
+    stripped = {cid: r for cid, r in recs.items()
+                if not (r.get("kind") == "identical_path_control"
+                        and r["run_mode"] != "NORMAL" and vf._bridge_key(r) == (5, 3))}
+    fg2 = vf.candidate_forcing_gates(stripped, (5, 3))
+    g2 = next(x for x in fg2["component"]["gates"] if x["quantity"] == "delta_p_lateral@S2")
+    assert g2["pass"] is False
+    assert "cannot substitute" in g2["reason"]
+
+
+def test_the_tau_cross_check_is_diagnostic_only_with_no_invented_tolerance():
+    dsp = vf.TAU_CROSS_CHECK_DISPOSITION
+    assert dsp["status"] == "DIAGNOSTIC_ONLY"
+    assert dsp["exact_frozen_rule_exists"] is False
+    assert dsp["tolerance"] is None and dsp["may_alter"] == []
+    for forbidden in ("admission", "uncertainty", "classification", "selection"):
+        assert forbidden in dsp["may_not_alter"]
+    assert dsp["retained_in_matrix"] is True
+    rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "tau_cross_check"]
+    assert len(rows) == len(vf.SCIENTIFIC_RESOLUTIONS)   # still visible in the matrix
+    assert all(r["tau_plus"] == vf.TAU_CROSS_CHECK for r in rows)
+
+
+# ---- C. resolution completeness (erratum PE-66) ----------------------------------------------
+
+def test_the_exact_candidate_resolution_set_is_adjudicated(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    rg = vf.candidate_resolution_gates(recs, (5, 3), {"w": 5, "kz": 3})
+    assert rg["required_quantities"] == sorted(vf.CANDIDATE_RESOLUTION_QUANTITIES)
+    assert rg["present_quantities"] == rg["required_quantities"]
+    assert rg["missing_quantities"] == [] and rg["unexpected_quantities"] == []
+    assert rg["pass"] is True
+    fams = {g["quantity"]: g["family"] for g in rg["gates"]}
+    for q in ("c_field", "A1", "A2", "A_field", "A_series_inverse", "C_blocked", "s_blocked"):
+        assert fams[q] == "candidate_blocked_common_mode_ports", q
+    feats = next(g for g in rg["gates"] if g["quantity"] == "c_field")["features"]
+    for f in ("h_low", "h_high", "bridge_w", "bridge_kz", "port_depth", "duct_traverse"):
+        assert f in feats
+    assert fams["Xi_actual"] == "actual_xi_derived"
+    assert fams["G_bridge_coupon"] == "bridge_coupon"
+
+
+def test_the_frozen_comparison_coordinate_makes_extensive_quantities_comparable(
+        synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    rg = vf.candidate_resolution_gates(recs, (5, 3), {"w": 5, "kz": 3})
+    by = {g["quantity"]: g for g in rg["gates"]}
+    assert by["C_blocked"]["scaling_exponent"] == 3
+    assert by["A_series_inverse"]["scaling_exponent"] == -3
+    assert by["c_field"]["scaling_exponent"] == 0
+    # a dimensionless quantity is untouched; an extensive one really is rescaled
+    assert by["c_field"]["value_coarse"] == by["c_field"]["raw_value_coarse"]
+    assert by["C_blocked"]["value_coarse"] == pytest.approx(
+        by["C_blocked"]["raw_value_coarse"] / vf.S_COARSE ** 3)
+    assert "not fitted, not tunable" in by["C_blocked"]["comparison_coordinate_provenance"]
+
+
+def test_actual_xi_is_built_from_matched_g_bridge_and_areas(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    xs = vf.actual_xi_samples(recs, (5, 3))
+    assert xs
+    for s in xs:
+        assert s["value"] == pytest.approx(s["G_bridge_coupon"] * s["A_series_inverse"])
+        assert s["case_id"] != s["area_case_id"]
+        assert s["definition"].startswith("Xi = G_bridge_coupon * (1/A1 + 1/A2)")
+    rg = vf.candidate_resolution_gates(recs, (5, 3), {"w": 5, "kz": 3})
+    xi = next(g for g in rg["gates"] if g["quantity"] == "Xi_actual")
+    assert len(xi["area_case_ids"]) == 2 and len(xi["area_record_sha256"]) == 2
+
+
+@pytest.mark.parametrize("drop", list(vf.CANDIDATE_RESOLUTION_QUANTITIES))
+def test_one_missing_resolution_quantity_excludes_the_candidate(drop):
+    coarse = {"value": 1.0, "case_id": "a", "record_sha256": "%064x" % 1}
+    fine = {"value": 1.0, "case_id": "b", "record_sha256": "%064x" % 2}
+    gates = [vf.resolution_consistency_gate(q, coarse, fine, {"w": 5, "kz": 3})
+             for q in vf.CANDIDATE_RESOLUTION_QUANTITIES if q != drop]
+    v = vf.resolution_consistency_verdict(gates)
+    assert v["pass"] is False and v["missing_quantities"] == [drop]
+
+
+def test_a_failed_resolution_gate_is_never_absorbed_into_an_interval(synthetic_prefreeze):
+    v = vf.resolution_consistency_verdict([
+        vf.resolution_consistency_gate("c_field",
+                                       {"value": 1.0, "case_id": "a",
+                                        "record_sha256": "%064x" % 1},
+                                       {"value": 5.0, "case_id": "b",
+                                        "record_sha256": "%064x" % 2},
+                                       {"w": 5, "kz": 3})])
+    assert v["pass"] is False
+    assert "never absorbed" in v["rule"] and "UNAVAILABLE" in v["rule"]

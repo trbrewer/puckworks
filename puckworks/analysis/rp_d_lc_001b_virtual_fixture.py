@@ -824,6 +824,44 @@ def build_bridge_coupon(S: int, w: int, kz: int):
 TAU_PLUS = 2.0
 TAU_CROSS_CHECK = 1.2
 NU = (TAU_PLUS - 0.5) / 3.0                  # = 0.5 exactly, matching lb_reference.solve
+
+#: The scientific status of the two ``tau_plus = 1.2`` rows, RESOLVED (erratum PE-65).
+#:
+#: The controlling historical authority is RP-D-LC-001 PROTOCOL.md §5 and
+#: ``rp_d_lc_virtual_fixture.TAU_CROSS_CHECK``. It freezes an ANALYTIC PLANE-CHANNEL observation
+#: (permeability error +0.05203 % at tau_plus = 1.2, 2.0 and 3.0, identical to five significant
+#: figures) and the intent to re-run one assembled fixture case at 1.2. It freezes NO compared
+#: quantity for the assembled fixture, NO tolerance, and NO treatment of the viscosity change.
+#: That omission is material: nu = (tau_plus - 0.5)/3, so 1.2 -> nu = 0.2333 against 2.0 -> 0.5,
+#: a pressure-normalised conductance scales as 1/nu, and 001 handled this for the channel by
+#: scaling g with nu. The 001b rows run at the SAME central g as their tau_plus = 2.0
+#: counterparts, so the two are not the same dimensionless problem and a raw comparison of C, R
+#: or s between them would compare a viscosity ratio, not a discretisation independence.
+#:
+#: Since no exact pre-existing rule exists, C5 does NOT invent one.
+TAU_CROSS_CHECK_DISPOSITION = {
+    "status": "DIAGNOSTIC_ONLY",
+    "authority": ("docs/analysis/rp_d_lc_001/PROTOCOL.md §5; "
+                  "puckworks/analysis/rp_d_lc_virtual_fixture.py TAU_CROSS_CHECK"),
+    "exact_frozen_rule_exists": False,
+    "frozen_by_the_authority": ("an analytic plane-channel observation and the intent to re-run "
+                                "one assembled fixture case at tau_plus = 1.2"),
+    "not_frozen_by_the_authority": ["compared quantity for the assembled fixture",
+                                    "tolerance", "viscosity / dynamic-similarity accounting"],
+    "viscosity_note": ("nu = (tau_plus - 0.5)/3, so tau_plus = 1.2 gives nu = 0.2333 against 0.5 "
+                       "at tau_plus = 2.0; the 001b rows keep the same central g, so the two are "
+                       "not the same dimensionless problem"),
+    "may_show": ("that the assembled 3D fixture solves, converges and stays in the low-Mach "
+                 "regime at a second relaxation rate, with no gross qualitative change"),
+    "may_not_show": ("agreement, viscosity independence, or a bound of any kind"),
+    "may_alter": [],
+    "may_not_alter": ["admission", "uncertainty", "classification", "selection", "any gate "
+                      "verdict", "any disposition"],
+    "tolerance": None,
+    "tolerance_policy": "NOT_INVENTED_HERE_A_LATER_CORRECTION_MAY_FREEZE_ONE_BEFORE_ANY_OUTPUT",
+    "retained_in_matrix": True,
+    "erratum": "PE-65",
+}
 S_REF = 2
 #: The reference forcing as an EXACT rational (erratum PE-12). Fraction(2.0e-6) would have been
 #: the exact rational of an already-rounded binary float, which is not the same number and is not
@@ -1047,6 +1085,11 @@ FEATURE_FAMILIES = {
                              "duct_traverse"),
     "axial_coupon": ("h_low", "h_high"),
     "bridge_coupon": ("bridge_w", "bridge_kz", "duct_traverse"),
+    # erratum PE-67: actual Xi = G_bridge*(1/A1 + 1/A2) is derived from BOTH the bridge coupon
+    # (G_bridge) and the candidate blocked mirror (A1, A2), so its envelope is the union of the
+    # two governing families. The union is conservative and is not a new feature model.
+    "actual_xi_derived": ("h_low", "h_high", "bridge_w", "bridge_kz", "port_depth",
+                          "duct_traverse"),
 }
 LANE_ONLY_FEATURES = FEATURE_FAMILIES["reference_blocked_lane_only"]
 BRIDGE_CARRYING_FEATURES = FEATURE_FAMILIES["open_bridge_carrying"]
@@ -1057,19 +1100,31 @@ RESOLUTION_GOVERNING_FAMILY = {
     "R_reference_blocked": "reference_blocked_lane_only",
     "s_reference_blocked": "reference_blocked_lane_only",
     "C_reference_blocked": "reference_blocked_lane_only",
+    "Q_reference_blocked": "reference_blocked_lane_only",
+    "Q_mass_reference_blocked": "reference_blocked_lane_only",
+    "dP_reference_blocked": "reference_blocked_lane_only",
     "R_blocked": "candidate_blocked_common_mode_ports",
     "s_blocked": "candidate_blocked_common_mode_ports",
     "C_blocked": "candidate_blocked_common_mode_ports",
     "c_field": "candidate_blocked_common_mode_ports",
     "A_field": "candidate_blocked_common_mode_ports",
+    "A1": "candidate_blocked_common_mode_ports",
+    "A2": "candidate_blocked_common_mode_ports",
+    "A_series_inverse": "candidate_blocked_common_mode_ports",
     "R_open": "open_bridge_carrying",
+    "R_identical": "open_bridge_carrying",
     "s_open": "open_bridge_carrying",
     "C_open": "open_bridge_carrying",
     "G_lat_field": "open_bridge_carrying",
     "Xi_field": "open_bridge_carrying",
     "Xi_hat": "open_bridge_carrying",
     "Xi_coupon": "bridge_coupon",
+    "G_bridge_coupon": "bridge_coupon",
+    "Xi_actual": "actual_xi_derived",
     "G_axial_coupon": "axial_coupon",
+    "C_axial_coupon": "axial_coupon",
+    "Q_axial_coupon": "axial_coupon",
+    "dP_axial_coupon": "axial_coupon",
 }
 RESOLUTION_GOVERNING_FEATURES = {q: FEATURE_FAMILIES[f]
                                  for q, f in RESOLUTION_GOVERNING_FAMILY.items()}
@@ -1077,6 +1132,59 @@ RESOLUTION_GOVERNING_FEATURES = {q: FEATURE_FAMILIES[f]
 BRIDGE_DEPENDENT_QUANTITIES = tuple(
     q for q, f in RESOLUTION_GOVERNING_FAMILY.items()
     if any(x.startswith("bridge_") for x in FEATURE_FAMILIES[f]))
+
+# ---- the frozen resolution COMPARISON COORDINATE (erratum PE-66) ----------------------------
+# A two-resolution consistency test needs a coordinate in which the two resolutions are
+# comparable at all. C4 compared raw lattice values, which is correct only for a dimensionless
+# quantity: an extensive lattice quantity moves with S by a factor fixed by the frozen forcing law
+# and exact geometric similarity, and that movement is not a discretisation error.
+#
+# The exponents are DERIVED, not chosen. With every base voxel replicated into an S^3 block and
+# the frozen law g(S) = G_REF (S_REF/S)^3:
+#
+#   lattice velocity        u  ~ g L^2 / nu,  L ~ S            ->  u  ~ g S^2
+#   plane fluid-node count                    ~ S^2
+#   plane volume flux       Q  = sum(u_x)                      ->  Q  ~ g S^4        ( ~ S^1 at g(S) )
+#   node-to-node drop       dP ~ g * (lattice length)          ->  dP ~ g S          ( ~ S^-2 )
+#   conductance             C  = Q / dP                        ->  C  ~ S^3
+#   lane conductance A1, A2, coupon G_bridge, G_axial          ->      S^3
+#   1/A1 + 1/A2                                                ->      S^-3
+#   Xi = G_bridge * (1/A1 + 1/A2), R = C_open/C_blocked, s, c   ->      S^0
+#
+# The comparison coordinate is ``value / S**exponent``. For every dimensionless quantity the
+# exponent is 0 and the coordinate is the value itself, so no previously frozen dimensionless
+# comparison changes. Nothing here is fitted and nothing is tunable: each exponent follows from
+# the already-frozen forcing law and the already-frozen geometric similarity.
+RESOLUTION_SCALING_PROVENANCE = (
+    "derived from the frozen forcing law g(S) = G_REF (S_REF/S)^3 and exact geometric similarity "
+    "(every base voxel replicated into an S^3 block); not fitted, not tunable, and 0 for every "
+    "dimensionless quantity so no previously frozen comparison is altered"
+)
+RESOLUTION_SCALING_EXPONENT = {
+    # dimensionless — compared directly, exactly as before
+    "R_reference_blocked": 0, "s_reference_blocked": 0,
+    "R_blocked": 0, "s_blocked": 0, "c_field": 0,
+    "R_open": 0, "s_open": 0, "R_identical": 0,
+    "Xi_field": 0, "Xi_hat": 0, "Xi_coupon": 0, "Xi_actual": 0,
+    # conductances
+    "C_reference_blocked": 3, "C_blocked": 3, "C_open": 3,
+    "A_field": 3, "A1": 3, "A2": 3, "G_lat_field": 3,
+    "G_bridge_coupon": 3, "G_axial_coupon": 3, "C_axial_coupon": 3,
+    # the exact aggregate that multiplies G_bridge to form Xi
+    "A_series_inverse": -3,
+    # volume and mass fluxes
+    "Q_reference_blocked": 1, "Q_mass_reference_blocked": 1, "Q_axial_coupon": 1,
+    # node-to-node pressure drops
+    "dP_reference_blocked": -2, "dP_axial_coupon": -2,
+}
+
+
+def resolution_comparison_coordinate(quantity, value, S):
+    """``value / S**n`` — the frozen coordinate in which S_COARSE and S_FINE are comparable."""
+    if quantity not in RESOLUTION_SCALING_EXPONENT:
+        raise KeyError("no frozen resolution comparison coordinate for %r" % (quantity,))
+    n = RESOLUTION_SCALING_EXPONENT[quantity]
+    return _finite(value, "%s at S=%r" % (quantity, S)) / (float(S) ** n)
 
 
 def element_error(h_vox: float) -> float:
@@ -2366,16 +2474,14 @@ def above_window_diagnostics(candidates):
 #
 # A FAILED GATE MAKES THE CANDIDATE UNAVAILABLE. It never widens an envelope.
 
-#: The frozen componentwise quantities. Each is Stokes-proportional and is divided by g before its
-#: relative spread is taken, against the unchanged TOL_LINEARITY_REL.
-COMPONENTWISE_QUANTITIES = ("Q_open", "Q_blocked", "dP_open", "dP_blocked",
-                            "q_lat", "delta_p_lateral")
-#: Quantities whose expected value is ZERO for the case in question. They are never divided by
-#: their own mean; they are judged on the frozen absolute scale with separate magnitude and
-#: consistency verdicts (the PE-14 rule, applied to the forcing ladder).
-EXPECTED_ZERO_QUANTITIES = ("q_lat", "delta_p_lateral")
+#: The frozen componentwise quantities and the expected-zero subset are declared with the rest of
+#: the family-specific required sets below (errata PE-62 … PE-64), so one set can never change
+#: meaning by phase.
+#:
 #: The boundary-level quantities whose forcing stability must be established BEFORE any of them
 #: informs artifact admission, a c interval, a Xi envelope, admission, a category or a selection.
+#: Superseded by CANDIDATE_BOUNDARY_FORCING_QUANTITIES, which names each form exactly: C4 declared
+#: this abstract four-name list and then adjudicated c_field alone (erratum PE-62).
 BOUNDARY_STABILITY_QUANTITIES = ("R", "s", "c_field", "Xi")
 
 FORCING_GATE_STATUS = ("PASS", "FAIL", "NOT_APPLICABLE", "INCOMPLETE")
@@ -2386,36 +2492,52 @@ def _reduced(value, g):
 
 
 def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scale=None,
-                               tol=TOL_LINEARITY_REL, zero_tol=None):
-    """Adjudicate one Stokes-proportional quantity across a forcing ladder.
+                               tol=TOL_LINEARITY_REL, zero_tol=None,
+                               forcing_independent=False):
+    """Adjudicate one quantity across a forcing ladder.
 
     ``samples`` is an iterable of ``{"forcing_level", "g", "value", "case_id", "record_sha256"}``
     from **NORMAL** records only. Fixed-step audits are never observations (erratum PE-30).
 
-    For a nonzero quantity the verdict is the exact frozen componentwise relative spread of
-    ``value/g``. For an expected-zero quantity the mean is not a denominator: magnitude and
-    consistency are judged against ``zero_scale`` with ``zero_tol``.
+    For a Stokes-proportional quantity the verdict is the exact frozen componentwise relative
+    spread of ``value/g``. For an expected-zero quantity the mean is not a denominator: magnitude
+    and consistency are judged against ``zero_scale`` with ``zero_tol``.
+
+    ``forcing_independent`` (erratum PE-62) selects the frozen DIRECT relative-spread rule for a
+    dimensionless or forcing-independent quantity — ``R``, ``s``, ``c``, a conductance, an area or
+    actual ``Xi``. Such a quantity is compared as measured and is never divided by ``g``; dividing
+    it would manufacture a spread out of the ladder itself.
     """
     rows = [dict(s) for s in samples]
     out = {
         "quantity": quantity, "expected_zero": bool(expected_zero),
+        "forcing_independent": bool(forcing_independent),
+        "reduction_rule": ("FROZEN_DIRECT_RELATIVE_SPREAD_NOT_DIVIDED_BY_g"
+                           if forcing_independent else "VALUE_DIVIDED_BY_g"),
         "tolerance": (zero_tol if expected_zero else tol),
         "levels": sorted({r["forcing_level"] for r in rows}),
+        "missing_levels": [lv for lv in FORCING_LEVELS
+                           if lv not in {r["forcing_level"] for r in rows}],
         "case_ids": assert_flat_id_list([r["case_id"] for r in rows], "forcing gate case_ids"),
         "record_sha256": assert_flat_hash_list([r["record_sha256"] for r in rows],
                                                "forcing gate record hashes"),
         "reduced": None, "spread": None, "max_abs": None, "range": None,
         "status": "INCOMPLETE", "pass": None, "reason": None,
     }
-    missing = [lv for lv in FORCING_LEVELS if lv not in out["levels"]]
+    if forcing_independent and expected_zero:            # pragma: no cover - guarded by callers
+        raise ValueError("a forcing-independent quantity cannot also be an expected-zero one")
+    missing = out["missing_levels"]
     if missing:
         out["reason"] = "missing forcing level(s) %r; the ladder is incomplete" % (missing,)
         out["pass"] = False
         return out
     reduced = {}
     for r in rows:
-        reduced[r["forcing_level"]] = _finite(_reduced(r["value"], r["g"]),
-                                              "%s/g at %s" % (quantity, r["forcing_level"]))
+        reduced[r["forcing_level"]] = (
+            _finite(r["value"], "%s at %s" % (quantity, r["forcing_level"]))
+            if forcing_independent
+            else _finite(_reduced(r["value"], r["g"]),
+                         "%s/g at %s" % (quantity, r["forcing_level"])))
     out["reduced"] = reduced
     vals = [reduced[lv] for lv in FORCING_LEVELS]
     if expected_zero:
@@ -2445,64 +2567,171 @@ def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scal
     out["spread"] = _finite((max(vals) - min(vals)) / abs(mean), "%s spread" % quantity)
     out["pass"] = bool(out["spread"] <= tol)
     out["status"] = "PASS" if out["pass"] else "FAIL"
-    out["reason"] = ("exact frozen componentwise relative spread of %s/g across the ladder, "
-                     "against TOL_LINEARITY_REL" % quantity)
+    out["reason"] = ("exact frozen %s relative spread of %s across the ladder, against "
+                     "TOL_LINEARITY_REL"
+                     % (("direct" if forcing_independent else "componentwise"),
+                        quantity if forcing_independent else quantity + "/g"))
     return out
 
 
-#: The exact componentwise quantity set a candidate MUST have adjudicated (erratum PE-47). A
-#: nonempty intersection with an allowlist is not sufficient evidence that the contract was met.
-REQUIRED_FORCING_QUANTITIES = ("Q_open", "Q_blocked", "dP_open", "dP_blocked",
-                               "q_lat", "delta_p_lateral", "c_field")
+# ---- family-specific REQUIRED SETS (errata PE-62, PE-63, PE-64, PE-66) -----------------------
+# One set whose meaning changes by phase is how C4 lost R, s, A1, A2 and actual Xi: PE-47 declared
+# them required, and the only boundary gate ever built was c_field. Each family below names its
+# own exact set, and ``exact_set_verdict`` asserts EQUALITY between required and adjudicated —
+# never a nonempty intersection and never a subset.
+
+#: P0, reference-blocked family. Volume flux, the conservation-supporting mass-flux diagnostic,
+#: the node-to-node pressure drop, the conductance and the exact frozen outlet share.
+P0_REFERENCE_FORCING_QUANTITIES = ("Q_reference_blocked", "Q_mass_reference_blocked",
+                                   "dP_reference_blocked", "C_reference_blocked",
+                                   "s_reference_blocked")
+#: P0, axial-coupon family, per level and orientation.
+P0_COUPON_FORCING_QUANTITIES = ("Q_axial_coupon", "dP_axial_coupon", "C_axial_coupon")
+P0_COUPON_LEVELS = ("high", "low")
+P0_COUPON_ORIENTATIONS = ("x", "y")
+
+#: The reference-blocked fixture carries NO bridge and therefore NO lateral pressure faces, so no
+#: field-contrast or area quantity is defined on it. The contrast and areas that later supply
+#: candidate truth come from the candidate BLOCKED MIRROR and are adjudicated in the candidate
+#: boundary set. Declared explicitly so the empty set is a recorded fact, not an omission.
+P0_REFERENCE_CONTRAST_QUANTITIES = ()
+P0_REFERENCE_CONTRAST_APPLICABILITY = (
+    "the reference-blocked fixture has no bridge, hence no y_face1/y_face2 pressure faces and no "
+    "field_contrast; A1, A2, A_field and c_field are candidate-blocked-mirror quantities and are "
+    "adjudicated in CANDIDATE_BOUNDARY_FORCING_QUANTITIES"
+)
+
+#: P0 resolution set: the reference-blocked quantities and every axial-coupon conductance.
+P0_REFERENCE_RESOLUTION_QUANTITIES = ("Q_reference_blocked", "dP_reference_blocked",
+                                      "C_reference_blocked", "s_reference_blocked")
+P0_COUPON_RESOLUTION_QUANTITIES = ("C_axial_coupon",)
+
+#: The exact CANDIDATE COMPONENT set (erratum PE-62 §6.2). Each member is Stokes-proportional and
+#: is divided by g. ``q_lat_mass`` uses an axial MASS-flux scale and never Q_volume (PE-48).
+CANDIDATE_COMPONENT_FORCING_QUANTITIES = ("Q_open", "Q_blocked", "dP_open", "dP_blocked",
+                                          "q_lat_mass", "delta_p_lateral")
+#: Retained under its C4 name so a record bound to the superseded set stays interpretable.
+COMPONENTWISE_QUANTITIES = CANDIDATE_COMPONENT_FORCING_QUANTITIES
+EXPECTED_ZERO_QUANTITIES = ("q_lat_mass", "delta_p_lateral")
+
+#: The exact CANDIDATE BOUNDARY set (erratum PE-62 §6.3). Every member is dimensionless or
+#: forcing-independent and is judged by the frozen DIRECT relative-spread rule.
+CANDIDATE_BOUNDARY_FORCING_QUANTITIES = ("R_identical", "s_blocked", "s_open", "c_field",
+                                         "A1", "A2", "A_field", "A_series_inverse", "Xi_actual")
+#: Exact frozen definitions of the two aggregate area quantities, so neither can be met by a
+#: similarly named surrogate.
+AGGREGATE_AREA_DEFINITIONS = {
+    "A_field": "A1 + A2 — the declared aggregate of the frozen resolution table",
+    "A_series_inverse": ("1/A1 + 1/A2 — the exact aggregate that multiplies G_bridge_coupon to "
+                         "form actual Xi"),
+}
+ACTUAL_XI_DEFINITION = ("Xi = G_bridge_coupon * (1/A1 + 1/A2), built from EXACTLY matched "
+                        "candidate, resolution and forcing records. Raw G_bridge is never gated "
+                        "under the name Xi (errata PE-49, PE-62).")
+
+#: The exact CANDIDATE RESOLUTION set (erratum PE-66 §7.2).
+CANDIDATE_RESOLUTION_QUANTITIES = ("R_identical", "s_blocked", "s_open", "c_field",
+                                   "A1", "A2", "A_field", "A_series_inverse",
+                                   "C_blocked", "C_open", "G_bridge_coupon", "Xi_actual")
+#: The artifact point estimate is |R_identical - 1|, a monotone function of a gated quantity, so
+#: it is covered by the ``R_identical`` gate rather than declared again as a surrogate.
+ARTIFACT_POINT_ESTIMATE_COVERAGE = (
+    "the selected artifact point estimate is |R_identical - 1| and is therefore adjudicated by "
+    "the R_identical forcing and resolution gates; it is not a distinct decision quantity and is "
+    "not re-declared as one")
+
+#: Retained under its C4 name. Its C4 value is superseded by the family-specific sets above.
+REQUIRED_FORCING_QUANTITIES = CANDIDATE_COMPONENT_FORCING_QUANTITIES
 
 
-def forcing_invariance_verdict(gates, required=REQUIRED_FORCING_QUANTITIES,
-                               resolutions=SCIENTIFIC_RESOLUTIONS):
+def _base_quantity(name):
+    return name.split("@")[0]
+
+
+def exact_set_verdict(gates, required, resolutions=SCIENTIFIC_RESOLUTIONS, family=None,
+                      kind="forcing"):
+    """EXACT completeness (erratum PE-64 §6.4).
+
+    Asserts EQUALITY between the required quantity set and the actually adjudicated set. A
+    nonempty intersection, a subset, a quantity present at only one or two forcing levels, a gate
+    at only one resolution and a similarly named surrogate are all failures.
+    """
+    gs = [dict(g) for g in gates]
+    want = sorted(set(required))
+    present = sorted({_base_quantity(g["quantity"]) for g in gs})
+    missing = sorted(set(want) - set(present))
+    unexpected = sorted(set(present) - set(want))
+    per_res, missing_levels = {}, {}
+    for S in resolutions:
+        have = {_base_quantity(g["quantity"]) for g in gs
+                if g["quantity"].endswith("@S%d" % S)}
+        per_res["S%d" % S] = sorted(set(want) - have)
+    missing_res = sorted({q for v in per_res.values() for q in v})
+    for g in gs:
+        lv = g.get("missing_levels") or []
+        if lv:
+            missing_levels[g["quantity"]] = list(lv)
+    failed = sorted(g["quantity"] for g in gs if g["pass"] is not True)
+    complete = not missing and not unexpected and not missing_res and not missing_levels
+    return {
+        "family": family, "kind": kind,
+        "n_gates": len(gs), "gates": gs,
+        "required_quantities": want,
+        "present_quantities": present,
+        "missing_quantities": missing,
+        "unexpected_quantities": unexpected,
+        "missing_per_resolution": per_res,
+        "missing_resolutions": missing_res,
+        "missing_levels": missing_levels,
+        "failed_quantities": failed,
+        "complete": bool(complete),
+        "pass": bool(gs) and complete and not failed,
+        "rule": ("the adjudicated set must EQUAL the required set at EVERY resolution, every "
+                 "quantity must carry all three forcing levels where a ladder applies, and every "
+                 "gate must pass on its own. A nonempty intersection, a subset, a single-"
+                 "resolution gate and a similarly named surrogate are failures (errata PE-28, "
+                 "PE-47, PE-62, PE-64)"),
+    }
+
+
+def forcing_invariance_verdict(gates, required=None, resolutions=SCIENTIFIC_RESOLUTIONS,
+                               family=None):
     """Aggregate componentwise gates. Every component must pass on its own: an aggregate that
     cancels while one component drifts is NOT a pass."""
-    gs = [dict(g) for g in gates]
-    failed = [g["quantity"] for g in gs if g["pass"] is not True]
-    present = {g["quantity"].split("@")[0] for g in gs}
-    want = {"%s" % q for q in required}
-    missing_q = sorted(want - present)
-    per_res = {}
-    for S in resolutions:
-        have = {g["quantity"].split("@")[0] for g in gs if g["quantity"].endswith("@S%d" % S)}
-        per_res["S%d" % S] = sorted(want - have)
-    missing_res = sorted({q for v in per_res.values() for q in v})
-    return {
-        "n_gates": len(gs), "gates": gs,
-        "failed_quantities": failed,
-        "required_quantities": sorted(want),
-        "missing_quantities": missing_q,
-        "missing_per_resolution": per_res,
-        "complete": bool(not missing_q and not missing_res),
-        "pass": bool(gs) and not failed and not missing_q and not missing_res,
-        "rule": ("every required component is present at EVERY resolution and passes on its own; "
-                 "aggregate cancellation is never a pass, and a nonempty intersection with an "
-                 "allowlist is not completeness (errata PE-28, PE-47)"),
-    }
+    if required is None:
+        required = CANDIDATE_COMPONENT_FORCING_QUANTITIES
+    return exact_set_verdict(gates, required, resolutions=resolutions, family=family,
+                             kind="forcing")
 
 
 def resolution_consistency_gate(quantity, coarse, fine, bridge=None):
     """Adjudicate one quantity across S_COARSE and S_FINE as an explicit PASS/FAIL.
 
-    ``coarse``/``fine`` are ``{"value", "case_id", "record_sha256"}`` from NORMAL records. The
-    tolerance is the ex-ante feature envelope for the quantity's own governing family. A failure
-    makes the candidate UNAVAILABLE; it is never absorbed into a wider interval (erratum PE-29).
+    ``coarse``/``fine`` are ``{"value", "case_id", "record_sha256"}`` from NORMAL records. The two
+    values are first mapped into the frozen COMPARISON COORDINATE ``value / S**n`` (erratum
+    PE-66), whose exponent is derived from the frozen forcing law and exact geometric similarity
+    and is 0 for every dimensionless quantity. The tolerance is the ex-ante feature envelope for
+    the quantity's own governing family. A failure makes the candidate UNAVAILABLE; it is never
+    absorbed into a wider interval (erratum PE-29).
 
     This remains a TWO-RESOLUTION CONSISTENCY TEST, not a convergence-order estimate.
     """
     family = RESOLUTION_GOVERNING_FAMILY[quantity]
     needs_bridge = quantity in BRIDGE_DEPENDENT_QUANTITIES
     tol = resolution_consistency_tolerance(quantity, bridge if needs_bridge else None)
-    a = _finite(coarse["value"], "%s at S_COARSE" % quantity)
-    b = _finite(fine["value"], "%s at S_FINE" % quantity)
+    raw_a = _finite(coarse["value"], "%s at S_COARSE" % quantity)
+    raw_b = _finite(fine["value"], "%s at S_FINE" % quantity)
+    a = resolution_comparison_coordinate(quantity, raw_a, S_COARSE)
+    b = resolution_comparison_coordinate(quantity, raw_b, S_FINE)
     denom = (abs(a) + abs(b)) / 2.0
     out = {
         "quantity": quantity, "family": family,
         "features": list(RESOLUTION_GOVERNING_FEATURES[quantity]),
         "S_coarse": S_COARSE, "S_fine": S_FINE,
+        "raw_value_coarse": raw_a, "raw_value_fine": raw_b,
+        "scaling_exponent": RESOLUTION_SCALING_EXPONENT[quantity],
+        "comparison_coordinate": "value / S**%d" % RESOLUTION_SCALING_EXPONENT[quantity],
+        "comparison_coordinate_provenance": RESOLUTION_SCALING_PROVENANCE,
         "value_coarse": a, "value_fine": b,
         "tolerance": tol,
         "case_ids": assert_flat_id_list([coarse["case_id"], fine["case_id"]],
@@ -2518,17 +2747,21 @@ def resolution_consistency_gate(quantity, coarse, fine, bridge=None):
     out["discrepancy"] = _finite(abs(a - b) / denom, "%s resolution discrepancy" % quantity)
     out["pass"] = bool(out["discrepancy"] <= tol)
     out["status"] = "PASS" if out["pass"] else "FAIL"
-    out["reason"] = ("symmetric relative discrepancy against the ex-ante feature envelope for "
-                     "family %r" % family)
+    out["reason"] = ("symmetric relative discrepancy in the frozen comparison coordinate, against "
+                     "the ex-ante feature envelope for family %r" % family)
     return out
 
 
-def resolution_consistency_verdict(gates):
-    gs = [dict(g) for g in gates]
-    failed = [g["quantity"] for g in gs if g["pass"] is not True]
-    return {"n_gates": len(gs), "gates": gs, "failed_quantities": failed,
-            "pass": bool(gs) and not failed,
-            "rule": "a failed consistency gate makes the candidate UNAVAILABLE (erratum PE-29)"}
+def resolution_consistency_verdict(gates, required=None, family=None):
+    """Aggregate resolution gates with EXACT completeness (erratum PE-66)."""
+    if required is None:
+        required = CANDIDATE_RESOLUTION_QUANTITIES
+    out = exact_set_verdict(gates, required, resolutions=(), family=family, kind="resolution")
+    out["rule"] = ("the adjudicated set must EQUAL the required set, and a failed consistency "
+                   "gate makes the candidate UNAVAILABLE — it is never absorbed into a wider "
+                   "interval, replaced by the uncertainty envelope, or reported only as a "
+                   "post-selection diagnostic (errata PE-29, PE-66)")
+    return out
 
 
 # ==========================================================================================
@@ -4740,8 +4973,13 @@ def case_decision_verdict(row, scientific, execution_status):
 def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused, failed,
                         authority, predecessor_manifests, adaptive, terminal_status,
                         terminal_stop_reason=None, provenance_mode="PRODUCTION",
-                        replicates=()):
-    """A validated phase LEDGER over the FULL phase universe."""
+                        replicates=(), phase_science=None):
+    """A validated phase LEDGER over the FULL phase universe.
+
+    ``phase_science`` carries the phase's durable AGGREGATE scientific verdict (erratum PE-64).
+    For P0 it is :func:`p0_aggregate_science`, and the validator recomputes it from the records
+    rather than taking the manifest's word for it.
+    """
     if terminal_status not in TERMINAL_PHASE_STATUSES:
         raise ValueError("unknown terminal phase status %r" % (terminal_status,))
     uni = [dict(r) for r in universe_rows]
@@ -4771,6 +5009,8 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         "failed": [dict(c) for c in failed],
         "replicates": [dict(r) for r in replicates],
         "adaptive": dict(adaptive),
+        "phase_science": (None if phase_science is None else dict(phase_science)),
+        "phase_science_sha256": (None if phase_science is None else record_hash(phase_science)),
         "terminal_status": terminal_status,
         "terminal_stop_reason": terminal_stop_reason,
         "counts": {"universe": len(uni), "eligible": len(elig), "completed": len(completed),
@@ -4778,6 +5018,12 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
     }
     doc.update(config_hashes())
     return doc
+
+
+#: Phases that must publish a durable AGGREGATE scientific verdict (erratum PE-64). The validator
+#: recomputes each from the reopened records; a later phase refuses on anything but a complete,
+#: passing verdict.
+PHASE_AGGREGATE_SCIENCE = {"P0": lambda recs: p0_aggregate_science(recs)}
 
 
 def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
@@ -4928,6 +5174,23 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                 % (rep_id, base_id))
         if rep.get("pass") is not True:
             raise ManifestMissing("replicate %r is not recorded as passing" % (rep_id,))
+    # PE-64: the phase's durable AGGREGATE scientific verdict is RECOMPUTED from the reopened
+    # records and must match the manifest exactly. A manifest may not assert a P0 verdict its own
+    # records do not support, and it may not omit one.
+    if phase in PHASE_AGGREGATE_SCIENCE:
+        want_sci = PHASE_AGGREGATE_SCIENCE[phase](records)
+        got_sci = doc.get("phase_science")
+        if got_sci is None:
+            raise ManifestMissing(
+                "the %s manifest carries no aggregate scientific verdict; %s must produce one "
+                "before a later phase may consume it (erratum PE-64)" % (phase, phase))
+        if record_hash(got_sci) != record_hash(want_sci):
+            raise ManifestMissing(
+                "the %s manifest's aggregate scientific verdict does not recompute from its own "
+                "records (erratum PE-64)" % (phase,))
+        if doc.get("phase_science_sha256") != record_hash(want_sci):
+            raise ManifestMissing("the %s manifest cites a stale phase_science hash" % (phase,))
+        doc["_phase_science"] = want_sci
     doc["_records"] = records
     return doc
 
@@ -5083,6 +5346,16 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
             if actual != sha:
                 raise ManifestMissing("the %s manifest cites predecessor %s hash %r; the file "
                                       "hashes to %r" % (pre, k, sha, actual))
+        # PE-64: a predecessor that publishes an aggregate scientific verdict may satisfy the
+        # next phase only when that verdict is COMPLETE and PASSING. P1a refuses on anything else.
+        if pre in PHASE_AGGREGATE_SCIENCE:
+            sci = doc.get("_phase_science") or {}
+            if not (sci.get("complete") and sci.get("pass")):
+                raise ManifestMissing(
+                    "the %s aggregate scientific verdict is not complete and passing "
+                    "(complete=%r, pass=%r, failed=%r); phase %r may not consume it "
+                    "(erratum PE-64)" % (pre, sci.get("complete"), sci.get("pass"),
+                                         sci.get("failed_families"), phase))
         records.update(doc.pop("_records", {}))
         got[pre] = doc
     if set(got) != required:                                 # pragma: no cover - loop is exact
@@ -5133,66 +5406,384 @@ def _samples(records, kind, key, state, quantity, extractor):
     return out
 
 
+def _fc(rec):
+    """``field_contrast`` of a record, or None where the record cannot supply it."""
+    sci = rec.get("scientific")
+    if not sci or "p_face1" not in sci:
+        return None
+    try:
+        return field_contrast(sci)
+    except (ValueError, KeyError, NonFiniteValue):                # pragma: no cover - degenerate
+        return None
+
+
+def _area_quantity(rec, which):
+    fc = _fc(rec)
+    if fc is None:
+        return None
+    if which == "A1":
+        return fc["A1"]
+    if which == "A2":
+        return fc["A2"]
+    if which == "A_field":
+        return fc["A1"] + fc["A2"]
+    if which == "A_series_inverse":
+        if fc["A1"] == 0.0 or fc["A2"] == 0.0:                    # pragma: no cover - guarded
+            return None
+        return 1.0 / fc["A1"] + 1.0 / fc["A2"]
+    if which == "c_field":
+        return fc["c_field"]
+    raise KeyError(which)                                         # pragma: no cover - frozen set
+
+
+def _phase_samples(records, kind, state, quantity, extractor, key=None):
+    """A forcing ladder for one configuration, NORMAL records only, tagged with S."""
+    return _samples(records, kind, key, state, quantity, extractor)
+
+
+def _coupon_samples(records, level, orientation, extractor):
+    out = []
+    for r in sorted(_normal_only(records, "axial_coupon").values(), key=lambda x: x["case_id"]):
+        if r["row"]["coupon_level"] != level or r["row"]["coupon_orientation"] != orientation:
+            continue
+        v = extractor(r)
+        if v is None:
+            continue
+        out.append({"forcing_level": r["row"]["forcing_level"], "g": row_forcing(r["row"]),
+                    "value": v, "case_id": r["case_id"], "record_sha256": record_hash(r),
+                    "S": r["row"]["S"]})
+    return out
+
+
+def _coupon_dP(r):
+    """A uniform x-periodic duct drops exactly ``g*L``; the coupon record retains L, so this is a
+    DERIVED ANALYTIC IDENTITY, labelled as such and never presented as a measurement."""
+    sci = r.get("scientific") or {}
+    L = sci.get("length_vox")
+    if L is None:
+        return None
+    return row_forcing(r["row"]) * float(L)
+
+
+def p0_aggregate_science(records):
+    """The DURABLE P0 aggregate scientific verdict (erratum PE-64 §6.1).
+
+    C4 wrote P0 records and adjudicated nothing in aggregate, so P1a's only prerequisite was
+    ``PHASE_COMPLETE``. This produces the verdict P1a must consume: componentwise forcing
+    invariance and two-resolution consistency for the reference-blocked family and for every
+    axial coupon, over the complete low/central/high ladder at BOTH resolutions.
+
+    It is stored in the P0 manifest and RECOMPUTED from records by the validator, so a manifest
+    can never assert a P0 verdict its own records do not support.
+    """
+    ref_extract = {
+        "Q_reference_blocked": lambda r: (r.get("scientific") or {}).get("Q_volume"),
+        "Q_mass_reference_blocked": lambda r: (r.get("scientific") or {}).get(
+            "Q_mass_diagnostic"),
+        "dP_reference_blocked": lambda r: (r.get("scientific") or {}).get("dP"),
+        "C_reference_blocked": lambda r: (_conductance(r)
+                                          if (r.get("scientific") or {}).get("dP") else None),
+        "s_reference_blocked": lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"),
+    }
+    #: forcing-independent members of the reference family
+    ref_independent = {"C_reference_blocked", "s_reference_blocked"}
+    ref_gates = []
+    for S in SCIENTIFIC_RESOLUTIONS:
+        for q in P0_REFERENCE_FORCING_QUANTITIES:
+            sm = [s for s in _phase_samples(records, "reference_blocked_ladder",
+                                            "reference_blocked", q, ref_extract[q])
+                  if s["S"] == S]
+            if sm:
+                ref_gates.append(componentwise_forcing_gate(
+                    "%s@S%d" % (q, S), sm,
+                    forcing_independent=(q in ref_independent)))
+    ref_forcing = exact_set_verdict(ref_gates, P0_REFERENCE_FORCING_QUANTITIES,
+                                    family="reference_blocked", kind="forcing")
+
+    coupon_extract = {
+        "Q_axial_coupon": lambda r: (r.get("scientific") or {}).get("Q_volume"),
+        "dP_axial_coupon": _coupon_dP,
+        "C_axial_coupon": lambda r: (r.get("scientific") or {}).get("conductance"),
+    }
+    coupon_forcing, coupon_resolution = {}, {}
+    for level in P0_COUPON_LEVELS:
+        for orient in P0_COUPON_ORIENTATIONS:
+            gates = []
+            for S in SCIENTIFIC_RESOLUTIONS:
+                for q in P0_COUPON_FORCING_QUANTITIES:
+                    sm = [s for s in _coupon_samples(records, level, orient, coupon_extract[q])
+                          if s["S"] == S]
+                    if sm:
+                        g = componentwise_forcing_gate(
+                            "%s@S%d" % (q, S), sm,
+                            forcing_independent=(q == "C_axial_coupon"))
+                        if q == "dP_axial_coupon":
+                            g["quantity_role"] = (
+                                "DERIVED_ANALYTIC_IDENTITY_dP_EQUALS_g_TIMES_L_"
+                                "NOT_AN_INDEPENDENT_MEASUREMENT")
+                        gates.append(g)
+            coupon_forcing["%s.%s" % (level, orient)] = exact_set_verdict(
+                gates, P0_COUPON_FORCING_QUANTITIES,
+                family="axial_coupon[%s,%s]" % (level, orient), kind="forcing")
+
+    def _res_gate(quantity, by_S, gates):
+        if S_COARSE in by_S and S_FINE in by_S:
+            gates.append(resolution_consistency_gate(quantity, by_S[S_COARSE], by_S[S_FINE]))
+
+    ref_res_gates = []
+    for q in P0_REFERENCE_RESOLUTION_QUANTITIES:
+        by_S = {}
+        for s in _phase_samples(records, "reference_blocked_ladder", "reference_blocked", q,
+                                ref_extract[q]):
+            if s["forcing_level"] == "central":
+                by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
+                                "record_sha256": s["record_sha256"]}
+        _res_gate(q, by_S, ref_res_gates)
+    ref_resolution = exact_set_verdict(ref_res_gates, P0_REFERENCE_RESOLUTION_QUANTITIES,
+                                       resolutions=(), family="reference_blocked",
+                                       kind="resolution")
+
+    for level in P0_COUPON_LEVELS:
+        for orient in P0_COUPON_ORIENTATIONS:
+            gates = []
+            for q in P0_COUPON_RESOLUTION_QUANTITIES:
+                by_S = {}
+                for s in _coupon_samples(records, level, orient, coupon_extract[q]):
+                    if s["forcing_level"] == "central":
+                        by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
+                                        "record_sha256": s["record_sha256"]}
+                _res_gate(q, by_S, gates)
+            coupon_resolution["%s.%s" % (level, orient)] = exact_set_verdict(
+                gates, P0_COUPON_RESOLUTION_QUANTITIES, resolutions=(),
+                family="axial_coupon[%s,%s]" % (level, orient), kind="resolution")
+
+    families = ([ref_forcing, ref_resolution] + list(coupon_forcing.values())
+                + list(coupon_resolution.values()))
+    out = {
+        "phase": "P0",
+        "schema_version": 1,
+        "reference_blocked_forcing": ref_forcing,
+        "reference_blocked_resolution": ref_resolution,
+        "axial_coupon_forcing": coupon_forcing,
+        "axial_coupon_resolution": coupon_resolution,
+        "reference_contrast_quantities": list(P0_REFERENCE_CONTRAST_QUANTITIES),
+        "reference_contrast_applicability": P0_REFERENCE_CONTRAST_APPLICABILITY,
+        "tau_cross_check": dict(TAU_CROSS_CHECK_DISPOSITION),
+        "required_families": (["reference_blocked_forcing", "reference_blocked_resolution"]
+                              + ["axial_coupon_forcing[%s]" % k
+                                 for k in sorted(coupon_forcing)]
+                              + ["axial_coupon_resolution[%s]" % k
+                                 for k in sorted(coupon_resolution)]),
+        "n_families": len(families),
+        "complete": bool(families) and all(f["complete"] for f in families),
+        "rule": ("P0 must produce a durable aggregate scientific verdict before P1a can consume "
+                 "it: componentwise forcing invariance over the complete low/central/high ladder "
+                 "and two-resolution consistency, for the reference-blocked family and for every "
+                 "axial coupon level and orientation, with EXACT set equality (erratum PE-64)"),
+    }
+    expected_families = (2 + len(P0_COUPON_LEVELS) * len(P0_COUPON_ORIENTATIONS) * 2)
+    out["expected_families"] = expected_families
+    out["pass"] = bool(len(families) == expected_families and out["complete"]
+                       and all(f["pass"] for f in families))
+    out["failed_families"] = sorted(
+        ("%s:%s" % (f["kind"], f["family"])) for f in families if not f["pass"])
+    return out
+
+
 def candidate_forcing_gates(records, key):
-    """Adjudicate the frozen componentwise ladder for one candidate, per resolution and state
-    (erratum PE-28). Every group must pass on its own."""
-    gates = []
+    """Adjudicate the exact candidate COMPONENT and BOUNDARY sets for one candidate.
+
+    Component quantities (errata PE-28, PE-48) are Stokes-proportional and are divided by ``g``.
+    Boundary quantities (erratum PE-62) are dimensionless or forcing-independent and use the
+    frozen DIRECT relative-spread rule. Every group must pass on its own, and the adjudicated set
+    must EQUAL the required set at BOTH resolutions across the whole ladder.
+    """
+    comp_gates, bound_gates = [], []
+    press = lateral_pressure_evidence_from_records(records, key)
     for S in SCIENTIFIC_RESOLUTIONS:
         for state, qname in (("blocked", "Q_blocked"), ("open", "Q_open")):
             sm = [s for s in _samples(records, "identical_path_control", key, state, qname,
                                       lambda r: (r.get("scientific") or {}).get("Q_volume"))
                   if s["S"] == S]
             if sm:
-                gates.append(componentwise_forcing_gate(qname + "@S%d" % S, sm))
+                comp_gates.append(componentwise_forcing_gate(qname + "@S%d" % S, sm))
             dp = [s for s in _samples(records, "identical_path_control", key, state, "dP",
                                       lambda r: (r.get("scientific") or {}).get("dP"))
                   if s["S"] == S]
             if dp:
-                gates.append(componentwise_forcing_gate(
+                comp_gates.append(componentwise_forcing_gate(
                     ("dP_blocked" if state == "blocked" else "dP_open") + "@S%d" % S, dp))
         zs = [s for s in _samples(
-            records, "identical_path_control", key, "open", "q_lat",
+            records, "identical_path_control", key, "open", "q_lat_mass",
             lambda r: ((r.get("scientific") or {}).get("lateral_pressure") or {}).get(
                 "q_lat_mass")) if s["S"] == S]
         if zs:
-            # erratum PE-48: q_lat is a MASS flux, so its scale must be an axial MASS flux.
+            # erratum PE-48: q_lat_mass is a MASS flux, so its scale must be an axial MASS flux.
             # Mass and volume are never mixed in one ratio.
-            scale = max(abs(s["value"] / s["g"]) for s in _samples(
+            mass_scale = [abs(s["value"] / s["g"]) for s in _samples(
                 records, "identical_path_control", key, "open", "Q_mass",
                 lambda r: (r.get("scientific") or {}).get("Q_mass_diagnostic"))
-                if s["S"] == S)
-            gates.append(componentwise_forcing_gate(
-                "q_lat@S%d" % S, zs, expected_zero=True, zero_scale=scale,
-                zero_tol=TOL_BRIDGE_LEAKAGE_REL))
+                if s["S"] == S]
+            if mass_scale:
+                g = componentwise_forcing_gate(
+                    "q_lat_mass@S%d" % S, zs, expected_zero=True, zero_scale=max(mass_scale),
+                    zero_tol=TOL_BRIDGE_LEAKAGE_REL)
+                g["zero_scale_source"] = "axial MASS flux sum(rho*u_x)/g; never Q_volume (PE-48)"
+                comp_gates.append(g)
         ps = [s for s in _samples(
             records, "identical_path_control", key, "open", "delta_p_lateral",
             lambda r: ((r.get("scientific") or {}).get("lateral_pressure") or {}).get(
                 "delta_p_lateral")) if s["S"] == S]
         if ps:
-            scale = max(abs(s["value"] / s["g"]) for s in _samples(
+            pscale = [abs(s["value"] / s["g"]) for s in _samples(
                 records, "identical_path_control", key, "open", "dP",
-                lambda r: (r.get("scientific") or {}).get("dP")) if s["S"] == S)
-            gates.append(componentwise_forcing_gate(
-                "delta_p_lateral@S%d" % S, ps, expected_zero=True, zero_scale=scale,
-                zero_tol=TOL_LATERAL_DRIVER_REL))
-    # boundary-level stability for the quantities that later inform admission and selection
+                lambda r: (r.get("scientific") or {}).get("dP")) if s["S"] == S]
+            if pscale:
+                g = componentwise_forcing_gate(
+                    "delta_p_lateral@S%d" % S, ps, expected_zero=True, zero_scale=max(pscale),
+                    zero_tol=TOL_LATERAL_DRIVER_REL)
+                # erratum PE-62 §6.2: three small point means may NEVER substitute for a failed
+                # maximum or audit-adjusted bound. The final paired normal/audit upper bounds are
+                # a PREREQUISITE of this component gate.
+                need = ["%d.%s" % (S, lv) for lv in FORCING_LEVELS]
+                bad = [c for c in need
+                       if press.get(c) is None or press[c].get("pass") is not True]
+                g["pressure_upper_bound_prerequisite"] = {
+                    "required_combinations": need, "failed_or_missing": bad,
+                    "rule": ("the final paired normal/audit mean AND maximum upper bounds must "
+                             "pass at every level before the point-mean component gate may pass "
+                             "(erratum PE-60)")}
+                if bad:
+                    g["pass"] = False
+                    g["status"] = "FAIL"
+                    g["reason"] = ("the final paired normal/audit pressure upper bound is absent "
+                                   "or failing at %r; a small point mean cannot substitute for it"
+                                   % (bad,))
+                comp_gates.append(g)
+
+    # ---- boundary level: dimensionless / forcing-independent, direct relative spread ----------
+    xi_rows = actual_xi_samples(records, key)
     for S in SCIENTIFIC_RESOLUTIONS:
-        cs = [s for s in _samples(records, "candidate_blocked_mirror", key, "blocked", "c_field",
-                                  lambda r: (field_contrast(r["scientific"])["c_field"]
-                                             if r.get("scientific") else None))
-              if s["S"] == S]
-        if cs:
-            for s in cs:                       # c_field is NOT proportional to g
-                s["g"] = 1.0
-            gates.append(componentwise_forcing_gate("c_field@S%d" % S, cs))
-    return forcing_invariance_verdict(gates)
+        bound = {
+            "R_identical": _identical_R_samples(records, key, S),
+            "s_blocked": [s for s in _samples(
+                records, "identical_path_control", key, "blocked", "s_blocked",
+                lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"))
+                if s["S"] == S],
+            "s_open": [s for s in _samples(
+                records, "identical_path_control", key, "open", "s_open",
+                lambda r: (r.get("scientific") or {}).get("s_outlet_share_a"))
+                if s["S"] == S],
+        }
+        for q in ("c_field", "A1", "A2", "A_field", "A_series_inverse"):
+            bound[q] = [s for s in _samples(
+                records, "candidate_blocked_mirror", key, "blocked", q,
+                lambda r, _q=q: _area_quantity(r, _q)) if s["S"] == S]
+        bound["Xi_actual"] = [s for s in xi_rows if s["S"] == S]
+        for q in CANDIDATE_BOUNDARY_FORCING_QUANTITIES:
+            sm = bound.get(q) or []
+            if not sm:
+                continue
+            g = componentwise_forcing_gate("%s@S%d" % (q, S), sm, forcing_independent=True)
+            if q in AGGREGATE_AREA_DEFINITIONS:
+                g["quantity_definition"] = AGGREGATE_AREA_DEFINITIONS[q]
+            if q == "Xi_actual":
+                g["quantity_definition"] = ACTUAL_XI_DEFINITION
+            bound_gates.append(g)
+
+    component = forcing_invariance_verdict(comp_gates, CANDIDATE_COMPONENT_FORCING_QUANTITIES,
+                                           family="candidate_component")
+    boundary = forcing_invariance_verdict(bound_gates, CANDIDATE_BOUNDARY_FORCING_QUANTITIES,
+                                          family="candidate_boundary")
+    out = {
+        "component": component, "boundary": boundary,
+        "n_gates": component["n_gates"] + boundary["n_gates"],
+        "gates": component["gates"] + boundary["gates"],
+        "failed_quantities": component["failed_quantities"] + boundary["failed_quantities"],
+        "complete": bool(component["complete"] and boundary["complete"]),
+        "pass": bool(component["pass"] and boundary["pass"]),
+        "rule": ("two family-specific required sets, each asserted EQUAL to the set actually "
+                 "adjudicated; one failed component can never be cancelled by another (errata "
+                 "PE-62, PE-64)"),
+    }
+    return out
+
+
+def _identical_R_samples(records, key, S):
+    """``R_identical = C_open / C_blocked`` per forcing level, from EXACTLY paired records."""
+    by = {}
+    for r in sorted(_normal_only(records, "identical_path_control", key).values(),
+                    key=lambda x: x["case_id"]):
+        if r["row"]["S"] != S:
+            continue
+        by.setdefault(r["row"]["forcing_level"], {})[r["row"]["state"]] = r
+    out = []
+    for level, states in sorted(by.items()):
+        if set(states) != {"blocked", "open"}:
+            continue
+        try:
+            Cb, Co = _conductance(states["blocked"]), _conductance(states["open"])
+        except (ValueError, KeyError, NonFiniteValue):            # pragma: no cover - degenerate
+            continue
+        if Cb == 0.0:                                             # pragma: no cover - guarded
+            continue
+        out.append({"forcing_level": level, "g": row_forcing(states["open"]["row"]),
+                    "value": Co / Cb, "S": S,
+                    "case_id": states["open"]["case_id"],
+                    "record_sha256": record_hash(states["open"]),
+                    "paired_blocked_case_id": states["blocked"]["case_id"],
+                    "paired_blocked_record_sha256": record_hash(states["blocked"])})
+    return out
+
+
+def actual_xi_samples(records, key):
+    """Actual ``Xi = G_bridge_coupon * (1/A1 + 1/A2)`` from EXACTLY matched NORMAL records.
+
+    Matched on candidate, resolution and forcing level. Raw ``G_bridge`` is never returned under
+    the name ``Xi`` (errata PE-49, PE-62).
+    """
+    areas = {}
+    for r in _normal_only(records, "candidate_blocked_mirror", key).values():
+        inv = _area_quantity(r, "A_series_inverse")
+        if inv is None:
+            continue
+        areas[(r["row"]["S"], r["row"]["forcing_level"])] = (inv, r)
+    out = []
+    for r in sorted(_normal_only(records, "bridge_coupon", key).values(),
+                    key=lambda x: x["case_id"]):
+        gb = (r.get("scientific") or {}).get("G_bridge_coupon")
+        k2 = (r["row"]["S"], r["row"]["forcing_level"])
+        if gb is None or k2 not in areas:
+            continue
+        inv, arec = areas[k2]
+        out.append({
+            "forcing_level": k2[1], "g": row_forcing(r["row"]), "S": k2[0],
+            "value": float(gb) * inv,
+            "G_bridge_coupon": float(gb), "A_series_inverse": inv,
+            "case_id": r["case_id"], "record_sha256": record_hash(r),
+            "area_case_id": arec["case_id"], "area_record_sha256": record_hash(arec),
+            "definition": ACTUAL_XI_DEFINITION,
+        })
+    return out
 
 
 def candidate_resolution_gates(records, key, bridge):
-    """Adjudicate S=2 vs S=3 for one candidate's decision-bearing quantities (erratum PE-29)."""
+    """Adjudicate S=2 vs S=3 for the EXACT candidate resolution set (errata PE-29, PE-66).
+
+    Each quantity uses its own governing feature family and the frozen comparison coordinate.
+    Candidate-blocked quantities use the common-mode-port family, which includes the lane
+    heights, the bridge footprint width and height, the port depth and the divider traverse.
+    """
     gates = []
 
-    def pick(kind, state, quantity, extractor, level="central"):
+    def add(quantity, by_S, extra=None):
+        if S_COARSE in by_S and S_FINE in by_S:
+            g = resolution_consistency_gate(quantity, by_S[S_COARSE], by_S[S_FINE], bridge)
+            if extra:
+                g.update(extra)
+            gates.append(g)
+
+    def pick(kind, state, extractor, level="central"):
         got = {}
         for r in sorted(_normal_only(records, kind, key).values(), key=lambda x: x["case_id"]):
             if state is not None and r["row"]["state"] != state:
@@ -5203,44 +5794,50 @@ def candidate_resolution_gates(records, key, bridge):
             if v is not None:
                 got[r["row"]["S"]] = {"value": v, "case_id": r["case_id"],
                                       "record_sha256": record_hash(r)}
-        if S_COARSE in got and S_FINE in got:
-            gates.append(resolution_consistency_gate(quantity, got[S_COARSE], got[S_FINE],
-                                                     bridge))
+        return got
 
-    pick("candidate_blocked_mirror", "blocked", "c_field",
-         lambda r: field_contrast(r["scientific"])["c_field"] if r.get("scientific") else None)
-    pick("candidate_blocked_mirror", "blocked", "C_blocked",
-         lambda r: (_conductance(r) if (r.get("scientific") or {}).get("dP") else None))
-    # erratum PE-49: gate ACTUAL Xi = G_bridge * (1/A1 + 1/A2), from exactly matched coupon and
-    # blocked-mirror evidence, never raw G_bridge under the name Xi.
-    areas = {}
-    for r in _normal_only(records, "candidate_blocked_mirror", key).values():
-        if r["row"]["forcing_level"] != "central" or not r.get("scientific"):
-            continue
-        fc = field_contrast(r["scientific"])
-        areas[r["row"]["S"]] = (fc["A1"], fc["A2"], r["case_id"], record_hash(r))
-    got = {}
-    for r in sorted(_normal_only(records, "bridge_coupon", key).values(),
-                    key=lambda x: x["case_id"]):
-        if r["row"]["forcing_level"] != "central":
-            continue
-        gb = (r.get("scientific") or {}).get("G_bridge_coupon")
-        S = r["row"]["S"]
-        if gb is None or S not in areas:
-            continue
-        A1, A2, a_id, a_h = areas[S]
-        got[S] = {"value": float(gb) * (1.0 / A1 + 1.0 / A2), "case_id": r["case_id"],
-                  "record_sha256": record_hash(r), "area_case_id": a_id,
-                  "area_record_sha256": a_h}
-    if S_COARSE in got and S_FINE in got:
-        g = resolution_consistency_gate("Xi_coupon", got[S_COARSE], got[S_FINE], bridge)
-        g["quantity_definition"] = "Xi = G_bridge_coupon * (1/A1 + 1/A2), NOT raw G_bridge"
-        g["area_case_ids"] = [got[S_COARSE]["area_case_id"], got[S_FINE]["area_case_id"]]
+    for q in ("c_field", "A1", "A2", "A_field", "A_series_inverse"):
+        extra = ({"quantity_definition": AGGREGATE_AREA_DEFINITIONS[q]}
+                 if q in AGGREGATE_AREA_DEFINITIONS else None)
+        add(q, pick("candidate_blocked_mirror", "blocked",
+                    lambda r, _q=q: _area_quantity(r, _q)), extra)
+    add("C_blocked", pick("candidate_blocked_mirror", "blocked",
+                          lambda r: (_conductance(r)
+                                     if (r.get("scientific") or {}).get("dP") else None)))
+    add("s_blocked", pick("identical_path_control", "blocked",
+                          lambda r: (r.get("scientific") or {}).get("s_outlet_share_a")))
+    add("s_open", pick("identical_path_control", "open",
+                       lambda r: (r.get("scientific") or {}).get("s_outlet_share_a")))
+    add("C_open", pick("identical_path_control", "open",
+                       lambda r: (_conductance(r)
+                                  if (r.get("scientific") or {}).get("dP") else None)))
+    add("G_bridge_coupon", pick("bridge_coupon", None,
+                                lambda r: (r.get("scientific") or {}).get("G_bridge_coupon")))
+    r_by_S = {}
+    for S in SCIENTIFIC_RESOLUTIONS:
+        for s in _identical_R_samples(records, key, S):
+            if s["forcing_level"] == "central":
+                r_by_S[S] = {"value": s["value"], "case_id": s["case_id"],
+                             "record_sha256": s["record_sha256"]}
+    add("R_identical", r_by_S,
+        {"artifact_point_estimate_coverage": ARTIFACT_POINT_ESTIMATE_COVERAGE})
+    xi_by_S = {}
+    for s in actual_xi_samples(records, key):
+        if s["forcing_level"] == "central":
+            xi_by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
+                               "record_sha256": s["record_sha256"],
+                               "area_case_id": s["area_case_id"],
+                               "area_record_sha256": s["area_record_sha256"]}
+    if S_COARSE in xi_by_S and S_FINE in xi_by_S:
+        g = resolution_consistency_gate("Xi_actual", xi_by_S[S_COARSE], xi_by_S[S_FINE], bridge)
+        g["quantity_definition"] = ACTUAL_XI_DEFINITION
+        g["area_case_ids"] = [xi_by_S[S_COARSE]["area_case_id"], xi_by_S[S_FINE]["area_case_id"]]
         g["area_record_sha256"] = assert_flat_hash_list(
-            [got[S_COARSE]["area_record_sha256"], got[S_FINE]["area_record_sha256"]],
+            [xi_by_S[S_COARSE]["area_record_sha256"], xi_by_S[S_FINE]["area_record_sha256"]],
             "Xi area record hashes")
         gates.append(g)
-    return resolution_consistency_verdict(gates)
+    return resolution_consistency_verdict(gates, CANDIDATE_RESOLUTION_QUANTITIES,
+                                          family="candidate")
 
 
 def assemble_p2b_from_runs(runs_dir, backend="reference"):
