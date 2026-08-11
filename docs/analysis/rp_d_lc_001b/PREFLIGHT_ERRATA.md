@@ -7,11 +7,12 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C5`** (see PE-60 … PE-77). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C6`** (see PE-78 … PE-88). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
 a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) →
-**C3** (`39533ad`) → **C4** (`e455c67`) → **C5**. Where earlier text conflicts with the effective
-C5 sections, **C5 governs**; no earlier erratum is altered or erased.
+**C3** (`39533ad`) → **C4** (`e455c67`) → **C5** (`acb4f6a`) → **C6**. Where earlier text
+conflicts with the effective C6 sections, **C6 governs**; no earlier erratum is altered or
+erased. **PE-66 is accepted and unchanged.**
 
 ---
 
@@ -1273,3 +1274,112 @@ row count, `post_freeze_executor_ready` and both authorization allowlists.
 
 This is a reader-facing surface defect, not a gate defect: no scientific value, tolerance, count
 or authorization changes.
+
+---
+
+# PE-78 … PE-88 — exact-head review at `acb4f6a` was NOT APPROVED; C6 endpoint recomputation and diagnostic semantics
+
+**Review disposition:**
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_REQUIRED`
+
+**Reviewed head:** `acb4f6a77c65378fcef7ed3d0a03af8620880bcb`
+**Reviewed tree:** `4c53c4b2acb83079037667f78c471fb16b8f938f`
+
+Effective correction version from this point: **`PREFLIGHT-C6`**. Lineage:
+**C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) → **C3** (`39533ad`) →
+**C4** (`e455c67`) → **C5** (`acb4f6a`) → **C6**. Where any earlier text conflicts with the
+effective C6 sections, **C6 governs**; nothing above this line is rewritten.
+
+**PRE-EXECUTION THROUGHOUT.** No RP-D-LC-001b lattice-Boltzmann solve has run at any point in
+this lineage, including under C6. `AUTHORISED_SOLVING_PHASES = ()`,
+`AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C6 head, and
+P0, P1a, P1b, P2a, P2b, P3 and P4 all remain unauthorized.
+
+## What the C6 review ACCEPTED and this correction preserves unchanged
+
+The common-mode-port apparatus; common-mode blocked/open blind pockets; the lateral-only bridge
+topology; no identical-path subtraction; no fitted or post-hoc artifact correction; exactly nine
+axial mass-conservation planes; distinct volume-flux inverse and mass-flux conservation
+contracts; full-vector fluid-node Mach control; exact paired pressure faces; the final
+normal/audit pressure upper bounds; same-field node-offset summaries; the exact open/blocked
+`R`-offset construction; the exact rational forcing identity; `g ∝ S^-3`; both-resolution,
+three-level forcing ladders; `TOL_LINEARITY_REL = 1e-4`; `ARTIFACT_BUDGET_R_ABS = 1e-3`;
+`TOL_BRIDGE_LEAKAGE_REL = 1e-3`; `TOL_LATERAL_DRIVER_REL = 1e-3`; true fixed-step re-execution;
+separate `R`, `c` and actual-`Ξ` discrepancy families; candidate-specific blocked-mirror
+contrast; the complete P0 and candidate forcing/resolution quantity sets; the two-sided
+reachable-set admission; the unchanged `0.10·K` margin; exactly four selected bridges (one
+unambiguously below, three unambiguously inside); no required above-window bridge; full-universe
+adaptive ledgers; the successful and design-block TEST_ONLY P2b pipelines; separate production
+and TEST_ONLY P2b wrappers; recursive predecessor validation; true pre-solve record and manifest
+resume; separate empty solving and assembly allowlists; `POST_FREEZE_EXECUTOR_READY = False`; no
+Route B; no solver-core modification; no open mirror case before P3; RP-D-LC-001 immutable and
+`INVALID_EXECUTION`.
+
+**PE-66 is ACCEPTED and unchanged.** The resolution comparison coordinate `value / S**n` stands
+exactly as frozen — `Q` and the corresponding mass flux at `+1`, node-to-node `ΔP` at `-2`,
+conductances and conductance-like areas at `+3`, the inverse-area aggregate at `-3`, and `R`,
+`s`, `c` and actual `Ξ` at `0`. It is neither fitted nor tunable, and C6 does not reopen, alter
+or rejustify it.
+
+**None of the accepted elements is weakened, retuned or redesigned here.**
+
+## Superseded C5 machine-readable artifacts
+
+Retained alongside the C0, C1, C2, C3 and C4 sets; **all six generations are kept.**
+
+| artifact | superseded C5 SHA-256 (`acb4f6a`) |
+|---|---|
+| `generated/protocol.json` | `2ac2b2a18a56552aedefee5f4c013869c64a885347ac06d71aa12411ba2e9a54` |
+| `generated/fixture_spec.json` | `a803545ee8976975c063c255530af052b0a796db65c1b3fdf4a89576629b3dc3` |
+| `generated/execution_matrix.json` | `1a57d2ee54cd29ad662783dcbc52741fc1c0d65c3aa73a85d6aac2d3249cf81f` |
+| `generated/preflight_status.json` | `2ce0e09a572cf0d915d1c1fe38bda397c5e0c35c0f02f2fc7ed53f52bad7fc8b` |
+
+Superseded C5 counts: **703** rows = **383** normal + **320** audits; **112** mandatory, **591**
+refused, **3** rows classed `diagnostic_only`. **No C5 total is preserved for continuity** —
+every C6 count is regenerated from the machine authority, and the mandatory minimum **changes**
+because the two `tau_plus = 1.2` rows stop being decision-bearing.
+
+## What C5 got wrong
+
+C5 corrected the decision path and the evidence lineage. It left four things stated rather than
+implemented:
+
+- **PE-65 declared the `tau_plus = 1.2` rows `DIAGNOSTIC_ONLY` and the matrix still labelled them
+  `mandatory`.** A diagnostic that can stop a phase is not a diagnostic.
+- **The P2b validator authenticated the persisted ledger's bytes without rederiving the science.**
+  It reopened records, recursively revalidated predecessors, and then compared the ledger against
+  its own recorded hash — so a coordinated edit that also updated the outer hashes passed.
+- **Some derived gate samples carried one source where two records produced them.** `R_identical`
+  is `C_open / C_blocked` and its lineage cited only the open record in the generic schema;
+  actual `Ξ` is `G_bridge · (1/A1 + 1/A2)` and its lineage cited only the coupon.
+- **The frozen artifact uncertainty was reconstructed by hand in the live assembly path**, so the
+  safety factor reached two of its three terms and the pressure maximum bound took a
+  serialisation term derived from the mean statistic.
+
+None of that is a defect of the apparatus. All of it is a defect of what the machinery actually
+does with the apparatus's output.
+
+## C6 blockers
+
+| id | blocker | superseded C5 form | effective C6 form |
+|---|---|---|---|
+| PE-78 | **`tau_plus = 1.2` declared diagnostic, labelled mandatory** | PE-65 froze the rows as `DIAGNOSTIC_ONLY` and `_matrix_rows()` emitted them with `class = "mandatory"`, so they counted toward `mandatory_minimum` and were decision-bearing rows of the P0 universe | `class = "diagnostic_only"` with an explicit frozen `scientific_role = "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"`; they are planned solver invocations but not decision-bearing |
+| PE-79 | **a tau diagnostic failure could stop P0** | an unconverged, non-finite, failed-Mach or failed-conservation tau row went through `case_decision_verdict` with `effect = "STOPS_THE_PHASE"`, terminating P0 `PHASE_STOPPED_INVALID_CASE` and blocking P1a on a row that may alter nothing | the role-aware classifier returns `effect = "RECORD_DIAGNOSTIC_AND_CONTINUE"` for a tau row whether or not the diagnostic itself is valid; P0 terminates `PHASE_COMPLETE` provided every decision-bearing row passes, and the failure and its reason are retained prominently |
+| PE-80 | **`class = diagnostic_only` carried two incompatible meanings** | the same string labelled the determinism replicates, whose scientific-payload equality IS enforced and whose failure IS a defect, and would now also label the nonblocking tau rows | one frozen `scientific_role` per row: `TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE` versus `EXECUTION_ASSURANCE_REPLICATE`, with `ROW_SCIENTIFIC_ROLES` naming each role's adjudicative status, effect and failure semantics. The replicate's existing payload-equality requirement and failure semantics are unchanged |
+| PE-81 | **tau evidence sat in common scientific reference evidence** | `COMMON_REFERENCE_KINDS` included `tau_cross_check`, so a row that may alter nothing was bound into `common_reference_evidence` — the structure every candidate cites as shared truth | tau records move to a separate top-level `diagnostic_evidence["tau_plus_1p2"]`, carrying an explicit non-adjudicative declaration; `common_reference_evidence` contains reference-blocked and axial-coupon evidence only |
+| PE-82 | **the P2b validator authenticated bytes, not science** | `validate_p2b_manifest` recomputed nothing scientific: it compared `record_hash(ledger)` against the manifest's own `candidate_ledger_sha256`, which is a self-consistency check | after recursively validating P0…P2a and reopening their records, the validator calls the SAME pure builder and compares the independently reconstructed canonical scientific payload against every persisted artifact |
+| PE-83 | **coordinated ledger + manifest tampering was undetectable** | changing `n_eligible`, a gate verdict, a `c` interval, a `Ξ` envelope, a category, an eligibility flag or a rejection reason and then updating the cited outer hashes produced a fully self-consistent artifact set that validated | every one of those edits now fails because the scientific payload does not recompute from the predecessor records. The stale-hash checks are retained as separate, weaker checks |
+| PE-84 | **neither endpoint was independently reconstructed** | the selected endpoint's slots, order, categories, envelopes and instantiated rows, and the design-block endpoint's reason, were validated against themselves | both endpoints are rebuilt from the validated records and compared field by field, and `scientific_decision_payload_sha256` — the hash of the INDEPENDENTLY constructed payload, never of the persisted ledger — is recomputed and required to match on all four artifacts |
+| PE-85 | **the `R` forcing gate's mapping omitted its paired blocked source** | `_identical_R_samples` put the blocked partner in ad-hoc `paired_blocked_*` keys outside the generic sample schema, so `componentwise_forcing_gate` and the candidate source-to-derived mapping recorded the open record alone for a quantity that is `C_open / C_blocked` | a canonical multi-source sample schema — `source_case_ids`, `source_record_sha256`, `source_roles` — carried by every derived sample and unioned into the gate. An `R` gate's complete source set contains three open and three blocked records per resolution |
+| PE-86 | **the actual-`Ξ` gate's mapping omitted its area source** | the area evidence lived in ad-hoc `area_case_id` / `area_record_sha256` keys that only the resolution gate knew about; the forcing gate cited the coupon alone | actual `Ξ` carries `bridge_coupon` and `candidate_blocked_area` source roles in the same canonical schema, at every forcing level and both resolutions |
+| PE-87 | **the frozen artifact safety factor reached two terms of three** | `artifact_evidence_from_records` composed `u_fixed_step_R + u_pressure_plane_R + u_ser` where the first two were ALREADY safety-scaled and `u_ser` was not, so the live path computed `2·a + 2·b + c` instead of the frozen `2·(a + b + c)` | one canonical composer. `numerical_discrepancy_R()` consumes the RAW conductances and the RAW `R`-offset sequence and applies `NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0` exactly once to the full sum; `node_offset_R()` and the fixed-step routine expose raw movements alongside their scaled diagnostics |
+| PE-88 | **the pressure maximum bound used the mean's serialisation term** | `lateral_pressure_upper_bounds` set `u_ser = 10**(-RECORD_DP) * (1 + abs(mean_pt))` and used it for BOTH inequalities, so with `abs(mean) ≪ max_abs` the maximum bound carried a term too small for its own statistic | `u_serialization_mean` from `abs(mean_delta_p)` and `u_serialization_max` from `abs(max_abs_delta_p)`, retained as separate fields and used in their corresponding inequalities. `TOL_LATERAL_DRIVER_REL` is unchanged |
+
+## What did NOT change in C6
+
+Every accepted scientific decision listed above · **PE-66 accepted and unchanged** · the Route-A
+observable contract · **no solver-core change** · the claim ceiling · the `0.10·K` reachable-set
+margin · `NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0` · all four frozen tolerances · the artifact
+budget · the four-slot rule · the candidate family · the similarity law · **RP-D-LC-001
+byte-unchanged** · and every phase, solving and assembly alike, **unauthorized**. No LB solve ran
+to produce this correction.
