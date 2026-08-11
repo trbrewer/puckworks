@@ -5195,12 +5195,20 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     return doc
 
 
-def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
-    """Reopen and validate the whole P2b artifact set (erratum PE-53).
+def validate_p2b_manifest(runs_dir, require_production=True,
+                          expected_assembly_authority_sha256=None, matrix_rows=None):
+    """Reopen and validate the whole P2b artifact set (errata PE-53, PE-70, PE-72, PE-73).
 
-    The superseded check looked at ``correction_version`` and ``terminal_status`` and nothing
-    else, so a P2b manifest could satisfy P3 while its ledger, freeze and instantiated matrix were
-    absent, stale or inconsistent.
+    C4 checked predecessor manifest FILE HASHES only, so a P2b manifest citing a correct hash for
+    an internally invalid P0 passed; it also carried an ``authority`` parameter it never read.
+    Both are corrected here:
+
+      * every predecessor is RECURSIVELY revalidated with the strong phase validator, in exact
+        dependency order — reopening each manifest, rehashing each record, recomputing every
+        case-level verdict and the P0 aggregate controls, checking the full-universe partition
+        and the adaptive decisions, and requiring PHASE_COMPLETE and PRODUCTION provenance;
+      * the embedded P2b assembly authority is reconstructed and validated, and
+        ``expected_assembly_authority_sha256`` is load-bearing when supplied.
     """
     base = pathlib.Path(runs_dir)
     doc = _load_json(base / "manifest_P2b.json", "the P2b assembly manifest")
@@ -5209,6 +5217,9 @@ def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
     if require_production and doc.get("provenance_mode") != "PRODUCTION":
         raise ManifestMissing("the P2b manifest carries provenance_mode=%r; production "
                               "validation accepts PRODUCTION only" % (doc.get("provenance_mode"),))
+    if doc.get("provenance_mode") not in ("PRODUCTION", "TEST_ONLY"):
+        raise ManifestMissing("the P2b manifest declares an unknown provenance mode %r"
+                              % (doc.get("provenance_mode"),))
     if doc.get("phase") != "P2b" or doc.get("phase_kind") != "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL":
         raise ManifestMissing("the P2b manifest does not declare an arithmetic assembly phase")
     if doc.get("solver_records"):
@@ -5221,7 +5232,7 @@ def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
     if doc.get("full_matrix_sha256") != record_hash(execution_matrix()):
         raise ManifestMissing("the P2b manifest cites a different full matrix")
 
-    # every predecessor, by exact key set and exact FILE hash
+    # every predecessor, by exact key set and exact FILE hash ...
     want_keys = set(PHASE_PREREQUISITES["P2b"])
     cited = dict(doc.get("predecessor_manifests") or {})
     if set(cited) != want_keys:
@@ -5233,6 +5244,37 @@ def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
             raise ManifestMissing("the P2b manifest cites a missing predecessor %s" % k)
         if hashlib.sha256(f.read_bytes()).hexdigest() != sha:
             raise ManifestMissing("the P2b manifest cites a stale hash for predecessor %s" % k)
+    # ... and then RECURSIVELY, with the strong phase validator, in exact dependency order.
+    # A file hash proves only that the file has not moved; it proves nothing about what is in it
+    # (erratum PE-72).
+    rows = matrix_rows if matrix_rows is not None else execution_matrix()["rows"]
+    pre_records, pre_docs = {}, {}
+    for pre in PHASE_PREREQUISITES["P2b"]:
+        pdoc = validate_phase_manifest(pre, base, matrix_rows=rows,
+                                       predecessor_records=dict(pre_records),
+                                       require_production=require_production)
+        if pdoc.get("terminal_status") != "PHASE_COMPLETE":
+            raise ManifestMissing(
+                "the %s manifest terminated %r; P2b may consume a predecessor only at "
+                "PHASE_COMPLETE (errata PE-27, PE-72)" % (pre, pdoc.get("terminal_status")))
+        if pre in PHASE_AGGREGATE_SCIENCE:
+            sci = pdoc.get("_phase_science") or {}
+            if not (sci.get("complete") and sci.get("pass")):
+                raise ManifestMissing(
+                    "the %s aggregate scientific verdict is not complete and passing; P2b may "
+                    "not consume it (errata PE-64, PE-72)" % (pre,))
+        pre_records.update(pdoc.pop("_records", {}))
+        pre_docs[pre] = pdoc
+    doc["_predecessor_manifests"] = pre_docs
+    doc["_predecessor_records"] = pre_records
+
+    # the assembly authority is load-bearing, not an unused parameter (erratum PE-73)
+    doc["_assembly_authority"] = validate_p2b_assembly_authority(
+        doc.get("assembly_authority"), base, require_production=require_production,
+        expected_assembly_authority_sha256=expected_assembly_authority_sha256)
+    if doc.get("assembly_authority_sha256") != doc["_assembly_authority"][
+            "assembly_authority_sha256"]:
+        raise ManifestMissing("the P2b manifest cites a stale assembly-authority hash")
 
     ledger_path = base / "candidate_ledger.json"
     if not ledger_path.exists():
@@ -5242,6 +5284,10 @@ def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
         raise ManifestMissing("the P2b manifest cites a different candidate ledger")
     if doc.get("n_declared_candidates") != ledger.get("n_declared"):
         raise ManifestMissing("the P2b manifest and its ledger disagree on the candidate count")
+    if ledger.get("provenance_mode") != doc.get("provenance_mode"):
+        raise ManifestMissing("the candidate ledger and the P2b manifest disagree on provenance")
+    if require_production and ledger.get("provenance_mode") != "PRODUCTION":
+        raise ManifestMissing("a TEST_ONLY candidate ledger may never satisfy a production gate")
 
     status = doc.get("selection_status")
     freeze_path = base / "proposed_bridge_freeze.json"
@@ -5269,8 +5315,24 @@ def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
         raise ManifestMissing("P2b may only write a PROPOSED freeze")
     if freeze.get("p3_p4_authorised") is not False:
         raise ManifestMissing("a proposed freeze may never claim P3/P4 authorization")
-    if freeze.get("rows_sha256") != inst.get("rows_sha256") != record_hash(inst["rows"]):
-        raise ManifestMissing("the proposed freeze and the instantiated matrix disagree")
+    for name, art in (("proposed freeze", freeze), ("instantiated matrix", inst)):
+        if art.get("provenance_mode") != doc.get("provenance_mode"):
+            raise ManifestMissing("the %s and the P2b manifest disagree on provenance" % name)
+        if require_production and art.get("provenance_mode") != "PRODUCTION":
+            raise ManifestMissing("a TEST_ONLY %s may never satisfy a production gate "
+                                  "(erratum PE-71)" % name)
+        if art.get("assembly_authority_sha256") != doc.get("assembly_authority_sha256"):
+            raise ManifestMissing("the %s binds a different P2b assembly authority" % name)
+    # erratum PE-70: the superseded line was a CHAINED comparison,
+    #   freeze != inst != recomputed  ==  (freeze != inst) and (inst != recomputed)
+    # which passes whenever freeze equals the recomputed value while the file's own key differs.
+    # Two independent requirements, so each mismatch pattern is caught on its own.
+    if (freeze.get("rows_sha256") != inst.get("rows_sha256")
+            or inst.get("rows_sha256") != record_hash(inst["rows"])):
+        raise ManifestMissing(
+            "the proposed freeze and the instantiated matrix disagree: freeze=%r, matrix key=%r, "
+            "recomputed rows=%r" % (freeze.get("rows_sha256"), inst.get("rows_sha256"),
+                                    record_hash(inst["rows"])))
     if freeze.get("instantiated_matrix_file_sha256") != hashlib.sha256(
             inst_path.read_bytes()).hexdigest():
         raise ManifestMissing("the proposed freeze cites a stale instantiated-matrix file hash")
@@ -5316,8 +5378,8 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
     required = set(PHASE_PREREQUISITES[phase])
     for pre in PHASE_PREREQUISITES[phase]:
         if pre == "P2b":
-            doc = validate_p2b_manifest(base, authority=authority,
-                                        require_production=require_production)
+            doc = validate_p2b_manifest(base, require_production=require_production,
+                                        matrix_rows=rows)
             if doc.get("terminal_status") != "PHASE_COMPLETE":
                 raise ManifestMissing("the P2b manifest is %r, not PHASE_COMPLETE"
                                       % (doc.get("terminal_status"),))
@@ -6131,26 +6193,165 @@ def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forc
     }
 
 
+# ---- the P2b ASSEMBLY AUTHORITY (erratum PE-73) ----------------------------------------------
+# C4's validator took an ``authority`` parameter and never read it. Every P2b artifact now binds
+# one complete assembly-authority document, and the validator reconstructs and validates it.
+#
+# The configuration-bound fields are checked against the CURRENT configuration; the historical
+# identity fields (source commit, source tree, clean-tree proof) are validated for shape and
+# self-consistency but are NOT required to equal the validating head. That is deliberate: a later
+# P3 review wrapper must be able to bind the historical P2b authority without pretending its own
+# review commit was the P2b execution commit.
+
+P2B_ASSEMBLY_AUTHORITY_FIELDS = (
+    "phase", "correction_version", "source_commit", "source_tree", "working_tree_clean",
+    "clean_tree_required", "protocol_config_sha256", "fixture_spec_sha256",
+    "execution_matrix_sha256", "pre_freeze_matrix_sha256", "predecessor_manifest_file_sha256",
+    "backend", "dependencies", "provenance_mode",
+)
+
+
+def pre_freeze_matrix_sha256():
+    """The hash of the PRE-FREEZE rows alone — the rows P0…P2a actually execute."""
+    rows = [r for r in execution_matrix()["rows"] if r["phase"] in ("P0", "P1a", "P1b", "P2a")]
+    return record_hash(rows)
+
+
+def p2b_assembly_authority(runs_dir, execution_auth, manifest_keys,
+                           provenance_mode="PRODUCTION"):
+    """The complete assembly-authority document every P2b artifact binds (erratum PE-73)."""
+    base = pathlib.Path(runs_dir)
+    doc = {
+        "phase": "P2b",
+        "correction_version": CORRECTION_VERSION,
+        "source_commit": execution_auth["source_commit"],
+        "source_tree": execution_auth["source_tree"],
+        "working_tree_clean": execution_auth["working_tree_clean"],
+        "clean_tree_required": execution_auth["clean_tree_required"],
+        "protocol_config_sha256": execution_auth["protocol_config_sha256"],
+        "fixture_spec_sha256": execution_auth["fixture_spec_sha256"],
+        "execution_matrix_sha256": execution_auth["execution_matrix_sha256"],
+        "pre_freeze_matrix_sha256": pre_freeze_matrix_sha256(),
+        "predecessor_manifest_file_sha256": {
+            k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+            for k in sorted(manifest_keys)},
+        "backend": execution_auth["backend"],
+        "dependencies": dict(execution_auth["dependencies"]),
+        "provenance_mode": provenance_mode,
+        "execution_authority_sha256": record_hash(execution_auth),
+        "note": ("binds the exact configuration and predecessor files this assembly consumed; a "
+                 "later review wrapper may cite it without claiming its own commit produced it"),
+    }
+    doc["assembly_authority_sha256"] = record_hash(
+        {k: doc[k] for k in P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    return doc
+
+
+def validate_p2b_assembly_authority(doc, runs_dir, require_production=True,
+                                    expected_assembly_authority_sha256=None):
+    """Reconstruct and validate an embedded P2b assembly authority (erratum PE-73)."""
+    base = pathlib.Path(runs_dir)
+    if not isinstance(doc, dict):
+        raise ManifestMissing("the P2b manifest carries no assembly authority")
+    missing = [k for k in P2B_ASSEMBLY_AUTHORITY_FIELDS if k not in doc]
+    if missing:
+        raise ManifestMissing("the P2b assembly authority is missing %r" % (missing,))
+    if doc["phase"] != "P2b":
+        raise ManifestMissing("the assembly authority declares phase %r" % (doc["phase"],))
+    if doc["correction_version"] != CORRECTION_VERSION:
+        raise ManifestMissing("the assembly authority is from a superseded correction version")
+    if require_production and doc["provenance_mode"] != "PRODUCTION":
+        raise ManifestMissing("a TEST_ONLY assembly authority may never satisfy a production "
+                              "gate (erratum PE-71)")
+    if doc["backend"] not in SUPPORTED_BACKENDS:
+        raise ManifestMissing("the assembly authority names an unsupported backend")
+    if require_production and not doc["working_tree_clean"]:
+        raise ManifestMissing("the assembly authority records a dirty working tree")
+    for k in ("source_commit", "source_tree"):
+        v = doc[k]
+        if not isinstance(v, str) or len(v) != 40:
+            raise ManifestMissing("the assembly authority's %s is not a git object name" % k)
+    want = config_hashes()
+    for k, v in want.items():
+        if doc.get(k) != v:
+            raise ManifestMissing("the assembly authority binds a different %s" % k)
+    if doc["pre_freeze_matrix_sha256"] != pre_freeze_matrix_sha256():
+        raise ManifestMissing("the assembly authority binds a different pre-freeze matrix")
+    cited = dict(doc["predecessor_manifest_file_sha256"])
+    if set(cited) != set(PHASE_PREREQUISITES["P2b"]):
+        raise ManifestMissing("the assembly authority cites predecessors %r; the exact required "
+                              "set is %r" % (sorted(cited), sorted(PHASE_PREREQUISITES["P2b"])))
+    for k, sha in sorted(cited.items()):
+        f = base / ("manifest_%s.json" % k)
+        if not f.exists():
+            raise ManifestMissing("the assembly authority cites a missing predecessor %s" % k)
+        if hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+            raise ManifestMissing("the assembly authority cites a stale hash for predecessor %s"
+                                  % k)
+    recomputed = record_hash({k: doc[k] for k in P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    if doc.get("assembly_authority_sha256") != recomputed:
+        raise ManifestMissing("the assembly authority's own SHA-256 does not recompute")
+    if (expected_assembly_authority_sha256 is not None
+            and expected_assembly_authority_sha256 != recomputed):
+        raise ManifestMissing("the P2b assembly authority is not the expected one: %r vs %r"
+                              % (expected_assembly_authority_sha256, recomputed))
+    return doc
+
+
 def assemble_p2b_from_runs(runs_dir, backend="reference"):
-    """Derive the PROPOSED bridge freeze from validated production records alone, and PERSIST it.
+    """The PRODUCTION P2b wrapper. Derives the PROPOSED bridge freeze from validated production
+    records alone, and PERSISTS it.
 
-    Consumes only the canonical full matrix, the validated production P0/P1a/P1b/P2a manifests
-    and the immutable records they cite. It accepts **no** caller-supplied selection, candidate
-    dictionary, ``c`` or ``Xi`` value, uncertainty, eligibility flag, record hash or externally
-    instantiated P3/P4 matrix (erratum PE-18), and it performs **no solve**.
+    It obtains the real source-controlled assembly authority ITSELF, recursively validates P0,
+    P1a, P1b and P2a as PRODUCTION, reopens and validates every cited production record, passes
+    those validated records to the pure decision core, and writes PRODUCTION artifacts only.
 
-    Recomputes, in order: lineage · forcing ladders · componentwise invariance · boundary
-    stability · resolution consistency · zero-driver transverse · measured lateral pressure gap ·
-    normal/audit pairing · artifact point estimates and uncertainty · artifact admission ·
-    candidate ``c`` intervals · coupon ``Xi`` envelopes · reachable-set admission · categories ·
-    the exact four-slot selection · the instantiated P3/P4 rows · the durable ledger, proposed
-    freeze and P2b manifest.
+    It exposes **no** provenance override, **no** authority override, **no** manifest-validation
+    override and **no** caller-supplied candidate value (errata PE-18, PE-71). It accepts no
+    selection, candidate dictionary, ``c`` or ``Xi`` value, uncertainty, eligibility flag, record
+    hash or externally instantiated P3/P4 matrix, and it performs **no solve**.
+
+    The synthetic harness has its own private wrapper (:func:`_test_only_assemble_p2b_from_runs`)
+    and never reaches this function by monkeypatching its guards.
     """
     base = pathlib.Path(runs_dir)
     auth = execution_authority("P2b", backend=backend)
-    manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=auth)
+    manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=auth,
+                                                 require_production=True)
     for rec in records.values():
         assert_production_record(rec)
+    return _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTION")
+
+
+def _test_only_assemble_p2b_from_runs(runs_dir, authority, backend="reference"):
+    """PRIVATE TEST_ONLY P2b wrapper (erratum PE-71).
+
+    It consumes validated TEST_ONLY predecessor manifests and records, and every artifact it
+    writes carries ``provenance_mode = "TEST_ONLY"`` — the candidate ledger, the proposed freeze,
+    the instantiated matrix, the P2b manifest and the assembly-authority record alike. Production
+    validation rejects every one of them.
+
+    It never calls the production wrapper and never monkeypatches a production guard.
+    """
+    base = pathlib.Path(runs_dir)
+    manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=authority,
+                                                 require_production=False)
+    return _p2b_decision_core(base, authority, manifests, records, provenance_mode="TEST_ONLY")
+
+
+def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTION"):
+    """The PURE P2b decision core, shared by the two wrappers with non-overlapping provenance.
+
+    Recomputes, in order: lineage · forcing ladders · componentwise invariance · boundary
+    stability · resolution consistency · zero-driver transverse · measured lateral pressure gap ·
+    normal/audit pairing · artifact point estimates and uncertainty · complete candidate
+    admission · candidate ``c`` intervals · actual-``Xi`` envelopes · reachable-set admission ·
+    categories · the exact four-slot selection · the instantiated P3/P4 rows · the durable
+    ledger, proposed freeze and P2b manifest. It performs **no solve**.
+    """
+    base = pathlib.Path(base)
+    assembly_auth = p2b_assembly_authority(base, auth, manifests,
+                                           provenance_mode=provenance_mode)
 
     # erratum PE-60: P2b INDEPENDENTLY recomputes every pressure upper bound from the validated
     # records and retains it. No stored eligibility boolean is trusted anywhere below.
@@ -6283,8 +6484,11 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
         "phase": "P2b", "candidates": ledger,
         "common_reference_evidence": common_reference_evidence(records),
         "n_declared": len(ledger), "n_eligible": len(admitted),
+        "provenance_mode": provenance_mode,
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
         "execution_authority_sha256": record_hash(auth),
+        "assembly_authority": dict(assembly_auth),
+        "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
     }
     ledger_doc.update(config_hashes())
     written = {}
@@ -6310,7 +6514,9 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
         inst = instantiate_post_freeze_matrix([{"w": c["w"], "kz": c["kz"]} for c in selection])
         inst_doc = {"schema_version": 1, "tranche": TRANCHE_ID,
                     "correction_version": CORRECTION_VERSION,
-                    "provenance_mode": "PRODUCTION",
+                    "provenance_mode": provenance_mode,
+                    "assembly_authority_sha256":
+                        assembly_auth["assembly_authority_sha256"],
                     "rows": inst, "n_rows": len(inst),
                     "rows_sha256": record_hash(inst)}          # PE-51: ONE canonical key
         inst_doc.update(config_hashes())
@@ -6341,9 +6547,11 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
                 for k in manifests},
             "rows_sha256": record_hash(inst),
             "instantiated_matrix_file_sha256": inst_file_sha,
-            "provenance_mode": "PRODUCTION",
+            "provenance_mode": provenance_mode,
             "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
             "execution_authority_sha256": record_hash(auth),
+            "assembly_authority": dict(assembly_auth),
+            "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
             "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
             "p3_p4_authorised": False,
             "note": ("P3 and P4 remain unauthorized even with this artifact present: a freeze is "
@@ -6357,10 +6565,12 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
     manifest = {
         "schema_version": MANIFEST_SCHEMA_VERSION,
         "correction_version": CORRECTION_VERSION,
-        "phase": "P2b", "provenance_mode": "PRODUCTION",
+        "phase": "P2b", "provenance_mode": provenance_mode,
         "phase_kind": "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL",
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
         "execution_authority_sha256": record_hash(auth),
+        "assembly_authority": dict(assembly_auth),
+        "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
         "full_matrix_sha256": record_hash(execution_matrix()),
         "predecessor_manifests": {
             k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()

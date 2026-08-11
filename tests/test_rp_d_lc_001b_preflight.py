@@ -2189,11 +2189,15 @@ def test_the_p2b_assembler_accepts_no_free_form_input():
     src = inspect.signature(vf.assemble_p2b_from_runs).parameters
     assert set(src) == {"runs_dir", "backend"}
     assert not hasattr(vf, "build_freeze")
-    body = inspect.getsource(vf.assemble_p2b_from_runs)
+    body = inspect.getsource(vf._p2b_decision_core)
     for call in ("field_contrast(", "xi_envelope(", "reachable_set_admission(",
                  "select_bridges(", "candidate_forcing_gates(", "candidate_resolution_gates(",
-                 "fixed_step_discrepancy(", "_atomic_write_json("):
+                 "fixed_step_discrepancy(", "actual_xi_discrepancy(",
+                 "candidate_admission_from_records(", "_atomic_write_json("):
         assert call in body, call
+    # the two wrappers have NON-OVERLAPPING provenance and neither takes an override
+    assert set(inspect.signature(vf._test_only_assemble_p2b_from_runs).parameters) == {
+        "runs_dir", "authority", "backend"}
 
 
 def test_the_assembler_recomputes_rather_than_trusting_stored_values():
@@ -2225,7 +2229,7 @@ def test_p2b_makes_no_solver_call_and_has_its_own_authority_gate():
     assert "require_assembly_authorisation" in body
     assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
     assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert "solver_records" in inspect.getsource(vf.assemble_p2b_from_runs)
+    assert "solver_records" in inspect.getsource(vf._p2b_decision_core)
 
 
 def test_a_failed_case_stops_the_phase(tmp_path, monkeypatch):
@@ -2410,8 +2414,8 @@ def _pipeline_provider(prune=SYNTH_PRUNED_CANDIDATE):
             _, meta = drv.resolve_row(row)[0], drv.resolve_row(row)[1]
         gain = (1.0, 1.0)
         b = row.get("bridge")
-        if (kind == "fixture" and isinstance(b, dict)
-                and (b["w"], b["kz"]) == prune and row["state"] == "open"):
+        if (kind == "fixture" and isinstance(b, dict) and row["state"] == "open"
+                and (prune == "all" or (b["w"], b["kz"]) == prune)):
             gain = (1.01, 1.01)
         ux, rho = _coherent_fields(mask, meta, g, kind, lane_gain=gain)
         z = np.zeros(mask.shape)
@@ -2588,36 +2592,26 @@ def test_the_forcing_and_resolution_gates_actually_execute(synthetic_prefreeze):
     assert {g["quantity"].split("@")[0] for g in fg["gates"]} & set(vf.COMPONENTWISE_QUANTITIES)
 
 
-def test_p2b_is_durable_and_design_blocks_without_writing_a_freeze(synthetic_prefreeze,
-                                                                  monkeypatch, tmp_path):
-    """Erratum PE-25: the superseded assembler returned a dict and wrote nothing."""
-    d, auth, out, recs = synthetic_prefreeze
-    real_val, real_auth = vf.validate_phase_manifest, vf.execution_authority
-    monkeypatch.setattr(vf, "validate_phase_manifest",
-                        lambda ph, rd, **kw: real_val(ph, rd, **dict(kw,
-                                                                     require_production=False)))
-    monkeypatch.setattr(vf, "assert_production_record", lambda r: r)
-    monkeypatch.setattr(vf, "execution_authority",
-                        lambda st, backend="reference", require_clean=True:
-                        real_auth(st, backend=backend, require_clean=False))
-    man = vf.assemble_p2b_from_runs(d)
+def test_p2b_is_durable_and_immutable(synthetic_p2b):
+    """Erratum PE-25: the superseded assembler returned a dict and wrote nothing.
+
+    Erratum PE-71: this runs the PRIVATE TEST_ONLY wrapper. The production wrapper is never
+    reached by monkeypatching away its guards.
+    """
+    d, auth, man = synthetic_p2b
     assert man["phase_kind"] == "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL"
     assert man["solver_records"] == []
     assert (d / "candidate_ledger.json").exists()
     assert (d / "manifest_P2b.json").exists()
     ledger = json.loads((d / "candidate_ledger.json").read_text())
     assert ledger["n_declared"] == len(SCI)
-    if man["selection_status"] == "DESIGN_BLOCKED":
-        assert man["terminal_status"] == "PHASE_STOPPED_DESIGN_BLOCKED"
-        assert man["terminal_stop_reason"] in vf.DESIGN_BLOCKED_REASONS
-        assert not (d / "proposed_bridge_freeze.json").exists()   # NO freeze on a design block
-    else:                                                          # pragma: no cover
-        fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
-        assert len(fz["frozen_bridges"]) == vf.N_FROZEN_BRIDGES
-        assert fz["status"] == "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW"
-        assert fz["p3_p4_authorised"] is False
+    assert man["selection_status"] == "SELECTED"
+    fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
+    assert len(fz["frozen_bridges"]) == vf.N_FROZEN_BRIDGES
+    assert fz["status"] == "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW"
+    assert fz["p3_p4_authorised"] is False
     # a P2b artifact is immutable: re-running must reuse the exact match, never overwrite
-    again = vf.assemble_p2b_from_runs(d)
+    again = vf._test_only_assemble_p2b_from_runs(d, auth)
     assert again["terminal_status"] == man["terminal_status"]
 
 
@@ -3190,7 +3184,7 @@ def test_the_p2b_validator_reopens_everything(tmp_path):
 
 
 def test_the_p2b_manifest_is_not_mutated_after_persistence():
-    src = inspect.getsource(vf.assemble_p2b_from_runs)
+    src = inspect.getsource(vf._p2b_decision_core)
     assert 'manifest["artifacts_written"] = written' not in src
     assert "no in-memory mutation after persistence" in src
     assert '"rows_sha256"' in src and "content_sha256" not in src
@@ -3722,3 +3716,230 @@ def test_fixed_step_records_never_enter_xi_select_as_independent_estimates(synth
                            "coupon_source": "bridge_coupon", "Xi": s["value"]} for s in xs],
                          0.0)
     assert env["n_estimates"] == len(xs)
+
+
+# ---- E/F. the selected P2b branch and the provenance boundary (errata PE-69 … PE-73) ---------
+
+@pytest.fixture(scope="module")
+def synthetic_p2b(tmp_path_factory):
+    """The SUCCESSFUL P2b endpoint, end to end, through the PRIVATE TEST_ONLY wrapper.
+
+    P0 -> P1a -> adaptive P1b -> adaptive P2a -> P2b, real private orchestration arithmetic
+    throughout, zero solver calls, and a one-below / three-inside selection.
+    """
+    d = tmp_path_factory.mktemp("p2b")
+    auth = vf.execution_authority("P0", require_clean=False)
+    prov = _pipeline_provider()
+    mans, recs = {}, {}
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans), records=dict(recs))
+        doc = vf.validate_phase_manifest(phase, d, authority=auth,
+                                         predecessor_records=dict(recs),
+                                         require_production=False)
+        recs.update(doc.pop("_records", {}))
+        mans[phase] = doc
+    p2b_auth = vf.execution_authority("P2b", require_clean=False)
+    man = vf._test_only_assemble_p2b_from_runs(d, p2b_auth)
+    return d, p2b_auth, man
+
+
+@pytest.fixture(scope="module")
+def synthetic_design_block(tmp_path_factory):
+    """The DESIGN-BLOCK endpoint: ledger and manifest only, no freeze, no instantiated matrix."""
+    d = tmp_path_factory.mktemp("p2b_blocked")
+    auth = vf.execution_authority("P0", require_clean=False)
+    prov = _pipeline_provider(prune="all")
+    mans, recs = {}, {}
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans), records=dict(recs))
+        doc = vf.validate_phase_manifest(phase, d, authority=auth,
+                                         predecessor_records=dict(recs),
+                                         require_production=False)
+        recs.update(doc.pop("_records", {}))
+        mans[phase] = doc
+    p2b_auth = vf.execution_authority("P2b", require_clean=False)
+    man = vf._test_only_assemble_p2b_from_runs(d, p2b_auth)
+    return d, p2b_auth, man
+
+
+def test_the_successful_p2b_branch_selects_one_below_and_three_inside(synthetic_p2b):
+    """Erratum PE-69: this branch had never executed and sat under `pragma: no cover`."""
+    d, auth, man = synthetic_p2b
+    assert man["selection_status"] == "SELECTED"
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert man["terminal_stop_reason"] is None
+    fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
+    slots = [b["slot"] for b in fz["frozen_bridges"]]
+    cats = [b["category"] for b in fz["frozen_bridges"]]
+    assert sorted(slots) == ["below", "inside_0", "inside_1", "inside_2"]
+    assert cats.count("below") == 1 and cats.count("inside") == 3
+    keys = [(b["w"], b["kz"]) for b in fz["frozen_bridges"]]
+    assert len(set(keys)) == vf.N_FROZEN_BRIDGES
+    for name in vf.P2B_ARTIFACTS:
+        assert (d / name).exists(), name
+    # the adaptive pruning really happened, and P3/P4 stay unauthorized
+    assert fz["p3_p4_authorised"] is False
+    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+
+
+def test_the_successful_branch_reopens_and_revalidates_every_artifact(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    doc = vf.validate_p2b_manifest(d, require_production=False)
+    assert doc["selection_status"] == "SELECTED"
+    assert doc["_freeze"]["rows_sha256"] == doc["_instantiated"]["rows_sha256"]
+    assert doc["_instantiated"]["rows_sha256"] == vf.record_hash(doc["_instantiated"]["rows"])
+    assert set(doc["_predecessor_manifests"]) == set(vf.PHASE_PREREQUISITES["P2b"])
+    assert doc["_predecessor_records"]
+
+
+def test_selected_evidence_includes_every_audit_hash(synthetic_p2b):
+    """Erratum PE-68: C4 reported audit-derived uncertainties and bound only the normals."""
+    d, auth, man = synthetic_p2b
+    fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    for b in fz["frozen_bridges"]:
+        bound = set(b["candidate_specific_record_sha256"])
+        entry = ledger["candidates"]["w%d_kz%d" % (b["w"], b["kz"])]
+        cited = set()
+        for combo in entry["u_fixed_step_Xi"]["combinations"].values():
+            for k in ("coupon_normal_record_sha256", "coupon_audit_record_sha256",
+                      "blocked_mirror_normal_record_sha256",
+                      "blocked_mirror_audit_record_sha256"):
+                cited.add(combo[k])
+        for k in ("normal_record_sha256", "audit_record_sha256"):
+            cited |= set(entry["u_fixed_step_c"][k])
+        for ev in entry["pressure_upper_bounds"].values():
+            cited |= {ev["normal_record_sha256"], ev["audit_record_sha256"]}
+        for v in entry["artifact"]["combinations"].values():
+            cited |= set(v["audit_record_sha256"]) | set(v["normal_record_sha256"])
+        assert cited <= bound, sorted(cited - bound)[:3]
+        assert entry["evidence"]["complete"] is True
+        assert entry["evidence"]["unbound_cited_hashes"] == []
+
+
+def test_four_distinct_candidate_evidence_sets_and_a_separate_common_reference(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    fz = json.loads((d / "proposed_bridge_freeze.json").read_text())
+    sets = [set(b["candidate_specific_record_sha256"]) for b in fz["frozen_bridges"]]
+    assert len(sets) == vf.N_FROZEN_BRIDGES and all(sets)
+    for i, a in enumerate(sets):
+        for b in sets[i + 1:]:
+            assert not (a & b), "candidate evidence sets must be distinct"
+    common = fz["common_reference_evidence"]
+    assert "reference_blocked_ladder" in common["role_names"]
+    assert any(r.startswith("axial_coupon[") for r in common["role_names"])
+    # the common reference is bound ONCE, never duplicated into a candidate set
+    for s in sets:
+        assert not (s & set(common["record_sha256"]))
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    assert ledger["common_reference_evidence"]["record_sha256"] == common["record_sha256"]
+
+
+def test_the_design_block_pipeline_writes_no_freeze_and_no_matrix(synthetic_design_block):
+    d, auth, man = synthetic_design_block
+    assert man["selection_status"] == "DESIGN_BLOCKED"
+    assert man["terminal_status"] == "PHASE_STOPPED_DESIGN_BLOCKED"
+    assert man["terminal_stop_reason"] in vf.DESIGN_BLOCKED_REASONS
+    assert (d / "candidate_ledger.json").exists()
+    assert (d / "manifest_P2b.json").exists()
+    assert not (d / "proposed_bridge_freeze.json").exists()
+    assert not (d / "instantiated_p3_p4_matrix.json").exists()
+    doc = vf.validate_p2b_manifest(d, require_production=False)
+    assert doc["terminal_status"] == "PHASE_STOPPED_DESIGN_BLOCKED"
+
+
+@pytest.mark.parametrize("pattern", ["freeze_differs", "matrix_key_differs", "all_three_differ"])
+def test_every_rows_sha256_mismatch_pattern_is_caught(synthetic_p2b, tmp_path, pattern):
+    """Erratum PE-70: `a != b != c` is `a != b and b != c`, so `a == c` with `b` different
+    slipped through the superseded chained comparison."""
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / pattern
+    shutil.copytree(d, work)
+    fz = json.loads((work / "proposed_bridge_freeze.json").read_text())
+    inst = json.loads((work / "instantiated_p3_p4_matrix.json").read_text())
+    if pattern == "freeze_differs":
+        fz["rows_sha256"] = "0" * 64            # freeze != wrapper, wrapper == actual
+    elif pattern == "matrix_key_differs":
+        inst["rows_sha256"] = "1" * 64          # freeze == actual, wrapper differs from both
+    else:
+        fz["rows_sha256"] = "0" * 64
+        inst["rows_sha256"] = "1" * 64          # all three differ
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    (work / "instantiated_p3_p4_matrix.json").write_text(vf.canonical_json(inst) + "\n")
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    doc["proposed_freeze_sha256"] = vf.record_hash(fz)
+    doc["instantiated_matrix_file_sha256"] = hashlib.sha256(
+        (work / "instantiated_p3_p4_matrix.json").read_bytes()).hexdigest()
+    fz["instantiated_matrix_file_sha256"] = doc["instantiated_matrix_file_sha256"]
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    doc["proposed_freeze_sha256"] = vf.record_hash(fz)
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "disagree" in str(exc.value) or "stale" in str(exc.value)
+
+
+def test_a_test_only_predecessor_set_can_never_produce_production_p2b_artifacts(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    assert man["provenance_mode"] == "TEST_ONLY"
+    for name in vf.P2B_ARTIFACTS:
+        art = json.loads((d / name).read_text())
+        assert art["provenance_mode"] == "TEST_ONLY", name
+    assert man["assembly_authority"]["provenance_mode"] == "TEST_ONLY"
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(d, require_production=True)
+
+
+def test_the_production_p2b_validator_recursively_rejects_test_only_predecessors(synthetic_p2b,
+                                                                                tmp_path):
+    """Erratum PE-72: a correct predecessor FILE hash proves nothing about the file's contents."""
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "prod"
+    shutil.copytree(d, work)
+    for name in vf.P2B_ARTIFACTS:
+        art = json.loads((work / name).read_text())
+        art["provenance_mode"] = "PRODUCTION"
+        if "assembly_authority" in art:
+            art["assembly_authority"]["provenance_mode"] = "PRODUCTION"
+        (work / name).write_text(vf.canonical_json(art) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=True)
+    # it fails on the recursively revalidated TEST_ONLY predecessors, not on a file hash
+    assert "PRODUCTION" in str(exc.value) or "provenance" in str(exc.value)
+    assert "validate_phase_manifest" in inspect.getsource(vf.validate_p2b_manifest)
+
+
+def test_the_p2b_assembly_authority_is_complete_and_load_bearing(synthetic_p2b):
+    """Erratum PE-73: C4 accepted an `authority` parameter and never read it."""
+    d, auth, man = synthetic_p2b
+    aa = man["assembly_authority"]
+    for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS:
+        assert k in aa, k
+    assert aa["phase"] == "P2b"
+    assert aa["correction_version"] == vf.CORRECTION_VERSION
+    assert set(aa["predecessor_manifest_file_sha256"]) == set(vf.PHASE_PREREQUISITES["P2b"])
+    assert aa["pre_freeze_matrix_sha256"] == vf.pre_freeze_matrix_sha256()
+    # the expected-authority parameter is used, not decorative
+    vf.validate_p2b_manifest(
+        d, require_production=False,
+        expected_assembly_authority_sha256=aa["assembly_authority_sha256"])
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(d, require_production=False,
+                                 expected_assembly_authority_sha256="0" * 64)
+    assert "not the expected one" in str(exc.value)
+    assert "authority=None" not in inspect.getsource(vf.validate_p2b_manifest)
+
+
+def test_the_production_wrapper_exposes_no_override(synthetic_p2b):
+    sig = inspect.signature(vf.assemble_p2b_from_runs)
+    assert list(sig.parameters) == ["runs_dir", "backend"]
+    src = inspect.getsource(vf.assemble_p2b_from_runs)
+    assert "require_production=True" in src
+    assert "provenance_mode=\"PRODUCTION\"" in src
+    # the TEST_ONLY wrapper is private and never calls the production one
+    tsrc = inspect.getsource(vf._test_only_assemble_p2b_from_runs)
+    assert "assemble_p2b_from_runs(" not in tsrc.split("def _test_only", 1)[1].split('"""')[-1]
+    assert 'provenance_mode="TEST_ONLY"' in tsrc
