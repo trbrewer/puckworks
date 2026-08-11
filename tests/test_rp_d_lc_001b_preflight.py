@@ -1606,8 +1606,14 @@ def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
     assert len(central) == 2 * 2 * len(SCI) == 48
 
     assert m["by_phase"]["P4"] == vf.ARM_J["planned_solves"]
-    assert m["mandatory_minimum"] + m["refused_after_earliest_stop"] == m["n_rows"]
-    assert m["diagnostic_replicates"] == 3
+    # erratum PE-78: the two tau rows are planned solver invocations that are neither
+    # decision-bearing nor refused, so they form their own term in the partition.
+    assert (m["mandatory_minimum"] + m["refused_after_earliest_stop"]
+            + m["tau_diagnostic_rows"] == m["n_rows"])
+    assert m["diagnostic_replicates"] == m["execution_assurance_rows"] == 3
+    assert m["tau_diagnostic_rows"] == len(vf.SCIENTIFIC_RESOLUTIONS) == 2
+    assert m["decision_bearing_rows"] + m["tau_diagnostic_rows"] \
+        + m["execution_assurance_rows"] == m["n_rows"]
 
 
 def test_arm_j_is_preserved_with_its_purpose_matrix_and_decision_status():
@@ -2066,13 +2072,14 @@ def _fake_provider(mask, g, phase, row, tau=None, audit=None, backend="reference
 
 def test_the_executor_completes_a_whole_phase_into_validated_records(executed_p0):
     runs, auth, man = executed_p0
+    c = man["counts"]
     assert man["terminal_status"] == "PHASE_COMPLETE"
-    assert man["counts"]["completed"] == man["counts"]["universe"] > 0
-    assert man["counts"]["failed"] == 0
+    assert c["completed"] > 0 and c["failed"] == 0 and c["diagnostic_failed"] == 0
     doc = vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
-    assert len(doc["_records"]) == man["counts"]["completed"]
-    assert man["counts"]["universe"] == (man["counts"]["completed"] + man["counts"]["refused"]
-                                         + man["counts"]["failed"])
+    # erratum PE-81: the ADJUDICATIVE records only; the tau diagnostics are separate
+    assert len(doc["_records"]) == c["completed"]
+    assert len(doc["_diagnostic_records"]) == c["diagnostic_completed"] > 0
+    assert c["universe"] == sum(c[n] for n in vf.PHASE_LEDGERS)
 
 
 def test_a_case_record_is_immutable_and_a_resume_needs_an_exact_match(executed_p0):
@@ -2461,7 +2468,7 @@ def test_the_whole_pre_freeze_pipeline_runs_with_no_solver(synthetic_prefreeze):
         m = out[phase]
         assert m["terminal_status"] == "PHASE_COMPLETE", phase
         c = m["counts"]
-        assert c["universe"] == c["completed"] + c["refused"] + c["failed"], phase
+        assert c["universe"] == sum(c[n] for n in vf.PHASE_LEDGERS), phase
     assert out["P1b"]["counts"]["refused"] > 0        # a candidate really was pruned
     assert out["P2a"]["counts"]["refused"] > 0
     assert len(recs) > 400
@@ -2484,12 +2491,13 @@ def test_every_adaptive_ledger_is_an_exact_disjoint_partition(synthetic_prefreez
     d, auth, out, recs = synthetic_prefreeze
     for phase in ("P0", "P1a", "P1b", "P2a"):
         m = out[phase]
-        comp = {e["case_id"] for e in m["completed"]}
-        ref = {e["case_id"] for e in m["refused"]}
-        fail = {e["case_id"] for e in m["failed"]}
+        sets = {n: {e["case_id"] for e in m[n]} for n in vf.PHASE_LEDGERS}
         uni = set(m["phase_universe_case_ids"])
-        assert comp | ref | fail == uni, phase
-        assert not (comp & ref) and not (comp & fail) and not (ref & fail), phase
+        assert set().union(*sets.values()) == uni, phase
+        names = list(vf.PHASE_LEDGERS)
+        for i, a in enumerate(names):          # pairwise disjoint over ALL FIVE ledgers
+            for b in names[i + 1:]:
+                assert not (sets[a] & sets[b]), (phase, a, b)
 
 
 def test_the_artifact_evidence_schema_is_flat_and_plural(synthetic_prefreeze):
@@ -3986,7 +3994,9 @@ def test_a_fresh_phase_calls_the_provider_once_per_newly_executed_row(resumable_
     ec = man["execution_counts"]
     assert ec["n_provider_calls"] == ec["n_newly_executed"] == calls
     assert ec["n_reused"] == 0
-    assert ec["n_completed"] + ec["n_failed"] + ec["n_refused"] == man["counts"]["universe"]
+    assert (ec["n_completed"] + ec["n_failed"] + ec["n_refused"]
+            + ec["n_diagnostic_completed"] + ec["n_diagnostic_failed"]
+            == man["counts"]["universe"])
 
 
 def test_an_exact_manifest_is_reused_with_zero_provider_calls(resumable_p0, tmp_path):
@@ -4013,8 +4023,9 @@ def test_a_partial_phase_runs_only_the_missing_rows(resumable_p0, tmp_path):
     prov = _CountingProvider()
     again = drv._test_only_execute("P0", work, prov, auth)
     ec = again["execution_counts"]
+    executed = sum(man["counts"][n] for n in vf.EXECUTED_LEDGERS)
     assert prov.calls == len(dropped) == ec["n_provider_calls"] == ec["n_newly_executed"]
-    assert ec["n_reused"] == man["counts"]["completed"] - len(dropped)
+    assert ec["n_reused"] == executed - len(dropped)
     assert ec["n_completed"] == man["counts"]["completed"]
     # a resumed phase legitimately has FEWER provider calls than completed rows
     assert ec["n_provider_calls"] < ec["n_completed"]
@@ -4313,3 +4324,205 @@ def test_the_documented_plan_command_actually_runs():
                                                      + summary["planned_fixed_step_audits"])
     with pytest.raises(KeyError):
         drv.plan_summary({"n_rows": 1})
+
+
+# ==========================================================================================
+# 16. C6 correction regressions — PE-78 … PE-88
+# ==========================================================================================
+
+# ---- A. tau diagnostic semantics (errata PE-78 … PE-81) --------------------------------------
+
+TAU_KINDS = ("tau_cross_check",)
+
+
+def _tau_breaking_provider(mode):
+    """The coherent TEST_ONLY provider with the tau diagnostic deliberately broken."""
+    inner = _pipeline_provider()
+
+    def provider(**kw):
+        res = inner(**kw)
+        if kw["row"]["kind"] in TAU_KINDS:
+            if mode == "unconverged":
+                res["steps"] = vf.MAX_STEPS
+            elif mode == "mach":
+                res["ux"] = res["ux"] * 1e6
+            elif mode == "conservation":
+                res["rho"] = res["rho"] * (
+                    1.0 + 0.05 * np.arange(res["rho"].shape[0])[:, None, None])
+        return res
+    return provider
+
+
+def test_the_tau_rows_are_labelled_non_adjudicative_in_the_matrix():
+    """Erratum PE-78: PE-65 froze them DIAGNOSTIC_ONLY and the matrix said `mandatory`."""
+    rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "tau_cross_check"]
+    assert len(rows) == 2
+    for r in rows:
+        assert r["class"] == "diagnostic_only"
+        assert r["scientific_role"] == "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+        assert vf.row_scientific_role(r) == r["scientific_role"]
+        spec = vf.ROW_SCIENTIFIC_ROLES[r["scientific_role"]]
+        assert spec["adjudicative"] is False
+        assert spec["enters_aggregate_truth"] is False
+        assert spec["enters_common_reference_evidence"] is False
+        assert spec["failure_effect"] == "RECORD_DIAGNOSTIC_AND_CONTINUE"
+    # they remain planned solver invocations, and remain visible
+    assert vf.execution_matrix()["tau_diagnostic_rows"] == 2
+    assert all(r["run_mode"] == "NORMAL" for r in rows)
+
+
+def test_the_determinism_replicate_role_is_distinct_and_its_semantics_unchanged():
+    """Erratum PE-80: one string must not carry two incompatible meanings."""
+    rows = [r for r in vf.execution_matrix()["rows"] if r["kind"] == "determinism_replicate"]
+    assert len(rows) == 3
+    for r in rows:
+        assert r["class"] == "diagnostic_only"          # unchanged class...
+        assert r["scientific_role"] == "EXECUTION_ASSURANCE_REPLICATE"   # ...distinct role
+    spec = vf.ROW_SCIENTIFIC_ROLES["EXECUTION_ASSURANCE_REPLICATE"]
+    assert spec["adjudicative"] is True                 # UNCHANGED failure semantics
+    assert spec["failure_effect"] == "STOPS_THE_PHASE"
+    assert spec["enters_aggregate_truth"] is False
+    tau = vf.ROW_SCIENTIFIC_ROLES["TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"]
+    assert tau["failure_effect"] != spec["failure_effect"]
+
+
+@pytest.mark.parametrize("status", ["NORMAL_UNCONVERGED", "NORMAL_CONVERGED"])
+def test_the_shared_classifier_is_role_aware(status):
+    tau = vf.case_decision_verdict({"kind": "tau_cross_check"}, {}, status)
+    dec = vf.case_decision_verdict({"kind": "reference_blocked_ladder"}, {}, status)
+    assert tau["scientific_role"] == "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+    assert tau["adjudicative"] is False
+    if status == "NORMAL_UNCONVERGED":
+        assert tau["pass"] is False
+        assert tau["effect"] == "RECORD_DIAGNOSTIC_AND_CONTINUE"
+        assert tau["ledger"] == "diagnostic_failed"
+        assert dec["effect"] == "STOPS_THE_PHASE" and dec["ledger"] == "failed"
+    else:
+        assert tau["ledger"] == "diagnostic_completed"
+        assert dec["ledger"] == "completed"
+    # the executor and the validator share this one function
+    assert "case_decision_verdict" in inspect.getsource(drv._orchestrate)
+    assert "case_decision_verdict" in inspect.getsource(vf.validate_phase_manifest)
+
+
+@pytest.fixture(scope="module")
+def tau_failure_phases(tmp_path_factory):
+    """P0 run three times, each with a different tau-diagnostic failure mode."""
+    out = {}
+    for mode in ("unconverged", "mach", "conservation"):
+        d = tmp_path_factory.mktemp("tau_%s" % mode)
+        auth = vf.execution_authority("P0", require_clean=False)
+        man = drv._test_only_execute("P0", d, _tau_breaking_provider(mode), auth)
+        out[mode] = (d, auth, man)
+    return out
+
+
+@pytest.mark.parametrize("mode", ["unconverged", "mach", "conservation"])
+def test_a_tau_diagnostic_failure_does_not_stop_p0(tau_failure_phases, mode):
+    """Erratum PE-79: a diagnostic that can stop a phase is not a diagnostic."""
+    d, auth, man = tau_failure_phases[mode]
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert man["terminal_stop_reason"] is None
+    assert man["counts"]["failed"] == 0
+    assert man["counts"]["diagnostic_failed"] == 2
+    assert man["counts"]["diagnostic_completed"] == 0
+    # the failure and its reason are RETAINED, accurately classified, and never disguised
+    want = {"unconverged": "NORMAL_UNCONVERGED", "mach": "LOW_MACH_FAILED",
+            "conservation": "MASS_CONSERVATION_FAILED"}[mode]
+    for e in man["diagnostic_failed"]:
+        assert e["reason"] == want
+        assert e["scientific_role"] == "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+    doc = vf.validate_phase_manifest("P0", d, authority=auth, require_production=False)
+    assert doc["_phase_science"]["complete"] is True and doc["_phase_science"]["pass"] is True
+
+
+@pytest.mark.parametrize("mode", ["unconverged", "mach", "conservation"])
+def test_p1a_may_consume_a_p0_with_a_failed_tau_diagnostic(tau_failure_phases, mode):
+    d, auth, man = tau_failure_phases[mode]
+    doc = vf.validate_phase_manifest("P0", d, authority=auth, require_production=False)
+    vf.require_phase_manifests("P1a", runs_dir=d, authority=auth, require_production=False)
+    p1a = drv._test_only_execute("P1a", d, _pipeline_provider(), auth,
+                                 manifests={"P0": doc}, records=dict(doc["_records"]))
+    assert p1a["terminal_status"] == "PHASE_COMPLETE"
+
+
+def test_a_decision_bearing_p0_failure_still_stops_p0(tmp_path):
+    """The nonblocking rule is for diagnostics ONLY."""
+    inner = _pipeline_provider()
+
+    def provider(**kw):
+        res = inner(**kw)
+        if kw["row"]["kind"] == "reference_blocked_ladder":
+            res["steps"] = vf.MAX_STEPS
+        return res
+    auth = vf.execution_authority("P0", require_clean=False)
+    man = drv._test_only_execute("P0", tmp_path, provider, auth)
+    assert man["terminal_status"] == "PHASE_STOPPED_UNCONVERGED"
+    assert man["terminal_stop_reason"] == "NORMAL_UNCONVERGED"
+    assert man["counts"]["failed"] >= 1
+    with pytest.raises(vf.ManifestMissing):
+        vf.require_phase_manifests("P1a", runs_dir=tmp_path, require_production=False)
+
+
+def test_tau_records_never_enter_aggregate_truth_or_common_reference_evidence(
+        synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    assert "tau_cross_check" not in vf.COMMON_REFERENCE_KINDS
+    assert vf.DIAGNOSTIC_EVIDENCE_KINDS == ("tau_cross_check",)
+    # the validated record set the aggregate and every candidate gate consume carries no tau
+    assert not [r for r in recs.values() if r.get("kind") == "tau_cross_check"]
+    doc = vf.validate_phase_manifest("P0", d, authority=auth, require_production=False)
+    tau_ids = {cid for cid, r in doc["_diagnostic_records"].items()
+               if r["kind"] == "tau_cross_check"}
+    assert len(tau_ids) == 2
+    common = vf.common_reference_evidence(dict(doc["_records"], **doc["_diagnostic_records"]))
+    assert not (set(common["case_ids"]) & tau_ids)
+    assert "tau" not in " ".join(common["role_names"]).lower()
+    diag = vf.diagnostic_evidence(doc["_diagnostic_records"])
+    assert set(diag["tau_plus_1p2"]["case_ids"]) == tau_ids
+    assert diag["tau_plus_1p2"]["scientific_role"] == (
+        "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE")
+    assert "NON-ADJUDICATIVE" in diag["tau_plus_1p2"]["declaration"]
+    # and the P0 aggregate is identical whether or not the tau records are offered to it
+    with_tau = vf.p0_aggregate_science(dict(doc["_records"], **doc["_diagnostic_records"]))
+    without = vf.p0_aggregate_science(doc["_records"])
+    assert vf.record_hash(with_tau) == vf.record_hash(without)
+
+
+def test_a_manifest_cannot_relabel_across_the_adjudicative_boundary(executed_p0, tmp_path):
+    import shutil
+    runs, auth, man = executed_p0
+    work = tmp_path / "relabel"
+    shutil.copytree(runs, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    # move a passing tau diagnostic into the adjudicative `completed` ledger
+    entry = doc["diagnostic_completed"].pop()
+    doc["completed"].append(entry)
+    doc["counts"]["completed"] += 1
+    doc["counts"]["diagnostic_completed"] -= 1
+    doc["execution_counts"]["n_completed"] += 1
+    doc["execution_counts"]["n_diagnostic_completed"] -= 1
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+    assert "non-adjudicative" in str(exc.value) or "diagnostic" in str(exc.value)
+
+
+def test_a_diagnostic_failure_cannot_be_relabelled_a_diagnostic_success(tau_failure_phases,
+                                                                       tmp_path):
+    import shutil
+    d, auth, man = tau_failure_phases["unconverged"]
+    work = tmp_path / "diag_relabel"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    entry = dict(doc["diagnostic_failed"].pop())
+    entry.pop("reason", None)
+    doc["diagnostic_completed"].append(entry)
+    doc["counts"]["diagnostic_failed"] -= 1
+    doc["counts"]["diagnostic_completed"] += 1
+    doc["execution_counts"]["n_diagnostic_failed"] -= 1
+    doc["execution_counts"]["n_diagnostic_completed"] += 1
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+    assert "recomputes as diagnostic_failed" in str(exc.value)

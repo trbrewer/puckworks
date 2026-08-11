@@ -489,6 +489,7 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                                           require_production=(provenance_mode == "PRODUCTION"))
 
     completed, refused, failed, replicates = [], [], [], []
+    diagnostic_completed, diagnostic_failed = [], []       # erratum PE-79
     payloads = {}
     terminal, stop_reason = "PHASE_COMPLETE", None
     n_new = n_reused = n_calls = 0
@@ -560,17 +561,24 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                  "record_path": path.name, "write_mode": how,
                  "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
                  "status": rec["status"]}
-        ok, why = _decision_bearing_ok(row, sci, rec["status"])
-        if ok:
-            completed.append(entry)
-        else:
-            entry["reason"] = why
-            failed.append(entry)
-            terminal = ("PHASE_STOPPED_UNCONVERGED" if why == "NORMAL_UNCONVERGED"
+        # erratum PE-79: the ROLE-AWARE classifier decides both the ledger and the effect. A
+        # non-adjudicative diagnostic is filed in its own ledger and NEVER stops the phase, valid
+        # or not; an adjudicative failure stops it exactly as before.
+        verdict = vf.case_decision_verdict(row, sci, rec["status"])
+        entry["scientific_role"] = verdict["scientific_role"]
+        if not verdict["pass"]:
+            entry["reason"] = verdict["reason"]
+        ledger = {"completed": completed, "failed": failed,
+                  "diagnostic_completed": diagnostic_completed,
+                  "diagnostic_failed": diagnostic_failed}[verdict["ledger"]]
+        ledger.append(entry)
+        if verdict["effect"] == "STOPS_THE_PHASE":
+            terminal = ("PHASE_STOPPED_UNCONVERGED" if verdict["reason"] == "NORMAL_UNCONVERGED"
                         else "PHASE_STOPPED_INVALID_CASE")
-            stop_reason = why
+            stop_reason = verdict["reason"]
 
-    # PE-37: a determinism replicate must actually reproduce its base scientific payload
+    # PE-37: a determinism replicate must actually reproduce its base scientific payload. Its
+    # EXECUTION_ASSURANCE_REPLICATE role is adjudicative and its semantics are unchanged by C6.
     done = {e["case_id"] for e in completed}
     for row in universe:
         if row["kind"] != "determinism_replicate" or row["case_id"] not in done:
@@ -598,6 +606,8 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
     # phase completed. The validator recomputes it, so the executor cannot assert one.
     phase_science = None
     if phase in vf.PHASE_AGGREGATE_SCIENCE:
+        # erratum PE-81: only ADJUDICATIVE completed records reach the aggregate. The tau
+        # diagnostics are in their own ledger and enter no aggregate truth.
         done_ids = {e["case_id"] for e in completed}
         phase_records = {}
         for cid in sorted(done_ids):
@@ -611,12 +621,16 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                            % (phase, n_calls, n_new))
     execution_counts = {"n_newly_executed": n_new, "n_reused": n_reused,
                         "n_provider_calls": n_calls, "n_completed": len(completed),
-                        "n_failed": len(failed), "n_refused": len(refused)}
+                        "n_failed": len(failed), "n_refused": len(refused),
+                        "n_diagnostic_completed": len(diagnostic_completed),
+                        "n_diagnostic_failed": len(diagnostic_failed)}
     manifest = vf.make_phase_manifest(phase, universe, eligible, completed, refused, failed,
                                       auth, pre_sha, adaptive, terminal, stop_reason,
                                       provenance_mode=provenance_mode, replicates=replicates,
                                       phase_science=phase_science,
-                                      execution_counts=execution_counts)
+                                      execution_counts=execution_counts,
+                                      diagnostic_completed=diagnostic_completed,
+                                      diagnostic_failed=diagnostic_failed)
     # PE-75: atomic, no-overwrite / exact-match write. A differing existing manifest is never
     # silently replaced.
     vf._atomic_write_json(base / ("manifest_%s.json" % phase), manifest)

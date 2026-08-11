@@ -3094,9 +3094,15 @@ def _row(**kw):
         "perturbation": None, "obstructed": False, "audit_mode": None,
         "run_mode": "NORMAL", "audit_of_case_id": None, "replicate_of_case_id": None,
         "backend": "reference", "record_schema": None, "prerequisite": None,
-        "class": None, "adaptive": False,
+        "class": None, "adaptive": False, "scientific_role": None,
     }
     row.update(kw)
+    # erratum PE-80: the frozen scientific role is EXPLICIT on every row, so the generic
+    # "diagnostic_only" class string can never carry two incompatible meanings again.
+    if row["scientific_role"] is None:
+        row["scientific_role"] = row_scientific_role(row)
+    elif row["scientific_role"] not in ROW_SCIENTIFIC_ROLES:
+        raise ValueError("unknown scientific role %r" % (row["scientific_role"],))
     S, level = row["S"], row["forcing_level"]
     if S is not None and level in FORCING_LEVELS:
         exact = forcing_exact_dict(S, level)
@@ -3168,10 +3174,15 @@ def _matrix_rows():
                                    coupon_level=coupon_level, coupon_orientation=orient,
                                    record_schema="coupon", **{"class": "mandatory"}))
     rows += _with_audits(p0)
-    for S in SCIENTIFIC_RESOLUTIONS:                    # the SCHEDULED tau cross-check (PE-12)
+    # The SCHEDULED tau cross-check (PE-12), NON-ADJUDICATIVE since PE-65 and now labelled to
+    # match (erratum PE-78). It is a planned solver invocation and NOT a decision-bearing row:
+    # it may not alter admission, uncertainty, classification, selection, any gate verdict or any
+    # disposition, and its failure may not stop P0 (erratum PE-79).
+    for S in SCIENTIFIC_RESOLUTIONS:
         rows.append(_row(phase="P0", kind="tau_cross_check", S=S, forcing_level="central",
                          tau_plus=TAU_CROSS_CHECK, state="reference_blocked", variant="mirror",
-                         record_schema="full_case", **{"class": "mandatory"}))
+                         record_schema="full_case", **{"class": "diagnostic_only"},
+                         scientific_role="TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"))
     p0_base = next(r for r in rows if r["kind"] == "reference_blocked_ladder"
                    and r["S"] == S_COARSE and r["forcing_level"] == "central"
                    and r["run_mode"] == "NORMAL")
@@ -3375,8 +3386,12 @@ def execution_matrix():
     # is no diagnostic ROW and no provider call. Every row is either a normal solve or an audit.
     n_diag = 0
     n_normal = total - n_audit
+    # erratum PE-78: the tau rows leave the mandatory minimum. It counts decision-bearing
+    # mandatory rows plus the pre-freeze execution-assurance replicates, which ARE adjudicative.
     mandatory_with_replicates = mandatory + sum(
-        1 for r in rows if r["class"] == "diagnostic_only" and r["phase"] in ("P0", "P1a"))
+        1 for r in rows
+        if row_scientific_role(r) == "EXECUTION_ASSURANCE_REPLICATE"
+        and r["phase"] in ("P0", "P1a"))
     # every count below is DERIVED from the row set in this one place (erratum PE-74 §15); no
     # number is preserved cosmetically and none is written by hand.
     pre_rows = [r for r in rows if r["phase"] in ("P0", "P1a", "P1b", "P2a")]
@@ -3384,6 +3399,19 @@ def execution_matrix():
     pre_audit = len(pre_rows) - pre_normal
     coupon_kinds = ("axial_coupon", "bridge_coupon")
     n_node_offset = sum(1 for r in rows if r["kind"] not in coupon_kinds)
+    # ---- role-resolved counts (errata PE-78 … PE-80) -------------------------------------
+    by_role = {}
+    for r in rows:
+        role = row_scientific_role(r)
+        by_role[role] = by_role.get(role, 0) + 1
+    decision_rows = [r for r in rows if row_scientific_role(r) == "DECISION_BEARING"]
+    tau_rows = [r for r in rows
+                if row_scientific_role(r) == "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"]
+    assurance_rows = [r for r in rows
+                      if row_scientific_role(r) == "EXECUTION_ASSURANCE_REPLICATE"]
+    dec_audit = sum(1 for r in decision_rows
+                    if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X")
+    mandatory_decision = sum(1 for r in decision_rows if r["class"] == "mandatory")
     return {
         "tranche": TRANCHE_ID,
         "correction_version": CORRECTION_VERSION,
@@ -3398,6 +3426,20 @@ def execution_matrix():
         "planned_pressure_plane_diagnostic_rows": n_diag,
         "planned_solver_invocations": n_normal + n_audit,
         "same_field_node_offset_summaries": n_node_offset,
+        # ---- role-resolved counts, DERIVED here and nowhere else (errata PE-78 … PE-80) ------
+        "by_scientific_role": by_role,
+        "scientific_roles": {k: dict(v) for k, v in ROW_SCIENTIFIC_ROLES.items()},
+        "decision_bearing_rows": len(decision_rows),
+        "decision_bearing_normal_solves": len(decision_rows) - dec_audit,
+        "decision_bearing_fixed_step_audits": dec_audit,
+        "tau_diagnostic_rows": len(tau_rows),
+        "execution_assurance_rows": len(assurance_rows),
+        "mandatory_decision_bearing_rows": mandatory_decision,
+        "diagnostic_row_policy": (
+            "a tau_plus = 1.2 row is a planned solver invocation and NOT a decision-bearing row: "
+            "it may alter nothing and its failure may not stop a phase (errata PE-65, PE-78, "
+            "PE-79). A determinism replicate is an EXECUTION_ASSURANCE_REPLICATE whose payload "
+            "equality is enforced and whose failure semantics are unchanged (erratum PE-80)."),
         "node_offset_policy": ("node-offset summaries are extracted from the SAME field as their "
                                "case and never increment the provider-call count (PE-41)"),
         # ---- provider-call accounting, DERIVED here and nowhere else (erratum PE-74) ---------
@@ -3424,7 +3466,7 @@ def execution_matrix():
         "mandatory_minimum": mandatory_with_replicates,
         "conditional_minimum": 0,
         "adaptive_maximum": total,
-        "diagnostic_replicates": diagnostic,
+        "diagnostic_replicates": len(assurance_rows),
         "replicate_placement": (
             "three replicates, in P0, P1a and P3 — the three phases producing decision-bearing "
             "records from DISTINCT fixture families (reference-blocked, identical-path, mirror). "
@@ -3432,7 +3474,12 @@ def execution_matrix():
             "fourth would add no independent evidence. Each replicate repeats a case its own "
             "phase already runs, so P1a's is identical-path and cannot reveal a mirror "
             "observable."),
-        "refused_after_earliest_stop": total - mandatory_with_replicates,
+        "refused_after_earliest_stop": total - mandatory_with_replicates - len(tau_rows),
+        "refused_after_earliest_stop_rule": (
+            "every row that is neither a mandatory decision-bearing row, nor a pre-freeze "
+            "execution-assurance replicate, nor a non-adjudicative tau diagnostic. The tau rows "
+            "are excluded because they are neither decision-bearing nor refused: they run and "
+            "report, and nothing consumes them (erratum PE-78)."),
         "post_freeze_rows_are_templates": True,
         "n_post_freeze_template_rows": len(post),
         "ordering": "P0 -> P1a -> P1b -> P2a -> P2b (freeze, STOP for review) -> P3 -> P4; "
@@ -4203,7 +4250,8 @@ def write_case_record(runs_dir, rec, allow_resume=True):
 
 #: The per-phase execution accounting a resume must report (erratum PE-74).
 EXECUTION_COUNT_FIELDS = ("n_newly_executed", "n_reused", "n_provider_calls", "n_completed",
-                          "n_failed", "n_refused")
+                          "n_failed", "n_refused", "n_diagnostic_completed",
+                          "n_diagnostic_failed")
 
 
 class ResumeMismatch(ValueError):
@@ -5100,56 +5148,154 @@ CASE_FAILURE_REASONS = ("NORMAL_UNCONVERGED", "FIXED_STEP_AUDIT_INCOMPLETE", "LO
                         "NODE_OFFSET_SUMMARY_INCOMPLETE")
 
 
+#: The frozen SCIENTIFIC ROLE of every row kind (errata PE-78 … PE-80).
+#:
+#: C5 used one string, ``class = "diagnostic_only"``, for two incompatible things — the
+#: determinism replicates, whose payload equality IS enforced and whose failure IS a defect, and
+#: (per PE-65) the ``tau_plus = 1.2`` rows, which may alter nothing at all. And the tau rows were
+#: emitted ``class = "mandatory"`` anyway, so a diagnostic that PE-65 says may alter nothing could
+#: terminate P0. One explicit role per row settles both.
+ROW_SCIENTIFIC_ROLES = {
+    "DECISION_BEARING": {
+        "adjudicative": True,
+        "enters_aggregate_truth": True,
+        "enters_common_reference_evidence": True,
+        "failure_effect": "STOPS_THE_PHASE",
+        "ledger_on_pass": "completed",
+        "ledger_on_fail": "failed",
+        "description": ("an execution-authority row whose output feeds admission, uncertainty, "
+                        "classification, selection or a disposition"),
+    },
+    "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE": {
+        "adjudicative": False,
+        "enters_aggregate_truth": False,
+        "enters_common_reference_evidence": False,
+        "failure_effect": "RECORD_DIAGNOSTIC_AND_CONTINUE",
+        "ledger_on_pass": "diagnostic_completed",
+        "ledger_on_fail": "diagnostic_failed",
+        "description": ("erratum PE-65: no frozen assembled-fixture comparison quantity and no "
+                        "tolerance exist, so this row may not alter admission, uncertainty, "
+                        "classification, selection, any gate verdict or any disposition. It may "
+                        "be absent, unconverged, invalid or otherwise failed without changing "
+                        "P0's scientific terminal status (erratum PE-79)."),
+    },
+    "EXECUTION_ASSURANCE_REPLICATE": {
+        "adjudicative": True,
+        "enters_aggregate_truth": False,
+        "enters_common_reference_evidence": False,
+        "failure_effect": "STOPS_THE_PHASE",
+        "ledger_on_pass": "completed",
+        "ledger_on_fail": "failed",
+        "description": ("a determinism replicate. Its scientific-payload equality with its "
+                        "explicitly named base is separately enforced by the manifest validator "
+                        "(erratum PE-37) and its currently frozen failure semantics are "
+                        "UNCHANGED by C6; only the role name is made explicit (erratum PE-80)."),
+    },
+}
+
+#: Kinds whose rows are non-adjudicative diagnostics.
+DIAGNOSTIC_ONLY_KINDS = ("tau_cross_check",)
+#: Kinds whose rows are execution-assurance controls.
+EXECUTION_ASSURANCE_KINDS = ("determinism_replicate",)
+
+
+def row_scientific_role(row):
+    """The frozen scientific role of one canonical matrix row (erratum PE-80).
+
+    Read from the row's own explicit ``scientific_role`` where the matrix carries one, and
+    otherwise derived from the frozen kind so a record written before C6 still classifies.
+    """
+    declared = (row or {}).get("scientific_role")
+    if declared:
+        if declared not in ROW_SCIENTIFIC_ROLES:
+            raise ValueError("unknown scientific role %r on row %r"
+                             % (declared, (row or {}).get("case_id")))
+        return declared
+    kind = (row or {}).get("kind")
+    if kind in DIAGNOSTIC_ONLY_KINDS:
+        return "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+    if kind in EXECUTION_ASSURANCE_KINDS:
+        return "EXECUTION_ASSURANCE_REPLICATE"
+    return "DECISION_BEARING"
+
+
 def case_decision_verdict(row, scientific, execution_status):
-    """The ONE case-level scientific classification (erratum PE-58).
+    """The ONE role-aware case-level scientific classification (errata PE-58, PE-79).
 
     Used by the executor when it builds its ledgers AND by ``validate_phase_manifest`` after it
-    reopens each record, so a manifest cannot relabel a scientifically failed case as completed or
-    invent a different failure reason. Phase-level forcing, resolution and candidate gates are
-    aggregate controls and are deliberately NOT evaluated here.
+    reopens each record, so a manifest cannot relabel a scientifically failed case as completed,
+    invent a different failure reason, relabel a diagnostic failure as a diagnostic success, or
+    relabel an adjudicative failure as a diagnostic. Phase-level forcing, resolution and candidate
+    gates are aggregate controls and are deliberately NOT evaluated here.
+
+    It returns BOTH the case validity and the EFFECT appropriate to the row's frozen scientific
+    role. A non-adjudicative diagnostic never stops a phase, whether or not the diagnostic itself
+    is valid: PE-65 says it may alter nothing, and terminating the phase is an alteration.
     """
+    role = row_scientific_role(row)
+    spec = ROW_SCIENTIFIC_ROLES[role]
+    verdict = _case_validity(scientific, execution_status)
+    verdict["scientific_role"] = role
+    verdict["adjudicative"] = spec["adjudicative"]
+    verdict["enters_aggregate_truth"] = spec["enters_aggregate_truth"]
+    if verdict["pass"]:
+        verdict["effect"] = "NONE"
+        verdict["ledger"] = spec["ledger_on_pass"]
+    else:
+        verdict["effect"] = spec["failure_effect"]
+        verdict["ledger"] = spec["ledger_on_fail"]
+    return verdict
+
+
+def _case_validity(scientific, execution_status):
+    """Pure case VALIDITY, independent of the row's role. The role decides the effect."""
     sci = scientific or {}
     if execution_status == "NORMAL_UNCONVERGED":
-        return {"pass": False, "reason": "NORMAL_UNCONVERGED", "applicability": "always",
-                "effect": "STOPS_THE_PHASE"}
+        return {"pass": False, "reason": "NORMAL_UNCONVERGED", "applicability": "always"}
     if execution_status == "FIXED_STEP_AUDIT_INCOMPLETE":
-        return {"pass": False, "reason": "FIXED_STEP_AUDIT_INCOMPLETE", "applicability": "audit",
-                "effect": "STOPS_THE_PHASE"}
+        return {"pass": False, "reason": "FIXED_STEP_AUDIT_INCOMPLETE", "applicability": "audit"}
     mach = sci.get("mach") or {}
     if mach and not mach.get("pass"):
-        return {"pass": False, "reason": "LOW_MACH_FAILED", "applicability": "every solved case",
-                "effect": "STOPS_THE_PHASE"}
+        return {"pass": False, "reason": "LOW_MACH_FAILED", "applicability": "every solved case"}
     cons = sci.get("conservation")
     if cons and not cons.get("mass_conservation_pass"):
         return {"pass": False, "reason": "MASS_CONSERVATION_FAILED",
-                "applicability": "fixture cases", "effect": "STOPS_THE_PHASE"}
+                "applicability": "fixture cases"}
     tc = sci.get("transverse_conservation")
     if tc and tc.get("pass") is False:
         return {"pass": False, "reason": "TRANSVERSE_CONTROL_FAILED",
-                "applicability": "bridge-carrying cases", "effect": "STOPS_THE_PHASE"}
+                "applicability": "bridge-carrying cases"}
     lp = sci.get("lateral_pressure")
     if lp:
         if lp.get("masks_pair_exactly") is False:
             return {"pass": False, "reason": "PRESSURE_FACES_DO_NOT_PAIR",
-                    "applicability": "bridge-carrying cases", "effect": "STOPS_THE_PHASE"}
+                    "applicability": "bridge-carrying cases"}
         # Erratum PE-61: the case-level screen consumes the POINT estimate, which may only
         # REJECT. The final admission verdict is the paired normal/audit upper bound and is
         # formed at P1b/P2b, never here — a case record has no access to its own audit.
         if lp.get("measured_zero_driver_point_pass") is False:
             return {"pass": False, "reason": "MEASURED_LATERAL_DRIVER_NONZERO",
-                    "applicability": "expected-zero-driver cases", "effect": "STOPS_THE_PHASE"}
+                    "applicability": "expected-zero-driver cases"}
     no = sci.get("node_offsets")
     if no is not None and not no.get("all_finite"):
         return {"pass": False, "reason": "NODE_OFFSET_SUMMARY_INCOMPLETE",
-                "applicability": "fixture cases", "effect": "STOPS_THE_PHASE"}
-    return {"pass": True, "reason": None, "applicability": "case-level execution validity",
-            "effect": "NONE"}
+                "applicability": "fixture cases"}
+    return {"pass": True, "reason": None,
+            "applicability": "case-level execution validity"}
+
+
+#: The five frozen phase ledgers (erratum PE-79). ``diagnostic_completed`` and
+#: ``diagnostic_failed`` hold NON-ADJUDICATIVE rows only, so a failed diagnostic is never
+#: disguised as a scientifically completed case and never stops the phase.
+PHASE_LEDGERS = ("completed", "failed", "diagnostic_completed", "diagnostic_failed", "refused")
+EXECUTED_LEDGERS = ("completed", "failed", "diagnostic_completed", "diagnostic_failed")
 
 
 def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused, failed,
                         authority, predecessor_manifests, adaptive, terminal_status,
                         terminal_stop_reason=None, provenance_mode="PRODUCTION",
-                        replicates=(), phase_science=None, execution_counts=None):
+                        replicates=(), phase_science=None, execution_counts=None,
+                        diagnostic_completed=(), diagnostic_failed=()):
     """A validated phase LEDGER over the FULL phase universe.
 
     ``phase_science`` carries the phase's durable AGGREGATE scientific verdict (erratum PE-64).
@@ -5159,6 +5305,11 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
     ``execution_counts`` carries the resume accounting (erratum PE-74): newly executed rows,
     reused rows, provider calls, completed, failed and refused. A resumed phase may have FEWER
     provider calls than completed rows, and ``n_provider_calls`` must equal ``n_newly_executed``.
+
+    ``diagnostic_completed`` / ``diagnostic_failed`` are the NON-ADJUDICATIVE ledgers (erratum
+    PE-79). The five ledgers together must be an exact, pairwise-disjoint partition of the full
+    phase universe, and a phase carrying only diagnostic failures may still terminate
+    ``PHASE_COMPLETE``.
     """
     if terminal_status not in TERMINAL_PHASE_STATUSES:
         raise ValueError("unknown terminal phase status %r" % (terminal_status,))
@@ -5187,6 +5338,12 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         "completed": [dict(c) for c in completed],
         "refused": [dict(c) for c in refused],
         "failed": [dict(c) for c in failed],
+        # erratum PE-79: diagnostic rows have their OWN ledgers. A diagnostic failure is retained
+        # prominently and does not stop the phase.
+        "diagnostic_completed": [dict(c) for c in diagnostic_completed],
+        "diagnostic_failed": [dict(c) for c in diagnostic_failed],
+        "ledger_names": list(PHASE_LEDGERS),
+        "row_scientific_roles": {r["case_id"]: row_scientific_role(r) for r in uni},
         "replicates": [dict(r) for r in replicates],
         "adaptive": dict(adaptive),
         "execution_counts": (None if execution_counts is None else dict(execution_counts)),
@@ -5195,7 +5352,15 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         "terminal_status": terminal_status,
         "terminal_stop_reason": terminal_stop_reason,
         "counts": {"universe": len(uni), "eligible": len(elig), "completed": len(completed),
-                   "refused": len(refused), "failed": len(failed)},
+                   "refused": len(refused), "failed": len(failed),
+                   "diagnostic_completed": len(diagnostic_completed),
+                   "diagnostic_failed": len(diagnostic_failed)},
+        "decision_bearing_case_ids": [r["case_id"] for r in uni
+                                      if row_scientific_role(r) !=
+                                      "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"],
+        "diagnostic_case_ids": [r["case_id"] for r in uni
+                                if row_scientific_role(r) ==
+                                "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"],
     }
     doc.update(config_hashes())
     return doc
@@ -5245,22 +5410,23 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
 
     by_row = {r["case_id"]: r for r in uni}
     elig_ids = {r["case_id"] for r in eligible}
-    comp_list, ref_list, fail_list = (doc.get("completed", []), doc.get("refused", []),
-                                      doc.get("failed", []))
-    completed = {c["case_id"]: c for c in comp_list}
-    refused = {c["case_id"]: c for c in ref_list}
-    failed = {c["case_id"]: c for c in fail_list}
-    for name, seq, uniq in (("completed", comp_list, completed), ("refused", ref_list, refused),
-                            ("failed", fail_list, failed)):
-        if len(seq) != len(uniq):
+    # erratum PE-79: FIVE ledgers, and the partition must be exact and pairwise disjoint over all
+    # five. A failed diagnostic lives in its own ledger and is never disguised as a completed case.
+    ledger_lists = {name: doc.get(name, []) for name in PHASE_LEDGERS}
+    ledgers = {name: {c["case_id"]: c for c in seq} for name, seq in ledger_lists.items()}
+    for name in PHASE_LEDGERS:
+        if len(ledger_lists[name]) != len(ledgers[name]):
             raise ManifestMissing("the %s manifest lists a %s case twice" % (phase, name))
-    # EXACT, mutually exclusive partition of the full universe
-    overlaps = ((set(completed) & set(refused)) | (set(completed) & set(failed))
-                | (set(refused) & set(failed)))
-    if overlaps:
-        raise ManifestMissing("the %s manifest places %r in more than one ledger"
-                              % (phase, sorted(overlaps)[:5]))
-    union = set(completed) | set(refused) | set(failed)
+    completed, failed, refused = ledgers["completed"], ledgers["failed"], ledgers["refused"]
+    diag_ok, diag_bad = ledgers["diagnostic_completed"], ledgers["diagnostic_failed"]
+    names = list(PHASE_LEDGERS)
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            both = set(ledgers[a]) & set(ledgers[b])
+            if both:
+                raise ManifestMissing("the %s manifest places %r in both %s and %s"
+                                      % (phase, sorted(both)[:5], a, b))
+    union = set().union(*(set(ledgers[n]) for n in names))
     extra = sorted(union - set(by_row))
     if extra:
         raise ManifestMissing("the %s manifest carries cases outside its phase universe: %r"
@@ -5269,6 +5435,23 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     if missing:
         raise ManifestMissing("the %s manifest leaves %d universe rows unaccounted for: %r"
                               % (phase, len(missing), missing[:5]))
+    # a diagnostic ledger may hold NON-ADJUDICATIVE rows only, and an adjudicative row may never
+    # be filed as a diagnostic
+    for name in ("diagnostic_completed", "diagnostic_failed"):
+        for cid in ledgers[name]:
+            role = row_scientific_role(by_row[cid])
+            if ROW_SCIENTIFIC_ROLES[role]["adjudicative"]:
+                raise ManifestMissing(
+                    "case %r carries the adjudicative role %r but is filed in %s; an adjudicative "
+                    "failure may never be relabelled a diagnostic (erratum PE-79)"
+                    % (cid, role, name))
+    for name in ("completed", "failed"):
+        for cid in ledgers[name]:
+            role = row_scientific_role(by_row[cid])
+            if not ROW_SCIENTIFIC_ROLES[role]["adjudicative"]:
+                raise ManifestMissing(
+                    "case %r carries the non-adjudicative role %r but is filed in %s; it belongs "
+                    "in a diagnostic ledger (erratum PE-79)" % (cid, role, name))
     # refusals must be justified, and adaptive refusal is RECOMPUTED, never taken on trust
     for cid, entry in refused.items():
         reason = entry.get("reason")
@@ -5287,14 +5470,15 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     if not_refused:
         raise ManifestMissing("adaptively ineligible rows %r are not recorded as refused"
                               % (not_refused[:5],))
-    for cid in set(completed) | set(failed):
+    executed_ids = set().union(*(set(ledgers[n]) for n in EXECUTED_LEDGERS))
+    for cid in executed_ids:
         if cid not in elig_ids:
             raise ManifestMissing("case %r was executed although the derived plan excludes it"
                                   % (cid,))
 
-    records, seen_hash = {}, {}
-    for cid in sorted(set(completed) | set(failed)):
-        entry = completed.get(cid) or failed[cid]
+    records, diagnostic_records, seen_hash = {}, {}, {}
+    for cid in sorted(executed_ids):
+        entry = next(ledgers[n][cid] for n in EXECUTED_LEDGERS if cid in ledgers[n])
         rec, path = read_case_record(base, cid)
         raw = pathlib.Path(path).read_bytes()
         actual = hashlib.sha256(raw).hexdigest()
@@ -5315,24 +5499,26 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                 "record hash %r is cited for two physically distinct rows (%r and %r); one hash "
                 "may never bind two different cases" % (actual, prev, cid))
         seen_hash[actual] = cid
-        # erratum PE-58: recompute the scientific verdict and require the ledger to agree
+        # errata PE-58, PE-79: recompute the ROLE-AWARE verdict and require the ledger the
+        # manifest filed the case under to be exactly the one the verdict names.
         verdict = case_decision_verdict(by_row[cid], rec.get("scientific"), rec["status"])
-        if cid in completed and not verdict["pass"]:
+        want_ledger = verdict["ledger"]
+        got_ledger = next(n for n in EXECUTED_LEDGERS if cid in ledgers[n])
+        if got_ledger != want_ledger:
             raise ManifestMissing(
-                "case %r is listed as COMPLETED but recomputes as failed (%s); a manifest may "
-                "not relabel a scientifically failed case (erratum PE-58)"
-                % (cid, verdict["reason"]))
-        if cid in failed:
-            if verdict["pass"]:
-                raise ManifestMissing(
-                    "case %r is listed as FAILED but recomputes as passing; a manifest may not "
-                    "invent a failure (erratum PE-58)" % (cid,))
-            if entry.get("reason") != verdict["reason"]:
-                raise ManifestMissing(
-                    "case %r records failure reason %r; it recomputes as %r"
-                    % (cid, entry.get("reason"), verdict["reason"]))
-        if cid in completed:
-            records[cid] = rec
+                "case %r is filed in %s but recomputes as %s (%s); a manifest may not relabel a "
+                "failed case, invent a failure, or move a case between the adjudicative and "
+                "diagnostic ledgers (errata PE-58, PE-79)"
+                % (cid, got_ledger, want_ledger, verdict["reason"]))
+        if not verdict["pass"] and entry.get("reason") != verdict["reason"]:
+            raise ManifestMissing(
+                "case %r records failure reason %r; it recomputes as %r"
+                % (cid, entry.get("reason"), verdict["reason"]))
+        # PE-79/PE-81: a NON-ADJUDICATIVE record never enters the record set the aggregate
+        # science, the candidate gates and every downstream phase consume. Adjudicative rows —
+        # decision-bearing and execution-assurance replicates alike — are unchanged from C5.
+        if verdict["pass"]:
+            (records if verdict["adjudicative"] else diagnostic_records)[cid] = rec
 
     if doc.get("terminal_status") not in TERMINAL_PHASE_STATUSES:
         raise ManifestMissing("the %s manifest has no valid terminal status" % (phase,))
@@ -5350,17 +5536,20 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
             "the %s manifest reports %d provider calls for %d newly executed rows; a provider "
             "call may only ever construct a NEW record (erratum PE-74)"
             % (phase, ec["n_provider_calls"], ec["n_newly_executed"]))
-    if ec["n_newly_executed"] + ec["n_reused"] != len(completed) + len(failed):
+    if ec["n_newly_executed"] + ec["n_reused"] != len(executed_ids):
         raise ManifestMissing(
             "the %s manifest's newly-executed plus reused rows do not reconcile to its executed "
             "ledgers" % (phase,))
-    if (ec["n_completed"], ec["n_failed"], ec["n_refused"]) != (len(completed), len(failed),
-                                                                len(refused)):
+    if (ec["n_completed"], ec["n_failed"], ec["n_refused"], ec["n_diagnostic_completed"],
+            ec["n_diagnostic_failed"]) != (len(completed), len(failed), len(refused),
+                                           len(diag_ok), len(diag_bad)):
         raise ManifestMissing("the %s manifest's execution accounting does not reconcile to its "
-                              "ledgers" % (phase,))
+                              "five ledgers" % (phase,))
     counts = doc.get("counts") or {}
     if (counts.get("universe") != len(uni) or counts.get("completed") != len(completed)
-            or counts.get("refused") != len(refused) or counts.get("failed") != len(failed)):
+            or counts.get("refused") != len(refused) or counts.get("failed") != len(failed)
+            or counts.get("diagnostic_completed") != len(diag_ok)
+            or counts.get("diagnostic_failed") != len(diag_bad)):
         raise ManifestMissing("the %s manifest's counts do not reconcile to its universe"
                               % (phase,))
     # PE-37: a claimed determinism replicate must actually reproduce its base payload
@@ -5395,6 +5584,7 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
             raise ManifestMissing("the %s manifest cites a stale phase_science hash" % (phase,))
         doc["_phase_science"] = want_sci
     doc["_records"] = records
+    doc["_diagnostic_records"] = diagnostic_records
     return doc
 
 
@@ -6283,7 +6473,13 @@ def candidate_resolution_gates(records, key, bridge):
 CANDIDATE_SPECIFIC_KINDS = ("identical_path_control", "bridge_coupon",
                             "candidate_blocked_mirror")
 #: Kinds whose records are COMMON reference truth shared by every candidate.
-COMMON_REFERENCE_KINDS = ("reference_blocked_ladder", "axial_coupon", "tau_cross_check")
+#:
+#: Erratum PE-81: ``tau_cross_check`` is REMOVED. A row that PE-65 says may alter nothing must
+#: not sit in the structure every candidate cites as shared scientific truth. Its records move to
+#: ``diagnostic_evidence["tau_plus_1p2"]``.
+COMMON_REFERENCE_KINDS = ("reference_blocked_ladder", "axial_coupon")
+#: Kinds whose records are NON-ADJUDICATIVE diagnostics, bound separately and never as truth.
+DIAGNOSTIC_EVIDENCE_KINDS = ("tau_cross_check",)
 
 
 def common_reference_evidence(records):
@@ -6319,6 +6515,54 @@ def common_reference_evidence(records):
         "record_sha256": assert_flat_hash_list(sorted(set(hashes)), "common reference hashes"),
         "rule": ("common reference evidence is shared by construction and is bound ONCE at top "
                  "level; it is never copied into a candidate-specific hash set (erratum PE-68)"),
+        "excludes": ("non-adjudicative diagnostics. tau_plus = 1.2 records are bound in "
+                     "diagnostic_evidence and are NOT common scientific truth (erratum PE-81)"),
+    }
+
+
+def diagnostic_evidence(records):
+    """NON-ADJUDICATIVE diagnostic records, bound separately from scientific truth (PE-81).
+
+    C5 placed the ``tau_plus = 1.2`` records in ``common_reference_evidence`` — the structure
+    every candidate cites as shared truth — while PE-65 says those rows may alter nothing. They
+    are bound here instead, with an explicit declaration of what they may and may not do, so a
+    reader and a validator can both see that nothing downstream consumes them.
+    """
+    tau = {"case_ids": [], "record_sha256": [], "records": {}}
+    for cid, r in sorted(records.items()):
+        if r.get("kind") not in DIAGNOSTIC_EVIDENCE_KINDS:
+            continue
+        sci = r.get("scientific") or {}
+        tau["case_ids"].append(cid)
+        tau["record_sha256"].append(record_hash(r))
+        tau["records"][cid] = {
+            "S": r["row"]["S"], "tau_plus": r["row"]["tau_plus"],
+            "run_status": r.get("status"),
+            "converged": r.get("status") == "NORMAL_CONVERGED",
+            "max_mach": (sci.get("mach") or {}).get("max_mach"),
+            "mach_pass": (sci.get("mach") or {}).get("pass"),
+            "mass_conservation_pass": (sci.get("conservation") or {}).get(
+                "mass_conservation_pass"),
+            "Q_volume": sci.get("Q_volume"), "dP": sci.get("dP"),
+            "case_validity": _case_validity(sci, r.get("status")),
+        }
+    tau["case_ids"] = assert_flat_id_list(sorted(tau["case_ids"]), "tau diagnostic case ids")
+    tau["record_sha256"] = assert_flat_hash_list(sorted(set(tau["record_sha256"])),
+                                                 "tau diagnostic hashes")
+    tau["n_records"] = len(tau["case_ids"])
+    tau["scientific_role"] = "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+    tau["disposition"] = dict(TAU_CROSS_CHECK_DISPOSITION)
+    tau["declaration"] = (
+        "NON-ADJUDICATIVE. These records may report completion, convergence, Mach, conservation "
+        "and the compact observables, as qualitative comparison metadata only. They enter NO P0 "
+        "aggregate truth, NO reference conductance, outlet share, contrast or area, NO forcing or "
+        "resolution gate, NO uncertainty, NO candidate admission, NO candidate evidence, NO "
+        "common_reference_evidence, NO P2b decision and NO disposition (errata PE-65, PE-81).")
+    return {
+        "tau_plus_1p2": tau,
+        "role_names": ["tau_plus_1p2"],
+        "rule": ("diagnostic evidence is bound separately from scientific truth and is consumed "
+                 "by nothing downstream (erratum PE-81)"),
     }
 
 
@@ -6695,6 +6939,9 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
         "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
         "phase": "P2b", "candidates": ledger,
         "common_reference_evidence": common_reference_evidence(records),
+        # erratum PE-81: bound SEPARATELY, consumed by nothing. Empty here by construction,
+        # because a non-adjudicative record never reaches the validated record set at all.
+        "diagnostic_evidence": diagnostic_evidence(records),
         "n_declared": len(ledger), "n_eligible": len(admitted),
         "provenance_mode": provenance_mode,
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
