@@ -1014,9 +1014,13 @@ def test_the_driver_has_exactly_one_solver_call_site_and_it_is_guarded():
              and isinstance(n.func.value, ast.Name) and n.func.value.id == "lb_reference"]
     assert len(calls) == 1
     fn = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "solve"][0]
-    guard = fn.body[1]
-    assert isinstance(guard, ast.If)
-    assert "AUTHORISED_SOLVING_PHASES" in ast.dump(guard.test)
+    guards = [n for n in fn.body if isinstance(n, ast.If)]
+    # TWO guards, both ahead of the single call site: the post-freeze hard refusal (PE-76) and
+    # the phase allowlist (PE-11). Neither can be reached around.
+    dumped = [ast.dump(g.test) for g in guards]
+    assert any("POST_FREEZE_EXECUTOR_READY" in d for d in dumped)
+    assert any("AUTHORISED_SOLVING_PHASES" in d for d in dumped)
+    assert max(g.lineno for g in guards[:2]) < calls[0].lineno
 
 
 def test_the_analysis_module_never_imports_the_solver():
@@ -3943,3 +3947,166 @@ def test_the_production_wrapper_exposes_no_override(synthetic_p2b):
     tsrc = inspect.getsource(vf._test_only_assemble_p2b_from_runs)
     assert "assemble_p2b_from_runs(" not in tsrc.split("def _test_only", 1)[1].split('"""')[-1]
     assert 'provenance_mode="TEST_ONLY"' in tsrc
+
+
+# ---- G. true pre-solve resume (errata PE-74, PE-75) ------------------------------------------
+
+class _CountingProvider:
+    """Wraps the coherent TEST_ONLY provider and counts every call."""
+
+    def __init__(self, prune=SYNTH_PRUNED_CANDIDATE):
+        self._inner = _pipeline_provider(prune)
+        self.calls = 0
+
+    def __call__(self, **kw):
+        self.calls += 1
+        return self._inner(**kw)
+
+
+@pytest.fixture(scope="module")
+def resumable_p0(tmp_path_factory):
+    d = tmp_path_factory.mktemp("resume")
+    auth = vf.execution_authority("P0", require_clean=False)
+    prov = _CountingProvider()
+    man = drv._test_only_execute("P0", d, prov, auth)
+    return d, auth, man, prov.calls
+
+
+def test_a_fresh_phase_calls_the_provider_once_per_newly_executed_row(resumable_p0):
+    d, auth, man, calls = resumable_p0
+    ec = man["execution_counts"]
+    assert ec["n_provider_calls"] == ec["n_newly_executed"] == calls
+    assert ec["n_reused"] == 0
+    assert ec["n_completed"] + ec["n_failed"] + ec["n_refused"] == man["counts"]["universe"]
+
+
+def test_an_exact_manifest_is_reused_with_zero_provider_calls(resumable_p0, tmp_path):
+    import shutil
+    d, auth, man, _ = resumable_p0
+    work = tmp_path / "manifest_resume"
+    shutil.copytree(d, work)
+    prov = _CountingProvider()
+    again = drv._test_only_execute("P0", work, prov, auth)
+    assert prov.calls == 0
+    assert again["terminal_status"] == "PHASE_COMPLETE"
+    assert again["phase_universe_sha256"] == man["phase_universe_sha256"]
+
+
+def test_a_partial_phase_runs_only_the_missing_rows(resumable_p0, tmp_path):
+    import shutil
+    d, auth, man, _ = resumable_p0
+    work = tmp_path / "partial"
+    shutil.copytree(d, work)
+    (work / "manifest_P0.json").unlink()
+    dropped = [e["case_id"] for e in man["completed"][:3]]
+    for cid in dropped:
+        (work / vf.case_record_filename(cid)).unlink()
+    prov = _CountingProvider()
+    again = drv._test_only_execute("P0", work, prov, auth)
+    ec = again["execution_counts"]
+    assert prov.calls == len(dropped) == ec["n_provider_calls"] == ec["n_newly_executed"]
+    assert ec["n_reused"] == man["counts"]["completed"] - len(dropped)
+    assert ec["n_completed"] == man["counts"]["completed"]
+    # a resumed phase legitimately has FEWER provider calls than completed rows
+    assert ec["n_provider_calls"] < ec["n_completed"]
+
+
+@pytest.mark.parametrize("mutate", [
+    {"provenance_mode": "PRODUCTION"},
+    {"mask_sha256": "0" * 64},
+    {"execution_authority_sha256": "0" * 64},
+    {"predecessor_manifest_sha256": {"P0": "0" * 64}},
+    {"status": "NORMAL_UNCONVERGED"},
+])
+def test_a_mismatched_existing_record_fails_before_the_provider(resumable_p0, tmp_path, mutate):
+    import shutil
+    d, auth, man, _ = resumable_p0
+    work = tmp_path / ("mismatch_%s" % sorted(mutate)[0])
+    shutil.copytree(d, work)
+    (work / "manifest_P0.json").unlink()
+    cid = man["completed"][0]["case_id"]
+    rec, path = vf.read_case_record(work, cid)
+    rec.update(mutate)
+    if "mask_sha256" in mutate:
+        rec["geometry"]["mask_sha256"] = mutate["mask_sha256"]
+    path.write_text(vf.canonical_json(rec) + "\n")
+    prov = _CountingProvider()
+    with pytest.raises((vf.ResumeMismatch, ValueError)):
+        drv._test_only_execute("P0", work, prov, auth)
+    assert prov.calls == 0, "the provider was called before the mismatch was discovered"
+
+
+def test_a_mismatched_existing_manifest_fails_closed(resumable_p0, tmp_path):
+    import shutil
+    d, auth, man, _ = resumable_p0
+    work = tmp_path / "bad_manifest"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    doc["counts"]["completed"] += 1
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    prov = _CountingProvider()
+    with pytest.raises(vf.ManifestMissing):
+        drv._test_only_execute("P0", work, prov, auth)
+    assert prov.calls == 0
+
+
+def test_the_record_path_is_derived_before_any_provider_call():
+    src = inspect.getsource(drv._orchestrate)
+    before, after = src.split("load_resumable_case_record", 1)
+    assert "provider(" not in before, "the provider is reached before the record is discovered"
+    assert "resolve_row(row)" in before
+    assert "_atomic_write_json" in src            # PE-75: no unconditional manifest overwrite
+    assert "tmp.replace(mpath)" not in src
+
+
+def test_an_audit_record_resumes_only_against_its_exact_base(synthetic_prefreeze, tmp_path):
+    import shutil
+    d, auth, out, recs = synthetic_prefreeze
+    work = tmp_path / "audit_resume"
+    shutil.copytree(d, work)
+    (work / "manifest_P1b.json").unlink()
+    prov = _CountingProvider()
+    again = drv._test_only_execute("P1b", work, prov, auth,
+                                   manifests={"P0": None, "P1a": None},
+                                   records=dict(recs))
+    assert prov.calls == 0
+    ec = again["execution_counts"]
+    assert ec["n_reused"] == ec["n_completed"] > 0
+    audits = [e for e in again["completed"]
+              if e["case_id"].endswith("fixedstep")]
+    assert audits and all(e["write_mode"] == "REUSED_EXACT_MATCH" for e in audits)
+
+
+# ---- H. the deferred post-freeze executor (erratum PE-76) ------------------------------------
+
+@pytest.mark.parametrize("phase", ["P3", "P4"])
+def test_p3_p4_refuse_even_with_the_solving_allowlist_patched(monkeypatch, tmp_path, phase):
+    monkeypatch.setattr(drv, "AUTHORISED_SOLVING_PHASES", ("P0", "P1a", "P1b", "P2a", "P3", "P4"))
+    assert drv.POST_FREEZE_EXECUTOR_READY is False
+    with pytest.raises(drv.PostFreezeExecutorNotReady) as exc:
+        drv.require_execution_authorisation(phase, runs_dir=tmp_path)
+    assert "instantiated-matrix loader has not yet passed exact-head review" in str(exc.value)
+    with pytest.raises(drv.PostFreezeExecutorNotReady):
+        drv.execute_phase(phase, tmp_path)
+    with pytest.raises(drv.PostFreezeExecutorNotReady):
+        drv.solve(None, 1.0, phase)
+
+
+def test_no_unresolved_post_freeze_template_can_reach_a_provider(tmp_path):
+    tpls = [r for r in vf.post_freeze_row_templates() if isinstance(r["bridge"], str)]
+    assert tpls
+    with pytest.raises(ValueError):
+        drv.resolve_row(tpls[0])
+    src = inspect.getsource(drv._orchestrate)
+    assert '_refuse_post_freeze(row["phase"])' in src
+    guard = src.split("_refuse_post_freeze")[0]
+    assert "provider(" not in guard
+
+
+def test_the_post_freeze_deferral_is_explicit_and_names_the_reserved_work():
+    assert drv.POST_FREEZE_PHASES == ("P3", "P4")
+    note = drv.POST_FREEZE_NOT_READY_NOTE
+    for phrase in ("exact-head review", "planning TEMPLATES", "unresolved placeholder",
+                   "phase universe", "later authorization tranche"):
+        assert phrase in note, phrase
+    assert drv.AUTHORISED_SOLVING_PHASES == () and drv.AUTHORISED_ASSEMBLY_PHASES == ()

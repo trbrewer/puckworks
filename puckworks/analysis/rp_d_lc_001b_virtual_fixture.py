@@ -4099,6 +4099,80 @@ def write_case_record(runs_dir, rec, allow_resume=True):
     return path, "WRITTEN"
 
 
+#: The per-phase execution accounting a resume must report (erratum PE-74).
+EXECUTION_COUNT_FIELDS = ("n_newly_executed", "n_reused", "n_provider_calls", "n_completed",
+                          "n_failed", "n_refused")
+
+
+class ResumeMismatch(ValueError):
+    """An existing case record differs from the one this row requires. FAIL CLOSED: never
+    overwrite it, and never call the provider to find out (erratum PE-74)."""
+
+
+def load_resumable_case_record(runs_dir, row, authority, phase, predecessor_manifest_sha256,
+                              geometry, provenance_mode="PRODUCTION", audit=None):
+    """Discover, reopen and fully validate an existing case record BEFORE any provider call.
+
+    Returns ``(record, path)`` for an EXACT match, or ``None`` when no record exists. Anything
+    else raises :class:`ResumeMismatch` — the record is not overwritten and the provider is not
+    called (erratum PE-74).
+
+    C4's executor resolved the row, called the provider, built the record and only then
+    discovered an exact match and reported ``REUSED_EXACT_MATCH``. That is not a resume: every
+    solve had already been paid for.
+    """
+    base = pathlib.Path(runs_dir)
+    path = base / case_record_filename(row["case_id"])
+    if not path.exists():
+        return None
+    raw = path.read_text()
+    try:
+        rec = json.loads(raw)
+    except Exception as exc:
+        raise ResumeMismatch("the existing record at %s is not readable JSON: %s" % (path, exc))
+    if raw != canonical_json(rec) + "\n":
+        raise ResumeMismatch("the existing record at %s is not canonically serialised" % path)
+    if rec.get("case_id") != row["case_id"]:
+        raise ResumeMismatch("the record file for %r carries case_id %r"
+                             % (row["case_id"], rec.get("case_id")))
+    try:
+        validate_case_record(rec, row=row, authority=authority, phase=phase)
+    except ValueError as exc:
+        raise ResumeMismatch("the existing record for %r does not validate against its row, "
+                             "authority or configuration: %s" % (row["case_id"], exc))
+    checks = (
+        ("execution_authority_sha256", rec.get("execution_authority_sha256"),
+         record_hash(authority)),
+        ("predecessor_manifest_sha256", rec.get("predecessor_manifest_sha256"),
+         dict(predecessor_manifest_sha256)),
+        ("geometry", rec.get("geometry"), dict(geometry)),
+        ("mask_sha256", rec.get("mask_sha256"), geometry.get("mask_sha256")),
+        ("provenance_mode", rec.get("provenance_mode"), provenance_mode),
+        ("backend", rec.get("backend"), authority["backend"]),
+        ("run_mode", rec.get("run_mode"), row["run_mode"]),
+        ("audit", rec.get("audit"), (None if audit is None else dict(audit))),
+    )
+    for name, got, want in checks:
+        if got != want:
+            raise ResumeMismatch(
+                "the existing record for %r differs on %r; a resume reuses an EXACT match and "
+                "otherwise fails closed WITHOUT calling the provider (erratum PE-74)"
+                % (row["case_id"], name))
+    want_status = run_status(rec["run_mode"], rec["completed_steps"],
+                             target_steps=(None if audit is None else int(audit["target_steps"])))
+    if rec.get("status") != want_status:
+        raise ResumeMismatch(
+            "the existing record for %r carries status %r; its own step count and audit plan "
+            "recompute as %r" % (row["case_id"], rec.get("status"), want_status))
+    want_payload = scientific_payload_hash(
+        effective_solver_config(row, backend=authority["backend"], audit=audit),
+        rec.get("scientific"), geometry.get("mask_sha256"))
+    if rec.get("scientific_payload_sha256") != want_payload:
+        raise ResumeMismatch("the existing record for %r carries a scientific payload hash that "
+                             "does not recompute from its own contents" % (row["case_id"],))
+    return rec, path
+
+
 def read_case_record(runs_dir, case_id):
     path = pathlib.Path(runs_dir) / case_record_filename(case_id)
     if not path.exists():
@@ -4973,12 +5047,16 @@ def case_decision_verdict(row, scientific, execution_status):
 def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused, failed,
                         authority, predecessor_manifests, adaptive, terminal_status,
                         terminal_stop_reason=None, provenance_mode="PRODUCTION",
-                        replicates=(), phase_science=None):
+                        replicates=(), phase_science=None, execution_counts=None):
     """A validated phase LEDGER over the FULL phase universe.
 
     ``phase_science`` carries the phase's durable AGGREGATE scientific verdict (erratum PE-64).
     For P0 it is :func:`p0_aggregate_science`, and the validator recomputes it from the records
     rather than taking the manifest's word for it.
+
+    ``execution_counts`` carries the resume accounting (erratum PE-74): newly executed rows,
+    reused rows, provider calls, completed, failed and refused. A resumed phase may have FEWER
+    provider calls than completed rows, and ``n_provider_calls`` must equal ``n_newly_executed``.
     """
     if terminal_status not in TERMINAL_PHASE_STATUSES:
         raise ValueError("unknown terminal phase status %r" % (terminal_status,))
@@ -5009,6 +5087,7 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         "failed": [dict(c) for c in failed],
         "replicates": [dict(r) for r in replicates],
         "adaptive": dict(adaptive),
+        "execution_counts": (None if execution_counts is None else dict(execution_counts)),
         "phase_science": (None if phase_science is None else dict(phase_science)),
         "phase_science_sha256": (None if phase_science is None else record_hash(phase_science)),
         "terminal_status": terminal_status,
@@ -5155,6 +5234,28 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
 
     if doc.get("terminal_status") not in TERMINAL_PHASE_STATUSES:
         raise ManifestMissing("the %s manifest has no valid terminal status" % (phase,))
+    # PE-74: the resume accounting must be present and must reconcile
+    ec = doc.get("execution_counts")
+    if ec is None:
+        raise ManifestMissing("the %s manifest carries no execution accounting (erratum PE-74)"
+                              % (phase,))
+    missing_counts = [k for k in EXECUTION_COUNT_FIELDS if k not in ec]
+    if missing_counts:
+        raise ManifestMissing("the %s manifest's execution accounting is missing %r"
+                              % (phase, missing_counts))
+    if ec["n_provider_calls"] != ec["n_newly_executed"]:
+        raise ManifestMissing(
+            "the %s manifest reports %d provider calls for %d newly executed rows; a provider "
+            "call may only ever construct a NEW record (erratum PE-74)"
+            % (phase, ec["n_provider_calls"], ec["n_newly_executed"]))
+    if ec["n_newly_executed"] + ec["n_reused"] != len(completed) + len(failed):
+        raise ManifestMissing(
+            "the %s manifest's newly-executed plus reused rows do not reconcile to its executed "
+            "ledgers" % (phase,))
+    if (ec["n_completed"], ec["n_failed"], ec["n_refused"]) != (len(completed), len(failed),
+                                                                len(refused)):
+        raise ManifestMissing("the %s manifest's execution accounting does not reconcile to its "
+                              "ledgers" % (phase,))
     counts = doc.get("counts") or {}
     if (counts.get("universe") != len(uni) or counts.get("completed") != len(completed)
             or counts.get("refused") != len(refused) or counts.get("failed") != len(failed)):

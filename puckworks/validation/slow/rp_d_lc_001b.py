@@ -43,6 +43,47 @@ AUTHORISED_SOLVING_PHASES = ()
 #: must not authorise P3/P4. Both are empty at this head.
 AUTHORISED_ASSEMBLY_PHASES = ()
 
+#: The POST-FREEZE executor is NOT READY (erratum PE-76).
+#:
+#: P3/P4 orchestration still derives its universe from ``phase_universe()``, which returns the
+#: PLANNING TEMPLATES — rows whose ``bridge`` is the placeholder string ``frozen_slot_N``. The
+#: approved instantiated-matrix loader described by PE-54 does not exist yet and has not passed
+#: exact-head review. This is a HARD REFUSAL, not a comment: P3 and P4 refuse even if they are
+#: added to ``AUTHORISED_SOLVING_PHASES``, so an accidental allowlist edit cannot reach a
+#: provider with an unresolved template.
+#:
+#: What the later P3/P4 authorization tranche must do, in its own reviewed source commit:
+#:   1. validate the APPROVED freeze;
+#:   2. load ``instantiated_p3_p4_matrix.json`` from the runs directory actually in use;
+#:   3. use ITS rows as the phase universe, in place of the templates;
+#:   4. bind its exact ``rows_sha256`` and file hash into every record and manifest it writes.
+POST_FREEZE_EXECUTOR_READY = False
+POST_FREEZE_PHASES = ("P3", "P4")
+POST_FREEZE_NOT_READY_NOTE = (
+    "the approved instantiated-matrix loader has not yet passed exact-head review: P3/P4 "
+    "orchestration would still derive its universe from the planning TEMPLATES, whose bridge is "
+    "an unresolved placeholder. Loading the approved instantiated matrix, using its rows as the "
+    "phase universe and binding its exact hashes is reserved for a later authorization tranche."
+)
+
+
+class ExecutionNotAuthorised(RuntimeError):
+    """Raised by every solving mode while the tranche is pre-execution."""
+
+
+class PostFreezeExecutorNotReady(ExecutionNotAuthorised):
+    """P3/P4 are refused INDEPENDENTLY of the solving allowlist (erratum PE-76).
+
+    A subclass, so every existing refusal contract still holds, with a distinct type and reason
+    for the one refusal an allowlist edit cannot lift.
+    """
+
+
+def _refuse_post_freeze(phase):
+    raise PostFreezeExecutorNotReady(
+        "phase %r is refused: POST_FREEZE_EXECUTOR_READY = %r. %s"
+        % (phase, POST_FREEZE_EXECUTOR_READY, POST_FREEZE_NOT_READY_NOTE))
+
 #: The only supported job count at this stage. A larger value is refused rather than ignored.
 SUPPORTED_JOBS = (1,)
 
@@ -71,10 +112,6 @@ FREEZE_GATED_MODES = vf.FREEZE_GATED_PHASES
 #: to vanish from nominal symmetry. No solver change is required: all three are already in
 #: lb_reference.EXPORTABLE_FIELDS, and ux is returned unconditionally.
 REQUIRED_FIELDS = ("rho", "uy", "uz")
-
-
-class ExecutionNotAuthorised(RuntimeError):
-    """Raised by every solving mode while the tranche is pre-execution."""
 
 
 def _refuse(phase):
@@ -113,6 +150,10 @@ def require_execution_authorisation(phase, backend="reference", runs_dir=None):
     """
     if phase not in vf.PHASE_PREREQUISITES:
         raise ValueError("unknown phase %r" % (phase,))
+    # PE-76: checked FIRST and independently of the allowlist, so adding P3/P4 to
+    # AUTHORISED_SOLVING_PHASES cannot reach a provider with an unresolved template.
+    if phase in POST_FREEZE_PHASES and not POST_FREEZE_EXECUTOR_READY:
+        _refuse_post_freeze(phase)
     if phase in FREEZE_GATED_MODES:
         vf.require_freeze(phase, runs_dir=runs_dir)      # PE-56: the directory ACTUALLY in use
     vf.require_phase_manifests(phase, runs_dir=runs_dir)
@@ -125,6 +166,8 @@ def solve(mask, g, phase, backend="reference", tau=None, fields=REQUIRED_FIELDS,
           min_steps=None, **kw):
     """The single solver call site. It refuses unless its phase is on the reviewed allowlist, so
     no code path in this module can reach the kernel by accident."""
+    if phase in POST_FREEZE_PHASES and not POST_FREEZE_EXECUTOR_READY:
+        _refuse_post_freeze(phase)                # PE-76: the single call site refuses too
     if phase not in AUTHORISED_SOLVING_PHASES:
         _refuse(phase)
     if backend not in vf.SUPPORTED_BACKENDS:                      # pragma: no cover - unreached
@@ -403,6 +446,8 @@ def execute_phase(phase, runs_dir, backend="reference"):
         raise ValueError("unknown phase %r; expected one of %r"
                          % (phase, sorted(vf.PHASE_PREREQUISITES)))
     base = pathlib.Path(runs_dir)
+    if phase in POST_FREEZE_PHASES and not POST_FREEZE_EXECUTOR_READY:
+        _refuse_post_freeze(phase)                             # PE-76
     if phase in ASSEMBLY_MODES:
         require_assembly_authorisation(phase, backend=backend, runs_dir=base)
         return vf.assemble_p2b_from_runs(base, backend=backend)   # pragma: no cover - unreached
@@ -415,11 +460,17 @@ def execute_phase(phase, runs_dir, backend="reference"):
 
 
 def _orchestrate(phase, base, auth, manifests, records, provider, backend, provenance_mode):
-    """Steps 5-13, over the FULL PHASE UNIVERSE (erratum PE-26).
+    """Steps 5-13, over the FULL PHASE UNIVERSE (erratum PE-26), with TRUE PRE-SOLVE RESUME
+    (erratum PE-74).
 
     Private. The production entry point never exposes ``provider`` or ``provenance_mode``; the
     test seam supplies them and every record it writes is marked TEST_ONLY, which the production
     manifest and freeze validators reject.
+
+    For every eligible row the record path is derived FIRST. An existing record is reopened and
+    fully revalidated and, on an exact match, reused with **no provider call**; a differing
+    record fails closed **before** the provider; only a missing record reaches the guarded
+    provider. ``n_provider_calls == n_newly_executed`` is asserted at the end of the phase.
     """
     matrix = vf.execution_matrix()["rows"]
     universe = vf.phase_universe(phase, matrix)
@@ -427,9 +478,20 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
     elig_ids = {r["case_id"] for r in eligible}
     pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
                for k in manifests if (base / ("manifest_%s.json" % k)).exists()}
+
+    # PE-75: manifest resume. An existing FINAL manifest is reopened and fully validated; an
+    # exact valid completion under this authority returns with ZERO provider calls, and anything
+    # else fails closed rather than being overwritten.
+    mpath = base / ("manifest_%s.json" % phase)
+    if mpath.exists():
+        return vf.validate_phase_manifest(phase, base, authority=auth, matrix_rows=matrix,
+                                          predecessor_records=records,
+                                          require_production=(provenance_mode == "PRODUCTION"))
+
     completed, refused, failed, replicates = [], [], [], []
     payloads = {}
     terminal, stop_reason = "PHASE_COMPLETE", None
+    n_new = n_reused = n_calls = 0
 
     for row in universe:                                          # matrix order, jobs = 1
         if row["case_id"] not in elig_ids:
@@ -440,35 +502,59 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
             refused.append({"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
                             "reason": "REFUSED_AFTER_PHASE_STOP"})
             continue
+        # ---- 1. resolve the row and its effective configuration WITHOUT solving --------------
+        if isinstance(row.get("bridge"), str):                 # PE-76: never a placeholder
+            _refuse_post_freeze(row["phase"])
         mask, meta, kind = resolve_row(row)
         audit_plan = None
         if row["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X":
+            # the exact normal base and its audit plan are validated BEFORE either reuse or
+            # execution of the audit
             base_rec, _ = vf.read_case_record(base, row["audit_of_case_id"])
+            base_row = next((r for r in matrix if r["case_id"] == base_rec["case_id"]), None)
+            if base_row is None:                     # pragma: no cover - matrix is exhaustive
+                raise ValueError("audit %r names a base outside the canonical matrix"
+                                 % (row["case_id"],))
+            vf.assert_audit_compatible(row, base_row)
             audit_plan = vf.fixed_step_audit_plan(base_rec["completed_steps"],
                                                   base_rec["status"])
             audit_plan["base_case_id"] = base_rec["case_id"]
             audit_plan["base_record_sha256"] = vf.record_hash(base_rec)
         g = vf.row_forcing(row)
         cfg = vf.effective_solver_config(row, backend=backend, audit=audit_plan)
-        res = provider(mask=mask, g=g, phase=phase, row=row, tau=row["tau_plus"],
-                       audit=audit_plan, backend=backend)
-        if kind == "coupon":
-            sci = _coupon_scientific(res, mask, meta, g, row)
-        else:
-            sci = _fixture_scientific(res, mask, meta, g, row)
         geometry = {"kind": kind, "mask_sha256": meta["mask_sha256"], "S": row["S"],
                     "shape": list(meta.get("shape") or mask.shape),
                     "bridge": row["bridge"] if isinstance(row["bridge"], dict) else None,
                     "state": row["state"], "variant": row["variant"],
                     "obstructed": bool(meta.get("obstructed"))}
-        payload = vf.scientific_payload_hash(cfg, sci, meta["mask_sha256"])
-        rec = vf.make_case_record(row, auth, pre_sha, geometry, sci,
-                                  completed_steps=int(res["steps"]),
-                                  run_mode=row["run_mode"], audit=audit_plan,
-                                  provenance_mode=provenance_mode,
-                                  scientific_payload_sha256=payload)
-        vf.validate_case_record(rec, row=row, authority=auth, phase=phase)
-        path, how = vf.write_case_record(base, rec)
+        # ---- 2/3/4. derive the record path and reuse or fail closed BEFORE the provider ------
+        existing = vf.load_resumable_case_record(base, row, auth, phase, pre_sha, geometry,
+                                                 provenance_mode=provenance_mode,
+                                                 audit=audit_plan)
+        if existing is not None:
+            rec, path = existing
+            sci = rec.get("scientific")
+            payload = rec["scientific_payload_sha256"]
+            how = "REUSED_EXACT_MATCH"
+            n_reused += 1
+        else:
+            # ---- 5. only now may the guarded provider be called ------------------------------
+            n_calls += 1
+            res = provider(mask=mask, g=g, phase=phase, row=row, tau=row["tau_plus"],
+                           audit=audit_plan, backend=backend)
+            if kind == "coupon":
+                sci = _coupon_scientific(res, mask, meta, g, row)
+            else:
+                sci = _fixture_scientific(res, mask, meta, g, row)
+            payload = vf.scientific_payload_hash(cfg, sci, meta["mask_sha256"])
+            rec = vf.make_case_record(row, auth, pre_sha, geometry, sci,
+                                      completed_steps=int(res["steps"]),
+                                      run_mode=row["run_mode"], audit=audit_plan,
+                                      provenance_mode=provenance_mode,
+                                      scientific_payload_sha256=payload)
+            vf.validate_case_record(rec, row=row, authority=auth, phase=phase)
+            path, how = vf.write_case_record(base, rec)
+            n_new += 1
         payloads[row["case_id"]] = payload
         entry = {"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
                  "record_path": path.name, "write_mode": how,
@@ -518,14 +604,22 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
             rec, _ = vf.read_case_record(base, cid)
             phase_records[cid] = rec
         phase_science = vf.PHASE_AGGREGATE_SCIENCE[phase](phase_records)
+    # PE-74: a provider call may only ever construct a NEW record. A resumed phase legitimately
+    # has fewer provider calls than completed rows; it may never have more than newly executed.
+    if n_calls != n_new:                                  # pragma: no cover - guarded by control
+        raise RuntimeError("phase %r made %d provider calls for %d newly executed rows"
+                           % (phase, n_calls, n_new))
+    execution_counts = {"n_newly_executed": n_new, "n_reused": n_reused,
+                        "n_provider_calls": n_calls, "n_completed": len(completed),
+                        "n_failed": len(failed), "n_refused": len(refused)}
     manifest = vf.make_phase_manifest(phase, universe, eligible, completed, refused, failed,
                                       auth, pre_sha, adaptive, terminal, stop_reason,
                                       provenance_mode=provenance_mode, replicates=replicates,
-                                      phase_science=phase_science)
-    mpath = base / ("manifest_%s.json" % phase)
-    tmp = base / (mpath.name + ".tmp")
-    tmp.write_text(vf.canonical_json(manifest) + "\n")
-    tmp.replace(mpath)
+                                      phase_science=phase_science,
+                                      execution_counts=execution_counts)
+    # PE-75: atomic, no-overwrite / exact-match write. A differing existing manifest is never
+    # silently replaced.
+    vf._atomic_write_json(base / ("manifest_%s.json" % phase), manifest)
     vf.validate_phase_manifest(phase, base, authority=auth, matrix_rows=matrix,
                                predecessor_records=records,
                                require_production=(provenance_mode == "PRODUCTION"))
@@ -582,8 +676,8 @@ def main(argv=None):                                             # pragma: no co
     a = ap.parse_args(argv)
     try:
         res = run_phase(a.mode, out_dir=a.output, backend=a.backend, jobs=a.jobs)
-    except (ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
-            vf.ExecutionAuthorityError, vf.DesignBlocked, ValueError) as exc:
+    except (ExecutionNotAuthorised, PostFreezeExecutorNotReady, vf.FreezeMissing,
+            vf.ManifestMissing, vf.ExecutionAuthorityError, vf.DesignBlocked, ValueError) as exc:
         print("REFUSED: %s" % exc)
         return 2
     if a.mode == "plan":
