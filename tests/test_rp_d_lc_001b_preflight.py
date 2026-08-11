@@ -2209,12 +2209,14 @@ def test_the_p2b_assembler_accepts_no_free_form_input():
     src = inspect.signature(vf.assemble_p2b_from_runs).parameters
     assert set(src) == {"runs_dir", "backend"}
     assert not hasattr(vf, "build_freeze")
-    body = inspect.getsource(vf._p2b_decision_core)
+    # the SCIENCE lives in the pure builder; the core only persists it (erratum PE-82)
+    body = inspect.getsource(vf.build_p2b_decision_payload)
     for call in ("field_contrast(", "xi_envelope(", "reachable_set_admission(",
                  "select_bridges(", "candidate_forcing_gates(", "candidate_resolution_gates(",
                  "fixed_step_discrepancy(", "actual_xi_discrepancy(",
-                 "candidate_admission_from_records(", "_atomic_write_json("):
+                 "candidate_admission_from_records("):
         assert call in body, call
+    assert "_atomic_write_json(" in inspect.getsource(vf._p2b_decision_core)
     # the two wrappers have NON-OVERLAPPING provenance and neither takes an override
     assert set(inspect.signature(vf._test_only_assemble_p2b_from_runs).parameters) == {
         "runs_dir", "authority", "backend"}
@@ -4526,3 +4528,200 @@ def test_a_diagnostic_failure_cannot_be_relabelled_a_diagnostic_success(tau_fail
     with pytest.raises(vf.ManifestMissing) as exc:
         vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
     assert "recomputes as diagnostic_failed" in str(exc.value)
+
+
+# ---- B. independent P2b recomputation (errata PE-82 … PE-84) ---------------------------------
+
+def _rehash_p2b(work):
+    """Rewrite every OUTER hash so a stale-hash check alone cannot catch the edit."""
+    ledger = json.loads((work / "candidate_ledger.json").read_text())
+    (work / "candidate_ledger.json").write_text(vf.canonical_json(ledger) + "\n")
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    doc["candidate_ledger_sha256"] = vf.record_hash(ledger)
+    doc["n_declared_candidates"] = ledger["n_declared"]
+    doc["n_eligible_candidates"] = ledger["n_eligible"]
+    fpath, ipath = (work / "proposed_bridge_freeze.json",
+                    work / "instantiated_p3_p4_matrix.json")
+    if ipath.exists():
+        inst = json.loads(ipath.read_text())
+        ipath.write_text(vf.canonical_json(inst) + "\n")
+        inst_file = hashlib.sha256(ipath.read_bytes()).hexdigest()
+        fz = json.loads(fpath.read_text())
+        fz["candidate_ledger_sha256"] = vf.record_hash(ledger)
+        fz["rows_sha256"] = inst["rows_sha256"]
+        fz["instantiated_matrix_file_sha256"] = inst_file
+        fpath.write_text(vf.canonical_json(fz) + "\n")
+        doc["proposed_freeze_sha256"] = vf.record_hash(fz)
+        doc["rows_sha256"] = inst["rows_sha256"]
+        doc["instantiated_matrix_file_sha256"] = inst_file
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+
+
+def _tampered(base_dir, tmp_path, name, mutate):
+    import shutil
+    work = tmp_path / name
+    shutil.copytree(base_dir, work)
+    mutate(work)
+    _rehash_p2b(work)
+    return work
+
+
+def _first_eligible(ledger):
+    return next(k for k, v in sorted(ledger["candidates"].items()) if v["eligible"])
+
+
+def _first_rejected(ledger):
+    return next(k for k, v in sorted(ledger["candidates"].items()) if not v["eligible"])
+
+
+def _edit_ledger(work, fn):
+    ledger = json.loads((work / "candidate_ledger.json").read_text())
+    fn(ledger)
+    (work / "candidate_ledger.json").write_text(vf.canonical_json(ledger) + "\n")
+
+
+TAMPERS = {
+    "n_eligible": lambda w: _edit_ledger(w, lambda L: L.__setitem__("n_eligible",
+                                                                    L["n_eligible"] + 1)),
+    "forcing_verdict": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["forcing_invariance"].__setitem__(
+            "pass", False)),
+    "resolution_verdict": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["resolution_consistency"].__setitem__(
+            "pass", False)),
+    "c_interval": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["c_bounds"].__setitem__(
+            "c_upper", 0.99)),
+    "xi_envelope": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["xi_envelope"].__setitem__(
+            "category", "above")),
+    "reachability": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["reachable_set"].__setitem__(
+            "headroom", 99.0)),
+    "eligibility": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_rejected(L)].__setitem__("eligible", True)),
+    "rejection_reason": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_rejected(L)].__setitem__(
+            "rejection_reason", "SOMETHING_ELSE")),
+    "common_reference_evidence": lambda w: _edit_ledger(
+        w, lambda L: L["common_reference_evidence"]["role_names"].append("invented_role")),
+    "source_to_derived": lambda w: _edit_ledger(
+        w, lambda L: L["candidates"][_first_eligible(L)]["evidence"][
+            "source_to_derived_quantity"].pop("actual_Xi")),
+}
+
+
+@pytest.mark.parametrize("name", sorted(TAMPERS))
+def test_coordinated_ledger_tampering_is_rejected(synthetic_p2b, tmp_path, name):
+    """Erratum PE-83: every obvious outer hash is updated, so only an independent
+    recomputation from the predecessor records can catch these."""
+    d, auth, man = synthetic_p2b
+    work = _tampered(d, tmp_path, "t_" + name, TAMPERS[name])
+    # the outer hashes really are self-consistent now
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    ledger = json.loads((work / "candidate_ledger.json").read_text())
+    assert doc["candidate_ledger_sha256"] == vf.record_hash(ledger)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "recompute" in str(exc.value)
+
+
+def test_a_replaced_selected_candidate_with_a_consistent_freeze_is_rejected(synthetic_p2b,
+                                                                           tmp_path):
+    """Erratum PE-84: a structurally consistent freeze and instantiated matrix built around a
+    different candidate must still fail, because the SELECTION recomputes from the records."""
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "swapped_candidate"
+    shutil.copytree(d, work)
+    fz = json.loads((work / "proposed_bridge_freeze.json").read_text())
+    ledger = json.loads((work / "candidate_ledger.json").read_text())
+    picked = {(b["w"], b["kz"]) for b in fz["frozen_bridges"]}
+    other = next(v for k, v in sorted(ledger["candidates"].items())
+                 if v["eligible"] and (v["w"], v["kz"]) not in picked)
+    tgt = fz["frozen_bridges"][-1]
+    tgt["w"], tgt["kz"] = other["w"], other["kz"]
+    tgt["xi_envelope"] = other["xi_envelope"]
+    tgt["candidate_specific_case_ids"] = other["evidence"]["candidate_specific_case_ids"]
+    tgt["candidate_specific_record_sha256"] = other["evidence"][
+        "candidate_specific_record_sha256"]
+    tgt["record_hashes"] = tgt["candidate_specific_record_sha256"]
+    inst = vf.instantiate_post_freeze_matrix(
+        [{"w": b["w"], "kz": b["kz"]} for b in fz["frozen_bridges"]])
+    idoc = json.loads((work / "instantiated_p3_p4_matrix.json").read_text())
+    idoc["rows"], idoc["n_rows"] = inst, len(inst)
+    idoc["rows_sha256"] = vf.record_hash(inst)
+    (work / "instantiated_p3_p4_matrix.json").write_text(vf.canonical_json(idoc) + "\n")
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    _rehash_p2b(work)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "recompute" in str(exc.value)
+
+
+def test_a_reordered_selection_is_rejected(synthetic_p2b, tmp_path):
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "reordered"
+    shutil.copytree(d, work)
+    fz = json.loads((work / "proposed_bridge_freeze.json").read_text())
+    a, b = fz["frozen_bridges"][0], fz["frozen_bridges"][1]
+    a["slot"], b["slot"] = b["slot"], a["slot"]
+    a["freeze_order"], b["freeze_order"] = b["freeze_order"], a["freeze_order"]
+    (work / "proposed_bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    _rehash_p2b(work)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "recompute" in str(exc.value)
+
+
+def test_a_changed_design_block_reason_is_rejected(synthetic_design_block, tmp_path):
+    import shutil
+    d, auth, man = synthetic_design_block
+    work = tmp_path / "wrong_reason"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    assert doc["terminal_stop_reason"] != "NO_UNAMBIGUOUS_BELOW_CANDIDATE"
+    doc["terminal_stop_reason"] = "NO_UNAMBIGUOUS_BELOW_CANDIDATE"
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+    _rehash_p2b(work)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "recompute" in str(exc.value)
+
+
+def test_the_decision_payload_hash_is_not_a_hash_of_the_persisted_ledger(synthetic_p2b):
+    """Erratum PE-84: hashing the persisted ledger would reproduce the circular authentication."""
+    d, auth, man = synthetic_p2b
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    sha = man["scientific_decision_payload_sha256"]
+    assert sha != vf.record_hash(ledger)
+    for name in vf.P2B_ARTIFACTS:
+        assert json.loads((d / name).read_text())[
+            "scientific_decision_payload_sha256"] == sha, name
+    doc = vf.validate_p2b_manifest(d, require_production=False)
+    assert doc["_expected_payload"]["scientific_decision_payload_sha256"] == sha
+    src = inspect.getsource(vf.build_p2b_decision_payload)
+    assert "candidate_ledger.json" not in src and "read_text" not in src
+    assert "_atomic_write_json" not in src
+
+
+def test_one_scientific_implementation_serves_both_writers_and_the_validator():
+    """§6.2: no separate scientific implementation may exist in three places."""
+    for fn in (vf._p2b_decision_core, vf.validate_p2b_manifest):
+        assert "build_p2b_decision_payload(" in inspect.getsource(fn)
+    for fn in (vf.assemble_p2b_from_runs, vf._test_only_assemble_p2b_from_runs):
+        assert "_p2b_decision_core(" in inspect.getsource(fn)
+    core = inspect.getsource(vf._p2b_decision_core)
+    for call in ("select_bridges(", "reachable_set_admission(", "candidate_forcing_gates("):
+        assert call not in core, call          # the science lives in the builder alone
+
+
+def test_an_exact_p2b_endpoint_resumes_only_after_full_recomputation(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    again = vf._test_only_assemble_p2b_from_runs(d, auth)
+    assert again["scientific_decision_payload_sha256"] == man[
+        "scientific_decision_payload_sha256"]
+    assert again["terminal_status"] == man["terminal_status"]
+    assert vf.validate_p2b_manifest(d, require_production=False)["selection_status"] == man[
+        "selection_status"]

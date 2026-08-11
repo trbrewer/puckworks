@@ -5669,14 +5669,51 @@ def validate_p2b_manifest(runs_dir, require_production=True,
             "assembly_authority_sha256"]:
         raise ManifestMissing("the P2b manifest cites a stale assembly-authority hash")
 
+    # ---- erratum PE-82: INDEPENDENTLY rebuild the scientific endpoint ---------------------
+    # C5 compared the persisted ledger against the manifest's own record of its hash, which is a
+    # self-consistency check: a coordinated edit that also updated the outer hashes passed. The
+    # SAME pure builder now reconstructs the decision from the reopened predecessor records, and
+    # every persisted artifact is compared against that reconstruction field by field.
+    expected = build_p2b_decision_payload(pre_docs, pre_records, doc["_assembly_authority"],
+                                          provenance_mode=doc.get("provenance_mode"))
+    doc["_expected_payload"] = expected
+    if doc.get("scientific_decision_payload_sha256") != expected[
+            "scientific_decision_payload_sha256"]:
+        raise ManifestMissing(
+            "the P2b manifest's scientific decision does not recompute from its own validated "
+            "predecessor records: persisted %r, rebuilt %r (erratum PE-82)"
+            % (doc.get("scientific_decision_payload_sha256"),
+               expected["scientific_decision_payload_sha256"]))
+
     ledger_path = base / "candidate_ledger.json"
     if not ledger_path.exists():
         raise ManifestMissing("P2b wrote no candidate ledger")
     ledger = json.loads(ledger_path.read_text())
     if doc.get("candidate_ledger_sha256") != record_hash(ledger):
         raise ManifestMissing("the P2b manifest cites a different candidate ledger")
+    # ... and the ledger's SCIENCE must equal the rebuilt science, not merely its own hash
+    if ledger.get("scientific_decision_payload_sha256") != expected[
+            "scientific_decision_payload_sha256"]:
+        raise ManifestMissing("the candidate ledger cites a different scientific decision")
+    got_ledger = _scientific_subset(ledger, P2B_LEDGER_SCIENTIFIC_KEYS, "candidate ledger")
+    if record_hash(got_ledger) != record_hash(expected["candidate_ledger"]):
+        bad = sorted(k for k in P2B_LEDGER_SCIENTIFIC_KEYS
+                     if record_hash(got_ledger[k]) != record_hash(
+                         expected["candidate_ledger"][k]))
+        raise ManifestMissing(
+            "the persisted candidate ledger does not recompute from the validated predecessor "
+            "records; differing scientific field(s): %r (erratum PE-83)" % (bad,))
+    got_manifest = _scientific_subset(doc, P2B_MANIFEST_SCIENTIFIC_KEYS, "P2b manifest")
+    if record_hash(got_manifest) != record_hash(expected["manifest"]):
+        bad = sorted(k for k in P2B_MANIFEST_SCIENTIFIC_KEYS
+                     if got_manifest[k] != expected["manifest"][k])
+        raise ManifestMissing(
+            "the persisted P2b manifest's decision does not recompute; differing field(s): %r "
+            "(erratum PE-84)" % (bad,))
     if doc.get("n_declared_candidates") != ledger.get("n_declared"):
         raise ManifestMissing("the P2b manifest and its ledger disagree on the candidate count")
+    if doc.get("n_eligible_candidates") != ledger.get("n_eligible"):
+        raise ManifestMissing("the P2b manifest and its ledger disagree on the eligible count")
     if ledger.get("provenance_mode") != doc.get("provenance_mode"):
         raise ManifestMissing("the candidate ledger and the P2b manifest disagree on provenance")
     if require_production and ledger.get("provenance_mode") != "PRODUCTION":
@@ -5690,6 +5727,20 @@ def validate_p2b_manifest(runs_dir, require_production=True,
             raise ManifestMissing("a design-blocked P2b must terminate PHASE_STOPPED_DESIGN_BLOCKED")
         if doc.get("terminal_stop_reason") not in DESIGN_BLOCKED_REASONS:
             raise ManifestMissing("a design-blocked P2b must carry a frozen reason code")
+        # erratum PE-84: the design-block endpoint is REBUILT, so the exact reason and the
+        # absence of both artifacts are properties of the records, not of the persisted file.
+        if expected["manifest"]["selection_status"] != "DESIGN_BLOCKED":
+            raise ManifestMissing(
+                "the persisted P2b reports DESIGN_BLOCKED but the records recompute as %r"
+                % (expected["manifest"]["selection_status"],))
+        if doc.get("terminal_stop_reason") != expected["manifest"]["terminal_stop_reason"]:
+            raise ManifestMissing(
+                "the persisted design-block reason %r does not recompute; the records give %r"
+                % (doc.get("terminal_stop_reason"),
+                   expected["manifest"]["terminal_stop_reason"]))
+        if expected["proposed_freeze"] is not None or expected["instantiated_matrix"] is not None:
+            raise ManifestMissing(                       # pragma: no cover - guarded above
+                "a design-blocked rebuild produced a freeze or an instantiated matrix")
         for f in (freeze_path, inst_path):
             if f.exists():
                 raise ManifestMissing("a design-blocked P2b must write no %s" % f.name)
@@ -5704,6 +5755,13 @@ def validate_p2b_manifest(runs_dir, require_production=True,
             raise ManifestMissing("a selected P2b must write %s" % f.name)
     freeze = json.loads(freeze_path.read_text())
     inst = json.loads(inst_path.read_text())
+    # erratum PE-84: the SELECTED endpoint is rebuilt too — the exact candidates, slot
+    # assignment, categories, order, target provenance, Xi envelopes, evidence sets and the
+    # instantiated rows all come from the records, not from the persisted files.
+    if expected["proposed_freeze"] is None:
+        raise ManifestMissing(
+            "the persisted P2b reports SELECTED but the records recompute as %r"
+            % (expected["manifest"]["selection_status"],))
     if freeze.get("status") != "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW":
         raise ManifestMissing("P2b may only write a PROPOSED freeze")
     if freeze.get("p3_p4_authorised") is not False:
@@ -5753,6 +5811,20 @@ def validate_p2b_manifest(runs_dir, require_production=True,
             raise ManifestMissing("the instantiated matrix still carries a placeholder bridge")
         if (row["w"] if "w" in row else row["bridge"]["w"], row["bridge"]["kz"]) not in set(keys):
             raise ManifestMissing("an instantiated row cites a candidate that was not selected")
+    for name, persisted, keys, want in (
+            ("proposed freeze", freeze, P2B_FREEZE_SCIENTIFIC_KEYS, expected["proposed_freeze"]),
+            ("instantiated matrix", inst, P2B_INSTANTIATED_SCIENTIFIC_KEYS,
+             expected["instantiated_matrix"])):
+        if persisted.get("scientific_decision_payload_sha256") != expected[
+                "scientific_decision_payload_sha256"]:
+            raise ManifestMissing("the %s cites a different scientific decision" % name)
+        got = _scientific_subset(persisted, keys, name)
+        if record_hash(got) != record_hash(want):
+            bad = sorted(k for k in keys if record_hash(got[k]) != record_hash(want[k]))
+            raise ManifestMissing(
+                "the persisted %s does not recompute from the validated predecessor records; "
+                "differing scientific field(s): %r (erratum PE-84)" % (name, bad))
+
     doc["_ledger"] = ledger
     doc["_freeze"] = freeze
     doc["_instantiated"] = inst
@@ -6795,7 +6867,21 @@ def _test_only_assemble_p2b_from_runs(runs_dir, authority, backend="reference"):
     return _p2b_decision_core(base, authority, manifests, records, provenance_mode="TEST_ONLY")
 
 
-def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTION"):
+#: The scientific keys of each persisted P2b artifact, i.e. exactly the fields the pure builder
+#: reconstructs. Anything not listed is persistence metadata (erratum PE-84).
+P2B_DECISION_PAYLOAD_SCHEMA_VERSION = 1
+P2B_LEDGER_SCIENTIFIC_KEYS = ("candidates", "common_reference_evidence", "diagnostic_evidence",
+                              "n_declared", "n_eligible")
+P2B_FREEZE_SCIENTIFIC_KEYS = ("freeze_rule", "n_frozen_bridges", "frozen_bridges",
+                              "common_reference_evidence", "above_window_diagnostics",
+                              "rows_sha256", "status", "p3_p4_authorised")
+P2B_INSTANTIATED_SCIENTIFIC_KEYS = ("rows", "n_rows", "rows_sha256")
+P2B_MANIFEST_SCIENTIFIC_KEYS = ("selection_status", "terminal_status", "terminal_stop_reason",
+                                "n_declared_candidates", "n_eligible_candidates")
+
+
+def build_p2b_decision_payload(manifests, records, assembly_authority,
+                               provenance_mode="PRODUCTION"):
     """The PURE P2b decision core, shared by the two wrappers with non-overlapping provenance.
 
     Recomputes, in order: lineage · forcing ladders · componentwise invariance · boundary
@@ -6805,9 +6891,7 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
     categories · the exact four-slot selection · the instantiated P3/P4 rows · the durable
     ledger, proposed freeze and P2b manifest. It performs **no solve**.
     """
-    base = pathlib.Path(base)
-    assembly_auth = p2b_assembly_authority(base, auth, manifests,
-                                           provenance_mode=provenance_mode)
+    assembly_auth = dict(assembly_authority)
 
     # erratum PE-60: P2b INDEPENDENTLY recomputes every pressure upper bound from the validated
     # records and retains it. No stored eligibility boolean is trusted anywhere below.
@@ -6935,26 +7019,10 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
                              "record_hashes": ev["candidate_specific_record_sha256"]})
         ledger[cid] = entry
 
-    ledger_doc = {
-        "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
-        "phase": "P2b", "candidates": ledger,
-        "common_reference_evidence": common_reference_evidence(records),
-        # erratum PE-81: bound SEPARATELY, consumed by nothing. Empty here by construction,
-        # because a non-adjudicative record never reaches the validated record set at all.
-        "diagnostic_evidence": diagnostic_evidence(records),
-        "n_declared": len(ledger), "n_eligible": len(admitted),
-        "provenance_mode": provenance_mode,
-        "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
-        "execution_authority_sha256": record_hash(auth),
-        "assembly_authority": dict(assembly_auth),
-        "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
-    }
-    ledger_doc.update(config_hashes())
-    written = {}
-    written["candidate_ledger.json"] = _atomic_write_json(base / "candidate_ledger.json",
-                                                          ledger_doc)[0].name
-
-    stop_reason, freeze_doc, inst = None, None, None
+    # ---- the canonical SCIENTIFIC payload, from the records alone (errata PE-82 … PE-84) -----
+    # Persistence metadata — file paths, file hashes, the manifests' own SHAs — is deliberately
+    # OUTSIDE this payload: a scientific decision may not be authenticated by a hash of itself.
+    stop_reason, freeze_sci, inst_sci = None, None, None
     try:
         selection = select_bridges(admitted)
     except DesignBlocked as exc:
@@ -6971,19 +7039,8 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
                         "declared common-reference role" % (h, prev, (c["w"], c["kz"])))
                 seen[h] = (c["w"], c["kz"])
         inst = instantiate_post_freeze_matrix([{"w": c["w"], "kz": c["kz"]} for c in selection])
-        inst_doc = {"schema_version": 1, "tranche": TRANCHE_ID,
-                    "correction_version": CORRECTION_VERSION,
-                    "provenance_mode": provenance_mode,
-                    "assembly_authority_sha256":
-                        assembly_auth["assembly_authority_sha256"],
-                    "rows": inst, "n_rows": len(inst),
-                    "rows_sha256": record_hash(inst)}          # PE-51: ONE canonical key
-        inst_doc.update(config_hashes())
-        inst_path = _atomic_write_json(base / "instantiated_p3_p4_matrix.json", inst_doc)[0]
-        inst_file_sha = hashlib.sha256(inst_path.read_bytes()).hexdigest()
-        written["instantiated_p3_p4_matrix.json"] = inst_path.name
-        freeze_doc = {
-            "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+        inst_sci = {"rows": inst, "n_rows": len(inst), "rows_sha256": record_hash(inst)}
+        freeze_sci = {
             "freeze_rule": FREEZE_RULE, "n_frozen_bridges": N_FROZEN_BRIDGES,
             "frozen_bridges": [{"w": c["w"], "kz": c["kz"], "slot": c["slot"],
                                 "slot_provenance": c["slot_provenance"],
@@ -6998,61 +7055,148 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
                                 "source_to_derived_quantity":
                                     c["source_to_derived_quantity"],
                                 "record_hashes": c["record_hashes"]} for c in selection],
-            "common_reference_evidence": ledger_doc["common_reference_evidence"],
+            "common_reference_evidence": common_reference_evidence(records),
             "above_window_diagnostics": above_window_diagnostics(admitted),
+            "rows_sha256": inst_sci["rows_sha256"],
+            "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
+            "p3_p4_authorised": False,
+        }
+
+    payload = {
+        "schema_version": P2B_DECISION_PAYLOAD_SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "phase": "P2b",
+        "provenance_mode": provenance_mode,
+        "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
+        "predecessor_phases": sorted(manifests),
+        "candidate_ledger": {
+            "candidates": ledger,
+            "common_reference_evidence": common_reference_evidence(records),
+            # erratum PE-81: bound SEPARATELY, consumed by nothing. Empty by construction,
+            # because a non-adjudicative record never reaches the validated record set.
+            "diagnostic_evidence": diagnostic_evidence(records),
+            "n_declared": len(ledger),
+            "n_eligible": len(admitted),
+        },
+        "proposed_freeze": freeze_sci,
+        "instantiated_matrix": inst_sci,
+        "manifest": {
+            "selection_status": ("SELECTED" if selection is not None else "DESIGN_BLOCKED"),
+            "terminal_status": ("PHASE_COMPLETE" if selection is not None
+                                else "PHASE_STOPPED_DESIGN_BLOCKED"),
+            "terminal_stop_reason": stop_reason,
+            "n_declared_candidates": len(ledger),
+            "n_eligible_candidates": len(admitted),
+        },
+        "rule": ("the deterministic scientific endpoint, rebuilt from the validated predecessor "
+                 "records alone. It consumes no persisted candidate ledger, freeze or "
+                 "instantiated matrix, accepts no caller-supplied verdict, selection or "
+                 "uncertainty, performs no solve and writes no file (errata PE-82 … PE-84)."),
+    }
+    payload["scientific_decision_payload_sha256"] = record_hash(payload)
+    return payload
+
+
+def _scientific_subset(doc, keys, what):
+    missing = [k for k in keys if k not in (doc or {})]
+    if missing:
+        raise ManifestMissing("the persisted %s is missing scientific field(s) %r" % (what,
+                                                                                      missing))
+    return {k: doc[k] for k in keys}
+
+
+def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTION"):
+    """PERSIST the pure scientific decision under one provenance (errata PE-82 … PE-84).
+
+    The science lives in :func:`build_p2b_decision_payload` and nowhere else: this wrapper adds
+    the source authority, the assembly authority, file paths and hashes, the provenance mode and
+    the atomic no-overwrite / exact-match persistence, and nothing scientific.
+    """
+    base = pathlib.Path(base)
+    assembly_auth = p2b_assembly_authority(base, auth, manifests,
+                                           provenance_mode=provenance_mode)
+    payload = build_p2b_decision_payload(manifests, records, assembly_auth,
+                                         provenance_mode=provenance_mode)
+    sci_sha = payload["scientific_decision_payload_sha256"]
+    pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+               for k in manifests}
+
+    ledger_doc = dict(payload["candidate_ledger"])
+    ledger_doc.update({
+        "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION, "phase": "P2b",
+        "provenance_mode": provenance_mode,
+        "scientific_decision_payload_sha256": sci_sha,
+        "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
+        "execution_authority_sha256": record_hash(auth),
+        "assembly_authority": dict(assembly_auth),
+        "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
+    })
+    ledger_doc.update(config_hashes())
+    written = {}
+    written["candidate_ledger.json"] = _atomic_write_json(base / "candidate_ledger.json",
+                                                          ledger_doc)[0].name
+
+    freeze_doc, inst_file_sha = None, None
+    if payload["instantiated_matrix"] is not None:
+        inst_doc = dict(payload["instantiated_matrix"])
+        inst_doc.update({"schema_version": 1, "tranche": TRANCHE_ID,
+                         "correction_version": CORRECTION_VERSION,
+                         "provenance_mode": provenance_mode,
+                         "scientific_decision_payload_sha256": sci_sha,
+                         "assembly_authority_sha256":
+                             assembly_auth["assembly_authority_sha256"]})
+        inst_doc.update(config_hashes())
+        inst_path = _atomic_write_json(base / "instantiated_p3_p4_matrix.json", inst_doc)[0]
+        inst_file_sha = hashlib.sha256(inst_path.read_bytes()).hexdigest()
+        written["instantiated_p3_p4_matrix.json"] = inst_path.name
+        freeze_doc = dict(payload["proposed_freeze"])
+        freeze_doc.update({
+            "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+            "scientific_decision_payload_sha256": sci_sha,
             "candidate_ledger_sha256": record_hash(ledger_doc),
-            "phase_manifest_sha256": {
-                k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
-                for k in manifests},
-            "rows_sha256": record_hash(inst),
+            "phase_manifest_sha256": dict(pre_sha),
             "instantiated_matrix_file_sha256": inst_file_sha,
             "provenance_mode": provenance_mode,
             "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
             "execution_authority_sha256": record_hash(auth),
             "assembly_authority": dict(assembly_auth),
             "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
-            "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
-            "p3_p4_authorised": False,
             "note": ("P3 and P4 remain unauthorized even with this artifact present: a freeze is "
                      "necessary, never sufficient, and it requires its own reviewed "
                      "authorization commit."),
-        }
+        })
         freeze_doc.update(config_hashes())
         written["proposed_bridge_freeze.json"] = _atomic_write_json(
             base / "proposed_bridge_freeze.json", freeze_doc)[0].name
 
-    manifest = {
+    manifest = dict(payload["manifest"])
+    manifest.update({
         "schema_version": MANIFEST_SCHEMA_VERSION,
         "correction_version": CORRECTION_VERSION,
         "phase": "P2b", "provenance_mode": provenance_mode,
         "phase_kind": "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL",
+        "scientific_decision_payload_sha256": sci_sha,
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
         "execution_authority_sha256": record_hash(auth),
         "assembly_authority": dict(assembly_auth),
         "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
         "full_matrix_sha256": record_hash(execution_matrix()),
-        "predecessor_manifests": {
-            k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
-            for k in manifests},
+        "predecessor_manifests": dict(pre_sha),
         "candidate_ledger_sha256": record_hash(ledger_doc),
         "proposed_freeze_sha256": (None if freeze_doc is None else record_hash(freeze_doc)),
-        "rows_sha256": (None if inst is None else record_hash(inst)),
-        "instantiated_matrix_file_sha256": (None if inst is None else inst_file_sha),
+        "rows_sha256": (None if payload["instantiated_matrix"] is None
+                        else payload["instantiated_matrix"]["rows_sha256"]),
+        "instantiated_matrix_file_sha256": inst_file_sha,
         "artifacts_written": dict(written),
-        "n_declared_candidates": len(ledger),
-        "n_eligible_candidates": len(admitted),
-        "selection_status": ("SELECTED" if selection is not None else "DESIGN_BLOCKED"),
-        "terminal_status": ("PHASE_COMPLETE" if selection is not None
-                            else "PHASE_STOPPED_DESIGN_BLOCKED"),
-        "terminal_stop_reason": stop_reason,
         "solver_records": [],
-    }
+    })
     manifest.update(config_hashes())
     # PE-52: no in-memory mutation after persistence -- the persisted and returned documents are
     # byte-identical. The manifest names its own deterministic path but never claims its own SHA.
     manifest["manifest_path"] = "manifest_P2b.json"
     _atomic_write_json(base / "manifest_P2b.json", manifest)
     return manifest
+
 
 
 _GENERATED = (
