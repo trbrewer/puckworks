@@ -7,9 +7,10 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C3`** (see PE-22). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C4`** (see PE-40). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
-a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) → **C3**.
+a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) →
+**C3** (`39533ad`) → **C4**.
 
 ---
 
@@ -993,4 +994,95 @@ The Stage-A question · the apparatus and the geometry · `ARTIFACT_BUDGET_R_ABS
 frozen bridges, one below and three inside · the Route-A observable contract (**Route B remains
 unauthorized**) · **no solver-core change** · the claim ceiling · **RP-D-LC-001 byte-unchanged** ·
 and every phase, solving and assembly alike, **unauthorized**.
+
+
+---
+
+# PE-40 — exact-head review at `39533ad` was NOT APPROVED; C4 correction record
+
+**Review disposition:**
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C4_INTEGRATION_AND_AUTHORITY_CORRECTION_REQUIRED`
+
+**Reviewed head:** `39533ade0fd74dc5fa10470710ec672041e62526`
+**Reviewed tree:** `1a8594340299cfc80e340012fcc4cda481cd491f`
+
+## Scientific decisions ACCEPTED and preserved unchanged
+
+The common-mode-port apparatus and its blind pockets; no identical-path subtraction and no fitted
+or post-hoc artifact correction; exactly nine axial conservation planes; the distinct volume-flux
+inverse and mass-flux conservation contracts; the full-vector fluid-node Mach control; `g ∝ S⁻³`
+and the exact ladders; `TOL_LINEARITY_REL = 1e-4`; `ARTIFACT_BUDGET_R_ABS = 1e-3`;
+`TOL_BRIDGE_LEAKAGE_REL = 1e-3`; `TOL_LATERAL_DRIVER_REL = 1e-3`; true fixed-step re-execution at
+`1.5 ×` the base step count; separate discrepancy families for `R`, `c` and `Ξ`;
+candidate-specific blocked-mirror contrast; the corrected critical-feature model in principle;
+two-sided reachable-set admission and the **unchanged `0.10·K` margin**; exactly four frozen
+bridges (one below, three inside) with no required above-window slot; the additive Arm J plenum
+obstruction; separate solving and assembly authorization; no Route B; no solver-core modification;
+no open mirror before P3; RP-D-LC-001 immutable and `INVALID_EXECUTION`.
+
+**None is weakened, retuned or redesigned here.**
+
+## Superseded C3 machine-readable artifacts
+
+Retained alongside the C0, C1 and C2 sets; **all four generations are kept.**
+
+| artifact | superseded C3 SHA-256 (`39533ad`) |
+|---|---|
+| `generated/protocol.json` | `e46395b63bcc9d493365a74767475247d640096d834119cc76a35fb2a031e1f8` |
+| `generated/fixture_spec.json` | `833f1d5edf8c1b4a54c1b3977ede4d2f14f92196a53738c0ced8c0e1c6d05023` |
+| `generated/execution_matrix.json` | `71371972b8553a81b3db98555ccec8b86acfc86108325ff23eee77662a4bb914` |
+| `generated/preflight_status.json` | `61214acee1fdcf846eacd6f6a0ede6a04ef5ec77c45fdb6df5afdd0b63003c16` |
+
+Superseded C3 counts: **847** rows = **383** normal + **320** audits + **144** pressure-plane
+diagnostic *rows*; **112** mandatory, **735** refused. **No C3 total is preserved.**
+
+## What C3 got wrong
+
+C3 fixed the C2 assembler and the adaptive ledgers, and in doing so introduced two errors of its
+own — both in the term it had just created to close PE-32:
+
+- **the "node-offset" quantity is not `R`.** `_pressure_plane_scientific` computed
+  `R_at_node_offsets = [C_j / C_0]` **within a single state**, and
+  `artifact_evidence_from_records` then compared those numbers against the **open/blocked** ratio
+  `R`. A same-state normalised conductance and a cross-state ratio are different quantities; the
+  difference between them is not a node-offset sensitivity of `R`. The uncertainty term built from
+  it was therefore not measuring what its name claimed;
+- **the diagnostic rows called the solver.** The frozen node-surface offsets are re-reads of a
+  field that has already been computed. C3 scheduled 144 *rows*, each of which went through the
+  result provider, so the planned solve budget was overstated by 144 and the same physics was
+  computed twice.
+
+Both are corrected here by extracting the offsets from the field that is already in memory, and
+by forming the ratio only from an exactly paired open/blocked pair.
+
+## C4 blockers
+
+| id | blocker | superseded C3 form | effective C4 form |
+|---|---|---|---|
+| PE-41 | **diagnostic rows made solver calls** | 144 `pressure_plane_diagnostic` rows, each invoking the result provider | a compact node-offset summary retained in the *same* case record, from the field already in memory; **no separate provider call** |
+| PE-42 | **same-state normalisation called `R`** | `R_at_node_offsets = C_j/C_0` within one state, compared against the open/blocked `R` | `R_offset_j = C_open_offset_j / C_blocked_offset_j`, formed only after exact open/blocked pairing |
+| PE-43 | **face masks were intersected, not paired** | `both = m1 & m2`, silently discarding unmatched nodes | exact elementwise mask equality, equal counts, identical bounds and shape; fail closed |
+| PE-44 | **a spatial standard error was adjudicative** | `sd/√n` over spatially correlated LB nodes used as the face uncertainty | retained as `SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND`; the bound comes from fixed-step evidence |
+| PE-45 | **no maximum paired-gap control** | only the mean gap was gated, so alternating differences with a zero mean passed | separate `mean_gap_upper_rel` **and** `max_gap_upper_rel`, both required |
+| PE-46 | **no fixed-step discrepancy for the pressure gap** | the gap had no audit-derived uncertainty at all | `u_mean_gap` and `u_max_gap` from each normal record's own fixed-step audit |
+| PE-47 | **incomplete boundary forcing gates** | `R`, `s`, `A1`, `A2` and actual `Ξ` were never adjudicated | the exact required quantity set is asserted present, not merely intersected |
+| PE-48 | **a mass-flux zero gate normalised by volume flux** | `q_lat_mass` scaled by a `Q_volume`-derived quantity | mass quantities use an **axial mass-flux** scale; mass and volume are never mixed in one ratio |
+| PE-49 | **raw `G_bridge` gated under the name `Xi`** | the resolution gate compared `G_bridge_coupon` and labelled the verdict `Xi_coupon` | actual `Ξ = G_bridge·(1/A1 + 1/A2)` from exactly matched coupon and blocked-mirror evidence |
+| PE-50 | **the successful P2b branch was never exercised** | the synthetic pipeline reached only the design-block branch, and the success path sat under `pragma: no cover` | a nondegenerate synthetic pipeline that selects one below and three inside and writes all four artifacts |
+| PE-51 | **P2b schema mismatch** | the writer stored `content_sha256`; the freeze gate required `instantiated_matrix_sha256` | one canonical schema — `rows_sha256` and `instantiated_matrix_file_sha256` — used by writer, validator, freeze gate and executor alike |
+| PE-52 | **persisted ≠ returned P2b manifest** | `artifacts_written` was mutated **after** the file was written | no in-memory mutation after persistence; the persisted and returned documents are identical |
+| PE-53 | **weak P2b predecessor validation** | `require_phase_manifests` checked only `correction_version` and `terminal_status` for P2b | a dedicated `validate_p2b_manifest()` reopening the manifest, ledger, freeze, instantiated matrix and every predecessor hash |
+| PE-54 | **P3/P4 would have executed templates** | the executor's universe was `phase_universe()`, i.e. the *template* rows | P3/P4 consume the **validated instantiated matrix** from `runs_dir` |
+| PE-55 | **P3 fixed-step audits were unbound** | created directly, with `audit_of_case_id = None` | generated from their exact primary normal row through the same audited-row constructor |
+| PE-56 | **`runs_dir` was ignored by the freeze gate** | `require_freeze` resolved against the repository default | `require_freeze(stage, runs_dir, …)`; every artifact path resolves beneath the directory actually in use |
+| PE-57 | **`PROTOCOL.md` still declared C2 effective** | the banner named C1 and C2; §20 was the last effective section | the banner names C0…C4 with precedence, and §21 (C3) and §22 (C4) are appended |
+| PE-58 | **manifest validation did not recompute scientific status** | it rehashed records but never re-derived pass/fail, so a manifest could relabel a failed case as completed | one shared `case_decision_verdict()` used by both the executor and the validator, which recomputes and compares |
+| PE-59 | **replicate binding was inferred** | the base was found by searching for the first row sharing `S`, state, variant, forcing level and run mode | an explicit `replicate_of_case_id` frozen in the matrix, with full configuration agreement validated |
+
+## What did NOT change in C4
+
+Every accepted scientific decision listed above · the Route-A observable contract · **no
+solver-core change** · the claim ceiling · **RP-D-LC-001 byte-unchanged** · and every phase,
+solving and assembly alike, **unauthorized**: `AUTHORISED_SOLVING_PHASES = ()` and
+`AUTHORISED_ASSEMBLY_PHASES = ()`.
 
