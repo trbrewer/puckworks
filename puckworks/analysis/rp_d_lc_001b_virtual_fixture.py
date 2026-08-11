@@ -1734,16 +1734,34 @@ def lateral_pressure_gap(face_records, delta_record, axial_pressure_scale, g, q_
                               else _finite(float(q_lat_mass) / gv, "q_lat_mass_over_g")),
     }
     if expected_zero_driver:
-        # the POINT verdict; the adjudicative upper-bound verdict is formed at assembly, where
-        # the fixed-step audit is available (errata PE-45, PE-46)
+        # Erratum PE-61: the POINT estimate is an EARLY SCREEN, never the final verdict. It may
+        # REJECT — every omitted uncertainty term is non-negative, so a point failure cannot be
+        # rescued — and it may NEVER ADMIT. The adjudicative verdict is
+        # ``measured_zero_driver_upper_bound_pass``, formed only where this record's OWN exact
+        # fixed-step audit is available, which is at assembly and not at case construction.
         out["measured_zero_driver_point_pass"] = bool(rel <= TOL_LATERAL_DRIVER_REL)
-        out["measured_zero_driver_pass"] = out["measured_zero_driver_point_pass"]
+        out["measured_zero_driver_point_role"] = (
+            "PRELIMINARY_POINT_ESTIMATE_SCREEN_MAY_REJECT_NEVER_ADMITS")
+        out["measured_zero_driver_upper_bound_pass"] = None
+        out["measured_zero_driver_pass"] = None
+        out["measured_zero_driver_status"] = "INCOMPLETE_PENDING_FIXED_STEP_AUDIT"
+        out["final_verdict_source"] = (
+            "lateral_pressure_evidence_from_records() -> lateral_pressure_upper_bounds(), paired "
+            "with this case's EXACT fixed-step audit; BOTH mean_gap_upper_rel and "
+            "max_gap_upper_rel must clear TOL_LATERAL_DRIVER_REL (erratum PE-61)")
         out["reason"] = ("identical-path control: the geometry supplies the EXPECTATION of a zero "
                          "lateral driver, and the measured mid-face pressure gap must confirm it. "
                          "A geometry label alone may never certify the premise of the negative "
-                         "control (erratum PE-15).")
+                         "control (erratum PE-15). This record carries only the PRELIMINARY point "
+                         "screen; the final paired normal/audit upper-bound verdict is formed "
+                         "where the fixed-step audit exists (erratum PE-61).")
     else:
+        out["measured_zero_driver_point_pass"] = None
+        out["measured_zero_driver_point_role"] = "NOT_APPLICABLE_DRIVEN_BRIDGE"
+        out["measured_zero_driver_upper_bound_pass"] = None
         out["measured_zero_driver_pass"] = None
+        out["measured_zero_driver_status"] = "NOT_APPLICABLE_DRIVEN_BRIDGE"
+        out["final_verdict_source"] = None
         out["reason"] = ("driven bridge: a nonzero lateral pressure gap is the physics under "
                          "test, so no zero-driver verdict applies. The gap and delta_p/g are "
                          "retained for the frozen componentwise forcing checks.")
@@ -4256,6 +4274,272 @@ def artifact_evidence_from_records(records, bridge_key):
     return out
 
 
+# ---- the FINAL audit-adjusted zero-driver pressure verdict (errata PE-60, PE-61) --------------
+# C4 implemented lateral_pressure_upper_bounds() and no production caller invoked it: P1b
+# admission, P2a eligibility and the P2b ledger all decided without it, while a point mean-gap
+# screen carried the name of the final verdict. Everything below puts that calculation ON the
+# decision path, with its full normal/audit lineage retained.
+
+#: Every field a pressure verdict must retain (erratum PE-60 §5.4).
+PRESSURE_EVIDENCE_FIELDS = (
+    "candidate_id", "resolution", "forcing_level",
+    "normal_case_id", "normal_record_sha256", "audit_case_id", "audit_record_sha256",
+    "face_ids", "paired_mask_sha256", "face_indices", "footprint_x", "footprint_z",
+    "fixture_mask_sha256",
+    "normal_mean_delta_p", "normal_max_abs_delta_p",
+    "audit_mean_delta_p", "audit_max_abs_delta_p",
+    "u_mean_gap", "u_max_gap", "u_serialization_mean", "u_serialization_max",
+    "axial_pressure_scale", "mean_gap_upper_rel", "max_gap_upper_rel",
+    "tolerance", "mean_pass", "max_pass", "pass", "reason", "overlaps",
+    "evidence_complete", "point_pass", "spatial_sd_delta_p", "spatial_sd_role",
+)
+
+
+def assert_pressure_evidence(ev):
+    """Validate the pressure-evidence schema BEFORE any scientific use (erratum PE-60)."""
+    missing = [k for k in PRESSURE_EVIDENCE_FIELDS if k not in ev]
+    if missing:
+        raise ValueError("pressure evidence is missing %r" % (missing,))
+    if ev["normal_case_id"] is not None and ev["normal_case_id"] == ev["audit_case_id"]:
+        raise ValueError("a case is cited as both the normal and the audit pressure record")
+    for k in ("normal_record_sha256", "audit_record_sha256"):
+        if ev[k] is not None:
+            assert_flat_hash_list([ev[k]], "pressure evidence %s" % k)
+    return ev
+
+
+def _pressure_delta_of(rec):
+    """The exact paired face-difference record retained inside a case record."""
+    lp = (rec.get("scientific") or {}).get("lateral_pressure")
+    if not lp:
+        return None
+    d = lp.get("delta_pointwise")
+    return dict(d) if d else None
+
+
+def _pressure_face_fingerprint(rec):
+    """The exact face footprints and mask hashes a normal and its audit must share."""
+    faces = (rec.get("scientific") or {}).get("pressure_faces") or []
+    by = {f["plane_id"]: f for f in faces}
+    if set(by) != set(PRESSURE_FACE_IDS):
+        return None
+    return {
+        "face_ids": list(PRESSURE_FACE_IDS),
+        "face_indices": [int(by[p]["index"]) for p in PRESSURE_FACE_IDS],
+        "footprint_x": [list(by[p]["footprint_x"]) for p in PRESSURE_FACE_IDS],
+        "footprint_z": [list(by[p]["footprint_z"]) for p in PRESSURE_FACE_IDS],
+        "fixture_mask_sha256": sorted({by[p]["mask_sha256"] for p in PRESSURE_FACE_IDS}),
+    }
+
+
+def _incomplete_pressure_evidence(key, S, level, reason, **kw):
+    ev = {k: None for k in PRESSURE_EVIDENCE_FIELDS}
+    ev.update(candidate_id="w%d_kz%d" % key, resolution=S, forcing_level=level,
+              tolerance=TOL_LATERAL_DRIVER_REL, evidence_complete=False,
+              reason=reason, overlaps=("u_mean_gap and u_max_gap come from the same fixed-step "
+                                       "pair but bound different statistics; neither is added to "
+                                       "the other"),
+              spatial_sd_role="SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND")
+    ev["pass"] = False
+    ev.update(kw)
+    return assert_pressure_evidence(ev)
+
+
+def lateral_pressure_evidence_from_records(records, bridge_key):
+    """The FINAL zero-driver pressure verdict for one candidate, per (resolution, forcing level).
+
+    For every identical-path OPEN control record this loads the NORMAL record, locates its EXACT
+    fixed-step audit through ``audit_of_case_id``, validates audit/base compatibility and exact
+    pressure-face footprints and mask hashes in both, then calls
+    :func:`lateral_pressure_upper_bounds` with the normal's own axial pressure scale.
+
+    The verdict requires BOTH ``mean_gap_upper_rel <= TOL_LATERAL_DRIVER_REL`` AND
+    ``max_gap_upper_rel <= TOL_LATERAL_DRIVER_REL``. Missing audit evidence, mismatched faces, a
+    non-finite value, an incomplete upper bound or either failed inequality makes the combination
+    unavailable. The spatial standard deviation stays diagnostic (erratum PE-44).
+    """
+    out = {}
+    normals = {cid: r for cid, r in _normal_only(records, "identical_path_control",
+                                                 bridge_key).items()
+               if r["row"]["state"] == "open"}
+    audits = _audits_for(records, "identical_path_control", bridge_key)
+    by_base = {}
+    for cid, a in audits.items():
+        base_id = a["row"].get("audit_of_case_id")
+        if base_id is not None:
+            by_base[base_id] = a
+    for cid, nrec in sorted(normals.items()):
+        S, level = nrec["row"]["S"], nrec["row"]["forcing_level"]
+        combo = "%d.%s" % (S, level)
+        n_delta = _pressure_delta_of(nrec)
+        n_face = _pressure_face_fingerprint(nrec)
+        n_sci = nrec.get("scientific") or {}
+        lp = n_sci.get("lateral_pressure") or {}
+        if n_delta is None or n_face is None:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "the normal record carries no paired lateral pressure evidence",
+                normal_case_id=cid, normal_record_sha256=record_hash(nrec))
+            continue
+        arec = by_base.get(cid)
+        base_fields = dict(n_face, normal_case_id=cid,
+                           normal_record_sha256=record_hash(nrec),
+                           normal_mean_delta_p=n_delta["mean_delta_p"],
+                           normal_max_abs_delta_p=n_delta["max_abs_delta_p"],
+                           paired_mask_sha256=n_delta["paired_mask_sha256"],
+                           spatial_sd_delta_p=n_delta["spatial_sd_delta_p"],
+                           point_pass=lp.get("measured_zero_driver_point_pass"))
+        if arec is None:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "no fixed-step audit names this normal case; an upper-bound verdict cannot be "
+                "formed and the combination is unavailable (erratum PE-46)", **base_fields)
+            continue
+        try:
+            assert_audit_compatible(arec["row"], nrec["row"])
+        except ValueError as exc:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "the cited fixed-step audit is not compatible with its base: %s" % exc,
+                audit_case_id=arec["case_id"], audit_record_sha256=record_hash(arec),
+                **base_fields)
+            continue
+        a_delta = _pressure_delta_of(arec)
+        a_face = _pressure_face_fingerprint(arec)
+        if a_delta is None or a_face is None:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "the fixed-step audit carries no paired lateral pressure evidence",
+                audit_case_id=arec["case_id"], audit_record_sha256=record_hash(arec),
+                **base_fields)
+            continue
+        if a_face != n_face or a_delta["paired_mask_sha256"] != n_delta["paired_mask_sha256"]:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "the audit's pressure-face footprints or mask hashes differ from its base; an "
+                "upper bound may never be formed across two different faces",
+                audit_case_id=arec["case_id"], audit_record_sha256=record_hash(arec),
+                audit_mean_delta_p=a_delta["mean_delta_p"],
+                audit_max_abs_delta_p=a_delta["max_abs_delta_p"], **base_fields)
+            continue
+        scale = n_sci.get("dP")
+        try:
+            ub = lateral_pressure_upper_bounds(n_delta, scale, audit_delta=a_delta,
+                                               expected_zero_driver=True)
+        except (ValueError, NonFiniteValue, TypeError) as exc:
+            out[combo] = _incomplete_pressure_evidence(
+                bridge_key, S, level,
+                "the pressure upper bound could not be formed: %s" % exc,
+                audit_case_id=arec["case_id"], audit_record_sha256=record_hash(arec),
+                audit_mean_delta_p=a_delta["mean_delta_p"],
+                audit_max_abs_delta_p=a_delta["max_abs_delta_p"], **base_fields)
+            continue
+        ev = dict(base_fields)
+        ev.update(
+            candidate_id="w%d_kz%d" % bridge_key, resolution=S, forcing_level=level,
+            audit_case_id=arec["case_id"], audit_record_sha256=record_hash(arec),
+            audit_mean_delta_p=a_delta["mean_delta_p"],
+            audit_max_abs_delta_p=a_delta["max_abs_delta_p"],
+            u_mean_gap=ub["u_mean_gap"], u_max_gap=ub["u_max_gap"],
+            u_serialization_mean=ub["u_serialization_mean"],
+            u_serialization_max=ub["u_serialization_max"],
+            axial_pressure_scale=ub["axial_pressure_scale"],
+            mean_gap_upper_rel=ub["mean_gap_upper_rel"],
+            max_gap_upper_rel=ub["max_gap_upper_rel"],
+            tolerance=ub["tolerance"], mean_pass=ub["mean_pass"], max_pass=ub["max_pass"],
+            spatial_sd_role=ub["spatial_sd_role"], overlaps=ub["overlaps"],
+            evidence_complete=True, reason=ub["reason"])
+        ev["pass"] = bool(ub["pass"])
+        ev["upper_bound"] = ub
+        out[combo] = assert_pressure_evidence(ev)
+    return out
+
+
+def zero_driver_mass_flux_from_records(records, bridge_key):
+    """The zero-driver lateral MASS-FLUX verdict per (resolution, forcing level).
+
+    Recomputed from the identical-path OPEN records' own transverse controls rather than trusted
+    from a stored eligibility flag (erratum PE-60 §5.3).
+    """
+    out = {}
+    normals = {cid: r for cid, r in _normal_only(records, "identical_path_control",
+                                                 bridge_key).items()
+               if r["row"]["state"] == "open"}
+    for cid, rec in sorted(normals.items()):
+        S, level = rec["row"]["S"], rec["row"]["forcing_level"]
+        tc = (rec.get("scientific") or {}).get("transverse_conservation") or {}
+        entry = {
+            "candidate_id": "w%d_kz%d" % bridge_key, "resolution": S, "forcing_level": level,
+            "case_id": cid, "record_sha256": record_hash(rec),
+            "status": tc.get("status"),
+            "expected_zero_driver": tc.get("expected_zero_driver"),
+            "magnitude_pass": tc.get("magnitude_pass"),
+            "consistency_pass": tc.get("consistency_pass"),
+            "max_abs_lateral_mass_flux_rel": tc.get("max_abs_lateral_mass_flux_rel"),
+            "plane_range_mass_rel": tc.get("plane_range_mass_rel"),
+            "tolerance": TOL_BRIDGE_LEAKAGE_REL,
+        }
+        entry["pass"] = bool(tc.get("expected_zero_driver") and tc.get("pass") is True)
+        if not entry["pass"]:
+            entry["reason"] = ("the identical-path open control did not return a passing "
+                               "expected-zero-driver transverse verdict")
+        out["%d.%s" % (S, level)] = entry
+    return out
+
+
+def candidate_admission_from_records(records_by_case):
+    """The COMPLETE P1b candidate verdict (erratum PE-60 §5.3).
+
+    Final artifact admission requires, at EVERY required (resolution, forcing level):
+
+      * complete blocked/open R evidence;
+      * the artifact upper-bound pass;
+      * the zero-driver lateral mass-flux pass;
+      * the final pressure MEAN upper-bound pass;
+      * the final pressure MAXIMUM upper-bound pass;
+      * exact audit lineage for all of the above.
+
+    P2a eligibility is derived from this verdict; no stored eligibility boolean is trusted.
+    """
+    artifact = artifact_admission_from_records(records_by_case)
+    want = sorted({"%d.%s" % (S, lv) for S in SCIENTIFIC_RESOLUTIONS for lv in FORCING_LEVELS})
+    out = {}
+    for key, art in sorted(artifact.items()):
+        press = lateral_pressure_evidence_from_records(records_by_case, key)
+        mass = zero_driver_mass_flux_from_records(records_by_case, key)
+        missing = {
+            "artifact": sorted(set(want) - set(art["combinations"])),
+            "pressure": sorted(set(want) - set(press)),
+            "lateral_mass_flux": sorted(set(want) - set(mass)),
+        }
+        failed = {
+            "artifact": sorted(c for c, v in art["combinations"].items() if not v["pass"]),
+            "pressure_mean": sorted(c for c, v in press.items() if v.get("mean_pass") is not True),
+            "pressure_max": sorted(c for c, v in press.items() if v.get("max_pass") is not True),
+            "lateral_mass_flux": sorted(c for c, v in mass.items() if not v["pass"]),
+        }
+        entry = {
+            "w": key[0], "kz": key[1], "candidate_id": "w%d_kz%d" % key,
+            "required_combinations": want,
+            "artifact": art, "pressure": press, "lateral_mass_flux": mass,
+            "missing": missing, "failed": failed,
+            "rule": ("P1b final artifact admission = complete blocked/open R evidence AND the "
+                     "artifact upper bound AND the zero-driver lateral mass flux AND BOTH "
+                     "pressure upper bounds, each with exact audit lineage, at EVERY required "
+                     "resolution and forcing level (erratum PE-60)"),
+        }
+        entry["admitted"] = bool(
+            not any(missing.values()) and not any(failed.values()) and art["admitted"])
+        if not entry["admitted"]:
+            parts = ["missing %s %r" % (k, v) for k, v in sorted(missing.items()) if v]
+            parts += ["failed %s %r" % (k, v) for k, v in sorted(failed.items()) if v]
+            entry["reason"] = "; ".join(parts) or (art["reason"] or "artifact not admitted")
+        else:
+            entry["reason"] = None
+        out[key] = entry
+    return out
+
+
 def artifact_admission_from_records(records_by_case):
     """Recompute the artifact upper bound for every candidate from its OWN evidence, at every
     required (resolution, forcing level) combination."""
@@ -4328,13 +4612,18 @@ def derive_expected_rows(phase, matrix_rows, predecessor_records=None):
                       "surviving": sorted(surviving),
                       "triage": {"%d_%d" % k: v for k, v in sorted(triage.items())}}
     if phase == "P2a":
-        admitted = artifact_admission_from_records(recs)
+        # erratum PE-60: P2a eligibility is derived from the COMPLETE P1b candidate verdict —
+        # artifact upper bound AND zero-driver lateral mass flux AND both pressure upper bounds —
+        # never from the artifact alone and never from a stored eligibility boolean.
+        admitted = candidate_admission_from_records(recs)
         keep_keys = {k for k, v in admitted.items() if v["admitted"]}
         keep = [r for r in rows if _bridge_key(r) is None or _bridge_key(r) in keep_keys]
-        return keep, {"rule": "candidates whose artifact upper bound passes at EVERY required "
-                              "combination with their own fixed-step evidence",
+        return keep, {"rule": "candidates whose COMPLETE P1b verdict — artifact upper bound, "
+                              "zero-driver lateral mass flux and BOTH pressure upper bounds — "
+                              "passes at EVERY required combination with exact audit lineage",
                       "admitted": sorted(keep_keys),
-                      "artifact": {"%d_%d" % k: v for k, v in sorted(admitted.items())}}
+                      "candidate_admission": {"%d_%d" % k: v
+                                              for k, v in sorted(admitted.items())}}
     return rows, {"rule": "unconditional"}
 
 
@@ -4434,7 +4723,10 @@ def case_decision_verdict(row, scientific, execution_status):
         if lp.get("masks_pair_exactly") is False:
             return {"pass": False, "reason": "PRESSURE_FACES_DO_NOT_PAIR",
                     "applicability": "bridge-carrying cases", "effect": "STOPS_THE_PHASE"}
-        if lp.get("measured_zero_driver_pass") is False:
+        # Erratum PE-61: the case-level screen consumes the POINT estimate, which may only
+        # REJECT. The final admission verdict is the paired normal/audit upper bound and is
+        # formed at P1b/P2b, never here — a case record has no access to its own audit.
+        if lp.get("measured_zero_driver_point_pass") is False:
             return {"pass": False, "reason": "MEASURED_LATERAL_DRIVER_NONZERO",
                     "applicability": "expected-zero-driver cases", "effect": "STOPS_THE_PHASE"}
     no = sci.get("node_offsets")
@@ -4972,13 +5264,21 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
     for rec in records.values():
         assert_production_record(rec)
 
-    artifact = artifact_admission_from_records(records)
+    # erratum PE-60: P2b INDEPENDENTLY recomputes every pressure upper bound from the validated
+    # records and retains it. No stored eligibility boolean is trusted anywhere below.
+    admission = candidate_admission_from_records(records)
     ledger, admitted = {}, []
-    for key, art in sorted(artifact.items()):
+    for key, adm_entry in sorted(admission.items()):
+        art = adm_entry["artifact"]
         w, kz = key
         bridge = {"w": w, "kz": kz}
         cid = "w%d_kz%d" % key
         entry = {"candidate_id": cid, "w": w, "kz": kz, "artifact": art,
+                 "pressure_upper_bounds": adm_entry["pressure"],
+                 "zero_driver_lateral_mass_flux": adm_entry["lateral_mass_flux"],
+                 "p1b_candidate_admission": {k: v for k, v in adm_entry.items()
+                                             if k not in ("artifact", "pressure",
+                                                          "lateral_mass_flux")},
                  "eligible": False, "rejection_reason": None}
 
         # --- gates first: a failure makes the candidate UNAVAILABLE (errata PE-28, PE-29) ---
@@ -4995,8 +5295,8 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
                                          % (resolution["failed_quantities"],))
             ledger[cid] = entry
             continue
-        if not art["admitted"]:
-            entry["rejection_reason"] = "ARTIFACT: %s" % art["reason"]
+        if not adm_entry["admitted"]:
+            entry["rejection_reason"] = "P1B_CANDIDATE_ADMISSION: %s" % adm_entry["reason"]
             ledger[cid] = entry
             continue
 

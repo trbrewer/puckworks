@@ -1793,23 +1793,37 @@ def test_pressure_faces_average_fluid_nodes_only():
     assert f2["p_mean"] == pytest.approx(f["p_mean"], rel=1e-12)
 
 
-def test_a_symmetric_identical_fixture_measures_a_zero_lateral_gap_and_passes():
+def test_a_symmetric_identical_fixture_measures_a_zero_lateral_gap_and_screens_clean():
+    """Erratum PE-61: a point PASS is a screen, never an admission."""
     mask, meta, res, g = _face_case()
     rec = drv.case_record(res, mask, meta, g, stage="unit")
     lp = rec["lateral_pressure"]
     assert lp["delta_p_lateral"] == pytest.approx(0.0, abs=1e-15)
     assert lp["expected_zero_driver"] is True
-    assert lp["measured_zero_driver_pass"] is True
+    assert lp["measured_zero_driver_point_pass"] is True
+    # the point screen may NEVER admit: the final verdict is null until the audit exists
+    assert lp["measured_zero_driver_pass"] is None
+    assert lp["measured_zero_driver_upper_bound_pass"] is None
+    assert lp["measured_zero_driver_status"] == "INCOMPLETE_PENDING_FIXED_STEP_AUDIT"
+    assert lp["measured_zero_driver_point_role"].startswith("PRELIMINARY_POINT_ESTIMATE_SCREEN")
 
 
 def test_a_MEASURED_nonzero_gap_fails_an_expected_zero_driver_case():
-    """A geometry label may never certify the premise of the negative control (erratum PE-15)."""
+    """A geometry label may never certify the premise of the negative control (erratum PE-15).
+
+    A point FAILURE may still reject immediately: every omitted uncertainty term is
+    non-negative, so no additional evidence can rescue it (erratum PE-61).
+    """
     mask, meta, res, g = _face_case(bump=1e-3)
     rec = drv.case_record(res, mask, meta, g, stage="unit")
     lp = rec["lateral_pressure"]
     assert lp["expected_zero_driver"] is True          # the LABEL still says identical
     assert abs(lp["delta_p_lateral"]) > 0
-    assert lp["measured_zero_driver_pass"] is False    # the MEASUREMENT overrules it
+    assert lp["measured_zero_driver_point_pass"] is False   # the MEASUREMENT overrules it
+    verdict = vf.case_decision_verdict(
+        {"kind": "identical_path_control"}, {"lateral_pressure": lp}, "CONVERGED")
+    assert verdict["pass"] is False
+    assert verdict["reason"] == "MEASURED_LATERAL_DRIVER_NONZERO"
 
 
 def test_the_common_axial_gradient_cancels_in_the_pointwise_gap():
@@ -3085,3 +3099,141 @@ def test_the_p2b_manifest_is_not_mutated_after_persistence():
     assert 'manifest["artifacts_written"] = written' not in src
     assert "no in-memory mutation after persistence" in src
     assert '"rows_sha256"' in src and "content_sha256" not in src
+
+
+# ==========================================================================================
+# 15. C5 correction regressions — PE-60 … PE-76
+# ==========================================================================================
+
+# ---- A. the pressure decision path (errata PE-60, PE-61) ------------------------------------
+
+def _pressure_ev(records, key):
+    return vf.lateral_pressure_evidence_from_records(records, key)
+
+
+def test_the_pressure_upper_bound_is_functionally_reached_by_the_candidate_path(
+        synthetic_prefreeze):
+    """Erratum PE-60: a helper-unit test is not enough — the PRODUCTION candidate path must
+    call the same pure calculation. Proved by instrumenting the real function."""
+    d, auth, out, recs = synthetic_prefreeze
+    calls = []
+    real = vf.lateral_pressure_upper_bounds
+
+    def spy(normal_delta, axial_pressure_scale, audit_delta=None, expected_zero_driver=False):
+        calls.append({"has_audit": audit_delta is not None,
+                      "expected_zero_driver": bool(expected_zero_driver)})
+        return real(normal_delta, axial_pressure_scale, audit_delta=audit_delta,
+                    expected_zero_driver=expected_zero_driver)
+
+    vf.lateral_pressure_upper_bounds = spy
+    try:
+        adm = vf.candidate_admission_from_records(recs)
+    finally:
+        vf.lateral_pressure_upper_bounds = real
+    assert calls, "the candidate admission path never reached lateral_pressure_upper_bounds()"
+    assert all(c["expected_zero_driver"] for c in calls)
+    assert all(c["has_audit"] for c in calls)
+    # and the verdict it produced is what admission consumed
+    assert any(v["admitted"] for v in adm.values())
+    for key, entry in adm.items():
+        if entry["admitted"]:
+            assert entry["pressure"], key
+            for ev in entry["pressure"].values():
+                assert ev["mean_pass"] is True and ev["max_pass"] is True
+
+
+def test_the_final_pressure_verdict_needs_both_mean_and_maximum(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (3, 2)
+    ev = _pressure_ev(recs, key)
+    assert ev, "no pressure evidence was built"
+    for combo, e in ev.items():
+        vf.assert_pressure_evidence(e)
+        assert e["evidence_complete"] is True, combo
+        assert e["audit_case_id"] and e["audit_case_id"] != e["normal_case_id"]
+        assert e["normal_record_sha256"] and e["audit_record_sha256"]
+        assert e["face_ids"] == list(vf.PRESSURE_FACE_IDS)
+        assert e["paired_mask_sha256"]
+        assert e["tolerance"] == vf.TOL_LATERAL_DRIVER_REL
+        assert e["pass"] is (e["mean_pass"] and e["max_pass"])
+        assert e["spatial_sd_role"].startswith("SPATIAL_NONUNIFORMITY_DIAGNOSTIC")
+
+
+@pytest.mark.parametrize("field,bad", [("max_abs_delta_p", 1.0), ("mean_delta_p", 1.0)])
+def test_a_point_pass_with_a_failed_bound_rejects(synthetic_prefreeze, field, bad):
+    """A small point mean can coexist with an excessive maximum or an excessive audit
+    movement; either one must reject (errata PE-45, PE-46, PE-61)."""
+    d, auth, out, recs = synthetic_prefreeze
+    key = (3, 2)
+    target = None
+    for cid, r in vf._normal_only(recs, "identical_path_control", key).items():
+        if r["row"]["state"] == "open":
+            target = cid
+            break
+    assert target
+    broken = dict(recs)
+    rec = json.loads(json.dumps(recs[target]))
+    lp = rec["scientific"]["lateral_pressure"]
+    assert lp["measured_zero_driver_point_pass"] is True       # the POINT screen still passes
+    lp["delta_pointwise"][field] = bad
+    broken[target] = rec
+    ev = _pressure_ev(broken, key)
+    combo = "%d.%s" % (rec["row"]["S"], rec["row"]["forcing_level"])
+    assert ev[combo]["pass"] is False
+    assert vf.candidate_admission_from_records(broken)[key]["admitted"] is False
+
+
+def test_a_missing_pressure_audit_makes_the_combination_unavailable(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (3, 2)
+    dropped = {cid: r for cid, r in recs.items()
+               if not (r.get("kind") == "identical_path_control"
+                       and r["run_mode"] != "NORMAL" and vf._bridge_key(r) == key)}
+    ev = _pressure_ev(dropped, key)
+    assert ev and all(e["pass"] is False for e in ev.values())
+    assert all(e["evidence_complete"] is False for e in ev.values())
+    assert all("no fixed-step audit" in e["reason"] for e in ev.values())
+    assert vf.candidate_admission_from_records(dropped)[key]["admitted"] is False
+
+
+def test_a_mismatched_pressure_face_footprint_is_refused(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (3, 2)
+    audit_id = next(cid for cid, r in vf._audits_for(recs, "identical_path_control", key).items()
+                    if recs[r["row"]["audit_of_case_id"]]["row"]["state"] == "open")
+    tampered = dict(recs)
+    rec = json.loads(json.dumps(recs[audit_id]))
+    rec["scientific"]["pressure_faces"][0]["footprint_x"] = [0, 1]
+    tampered[audit_id] = rec
+    ev = _pressure_ev(tampered, key)
+    bad = [e for e in ev.values() if e["pass"] is False]
+    assert bad and any("footprints or mask hashes differ" in e["reason"] for e in bad)
+
+
+def test_no_spatial_standard_error_appears_in_an_adjudicative_pressure_bound():
+    src = inspect.getsource(vf.lateral_pressure_upper_bounds)
+    assert "sqrt" not in src and "/ math.sqrt" not in src
+    src2 = inspect.getsource(vf.lateral_pressure_evidence_from_records)
+    assert "spatial_sd" in src2                       # retained...
+    for line in src2.splitlines():                    # ...but never in a bound
+        if "spatial_sd" in line:
+            assert "upper" not in line and "_pass" not in line
+
+
+def test_p1a_may_still_only_triage_and_never_admit(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    triage = vf.p1a_triage(recs)
+    assert all(v["may_admit"] is False for v in triage.values())
+    src = inspect.getsource(vf.derive_expected_rows)
+    assert "candidate_admission_from_records" in src
+
+
+def test_p2a_eligibility_is_the_complete_p1b_verdict_not_the_artifact_alone(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    keep, adaptive = vf.derive_expected_rows("P2a", vf.execution_matrix()["rows"],
+                                             predecessor_records=recs)
+    assert "BOTH pressure upper bounds" in adaptive["rule"]
+    assert "candidate_admission" in adaptive
+    admitted = set(adaptive["admitted"])
+    assert admitted == {k for k, v in vf.candidate_admission_from_records(recs).items()
+                        if v["admitted"]}
