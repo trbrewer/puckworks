@@ -1543,14 +1543,15 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C4"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C5"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
     """C0 and C1 hashes are both kept, so anything bound to either stays traceable."""
     revs = vf.SUPERSEDED_REVIEWS
     assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
-                                                      "PREFLIGHT-C2", "PREFLIGHT-C3"]
+                                                      "PREFLIGHT-C2", "PREFLIGHT-C3",
+                                                      "PREFLIGHT-C4"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
@@ -1558,6 +1559,14 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     assert revs[2]["disposition"].endswith("C3_EXECUTOR_AND_ASSEMBLER_CORRECTION_REQUIRED")
     assert revs[3]["reviewed_head"] == "39533ade0fd74dc5fa10470710ec672041e62526"
     assert revs[3]["disposition"].endswith("C4_INTEGRATION_AND_AUTHORITY_CORRECTION_REQUIRED")
+    assert revs[4]["reviewed_head"] == "e455c678a2fdd511ce9a30f1d15164f73b9a4481"
+    assert revs[4]["reviewed_tree"] == "72eda81e3ddea54ad4714f10c6bb4b347cd6a15a"
+    assert revs[4]["disposition"].endswith(
+        "C5_DECISION_PATH_AND_LINEAGE_CORRECTION_REQUIRED")
+    assert revs[4]["errata"] == ["PE-%d" % i for i in range(60, 77)]
+    # the superseded C4 counts are recorded so no C4 number can be quietly carried forward
+    assert revs[4]["superseded_counts"]["adaptive_maximum"] == 703
+    assert revs[4]["superseded_counts"]["planned_pressure_plane_diagnostic_rows"] == 0
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())

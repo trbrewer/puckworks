@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C4), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C5), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,19 +10,24 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Four exact-head reviews have returned NOT APPROVED.** At `bbf2304` (C0 → C1) and again at
-> `2cf0b63` (C1 → C2). The **common-mode-port apparatus was accepted in principle** at the first
-> review and is unchanged; twenty-one items of machinery were not, and are corrected append-only
-> under `PREFLIGHT-C1` and `PREFLIGHT-C2`. Every superseded clause, constant, matrix rule and
-> generated hash — for both generations — is in [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md);
-> the effective protocol is `PROTOCOL.md` §19 and §20, §20 governing where they differ.
+> **Five exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
+> `39533ad` and `e455c67`. The **common-mode-port apparatus was accepted in principle** at the
+> first review and is unchanged; seventy-seven items of machinery were not, and are corrected
+> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C5`. Every superseded clause, constant, matrix
+> rule and generated hash — for all five generations — is in
+> [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md). The precedence chain is
+> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23)**, and **§23 governs** wherever
+> any earlier text conflicts with it.
 >
-> C3 corrects the executor, the adaptive ledgers, the scientific gates, the uncertainty
-> lineage, the P2b assembler and post-freeze row resolution — the C2 assembler **could not run**,
-> and its executor and validator disagreed about what a phase is.
-> **It is unreachable: `AUTHORISED_SOLVING_PHASES = ()`, so every solving phase refuses.** A
-> further exact-head review is required before any phase can be authorised, and P3/P4 will need
-> another one after the actual P0–P2 records and the proposed freeze exist.
+> **C5** puts the audit-adjusted pressure upper bound on the decision path (C4 implemented it and
+> never called it), completes the P0 and candidate forcing and resolution quantity sets, corrects
+> `u_fixed_step_Xi` to the derived actual-`Ξ` discrepancy, binds every audit hash a selected
+> candidate's ledger cites, separates the production and TEST_ONLY P2b wrappers and validates
+> predecessors recursively, implements a true pre-solve resume, and **hard-refuses P3/P4**.
+> **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
+> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
+> exact-head review is required before P0–P2b, and P3/P4 need a further correction and review of
+> the real pre-freeze artifacts.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
@@ -95,16 +100,19 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C4_INTEGRATION_AND_AUTHORITY_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C4
+RP_D_LC_001B_PREFLIGHT_C5_DECISION_PATH_AND_LINEAGE_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C5
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()
 AUTHORISED_ASSEMBLY_PHASES: ()
+POST_FREEZE_EXECUTOR_READY: False
 ```
 
 Authorisation is **phase-specific** and empty, so all six solving phases raise
-`ExecutionNotAuthorised`. Independently, P3 and P4 raise `FreezeMissing` (no freeze and no
+`ExecutionNotAuthorised`. P3 and P4 additionally raise `PostFreezeExecutorNotReady` — a hard
+refusal that an allowlist edit cannot lift, because the approved instantiated-matrix loader has
+not yet passed exact-head review (erratum PE-76). Independently, P3 and P4 raise `FreezeMissing` (no freeze and no
 instantiated P3/P4 matrix exist) and every phase after P0 raises `ManifestMissing` for its
 predecessors — both checked *before* the allowlist, so neither gate is shadowed by it. All three
 refusals are asserted by test.

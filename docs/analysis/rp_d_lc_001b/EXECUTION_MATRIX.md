@@ -1,9 +1,10 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C4 (supersedes bbf2304, 2cf0b63, c666707 and 39533ad)
+VERSION PREFLIGHT-C5 (supersedes bbf2304, 2cf0b63, c666707, 39533ad and e455c67)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
+AUTHORISED_ASSEMBLY_PHASES: ()      POST_FREEZE_EXECUTOR_READY: False
 ```
 
 Machine-readable and authoritative: `generated/execution_matrix.json`, produced by
@@ -190,3 +191,37 @@ only after an exact open/blocked pairing.
 
 The C3 total of 847 is superseded and is retained only in `PREFLIGHT_ERRATA.md` PE-40.
 
+
+
+## 12. CORRECTION `PREFLIGHT-C5` — one machine authority, every category distinguished
+
+Errata PE-60 … PE-76. **No solver row is added to repair arithmetic or validation.** Every number
+below is derived by `execution_matrix()` from the row set in one place; the total remains **703**
+because the generator independently reproduces it, not because it was preserved.
+
+| category | value |
+|---|---|
+| planned **NORMAL** solves | **383** |
+| planned **FIXED_STEP** audits | **320** |
+| `planned_solver_invocations` = normal + audits | **703** |
+| same-field **node-offset summaries** (extracted, **0** provider calls) | **511** |
+| **mandatory** rows | **112** |
+| **adaptive** maximum | **703** |
+| refused after the earliest stop | **591** |
+| **arithmetic-only P2b** solver calls | **0** |
+| **P3/P4 planning-template** rows | **63** |
+| provider calls, **fresh full pre-freeze run** | **640** |
+| provider calls, **exact resume** | **0** |
+| `observed_provider_calls` (orchestration) | `= newly_executed_rows` |
+| separate **pressure-diagnostic** rows | **0** — and none may return |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+| **solves actually executed** | **0** |
+
+The identity `planned_solver_invocations = planned_normal_rows + planned_fixed_step_rows` is
+retained and asserted by test, as is `observed_provider_calls == newly_executed_rows` for a real
+orchestrated phase. A resumed phase legitimately has **fewer** provider calls than completed
+rows, and an exact manifest resume has **none**.
+
+**P3/P4 are not execution-ready.** Their 63 rows are planning TEMPLATES whose `bridge` is an
+unresolved placeholder; `POST_FREEZE_EXECUTOR_READY = False` refuses them independently of the
+solving allowlist (erratum PE-76).

@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C4"
+CORRECTION_VERSION = "PREFLIGHT-C5"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -179,6 +179,30 @@ SUPERSEDED_REVIEWS = (
                               "planned_fixed_step_audits": 320,
                               "planned_pressure_plane_diagnostic_rows": 144,
                               "mandatory_minimum": 112, "refused_after_earliest_stop": 735},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+    },
+    {
+        "correction_version": "PREFLIGHT-C4",
+        "reviewed_head": "e455c678a2fdd511ce9a30f1d15164f73b9a4481",
+        "reviewed_tree": "72eda81e3ddea54ad4714f10c6bb4b347cd6a15a",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C5_DECISION_"
+                        "PATH_AND_LINEAGE_CORRECTION_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(60, 77)],
+        "superseded_artifact_sha256": {
+            "protocol.json":
+                "9d1853b841067896562bd5fbdb3a590dcbbfe0a9f0cca5af01b00f0d08764292",
+            "fixture_spec.json":
+                "c50521a10059fbc8af37c6b6a60fcc32f6e916b5be182c6d92a1f8d9eed75bf0",
+            "execution_matrix.json":
+                "734e6fadf972f9454928a66578aa626f71d8ba00e0a6c4dcce0e5b63647d1220",
+            "preflight_status.json":
+                "f3ecfd3afef8517bbff831bf2cac1c8740d02a43a6c5cfe972eca12ce1f44752",
+        },
+        "superseded_counts": {"adaptive_maximum": 703, "planned_normal_solves": 383,
+                              "planned_fixed_step_audits": 320,
+                              "planned_pressure_plane_diagnostic_rows": 0,
+                              "mandatory_minimum": 112, "refused_after_earliest_stop": 591},
         "apparatus_accepted_in_principle":
             "common_mode_port_blind_pocket_off_on_comparison",
     },
@@ -3603,6 +3627,52 @@ def protocol_config():
         "design_blocked_stop": DESIGN_BLOCKED,
         "arm_j": ARM_J,
         "phases": [dict(p) for p in EXECUTION_PHASES],
+        "tau_cross_check_disposition": dict(TAU_CROSS_CHECK_DISPOSITION),
+        "pressure_decision_path": {
+            "point_verdict": "measured_zero_driver_point_pass",
+            "point_role": "PRELIMINARY_POINT_ESTIMATE_SCREEN_MAY_REJECT_NEVER_ADMITS",
+            "final_verdict": "measured_zero_driver_upper_bound_pass",
+            "final_rule": ("BOTH mean_gap_upper_rel and max_gap_upper_rel <= "
+                           "TOL_LATERAL_DRIVER_REL at every required resolution and forcing "
+                           "level, from each normal record's OWN exact fixed-step audit"),
+            "erratum": "PE-60/PE-61",
+        },
+        "required_quantity_sets": {
+            "p0_reference_forcing": list(P0_REFERENCE_FORCING_QUANTITIES),
+            "p0_coupon_forcing": list(P0_COUPON_FORCING_QUANTITIES),
+            "p0_reference_resolution": list(P0_REFERENCE_RESOLUTION_QUANTITIES),
+            "p0_coupon_resolution": list(P0_COUPON_RESOLUTION_QUANTITIES),
+            "p0_reference_contrast": list(P0_REFERENCE_CONTRAST_QUANTITIES),
+            "p0_reference_contrast_applicability": P0_REFERENCE_CONTRAST_APPLICABILITY,
+            "candidate_component_forcing": list(CANDIDATE_COMPONENT_FORCING_QUANTITIES),
+            "candidate_boundary_forcing": list(CANDIDATE_BOUNDARY_FORCING_QUANTITIES),
+            "candidate_resolution": list(CANDIDATE_RESOLUTION_QUANTITIES),
+            "aggregate_area_definitions": dict(AGGREGATE_AREA_DEFINITIONS),
+            "actual_xi_definition": ACTUAL_XI_DEFINITION,
+            "artifact_point_estimate_coverage": ARTIFACT_POINT_ESTIMATE_COVERAGE,
+            "exactness_rule": ("the adjudicated set must EQUAL the required set; a nonempty "
+                               "intersection, a subset, a two-level ladder, a single-resolution "
+                               "gate and a similarly named surrogate are failures"),
+        },
+        "resolution_comparison_coordinate": {
+            "form": "value / S**n",
+            "exponents": dict(RESOLUTION_SCALING_EXPONENT),
+            "provenance": RESOLUTION_SCALING_PROVENANCE,
+        },
+        "p2b_assembly_authority_fields": list(P2B_ASSEMBLY_AUTHORITY_FIELDS),
+        "resume": {
+            "order": ("resolve -> derive the record path -> reuse an EXACT match with NO "
+                      "provider call -> fail closed on any difference -> only then call the "
+                      "guarded provider"),
+            "accounting": list(EXECUTION_COUNT_FIELDS),
+            "invariant": "n_provider_calls == n_newly_executed",
+            "erratum": "PE-74/PE-75",
+        },
+        "post_freeze_executor_ready": False,
+        "post_freeze_deferral": (
+            "P3/P4 orchestration still derives its universe from the planning templates; the "
+            "approved instantiated-matrix loader has not passed exact-head review and P3/P4 are "
+            "hard-refused independently of the solving allowlist (erratum PE-76)"),
     }
 
 
@@ -3680,6 +3750,9 @@ def preflight_status():
         "input_file_sha256": {f: _sha_file(f) for f in INPUT_FILES},
         "stage_b_authorised": False,
         "paper_4_authorised": False,
+        "post_freeze_executor_ready": False,
+        "authorised_solving_phases": [],
+        "authorised_assembly_phases": [],
         "card_box_5": "OPEN",
         "card_box_6": "closed on its existing mathematical result",
     }
