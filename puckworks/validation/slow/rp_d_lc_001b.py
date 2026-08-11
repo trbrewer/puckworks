@@ -664,6 +664,30 @@ def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, rec
                         provider, backend, "TEST_ONLY")
 
 
+#: The exact keys ``--mode plan`` prints. Kept OUT of the thin-CLI pragma and asserted by test:
+#: the superseded C4 form named ``planned_pressure_plane_diagnostics``, a key that never existed
+#: in the matrix, so the documented command raised KeyError and nothing caught it.
+PLAN_SUMMARY_KEYS = ("n_rows", "planned_normal_solves", "planned_fixed_step_audits",
+                     "planned_pressure_plane_diagnostic_rows", "planned_solver_invocations",
+                     "same_field_node_offset_summaries",
+                     "provider_calls_fresh_full_pre_freeze_run",
+                     "provider_calls_on_exact_resume", "p3_p4_planning_template_rows",
+                     "post_freeze_executor_ready", "solves_executed")
+
+
+def plan_summary(matrix):
+    """The machine-derived plan summary. Every key is read from the matrix, so a key that does
+    not exist there fails here rather than only at the terminal."""
+    missing = [k for k in PLAN_SUMMARY_KEYS if k not in matrix]
+    if missing:
+        raise KeyError("the execution matrix carries no %r" % (missing,))
+    out = {"mode": "plan"}
+    out.update({k: matrix[k] for k in PLAN_SUMMARY_KEYS})
+    out["authorised_solving_phases"] = list(AUTHORISED_SOLVING_PHASES)
+    out["authorised_assembly_phases"] = list(AUTHORISED_ASSEMBLY_PHASES)
+    return out
+
+
 def main(argv=None):                                             # pragma: no cover - thin CLI
     ap = argparse.ArgumentParser(description="RP-D-LC-001b driver (PRE-EXECUTION: refuses)")
     ap.add_argument("--mode", required=True, choices=list(MODES))
@@ -681,12 +705,7 @@ def main(argv=None):                                             # pragma: no co
         print("REFUSED: %s" % exc)
         return 2
     if a.mode == "plan":
-        print(json.dumps({"mode": "plan", "n_rows": res["n_rows"],
-                          "planned_normal_solves": res["planned_normal_solves"],
-                          "planned_fixed_step_audits": res["planned_fixed_step_audits"],
-                          "planned_pressure_plane_diagnostics":
-                              res["planned_pressure_plane_diagnostics"],
-                          "solves_executed": res["solves_executed"]}, indent=2))
+        print(json.dumps(plan_summary(res), indent=2))
         return 0
     if a.mode in ASSEMBLY_MODES:
         print(json.dumps({"mode": a.mode, "phase_kind": res.get("phase_kind"),

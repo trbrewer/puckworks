@@ -7,7 +7,7 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C5`** (see PE-60 … PE-76). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C5`** (see PE-60 … PE-77). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
 a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) →
 **C3** (`39533ad`) → **C4** (`e455c67`) → **C5**. Where earlier text conflicts with the effective
@@ -1254,3 +1254,22 @@ The exponent is `0` for every dimensionless quantity, so **no previously frozen 
 comparison changes**, and nothing here is fitted or tunable: each exponent follows from the
 already-frozen forcing law and the already-frozen geometric similarity. This remains a
 **two-resolution consistency test**, not a convergence-order estimate.
+
+
+## PE-77 — the documented `--mode plan` command raised `KeyError`
+
+Found by RUNNING the documented verification command at the C5 head, not by reading it.
+
+`main()` printed `res["planned_pressure_plane_diagnostics"]` — a key the execution matrix has
+**never** carried; the matrix key is `planned_pressure_plane_diagnostic_rows`. The whole CLI body
+sat under `# pragma: no cover - thin CLI`, so no test ever executed the line and the documented
+command was broken from C4 onward.
+
+Corrected by moving the summary out of the pragma into a covered `plan_summary(matrix)` that
+reads every key from the matrix and raises on a key the matrix does not carry, with a regression
+that calls it. The summary now also reports `planned_solver_invocations`, the same-field
+node-offset summaries, the fresh-run and exact-resume provider-call counts, the P3/P4 template
+row count, `post_freeze_executor_ready` and both authorization allowlists.
+
+This is a reader-facing surface defect, not a gate defect: no scientific value, tolerance, count
+or authorization changes.

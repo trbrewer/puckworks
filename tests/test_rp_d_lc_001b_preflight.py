@@ -4295,3 +4295,21 @@ def test_observed_provider_calls_equal_newly_executed_rows(resumable_p0):
     m = vf.execution_matrix()
     p0_rows = [r for r in m["rows"] if r["phase"] == "P0"]
     assert ec["n_newly_executed"] == len(p0_rows)      # a fresh full P0 run
+
+
+def test_the_documented_plan_command_actually_runs():
+    """A defect found by RUNNING the documented `--mode plan` command at the C5 head: the C4 CLI
+    read `planned_pressure_plane_diagnostics`, a key the matrix never carried, and the whole
+    body sat under `pragma: no cover`. The summary is now a covered function."""
+    summary = drv.plan_summary(vf.execution_matrix())
+    assert summary["mode"] == "plan"
+    for k in drv.PLAN_SUMMARY_KEYS:
+        assert k in summary, k
+    assert summary["solves_executed"] == 0
+    assert summary["post_freeze_executor_ready"] is False
+    assert summary["authorised_solving_phases"] == []
+    assert summary["authorised_assembly_phases"] == []
+    assert summary["planned_solver_invocations"] == (summary["planned_normal_solves"]
+                                                     + summary["planned_fixed_step_audits"])
+    with pytest.raises(KeyError):
+        drv.plan_summary({"n_rows": 1})
