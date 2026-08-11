@@ -2515,6 +2515,54 @@ def _reduced(value, g):
     return _finite(value, "value") / _finite(g, "g")
 
 
+def _carry_sources(sample):
+    """The fields a resolution gate needs from a derived sample, lineage included (PE-85)."""
+    out = {"value": sample["value"], "case_id": sample["case_id"],
+           "record_sha256": sample["record_sha256"]}
+    for k in SAMPLE_SOURCE_FIELDS:
+        if k in sample:
+            out[k] = list(sample[k])
+    for k in ("area_case_id", "area_record_sha256", "quantity_definition"):
+        if k in sample:
+            out[k] = sample[k]
+    return out
+
+
+def _sample_sources(row):
+    """The complete ordered lineage of one sample, tolerating a pre-C6 single-source row."""
+    ids = row.get("source_case_ids") or [row["case_id"]]
+    hashes = row.get("source_record_sha256") or [row["record_sha256"]]
+    roles = row.get("source_roles") or ["primary"]
+    return list(zip(roles, ids, hashes))
+
+
+def _per_level_sources(rows):
+    out = {}
+    for r in sorted(rows, key=lambda x: str(x.get("forcing_level"))):
+        out[r["forcing_level"]] = [
+            {"role": role, "case_id": cid, "record_sha256": h}
+            for role, cid, h in _sample_sources(r)]
+    return out
+
+
+def _union_source_ids(rows):
+    ids = []
+    for r in rows:
+        for _role, cid, _h in _sample_sources(r):
+            if cid not in ids:
+                ids.append(cid)
+    return assert_flat_id_list(sorted(ids), "gate source case ids")
+
+
+def _union_source_hashes(rows):
+    hs = []
+    for r in rows:
+        for _role, _cid, h in _sample_sources(r):
+            if h not in hs:
+                hs.append(h)
+    return assert_flat_hash_list(sorted(hs), "gate source hashes")
+
+
 def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scale=None,
                                tol=TOL_LINEARITY_REL, zero_tol=None,
                                forcing_independent=False):
@@ -2545,6 +2593,14 @@ def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scal
         "case_ids": assert_flat_id_list([r["case_id"] for r in rows], "forcing gate case_ids"),
         "record_sha256": assert_flat_hash_list([r["record_sha256"] for r in rows],
                                                "forcing gate record hashes"),
+        # erratum PE-85: the COMPLETE lineage — every record behind every level, unioned, plus
+        # the per-level breakdown. `case_ids` above remains the convenience primary set.
+        "per_level_sources": _per_level_sources(rows),
+        "source_case_ids": _union_source_ids(rows),
+        "source_record_sha256": _union_source_hashes(rows),
+        "source_roles": sorted({role for r in rows for role in r.get("source_roles", [])}),
+        "quantity_definition": next((r["quantity_definition"] for r in rows
+                                     if r.get("quantity_definition")), None),
         "reduced": None, "spread": None, "max_abs": None, "range": None,
         "status": "INCOMPLETE", "pass": None, "reason": None,
     }
@@ -2762,6 +2818,17 @@ def resolution_consistency_gate(quantity, coarse, fine, bridge=None):
                                         "resolution gate case_ids"),
         "record_sha256": assert_flat_hash_list([coarse["record_sha256"], fine["record_sha256"]],
                                                "resolution gate record hashes"),
+        # erratum PE-85: the COMPLETE lineage at BOTH resolutions — open and blocked for R,
+        # coupon and area for actual Xi — in the generic schema.
+        "per_resolution_sources": {
+            "S%d" % S_COARSE: [{"role": role, "case_id": cid, "record_sha256": h}
+                               for role, cid, h in _sample_sources(coarse)],
+            "S%d" % S_FINE: [{"role": role, "case_id": cid, "record_sha256": h}
+                             for role, cid, h in _sample_sources(fine)]},
+        "source_case_ids": _union_source_ids([coarse, fine]),
+        "source_record_sha256": _union_source_hashes([coarse, fine]),
+        "source_roles": sorted({role for r in (coarse, fine)
+                                for role in (r.get("source_roles") or ["primary"])}),
         "kind": "TWO_RESOLUTION_CONSISTENCY_TEST_NOT_A_CONVERGENCE_ORDER_ESTIMATE",
     }
     if denom == 0.0:
@@ -5917,7 +5984,39 @@ def _atomic_write_json(path, doc):
     return path, "WRITTEN"
 
 
-def _samples(records, kind, key, state, quantity, extractor):
+#: The canonical MULTI-SOURCE fields every derived sample carries (erratum PE-85).
+#:
+#: C5 assumed one derived sample had one source, and put a second source in ad-hoc keys outside
+#: the generic schema — ``paired_blocked_*`` for ``R_identical``, ``area_*`` for actual ``Xi`` —
+#: which the gates and the source-to-derived mapping never read. Downstream code must not have to
+#: know that such a field exists.
+SAMPLE_SOURCE_FIELDS = ("source_case_ids", "source_record_sha256", "source_roles")
+
+
+def _sample(value, level, g, S, sources, definition=None, **extra):
+    """One derived sample with its COMPLETE lineage.
+
+    ``sources`` is an ordered sequence of ``(role, record)`` pairs. A direct single-record
+    quantity carries one; ``R_identical`` carries ``open`` and ``blocked``; actual ``Xi`` carries
+    ``bridge_coupon`` and ``candidate_blocked_area``.
+    """
+    ids = [r["case_id"] for _role, r in sources]
+    hashes = [record_hash(r) for _role, r in sources]
+    row = {
+        "forcing_level": level, "g": g, "value": value, "S": S,
+        "source_case_ids": assert_flat_id_list(ids, "sample source case ids"),
+        "source_record_sha256": assert_flat_hash_list(hashes, "sample source hashes"),
+        "source_roles": [role for role, _r in sources],
+        # a CONVENIENCE primary, never the complete lineage
+        "case_id": ids[0], "record_sha256": hashes[0],
+    }
+    if definition:
+        row["quantity_definition"] = definition
+    row.update(extra)
+    return row
+
+
+def _samples(records, kind, key, state, quantity, extractor, role=None):
     """NORMAL records only, grouped into a forcing ladder for one fixed configuration."""
     out = []
     for r in sorted(_normal_only(records, kind, key).values(), key=lambda x: x["case_id"]):
@@ -5926,10 +6025,8 @@ def _samples(records, kind, key, state, quantity, extractor):
         v = extractor(r)
         if v is None:
             continue
-        out.append({"forcing_level": r["row"]["forcing_level"],
-                    "g": row_forcing(r["row"]), "value": v,
-                    "case_id": r["case_id"], "record_sha256": record_hash(r),
-                    "S": r["row"]["S"]})
+        out.append(_sample(v, r["row"]["forcing_level"], row_forcing(r["row"]), r["row"]["S"],
+                           [(role or kind, r)]))
     return out
 
 
@@ -6076,8 +6173,7 @@ def p0_aggregate_science(records):
         for s in _phase_samples(records, "reference_blocked_ladder", "reference_blocked", q,
                                 ref_extract[q]):
             if s["forcing_level"] == "central":
-                by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
-                                "record_sha256": s["record_sha256"]}
+                by_S[s["S"]] = _carry_sources(s)
         _res_gate(q, by_S, ref_res_gates)
     ref_resolution = exact_set_verdict(ref_res_gates, P0_REFERENCE_RESOLUTION_QUANTITIES,
                                        resolutions=(), family="reference_blocked",
@@ -6090,8 +6186,7 @@ def p0_aggregate_science(records):
                 by_S = {}
                 for s in _coupon_samples(records, level, orient, coupon_extract[q]):
                     if s["forcing_level"] == "central":
-                        by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
-                                        "record_sha256": s["record_sha256"]}
+                        by_S[s["S"]] = _carry_sources(s)
                 _res_gate(q, by_S, gates)
             coupon_resolution["%s.%s" % (level, orient)] = exact_set_verdict(
                 gates, P0_COUPON_RESOLUTION_QUANTITIES, resolutions=(),
@@ -6265,12 +6360,11 @@ def _identical_R_samples(records, key, S):
             continue
         if Cb == 0.0:                                             # pragma: no cover - guarded
             continue
-        out.append({"forcing_level": level, "g": row_forcing(states["open"]["row"]),
-                    "value": Co / Cb, "S": S,
-                    "case_id": states["open"]["case_id"],
-                    "record_sha256": record_hash(states["open"]),
-                    "paired_blocked_case_id": states["blocked"]["case_id"],
-                    "paired_blocked_record_sha256": record_hash(states["blocked"])})
+        # erratum PE-85: R = C_open / C_blocked, so BOTH records are its lineage, in the
+        # generic schema rather than in an ad-hoc paired_blocked_* key.
+        out.append(_sample(Co / Cb, level, row_forcing(states["open"]["row"]), S,
+                           [("open", states["open"]), ("blocked", states["blocked"])],
+                           definition="R_identical = C_open / C_blocked"))
     return out
 
 
@@ -6294,14 +6388,14 @@ def actual_xi_samples(records, key):
         if gb is None or k2 not in areas:
             continue
         inv, arec = areas[k2]
-        out.append({
-            "forcing_level": k2[1], "g": row_forcing(r["row"]), "S": k2[0],
-            "value": float(gb) * inv,
-            "G_bridge_coupon": float(gb), "A_series_inverse": inv,
-            "case_id": r["case_id"], "record_sha256": record_hash(r),
-            "area_case_id": arec["case_id"], "area_record_sha256": record_hash(arec),
-            "definition": ACTUAL_XI_DEFINITION,
-        })
+        # erratum PE-86: Xi = G_bridge * (1/A1 + 1/A2), so the coupon AND the area record are
+        # its lineage, in the generic schema rather than in an ad-hoc area_* key.
+        out.append(_sample(
+            float(gb) * inv, k2[1], row_forcing(r["row"]), k2[0],
+            [("bridge_coupon", r), ("candidate_blocked_area", arec)],
+            definition=ACTUAL_XI_DEFINITION,
+            G_bridge_coupon=float(gb), A_series_inverse=inv,
+            area_case_id=arec["case_id"], area_record_sha256=record_hash(arec)))
     return out
 
 
@@ -6488,8 +6582,9 @@ def candidate_resolution_gates(records, key, bridge):
                 continue
             v = extractor(r)
             if v is not None:
-                got[r["row"]["S"]] = {"value": v, "case_id": r["case_id"],
-                                      "record_sha256": record_hash(r)}
+                got[r["row"]["S"]] = _carry_sources(
+                    _sample(v, r["row"]["forcing_level"], row_forcing(r["row"]),
+                            r["row"]["S"], [(kind, r)]))
         return got
 
     for q in ("c_field", "A1", "A2", "A_field", "A_series_inverse"):
@@ -6511,23 +6606,20 @@ def candidate_resolution_gates(records, key, bridge):
     for S in SCIENTIFIC_RESOLUTIONS:
         for s in _identical_R_samples(records, key, S):
             if s["forcing_level"] == "central":
-                r_by_S[S] = {"value": s["value"], "case_id": s["case_id"],
-                             "record_sha256": s["record_sha256"]}
+                r_by_S[S] = _carry_sources(s)      # PE-85: open AND blocked
     add("R_identical", r_by_S,
         {"artifact_point_estimate_coverage": ARTIFACT_POINT_ESTIMATE_COVERAGE})
     xi_by_S = {}
     for s in actual_xi_samples(records, key):
         if s["forcing_level"] == "central":
-            xi_by_S[s["S"]] = {"value": s["value"], "case_id": s["case_id"],
-                               "record_sha256": s["record_sha256"],
-                               "area_case_id": s["area_case_id"],
-                               "area_record_sha256": s["area_record_sha256"]}
+            xi_by_S[s["S"]] = _carry_sources(s)    # PE-86: coupon AND area
     if S_COARSE in xi_by_S and S_FINE in xi_by_S:
         g = resolution_consistency_gate("Xi_actual", xi_by_S[S_COARSE], xi_by_S[S_FINE], bridge)
         g["quantity_definition"] = ACTUAL_XI_DEFINITION
-        g["area_case_ids"] = [xi_by_S[S_COARSE]["area_case_id"], xi_by_S[S_FINE]["area_case_id"]]
+        # retained under their C5 names AND now present in the generic multi-source schema
+        g["area_case_ids"] = [xi_by_S[S]["area_case_id"] for S in (S_COARSE, S_FINE)]
         g["area_record_sha256"] = assert_flat_hash_list(
-            [xi_by_S[S_COARSE]["area_record_sha256"], xi_by_S[S_FINE]["area_record_sha256"]],
+            [xi_by_S[S]["area_record_sha256"] for S in (S_COARSE, S_FINE)],
             "Xi area record hashes")
         gates.append(g)
     return resolution_consistency_verdict(gates, CANDIDATE_RESOLUTION_QUANTITIES,
@@ -6682,9 +6774,22 @@ def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forc
                   [c.get("blocked_mirror_audit_record_sha256")
                    for c in u_xi["combinations"].values()])
     c_h = _cited(list(u_c["normal_record_sha256"]), list(u_c["audit_record_sha256"]))
-    forcing_h = _cited([h for g in forcing["gates"] for h in g["record_sha256"]])
-    res_h = _cited([h for g in resolution["gates"] for h in g["record_sha256"]]
-                   + [h for g in resolution["gates"] for h in (g.get("area_record_sha256") or [])])
+    # erratum PE-85/PE-86: the mapping is built from the COMPLETE multi-source gate fields, so
+    # a gate on R carries its blocked partner and a gate on actual Xi carries its area record.
+    forcing_h = _cited([h for g in forcing["gates"]
+                        for h in (g.get("source_record_sha256") or g["record_sha256"])])
+    res_h = _cited([h for g in resolution["gates"]
+                    for h in (g.get("source_record_sha256") or g["record_sha256"])])
+    forcing_by_quantity = {g["quantity"]: {
+        "source_case_ids": list(g.get("source_case_ids") or g["case_ids"]),
+        "source_record_sha256": list(g.get("source_record_sha256") or g["record_sha256"]),
+        "source_roles": list(g.get("source_roles") or []),
+    } for g in forcing["gates"]}
+    resolution_by_quantity = {g["quantity"]: {
+        "source_case_ids": list(g.get("source_case_ids") or g["case_ids"]),
+        "source_record_sha256": list(g.get("source_record_sha256") or g["record_sha256"]),
+        "source_roles": list(g.get("source_roles") or []),
+    } for g in resolution["gates"]}
     mapping = {
         "artifact_R": {"record_sha256": art_h,
                        "derived": ["R_point", "u_fixed_step_R", "u_pressure_plane_R",
@@ -6696,8 +6801,10 @@ def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forc
         "actual_Xi": {"record_sha256": xi_h,
                       "derived": ["Xi_normal", "Xi_audit", "u_fixed_step_Xi", "Xi_select",
                                   "Xi_lower", "Xi_upper", "category"]},
-        "forcing_gates": {"record_sha256": forcing_h, "derived": ["forcing_invariance"]},
-        "resolution_gates": {"record_sha256": res_h, "derived": ["resolution_consistency"]},
+        "forcing_gates": {"record_sha256": forcing_h, "derived": ["forcing_invariance"],
+                          "by_quantity": forcing_by_quantity},
+        "resolution_gates": {"record_sha256": res_h, "derived": ["resolution_consistency"],
+                             "by_quantity": resolution_by_quantity},
         "node_offset_summaries": {
             "record_sha256": [], "derived": ["u_pressure_plane_R"],
             "note": ("same-field summaries are bound through their OWNING record hashes, which "
@@ -6705,6 +6812,13 @@ def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forc
     }
     unbound = sorted(set(art_h + press_h + xi_h + c_h + forcing_h + res_h) - set(cs_h))
     common = {h for h in unbound}
+    # erratum PE-85/PE-86: a record may be present in candidate_specific_record_sha256 and still
+    # be MISSING from a particular source-to-derived mapping. Both conditions are checked, so a
+    # broad evidence set cannot mask a defective detailed mapping.
+    incomplete_maps = sorted(
+        q for q, m in list(forcing_by_quantity.items()) + list(resolution_by_quantity.items())
+        if len(m["source_record_sha256"]) != len(m["source_case_ids"])
+        or not m["source_record_sha256"])
     return {
         "candidate_id": "w%d_kz%d" % key,
         "by_role": by_role,
@@ -6714,7 +6828,11 @@ def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forc
             {"reference_blocked_ladder", "axial_coupon"}) if common else [],
         "source_to_derived_quantity": mapping,
         "unbound_cited_hashes": unbound,
-        "complete": bool(not unbound),
+        "incomplete_source_mappings": incomplete_maps,
+        "multi_source_quantities": sorted(
+            q for q, m in list(forcing_by_quantity.items()) + list(resolution_by_quantity.items())
+            if len(m["source_roles"]) > 1),
+        "complete": bool(not unbound and not incomplete_maps),
         "rule": ("every record used to decide this candidate is bound, audits included; common "
                  "reference evidence lives once at top level and is never duplicated here "
                  "(erratum PE-68)"),

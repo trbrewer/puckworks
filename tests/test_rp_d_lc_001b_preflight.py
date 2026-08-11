@@ -3581,7 +3581,11 @@ def test_actual_xi_is_built_from_matched_g_bridge_and_areas(synthetic_prefreeze)
     for s in xs:
         assert s["value"] == pytest.approx(s["G_bridge_coupon"] * s["A_series_inverse"])
         assert s["case_id"] != s["area_case_id"]
-        assert s["definition"].startswith("Xi = G_bridge_coupon * (1/A1 + 1/A2)")
+        assert s["quantity_definition"].startswith("Xi = G_bridge_coupon * (1/A1 + 1/A2)")
+        # erratum PE-86: BOTH sources in the generic multi-source schema
+        assert s["source_roles"] == ["bridge_coupon", "candidate_blocked_area"]
+        assert s["source_case_ids"] == [s["case_id"], s["area_case_id"]]
+        assert len(s["source_record_sha256"]) == 2
     rg = vf.candidate_resolution_gates(recs, (5, 3), {"w": 5, "kz": 3})
     xi = next(g for g in rg["gates"] if g["quantity"] == "Xi_actual")
     assert len(xi["area_case_ids"]) == 2 and len(xi["area_record_sha256"]) == 2
@@ -4725,3 +4729,110 @@ def test_an_exact_p2b_endpoint_resumes_only_after_full_recomputation(synthetic_p
     assert again["terminal_status"] == man["terminal_status"]
     assert vf.validate_p2b_manifest(d, require_production=False)["selection_status"] == man[
         "selection_status"]
+
+
+# ---- C. complete source-to-derived gate lineage (errata PE-85, PE-86) ------------------------
+
+def test_the_r_forcing_gate_retains_both_open_and_blocked_sources(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    key = (5, 3)
+    fg = vf.candidate_forcing_gates(recs, key)
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        g = next(x for x in fg["boundary"]["gates"] if x["quantity"] == "R_identical@S%d" % S)
+        assert sorted(g["source_roles"]) == ["blocked", "open"]
+        assert g["quantity_definition"] == "R_identical = C_open / C_blocked"
+        # three open and three blocked records at this resolution
+        assert len(g["source_case_ids"]) == 6
+        assert len(g["source_record_sha256"]) == 6
+        assert sorted(g["per_level_sources"]) == sorted(vf.FORCING_LEVELS)
+        for lv, srcs in g["per_level_sources"].items():
+            assert [x["role"] for x in srcs] == ["open", "blocked"], lv
+            assert len({x["case_id"] for x in srcs}) == 2
+        # the convenience primary set is strictly smaller than the complete lineage
+        assert set(g["case_ids"]) < set(g["source_case_ids"])
+
+
+def test_the_actual_xi_forcing_gate_retains_coupon_and_area_sources(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    fg = vf.candidate_forcing_gates(recs, (5, 3))
+    for S in vf.SCIENTIFIC_RESOLUTIONS:
+        g = next(x for x in fg["boundary"]["gates"] if x["quantity"] == "Xi_actual@S%d" % S)
+        assert sorted(g["source_roles"]) == ["bridge_coupon", "candidate_blocked_area"]
+        assert len(g["source_case_ids"]) == 6         # coupon + area at every level
+        for lv, srcs in g["per_level_sources"].items():
+            assert [x["role"] for x in srcs] == ["bridge_coupon",
+                                                 "candidate_blocked_area"], lv
+
+
+@pytest.mark.parametrize("quantity,roles", [
+    ("R_identical", ["blocked", "open"]),
+    ("Xi_actual", ["bridge_coupon", "candidate_blocked_area"]),
+])
+def test_the_resolution_gates_retain_both_sources_at_both_resolutions(synthetic_prefreeze,
+                                                                     quantity, roles):
+    d, auth, out, recs = synthetic_prefreeze
+    rg = vf.candidate_resolution_gates(recs, (5, 3), {"w": 5, "kz": 3})
+    g = next(x for x in rg["gates"] if x["quantity"] == quantity)
+    assert sorted(g["source_roles"]) == roles
+    assert len(g["source_case_ids"]) == 4          # two sources at S=2 and at S=3
+    for key in ("S%d" % vf.S_COARSE, "S%d" % vf.S_FINE):
+        assert sorted(x["role"] for x in g["per_resolution_sources"][key]) == roles
+    # downstream code reads the GENERIC schema, never an ad-hoc paired_blocked_*/area_* key
+    src = inspect.getsource(vf.candidate_evidence_binding)
+    assert "paired_blocked_record_sha256" not in src
+    assert "source_record_sha256" in src
+
+
+def test_the_candidate_mapping_is_built_from_the_complete_gate_fields(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    entry = next(v for v in ledger["candidates"].values() if v["eligible"])
+    ev = entry["evidence"]
+    fmap = ev["source_to_derived_quantity"]["forcing_gates"]["by_quantity"]
+    rmap = ev["source_to_derived_quantity"]["resolution_gates"]["by_quantity"]
+    assert sorted(fmap["R_identical@S2"]["source_roles"]) == ["blocked", "open"]
+    assert sorted(rmap["Xi_actual"]["source_roles"]) == ["bridge_coupon",
+                                                         "candidate_blocked_area"]
+    assert "R_identical@S2" in ev["multi_source_quantities"]
+    assert "Xi_actual" in ev["multi_source_quantities"]
+    assert ev["incomplete_source_mappings"] == []
+    assert ev["complete"] is True
+    # every mapped record really is one of the records the quantity was recomputed from
+    fg = vf.candidate_forcing_gates(
+        {c["case_id"]: c for c in []} or vf.validate_p2b_manifest(
+            d, require_production=False)["_predecessor_records"],
+        (entry["w"], entry["kz"]))
+    live = next(x for x in fg["boundary"]["gates"] if x["quantity"] == "R_identical@S2")
+    assert fmap["R_identical@S2"]["source_record_sha256"] == list(live["source_record_sha256"])
+
+
+def test_a_broad_evidence_set_cannot_mask_a_defective_detailed_mapping(synthetic_p2b):
+    """Erratum PE-85: presence in candidate_specific_record_sha256 is a DIFFERENT question
+    from presence in a particular source-to-derived mapping."""
+    d, auth, man = synthetic_p2b
+    ledger = json.loads((d / "candidate_ledger.json").read_text())
+    entry = next(v for v in ledger["candidates"].values() if v["eligible"])
+    ev = entry["evidence"]
+    fmap = ev["source_to_derived_quantity"]["forcing_gates"]["by_quantity"]
+    blocked = [h for h in fmap["R_identical@S2"]["source_record_sha256"]]
+    # the blocked partner IS in the broad set...
+    assert set(blocked) <= set(ev["candidate_specific_record_sha256"])
+    # ...and dropping it from the detailed mapping is still detectable
+    broken = {q: dict(m) for q, m in fmap.items()}
+    broken["R_identical@S2"] = dict(broken["R_identical@S2"],
+                                    source_record_sha256=blocked[:1],
+                                    source_case_ids=fmap["R_identical@S2"]["source_case_ids"])
+    assert (len(broken["R_identical@S2"]["source_record_sha256"])
+            != len(broken["R_identical@S2"]["source_case_ids"]))
+
+
+def test_deleting_one_partner_from_the_mapping_fails_p2b_validation(synthetic_p2b, tmp_path):
+    d, auth, man = synthetic_p2b
+
+    def mutate(work):
+        _edit_ledger(work, lambda L: L["candidates"][_first_eligible(L)]["evidence"][
+            "source_to_derived_quantity"]["forcing_gates"]["by_quantity"].pop("R_identical@S2"))
+    work = _tampered(d, tmp_path, "drop_partner", mutate)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_p2b_manifest(work, require_production=False)
+    assert "recompute" in str(exc.value)
