@@ -683,6 +683,12 @@ def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, rec
 #: in the matrix, so the documented command raised KeyError and nothing caught it.
 PLAN_SUMMARY_KEYS = ("n_rows", "planned_normal_solves", "planned_fixed_step_audits",
                      "planned_pressure_plane_diagnostic_rows", "planned_solver_invocations",
+                     # erratum PE-78: the role-resolved counts are reported SEPARATELY, so a
+                     # non-adjudicative diagnostic is never read as a decision-bearing solve.
+                     "decision_bearing_rows", "decision_bearing_normal_solves",
+                     "decision_bearing_fixed_step_audits", "tau_diagnostic_rows",
+                     "execution_assurance_rows", "mandatory_decision_bearing_rows",
+                     "mandatory_minimum", "adaptive_maximum", "refused_after_earliest_stop",
                      "same_field_node_offset_summaries",
                      "provider_calls_fresh_full_pre_freeze_run",
                      "provider_calls_on_exact_resume", "p3_p4_planning_template_rows",

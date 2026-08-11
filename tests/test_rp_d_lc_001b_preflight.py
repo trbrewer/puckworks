@@ -4341,6 +4341,14 @@ def test_the_documented_plan_command_actually_runs():
     assert summary["authorised_assembly_phases"] == []
     assert summary["planned_solver_invocations"] == (summary["planned_normal_solves"]
                                                      + summary["planned_fixed_step_audits"])
+    # erratum PE-78: the role-resolved counts are reported SEPARATELY
+    assert summary["decision_bearing_rows"] == 698
+    assert summary["tau_diagnostic_rows"] == 2
+    assert summary["execution_assurance_rows"] == 3
+    assert (summary["decision_bearing_rows"] + summary["tau_diagnostic_rows"]
+            + summary["execution_assurance_rows"] == summary["n_rows"])
+    assert (summary["mandatory_minimum"] + summary["refused_after_earliest_stop"]
+            + summary["tau_diagnostic_rows"] == summary["n_rows"])
     with pytest.raises(KeyError):
         drv.plan_summary({"n_rows": 1})
 
@@ -4945,3 +4953,32 @@ def test_no_frozen_tolerance_or_safety_factor_changed():
     assert vf.RESOLUTION_SCALING_EXPONENT["Q_reference_blocked"] == 1
     assert vf.RESOLUTION_SCALING_EXPONENT["dP_reference_blocked"] == -2
     assert vf.RESOLUTION_SCALING_EXPONENT["Xi_actual"] == 0
+
+
+def test_a_tau_diagnostic_failure_does_not_block_the_whole_pipeline(tmp_path_factory):
+    """The nonblocking rule holds end to end, not only at P0 (erratum PE-79)."""
+    d = tmp_path_factory.mktemp("tau_pipeline")
+    auth = vf.execution_authority("P0", require_clean=False)
+    prov = _tau_breaking_provider("unconverged")
+    mans, recs, out = {}, {}, {}
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        out[phase] = drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans),
+                                            records=dict(recs))
+        doc = vf.validate_phase_manifest(phase, d, authority=auth,
+                                         predecessor_records=dict(recs),
+                                         require_production=False)
+        recs.update(doc.pop("_records", {}))
+        mans[phase] = doc
+        assert out[phase]["terminal_status"] == "PHASE_COMPLETE", phase
+    assert out["P0"]["counts"]["diagnostic_failed"] == 2
+    assert out["P0"]["counts"]["failed"] == 0
+    man = vf._test_only_assemble_p2b_from_runs(d, vf.execution_authority("P2b",
+                                                                        require_clean=False))
+    assert man["selection_status"] == "SELECTED"
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    doc = vf.validate_p2b_manifest(d, require_production=False)
+    assert doc["_expected_payload"]["scientific_decision_payload_sha256"] == man[
+        "scientific_decision_payload_sha256"]
+    # and the failed tau records never reached the decision
+    assert not [r for r in doc["_predecessor_records"].values()
+                if r.get("kind") == "tau_cross_check"]
