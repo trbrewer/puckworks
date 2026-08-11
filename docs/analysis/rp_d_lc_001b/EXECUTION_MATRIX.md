@@ -1,7 +1,7 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C3 (supersedes bbf2304, 2cf0b63 and c666707)
+VERSION PREFLIGHT-C4 (supersedes bbf2304, 2cf0b63, c666707 and 39533ad)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
 ```
@@ -166,4 +166,27 @@ phase universe  =  completed  ⊎  failed  ⊎  refused
 Adaptively ineligible rows remain **members** of the universe and are refused with a frozen
 reason; the superseded executor recorded them as refused while the validator built its universe
 from the eligible subset and then rejected them as extra.
+
+---
+
+## 11. CORRECTION `PREFLIGHT-C4` — the diagnostic rows are gone
+
+Erratum PE-41: the 144 `pressure_plane_diagnostic` rows C3 scheduled each went through the result
+provider, for offsets that are **re-reads of a field already computed**. They are removed; the
+summary is extracted inside the case that produced the field. Erratum PE-42: the per-offset
+quantity is a **conductance**, and `R_offset_j = C_open_offset_j / C_blocked_offset_j` is formed
+only after an exact open/blocked pairing.
+
+| class | rows |
+|---|---|
+| planned **normal solves** | **383** |
+| planned **fixed-step audits** | **320** |
+| planned **solver invocations** | **703** |
+| node-offset summaries | 0 rows, 0 provider calls |
+| **adaptive maximum** | **703** |
+| mandatory / refused / replicates | **112** / **591** / **3** |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+| **solves executed** | **0** |
+
+The C3 total of 847 is superseded and is retained only in `PREFLIGHT_ERRATA.md` PE-40.
 

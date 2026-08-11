@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C3), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C4), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,7 +10,7 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Three exact-head reviews have returned NOT APPROVED.** At `bbf2304` (C0 → C1) and again at
+> **Four exact-head reviews have returned NOT APPROVED.** At `bbf2304` (C0 → C1) and again at
 > `2cf0b63` (C1 → C2). The **common-mode-port apparatus was accepted in principle** at the first
 > review and is unchanged; twenty-one items of machinery were not, and are corrected append-only
 > under `PREFLIGHT-C1` and `PREFLIGHT-C2`. Every superseded clause, constant, matrix rule and
@@ -95,8 +95,8 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C3_EXECUTOR_AND_ASSEMBLER_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C3
+RP_D_LC_001B_PREFLIGHT_C4_INTEGRATION_AND_AUTHORITY_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C4
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()
