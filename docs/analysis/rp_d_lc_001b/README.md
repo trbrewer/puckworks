@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C5), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C6), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,20 +10,23 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Five exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
-> `39533ad` and `e455c67`. The **common-mode-port apparatus was accepted in principle** at the
+> **Six exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
+> `39533ad`, `e455c67` and `acb4f6a`. The **common-mode-port apparatus was accepted in principle** at the
 > first review and is unchanged; seventy-seven items of machinery were not, and are corrected
-> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C5`. Every superseded clause, constant, matrix
-> rule and generated hash — for all five generations — is in
+> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C6`. Every superseded clause, constant, matrix
+> rule and generated hash — for all six generations — is in
 > [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md). The precedence chain is
-> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23)**, and **§23 governs** wherever
-> any earlier text conflicts with it.
+> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24)**, and **§24 governs**
+> wherever any earlier text conflicts with it. **PE-66 is accepted and unchanged.**
 >
-> **C5** puts the audit-adjusted pressure upper bound on the decision path (C4 implemented it and
-> never called it), completes the P0 and candidate forcing and resolution quantity sets, corrects
-> `u_fixed_step_Xi` to the derived actual-`Ξ` discrepancy, binds every audit hash a selected
-> candidate's ledger cites, separates the production and TEST_ONLY P2b wrappers and validates
-> predecessors recursively, implements a true pre-solve resume, and **hard-refuses P3/P4**.
+> **C6** corrects only what C5 stated rather than implemented: the `tau_plus = 1.2` rows are
+> genuinely non-adjudicative and **nonblocking**, with their evidence separated from common
+> scientific truth and determinism assurance given a distinct role; P2b validation
+> **independently reconstructs the scientific endpoint** from the predecessor records, so
+> coordinated hash-consistent artifact edits fail; every derived forcing and resolution sample
+> retains its **complete multi-record lineage**; the artifact uncertainty applies the safety
+> factor **exactly once** to the full sum; and the pressure mean and maximum use their own
+> serialisation terms.
 > **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
 > `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
 > exact-head review is required before P0–P2b, and P3/P4 need a further correction and review of
@@ -100,8 +103,8 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C5_DECISION_PATH_AND_LINEAGE_CORRECTION_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C5
+RP_D_LC_001B_PREFLIGHT_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C6
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()

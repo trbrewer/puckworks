@@ -8,37 +8,40 @@ NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
 NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
-> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C5`**
+> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C6`**
 >
 > **ONE precedence chain, no exceptions:**
 >
 > ```
-> C0  ->  C1 (§19)  ->  C2 (§20)  ->  C3 (§21)  ->  C4 (§22)  ->  C5 (§23)
+> C0 -> C1 (§19) -> C2 (§20) -> C3 (§21) -> C4 (§22) -> C5 (§23) -> C6 (§24)
 > ```
 >
 > **Later always governs.** Wherever any earlier text — the frozen body §1–§18 or any earlier
-> effective section — conflicts with **§23**, **§23 is the effective protocol**. Where §23 is
-> silent, §22 governs; then §21, §20, §19, and the frozen body last.
+> effective section — conflicts with **§24**, **§24 is the effective protocol**. Where §24 is
+> silent, §23 governs; then §22, §21, §20, §19, and the frozen body last.
 >
-> Five exact-head reviews have returned NOT APPROVED. The most recent, at
-> `e455c678a2fdd511ce9a30f1d15164f73b9a4481` (tree `72eda81`), returned
-> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C5_DECISION_PATH_AND_LINEAGE_CORRECTION_REQUIRED`**.
+> Six exact-head reviews have returned NOT APPROVED. The most recent, at
+> `acb4f6a77c65378fcef7ed3d0a03af8620880bcb` (tree `4c53c4b`), returned
+> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_REQUIRED`**.
 > **The frozen text below is never rewritten.** `PREFLIGHT_ERRATA.md` records every superseded
-> clause, constant, matrix rule and generated hash, for all five generations, with the reason
-> each was unsafe.
+> clause, constant, matrix rule and generated hash, for all six generations, with the reason each
+> was unsafe.
 >
-> Superseded in whole or part by §23: **§8** (the zero-driver pressure verdict), **§9** (the
-> quantity sets the validity controls name), **§10** (the `Ξ` uncertainty), **§11** (candidate
-> evidence binding), **§12** (phase prerequisites and the post-freeze deferral), **§15** (control
-> wording), and every earlier effective section's quantity sets and counts. Unchanged and
-> reaffirmed: the question, the common-mode-port apparatus, the forcing law and ladders, the
-> `1e-3` artifact budget, `TOL_LINEARITY_REL = 1e-4`, `TOL_BRIDGE_LEAKAGE_REL = 1e-3`,
-> `TOL_LATERAL_DRIVER_REL = 1e-3`, the `0.10·K` reachable-set margin, the four-slot rule (one
-> below plus three inside), the Route-A observable contract, the claim ceiling, and the
+> **§23 is accepted in full, and PE-66 — the resolution comparison coordinate `value / S**n` —
+> is accepted WITHOUT CHANGE.** §24 corrects only what §23 stated rather than implemented:
+> diagnostic-only execution semantics, independent P2b scientific recomputation, exact
+> source-to-derived gate lineage, and exact uncertainty composition. It redesigns no apparatus,
+> similarity law, candidate family, scientific gate, four-slot rule or reachable-set admission.
+>
+> Unchanged and reaffirmed: the question, the common-mode-port apparatus, the forcing law and
+> ladders, the `1e-3` artifact budget, `TOL_LINEARITY_REL = 1e-4`,
+> `TOL_BRIDGE_LEAKAGE_REL = 1e-3`, `TOL_LATERAL_DRIVER_REL = 1e-3`,
+> `NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0`, the `0.10·K` reachable-set margin, the four-slot
+> rule (one below plus three inside), the Route-A observable contract, the claim ceiling, and the
 > immutability of RP-D-LC-001.
 >
 > **PRE-EXECUTION THROUGHOUT.** `AUTHORISED_SOLVING_PHASES = ()`,
-> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C5 head. No
+> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C6 head. No
 > 001b lattice-Boltzmann solve has run at any point in this lineage.
 
 Programme: `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md` (Stage A only).
@@ -1166,6 +1169,216 @@ independently reproduces that number — it is not preserved cosmetically.
 | **solves actually executed** | **0** |
 
 ## 23.12 Authorization state at the C5 head
+
+```
+AUTHORISED_SOLVING_PHASES   = ()
+AUTHORISED_ASSEMBLY_PHASES  = ()
+POST_FREEZE_EXECUTOR_READY  = False
+```
+
+P0, P1a, P1b, P2a, P2b, P3 and P4 all remain **unauthorized**. Another exact-head review is
+required before P0–P2b, and a further correction and review of the real pre-freeze artifacts is
+required before P3/P4. RP-D-LC-001 remains **immutable** and `INVALID_EXECUTION`, its cross-model
+question **unadjudicated, not negative**. RP-D-LC-001b has produced **no scientific result**.
+
+---
+
+# 24. EFFECTIVE PROTOCOL — CORRECTION `PREFLIGHT-C6`
+
+Appended, not substituted. **§24 governs wherever any earlier text conflicts with it.** Errata:
+`PREFLIGHT_ERRATA.md` PE-78 … PE-88.
+
+**§23 stands, and PE-66 is ACCEPTED AND UNCHANGED.** The resolution comparison coordinate is
+`value / S**n` with `Q` and the corresponding mass flux at `+1`, node-to-node `ΔP` at `-2`,
+conductances and conductance-like areas at `+3`, the inverse-area aggregate at `-3`, and `R`,
+`s`, `c` and actual `Ξ` at `0`. It is neither fitted nor tunable, and it is not reopened here.
+
+## 24.1 `tau_plus = 1.2` is genuinely non-adjudicative and NONBLOCKING (supersedes §23.5's label)
+
+PE-65 said the two rows may alter nothing. C5 recorded that and implemented none of it: the
+matrix emitted them `class = mandatory`, a tau failure terminated P0, and their records sat in
+`common_reference_evidence`.
+
+Each matrix row now carries one frozen **scientific role**:
+
+| role | adjudicative | enters aggregate truth | failure effect |
+|---|---|---|---|
+| `DECISION_BEARING` | yes | yes | `STOPS_THE_PHASE` |
+| `TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE` | **no** | **no** | `RECORD_DIAGNOSTIC_AND_CONTINUE` |
+| `EXECUTION_ASSURANCE_REPLICATE` | yes | no | `STOPS_THE_PHASE` (**unchanged**) |
+
+The tau rows are `class = diagnostic_only` with the explicit non-adjudicative role. They remain
+planned solver invocations and remain visible in the matrix; they are **not** decision-bearing.
+
+Their outputs **may** report completion, convergence status, Mach, conservation, the compact
+observables and qualitative comparison metadata. Their outputs **may not** enter P0 aggregate
+truth, reference conductance, outlet share, contrast, area, any forcing or resolution gate, any
+uncertainty, candidate admission, candidate evidence, `common_reference_evidence`, P2b, or any
+disposition.
+
+tau records live in a separate top-level `diagnostic_evidence["tau_plus_1p2"]` carrying an
+explicit non-adjudicative declaration. They never reach the validated record set, so nothing
+downstream can consume them: `p0_aggregate_science` hashes identically whether or not they are
+offered to it.
+
+## 24.2 Explicit diagnostic ledgers (supersedes §20.7's three)
+
+Five ledgers, an exact pairwise-disjoint partition of the full phase universe:
+
+| ledger | contents |
+|---|---|
+| `completed` | adjudicative rows that passed |
+| `failed` | adjudicative rows that failed and **stop the phase** |
+| `diagnostic_completed` | diagnostic-only rows that produced a valid diagnostic record |
+| `diagnostic_failed` | diagnostic-only rows attempted that did not produce a valid result |
+| `refused` | validly unexecuted rows |
+
+A P0 containing a tau diagnostic failure still terminates **`PHASE_COMPLETE`** provided every
+decision-bearing requirement passes; the failure and its reason are retained prominently; and
+**P1a may consume that manifest**. A failure of a decision-bearing P0 reference or coupon row
+stops P0 exactly as before.
+
+## 24.3 One role-aware classifier (supersedes §22.4)
+
+`case_decision_verdict` is a pure role-independent validity check plus the frozen role lookup,
+and returns **both** the case validity and the effect appropriate to the row's role, plus the
+ledger the case belongs in. The executor and `validate_phase_manifest` use the same function.
+The validator independently recomputes the verdict and refuses a diagnostic failure relabelled a
+diagnostic success, an adjudicative failure relabelled a diagnostic, a non-adjudicative row filed
+as adjudicative, a tau record placed into common truth, and any tau result that changes P0
+aggregate science.
+
+## 24.4 P2b validation RECONSTRUCTS the scientific endpoint (supersedes §23.8's validator)
+
+`build_p2b_decision_payload(manifests, records, assembly_authority, provenance_mode)` is the pure
+deterministic scientific builder. It performs **no** solver call, writes **no** file, consumes
+**no** persisted candidate ledger, freeze or instantiated matrix, and accepts **no**
+caller-supplied verdict, selection or uncertainty. It recomputes the P0 common scientific
+authority, candidate admission, pressure upper bounds, forcing and resolution verdicts, artifact
+evidence, `c` intervals, actual-`Ξ` evidence and envelopes, reachability, categories, the exact
+four-slot selection or design-block reason, the instantiated P3/P4 rows and the complete evidence
+lineage.
+
+Both writers and the validator use it, so **no separate scientific implementation exists** in
+three places. The provenance-specific wrappers add only the source authority, the assembly
+authority, file paths and hashes, the provenance mode and the atomic resume/no-overwrite
+persistence.
+
+After recursively validating P0…P2a and reopening their records, `validate_p2b_manifest` calls
+the same builder and compares the recomputed canonical payload against every persisted artifact —
+the ledger's candidates, gates, statuses, uncertainties, artifact and pressure evidence, `c`
+bounds, `Ξ` values, envelopes, reachability, category, eligibility, rejection reasons, counts,
+common-reference and candidate-specific evidence and source-to-derived mapping; the selected
+endpoint's exact candidates, slots, categories, order, target provenance, envelopes, evidence
+sets, freeze content and instantiated rows; and the design-block endpoint's exact reason and the
+absence of both artifacts.
+
+`scientific_decision_payload_sha256` is carried by all four artifacts. **It is the hash of the
+independently constructed payload, never of the persisted ledger** — defining it the other way
+would reproduce the circular authentication it exists to remove.
+
+**A persisted document does not become valid merely because its modified hash was also copied
+into the manifest.** Twelve coordinated-tamper cases — `n_eligible`, a forcing verdict, a
+resolution verdict, a `c` interval, a `Ξ` envelope and category, reachability, eligibility, a
+rejection reason, common-reference evidence, source-to-derived lineage, a replaced selected
+candidate with a structurally consistent freeze and matrix, a reordered selection, and a changed
+design-block reason — all fail because the science does not recompute. The ordinary stale-hash
+checks are retained as separate, weaker checks.
+
+An exact existing P2b endpoint may be reused **only after** that full record-derived
+recomputation succeeds; a coordinated but internally hash-consistent alteration fails closed and
+nothing is overwritten or silently regenerated.
+
+## 24.5 Complete multi-source gate lineage (supersedes §23.7's single-source samples)
+
+Every derived sample carries the canonical flat fields `source_case_ids`,
+`source_record_sha256`, `source_roles`. A direct single-record quantity carries one source.
+
+| quantity | definition | source roles |
+|---|---|---|
+| `R_identical` | `C_open / C_blocked` | `open`, `blocked` |
+| `Xi_actual` | `G_bridge_coupon · (1/A1 + 1/A2)` | `bridge_coupon`, `candidate_blocked_area` |
+
+Forcing gates union and retain every source behind every low/central/high value, reporting
+per-level values, per-level source case IDs, hashes and roles, the flat complete source sets and
+the exact quantity definition. An `R` gate's complete source set contains **three open and three
+blocked** records at that resolution; an actual-`Ξ` gate's contains the matching coupon and area
+evidence at **every** forcing level. Resolution gates do the same across `S=2` and `S=3`.
+
+A convenience primary case is retained and is **never** the complete lineage. Downstream code
+reads only the generic schema — no `paired_blocked_*` or `area_*` key outside it.
+
+`source_to_derived_quantity["forcing_gates"]` and `["resolution_gates"]` are built from those
+complete fields with a per-quantity breakdown. A record may be present in
+`candidate_specific_record_sha256` and still be **missing** from a particular mapping; the
+validator detects that distinction, so a broad evidence set cannot mask a defective detailed one.
+
+## 24.6 The artifact uncertainty is composed exactly once (supersedes §19.5's live path)
+
+```
+u_artifact_R = NUMERICAL_DISCREPANCY_SAFETY_FACTOR
+               * ( delta_R_fixed_step_raw
+                 + delta_R_node_offset_raw
+                 + u_serialization_R_raw )
+```
+
+with `NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0`. **Neither the factor nor the artifact budget
+changes.** C5's assembler summed two ALREADY-scaled terms with one unscaled one, computing
+`2a + 2b + c`.
+
+The raw terms are retained explicitly. `node_offset_R` reports `max_abs_movement_raw` as the
+adjudicative term and labels its scaled value a
+`CONVENIENCE_SCALED_DIAGNOSTIC_NOT_A_COMPOSER_INPUT`; the fixed-step routine likewise exposes its
+raw propagated movement. **One** pure function composes the final result:
+`numerical_discrepancy_R` takes the normal open and blocked conductances, their fixed-step
+conductances and the complete raw `R`-offset sequence, and produces the frozen result in one
+operation. The assembler calls it and reconstructs nothing.
+
+This remains a **conservative numerical-discrepancy bound, not a rigorous error bound**.
+
+## 24.7 Statistic-specific pressure serialisation (supersedes §23.1's shared term)
+
+```
+u_serialization_mean = 10**(-RECORD_DP) * (1 + abs(mean_delta_p))
+u_serialization_max  = 10**(-RECORD_DP) * (1 + abs(max_abs_delta_p))
+
+mean_gap_upper_rel = (abs(mean_delta_p) + u_mean_gap + u_serialization_mean) / axial_pressure_scale
+max_gap_upper_rel  = (max_abs_delta_p   + u_max_gap  + u_serialization_max ) / axial_pressure_scale
+```
+
+C5 derived both terms from the **mean**, so with `abs(mean) ≪ max_abs` the maximum bound carried
+a term too small for its own statistic. `TOL_LATERAL_DRIVER_REL` is unchanged.
+
+## 24.8 Matrix and counts (supersedes §23.11)
+
+Every count is regenerated from one machine authority. The two tau rows remain planned solver
+invocations and are **no longer mandatory decision-bearing rows**, so the mandatory minimum
+changes; 703 survives only because the generator independently reproduces it.
+
+| category | value |
+|---|---|
+| decision-bearing rows | **698** |
+| decision-bearing NORMAL solves | **378** |
+| decision-bearing FIXED_STEP audits | **320** |
+| tau diagnostic solves | **2** |
+| execution-assurance rows | **3** |
+| planned NORMAL solves (all roles) | **383** |
+| planned FIXED_STEP audits (all roles) | **320** |
+| `planned_solver_invocations` | **703** |
+| same-field node-offset summaries (**0** provider calls) | **511** |
+| mandatory decision-bearing rows | **108** |
+| mandatory minimum (with pre-freeze assurance replicates) | **110** |
+| adaptive rows | **703** |
+| refused after the earliest stop | **591** |
+| provider calls, fresh full pre-freeze run | **640** |
+| provider calls, exact resume | **0** |
+| **solves actually executed** | **0** |
+
+`planned_solver_invocations` equals the number of all planned rows that call the provider, and
+`observed_provider_calls == newly_executed_rows` in every phase.
+`mandatory_minimum + refused_after_earliest_stop + tau_diagnostic_rows = 703`.
+
+## 24.9 Authorization state at the C6 head
 
 ```
 AUTHORISED_SOLVING_PHASES   = ()

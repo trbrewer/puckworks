@@ -1,7 +1,7 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C5 (supersedes bbf2304, 2cf0b63, c666707, 39533ad and e455c67)
+VERSION PREFLIGHT-C6 (supersedes bbf2304, 2cf0b63, c666707, 39533ad, e455c67 and acb4f6a)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
 AUTHORISED_ASSEMBLY_PHASES: ()      POST_FREEZE_EXECUTOR_READY: False
@@ -225,3 +225,42 @@ rows, and an exact manifest resume has **none**.
 **P3/P4 are not execution-ready.** Their 63 rows are planning TEMPLATES whose `bridge` is an
 unresolved placeholder; `POST_FREEZE_EXECUTOR_READY = False` refuses them independently of the
 solving allowlist (erratum PE-76).
+
+
+## 13. CORRECTION `PREFLIGHT-C6` — decision-bearing rows separated from diagnostics
+
+Errata PE-78 … PE-88. **No solver row is added or removed.** The two `tau_plus = 1.2` rows remain
+planned solver invocations and stop being **decision-bearing**: PE-65 froze them
+`DIAGNOSTIC_ONLY` and C5 emitted them `class = mandatory`. The mandatory minimum therefore
+**changes**, and 703 survives only because the generator independently reproduces it.
+
+| category | value |
+|---|---|
+| **decision-bearing** rows | **698** |
+| decision-bearing **NORMAL** solves | **378** |
+| decision-bearing **FIXED_STEP** audits | **320** |
+| **tau diagnostic** solves (non-adjudicative, nonblocking) | **2** |
+| **execution-assurance** rows (determinism replicates) | **3** |
+| planned **NORMAL** solves, all roles | **383** |
+| planned **FIXED_STEP** audits, all roles | **320** |
+| `planned_solver_invocations` | **703** |
+| same-field **node-offset summaries** (**0** provider calls) | **511** |
+| **mandatory decision-bearing** rows | **108** |
+| **mandatory minimum** (with pre-freeze assurance replicates) | **110** |
+| **adaptive** rows | **703** |
+| refused after the earliest stop | **591** |
+| provider calls, **fresh** full pre-freeze run | **640** |
+| provider calls, **exact resume** | **0** |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+| **solves actually executed** | **0** |
+
+`planned_solver_invocations` equals the number of all planned rows that call the provider;
+`observed_provider_calls == newly_executed_rows` in every phase; and the partition is now
+
+```
+mandatory_minimum (110) + refused_after_earliest_stop (591) + tau_diagnostic_rows (2) = 703
+```
+
+because a tau row is neither decision-bearing nor refused — it runs, it reports, and nothing
+consumes it. Same-field node-offset summaries remain **zero** additional provider calls, and no
+separate pressure-diagnostic row exists or may return.

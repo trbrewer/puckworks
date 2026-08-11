@@ -574,3 +574,45 @@ holds at all.
 box 5 remains OPEN and box 6 remains closed. RP-D-LC-001 remains `INVALID_EXECUTION` and its
 cross-model question remains unadjudicated, not negative.**
 
+
+
+---
+
+# CORRECTION `PREFLIGHT-C6` — what the sixth exact-head review found
+
+Disposition at `acb4f6a` (tree `4c53c4b`):
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_REQUIRED`
+
+**PE-66 is accepted without change.** The C5 apparatus, similarity law, candidate family,
+scientific gates, four-slot rule and reachable-set admission are accepted and are not redesigned.
+
+C5's defects were all of the same kind: **something stated and not implemented.**
+
+- **A diagnostic that could stop a phase.** PE-65 froze the two `tau_plus = 1.2` rows
+  `DIAGNOSTIC_ONLY` — no frozen assembled-fixture comparison quantity, no tolerance, may alter
+  nothing. The matrix emitted them `class = mandatory`, so an unconverged or failed-Mach tau row
+  terminated P0 and blocked P1a; and their records sat in `common_reference_evidence`, the
+  structure every candidate cites as shared truth. Both are corrected: an explicit frozen
+  scientific role per row, five phase ledgers with the diagnostic ones separate, and a
+  `diagnostic_evidence` structure nothing downstream consumes.
+
+- **A validator that authenticated bytes rather than science.** `validate_p2b_manifest`
+  recursively revalidated the predecessors, reopened every record — and then compared the
+  persisted ledger against the manifest's own record of its hash. A coordinated edit that also
+  updated the outer hashes validated cleanly. The pure builder now reconstructs the endpoint from
+  the records and the validator compares field by field; twelve coordinated-tamper cases fail.
+
+- **Two-record quantities with one-record lineage.** `R_identical` is `C_open / C_blocked` and
+  `Xi_actual` is `G_bridge·(1/A1 + 1/A2)`; both cited a single source in the generic schema, with
+  the partner in an ad-hoc key the gates never read.
+
+- **A safety factor applied to two terms of three.** The frozen artifact uncertainty is
+  `2·(a + b + c)`; the live assembler computed `2a + 2b + c`. And the pressure **maximum** bound
+  borrowed the **mean's** serialisation term.
+
+**None of these changes a tolerance, a budget, the safety factor, the candidate family or any
+scientific gate.** The mandatory minimum falls from 112 to 110 because two rows stop being
+decision-bearing, which is the point of the correction rather than a side effect of it.
+
+**Recommendation is unchanged:** authorise nothing yet. Another exact-head review is required
+before P0–P2b, and P3/P4 need a further correction and review of the real pre-freeze artifacts.

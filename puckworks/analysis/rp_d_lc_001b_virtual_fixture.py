@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C5"
+CORRECTION_VERSION = "PREFLIGHT-C6"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -205,6 +205,31 @@ SUPERSEDED_REVIEWS = (
                               "mandatory_minimum": 112, "refused_after_earliest_stop": 591},
         "apparatus_accepted_in_principle":
             "common_mode_port_blind_pocket_off_on_comparison",
+    },
+    {
+        "correction_version": "PREFLIGHT-C5",
+        "reviewed_head": "acb4f6a77c65378fcef7ed3d0a03af8620880bcb",
+        "reviewed_tree": "4c53c4b2acb83079037667f78c471fb16b8f938f",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C6_ENDPOINT_"
+                        "RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(78, 89)],
+        "superseded_artifact_sha256": {
+            "protocol.json":
+                "2ac2b2a18a56552aedefee5f4c013869c64a885347ac06d71aa12411ba2e9a54",
+            "fixture_spec.json":
+                "a803545ee8976975c063c255530af052b0a796db65c1b3fdf4a89576629b3dc3",
+            "execution_matrix.json":
+                "1a57d2ee54cd29ad662783dcbc52741fc1c0d65c3aa73a85d6aac2d3249cf81f",
+            "preflight_status.json":
+                "2ce0e09a572cf0d915d1c1fe38bda397c5e0c35c0f02f2fc7ed53f52bad7fc8b",
+        },
+        "superseded_counts": {"adaptive_maximum": 703, "planned_normal_solves": 383,
+                              "planned_fixed_step_audits": 320,
+                              "mandatory_minimum": 112, "refused_after_earliest_stop": 591,
+                              "rows_classed_diagnostic_only": 3},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+        "accepted_without_change": "PE-66 resolution comparison coordinate value / S**n",
     },
 )
 #: Backwards-compatible alias for the most recent superseded review.
@@ -3537,6 +3562,38 @@ def execution_matrix():
         "arithmetic_only_phases": ["P2b"],
         "arithmetic_only_solver_calls": 0,
         "p3_p4_planning_template_rows": len(post),
+        "row_scientific_roles": {k: dict(v) for k, v in ROW_SCIENTIFIC_ROLES.items()},
+        "phase_ledgers": list(PHASE_LEDGERS),
+        "diagnostic_semantics": {
+            "tau_plus_1p2_role": "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE",
+            "tau_plus_1p2_effect": "RECORD_DIAGNOSTIC_AND_CONTINUE",
+            "tau_evidence_structure": "diagnostic_evidence['tau_plus_1p2']",
+            "tau_in_common_reference_evidence": False,
+            "determinism_role": "EXECUTION_ASSURANCE_REPLICATE",
+            "determinism_semantics_unchanged": True,
+            "erratum": "PE-78/PE-79/PE-80/PE-81",
+        },
+        "p2b_endpoint_recomputation": {
+            "builder": "build_p2b_decision_payload",
+            "consumed_by": ["assemble_p2b_from_runs", "_test_only_assemble_p2b_from_runs",
+                            "validate_p2b_manifest"],
+            "payload_hash_field": "scientific_decision_payload_sha256",
+            "payload_hash_source": ("the INDEPENDENTLY constructed scientific payload, never the "
+                                    "persisted candidate ledger"),
+            "erratum": "PE-82/PE-83/PE-84",
+        },
+        "sample_source_fields": list(SAMPLE_SOURCE_FIELDS),
+        "multi_source_quantities": {
+            "R_identical": ["open", "blocked"],
+            "Xi_actual": ["bridge_coupon", "candidate_blocked_area"],
+        },
+        "artifact_uncertainty_composition": (
+            "u_artifact_R = NUMERICAL_DISCREPANCY_SAFETY_FACTOR * (delta_R_fixed_step_raw + "
+            "delta_R_node_offset_raw + u_serialization_R_raw); the factor is applied ONCE, to "
+            "the full sum (erratum PE-87)"),
+        "pressure_serialization": (
+            "u_serialization_mean from abs(mean_delta_p) and u_serialization_max from "
+            "abs(max_abs_delta_p); the maximum bound never borrows the mean's term (PE-88)"),
         "post_freeze_executor_ready": False,
         "post_freeze_deferral": ("P3/P4 orchestration still derives its universe from these "
                                  "templates; the approved instantiated-matrix loader has not "
