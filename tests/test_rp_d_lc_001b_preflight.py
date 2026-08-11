@@ -3590,3 +3590,135 @@ def test_a_failed_resolution_gate_is_never_absorbed_into_an_interval(synthetic_p
                                        {"w": 5, "kz": 3})])
     assert v["pass"] is False
     assert "never absorbed" in v["rule"] and "UNAVAILABLE" in v["rule"]
+
+
+# ---- D. the actual-Xi discrepancy (erratum PE-67) --------------------------------------------
+
+XI_KEY = (5, 3)
+
+
+def _copy_recs(recs):
+    return {k: json.loads(json.dumps(v)) for k, v in recs.items()}
+
+
+def _audit_of(recs, kind, key, state=None):
+    for cid, r in recs.items():
+        if (r.get("kind") == kind and r["run_mode"] != "NORMAL"
+                and vf._bridge_key(r) == key
+                and (state is None or r["row"]["state"] == state)):
+            return cid
+    raise AssertionError("no audit found for %r/%r" % (kind, key))
+
+
+def test_the_actual_xi_discrepancy_pairs_four_matched_records(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    u = vf.actual_xi_discrepancy(recs, XI_KEY)
+    assert u["complete"] is True and u["value"] is not None
+    assert u["quantity"] == "Xi_actual"
+    assert sorted(u["combinations"]) == u["required_combinations"]
+    for combo, c in u["combinations"].items():
+        assert c["complete"] is True, combo
+        for k in ("coupon_normal_case_id", "coupon_audit_case_id",
+                  "blocked_mirror_normal_case_id", "blocked_mirror_audit_case_id",
+                  "coupon_normal_record_sha256", "coupon_audit_record_sha256",
+                  "blocked_mirror_normal_record_sha256", "blocked_mirror_audit_record_sha256",
+                  "G_bridge_normal", "G_bridge_audit", "A1_normal", "A2_normal",
+                  "A1_audit", "A2_audit", "Xi_normal", "Xi_audit",
+                  "relative_movement", "safety_factor", "u_fixed_step_Xi"):
+            assert c.get(k) is not None, (combo, k)
+        assert c["Xi_normal"] == pytest.approx(
+            c["G_bridge_normal"] * (1 / c["A1_normal"] + 1 / c["A2_normal"]))
+        assert c["Xi_audit"] == pytest.approx(
+            c["G_bridge_audit"] * (1 / c["A1_audit"] + 1 / c["A2_audit"]))
+        assert c["u_fixed_step_Xi"] == pytest.approx(
+            vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR * c["relative_movement"])
+    assert "never added again" in u["overlaps"]
+
+
+def test_an_area_movement_alone_makes_u_xi_nonzero(synthetic_prefreeze):
+    """Erratum PE-67: a G-only discrepancy is blind to exactly this."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _copy_recs(recs)
+    mid = _audit_of(work, "candidate_blocked_mirror", XI_KEY)
+    sci = work[mid]["scientific"]
+    for k in ("q1_volume", "q2_volume"):
+        sci[k] = sci[k] * 1.02                       # A1, A2 move; G_bridge does not
+    u = vf.actual_xi_discrepancy(work, XI_KEY)
+    assert u["complete"] is True
+    assert u["value"] > 0.0
+    moved = [c for c in u["combinations"].values()
+             if c["blocked_mirror_audit_case_id"] == mid][0]
+    assert moved["G_bridge_normal"] == pytest.approx(moved["G_bridge_audit"])
+    assert moved["A1_audit"] != pytest.approx(moved["A1_normal"])
+    assert moved["relative_movement"] > 1e-3
+    # a G-only method would have reported exactly zero for this pair
+    g_only = vf.fixed_step_discrepancy(
+        vf._pair_normal_with_audit(vf._normal_only(work, "bridge_coupon", XI_KEY),
+                                   vf._audits_for(work, "bridge_coupon", XI_KEY)),
+        lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"), "G_bridge_coupon")
+    assert g_only["value"] == pytest.approx(0.0, abs=1e-12)
+
+
+def test_a_compensating_g_and_area_movement_leaves_actual_xi_unchanged(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _copy_recs(recs)
+    mid = _audit_of(work, "candidate_blocked_mirror", XI_KEY)
+    S, level = work[mid]["row"]["S"], work[mid]["row"]["forcing_level"]
+    cid = next(c for c, r in work.items()
+               if r.get("kind") == "bridge_coupon" and r["run_mode"] != "NORMAL"
+               and vf._bridge_key(r) == XI_KEY and r["row"]["S"] == S
+               and r["row"]["forcing_level"] == level)
+    for k in ("q1_volume", "q2_volume"):             # areas up 2 %  -> 1/A1 + 1/A2 down 2 %
+        work[mid]["scientific"][k] *= 1.02
+    work[cid]["scientific"]["G_bridge_coupon"] *= 1.02        # G up 2 % -> Xi unchanged
+    u = vf.actual_xi_discrepancy(work, XI_KEY)
+    combo = "%d.%s" % (S, level)
+    c = u["combinations"][combo]
+    assert c["G_bridge_audit"] != pytest.approx(c["G_bridge_normal"])
+    assert c["A1_audit"] != pytest.approx(c["A1_normal"])
+    assert c["Xi_audit"] == pytest.approx(c["Xi_normal"], rel=1e-12)
+    assert c["relative_movement"] == pytest.approx(0.0, abs=1e-12)
+    assert c["diagnostic_decomposition"]["G_relative_movement"] > 1e-3
+    assert c["diagnostic_decomposition"]["role"].startswith("DIAGNOSTIC_ONLY")
+
+
+def test_a_wrong_blocked_mirror_audit_is_rejected(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _copy_recs(recs)
+    mid = _audit_of(work, "candidate_blocked_mirror", XI_KEY)
+    other = next(c for c, r in work.items()
+                 if r.get("kind") == "candidate_blocked_mirror" and r["run_mode"] == "NORMAL"
+                 and vf._bridge_key(r) == XI_KEY
+                 and r["row"]["forcing_level"] != work[mid]["row"]["forcing_level"])
+    work[mid]["row"]["audit_of_case_id"] = other
+    u = vf.actual_xi_discrepancy(work, XI_KEY)
+    assert u["complete"] is False
+    assert any("missing blocked-mirror audit" in (v.get("reason") or "")
+               or "not compatible" in (v.get("reason") or "")
+               for v in u["combinations"].values())
+
+
+def test_one_missing_audit_makes_the_xi_evidence_incomplete(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _copy_recs(recs)
+    work.pop(_audit_of(work, "bridge_coupon", XI_KEY))
+    u = vf.actual_xi_discrepancy(work, XI_KEY)
+    assert u["complete"] is False
+    assert any("bridge-coupon audit" in (v.get("reason") or "")
+               for v in u["combinations"].values())
+
+
+def test_fixed_step_records_never_enter_xi_select_as_independent_estimates(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    xs = vf.actual_xi_samples(recs, XI_KEY)
+    audit_ids = set(vf._audits_for(recs, "bridge_coupon", XI_KEY))
+    audit_ids |= set(vf._audits_for(recs, "candidate_blocked_mirror", XI_KEY))
+    assert audit_ids
+    assert not {s["case_id"] for s in xs} & audit_ids
+    assert not {s["area_case_id"] for s in xs} & audit_ids
+    u = vf.actual_xi_discrepancy(recs, XI_KEY)
+    assert u["fixed_step_records_are_never_independent_estimates"] is True
+    env = vf.xi_envelope([{"S": s["S"], "forcing_level": s["forcing_level"],
+                           "coupon_source": "bridge_coupon", "Xi": s["value"]} for s in xs],
+                         0.0)
+    assert env["n_estimates"] == len(xs)

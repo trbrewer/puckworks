@@ -5767,6 +5767,164 @@ def actual_xi_samples(records, key):
     return out
 
 
+# ---- the ACTUAL-Xi numerical discrepancy (erratum PE-67) -------------------------------------
+# C4's point estimate used actual Xi = G_bridge * (1/A1 + 1/A2) while ``u_fixed_step_Xi`` moved
+# G_bridge alone, so an area movement between a normal record and its audit was invisible to the
+# uncertainty of the quantity that actually decides. The pairing below is on the DERIVED quantity.
+
+#: Fields a coupon or blocked-mirror record and its audit must match on before their derived Xi
+#: values may be differenced (erratum PE-67).
+ACTUAL_XI_MATCH_FIELDS = ("S", "forcing_level", "tau_plus", "coupon_orientation", "variant",
+                          "swapped", "perturbation", "obstructed", "backend")
+
+
+def _xi_pair_fields(rec):
+    return {f: rec["row"].get(f) for f in ACTUAL_XI_MATCH_FIELDS}
+
+
+def _exact_audit_of(records, kind, key, base_case_id):
+    for cid, a in _audits_for(records, kind, key).items():
+        if a["row"].get("audit_of_case_id") == base_case_id:
+            return a
+    return None
+
+
+def actual_xi_discrepancy(records, key):
+    """The PRIMARY ``u_fixed_step_Xi``: the frozen safety-factor-adjusted discrepancy between
+    ``Xi_normal`` and ``Xi_audit``, each formed from its own four exactly matched records.
+
+    Missing any one of the four records makes that Xi combination INCOMPLETE. Decomposed ``G``
+    and area movements are retained as DIAGNOSTICS and are never added again — the derived-Xi
+    discrepancy already contains them.
+    """
+    coupons = _normal_only(records, "bridge_coupon", key)
+    mirrors = _normal_only(records, "candidate_blocked_mirror", key)
+    by_combo = {}
+    for cid, m in mirrors.items():
+        by_combo[(m["row"]["S"], m["row"]["forcing_level"])] = m
+    combos, terms, incomplete = {}, [], {}
+    for cid, crec in sorted(coupons.items()):
+        S, level = crec["row"]["S"], crec["row"]["forcing_level"]
+        combo = "%d.%s" % (S, level)
+        mrec = by_combo.get((S, level))
+        entry = {"candidate_id": "w%d_kz%d" % key, "resolution": S, "forcing_level": level,
+                 "coupon_normal_case_id": cid, "coupon_normal_record_sha256": record_hash(crec),
+                 "match_fields": list(ACTUAL_XI_MATCH_FIELDS),
+                 "definition": ACTUAL_XI_DEFINITION,
+                 "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+                 "overlaps": ("the derived-Xi discrepancy already contains both the G movement "
+                              "and the area movement; the decomposed terms are DIAGNOSTIC and "
+                              "are never added to it (erratum PE-67)"),
+                 "complete": False, "reason": None}
+        if mrec is None:
+            entry["reason"] = "no NORMAL candidate-blocked mirror supplies A1/A2 at %s" % combo
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        entry["blocked_mirror_normal_case_id"] = mrec["case_id"]
+        entry["blocked_mirror_normal_record_sha256"] = record_hash(mrec)
+        caud = _exact_audit_of(records, "bridge_coupon", key, cid)
+        maud = _exact_audit_of(records, "candidate_blocked_mirror", key, mrec["case_id"])
+        missing = [n for n, v in (("bridge-coupon audit", caud),
+                                  ("blocked-mirror audit", maud)) if v is None]
+        if missing:
+            entry["reason"] = "missing %s" % " and ".join(missing)
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        entry["coupon_audit_case_id"] = caud["case_id"]
+        entry["coupon_audit_record_sha256"] = record_hash(caud)
+        entry["blocked_mirror_audit_case_id"] = maud["case_id"]
+        entry["blocked_mirror_audit_record_sha256"] = record_hash(maud)
+        try:
+            assert_audit_compatible(caud["row"], crec["row"])
+            assert_audit_compatible(maud["row"], mrec["row"])
+        except ValueError as exc:
+            entry["reason"] = "an audit is not compatible with its base: %s" % exc
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        want = _xi_pair_fields(crec)
+        for name, r in (("blocked-mirror normal", mrec), ("bridge-coupon audit", caud),
+                        ("blocked-mirror audit", maud)):
+            got = _xi_pair_fields(r)
+            bad = {f: (want[f], got[f]) for f in ("S", "forcing_level", "tau_plus", "backend")
+                   if want[f] != got[f]}
+            if bad:
+                entry["reason"] = "%s does not match the coupon normal on %r" % (name,
+                                                                                 sorted(bad))
+                break
+        if entry["reason"]:
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        for name, a, b in (("coupon", crec, caud), ("mirror", mrec, maud)):
+            if (a["source_commit"], a["backend"]) != (b["source_commit"], b["backend"]):
+                entry["reason"] = ("the %s audit was produced under a different run authority"
+                                   % name)
+        if entry["reason"]:                                # pragma: no cover - guarded upstream
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        g_n = (crec.get("scientific") or {}).get("G_bridge_coupon")
+        g_a = (caud.get("scientific") or {}).get("G_bridge_coupon")
+        fc_n, fc_a = _fc(mrec), _fc(maud)
+        if g_n is None or g_a is None or fc_n is None or fc_a is None:
+            entry["reason"] = "a record does not carry G_bridge_coupon or A1/A2"
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        inv_n = 1.0 / fc_n["A1"] + 1.0 / fc_n["A2"]
+        inv_a = 1.0 / fc_a["A1"] + 1.0 / fc_a["A2"]
+        xi_n = _finite(float(g_n) * inv_n, "Xi_normal")
+        xi_a = _finite(float(g_a) * inv_a, "Xi_audit")
+        entry.update(
+            G_bridge_normal=float(g_n), G_bridge_audit=float(g_a),
+            A1_normal=fc_n["A1"], A2_normal=fc_n["A2"],
+            A1_audit=fc_a["A1"], A2_audit=fc_a["A2"],
+            A_series_inverse_normal=inv_n, A_series_inverse_audit=inv_a,
+            Xi_normal=xi_n, Xi_audit=xi_a, complete=True)
+        if xi_n == 0.0:                                    # pragma: no cover - degenerate
+            entry["complete"] = False
+            entry["reason"] = "Xi_normal is exactly zero; no relative discrepancy exists"
+            combos[combo] = entry
+            incomplete[combo] = entry["reason"]
+            continue
+        rel = abs(xi_a / xi_n - 1.0)
+        entry["relative_movement"] = rel
+        entry["u_fixed_step_Xi"] = NUMERICAL_DISCREPANCY_SAFETY_FACTOR * rel
+        entry["diagnostic_decomposition"] = {
+            "G_relative_movement": abs(float(g_a) / float(g_n) - 1.0) if g_n else None,
+            "A_series_inverse_relative_movement": (abs(inv_a / inv_n - 1.0) if inv_n else None),
+            "role": "DIAGNOSTIC_ONLY_ALREADY_CONTAINED_IN_THE_DERIVED_XI_DISCREPANCY",
+        }
+        terms.append(rel)
+        combos[combo] = entry
+    want_combos = sorted({"%d.%s" % (S, lv) for S in SCIENTIFIC_RESOLUTIONS
+                          for lv in FORCING_LEVELS})
+    worst = max(terms) if terms else None
+    return {
+        "candidate_id": "w%d_kz%d" % key,
+        "quantity": "Xi_actual",
+        "definition": ACTUAL_XI_DEFINITION,
+        "method": ("worst relative movement of the DERIVED quantity Xi between each NORMAL "
+                   "combination and its own fixed-step audits, times the frozen safety factor "
+                   "(erratum PE-67)"),
+        "combinations": combos,
+        "required_combinations": want_combos,
+        "missing_combinations": sorted(set(want_combos) - set(combos)),
+        "incomplete_combinations": incomplete,
+        "n_pairs": len(terms),
+        "worst_relative_movement": worst,
+        "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+        "value": (None if worst is None else NUMERICAL_DISCREPANCY_SAFETY_FACTOR * worst),
+        "complete": bool(not (set(want_combos) - set(combos)) and not incomplete and terms),
+        "overlaps": ("this family's own normal/audit pairs only; the decomposed G and area "
+                     "movements are diagnostics and are never added again"),
+        "fixed_step_records_are_never_independent_estimates": True,
+    }
+
+
 def candidate_resolution_gates(records, key, bridge):
     """Adjudicate S=2 vs S=3 for the EXACT candidate resolution set (errata PE-29, PE-66).
 
@@ -5838,6 +5996,139 @@ def candidate_resolution_gates(records, key, bridge):
         gates.append(g)
     return resolution_consistency_verdict(gates, CANDIDATE_RESOLUTION_QUANTITIES,
                                           family="candidate")
+
+
+# ---- complete candidate and COMMON-REFERENCE evidence binding (erratum PE-68) ----------------
+# C4 bound a selected bridge's normals and its artifact-combination audits, and omitted the c, Xi
+# and pressure audits whose discrepancies the same ledger reported. Everything used to decide a
+# candidate is bound here, and genuinely shared P0 evidence is separated rather than duplicated
+# into every candidate's hash set — duplicating it would weaken the distinct-candidate rule that
+# exists to stop one hash binding two geometries.
+
+#: Kinds whose records belong to ONE candidate.
+CANDIDATE_SPECIFIC_KINDS = ("identical_path_control", "bridge_coupon",
+                            "candidate_blocked_mirror")
+#: Kinds whose records are COMMON reference truth shared by every candidate.
+COMMON_REFERENCE_KINDS = ("reference_blocked_ladder", "axial_coupon", "tau_cross_check")
+
+
+def common_reference_evidence(records):
+    """Validated P0 reference and axial-coupon evidence shared by EVERY candidate.
+
+    Kept in one top-level structure, named by role. It is never duplicated into a candidate's own
+    hash set, so ``candidate_specific_record_sha256`` stays a genuinely distinguishing set.
+    """
+    roles, ids, hashes = {}, [], []
+    for cid, r in sorted(records.items()):
+        kind = r.get("kind")
+        if kind not in COMMON_REFERENCE_KINDS:
+            continue
+        role = kind
+        if kind == "axial_coupon":
+            role = "axial_coupon[%s,%s]" % (r["row"]["coupon_level"],
+                                            r["row"]["coupon_orientation"])
+        h = record_hash(r)
+        roles.setdefault(role, {"case_ids": [], "record_sha256": []})
+        roles[role]["case_ids"].append(cid)
+        roles[role]["record_sha256"].append(h)
+        ids.append(cid)
+        hashes.append(h)
+    for role in roles.values():
+        role["case_ids"] = assert_flat_id_list(sorted(role["case_ids"]),
+                                               "common reference case ids")
+        role["record_sha256"] = assert_flat_hash_list(sorted(set(role["record_sha256"])),
+                                                      "common reference hashes")
+    return {
+        "roles": roles,
+        "role_names": sorted(roles),
+        "case_ids": assert_flat_id_list(sorted(ids), "common reference case ids"),
+        "record_sha256": assert_flat_hash_list(sorted(set(hashes)), "common reference hashes"),
+        "rule": ("common reference evidence is shared by construction and is bound ONCE at top "
+                 "level; it is never copied into a candidate-specific hash set (erratum PE-68)"),
+    }
+
+
+def candidate_evidence_binding(records, key, artifact, pressure, u_c, u_xi, forcing, resolution):
+    """Every record used to decide ONE candidate, with a complete source-to-derived mapping."""
+    ids, hashes, by_role = [], [], {}
+
+    def add(role, cid, h):
+        by_role.setdefault(role, {"case_ids": [], "record_sha256": []})
+        by_role[role]["case_ids"].append(cid)
+        by_role[role]["record_sha256"].append(h)
+        ids.append(cid)
+        hashes.append(h)
+
+    for cid, r in sorted(records.items()):
+        if r.get("kind") not in CANDIDATE_SPECIFIC_KINDS or _bridge_key(r) != key:
+            continue
+        normal = r["run_mode"] == "NORMAL"
+        role = "%s_%s" % (r["kind"], "normal" if normal else "fixed_step_audit")
+        add(role, cid, record_hash(r))
+    # node-offset summaries are bound through their OWNING record hashes, which are already in
+    # the identical-path sets above; the mapping records that explicitly.
+    for role in by_role.values():
+        role["case_ids"] = assert_flat_id_list(sorted(role["case_ids"]), "candidate case ids")
+        role["record_sha256"] = assert_flat_hash_list(sorted(set(role["record_sha256"])),
+                                                      "candidate hashes")
+    cs_ids = assert_flat_id_list(sorted(set(ids)), "candidate_specific_case_ids")
+    cs_h = assert_flat_hash_list(sorted(set(hashes)), "candidate_specific_record_sha256")
+
+    def _cited(*groups):
+        out = []
+        for grp in groups:
+            out.extend([h for h in grp if h])
+        return sorted(set(out))
+
+    art_h = _cited(*[list(v["normal_record_sha256"]) + list(v["audit_record_sha256"])
+                     + list(v["pressure_plane_record_sha256"])
+                     for v in artifact["combinations"].values()])
+    press_h = _cited([e.get("normal_record_sha256") for e in pressure.values()],
+                     [e.get("audit_record_sha256") for e in pressure.values()])
+    xi_h = _cited([c.get("coupon_normal_record_sha256") for c in u_xi["combinations"].values()],
+                  [c.get("coupon_audit_record_sha256") for c in u_xi["combinations"].values()],
+                  [c.get("blocked_mirror_normal_record_sha256")
+                   for c in u_xi["combinations"].values()],
+                  [c.get("blocked_mirror_audit_record_sha256")
+                   for c in u_xi["combinations"].values()])
+    c_h = _cited(list(u_c["normal_record_sha256"]), list(u_c["audit_record_sha256"]))
+    forcing_h = _cited([h for g in forcing["gates"] for h in g["record_sha256"]])
+    res_h = _cited([h for g in resolution["gates"] for h in g["record_sha256"]]
+                   + [h for g in resolution["gates"] for h in (g.get("area_record_sha256") or [])])
+    mapping = {
+        "artifact_R": {"record_sha256": art_h,
+                       "derived": ["R_point", "u_fixed_step_R", "u_pressure_plane_R",
+                                   "artifact_upper"]},
+        "pressure_gap": {"record_sha256": press_h,
+                         "derived": ["mean_gap_upper_rel", "max_gap_upper_rel"]},
+        "candidate_c": {"record_sha256": c_h,
+                        "derived": ["c_lower", "c_upper", "u_fixed_step_c"]},
+        "actual_Xi": {"record_sha256": xi_h,
+                      "derived": ["Xi_normal", "Xi_audit", "u_fixed_step_Xi", "Xi_select",
+                                  "Xi_lower", "Xi_upper", "category"]},
+        "forcing_gates": {"record_sha256": forcing_h, "derived": ["forcing_invariance"]},
+        "resolution_gates": {"record_sha256": res_h, "derived": ["resolution_consistency"]},
+        "node_offset_summaries": {
+            "record_sha256": [], "derived": ["u_pressure_plane_R"],
+            "note": ("same-field summaries are bound through their OWNING record hashes, which "
+                     "are the identical-path normals already listed under artifact_R")},
+    }
+    unbound = sorted(set(art_h + press_h + xi_h + c_h + forcing_h + res_h) - set(cs_h))
+    common = {h for h in unbound}
+    return {
+        "candidate_id": "w%d_kz%d" % key,
+        "by_role": by_role,
+        "candidate_specific_case_ids": cs_ids,
+        "candidate_specific_record_sha256": cs_h,
+        "common_reference_roles": sorted(
+            {"reference_blocked_ladder", "axial_coupon"}) if common else [],
+        "source_to_derived_quantity": mapping,
+        "unbound_cited_hashes": unbound,
+        "complete": bool(not unbound),
+        "rule": ("every record used to decide this candidate is bound, audits included; common "
+                 "reference evidence lives once at top level and is never duplicated here "
+                 "(erratum PE-68)"),
+    }
 
 
 def assemble_p2b_from_runs(runs_dir, backend="reference"):
@@ -5924,37 +6215,32 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
         entry["c_bounds"] = cb
         entry["u_fixed_step_c"] = u_c
 
-        # --- candidate Xi, from its OWN coupon normals and its OWN audits (PE-30, PE-31) ---
+        # --- candidate Xi: ACTUAL Xi throughout, point estimate and uncertainty alike (PE-67) ---
         coupons = _normal_only(records, "bridge_coupon", key)
-        c_pairs = _pair_normal_with_audit(coupons, _audits_for(records, "bridge_coupon", key))
-        u_xi = fixed_step_discrepancy(
-            c_pairs, lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"),
-            "G_bridge_coupon")
-        if u_xi["value"] is None:
-            entry["rejection_reason"] = "NO_FIXED_STEP_EVIDENCE_FOR_bridge_coupon"
+        u_xi = actual_xi_discrepancy(records, key)
+        if not u_xi["complete"] or u_xi["value"] is None:
+            entry["u_fixed_step_Xi"] = u_xi
+            entry["rejection_reason"] = ("INCOMPLETE_ACTUAL_XI_DISCREPANCY: %r"
+                                         % (u_xi["incomplete_combinations"]
+                                            or u_xi["missing_combinations"],))
             ledger[cid] = entry
             continue
         xi_rows, xi_ids, xi_h = [], [], []
-        for r in sorted(coupons.values(), key=lambda x: x["case_id"]):
-            g_bridge = (r.get("scientific") or {}).get("G_bridge_coupon")
-            k2 = (r["row"]["S"], r["row"]["forcing_level"])
-            if g_bridge is None or k2 not in areas:
-                continue
-            A1, A2 = areas[k2]
-            xi_rows.append({"S": k2[0], "forcing_level": k2[1], "coupon_source": "bridge_coupon",
-                            "Xi": float(g_bridge) * (1.0 / A1 + 1.0 / A2)})
-            xi_ids.append(r["case_id"])
-            xi_h.append(record_hash(r))
-        if not xi_rows:
+        for s in actual_xi_samples(records, key):
+            xi_rows.append({"S": s["S"], "forcing_level": s["forcing_level"],
+                            "coupon_source": "bridge_coupon", "Xi": s["value"]})
+            xi_ids.append(s["case_id"])
+            xi_h.append(s["record_sha256"])
+        if not xi_rows:                                # pragma: no cover - guarded by u_xi above
             entry["rejection_reason"] = "NO_BRIDGE_COUPON_XI_EVIDENCE"
             ledger[cid] = entry
             continue
         env = xi_envelope(xi_rows,
-                          resolution_consistency_tolerance("Xi_coupon", bridge) + u_xi["value"])
+                          resolution_consistency_tolerance("Xi_actual", bridge) + u_xi["value"])
         entry["xi_envelope"] = env
         entry["u_fixed_step_Xi"] = u_xi
-        entry["xi_case_ids"] = assert_flat_id_list(xi_ids, "Xi case ids")
-        entry["xi_record_sha256"] = assert_flat_hash_list(xi_h, "Xi record hashes")
+        entry["xi_case_ids"] = assert_flat_id_list(sorted(set(xi_ids)), "Xi case ids")
+        entry["xi_record_sha256"] = assert_flat_hash_list(sorted(set(xi_h)), "Xi record hashes")
 
         art_upper = max(v["artifact_upper"] for v in art["combinations"].values())
         adm = reachable_set_admission(cb["c_lower"], cb["c_upper"], env["Xi_upper"], art_upper)
@@ -5978,19 +6264,24 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
         if not entry["eligible"]:
             entry["rejection_reason"] = "REACHABLE_SET: headroom %.6g" % adm["headroom"]
         else:
-            hashes = sorted(set(
-                sum((list(v["normal_record_sha256"]) + list(v["audit_record_sha256"])
-                     + list(v["pressure_plane_record_sha256"])
-                     for v in art["combinations"].values()), [])
-                + [record_hash(r) for r in blocked.values()]
-                + list(entry["xi_record_sha256"])))
+            # erratum PE-68: bind EVERY record used to decide this candidate, not only the
+            # normals whose audit-derived uncertainties the ledger reports.
+            ev = candidate_evidence_binding(records, key, art, adm_entry["pressure"],
+                                            u_c, u_xi, forcing, resolution)
+            entry["evidence"] = ev
             admitted.append({"w": w, "kz": kz, "eligible": True, "xi_envelope": env,
-                             "record_hashes": assert_flat_hash_list(hashes, "candidate hashes")})
+                             "candidate_specific_case_ids": ev["candidate_specific_case_ids"],
+                             "candidate_specific_record_sha256":
+                                 ev["candidate_specific_record_sha256"],
+                             "common_reference_roles": ev["common_reference_roles"],
+                             "source_to_derived_quantity": ev["source_to_derived_quantity"],
+                             "record_hashes": ev["candidate_specific_record_sha256"]})
         ledger[cid] = entry
 
     ledger_doc = {
         "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
         "phase": "P2b", "candidates": ledger,
+        "common_reference_evidence": common_reference_evidence(records),
         "n_declared": len(ledger), "n_eligible": len(admitted),
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
         "execution_authority_sha256": record_hash(auth),
@@ -6034,7 +6325,15 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
                                 "category": c["category"],
                                 "freeze_order": c["freeze_order"],
                                 "xi_envelope": c["xi_envelope"],
+                                "candidate_specific_case_ids":
+                                    c["candidate_specific_case_ids"],
+                                "candidate_specific_record_sha256":
+                                    c["candidate_specific_record_sha256"],
+                                "common_reference_roles": c["common_reference_roles"],
+                                "source_to_derived_quantity":
+                                    c["source_to_derived_quantity"],
                                 "record_hashes": c["record_hashes"]} for c in selection],
+            "common_reference_evidence": ledger_doc["common_reference_evidence"],
             "above_window_diagnostics": above_window_diagnostics(admitted),
             "candidate_ledger_sha256": record_hash(ledger_doc),
             "phase_manifest_sha256": {
