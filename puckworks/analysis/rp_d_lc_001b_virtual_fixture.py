@@ -1742,7 +1742,11 @@ def lateral_pressure_upper_bounds(normal_delta, axial_pressure_scale,
         u_mean = sf * abs(_finite(audit_delta["mean_delta_p"], "audit mean_delta_p") - mean_pt)
         u_max = sf * abs(_finite(audit_delta["max_abs_delta_p"], "audit max_abs_delta_p")
                          - max_pt)
-    u_ser = 10.0 ** (-_RECORD_DP) * (1.0 + abs(mean_pt))
+    # erratum PE-88: each statistic gets the serialisation term appropriate to ITSELF. C5 derived
+    # both from the MEAN, so with abs(mean) << max_abs the maximum bound carried a term too small
+    # for its own statistic.
+    u_ser_mean = 10.0 ** (-_RECORD_DP) * (1.0 + abs(mean_pt))
+    u_ser_max = 10.0 ** (-_RECORD_DP) * (1.0 + abs(max_pt))
     out = {
         "axial_pressure_scale": scale,
         "mean_delta_p": mean_pt, "abs_mean_delta_p": abs(mean_pt), "max_abs_delta_p": max_pt,
@@ -1750,7 +1754,10 @@ def lateral_pressure_upper_bounds(normal_delta, axial_pressure_scale,
         "spatial_sd_role": normal_delta["spatial_sd_role"],
         "safety_factor": sf,
         "u_mean_gap": u_mean, "u_max_gap": u_max,
-        "u_serialization_mean": u_ser, "u_serialization_max": u_ser,
+        "u_serialization_mean": u_ser_mean, "u_serialization_max": u_ser_max,
+        "serialization_rule": ("10**(-RECORD_DP) * (1 + abs(statistic)), taken from EACH "
+                               "statistic's own magnitude; the maximum bound never borrows the "
+                               "mean's term (erratum PE-88)"),
         "tolerance": TOL_LATERAL_DRIVER_REL,
         "expected_zero_driver": bool(expected_zero_driver),
         "evidence_complete": bool(audit_delta is not None),
@@ -1763,9 +1770,10 @@ def lateral_pressure_upper_bounds(normal_delta, axial_pressure_scale,
                    reason=("no fixed-step evidence for the pressure gap; an upper-bound verdict "
                            "cannot be formed (erratum PE-46)"))
         return out
-    out["mean_gap_upper_rel"] = _finite((abs(mean_pt) + u_mean + u_ser) / scale,
+    out["mean_gap_upper_rel"] = _finite((abs(mean_pt) + u_mean + u_ser_mean) / scale,
                                         "mean_gap_upper_rel")
-    out["max_gap_upper_rel"] = _finite((max_pt + u_max + u_ser) / scale, "max_gap_upper_rel")
+    out["max_gap_upper_rel"] = _finite((max_pt + u_max + u_ser_max) / scale,
+                                       "max_gap_upper_rel")
     if expected_zero_driver:
         out["mean_pass"] = bool(out["mean_gap_upper_rel"] <= TOL_LATERAL_DRIVER_REL)
         out["max_pass"] = bool(out["max_gap_upper_rel"] <= TOL_LATERAL_DRIVER_REL)
@@ -2052,10 +2060,17 @@ def numerical_discrepancy_R(R, C_open, C_blocked, C_open_continued, C_blocked_co
         "R": R,
         "u_continuation_open_rel": u_open,
         "u_continuation_blocked_rel": u_blocked,
+        # erratum PE-87: the three RAW terms, explicitly named. The safety factor is applied
+        # ONCE, to their sum, and never to a term individually.
+        "delta_R_fixed_step_raw": u_cont,
+        "delta_R_node_offset_raw": u_offset,
+        "u_serialization_R_raw": u_serial,
         "u_continuation_R_abs": u_cont,
         "u_node_offset_R_abs": u_offset,
         "u_serialisation_R_abs": u_serial,
         "safety_factor": float(safety),
+        "composition": ("u_artifact_R = safety_factor * (delta_R_fixed_step_raw + "
+                        "delta_R_node_offset_raw + u_serialization_R_raw)"),
         "u_R_abs": _finite(total, "u_R_abs"),
     }
 
@@ -4504,9 +4519,15 @@ def node_offset_R(open_rec, blocked_rec):
         "offsets": o["offsets"],
         "R_offsets": ratios,
         "R_nominal": nominal,
+        # erratum PE-87: the RAW movement is the adjudicative term. The scaled value below is a
+        # CONVENIENCE DIAGNOSTIC and must never be fed into a second composition.
+        "max_abs_movement_raw": movement,
         "max_abs_movement": movement,
         "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
         "u_pressure_plane_R": NUMERICAL_DISCREPANCY_SAFETY_FACTOR * movement,
+        "u_pressure_plane_R_role": ("CONVENIENCE_SCALED_DIAGNOSTIC_NOT_A_COMPOSER_INPUT; the "
+                                    "adjudicative composer consumes max_abs_movement_raw "
+                                    "(erratum PE-87)"),
         "open_case_id": open_rec["case_id"], "blocked_case_id": blocked_rec["case_id"],
         "open_record_sha256": record_hash(open_rec),
         "blocked_record_sha256": record_hash(blocked_rec),
@@ -4733,33 +4754,43 @@ def artifact_evidence_from_records(records, bridge_key):
         R = Co / Cb
         n_ids = [states["blocked"]["case_id"], states["open"]["case_id"]]
         n_h = [record_hash(states["blocked"]), record_hash(states["open"])]
-        a_ids, a_h, u_fs = [], [], None
+        a_ids, a_h = [], []
         pair_audits = {}
         for st in ("blocked", "open"):
             for cid, a in audits.items():
                 if a["row"].get("audit_of_case_id") == states[st]["case_id"]:
                     pair_audits[st] = a
-        if set(pair_audits) == {"blocked", "open"}:
-            disc = numerical_discrepancy_R(R, Co, Cb,
-                                           _conductance(pair_audits["open"]),
-                                           _conductance(pair_audits["blocked"]))
-            u_fs = disc["u_continuation_R_abs"] * NUMERICAL_DISCREPANCY_SAFETY_FACTOR
+        have_audits = set(pair_audits) == {"blocked", "open"}
+        if have_audits:
             a_ids = [pair_audits["blocked"]["case_id"], pair_audits["open"]["case_id"]]
             a_h = [record_hash(pair_audits["blocked"]), record_hash(pair_audits["open"])]
         # PE-42: the node-offset ratio is formed ONLY from the exactly paired open/blocked
         # records. A same-state C_j/C_0 is not R, and a missing summary FAILS the evidence.
-        p_ids, p_h, u_pp, offs = [], [], None, None
+        p_ids, p_h, offs = [], [], None
         try:
             offs = node_offset_R(states["open"], states["blocked"])
         except (ValueError, NonFiniteValue):
             offs = None
         if offs is not None:
-            u_pp = offs["u_pressure_plane_R"]
             p_ids = [offs["blocked_case_id"], offs["open_case_id"]]
             p_h = [offs["blocked_record_sha256"], offs["open_record_sha256"]]
-        u_ser = 10.0 ** (-_RECORD_DP) * (1.0 + abs(R))
-        complete = u_fs is not None and u_pp is not None
-        u_total = (None if not complete else u_fs + u_pp + u_ser)
+        # ---- erratum PE-87: ONE canonical composer, RAW terms in, safety factor applied ONCE --
+        # C5 summed u_fixed_step_R + u_pressure_plane_R + u_serialization_R where the first two
+        # were ALREADY safety-scaled and the third was not, giving 2a + 2b + c instead of the
+        # frozen 2*(a + b + c). numerical_discrepancy_R consumes the RAW conductances and the RAW
+        # R-offset sequence and applies the factor exactly once to the full sum.
+        complete = have_audits and offs is not None
+        disc = None
+        if complete:
+            disc = numerical_discrepancy_R(
+                R, Co, Cb, _conductance(pair_audits["open"]),
+                _conductance(pair_audits["blocked"]),
+                R_node_offsets=[r["R_offset"] for r in offs["R_offsets"]])
+        u_fs_raw = None if disc is None else disc["u_continuation_R_abs"]
+        u_pp_raw = None if disc is None else disc["u_node_offset_R_abs"]
+        u_ser_raw = (10.0 ** (-_RECORD_DP) * (1.0 + abs(R)) if disc is None
+                     else disc["u_serialisation_R_abs"])
+        u_total = None if disc is None else disc["u_R_abs"]
         upper = (None if u_total is None else abs(R - 1.0) + u_total)
         ev = {
             "candidate_id": "w%d_kz%d" % bridge_key,
@@ -4769,11 +4800,25 @@ def artifact_evidence_from_records(records, bridge_key):
             "pressure_plane_case_ids": sorted(p_ids),
             "pressure_plane_record_sha256": sorted(p_h),
             "R_point": R,
-            "u_fixed_step_R": (0.0 if u_fs is None else u_fs),
-            "u_pressure_plane_R": (0.0 if u_pp is None else u_pp),
+            # the RAW component movements, before the frozen safety factor
+            "delta_R_fixed_step_raw": (0.0 if u_fs_raw is None else u_fs_raw),
+            "delta_R_node_offset_raw": (0.0 if u_pp_raw is None else u_pp_raw),
+            "u_serialization_R_raw": u_ser_raw,
+            "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+            "numerical_discrepancy_R": disc,
+            # retained under their C5 names; each is now the RAW term times the factor, and the
+            # three no longer sum to u_artifact_R because the factor is applied to the SUM.
+            "u_fixed_step_R": (0.0 if u_fs_raw is None
+                               else NUMERICAL_DISCREPANCY_SAFETY_FACTOR * u_fs_raw),
+            "u_pressure_plane_R": (0.0 if u_pp_raw is None
+                                   else NUMERICAL_DISCREPANCY_SAFETY_FACTOR * u_pp_raw),
             "node_offset_R": offs,
-            "u_serialization_R": u_ser,
+            "u_serialization_R": u_ser_raw,
             "u_artifact_R": (0.0 if u_total is None else u_total),
+            "u_artifact_R_formula": (
+                "NUMERICAL_DISCREPANCY_SAFETY_FACTOR * (delta_R_fixed_step_raw + "
+                "delta_R_node_offset_raw + u_serialization_R_raw); the factor is applied ONCE, "
+                "to the full sum (erratum PE-87)"),
             "artifact_upper": (abs(R - 1.0) if upper is None else upper),
             "pass": bool(complete and upper <= ARTIFACT_BUDGET_R_ABS),
             "evidence_complete": bool(complete),
@@ -4791,8 +4836,8 @@ def artifact_evidence_from_records(records, bridge_key):
         }
         if not complete:
             ev["reason"] = ("incomplete: %s" % ", ".join(
-                [s for s, ok in (("no fixed-step audit pair", u_fs is not None),
-                                 ("no paired node-offset evidence", u_pp is not None))
+                [s for s, ok in (("no fixed-step audit pair", have_audits),
+                                 ("no paired node-offset evidence", offs is not None))
                  if not ok]))
         out["%d.%s" % (S, level)] = assert_artifact_evidence(ev)
     return out

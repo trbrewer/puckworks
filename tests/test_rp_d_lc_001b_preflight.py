@@ -2542,8 +2542,12 @@ def test_the_node_offset_term_is_measured_and_not_silently_zero(synthetic_prefre
     ev = list(adm[(3, 2)]["combinations"].values())[0]
     assert ev["evidence_complete"] is True
     assert ev["node_offset_R"] is not None
-    assert ev["u_artifact_R"] == pytest.approx(ev["u_fixed_step_R"] + ev["u_pressure_plane_R"]
-                                               + ev["u_serialization_R"])
+    # erratum PE-87: the C5 form asserted here was the DEFECT — it summed two already-scaled
+    # terms with one unscaled one, i.e. 2a + 2b + c instead of the frozen 2*(a + b + c).
+    assert ev["u_artifact_R"] == pytest.approx(
+        vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR
+        * (ev["delta_R_fixed_step_raw"] + ev["delta_R_node_offset_raw"]
+           + ev["u_serialization_R_raw"]))
     # the ratio comes from an exact open/blocked pair, never a same-state normalisation
     assert len(ev["node_offset_R"]["R_offsets"]) == len(ev["node_offset_R"]["offsets"])
     assert ev["node_offset_R"]["R_offsets"][0]["offset"] == 0
@@ -4836,3 +4840,99 @@ def test_deleting_one_partner_from_the_mapping_fails_p2b_validation(synthetic_p2
     with pytest.raises(vf.ManifestMissing) as exc:
         vf.validate_p2b_manifest(work, require_production=False)
     assert "recompute" in str(exc.value)
+
+
+# ---- D. exact uncertainty composition (errata PE-87, PE-88) ----------------------------------
+
+def test_the_artifact_uncertainty_applies_the_safety_factor_exactly_once():
+    """Erratum PE-87: C5's live path computed 2a + 2b + c, not the frozen 2*(a + b + c).
+
+    All three terms are deliberately NONZERO so a doubled or omitted term cannot hide.
+    """
+    C_open, C_blocked = 2.0, 1.6
+    R = C_open / C_blocked
+    d = vf.numerical_discrepancy_R(R, C_open, C_blocked, 2.06, 1.55,
+                                   R_node_offsets=[R, R + 0.03, R - 0.017])
+    fs = d["delta_R_fixed_step_raw"]
+    off = d["delta_R_node_offset_raw"]
+    ser = d["u_serialization_R_raw"]
+    assert fs > 0 and off > 0 and ser > 0
+    assert vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR == 2.0
+    assert d["u_R_abs"] == pytest.approx(2.0 * (fs + off + ser), rel=1e-15)
+    # ...and every WRONG composition differs by exactly the amount it should. The serialisation
+    # term is genuinely tiny at the frozen record precision, so the C5 defect is stated as an
+    # EXACT difference rather than left to a relative tolerance to notice.
+    assert d["u_R_abs"] - (2.0 * fs + 2.0 * off + ser) == pytest.approx(ser, abs=1e-16)
+    assert d["u_R_abs"] - 2.0 * (2.0 * fs + off + ser) == pytest.approx(-2.0 * fs, rel=1e-12)
+    assert d["u_R_abs"] - 2.0 * (fs + ser) == pytest.approx(2.0 * off, rel=1e-12)
+    assert 2.0 * (fs + 0.0 + ser) < d["u_R_abs"]          # offsets treated as zero under-counts
+    assert d["kind"].startswith("CONSERVATIVE_NUMERICAL_DISCREPANCY_BOUND")
+    assert "NOT_A_RIGOROUS_ERROR_BOUND" in d["kind"]
+
+
+def test_the_live_artifact_path_uses_the_one_canonical_composer(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    adm = vf.artifact_admission_from_records(recs)
+    ev = list(adm[(5, 3)]["combinations"].values())[0]
+    assert ev["evidence_complete"] is True
+    fs, off = ev["delta_R_fixed_step_raw"], ev["delta_R_node_offset_raw"]
+    ser = ev["u_serialization_R_raw"]
+    assert ev["safety_factor"] == vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR == 2.0
+    assert ev["u_artifact_R"] == pytest.approx(2.0 * (fs + off + ser), rel=1e-14)
+    assert ev["artifact_upper"] == pytest.approx(abs(ev["R_point"] - 1.0) + ev["u_artifact_R"])
+    # the composer is called, not re-implemented
+    assert ev["numerical_discrepancy_R"]["u_R_abs"] == pytest.approx(ev["u_artifact_R"])
+    src = inspect.getsource(vf.artifact_evidence_from_records)
+    assert "numerical_discrepancy_R(" in src
+    assert "u_fs + u_pp + u_ser" not in src
+    # the node-offset scaled value is a diagnostic, never a composer input
+    assert ev["node_offset_R"]["u_pressure_plane_R_role"].startswith("CONVENIENCE_SCALED")
+    assert ev["node_offset_R"]["max_abs_movement_raw"] == pytest.approx(off)
+
+
+def test_a_missing_node_offset_summary_is_never_treated_as_zero(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    stripped = {k: dict(v, scientific=dict(v.get("scientific") or {}, node_offsets=None))
+                for k, v in recs.items()}
+    adm = vf.artifact_admission_from_records(stripped)
+    ev = list(adm[(5, 3)]["combinations"].values())[0]
+    assert ev["evidence_complete"] is False and ev["pass"] is False
+    assert ev["numerical_discrepancy_R"] is None
+    assert "node-offset" in ev["reason"]
+
+
+def test_the_pressure_serialization_terms_are_statistic_specific():
+    """Erratum PE-88: with abs(mean) << max_abs the maximum bound must not borrow the mean's."""
+    normal = {"mean_delta_p": 1e-9, "max_abs_delta_p": 4.0,
+              "spatial_sd_delta_p": 0.5,
+              "spatial_sd_role": "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND"}
+    audit = {"mean_delta_p": 1e-9, "max_abs_delta_p": 4.0}
+    ub = vf.lateral_pressure_upper_bounds(normal, 10.0, audit_delta=audit,
+                                          expected_zero_driver=True)
+    dp = 10.0 ** (-vf._RECORD_DP)
+    assert ub["u_serialization_mean"] == pytest.approx(dp * (1.0 + 1e-9))
+    assert ub["u_serialization_max"] == pytest.approx(dp * (1.0 + 4.0))
+    assert ub["u_serialization_max"] > ub["u_serialization_mean"]
+    assert ub["mean_gap_upper_rel"] == pytest.approx(
+        (abs(normal["mean_delta_p"]) + ub["u_mean_gap"] + ub["u_serialization_mean"]) / 10.0)
+    assert ub["max_gap_upper_rel"] == pytest.approx(
+        (normal["max_abs_delta_p"] + ub["u_max_gap"] + ub["u_serialization_max"]) / 10.0)
+    assert "never borrows the mean" in ub["serialization_rule"]
+    assert ub["tolerance"] == vf.TOL_LATERAL_DRIVER_REL == 1.0e-3
+
+
+def test_no_frozen_tolerance_or_safety_factor_changed():
+    assert vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR == 2.0
+    assert vf.ARTIFACT_BUDGET_R_ABS == 1.0e-3
+    assert vf.TOL_LINEARITY_REL == 1.0e-4
+    assert vf.TOL_BRIDGE_LEAKAGE_REL == 1.0e-3
+    assert vf.TOL_LATERAL_DRIVER_REL == 1.0e-3
+    assert vf.REACHABLE_SAFETY_MARGIN_FRACTION == 0.10
+    assert vf.KAPPA_RES == 2.0 and vf.JUNCTION_ALLOWANCE == 1.0
+    # PE-66 accepted and unchanged
+    assert vf.RESOLUTION_SCALING_EXPONENT["c_field"] == 0
+    assert vf.RESOLUTION_SCALING_EXPONENT["C_blocked"] == 3
+    assert vf.RESOLUTION_SCALING_EXPONENT["A_series_inverse"] == -3
+    assert vf.RESOLUTION_SCALING_EXPONENT["Q_reference_blocked"] == 1
+    assert vf.RESOLUTION_SCALING_EXPONENT["dP_reference_blocked"] == -2
+    assert vf.RESOLUTION_SCALING_EXPONENT["Xi_actual"] == 0
