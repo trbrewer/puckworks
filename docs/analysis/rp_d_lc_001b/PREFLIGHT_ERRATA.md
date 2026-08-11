@@ -7,10 +7,11 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C4`** (see PE-40). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C5`** (see PE-60 … PE-76). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
 a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) →
-**C3** (`39533ad`) → **C4**.
+**C3** (`39533ad`) → **C4** (`e455c67`) → **C5**. Where earlier text conflicts with the effective
+C5 sections, **C5 governs**; no earlier erratum is altered or erased.
 
 ---
 
@@ -1086,3 +1087,139 @@ solver-core change** · the claim ceiling · **RP-D-LC-001 byte-unchanged** · a
 solving and assembly alike, **unauthorized**: `AUTHORISED_SOLVING_PHASES = ()` and
 `AUTHORISED_ASSEMBLY_PHASES = ()`.
 
+
+---
+
+# PE-60 … PE-76 — exact-head review at `e455c67` was NOT APPROVED; C5 decision-path and lineage correction
+
+**Review disposition:**
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C5_DECISION_PATH_AND_LINEAGE_CORRECTION_REQUIRED`
+
+**Reviewed head:** `e455c678a2fdd511ce9a30f1d15164f73b9a4481`
+**Reviewed tree:** `72eda81e3ddea54ad4714f10c6bb4b347cd6a15a`
+
+Effective correction version from this point: **`PREFLIGHT-C5`**. Lineage:
+**C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) → **C3** (`39533ad`) →
+**C4** (`e455c67`) → **C5**. Where any earlier text conflicts with the effective C5 sections,
+**C5 governs**; nothing above this line is rewritten.
+
+**PRE-EXECUTION THROUGHOUT.** No RP-D-LC-001b lattice-Boltzmann solve has run at any point in
+this lineage, including under C5. `AUTHORISED_SOLVING_PHASES = ()` and
+`AUTHORISED_ASSEMBLY_PHASES = ()` at the C5 head, and P0, P1a, P1b, P2a, P2b, P3 and P4 all
+remain unauthorized.
+
+## What the C5 review ACCEPTED and this correction preserves unchanged
+
+The common-mode-port apparatus; common-mode blind pockets in blocked and open fixtures; no
+identical-path subtraction; no fitted or post-hoc artifact correction; the lateral-only bridge
+topology; exactly nine adjudicative axial mass-conservation planes; distinct volume-flux inverse
+and mass-flux conservation contracts; full-vector fluid-node Mach control; the exact rational
+forcing identity; `g ∝ S^-3`; both-resolution three-level forcing ladders;
+`TOL_LINEARITY_REL = 1e-4`; `ARTIFACT_BUDGET_R_ABS = 1e-3`; `TOL_BRIDGE_LEAKAGE_REL = 1e-3`;
+`TOL_LATERAL_DRIVER_REL = 1e-3`; exact paired lateral pressure faces; same-field node-offset
+summaries; `R_offset_j = C_open_offset_j / C_blocked_offset_j`; true fixed-step re-execution;
+separate `R`, `c` and `Ξ` discrepancy families in principle; candidate-specific blocked-mirror
+contrast; two-sided reachable-set admission; the unchanged `0.10·K` reachable-set safety margin;
+exactly four selected bridges (one unambiguously below, three unambiguously inside); no required
+above-window bridge; the additive Arm J obstruction; explicit audit and replicate base IDs;
+full-universe adaptive manifests; shared case-level scientific reclassification; separate solving
+and assembly authorization; no Route B; no solver-core modification; no open mirror case before
+P3; RP-D-LC-001 immutable and `INVALID_EXECUTION`.
+
+**None is weakened, retuned or redesigned here.**
+
+## Superseded C4 machine-readable artifacts
+
+Retained alongside the C0, C1, C2 and C3 sets; **all five generations are kept.**
+
+| artifact | superseded C4 SHA-256 (`e455c67`) |
+|---|---|
+| `generated/protocol.json` | `9d1853b841067896562bd5fbdb3a590dcbbfe0a9f0cca5af01b00f0d08764292` |
+| `generated/fixture_spec.json` | `c50521a10059fbc8af37c6b6a60fcc32f6e916b5be182c6d92a1f8d9eed75bf0` |
+| `generated/execution_matrix.json` | `734e6fadf972f9454928a66578aa626f71d8ba00e0a6c4dcce0e5b63647d1220` |
+| `generated/preflight_status.json` | `f3ecfd3afef8517bbff831bf2cac1c8740d02a43a6c5cfe972eca12ce1f44752` |
+
+Superseded C4 counts: **703** rows = **383** normal + **320** audits, **0** pressure-plane
+diagnostic rows; **112** mandatory, **591** refused. **No C4 total is preserved cosmetically** —
+every C5 count is regenerated from the machine authority, and 703 survives only because the
+generator independently reproduces it.
+
+## What C4 got wrong
+
+C4 corrected the C3 node-offset term, the pressure-face pairing and the P2b schema. It left the
+**decision path** and the **evidence lineage** short of what the corrected apparatus needs:
+
+- the audit-adjusted pressure upper bound was **implemented but never called** by the production
+  scientific path, and a point mean-gap screen stood in the final verdict's place;
+- the boundary-level forcing set had narrowed to `c_field` alone, so `R`, `s`, `A1`, `A2`, the
+  aggregate area and actual `Ξ` were never adjudicated at all;
+- P0 produced no durable aggregate verdict, so P1a could consume an unadjudicated predecessor;
+- `u_fixed_step_Xi` was built from `G_bridge` alone while the point estimate used actual `Ξ`;
+- selected-candidate evidence omitted the audit hashes whose discrepancies it reported;
+- the **successful** P2b branch had still never executed, so its arithmetic was unverified;
+- the production/TEST_ONLY provenance boundary was crossed by monkeypatching production guards;
+- the executor called the provider **before** discovering an existing record, so no resume was a
+  resume.
+
+Every one of those is a defect of integration and lineage, not of the apparatus.
+
+## C5 blockers
+
+| id | blocker | superseded C4 form | effective C5 form |
+|---|---|---|---|
+| PE-60 | **the pressure upper bound was off the decision path** | `lateral_pressure_upper_bounds()` existed and was unit-tested, and **no production caller invoked it**: P1b admission, P2a eligibility and the P2b ledger all decided without it | the paired normal/audit upper bound is computed by `lateral_pressure_evidence_from_records()`, consumed by P1b admission, derived P2a eligibility and recomputed in P2b, with a functional regression proving the candidate path reaches the same pure calculation |
+| PE-61 | **a point screen served as the final negative-control verdict** | `measured_zero_driver_pass = measured_zero_driver_point_pass` — a single mean-gap point estimate named as the adjudicative zero-driver verdict | `measured_zero_driver_point_pass` is an EARLY screen that may reject and may never admit; `measured_zero_driver_pass` is `null`/`INCOMPLETE` at case construction; the final verdict is `measured_zero_driver_upper_bound_pass`, requiring **both** `mean_gap_upper_rel ≤ TOL_LATERAL_DRIVER_REL` and `max_gap_upper_rel ≤ TOL_LATERAL_DRIVER_REL` at every required resolution and forcing level |
+| PE-62 | **the boundary forcing set collapsed to `c` only** | PE-47 declared `R`, `s`, `A1`, `A2` and actual `Ξ` required; `candidate_forcing_gates()` then adjudicated `c_field` and nothing else at boundary level | an explicit `CANDIDATE_BOUNDARY_FORCING_QUANTITIES` set — `R_identical`, `s_blocked`, `s_open`, `c_field`, `A1`, `A2`, `A_field`, `Xi_actual` — every member adjudicated at both resolutions across the whole ladder |
+| PE-63 | **no forcing gate for the areas** | `A1`, `A2` and the aggregate `A_field` fed the reachable set and actual `Ξ` with their forcing stability never tested | area quantities carry their own forcing gates under the frozen direct relative-spread rule (they are forcing-independent and are **not** divided by `g`) |
+| PE-64 | **P0 adjudicated nothing in aggregate** | P0 wrote records; no aggregate forcing or resolution verdict existed, and P1a's only prerequisite was `PHASE_COMPLETE` | `p0_aggregate_science()` produces a durable aggregate verdict stored in the P0 manifest, recomputed by the validator from records, and **P1a refuses unless it is complete and passing** |
+| PE-65 | **the `tau_plus = 1.2` rows were called an adjudicative cross-check with no rule** | scheduled as `tau_cross_check` and described as a cross-check; the controlling 001 authority freezes an analytic-channel observation (`+0.05203 %` at `τ⁺ = 1.2/2.0/3.0`) and **no** compared quantity, **no** tolerance and **no** viscosity/dynamic-similarity accounting for the assembled 3D fixture | classified `DIAGNOSTIC_ONLY`. They may show that the assembled fixture's behaviour is not grossly viscosity-dependent; they may **not** establish agreement, and they may not alter admission, uncertainty, classification or selection. **No tolerance is invented now.** The rows stay visible in the matrix |
+| PE-66 | **the resolution quantity set was incomplete** | `c_field`, `C_blocked` and `Xi_coupon` only | explicit P0 and candidate required sets: reference-blocked flux/pressure/conductance and outlet share, contrast and area quantities, every axial-coupon conductance by level and orientation; and per candidate `R_identical`, `s_blocked`, `s_open`, `c_field`, `A1`, `A2`, `A_field`, `C_blocked`, `C_open`, `G_bridge_coupon`, `Xi_actual` |
+| PE-67 | **`u_fixed_step_Xi` was a `G`-only movement** | `fixed_step_discrepancy(..., "G_bridge_coupon")` — the point estimate used actual `Ξ = G·(1/A1 + 1/A2)` while its uncertainty moved only `G`, so an area movement between a normal record and its audit was invisible | `actual_xi_discrepancy()` forms `Ξ_normal` and `Ξ_audit` from four exactly matched records (coupon normal, coupon audit, blocked-mirror normal, blocked-mirror audit) and takes the frozen safety-factor-adjusted discrepancy of the **derived** quantity |
+| PE-68 | **selected evidence omitted the audit hashes** | a selected bridge's `record_hashes` carried normals and the artifact combinations' audits, but not the `c`, `Ξ` and pressure audits whose discrepancies the ledger reported | every selected bridge binds `candidate_specific_case_ids` and `candidate_specific_record_sha256` covering **every** record used to decide it, with genuinely shared P0 evidence separated into a top-level `common_reference_evidence` and named by role |
+| PE-69 | **the successful P2b branch had never executed** | the synthetic pipeline reached only `DESIGN_BLOCKED`; the selected branch sat behind `# pragma: no cover` | a nondegenerate TEST_ONLY record generator drives P0 → P1a → adaptive P1b → adaptive P2a → P2b to a **one-below/three-inside** selection that writes all four artifacts, reopens and revalidates them, and makes zero solver calls |
+| PE-70 | **a chained comparison in the P2b validator** | `freeze["rows_sha256"] != inst["rows_sha256"] != record_hash(inst["rows"])` — Python chaining makes this `a != b and b != c`, so `a == c` with `b` different passes | two independent inequalities, with three negative regressions covering each mismatch pattern |
+| PE-71 | **TEST_ONLY predecessors could produce PRODUCTION P2b artifacts** | the synthetic harness monkeypatched `validate_phase_manifest`, `assert_production_record` and `execution_authority` and then ran the **production** wrapper, which stamped `provenance_mode = "PRODUCTION"` on the ledger, freeze, instantiated matrix and manifest | the P2b implementation is split into a pure decision core plus two wrappers with non-overlapping provenance: `assemble_p2b_from_runs()` obtains its own authority, validates recursively and writes PRODUCTION only; `_test_only_assemble_p2b_from_runs()` writes `provenance_mode = "TEST_ONLY"` on every artifact and never calls the production wrapper |
+| PE-72 | **predecessor manifests were rehashed, not revalidated** | `validate_p2b_manifest` compared predecessor manifest **file hashes** only, so a P2b manifest citing a correct hash for an internally invalid P0 passed | `validate_p2b_manifest(require_production=True)` recursively calls the strong phase validator for P0, P1a, P1b and P2a in dependency order — reopening, rehashing, recomputing case verdicts and the P0 aggregate controls, checking full-universe partitions and adaptive decisions, requiring `PHASE_COMPLETE` and PRODUCTION provenance |
+| PE-73 | **an unused authority parameter** | `validate_p2b_manifest(runs_dir, authority=None, …)` accepted `authority` and never read it | P2b binds a complete assembly-authority document (`p2b_assembly_authority()`), and the validator reconstructs and validates it explicitly; the parameter is load-bearing or absent |
+| PE-74 | **the provider was called before the record was discovered** | `_orchestrate` resolved the row, called `provider(...)`, built the record and only then found an exact match and reported `REUSED_EXACT_MATCH` — a "resume" that had already paid for every solve | the record path is derived first; an existing record is reopened, fully revalidated and reused **without a provider call**; a differing record fails closed **before** the provider; only a missing record reaches the guarded provider; `n_provider_calls == n_newly_executed` is asserted per phase |
+| PE-75 | **the phase manifest was overwritten unconditionally** | `tmp.write_text(...); tmp.replace(mpath)` on every run | manifest resume: an existing final manifest is reopened and fully validated, an exact valid completion returns with zero provider calls, anything else fails closed, and the write uses no-overwrite/exact-match semantics |
+| PE-76 | **P3/P4 orchestration still derived its universe from templates** | `phase_universe()` returns the *template* rows for P3/P4, and PE-54's instantiated-matrix loader was described but never implemented | `POST_FREEZE_EXECUTOR_READY = False` — an explicit, source-controlled **hard refusal**. P3 and P4 refuse even if added to `AUTHORISED_SOLVING_PHASES`, no unresolved template can reach the provider, and no document calls P3/P4 execution-ready. Loading the approved instantiated matrix is reserved for a later authorization tranche |
+
+## The `tau_plus = 1.2` disposition, resolved
+
+The controlling historical authority is RP-D-LC-001 `PROTOCOL.md` §5 and
+`rp_d_lc_virtual_fixture.TAU_CROSS_CHECK`. It freezes:
+
+- an **analytic plane-channel** observation — the permeability error is `+0.05203 %` at
+  `τ⁺ = 1.2`, `2.0` and `3.0`, identical to five significant figures;
+- the intent that "Arm A re-runs one assembled fixture case at `tau_plus = 1.2` to confirm the
+  independence holds for the assembled 3D geometry".
+
+It freezes **no** compared quantity for the assembled fixture, **no** tolerance, and **no**
+treatment of the viscosity change. That last omission is material: `ν = (τ⁺ − 0.5)/3`, so
+`τ⁺ = 1.2 → ν = 0.2333` against `τ⁺ = 2.0 → ν = 0.5`. A pressure-normalised conductance
+`C = Q/ΔP` scales as `1/ν`, and 001 handled this for the channel by scaling `g` with `ν`; the
+001b `tau_cross_check` rows run at the **same** central `g` as their `τ⁺ = 2.0` counterparts, so
+the two are not the same dimensionless problem and a raw comparison of `C`, `R` or `s` between
+them would compare a viscosity ratio, not a discretisation independence.
+
+Since no exact pre-existing rule exists, C5 **does not invent one**. The two rows are
+`DIAGNOSTIC_ONLY`:
+
+- **they may** record that the assembled 3D fixture solves, converges and stays in the low-Mach
+  regime at a second relaxation rate, and that no gross qualitative change appears;
+- **they may not** establish agreement, viscosity independence, or a bound of any kind;
+- **they may not** alter admission, uncertainty, classification, selection, any gate verdict or
+  any disposition.
+
+They remain visible in the matrix, at their existing count, so the omission is recorded rather
+than removed. Freezing an adjudicative `τ⁺` comparison — its quantity, its similarity scaling and
+its tolerance — is available to a later correction that does so **before** any output exists.
+
+## What did NOT change in C5
+
+Every accepted scientific decision listed above · the Route-A observable contract · **no
+solver-core change** · the claim ceiling · the `0.10·K` reachable-set margin · the four frozen
+tolerances · the four-slot rule · **RP-D-LC-001 byte-unchanged** · and every phase, solving and
+assembly alike, **unauthorized**: `AUTHORISED_SOLVING_PHASES = ()` and
+`AUTHORISED_ASSEMBLY_PHASES = ()`. No LB solve ran to produce this correction.
