@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C3"
+CORRECTION_VERSION = "PREFLIGHT-C4"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -157,6 +157,28 @@ SUPERSEDED_REVIEWS = (
         "superseded_counts": {"adaptive_maximum": 703, "planned_normal_solves": 383,
                               "planned_fixed_step_audits": 320, "mandatory_minimum": 112,
                               "refused_after_earliest_stop": 591},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+    },
+    {
+        "correction_version": "PREFLIGHT-C3",
+        "reviewed_head": "39533ade0fd74dc5fa10470710ec672041e62526",
+        "reviewed_tree": "1a8594340299cfc80e340012fcc4cda481cd491f",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C4_INTEGRATION_"
+                        "AND_AUTHORITY_CORRECTION_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(40, 60)],
+        "superseded_artifact_sha256": {
+            "protocol.json": "e46395b63bcc9d493365a74767475247d640096d834119cc76a35fb2a031e1f8",
+            "fixture_spec.json": "833f1d5edf8c1b4a54c1b3977ede4d2f14f92196a53738c0ced8c0e1c6d05023",
+            "execution_matrix.json":
+                "71371972b8553a81b3db98555ccec8b86acfc86108325ff23eee77662a4bb914",
+            "preflight_status.json":
+                "61214acee1fdcf846eacd6f6a0ede6a04ef5ec77c45fdb6df5afdd0b63003c16",
+        },
+        "superseded_counts": {"adaptive_maximum": 847, "planned_normal_solves": 383,
+                              "planned_fixed_step_audits": 320,
+                              "planned_pressure_plane_diagnostic_rows": 144,
+                              "mandatory_minimum": 112, "refused_after_earliest_stop": 735},
         "apparatus_accepted_in_principle":
             "common_mode_port_blind_pocket_off_on_comparison",
     },
@@ -1510,14 +1532,17 @@ PRESSURE_FACE_FIELDS = (
 TOL_LATERAL_DRIVER_REL = 1.0e-3
 
 def lateral_pressure_delta_record(rho, mask, meta, g):
-    """POINTWISE face-to-face effective-pressure difference over the bridge footprint.
+    """EXACTLY PAIRED face-to-face effective-pressure difference over the bridge footprint.
 
-    Both faces span the SAME ``(x, z)`` footprint, so the axial pressure gradient across that
-    footprint is common to them and cancels EXACTLY in a pointwise difference. Differencing the
-    two area means first and then attributing the individual faces' spatial spreads to the result
-    would charge that common-mode gradient as uncertainty, which it is not: it is the very thing
-    that cancels. The pointwise spread is therefore the honest measure of genuine face-to-face
-    nonuniformity, and its standard error is the conservative uncertainty on the mean gap.
+    Erratum PE-43: the superseded implementation used ``both = m1 & m2``, silently discarding
+    every node present on one face and not the other. An intersection is not a pairing, and a
+    control that quietly drops the nodes that disagree cannot establish that the faces agree.
+    Identical bounds, identical shape, elementwise-equal masks and equal counts are now
+    ADJUDICATIVE PREREQUISITES, and anything else fails closed.
+
+    Erratum PE-44: the spatial standard deviation is retained as a nonuniformity DIAGNOSTIC. It
+    is not a numerical error bound — LB face nodes are not established independent samples — and
+    ``sd/sqrt(n)`` is no longer used adjudicatively anywhere.
     """
     fx, fz = meta["bridge_x"], meta["bridge_z"]
     xs, xe = fx
@@ -1525,29 +1550,102 @@ def lateral_pressure_delta_record(rho, mask, meta, g):
     y1, y2 = meta["y_face1"], meta["y_face2"]
     m1 = ~mask[xs:xe, y1, zs:ze]
     m2 = ~mask[xs:xe, y2, zs:ze]
-    both = m1 & m2
-    if not both.any():
-        raise ValueError("the two lateral pressure faces share no fluid node over the footprint")
+    if m1.shape != m2.shape:
+        raise ValueError("the two lateral pressure faces have different shapes: %r vs %r"
+                         % (m1.shape, m2.shape))
+    masks_pair_exactly = bool(np.array_equal(m1, m2))
+    n1, n2 = int(m1.sum()), int(m2.sum())
+    if not masks_pair_exactly or n1 != n2:
+        raise ValueError(
+            "the lateral pressure faces do not pair exactly over the bridge footprint "
+            "(elementwise equal: %s; counts %d vs %d). An intersection is not a pairing "
+            "(erratum PE-43)." % (masks_pair_exactly, n1, n2))
+    if n1 == 0:
+        raise ValueError("the paired lateral pressure faces carry no fluid node")
     r = np.asarray(rho)
     xcoord = np.arange(xs, xe, dtype=float)[:, None]
-    p1 = r[xs:xe, y1, zs:ze] / 3.0 - g * xcoord      # nodewise, BEFORE any averaging
+    p1 = r[xs:xe, y1, zs:ze] / 3.0 - g * xcoord      # nodewise, BEFORE pairing or averaging
     p2 = r[xs:xe, y2, zs:ze] / 3.0 - g * xcoord
-    d = (p1 - p2)[both]
+    d = (p1 - p2)[m1]
     if not np.isfinite(d).all():
-        raise NonFiniteValue("the pointwise lateral pressure difference is not finite")
-    n = int(both.sum())
-    sd = float(d.std())
+        raise NonFiniteValue("a paired lateral pressure difference is not finite")
     return {
-        "n_paired_fluid": n,
-        "n_fluid_face1": int(m1.sum()), "n_fluid_face2": int(m2.sum()),
-        "faces_share_footprint": bool(int(m1.sum()) == int(m2.sum()) == n),
-        "delta_mean": float(d.mean()), "delta_sd": sd,
-        "delta_min": float(d.min()), "delta_max": float(d.max()),
-        "delta_standard_error": sd / float(np.sqrt(n)),
+        "faces_share_footprint": True,
+        "masks_pair_exactly": True,
+        "n_fluid_face1": n1, "n_fluid_face2": n2, "n_paired_fluid": n1,
+        "paired_mask_sha256": hashlib.sha256(
+            np.packbits(np.ascontiguousarray(m1, dtype=bool)).tobytes()
+            + ("%d,%d" % m1.shape).encode()).hexdigest(),
+        "mean_delta_p": float(d.mean()),
+        "abs_mean_delta_p": float(abs(d.mean())),
+        "max_abs_delta_p": float(np.abs(d).max()),
+        "min_delta_p": float(d.min()), "max_delta_p": float(d.max()),
+        "spatial_sd_delta_p": float(d.std()),
+        "spatial_sd_role": "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND",
         "footprint_x": (int(xs), int(xe)), "footprint_z": (int(zs), int(ze)),
-        "method": "POINTWISE_FACE_DIFFERENCE_COMMON_AXIAL_GRADIENT_CANCELS_EXACTLY",
+        "method": "EXACT_PAIRED_FACE_DIFFERENCE_COMMON_AXIAL_GRADIENT_CANCELS_EXACTLY",
         "sign_convention": SIGN_CONVENTION_LATERAL_PRESSURE,
+        "all_finite": True,
     }
+
+
+def lateral_pressure_upper_bounds(normal_delta, axial_pressure_scale,
+                                  audit_delta=None, expected_zero_driver=False):
+    """Mean AND maximum paired-gap upper bounds (errata PE-45, PE-46).
+
+    The superseded control gated only the mean, so alternating positive and negative paired
+    differences with a zero mean passed however large the individual differences were. Both
+    statistics are now bounded, and each bound takes its uncertainty from the record's OWN
+    fixed-step audit — never from a spatial standard error.
+    """
+    scale = abs(_finite(axial_pressure_scale, "axial_pressure_scale"))
+    if scale == 0.0:
+        raise ValueError("the axial pressure normalisation scale must be nonzero")
+    mean_pt = _finite(normal_delta["mean_delta_p"], "mean_delta_p")
+    max_pt = _finite(normal_delta["max_abs_delta_p"], "max_abs_delta_p")
+    sf = NUMERICAL_DISCREPANCY_SAFETY_FACTOR
+    if audit_delta is None:
+        u_mean = u_max = None
+    else:
+        u_mean = sf * abs(_finite(audit_delta["mean_delta_p"], "audit mean_delta_p") - mean_pt)
+        u_max = sf * abs(_finite(audit_delta["max_abs_delta_p"], "audit max_abs_delta_p")
+                         - max_pt)
+    u_ser = 10.0 ** (-_RECORD_DP) * (1.0 + abs(mean_pt))
+    out = {
+        "axial_pressure_scale": scale,
+        "mean_delta_p": mean_pt, "abs_mean_delta_p": abs(mean_pt), "max_abs_delta_p": max_pt,
+        "spatial_sd_delta_p": normal_delta["spatial_sd_delta_p"],
+        "spatial_sd_role": normal_delta["spatial_sd_role"],
+        "safety_factor": sf,
+        "u_mean_gap": u_mean, "u_max_gap": u_max,
+        "u_serialization_mean": u_ser, "u_serialization_max": u_ser,
+        "tolerance": TOL_LATERAL_DRIVER_REL,
+        "expected_zero_driver": bool(expected_zero_driver),
+        "evidence_complete": bool(audit_delta is not None),
+        "overlaps": ("u_mean_gap and u_max_gap come from the same fixed-step pair but bound "
+                     "different statistics; neither is added to the other"),
+    }
+    if audit_delta is None:
+        out.update(mean_gap_upper_rel=None, max_gap_upper_rel=None,
+                   mean_pass=None, max_pass=None, **{"pass": None},
+                   reason=("no fixed-step evidence for the pressure gap; an upper-bound verdict "
+                           "cannot be formed (erratum PE-46)"))
+        return out
+    out["mean_gap_upper_rel"] = _finite((abs(mean_pt) + u_mean + u_ser) / scale,
+                                        "mean_gap_upper_rel")
+    out["max_gap_upper_rel"] = _finite((max_pt + u_max + u_ser) / scale, "max_gap_upper_rel")
+    if expected_zero_driver:
+        out["mean_pass"] = bool(out["mean_gap_upper_rel"] <= TOL_LATERAL_DRIVER_REL)
+        out["max_pass"] = bool(out["max_gap_upper_rel"] <= TOL_LATERAL_DRIVER_REL)
+        out["pass"] = bool(out["mean_pass"] and out["max_pass"])
+        out["reason"] = ("expected-zero-driver control: BOTH the mean and the maximum paired gap "
+                         "must clear the tolerance. A zero mean produced by cancellation cannot "
+                         "pass while the maximum paired difference is excessive (erratum PE-45).")
+    else:
+        out.update(mean_pass=None, max_pass=None, **{"pass": None},
+                   reason=("driven bridge: a nonzero lateral gap is the physics under test, so "
+                           "no zero-driver verdict applies"))
+    return out
 
 
 def pressure_face_record(plane_id, y, rho, mask, g, footprint_x, footprint_z):
@@ -1606,15 +1704,17 @@ def lateral_pressure_gap(face_records, delta_record, axial_pressure_scale, g, q_
     gv = _finite(g, "g")
     if gv == 0.0:
         raise ValueError("the body force must be nonzero to form delta_p/g")
-    gap = _finite(delta_record["delta_mean"], "delta_mean")
-    u_face = _finite(delta_record["delta_standard_error"] / scale, "face_uncertainty_rel")
+    gap = _finite(delta_record["mean_delta_p"], "mean_delta_p")
     rel = _finite(abs(gap) / scale, "delta_p_lateral_rel")
     out = {
         "p_face1": f1["p_mean"], "p_face2": f2["p_mean"],
         "p_face1_sd": f1["p_sd"], "p_face2_sd": f2["p_sd"],
         "face_nonuniformity_rel": _finite((f1["p_sd"] + f2["p_sd"]) / scale,
                                           "face_nonuniformity_rel"),
-        "face_nonuniformity_role": "diagnostic_coarse_graining_not_an_uncertainty_on_the_gap",
+        "face_nonuniformity_role": "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND",
+        "max_abs_delta_p": delta_record["max_abs_delta_p"],
+        "masks_pair_exactly": delta_record["masks_pair_exactly"],
+        "n_paired_fluid": delta_record["n_paired_fluid"],
         "delta_p_lateral": gap,
         "delta_p_lateral_from_face_means": _finite(f1["p_mean"] - f2["p_mean"],
                                                    "delta_from_means"),
@@ -1623,8 +1723,9 @@ def lateral_pressure_gap(face_records, delta_record, axial_pressure_scale, g, q_
         "axial_pressure_scale": scale,
         "axial_pressure_scale_source": "p_mean(x_node_in) - p_mean(x_node_out)",
         "delta_p_lateral_rel": rel,
-        "face_uncertainty_rel": u_face,
-        "delta_p_lateral_rel_upper": rel + u_face,
+        "upper_bound_source": ("lateral_pressure_upper_bounds(), from this record's own "
+                               "fixed-step audit; a spatial standard error is never used "
+                               "adjudicatively (erratum PE-44)"),
         "sign_convention": SIGN_CONVENTION_LATERAL_PRESSURE,
         "tolerance": TOL_LATERAL_DRIVER_REL,
         "expected_zero_driver": bool(expected_zero_driver),
@@ -1633,8 +1734,10 @@ def lateral_pressure_gap(face_records, delta_record, axial_pressure_scale, g, q_
                               else _finite(float(q_lat_mass) / gv, "q_lat_mass_over_g")),
     }
     if expected_zero_driver:
-        out["measured_zero_driver_pass"] = bool(out["delta_p_lateral_rel_upper"]
-                                                <= TOL_LATERAL_DRIVER_REL)
+        # the POINT verdict; the adjudicative upper-bound verdict is formed at assembly, where
+        # the fixed-step audit is available (errata PE-45, PE-46)
+        out["measured_zero_driver_point_pass"] = bool(rel <= TOL_LATERAL_DRIVER_REL)
+        out["measured_zero_driver_pass"] = out["measured_zero_driver_point_pass"]
         out["reason"] = ("identical-path control: the geometry supplies the EXPECTATION of a zero "
                          "lateral driver, and the measured mid-face pressure gap must confirm it. "
                          "A geometry label alone may never certify the premise of the negative "
@@ -2329,17 +2432,37 @@ def componentwise_forcing_gate(quantity, samples, expected_zero=False, zero_scal
     return out
 
 
-def forcing_invariance_verdict(gates):
+#: The exact componentwise quantity set a candidate MUST have adjudicated (erratum PE-47). A
+#: nonempty intersection with an allowlist is not sufficient evidence that the contract was met.
+REQUIRED_FORCING_QUANTITIES = ("Q_open", "Q_blocked", "dP_open", "dP_blocked",
+                               "q_lat", "delta_p_lateral", "c_field")
+
+
+def forcing_invariance_verdict(gates, required=REQUIRED_FORCING_QUANTITIES,
+                               resolutions=SCIENTIFIC_RESOLUTIONS):
     """Aggregate componentwise gates. Every component must pass on its own: an aggregate that
     cancels while one component drifts is NOT a pass."""
     gs = [dict(g) for g in gates]
     failed = [g["quantity"] for g in gs if g["pass"] is not True]
+    present = {g["quantity"].split("@")[0] for g in gs}
+    want = {"%s" % q for q in required}
+    missing_q = sorted(want - present)
+    per_res = {}
+    for S in resolutions:
+        have = {g["quantity"].split("@")[0] for g in gs if g["quantity"].endswith("@S%d" % S)}
+        per_res["S%d" % S] = sorted(want - have)
+    missing_res = sorted({q for v in per_res.values() for q in v})
     return {
         "n_gates": len(gs), "gates": gs,
         "failed_quantities": failed,
-        "pass": bool(gs) and not failed,
-        "rule": ("every component passes on its own; aggregate cancellation is never a pass "
-                 "(erratum PE-28)"),
+        "required_quantities": sorted(want),
+        "missing_quantities": missing_q,
+        "missing_per_resolution": per_res,
+        "complete": bool(not missing_q and not missing_res),
+        "pass": bool(gs) and not failed and not missing_q and not missing_res,
+        "rule": ("every required component is present at EVERY resolution and passes on its own; "
+                 "aggregate cancellation is never a pass, and a nonempty intersection with an "
+                 "allowlist is not completeness (errata PE-28, PE-47)"),
     }
 
 
@@ -2647,8 +2770,7 @@ RECORD_SCHEMAS = {
     "fixed_step_audit": "full_case from a FIXED-STEP re-execution with min_steps = max_steps = "
                         "CHECK*ceil(1.5*base_steps/CHECK), plus the base linkage and both solver "
                         "configurations",
-    "pressure_plane": "R evaluated on each frozen node-surface offset of the SAME solution, plus "
-                      "the base linkage; needs no extra solve but does need a record (PE-32)",
+
     "obstructed": "full_case plus the induced movements in R, s, c_hat and Xi_hat",
 }
 
@@ -2695,7 +2817,7 @@ def _row(**kw):
         "tau_plus": TAU_PLUS, "state": None, "variant": None, "bridge": None,
         "coupon_level": None, "coupon_orientation": None, "swapped": False,
         "perturbation": None, "obstructed": False, "audit_mode": None,
-        "run_mode": "NORMAL", "audit_of_case_id": None,
+        "run_mode": "NORMAL", "audit_of_case_id": None, "replicate_of_case_id": None,
         "backend": "reference", "record_schema": None, "prerequisite": None,
         "class": None, "adaptive": False,
     }
@@ -2775,8 +2897,12 @@ def _matrix_rows():
         rows.append(_row(phase="P0", kind="tau_cross_check", S=S, forcing_level="central",
                          tau_plus=TAU_CROSS_CHECK, state="reference_blocked", variant="mirror",
                          record_schema="full_case", **{"class": "mandatory"}))
+    p0_base = next(r for r in rows if r["kind"] == "reference_blocked_ladder"
+                   and r["S"] == S_COARSE and r["forcing_level"] == "central"
+                   and r["run_mode"] == "NORMAL")
     rows.append(_row(phase="P0", kind="determinism_replicate", S=S_COARSE,
                      forcing_level="central", state="reference_blocked", variant="mirror",
+                     replicate_of_case_id=p0_base["case_id"],
                      record_schema="full_case", **{"class": "diagnostic_only"}))
 
     # ---- P1a: central identical-path TRIAGE screen, ALL declared scientific candidates --------
@@ -2794,9 +2920,12 @@ def _matrix_rows():
                                     record_schema="full_case", prerequisite="P0",
                                     **{"class": "mandatory"}))
     rows += central
+    p1a_base = next(r for r in central if r["S"] == S_COARSE and r["state"] == "blocked"
+                    and tuple(sorted(r["bridge"].items())) == tuple(sorted(dict(sci[0]).items())))
     rows.append(_row(phase="P1a", kind="determinism_replicate", S=S_COARSE,
                      forcing_level="central", state="blocked", variant="identical",
-                     bridge=dict(sci[0]), record_schema="full_case", prerequisite="P0",
+                     bridge=dict(sci[0]), replicate_of_case_id=p1a_base["case_id"],
+                     record_schema="full_case", prerequisite="P0",
                      **{"class": "diagnostic_only"}))
 
     # ---- P1b: forcing extension, plus a fixed-step audit for EVERY artifact combination -------
@@ -2812,23 +2941,6 @@ def _matrix_rows():
                                     record_schema="full_case", prerequisite="P1a",
                                     adaptive=True, **{"class": "conditional_on_P1a"}))
     rows += ext
-    # PE-32: the node-offset term was named and always ZERO because nothing was passed. The
-    # frozen node-surface offsets need no extra SOLVE, but they do need a record, so a
-    # pressure-plane diagnostic row is scheduled for every artifact combination and its absence
-    # now FAILS the evidence instead of contributing zero.
-    for base in central + ext:
-        d = dict(base)
-        d["phase"] = "P1b"
-        d["kind"] = "pressure_plane_diagnostic"
-        d["record_schema"] = "pressure_plane"
-        d["audit_mode"] = "node_offsets"
-        d["prerequisite"] = "P1a"
-        d["adaptive"] = True
-        d["class"] = "conditional_on_P1a"
-        d["audit_of_case_id"] = base["case_id"]
-        d.pop("case_id")
-        d["case_id"] = _case_id(d)
-        rows.append(d)
     # every candidate x {blocked, open} x {S=2, S=3} x {low, central, high} gets its OWN evidence
     for base in central + ext:
         a = dict(_audit_row(base))
@@ -2888,15 +3000,25 @@ def post_freeze_row_templates():
                              state="open" if connected else "blocked", variant="mirror",
                              perturbation=pert, bridge=slots[0], record_schema="full_case",
                              prerequisite="P2b", **{"class": "conditional_on_freeze"}))
+    # erratum PE-55: generated FROM the exact primary normal row, through the same audited-row
+    # constructor used pre-freeze, so audit_of_case_id is never null.
     for S in SCIENTIFIC_RESOLUTIONS:
-        rows.append(_row(phase="P3", kind="fixed_step_audit", S=S, forcing_level="central",
-                         state="open", variant="mirror", bridge=slots[0],
-                         audit_mode="fixed_step_1p5x", run_mode="FIXED_STEP_REEXECUTION_1P5X",
-                         record_schema="fixed_step_audit", prerequisite="P2b",
-                         **{"class": "conditional_on_freeze"}))
+        base = next(r for r in rows if r["phase"] == "P3" and r["kind"] == "primary_mirror_open"
+                    and r["S"] == S and r["forcing_level"] == "central"
+                    and r["bridge"] == slots[0])
+        a = dict(_audit_row(base))
+        a["prerequisite"] = "P2b"
+        a["class"] = "conditional_on_freeze"
+        a.pop("case_id")
+        a["case_id"] = _case_id(a)
+        rows.append(a)
+    p3_base = next(r for r in rows if r["phase"] == "P3" and r["kind"] == "primary_mirror_open"
+                   and r["S"] == S_COARSE and r["forcing_level"] == "central"
+                   and r["bridge"] == slots[0] and r["run_mode"] == "NORMAL")
     rows.append(_row(phase="P3", kind="determinism_replicate", S=S_COARSE,
                      forcing_level="central",
                      state="open", variant="mirror", bridge=slots[0],
+                     replicate_of_case_id=p3_base["case_id"],
                      record_schema="full_case", prerequisite="P2b",
                      **{"class": "diagnostic_only"}))
     for slot in slots:
@@ -2921,14 +3043,27 @@ def instantiate_post_freeze_matrix(frozen_bridges):
                             "instantiation needs exactly %d unique frozen bridges, got %r"
                             % (N_FROZEN_BRIDGES, keys))
     slot_map = {"frozen_slot_%d" % i: bridges[i] for i in range(N_FROZEN_BRIDGES)}
+    tpls = post_freeze_row_templates()
+    remap = {}
     out = []
-    for tpl in post_freeze_row_templates():
+    for tpl in tpls:
         row = dict(tpl)
         row["bridge"] = dict(slot_map[row["bridge"]])
         row["bridge_slot"] = tpl["bridge"]
         row.pop("case_id")
         row["case_id"] = _case_id(row)
+        remap[tpl["case_id"]] = row["case_id"]
         out.append(row)
+    # rebind audit/replicate references to the INSTANTIATED case ids (errata PE-55, PE-59)
+    for row in out:
+        for k in ("audit_of_case_id", "replicate_of_case_id"):
+            if row.get(k):
+                if row[k] not in remap:
+                    raise ValueError("row %r names %s=%r, which is not a template row"
+                                     % (row["case_id"], k, row[k]))
+                row[k] = remap[row[k]]
+        row.pop("case_id")
+        row["case_id"] = _case_id(row)
     ids = [r["case_id"] for r in out]
     if len(set(ids)) != len(ids):                            # pragma: no cover - guarded above
         raise ValueError("instantiated P3/P4 matrix has duplicate case ids")
@@ -2961,8 +3096,10 @@ def execution_matrix():
     n_audit = sum(1 for r in rows if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X")
     # pressure-plane diagnostics re-read the frozen node-surface offsets of the SAME solution and
     # need no extra solve; they are counted separately so a solve budget is never overstated.
-    n_diag = sum(1 for r in rows if r["kind"] == "pressure_plane_diagnostic")
-    n_normal = total - n_audit - n_diag
+    # erratum PE-41: node-offset summaries are extracted from fields already computed, so there
+    # is no diagnostic ROW and no provider call. Every row is either a normal solve or an audit.
+    n_diag = 0
+    n_normal = total - n_audit
     mandatory_with_replicates = mandatory + sum(
         1 for r in rows if r["class"] == "diagnostic_only" and r["phase"] in ("P0", "P1a"))
     return {
@@ -2976,7 +3113,10 @@ def execution_matrix():
         "by_kind": by_kind,
         "planned_normal_solves": n_normal,
         "planned_fixed_step_audits": n_audit,
-        "planned_pressure_plane_diagnostics": n_diag,
+        "planned_pressure_plane_diagnostic_rows": n_diag,
+        "planned_solver_invocations": n_normal + n_audit,
+        "node_offset_policy": ("node-offset summaries are extracted from the SAME field as their "
+                               "case and never increment the provider-call count (PE-41)"),
         "mandatory_minimum": mandatory_with_replicates,
         "conditional_minimum": 0,
         "adaptive_maximum": total,
@@ -3399,16 +3539,17 @@ def _load_json(path, what):
         raise ManifestMissing("%s at %s is not readable JSON: %s" % (what, p, exc))
 
 
-def require_freeze(stage: str, path=None, matrix_path=None):
+def require_freeze(stage: str, runs_dir=None, path=None, matrix_path=None):
     """Fail-closed freeze gate. A primary stage refuses to execute when the freeze artifact is
     absent, malformed, empty, bound to a different configuration, or unaccompanied by the
     reviewed INSTANTIATED P3/P4 matrix it authorises."""
-    p = pathlib.Path(path) if path is not None else (REPO_ROOT / FREEZE_REL)
+    base = (pathlib.Path(runs_dir) if runs_dir is not None else (REPO_ROOT / RUNS_REL))
+    p = pathlib.Path(path) if path is not None else (base / "bridge_freeze.json")
     if not p.exists():
         raise FreezeMissing(
-            "stage %r requires the bridge freeze artifact %s, which does not exist. The "
+            "stage %r requires the bridge freeze artifact at %s, which does not exist. The "
             "candidate and aperture must be frozen — and reviewed — before any primary mirror "
-            "output is generated." % (stage, FREEZE_REL))
+            "output is generated." % (stage, p))
     try:
         doc = json.loads(p.read_text())
     except Exception as exc:
@@ -3430,14 +3571,69 @@ def require_freeze(stage: str, path=None, matrix_path=None):
         raise FreezeMissing("the freeze carries %d bridges; exactly %d are required"
                             % (len(bridges), N_FROZEN_BRIDGES))
     mp = pathlib.Path(matrix_path) if matrix_path is not None else (
-        REPO_ROOT / INSTANTIATED_MATRIX_REL)
+        base / "instantiated_p3_p4_matrix.json")
     if not mp.exists():
         raise FreezeMissing(
             "stage %r also requires the reviewed instantiated P3/P4 matrix at %s; a freeze "
             "without it does not say which cases it authorises" % (stage, INSTANTIATED_MATRIX_REL))
     inst = json.loads(mp.read_text())
-    if inst.get("instantiated_matrix_sha256") != doc.get("instantiated_matrix_sha256"):
-        raise FreezeMissing("the instantiated P3/P4 matrix is not the one this freeze hashed")
+    # PE-51: ONE canonical schema, used by writer, validator, freeze gate and executor alike
+    if inst.get("rows_sha256") != doc.get("rows_sha256"):
+        raise FreezeMissing("the instantiated P3/P4 matrix is not the one this freeze hashed "
+                            "(rows_sha256 mismatch)")
+    actual = hashlib.sha256(mp.read_bytes()).hexdigest()
+    if doc.get("instantiated_matrix_file_sha256") != actual:
+        raise FreezeMissing("the instantiated P3/P4 matrix FILE hash does not match the freeze")
+    if doc.get("status") != "APPROVED_BY_EXACT_HEAD_REVIEW":
+        raise FreezeMissing(
+            "the freeze at %s carries status %r; P3/P4 require an APPROVED freeze produced by "
+            "the promotion contract, and a PROPOSED freeze authorises nothing (PE-40 §13)"
+            % (p, doc.get("status")))
+    if doc.get("provenance_mode") != "PRODUCTION":
+        raise FreezeMissing("a TEST_ONLY freeze may never satisfy a production gate")
+    return doc
+
+
+APPROVED_FREEZE_STATUS = "APPROVED_BY_EXACT_HEAD_REVIEW"
+
+
+def make_approved_freeze(runs_dir, review_commit, review_tree, provenance_mode="PRODUCTION"):
+    """The proposed-to-approved promotion wrapper (PE-40 §13). IMPLEMENTED, NOT EXERCISED.
+
+    A small reviewed authority wrapper that binds the exact file hashes of the proposed freeze,
+    the P2b manifest, the candidate ledger and the instantiated matrix. **It changes no scientific
+    value**: any change to candidates or evidence requires a new P2b assembly, never an edit here.
+    It does not itself authorize P3 or P4.
+    """
+    base = pathlib.Path(runs_dir)
+    files = {}
+    for name in ("proposed_bridge_freeze.json", "manifest_P2b.json", "candidate_ledger.json",
+                 "instantiated_p3_p4_matrix.json"):
+        f = base / name
+        if not f.exists():
+            raise FreezeMissing("promotion requires %s" % name)
+        files[name] = hashlib.sha256(f.read_bytes()).hexdigest()
+    proposed = json.loads((base / "proposed_bridge_freeze.json").read_text())
+    inst = json.loads((base / "instantiated_p3_p4_matrix.json").read_text())
+    if proposed.get("status") != "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW":
+        raise FreezeMissing("only a PROPOSED freeze may be promoted")
+    doc = {
+        "schema_version": 1, "correction_version": CORRECTION_VERSION,
+        "provenance_mode": provenance_mode,
+        "status": APPROVED_FREEZE_STATUS,
+        "proposed_bridge_freeze_file_sha256": files["proposed_bridge_freeze.json"],
+        "manifest_P2b_file_sha256": files["manifest_P2b.json"],
+        "candidate_ledger_file_sha256": files["candidate_ledger.json"],
+        "instantiated_matrix_file_sha256": files["instantiated_p3_p4_matrix.json"],
+        "rows_sha256": inst["rows_sha256"],
+        "frozen_bridges": [{"w": b["w"], "kz": b["kz"], "slot": b["slot"]}
+                           for b in proposed["frozen_bridges"]],
+        "review_commit": review_commit, "review_tree": review_tree,
+        "authorises_p3_p4": False,
+        "note": ("an approval wrapper binds evidence; it does NOT authorize P3 or P4, which need "
+                 "their own reviewed source commit adding them to AUTHORISED_SOLVING_PHASES"),
+    }
+    doc.update(config_hashes())
     return doc
 
 
@@ -3604,13 +3800,28 @@ def assert_production_record(rec):
     return rec
 
 
+#: Keys stripped from the scientific payload before hashing: they carry CASE IDENTITY or file
+#: metadata, which differ between a base case and its replicate by construction (erratum PE-37).
+PAYLOAD_IDENTITY_KEYS = ("source_case_id", "case_id", "base_case_id", "audit_of_case_id",
+                         "replicate_of_case_id", "record_path", "record_sha256")
+
+
+def _strip_identity(o):
+    if isinstance(o, dict):
+        return {k: _strip_identity(v) for k, v in o.items() if k not in PAYLOAD_IDENTITY_KEYS}
+    if isinstance(o, (list, tuple)):
+        return [_strip_identity(v) for v in o]
+    return o
+
+
 def scientific_payload_hash(effective_config, scientific, mask_sha256):
     """The canonical payload identity a determinism replicate must reproduce (erratum PE-37).
 
     Deliberately EXCLUDES case identity, file paths and anything else that differs between a base
     case and its replicate by construction.
     """
-    return record_hash({"effective_config": effective_config, "scientific": scientific,
+    return record_hash({"effective_config": _strip_identity(effective_config),
+                        "scientific": _strip_identity(scientific),
                         "mask_sha256": mask_sha256})
 
 
@@ -3649,6 +3860,118 @@ def read_case_record(runs_dir, case_id):
 
 
 # ---- adaptive derivation: what each phase is EXPECTED to run, derived from predecessors -------
+
+NODE_OFFSET_SCHEMA_VERSION = 1
+
+
+def node_offset_summary(ux, rho, mask, meta, g, case_id=None):
+    """A compact per-state node-offset summary, extracted from a field ALREADY COMPUTED.
+
+    Erratum PE-41: C3 scheduled 144 separate rows that each went through the result provider, so
+    the same physics was solved twice and the planned budget was overstated. The frozen offsets
+    are re-reads of one solution; this function is called while that solution is in memory and
+    makes **no** provider call.
+
+    Erratum PE-42: the per-offset quantity retained here is a CONDUCTANCE, never a ratio. The
+    same-state quantity ``C_j/C_0`` is NOT ``R``, and forming ``R`` is P2b's job, only after it
+    has paired an exact open and blocked record — see :func:`node_offset_R`.
+    """
+    offsets = (0,) + tuple(meta["node_offsets"])
+    rows = []
+    for off in offsets:
+        xin, xout = meta["x_node_in"] - off, meta["x_node_out"] + off
+        p_in = axial_plane_record("x_node_in_off%d" % off, xin, ux, rho, mask, g)
+        p_out = axial_plane_record("x_node_out_off%d" % off, xout, ux, rho, mask, g)
+        q = axial_plane_record("x_meas_a", meta["x_meas_a"], ux, rho, mask, g)
+        dP = p_in["p_mean"] - p_out["p_mean"]
+        finite = all(math.isfinite(v) for v in (p_in["p_mean"], p_out["p_mean"], q["sum_ux"], dP))
+        rows.append({
+            "offset": int(off),
+            "inlet_plane_id": p_in["plane_id"], "inlet_index": int(xin),
+            "outlet_plane_id": p_out["plane_id"], "outlet_index": int(xout),
+            "flux_plane_id": q["plane_id"], "flux_index": int(meta["x_meas_a"]),
+            "Q_volume": q["sum_ux"], "p_in": p_in["p_mean"], "p_out": p_out["p_mean"],
+            "delta_P": dP,
+            "conductance": (q["sum_ux"] / dP if (finite and dP != 0.0) else None),
+            "n_fluid_inlet": p_in["n_fluid"], "n_fluid_outlet": p_out["n_fluid"],
+            "n_fluid_flux": q["n_fluid"],
+            "finite": bool(finite), "delta_P_nonzero": bool(dP != 0.0),
+        })
+    return {
+        "node_offset_schema_version": NODE_OFFSET_SCHEMA_VERSION,
+        "offsets": [int(o) for o in offsets],
+        "per_offset": rows,
+        "source_case_id": case_id,
+        "mask_sha256": meta["mask_sha256"],
+        "state": meta["state"], "S": meta["S"], "bridge": meta.get("bridge"),
+        "quantity": "CONDUCTANCE_PER_OFFSET_NOT_A_RATIO",
+        "note": ("extracted from a field already computed for this case; it is NOT a separate "
+                 "solve and must never increment the provider-call count (erratum PE-41)"),
+        "all_finite": all(r["finite"] and r["delta_P_nonzero"] for r in rows),
+    }
+
+
+#: The configuration fields an open and a blocked record must agree on before their node-offset
+#: conductances may be divided (erratum PE-42).
+NODE_OFFSET_PAIR_FIELDS = ("S", "forcing_level", "tau_plus", "variant", "perturbation",
+                           "obstructed", "swapped", "run_mode", "coupon_orientation")
+
+
+def node_offset_R(open_rec, blocked_rec):
+    """``R_offset_j = C_open_offset_j / C_blocked_offset_j`` and the resulting uncertainty.
+
+    The two records must describe the SAME configuration in every respect except the state, and
+    must carry identical offset sets and identical plane definitions. Anything else fails closed:
+    an open offset paired with a different blocked configuration is not a node-offset sensitivity
+    of ``R``.
+    """
+    for f in NODE_OFFSET_PAIR_FIELDS:
+        if open_rec["row"].get(f) != blocked_rec["row"].get(f):
+            raise ValueError("node-offset pairing mismatch on %r: %r vs %r"
+                             % (f, open_rec["row"].get(f), blocked_rec["row"].get(f)))
+    if _bridge_key(open_rec) != _bridge_key(blocked_rec):
+        raise ValueError("node-offset pairing mismatch on the candidate geometry")
+    if open_rec["row"]["state"] != "open" or blocked_rec["row"]["state"] != "blocked":
+        raise ValueError("node_offset_R needs exactly one open and one blocked record")
+    o = (open_rec.get("scientific") or {}).get("node_offsets")
+    b = (blocked_rec.get("scientific") or {}).get("node_offsets")
+    if not o or not b:
+        raise ValueError("both records must carry a node-offset summary; a missing one FAILS the "
+                         "evidence and may never contribute zero (erratum PE-32)")
+    if o["offsets"] != b["offsets"]:
+        raise ValueError("node-offset sets differ: %r vs %r" % (o["offsets"], b["offsets"]))
+    ratios = []
+    for ro, rb in zip(o["per_offset"], b["per_offset"]):
+        for k in ("inlet_plane_id", "outlet_plane_id", "flux_plane_id", "inlet_index",
+                  "outlet_index", "flux_index"):
+            if ro[k] != rb[k]:
+                raise ValueError("node-offset plane definitions differ at offset %r on %r"
+                                 % (ro["offset"], k))
+        if ro["conductance"] is None or rb["conductance"] is None:
+            raise ValueError("a node-offset conductance is unavailable at offset %r"
+                             % (ro["offset"],))
+        if rb["conductance"] == 0.0:
+            raise ValueError("a blocked node-offset conductance is zero at offset %r"
+                             % (ro["offset"],))
+        ratios.append({"offset": ro["offset"],
+                       "R_offset": _finite(ro["conductance"] / rb["conductance"],
+                                           "R at offset %r" % ro["offset"])})
+    nominal = ratios[0]["R_offset"]
+    movement = max(abs(r["R_offset"] - nominal) for r in ratios)
+    return {
+        "offsets": o["offsets"],
+        "R_offsets": ratios,
+        "R_nominal": nominal,
+        "max_abs_movement": movement,
+        "safety_factor": NUMERICAL_DISCREPANCY_SAFETY_FACTOR,
+        "u_pressure_plane_R": NUMERICAL_DISCREPANCY_SAFETY_FACTOR * movement,
+        "open_case_id": open_rec["case_id"], "blocked_case_id": blocked_rec["case_id"],
+        "open_record_sha256": record_hash(open_rec),
+        "blocked_record_sha256": record_hash(blocked_rec),
+        "method": ("R_offset_j = C_open_offset_j / C_blocked_offset_j, formed only after exact "
+                   "open/blocked pairing; a same-state C_j/C_0 is NOT R (erratum PE-42)"),
+    }
+
 
 def field_contrast(sci):
     """The blocked-side four-conductance coarse-graining, from a compact record's own scalars.
@@ -3881,19 +4204,17 @@ def artifact_evidence_from_records(records, bridge_key):
             u_fs = disc["u_continuation_R_abs"] * NUMERICAL_DISCREPANCY_SAFETY_FACTOR
             a_ids = [pair_audits["blocked"]["case_id"], pair_audits["open"]["case_id"]]
             a_h = [record_hash(pair_audits["blocked"]), record_hash(pair_audits["open"])]
-        p_ids, p_h, u_pp = [], [], None
-        pp = [r for r in planes.values()
-              if r["row"]["S"] == S and r["row"]["forcing_level"] == level]
-        if pp:
-            movements = []
-            for r in sorted(pp, key=lambda x: x["case_id"]):
-                offs = (r.get("scientific") or {}).get("R_at_node_offsets")
-                if offs:
-                    movements.extend(abs(_finite(v, "R at a node offset") - R) for v in offs)
-                p_ids.append(r["case_id"])
-                p_h.append(record_hash(r))
-            if movements:
-                u_pp = NUMERICAL_DISCREPANCY_SAFETY_FACTOR * max(movements)
+        # PE-42: the node-offset ratio is formed ONLY from the exactly paired open/blocked
+        # records. A same-state C_j/C_0 is not R, and a missing summary FAILS the evidence.
+        p_ids, p_h, u_pp, offs = [], [], None, None
+        try:
+            offs = node_offset_R(states["open"], states["blocked"])
+        except (ValueError, NonFiniteValue):
+            offs = None
+        if offs is not None:
+            u_pp = offs["u_pressure_plane_R"]
+            p_ids = [offs["blocked_case_id"], offs["open_case_id"]]
+            p_h = [offs["blocked_record_sha256"], offs["open_record_sha256"]]
         u_ser = 10.0 ** (-_RECORD_DP) * (1.0 + abs(R))
         complete = u_fs is not None and u_pp is not None
         u_total = (None if not complete else u_fs + u_pp + u_ser)
@@ -3908,6 +4229,7 @@ def artifact_evidence_from_records(records, bridge_key):
             "R_point": R,
             "u_fixed_step_R": (0.0 if u_fs is None else u_fs),
             "u_pressure_plane_R": (0.0 if u_pp is None else u_pp),
+            "node_offset_R": offs,
             "u_serialization_R": u_ser,
             "u_artifact_R": (0.0 if u_total is None else u_total),
             "artifact_upper": (abs(R - 1.0) if upper is None else upper),
@@ -3916,9 +4238,10 @@ def artifact_evidence_from_records(records, bridge_key):
             "lineage": {
                 "R_point": "NORMAL blocked/open pair only",
                 "u_fixed_step_R": "this pair's own fixed-step audits",
-                "u_pressure_plane_R": ("this combination's own node-offset diagnostics; a MISSING "
-                                       "record fails the evidence rather than contributing zero "
-                                       "(erratum PE-32)"),
+                "u_pressure_plane_R": ("R_offset_j = C_open_offset_j / C_blocked_offset_j from "
+                                       "this pair's OWN exactly paired records; a missing or "
+                                       "unpairable summary FAILS the evidence rather than "
+                                       "contributing zero (errata PE-32, PE-42)"),
                 "u_serialization_R": "frozen record precision",
                 "overlaps": "no term appears in more than one sum",
                 "used_in": "artifact admission and the reachable-set inequality",
@@ -3927,7 +4250,8 @@ def artifact_evidence_from_records(records, bridge_key):
         if not complete:
             ev["reason"] = ("incomplete: %s" % ", ".join(
                 [s for s, ok in (("no fixed-step audit pair", u_fs is not None),
-                                 ("no pressure-plane diagnostic", u_pp is not None)) if not ok]))
+                                 ("no paired node-offset evidence", u_pp is not None))
+                 if not ok]))
         out["%d.%s" % (S, level)] = assert_artifact_evidence(ev)
     return out
 
@@ -4028,6 +4352,97 @@ def phase_universe(phase, matrix_rows):
     (erratum PE-26): the superseded executor refused them while the validator built its universe
     from the eligible subset and then rejected them as extra."""
     return [r for r in matrix_rows if r["phase"] == phase]
+
+
+#: Fields a replicate or a fixed-step audit must share EXACTLY with its base (erratum PE-59).
+#: The superseded executor inferred the base by searching for the first row that shared only S,
+#: state, variant, forcing level and run mode.
+BASE_BINDING_FIELDS = ("kind", "S", "forcing_level", "forcing_exact", "tau_plus", "state",
+                       "variant", "bridge", "coupon_level", "coupon_orientation", "swapped",
+                       "perturbation", "obstructed", "backend")
+
+
+def assert_replicate_compatible(replicate_row, base_row):
+    """A replicate must be the SAME configuration as its explicitly named base."""
+    if replicate_row.get("replicate_of_case_id") != base_row["case_id"]:
+        raise ValueError("replicate %r does not name base %r"
+                         % (replicate_row["case_id"], base_row["case_id"]))
+    if base_row["kind"] == "determinism_replicate":
+        raise ValueError("a replicate may not name another replicate as its base")
+    for f in BASE_BINDING_FIELDS:
+        if f == "kind":
+            continue
+        if replicate_row.get(f) != base_row.get(f):
+            raise ValueError("replicate %r differs from its base on %r: %r vs %r"
+                             % (replicate_row["case_id"], f, replicate_row.get(f),
+                                base_row.get(f)))
+    if replicate_row["run_mode"] != base_row["run_mode"]:
+        raise ValueError("a replicate must share its base's run mode")
+    return True
+
+
+def assert_audit_compatible(audit_row, base_row):
+    """A fixed-step audit must be the same configuration as its explicitly named normal base,
+    differing only in the fields fixed-step mode deliberately changes."""
+    if audit_row.get("audit_of_case_id") != base_row["case_id"]:
+        raise ValueError("audit %r does not name base %r"
+                         % (audit_row["case_id"], base_row["case_id"]))
+    if base_row["run_mode"] != "NORMAL":
+        raise ValueError("a fixed-step audit must name a NORMAL base")
+    for f in BASE_BINDING_FIELDS:
+        if audit_row.get(f) != base_row.get(f):
+            raise ValueError("audit %r differs from its base on %r" % (audit_row["case_id"], f))
+    return True
+
+
+#: Frozen case-level failure reasons, in evaluation order.
+CASE_FAILURE_REASONS = ("NORMAL_UNCONVERGED", "FIXED_STEP_AUDIT_INCOMPLETE", "LOW_MACH_FAILED",
+                        "MASS_CONSERVATION_FAILED", "TRANSVERSE_CONTROL_FAILED",
+                        "MEASURED_LATERAL_DRIVER_NONZERO", "PRESSURE_FACES_DO_NOT_PAIR",
+                        "NODE_OFFSET_SUMMARY_INCOMPLETE")
+
+
+def case_decision_verdict(row, scientific, execution_status):
+    """The ONE case-level scientific classification (erratum PE-58).
+
+    Used by the executor when it builds its ledgers AND by ``validate_phase_manifest`` after it
+    reopens each record, so a manifest cannot relabel a scientifically failed case as completed or
+    invent a different failure reason. Phase-level forcing, resolution and candidate gates are
+    aggregate controls and are deliberately NOT evaluated here.
+    """
+    sci = scientific or {}
+    if execution_status == "NORMAL_UNCONVERGED":
+        return {"pass": False, "reason": "NORMAL_UNCONVERGED", "applicability": "always",
+                "effect": "STOPS_THE_PHASE"}
+    if execution_status == "FIXED_STEP_AUDIT_INCOMPLETE":
+        return {"pass": False, "reason": "FIXED_STEP_AUDIT_INCOMPLETE", "applicability": "audit",
+                "effect": "STOPS_THE_PHASE"}
+    mach = sci.get("mach") or {}
+    if mach and not mach.get("pass"):
+        return {"pass": False, "reason": "LOW_MACH_FAILED", "applicability": "every solved case",
+                "effect": "STOPS_THE_PHASE"}
+    cons = sci.get("conservation")
+    if cons and not cons.get("mass_conservation_pass"):
+        return {"pass": False, "reason": "MASS_CONSERVATION_FAILED",
+                "applicability": "fixture cases", "effect": "STOPS_THE_PHASE"}
+    tc = sci.get("transverse_conservation")
+    if tc and tc.get("pass") is False:
+        return {"pass": False, "reason": "TRANSVERSE_CONTROL_FAILED",
+                "applicability": "bridge-carrying cases", "effect": "STOPS_THE_PHASE"}
+    lp = sci.get("lateral_pressure")
+    if lp:
+        if lp.get("masks_pair_exactly") is False:
+            return {"pass": False, "reason": "PRESSURE_FACES_DO_NOT_PAIR",
+                    "applicability": "bridge-carrying cases", "effect": "STOPS_THE_PHASE"}
+        if lp.get("measured_zero_driver_pass") is False:
+            return {"pass": False, "reason": "MEASURED_LATERAL_DRIVER_NONZERO",
+                    "applicability": "expected-zero-driver cases", "effect": "STOPS_THE_PHASE"}
+    no = sci.get("node_offsets")
+    if no is not None and not no.get("all_finite"):
+        return {"pass": False, "reason": "NODE_OFFSET_SUMMARY_INCOMPLETE",
+                "applicability": "fixture cases", "effect": "STOPS_THE_PHASE"}
+    return {"pass": True, "reason": None, "applicability": "case-level execution validity",
+            "effect": "NONE"}
 
 
 def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused, failed,
@@ -4181,6 +4596,22 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                 "record hash %r is cited for two physically distinct rows (%r and %r); one hash "
                 "may never bind two different cases" % (actual, prev, cid))
         seen_hash[actual] = cid
+        # erratum PE-58: recompute the scientific verdict and require the ledger to agree
+        verdict = case_decision_verdict(by_row[cid], rec.get("scientific"), rec["status"])
+        if cid in completed and not verdict["pass"]:
+            raise ManifestMissing(
+                "case %r is listed as COMPLETED but recomputes as failed (%s); a manifest may "
+                "not relabel a scientifically failed case (erratum PE-58)"
+                % (cid, verdict["reason"]))
+        if cid in failed:
+            if verdict["pass"]:
+                raise ManifestMissing(
+                    "case %r is listed as FAILED but recomputes as passing; a manifest may not "
+                    "invent a failure (erratum PE-58)" % (cid,))
+            if entry.get("reason") != verdict["reason"]:
+                raise ManifestMissing(
+                    "case %r records failure reason %r; it recomputes as %r"
+                    % (cid, entry.get("reason"), verdict["reason"]))
         if cid in completed:
             records[cid] = rec
 
@@ -4209,6 +4640,115 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     return doc
 
 
+def validate_p2b_manifest(runs_dir, authority=None, require_production=True):
+    """Reopen and validate the whole P2b artifact set (erratum PE-53).
+
+    The superseded check looked at ``correction_version`` and ``terminal_status`` and nothing
+    else, so a P2b manifest could satisfy P3 while its ledger, freeze and instantiated matrix were
+    absent, stale or inconsistent.
+    """
+    base = pathlib.Path(runs_dir)
+    doc = _load_json(base / "manifest_P2b.json", "the P2b assembly manifest")
+    if doc.get("correction_version") != CORRECTION_VERSION:
+        raise ManifestMissing("the P2b manifest is from a superseded correction version")
+    if require_production and doc.get("provenance_mode") != "PRODUCTION":
+        raise ManifestMissing("the P2b manifest carries provenance_mode=%r; production "
+                              "validation accepts PRODUCTION only" % (doc.get("provenance_mode"),))
+    if doc.get("phase") != "P2b" or doc.get("phase_kind") != "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL":
+        raise ManifestMissing("the P2b manifest does not declare an arithmetic assembly phase")
+    if doc.get("solver_records"):
+        raise ManifestMissing("the P2b manifest cites solver records; P2b never calls the solver")
+    want = config_hashes()
+    bad = {k: (doc.get(k), v) for k, v in want.items() if doc.get(k) != v}
+    if bad:
+        raise ManifestMissing("the P2b manifest binds a different configuration: %s"
+                              % (sorted(bad),))
+    if doc.get("full_matrix_sha256") != record_hash(execution_matrix()):
+        raise ManifestMissing("the P2b manifest cites a different full matrix")
+
+    # every predecessor, by exact key set and exact FILE hash
+    want_keys = set(PHASE_PREREQUISITES["P2b"])
+    cited = dict(doc.get("predecessor_manifests") or {})
+    if set(cited) != want_keys:
+        raise ManifestMissing("the P2b manifest cites predecessors %r; the exact required set is "
+                              "%r" % (sorted(cited), sorted(want_keys)))
+    for k, sha in cited.items():
+        f = base / ("manifest_%s.json" % k)
+        if not f.exists():
+            raise ManifestMissing("the P2b manifest cites a missing predecessor %s" % k)
+        if hashlib.sha256(f.read_bytes()).hexdigest() != sha:
+            raise ManifestMissing("the P2b manifest cites a stale hash for predecessor %s" % k)
+
+    ledger_path = base / "candidate_ledger.json"
+    if not ledger_path.exists():
+        raise ManifestMissing("P2b wrote no candidate ledger")
+    ledger = json.loads(ledger_path.read_text())
+    if doc.get("candidate_ledger_sha256") != record_hash(ledger):
+        raise ManifestMissing("the P2b manifest cites a different candidate ledger")
+    if doc.get("n_declared_candidates") != ledger.get("n_declared"):
+        raise ManifestMissing("the P2b manifest and its ledger disagree on the candidate count")
+
+    status = doc.get("selection_status")
+    freeze_path = base / "proposed_bridge_freeze.json"
+    inst_path = base / "instantiated_p3_p4_matrix.json"
+    if status == "DESIGN_BLOCKED":
+        if doc.get("terminal_status") != "PHASE_STOPPED_DESIGN_BLOCKED":
+            raise ManifestMissing("a design-blocked P2b must terminate PHASE_STOPPED_DESIGN_BLOCKED")
+        if doc.get("terminal_stop_reason") not in DESIGN_BLOCKED_REASONS:
+            raise ManifestMissing("a design-blocked P2b must carry a frozen reason code")
+        for f in (freeze_path, inst_path):
+            if f.exists():
+                raise ManifestMissing("a design-blocked P2b must write no %s" % f.name)
+        doc["_ledger"] = ledger
+        return doc
+    if status != "SELECTED":
+        raise ManifestMissing("unknown P2b selection status %r" % (status,))
+    if doc.get("terminal_status") != "PHASE_COMPLETE":
+        raise ManifestMissing("a selected P2b must terminate PHASE_COMPLETE")
+    for f in (freeze_path, inst_path):
+        if not f.exists():
+            raise ManifestMissing("a selected P2b must write %s" % f.name)
+    freeze = json.loads(freeze_path.read_text())
+    inst = json.loads(inst_path.read_text())
+    if freeze.get("status") != "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW":
+        raise ManifestMissing("P2b may only write a PROPOSED freeze")
+    if freeze.get("p3_p4_authorised") is not False:
+        raise ManifestMissing("a proposed freeze may never claim P3/P4 authorization")
+    if freeze.get("rows_sha256") != inst.get("rows_sha256") != record_hash(inst["rows"]):
+        raise ManifestMissing("the proposed freeze and the instantiated matrix disagree")
+    if freeze.get("instantiated_matrix_file_sha256") != hashlib.sha256(
+            inst_path.read_bytes()).hexdigest():
+        raise ManifestMissing("the proposed freeze cites a stale instantiated-matrix file hash")
+    if doc.get("proposed_freeze_sha256") != record_hash(freeze):
+        raise ManifestMissing("the P2b manifest cites a different proposed freeze")
+    bridges = freeze.get("frozen_bridges") or []
+    if len(bridges) != N_FROZEN_BRIDGES:
+        raise ManifestMissing("the proposed freeze carries %d bridges; exactly %d are required"
+                              % (len(bridges), N_FROZEN_BRIDGES))
+    keys = [(b["w"], b["kz"]) for b in bridges]
+    if len(set(keys)) != len(keys):
+        raise ManifestMissing("the proposed freeze selects a candidate twice")
+    seen = {}
+    for b in bridges:
+        hs = assert_flat_hash_list(b.get("record_hashes") or [], "frozen bridge hashes")
+        if not hs:
+            raise ManifestMissing("a frozen bridge cites no evidence")
+        for h in hs:
+            prev = seen.get(h)
+            if prev is not None and prev != (b["w"], b["kz"]):
+                raise ManifestMissing("record hash %r binds two candidate geometries" % (h,))
+            seen[h] = (b["w"], b["kz"])
+    for row in inst["rows"]:
+        if isinstance(row.get("bridge"), str):
+            raise ManifestMissing("the instantiated matrix still carries a placeholder bridge")
+        if (row["w"] if "w" in row else row["bridge"]["w"], row["bridge"]["kz"]) not in set(keys):
+            raise ManifestMissing("an instantiated row cites a candidate that was not selected")
+    doc["_ledger"] = ledger
+    doc["_freeze"] = freeze
+    doc["_instantiated"] = inst
+    return doc
+
+
 def require_phase_manifests(phase: str, runs_dir=None, authority=None,
                            require_production=True):
     """Every predecessor phase must have a VALIDATED completion manifest bound to this
@@ -4221,9 +4761,8 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
     required = set(PHASE_PREREQUISITES[phase])
     for pre in PHASE_PREREQUISITES[phase]:
         if pre == "P2b":
-            doc = _load_json(base / "manifest_P2b.json", "the P2b assembly manifest")
-            if doc.get("correction_version") != CORRECTION_VERSION:
-                raise ManifestMissing("the P2b manifest is from a superseded correction version")
+            doc = validate_p2b_manifest(base, authority=authority,
+                                        require_production=require_production)
             if doc.get("terminal_status") != "PHASE_COMPLETE":
                 raise ManifestMissing("the P2b manifest is %r, not PHASE_COMPLETE"
                                       % (doc.get("terminal_status"),))
@@ -4324,9 +4863,12 @@ def candidate_forcing_gates(records, key):
             lambda r: ((r.get("scientific") or {}).get("lateral_pressure") or {}).get(
                 "q_lat_mass")) if s["S"] == S]
         if zs:
+            # erratum PE-48: q_lat is a MASS flux, so its scale must be an axial MASS flux.
+            # Mass and volume are never mixed in one ratio.
             scale = max(abs(s["value"] / s["g"]) for s in _samples(
-                records, "identical_path_control", key, "open", "Q_open",
-                lambda r: (r.get("scientific") or {}).get("Q_volume")) if s["S"] == S)
+                records, "identical_path_control", key, "open", "Q_mass",
+                lambda r: (r.get("scientific") or {}).get("Q_mass_diagnostic"))
+                if s["S"] == S)
             gates.append(componentwise_forcing_gate(
                 "q_lat@S%d" % S, zs, expected_zero=True, zero_scale=scale,
                 zero_tol=TOL_BRIDGE_LEAKAGE_REL))
@@ -4377,8 +4919,35 @@ def candidate_resolution_gates(records, key, bridge):
          lambda r: field_contrast(r["scientific"])["c_field"] if r.get("scientific") else None)
     pick("candidate_blocked_mirror", "blocked", "C_blocked",
          lambda r: (_conductance(r) if (r.get("scientific") or {}).get("dP") else None))
-    pick("bridge_coupon", None, "Xi_coupon",
-         lambda r: (r.get("scientific") or {}).get("G_bridge_coupon"))
+    # erratum PE-49: gate ACTUAL Xi = G_bridge * (1/A1 + 1/A2), from exactly matched coupon and
+    # blocked-mirror evidence, never raw G_bridge under the name Xi.
+    areas = {}
+    for r in _normal_only(records, "candidate_blocked_mirror", key).values():
+        if r["row"]["forcing_level"] != "central" or not r.get("scientific"):
+            continue
+        fc = field_contrast(r["scientific"])
+        areas[r["row"]["S"]] = (fc["A1"], fc["A2"], r["case_id"], record_hash(r))
+    got = {}
+    for r in sorted(_normal_only(records, "bridge_coupon", key).values(),
+                    key=lambda x: x["case_id"]):
+        if r["row"]["forcing_level"] != "central":
+            continue
+        gb = (r.get("scientific") or {}).get("G_bridge_coupon")
+        S = r["row"]["S"]
+        if gb is None or S not in areas:
+            continue
+        A1, A2, a_id, a_h = areas[S]
+        got[S] = {"value": float(gb) * (1.0 / A1 + 1.0 / A2), "case_id": r["case_id"],
+                  "record_sha256": record_hash(r), "area_case_id": a_id,
+                  "area_record_sha256": a_h}
+    if S_COARSE in got and S_FINE in got:
+        g = resolution_consistency_gate("Xi_coupon", got[S_COARSE], got[S_FINE], bridge)
+        g["quantity_definition"] = "Xi = G_bridge_coupon * (1/A1 + 1/A2), NOT raw G_bridge"
+        g["area_case_ids"] = [got[S_COARSE]["area_case_id"], got[S_FINE]["area_case_id"]]
+        g["area_record_sha256"] = assert_flat_hash_list(
+            [got[S_COARSE]["area_record_sha256"], got[S_FINE]["area_record_sha256"]],
+            "Xi area record hashes")
+        gates.append(g)
     return resolution_consistency_verdict(gates)
 
 
@@ -4551,12 +5120,15 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
                         "declared common-reference role" % (h, prev, (c["w"], c["kz"])))
                 seen[h] = (c["w"], c["kz"])
         inst = instantiate_post_freeze_matrix([{"w": c["w"], "kz": c["kz"]} for c in selection])
-        inst_doc = {"tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
+        inst_doc = {"schema_version": 1, "tranche": TRANCHE_ID,
+                    "correction_version": CORRECTION_VERSION,
+                    "provenance_mode": "PRODUCTION",
                     "rows": inst, "n_rows": len(inst),
-                    "content_sha256": record_hash(inst)}
+                    "rows_sha256": record_hash(inst)}          # PE-51: ONE canonical key
         inst_doc.update(config_hashes())
-        written["instantiated_p3_p4_matrix.json"] = _atomic_write_json(
-            base / "instantiated_p3_p4_matrix.json", inst_doc)[0].name
+        inst_path = _atomic_write_json(base / "instantiated_p3_p4_matrix.json", inst_doc)[0]
+        inst_file_sha = hashlib.sha256(inst_path.read_bytes()).hexdigest()
+        written["instantiated_p3_p4_matrix.json"] = inst_path.name
         freeze_doc = {
             "tranche": TRANCHE_ID, "correction_version": CORRECTION_VERSION,
             "freeze_rule": FREEZE_RULE, "n_frozen_bridges": N_FROZEN_BRIDGES,
@@ -4571,8 +5143,9 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
             "phase_manifest_sha256": {
                 k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
                 for k in manifests},
-            "instantiated_matrix_sha256": record_hash(inst),
-            "instantiated_matrix_wrapper_sha256": record_hash(inst_doc),
+            "rows_sha256": record_hash(inst),
+            "instantiated_matrix_file_sha256": inst_file_sha,
+            "provenance_mode": "PRODUCTION",
             "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
             "execution_authority_sha256": record_hash(auth),
             "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
@@ -4598,8 +5171,9 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
             for k in manifests},
         "candidate_ledger_sha256": record_hash(ledger_doc),
         "proposed_freeze_sha256": (None if freeze_doc is None else record_hash(freeze_doc)),
-        "instantiated_matrix_sha256": (None if inst is None else record_hash(inst)),
-        "artifacts_written": written,
+        "rows_sha256": (None if inst is None else record_hash(inst)),
+        "instantiated_matrix_file_sha256": (None if inst is None else inst_file_sha),
+        "artifacts_written": dict(written),
         "n_declared_candidates": len(ledger),
         "n_eligible_candidates": len(admitted),
         "selection_status": ("SELECTED" if selection is not None else "DESIGN_BLOCKED"),
@@ -4609,8 +5183,10 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
         "solver_records": [],
     }
     manifest.update(config_hashes())
-    written["manifest_P2b.json"] = _atomic_write_json(base / "manifest_P2b.json", manifest)[0].name
-    manifest["artifacts_written"] = written
+    # PE-52: no in-memory mutation after persistence -- the persisted and returned documents are
+    # byte-identical. The manifest names its own deterministic path but never claims its own SHA.
+    manifest["manifest_path"] = "manifest_P2b.json"
+    _atomic_write_json(base / "manifest_P2b.json", manifest)
     return manifest
 
 

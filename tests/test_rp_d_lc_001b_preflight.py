@@ -6,6 +6,7 @@ call site refuses while the tranche is pre-execution.
 """
 
 import ast
+import hashlib
 import inspect
 import json
 import math
@@ -1538,19 +1539,21 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C3"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C4"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
     """C0 and C1 hashes are both kept, so anything bound to either stays traceable."""
     revs = vf.SUPERSEDED_REVIEWS
     assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
-                                                      "PREFLIGHT-C2"]
+                                                      "PREFLIGHT-C2", "PREFLIGHT-C3"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
     assert revs[2]["reviewed_head"] == "c66670770d6b34b355fe29dba384102fc59827d7"
     assert revs[2]["disposition"].endswith("C3_EXECUTOR_AND_ASSEMBLER_CORRECTION_REQUIRED")
+    assert revs[3]["reviewed_head"] == "39533ade0fd74dc5fa10470710ec672041e62526"
+    assert revs[3]["disposition"].endswith("C4_INTEGRATION_AND_AUTHORITY_CORRECTION_REQUIRED")
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())
@@ -1578,8 +1581,10 @@ def test_the_execution_matrix_reports_zero_executed_solves_and_an_exact_total():
     assert m["solves_executed"] == 0
     assert m["n_rows"] == m["adaptive_maximum"] == len(m["rows"])
     assert sum(m["by_class"].values()) == m["n_rows"]
-    assert (m["planned_normal_solves"] + m["planned_fixed_step_audits"]
-            + m["planned_pressure_plane_diagnostics"]) == m["n_rows"]
+    # PE-41: node-offset summaries are extracted from existing fields, so every row is a solve
+    assert m["planned_pressure_plane_diagnostic_rows"] == 0
+    assert m["planned_normal_solves"] + m["planned_fixed_step_audits"] == m["n_rows"]
+    assert m["planned_solver_invocations"] == m["n_rows"]
     for phase in ("P0", "P1a", "P1b", "P2a", "P3", "P4"):
         assert m["by_phase"][phase] > 0
     assert "P2b" not in m["by_phase"]                     # P2b does arithmetic, not solving
@@ -1811,11 +1816,16 @@ def test_the_common_axial_gradient_cancels_in_the_pointwise_gap():
     mask, meta, res, g = _face_case(b={"w": 9, "kz": 4})
     rec = drv.case_record(res, mask, meta, g, stage="unit")
     d = rec["lateral_pressure"]["delta_pointwise"]
-    assert d["faces_share_footprint"] is True
-    assert d["delta_sd"] == pytest.approx(0.0, abs=1e-15)
+    assert d["faces_share_footprint"] is True and d["masks_pair_exactly"] is True
+    assert d["n_fluid_face1"] == d["n_fluid_face2"] == d["n_paired_fluid"]
+    assert d["spatial_sd_delta_p"] == pytest.approx(0.0, abs=1e-15)
+    assert d["spatial_sd_role"].startswith("SPATIAL_NONUNIFORMITY_DIAGNOSTIC")
     # the individual faces DO vary strongly across the footprint; that is common-mode
     assert rec["lateral_pressure"]["face_nonuniformity_rel"] > 0
-    assert rec["lateral_pressure"]["face_nonuniformity_role"].startswith("diagnostic")
+    assert rec["lateral_pressure"]["face_nonuniformity_role"] == (
+        "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND")
+    # PE-44: no standard-error term survives anywhere in the adjudicative path
+    assert "face_uncertainty_rel" not in rec["lateral_pressure"]
 
 
 def test_forcing_normalised_lateral_quantities_are_retained():
@@ -2374,10 +2384,12 @@ def test_the_artifact_evidence_schema_is_flat_and_plural(synthetic_prefreeze):
                 assert all(isinstance(h, str) and len(h) == 64 for h in ev[k])
             assert not set(ev["normal_case_ids"]) & set(ev["audit_case_ids"])
             if e["admitted"]:
-                # an ADMITTED candidate must carry both kinds of evidence; a pruned one has
-                # neither, because its P1b rows were refused
                 assert ev["audit_case_ids"], "fixed-step evidence must be present"
-                assert ev["pressure_plane_case_ids"], "node-offset evidence must be present"
+                assert ev["pressure_plane_case_ids"], "paired node-offset evidence required"
+                # PE-42: the ratio is formed from an EXACT open/blocked pair
+                assert ev["node_offset_R"]["method"].startswith("R_offset_j = C_open_offset_j")
+                assert ev["node_offset_R"]["open_case_id"] != ev["node_offset_R"][
+                    "blocked_case_id"]
                 checked += 1
     assert checked > 0
     assert not adm[(9, 4)]["combinations"][list(adm[(9, 4)]["combinations"])[0]][
@@ -2397,19 +2409,23 @@ def test_the_node_offset_term_is_measured_and_not_silently_zero(synthetic_prefre
     adm = vf.artifact_admission_from_records(recs)
     ev = list(adm[(3, 2)]["combinations"].values())[0]
     assert ev["evidence_complete"] is True
-    assert ev["u_pressure_plane_R"] > 0.0
+    assert ev["node_offset_R"] is not None
     assert ev["u_artifact_R"] == pytest.approx(ev["u_fixed_step_R"] + ev["u_pressure_plane_R"]
                                                + ev["u_serialization_R"])
+    # the ratio comes from an exact open/blocked pair, never a same-state normalisation
+    assert len(ev["node_offset_R"]["R_offsets"]) == len(ev["node_offset_R"]["offsets"])
+    assert ev["node_offset_R"]["R_offsets"][0]["offset"] == 0
 
 
-def test_missing_pressure_plane_evidence_fails_rather_than_contributing_zero(synthetic_prefreeze):
+def test_missing_node_offset_evidence_fails_rather_than_contributing_zero(synthetic_prefreeze):
     d, auth, out, recs = synthetic_prefreeze
-    stripped = {k: v for k, v in recs.items() if v["kind"] != "pressure_plane_diagnostic"}
+    stripped = {k: dict(v, scientific=dict(v.get("scientific") or {}, node_offsets=None))
+                for k, v in recs.items()}
     adm = vf.artifact_admission_from_records(stripped)
     assert adm[(3, 2)]["admitted"] is False
     ev = list(adm[(3, 2)]["combinations"].values())[0]
     assert ev["evidence_complete"] is False and ev["pass"] is False
-    assert "pressure-plane" in ev["reason"]
+    assert "node-offset" in ev["reason"]
 
 
 def test_audits_are_paired_evidence_and_never_independent_observations(synthetic_prefreeze):
@@ -2715,3 +2731,357 @@ def test_a_nested_short_uppercase_or_duplicate_hash_list_is_refused(bad):
 def test_a_valid_flat_hash_list_passes():
     vals = ["%064x" % i for i in range(3)]
     assert vf.assert_flat_hash_list(vals, "test") == vals
+
+
+# ==========================================================================================
+# 14. C4 correction regressions — PE-40 … PE-59
+# ==========================================================================================
+
+def test_no_diagnostic_row_survives_and_every_row_is_a_solve():
+    """Erratum PE-41: C3 scheduled 144 rows that each went through the result provider, for
+    offsets that are re-reads of a field already computed."""
+    m = vf.execution_matrix()
+    assert not [r for r in m["rows"] if r["kind"] == "pressure_plane_diagnostic"]
+    assert m["planned_pressure_plane_diagnostic_rows"] == 0
+    assert m["planned_solver_invocations"] == m["n_rows"]
+    assert m["planned_normal_solves"] + m["planned_fixed_step_audits"] == m["n_rows"]
+    assert "pressure_plane" not in vf.RECORD_SCHEMAS
+
+
+def test_the_node_offset_summary_is_extracted_without_a_provider_call():
+    mask, meta, res, g = _face_case()
+    summary = vf.node_offset_summary(res["ux"], res["rho"], mask, meta, g, case_id="x")
+    assert summary["offsets"] == [0] + list(meta["node_offsets"])
+    assert summary["quantity"] == "CONDUCTANCE_PER_OFFSET_NOT_A_RATIO"
+    for row in summary["per_offset"]:
+        for k in ("inlet_plane_id", "inlet_index", "outlet_plane_id", "outlet_index",
+                  "flux_plane_id", "flux_index", "Q_volume", "p_in", "p_out", "delta_P",
+                  "conductance", "n_fluid_inlet", "n_fluid_outlet", "n_fluid_flux",
+                  "finite", "delta_P_nonzero"):
+            assert k in row, k
+    tree = ast.parse(inspect.getsource(vf.node_offset_summary).lstrip())
+    fn = tree.body[0]
+    calls = {n.func.attr for n in ast.walk(fn)
+             if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)}
+    calls |= {n.func.id for n in ast.walk(fn)
+              if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
+    assert not (calls & {"solve", "provider", "_guarded_result_provider"})
+
+
+def test_offset_zero_reproduces_the_case_conductance():
+    mask, meta, res, g = _face_case()
+    rec = drv.case_record(res, mask, meta, g, stage="unit")
+    zero = rec["node_offsets"]["per_offset"][0]
+    assert zero["offset"] == 0
+    assert zero["conductance"] == pytest.approx(rec["Q_volume"] / rec["dP"], rel=1e-12)
+
+
+def _offset_rec(case_id, state, cond, S=2, level="central", bridge=(3, 2), offsets=(0, 1, 2)):
+    per = [{"offset": o, "inlet_plane_id": "x_node_in_off%d" % o, "inlet_index": 10 - o,
+            "outlet_plane_id": "x_node_out_off%d" % o, "outlet_index": 100 + o,
+            "flux_plane_id": "x_meas_a", "flux_index": 99, "Q_volume": 1.0, "p_in": 1.0,
+            "p_out": 0.0, "delta_P": 1.0, "conductance": c, "n_fluid_inlet": 8,
+            "n_fluid_outlet": 8, "n_fluid_flux": 8, "finite": True, "delta_P_nonzero": True}
+           for o, c in zip(offsets, cond)]
+    return {"case_id": case_id, "kind": "identical_path_control", "run_mode": "NORMAL",
+            "row": {"S": S, "forcing_level": level, "state": state, "phase": "P1a",
+                    "tau_plus": 2.0, "variant": "identical", "perturbation": None,
+                    "obstructed": False, "swapped": False, "run_mode": "NORMAL",
+                    "coupon_orientation": None,
+                    "bridge": {"w": bridge[0], "kz": bridge[1]}, "case_id": case_id},
+            "scientific": {"Q_volume": cond[0], "dP": 1.0,
+                           "node_offsets": {"offsets": list(offsets), "per_offset": per,
+                                            "all_finite": True}}}
+
+
+def test_a_same_state_normalised_conductance_is_not_R():
+    """Erratum PE-42, the regression the brief asks for: same-state C_j/C_0 is stable while the
+    correctly paired open/blocked R_j moves. The superseded calculation would have reported no
+    node-offset sensitivity at all."""
+    # both states drift by the SAME factor across offsets, so C_j/C_0 is identical in each
+    blocked = _offset_rec("b", "blocked", [10.0, 10.5, 11.0])
+    opened = _offset_rec("o", "open", [10.0, 11.0, 12.0])
+    for rec in (blocked, opened):
+        per = rec["scientific"]["node_offsets"]["per_offset"]
+        same_state = [p["conductance"] / per[0]["conductance"] for p in per]
+        assert same_state[0] == 1.0
+    b_ratio = [p["conductance"] / blocked["scientific"]["node_offsets"]["per_offset"][0][
+        "conductance"] for p in blocked["scientific"]["node_offsets"]["per_offset"]]
+    o_ratio = [p["conductance"] / opened["scientific"]["node_offsets"]["per_offset"][0][
+        "conductance"] for p in opened["scientific"]["node_offsets"]["per_offset"]]
+    out = vf.node_offset_R(opened, blocked)
+    assert out["R_nominal"] == pytest.approx(1.0)
+    # the CORRECT ratio moves; neither same-state sequence on its own reveals it
+    assert out["max_abs_movement"] > 0.03
+    assert out["u_pressure_plane_R"] == pytest.approx(
+        vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR * out["max_abs_movement"])
+    assert out["max_abs_movement"] == pytest.approx(12.0 / 11.0 - 1.0, rel=1e-9)
+    # neither same-state sequence alone equals the correctly paired movement
+    assert max(abs(v - 1.0) for v in o_ratio) != pytest.approx(out["max_abs_movement"])
+    assert max(abs(v - 1.0) for v in b_ratio) != pytest.approx(out["max_abs_movement"])
+
+
+@pytest.mark.parametrize("mutate", [{"S": 3}, {"forcing_level": "high"}, {"tau_plus": 1.2},
+                                    {"obstructed": True}, {"perturbation": "one_voxel_plug"}])
+def test_a_mismatched_configuration_cannot_be_paired(mutate):
+    blocked = _offset_rec("b", "blocked", [10.0, 10.1, 10.2])
+    opened = _offset_rec("o", "open", [10.0, 10.1, 10.2])
+    opened["row"].update(mutate)
+    with pytest.raises(ValueError):
+        vf.node_offset_R(opened, blocked)
+
+
+def test_mismatched_offsets_or_planes_cannot_be_paired():
+    blocked = _offset_rec("b", "blocked", [10.0, 10.1], offsets=(0, 1))
+    opened = _offset_rec("o", "open", [10.0, 10.1, 10.2])
+    with pytest.raises(ValueError):
+        vf.node_offset_R(opened, blocked)
+    blocked2 = _offset_rec("b", "blocked", [10.0, 10.1, 10.2])
+    blocked2["scientific"]["node_offsets"]["per_offset"][1]["inlet_index"] = 999
+    with pytest.raises(ValueError):
+        vf.node_offset_R(opened, blocked2)
+
+
+def test_a_missing_node_offset_summary_fails_rather_than_contributing_zero():
+    blocked = _offset_rec("b", "blocked", [10.0, 10.1, 10.2])
+    opened = _offset_rec("o", "open", [10.0, 10.1, 10.2])
+    opened["scientific"]["node_offsets"] = None
+    with pytest.raises(ValueError):
+        vf.node_offset_R(opened, blocked)
+
+
+def test_a_wrong_state_pair_is_refused():
+    a = _offset_rec("a", "blocked", [10.0, 10.1, 10.2])
+    b = _offset_rec("b", "blocked", [10.0, 10.1, 10.2])
+    with pytest.raises(ValueError):
+        vf.node_offset_R(a, b)
+
+
+# ---- PE-43 … PE-46: the pressure control ----------------------------------------------------
+
+def test_the_faces_must_pair_exactly_not_merely_intersect():
+    mask, meta, res, g = _face_case()
+    d = vf.lateral_pressure_delta_record(res["rho"], mask, meta, g)
+    assert d["masks_pair_exactly"] is True
+    assert d["n_fluid_face1"] == d["n_fluid_face2"] == d["n_paired_fluid"] > 0
+    assert len(d["paired_mask_sha256"]) == 64
+    src = inspect.getsource(vf.lateral_pressure_delta_record)
+    body = src.split('"""')[2]                       # code only, excluding the docstring
+    assert "m1 & m2" not in body                     # an intersection is not a pairing
+    assert "np.array_equal(m1, m2)" in body
+
+
+def test_a_face_mask_mismatch_fails_closed():
+    mask, meta, res, g = _face_case()
+    xs, _ = meta["bridge_x"]
+    zs, _ = meta["bridge_z"]
+    holed = mask.copy()
+    holed[xs, meta["y_face1"], zs] = True             # solidify one node on face 1 only
+    with pytest.raises(ValueError) as exc:
+        vf.lateral_pressure_delta_record(res["rho"], holed, meta, g)
+    assert "pair exactly" in str(exc.value)
+
+
+def test_the_paired_statistics_include_the_maximum_not_only_the_mean():
+    mask, meta, res, g = _face_case()
+    d = vf.lateral_pressure_delta_record(res["rho"], mask, meta, g)
+    for k in ("mean_delta_p", "abs_mean_delta_p", "max_abs_delta_p", "min_delta_p",
+              "max_delta_p", "spatial_sd_delta_p", "n_paired_fluid"):
+        assert k in d, k
+    assert d["spatial_sd_role"] == (
+        "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND")
+
+
+def _delta(mean, mx, sd=0.0):
+    return {"mean_delta_p": mean, "abs_mean_delta_p": abs(mean), "max_abs_delta_p": mx,
+            "spatial_sd_delta_p": sd,
+            "spatial_sd_role": "SPATIAL_NONUNIFORMITY_DIAGNOSTIC_NOT_A_NUMERICAL_ERROR_BOUND"}
+
+
+def test_a_zero_mean_produced_by_cancellation_cannot_pass():
+    """Erratum PE-45: alternating paired differences with a zero mean passed the superseded
+    control however large the individual differences were."""
+    out = vf.lateral_pressure_upper_bounds(_delta(0.0, 1.0), axial_pressure_scale=1.0,
+                                           audit_delta=_delta(0.0, 1.0),
+                                           expected_zero_driver=True)
+    assert out["mean_pass"] is True                   # the mean alone would have passed
+    assert out["max_pass"] is False
+    assert out["pass"] is False
+
+
+def test_a_small_mean_and_maximum_pass():
+    out = vf.lateral_pressure_upper_bounds(_delta(1e-6, 2e-6), axial_pressure_scale=1.0,
+                                           audit_delta=_delta(1e-6, 2e-6),
+                                           expected_zero_driver=True)
+    assert out["mean_pass"] and out["max_pass"] and out["pass"]
+
+
+def test_the_fixed_step_discrepancy_can_change_the_pressure_verdict():
+    ok = vf.lateral_pressure_upper_bounds(_delta(1e-4, 2e-4), axial_pressure_scale=1.0,
+                                          audit_delta=_delta(1e-4, 2e-4),
+                                          expected_zero_driver=True)
+    assert ok["pass"] is True
+    drift = vf.lateral_pressure_upper_bounds(_delta(1e-4, 2e-4), axial_pressure_scale=1.0,
+                                             audit_delta=_delta(1e-3, 2e-3),
+                                             expected_zero_driver=True)
+    assert drift["u_mean_gap"] > 0 and drift["pass"] is False
+
+
+def test_missing_audit_evidence_yields_no_upper_bound_verdict():
+    out = vf.lateral_pressure_upper_bounds(_delta(0.0, 0.0), axial_pressure_scale=1.0,
+                                           audit_delta=None, expected_zero_driver=True)
+    assert out["evidence_complete"] is False
+    assert out["pass"] is None and "no fixed-step evidence" in out["reason"]
+
+
+def test_no_standard_error_term_is_used_adjudicatively():
+    src = inspect.getsource(vf.lateral_pressure_upper_bounds)
+    assert "sqrt" not in src and "standard_error" not in src
+
+
+# ---- PE-47 … PE-49: gate completeness --------------------------------------------------------
+
+def test_the_forcing_verdict_requires_the_exact_quantity_set():
+    """Erratum PE-47: a nonempty intersection with an allowlist is not completeness."""
+    partial = [vf.componentwise_forcing_gate(
+        "Q_open@S2", [{"forcing_level": lv, "g": 1.0, "value": 1.0, "case_id": "c%s" % lv,
+                       "record_sha256": "%064x" % i}
+                      for i, lv in enumerate(vf.FORCING_LEVELS)])]
+    v = vf.forcing_invariance_verdict(partial)
+    assert v["pass"] is False and v["complete"] is False
+    assert set(v["missing_quantities"]) == set(vf.REQUIRED_FORCING_QUANTITIES) - {"Q_open"}
+
+
+def test_the_resolution_gate_uses_actual_xi_not_raw_g_bridge():
+    src = inspect.getsource(vf.candidate_resolution_gates)
+    assert "Xi = G_bridge_coupon * (1/A1 + 1/A2), NOT raw G_bridge" in src
+    assert "area_case_ids" in src
+
+
+def test_the_mass_flux_zero_gate_uses_a_mass_scale():
+    """Erratum PE-48: q_lat is a MASS flux and was normalised by a volume-flux quantity."""
+    src = inspect.getsource(vf.candidate_forcing_gates)
+    assert "Q_mass_diagnostic" in src
+    assert 'lambda r: (r.get("scientific") or {}).get("Q_volume")) if s["S"] == S)' not in src
+
+
+# ---- PE-58/PE-59: shared verdict and explicit binding ---------------------------------------
+
+def test_one_shared_function_classifies_a_case():
+    assert drv._decision_bearing_ok.__doc__ and "shared" in drv._decision_bearing_ok.__doc__
+    v = vf.case_decision_verdict({}, {}, "NORMAL_UNCONVERGED")
+    assert v["pass"] is False and v["reason"] == "NORMAL_UNCONVERGED"
+    assert v["effect"] == "STOPS_THE_PHASE"
+    ok = vf.case_decision_verdict({}, {"mach": {"pass": True}}, "NORMAL_CONVERGED")
+    assert ok["pass"] is True and ok["reason"] is None
+
+
+def test_a_manifest_cannot_relabel_a_failed_case_as_completed(executed_p0):
+    """Erratum PE-58: validation rehashed records but never recomputed their verdict."""
+    runs, auth, man = executed_p0
+    cid = man["completed"][0]["case_id"]
+    rec, path = vf.read_case_record(runs, cid)
+    bad = dict(rec, scientific=dict(rec["scientific"],
+                                    mach=dict(rec["scientific"]["mach"], **{"pass": False})))
+    path.unlink()
+    payload = vf.canonical_json(bad) + "\n"
+    path.write_text(payload)
+    doc = json.loads((runs / "manifest_P0.json").read_text())
+    for e in doc["completed"]:
+        if e["case_id"] == cid:
+            e["record_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    (runs / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", runs, authority=auth, require_production=False)
+    assert "recomputes as failed" in str(exc.value)
+
+
+def test_every_replicate_and_audit_row_names_its_exact_base():
+    """Erratum PE-55/PE-59: the base was inferred by searching for the first row that shared a
+    few fields, and P3 audits carried audit_of_case_id = None."""
+    rows = vf.execution_matrix()["rows"]
+    by_id = {r["case_id"]: r for r in rows}
+    reps = [r for r in rows if r["kind"] == "determinism_replicate"]
+    assert reps
+    for r in reps:
+        assert r["replicate_of_case_id"], r["case_id"]
+        vf.assert_replicate_compatible(r, by_id[r["replicate_of_case_id"]])
+    audits = [r for r in rows if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"]
+    assert audits
+    for a in audits:
+        assert a["audit_of_case_id"], a["case_id"]
+        vf.assert_audit_compatible(a, by_id[a["audit_of_case_id"]])
+
+
+@pytest.mark.parametrize("mutate", [{"S": 3}, {"state": "open"}, {"obstructed": True},
+                                    {"perturbation": "one_voxel_plug"},
+                                    {"bridge": {"w": 9, "kz": 4}}])
+def test_an_incompatible_base_is_refused(mutate):
+    rows = vf.execution_matrix()["rows"]
+    rep = [r for r in rows if r["kind"] == "determinism_replicate"][1]
+    base = dict({r["case_id"]: r for r in rows}[rep["replicate_of_case_id"]], **mutate)
+    with pytest.raises(ValueError):
+        vf.assert_replicate_compatible(rep, base)
+
+
+def test_the_instantiated_matrix_rebinds_every_reference():
+    inst = vf.instantiate_post_freeze_matrix([{"w": w, "kz": k}
+                                              for w, k in ((3, 2), (3, 3), (5, 2), (5, 3))])
+    ids = {r["case_id"] for r in inst}
+    assert len(ids) == len(inst)
+    for r in inst:
+        assert not isinstance(r["bridge"], str)
+        for k in ("audit_of_case_id", "replicate_of_case_id"):
+            if r.get(k):
+                assert r[k] in ids, (r["case_id"], k)
+        mask, meta, kind = drv.resolve_row(r)
+        assert meta["obstructed"] == bool(r["obstructed"])
+
+
+# ---- PE-51 … PE-56: P2b schema, validator, runs_dir, promotion ------------------------------
+
+def test_the_freeze_gate_uses_the_runs_directory_it_is_given(tmp_path):
+    assert "runs_dir" in inspect.signature(vf.require_freeze).parameters
+    with pytest.raises(vf.FreezeMissing) as exc:
+        vf.require_freeze("P3", runs_dir=tmp_path)
+    assert str(tmp_path) in str(exc.value)
+    body = inspect.getsource(drv.require_execution_authorisation)
+    assert "require_freeze(phase, runs_dir=runs_dir)" in body
+
+
+def test_a_proposed_freeze_never_satisfies_the_p3_gate(tmp_path):
+    inst = {"rows": [], "rows_sha256": "a" * 64}
+    (tmp_path / "instantiated_p3_p4_matrix.json").write_text(vf.canonical_json(inst) + "\n")
+    fz = {"rows_sha256": "a" * 64, "frozen_bridges": [{"w": 3, "kz": 2}] * 4,
+          "correction_version": vf.CORRECTION_VERSION, "provenance_mode": "PRODUCTION",
+          "status": "PROPOSED_PENDING_SECOND_EXACT_HEAD_REVIEW",
+          "instantiated_matrix_file_sha256": hashlib.sha256(
+              (tmp_path / "instantiated_p3_p4_matrix.json").read_bytes()).hexdigest()}
+    fz.update(vf.config_hashes())
+    (tmp_path / "bridge_freeze.json").write_text(vf.canonical_json(fz) + "\n")
+    with pytest.raises(vf.FreezeMissing) as exc:
+        vf.require_freeze("P3", runs_dir=tmp_path)
+    assert "APPROVED" in str(exc.value)
+
+
+def test_the_promotion_wrapper_binds_evidence_and_authorises_nothing():
+    src = inspect.getsource(vf.make_approved_freeze)
+    for k in ("proposed_bridge_freeze_file_sha256", "manifest_P2b_file_sha256",
+              "candidate_ledger_file_sha256", "instantiated_matrix_file_sha256",
+              "rows_sha256", "review_commit", "review_tree", "authorises_p3_p4"):
+        assert k in src, k
+    assert vf.APPROVED_FREEZE_STATUS == "APPROVED_BY_EXACT_HEAD_REVIEW"
+    assert "changes no scientific value" in " ".join(src.replace("**", "").split())
+
+
+def test_the_p2b_validator_reopens_everything(tmp_path):
+    assert "validate_p2b_manifest" in inspect.getsource(vf.require_phase_manifests)
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(tmp_path)
+
+
+def test_the_p2b_manifest_is_not_mutated_after_persistence():
+    src = inspect.getsource(vf.assemble_p2b_from_runs)
+    assert 'manifest["artifacts_written"] = written' not in src
+    assert "no in-memory mutation after persistence" in src
+    assert '"rows_sha256"' in src and "content_sha256" not in src

@@ -114,7 +114,7 @@ def require_execution_authorisation(phase, backend="reference", runs_dir=None):
     if phase not in vf.PHASE_PREREQUISITES:
         raise ValueError("unknown phase %r" % (phase,))
     if phase in FREEZE_GATED_MODES:
-        vf.require_freeze(phase)
+        vf.require_freeze(phase, runs_dir=runs_dir)      # PE-56: the directory ACTUALLY in use
     vf.require_phase_manifests(phase, runs_dir=runs_dir)
     if phase not in AUTHORISED_SOLVING_PHASES:
         _refuse(phase)
@@ -248,6 +248,7 @@ def case_record(res, mask, meta, g, stage, lateral_driver_is_zero=None):
             lateral_driver_is_zero=bool(lateral_driver_is_zero)),
         "lateral_pressure": lateral,
         "mach": vf.mach_record(res["ux"], res["uy"], res["uz"], mask),
+        "node_offsets": vf.node_offset_summary(res["ux"], res["rho"], mask, meta, g),
         # the inverse's observables, formed from VOLUME flux only, kept explicitly labelled
         "Q_volume": by["x_meas_a"]["sum_ux"],
         "q1_volume": by["x_meas_a_lane1"]["sum_ux"],
@@ -283,7 +284,7 @@ def boundary_record(open_rec, blocked_rec, orientation="nominal"):
 
 KNOWN_ROW_KINDS = ("reference_blocked_ladder", "axial_coupon", "tau_cross_check",
                    "determinism_replicate", "identical_path_control",
-                   "pressure_plane_diagnostic", "bridge_coupon", "candidate_blocked_mirror",
+                   "bridge_coupon", "candidate_blocked_mirror",
                    "primary_mirror_open", "path_swap_control", "adversarial_perturbation",
                    "fixed_step_audit", "arm_j_return_path")
 
@@ -359,6 +360,10 @@ def _fixture_scientific(res, mask, meta, g, row):
         "transverse_conservation": rec["transverse_conservation"],
         "lateral_pressure": rec["lateral_pressure"],
         "mach": rec["mach"],
+        # PE-41/PE-42: extracted from THIS case's own field; no separate solve, and the
+        # per-offset quantity is a conductance, never a ratio.
+        "node_offsets": vf.node_offset_summary(res["ux"], res["rho"], mask, meta, g,
+                                               case_id=row["case_id"]),
         "Q_volume": rec["Q_volume"], "Q_mass_diagnostic": rec["Q_mass_diagnostic"],
         "q1_volume": rec["q1_volume"], "q2_volume": rec["q2_volume"],
         "dP": rec["dP"],
@@ -379,25 +384,10 @@ def _fixture_scientific(res, mask, meta, g, row):
 
 
 def _decision_bearing_ok(row, sci, status):
-    """Stop conditions for one case. An UNCONVERGED normal case stops the phase and may never be
-    rescued by an audit (erratum PE-16)."""
-    if status == "NORMAL_UNCONVERGED":
-        return False, "NORMAL_UNCONVERGED"
-    if status == "FIXED_STEP_AUDIT_INCOMPLETE":
-        return False, "FIXED_STEP_AUDIT_INCOMPLETE"
-    mach = sci.get("mach") or {}
-    if mach and not mach.get("pass"):
-        return False, "LOW_MACH_FAILED"
-    cons = sci.get("conservation")
-    if cons and not cons.get("mass_conservation_pass"):
-        return False, "MASS_CONSERVATION_FAILED"
-    tc = sci.get("transverse_conservation")
-    if tc and tc.get("pass") is False:
-        return False, "TRANSVERSE_CONTROL_FAILED"
-    lp = sci.get("lateral_pressure")
-    if lp and lp.get("measured_zero_driver_pass") is False:
-        return False, "MEASURED_LATERAL_DRIVER_NONZERO"
-    return True, None
+    """Delegates to the ONE shared classification (erratum PE-58), so the executor and the
+    manifest validator can never disagree about whether a case passed."""
+    v = vf.case_decision_verdict(row, sci, status)
+    return v["pass"], v["reason"]
 
 
 def execute_phase(phase, runs_dir, backend="reference"):
@@ -462,9 +452,7 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
         cfg = vf.effective_solver_config(row, backend=backend, audit=audit_plan)
         res = provider(mask=mask, g=g, phase=phase, row=row, tau=row["tau_plus"],
                        audit=audit_plan, backend=backend)
-        if row["kind"] == "pressure_plane_diagnostic":
-            sci = _pressure_plane_scientific(res, mask, meta, g, row, base)
-        elif kind == "coupon":
+        if kind == "coupon":
             sci = _coupon_scientific(res, mask, meta, g, row)
         else:
             sci = _fixture_scientific(res, mask, meta, g, row)
@@ -501,14 +489,16 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
     for row in universe:
         if row["kind"] != "determinism_replicate" or row["case_id"] not in done:
             continue
-        base_row = next((r for r in universe
-                         if r["case_id"] != row["case_id"] and r["kind"] != "determinism_replicate"
-                         and r["S"] == row["S"] and r["state"] == row["state"]
-                         and r["variant"] == row["variant"]
-                         and r["forcing_level"] == row["forcing_level"]
-                         and r["run_mode"] == "NORMAL"), None)
-        if base_row is None or base_row["case_id"] not in done:   # pragma: no cover - frozen set
-            continue
+        # erratum PE-59: the base is EXPLICIT, never inferred by searching for the first row
+        # that happens to share a few fields.
+        base_id = row.get("replicate_of_case_id")
+        if base_id is None:
+            raise ValueError("replicate row %r carries no replicate_of_case_id" % (row["case_id"],))
+        base_row = next((r for r in universe if r["case_id"] == base_id), None)
+        if base_row is None or base_id not in done:
+            raise ValueError("replicate row %r names base %r, which is not a completed row"
+                             % (row["case_id"], base_id))
+        vf.assert_replicate_compatible(row, base_row)
         replicates.append({
             "replicate_case_id": row["case_id"], "base_case_id": base_row["case_id"],
             "scientific_payload_sha256": payloads[row["case_id"]],
@@ -529,36 +519,6 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                                predecessor_records=records,
                                require_production=(provenance_mode == "PRODUCTION"))
     return manifest
-
-
-def _pressure_plane_scientific(res, mask, meta, g, row, runs_dir):
-    """R on each frozen node-surface offset of the SAME solution (erratum PE-32).
-
-    Needs no extra solve — the offsets are different planes of one field — but it does need a
-    record, so a missing one now FAILS the artifact evidence rather than contributing zero.
-    """
-    ux, rho = res["ux"], res["rho"]
-    offsets = [0] + list(meta["node_offsets"])
-    vals, planes = [], []
-    for off in offsets:
-        xin, xout = meta["x_node_in"] - off, meta["x_node_out"] + off
-        p_in = vf.axial_plane_record("x_node_in_off%d" % off, xin, ux, rho, mask, g)
-        p_out = vf.axial_plane_record("x_node_out_off%d" % off, xout, ux, rho, mask, g)
-        q = vf.axial_plane_record("x_meas_a", meta["x_meas_a"], ux, rho, mask, g)
-        dP = p_in["p_mean"] - p_out["p_mean"]
-        vals.append(q["sum_ux"] / dP if dP else float("inf"))
-        planes += [p_in, p_out]
-    base = vals[0]
-    return {
-        "node_offsets": list(offsets),
-        "conductance_at_node_offsets": vals,
-        "R_at_node_offsets": [v / base for v in vals],
-        "offset_planes": planes,
-        "base_case_id": row.get("audit_of_case_id"),
-        "mach": vf.mach_record(res["ux"], res["uy"], res["uz"], mask),
-        "note": ("re-reads the frozen node-surface offsets of one solution; it is a DIAGNOSTIC "
-                 "record, not an additional solve"),
-    }
 
 
 def _guarded_result_provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
