@@ -652,9 +652,11 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                                           predecessor_records=records,
                                           require_production=(provenance_mode == "PRODUCTION"))
 
-    completed, refused, failed, replicates = [], [], [], []
+    completed, refused, failed = [], [], []
     diagnostic_completed, diagnostic_failed = [], []       # erratum PE-79
-    payloads = {}
+    #: erratum PE-120: every fixed-step plan this phase reconstructed from its exact normal base,
+    #: retained so the assurance contract and the manifest validator use the SAME plans.
+    audit_plans = {}
     terminal, stop_reason = "PHASE_COMPLETE", None
     n_new = n_reused = n_calls = 0
     n_new_env = n_reused_env = 0                           # erratum PE-92
@@ -682,10 +684,14 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                 raise ValueError("audit %r names a base outside the canonical matrix"
                                  % (row["case_id"],))
             vf.assert_audit_compatible(row, base_row)
+            # erratum PE-120: the base's status is RECOMPUTED from its own run mode and step count,
+            # never read from its stored field, and the same plan the manifest validator will
+            # independently reconstruct is retained here.
             audit_plan = vf.fixed_step_audit_plan(base_rec["completed_steps"],
-                                                  base_rec["status"])
+                                                  vf.recomputed_case_status(base_rec))
             audit_plan["base_case_id"] = base_rec["case_id"]
             audit_plan["base_record_sha256"] = vf.record_hash(base_rec)
+            audit_plans[row["case_id"]] = audit_plan
         g = vf.row_forcing(row)
         cfg = vf.effective_solver_config(row, backend=backend, audit=audit_plan)
         geometry = {"kind": kind, "mask_sha256": meta["mask_sha256"], "S": row["S"],
@@ -723,7 +729,6 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
         if existing is not None:
             rec, path = existing
             sci = rec.get("scientific")
-            payload = rec["scientific_payload_sha256"]
             how = "REUSED_EXACT_MATCH"
             n_reused += 1
         else:
@@ -783,10 +788,11 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                 continue
             vf.validate_case_record(rec, row=row, authority=auth, phase=phase,
                                     expected_predecessors=pre_sha,
-                                    phase_authority_file_sha256=pa_sha)
+                                    phase_authority_file_sha256=pa_sha,
+                                    geometry=geometry, audit=audit_plan,
+                                    provenance_mode=provenance_mode)
             path, how = vf.write_case_record(base, rec)
             n_new += 1
-        payloads[row["case_id"]] = payload
         entry = {"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
                  "artifact_kind": "CASE_RECORD",
                  "record_path": path.name, "write_mode": how,
@@ -811,30 +817,20 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                         else "PHASE_STOPPED_INVALID_CASE")
             stop_reason = verdict["reason"]
 
-    # PE-37: a determinism replicate must actually reproduce its base scientific payload. Its
-    # EXECUTION_ASSURANCE_REPLICATE role is adjudicative and its semantics are unchanged by C6.
+    # errata PE-37, PE-59, PE-121 … PE-123: the assurance set is DERIVED from the canonical eligible
+    # rows, its base binding is explicit, and its payload equality is RECOMPUTED from each record's
+    # own configuration, compact payload and mask rather than read from the stored identities.
+    #
+    # PE-123: the contract is validated HERE, before any manifest is persisted, so the executor
+    # never writes a manifest claiming PHASE_COMPLETE and only then discovers that its assurance
+    # check fails. The frozen failure semantics are unchanged — a violation is fatal to the phase.
     done = {e["case_id"] for e in completed}
-    for row in universe:
-        if row["kind"] != "determinism_replicate" or row["case_id"] not in done:
-            continue
-        # erratum PE-59: the base is EXPLICIT, never inferred by searching for the first row
-        # that happens to share a few fields.
-        base_id = row.get("replicate_of_case_id")
-        if base_id is None:
-            raise ValueError("replicate row %r carries no replicate_of_case_id" % (row["case_id"],))
-        base_row = next((r for r in universe if r["case_id"] == base_id), None)
-        if base_row is None or base_id not in done:
-            raise ValueError("replicate row %r names base %r, which is not a completed row"
-                             % (row["case_id"], base_id))
-        vf.assert_replicate_compatible(row, base_row)
-        replicates.append({
-            "replicate_case_id": row["case_id"], "base_case_id": base_row["case_id"],
-            "scientific_payload_sha256": payloads[row["case_id"]],
-            "base_scientific_payload_sha256": payloads[base_row["case_id"]],
-            "pass": bool(payloads[row["case_id"]] == payloads[base_row["case_id"]]),
-            "rule": ("canonical scientific payload over the effective configuration, the compact "
-                     "outputs and the mask, excluding case identity and file metadata"),
-        })
+    expected_pairs = vf.derive_expected_replicates(phase, eligible, matrix)
+    replicates = vf.build_execution_assurance_entries(base, expected_pairs, done,
+                                                      audit_plans=audit_plans)
+    vf.validate_execution_assurance_replicates(
+        phase, base, terminal, eligible, matrix, replicates, done,
+        {e["case_id"] for e in refused}, audit_plans=audit_plans)
 
     # PE-64: the phase's durable AGGREGATE scientific verdict, computed from the records this
     # phase completed. The validator recomputes it, so the executor cannot assert one.

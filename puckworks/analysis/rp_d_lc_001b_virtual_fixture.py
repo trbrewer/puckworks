@@ -6689,6 +6689,173 @@ def assert_replicate_compatible(replicate_row, base_row):
     return True
 
 
+#: The frozen replicate-equality rule string, byte-unchanged from C6.
+REPLICATE_PAYLOAD_RULE = ("canonical scientific payload over the effective configuration, the "
+                          "compact outputs and the mask, excluding case identity and file metadata")
+
+
+def recomputed_payload_sha256(rec, row, audit=None):
+    """One record's scientific-payload identity, RECOMPUTED from its own configuration, compact
+    payload and mask (erratum PE-122).
+
+    The stored ``scientific_payload_sha256`` is never used: a coordinated pair of stale stored
+    identities is exactly the failure this exists to catch.
+    """
+    geom = row_geometry_identity(row)
+    cfg = effective_solver_config(row, backend=rec["backend"], audit=audit)
+    return scientific_payload_hash(cfg, rec.get("scientific"), geom["mask_sha256"])
+
+
+def derive_expected_replicates(phase, eligible_rows, matrix_rows):
+    """The EXACT set of execution-assurance relationships one phase must report (PE-121, PE-123).
+
+    Derived from the canonical ELIGIBLE rows whose ``scientific_role`` is
+    ``EXECUTION_ASSURANCE_REPLICATE`` — never from whatever list a manifest happens to supply.
+    Each expected pair is bound to its explicitly named base and checked for configuration
+    compatibility here, so a replicate naming another replicate or a differing candidate is refused
+    before any payload is compared.
+    """
+    out = []
+    for r in eligible_rows:
+        if r["phase"] != phase:                  # pragma: no cover - eligible rows are per-phase
+            continue
+        if row_scientific_role(r) != "EXECUTION_ASSURANCE_REPLICATE":
+            continue
+        base_id = r.get("replicate_of_case_id")
+        if not base_id:
+            raise ValueError("assurance replicate %r carries no replicate_of_case_id "
+                             "(erratum PE-123)" % (r["case_id"],))
+        base_row = next((b for b in matrix_rows if b["case_id"] == base_id), None)
+        if base_row is None:
+            raise ValueError("assurance replicate %r names base %r, which is not a row of the "
+                             "canonical matrix (erratum PE-123)" % (r["case_id"], base_id))
+        assert_replicate_compatible(r, base_row)
+        out.append((r, base_row))
+    return out
+
+
+def build_execution_assurance_entries(runs_dir, expected_pairs, completed_ids, audit_plans=None):
+    """The canonical replicate ledger entries, with RECOMPUTED payload hashes (PE-122, PE-123).
+
+    A pair whose replicate or base is not a completed record contributes NO entry: a stopped phase
+    represents an unexecuted assurance row through the frozen refusal semantics, never through an
+    invented replicate verdict.
+    """
+    plans = dict(audit_plans or {})
+    out = []
+    for rep_row, base_row in expected_pairs:
+        rep_id, base_id = rep_row["case_id"], base_row["case_id"]
+        if rep_id not in completed_ids or base_id not in completed_ids:
+            continue
+        rep_rec, _ = read_case_record(runs_dir, rep_id)
+        base_rec, _ = read_case_record(runs_dir, base_id)
+        # both records must have been completed under the SAME phase authority and predecessor
+        # chain: a replicate of a base executed under a different authority proves nothing
+        for k in ("execution_authority_sha256", "phase_authority_file_sha256",
+                  "predecessor_manifest_sha256", "source_commit", "source_tree", "backend"):
+            if rep_rec.get(k) != base_rec.get(k):
+                raise ValueError(
+                    "assurance replicate %r and its base %r differ on %r; both must be completed "
+                    "under the same phase authority and predecessor chain (erratum PE-123)"
+                    % (rep_id, base_id, k))
+        rp = recomputed_payload_sha256(rep_rec, rep_row, audit=plans.get(rep_id))
+        bp = recomputed_payload_sha256(base_rec, base_row, audit=plans.get(base_id))
+        out.append({
+            "replicate_case_id": rep_id, "base_case_id": base_id,
+            "scientific_payload_sha256": rp,
+            "base_scientific_payload_sha256": bp,
+            "pass": bool(rp == bp),
+            "rule": REPLICATE_PAYLOAD_RULE,
+        })
+    return out
+
+
+def validate_execution_assurance_replicates(phase, runs_dir, terminal_status, eligible_rows,
+                                            matrix_rows, reported, completed_ids, refused_ids,
+                                            audit_plans=None):
+    """The EXACT matrix-derived execution-assurance contract (errata PE-121 … PE-123).
+
+    C8 iterated ``doc.get("replicates", [])``: an omitted expected replicate was invisible, an
+    extra entry was unconstrained, the equality verdict compared the two records' STORED payload
+    hashes, and neither ``replicate_of_case_id`` nor ``assert_replicate_compatible`` was consulted.
+    A manifest could therefore choose which assurance relationships to report.
+
+    Called by the executor BEFORE it persists a manifest — so a manifest claiming
+    ``PHASE_COMPLETE`` is never written and only then found to fail its assurance check — and by
+    :func:`validate_phase_manifest` after it reopens one. ONE implementation, so the two cannot
+    disagree. The frozen failure semantics are unchanged: a violation is fatal to the phase.
+    """
+    expected_pairs = derive_expected_replicates(phase, eligible_rows, matrix_rows)
+    want = build_execution_assurance_entries(runs_dir, expected_pairs, completed_ids,
+                                             audit_plans=audit_plans)
+    want_by = {e["replicate_case_id"]: e for e in want}
+    got_list = list(reported or [])
+    got_by = {}
+    for e in got_list:
+        rid = e.get("replicate_case_id")
+        if rid in got_by:
+            raise ValueError("the %s manifest reports assurance replicate %r twice" % (phase, rid))
+        got_by[rid] = e
+    if terminal_status == "PHASE_COMPLETE":
+        for rep_row, base_row in expected_pairs:
+            for cid in (rep_row["case_id"], base_row["case_id"]):
+                if cid not in completed_ids:
+                    raise ValueError(
+                        "the %s manifest is PHASE_COMPLETE, but assurance row %r requires %r to be "
+                        "a completed record (erratum PE-121)" % (phase, rep_row["case_id"], cid))
+    else:
+        # a stopped phase: an unexecuted assurance row must be represented by the FROZEN refusal
+        # semantics, and may never carry an invented replicate verdict
+        for rep_row, _base in expected_pairs:
+            rid = rep_row["case_id"]
+            if rid in completed_ids:
+                continue
+            if rid not in set(refused_ids):
+                raise ValueError(
+                    "the %s manifest stopped at %r and assurance row %r is neither completed nor "
+                    "refused (erratum PE-121)" % (phase, terminal_status, rid))
+            if rid in got_by:
+                raise ValueError(
+                    "the %s manifest reports a replicate verdict for %r, which it never executed; "
+                    "an unexecuted assurance row is represented by refusal alone (erratum PE-121)"
+                    % (phase, rid))
+    missing = sorted(set(want_by) - set(got_by))
+    if missing:
+        raise ValueError(
+            "the %s manifest omits the expected assurance replicate(s) %r; the required set is "
+            "derived from the canonical matrix and may not be chosen by the manifest "
+            "(erratum PE-121)" % (phase, missing))
+    extra = sorted(set(got_by) - set(want_by))
+    if extra:
+        raise ValueError(
+            "the %s manifest reports assurance replicate(s) %r that the canonical matrix does not "
+            "require (erratum PE-121)" % (phase, extra))
+    for rid in sorted(want_by):
+        w, g = want_by[rid], got_by[rid]
+        rep_row = next(r for r, _b in expected_pairs if r["case_id"] == rid)
+        if g.get("base_case_id") != rep_row.get("replicate_of_case_id"):
+            raise ValueError(
+                "the %s manifest records base %r for assurance replicate %r; its canonical row "
+                "names %r (erratum PE-123)"
+                % (phase, g.get("base_case_id"), rid, rep_row.get("replicate_of_case_id")))
+        for k in ("base_case_id", "scientific_payload_sha256", "base_scientific_payload_sha256",
+                  "rule"):
+            if g.get(k) != w[k]:
+                raise ValueError(
+                    "assurance replicate %r records %s=%r; it recomputes as %r (erratum PE-122)"
+                    % (rid, k, g.get(k), w[k]))
+        if g.get("pass") is not w["pass"]:
+            raise ValueError(
+                "assurance replicate %r records pass=%r; its RECOMPUTED payloads give %r "
+                "(erratum PE-122)" % (rid, g.get("pass"), w["pass"]))
+        if not w["pass"]:
+            raise ValueError(
+                "assurance replicate %r does not reproduce the RECOMPUTED scientific payload of "
+                "its base %r; the byte-identical claim is enforced by assertion (errata PE-37, "
+                "PE-122)" % (rid, w["base_case_id"]))
+    return want
+
+
 def assert_audit_compatible(audit_row, base_row):
     """A fixed-step audit must be the same configuration as its explicitly named normal base,
     differing only in the fields fixed-step mode deliberately changes."""
@@ -7354,20 +7521,21 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
             or counts.get("diagnostic_failed") != len(diag_bad)):
         raise ManifestMissing("the %s manifest's counts do not reconcile to its universe"
                               % (phase,))
-    # PE-37: a claimed determinism replicate must actually reproduce its base payload
+    # errata PE-37, PE-121 … PE-123: the assurance set is DERIVED from the canonical eligible rows
+    # and its payload equality is RECOMPUTED. The manifest does not get to choose which
+    # relationships it reports, and stored payload identities are never trusted for the verdict.
     for rep in doc.get("replicates", []):
-        base_id, rep_id = rep.get("base_case_id"), rep.get("replicate_case_id")
-        for cid in (base_id, rep_id):
+        for cid in (rep.get("base_case_id"), rep.get("replicate_case_id")):
             if cid not in records:
                 raise ManifestMissing("replicate cites %r, which is not a completed case" % (cid,))
-        if (records[base_id].get("scientific_payload_sha256")
-                != records[rep_id].get("scientific_payload_sha256")):
-            raise ManifestMissing(
-                "replicate %r does not reproduce the scientific payload of its base %r; the "
-                "byte-identical claim is not enforced by assertion (erratum PE-37)"
-                % (rep_id, base_id))
-        if rep.get("pass") is not True:
-            raise ManifestMissing("replicate %r is not recorded as passing" % (rep_id,))
+    try:
+        validate_execution_assurance_replicates(
+            phase, base, doc["terminal_status"], eligible, rows,
+            doc.get("replicates", []), set(records), set(refused),
+            audit_plans=audit_plans)
+    except ValueError as exc:
+        raise ManifestMissing("the %s execution-assurance contract is not satisfied: %s"
+                              % (phase, exc))
     # PE-64: the phase's durable AGGREGATE scientific verdict is RECOMPUTED from the reopened
     # records and must match the manifest exactly. A manifest may not assert a P0 verdict its own
     # records do not support, and it may not omit one.
