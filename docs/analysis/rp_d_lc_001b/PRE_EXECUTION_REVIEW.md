@@ -705,3 +705,66 @@ not claimed.
 **execution-authorization commit** that changes the source constants — at which point the
 generated authority records and proves that change — and it needs its own exact-head review.
 P3/P4 need a further correction beyond that.
+
+---
+
+# CORRECTION `PREFLIGHT-C9` — what the ninth exact-head review found
+
+Disposition at `67c8c23` (tree `123a6bc`):
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C9_RUNTIME_BUNDLE_AND_RECORD_ASSURANCE_REQUIRED`
+
+**Every accepted C7 scientific outcome, both C7 judgment calls, PE-66 and PE-113's correction of
+the historical `preflight_status.json` hash are accepted.** The deferred post-freeze
+current-version boundary remains an accepted P3/P4 prerequisite. Nothing in the apparatus, the
+lateral-only bridge geometry, the forcing or resolution gates, the pressure controls, the artifact,
+`c` or actual-`Ξ` uncertainty methods, any tolerance or safety factor, the candidate family, the
+four-slot rule, the reachable-set admission or the claim ceiling is altered. **C9 changes execution
+readiness only.**
+
+Five findings, none of them about the science.
+
+- **The runtime bundle sat inside the worktree the authority requires to be clean.** `run_phase`
+  fell back to `REPO_ROOT / RUNS_REL` = `docs/analysis/rp_d_lc_001b/runs`, and the tracked
+  `.gitignore` did not exclude it. So the documented production P0 command wrote untracked
+  artifacts into the repository, `git status` went dirty, and P1a's own authority — which requires
+  a clean tree — could then never be constructed. The design defeated itself on the first real
+  execution, and the README's P0 command was the exact command that would do it.
+
+- **Final case-record validation was weaker than resume validation.**
+  `load_resumable_case_record` recomputed the run status from the record's own step count and audit
+  plan, and recomputed `scientific_payload_sha256` from the record's own configuration, payload and
+  mask. `validate_case_record` — the validator every FINAL manifest uses — did neither. Whether a
+  record was ever checked against its own contents therefore depended on whether the phase happened
+  to be interrupted. In the same place, `forcing_exact` and `forcing_repr` were required to agree
+  with **each other** and neither was compared with the canonical row.
+
+- **A fixed-step audit authenticated itself.** The executor validated an audit against its exact
+  normal base before execution, but at final validation the record's own stored `audit` object was
+  fed back into `effective_solver_config`. The record proved only that it was internally consistent
+  with the plan it had supplied; the base's existence, run mode, status, record hash and derived
+  target were never reconstructed.
+
+- **The manifest chose which assurance relationships to report.** The validator iterated
+  `doc.get("replicates", [])`. An omitted expected replicate was invisible, an extra entry was
+  unconstrained, the equality verdict compared the two records' **stored** payload hashes, and
+  neither `replicate_of_case_id` nor `assert_replicate_compatible` was consulted. The executor also
+  wrote a manifest claiming `PHASE_COMPLETE` and only afterwards discovered an assurance failure.
+
+- **The source described an authorization model the code forbids.** The driver stated that each
+  phase is added to `AUTHORISED_SOLVING_PHASES` by its own reviewed commit, while
+  `require_phase_manifests` requires every predecessor's authority to carry this phase's own
+  `source_commit` and `source_tree`. Under sequential per-phase commits, P1a could never consume
+  P0. The pre-freeze authorization is one atomic cohort, and that is now what the source says and
+  what the parser enforces.
+
+Alongside them, the current README was stale at the reviewed head: it named §19/§20 (C1/C2) as the
+effective protocol and reported superseded C3/C4 counts (383 normal solves, 144 pressure-plane
+diagnostics, 112 mandatory minimum, 847 adaptive maximum, 735 refused). A current guide that
+misstates the effective protocol and the planned work is a reader-facing defect, not a historical
+record.
+
+**Recommendation is unchanged: authorise nothing yet.** The next step remains a separate reviewed
+**execution-authorization commit** — which under PE-124 must authorize the **complete P0–P2b cohort
+at one head** — and it needs its own exact-head review. P3/P4 need a further correction beyond
+that, including the deferred historical-version dispatcher and the approved instantiated-matrix
+loader. Nothing here has run: `solves_executed` is **0**.

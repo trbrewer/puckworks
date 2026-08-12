@@ -1569,7 +1569,8 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
                                                       "PREFLIGHT-C2", "PREFLIGHT-C3",
                                                       "PREFLIGHT-C4", "PREFLIGHT-C5",
-                                                      "PREFLIGHT-C6", "PREFLIGHT-C7"]
+                                                      "PREFLIGHT-C6", "PREFLIGHT-C7",
+                                                      "PREFLIGHT-C8"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
@@ -1621,6 +1622,19 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     # erratum PE-113: the ACTUAL committed C7 hash, not the stale one the message quoted
     assert revs[7]["superseded_artifact_sha256"]["preflight_status.json"] == (
         "b9e74571d45acc3b84412a161bd64d860870b654df972e1957b372de6989fe86")
+    assert revs[8]["reviewed_head"] == "67c8c235bf4bb9327b36f84b047cfd861334afac"
+    assert revs[8]["reviewed_tree"] == "123a6bc2ee27a8053d4ffbd1fbc4d386dda49d68"
+    assert revs[8]["disposition"].endswith(
+        "C9_RUNTIME_BUNDLE_AND_RECORD_ASSURANCE_REQUIRED")
+    assert revs[8]["errata"] == ["PE-%d" % i for i in range(114, 127)]
+    # C9 preserves the C8 counts exactly: validation work is not a row
+    for k, v in (("decision_bearing_rows", 698), ("mandatory_minimum", 110),
+                 ("adaptive_maximum", 703), ("tau_diagnostic_rows", 2),
+                 ("execution_assurance_rows", 3), ("refused_after_earliest_stop", 591)):
+        assert revs[8]["superseded_counts"][k] == v, k
+        assert vf.execution_matrix()[k] == v, k
+    for phrase in ("PE-66", "PE-113", "judgment calls", "deferred post-freeze"):
+        assert phrase in revs[8]["accepted_without_change"], phrase
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())

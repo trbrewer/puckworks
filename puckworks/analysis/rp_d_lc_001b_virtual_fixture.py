@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C8"
+CORRECTION_VERSION = "PREFLIGHT-C9"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -284,6 +284,36 @@ SUPERSEDED_REVIEWS = (
         "accepted_without_change": ("PE-66; the 112 to 110 mandatory minimum; and both C7 "
                                     "judgment calls - measured-historical dependency, clean-tree "
                                     "and seed fields, and source-commit tracked-file hashing"),
+    },
+    {
+        "correction_version": "PREFLIGHT-C8",
+        "reviewed_head": "67c8c235bf4bb9327b36f84b047cfd861334afac",
+        "reviewed_tree": "123a6bc2ee27a8053d4ffbd1fbc4d386dda49d68",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C9_RUNTIME_BUNDLE_"
+                        "AND_RECORD_ASSURANCE_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(114, 127)],
+        "superseded_artifact_sha256": {
+            "protocol.json":
+                "49eed608319295135003f04c048349e6acaaa99004d9a0766591e35730b646c0",
+            "fixture_spec.json":
+                "d9dcfd2d5036aae82e11aafb6e60c7853dc2345e1e4fe295baea026e897d0b39",
+            "execution_matrix.json":
+                "696fc44d43fc974c9d89c7590912338251c3e9e65dd71528e65a98d4449d1ff0",
+            "preflight_status.json":
+                "ce6432eb80c86cb7d482dae6f210ca514e277b13aa60ca2136fd2a219d23b657",
+        },
+        # NO count changes under C9: every value is independently regenerated and retained only
+        # because it regenerated. No row is added for a runtime-path check, a payload
+        # recomputation, an audit reconstruction or a cohort parse.
+        "superseded_counts": {"adaptive_maximum": 703, "decision_bearing_rows": 698,
+                              "tau_diagnostic_rows": 2, "execution_assurance_rows": 3,
+                              "mandatory_minimum": 110, "refused_after_earliest_stop": 591},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+        "accepted_without_change": ("every accepted C7 scientific outcome; both C7 judgment calls; "
+                                    "PE-66; PE-113's correction of the historical preflight-status "
+                                    "hash; and the deferred post-freeze current-version boundary "
+                                    "as a P3/P4 prerequisite"),
     },
 )
 #: Backwards-compatible alias for the most recent superseded review.
@@ -3697,8 +3727,9 @@ def execution_matrix():
         "post_freeze_historical_version_boundary": (
             "DEFERRED P3/P4 PREREQUISITE: every validator requires equality with the CURRENT "
             "correction version, which suffices for P0-P2b under one reviewed authority version "
-            "but NOT for a later P3/P4 review commit validating historical C8-era authorities. "
-            "C8 does not implement the dispatcher and does not claim otherwise."),
+            "but NOT for a later P3/P4 review commit validating historical pre-freeze authorities. "
+            "ACCEPTED AS DEFERRED by the C9 review; neither C8 nor C9 implements the dispatcher, "
+            "and neither claims otherwise."),
         # erratum PE-124 §9.2: DERIVED from the strictly parsed committed driver, not asserted.
         "post_freeze_executor_ready":
             committed_authorization_status()["post_freeze_executor_ready"],
@@ -3961,6 +3992,17 @@ def protocol_config():
             "invariant": "n_provider_calls == n_newly_executed",
             "erratum": "PE-74/PE-75",
         },
+        # ---- erratum PE-114: the frozen runtime-bundle policy -------------------------------
+        "production_runs_directory_policy": PRODUCTION_RUNS_DIRECTORY_POLICY,
+        "runs_directory_location_class": RUNS_DIRECTORY_LOCATION_CLASS,
+        "runs_directory_refusals": list(RUNS_DIRECTORY_REFUSALS),
+        "runs_directory_in_scientific_hashes": False,
+        # ---- erratum PE-124: the atomic pre-freeze authorization cohort ---------------------
+        "prefreeze_solving_authorization_cohort":
+            list(PREFREEZE_SOLVING_AUTHORIZATION_COHORT),
+        "prefreeze_assembly_authorization_cohort":
+            list(PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT),
+        "prefreeze_cohort_states": list(PREFREEZE_COHORT_STATES),
         # erratum PE-124 §9.2: DERIVED from the strictly parsed committed driver, not asserted.
         "post_freeze_executor_ready":
             committed_authorization_status()["post_freeze_executor_ready"],

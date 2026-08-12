@@ -344,3 +344,59 @@ remains what a tau row leaves behind when its attempt produces no result.
 `AUTHORISED_SOLVING_PHASES` and `AUTHORISED_ASSEMBLY_PHASES` are both empty and
 `POST_FREEZE_EXECUTOR_READY` is false. The counts above are what a future **reviewed
 authorization commit** would plan, not what anything has run.
+
+## 16. CORRECTION `PREFLIGHT-C9` — counts unchanged; validation work is not a row
+
+Errata PE-114 … PE-126. **No solver row is added, and no count changes.** Every value below was
+independently regenerated from one machine authority (`execution_matrix()`) and is retained only
+because it regenerated.
+
+| category | value |
+|---|---|
+| `DECISION_BEARING` **normal** rows | **378** |
+| `DECISION_BEARING` **fixed-step audits** | **320** |
+| **decision-bearing rows** | **698** |
+| `TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE` rows | **2** |
+| `EXECUTION_ASSURANCE_REPLICATE` rows | **3** |
+| total rows | **703** |
+| total planned provider invocations | **703** |
+| **mandatory pre-freeze minimum** | **110** |
+| refused after the earliest stop | **591** |
+| same-field **node-offset summaries** (**0** provider calls) | **511** |
+| separate **pressure-diagnostic rows** | **0** |
+| **phase-authority files** written per phase | **1** — **0** provider calls |
+| **solves actually executed** | **0** |
+
+**None of the C9 work is a provider invocation.** A runtime-path check, a recomputed run status, a
+recomputed scientific-payload identity, a reconstructed fixed-step audit plan, a recomputed
+replicate payload and an authorization-cohort parse are all validation over artifacts that already
+exist. They add no row, consume no solve, and change no planned invocation.
+
+**The scientific row set and every row `case_id` are unchanged.** C9 alters no forcing level, no
+resolution, no candidate, no `tau_plus`, no run mode and no phase assignment.
+
+### Where the rows are written
+
+Production output no longer has a repository-internal default (erratum PE-114). Every non-plan mode
+requires an explicit absolute `--output` **outside** the repository:
+
+```
+python -m puckworks.validation.slow.rp_d_lc_001b \
+    --mode P0 \
+    --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+```
+
+The bundle's location is a property of one workstation and enters **no** scientific hash; the
+durable contract is the location class `OUTSIDE_REPOSITORY` plus the contents of the bundle.
+
+### One authorization head for P0–P2b
+
+Erratum PE-124. The pre-freeze allowlists are **atomic**: a committed head declares either no
+pre-freeze phase or the complete cohort `("P0", "P1a", "P1b", "P2a")` plus `("P2b",)`, and every
+partial state is refused. Each phase remains separately gated by its own prerequisites, so the
+shared authorization head does not make execution monolithic. **P3 and P4 require a later source
+commit** and stay blocked by `POST_FREEZE_EXECUTOR_READY = False`.
+
+**Every production authority construction still refuses at this head**, because both allowlists are
+empty. The counts above are what a future **reviewed authorization commit** would plan, not what
+anything has run. **Zero solves have been executed.**
