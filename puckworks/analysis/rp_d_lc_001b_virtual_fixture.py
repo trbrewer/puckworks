@@ -7133,6 +7133,78 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
             raise ManifestMissing("case %r was executed although the derived plan excludes it"
                                   % (cid,))
 
+    # ---- erratum PE-120: reconstruct EVERY executed fixed-step audit from its exact base --------
+    # A fixed-step record must not authenticate itself by supplying an audit object that is never
+    # compared with its base. C8 fed the record's own stored ``audit`` back into
+    # effective_solver_config, so the record proved only that it was internally consistent with the
+    # plan it had supplied. The base row, the base record, its status, its recomputed hash and the
+    # derived target are all reconstructed here, in a pre-pass, so the plan is available before any
+    # fixed-step record is validated — including for the 48 audits whose base lives in a
+    # predecessor phase.
+    audit_plans = {}
+    pred_recs = dict(predecessor_records or {})
+    for cid in sorted(executed_ids):
+        arow = by_row[cid]
+        if arow["run_mode"] != "FIXED_STEP_REEXECUTION_1P5X":
+            continue
+        base_id = arow.get("audit_of_case_id")
+        if not base_id:
+            raise ManifestMissing(
+                "fixed-step case %r carries no audit_of_case_id; an audit with no named base "
+                "cannot be reconstructed (erratum PE-120)" % (cid,))
+        base_row = next((r for r in rows if r["case_id"] == base_id), None)
+        if base_row is None:
+            raise ManifestMissing(
+                "fixed-step case %r names base %r, which is not a row of the canonical matrix "
+                "(erratum PE-120)" % (cid, base_id))
+        try:
+            assert_audit_compatible(arow, base_row)
+        except ValueError as exc:
+            raise ManifestMissing("fixed-step case %r is not compatible with its named base %r: %s"
+                                  % (cid, base_id, exc))
+        # the base must be a COMPLETED ADJUDICATIVE record: in this phase's completed ledger, or —
+        # for a cross-phase audit — in the validated completed record set of a predecessor.
+        if base_row["phase"] == phase:
+            if base_id not in ledgers["completed"]:
+                raise ManifestMissing(
+                    "fixed-step case %r names base %r, which this phase does not record as "
+                    "completed (erratum PE-120)" % (cid, base_id))
+        elif base_id not in pred_recs:
+            raise ManifestMissing(
+                "fixed-step case %r names base %r in phase %r, which is not in the validated "
+                "completed record set of this phase's predecessors (erratum PE-120)"
+                % (cid, base_id, base_row["phase"]))
+        base_rec, base_path = read_case_record(base, base_id)
+        base_raw = pathlib.Path(base_path).read_bytes()
+        if base_raw.decode() != canonical_json(base_rec) + "\n":
+            raise ManifestMissing("audit base record %r is not canonically serialised" % (base_id,))
+        # the base's FILE hash is recomputed and, where this phase cites it, must agree
+        base_file_sha = hashlib.sha256(base_raw).hexdigest()
+        cited = (ledgers["completed"].get(base_id) or {}).get("record_sha256")
+        if cited is not None and cited != base_file_sha:
+            raise ManifestMissing(   # pragma: no cover - the main loop checks the same file hash
+                "audit base record %r hashes to %r; the manifest cites %r"
+                % (base_id, base_file_sha, cited))
+        if base_rec.get("run_mode") != "NORMAL":
+            raise ManifestMissing(
+                "fixed-step case %r names base %r, whose run mode is %r; an audit must name a "
+                "NORMAL base (erratum PE-120)" % (cid, base_id, base_rec.get("run_mode")))
+        # the base's own status is RECOMPUTED: a forged NORMAL_CONVERGED is never taken on trust
+        try:
+            base_status = recomputed_case_status(base_rec)
+        except ValueError as exc:                # pragma: no cover - normal bases need no target
+            raise ManifestMissing("audit base record %r has no recomputable status: %s"
+                                  % (base_id, exc))
+        if base_status != "NORMAL_CONVERGED" or base_rec.get("status") != "NORMAL_CONVERGED":
+            raise ManifestMissing(
+                "fixed-step case %r names base %r, whose status recomputes as %r (stored %r); an "
+                "audit may never rescue an unconverged or failed base (errata PE-16, PE-120)"
+                % (cid, base_id, base_status, base_rec.get("status")))
+        plan = fixed_step_audit_plan(base_rec["completed_steps"], base_status)
+        plan["base_case_id"] = base_rec["case_id"]
+        plan["base_record_sha256"] = record_hash(base_rec)
+        audit_plans[cid] = plan
+
     records, diagnostic_records, diagnostic_failures, seen_hash = {}, {}, {}, {}
     for cid in sorted(executed_ids):
         entry = next(ledgers[n][cid] for n in EXECUTED_LEDGERS if cid in ledgers[n])
@@ -7191,21 +7263,17 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                                   "to %r" % (phase, entry.get("record_sha256"), cid, actual))
         if raw.decode() != canonical_json(rec) + "\n":
             raise ManifestMissing("case record %r is not canonically serialised" % (cid,))
-        validate_case_record(rec, row=by_row[cid], authority=phase_authority, phase=phase,
-                             expected_predecessors=expected_predecessors,
-                             phase_authority_file_sha256=pa_sha)
-        # erratum PE-110 §8.4: the geometry identity is RECOMPUTED from the canonical row, for
-        # normal records as well as envelopes, at FINAL validation and not only on resume.
-        want_geom = row_geometry_identity(by_row[cid])
-        got_geom = rec.get("geometry") or {}
-        for gk in ("kind", "mask_sha256", "S", "bridge", "state", "variant", "obstructed"):
-            if got_geom.get(gk) != want_geom[gk]:
-                raise ManifestMissing(
-                    "case record %r records geometry %s=%r; its canonical row resolves to %r "
-                    "(erratum PE-110)" % (cid, gk, got_geom.get(gk), want_geom[gk]))
-        if rec.get("mask_sha256") != want_geom["mask_sha256"]:
-            raise ManifestMissing("case record %r records a mask its row does not resolve to"
-                                  % (cid,))
+        # erratum PE-119: the ONE canonical validator, which recomputes the geometry identity from
+        # the canonical row (erratum PE-110), the run status (PE-117) and the scientific-payload
+        # identity (PE-118). The final path is no longer weaker than the resume path.
+        try:
+            validate_case_record(rec, row=by_row[cid], authority=phase_authority, phase=phase,
+                                 expected_predecessors=expected_predecessors,
+                                 phase_authority_file_sha256=pa_sha,
+                                 audit=audit_plans.get(cid),
+                                 provenance_mode=doc.get("provenance_mode"))
+        except ValueError as exc:
+            raise ManifestMissing("case record %r does not validate: %s" % (cid, exc))
         if require_production:
             assert_production_record(rec)
         if entry.get("row_sha256") != row_sha256(by_row[cid]):
@@ -7219,7 +7287,11 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
         seen_hash[actual] = cid
         # errata PE-58, PE-79: recompute the ROLE-AWARE verdict and require the ledger the
         # manifest filed the case under to be exactly the one the verdict names.
-        verdict = case_decision_verdict(by_row[cid], rec.get("scientific"), rec["status"])
+        # erratum PE-117: the verdict consumes the RECOMPUTED status, never the stored one. The
+        # validator above has already required the two to agree, so this is the same value by
+        # construction — and it is the recomputed one that is used.
+        verdict = case_decision_verdict(by_row[cid], rec.get("scientific"),
+                                        recomputed_case_status(rec, audit=audit_plans.get(cid)))
         want_ledger = verdict["ledger"]
         got_ledger = next(n for n in EXECUTED_LEDGERS if cid in ledgers[n])
         if got_ledger != want_ledger:
