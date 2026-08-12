@@ -1560,7 +1560,7 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C8"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C9"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
@@ -3201,6 +3201,11 @@ def test_a_manifest_cannot_relabel_a_failed_case_as_completed(executed_p0):
     rec, path = vf.read_case_record(runs, cid)
     bad = dict(rec, scientific=dict(rec["scientific"],
                                     mach=dict(rec["scientific"]["mach"], **{"pass": False})))
+    # erratum PE-118: the payload identity is now RECOMPUTED at final validation, so a tamperer who
+    # left it stale is caught there first. Update it, so what this test exercises is still the
+    # LEDGER relabel (erratum PE-58) rather than the payload check.
+    bad["scientific_payload_sha256"] = vf.scientific_payload_hash(
+        bad["solver_config"], bad["scientific"], bad["mask_sha256"])
     path.unlink()
     payload = vf.canonical_json(bad) + "\n"
     path.write_text(payload)
@@ -6313,7 +6318,7 @@ def test_an_external_test_only_p0_leaves_the_repository_exactly_as_it_was(tmp_pa
     # ...and the NEXT stage's clean-tree authority is not defeated by P0 output
     if clean_before:
         nxt = vf._test_only_execution_authority("P1a", require_clean=True)
-        assert nxt["stage"] == "P1a" and nxt["clean_tree"] is True
+        assert nxt["stage"] == "P1a" and nxt["working_tree_clean"] is True
     else:                                                # pragma: no cover - dev checkout only
         pytest.skip("the checkout was already dirty before this test; the invariant asserted is "
                     "that an external P0 does not change git status, which it did not")
@@ -6802,7 +6807,8 @@ def test_a_manifest_claiming_pass_while_the_payloads_differ_is_refused(synthetic
     _rewrite_manifest(work, "P0", doc)
     with pytest.raises(vf.ManifestMissing) as exc:
         vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
-    assert "does not reproduce" in str(exc.value) or "recompute" in str(exc.value)
+    txt = str(exc.value).lower()
+    assert "does not reproduce" in txt or "recomputed payloads give false" in txt
 
 
 def test_a_replicate_may_never_name_another_replicate_or_a_different_configuration():
