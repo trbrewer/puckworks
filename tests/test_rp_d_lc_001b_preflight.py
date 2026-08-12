@@ -1558,7 +1558,7 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C6"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C7"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
@@ -1566,7 +1566,8 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     revs = vf.SUPERSEDED_REVIEWS
     assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
                                                       "PREFLIGHT-C2", "PREFLIGHT-C3",
-                                                      "PREFLIGHT-C4", "PREFLIGHT-C5"]
+                                                      "PREFLIGHT-C4", "PREFLIGHT-C5",
+                                                      "PREFLIGHT-C6"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
@@ -1591,6 +1592,18 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     assert revs[5]["superseded_counts"]["mandatory_minimum"] == 112
     assert vf.execution_matrix()["mandatory_minimum"] == 110
     assert "PE-66" in revs[5]["accepted_without_change"]
+    assert revs[6]["reviewed_head"] == "76e5669670213f33c6496b98cc4d2cdfc9711b35"
+    assert revs[6]["reviewed_tree"] == "489af8f01d2bcf6009dbfa1dbd8a0cc82fd205e7"
+    assert revs[6]["disposition"].endswith(
+        "C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_REQUIRED")
+    assert revs[6]["errata"] == ["PE-%d" % i for i in range(89, 101)]
+    # C7 preserves the C6 counts exactly: no row is added for authority or envelope bookkeeping
+    assert revs[6]["superseded_counts"]["mandatory_minimum"] == 110
+    assert vf.execution_matrix()["mandatory_minimum"] == 110
+    assert revs[6]["superseded_counts"]["decision_bearing_rows"] == 698
+    assert vf.execution_matrix()["decision_bearing_rows"] == 698
+    assert "PE-66" in revs[6]["accepted_without_change"]
+    assert "112 to 110" in revs[6]["accepted_without_change"]
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())

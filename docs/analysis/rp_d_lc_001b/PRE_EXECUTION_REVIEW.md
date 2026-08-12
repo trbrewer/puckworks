@@ -616,3 +616,45 @@ decision-bearing, which is the point of the correction rather than a side effect
 
 **Recommendation is unchanged:** authorise nothing yet. Another exact-head review is required
 before P0–P2b, and P3/P4 need a further correction and review of the real pre-freeze artifacts.
+
+
+---
+
+# CORRECTION `PREFLIGHT-C7` — what the seventh exact-head review found
+
+Disposition at `76e5669` (tree `489af8f`):
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_REQUIRED`
+
+**All C6 scientific outcomes are accepted. PE-66 remains accepted without change, and so does
+the mandatory-minimum change from 112 to 110.** Nothing in the apparatus, the scientific gates,
+the similarity law, the uncertainty equations, the candidate family, the four-slot selection or
+the claim ceiling is altered.
+
+Two findings, both of the same shape as C6's: **a correct rule applied at the wrong point.**
+
+- **A diagnostic whose attempt could kill the phase.** C6 made the `tau_plus = 1.2` rows
+  non-adjudicative, and the role-aware classifier that implements it is reached only *after* the
+  provider call, the compact extraction, the record construction and the record write have all
+  succeeded. A provider that raises, or returns a result missing `steps` or `rho`, or a
+  wrong-shaped or non-finite field, aborted P0 outright — before `diagnostic_failed` could exist,
+  and leaving nothing on disk for a resume to find. The correction is narrow by construction:
+  four named failure codes, one eligible role, an explicit never-caught list, and no
+  undifferentiated `except Exception` anywhere in the row loop.
+
+- **An authority that could not be reconstructed.** Phase manifests persisted
+  `execution_authority_sha256` and a few convenience fields. The complete object — every
+  input-file hash, the document hashes, the stage, the prerequisites, the dependency identity,
+  the clean-tree proof — lived only in transient Python memory. `authority=None` meant *skip*,
+  and what validation existed compared 40-character strings rather than asking Git whether the
+  recorded commit exists and what it contains. The correction persists the complete object,
+  validates it against the recorded commit and its tracked contents, and binds every record to
+  it by hash.
+
+**One thing is stated rather than faked.** `working_tree_clean`, `dependencies` and `seed` are
+**measured historical claims**. No later process can re-derive them. Their integrity rests on
+being bound inside the authority hash that every record, envelope, manifest and P2b artifact
+cites, and the code says so in those words rather than pretending to reproduce a `git status`
+run that happened once.
+
+**Recommendation is unchanged:** authorise nothing yet. Another exact-head review is required
+before P0–P2b, and P3/P4 need a further correction and review of the real pre-freeze artifacts.

@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C6), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C7), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,23 +10,23 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Six exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
-> `39533ad`, `e455c67` and `acb4f6a`. The **common-mode-port apparatus was accepted in principle** at the
+> **Seven exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
+> `39533ad`, `e455c67`, `acb4f6a` and `76e5669`. The **common-mode-port apparatus was accepted in principle** at the
 > first review and is unchanged; seventy-seven items of machinery were not, and are corrected
-> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C6`. Every superseded clause, constant, matrix
-> rule and generated hash — for all six generations — is in
+> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C7`. Every superseded clause, constant, matrix
+> rule and generated hash — for all seven generations — is in
 > [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md). The precedence chain is
-> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24)**, and **§24 governs**
-> wherever any earlier text conflicts with it. **PE-66 is accepted and unchanged.**
+> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24) → C7 (§25)**, and
+> **§25 governs** wherever any earlier text conflicts with it. **PE-66 is accepted and
+> unchanged**, as is the mandatory-minimum change from 112 to 110.
 >
-> **C6** corrects only what C5 stated rather than implemented: the `tau_plus = 1.2` rows are
-> genuinely non-adjudicative and **nonblocking**, with their evidence separated from common
-> scientific truth and determinism assurance given a distinct role; P2b validation
-> **independently reconstructs the scientific endpoint** from the predecessor records, so
-> coordinated hash-consistent artifact edits fail; every derived forcing and resolution sample
-> retains its **complete multi-record lineage**; the artifact uncertainty applies the safety
-> factor **exactly once** to the full sum; and the pressure mean and maximum use their own
-> serialisation terms.
+> **C7** is narrow. A **failed tau ATTEMPT** — a provider exception, a malformed or non-finite
+> result — is now nonblocking too, recorded in an immutable, resumable **diagnostic-failure
+> envelope**; authority, repository and persistence failures remain fatal. Every phase persists
+> its **complete execution authority**, not an opaque hash, and historical validation asks Git
+> whether the recorded commit and tree exist and reads every tracked file **at that commit**.
+> Every record is bound to that authority by hash. P2b **embeds and hashes** its full execution
+> authority. Decision-bearing, tau-diagnostic and execution-assurance identities are distinct.
 > **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
 > `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
 > exact-head review is required before P0–P2b, and P3/P4 need a further correction and review of
@@ -103,8 +103,8 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C6
+RP_D_LC_001B_PREFLIGHT_C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C7
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()

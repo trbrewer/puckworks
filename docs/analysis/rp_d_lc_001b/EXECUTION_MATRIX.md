@@ -1,7 +1,8 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C6 (supersedes bbf2304, 2cf0b63, c666707, 39533ad, e455c67 and acb4f6a)
+VERSION PREFLIGHT-C7 (supersedes bbf2304, 2cf0b63, c666707, 39533ad, e455c67,
+acb4f6a and 76e5669)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
 AUTHORISED_ASSEMBLY_PHASES: ()      POST_FREEZE_EXECUTOR_READY: False
@@ -264,3 +265,43 @@ mandatory_minimum (110) + refused_after_earliest_stop (591) + tau_diagnostic_row
 because a tau row is neither decision-bearing nor refused — it runs, it reports, and nothing
 consumes it. Same-field node-offset summaries remain **zero** additional provider calls, and no
 separate pressure-diagnostic row exists or may return.
+
+
+## 14. CORRECTION `PREFLIGHT-C7` — counts unchanged, roles and authority made durable
+
+Errata PE-89 … PE-100. **No solver row is added or removed**, and none is added for authority or
+diagnostic-envelope bookkeeping. Every count is regenerated from `execution_matrix()`.
+
+| category | value |
+|---|---|
+| `DECISION_BEARING` normal rows | **378** |
+| `DECISION_BEARING` fixed-step audits | **320** |
+| **decision-bearing** rows | **698** |
+| **tau diagnostic** rows (non-adjudicative, nonblocking) | **2** |
+| **execution-assurance** rows (determinism replicates) | **3** |
+| total planned provider invocations | **703** |
+| **mandatory decision-bearing** rows | **108** |
+| **mandatory pre-freeze minimum** | **110** |
+| **adaptive** rows | **703** |
+| refused after the earliest stop | **591** |
+| same-field **node-offset summaries** (**0** provider calls) | **511** |
+| provider calls, **fresh** full pre-freeze run | **640** |
+| provider calls, **exact resume** | **0** |
+| provider calls, **diagnostic-failure-envelope resume** | **0** |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+| **solves actually executed** | **0** |
+
+```
+planned_solver_invocations = all rows that call the provider
+provider_calls = new normal case records + new fixed-step case records
+                 + new diagnostic-failure envelopes
+```
+
+A **diagnostic-failure envelope is not a row.** It is what a tau row leaves behind when its
+attempt produces no result: one provider call, one persisted artifact, no scientific value, and
+no change to any count above. An exact resumed envelope costs **zero** provider calls.
+
+The role-resolved identities are now distinct in every phase manifest —
+`decision_bearing_case_ids`, `execution_assurance_case_ids`, `diagnostic_case_ids` and
+`adjudicative_case_ids` — so an execution-assurance replicate is no longer filed under a
+decision-bearing name (erratum PE-100). No separate pressure-diagnostic row exists or may return.

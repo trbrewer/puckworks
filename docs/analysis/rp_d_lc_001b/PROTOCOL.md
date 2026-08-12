@@ -8,30 +8,31 @@ NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
 NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
-> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C6`**
+> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C7`**
 >
 > **ONE precedence chain, no exceptions:**
 >
 > ```
-> C0 -> C1 (§19) -> C2 (§20) -> C3 (§21) -> C4 (§22) -> C5 (§23) -> C6 (§24)
+> C0 -> C1 (§19) -> C2 (§20) -> C3 (§21) -> C4 (§22) -> C5 (§23) -> C6 (§24) -> C7 (§25)
 > ```
 >
 > **Later always governs.** Wherever any earlier text — the frozen body §1–§18 or any earlier
-> effective section — conflicts with **§24**, **§24 is the effective protocol**. Where §24 is
-> silent, §23 governs; then §22, §21, §20, §19, and the frozen body last.
+> effective section — conflicts with **§25**, **§25 is the effective protocol**. Where §25 is
+> silent, §24 governs; then §23, §22, §21, §20, §19, and the frozen body last.
 >
-> Six exact-head reviews have returned NOT APPROVED. The most recent, at
-> `acb4f6a77c65378fcef7ed3d0a03af8620880bcb` (tree `4c53c4b`), returned
-> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C6_ENDPOINT_RECOMPUTATION_AND_DIAGNOSTIC_SEMANTICS_REQUIRED`**.
+> Seven exact-head reviews have returned NOT APPROVED. The most recent, at
+> `76e5669670213f33c6496b98cc4d2cdfc9711b35` (tree `489af8f`), returned
+> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_REQUIRED`**.
 > **The frozen text below is never rewritten.** `PREFLIGHT_ERRATA.md` records every superseded
-> clause, constant, matrix rule and generated hash, for all six generations, with the reason each
-> was unsafe.
+> clause, constant, matrix rule and generated hash, for all seven generations, with the reason
+> each was unsafe.
 >
-> **§23 is accepted in full, and PE-66 — the resolution comparison coordinate `value / S**n` —
-> is accepted WITHOUT CHANGE.** §24 corrects only what §23 stated rather than implemented:
-> diagnostic-only execution semantics, independent P2b scientific recomputation, exact
-> source-to-derived gate lineage, and exact uncertainty composition. It redesigns no apparatus,
-> similarity law, candidate family, scientific gate, four-slot rule or reachable-set admission.
+> **§24 is accepted in full, and PE-66 — the resolution comparison coordinate `value / S**n` —
+> remains accepted WITHOUT CHANGE.** The mandatory-minimum change from 112 to 110 is accepted.
+> §25 corrects only failed-attempt handling for the non-adjudicative tau diagnostics, durable
+> full execution-authority lineage, complete P2b assembly-authority binding, and role/count
+> naming. It alters no apparatus, scientific gate, similarity law, uncertainty equation,
+> candidate family, four-slot selection or claim ceiling.
 >
 > Unchanged and reaffirmed: the question, the common-mode-port apparatus, the forcing law and
 > ladders, the `1e-3` artifact budget, `TOL_LINEARITY_REL = 1e-4`,
@@ -41,7 +42,7 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 > immutability of RP-D-LC-001.
 >
 > **PRE-EXECUTION THROUGHOUT.** `AUTHORISED_SOLVING_PHASES = ()`,
-> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C6 head. No
+> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C7 head. No
 > 001b lattice-Boltzmann solve has run at any point in this lineage.
 
 Programme: `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md` (Stage A only).
@@ -1390,6 +1391,230 @@ P0, P1a, P1b, P2a, P2b, P3 and P4 all remain **unauthorized**. Another exact-hea
 required before P0–P2b, and a further correction and review of the real pre-freeze artifacts is
 required before P3/P4. RP-D-LC-001 remains **immutable** and `INVALID_EXECUTION`, its cross-model
 question **unadjudicated, not negative**. RP-D-LC-001b has produced **no scientific result**.
+
+---
+
+# 25. EFFECTIVE PROTOCOL — CORRECTION `PREFLIGHT-C7`
+
+Appended, not substituted. **§25 governs wherever any earlier text conflicts with it.** Errata:
+`PREFLIGHT_ERRATA.md` PE-89 … PE-100.
+
+**All C6 scientific outcomes are accepted**, including the independent reconstruction of both
+P2b endpoints, coordinated scientific-endpoint tamper resistance, the complete multi-source `R`
+and actual-`Ξ` lineage, `u_artifact_R = 2.0·(fixed_step_raw + node_offset_raw +
+serialization_raw)`, the separate pressure mean and maximum serialisation terms and true
+pre-solve resume. **PE-66 remains accepted and unchanged**, and the mandatory-minimum change
+from 112 to 110 is accepted as the correct consequence of the two tau rows becoming
+non-decision-bearing. **No accepted scientific choice is reopened or retuned.**
+
+## 25.1 A FAILED tau ATTEMPT is nonblocking (supersedes §24.1's scope)
+
+C6 made a tau diagnostic that produced a valid record and then failed a scientific check
+nonblocking. The role-aware classifier is reached only after the provider call, the compact
+extraction, the record construction and the record write have all succeeded — so a provider
+exception or a malformed result aborted P0 before `diagnostic_failed` could exist.
+
+**Scope.** This behaviour applies **only** to
+`TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE`. It applies to no adjudicative role, present or
+future.
+
+| case | handling |
+|---|---|
+| **A** result constructed successfully | the existing normal case-record path; classified `diagnostic_completed` or `diagnostic_failed` by the role-aware classifier |
+| **B** row-local attempt failure before a record exists | a canonical **diagnostic-failure envelope**, filed in `diagnostic_failed` with its exact reason; the phase continues |
+| **C** authority, repository, persistence or orchestration failure | **remains fatal**; never converted into a diagnostic result |
+
+**Eligible failure codes**, each with its own stage:
+
+```
+DIAGNOSTIC_PROVIDER_EXCEPTION             the provider raised during THIS diagnostic call
+DIAGNOSTIC_RESULT_CONTRACT_INVALID        a missing field, a wrong shape, an incompatible array
+DIAGNOSTIC_RESULT_NONFINITE               a non-finite value rejected during extraction
+DIAGNOSTIC_SCIENTIFIC_EXTRACTION_FAILED   the compact diagnostic science could not be formed
+```
+
+**Never caught, whatever the role:** `KeyboardInterrupt`, `SystemExit`, an execution-authority
+or Git failure, a dirty-tree failure, an unsupported backend, an unknown phase/kind/state/role,
+a canonical-matrix inconsistency, a predecessor-manifest failure, an existing-artifact or hash
+mismatch, a filesystem or atomic-persistence failure, an invalid source-controlled solver
+configuration, a failure to resolve the geometry or mask, or any invariant whose failure means
+the executor itself is not trustworthy. **There is no undifferentiated catch-all `Exception`
+around the row loop**; the provider/result boundary is factored so each category is explicit and
+testable.
+
+## 25.2 The diagnostic-failure envelope (new)
+
+`diagnostic_failure_<case_id>.json` — immutable, canonically serialised, strict-finite,
+atomically written, no-overwrite, exact-match resumable, deterministically named from the case
+ID. It retains the schema and correction versions, the provenance mode, the phase, the case ID,
+the canonical row and its hash, the scientific role, the source commit and tree, the
+execution-authority hash, the predecessor-manifest hashes, the geometry kind and mask hash, the
+exact forcing rational, the effective solver configuration, `provider_called = true`, the failure
+stage and frozen code, the exception class or result-contract class, a **bounded sanitised**
+message, a traceback **SHA-256** rather than an uncontrolled traceback,
+`status = DIAGNOSTIC_ATTEMPT_FAILED` and an explicit
+`NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE` declaration. **It fabricates no scientific value and
+contains no NaN or infinity.**
+
+**A normal case record and an envelope may never coexist for one case ID.** If both exist,
+validation and execution fail closed.
+
+## 25.3 Ledgers, validation and resume (supersedes §24.2's artifact assumption)
+
+A `diagnostic_failed` entry may cite **either** a normal record whose role-aware verdict failed
+**or** a failure envelope, and must name its `artifact_kind`. `validate_phase_manifest` reopens
+and rehashes the cited artifact, validates its canonical form, row, role and phase authority,
+recomputes the applicable ledger, requires the exact recorded failure code and stage, refuses an
+envelope for an adjudicative row, refuses an envelope filed as `diagnostic_completed`, and
+retains validated envelopes in `_diagnostic_failures` — **out of** `_records`,
+`_diagnostic_records`, the P0 aggregate, `common_reference_evidence` and P2b.
+
+**P0 remains `PHASE_COMPLETE`** when every decision-bearing and assurance requirement passes and
+each tau diagnostic is represented by `diagnostic_completed` or `diagnostic_failed`, envelope
+included. **P1a may consume that manifest.**
+
+Before a tau provider call the executor checks for an exact record, then an exact envelope,
+rejects coexistence, reuses either with **zero provider calls**, and fails closed on any
+mismatch. The accounting distinguishes `n_new_case_records`,
+`n_new_diagnostic_failure_envelopes`, `n_reused_case_records`,
+`n_reused_diagnostic_failure_envelopes`, `n_provider_calls`, `n_completed`, `n_failed`,
+`n_diagnostic_completed`, `n_diagnostic_failed` and `n_refused`, with
+
+```
+n_provider_calls = n_new_case_records + n_new_diagnostic_failure_envelopes
+```
+
+and `n_newly_executed` retained as exactly that sum.
+
+## 25.4 One complete execution authority per phase (supersedes §19.9's hash-only record)
+
+`EXECUTION_AUTHORITY_SCHEMA_VERSION` and `EXECUTION_AUTHORITY_FIELDS` freeze the canonical
+object: schema version, stage, tranche, correction version, source commit and tree,
+`working_tree_clean`, `clean_tree_required`, base commit and tree, the protocol, geometry-spec
+and errata document hashes, the complete input-file map, the three configuration hashes, the
+backend, the dependency identity, the seed, the baseline solver configuration and the exact
+prerequisites. **The object carries no self-referential hash**;
+`execution_authority_sha256 = record_hash(execution_authority)` is computed outside it.
+
+**Every P0, P1a, P1b and P2a manifest embeds the complete object and its exact hash**, and the
+manifest's convenience fields must equal it.
+
+An authority **binds a committed head**, so every tracked hash it records is the hash of the
+content **at its source commit**, not of the working tree. `working_tree_clean` separately
+records whether the two agreed, and a production authority requires that they did.
+
+## 25.5 Historical authority validation (supersedes §22.6's shape check)
+
+`validate_execution_authority(authority, expected_stage, expected_current_authority,
+require_production)` validates a historical authority **independently**: the exact schema and key
+set, canonical strict-finite content, the recomputed hash outside the object, the declared stage
+and prerequisites against the frozen phase graph, the tranche and correction version, a supported
+backend, production clean-tree fields, the baseline solver configuration, the dependency schema
+and version shapes, and the recorded base relationship.
+
+Then, **against the repository rather than against a string's length**: `source_commit` must be
+a real commit object; `rev-parse <source_commit>^{tree}` must equal `source_tree`; and every
+tracked input file, every document and every committed generated artifact is read **at that
+commit** and rehashed.
+
+`working_tree_clean`, `dependencies` and `seed` are declared **MEASURED HISTORICAL CLAIMS**. No
+later process can re-derive them; their integrity rests on being bound inside the authority hash
+that every record, envelope, manifest and P2b artifact cites. That is stated, not faked as a
+re-derivation.
+
+**`authority=None` no longer means "skip".** `validate_phase_manifest` always loads,
+independently validates and rehashes the embedded authority; an external expected authority only
+**strengthens** the check, requiring canonical equality of the complete object for exact
+same-phase resume. `require_phase_manifests` validates each predecessor against its **own**
+persisted historical authority and then compares the explicit shared source-identity fields — it
+never substitutes a later phase's stage-specific authority for an earlier phase's, because that
+would rewrite execution history.
+
+## 25.6 Every record bound to its phase authority (supersedes §24's fragment check)
+
+A case record or envelope cites the authority by hash rather than duplicating it, and the
+validator **resolves that hash to the complete authority embedded in its manifest**. Equality is
+required on the authority hash, the source commit and tree, the correction version, the
+phase/stage relationship, the protocol/fixture/matrix hashes, the backend, the dependencies, the
+predecessor-manifest hashes where applicable, the provenance mode and the exact per-case solver
+configuration derived from the canonical row. Case-record and manifest schema versions are
+required **exactly**, not merely present. `execution_authority_sha256` is no longer unchecked.
+
+## 25.7 The complete P2b assembly authority (supersedes §24.4's partial binding)
+
+`p2b_assembly_authority()` retains the **complete nested canonical P2b execution authority** and
+its hash, and both are inside `P2B_ASSEMBLY_AUTHORITY_FIELDS`, so `assembly_authority_sha256`
+moves if either changes. C6 wrote `execution_authority_sha256` into the document and left it
+**out** of the hashed set.
+
+`validate_p2b_assembly_authority()` validates the nested authority with `expected_stage = P2b`,
+recomputes its hash, requires every duplicated outer field to equal it, validates the historical
+source commit/tree and tracked contents, the exact predecessor-manifest file hashes and the
+pre-freeze matrix hash, requires clean production authority, recomputes
+`assembly_authority_sha256` over every load-bearing field, and rejects a TEST_ONLY authority
+under production validation. The P2b manifest, candidate ledger, proposed freeze and instantiated
+matrix all bind the same assembly-authority hash and the same scientific decision-payload hash.
+
+A later P3 review wrapper may validate and cite this historical P2b authority **without claiming
+that its own review commit performed P2b**.
+
+## 25.8 Role-named manifest fields (supersedes §24.1's decision-bearing list)
+
+| field | role |
+|---|---|
+| `decision_bearing_case_ids` | exactly `DECISION_BEARING` |
+| `execution_assurance_case_ids` | exactly `EXECUTION_ASSURANCE_REPLICATE` |
+| `diagnostic_case_ids` | exactly `TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE` |
+| `adjudicative_case_ids` | decision-bearing **plus** execution-assurance |
+
+C6 built the decision-bearing list by excluding tau, so the determinism replicates landed in a
+field named decision-bearing while role-resolved reporting counted them apart. **The frozen
+failure semantics of determinism assurance are unchanged.**
+
+## 25.9 Matrix and counts (supersedes §24.8)
+
+Regenerated from one machine authority. **No solver row is added for authority or
+diagnostic-envelope bookkeeping.**
+
+| category | value |
+|---|---|
+| `DECISION_BEARING` normal rows | **378** |
+| `DECISION_BEARING` fixed-step audits | **320** |
+| decision-bearing rows | **698** |
+| tau diagnostic rows | **2** |
+| execution-assurance rows | **3** |
+| total planned provider invocations | **703** |
+| mandatory decision-bearing rows | **108** |
+| mandatory pre-freeze minimum | **110** |
+| adaptive rows | **703** |
+| refused after the earliest stop | **591** |
+| same-field node-offset summaries (**0** provider calls) | **511** |
+| provider calls, fresh full pre-freeze run | **640** |
+| provider calls, exact resume | **0** |
+| provider calls, diagnostic-failure-envelope resume | **0** |
+| **solves actually executed** | **0** |
+
+```
+planned_solver_invocations = all rows that call the provider
+provider_calls = new normal case records + new fixed-step case records
+                 + new diagnostic-failure envelopes
+```
+
+No separate pressure-diagnostic rows may return.
+
+## 25.10 Authorization state at the C7 head
+
+```
+AUTHORISED_SOLVING_PHASES   = ()
+AUTHORISED_ASSEMBLY_PHASES  = ()
+POST_FREEZE_EXECUTOR_READY  = False
+```
+
+P0, P1a, P1b, P2a, P2b, P3 and P4 all remain **unauthorized**. Another exact-head review is
+required before P0–P2b, and a further correction and review of the real pre-freeze artifacts is
+required before P3/P4. RP-D-LC-001 remains **immutable** and `INVALID_EXECUTION`, its cross-model
+question **unadjudicated, not negative**. RP-D-LC-001b has produced **no scientific result**, and
+**no solve has run**.
 
 ---
 

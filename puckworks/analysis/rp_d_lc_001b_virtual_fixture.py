@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C6"
+CORRECTION_VERSION = "PREFLIGHT-C7"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -230,6 +230,31 @@ SUPERSEDED_REVIEWS = (
         "apparatus_accepted_in_principle":
             "common_mode_port_blind_pocket_off_on_comparison",
         "accepted_without_change": "PE-66 resolution comparison coordinate value / S**n",
+    },
+    {
+        "correction_version": "PREFLIGHT-C6",
+        "reviewed_head": "76e5669670213f33c6496b98cc4d2cdfc9711b35",
+        "reviewed_tree": "489af8f01d2bcf6009dbfa1dbd8a0cc82fd205e7",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C7_DIAGNOSTIC_"
+                        "ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(89, 101)],
+        "superseded_artifact_sha256": {
+            "protocol.json":
+                "ae6b61e0c36f4817652fba10d1961087babecf52084a2cce51261da7fcbb96d0",
+            "fixture_spec.json":
+                "45746921faf3fe5534f7d493ee0fb84633145142be821d9f6829e33704380225",
+            "execution_matrix.json":
+                "c4b4c77d5171d522e433ebdca42d1ee027d537ab307f0f43316a475a9efca0f0",
+            "preflight_status.json":
+                "75a1c65b67c65abf56bb558177c57d41f48155b2c9e9173f591fc6eaf6496311",
+        },
+        "superseded_counts": {"adaptive_maximum": 703, "decision_bearing_rows": 698,
+                              "tau_diagnostic_rows": 2, "execution_assurance_rows": 3,
+                              "mandatory_minimum": 110, "refused_after_earliest_stop": 591},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+        "accepted_without_change": ("PE-66 resolution comparison coordinate value / S**n; the "
+                                    "mandatory-minimum change from 112 to 110"),
     },
 )
 #: Backwards-compatible alias for the most recent superseded review.
@@ -3594,6 +3619,32 @@ def execution_matrix():
         "pressure_serialization": (
             "u_serialization_mean from abs(mean_delta_p) and u_serialization_max from "
             "abs(max_abs_delta_p); the maximum bound never borrows the mean's term (PE-88)"),
+        "execution_authority_schema": {
+            "schema_version": EXECUTION_AUTHORITY_SCHEMA_VERSION,
+            "fields": list(EXECUTION_AUTHORITY_FIELDS),
+            "measured_historical_fields": list(MEASURED_HISTORICAL_AUTHORITY_FIELDS),
+            "hash_field": "execution_authority_sha256",
+            "hash_source": "record_hash(execution_authority), computed OUTSIDE the object",
+            "persisted_in": "every phase manifest, complete; and nested in the P2b assembly "
+                            "authority",
+            "historical_validation": ("the recorded Git commit and tree, and every tracked input "
+                                      "file, document and committed generated artifact read AT "
+                                      "that commit — never from the current checkout"),
+            "erratum": "PE-93/PE-95/PE-96/PE-99",
+        },
+        "diagnostic_attempt_failure": {
+            "eligible_roles": list(DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES),
+            "failure_codes": list(DIAGNOSTIC_FAILURE_CODES),
+            "failure_stages": list(DIAGNOSTIC_FAILURE_STAGES),
+            "schema_version": DIAGNOSTIC_FAILURE_SCHEMA_VERSION,
+            "status": DIAGNOSTIC_ATTEMPT_STATUS,
+            "evidence_status": "NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE",
+            "never_caught": [c.__name__ for c in DIAGNOSTIC_NEVER_CAUGHT],
+            "coexistence": ("a normal case record and a diagnostic-attempt failure envelope may "
+                            "never coexist for one case ID"),
+            "erratum": "PE-89/PE-90/PE-91/PE-92",
+        },
+        "p2b_assembly_authority_fields": list(P2B_ASSEMBLY_AUTHORITY_FIELDS),
         "post_freeze_executor_ready": False,
         "post_freeze_deferral": ("P3/P4 orchestration still derives its universe from these "
                                  "templates; the approved instantiated-matrix loader has not "
