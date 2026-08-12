@@ -12,6 +12,7 @@ import json
 import math
 import pathlib
 import subprocess
+import textwrap
 
 import numpy as np
 import pytest
@@ -5593,11 +5594,19 @@ def test_a_test_only_authority_is_never_production_eligible():
     assert vf.AUTHORITY_PROVENANCE == ("PRODUCTION", "TEST_ONLY")
 
 
+#: The complete pre-freeze cohort as a source-fixture literal. Erratum PE-124 supersedes the C8
+#: partial-state fixtures below: a committed head may declare NO pre-freeze phase or the COMPLETE
+#: cohort, so `("P0",)` and `("P0","P1a","P1b","P2a")`-without-P2b are no longer valid states and
+#: their cases moved to `test_every_partial_prefreeze_cohort_state_is_refused`.
+_COHORT_SOLVING = '("P0", "P1a", "P1b", "P2a")'
+_COHORT_ASSEMBLY = '("P2b",)'
+
+
 @pytest.mark.parametrize("phase,solving,assembly,ready,expect", [
-    ("P0", '("P0",)', "()", "False", True),          # a solving phase in the solving tuple
-    ("P2a", '("P0", "P1a", "P1b", "P2a")', "()", "False", True),
-    ("P2b", "()", '("P2b",)', "False", True),        # P2b in the assembly tuple
-    ("P0", "()", '("P2b",)', "False", False),        # solving phase absent from solving tuple
+    ("P0", _COHORT_SOLVING, _COHORT_ASSEMBLY, "False", True),
+    ("P2a", _COHORT_SOLVING, _COHORT_ASSEMBLY, "False", True),
+    ("P2b", _COHORT_SOLVING, _COHORT_ASSEMBLY, "False", True),
+    ("P0", "()", "()", "False", False),              # nothing authorized
     ("P3", '("P3",)', "()", "False", False),         # post-freeze needs readiness too
     ("P4", '("P4",)', "()", "True", True),
     ("P3", "()", "()", "True", False),               # readiness alone is not authorization
@@ -6142,3 +6151,901 @@ def test_the_deferred_post_freeze_version_boundary_is_recorded():
     assert "Deferred: the post-freeze historical-version boundary" in txt
     assert "deferred P3/P4 prerequisite" in txt
     assert drv.POST_FREEZE_EXECUTOR_READY is False
+
+
+# ==========================================================================================
+# 19. C9 correction regressions — PE-114 … PE-126
+# ==========================================================================================
+
+# ---- A. the explicit external production runtime bundle (errata PE-114 … PE-116) --------------
+
+def test_the_production_runs_directory_policy_is_frozen():
+    assert vf.PRODUCTION_RUNS_DIRECTORY_POLICY == "EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY"
+    assert drv.PRODUCTION_RUNS_DIRECTORY_POLICY is vf.PRODUCTION_RUNS_DIRECTORY_POLICY
+    assert vf.RUNS_DIRECTORY_LOCATION_CLASS == "OUTSIDE_REPOSITORY"
+    assert drv.RunsDirectoryPolicyError is vf.RunsDirectoryPolicyError
+    # it is an authority error: refusing the bundle location is refusing to establish an authority
+    assert issubclass(vf.RunsDirectoryPolicyError, vf.ExecutionAuthorityError)
+    # ONE pure validator, shared by the driver and the P2b assembler
+    assert "validate_production_runs_dir" in inspect.getsource(drv.execute_phase)
+    assert "validate_production_runs_dir" in inspect.getsource(vf.assemble_p2b_from_runs)
+    # nothing consults an ignore file, a global gitignore or an environment rule: the location is
+    # established by the resolved pathname. Checked over CODE only, so the docstring may say so.
+    code = _code_only(vf.validate_production_runs_dir)
+    for forbidden in ("exclude", "excludesfile", "environ", "getenv", "check-ignore", "gitignore"):
+        assert forbidden not in code, forbidden
+
+
+def _code_only(fn):
+    """One function's source with comments and string literals removed, so a prose mention of a
+    superseded form can never satisfy or defeat a structural assertion."""
+    tree = ast.parse(textwrap.dedent(inspect.getsource(fn)))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            node.value = ""
+    return ast.unparse(tree)
+
+
+def _runs_refusal(path):
+    with pytest.raises(vf.RunsDirectoryPolicyError) as exc:
+        vf.validate_production_runs_dir(path, require_production=True)
+    return exc.value.code
+
+
+def test_every_unsafe_production_runs_directory_is_refused_by_code(tmp_path):
+    assert _runs_refusal(None) == "RUNS_DIRECTORY_NOT_SUPPLIED"
+    assert _runs_refusal("") == "RUNS_DIRECTORY_NOT_SUPPLIED"
+    assert _runs_refusal("   ") == "RUNS_DIRECTORY_NOT_SUPPLIED"
+    assert _runs_refusal("docs/analysis/rp_d_lc_001b/runs") == "RUNS_DIRECTORY_NOT_ABSOLUTE"
+    assert _runs_refusal(str(REPO)) == "RUNS_DIRECTORY_IS_REPOSITORY_ROOT"
+    assert _runs_refusal(str(REPO / vf.RUNS_REL)) == "RUNS_DIRECTORY_INSIDE_REPOSITORY"
+    assert _runs_refusal(str(REPO / "docs")) == "RUNS_DIRECTORY_INSIDE_REPOSITORY"
+    # a symlink whose RESOLVED target is inside the repository
+    link = tmp_path / "sneaky"
+    link.symlink_to(REPO / "docs")
+    assert _runs_refusal(str(link)) == "RUNS_DIRECTORY_SYMLINK_INTO_REPOSITORY"
+    # a file standing where the directory belongs
+    f = tmp_path / "not_a_dir"
+    f.write_text("x")
+    assert _runs_refusal(str(f)) == "RUNS_DIRECTORY_IS_A_FILE"
+    assert sorted(vf.RUNS_DIRECTORY_REFUSALS) == sorted(set(vf.RUNS_DIRECTORY_REFUSALS))
+
+
+def test_a_valid_external_directory_is_accepted_and_created_only_then(tmp_path):
+    target = tmp_path / "bundle" / "runs"
+    assert not target.exists()
+    resolved = vf.validate_production_runs_dir(target, require_production=True)
+    assert not target.exists()                    # validation alone creates nothing
+    assert resolved == target.resolve()
+    made = vf.validate_production_runs_dir(target, require_production=True, create=True)
+    assert made.is_dir()
+    # the report carries the location CLASS, never the machine-specific pathname
+    rep = vf.runs_directory_report(target)
+    assert rep["location_class"] == "OUTSIDE_REPOSITORY"
+    assert rep["embedded_in_scientific_hashes"] is False
+    assert str(target) not in json.dumps(rep)
+
+
+@pytest.mark.parametrize("mode", ["P0", "P1a", "P1b", "P2a", "P2b"])
+def test_a_missing_output_refuses_before_any_provider_call(mode, monkeypatch):
+    """Erratum PE-114: there is NO default, and the refusal precedes everything."""
+    from puckworks.models.brewer2026 import lb_reference
+    calls = []
+    monkeypatch.setattr(lb_reference, "solve", lambda *a, **k: calls.append(1))
+    with pytest.raises(vf.RunsDirectoryPolicyError) as exc:
+        drv.run_phase(mode)
+    assert exc.value.code == "RUNS_DIRECTORY_NOT_SUPPLIED"
+    assert calls == []
+
+
+@pytest.mark.parametrize("mode", ["P0", "P1a", "P1b", "P2a", "P2b"])
+def test_a_repository_internal_output_refuses_before_any_provider_call(mode, monkeypatch):
+    from puckworks.models.brewer2026 import lb_reference
+    calls = []
+    monkeypatch.setattr(lb_reference, "solve", lambda *a, **k: calls.append(1))
+    inside = REPO / vf.RUNS_REL
+    with pytest.raises(vf.RunsDirectoryPolicyError) as exc:
+        drv.run_phase(mode, out_dir=inside)
+    assert exc.value.code == "RUNS_DIRECTORY_INSIDE_REPOSITORY"
+    assert calls == []
+    assert not inside.exists()                    # and it created nothing
+
+
+@pytest.mark.parametrize("mode", ["P0", "P2b"])
+def test_a_relative_or_symlinked_output_refuses(mode, tmp_path):
+    with pytest.raises(vf.RunsDirectoryPolicyError) as exc:
+        drv.run_phase(mode, out_dir="runs")
+    assert exc.value.code == "RUNS_DIRECTORY_NOT_ABSOLUTE"
+    link = tmp_path / ("link_%s" % mode)
+    link.symlink_to(REPO / "docs")
+    with pytest.raises(vf.RunsDirectoryPolicyError) as exc:
+        drv.run_phase(mode, out_dir=link)
+    assert exc.value.code == "RUNS_DIRECTORY_SYMLINK_INTO_REPOSITORY"
+
+
+def test_the_plan_mode_still_needs_no_output_path():
+    assert drv.run_phase("plan")["solves_executed"] == 0
+    assert "plan" in drv.NON_SOLVING_MODES
+
+
+def test_no_code_path_can_still_select_the_repository_internal_default():
+    """Erratum PE-114: checked over CODE, not prose. The comments explain the superseded default."""
+    for fn in (drv.run_phase, drv.execute_phase, drv.main):
+        code = _code_only(fn)
+        assert "RUNS_REL" not in code, fn.__name__
+    assert "REQUIRED for every mode except" in inspect.getsource(drv.main)
+
+
+def test_an_external_test_only_p0_leaves_the_repository_exactly_as_it_was(tmp_path):
+    """Errata PE-115/PE-116: the CLEAN-TREE regression.
+
+    The production authority requires a clean worktree. C8's default runs directory was inside it
+    and ungitignored, so P0 output dirtied the tree and P1a's own authority could then never be
+    constructed. Here P0 runs into a temporary directory OUTSIDE the repository and the repository
+    status must be byte-identical before and after.
+    """
+    before = _git("status", "--porcelain")
+    assert before is not None
+    clean_before = (before == "")
+    external = tmp_path / "outside_bundle"
+    assert not str(external.resolve()).startswith(str(REPO.resolve()))
+    prov = _pipeline_provider()
+    man = drv._test_only_execute("P0", external, prov, _phase_authority("P0"))
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert any(external.iterdir())                       # artifacts really were written
+    after = _git("status", "--porcelain")
+    assert after == before, "an external P0 changed the repository working tree"
+    assert not (REPO / vf.RUNS_REL).exists()
+    # ...and the NEXT stage's clean-tree authority is not defeated by P0 output
+    if clean_before:
+        nxt = vf._test_only_execution_authority("P1a", require_clean=True)
+        assert nxt["stage"] == "P1a" and nxt["clean_tree"] is True
+    else:                                                # pragma: no cover - dev checkout only
+        pytest.skip("the checkout was already dirty before this test; the invariant asserted is "
+                    "that an external P0 does not change git status, which it did not")
+
+
+def test_the_bundle_runs_directory_is_gitignored_as_defence_in_depth():
+    txt = (REPO / ".gitignore").read_text()
+    assert "docs/analysis/rp_d_lc_001b/runs/" in txt
+    assert "DEFENCE IN DEPTH ONLY" in txt
+    # the CLOSED immutable predecessor bundle's tracked runs/ is deliberately NOT ignored
+    assert "docs/analysis/rp_d_lc_001/runs/" not in txt.replace(
+        "# NOTE: docs/analysis/rp_d_lc_001/runs/ is deliberately NOT listed. That bundle is CLOSED "
+        "and", "")
+    tracked = _git("ls-files", "docs/analysis/rp_d_lc_001/runs")
+    assert tracked and "run_record.json" in tracked
+
+
+def test_an_exact_external_resume_costs_zero_provider_calls(tmp_path):
+    external = tmp_path / "resume_bundle"
+    prov = _CountingProvider()
+    first = drv._test_only_execute("P0", external, prov, _phase_authority("P0"))
+    assert first["execution_counts"]["n_provider_calls"] == prov.calls > 0
+    (external / "manifest_P0.json").unlink()                 # force a pre-solve record resume
+    prov2 = _CountingProvider()
+    again = drv._test_only_execute("P0", external, prov2, _phase_authority("P0"))
+    assert prov2.calls == 0
+    assert again["execution_counts"]["n_provider_calls"] == 0
+    assert again["execution_counts"]["n_reused"] == first["execution_counts"]["n_newly_executed"]
+
+
+def test_no_machine_specific_runs_path_enters_any_scientific_hash(tmp_path):
+    external = tmp_path / "hash_bundle"
+    man = drv._test_only_execute("P0", external, _pipeline_provider(), _phase_authority("P0"))
+    blob = vf.canonical_json(man)
+    for cid in [e["case_id"] for e in man["completed"][:6]]:
+        rec, _ = vf.read_case_record(external, cid)
+        blob += vf.canonical_json(rec)
+    pa, _p, _s = vf.read_phase_authority(external, "P0")
+    blob += vf.canonical_json(pa)
+    assert str(external) not in blob
+    assert str(tmp_path) not in blob
+
+
+# ---- B. one complete case-record validator everywhere (errata PE-117 … PE-119) ----------------
+
+def _work_copy(src, tmp_path, name):
+    import shutil
+    work = tmp_path / name
+    shutil.copytree(src, work)
+    return work
+
+
+def _retouch_record(work, phase, cid, mutate, rehash_manifest=True):
+    """Mutate one record, rewrite it canonically and, by default, update EVERY outer hash that
+    cites it — so a surviving failure comes from recomputation, not from a stale wrapper."""
+    rec, rpath = vf.read_case_record(work, cid)
+    mutate(rec)
+    rpath.write_text(vf.canonical_json(rec) + "\n")
+    if not rehash_manifest:
+        return rec
+    mpath = work / ("manifest_%s.json" % phase)
+    doc = json.loads(mpath.read_text())
+    new = hashlib.sha256(rpath.read_bytes()).hexdigest()
+    for ledger in vf.PHASE_LEDGERS:
+        for e in doc.get(ledger, []):
+            if e.get("case_id") == cid:
+                e["record_sha256"] = new
+    mpath.write_text(vf.canonical_json(doc) + "\n")
+    return rec
+
+
+def _first_normal_completed(work, phase):
+    doc = json.loads((work / ("manifest_%s.json" % phase)).read_text())
+    for e in doc["completed"]:
+        rec, _ = vf.read_case_record(work, e["case_id"])
+        if rec["run_mode"] == "NORMAL" and rec["audit"] is None:
+            return e["case_id"], rec
+    raise AssertionError("no normal completed record in %s" % phase)   # pragma: no cover
+
+
+def _first_audit_completed(work, phase):
+    doc = json.loads((work / ("manifest_%s.json" % phase)).read_text())
+    for e in doc["completed"]:
+        rec, _ = vf.read_case_record(work, e["case_id"])
+        if rec["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X":
+            return e["case_id"], rec
+    raise AssertionError("no fixed-step record in %s" % phase)         # pragma: no cover
+
+
+def test_one_canonical_validator_serves_construction_resume_and_final_validation():
+    """Erratum PE-119: the final path may not be weaker than the resume path."""
+    resume = _code_only(vf.load_resumable_case_record)
+    assert "validate_case_record" in resume
+    # the resume path no longer carries a private status or payload recomputation of its own
+    assert "run_status(" not in resume
+    assert "scientific_payload_hash(" not in resume
+    canon = _code_only(vf.validate_case_record)
+    assert "recomputed_case_status" in canon and "scientific_payload_hash" in canon
+    assert "row_geometry_identity" in canon
+    final = _code_only(vf.validate_phase_manifest)
+    assert "validate_case_record" in final and "recomputed_case_status" in final
+    for k in ("geometry", "mask_sha256", "backend", "dependencies", "audit",
+              "scientific_payload_sha256", "protocol_config_sha256"):
+        assert k in vf.CASE_RECORD_IDENTITY_FIELDS, k
+
+
+@pytest.mark.parametrize("field", sorted(vf.CASE_RECORD_IDENTITY_FIELDS))
+def test_a_missing_identity_field_is_never_a_default(synthetic_prefreeze, field):
+    d, auth, out, recs = synthetic_prefreeze
+    cid, rec = _first_normal_completed(d, "P0")
+    bad = {k: v for k, v in rec.items() if k != field}
+    with pytest.raises(ValueError) as exc:
+        vf.validate_case_record(bad)
+    assert field in str(exc.value)
+
+
+RECORD_TAMPERS = {
+    # (mutation, the fragment the recomputation must name)
+    "wrong_status": (lambda r: r.update(status="NORMAL_UNCONVERGED"), "recompute"),
+    "wrong_completed_steps": (lambda r: r.update(completed_steps=r["completed_steps"] + 1),
+                              "reconstructed from its exact normal base"),
+    "wrong_run_mode": (lambda r: r.update(run_mode="FIXED_STEP_REEXECUTION_1P5X"), "NORMAL base"),
+    "incoherent_forcing_pair": (
+        lambda r: r.update(forcing_exact={"numerator": 7, "denominator": 11}),
+        "forcing_repr is not float"),
+    # erratum PE-119 §6.1: a forcing pair COHERENT WITH ITSELF but not with the canonical row. C8
+    # compared the two fields only with each other, so exactly this passed.
+    "coherent_but_wrong_forcing": (
+        lambda r: r.update(forcing_exact={"numerator": 1, "denominator": 1000},
+                           forcing_repr=repr(0.001)), "canonical row carries"),
+    "top_level_forcing_repr": (lambda r: r.update(forcing_repr=repr(1.0)), "forcing"),
+    "wrong_mask": (lambda r: r.update(mask_sha256="0" * 64), "mask"),
+    "wrong_backend_config": (
+        lambda r: r.update(solver_config=dict(r["solver_config"], tau_plus=1.234)),
+        "effective solver configuration"),
+    "stale_payload_identity": (lambda r: r.update(scientific_payload_sha256="0" * 64), "payload"),
+    "invented_audit_on_a_normal_row": (
+        lambda r: r.update(audit={"target_steps": 4500, "min_steps": 4500, "max_steps": 4500}),
+        "audit"),
+}
+
+
+@pytest.mark.parametrize("name", sorted(RECORD_TAMPERS))
+def test_a_tampered_record_fails_even_with_every_outer_hash_updated(synthetic_prefreeze, tmp_path,
+                                                                   name):
+    """Errata PE-117/PE-118: the failure comes from RECOMPUTATION, not a stale wrapper."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rec_" + name)
+    mutate, fragment = RECORD_TAMPERS[name]
+    cid, _rec = _first_normal_completed(work, "P0")
+    _retouch_record(work, "P0", cid, mutate)
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert fragment in str(exc.value), str(exc.value)
+
+
+def test_a_modified_scientific_payload_with_a_stale_identity_is_refused(synthetic_prefreeze,
+                                                                       tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "sci_stale")
+    cid, _rec = _first_normal_completed(work, "P0")
+
+    def mutate(r):
+        r["scientific"]["Q_volume"] = float(r["scientific"]["Q_volume"]) * 1.5
+    _retouch_record(work, "P0", cid, mutate)
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "payload" in str(exc.value)
+
+
+def test_a_modified_payload_with_only_the_outer_hashes_updated_is_refused(synthetic_prefreeze,
+                                                                         tmp_path):
+    """The record file hash and the manifest entry are BOTH consistent; the payload identity is
+    the only thing that does not recompute."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "sci_outer")
+    cid, _rec = _first_normal_completed(work, "P0")
+
+    def mutate(r):
+        r["scientific"]["dP"] = float(r["scientific"]["dP"]) + 1.0
+    rec = _retouch_record(work, "P0", cid, mutate)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    entry = next(e for e in doc["completed"] if e["case_id"] == cid)
+    assert entry["record_sha256"] == hashlib.sha256(
+        (work / vf.case_record_filename(cid)).read_bytes()).hexdigest()
+    assert rec["scientific_payload_sha256"] is not None
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "payload" in str(exc.value)
+
+
+def test_an_exact_valid_record_still_validates_through_the_canonical_validator(
+        synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    cid, rec = _first_normal_completed(d, "P0")
+    row = next(r for r in vf.execution_matrix()["rows"] if r["case_id"] == cid)
+    pa, _p, pa_sha = vf.read_phase_authority(d, "P0")
+    ok = vf.validate_case_record(rec, row=row, authority=pa["execution_authority"], phase="P0",
+                                expected_predecessors={},
+                                phase_authority_file_sha256=pa_sha,
+                                provenance_mode="TEST_ONLY")
+    assert ok is rec
+    assert vf.recomputed_case_status(rec) == rec["status"] == "NORMAL_CONVERGED"
+    assert vf.recomputed_payload_sha256(rec, row) == rec["scientific_payload_sha256"]
+
+
+# ---- C. every fixed-step audit reconstructed at final validation (erratum PE-120) --------------
+
+def test_the_final_validator_reconstructs_the_audit_plan_itself():
+    code = _code_only(vf.validate_phase_manifest)
+    for needed in ("assert_audit_compatible", "fixed_step_audit_plan", "recomputed_case_status",
+                   "read_case_record", "audit_plans"):
+        assert needed in code, needed
+    assert '"audit_of_case_id"' in inspect.getsource(vf.validate_phase_manifest)
+    # the record's OWN audit object is never what the validator validates it against
+    assert 'audit=rec.get(' not in code
+
+
+def _audit_pair(work, phase="P0"):
+    """One completed fixed-step record, its base record and the base's canonical row."""
+    acid, arec = _first_audit_completed(work, phase)
+    base_id = arec["row"]["audit_of_case_id"]
+    brec, _ = vf.read_case_record(work, base_id)
+    return acid, arec, base_id, brec
+
+
+AUDIT_TAMPERS = {
+    "wrong_base_id": (lambda a, b: a["audit"].update(base_case_id="not-a-case"), "audit plan"),
+    "wrong_base_record_hash": (lambda a, b: a["audit"].update(base_record_sha256="0" * 64),
+                               "audit plan"),
+    "wrong_target": (lambda a, b: a["audit"].update(target_steps=a["audit"]["target_steps"] + 100),
+                     "audit plan"),
+    "wrong_min_steps": (lambda a, b: a["audit"].update(min_steps=1000), "audit plan"),
+    "wrong_max_steps": (lambda a, b: a["audit"].update(max_steps=99000), "audit plan"),
+    "wrong_base_completed_steps_in_plan": (
+        lambda a, b: a["audit"].update(base_completed_steps=1), "audit plan"),
+    "wrong_actual_steps": (lambda a, b: a.update(completed_steps=a["completed_steps"] - 100),
+                           "status"),
+    "wrong_stored_status": (lambda a, b: a.update(status="FIXED_STEP_AUDIT_INCOMPLETE"),
+                            "recompute"),
+    "audit_configuration_drift": (
+        lambda a, b: a.update(solver_config=dict(a["solver_config"], max_steps=123456)),
+        "effective solver configuration"),
+}
+
+
+@pytest.mark.parametrize("name", sorted(AUDIT_TAMPERS))
+def test_a_tampered_fixed_step_audit_fails_reconstruction(synthetic_prefreeze, tmp_path, name):
+    """Erratum PE-120: an audit may not authenticate itself. Every outer hash is updated, so the
+    failure comes from reconstruction against the exact NORMAL base."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "aud_" + name)
+    acid, arec, _bid, brec = _audit_pair(work)
+    mutate, fragment = AUDIT_TAMPERS[name]
+    _retouch_record(work, "P0", acid, lambda r: mutate(r, brec))
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert fragment in str(exc.value), str(exc.value)
+
+
+def test_an_audit_naming_a_row_outside_the_canonical_matrix_is_refused(synthetic_prefreeze,
+                                                                      tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "aud_row")
+    acid, arec, _bid, _brec = _audit_pair(work)
+    rows = [dict(r) for r in vf.execution_matrix()["rows"]]
+    for r in rows:
+        if r["case_id"] == acid:
+            r["audit_of_case_id"] = "no-such-base"
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, matrix_rows=rows,
+                                   require_production=False)
+    assert "canonical matrix" in str(exc.value) or "universe" in str(exc.value)
+
+
+def test_an_audit_whose_base_is_not_completed_is_refused(synthetic_prefreeze, tmp_path):
+    """A base moved out of the completed ledger can no longer support its audit."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "aud_nobase")
+    acid, arec, base_id, brec = _audit_pair(work)
+    mpath = work / "manifest_P0.json"
+    doc = json.loads(mpath.read_text())
+    entry = next(e for e in doc["completed"] if e["case_id"] == base_id)
+    doc["completed"] = [e for e in doc["completed"] if e["case_id"] != base_id]
+    entry["reason"] = "NORMAL_UNCONVERGED"
+    doc["failed"].append(entry)
+    doc["counts"]["completed"] -= 1
+    doc["counts"]["failed"] += 1
+    doc["execution_counts"]["n_completed"] -= 1
+    doc["execution_counts"]["n_failed"] += 1
+    mpath.write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "completed" in str(exc.value)
+
+
+def test_an_audit_of_an_unconverged_base_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "aud_unconv")
+    acid, arec, base_id, brec = _audit_pair(work)
+    _retouch_record(work, "P0", base_id, lambda r: r.update(completed_steps=vf.MAX_STEPS))
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    txt = str(exc.value)
+    assert "UNCONVERGED" in txt or "unconverged" in txt or "recompute" in txt
+
+
+def test_a_stale_audit_scientific_payload_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "aud_payload")
+    acid, arec, _bid, _brec = _audit_pair(work)
+    _retouch_record(work, "P0", acid,
+                    lambda r: r.update(scientific_payload_sha256="1" * 64))
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "payload" in str(exc.value)
+
+
+def test_an_exact_valid_audit_reconstructs_and_validates(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    acid, arec, base_id, brec = _audit_pair(d)
+    plan = vf.fixed_step_audit_plan(brec["completed_steps"], vf.recomputed_case_status(brec))
+    plan["base_case_id"] = brec["case_id"]
+    plan["base_record_sha256"] = vf.record_hash(brec)
+    assert arec["audit"] == plan
+    assert arec["status"] == vf.recomputed_case_status(arec, audit=plan)
+    assert arec["status"] == "FIXED_STEP_AUDIT_COMPLETED"
+    assert arec["completed_steps"] == plan["target_steps"] > brec["completed_steps"]
+    row = next(r for r in vf.execution_matrix()["rows"] if r["case_id"] == acid)
+    base_row = next(r for r in vf.execution_matrix()["rows"] if r["case_id"] == base_id)
+    assert vf.assert_audit_compatible(row, base_row) is True
+    assert vf.effective_solver_config(row, backend=arec["backend"],
+                                      audit=plan) == arec["solver_config"]
+
+
+def test_a_cross_phase_audit_binds_to_its_predecessor_phase_base(synthetic_prefreeze):
+    """48 of the 320 audits name a base in an EARLIER phase; the reconstruction must reach it."""
+    rows = vf.execution_matrix()["rows"]
+    by = {r["case_id"]: r for r in rows}
+    cross = [r for r in rows if r["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X"
+             and by[r["audit_of_case_id"]]["phase"] != r["phase"]]
+    assert len(cross) == 48
+    d, auth, out, recs = synthetic_prefreeze
+    executed = {e["case_id"] for ph in ("P0", "P1a", "P1b", "P2a")
+                for e in out[ph]["completed"]}
+    done_cross = [r for r in cross if r["case_id"] in executed]
+    assert done_cross, "the synthetic pipeline executed no cross-phase audit"
+    for r in done_cross[:3]:
+        arec, _ = vf.read_case_record(d, r["case_id"])
+        brec, _ = vf.read_case_record(d, r["audit_of_case_id"])
+        assert arec["audit"]["base_case_id"] == brec["case_id"]
+        assert arec["audit"]["base_record_sha256"] == vf.record_hash(brec)
+        assert brec["phase"] != arec["phase"]
+
+
+# ---- D. the exact matrix-derived assurance contract (errata PE-121 … PE-123) -------------------
+
+def test_the_expected_replicate_set_is_derived_from_the_canonical_matrix():
+    rows = vf.execution_matrix()["rows"]
+    for phase, n in (("P0", 1), ("P1a", 1), ("P1b", 0), ("P2a", 0), ("P3", 1)):
+        elig = [r for r in rows if r["phase"] == phase]
+        pairs = vf.derive_expected_replicates(phase, elig, rows)
+        assert len(pairs) == n, phase
+        for rep, base in pairs:
+            assert vf.row_scientific_role(rep) == "EXECUTION_ASSURANCE_REPLICATE"
+            assert rep["replicate_of_case_id"] == base["case_id"]
+            assert base["kind"] != "determinism_replicate"
+    assert sum(1 for r in rows
+               if vf.row_scientific_role(r) == "EXECUTION_ASSURANCE_REPLICATE") == 3
+
+
+def test_the_validator_derives_the_set_and_recomputes_the_payloads():
+    code = _code_only(vf.validate_phase_manifest)
+    assert "validate_execution_assurance_replicates" in code
+    contract = _code_only(vf.validate_execution_assurance_replicates)
+    assert "derive_expected_replicates" in contract
+    assert "build_execution_assurance_entries" in contract
+    build = _code_only(vf.build_execution_assurance_entries)
+    assert "recomputed_payload_sha256" in build
+    # the STORED payload identity is never what the verdict is formed from
+    assert "scientific_payload_sha256" not in _code_only(vf.build_execution_assurance_entries)
+    # and the executor applies the contract BEFORE it persists a manifest
+    orch = inspect.getsource(drv._orchestrate)
+    assert orch.index("validate_execution_assurance_replicates") < orch.index("_atomic_write_json")
+
+
+def _replicate_entry(work, phase):
+    doc = json.loads((work / ("manifest_%s.json" % phase)).read_text())
+    assert len(doc["replicates"]) == 1
+    return doc, doc["replicates"][0]
+
+
+def _rewrite_manifest(work, phase, doc):
+    (work / ("manifest_%s.json" % phase)).write_text(vf.canonical_json(doc) + "\n")
+
+
+def test_an_omitted_replicate_list_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_omit_all")
+    doc, _e = _replicate_entry(work, "P0")
+    doc["replicates"] = []
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "omits the expected assurance replicate" in str(exc.value)
+
+
+def test_an_extra_replicate_entry_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_extra")
+    doc, e = _replicate_entry(work, "P0")
+    other = next(c["case_id"] for c in doc["completed"] if c["case_id"] != e["replicate_case_id"])
+    doc["replicates"] = [e, dict(e, replicate_case_id=other)]
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "does not require" in str(exc.value)
+
+
+def test_a_wrong_replicate_base_id_is_refused(synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_base")
+    doc, e = _replicate_entry(work, "P0")
+    other = next(c["case_id"] for c in doc["completed"]
+                 if c["case_id"] not in (e["replicate_case_id"], e["base_case_id"]))
+    doc["replicates"] = [dict(e, base_case_id=other)]
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "names" in str(exc.value) or "recompute" in str(exc.value)
+
+
+def test_stored_hashes_that_agree_while_the_recomputed_payloads_differ_are_refused(
+        synthetic_prefreeze, tmp_path):
+    """Erratum PE-122: exactly the C8 hole — a coordinated pair of STORED identities."""
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_stored")
+    doc, e = _replicate_entry(work, "P0")
+    rep_id = e["replicate_case_id"]
+    rrec, rpath = vf.read_case_record(work, rep_id)
+    rrec["scientific"]["Q_volume"] = float(rrec["scientific"]["Q_volume"]) * 1.001
+    rpath.write_text(vf.canonical_json(rrec) + "\n")
+    # make every STORED identity agree: the record's own field, the base's, and the manifest's
+    brec, bpath = vf.read_case_record(work, e["base_case_id"])
+    shared = rrec["scientific_payload_sha256"]
+    assert brec["scientific_payload_sha256"] == shared
+    for c in doc["completed"]:
+        if c["case_id"] == rep_id:
+            c["record_sha256"] = hashlib.sha256(rpath.read_bytes()).hexdigest()
+    doc["replicates"] = [dict(e, scientific_payload_sha256=shared,
+                              base_scientific_payload_sha256=shared, **{"pass": True})]
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "payload" in str(exc.value)
+
+
+def test_a_manifest_pass_flag_that_contradicts_the_recomputed_payloads_is_refused(
+        synthetic_prefreeze, tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_flag")
+    doc, e = _replicate_entry(work, "P0")
+    doc["replicates"] = [dict(e, **{"pass": False})]
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "records pass=False" in str(exc.value)
+
+
+def test_a_manifest_claiming_pass_while_the_payloads_differ_is_refused(synthetic_prefreeze,
+                                                                      tmp_path):
+    d, auth, out, recs = synthetic_prefreeze
+    work = _work_copy(d, tmp_path, "rep_diverge")
+    doc, e = _replicate_entry(work, "P0")
+    rep_id = e["replicate_case_id"]
+
+    def mutate(r):
+        r["scientific"]["dP"] = float(r["scientific"]["dP"]) * 1.01
+        r["scientific_payload_sha256"] = vf.scientific_payload_hash(
+            r["solver_config"], r["scientific"], r["mask_sha256"])
+    _retouch_record(work, "P0", rep_id, mutate)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    rrec, _ = vf.read_case_record(work, rep_id)
+    doc["replicates"] = [dict(e, scientific_payload_sha256=rrec["scientific_payload_sha256"],
+                              **{"pass": True})]
+    _rewrite_manifest(work, "P0", doc)
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "does not reproduce" in str(exc.value) or "recompute" in str(exc.value)
+
+
+def test_a_replicate_may_never_name_another_replicate_or_a_different_configuration():
+    rows = vf.execution_matrix()["rows"]
+    rep = next(r for r in rows if r["kind"] == "determinism_replicate" and r["phase"] == "P0")
+    base = next(r for r in rows if r["case_id"] == rep["replicate_of_case_id"])
+    assert vf.assert_replicate_compatible(rep, base) is True
+    # a replicate naming another replicate
+    with pytest.raises(ValueError) as exc:
+        vf.assert_replicate_compatible(dict(rep, replicate_of_case_id=rep["case_id"]), rep)
+    assert "another replicate" in str(exc.value)
+    # a differing candidate / configuration
+    for field, value in (("S", vf.S_FINE), ("tau_plus", 1.2), ("forcing_level", "low"),
+                         ("state", "open"), ("bridge", {"w": 3, "kz": 2})):
+        with pytest.raises(ValueError) as exc:
+            vf.assert_replicate_compatible(dict(rep, **{field: value}), base)
+        assert field in str(exc.value)
+    # ...and the derivation refuses a replicate whose named base is not a canonical row
+    with pytest.raises(ValueError):
+        vf.derive_expected_replicates("P0", [dict(rep, replicate_of_case_id="nope")], rows)
+    with pytest.raises(ValueError):
+        vf.derive_expected_replicates("P0", [{k: v for k, v in rep.items()
+                                             if k != "replicate_of_case_id"}], rows)
+
+
+def test_an_exact_valid_replicate_carries_the_recomputed_values(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    for phase in ("P0", "P1a"):
+        doc = out[phase]
+        assert len(doc["replicates"]) == 1
+        e = doc["replicates"][0]
+        rows = vf.execution_matrix()["rows"]
+        rep_row = next(r for r in rows if r["case_id"] == e["replicate_case_id"])
+        base_row = next(r for r in rows if r["case_id"] == e["base_case_id"])
+        rrec, _ = vf.read_case_record(d, rep_row["case_id"])
+        brec, _ = vf.read_case_record(d, base_row["case_id"])
+        assert e["scientific_payload_sha256"] == vf.recomputed_payload_sha256(rrec, rep_row)
+        assert e["base_scientific_payload_sha256"] == vf.recomputed_payload_sha256(brec, base_row)
+        assert e["scientific_payload_sha256"] == e["base_scientific_payload_sha256"]
+        assert e["pass"] is True
+        assert e["rule"] == vf.REPLICATE_PAYLOAD_RULE
+        assert e["base_case_id"] == rep_row["replicate_of_case_id"]
+
+
+def test_an_assurance_failure_keeps_its_frozen_stopping_semantics():
+    """The role's failure effect and ledgers are UNCHANGED by C9."""
+    spec = vf.ROW_SCIENTIFIC_ROLES["EXECUTION_ASSURANCE_REPLICATE"]
+    assert spec["adjudicative"] is True
+    assert spec["failure_effect"] == "STOPS_THE_PHASE"
+    assert spec["ledger_on_pass"] == "completed" and spec["ledger_on_fail"] == "failed"
+    assert spec["enters_aggregate_truth"] is False
+    # a divergent replicate is fatal, and the contract raises rather than returning a soft verdict
+    rows = vf.execution_matrix()["rows"]
+    elig = [r for r in rows if r["phase"] == "P0"]
+    with pytest.raises(ValueError):
+        vf.validate_execution_assurance_replicates(
+            "P0", "/nonexistent", "PHASE_COMPLETE", elig, rows, [], set(), set())
+
+
+def test_a_stopped_phase_represents_an_unexecuted_replicate_by_refusal_alone():
+    rows = vf.execution_matrix()["rows"]
+    elig = [r for r in rows if r["phase"] == "P0"]
+    rep_id = next(r["case_id"] for r in elig if r["kind"] == "determinism_replicate")
+    # refused: accepted, and reports no verdict
+    vf.validate_execution_assurance_replicates(
+        "P0", "/nonexistent", "PHASE_STOPPED_UNCONVERGED", elig, rows, [], set(), {rep_id})
+    # neither completed nor refused: refused
+    with pytest.raises(ValueError) as exc:
+        vf.validate_execution_assurance_replicates(
+            "P0", "/nonexistent", "PHASE_STOPPED_UNCONVERGED", elig, rows, [], set(), set())
+    assert "neither completed nor refused" in str(exc.value)
+    # an invented verdict for an unexecuted row: refused
+    with pytest.raises(ValueError) as exc:
+        vf.validate_execution_assurance_replicates(
+            "P0", "/nonexistent", "PHASE_STOPPED_UNCONVERGED", elig, rows,
+            [{"replicate_case_id": rep_id, "base_case_id": "x", "pass": True}], set(), {rep_id})
+    assert "never executed" in str(exc.value)
+
+
+# ---- E. the atomic P0-P2b authorization cohort (erratum PE-124) --------------------------------
+
+def test_the_prefreeze_cohort_is_frozen_and_excludes_the_post_freeze_phases():
+    assert vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT == ("P0", "P1a", "P1b", "P2a")
+    assert vf.PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT == ("P2b",)
+    assert vf.PREFREEZE_COHORT_STATES == ("NO_PREFREEZE_PHASE_AUTHORIZED",
+                                          "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
+    for p in ("P3", "P4"):
+        assert p not in vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT
+        assert p not in vf.PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT
+    # the cohort is exactly the phases whose gate is pre-freeze
+    assert tuple(p for p, g in vf.STAGE_GATE_KIND.items() if g == "SOLVING") == \
+        vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT
+    assert tuple(p for p, g in vf.STAGE_GATE_KIND.items() if g == "ASSEMBLY") == \
+        vf.PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT
+
+
+def test_the_empty_and_complete_cohort_states_are_the_only_permitted_ones():
+    empty = vf.parse_committed_authorization(_driver_with())
+    assert empty["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+    full = vf.parse_committed_authorization(_driver_with(_COHORT_SOLVING, _COHORT_ASSEMBLY))
+    assert full["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
+    for stage in ("P0", "P1a", "P1b", "P2a", "P2b"):
+        snap = vf.source_authorization_snapshot(
+            stage, _driver_with(_COHORT_SOLVING, _COHORT_ASSEMBLY))
+        assert snap["stage_authorised"] is True
+        assert snap["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
+    assert "prefreeze_cohort_state" in vf.SOURCE_AUTHORIZATION_FIELDS
+
+
+@pytest.mark.parametrize("solving,assembly", [
+    ('("P0",)', "()"),                                        # P0 only
+    ('("P0", "P1a")', "()"),                                  # P0 plus P1a
+    ('("P0", "P1a", "P1b")', "()"),
+    (_COHORT_SOLVING, "()"),                                  # solving phases without P2b
+    ("()", _COHORT_ASSEMBLY),                                 # P2b without the solving cohort
+    ('("P0", "P1a", "P1b")', _COHORT_ASSEMBLY),
+    ('("P2a", "P1b", "P1a", "P0")', _COHORT_ASSEMBLY),        # right names, wrong order
+    ('("P0", "P1a", "P2a")', _COHORT_ASSEMBLY),               # a hole in the cohort
+])
+def test_every_partial_prefreeze_cohort_state_is_refused(solving, assembly):
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.parse_committed_authorization(_driver_with(solving, assembly))
+    assert "PARTIAL pre-freeze authorization state" in str(exc.value)
+
+
+def test_the_correct_names_in_the_wrong_allowlist_are_refused():
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.parse_committed_authorization(
+            _driver_with('("P0", "P1a", "P1b", "P2a", "P2b")', "()"))
+    assert "ARITHMETIC assembly phase" in str(exc.value)
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.parse_committed_authorization(_driver_with('("P1a", "P1b", "P2a")', '("P2b", "P0")'))
+    assert "SOLVING phase" in str(exc.value)
+
+
+def test_p3_and_p4_are_still_refused_while_the_cohort_is_complete():
+    src = _driver_with(_COHORT_SOLVING, _COHORT_ASSEMBLY, "False")
+    for stage in ("P3", "P4"):
+        snap = vf.source_authorization_snapshot(stage, src)
+        assert snap["stage_authorised"] is False
+        assert snap["required_gate"] == "POST_FREEZE_SOLVING"
+    # they are also absent from the cohort, so authorising it can never name them
+    parsed = vf.parse_committed_authorization(src)
+    assert "P3" not in parsed["AUTHORISED_SOLVING_PHASES"]
+    assert "P4" not in parsed["AUTHORISED_SOLVING_PHASES"]
+    assert parsed["POST_FREEZE_EXECUTOR_READY"] is False
+    assert drv.POST_FREEZE_EXECUTOR_READY is False
+
+
+def test_a_comment_cannot_influence_the_cohort_parse():
+    decoy = "\n".join([
+        '# AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")',
+        '"""AUTHORISED_ASSEMBLY_PHASES = ("P2b",)"""',
+        "_DOC = " + repr('AUTHORISED_SOLVING_PHASES = ("P0",)'),
+        "AUTHORISED_SOLVING_PHASES = ()",
+    ])
+    parsed = vf.parse_committed_authorization(
+        DRIVER_SRC.replace("AUTHORISED_SOLVING_PHASES = ()", decoy, 1))
+    assert parsed["AUTHORISED_SOLVING_PHASES"] == ()
+    assert parsed["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+
+
+def test_the_live_c9_head_remains_unauthorized_and_creates_no_authorization_commit():
+    live = vf.committed_authorization_status()
+    assert live["authorised_solving_phases"] == []
+    assert live["authorised_assembly_phases"] == []
+    assert live["post_freeze_executor_ready"] is False
+    assert live["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+    assert live["authorization_source_path"] == vf.DRIVER_REL
+    assert live["authorization_source_sha256"] == hashlib.sha256(
+        (REPO / vf.DRIVER_REL).read_bytes()).hexdigest()
+    # the module constants agree with the tracked source, and both authorize nothing
+    assert drv.AUTHORISED_SOLVING_PHASES == () and drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    # every fixture above is a SOURCE STRING; the committed head is untouched
+    assert vf.parse_committed_authorization(DRIVER_SRC)["prefreeze_cohort_state"] == \
+        "NO_PREFREEZE_PHASE_AUTHORIZED"
+
+
+def test_the_generated_status_and_plan_derive_from_the_parsed_committed_driver():
+    """Erratum PE-124 §9.2: no permanently hard-coded false authorization metadata."""
+    live = vf.committed_authorization_status()
+    st = vf.preflight_status()
+    for k, v in live.items():
+        assert st[k] == v, k
+    summary = drv.plan_summary(vf.execution_matrix())
+    for k, v in live.items():
+        assert summary[k] == v, k
+    assert vf.execution_matrix()["post_freeze_executor_ready"] is False
+    assert vf.protocol_config()["post_freeze_executor_ready"] is False
+    body = _code_only(vf.preflight_status)
+    assert "committed_authorization_status" in body
+    assert "committed_authorization_status" in _code_only(drv.plan_summary)
+    # the plan refuses to report a state the tracked source does not declare
+    assert "SourceAuthorizationError" in _code_only(drv.plan_summary)
+
+
+def test_the_scientific_row_set_is_unchanged_by_the_cohort_encoding():
+    mx = vf.execution_matrix()
+    assert mx["n_rows"] == 703
+    assert mx["decision_bearing_rows"] == 698
+    assert mx["decision_bearing_normal_solves"] == 378
+    assert mx["decision_bearing_fixed_step_audits"] == 320
+    assert mx["tau_diagnostic_rows"] == 2
+    assert mx["execution_assurance_rows"] == 3
+    assert mx["mandatory_minimum"] == 110
+    assert mx["refused_after_earliest_stop"] == 591
+    assert mx["same_field_node_offset_summaries"] == 511
+    assert mx["planned_pressure_plane_diagnostic_rows"] == 0
+    assert mx["solves_executed"] == 0
+
+
+# ---- F. every accepted outcome still holds at the C9 head --------------------------------------
+
+def test_the_c9_head_preserves_every_accepted_c8_outcome():
+    assert vf.CORRECTION_VERSION == "PREFLIGHT-C9"
+    # PE-66 and every frozen tolerance / safety factor
+    assert vf.RESOLUTION_SCALING_EXPONENT["C_blocked"] == 3
+    assert vf.RESOLUTION_SCALING_EXPONENT["R_open"] == 0
+    assert vf.RESOLUTION_SCALING_EXPONENT["A_series_inverse"] == -3
+    assert "not fitted, not tunable" in vf.RESOLUTION_SCALING_PROVENANCE
+    assert vf.NUMERICAL_DISCREPANCY_SAFETY_FACTOR == 2.0
+    assert vf.ARTIFACT_BUDGET_R_ABS == 1.0e-3
+    assert vf.TOL_LINEARITY_REL == 1.0e-4
+    # the claim ceiling is byte-identical to the closed predecessor's
+    assert vf.CLAIM_CEILING == tuple(vf001.CLAIM_CEILING)
+    # the four-slot rule: one below plus three inside
+    assert vf.N_LOG_TARGETS == 3 and vf.N_FROZEN_BRIDGES == 4
+    # authority, lineage and envelope protections remain active
+    for name in ("validate_execution_authority", "validate_predecessor_identity",
+                 "validate_diagnostic_failure_envelope", "assert_stage_authorised",
+                 "make_phase_authority_document", "load_resumable_case_record"):
+        assert callable(getattr(vf, name)), name
+    # no Route B, no solver-core change, and RP-D-LC-001 stays what it was
+    assert vf.PREDECESSOR["disposition"] == "INVALID_EXECUTION"
+    assert vf.PREDECESSOR["cross_model_transfer_adjudicated"] is False
+    assert vf.SUPPORTED_BACKENDS == ("reference",)
+
+
+def test_the_c9_errata_names_every_new_blocker():
+    txt = (REPO / vf.ERRATA_PATH).read_text()
+    for pe in ["PE-%d" % i for i in range(114, 127)]:
+        assert pe in txt, pe
+    assert "67c8c235bf4bb9327b36f84b047cfd861334afac" in txt
+    assert "123a6bc2ee27a8053d4ffbd1fbc4d386dda49d68" in txt
+    assert ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C9_RUNTIME_BUNDLE_AND_RECORD_"
+            "ASSURANCE_REQUIRED") in txt
+    # every superseded C8 generated hash is recorded
+    for h in ("49eed608319295135003f04c048349e6acaaa99004d9a0766591e35730b646c0",
+              "d9dcfd2d5036aae82e11aafb6e60c7853dc2345e1e4fe295baea026e897d0b39",
+              "696fc44d43fc974c9d89c7590912338251c3e9e65dd71528e65a98d4449d1ff0",
+              "ce6432eb80c86cb7d482dae6f210ca514e277b13aa60ca2136fd2a219d23b657"):
+        assert h in txt, h
+    # nothing earlier is erased
+    for pe in ["PE-%d" % i for i in (0, 11, 66, 76, 101, 113)]:
+        assert pe in txt, pe
+
+
+def test_rp_d_lc_001_is_still_byte_unchanged_against_the_base_commit():
+    out = _git("diff", "--name-only", vf.BASE_COMMIT, "--", "docs/analysis/rp_d_lc_001")
+    assert out == "", out
