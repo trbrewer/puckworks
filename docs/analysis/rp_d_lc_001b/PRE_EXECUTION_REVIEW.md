@@ -658,3 +658,50 @@ run that happened once.
 
 **Recommendation is unchanged:** authorise nothing yet. Another exact-head review is required
 before P0–P2b, and P3/P4 need a further correction and review of the real pre-freeze artifacts.
+
+
+---
+
+# CORRECTION `PREFLIGHT-C8` — what the eighth exact-head review found
+
+Disposition at `b5eb378` (tree `d113314`):
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C8_AUTHORIZATION_PROOF_AND_PREDECESSOR_LINEAGE_REQUIRED`
+
+**Every C7 scientific outcome is accepted, and both C7 judgment calls are accepted.** PE-66
+remains unchanged. Nothing in the apparatus, the bridge geometry, the forcing or resolution
+rules, the pressure or artifact equations, the candidate family, the four-slot rule, the
+reachable-set admission or the claim ceiling is altered.
+
+Two findings, both about **identity rather than science**.
+
+- **An authority that proved the commit but not the authorization.** C7 established that
+  `source_commit` is a real commit, that its tree matches, and that every tracked file hashes as
+  recorded. It never asked the one question an execution record exists to answer: *did that
+  commit authorize this phase?* The runtime gate reads `AUTHORISED_SOLVING_PHASES` from the live
+  import, so a historical record proved nothing about the allowlists at its own commit — and
+  `execution_authority("P0")` built a PRODUCTION authority at a head where every allowlist is
+  empty. The production P2b wrapper had the same shape of gap: it reached its own authority and
+  record validation without the assembly gate, which lived only in the driver.
+
+- **Lineage checked in one place and bound nowhere.** `require_phase_manifests` compared
+  predecessor manifest hashes; `validate_phase_manifest` did not. So validating P1a in isolation
+  established nothing about P0, P2b's recursive walk inherited that gap for the internal chain,
+  and the `predecessor_manifest_sha256` every record and envelope carries was compared only on
+  the resume path.
+
+Alongside them: the complete authority preimage reached disk only inside the *final* manifest, so
+an interrupted phase left records citing an opaque hash; envelope validation left the embedded
+row unchecked while comparing the separately stored hash against the external one; and in the tau
+result contract an object, string or complex array raised `TypeError` out of the named categories
+while `int()` silently accepted `2000.5` and `True`.
+
+**One thing is recorded rather than solved.** Every validator requires equality with the
+*current* `CORRECTION_VERSION`. That is sufficient for P0–P2b, which will share one reviewed
+authority version, and **not** sufficient for a later P3/P4 review commit validating historical
+C8-era authorities. That is written down as a **deferred P3/P4 prerequisite**, not implemented and
+not claimed.
+
+**Recommendation is unchanged:** authorise nothing yet. The next step is a separate reviewed
+**execution-authorization commit** that changes the source constants — at which point the
+generated authority records and proves that change — and it needs its own exact-head review.
+P3/P4 need a further correction beyond that.

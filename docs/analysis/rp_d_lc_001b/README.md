@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C7), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C8), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,23 +10,25 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Seven exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
-> `39533ad`, `e455c67`, `acb4f6a` and `76e5669`. The **common-mode-port apparatus was accepted in principle** at the
+> **Eight exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
+> `39533ad`, `e455c67`, `acb4f6a`, `76e5669` and `b5eb378`. The **common-mode-port apparatus was accepted in principle** at the
 > first review and is unchanged; seventy-seven items of machinery were not, and are corrected
-> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C7`. Every superseded clause, constant, matrix
-> rule and generated hash — for all seven generations — is in
+> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C8`. Every superseded clause, constant, matrix
+> rule and generated hash — for all eight generations — is in
 > [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md). The precedence chain is
-> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24) → C7 (§25)**, and
-> **§25 governs** wherever any earlier text conflicts with it. **PE-66 is accepted and
-> unchanged**, as is the mandatory-minimum change from 112 to 110.
+> **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24) → C7 (§25) →
+> C8 (§26)**, and **§26 governs** wherever any earlier text conflicts with it. **PE-66 is
+> accepted and unchanged**, as are the 112 → 110 mandatory minimum and both C7 judgment calls.
 >
-> **C7** is narrow. A **failed tau ATTEMPT** — a provider exception, a malformed or non-finite
-> result — is now nonblocking too, recorded in an immutable, resumable **diagnostic-failure
-> envelope**; authority, repository and persistence failures remain fatal. Every phase persists
-> its **complete execution authority**, not an opaque hash, and historical validation asks Git
-> whether the recorded commit and tree exist and reads every tracked file **at that commit**.
-> Every record is bound to that authority by hash. P2b **embeds and hashes** its full execution
-> authority. Decision-bearing, tau-diagnostic and execution-assurance identities are distinct.
+> **C8** is an **execution-identity and predecessor-lineage** correction. The authority now
+> proves that the recorded source commit **authorized the stage** — a snapshot of the committed
+> allowlists, parsed by AST from the tracked driver at that commit and hashed into the authority
+> — so **every production authority construction refuses at this head**, and P2b applies the
+> assembly gate at its **own** public boundary. The complete phase authority is persisted
+> **before the first provider call**, so an interrupted phase stays interpretable. Every
+> validator reconstructs its **exact predecessor chain**, and records and envelopes bind it.
+> Envelopes are **self-authenticating** against their embedded and planned rows. Malformed tau
+> result representations reach **named** narrow outcomes.
 > **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
 > `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
 > exact-head review is required before P0–P2b, and P3/P4 need a further correction and review of
@@ -103,8 +105,8 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C7
+RP_D_LC_001B_PREFLIGHT_C8_AUTHORIZATION_PROOF_AND_PREDECESSOR_LINEAGE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C8
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()

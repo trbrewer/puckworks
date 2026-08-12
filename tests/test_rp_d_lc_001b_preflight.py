@@ -1559,7 +1559,7 @@ def test_the_reference_forcing_is_an_exact_rational_not_a_binary_float():
 def test_the_correction_version_is_stamped_on_every_generated_artifact():
     for fn in (vf.protocol_config, vf.fixture_spec_config, vf.execution_matrix,
                vf.preflight_status):
-        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C7"
+        assert fn()["correction_version"] == vf.CORRECTION_VERSION == "PREFLIGHT-C8"
 
 
 def test_every_superseded_generation_is_retained_not_overwritten():
@@ -1568,7 +1568,7 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     assert [r["correction_version"] for r in revs] == ["PREFLIGHT-C0", "PREFLIGHT-C1",
                                                       "PREFLIGHT-C2", "PREFLIGHT-C3",
                                                       "PREFLIGHT-C4", "PREFLIGHT-C5",
-                                                      "PREFLIGHT-C6"]
+                                                      "PREFLIGHT-C6", "PREFLIGHT-C7"]
     assert revs[0]["reviewed_head"] == "bbf2304665d09cb78c117353947ce8c6cf2e5d24"
     assert revs[1]["reviewed_head"] == "2cf0b63ba2670de423a39f9563822563a3cb59b5"
     assert revs[1]["disposition"].endswith("C2_AND_PREFREEZE_EXECUTOR_REQUIRED")
@@ -1605,6 +1605,21 @@ def test_every_superseded_generation_is_retained_not_overwritten():
     assert vf.execution_matrix()["decision_bearing_rows"] == 698
     assert "PE-66" in revs[6]["accepted_without_change"]
     assert "112 to 110" in revs[6]["accepted_without_change"]
+    assert revs[7]["reviewed_head"] == "b5eb3786a71514ceb937e0772144e050e461a3fc"
+    assert revs[7]["reviewed_tree"] == "d11331486b36f20e421835ce7bd16dd87a7782db"
+    assert revs[7]["disposition"].endswith(
+        "C8_AUTHORIZATION_PROOF_AND_PREDECESSOR_LINEAGE_REQUIRED")
+    assert revs[7]["errata"] == ["PE-%d" % i for i in range(101, 114)]
+    # C8 preserves the C7 counts exactly: no row is added for authority or lineage validation
+    assert revs[7]["superseded_counts"]["decision_bearing_rows"] == 698
+    assert vf.execution_matrix()["decision_bearing_rows"] == 698
+    assert revs[7]["superseded_counts"]["mandatory_minimum"] == 110
+    assert vf.execution_matrix()["mandatory_minimum"] == 110
+    for phrase in ("PE-66", "112 to 110", "judgment calls"):
+        assert phrase in revs[7]["accepted_without_change"], phrase
+    # erratum PE-113: the ACTUAL committed C7 hash, not the stale one the message quoted
+    assert revs[7]["superseded_artifact_sha256"]["preflight_status.json"] == (
+        "b9e74571d45acc3b84412a161bd64d860870b654df972e1957b372de6989fe86")
     for r in revs:
         assert len(r["superseded_artifact_sha256"]) == 4
         assert all(len(h) == 64 for h in r["superseded_artifact_sha256"].values())
@@ -6033,3 +6048,97 @@ def test_the_exact_step_validator_rejects_every_lossy_form():
     assert drv._exact_steps(2000) == 2000
     assert drv._exact_steps(np.int64(2000)) == 2000      # a NumPy integer scalar is accepted
     assert drv._exact_steps(0) == 0
+
+
+# ---- G. the complete P2b authorization and authority path (§10) ------------------------------
+
+def test_the_p2b_authority_carries_and_hashes_its_authorization(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    aa = man["assembly_authority"]
+    assert "source_authorization" in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS
+    assert "authority_provenance" in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS
+    nested = aa["execution_authority"]
+    assert aa["source_authorization"] == nested["source_authorization"]
+    assert aa["authority_provenance"] == nested["authority_provenance"] == "TEST_ONLY"
+    assert aa["source_authorization"]["required_gate"] == "ASSEMBLY"
+    assert aa["source_authorization"]["stage_authorised"] is False
+    assert aa["assembly_authority_sha256"] == vf.record_hash(
+        {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    # the P2b phase-authority artifact is persisted and bound
+    pa_doc, _p, pa_sha = vf.read_phase_authority(d, "P2b")
+    assert man["phase_authority_file_sha256"] == pa_sha
+    assert pa_doc["execution_authority"]["stage"] == "P2b"
+    # a TEST_ONLY assembly authority may never satisfy production validation
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(d, require_production=True)
+
+
+def test_the_p2b_authority_is_written_before_any_artifact():
+    body = inspect.getsource(vf._p2b_decision_core).split('"""', 2)[-1]   # skip the docstring
+    before = body.split("write_phase_authority", 1)[0]
+    for later in ("_atomic_write_json", "build_p2b_decision_payload("):
+        assert later not in before, later
+
+
+P2B_AUTHZ_TAMPERS = ("snapshot_stage_authorised", "nested_stage_authorised", "solving_list",
+                     "assembly_list", "driver_hash", "gate_type", "outer_provenance")
+
+
+@pytest.mark.parametrize("name", P2B_AUTHZ_TAMPERS)
+def test_coordinated_p2b_authorization_tampering_is_rejected(synthetic_p2b, tmp_path, name):
+    """Every outer artifact hash is updated; validation still fails against the committed
+    driver at the recorded commit."""
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / ("p2bauthz_" + name)
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    aa = doc["assembly_authority"]
+    nested = dict(aa["execution_authority"])
+    snap = dict(nested["source_authorization"])
+    if name == "snapshot_stage_authorised":
+        aa["source_authorization"] = dict(snap, stage_authorised=True)
+    elif name == "nested_stage_authorised":
+        snap = dict(snap, stage_authorised=True)
+    elif name == "solving_list":
+        snap = dict(snap, authorised_solving_phases=["P0", "P1a", "P1b", "P2a"])
+    elif name == "assembly_list":
+        snap = dict(snap, authorised_assembly_phases=["P2b"], stage_authorised=True)
+    elif name == "driver_hash":
+        snap = dict(snap, driver_file_sha256="0" * 64)
+    elif name == "gate_type":
+        snap = dict(snap, required_gate="SOLVING")
+    else:
+        nested = dict(nested, authority_provenance="PRODUCTION")
+        aa["authority_provenance"] = "PRODUCTION"
+    if name not in ("snapshot_stage_authorised", "outer_provenance"):
+        nested["source_authorization"] = snap
+        aa["source_authorization"] = snap
+    aa["execution_authority"] = nested
+    aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+    aa["assembly_authority_sha256"] = vf.record_hash(
+        {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    doc["assembly_authority"] = aa
+    doc["assembly_authority_sha256"] = aa["assembly_authority_sha256"]
+    for art_name in ("candidate_ledger.json", "proposed_bridge_freeze.json",
+                     "instantiated_p3_p4_matrix.json"):
+        f = work / art_name
+        if not f.exists():
+            continue
+        art = json.loads(f.read_text())
+        art["assembly_authority_sha256"] = aa["assembly_authority_sha256"]
+        if "assembly_authority" in art:
+            art["assembly_authority"] = aa
+        f.write_text(vf.canonical_json(art) + "\n")
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+    _rehash_p2b(work)
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(work, require_production=False)
+
+
+def test_the_deferred_post_freeze_version_boundary_is_recorded():
+    """§11: C8 does not claim current-version equality suffices for all future review commits."""
+    txt = (REPO / vf.ERRATA_PATH).read_text()
+    assert "Deferred: the post-freeze historical-version boundary" in txt
+    assert "deferred P3/P4 prerequisite" in txt
+    assert drv.POST_FREEZE_EXECUTOR_READY is False

@@ -102,7 +102,7 @@ SCHEMA_VERSION = 1
 #: The effective pre-execution correction version. Every generated artifact carries it, so a
 #: machine-readable record can never be mistaken for a superseded one. Lineage and the exact
 #: superseded hashes: docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md.
-CORRECTION_VERSION = "PREFLIGHT-C7"
+CORRECTION_VERSION = "PREFLIGHT-C8"
 ERRATA_PATH = "docs/analysis/rp_d_lc_001b/PREFLIGHT_ERRATA.md"
 #: The exact-head reviews that required each correction, oldest first. Every generation's hashes
 #: are kept so anything bound to a superseded artifact stays traceable.
@@ -255,6 +255,35 @@ SUPERSEDED_REVIEWS = (
             "common_mode_port_blind_pocket_off_on_comparison",
         "accepted_without_change": ("PE-66 resolution comparison coordinate value / S**n; the "
                                     "mandatory-minimum change from 112 to 110"),
+    },
+    {
+        "correction_version": "PREFLIGHT-C7",
+        "reviewed_head": "b5eb3786a71514ceb937e0772144e050e461a3fc",
+        "reviewed_tree": "d11331486b36f20e421835ce7bd16dd87a7782db",
+        "disposition": ("RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C8_AUTHORIZATION_"
+                        "PROOF_AND_PREDECESSOR_LINEAGE_REQUIRED"),
+        "errata": ["PE-%d" % i for i in range(101, 114)],
+        "superseded_artifact_sha256": {
+            "protocol.json":
+                "d35eec46569c9b599eb353598579e55d35af2a2646d0198b1612cf044c57fdbd",
+            "fixture_spec.json":
+                "9d31df49694d294f152553574953ecdadc0cdfa483709cfa5aef9400031286e0",
+            "execution_matrix.json":
+                "ff452a49b9d15430c0fa8c2fc03789fb3b6ea401b2c4b10bffae966bf217580d",
+            # erratum PE-113: the ACTUAL committed hash. The C7 commit message quotes
+            # 07cf090f..., computed before the final documentation edits moved
+            # input_file_sha256; that message is history and is not amended.
+            "preflight_status.json":
+                "b9e74571d45acc3b84412a161bd64d860870b654df972e1957b372de6989fe86",
+        },
+        "superseded_counts": {"adaptive_maximum": 703, "decision_bearing_rows": 698,
+                              "tau_diagnostic_rows": 2, "execution_assurance_rows": 3,
+                              "mandatory_minimum": 110, "refused_after_earliest_stop": 591},
+        "apparatus_accepted_in_principle":
+            "common_mode_port_blind_pocket_off_on_comparison",
+        "accepted_without_change": ("PE-66; the 112 to 110 mandatory minimum; and both C7 "
+                                    "judgment calls - measured-historical dependency, clean-tree "
+                                    "and seed fields, and source-commit tracked-file hashing"),
     },
 )
 #: Backwards-compatible alias for the most recent superseded review.
@@ -3645,6 +3674,31 @@ def execution_matrix():
             "erratum": "PE-89/PE-90/PE-91/PE-92",
         },
         "p2b_assembly_authority_fields": list(P2B_ASSEMBLY_AUTHORITY_FIELDS),
+        "source_authorization_schema": {
+            "fields": list(SOURCE_AUTHORIZATION_FIELDS),
+            "driver_path": DRIVER_REL,
+            "constants": sorted(AUTHORIZATION_CONSTANTS),
+            "stage_gate_kind": dict(STAGE_GATE_KIND),
+            "parsed_from": ("the TRACKED driver source AT source_commit, by module-level AST "
+                            "literal assignment; never a runtime object, an environment "
+                            "variable, a caller list or the validating checkout"),
+            "authority_provenance": list(AUTHORITY_PROVENANCE),
+            "erratum": "PE-101/PE-102/PE-103/PE-104",
+        },
+        "phase_authority_artifact": {
+            "schema_version": PHASE_AUTHORITY_SCHEMA_VERSION,
+            "filename": "%s<phase>.json" % PHASE_AUTHORITY_PREFIX,
+            "written": "BEFORE the first provider call, atomically and immutably",
+            "bound_by": ["phase manifest", "every case record",
+                         "every diagnostic-failure envelope"],
+            "erratum": "PE-105",
+        },
+        "diagnostic_failure_fields": list(DIAGNOSTIC_FAILURE_FIELDS),
+        "post_freeze_historical_version_boundary": (
+            "DEFERRED P3/P4 PREREQUISITE: every validator requires equality with the CURRENT "
+            "correction version, which suffices for P0-P2b under one reviewed authority version "
+            "but NOT for a later P3/P4 review commit validating historical C8-era authorities. "
+            "C8 does not implement the dispatcher and does not claim otherwise."),
         "post_freeze_executor_ready": False,
         "post_freeze_deferral": ("P3/P4 orchestration still derives its universe from these "
                                  "templates; the approved instantiated-matrix loader has not "
@@ -7115,6 +7169,13 @@ def validate_p2b_manifest(runs_dir, require_production=True,
     doc["_predecessor_manifests"] = pre_docs
     doc["_predecessor_records"] = pre_records
 
+    # erratum PE-105 §10.7: the P2b phase-authority artifact is reopened and validated first
+    if doc.get("phase_authority_path") != phase_authority_filename("P2b"):
+        raise ManifestMissing("the P2b manifest names the wrong phase-authority artifact")
+    p2b_pa, _p2b_path, p2b_pa_sha = read_phase_authority(base, "P2b")
+    if doc.get("phase_authority_file_sha256") != p2b_pa_sha:
+        raise ManifestMissing("the P2b manifest cites a stale phase-authority file hash")
+    validate_phase_authority_document(p2b_pa, "P2b", require_production=require_production)
     # the assembly authority is load-bearing, not an unused parameter (erratum PE-73)
     doc["_assembly_authority"] = validate_p2b_assembly_authority(
         doc.get("assembly_authority"), base, require_production=require_production,
@@ -8248,6 +8309,9 @@ P2B_ASSEMBLY_AUTHORITY_FIELDS = (
     # execution_authority_sha256 into the document and left it out of the hash, so changing it
     # did not change assembly_authority_sha256.
     "execution_authority", "execution_authority_sha256",
+    # erratum PE-101 §10: the committed authorization snapshot is load-bearing here too, and
+    # therefore inside assembly_authority_sha256.
+    "source_authorization", "authority_provenance",
 )
 
 
@@ -8280,6 +8344,8 @@ def p2b_assembly_authority(runs_dir, execution_auth, manifest_keys,
         "provenance_mode": provenance_mode,
         "execution_authority": dict(execution_auth),
         "execution_authority_sha256": execution_authority_sha256(execution_auth),
+        "source_authorization": dict(execution_auth["source_authorization"]),
+        "authority_provenance": execution_auth["authority_provenance"],
         "note": ("binds the exact configuration and predecessor files this assembly consumed; a "
                  "later review wrapper may cite it without claiming its own commit produced it"),
     }
@@ -8304,6 +8370,12 @@ def validate_p2b_assembly_authority(doc, runs_dir, require_production=True,
     if require_production and doc["provenance_mode"] != "PRODUCTION":
         raise ManifestMissing("a TEST_ONLY assembly authority may never satisfy a production "
                               "gate (erratum PE-71)")
+    if require_production and not (doc.get("source_authorization") or {}).get(
+            "stage_authorised"):
+        raise ManifestMissing(
+            "the P2b assembly authority records stage_authorised=%r; a production assembly may "
+            "only stand on a commit whose AUTHORISED_ASSEMBLY_PHASES names P2b (erratum PE-101)"
+            % ((doc.get("source_authorization") or {}).get("stage_authorised"),))
     if doc["backend"] not in SUPPORTED_BACKENDS:
         raise ManifestMissing("the assembly authority names an unsupported backend")
     if require_production and not doc["working_tree_clean"]:
@@ -8343,7 +8415,8 @@ def validate_p2b_assembly_authority(doc, runs_dir, require_production=True,
         raise ManifestMissing("the assembly authority cites a stale execution-authority hash")
     for k in ("source_commit", "source_tree", "working_tree_clean", "clean_tree_required",
               "correction_version", "backend", "dependencies", "protocol_config_sha256",
-              "fixture_spec_sha256", "execution_matrix_sha256"):
+              "fixture_spec_sha256", "execution_matrix_sha256", "source_authorization",
+              "authority_provenance"):
         if doc.get(k) != nested[k]:
             raise ManifestMissing(
                 "the assembly authority's %r does not equal its own nested execution authority "
@@ -8652,6 +8725,17 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
     base = pathlib.Path(base)
     assembly_auth = p2b_assembly_authority(base, auth, manifests,
                                            provenance_mode=provenance_mode)
+    # erratum PE-105 §10.6: the P2b authority is persisted BEFORE any candidate ledger, freeze
+    # or instantiated matrix, and an exact resume reopens and validates it first.
+    pre_sha_p2b = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+                   for k in manifests}
+    pa_doc = make_phase_authority_document("P2b", auth, pre_sha_p2b,
+                                           provenance_mode=provenance_mode)
+    pa_path, _pa_mode = write_phase_authority(base, pa_doc)
+    pa_sha = hashlib.sha256(pa_path.read_bytes()).hexdigest()
+    validate_phase_authority_document(
+        pa_doc, "P2b", require_production=(provenance_mode == "PRODUCTION"),
+        expected_current_authority=auth, expected_predecessors=pre_sha_p2b)
     payload = build_p2b_decision_payload(manifests, records, assembly_auth,
                                          provenance_mode=provenance_mode)
     sci_sha = payload["scientific_decision_payload_sha256"]
@@ -8714,7 +8798,9 @@ def _p2b_decision_core(base, auth, manifests, records, provenance_mode="PRODUCTI
         "phase_kind": "ARITHMETIC_ASSEMBLY_NO_SOLVER_CALL",
         "scientific_decision_payload_sha256": sci_sha,
         "source_commit": auth["source_commit"], "source_tree": auth["source_tree"],
-        "execution_authority_sha256": record_hash(auth),
+        "execution_authority_sha256": execution_authority_sha256(auth),
+        "phase_authority_path": phase_authority_filename("P2b"),
+        "phase_authority_file_sha256": pa_sha,
         "assembly_authority": dict(assembly_auth),
         "assembly_authority_sha256": assembly_auth["assembly_authority_sha256"],
         "full_matrix_sha256": record_hash(execution_matrix()),

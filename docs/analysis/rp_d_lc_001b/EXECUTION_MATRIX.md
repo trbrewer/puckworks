@@ -1,8 +1,8 @@
 # RP-D-LC-001b — planned execution matrix
 
 ```
-VERSION PREFLIGHT-C7 (supersedes bbf2304, 2cf0b63, c666707, 39533ad, e455c67,
-acb4f6a and 76e5669)
+VERSION PREFLIGHT-C8 (supersedes bbf2304, 2cf0b63, c666707, 39533ad, e455c67,
+acb4f6a, 76e5669 and b5eb378)
 NO ROW IN THIS DOCUMENT HAS BEEN EXECUTED
 solves_executed: 0     lb_solver_invoked: false     AUTHORISED_SOLVING_PHASES: ()
 AUTHORISED_ASSEMBLY_PHASES: ()      POST_FREEZE_EXECUTOR_READY: False
@@ -305,3 +305,42 @@ The role-resolved identities are now distinct in every phase manifest —
 `decision_bearing_case_ids`, `execution_assurance_case_ids`, `diagnostic_case_ids` and
 `adjudicative_case_ids` — so an execution-assurance replicate is no longer filed under a
 decision-bearing name (erratum PE-100). No separate pressure-diagnostic row exists or may return.
+
+
+## 15. CORRECTION `PREFLIGHT-C8` — counts unchanged; authority artifacts are not rows
+
+Errata PE-101 … PE-113. **No solver row is added or removed**, and none is added for authority,
+lineage or envelope validation. Every count is regenerated from `execution_matrix()`.
+
+| category | value |
+|---|---|
+| `DECISION_BEARING` normal rows | **378** |
+| `DECISION_BEARING` fixed-step audits | **320** |
+| **decision-bearing** rows | **698** |
+| **tau diagnostic** rows | **2** |
+| **execution-assurance** rows | **3** |
+| total planned provider invocations | **703** |
+| **mandatory pre-freeze minimum** | **110** |
+| **adaptive** rows | **703** |
+| refused after the earliest stop | **591** |
+| same-field **node-offset summaries** (**0** provider calls) | **511** |
+| **phase-authority files** written per phase | **1** — **0** provider calls |
+| new case records / new diagnostic envelopes | provider calls, one each |
+| reused records / reused envelopes | **0** provider calls |
+| P0 / P1a / P1b / P2a / P3 / P4 | 63 / 49 / 240 / 288 / 47 / 16 |
+| **solves actually executed** | **0** |
+
+```
+provider_calls = new normal case records + new fixed-step case records
+                 + new diagnostic-failure envelopes
+```
+
+**An `execution_authority_<phase>.json` is not a row.** It is the durable preimage of the
+authority the phase ran under, written once per phase before the first provider call, costing no
+provider call and adding no planned invocation. A **diagnostic-failure envelope** likewise
+remains what a tau row leaves behind when its attempt produces no result.
+
+**Every production authority construction refuses at this head**, because
+`AUTHORISED_SOLVING_PHASES` and `AUTHORISED_ASSEMBLY_PHASES` are both empty and
+`POST_FREEZE_EXECUTOR_READY` is false. The counts above are what a future **reviewed
+authorization commit** would plan, not what anything has run.

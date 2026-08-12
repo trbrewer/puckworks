@@ -8,31 +8,32 @@ NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
 NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 ```
 
-> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C7`**
+> ## ⚠ EFFECTIVE CORRECTION VERSION: **`PREFLIGHT-C8`**
 >
 > **ONE precedence chain, no exceptions:**
 >
 > ```
 > C0 -> C1 (§19) -> C2 (§20) -> C3 (§21) -> C4 (§22) -> C5 (§23) -> C6 (§24) -> C7 (§25)
+>    -> C8 (§26)
 > ```
 >
 > **Later always governs.** Wherever any earlier text — the frozen body §1–§18 or any earlier
-> effective section — conflicts with **§25**, **§25 is the effective protocol**. Where §25 is
-> silent, §24 governs; then §23, §22, §21, §20, §19, and the frozen body last.
+> effective section — conflicts with **§26**, **§26 is the effective protocol**. Where §26 is
+> silent, §25 governs; then §24, §23, §22, §21, §20, §19, and the frozen body last.
 >
-> Seven exact-head reviews have returned NOT APPROVED. The most recent, at
-> `76e5669670213f33c6496b98cc4d2cdfc9711b35` (tree `489af8f`), returned
-> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C7_DIAGNOSTIC_ATTEMPT_AND_EXECUTION_AUTHORITY_LINEAGE_REQUIRED`**.
+> Eight exact-head reviews have returned NOT APPROVED. The most recent, at
+> `b5eb3786a71514ceb937e0772144e050e461a3fc` (tree `d113314`), returned
+> **`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C8_AUTHORIZATION_PROOF_AND_PREDECESSOR_LINEAGE_REQUIRED`**.
 > **The frozen text below is never rewritten.** `PREFLIGHT_ERRATA.md` records every superseded
-> clause, constant, matrix rule and generated hash, for all seven generations, with the reason
+> clause, constant, matrix rule and generated hash, for all eight generations, with the reason
 > each was unsafe.
 >
-> **§24 is accepted in full, and PE-66 — the resolution comparison coordinate `value / S**n` —
-> remains accepted WITHOUT CHANGE.** The mandatory-minimum change from 112 to 110 is accepted.
-> §25 corrects only failed-attempt handling for the non-adjudicative tau diagnostics, durable
-> full execution-authority lineage, complete P2b assembly-authority binding, and role/count
-> naming. It alters no apparatus, scientific gate, similarity law, uncertainty equation,
-> candidate family, four-slot selection or claim ceiling.
+> **§25 is accepted in full**, as are **both C7 judgment calls** — measured-historical treatment
+> of the dependency, clean-tree and seed fields, and source-commit tracked-file hashing.
+> **PE-66 remains accepted WITHOUT CHANGE**, as does the mandatory-minimum change from 112 to
+> 110. §26 is an **execution-identity and predecessor-lineage correction only**. It alters no
+> apparatus, bridge geometry, forcing or resolution rule, pressure or artifact equation,
+> candidate family, four-slot rule, reachable-set admission or claim ceiling.
 >
 > Unchanged and reaffirmed: the question, the common-mode-port apparatus, the forcing law and
 > ladders, the `1e-3` artifact budget, `TOL_LINEARITY_REL = 1e-4`,
@@ -42,7 +43,7 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 > immutability of RP-D-LC-001.
 >
 > **PRE-EXECUTION THROUGHOUT.** `AUTHORISED_SOLVING_PHASES = ()`,
-> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C7 head. No
+> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C8 head. No
 > 001b lattice-Boltzmann solve has run at any point in this lineage.
 
 Programme: `docs/analysis/RP_D_LATERAL_CROSS_MODEL_PROGRAM.md` (Stage A only).
@@ -1615,6 +1616,216 @@ required before P0–P2b, and a further correction and review of the real pre-fr
 required before P3/P4. RP-D-LC-001 remains **immutable** and `INVALID_EXECUTION`, its cross-model
 question **unadjudicated, not negative**. RP-D-LC-001b has produced **no scientific result**, and
 **no solve has run**.
+
+---
+
+# 26. EFFECTIVE PROTOCOL — CORRECTION `PREFLIGHT-C8`
+
+Appended, not substituted. **§26 governs wherever any earlier text conflicts with it.** Errata:
+`PREFLIGHT_ERRATA.md` PE-101 … PE-113.
+
+**Every C7 scientific outcome is accepted, and both C7 judgment calls are accepted**: the
+dependency identity, the clean-tree status and the no-RNG declaration are **measured historical
+claims** a later validator cannot re-observe, and tracked-file hashes belong to the **recorded
+source commit** rather than to a later working tree. **PE-66 remains accepted and unchanged.**
+This is an execution-identity correction; it touches no apparatus, gate, equation, candidate
+family, selection rule or claim ceiling.
+
+## 26.1 The authority proves committed phase AUTHORIZATION (supersedes §25.5)
+
+C7's authority proved that `source_commit` exists, that its tree matches and that every tracked
+file hashes as recorded. It never asked whether that commit **authorized the recorded stage** —
+the runtime gate reads the allowlists from the live import.
+
+A canonical `source_authorization` snapshot is now part of the authority:
+
+```
+driver_path · driver_file_sha256
+authorised_solving_phases · authorised_assembly_phases · post_freeze_executor_ready
+stage · required_gate · stage_authorised
+```
+
+It is inside `EXECUTION_AUTHORITY_FIELDS` and therefore inside `execution_authority_sha256`, so
+changing any part of it moves every record, envelope, manifest and P2b artifact bound to it.
+
+**It is parsed from the TRACKED driver source AT `source_commit`** — never from a monkeypatched
+runtime object, an environment variable, a caller-supplied list, or the validating checkout. The
+parser walks the module-level AST and reads **literal assignments only**, so a comment, a
+docstring or a string literal cannot be mistaken for code. A nonliteral, aliased or
+environment-dependent expression, a **duplicate assignment**, a wrong literal type, an unknown
+phase, a phase in the wrong allowlist and an unparseable readiness constant are each refused by
+name.
+
+| stage | gate | authorized when |
+|---|---|---|
+| P0, P1a, P1b, P2a | `SOLVING` | the stage is in the committed `AUTHORISED_SOLVING_PHASES` |
+| P2b | `ASSEMBLY` | the stage is in the committed `AUTHORISED_ASSEMBLY_PHASES` |
+| P3, P4 | `POST_FREEZE_SOLVING` | in the solving allowlist **and** `POST_FREEZE_EXECUTOR_READY` |
+
+## 26.2 Production construction refuses an unauthorized commit (new)
+
+`execution_authority(stage)` **REFUSES** unless the committed allowlist authorizes the stage.
+**At the C8 head every production construction refuses, for all seven phases**, because both
+allowlists are empty. There is no public provenance or authorization override; the public
+builder takes neither and pins `PRODUCTION` itself.
+
+`_test_only_execution_authority(stage)` is the **private** synthetic path. It carries
+`authority_provenance = "TEST_ONLY"` and the **actual** committed snapshot, including
+`stage_authorised = false`. Production validation rejects it, and it cannot be handed to the
+public production execution or assembly APIs.
+
+`validate_execution_authority` reads the driver from `source_commit`, recomputes its file hash,
+reparses the constants, rebuilds the snapshot and compares it **exactly**; requires
+`stage_authorised` for PRODUCTION; and permits its absence only for an explicitly TEST_ONLY
+authority under `require_production=False`. **A source commit with valid files but an
+unauthorized stage fails production validation.** A later review commit can validate a historical
+authority without asserting that it performed the execution.
+
+## 26.3 P2b applies the assembly gate at its own boundary (supersedes §24.4)
+
+`assemble_p2b_from_runs(...)` applies the shared source-controlled gate **first**, before
+validating any record, creating any authority or writing any artifact. C7 relied on the driver
+caller having applied it, so a direct call bypassed it. `ExecutionNotAuthorised` and
+`assert_stage_authorised` are defined **once**, beside the parser, and re-exported by the driver:
+one implementation, not two that can drift. At this head a direct production P2b call raises
+`ExecutionNotAuthorised`.
+
+## 26.4 The complete phase authority is persisted BEFORE the first provider call (new)
+
+`execution_authority_<phase>.json` — canonical, strict-finite, atomic, immutable, no-overwrite,
+exact-match resumable, deterministically named — carries the schema version, the phase, the
+provenance mode, the **complete** authority object, its hash, the authorization snapshot, the
+predecessor map, its own filename, and a declaration that it authorises **exactly one phase**. It
+holds **no self-referential file hash**; the caller computes that after writing.
+
+It is written **before the first provider call**, so an interrupted phase leaves a record set
+whose authority preimage is on disk rather than only in a dead process's memory.
+
+Each phase manifest retains `phase_authority_path`, `phase_authority_file_sha256`,
+`execution_authority_sha256` and the embedded authority; the embedded copy and the artifact must
+be canonically equal and **may not drift**. Every case record and every diagnostic-failure
+envelope retains the authority hash, the authority-**file** hash, the phase and the provenance
+mode, and validation reopens the file, rehashes it, revalidates the authority and requires the
+record's two hashes to match.
+
+**Partial resume** inspects the authority file *before* inspecting records, requires exact
+equality with the current same-phase authority, and fails before any provider call if it differs.
+
+## 26.5 Predecessor lineage is intrinsic to every validator (supersedes §25.5's placement)
+
+`validate_phase_manifest` now always validates its **own** predecessor identity: the exact
+`PHASE_PREREQUISITES[P]` key set, each cited manifest present, each file rehashed and compared.
+**P0 must carry the exact empty map.** Extra, missing, stale and duplicate identities are each
+refused. `require_phase_manifests` delegates to that one implementation rather than repeating it.
+
+The recursive chain — P1a→P0, P1b→(P0, P1a), P2a→its exact frozen set — is therefore recovered
+automatically, including by P2b's recursive walk, with a validated-manifest cache bounding the
+recursion and no identity check skipped.
+
+`predecessor_manifest_sha256` is in the exact case-record schema, and both
+`validate_case_record` and `validate_diagnostic_failure_envelope` take the expected map and
+require exact equality **at final validation**, not only on the resume path. An envelope from
+another predecessor state does not satisfy the current phase merely because its case ID and
+authority hash match.
+
+## 26.6 Envelopes are self-authenticating (supersedes §25.2)
+
+`DIAGNOSTIC_FAILURE_FIELDS` is an **exact** key set: a missing field and an unknown field are
+both refused, as are schema drift, noncanonical content and non-finite content.
+
+C7 compared the separately stored `row_sha256` against the **external** planned row and left the
+embedded `doc["row"]` unchecked. Now:
+
+```
+row_sha256(doc["row"]) == doc["row_sha256"]          # embedded self-integrity
+doc["row"]             == the canonical planned row   # when one is supplied
+```
+
+and every row-derived field is **recomputed** and compared — case ID, phase, scientific role,
+forcing rational and repr, the effective solver configuration, and the run mode and audit
+identity where applicable. **A modified row with an unchanged external hash fails.**
+
+`row_geometry_identity(row)` is **one pure, no-solver** resolver shared by the driver, case-record
+validation and envelope validation. It derives the geometry kind, shape, candidate bridge
+identity, fixture state and variant, obstruction status and mask SHA-256, and final manifest
+validation recomputes and compares them for **both** normal records and envelopes. No coordinate
+logic is duplicated.
+
+A `diagnostic_failed` manifest entry must agree with its envelope on the case ID, canonical row,
+row hash, scientific role, failure code, failure stage, file hash, authority-file hash and
+predecessor map.
+
+## 26.7 The tau result contract is complete (supersedes §25.1's boundary)
+
+The narrow C7 failure categories and the never-caught classes are **preserved**, and there is
+still **no catch-all** around the row loop.
+
+**Step counts** must be an exact non-negative integer. `bool`, a non-integral float, NaN,
+infinity, a numeric string, a complex value and any lossy conversion are refused; a NumPy integer
+scalar is accepted. `int(value)` alone is never the test.
+
+**Numeric fields** — `ux`, `rho`, `uy`, `uz` — catch `TypeError` and `ValueError` from
+`np.asarray` and `np.isfinite`, require a **real numeric dtype** (object, string, bytes, complex,
+structured and datetime arrays are refused), require the exact shape and require finite
+fluid-node values. An incompatible representation or dtype maps to
+`DIAGNOSTIC_RESULT_CONTRACT_INVALID`; a finite-check failure to `DIAGNOSTIC_RESULT_NONFINITE`.
+
+A failure caused **solely by the returned result** during strict payload formation or compact
+record construction maps to the appropriate frozen code. An invalid source-controlled row
+configuration, an authority mismatch, a geometry or mask invariant failure, a canonical-matrix
+defect and any filesystem or persistence failure are **not** downgraded. For an adjudicative row
+every one of these remains fatal or phase-stopping.
+
+## 26.8 The post-freeze historical-version boundary — DEFERRED
+
+The real P0–P2b production records will be created under a **future reviewed authorization
+head**. Every validator here requires equality with the **current** `CORRECTION_VERSION`, which
+is sufficient for P0–P2b because all pre-freeze phases share one reviewed authority version.
+
+It is **not** sufficient for a later P3/P4 review commit, which must validate historical C8-era
+authorities from a head whose own correction version has moved on. **This is recorded as a
+deferred P3/P4 prerequisite, not as a solved problem.** C8 does not implement the dispatcher,
+does not claim current-version equality suffices for all future review commits, and keeps
+`POST_FREEZE_EXECUTOR_READY = False`.
+
+## 26.9 Matrix and counts (supersedes §25.9)
+
+Regenerated from one machine authority. **No solver row is added** for authority, lineage or
+envelope validation, and **an authority file causes no provider call**.
+
+| category | value |
+|---|---|
+| `DECISION_BEARING` normal rows | **378** |
+| `DECISION_BEARING` fixed-step audits | **320** |
+| decision-bearing rows | **698** |
+| tau diagnostic rows | **2** |
+| execution-assurance rows | **3** |
+| total planned provider invocations | **703** |
+| mandatory pre-freeze minimum | **110** |
+| refused after the earliest stop | **591** |
+| same-field node-offset summaries | **511** |
+| phase-authority files written per phase | **1** (no provider call) |
+| **solves actually executed** | **0** |
+
+```
+provider_calls = new normal case records + new fixed-step case records
+                 + new diagnostic-failure envelopes
+```
+
+## 26.10 Authorization state at the C8 head
+
+```
+AUTHORISED_SOLVING_PHASES   = ()
+AUTHORISED_ASSEMBLY_PHASES  = ()
+POST_FREEZE_EXECUTOR_READY  = False
+```
+
+P0, P1a, P1b, P2a, P2b, P3 and P4 all remain **unauthorized**, and **every production authority
+construction refuses at this commit**. Another exact-head review is required before the separate
+reviewed execution-authorization commit, and a further correction and review of the real
+pre-freeze artifacts is required before P3/P4. RP-D-LC-001 remains **immutable** and
+`INVALID_EXECUTION`, its cross-model question **unadjudicated, not negative**. RP-D-LC-001b has
+produced **no scientific result**, and **no solve has run**.
 
 ---
 
