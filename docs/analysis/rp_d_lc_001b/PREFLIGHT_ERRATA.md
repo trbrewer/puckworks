@@ -7,13 +7,14 @@ PRE-EXECUTION THROUGHOUT — no RP-D-LC-001b lattice-Boltzmann solve has run at 
 in this lineage, before or after any erratum here.
 ```
 
-Effective correction version: **`PREFLIGHT-C8`** (see PE-101 … PE-113). Generated artifacts under
+Effective correction version: **`PREFLIGHT-C9`** (see PE-114 … PE-126). Generated artifacts under
 `generated/` carry `correction_version` so a machine-readable record can never be mistaken for
 a superseded one. Lineage: **C0** (`bbf2304`) → **C1** (`2cf0b63`) → **C2** (`c666707`) →
 **C3** (`39533ad`) → **C4** (`e455c67`) → **C5** (`acb4f6a`) → **C6** (`76e5669`) →
-**C7** (`b5eb378`) → **C8**. Where earlier text conflicts with the effective C8 sections, **C8
-governs**; no earlier erratum is altered or erased. **PE-66 is accepted and unchanged**, as are
-both C7 judgment calls.
+**C7** (`b5eb378`) → **C8** (`67c8c23`) → **C9**. Where earlier text conflicts with the effective
+C9 sections, **C9 governs**; no earlier erratum is altered or erased. **PE-66 is accepted and
+unchanged**, as are both C7 judgment calls and **PE-113**'s correction of the historical
+`preflight_status.json` hash.
 
 ---
 
@@ -1627,3 +1628,151 @@ family · the similarity law · the mandatory minimum of 110 · **the allowlists
 empty** · **RP-D-LC-001 byte-unchanged** · and every phase, solving and assembly alike,
 **unauthorized**. **No solver row is added** for authority, lineage or envelope validation, and
 an authority file causes no provider call. No LB solve ran to produce this correction.
+
+---
+
+# PE-114 … PE-126 — exact-head review at `67c8c23` was NOT APPROVED
+
+**Review disposition:**
+`RP_D_LC_001B_PREFLIGHT_EXACT_HEAD_REVIEW_NOT_APPROVED_C9_RUNTIME_BUNDLE_AND_RECORD_ASSURANCE_REQUIRED`
+
+**Reviewed head:** `67c8c235bf4bb9327b36f84b047cfd861334afac`
+**Reviewed tree:** `123a6bc2ee27a8053d4ffbd1fbc4d386dda49d68`
+
+Ninth review; ninth NOT APPROVED. C9 is a **runtime-bundle, case-record, audit,
+replicate-assurance, authorization-cohort and current-documentation** correction. It changes
+**execution readiness only**. It alters no apparatus, no geometry, no gate, no tolerance, no safety
+factor, no candidate family, no selection rule, no admission and no claim ceiling, and it
+authorizes and executes nothing.
+
+Where any earlier text conflicts with the effective C9 sections, **C9 governs**; nothing above
+this line is rewritten.
+
+**PRE-EXECUTION THROUGHOUT.** No RP-D-LC-001b lattice-Boltzmann solve has run at any point in
+this lineage, including under C9. `AUTHORISED_SOLVING_PHASES = ()`,
+`AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False` at the C9 head, and
+P0, P1a, P1b, P2a, P2b, P3 and P4 all remain unauthorized.
+
+## What the C9 review ACCEPTED and this correction preserves unchanged
+
+Every accepted C7 scientific outcome; **both C7 judgment calls**; **PE-66 unchanged**;
+**PE-113**'s correction of the historical preflight-status hash; committed source-authorization
+parsing **by AST**; production refusal at an unauthorized source commit; the separate P2b assembly
+gate; complete per-phase execution authorities; authority persistence **before the first provider
+call**; intrinsic predecessor-chain validation; records and diagnostic envelopes bound to the
+phase-authority file; self-authenticating diagnostic-failure envelopes; the named malformed-tau
+result-contract outcomes; selected and design-block P2b reconstruction; coordinated endpoint and
+authority tamper resistance; true pre-solve record/envelope/manifest resume; all current solving
+and assembly allowlists **empty**; `POST_FREEZE_EXECUTOR_READY = False`; **no Route B**; **no
+solver-core change**; no open mirror result before P3; RP-D-LC-001 **immutable** and
+`INVALID_EXECUTION`.
+
+**The deferred current-version boundary (§26.8) remains ACCEPTED as a P3/P4 prerequisite.** C9
+does **not** implement the post-freeze historical-version dispatcher.
+
+**No accepted scientific choice is reopened or retuned here.**
+
+## Superseded C8 machine-readable artifacts
+
+Retained alongside the C0 … C7 sets; **all nine generations are kept.**
+
+| artifact | superseded C8 SHA-256 (`67c8c23`) |
+|---|---|
+| `generated/protocol.json` | `49eed608319295135003f04c048349e6acaaa99004d9a0766591e35730b646c0` |
+| `generated/fixture_spec.json` | `d9dcfd2d5036aae82e11aafb6e60c7853dc2345e1e4fe295baea026e897d0b39` |
+| `generated/execution_matrix.json` | `696fc44d43fc974c9d89c7590912338251c3e9e65dd71528e65a98d4449d1ff0` |
+| `generated/preflight_status.json` | `ce6432eb80c86cb7d482dae6f210ca514e277b13aa60ca2136fd2a219d23b657` |
+
+The effective C9 replacements are recorded in **"Effective C9 machine-readable artifacts"** below.
+
+Superseded C8 counts: **703** rows = **698** decision-bearing (378 normal + 320 audits) + **2** tau
+diagnostic + **3** execution-assurance; **110** mandatory minimum, **591** refused, **511**
+same-field node-offset summaries. **No C8 count changes under C9** — every value is independently
+regenerated from one machine authority and retained only because it regenerated, and **no row is
+added** for a runtime-path check, a payload recomputation, an audit reconstruction or a cohort
+parse.
+
+## What C8 got wrong
+
+C8 proved that the recorded source commit authorized the stage, persisted the complete authority
+before the first provider call, and made predecessor lineage intrinsic. Five things it did not do:
+
+- **The production runtime bundle is inside the worktree the authority requires to be clean.**
+  `run_phase` falls back to `REPO_ROOT / vf.RUNS_REL` — `docs/analysis/rp_d_lc_001b/runs` — which
+  the tracked `.gitignore` does not exclude. So the documented production P0 command writes
+  untracked artifacts into the repository, and the very next phase's authority, which requires a
+  clean tree, cannot be constructed. The design defeats itself on the first real execution.
+
+- **Final case-record validation is weaker than resume validation.** `load_resumable_case_record`
+  recomputes the run status from the record's own step count and audit plan, and recomputes
+  `scientific_payload_sha256` from the record's own configuration, payload and mask.
+  `validate_case_record` — the validator every FINAL manifest uses — does neither. A record that
+  was never resumed is therefore held to a weaker standard than one that was.
+
+- **A fixed-step audit authenticates itself.** The executor validates an audit against its exact
+  normal base *before* execution. At final validation the audit's own stored `audit` object is fed
+  back into `effective_solver_config`, so the record proves only that it is internally consistent
+  with the audit plan it supplied. The base's existence, status, record hash and derived target
+  are never reconstructed.
+
+- **The manifest chooses which assurance relationships to report.** `validate_phase_manifest`
+  iterates `doc.get("replicates", [])`. It never derives the required set from the canonical
+  matrix, so an omitted replicate is invisible; it compares the two records' **stored** payload
+  hashes, so a coordinated pair of stale identities passes; and it calls neither
+  `assert_replicate_compatible` nor any check on `replicate_of_case_id`.
+
+- **The source says each phase gets its own authorization commit; the code requires one shared
+  source identity.** The driver's docstring and `AUTHORISATION_NOTE` both state that each phase is
+  added by its own reviewed source commit. `require_phase_manifests` requires every predecessor's
+  authority to carry the same `source_commit` and `source_tree`. Under sequential authorization
+  commits, P1a could never consume P0.
+
+Alongside those, the current README is stale at the reviewed head: it names §19/§20 (C1/C2) as the
+effective protocol and reports superseded C3/C4 counts, and its production P0 command silently
+selects the repository-internal runs directory.
+
+None of these is a defect of the apparatus or of any scientific gate.
+
+## C9 blockers
+
+| id | blocker | superseded C8 form | effective C9 form |
+|---|---|---|---|
+| PE-114 | **the production CLI defaults to a runtime bundle inside the worktree** | `run_phase` falls back to `REPO_ROOT / vf.RUNS_REL` = `docs/analysis/rp_d_lc_001b/runs`, and `--output` is documented as optional with "default: the bundle's `runs/`" | `PRODUCTION_RUNS_DIRECTORY_POLICY = EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY`. Every non-plan production mode — P0, P1a, P1b, P2a, P2b and eventually P3/P4 — REQUIRES an explicit `runs_dir` / `--output`; there is no default. `--mode plan` still needs none |
+| PE-115 | **the tracked `.gitignore` does not exclude that bundle** | no rule for `docs/analysis/rp_d_lc_001b/runs` exists in `.gitignore`, so P0 output is untracked-but-visible and `git status` is dirty | the durable fix is the policy above, not an ignore rule. A tracked ignore rule is added as defence in depth only; the validator may **never** rely on `.git/info/exclude`, a global gitignore, an environment-specific rule or an untracked local convention |
+| PE-116 | **P0 output therefore made the tree dirty before P1a authority construction** | `_build_execution_authority(require_clean=True)` refuses on a dirty tree; the default P0 output made it dirty, so a real P0→P1a sequence could not proceed | with the runtime bundle outside `REPO_ROOT` the repository stays clean across every phase, and a no-solver integration regression asserts exactly that |
+| PE-117 | **final case-record validation did not recompute run status** | `validate_case_record` checked only that `status ∈ RUN_STATUSES`; only `load_resumable_case_record` recomputed it | `validate_case_record` recomputes the status from `run_mode`, `completed_steps` and the reconstructed fixed-step target, requires exact equality with the stored field, and `case_decision_verdict()` is called on the RECOMPUTED status |
+| PE-118 | **final case-record validation did not recompute scientific-payload identity** | `scientific_payload_sha256` was recomputed only on the resume path; a record that was never resumed was never checked against its own contents | `scientific_payload_hash(exact effective configuration, compact payload, recomputed mask SHA-256)` is recomputed and required to equal the stored field at FINAL manifest validation. It remains a **consistency identity**, not an external cryptographic signature |
+| PE-119 | **resume validation was stronger than completed-manifest validation** | two validation paths of unequal strength, so whether a record was checked depended on whether the phase happened to be interrupted | ONE canonical pure validator is used by initial record construction, pre-solve exact resume, final phase-manifest validation, recursive P2b validation and later freeze validation. The final validator is by construction at least as strong as the resume validator |
+| PE-120 | **fixed-step audit base, hash, target and status were not independently reconstructed** | at final validation the audit's own stored `audit` object was fed back into `effective_solver_config`; the base row, base record, base status, base record hash and derived target were never reconstructed | for every executed fixed-step row, final validation requires non-null `audit_of_case_id`, locates that exact base row in the same canonical matrix, calls `assert_audit_compatible`, requires the base record to exist in the completed adjudicative set and to be `NORMAL_CONVERGED`, recomputes the base record's file SHA-256, derives `fixed_step_audit_plan()` from the base's own completed steps and status, and requires the audit's base ID, base record hash, target, min/max steps, run mode, effective configuration, completed steps and status to match that plan exactly. A missing, failed, incompatible or differently hashed base makes the audit **invalid**, and an invalid audit enters no numerical-discrepancy evidence, no forcing or resolution gate, no phase completion and no P2b |
+| PE-121 | **the replicate validator accepted whichever replicate list was supplied** | `for rep in doc.get("replicates", [])` — an omitted expected replicate was invisible and an extra entry was unconstrained | the required set is DERIVED from the canonical eligible rows whose `scientific_role` is `EXECUTION_ASSURANCE_REPLICATE`. A `PHASE_COMPLETE` manifest must carry exactly one entry for every such row: none omitted, none extra. A stopped phase represents an unexecuted assurance row through the frozen refusal semantics, never through an invented replicate verdict |
+| PE-122 | **replicate equality compared stored rather than recomputed payload hashes** | `records[base].get("scientific_payload_sha256") != records[rep].get(...)` — a coordinated pair of stale stored identities passed | both payload hashes are RECOMPUTED from each record's own effective configuration, compact payload and mask, and the equality verdict uses only the recomputed values. The manifest entry must carry those same recomputed values |
+| PE-123 | **final replicate validation did not recheck the base relationship** | neither `replicate_of_case_id` nor `assert_replicate_compatible` was consulted at final validation, and a replicate naming another replicate was unconstrained there | each expected replicate must carry `replicate_of_case_id`, that exact base row must be located, `assert_replicate_compatible` must pass, both records must be completed under the same phase authority and predecessor chain, the manifest `base_case_id` must equal `replicate_of_case_id`, and a replicate may never name another replicate. The frozen execution-assurance failure semantics are unchanged and are applied **before** a final manifest is persisted |
+| PE-124 | **source comments described separate per-phase authorization commits** | the driver docstring and `AUTHORISATION_NOTE` state that "each phase must be added to `AUTHORISED_SOLVING_PHASES` by its own reviewed source commit", while `require_phase_manifests` requires every predecessor authority to share this phase's `source_commit` and `source_tree` — so under sequential commits P1a could never consume P0 | the pre-freeze authorization is an ATOMIC SOURCE COHORT: `PREFREEZE_SOLVING_AUTHORIZATION_COHORT = ("P0", "P1a", "P1b", "P2a")` and `PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT = ("P2b",)`. At a committed head only two states are permitted — no pre-freeze phase authorized, or the complete cohort authorized in canonical order with P2b in the assembly allowlist. Every partial state is rejected. Each phase remains separately gated by its prerequisites, so execution does not become monolithic; P3/P4 require a later source commit and stay blocked by `POST_FREEZE_EXECUTOR_READY = False` |
+| PE-125 | **the README retained C1/C2 descriptions and superseded C3/C4 counts** | at the C8 exact head §4 still described `PROTOCOL.md` as "§19 (C1) and §20 (C2) the effective protocol, §20 governing", `PREFLIGHT_ERRATA.md` as "PE-0 … PE-21 across both generations", and §5 reported 383 normal solves, 144 pressure-plane diagnostics, 112 mandatory minimum, 847 adaptive maximum and 735 refused | README.md is a CURRENT guide, not an append-only protocol. It identifies C9 as effective, states the full C0 → … → C9 precedence, and reports only machine-derived current counts. Historical values live in this errata record, not in the current guide |
+| PE-126 | **the documented P0 command used the unsafe default output location** | `python -m puckworks.validation.slow.rp_d_lc_001b --mode P0` with no `--output`, which under PE-114 selected the repository-internal runs directory | every documented execution or assembly command carries an explicit external absolute-path placeholder, e.g. `--output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY`. No production P0 command that silently selects a repository-internal directory is provided anywhere in the bundle |
+
+## Not embedded in any scientific hash
+
+The runtime bundle's absolute pathname is a property of one workstation. The durable contract is
+the **location class** `OUTSIDE_REPOSITORY` together with the **contents** of the bundle — never a
+machine-specific path. No scientific hash, record identity, payload identity, manifest identity or
+authority hash contains the resolved runs directory.
+
+## Still deferred, unchanged
+
+The post-freeze historical-version boundary of §26.8 remains a recorded **P3/P4 prerequisite**.
+C9 does not implement the dispatcher, does not claim that current-`CORRECTION_VERSION` equality
+suffices for all future review commits, and keeps `POST_FREEZE_EXECUTOR_READY = False`.
+
+## What did NOT change in C9
+
+The common-mode-port apparatus · the lateral-only bridge geometry · **PE-66** · every forcing and
+resolution gate · every pressure control · the artifact, `c` and actual-`Ξ` uncertainty methods ·
+all four frozen tolerances · `NUMERICAL_DISCREPANCY_SAFETY_FACTOR = 2.0` · the `0.10·K`
+reachable-set margin · the candidate family · **one below plus three inside** · the reachable-set
+admission · the claim ceiling · the similarity law · the Route-A observable contract · **no
+solver-core change** · the scientific row set and every row `case_id` · the mandatory minimum of
+110 · **the allowlists, which remain empty** · **RP-D-LC-001 byte-unchanged** · and every phase,
+solving and assembly alike, **unauthorized**. **No solver row is added** for a runtime-path check,
+a payload recomputation, an audit reconstruction or a cohort parse, and none of that work is a
+provider invocation. No LB solve ran to produce this correction.
