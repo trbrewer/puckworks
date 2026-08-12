@@ -1,7 +1,8 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C9), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · P0–P2b COHORT SOURCE-AUTHORIZED
+PENDING EXACT-HEAD REVIEW BEFORE P0 BEGINS
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -35,10 +36,12 @@ Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 > matrix-derived set** whose payload equality is recomputed, not read from stored hashes. And the
 > pre-freeze authorization is **one atomic P0–P2b source cohort**, which is what the predecessor
 > gates already required.
-> **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
-> `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
-> exact-head review is required before the separate pre-freeze authorization commit, and P3/P4 need
-> a further correction and review of the real pre-freeze artifacts.
+> **The separate pre-freeze authorization commit has now been made.** At this exact head
+> `AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")`,
+> `AUTHORISED_ASSEMBLY_PHASES = ("P2b",)` and `POST_FREEZE_EXECUTOR_READY = False`, so the committed
+> state is `COMPLETE_PREFREEZE_COHORT_AUTHORIZED`. **No phase has run.** Another exact-head review is
+> required before P0 begins, and P3/P4 need a further correction and review of the real pre-freeze
+> artifacts.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
@@ -111,40 +114,57 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C9_RUNTIME_BUNDLE_AND_RECORD_ASSURANCE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C9
+RP_D_LC_001B_COMPLETE_PREFREEZE_COHORT_AUTHORIZED_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C9                  (effective; unchanged by this authorization)
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
-AUTHORISED_SOLVING_PHASES: ()
-AUTHORISED_ASSEMBLY_PHASES: ()
+AUTHORISED_SOLVING_PHASES: ("P0", "P1a", "P1b", "P2a")
+AUTHORISED_ASSEMBLY_PHASES: ("P2b",)
 POST_FREEZE_EXECUTOR_READY: False
-prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED
+prefreeze_cohort_state: COMPLETE_PREFREEZE_COHORT_AUTHORIZED
 ```
 
-Authorisation is **phase-specific** and empty, so all six solving phases raise
-`ExecutionNotAuthorised`. P3 and P4 additionally raise `PostFreezeExecutorNotReady` — a hard
-refusal that an allowlist edit cannot lift, because the approved instantiated-matrix loader has not
-yet passed exact-head review (erratum PE-76). Independently, P3 and P4 raise `FreezeMissing` (no
-freeze and no instantiated P3/P4 matrix exist) and every phase after P0 raises `ManifestMissing` for
-its predecessors — both checked *before* the allowlist, so neither gate is shadowed by it. All three
-refusals are asserted by test.
+**PREFLIGHT-C9 remains the effective protocol** (`PROTOCOL.md` §27). This head changes the
+**authorization state and nothing else**: no geometry, no candidate family, no mask, no forcing law
+or exact forcing value, no PE-66 scaling, no solver implementation, no measurement plane, no
+conserved quantity, no tolerance, no safety factor, no uncertainty equation, no forcing or resolution
+gate, no four-slot selection, no reachable-set admission, no matrix row, no `case_id`, and no claim
+ceiling. **No phase has yet run:** `solves_executed` is **0**, `lb_solver_invoked` is **false**, and
+no runs directory exists.
 
-**P0 through P2b require ONE common authorization head** (erratum PE-124). The pre-freeze allowlists
-are **atomic**: a committed head declares either no pre-freeze phase or the complete cohort
-`("P0", "P1a", "P1b", "P2a")` **plus** `("P2b",)`, and every partial state — P0 only, P0 plus P1a,
-solving phases without P2b, P2b without all four, a reordering, or the correct names in the wrong
-allowlist — is refused at the AST parse. That is what the predecessor gates already required:
-`require_phase_manifests` requires every predecessor's authority to carry the consuming phase's own
-`source_commit` and `source_tree`. Each phase nevertheless remains **separately gated** by its
-prerequisites, so a shared authorization head does not make execution monolithic. **P3 and P4 need a
-later source commit.**
+**The complete P0–P2b cohort is now source-authorized at this exact head** (erratum PE-124). The
+pre-freeze allowlists are **atomic**: a committed head declares either no pre-freeze phase or the
+complete cohort `("P0", "P1a", "P1b", "P2a")` **plus** `("P2b",)`, and every partial state — P0 only,
+P0 plus P1a, solving phases without P2b, P2b without all four, a reordering, or the correct names in
+the wrong allowlist — is refused at the AST parse. That is what the predecessor gates already
+required: `require_phase_manifests` requires every predecessor's authority to carry the consuming
+phase's own `source_commit` and `source_tree`.
 
-**Production execution requires an explicit external output directory** (erratum PE-114). There is
-no default: `PRODUCTION_RUNS_DIRECTORY_POLICY = EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY`, and one
+**Authorization is not a schedule.** The existing predecessor gates still control the order
+
+```
+P0 → P1a → P1b → P2a → P2b
+```
+
+Every phase after P0 raises `ManifestMissing` without a validated completion manifest for each of its
+prerequisites, so a shared authorization head does not let a later phase start early and does not
+make execution monolithic.
+
+**P3 and P4 remain unauthorized and not execution-ready.** They are absent from both allowlists;
+they raise `PostFreezeExecutorNotReady` — a hard refusal an allowlist edit cannot lift, because the
+approved instantiated-matrix loader has not passed exact-head review (erratum PE-76); and they
+independently raise `FreezeMissing`, since no freeze and no instantiated P3/P4 matrix exist. All of
+these refusals are asserted by test. **Stage B and Paper 4 remain unauthorized.**
+
+**Execution still requires an explicit external output directory** (erratum PE-114). There is no
+default: `PRODUCTION_RUNS_DIRECTORY_POLICY = EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY`, and one
 shared pure validator refuses a missing path, a relative path, the repository root, any descendant of
 it, a symlink whose resolved target lands inside it, and a file where the directory belongs — before
 authority construction, predecessor validation, any provider call and any artifact. The bundle's
 absolute pathname belongs to one workstation and enters **no** scientific hash.
+
+> **Another exact-head review is required before P0 begins.** Source authorization is a necessary
+> condition for execution, not a decision to execute. Nothing in this bundle has been computed.
 
 ### Planned work — every number machine-derived from `execution_matrix()`
 
@@ -172,7 +192,9 @@ separate pressure-diagnostic rows.
 Every count above is generated by `execution_matrix()` and asserted against it by test. **None of it
 has run.**
 
-## 6. Preflight commands (no solver runs)
+## 6. Commands
+
+These are safe: they read, generate or validate, and none of them can solve.
 
 ```
 python -m puckworks.analysis.rp_d_lc_001b_virtual_fixture --write
@@ -182,28 +204,34 @@ python -m puckworks.validation.slow.rp_d_lc_001b --mode plan     # prints the pl
 ```
 
 `--mode plan` reads the canonical matrix, writes nothing and needs no output path. **Every other
-mode requires an explicit absolute `--output` outside this repository** and has no default:
+mode requires an explicit absolute `--output` outside this repository** and has no default.
+
+> ### ⚠ P0 is now source-authorized and would START THE SOLVE
+>
+> Before this head, the command below refused on the empty allowlist. It no longer does. **Do not
+> run it until the exact-head review of this authorization commit has returned APPROVED**, and then
+> only into a real absolute path outside the checkout.
+>
+> ```
+> python -m puckworks.validation.slow.rp_d_lc_001b \
+>     --mode P0 \
+>     --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+> ```
+
+Everything after P0 still refuses at this head, because nothing has run:
 
 ```
-python -m puckworks.validation.slow.rp_d_lc_001b \
-    --mode P0 \
-    --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
-```
-
-Substitute a real absolute path outside the checkout. At this head every such command **REFUSES**:
-
-```
-# REFUSES: empty allowlist (ExecutionNotAuthorised)
-python -m puckworks.validation.slow.rp_d_lc_001b --mode P0  --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
-
-# REFUSES: the manifest gate is checked first (ManifestMissing)
+# REFUSES: the manifest gate is checked first (ManifestMissing — no validated P0 manifest exists)
 python -m puckworks.validation.slow.rp_d_lc_001b --mode P1a --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+
+# REFUSES: the manifest gate is checked first (ManifestMissing — the assembly needs P0…P2a)
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P2b --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
 
 # REFUSES: the freeze gate is checked first (PostFreezeExecutorNotReady / FreezeMissing)
 python -m puckworks.validation.slow.rp_d_lc_001b --mode P3  --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
 ```
 
-and the two unsafe forms refuse **before** any of those gates, with a frozen code:
+and the two unsafe output forms refuse **before** every one of those gates, with a frozen code:
 
 ```
 # REFUSES: RUNS_DIRECTORY_NOT_SUPPLIED — there is no default
@@ -215,7 +243,7 @@ python -m puckworks.validation.slow.rp_d_lc_001b --mode P0 --output "$PWD/docs/a
 
 **No production command in this bundle selects a repository-internal runs directory.**
 
-Heavy LB execution, when authorised, stays in `puckworks/validation/slow/` or local/Colab runs and
+Heavy LB execution, once reviewed, stays in `puckworks/validation/slow/` or local/Colab runs and
 **never** enters normal CI (CLAUDE.md rule 3).
 
 ## 7. Claim ceiling
@@ -235,13 +263,14 @@ that future experiment.
 
 ## 8. Next step
 
-**Substantive scientific review at an exact head** — of the apparatus, the similarity law, the
-conserved quantities and the negative controls — before any computation begins. The
-`PRE_EXECUTION_REVIEW.md` recommendation is unchanged: authorise **P0–P2b only** (ending at the
-bridge freeze) and review the freeze artifact again before P3, so that the blindness the design
-depends on is preserved.
+**Exact-head review of this authorization commit**, before P0 is run. The
+`PRE_EXECUTION_REVIEW.md` recommendation is unchanged and is what this head implements: authorise
+**P0–P2b only** (ending at the bridge freeze) and review the freeze artifact again before P3, so
+that the blindness the design depends on is preserved.
 
-Under erratum PE-124 that authorisation is **one commit**, not four: the separate reviewed
-authorization commit must name the **complete P0–P2b cohort at one head**, and it needs its own
-exact-head review. P3/P4 need a further correction beyond that — the approved instantiated-matrix
-loader and the deferred post-freeze historical-version dispatcher, neither of which exists.
+Under erratum PE-124 that authorisation is **one commit**, not four, and it has now been made — the
+allowlists name the complete P0–P2b cohort at one head. **Source authorization is a necessary
+condition for execution, not a decision to execute:** the review of this exact head is the remaining
+gate before P0 begins. P3/P4 need a further correction beyond that — the approved
+instantiated-matrix loader and the deferred post-freeze historical-version dispatcher, neither of
+which exists.

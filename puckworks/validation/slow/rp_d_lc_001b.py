@@ -56,12 +56,22 @@ REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 #: erratum PE-124: the PRE-FREEZE entries are ATOMIC. This tuple may contain none of
 #: ``vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT`` or all of it, in canonical order, and the parser
 #: refuses every partial state. It is not filled in one phase at a time.
-AUTHORISED_SOLVING_PHASES = ()
+#:
+#: AUTHORIZED at this exact head: the COMPLETE pre-freeze solving cohort. The committed state is
+#: ``COMPLETE_PREFREEZE_COHORT_AUTHORIZED``. This authorizes nothing beyond the pre-freeze cohort: P3
+#: and P4 are absent, and are independently hard-refused by POST_FREEZE_EXECUTOR_READY below.
+#:
+#: Authorization is not a schedule. The existing predecessor gates still control the order
+#: P0 -> P1a -> P1b -> P2a -> P2b: every phase after P0 refuses without a validated completion
+#: manifest for each of its prerequisites, so a shared authorization head does not let a later phase
+#: start early. Nothing has run at this head.
+AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")
 
 #: The SEPARATE assembly allowlist (erratum PE-39). P2b is arithmetic and must never share the
 #: solving gate: authorising P0-P2a must not authorise the assembly, and authorising the assembly
-#: must not authorise P3/P4. Both are empty at this head.
-AUTHORISED_ASSEMBLY_PHASES = ()
+#: must not authorise P3/P4. Both carry the pre-freeze cohort at this head, and neither names a
+#: phase belonging to the other gate.
+AUTHORISED_ASSEMBLY_PHASES = ("P2b",)
 
 #: The POST-FREEZE executor is NOT READY (erratum PE-76).
 #:
