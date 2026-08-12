@@ -4388,7 +4388,9 @@ def write_case_record(runs_dir, rec, allow_resume=True):
 
 
 #: The per-phase execution accounting a resume must report (erratum PE-74).
-EXECUTION_COUNT_FIELDS = ("n_newly_executed", "n_reused", "n_provider_calls", "n_completed",
+EXECUTION_COUNT_FIELDS = ("n_new_case_records", "n_new_diagnostic_failure_envelopes",
+                          "n_reused_case_records", "n_reused_diagnostic_failure_envelopes",
+                          "n_newly_executed", "n_reused", "n_provider_calls", "n_completed",
                           "n_failed", "n_refused", "n_diagnostic_completed",
                           "n_diagnostic_failed")
 
@@ -4460,6 +4462,289 @@ def load_resumable_case_record(runs_dir, row, authority, phase, predecessor_mani
         raise ResumeMismatch("the existing record for %r carries a scientific payload hash that "
                              "does not recompute from its own contents" % (row["case_id"],))
     return rec, path
+
+
+# ---- the NON-ADJUDICATIVE diagnostic-attempt failure envelope (errata PE-89 … PE-92) --------
+# C6 made a tau diagnostic that PRODUCED a record and then failed a scientific check nonblocking.
+# It did not make a tau ATTEMPT nonblocking: the role-aware classifier is reached only after the
+# provider call, the compact extraction, the record construction and the record write have all
+# succeeded, so a provider exception or a malformed result aborted P0 before ``diagnostic_failed``
+# could exist. A diagnostic whose attempt can kill the phase is not a diagnostic.
+#
+# The scope is NARROW and explicit. Only the TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE role is
+# eligible, only the categories below are caught, and authority, repository, persistence and
+# orchestration failures remain FATAL.
+
+DIAGNOSTIC_FAILURE_SCHEMA_VERSION = 1
+DIAGNOSTIC_FAILURE_PREFIX = "diagnostic_failure_"
+DIAGNOSTIC_ATTEMPT_STATUS = "DIAGNOSTIC_ATTEMPT_FAILED"
+
+#: The frozen failure codes a diagnostic-attempt envelope may carry (erratum PE-90/PE-91).
+DIAGNOSTIC_FAILURE_CODES = (
+    "DIAGNOSTIC_PROVIDER_EXCEPTION",          # the provider raised during THIS diagnostic call
+    "DIAGNOSTIC_RESULT_CONTRACT_INVALID",     # a missing field, wrong shape, incompatible array
+    "DIAGNOSTIC_RESULT_NONFINITE",            # a non-finite value rejected during extraction
+    "DIAGNOSTIC_SCIENTIFIC_EXTRACTION_FAILED",  # the compact science could not be formed
+)
+
+#: The stage of the attempt at which the failure occurred.
+DIAGNOSTIC_FAILURE_STAGES = ("PROVIDER_CALL", "RESULT_CONTRACT", "SCIENTIFIC_EXTRACTION",
+                             "RECORD_CONSTRUCTION")
+
+#: Roles for which a diagnostic-attempt failure envelope may be written AT ALL. Everything else
+#: keeps its existing fatal or phase-stopping semantics (erratum PE-89 §5.1).
+DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES = ("TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE",)
+
+#: Exceptions that are NEVER converted into a diagnostic result, whatever the row's role. An
+#: interrupt, an authority failure, a persistence failure or a broken executor invariant means
+#: the executor itself is not trustworthy (erratum PE-90 §5.2).
+DIAGNOSTIC_NEVER_CAUGHT = (KeyboardInterrupt, SystemExit, ExecutionAuthorityError,
+                           FreezeMissing, ManifestMissing, OSError, MemoryError)
+
+#: The longest sanitised failure message retained. A bounded message keeps the envelope
+#: canonical and strict-finite; the full traceback is retained only as a SHA-256.
+DIAGNOSTIC_MESSAGE_MAX = 400
+
+
+class DiagnosticAttemptFailed(RuntimeError):
+    """A row-local failure of a NON-ADJUDICATIVE diagnostic attempt (erratum PE-89).
+
+    Raised only for an eligible role and only for a frozen failure code. It is never raised for
+    an adjudicative row, and never for an authority, repository, persistence or orchestration
+    failure.
+    """
+
+    def __init__(self, code, stage, exc=None, detail=None):
+        if code not in DIAGNOSTIC_FAILURE_CODES:
+            raise ValueError("unknown diagnostic failure code %r" % (code,))
+        if stage not in DIAGNOSTIC_FAILURE_STAGES:
+            raise ValueError("unknown diagnostic failure stage %r" % (stage,))
+        self.code = code
+        self.stage = stage
+        self.exc = exc
+        self.detail = detail
+        super().__init__("%s at %s: %s" % (code, stage, detail or exc))
+
+
+def sanitise_failure_message(text):
+    """A bounded, single-line, ASCII-safe message. Never a path, never unbounded output."""
+    t = " ".join(str(text or "").split())
+    t = t.encode("ascii", "replace").decode("ascii")
+    if len(t) > DIAGNOSTIC_MESSAGE_MAX:
+        t = t[:DIAGNOSTIC_MESSAGE_MAX - 3] + "..."
+    return t
+
+
+def diagnostic_failure_filename(case_id: str) -> str:
+    """Deterministically derived from ``case_id``, exactly as a case record's name is."""
+    return "%s%s.json" % (DIAGNOSTIC_FAILURE_PREFIX,
+                          hashlib.sha256(case_id.encode("utf-8")).hexdigest())
+
+
+def make_diagnostic_failure_envelope(row, authority, predecessor_manifest_sha256, geometry,
+                                     failure, provenance_mode="PRODUCTION", audit=None,
+                                     traceback_text=None):
+    """The immutable record of a NON-ADJUDICATIVE diagnostic attempt that produced no result.
+
+    It fabricates NO scientific value, carries no NaN or infinity, and declares itself
+    ``NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE`` so nothing downstream can mistake it for
+    evidence (erratum PE-92).
+    """
+    role = row_scientific_role(row)
+    if role not in DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES:
+        raise ValueError(
+            "row %r carries the role %r; a diagnostic-attempt failure envelope may be written "
+            "only for %r (erratum PE-89)"
+            % (row["case_id"], role, list(DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES)))
+    if failure.code not in DIAGNOSTIC_FAILURE_CODES:          # pragma: no cover - guarded above
+        raise ValueError("unknown diagnostic failure code %r" % (failure.code,))
+    exc = failure.exc
+    doc = {
+        "schema_version": DIAGNOSTIC_FAILURE_SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "provenance_mode": provenance_mode,
+        "phase": row["phase"],
+        "case_id": row["case_id"],
+        "row": dict(row),
+        "row_sha256": row_sha256(row),
+        "scientific_role": role,
+        "source_commit": authority["source_commit"],
+        "source_tree": authority["source_tree"],
+        "execution_authority_sha256": record_hash(authority),
+        "predecessor_manifest_sha256": dict(predecessor_manifest_sha256),
+        "geometry_kind": geometry.get("kind"),
+        "mask_sha256": geometry.get("mask_sha256"),
+        "forcing_exact": dict(row["forcing_exact"]),
+        "forcing_repr": row["forcing_repr"],
+        "solver_config": effective_solver_config(row, backend=authority["backend"], audit=audit),
+        "backend": authority["backend"],
+        "provider_called": True,
+        "failure_stage": failure.stage,
+        "failure_code": failure.code,
+        "exception_class": (None if exc is None else type(exc).__name__),
+        "result_contract_class": failure.detail if exc is None else None,
+        "message": sanitise_failure_message(failure.detail or exc),
+        "traceback_sha256": (None if not traceback_text
+                             else hashlib.sha256(traceback_text.encode("utf-8")).hexdigest()),
+        "status": DIAGNOSTIC_ATTEMPT_STATUS,
+        "scientific": None,
+        "evidence_status": "NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE",
+        "declaration": (
+            "this document records that a NON-ADJUDICATIVE diagnostic attempt produced no "
+            "result. It fabricates no scientific value, enters no aggregate truth, no gate, no "
+            "uncertainty, no candidate evidence, no common_reference_evidence and no P2b "
+            "decision, and its presence does not stop the phase (errata PE-65, PE-89 … PE-92)."),
+    }
+    canonical_json(doc)                       # strict: no NaN/Inf anywhere in a bound envelope
+    return doc
+
+
+def validate_diagnostic_failure_envelope(doc, row=None, authority=None, phase=None,
+                                         provenance_mode=None):
+    """Fail-closed structural validation of a diagnostic-attempt failure envelope."""
+    for k in ("schema_version", "correction_version", "provenance_mode", "phase", "case_id",
+              "row", "row_sha256", "scientific_role", "source_commit", "source_tree",
+              "execution_authority_sha256", "failure_stage", "failure_code", "status",
+              "evidence_status", "provider_called"):
+        if k not in doc:
+            raise ValueError("diagnostic failure envelope is missing %r" % (k,))
+    if doc["schema_version"] != DIAGNOSTIC_FAILURE_SCHEMA_VERSION:
+        raise ValueError("diagnostic failure envelope schema version %r, expected %r"
+                         % (doc["schema_version"], DIAGNOSTIC_FAILURE_SCHEMA_VERSION))
+    if doc["correction_version"] != CORRECTION_VERSION:
+        raise ValueError("diagnostic failure envelope is from a superseded correction version")
+    if doc["status"] != DIAGNOSTIC_ATTEMPT_STATUS:
+        raise ValueError("diagnostic failure envelope carries status %r" % (doc["status"],))
+    if doc["evidence_status"] != "NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE":
+        raise ValueError("a diagnostic failure envelope must declare itself non-adjudicative")
+    if doc["failure_code"] not in DIAGNOSTIC_FAILURE_CODES:
+        raise ValueError("unknown diagnostic failure code %r" % (doc["failure_code"],))
+    if doc["failure_stage"] not in DIAGNOSTIC_FAILURE_STAGES:
+        raise ValueError("unknown diagnostic failure stage %r" % (doc["failure_stage"],))
+    if doc["scientific_role"] not in DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES:
+        raise ValueError(
+            "a diagnostic failure envelope may not be written for the role %r; an adjudicative "
+            "failure is never a diagnostic (erratum PE-89)" % (doc["scientific_role"],))
+    if doc.get("scientific") is not None:
+        raise ValueError("a diagnostic failure envelope may fabricate no scientific value")
+    if doc["provider_called"] is not True:
+        raise ValueError("a diagnostic failure envelope records a provider attempt")
+    if row is not None:
+        if doc["case_id"] != row["case_id"] or doc["row_sha256"] != row_sha256(row):
+            raise ValueError("diagnostic failure envelope %r was cited for row %r"
+                             % (doc["case_id"], row["case_id"]))
+        if row_scientific_role(row) != doc["scientific_role"]:
+            raise ValueError("diagnostic failure envelope %r carries the wrong role"
+                             % (doc["case_id"],))
+    if phase is not None and doc["phase"] != phase:
+        raise ValueError("diagnostic failure envelope belongs to phase %r, not %r"
+                         % (doc["phase"], phase))
+    if provenance_mode is not None and doc["provenance_mode"] != provenance_mode:
+        raise ValueError("diagnostic failure envelope provenance %r, expected %r"
+                         % (doc["provenance_mode"], provenance_mode))
+    if authority is not None:
+        if doc["execution_authority_sha256"] != record_hash(authority):
+            raise ValueError("diagnostic failure envelope does not bind the phase authority")
+        for k in ("source_commit", "source_tree"):
+            if doc[k] != authority[k]:
+                raise ValueError("diagnostic failure envelope %s does not match the authority"
+                                 % (k,))
+    canonical_json(doc)
+    return doc
+
+
+def write_diagnostic_failure_envelope(runs_dir, doc, allow_resume=True):
+    """Atomic, immutable, no-overwrite, exact-match resume — as for a case record."""
+    validate_diagnostic_failure_envelope(doc)
+    base = pathlib.Path(runs_dir)
+    base.mkdir(parents=True, exist_ok=True)
+    path = base / diagnostic_failure_filename(doc["case_id"])
+    rec_path = base / case_record_filename(doc["case_id"])
+    if rec_path.exists():
+        raise ValueError(
+            "case %r already has a normal case record; a record and a diagnostic-attempt "
+            "failure envelope may never coexist (erratum PE-92)" % (doc["case_id"],))
+    payload = canonical_json(doc) + "\n"
+    if path.exists():
+        if not allow_resume:                              # pragma: no cover - guarded by caller
+            raise FileExistsError("envelope %s already exists and overwrite is refused" % path)
+        if path.read_text() != payload:
+            raise ValueError(
+                "a diagnostic failure envelope already exists at %s and differs from the one "
+                "just produced; it is immutable (erratum PE-92)" % path)
+        return path, "REUSED_EXACT_MATCH"
+    tmp = base / (path.name + ".tmp")
+    tmp.write_text(payload)
+    tmp.replace(path)
+    return path, "WRITTEN"
+
+
+def read_diagnostic_failure_envelope(runs_dir, case_id):
+    path = pathlib.Path(runs_dir) / diagnostic_failure_filename(case_id)
+    if not path.exists():
+        raise ManifestMissing("diagnostic failure envelope for %r does not exist at %s"
+                              % (case_id, path))
+    doc = json.loads(path.read_text())
+    if doc.get("case_id") != case_id:
+        raise ValueError("the envelope file for %r carries case_id %r"
+                         % (case_id, doc.get("case_id")))
+    return doc, path
+
+
+def assert_no_coexisting_artifacts(runs_dir, case_id):
+    """A normal case record and a diagnostic-failure envelope may never coexist (PE-92)."""
+    base = pathlib.Path(runs_dir)
+    rec = base / case_record_filename(case_id)
+    env = base / diagnostic_failure_filename(case_id)
+    if rec.exists() and env.exists():
+        raise ResumeMismatch(
+            "case %r has BOTH a normal case record and a diagnostic-attempt failure envelope; "
+            "exactly one may exist and this fails closed (erratum PE-92)" % (case_id,))
+    return rec.exists(), env.exists()
+
+
+def load_resumable_diagnostic_failure(runs_dir, row, authority, phase,
+                                      predecessor_manifest_sha256, geometry,
+                                      provenance_mode="PRODUCTION", audit=None):
+    """Discover, reopen and fully validate an existing envelope BEFORE any provider call.
+
+    Returns ``(doc, path)`` for an EXACT match, ``None`` when none exists, and raises
+    :class:`ResumeMismatch` on any difference.
+    """
+    base = pathlib.Path(runs_dir)
+    path = base / diagnostic_failure_filename(row["case_id"])
+    if not path.exists():
+        return None
+    raw = path.read_text()
+    try:
+        doc = json.loads(raw)
+    except Exception as exc:                              # pragma: no cover - corrupt file
+        raise ResumeMismatch("the existing envelope at %s is not readable JSON: %s"
+                             % (path, exc))
+    if raw != canonical_json(doc) + "\n":
+        raise ResumeMismatch("the existing envelope at %s is not canonically serialised" % path)
+    try:
+        validate_diagnostic_failure_envelope(doc, row=row, authority=authority, phase=phase,
+                                             provenance_mode=provenance_mode)
+    except ValueError as exc:
+        raise ResumeMismatch("the existing envelope for %r does not validate: %s"
+                             % (row["case_id"], exc))
+    checks = (
+        ("predecessor_manifest_sha256", doc.get("predecessor_manifest_sha256"),
+         dict(predecessor_manifest_sha256)),
+        ("mask_sha256", doc.get("mask_sha256"), geometry.get("mask_sha256")),
+        ("geometry_kind", doc.get("geometry_kind"), geometry.get("kind")),
+        ("backend", doc.get("backend"), authority["backend"]),
+        ("solver_config", doc.get("solver_config"),
+         effective_solver_config(row, backend=authority["backend"], audit=audit)),
+    )
+    for name, got, want in checks:
+        if got != want:
+            raise ResumeMismatch(
+                "the existing envelope for %r differs on %r; a resume reuses an EXACT match and "
+                "otherwise fails closed WITHOUT calling the provider (errata PE-74, PE-92)"
+                % (row["case_id"], name))
+    return doc, path
 
 
 def read_case_record(runs_dir, case_id):
@@ -5645,9 +5930,54 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
             raise ManifestMissing("case %r was executed although the derived plan excludes it"
                                   % (cid,))
 
-    records, diagnostic_records, seen_hash = {}, {}, {}
+    records, diagnostic_records, diagnostic_failures, seen_hash = {}, {}, {}, {}
     for cid in sorted(executed_ids):
         entry = next(ledgers[n][cid] for n in EXECUTED_LEDGERS if cid in ledgers[n])
+        # PE-92: a diagnostic_failed entry may cite EITHER a normal record whose role-aware
+        # verdict failed OR a diagnostic-attempt failure envelope. It must say which.
+        kind_cited = entry.get("artifact_kind", "CASE_RECORD")
+        if kind_cited not in ("CASE_RECORD", "DIAGNOSTIC_FAILURE_ENVELOPE"):
+            raise ManifestMissing("case %r cites an unknown artifact kind %r"
+                                  % (cid, kind_cited))
+        has_rec, has_env = assert_no_coexisting_artifacts(base, cid)
+        if kind_cited == "DIAGNOSTIC_FAILURE_ENVELOPE":
+            if cid not in ledgers["diagnostic_failed"]:
+                raise ManifestMissing(
+                    "case %r cites a diagnostic-attempt failure envelope but is filed in %s; an "
+                    "envelope may only appear in diagnostic_failed (erratum PE-92)"
+                    % (cid, next(n for n in EXECUTED_LEDGERS if cid in ledgers[n])))
+            role = row_scientific_role(by_row[cid])
+            if role not in DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES:
+                raise ManifestMissing(
+                    "case %r carries the role %r; a diagnostic-attempt failure envelope may "
+                    "never stand for an adjudicative row (erratum PE-89)" % (cid, role))
+            env, epath = read_diagnostic_failure_envelope(base, cid)
+            raw = pathlib.Path(epath).read_bytes()
+            actual = hashlib.sha256(raw).hexdigest()
+            if entry.get("record_sha256") != actual:
+                raise ManifestMissing(
+                    "the %s manifest cites envelope hash %r for %r; the file hashes to %r"
+                    % (phase, entry.get("record_sha256"), cid, actual))
+            if raw.decode() != canonical_json(env) + "\n":
+                raise ManifestMissing("diagnostic envelope %r is not canonically serialised"
+                                      % (cid,))
+            validate_diagnostic_failure_envelope(
+                env, row=by_row[cid], authority=authority, phase=phase,
+                provenance_mode=doc.get("provenance_mode"))
+            if entry.get("row_sha256") != row_sha256(by_row[cid]):
+                raise ManifestMissing("the %s manifest cites the wrong row hash for %r"
+                                      % (phase, cid))
+            if entry.get("reason") != env["failure_code"]:
+                raise ManifestMissing(
+                    "case %r records failure code %r; the envelope carries %r"
+                    % (cid, entry.get("reason"), env["failure_code"]))
+            if entry.get("failure_stage") != env["failure_stage"]:
+                raise ManifestMissing("case %r records the wrong failure stage" % (cid,))
+            # kept OUT of _records, out of _diagnostic_records and out of every downstream use
+            diagnostic_failures[cid] = env
+            continue
+        if has_env:                                       # pragma: no cover - guarded above
+            raise ManifestMissing("case %r cites a case record while an envelope exists" % (cid,))
         rec, path = read_case_record(base, cid)
         raw = pathlib.Path(path).read_bytes()
         actual = hashlib.sha256(raw).hexdigest()
@@ -5700,10 +6030,22 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     if missing_counts:
         raise ManifestMissing("the %s manifest's execution accounting is missing %r"
                               % (phase, missing_counts))
+    # PE-74/PE-92: every provider call constructs exactly ONE new artifact -- a case record, or
+    # (for the non-adjudicative tau role only) a diagnostic-attempt failure envelope.
+    if ec["n_newly_executed"] != (ec["n_new_case_records"]
+                                  + ec["n_new_diagnostic_failure_envelopes"]):
+        raise ManifestMissing(
+            "the %s manifest's n_newly_executed is not the sum of its new case records and new "
+            "diagnostic envelopes (erratum PE-92)" % (phase,))
+    if ec["n_reused"] != (ec["n_reused_case_records"]
+                          + ec["n_reused_diagnostic_failure_envelopes"]):
+        raise ManifestMissing(
+            "the %s manifest's n_reused is not the sum of its reused case records and reused "
+            "diagnostic envelopes (erratum PE-92)" % (phase,))
     if ec["n_provider_calls"] != ec["n_newly_executed"]:
         raise ManifestMissing(
-            "the %s manifest reports %d provider calls for %d newly executed rows; a provider "
-            "call may only ever construct a NEW record (erratum PE-74)"
+            "the %s manifest reports %d provider calls for %d newly persisted artifacts; a "
+            "provider call may only ever construct a NEW artifact (errata PE-74, PE-92)"
             % (phase, ec["n_provider_calls"], ec["n_newly_executed"]))
     if ec["n_newly_executed"] + ec["n_reused"] != len(executed_ids):
         raise ManifestMissing(
@@ -5754,6 +6096,7 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
         doc["_phase_science"] = want_sci
     doc["_records"] = records
     doc["_diagnostic_records"] = diagnostic_records
+    doc["_diagnostic_failures"] = diagnostic_failures
     return doc
 
 

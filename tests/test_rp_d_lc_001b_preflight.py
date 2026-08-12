@@ -4982,3 +4982,233 @@ def test_a_tau_diagnostic_failure_does_not_block_the_whole_pipeline(tmp_path_fac
     # and the failed tau records never reached the decision
     assert not [r for r in doc["_predecessor_records"].values()
                 if r.get("kind") == "tau_cross_check"]
+
+
+# ==========================================================================================
+# 17. C7 correction regressions — PE-89 … PE-100
+# ==========================================================================================
+
+# ---- A. failed tau ATTEMPTS are nonblocking (errata PE-89 … PE-92) ---------------------------
+
+TAU_ATTEMPT_MODES = {
+    "raises": "DIAGNOSTIC_PROVIDER_EXCEPTION",
+    "no_steps": "DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+    "no_rho": "DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+    "no_uy": "DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+    "no_uz": "DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+    "bad_shape": "DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+    "nonfinite": "DIAGNOSTIC_RESULT_NONFINITE",
+}
+
+
+def _break_result(res, mode):
+    if mode == "no_steps":
+        res.pop("steps")
+    elif mode == "no_rho":
+        res.pop("rho")
+    elif mode == "no_uy":
+        res.pop("uy")
+    elif mode == "no_uz":
+        res.pop("uz")
+    elif mode == "bad_shape":
+        res["uy"] = np.zeros((3, 3, 3))
+    elif mode == "nonfinite":
+        res["rho"] = res["rho"] * np.nan
+    return res
+
+
+class _TauAttemptProvider:
+    """Breaks the tau diagnostic's ATTEMPT, never any decision-bearing row."""
+
+    def __init__(self, mode, kinds=TAU_KINDS):
+        self.mode = mode
+        self.kinds = kinds
+        self._inner = _pipeline_provider()
+        self.calls = 0
+
+    def __call__(self, **kw):
+        self.calls += 1
+        if kw["row"]["kind"] in self.kinds:
+            if self.mode == "raises":
+                raise RuntimeError("synthetic diagnostic provider failure")
+            return _break_result(self._inner(**kw), self.mode)
+        return self._inner(**kw)
+
+
+@pytest.fixture(scope="module")
+def tau_attempt_phases(tmp_path_factory):
+    out = {}
+    for mode in sorted(TAU_ATTEMPT_MODES):
+        d = tmp_path_factory.mktemp("tau_attempt_%s" % mode)
+        auth = vf.execution_authority("P0", require_clean=False)
+        prov = _TauAttemptProvider(mode)
+        man = drv._test_only_execute("P0", d, prov, auth)
+        out[mode] = (d, auth, man, prov)
+    return out
+
+
+@pytest.mark.parametrize("mode", sorted(TAU_ATTEMPT_MODES))
+def test_a_failed_tau_attempt_is_nonblocking_and_leaves_an_envelope(tau_attempt_phases, mode):
+    """Erratum PE-89: C6 reached the nonblocking classifier only AFTER a record existed."""
+    d, auth, man, prov = tau_attempt_phases[mode]
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert man["terminal_stop_reason"] is None
+    assert man["counts"]["failed"] == 0
+    assert man["counts"]["diagnostic_failed"] == 2
+    assert man["counts"]["diagnostic_completed"] == 0
+    for e in man["diagnostic_failed"]:
+        assert e["artifact_kind"] == "DIAGNOSTIC_FAILURE_ENVELOPE"
+        assert e["reason"] == TAU_ATTEMPT_MODES[mode]
+        assert e["scientific_role"] == "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"
+        env, path = vf.read_diagnostic_failure_envelope(d, e["case_id"])
+        vf.validate_diagnostic_failure_envelope(env, authority=auth, phase="P0",
+                                                provenance_mode="TEST_ONLY")
+        assert env["status"] == "DIAGNOSTIC_ATTEMPT_FAILED"
+        assert env["evidence_status"] == "NON_ADJUDICATIVE_NOT_SCIENTIFIC_EVIDENCE"
+        assert env["scientific"] is None            # NO fabricated scientific value
+        assert env["provider_called"] is True
+        assert env["failure_stage"] in vf.DIAGNOSTIC_FAILURE_STAGES
+        assert len(env["message"]) <= vf.DIAGNOSTIC_MESSAGE_MAX
+        assert path.read_text() == vf.canonical_json(env) + "\n"     # canonical + strict-finite
+        if mode == "raises":
+            assert env["exception_class"] == "RuntimeError"
+            assert env["traceback_sha256"] and len(env["traceback_sha256"]) == 64
+
+
+@pytest.mark.parametrize("mode", sorted(TAU_ATTEMPT_MODES))
+def test_a_failed_tau_attempt_leaves_p0_scientifically_complete(tau_attempt_phases, mode):
+    d, auth, man, prov = tau_attempt_phases[mode]
+    doc = vf.validate_phase_manifest("P0", d, authority=auth, require_production=False)
+    assert doc["_phase_science"]["complete"] is True and doc["_phase_science"]["pass"] is True
+    # the envelopes are retained SEPARATELY and enter nothing
+    assert len(doc["_diagnostic_failures"]) == 2
+    assert not (set(doc["_diagnostic_failures"]) & set(doc["_records"]))
+    assert not (set(doc["_diagnostic_failures"]) & set(doc["_diagnostic_records"]))
+    common = vf.common_reference_evidence(doc["_records"])
+    assert not (set(common["case_ids"]) & set(doc["_diagnostic_failures"]))
+    # P1a may consume it
+    vf.require_phase_manifests("P1a", runs_dir=d, authority=auth, require_production=False)
+
+
+@pytest.mark.parametrize("mode", sorted(TAU_ATTEMPT_MODES))
+def test_an_exact_envelope_resumes_with_zero_provider_calls(tau_attempt_phases, mode, tmp_path):
+    import shutil
+    d, auth, man, prov = tau_attempt_phases[mode]
+    work = tmp_path / ("resume_" + mode)
+    shutil.copytree(d, work)
+    (work / "manifest_P0.json").unlink()
+    again_prov = _TauAttemptProvider(mode)
+    again = drv._test_only_execute("P0", work, again_prov, auth)
+    assert again_prov.calls == 0
+    ec = again["execution_counts"]
+    assert ec["n_provider_calls"] == 0
+    assert ec["n_reused_diagnostic_failure_envelopes"] == 2
+    assert ec["n_new_diagnostic_failure_envelopes"] == 0
+    assert again["counts"]["diagnostic_failed"] == 2
+    for e in again["diagnostic_failed"]:
+        assert e["write_mode"] == "REUSED_EXACT_MATCH"
+
+
+@pytest.mark.parametrize("mode", ["raises", "nonfinite"])
+def test_the_same_failure_on_a_decision_bearing_row_is_never_a_diagnostic(tmp_path, mode):
+    """Erratum PE-89 §5.1: the nonblocking behaviour is scoped to the tau role ALONE."""
+    prov = _TauAttemptProvider(mode, kinds=("reference_blocked_ladder",))
+    auth = vf.execution_authority("P0", require_clean=False)
+    with pytest.raises((RuntimeError, ValueError, vf.NonFiniteValue)) as exc:
+        drv._test_only_execute("P0", tmp_path, prov, auth)
+    assert not isinstance(exc.value, vf.DiagnosticAttemptFailed)
+    assert not list(tmp_path.glob("diagnostic_failure_*.json"))
+
+
+def test_an_authority_or_persistence_failure_is_never_downgraded():
+    never = vf.DIAGNOSTIC_NEVER_CAUGHT
+    for cls in (KeyboardInterrupt, SystemExit, vf.ExecutionAuthorityError, vf.FreezeMissing,
+                vf.ManifestMissing, OSError, MemoryError):
+        assert cls in never, cls
+    src = inspect.getsource(drv._attempt_case)
+    assert "vf.DIAGNOSTIC_NEVER_CAUGHT" in src
+    # and there is NO undifferentiated catch-all around the whole row loop
+    loop = inspect.getsource(drv._orchestrate)
+    assert "except Exception" not in loop
+    assert "DiagnosticAttemptFailed" in loop
+
+
+def test_an_envelope_may_never_stand_for_an_adjudicative_row():
+    rows = vf.execution_matrix()["rows"]
+    dec = next(r for r in rows if vf.row_scientific_role(r) == "DECISION_BEARING")
+    auth = vf.execution_authority("P0", require_clean=False)
+    failure = vf.DiagnosticAttemptFailed("DIAGNOSTIC_PROVIDER_EXCEPTION", "PROVIDER_CALL",
+                                         exc=RuntimeError("x"))
+    with pytest.raises(ValueError) as exc:
+        vf.make_diagnostic_failure_envelope(dec, auth, {}, {"kind": "fixture"}, failure)
+    assert "may be written" in str(exc.value)
+    assert vf.DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES == (
+        "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE",)
+
+
+def test_a_record_and_an_envelope_may_never_coexist(tau_attempt_phases, tmp_path):
+    import shutil
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    work = tmp_path / "coexist"
+    shutil.copytree(d, work)
+    cid = man["diagnostic_failed"][0]["case_id"]
+    # forge a case record alongside the envelope
+    donor = json.loads((work / vf.case_record_filename(
+        man["completed"][0]["case_id"])).read_text())
+    (work / vf.case_record_filename(cid)).write_text(vf.canonical_json(donor) + "\n")
+    with pytest.raises(vf.ResumeMismatch) as exc:
+        vf.assert_no_coexisting_artifacts(work, cid)
+    assert "BOTH" in str(exc.value)
+    (work / "manifest_P0.json").unlink()
+    prov2 = _TauAttemptProvider("raises")
+    with pytest.raises(vf.ResumeMismatch):
+        drv._test_only_execute("P0", work, prov2, auth)
+    assert prov2.calls == 0
+
+
+def test_a_mismatched_existing_envelope_fails_before_the_provider(tau_attempt_phases, tmp_path):
+    import shutil
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    work = tmp_path / "bad_envelope"
+    shutil.copytree(d, work)
+    (work / "manifest_P0.json").unlink()
+    cid = man["diagnostic_failed"][0]["case_id"]
+    env, path = vf.read_diagnostic_failure_envelope(work, cid)
+    # a CHECKED field: the failure code itself is an output of the attempt and cannot be known
+    # without re-running, exactly as a record's step count cannot.
+    env["mask_sha256"] = "0" * 64
+    path.write_text(vf.canonical_json(env) + "\n")
+    prov2 = _TauAttemptProvider("raises")
+    with pytest.raises(vf.ResumeMismatch):
+        drv._test_only_execute("P0", work, prov2, auth)
+    assert prov2.calls == 0
+
+
+def test_an_envelope_filed_as_a_diagnostic_success_is_refused(tau_attempt_phases, tmp_path):
+    import shutil
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    work = tmp_path / "misfiled"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    entry = doc["diagnostic_failed"].pop()
+    doc["diagnostic_completed"].append(entry)
+    doc["counts"]["diagnostic_failed"] -= 1
+    doc["counts"]["diagnostic_completed"] += 1
+    doc["execution_counts"]["n_diagnostic_failed"] -= 1
+    doc["execution_counts"]["n_diagnostic_completed"] += 1
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+    assert "diagnostic_failed" in str(exc.value)
+
+
+def test_the_provider_call_accounting_covers_both_new_artifact_classes(tau_attempt_phases):
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    ec = man["execution_counts"]
+    assert ec["n_provider_calls"] == prov.calls
+    assert ec["n_newly_executed"] == (ec["n_new_case_records"]
+                                      + ec["n_new_diagnostic_failure_envelopes"])
+    assert ec["n_provider_calls"] == ec["n_newly_executed"]
+    assert ec["n_new_diagnostic_failure_envelopes"] == 2
+    assert ec["n_reused"] == (ec["n_reused_case_records"]
+                              + ec["n_reused_diagnostic_failure_envelopes"])
