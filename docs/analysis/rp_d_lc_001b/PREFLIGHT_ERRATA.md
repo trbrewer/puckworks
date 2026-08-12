@@ -1761,7 +1761,7 @@ head actually carries.
 | `generated/protocol.json` | `69358ddf1a38a86a2668fdd2337ef791b6e2d54ec94659b7c303b59889c68118` |
 | `generated/fixture_spec.json` | `c73fcd410f69b9f7d1083ce9ad186574467bf09e0fa451d832cc1784a71657b3` |
 | `generated/execution_matrix.json` | `6817f79ca3c3cab51b8e500e19f05c7df9c9a3fba9c1e9f96e69250adf92696e` |
-| `generated/preflight_status.json` | `5da7b701a4fce31b67383ffa82f4514562f99eb0957f929443131892c5239d97` |
+| `generated/preflight_status.json` | `5c4d4e3cf668e336f21921accf268ceb7eb0d1c70cb08647e35f078a3c181914` (was `5da7b701a4fce31b67383ffa82f4514562f99eb0957f929443131892c5239d97` before the pre-freeze authorization commit) |
 
 `fixture_spec.json` moved only because it carries `correction_version`; no geometry, mask hash or
 topology audit changed. `execution_matrix.json` moved for the same reason plus the derived
@@ -1774,6 +1774,24 @@ Effective C9 counts, each independently regenerated: **703** rows = **698** deci
 normal + 320 audits) + **2** tau diagnostic + **3** execution-assurance; **703** planned provider
 invocations; **110** mandatory minimum; **591** refused after the earliest stop; **511** same-field
 node-offset summaries; **0** separate pressure-diagnostic rows; **0** solves executed.
+
+### The pre-freeze authorization commit
+
+The separate reviewed authorization commit that §27.5 reserves has since been made, on top of the C9
+head. It changes **only** the three source-controlled authorization constants to
+`AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")`,
+`AUTHORISED_ASSEMBLY_PHASES = ("P2b",)` and `POST_FREEZE_EXECUTOR_READY = False`, giving the committed
+state `COMPLETE_PREFREEZE_COHORT_AUTHORIZED`.
+
+**`PREFLIGHT-C9` remains the effective correction version, and this is NOT a new erratum.** The
+transition is the expected next step PE-124 and §27.5 already specify, not a defect. Of the four
+controlled artifacts only `preflight_status.json` moves, because only it carries the authorization
+state and the driver's own file hash; `protocol.json`, `fixture_spec.json` and
+`execution_matrix.json` are **byte-identical**, all 703 rows and all 703 `case_id`s are
+byte-identical, and every count above is unchanged. **No phase has run:** `solves_executed` remains
+**0**, P3 and P4 remain absent from both allowlists and remain hard-refused by
+`POST_FREEZE_EXECUTOR_READY = False`, execution still requires an explicit absolute output directory
+outside the repository, and another exact-head review is required before P0 begins.
 
 ## Not embedded in any scientific hash
 

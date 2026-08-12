@@ -877,13 +877,18 @@ def _all_manifests(runs, phases=("P0", "P1a", "P1b", "P2a", "P2b", "P3")):
     return {ph: _manifest(ph, runs) for ph in phases}
 
 
-def test_authorisation_is_phase_specific_and_empty_at_this_head():
+def test_authorisation_is_phase_specific_and_carries_only_the_prefreeze_cohort():
     """Erratum PE-11: one boolean would have authorised the primary experiment and Arm J in the
-    same act as the pre-freeze phases."""
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    same act as the pre-freeze phases. The cohort authorized here contains neither."""
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
+    for post in drv.POST_FREEZE_PHASES:
+        assert post not in drv.AUTHORISED_SOLVING_PHASES
+        assert post not in drv.AUTHORISED_ASSEMBLY_PHASES
     assert not hasattr(drv, "EXECUTION_AUTHORISED")
     src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
-    assert "AUTHORISED_SOLVING_PHASES = ()" in src          # source-controlled, not a flag
+    # source-controlled, not a flag
+    assert 'AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")' in src
     # and it is not reachable from the process environment or a command-line switch
     tree = ast.parse(src)
     names = {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
@@ -2334,8 +2339,10 @@ def test_p2b_makes_no_solver_call_and_has_its_own_authority_gate():
     body = inspect.getsource(drv.execute_phase)
     assert "assemble_p2b_from_runs" in body
     assert "require_assembly_authorisation" in body
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    # the assembly allowlist is SEPARATE from the solving one, in both directions (PE-39)
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
+    assert "P2b" not in drv.AUTHORISED_SOLVING_PHASES
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
     assert "solver_records" in inspect.getsource(vf._p2b_decision_core)
 
 
@@ -3921,8 +3928,11 @@ def test_the_successful_p2b_branch_selects_one_below_and_three_inside(synthetic_
         assert (d / name).exists(), name
     # the adaptive pruning really happened, and P3/P4 stay unauthorized
     assert fz["p3_p4_authorised"] is False
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    # the pre-freeze cohort is authorized; P3/P4 are not, in either allowlist
+    assert drv.AUTHORISED_SOLVING_PHASES == vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == vf.PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT
+    assert not set(drv.POST_FREEZE_PHASES) & (set(drv.AUTHORISED_SOLVING_PHASES)
+                                              | set(drv.AUTHORISED_ASSEMBLY_PHASES))
 
 
 def test_the_successful_branch_reopens_and_revalidates_every_artifact(synthetic_p2b):
@@ -4250,7 +4260,12 @@ def test_the_post_freeze_deferral_is_explicit_and_names_the_reserved_work():
     for phrase in ("exact-head review", "planning TEMPLATES", "unresolved placeholder",
                    "phase universe", "later authorization tranche"):
         assert phrase in note, phrase
-    assert drv.AUTHORISED_SOLVING_PHASES == () and drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    # the pre-freeze cohort is authorized and P3/P4 are still absent and still not ready
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
+    assert drv.POST_FREEZE_EXECUTOR_READY is False
+    for post in drv.POST_FREEZE_PHASES:
+        assert post not in drv.AUTHORISED_SOLVING_PHASES
 
 
 # ---- negative end-to-end cases (§10.3) -------------------------------------------------------
@@ -6164,7 +6179,10 @@ def test_the_p2b_authority_carries_and_hashes_its_authorization(synthetic_p2b):
     assert aa["source_authorization"] == nested["source_authorization"]
     assert aa["authority_provenance"] == nested["authority_provenance"] == "TEST_ONLY"
     assert aa["source_authorization"]["required_gate"] == "ASSEMBLY"
-    assert aa["source_authorization"]["stage_authorised"] is False
+    # P2b is source-authorized at this head; the snapshot records the true committed state
+    assert aa["source_authorization"]["stage_authorised"] is True
+    assert aa["source_authorization"]["prefreeze_cohort_state"] == (
+        "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
     assert aa["assembly_authority_sha256"] == vf.record_hash(
         {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
     # the P2b phase-authority artifact is persisted and bound
@@ -6199,14 +6217,15 @@ def test_coordinated_p2b_authorization_tampering_is_rejected(synthetic_p2b, tmp_
     aa = doc["assembly_authority"]
     nested = dict(aa["execution_authority"])
     snap = dict(nested["source_authorization"])
+    # each forged value must DIFFER from the true committed snapshot, which now carries the cohort
     if name == "snapshot_stage_authorised":
-        aa["source_authorization"] = dict(snap, stage_authorised=True)
+        aa["source_authorization"] = dict(snap, stage_authorised=False)
     elif name == "nested_stage_authorised":
-        snap = dict(snap, stage_authorised=True)
+        snap = dict(snap, stage_authorised=False)
     elif name == "solving_list":
-        snap = dict(snap, authorised_solving_phases=["P0", "P1a", "P1b", "P2a"])
+        snap = dict(snap, authorised_solving_phases=["P0"])
     elif name == "assembly_list":
-        snap = dict(snap, authorised_assembly_phases=["P2b"], stage_authorised=True)
+        snap = dict(snap, authorised_assembly_phases=[], stage_authorised=False)
     elif name == "driver_hash":
         snap = dict(snap, driver_file_sha256="0" * 64)
     elif name == "gate_type":
