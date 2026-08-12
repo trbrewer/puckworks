@@ -4981,14 +4981,63 @@ def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scie
     }
 
 
+#: Every identity-bearing field a bound case record must carry. A MISSING identity field is a
+#: defect, never a default (erratum PE-119): the superseded key list omitted the geometry, the mask,
+#: the backend, the dependency identity, the configuration hashes, the audit object and the
+#: scientific-payload identity, so a record could omit any of them and still validate.
+CASE_RECORD_IDENTITY_FIELDS = (
+    "schema_version", "correction_version", "phase", "case_id", "row_sha256", "row",
+    "forcing_exact", "forcing_repr", "kind", "geometry", "mask_sha256",
+    "source_commit", "source_tree", "execution_authority_sha256", "phase_authority_file_sha256",
+    "protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256",
+    "backend", "dependencies", "predecessor_manifest_sha256", "run_mode", "completed_steps",
+    "status", "audit", "scientific", "scientific_payload_sha256", "solver_config",
+    "provenance_mode",
+)
+
+
+def recomputed_case_status(rec, audit=None):
+    """One record's run status, RECOMPUTED from its own run mode and step count (erratum PE-117).
+
+    For a fixed-step record the target comes from the supplied ``audit`` plan — which at final
+    validation is the plan reconstructed from the record's exact NORMAL base (erratum PE-120), not
+    the plan the record supplied for itself.
+    """
+    target = None
+    if rec.get("run_mode") == "FIXED_STEP_REEXECUTION_1P5X":
+        plan = audit if audit is not None else rec.get("audit")
+        if not isinstance(plan, dict) or "target_steps" not in plan:
+            raise ValueError(
+                "case record %r is a fixed-step re-execution and carries no audit target; its "
+                "status cannot be recomputed (erratum PE-117)" % (rec.get("case_id"),))
+        target = int(plan["target_steps"])
+    return run_status(rec["run_mode"], rec["completed_steps"], target_steps=target)
+
+
 def validate_case_record(rec, row=None, authority=None, phase=None,
-                        expected_predecessors=None, phase_authority_file_sha256=None):
-    """Fail-closed structural validation. Raises with the first defect found."""
-    for k in ("schema_version", "correction_version", "phase", "case_id", "row_sha256", "row",
-              "forcing_exact", "forcing_repr", "source_commit", "source_tree",
-              "execution_authority_sha256", "phase_authority_file_sha256",
-              "predecessor_manifest_sha256", "run_mode", "completed_steps", "status",
-              "scientific", "solver_config", "provenance_mode"):
+                        expected_predecessors=None, phase_authority_file_sha256=None,
+                        geometry=None, audit=None, provenance_mode=None):
+    """The ONE canonical case-record validator (erratum PE-119).
+
+    Used by initial record construction, by pre-solve exact resume, by final phase-manifest
+    validation, by the recursive P2b walk and by later freeze validation where records are
+    reopened. C8 had two paths of unequal strength: ``load_resumable_case_record`` recomputed the
+    run status and the scientific-payload identity from the record's own contents, and this
+    function — the one every FINAL manifest uses — did neither. Whether a record was checked
+    against itself therefore depended on whether the phase happened to be interrupted.
+
+    With ``row`` supplied the check is EXACT and row-derived: the geometry is resolved from the
+    canonical row (no solver, no provider, no field), the effective solver configuration is
+    recomputed, the run status is recomputed (erratum PE-117) and
+    ``scientific_payload_sha256`` is recomputed (erratum PE-118). The payload hash remains a
+    CONSISTENCY identity over the configuration, the compact outputs and the mask — it is not an
+    external cryptographic signature and nothing here claims otherwise.
+
+    ``audit`` is the authoritative fixed-step plan. Final validation passes the plan reconstructed
+    from the exact normal base (erratum PE-120); a record may not authenticate itself with the
+    audit object it carries.
+    """
+    for k in CASE_RECORD_IDENTITY_FIELDS:
         if k not in rec:
             raise ValueError("case record is missing %r" % (k,))
     if rec["correction_version"] != CORRECTION_VERSION:
@@ -5044,14 +5093,82 @@ def validate_case_record(rec, row=None, authority=None, phase=None,
                 % (phase, authority["stage"]))
     if rec["provenance_mode"] not in ("PRODUCTION", "TEST_ONLY"):
         raise ValueError("unknown provenance_mode %r" % (rec["provenance_mode"],))
+    if provenance_mode is not None and rec["provenance_mode"] != provenance_mode:
+        raise ValueError("case record %r carries provenance_mode %r, not %r"
+                         % (rec.get("case_id"), rec["provenance_mode"], provenance_mode))
     if row is not None:
-        want = effective_solver_config(row, backend=rec["backend"],
-                                       audit=rec.get("audit"))
+        # ---- erratum PE-119 §6.1: EXACT row-derived identity ---------------------------------
+        # The embedded row must BE the canonical row, not merely hash to the same value, and every
+        # field the record derives from it must equal the row's own. C8 required top-level
+        # forcing_exact and forcing_repr to agree with EACH OTHER; neither was compared with the
+        # canonical row, so a coherent pair of wrong values passed.
+        if dict(rec["row"]) != dict(row):
+            raise ValueError(
+                "case record %r embeds a row that is not the canonical matrix row (erratum PE-119)"
+                % (rec.get("case_id"),))
+        for f, want_v in (("phase", row["phase"]), ("kind", row["kind"]),
+                          ("run_mode", row["run_mode"]),
+                          ("forcing_exact", dict(row["forcing_exact"])),
+                          ("forcing_repr", row["forcing_repr"])):
+            if rec.get(f) != want_v:
+                raise ValueError(
+                    "case record %r records %s=%r; its canonical row carries %r (erratum PE-119)"
+                    % (rec.get("case_id"), f, rec.get(f), want_v))
+        for f in ("audit_of_case_id", "replicate_of_case_id"):
+            if rec["row"].get(f) != row.get(f):        # pragma: no cover - row equality covers it
+                raise ValueError("case record %r records the wrong %s" % (rec.get("case_id"), f))
+        # the geometry is RESOLVED from the canonical row: no solver, no provider, no field
+        want_geom = dict(geometry) if geometry is not None else row_geometry_identity(row)
+        got_geom = dict(rec.get("geometry") or {})
+        for gk in ("kind", "mask_sha256", "S", "shape", "bridge", "state", "variant",
+                   "obstructed"):
+            if got_geom.get(gk) != want_geom.get(gk):
+                raise ValueError(
+                    "case record %r records geometry %s=%r; its canonical row resolves to %r "
+                    "(errata PE-110, PE-119)"
+                    % (rec.get("case_id"), gk, got_geom.get(gk), want_geom.get(gk)))
+        if rec.get("mask_sha256") != want_geom.get("mask_sha256"):
+            raise ValueError("case record %r records a mask its row does not resolve to"
+                             % (rec.get("case_id"),))
+        if list(rec.get("fixture_dimensions") or ()) != list(want_geom.get("shape") or ()):
+            raise ValueError("case record %r records fixture dimensions its row does not resolve to"
+                             % (rec.get("case_id"),))
+        # ---- the effective solver configuration, from the AUTHORITATIVE audit plan -------------
+        plan = audit if audit is not None else rec.get("audit")
+        if row["run_mode"] == "FIXED_STEP_REEXECUTION_1P5X" and not isinstance(plan, dict):
+            raise ValueError(
+                "case record %r is a fixed-step re-execution and no audit plan is available; a "
+                "fixed-step record may not be validated without one (erratum PE-120)"
+                % (rec.get("case_id"),))
+        if row["run_mode"] != "FIXED_STEP_REEXECUTION_1P5X" and rec.get("audit") is not None:
+            raise ValueError(
+                "case record %r is a %s run and carries an audit object; only a fixed-step "
+                "re-execution may (erratum PE-117)" % (rec.get("case_id"), row["run_mode"]))
+        if audit is not None and dict(rec.get("audit") or {}) != dict(audit):
+            raise ValueError(
+                "case record %r carries an audit plan that is not the one reconstructed from its "
+                "exact normal base (erratum PE-120)" % (rec.get("case_id"),))
+        want = effective_solver_config(row, backend=rec["backend"], audit=plan)
         if rec["solver_config"] != want:
             raise ValueError(
                 "the record's effective solver configuration is not the one the canonical row "
                 "requires (erratum PE-35): recorded %r, required %r"
                 % (rec["solver_config"], want))
+        # ---- erratum PE-117: RECOMPUTE the run status ------------------------------------------
+        want_status = recomputed_case_status(rec, audit=plan)
+        if rec["status"] != want_status:
+            raise ValueError(
+                "case record %r carries status %r; its own run mode, completed steps and audit "
+                "plan recompute as %r (erratum PE-117)"
+                % (rec.get("case_id"), rec["status"], want_status))
+        # ---- erratum PE-118: RECOMPUTE the scientific-payload identity -------------------------
+        want_payload = scientific_payload_hash(want, rec.get("scientific"),
+                                               want_geom.get("mask_sha256"))
+        if rec.get("scientific_payload_sha256") != want_payload:
+            raise ValueError(
+                "case record %r carries a scientific payload hash that does not recompute from "
+                "its own effective configuration, compact payload and mask (erratum PE-118)"
+                % (rec.get("case_id"),))
     # erratum PE-106: the predecessor map is compared at FINAL validation, not only on resume
     if expected_predecessors is not None:
         if dict(rec.get("predecessor_manifest_sha256") or {}) != dict(expected_predecessors):
@@ -5358,43 +5475,23 @@ def load_resumable_case_record(runs_dir, row, authority, phase, predecessor_mani
     if rec.get("case_id") != row["case_id"]:
         raise ResumeMismatch("the record file for %r carries case_id %r"
                              % (row["case_id"], rec.get("case_id")))
+    # erratum PE-119: ONE canonical validator. The resume path no longer carries a second, private
+    # set of checks that final validation lacks — the status recomputation, the payload
+    # recomputation and the exact row-derived identity all live in validate_case_record now, so the
+    # final manifest validator is by construction at least as strong as this one.
     try:
         validate_case_record(rec, row=row, authority=authority, phase=phase,
                              expected_predecessors=predecessor_manifest_sha256,
-                             phase_authority_file_sha256=phase_authority_file_sha256)
+                             phase_authority_file_sha256=phase_authority_file_sha256,
+                             geometry=geometry, audit=audit, provenance_mode=provenance_mode)
     except ValueError as exc:
-        raise ResumeMismatch("the existing record for %r does not validate against its row, "
-                             "authority or configuration: %s" % (row["case_id"], exc))
-    checks = (
-        ("execution_authority_sha256", rec.get("execution_authority_sha256"),
-         record_hash(authority)),
-        ("predecessor_manifest_sha256", rec.get("predecessor_manifest_sha256"),
-         dict(predecessor_manifest_sha256)),
-        ("geometry", rec.get("geometry"), dict(geometry)),
-        ("mask_sha256", rec.get("mask_sha256"), geometry.get("mask_sha256")),
-        ("provenance_mode", rec.get("provenance_mode"), provenance_mode),
-        ("backend", rec.get("backend"), authority["backend"]),
-        ("run_mode", rec.get("run_mode"), row["run_mode"]),
-        ("audit", rec.get("audit"), (None if audit is None else dict(audit))),
-    )
-    for name, got, want in checks:
-        if got != want:
-            raise ResumeMismatch(
-                "the existing record for %r differs on %r; a resume reuses an EXACT match and "
-                "otherwise fails closed WITHOUT calling the provider (erratum PE-74)"
-                % (row["case_id"], name))
-    want_status = run_status(rec["run_mode"], rec["completed_steps"],
-                             target_steps=(None if audit is None else int(audit["target_steps"])))
-    if rec.get("status") != want_status:
         raise ResumeMismatch(
-            "the existing record for %r carries status %r; its own step count and audit plan "
-            "recompute as %r" % (row["case_id"], rec.get("status"), want_status))
-    want_payload = scientific_payload_hash(
-        effective_solver_config(row, backend=authority["backend"], audit=audit),
-        rec.get("scientific"), geometry.get("mask_sha256"))
-    if rec.get("scientific_payload_sha256") != want_payload:
-        raise ResumeMismatch("the existing record for %r carries a scientific payload hash that "
-                             "does not recompute from its own contents" % (row["case_id"],))
+            "the existing record for %r does not validate against its row, authority, geometry, "
+            "audit plan or configuration; a resume reuses an EXACT match and otherwise fails "
+            "closed WITHOUT calling the provider (erratum PE-74): %s" % (row["case_id"], exc))
+    if rec.get("execution_authority_sha256") != record_hash(authority):
+        raise ResumeMismatch(   # pragma: no cover - validate_case_record checks the same hash
+            "the existing record for %r cites a different execution authority" % (row["case_id"],))
     return rec, path
 
 

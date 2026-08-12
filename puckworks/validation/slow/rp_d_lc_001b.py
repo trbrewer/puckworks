@@ -795,7 +795,10 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
         # erratum PE-79: the ROLE-AWARE classifier decides both the ledger and the effect. A
         # non-adjudicative diagnostic is filed in its own ledger and NEVER stops the phase, valid
         # or not; an adjudicative failure stops it exactly as before.
-        verdict = vf.case_decision_verdict(row, sci, rec["status"])
+        # erratum PE-117: the RECOMPUTED status, from the record's own run mode, step count and
+        # audit plan — never the stored field.
+        verdict = vf.case_decision_verdict(row, sci,
+                                           vf.recomputed_case_status(rec, audit=audit_plan))
         entry["scientific_role"] = verdict["scientific_role"]
         if not verdict["pass"]:
             entry["reason"] = verdict["reason"]
