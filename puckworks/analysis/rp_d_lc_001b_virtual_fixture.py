@@ -4755,7 +4755,7 @@ def effective_solver_config(row, backend="reference", audit=None):
 
 def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scientific,
                      completed_steps, run_mode="NORMAL", audit=None, provenance_mode="PRODUCTION",
-                     scientific_payload_sha256=None):
+                     scientific_payload_sha256=None, phase_authority_file_sha256=None):
     """One immutable compact case record. No large fields; no non-finite values (the canonical
     writer enforces both)."""
     if run_mode not in RUN_MODES:
@@ -4778,7 +4778,10 @@ def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scie
         "mask_sha256": geometry.get("mask_sha256"),
         "source_commit": authority["source_commit"],
         "source_tree": authority["source_tree"],
-        "execution_authority_sha256": record_hash(authority),
+        "execution_authority_sha256": execution_authority_sha256(authority),
+        # erratum PE-105: the artifact that holds the authority's PREIMAGE, so a partial record
+        # set is independently interpretable before the final manifest exists.
+        "phase_authority_file_sha256": phase_authority_file_sha256,
         "protocol_config_sha256": authority["protocol_config_sha256"],
         "fixture_spec_sha256": authority["fixture_spec_sha256"],
         "execution_matrix_sha256": authority["execution_matrix_sha256"],
@@ -4797,11 +4800,13 @@ def make_case_record(row, authority, predecessor_manifest_sha256, geometry, scie
     }
 
 
-def validate_case_record(rec, row=None, authority=None, phase=None):
+def validate_case_record(rec, row=None, authority=None, phase=None,
+                        expected_predecessors=None, phase_authority_file_sha256=None):
     """Fail-closed structural validation. Raises with the first defect found."""
     for k in ("schema_version", "correction_version", "phase", "case_id", "row_sha256", "row",
               "forcing_exact", "forcing_repr", "source_commit", "source_tree",
-              "execution_authority_sha256", "run_mode", "completed_steps", "status",
+              "execution_authority_sha256", "phase_authority_file_sha256",
+              "predecessor_manifest_sha256", "run_mode", "completed_steps", "status",
               "scientific", "solver_config", "provenance_mode"):
         if k not in rec:
             raise ValueError("case record is missing %r" % (k,))
@@ -4866,6 +4871,22 @@ def validate_case_record(rec, row=None, authority=None, phase=None):
                 "the record's effective solver configuration is not the one the canonical row "
                 "requires (erratum PE-35): recorded %r, required %r"
                 % (rec["solver_config"], want))
+    # erratum PE-106: the predecessor map is compared at FINAL validation, not only on resume
+    if expected_predecessors is not None:
+        if dict(rec.get("predecessor_manifest_sha256") or {}) != dict(expected_predecessors):
+            raise ValueError(
+                "case record %r cites predecessor manifests %r; its phase manifest cites %r "
+                "(erratum PE-106)" % (rec.get("case_id"),
+                                      sorted((rec.get("predecessor_manifest_sha256") or {})),
+                                      sorted(expected_predecessors)))
+    # erratum PE-105: the record is bound to the artifact holding the authority's preimage
+    if phase_authority_file_sha256 is not None:
+        if rec.get("phase_authority_file_sha256") != phase_authority_file_sha256:
+            raise ValueError(
+                "case record %r cites phase-authority file hash %r; the persisted artifact "
+                "hashes to %r (erratum PE-105)"
+                % (rec.get("case_id"), rec.get("phase_authority_file_sha256"),
+                   phase_authority_file_sha256))
     canonical_json(rec)                       # strict: no NaN/Inf anywhere in a bound record
     return rec
 
@@ -4935,13 +4956,203 @@ EXECUTION_COUNT_FIELDS = ("n_new_case_records", "n_new_diagnostic_failure_envelo
                           "n_diagnostic_failed")
 
 
+# ---- ONE pure, no-solver row-identity resolver (erratum PE-110 §8.4) ------------------------
+# The driver resolves a row to a fixture or coupon in order to SOLVE it. Validation needs the
+# same identity without a solver and without duplicating any coordinate logic, so both go
+# through this one function.
+
+def row_geometry_identity(row):
+    """Deterministically derive one row's geometry identity. NO solver, NO provider, NO field.
+
+    Returns the geometry kind, shape, candidate bridge identity, fixture state and variant,
+    obstruction status and mask SHA-256 — everything a record or an envelope claims about the
+    geometry it was built on.
+    """
+    kind = row["kind"]
+    if isinstance(row.get("bridge"), str):
+        raise ValueError("row %r still carries an UNRESOLVED placeholder bridge %r"
+                         % (row["case_id"], row["bridge"]))
+    if kind == "axial_coupon":
+        mask, meta = build_axial_coupon(row["S"], row["coupon_level"],
+                                        row["coupon_orientation"])
+        geom_kind = "coupon"
+    elif kind == "bridge_coupon":
+        b = row["bridge"]
+        mask, meta = build_bridge_coupon(row["S"], b["w"], b["kz"])
+        geom_kind = "coupon"
+    else:
+        variant = row["variant"] if row["variant"] in ("mirror", "identical") else "mirror"
+        bridge = row["bridge"] if isinstance(row["bridge"], dict) else None
+        if kind in ("reference_blocked_ladder", "tau_cross_check"):
+            bridge = None
+        mask, meta = build_fixture(row["S"], bridge=bridge,
+                                   connected=(row["state"] == "open"), variant=variant,
+                                   swapped=bool(row["swapped"]),
+                                   perturbation=row["perturbation"],
+                                   obstructed=bool(row["obstructed"]))
+        geom_kind = "fixture"
+    return {
+        "kind": geom_kind,
+        "mask_sha256": meta["mask_sha256"],
+        "S": row["S"],
+        "shape": list(meta.get("shape") or mask.shape),
+        "bridge": row["bridge"] if isinstance(row["bridge"], dict) else None,
+        "state": row["state"],
+        "variant": row["variant"],
+        "obstructed": bool(meta.get("obstructed")),
+    }
+
+
+def _envelope_audit_plan(row, doc):
+    """The audit plan a fixed-step row's persisted solver configuration implies.
+
+    An envelope records the configuration it was invoked under; for a fixed-step row that pins
+    ``min_steps == max_steps == target``, which is exactly what the stored configuration states.
+    Reconstructing it from the stored target lets the solver configuration be RECOMPUTED rather
+    than trusted, without needing the base record the attempt never produced.
+    """
+    if row["run_mode"] != "FIXED_STEP_REEXECUTION_1P5X":
+        return None
+    cfg = doc.get("solver_config") or {}
+    target = cfg.get("fixed_step_target")
+    if target is None:
+        raise ValueError("a fixed-step diagnostic envelope records no fixed-step target")
+    return {"target_steps": int(target)}
+
+
+# ---- the DURABLE per-phase authority artifact (erratum PE-105) ------------------------------
+# C7's complete authority reached disk only inside the FINAL phase manifest, so an interrupted
+# phase left records citing an opaque hash whose preimage existed only in transient memory. The
+# artifact below is written atomically BEFORE the first provider call and is the identity
+# available during a partial phase.
+
+PHASE_AUTHORITY_SCHEMA_VERSION = 1
+PHASE_AUTHORITY_PREFIX = "execution_authority_"
+
+
+def phase_authority_filename(phase: str) -> str:
+    """Deterministic, one per phase. Never a counter, a timestamp or an ordering."""
+    if phase not in PHASE_PREREQUISITES:
+        raise ValueError("unknown phase %r" % (phase,))
+    return "%s%s.json" % (PHASE_AUTHORITY_PREFIX, phase)
+
+
+def make_phase_authority_document(phase, authority, predecessor_manifest_sha256,
+                                  provenance_mode="PRODUCTION"):
+    """The immutable per-phase authority document (erratum PE-105).
+
+    It deliberately carries NO self-referential file hash; the caller or manifest computes the
+    file's SHA-256 after writing.
+    """
+    if authority.get("stage") != phase:
+        raise ValueError("a stage-%r authority may not be persisted for phase %r"
+                         % (authority.get("stage"), phase))
+    doc = {
+        "schema_version": PHASE_AUTHORITY_SCHEMA_VERSION,
+        "correction_version": CORRECTION_VERSION,
+        "phase": phase,
+        "provenance_mode": provenance_mode,
+        "execution_authority": dict(authority),
+        "execution_authority_sha256": execution_authority_sha256(authority),
+        "source_authorization": dict(authority["source_authorization"]),
+        "predecessor_manifest_sha256": dict(predecessor_manifest_sha256),
+        "authority_filename": phase_authority_filename(phase),
+        "authorises": ("EXACTLY ONE PHASE: this document authorises %r and no other. It is "
+                       "written BEFORE the first provider call, so a partial phase's records "
+                       "remain independently interpretable (erratum PE-105)." % (phase,)),
+    }
+    canonical_json(doc)                      # strict: canonical and finite, or it is not bound
+    return doc
+
+
+def write_phase_authority(runs_dir, doc, allow_resume=True):
+    """Atomic, immutable, no-overwrite, exact-match resume — as for a case record."""
+    base = pathlib.Path(runs_dir)
+    base.mkdir(parents=True, exist_ok=True)
+    path = base / doc["authority_filename"]
+    payload = canonical_json(doc) + "\n"
+    if path.exists():
+        if not allow_resume:                            # pragma: no cover - guarded by caller
+            raise FileExistsError("phase authority %s exists and overwrite is refused" % path)
+        if path.read_text() != payload:
+            raise ResumeMismatch(
+                "a phase-authority artifact already exists at %s and differs from the authority "
+                "this run was invoked under; a partial phase may only be resumed under its EXACT "
+                "authority (erratum PE-105)" % path)
+        return path, "REUSED_EXACT_MATCH"
+    tmp = base / (path.name + ".tmp")
+    tmp.write_text(payload)
+    tmp.replace(path)
+    return path, "WRITTEN"
+
+
+def read_phase_authority(runs_dir, phase):
+    """Reopen the persisted phase authority and return ``(doc, path, file_sha256)``."""
+    path = pathlib.Path(runs_dir) / phase_authority_filename(phase)
+    if not path.exists():
+        raise ManifestMissing("the %s phase-authority artifact does not exist at %s"
+                              % (phase, path))
+    raw = path.read_bytes()
+    doc = json.loads(raw.decode("utf-8"))
+    if raw.decode("utf-8") != canonical_json(doc) + "\n":
+        raise ManifestMissing("the %s phase-authority artifact is not canonically serialised"
+                              % (phase,))
+    return doc, path, hashlib.sha256(raw).hexdigest()
+
+
+def validate_phase_authority_document(doc, phase, require_production=True,
+                                      expected_current_authority=None,
+                                      expected_predecessors=None):
+    """Validate a persisted phase-authority artifact and the authority inside it."""
+    for k in ("schema_version", "correction_version", "phase", "provenance_mode",
+              "execution_authority", "execution_authority_sha256", "source_authorization",
+              "predecessor_manifest_sha256", "authority_filename"):
+        if k not in doc:
+            raise ManifestMissing("the phase-authority artifact is missing %r" % (k,))
+    if doc["schema_version"] != PHASE_AUTHORITY_SCHEMA_VERSION:
+        raise ManifestMissing("phase-authority schema version %r, expected %r"
+                              % (doc["schema_version"], PHASE_AUTHORITY_SCHEMA_VERSION))
+    if doc["correction_version"] != CORRECTION_VERSION:
+        raise ManifestMissing("the phase-authority artifact is from a superseded correction "
+                              "version")
+    if doc["phase"] != phase:
+        raise ManifestMissing("the phase-authority artifact declares phase %r, expected %r"
+                              % (doc["phase"], phase))
+    if doc["authority_filename"] != phase_authority_filename(phase):
+        raise ManifestMissing("the phase-authority artifact names the wrong file")
+    if require_production and doc["provenance_mode"] != "PRODUCTION":
+        raise ManifestMissing("the %s phase authority carries provenance_mode=%r; production "
+                              "validation accepts PRODUCTION only" % (phase,
+                                                                      doc["provenance_mode"]))
+    try:
+        auth = validate_execution_authority(
+            doc["execution_authority"], expected_stage=phase,
+            expected_current_authority=expected_current_authority,
+            require_production=require_production)
+    except ExecutionAuthorityError as exc:
+        raise ManifestMissing("the %s phase authority is invalid: %s" % (phase, exc))
+    if doc["execution_authority_sha256"] != execution_authority_sha256(auth):
+        raise ManifestMissing("the %s phase-authority artifact cites a stale authority hash"
+                              % (phase,))
+    if doc["source_authorization"] != auth["source_authorization"]:
+        raise ManifestMissing("the %s phase-authority artifact's authorization snapshot differs "
+                              "from the authority it carries" % (phase,))
+    if expected_predecessors is not None:
+        if dict(doc["predecessor_manifest_sha256"]) != dict(expected_predecessors):
+            raise ManifestMissing(
+                "the %s phase-authority artifact cites predecessor manifests that differ from "
+                "the phase manifest's (erratum PE-107)" % (phase,))
+    return auth
+
+
 class ResumeMismatch(ValueError):
     """An existing case record differs from the one this row requires. FAIL CLOSED: never
     overwrite it, and never call the provider to find out (erratum PE-74)."""
 
 
 def load_resumable_case_record(runs_dir, row, authority, phase, predecessor_manifest_sha256,
-                              geometry, provenance_mode="PRODUCTION", audit=None):
+                              geometry, provenance_mode="PRODUCTION", audit=None,
+                              phase_authority_file_sha256=None):
     """Discover, reopen and fully validate an existing case record BEFORE any provider call.
 
     Returns ``(record, path)`` for an EXACT match, or ``None`` when no record exists. Anything
@@ -4967,7 +5178,9 @@ def load_resumable_case_record(runs_dir, row, authority, phase, predecessor_mani
         raise ResumeMismatch("the record file for %r carries case_id %r"
                              % (row["case_id"], rec.get("case_id")))
     try:
-        validate_case_record(rec, row=row, authority=authority, phase=phase)
+        validate_case_record(rec, row=row, authority=authority, phase=phase,
+                             expected_predecessors=predecessor_manifest_sha256,
+                             phase_authority_file_sha256=phase_authority_file_sha256)
     except ValueError as exc:
         raise ResumeMismatch("the existing record for %r does not validate against its row, "
                              "authority or configuration: %s" % (row["case_id"], exc))
@@ -5081,9 +5294,21 @@ def diagnostic_failure_filename(case_id: str) -> str:
                           hashlib.sha256(case_id.encode("utf-8")).hexdigest())
 
 
+#: The EXACT envelope key set (erratum PE-110). Missing or unknown keys are both refused.
+DIAGNOSTIC_FAILURE_FIELDS = (
+    "schema_version", "correction_version", "provenance_mode", "phase", "case_id", "row",
+    "row_sha256", "scientific_role", "source_commit", "source_tree",
+    "execution_authority_sha256", "phase_authority_file_sha256", "predecessor_manifest_sha256",
+    "geometry_kind", "mask_sha256", "forcing_exact", "forcing_repr", "solver_config", "backend",
+    "provider_called", "failure_stage", "failure_code", "exception_class",
+    "result_contract_class", "message", "traceback_sha256", "status", "scientific",
+    "evidence_status", "declaration",
+)
+
+
 def make_diagnostic_failure_envelope(row, authority, predecessor_manifest_sha256, geometry,
                                      failure, provenance_mode="PRODUCTION", audit=None,
-                                     traceback_text=None):
+                                     traceback_text=None, phase_authority_file_sha256=None):
     """The immutable record of a NON-ADJUDICATIVE diagnostic attempt that produced no result.
 
     It fabricates NO scientific value, carries no NaN or infinity, and declares itself
@@ -5110,7 +5335,8 @@ def make_diagnostic_failure_envelope(row, authority, predecessor_manifest_sha256
         "scientific_role": role,
         "source_commit": authority["source_commit"],
         "source_tree": authority["source_tree"],
-        "execution_authority_sha256": record_hash(authority),
+        "execution_authority_sha256": execution_authority_sha256(authority),
+        "phase_authority_file_sha256": phase_authority_file_sha256,
         "predecessor_manifest_sha256": dict(predecessor_manifest_sha256),
         "geometry_kind": geometry.get("kind"),
         "mask_sha256": geometry.get("mask_sha256"),
@@ -5135,19 +5361,29 @@ def make_diagnostic_failure_envelope(row, authority, predecessor_manifest_sha256
             "uncertainty, no candidate evidence, no common_reference_evidence and no P2b "
             "decision, and its presence does not stop the phase (errata PE-65, PE-89 … PE-92)."),
     }
+    missing = [k for k in DIAGNOSTIC_FAILURE_FIELDS if k not in doc]
+    if missing:                                # pragma: no cover - constructed complete above
+        raise ValueError("diagnostic failure envelope is missing %r" % (missing,))
     canonical_json(doc)                       # strict: no NaN/Inf anywhere in a bound envelope
     return doc
 
 
 def validate_diagnostic_failure_envelope(doc, row=None, authority=None, phase=None,
-                                         provenance_mode=None):
-    """Fail-closed structural validation of a diagnostic-attempt failure envelope."""
-    for k in ("schema_version", "correction_version", "provenance_mode", "phase", "case_id",
-              "row", "row_sha256", "scientific_role", "source_commit", "source_tree",
-              "execution_authority_sha256", "failure_stage", "failure_code", "status",
-              "evidence_status", "provider_called"):
-        if k not in doc:
-            raise ValueError("diagnostic failure envelope is missing %r" % (k,))
+                                         provenance_mode=None, expected_predecessors=None,
+                                         phase_authority_file_sha256=None):
+    """Fail-closed validation of a diagnostic-attempt failure envelope (errata PE-109, PE-110).
+
+    C7 compared the SEPARATELY STORED ``row_sha256`` against the external planned row and left
+    the EMBEDDED ``doc["row"]`` unchecked, so a modified embedded row with an unchanged stored
+    hash passed. It also checked forcing, solver, mask and predecessor identity on resume only.
+    Both are closed here, so the envelope is self-authenticating wherever it is validated.
+    """
+    missing = [k for k in DIAGNOSTIC_FAILURE_FIELDS if k not in doc]
+    if missing:
+        raise ValueError("diagnostic failure envelope is missing %r" % (missing,))
+    extra = sorted(set(doc) - set(DIAGNOSTIC_FAILURE_FIELDS))
+    if extra:
+        raise ValueError("diagnostic failure envelope carries unknown field(s) %r" % (extra,))
     if doc["schema_version"] != DIAGNOSTIC_FAILURE_SCHEMA_VERSION:
         raise ValueError("diagnostic failure envelope schema version %r, expected %r"
                          % (doc["schema_version"], DIAGNOSTIC_FAILURE_SCHEMA_VERSION))
@@ -5169,13 +5405,62 @@ def validate_diagnostic_failure_envelope(doc, row=None, authority=None, phase=No
         raise ValueError("a diagnostic failure envelope may fabricate no scientific value")
     if doc["provider_called"] is not True:
         raise ValueError("a diagnostic failure envelope records a provider attempt")
+    # erratum PE-109: the EMBEDDED row must hash to the stored value, so a modified embedded row
+    # cannot hide behind an unchanged external comparison.
+    if row_sha256(doc["row"]) != doc["row_sha256"]:
+        raise ValueError(
+            "diagnostic failure envelope %r embeds a row that does not hash to its own recorded "
+            "row_sha256 (erratum PE-109)" % (doc["case_id"],))
+    embedded = doc["row"]
+    if embedded.get("case_id") != doc["case_id"]:
+        raise ValueError("diagnostic failure envelope %r embeds a row for a different case"
+                         % (doc["case_id"],))
+    if embedded.get("phase") != doc["phase"]:
+        raise ValueError("diagnostic failure envelope %r embeds a row from a different phase"
+                         % (doc["case_id"],))
+    if row_scientific_role(embedded) != doc["scientific_role"]:
+        raise ValueError("diagnostic failure envelope %r embeds a row of a different role"
+                         % (doc["case_id"],))
+    # erratum PE-110: every row-derived field is recomputed and compared, wherever validated
+    if dict(embedded["forcing_exact"]) != dict(doc["forcing_exact"]):
+        raise ValueError("diagnostic failure envelope %r records a forcing rational that is not "
+                         "its own row's" % (doc["case_id"],))
+    if embedded["forcing_repr"] != doc["forcing_repr"]:
+        raise ValueError("diagnostic failure envelope %r records a forcing repr that is not its "
+                         "own row's" % (doc["case_id"],))
+    want_cfg = effective_solver_config(embedded, backend=doc["backend"],
+                                       audit=_envelope_audit_plan(embedded, doc))
+    if doc["solver_config"] != want_cfg:
+        raise ValueError(
+            "diagnostic failure envelope %r records a solver configuration that is not the one "
+            "its canonical row requires (erratum PE-110)" % (doc["case_id"],))
+    want_geom = row_geometry_identity(embedded)
+    if doc["geometry_kind"] != want_geom["kind"] or doc["mask_sha256"] != want_geom["mask_sha256"]:
+        raise ValueError(
+            "diagnostic failure envelope %r records a geometry or mask identity that its own row "
+            "does not resolve to (erratum PE-110)" % (doc["case_id"],))
+    if expected_predecessors is not None:
+        if dict(doc["predecessor_manifest_sha256"]) != dict(expected_predecessors):
+            raise ValueError(
+                "diagnostic failure envelope %r cites predecessor manifests %r; its phase "
+                "manifest cites %r (erratum PE-110)"
+                % (doc["case_id"], sorted(doc["predecessor_manifest_sha256"]),
+                   sorted(expected_predecessors)))
+    if phase_authority_file_sha256 is not None:
+        if doc.get("phase_authority_file_sha256") != phase_authority_file_sha256:
+            raise ValueError(
+                "diagnostic failure envelope %r cites phase-authority file hash %r; the "
+                "persisted artifact hashes to %r (erratum PE-105)"
+                % (doc["case_id"], doc.get("phase_authority_file_sha256"),
+                   phase_authority_file_sha256))
     if row is not None:
         if doc["case_id"] != row["case_id"] or doc["row_sha256"] != row_sha256(row):
             raise ValueError("diagnostic failure envelope %r was cited for row %r"
                              % (doc["case_id"], row["case_id"]))
-        if row_scientific_role(row) != doc["scientific_role"]:
-            raise ValueError("diagnostic failure envelope %r carries the wrong role"
-                             % (doc["case_id"],))
+        if dict(embedded) != dict(row):
+            raise ValueError(
+                "diagnostic failure envelope %r embeds a row that is not the canonical planned "
+                "row (erratum PE-109)" % (doc["case_id"],))
     if phase is not None and doc["phase"] != phase:
         raise ValueError("diagnostic failure envelope belongs to phase %r, not %r"
                          % (doc["phase"], phase))
@@ -5247,7 +5532,8 @@ def assert_no_coexisting_artifacts(runs_dir, case_id):
 
 def load_resumable_diagnostic_failure(runs_dir, row, authority, phase,
                                       predecessor_manifest_sha256, geometry,
-                                      provenance_mode="PRODUCTION", audit=None):
+                                      provenance_mode="PRODUCTION", audit=None,
+                                      phase_authority_file_sha256=None):
     """Discover, reopen and fully validate an existing envelope BEFORE any provider call.
 
     Returns ``(doc, path)`` for an EXACT match, ``None`` when none exists, and raises
@@ -5266,8 +5552,10 @@ def load_resumable_diagnostic_failure(runs_dir, row, authority, phase,
     if raw != canonical_json(doc) + "\n":
         raise ResumeMismatch("the existing envelope at %s is not canonically serialised" % path)
     try:
-        validate_diagnostic_failure_envelope(doc, row=row, authority=authority, phase=phase,
-                                             provenance_mode=provenance_mode)
+        validate_diagnostic_failure_envelope(
+            doc, row=row, authority=authority, phase=phase, provenance_mode=provenance_mode,
+            expected_predecessors=predecessor_manifest_sha256,
+            phase_authority_file_sha256=phase_authority_file_sha256)
     except ValueError as exc:
         raise ResumeMismatch("the existing envelope for %r does not validate: %s"
                              % (row["case_id"], exc))
@@ -6291,7 +6579,8 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
                         authority, predecessor_manifests, adaptive, terminal_status,
                         terminal_stop_reason=None, provenance_mode="PRODUCTION",
                         replicates=(), phase_science=None, execution_counts=None,
-                        diagnostic_completed=(), diagnostic_failed=()):
+                        diagnostic_completed=(), diagnostic_failed=(),
+                        phase_authority_file_sha256=None):
     """A validated phase LEDGER over the FULL phase universe.
 
     ``phase_science`` carries the phase's durable AGGREGATE scientific verdict (erratum PE-64).
@@ -6325,6 +6614,9 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         # field above and below must equal this object exactly.
         "execution_authority": dict(authority),
         "execution_authority_sha256": execution_authority_sha256(authority),
+        # erratum PE-105: the artifact written BEFORE the first provider call
+        "phase_authority_path": phase_authority_filename(phase),
+        "phase_authority_file_sha256": phase_authority_file_sha256,
         "full_matrix_sha256": record_hash(execution_matrix()),
         "phase_universe_sha256": record_hash(uni),
         "phase_plan_sha256": record_hash(elig),
@@ -6380,6 +6672,37 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
 PHASE_AGGREGATE_SCIENCE = {"P0": lambda recs: p0_aggregate_science(recs)}
 
 
+def validate_predecessor_identity(phase, runs_dir, doc):
+    """The EXACT predecessor-manifest identity of one phase (errata PE-107, PE-108).
+
+    Requires the exact ``PHASE_PREREQUISITES[phase]`` key set, each cited manifest to exist, and
+    each file to rehash exactly. P0 must carry the exact empty map. Extra, missing, stale and
+    duplicate identities are each refused, and this runs on EVERY manifest validation — not only
+    when a later phase happens to ask.
+    """
+    base = pathlib.Path(runs_dir)
+    cited = doc.get("predecessor_manifests")
+    if not isinstance(cited, dict):
+        raise ManifestMissing("the %s manifest carries no predecessor-manifest map" % (phase,))
+    want_keys = set(PHASE_PREREQUISITES[phase])
+    if set(cited) != want_keys:
+        raise ManifestMissing(
+            "the %s manifest cites predecessor manifests %r; the exact required set is %r "
+            "(erratum PE-107)" % (phase, sorted(cited), sorted(want_keys)))
+    out = {}
+    for k in sorted(cited):
+        f = base / ("manifest_%s.json" % k)
+        if not f.exists():
+            raise ManifestMissing("the %s manifest cites a missing predecessor %s" % (phase, k))
+        actual = hashlib.sha256(f.read_bytes()).hexdigest()
+        if cited[k] != actual:
+            raise ManifestMissing(
+                "the %s manifest cites predecessor %s hash %r; the file hashes to %r "
+                "(erratum PE-107)" % (phase, k, cited[k], actual))
+        out[k] = actual
+    return out
+
+
 def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                             predecessor_records=None, require_production=True):
     """Reopen and rehash EVERYTHING, over the FULL phase universe (errata PE-18, PE-26)."""
@@ -6410,6 +6733,31 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                               % (phase, exc))
     if doc.get("execution_authority_sha256") != execution_authority_sha256(phase_authority):
         raise ManifestMissing("the %s manifest cites a stale execution-authority hash" % (phase,))
+    # erratum PE-105: the separate artifact holding the authority's PREIMAGE is reopened,
+    # rehashed and required to carry the identical authority.
+    if doc.get("phase_authority_path") != phase_authority_filename(phase):
+        raise ManifestMissing("the %s manifest names the wrong phase-authority artifact"
+                              % (phase,))
+    pa_doc, _pa_path, pa_sha = read_phase_authority(base, phase)
+    if doc.get("phase_authority_file_sha256") != pa_sha:
+        raise ManifestMissing(
+            "the %s manifest cites phase-authority file hash %r; the artifact hashes to %r "
+            "(erratum PE-105)" % (phase, doc.get("phase_authority_file_sha256"), pa_sha))
+    validate_phase_authority_document(pa_doc, phase, require_production=require_production)
+    if record_hash(pa_doc["execution_authority"]) != execution_authority_sha256(phase_authority):
+        raise ManifestMissing(
+            "the %s phase-authority artifact and the manifest's embedded authority differ; the "
+            "two copies may never drift (erratum PE-105)" % (phase,))
+
+    # ---- errata PE-107/PE-108: the predecessor identity is INTRINSIC to this validator -------
+    # C7 compared predecessor manifest files only in require_phase_manifests, so validating a
+    # phase in isolation established nothing about its predecessors and the P2b recursive walk
+    # inherited that gap for the internal P0->P1a->P1b->P2a chain.
+    expected_predecessors = validate_predecessor_identity(phase, base, doc)
+    if dict(pa_doc["predecessor_manifest_sha256"]) != dict(expected_predecessors):
+        raise ManifestMissing(
+            "the %s phase-authority artifact cites predecessor manifests that differ from the "
+            "manifest's (erratum PE-107)" % (phase,))
     for k in ("source_commit", "source_tree", "backend", "correction_version"):
         if doc.get(k) != phase_authority[k]:
             raise ManifestMissing(
@@ -6539,8 +6887,10 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                 raise ManifestMissing("diagnostic envelope %r is not canonically serialised"
                                       % (cid,))
             validate_diagnostic_failure_envelope(
-                env, row=by_row[cid], authority=authority, phase=phase,
-                provenance_mode=doc.get("provenance_mode"))
+                env, row=by_row[cid], authority=phase_authority, phase=phase,
+                provenance_mode=doc.get("provenance_mode"),
+                expected_predecessors=expected_predecessors,
+                phase_authority_file_sha256=pa_sha)
             if entry.get("row_sha256") != row_sha256(by_row[cid]):
                 raise ManifestMissing("the %s manifest cites the wrong row hash for %r"
                                       % (phase, cid))
@@ -6563,7 +6913,21 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
                                   "to %r" % (phase, entry.get("record_sha256"), cid, actual))
         if raw.decode() != canonical_json(rec) + "\n":
             raise ManifestMissing("case record %r is not canonically serialised" % (cid,))
-        validate_case_record(rec, row=by_row[cid], authority=authority, phase=phase)
+        validate_case_record(rec, row=by_row[cid], authority=phase_authority, phase=phase,
+                             expected_predecessors=expected_predecessors,
+                             phase_authority_file_sha256=pa_sha)
+        # erratum PE-110 §8.4: the geometry identity is RECOMPUTED from the canonical row, for
+        # normal records as well as envelopes, at FINAL validation and not only on resume.
+        want_geom = row_geometry_identity(by_row[cid])
+        got_geom = rec.get("geometry") or {}
+        for gk in ("kind", "mask_sha256", "S", "bridge", "state", "variant", "obstructed"):
+            if got_geom.get(gk) != want_geom[gk]:
+                raise ManifestMissing(
+                    "case record %r records geometry %s=%r; its canonical row resolves to %r "
+                    "(erratum PE-110)" % (cid, gk, got_geom.get(gk), want_geom[gk]))
+        if rec.get("mask_sha256") != want_geom["mask_sha256"]:
+            raise ManifestMissing("case record %r records a mask its row does not resolve to"
+                                  % (cid,))
         if require_production:
             assert_production_record(rec)
         if entry.get("row_sha256") != row_sha256(by_row[cid]):
@@ -6952,20 +7316,8 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
             raise ManifestMissing(
                 "the %s manifest terminated %r; a phase may consume a predecessor only at "
                 "PHASE_COMPLETE (erratum PE-27)" % (pre, doc.get("terminal_status")))
-        cited = set(doc.get("predecessor_manifests") or {})
-        want_keys = set(PHASE_PREREQUISITES[pre])
-        if cited != want_keys:
-            raise ManifestMissing(
-                "the %s manifest cites predecessor manifests %r; the exact required set is %r "
-                "(erratum PE-27)" % (pre, sorted(cited), sorted(want_keys)))
-        for k, sha in (doc.get("predecessor_manifests") or {}).items():
-            path = base / ("manifest_%s.json" % k)
-            if not path.exists():
-                raise ManifestMissing("the %s manifest cites a missing predecessor %s" % (pre, k))
-            actual = hashlib.sha256(path.read_bytes()).hexdigest()
-            if actual != sha:
-                raise ManifestMissing("the %s manifest cites predecessor %s hash %r; the file "
-                                      "hashes to %r" % (pre, k, sha, actual))
+        # erratum PE-107: validate_phase_manifest has ALREADY established this phase's exact
+        # predecessor identity. One implementation, not two that can drift.
         # PE-64: a predecessor that publishes an aggregate scientific verdict may satisfy the
         # next phase only when that verdict is COMPLETE and PASSING. P1a refuses on anything else.
         if pre in PHASE_AGGREGATE_SCIENCE:

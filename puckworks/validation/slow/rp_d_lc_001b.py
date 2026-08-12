@@ -473,8 +473,40 @@ def _failure_traceback(failure):
 REQUIRED_RESULT_FIELDS = ("ux", "rho", "uy", "uz", "steps")
 
 
+def _exact_steps(value):
+    """An EXACT non-negative integer step count (erratum PE-112).
+
+    C7 wrote ``int(res["steps"])`` inside a ``try``, so ``2000.5`` truncated silently to 2000
+    and ``True`` became 1. A NumPy integer scalar is accepted; everything lossy is refused.
+    """
+    if isinstance(value, bool):
+        raise vf.DiagnosticAttemptFailed(
+            "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+            detail="the result's step count is a bool, not an integer")
+    if isinstance(value, int):
+        out = int(value)
+    elif isinstance(value, np.integer):
+        out = int(value)
+    else:
+        raise vf.DiagnosticAttemptFailed(
+            "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+            detail=("the result's step count is %s, not an integer; a float, a numeric string, "
+                    "a complex value and any lossy conversion are all refused"
+                    % type(value).__name__))
+    if out < 0:
+        raise vf.DiagnosticAttemptFailed(
+            "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+            detail="the result's step count is negative")
+    return out
+
+
+#: Real numeric NumPy kinds. Object, string, bytes, complex, void and datetime arrays are all
+#: refused BY NAME rather than allowed to raise TypeError out of the contract (erratum PE-111).
+NUMERIC_KINDS = ("i", "u", "f")
+
+
 def _assert_result_contract(res, mask):
-    """The provider/result boundary, checked explicitly (erratum PE-91).
+    """The provider/result boundary, checked explicitly (errata PE-91, PE-111, PE-112).
 
     Raises ``vf.DiagnosticAttemptFailed`` with a frozen code. The CALLER decides whether that is
     eligible to become a diagnostic envelope: for an adjudicative row it is re-raised as the
@@ -489,19 +521,37 @@ def _assert_result_contract(res, mask):
         raise vf.DiagnosticAttemptFailed(
             "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
             detail="the result is missing %r" % (missing,))
-    try:
-        int(res["steps"])
-    except (TypeError, ValueError):
-        raise vf.DiagnosticAttemptFailed(
-            "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
-            detail="the result's step count is not an integer")
+    _exact_steps(res["steps"])
     for f in ("ux", "rho", "uy", "uz"):
-        arr = np.asarray(res[f])
+        # erratum PE-111: np.asarray itself can raise on an incompatible representation, and
+        # np.isfinite raises TypeError on an object, string, bytes or complex array. Both are
+        # caught and mapped to a NAMED code rather than escaping the contract.
+        try:
+            arr = np.asarray(res[f])
+        except vf.DIAGNOSTIC_NEVER_CAUGHT:
+            raise
+        except (TypeError, ValueError) as exc:
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+                detail="field %r could not be read as an array (%s)" % (f, type(exc).__name__))
+        if arr.dtype.kind not in NUMERIC_KINDS:
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+                detail="field %r has dtype %r; a real numeric dtype is required"
+                       % (f, str(arr.dtype)))
         if arr.shape != mask.shape:
             raise vf.DiagnosticAttemptFailed(
                 "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
                 detail="field %r has shape %r; the mask is %r" % (f, arr.shape, mask.shape))
-        if not np.isfinite(arr[~mask]).all():
+        try:
+            finite = bool(np.isfinite(arr[~mask]).all())
+        except vf.DIAGNOSTIC_NEVER_CAUGHT:
+            raise
+        except (TypeError, ValueError) as exc:
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_RESULT_CONTRACT_INVALID", "RESULT_CONTRACT",
+                detail="field %r cannot be finite-checked (%s)" % (f, type(exc).__name__))
+        if not finite:
             raise vf.DiagnosticAttemptFailed(
                 "DIAGNOSTIC_RESULT_NONFINITE", "RESULT_CONTRACT",
                 detail="field %r carries a non-finite value at a fluid node" % (f,))
@@ -557,6 +607,19 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
     elig_ids = {r["case_id"] for r in eligible}
     pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
                for k in manifests if (base / ("manifest_%s.json" % k)).exists()}
+
+    # ---- erratum PE-105: persist the COMPLETE authority BEFORE the first provider call -------
+    # An interrupted phase must leave records whose authority preimage is on disk, not only in
+    # this process's memory. On a resumed phase the existing artifact is reopened FIRST and must
+    # equal the authority this run was invoked under; anything else fails closed before any
+    # provider call.
+    pa_doc = vf.make_phase_authority_document(phase, auth, pre_sha,
+                                              provenance_mode=provenance_mode)
+    pa_path, pa_write_mode = vf.write_phase_authority(base, pa_doc)
+    pa_sha = hashlib.sha256(pa_path.read_bytes()).hexdigest()
+    vf.validate_phase_authority_document(
+        pa_doc, phase, require_production=(provenance_mode == "PRODUCTION"),
+        expected_current_authority=auth, expected_predecessors=pre_sha)
 
     # PE-75: manifest resume. An existing FINAL manifest is reopened and fully validated; an
     # exact valid completion under this authority returns with ZERO provider calls, and anything
@@ -615,12 +678,14 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
         envelope_eligible = role in vf.DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES
         existing = vf.load_resumable_case_record(base, row, auth, phase, pre_sha, geometry,
                                                  provenance_mode=provenance_mode,
-                                                 audit=audit_plan)
+                                                 audit=audit_plan,
+                                                 phase_authority_file_sha256=pa_sha)
         existing_env = None
         if existing is None and envelope_eligible:
             existing_env = vf.load_resumable_diagnostic_failure(
                 base, row, auth, phase, pre_sha, geometry,
-                provenance_mode=provenance_mode, audit=audit_plan)
+                provenance_mode=provenance_mode, audit=audit_plan,
+                phase_authority_file_sha256=pa_sha)
         if existing_env is not None:
             # an EXACT resumed envelope: zero provider calls, exactly as for a record
             env, path = existing_env
@@ -645,12 +710,29 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
             try:
                 res, sci = _attempt_case(provider, mask, meta, g, phase, row, kind, audit_plan,
                                          backend)
-                payload = vf.scientific_payload_hash(cfg, sci, meta["mask_sha256"])
-                rec = vf.make_case_record(row, auth, pre_sha, geometry, sci,
-                                          completed_steps=int(res["steps"]),
-                                          run_mode=row["run_mode"], audit=audit_plan,
-                                          provenance_mode=provenance_mode,
-                                          scientific_payload_sha256=payload)
+                # erratum PE-111 §9.3: a failure caused SOLELY by the returned result during
+                # strict payload formation or record construction is a named diagnostic code.
+                # An authority, geometry, matrix, filesystem or persistence failure is not, and
+                # is raised by its own code path outside this boundary.
+                try:
+                    payload = vf.scientific_payload_hash(cfg, sci, meta["mask_sha256"])
+                    rec = vf.make_case_record(row, auth, pre_sha, geometry, sci,
+                                              completed_steps=_exact_steps(res["steps"]),
+                                              run_mode=row["run_mode"], audit=audit_plan,
+                                              provenance_mode=provenance_mode,
+                                              scientific_payload_sha256=payload,
+                                              phase_authority_file_sha256=pa_sha)
+                except vf.DIAGNOSTIC_NEVER_CAUGHT:
+                    raise
+                except vf.DiagnosticAttemptFailed:
+                    raise
+                except vf.NonFiniteValue as exc:
+                    raise vf.DiagnosticAttemptFailed(
+                        "DIAGNOSTIC_RESULT_NONFINITE", "RECORD_CONSTRUCTION", exc=exc)
+                except (TypeError, ValueError) as exc:
+                    raise vf.DiagnosticAttemptFailed(
+                        "DIAGNOSTIC_SCIENTIFIC_EXTRACTION_FAILED", "RECORD_CONSTRUCTION",
+                        exc=exc)
             except vf.DiagnosticAttemptFailed as failure:
                 # erratum PE-89: ONLY a non-adjudicative diagnostic may absorb a failed attempt.
                 # For every adjudicative role the original failure is re-raised unchanged.
@@ -665,7 +747,8 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                 env = vf.make_diagnostic_failure_envelope(
                     row, auth, pre_sha, geometry, failure,
                     provenance_mode=provenance_mode, audit=audit_plan,
-                    traceback_text=_failure_traceback(failure))
+                    traceback_text=_failure_traceback(failure),
+                    phase_authority_file_sha256=pa_sha)
                 path, how = vf.write_diagnostic_failure_envelope(base, env)
                 n_new_env += 1
                 diagnostic_failed.append({
@@ -676,7 +759,9 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                     "status": env["status"], "scientific_role": env["scientific_role"],
                     "reason": env["failure_code"], "failure_stage": env["failure_stage"]})
                 continue
-            vf.validate_case_record(rec, row=row, authority=auth, phase=phase)
+            vf.validate_case_record(rec, row=row, authority=auth, phase=phase,
+                                    expected_predecessors=pre_sha,
+                                    phase_authority_file_sha256=pa_sha)
             path, how = vf.write_case_record(base, rec)
             n_new += 1
         payloads[row["case_id"]] = payload
@@ -746,6 +831,9 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
         raise RuntimeError("phase %r made %d provider calls for %d new case records and %d new "
                            "diagnostic envelopes" % (phase, n_calls, n_new, n_new_env))
     execution_counts = {
+        # erratum PE-105: the authority artifact costs NO provider call and is no solver row.
+        "n_phase_authority_files": 1,
+        "phase_authority_write_mode": pa_write_mode,
         # erratum PE-92: the two NEW-artifact classes are counted separately, and
         # n_newly_executed is retained as their exact sum for compatibility.
         "n_new_case_records": n_new,
@@ -763,7 +851,8 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
                                       phase_science=phase_science,
                                       execution_counts=execution_counts,
                                       diagnostic_completed=diagnostic_completed,
-                                      diagnostic_failed=diagnostic_failed)
+                                      diagnostic_failed=diagnostic_failed,
+                                      phase_authority_file_sha256=pa_sha)
     # PE-75: atomic, no-overwrite / exact-match write. A differing existing manifest is never
     # silently replaced.
     vf._atomic_write_json(base / ("manifest_%s.json" % phase), manifest)

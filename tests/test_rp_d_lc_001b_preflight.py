@@ -5677,3 +5677,359 @@ def test_the_production_p2b_wrapper_applies_the_assembly_gate_itself(tmp_path):
     # ONE shared implementation, re-exported by the driver
     assert drv.ExecutionNotAuthorised is vf.ExecutionNotAuthorised
     assert "assert_stage_authorised" in inspect.getsource(drv.require_assembly_authorisation)
+
+
+# ---- C. the durable per-phase authority artifact (erratum PE-105) ----------------------------
+
+@pytest.mark.parametrize("phase", ["P0", "P1a", "P1b", "P2a"])
+def test_every_phase_persists_its_authority_artifact(synthetic_prefreeze, phase):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / ("manifest_%s.json" % phase)).read_text())
+    assert doc["phase_authority_path"] == vf.phase_authority_filename(phase)
+    pa_doc, pa_path, pa_sha = vf.read_phase_authority(d, phase)
+    assert doc["phase_authority_file_sha256"] == pa_sha
+    a = vf.validate_phase_authority_document(pa_doc, phase, require_production=False)
+    assert a["stage"] == phase
+    assert pa_doc["execution_authority_sha256"] == doc["execution_authority_sha256"]
+    assert pa_doc["predecessor_manifest_sha256"] == doc["predecessor_manifests"]
+    assert pa_doc["authorises"].startswith("EXACTLY ONE PHASE")
+    assert pa_path.read_text() == vf.canonical_json(pa_doc) + "\n"
+    # every record and envelope binds the AUTHORITY FILE, not only the authority hash
+    for ledger in ("completed", "diagnostic_completed"):
+        for e in doc.get(ledger, []):
+            if e.get("artifact_kind") == "DIAGNOSTIC_FAILURE_ENVELOPE":
+                continue
+            rec, _ = vf.read_case_record(d, e["case_id"])
+            assert rec["phase_authority_file_sha256"] == pa_sha
+            assert rec["predecessor_manifest_sha256"] == doc["predecessor_manifests"]
+
+
+def test_the_authority_file_is_written_before_the_first_provider_call():
+    src = inspect.getsource(drv._orchestrate)
+    before, after = src.split("write_phase_authority", 1)
+    assert "provider(" not in before
+    assert "_attempt_case(" not in before
+    assert "make_phase_authority_document" in before
+
+
+class _CountingTauProvider(_CountingProvider):
+    pass
+
+
+def test_an_interrupted_phase_leaves_a_reconstructible_authority(tmp_path):
+    """Erratum PE-105: a partial record set must be independently interpretable."""
+    auth = _phase_authority("P0")
+    prov = _CountingProvider()
+    stop_after = 5
+
+    def interrupting(**kw):
+        if prov.calls >= stop_after:
+            raise KeyboardInterrupt("synthetic interruption")
+        return prov(**kw)
+
+    with pytest.raises(KeyboardInterrupt):
+        drv._test_only_execute("P0", tmp_path, interrupting, auth)
+    # no final manifest...
+    assert not (tmp_path / "manifest_P0.json").exists()
+    # ...but the authority artifact and a partial record set are on disk and interpretable
+    pa_doc, _p, pa_sha = vf.read_phase_authority(tmp_path, "P0")
+    a = vf.validate_phase_authority_document(pa_doc, "P0", require_production=False,
+                                             expected_current_authority=auth)
+    assert a["stage"] == "P0"
+    partial = sorted(tmp_path.glob("case_*.json"))
+    assert 0 < len(partial) <= stop_after
+    for f in partial:
+        rec = json.loads(f.read_text())
+        assert rec["phase_authority_file_sha256"] == pa_sha
+    # the resume reuses them and runs only the missing rows
+    prov2 = _CountingProvider()
+    man = drv._test_only_execute("P0", tmp_path, prov2, auth)
+    ec = man["execution_counts"]
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert ec["n_reused_case_records"] == len(partial)
+    assert prov2.calls == ec["n_provider_calls"] == ec["n_newly_executed"]
+    assert prov2.calls == man["counts"]["universe"] - len(partial)
+    vf.validate_phase_manifest("P0", tmp_path, authority=auth, require_production=False)
+
+
+def test_a_partial_phase_refuses_a_different_authority_before_the_provider(tmp_path):
+    auth = _phase_authority("P0")
+    prov = _CountingProvider()
+
+    def interrupting(**kw):
+        if prov.calls >= 3:
+            raise KeyboardInterrupt("synthetic interruption")
+        return prov(**kw)
+
+    with pytest.raises(KeyboardInterrupt):
+        drv._test_only_execute("P0", tmp_path, interrupting, auth)
+    other = dict(auth, dependencies=dict(auth["dependencies"],
+                                         numpy=auth["dependencies"]["numpy"] + ".post9"))
+    prov2 = _CountingProvider()
+    with pytest.raises(vf.ResumeMismatch) as exc:
+        drv._test_only_execute("P0", tmp_path, prov2, other)
+    assert "EXACT authority" in str(exc.value)
+    assert prov2.calls == 0
+
+
+def test_the_authority_file_costs_no_provider_call(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    for phase in ("P0", "P1a", "P1b", "P2a"):
+        ec = out[phase]["execution_counts"]
+        assert ec["n_phase_authority_files"] == 1
+        assert ec["n_provider_calls"] == (ec["n_new_case_records"]
+                                          + ec["n_new_diagnostic_failure_envelopes"])
+    m = vf.execution_matrix()
+    assert m["planned_solver_invocations"] == 703      # no row added for the authority artifact
+
+
+# ---- D. intrinsic predecessor-chain validation (errata PE-106 … PE-108) ----------------------
+
+@pytest.mark.parametrize("phase", ["P0", "P1a", "P1b", "P2a"])
+def test_the_predecessor_chain_is_validated_by_the_phase_validator_itself(synthetic_prefreeze,
+                                                                         phase):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / ("manifest_%s.json" % phase)).read_text())
+    got = vf.validate_predecessor_identity(phase, d, doc)
+    assert set(got) == set(vf.PHASE_PREREQUISITES[phase])
+    if phase == "P0":
+        assert got == {}                              # the EXACT empty map
+    for k, sha in got.items():
+        assert sha == hashlib.sha256(
+            (d / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+    # and it runs on every manifest validation, not only when a later phase asks
+    assert "validate_predecessor_identity" in inspect.getsource(vf.validate_phase_manifest)
+    # require_phase_manifests delegates rather than re-implementing
+    src = inspect.getsource(vf.require_phase_manifests)
+    assert "the exact required set is" not in src
+
+
+@pytest.mark.parametrize("phase,mutate", [
+    ("P1a", "stale"), ("P1b", "keyset"), ("P2a", "stale"), ("P1a", "extra"),
+])
+def test_coordinated_predecessor_chain_tampering_is_rejected(synthetic_prefreeze, tmp_path,
+                                                             phase, mutate):
+    import shutil
+    d, auth, out, recs = synthetic_prefreeze
+    work = tmp_path / ("chain_%s_%s" % (phase, mutate))
+    shutil.copytree(d, work)
+    doc = json.loads((work / ("manifest_%s.json" % phase)).read_text())
+    preds = dict(doc["predecessor_manifests"])
+    if mutate == "stale":
+        preds[sorted(preds)[0]] = "0" * 64
+    elif mutate == "keyset":
+        preds.pop(sorted(preds)[0])
+    else:
+        preds["P2b"] = "1" * 64
+    doc["predecessor_manifests"] = preds
+    # ...and make the authority artifact agree, so no stale outer hash is left behind
+    pa = json.loads((work / doc["phase_authority_path"]).read_text())
+    pa["predecessor_manifest_sha256"] = preds
+    (work / doc["phase_authority_path"]).write_text(vf.canonical_json(pa) + "\n")
+    doc["phase_authority_file_sha256"] = hashlib.sha256(
+        (work / doc["phase_authority_path"]).read_bytes()).hexdigest()
+    (work / ("manifest_%s.json" % phase)).write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest(phase, work, authority=None, predecessor_records=dict(recs),
+                                   require_production=False)
+    assert "predecessor" in str(exc.value)
+
+
+def test_a_record_predecessor_mismatch_fails_final_validation(synthetic_prefreeze, tmp_path):
+    """Erratum PE-106: C7 compared this only on the resume path."""
+    import shutil
+    d, auth, out, recs = synthetic_prefreeze
+    work = tmp_path / "rec_preds"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P1a.json").read_text())
+    cid = doc["completed"][0]["case_id"]
+    rec, rpath = vf.read_case_record(work, cid)
+    rec["predecessor_manifest_sha256"] = {"P0": "0" * 64}
+    rpath.write_text(vf.canonical_json(rec) + "\n")
+    for e in doc["completed"]:
+        if e["case_id"] == cid:
+            e["record_sha256"] = hashlib.sha256(rpath.read_bytes()).hexdigest()
+    (work / "manifest_P1a.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises((vf.ManifestMissing, ValueError)) as exc:
+        vf.validate_phase_manifest("P1a", work, authority=None, require_production=False)
+    assert "predecessor" in str(exc.value)
+
+
+def test_p2b_recursive_validation_detects_internal_chain_tampering(synthetic_p2b, tmp_path):
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / "p2b_chain"
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P1b.json").read_text())
+    doc["predecessor_manifests"]["P0"] = "0" * 64
+    pa = json.loads((work / doc["phase_authority_path"]).read_text())
+    pa["predecessor_manifest_sha256"] = doc["predecessor_manifests"]
+    (work / doc["phase_authority_path"]).write_text(vf.canonical_json(pa) + "\n")
+    doc["phase_authority_file_sha256"] = hashlib.sha256(
+        (work / doc["phase_authority_path"]).read_bytes()).hexdigest()
+    (work / "manifest_P1b.json").write_text(vf.canonical_json(doc) + "\n")
+    _rehash_p2b(work)
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(work, require_production=False)
+
+
+# ---- E. self-authenticating diagnostic envelopes (errata PE-109, PE-110) ---------------------
+
+def _envelope_of(runs, man):
+    e = man["diagnostic_failed"][0]
+    doc, path = vf.read_diagnostic_failure_envelope(runs, e["case_id"])
+    return e, doc, path
+
+
+def test_the_envelope_schema_is_exact(tau_attempt_phases):
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    _e, env, _p = _envelope_of(d, man)
+    assert sorted(env) == sorted(vf.DIAGNOSTIC_FAILURE_FIELDS)
+    for field in ("row", "row_sha256", "predecessor_manifest_sha256", "geometry_kind",
+                  "mask_sha256", "forcing_exact", "forcing_repr", "solver_config", "backend",
+                  "execution_authority_sha256", "phase_authority_file_sha256", "failure_code",
+                  "failure_stage", "provider_called", "provenance_mode", "status",
+                  "evidence_status"):
+        assert field in vf.DIAGNOSTIC_FAILURE_FIELDS, field
+    with pytest.raises(ValueError):
+        vf.validate_diagnostic_failure_envelope(dict(env, invented_field=1))
+    with pytest.raises(ValueError):
+        short = {k: v for k, v in env.items() if k != "mask_sha256"}
+        vf.validate_diagnostic_failure_envelope(short)
+
+
+ENVELOPE_TAMPERS = {
+    "embedded_row": lambda e: dict(e, row=dict(e["row"], forcing_level="high")),
+    "forcing_exact": lambda e: dict(e, forcing_exact={"numerator": 1, "denominator": 7}),
+    "forcing_repr": lambda e: dict(e, forcing_repr="0.5"),
+    "solver_config": lambda e: dict(e, solver_config=dict(e["solver_config"], rtol=1.0e-3)),
+    "mask": lambda e: dict(e, mask_sha256="0" * 64),
+    "geometry_kind": lambda e: dict(e, geometry_kind="coupon"),
+    "predecessors": lambda e: dict(e, predecessor_manifest_sha256={"P0": "0" * 64}),
+    "role": lambda e: dict(e, scientific_role="DECISION_BEARING"),
+}
+
+
+@pytest.mark.parametrize("name", sorted(ENVELOPE_TAMPERS))
+def test_a_tampered_envelope_fails_even_with_every_outer_hash_updated(tau_attempt_phases,
+                                                                     tmp_path, name):
+    import shutil
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    work = tmp_path / ("env_" + name)
+    shutil.copytree(d, work)
+    entry, env, path = _envelope_of(work, man)
+    bad = ENVELOPE_TAMPERS[name](env)
+    path.write_text(vf.canonical_json(bad) + "\n")
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    for e in doc["diagnostic_failed"]:
+        if e["case_id"] == entry["case_id"]:
+            e["record_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+            if name == "role":
+                e["scientific_role"] = bad["scientific_role"]
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises((vf.ManifestMissing, ValueError)):
+        vf.validate_phase_manifest("P0", work, authority=auth, require_production=False)
+
+
+def test_a_modified_embedded_row_with_an_unchanged_stored_hash_fails(tau_attempt_phases):
+    """Erratum PE-109: C7 compared the stored hash against the EXTERNAL row only."""
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    _e, env, _p = _envelope_of(d, man)
+    forged = dict(env, row=dict(env["row"], swapped=True))    # row_sha256 left UNCHANGED
+    assert forged["row_sha256"] == env["row_sha256"]
+    with pytest.raises(ValueError) as exc:
+        vf.validate_diagnostic_failure_envelope(forged)
+    assert "does not hash to its own recorded row_sha256" in str(exc.value)
+
+
+def test_an_envelope_from_another_predecessor_state_does_not_satisfy_this_phase(
+        tau_attempt_phases):
+    d, auth, man, prov = tau_attempt_phases["raises"]
+    _e, env, _p = _envelope_of(d, man)
+    # same case ID, same authority hash, different predecessor state
+    other = dict(env, predecessor_manifest_sha256={"P0": "a" * 64})
+    with pytest.raises(ValueError) as exc:
+        vf.validate_diagnostic_failure_envelope(other, expected_predecessors={})
+    assert "predecessor" in str(exc.value)
+
+
+# ---- F. the completed tau result contract (errata PE-111, PE-112) ---------------------------
+
+MALFORMED_TAU = {
+    "steps_fractional": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                         lambda r: dict(r, steps=2000.5)),
+    "steps_bool": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID", lambda r: dict(r, steps=True)),
+    "steps_string": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID", lambda r: dict(r, steps="2000")),
+    "steps_nan": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                  lambda r: dict(r, steps=float("nan"))),
+    "steps_negative": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID", lambda r: dict(r, steps=-1)),
+    "object_dtype": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                     lambda r: dict(r, rho=np.full(r["rho"].shape, None, dtype=object))),
+    "string_field": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                     lambda r: dict(r, uy=np.full(r["uy"].shape, "x", dtype="<U1"))),
+    "complex_field": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                      lambda r: dict(r, uz=r["uz"].astype(complex))),
+    "unconvertible": ("DIAGNOSTIC_RESULT_CONTRACT_INVALID",
+                      lambda r: dict(r, ux=[1, [2, 3]])),
+    "nonfinite_field": ("DIAGNOSTIC_RESULT_NONFINITE",
+                        lambda r: dict(r, rho=r["rho"] * np.nan)),
+}
+
+
+class _MalformedTauProvider:
+    def __init__(self, mode, kinds=TAU_KINDS):
+        self.mode = mode
+        self.kinds = kinds
+        self._inner = _pipeline_provider()
+        self.calls = 0
+
+    def __call__(self, **kw):
+        self.calls += 1
+        res = self._inner(**kw)
+        if kw["row"]["kind"] in self.kinds:
+            return MALFORMED_TAU[self.mode][1](res)
+        return res
+
+
+@pytest.mark.parametrize("mode", sorted(MALFORMED_TAU))
+def test_every_malformed_tau_result_reaches_a_named_code(tmp_path, mode):
+    want = MALFORMED_TAU[mode][0]
+    auth = _phase_authority("P0")
+    prov = _MalformedTauProvider(mode)
+    man = drv._test_only_execute("P0", tmp_path, prov, auth)
+    assert man["terminal_status"] == "PHASE_COMPLETE"
+    assert man["counts"]["failed"] == 0
+    assert man["counts"]["diagnostic_failed"] == 2
+    for e in man["diagnostic_failed"]:
+        assert e["artifact_kind"] == "DIAGNOSTIC_FAILURE_ENVELOPE"
+        assert e["reason"] == want, (mode, e["reason"])
+    doc = vf.validate_phase_manifest("P0", tmp_path, authority=auth, require_production=False)
+    assert doc["_phase_science"]["pass"] is True
+    vf.require_phase_manifests("P1a", runs_dir=tmp_path, authority=auth,
+                               require_production=False)
+    # exact resume makes zero provider calls
+    (tmp_path / "manifest_P0.json").unlink()
+    prov2 = _MalformedTauProvider(mode)
+    again = drv._test_only_execute("P0", tmp_path, prov2, auth)
+    assert prov2.calls == 0
+    assert again["execution_counts"]["n_reused_diagnostic_failure_envelopes"] == 2
+
+
+@pytest.mark.parametrize("mode", ["steps_fractional", "object_dtype", "nonfinite_field"])
+def test_the_same_malformed_result_on_a_decision_bearing_row_stays_blocking(tmp_path, mode):
+    prov = _MalformedTauProvider(mode, kinds=("reference_blocked_ladder",))
+    auth = _phase_authority("P0")
+    with pytest.raises((ValueError, RuntimeError, vf.NonFiniteValue)) as exc:
+        drv._test_only_execute("P0", tmp_path, prov, auth)
+    assert not isinstance(exc.value, vf.DiagnosticAttemptFailed)
+    assert not list(tmp_path.glob("diagnostic_failure_*.json"))
+
+
+def test_the_exact_step_validator_rejects_every_lossy_form():
+    for bad in (2000.5, True, False, "2000", float("nan"), float("inf"), -1, 3 + 0j, None,
+                [2000]):
+        with pytest.raises(vf.DiagnosticAttemptFailed):
+            drv._exact_steps(bad)
+    assert drv._exact_steps(2000) == 2000
+    assert drv._exact_steps(np.int64(2000)) == 2000      # a NumPy integer scalar is accepted
+    assert drv._exact_steps(0) == 0
