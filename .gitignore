@@ -51,6 +51,19 @@ puckworks/data/schmieder2023/*.opju
 puckworks/data/schmieder2023/foods-12-02871-s001/
 puckworks/data/schmieder2023/foods-12-02871-s001*/
 
+# RP-D-LC-001b runtime bundle: DEFENCE IN DEPTH ONLY (erratum PE-115).
+# The durable rule is the frozen policy PRODUCTION_RUNS_DIRECTORY_POLICY =
+# EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY: every production execution or assembly mode requires
+# an explicit absolute --output outside this repository, and validate_production_runs_dir() refuses
+# anything beneath REPO_ROOT. This rule exists so a stray legacy path cannot dirty the worktree the
+# production authority requires to be clean -- it is NEVER what establishes the location, and no
+# validator may rely on it, on .git/info/exclude, on a global gitignore or on any untracked local
+# convention.
+#
+# NOTE: docs/analysis/rp_d_lc_001/runs/ is deliberately NOT listed. That bundle is CLOSED and
+# IMMUTABLE and its runs/ artifacts are tracked; ignoring it would be wrong.
+docs/analysis/rp_d_lc_001b/runs/
+
 # handoff delivery bundle (binary; contents integrated into the tree)
 docs/puckworks_handoff_2026-07-13.zip
 

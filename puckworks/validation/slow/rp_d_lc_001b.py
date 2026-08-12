@@ -10,6 +10,12 @@ Independently of that allowlist, P3 and P4 refuse without the reviewed bridge fr
 reviewed instantiated P3/P4 matrix, and every phase refuses without valid completion manifests
 for its predecessors — both checked BEFORE the allowlist, so neither gate is shadowed by it.
 
+Every production execution and assembly mode additionally REQUIRES an explicit absolute runs
+directory OUTSIDE this repository (erratum PE-114). There is no default: the production authority
+requires a clean Git worktree, and a repository-internal bundle would destroy that before the next
+phase could construct its own authority. ``--mode plan`` reads the canonical matrix, writes
+nothing, and needs no output path.
+
 What IS implemented here is everything that can be checked without a solver: the per-case
 record construction from already-computed fields, the phase ordering, the freeze gate and the
 execution-authority record. Heavy execution never enters normal CI (CLAUDE.md rule 3).
@@ -71,6 +77,13 @@ POST_FREEZE_NOT_READY_NOTE = (
 #: ONE shared implementation, defined beside the committed-authorization parser and re-exported
 #: here so the driver and the assembler cannot drift apart (erratum PE-104).
 ExecutionNotAuthorised = vf.ExecutionNotAuthorised
+
+#: The frozen runtime-bundle policy (errata PE-114 … PE-116), re-exported from the ONE pure
+#: validator the driver and the P2b assembler share. There is no repository-internal default: the
+#: production authority requires a clean worktree, so runtime output may never be written beneath
+#: it. The absolute pathname is a property of one workstation and enters no scientific hash.
+PRODUCTION_RUNS_DIRECTORY_POLICY = vf.PRODUCTION_RUNS_DIRECTORY_POLICY
+RunsDirectoryPolicyError = vf.RunsDirectoryPolicyError
 
 
 class PostFreezeExecutorNotReady(ExecutionNotAuthorised):
@@ -442,17 +455,26 @@ def execute_phase(phase, runs_dir, backend="reference"):
     run the gate and then use the caller's authority instead of the gate's. Here the authority
     used is exactly the one the gate returns, and the only path to a solve is the single guarded
     call site.
+
+    ``runs_dir`` is MANDATORY and must be an explicit absolute path outside the repository
+    (erratum PE-114). It is validated FIRST — before the post-freeze refusal, the freeze gate,
+    predecessor validation, authority construction, any provider call and any artifact — because
+    the authority every later phase needs requires a clean worktree, and a repository-internal
+    bundle destroys that before the next phase can ask for it.
     """
     if phase not in vf.PHASE_PREREQUISITES:
         raise ValueError("unknown phase %r; expected one of %r"
                          % (phase, sorted(vf.PHASE_PREREQUISITES)))
-    base = pathlib.Path(runs_dir)
+    base = vf.validate_production_runs_dir(runs_dir, require_production=True)
     if phase in POST_FREEZE_PHASES and not POST_FREEZE_EXECUTOR_READY:
         _refuse_post_freeze(phase)                             # PE-76
     if phase in ASSEMBLY_MODES:
         require_assembly_authorisation(phase, backend=backend, runs_dir=base)
         return vf.assemble_p2b_from_runs(base, backend=backend)   # pragma: no cover - unreached
     auth = require_execution_authorisation(phase, backend=backend, runs_dir=base)
+    # PE-114: only now, with the policy passed and the phase authorized, is the bundle created.
+    vf.validate_production_runs_dir(base, require_production=True,  # pragma: no cover - unreached
+                                    create=True)
     manifests, records = ({}, {})                                 # pragma: no cover - unreached
     if vf.PHASE_PREREQUISITES[phase]:                             # pragma: no cover - unreached
         manifests, records = vf.require_phase_manifests(phase, runs_dir=base, authority=auth)
@@ -888,10 +910,14 @@ def run_phase(mode, out_dir=None, backend="reference", runs_dir=None, jobs=1):
                          "never accepted and then silently routed to the reference solver."
                          % (backend, vf.SUPPORTED_BACKENDS))
     if mode == "plan":
+        # the PLAN mode reads the canonical matrix and writes nothing, so it needs no output path
         return vf.execution_matrix()
+    # erratum PE-114: there is NO default. Every non-plan mode -- P0, P1a, P1b, P2a, P2b and
+    # eventually P3/P4 -- requires an explicit runs directory outside the repository. The
+    # superseded fallback was REPO_ROOT / vf.RUNS_REL, i.e. docs/analysis/rp_d_lc_001b/runs, which
+    # the tracked .gitignore does not exclude, so P0 dirtied the worktree whose cleanliness P1a's
+    # own authority then required.
     rd = runs_dir if runs_dir is not None else out_dir
-    if rd is None:
-        rd = REPO_ROOT / vf.RUNS_REL
     return execute_phase(mode, rd, backend=backend)
 
 
@@ -911,7 +937,10 @@ def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, rec
             "the TEST_ONLY seam was given a stage-%r authority for phase %r; each phase is "
             "executed under its own stage-correct authority (erratum PE-94)"
             % (authority.get("stage"), phase))
-    return _orchestrate(phase, pathlib.Path(runs_dir), authority, manifests or {}, records or {},
+    # erratum PE-114: TEST_ONLY may use a temporary directory, but it goes through the SAME pure
+    # validator, so the seam and production never diverge on how the bundle is resolved.
+    base = vf.validate_production_runs_dir(runs_dir, require_production=False, create=True)
+    return _orchestrate(phase, base, authority, manifests or {}, records or {},
                         provider, backend, "TEST_ONLY")
 
 
@@ -951,14 +980,18 @@ def main(argv=None):                                             # pragma: no co
     ap.add_argument("--backend", default="reference",
                     help="only 'reference' exists; anything else fails before execution")
     ap.add_argument("--output", default=None,
-                    help="the runs directory actually used (default: the bundle's runs/)")
+                    help="REQUIRED for every mode except 'plan': an explicit ABSOLUTE runs "
+                         "directory OUTSIDE the repository. There is no default — the production "
+                         "authority requires a clean worktree, so runtime output may never be "
+                         "written beneath it (erratum PE-114)")
     ap.add_argument("--jobs", type=int, default=1,
                     help="only 1 is supported at this stage; a larger value is refused")
     a = ap.parse_args(argv)
     try:
         res = run_phase(a.mode, out_dir=a.output, backend=a.backend, jobs=a.jobs)
     except (ExecutionNotAuthorised, PostFreezeExecutorNotReady, vf.FreezeMissing,
-            vf.ManifestMissing, vf.ExecutionAuthorityError, vf.DesignBlocked, ValueError) as exc:
+            vf.ManifestMissing, vf.RunsDirectoryPolicyError, vf.ExecutionAuthorityError,
+            vf.DesignBlocked, ValueError) as exc:
         print("REFUSED: %s" % exc)
         return 2
     if a.mode == "plan":

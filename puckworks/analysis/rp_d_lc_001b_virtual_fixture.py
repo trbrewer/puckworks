@@ -4076,6 +4076,133 @@ def phase_manifest_rel(phase: str) -> str:
     return "%s/manifest_%s.json" % (RUNS_REL, phase)
 
 
+# ---- the PRODUCTION runtime bundle must live OUTSIDE the repository (errata PE-114 … PE-116) --
+# The production authority requires a CLEAN Git worktree. C8's driver defaulted the runs directory
+# to ``REPO_ROOT / RUNS_REL`` = ``docs/analysis/rp_d_lc_001b/runs``, which the tracked .gitignore
+# does not exclude, so the documented P0 command wrote untracked artifacts into the very worktree
+# whose cleanliness the NEXT phase's authority depends on. The design defeated itself on the first
+# real execution.
+#
+# The policy is a source-level constant, and the check is ONE pure validator shared by the driver
+# and the P2b assembler so the two can never drift.
+
+PRODUCTION_RUNS_DIRECTORY_POLICY = "EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY"
+
+#: The location CLASS a validated production bundle carries. The absolute pathname belongs to one
+#: workstation and is deliberately NOT part of any scientific hash; the durable contract is this
+#: class together with the contents of the bundle.
+RUNS_DIRECTORY_LOCATION_CLASS = "OUTSIDE_REPOSITORY"
+
+#: Frozen refusal codes, so a test asserts the reason rather than a message fragment.
+RUNS_DIRECTORY_REFUSALS = (
+    "RUNS_DIRECTORY_NOT_SUPPLIED",
+    "RUNS_DIRECTORY_NOT_ABSOLUTE",
+    "RUNS_DIRECTORY_IS_REPOSITORY_ROOT",
+    "RUNS_DIRECTORY_INSIDE_REPOSITORY",
+    "RUNS_DIRECTORY_SYMLINK_INTO_REPOSITORY",
+    "RUNS_DIRECTORY_IS_A_FILE",
+)
+
+
+class RunsDirectoryPolicyError(ExecutionAuthorityError):
+    """A production runs directory violates the frozen runtime-bundle policy.
+
+    An :class:`ExecutionAuthorityError` subclass: refusing the bundle location is refusing to
+    establish an execution authority, and it happens BEFORE authority construction, predecessor
+    validation, any provider invocation and any artifact creation.
+    """
+
+    def __init__(self, code, detail):
+        if code not in RUNS_DIRECTORY_REFUSALS:      # pragma: no cover - codes are frozen
+            raise ValueError("unknown runs-directory refusal code %r" % (code,))
+        self.code = code
+        self.detail = detail
+        super().__init__("%s: %s. The frozen policy is %s (errata PE-114 … PE-116)."
+                         % (code, detail, PRODUCTION_RUNS_DIRECTORY_POLICY))
+
+
+def _is_within(path, root):
+    """True when ``path`` is ``root`` or a descendant of it, on RESOLVED paths only."""
+    try:
+        path.relative_to(root)
+    except ValueError:
+        return False
+    return True
+
+
+def validate_production_runs_dir(runs_dir, require_production=True, create=False):
+    """The ONE pure runtime-bundle validator, shared by the driver and the P2b assembler.
+
+    For production it requires an explicit absolute path outside ``REPO_ROOT``: the path and every
+    existing parent are resolved, so a symlink whose resolved target is inside the repository is
+    refused as surely as a literal descendant. A file standing where the directory belongs is
+    refused. The directory is created only AFTER the policy passes, and the exact resolved
+    directory is returned so authorities, records, manifests, P2b artifacts, resume and freeze
+    checks all use the identical location.
+
+    Nothing here consults ``.git/info/exclude``, a user's global gitignore, an environment-specific
+    ignore rule or an untracked local convention: the location is established by the resolved
+    pathname, not by whether some ignore file happens to hide it.
+
+    ``require_production=False`` is the TEST_ONLY seam, which may continue to use temporary
+    directories. It still requires a path and still refuses a file in place of a directory.
+    """
+    if runs_dir is None or (isinstance(runs_dir, str) and not runs_dir.strip()):
+        raise RunsDirectoryPolicyError(
+            "RUNS_DIRECTORY_NOT_SUPPLIED",
+            "no runs directory was supplied; a production execution or assembly mode requires an "
+            "explicit --output and has NO default")
+    raw = pathlib.Path(runs_dir)
+    if require_production and not raw.is_absolute():
+        raise RunsDirectoryPolicyError(
+            "RUNS_DIRECTORY_NOT_ABSOLUTE",
+            "the runs directory %r is relative; a relative path resolves against whatever "
+            "directory the command happened to start in" % (str(raw),))
+    if raw.exists() and not raw.is_dir():
+        raise RunsDirectoryPolicyError(
+            "RUNS_DIRECTORY_IS_A_FILE",
+            "%r exists and is not a directory" % (str(raw),))
+    # resolve the path AND every existing parent, so a symlink anywhere along the chain is followed
+    resolved = raw.resolve()
+    root = REPO_ROOT.resolve()
+    if require_production:
+        if resolved == root:
+            raise RunsDirectoryPolicyError(
+                "RUNS_DIRECTORY_IS_REPOSITORY_ROOT",
+                "%r resolves to the repository root" % (str(raw),))
+        if _is_within(resolved, root):
+            code = ("RUNS_DIRECTORY_SYMLINK_INTO_REPOSITORY"
+                    if str(resolved) != str(raw) else "RUNS_DIRECTORY_INSIDE_REPOSITORY")
+            raise RunsDirectoryPolicyError(
+                code,
+                "%r resolves to %r, which is inside the repository at %r. The production authority "
+                "requires a CLEAN worktree, so runtime output may never be written beneath it"
+                % (str(raw), str(resolved), str(root)))
+        if resolved.exists() and not resolved.is_dir():   # pragma: no cover - checked above
+            raise RunsDirectoryPolicyError(
+                "RUNS_DIRECTORY_IS_A_FILE",
+                "%r resolves to a file" % (str(raw),))
+    if create:
+        resolved.mkdir(parents=True, exist_ok=True)
+    return resolved
+
+
+def runs_directory_report(runs_dir, require_production=True):
+    """The location CLASS and a stable digest — never the machine-specific pathname itself.
+
+    Reported for diagnostics only. No scientific hash, record identity, payload identity, manifest
+    identity or authority hash contains either field.
+    """
+    resolved = validate_production_runs_dir(runs_dir, require_production=require_production)
+    return {
+        "policy": PRODUCTION_RUNS_DIRECTORY_POLICY,
+        "location_class": (RUNS_DIRECTORY_LOCATION_CLASS if require_production
+                           else "TEST_ONLY_TEMPORARY"),
+        "path_sha256": hashlib.sha256(str(resolved).encode("utf-8")).hexdigest(),
+        "embedded_in_scientific_hashes": False,
+    }
+
+
 def _git(*args):
     import subprocess
     try:
@@ -8452,7 +8579,12 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
     # driver's require_assembly_authorisation having been called by the caller, so a direct call
     # bypassed it entirely. One shared source-controlled gate, not two drifting copies.
     assert_stage_authorised("P2b")
-    base = pathlib.Path(runs_dir)
+    # erratum PE-114: the runtime bundle must be an explicit absolute path OUTSIDE the repository,
+    # checked here — before any authority, any predecessor validation and any artifact — through
+    # the SAME pure validator the driver uses. P2b writes the candidate ledger, the proposed
+    # freeze, the instantiated matrix, its manifest and its assembly authority, and every one of
+    # them would otherwise land in the worktree the authority requires to be clean.
+    base = validate_production_runs_dir(runs_dir, require_production=True)
     auth = execution_authority("P2b", backend=backend)
     manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=auth,
                                                  require_production=True)
@@ -8471,7 +8603,9 @@ def _test_only_assemble_p2b_from_runs(runs_dir, authority, backend="reference"):
 
     It never calls the production wrapper and never monkeypatches a production guard.
     """
-    base = pathlib.Path(runs_dir)
+    # TEST_ONLY may use a temporary directory (erratum PE-114), but the path is still validated so
+    # the seam and production share one code path rather than two.
+    base = validate_production_runs_dir(runs_dir, require_production=False)
     manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=authority,
                                                  require_production=False)
     return _p2b_decision_core(base, authority, manifests, records, provenance_mode="TEST_ONLY")
