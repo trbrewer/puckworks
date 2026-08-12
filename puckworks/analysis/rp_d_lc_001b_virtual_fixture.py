@@ -3699,7 +3699,9 @@ def execution_matrix():
             "correction version, which suffices for P0-P2b under one reviewed authority version "
             "but NOT for a later P3/P4 review commit validating historical C8-era authorities. "
             "C8 does not implement the dispatcher and does not claim otherwise."),
-        "post_freeze_executor_ready": False,
+        # erratum PE-124 §9.2: DERIVED from the strictly parsed committed driver, not asserted.
+        "post_freeze_executor_ready":
+            committed_authorization_status()["post_freeze_executor_ready"],
         "post_freeze_deferral": ("P3/P4 orchestration still derives its universe from these "
                                  "templates; the approved instantiated-matrix loader has not "
                                  "passed exact-head review and P3/P4 are hard-refused "
@@ -3959,7 +3961,9 @@ def protocol_config():
             "invariant": "n_provider_calls == n_newly_executed",
             "erratum": "PE-74/PE-75",
         },
-        "post_freeze_executor_ready": False,
+        # erratum PE-124 §9.2: DERIVED from the strictly parsed committed driver, not asserted.
+        "post_freeze_executor_ready":
+            committed_authorization_status()["post_freeze_executor_ready"],
         "post_freeze_deferral": (
             "P3/P4 orchestration still derives its universe from the planning templates; the "
             "approved instantiated-matrix loader has not passed exact-head review and P3/P4 are "
@@ -4041,9 +4045,12 @@ def preflight_status():
         "input_file_sha256": {f: _sha_file(f) for f in INPUT_FILES},
         "stage_b_authorised": False,
         "paper_4_authorised": False,
-        "post_freeze_executor_ready": False,
-        "authorised_solving_phases": [],
-        "authorised_assembly_phases": [],
+        # erratum PE-124 §9.2: DERIVED from the same strictly parsed committed driver source the
+        # authority reads, never duplicated as permanently hard-coded false metadata. At C9 this
+        # reports empty allowlists because the committed driver declares empty allowlists; at a
+        # future authorization head, regenerating this artifact reports the complete pre-freeze
+        # cohort without changing any scientific row, tolerance or decision rule.
+        **committed_authorization_status(),
         "card_box_5": "OPEN",
         "card_box_6": "closed on its existing mathematical result",
     }
@@ -4299,7 +4306,56 @@ SOURCE_AUTHORIZATION_FIELDS = (
     "driver_path", "driver_file_sha256", "authorised_solving_phases",
     "authorised_assembly_phases", "post_freeze_executor_ready",
     "stage", "required_gate", "stage_authorised",
+    # erratum PE-124: which of the two permitted pre-freeze cohort states the committed head is in
+    "prefreeze_cohort_state",
 )
+
+# ---- the ATOMIC pre-freeze authorization cohort (erratum PE-124) -----------------------------
+# The driver's docstring and AUTHORISATION_NOTE stated that each phase is added to
+# AUTHORISED_SOLVING_PHASES by its own reviewed source commit. require_phase_manifests requires
+# every predecessor's authority to carry the SAME source_commit and source_tree as this phase's. The
+# two statements are incompatible: under sequential per-phase authorization commits, P1a could never
+# consume P0. The fact the code already requires is that the pre-freeze records share ONE reviewed
+# source commit, so that is what is encoded here rather than left as a comment implying otherwise.
+#
+# This does NOT make execution monolithic. The existing predecessor gates still authorize only the
+# next scientifically reachable phase, and P3/P4 remain separately controlled, absent, and blocked by
+# POST_FREEZE_EXECUTOR_READY = False.
+
+#: The complete pre-freeze SOLVING cohort, in canonical order.
+PREFREEZE_SOLVING_AUTHORIZATION_COHORT = ("P0", "P1a", "P1b", "P2a")
+#: The complete pre-freeze ASSEMBLY cohort.
+PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT = ("P2b",)
+
+#: The only two permitted pre-freeze authorization states at a committed source head.
+PREFREEZE_COHORT_STATES = ("NO_PREFREEZE_PHASE_AUTHORIZED", "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
+
+
+def prefreeze_cohort_state(solving, assembly):
+    """Which permitted pre-freeze cohort state a committed head is in (erratum PE-124).
+
+    Exactly two states are permitted: none of the pre-freeze phases authorized, or the COMPLETE
+    cohort authorized — all four solving phases in canonical order plus P2b in the assembly
+    allowlist. Every partial state is refused: P0 only, P0 plus P1a, solving phases without P2b,
+    P2b without all four solving phases, and the correct names in the wrong allowlist.
+    """
+    sol = tuple(solving)
+    asm = tuple(assembly)
+    pre_sol = tuple(p for p in sol if p in PREFREEZE_SOLVING_AUTHORIZATION_COHORT)
+    pre_asm = tuple(p for p in asm if p in PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT)
+    if not pre_sol and not pre_asm:
+        return "NO_PREFREEZE_PHASE_AUTHORIZED"
+    if (pre_sol == PREFREEZE_SOLVING_AUTHORIZATION_COHORT
+            and pre_asm == PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT):
+        return "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
+    raise SourceAuthorizationError(
+        "the committed driver is in a PARTIAL pre-freeze authorization state: solving %r, assembly "
+        "%r. The pre-freeze records must share ONE reviewed source commit (require_phase_manifests "
+        "requires every predecessor authority to carry this phase's source commit and tree), so a "
+        "committed head may authorize either NO pre-freeze phase or the COMPLETE cohort %r plus %r, "
+        "in canonical order, and nothing in between (erratum PE-124)."
+        % (sol, asm, PREFREEZE_SOLVING_AUTHORIZATION_COHORT,
+           PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT))
 
 
 class SourceAuthorizationError(ExecutionAuthorityError):
@@ -4375,6 +4431,11 @@ def parse_committed_authorization(driver_source, driver_path=DRIVER_REL):
             raise SourceAuthorizationError(
                 "phase %r is a SOLVING phase and may never appear in "
                 "AUTHORISED_ASSEMBLY_PHASES" % (phase,))
+    # erratum PE-124: the pre-freeze authorization is ATOMIC. A partial state is refused HERE, at
+    # the parse, so nothing downstream — no authority, no record, no manifest, no generated
+    # artifact — can be built on one.
+    found["prefreeze_cohort_state"] = prefreeze_cohort_state(
+        found["AUTHORISED_SOLVING_PHASES"], found["AUTHORISED_ASSEMBLY_PHASES"])
     return found
 
 
@@ -4402,6 +4463,63 @@ def source_authorization_snapshot(stage, driver_source, driver_path=DRIVER_REL):
         "stage": stage,
         "required_gate": gate,
         "stage_authorised": bool(authorised),
+        # erratum PE-124: one exact reviewed authorization commit authorizes the COMPLETE
+        # P0-through-P2b cohort; each phase remains separately gated by its prerequisites.
+        "prefreeze_cohort_state": parsed["prefreeze_cohort_state"],
+    }
+
+
+#: Memo keyed on the driver file's own SHA-256, so a generated artifact costs one cheap read rather
+#: than an AST parse per call, and a changed driver always re-parses.
+_AUTHZ_MEMO = {}
+
+
+def committed_authorization_constants(driver_path=DRIVER_REL):
+    """The three authorization constants as the TRACKED driver source declares them (PE-124 §9.2).
+
+    Read from the tracked file and parsed by the SAME strict AST reader the authority uses — never
+    from the imported module object, an environment variable or a caller-supplied list.
+    """
+    p = REPO_ROOT / driver_path
+    if not p.exists():                            # pragma: no cover - the driver is tracked
+        raise SourceAuthorizationError("the driver %r is missing" % (driver_path,))
+    raw = p.read_bytes()
+    key = hashlib.sha256(raw).hexdigest()
+    hit = _AUTHZ_MEMO.get(key)
+    if hit is None:
+        hit = dict(parse_committed_authorization(raw.decode("utf-8"), driver_path=driver_path))
+        hit["driver_file_sha256"] = key
+        _AUTHZ_MEMO[key] = hit
+    return dict(hit)
+
+
+def committed_authorization_status(driver_path=DRIVER_REL):
+    """The authorization state every generated artifact reports (erratum PE-124 §9.2).
+
+    C8 duplicated the allowlists and the post-freeze readiness as permanently hard-coded ``False``
+    / ``[]`` metadata inside ``preflight_status()``, so the generated record asserted an
+    authorization state rather than deriving one. It is DERIVED here from the same strictly parsed
+    driver source the authority reads.
+
+    At the C9 head this reports empty allowlists because the committed driver declares empty
+    allowlists. At a future reviewed authorization head, regenerating the controlled artifacts
+    reports the complete pre-freeze cohort — and changes no scientific row, no row ``case_id``, no
+    tolerance and no decision rule.
+    """
+    c = committed_authorization_constants(driver_path=driver_path)
+    return {
+        "authorization_source_path": driver_path,
+        "authorization_source_sha256": c["driver_file_sha256"],
+        "authorised_solving_phases": list(c["AUTHORISED_SOLVING_PHASES"]),
+        "authorised_assembly_phases": list(c["AUTHORISED_ASSEMBLY_PHASES"]),
+        "post_freeze_executor_ready": bool(c["POST_FREEZE_EXECUTOR_READY"]),
+        "prefreeze_cohort_state": c["prefreeze_cohort_state"],
+        "prefreeze_solving_authorization_cohort": list(PREFREEZE_SOLVING_AUTHORIZATION_COHORT),
+        "prefreeze_assembly_authorization_cohort": list(PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT),
+        "prefreeze_common_authorization_head": (
+            "one exact reviewed authorization commit authorizes the complete P0-through-P2b "
+            "cohort; each phase remains separately gated by its prerequisites, and P3/P4 require a "
+            "later source commit and remain unavailable (erratum PE-124)"),
     }
 
 
@@ -4437,11 +4555,15 @@ def assert_stage_authorised(stage, driver_source=None):
         raise ExecutionNotAuthorised(
             "phase %r is NOT AUTHORISED by the source-controlled constants: "
             "AUTHORISED_SOLVING_PHASES = %r, AUTHORISED_ASSEMBLY_PHASES = %r, "
-            "POST_FREEZE_EXECUTOR_READY = %r. Its %s gate must name it, and adding it is its own "
-            "reviewed source commit (erratum PE-104)."
+            "POST_FREEZE_EXECUTOR_READY = %r, prefreeze_cohort_state = %r. Its %s gate must name "
+            "it. ONE exact reviewed authorization commit authorizes the complete pre-freeze "
+            "P0-through-P2b cohort %r plus %r — partial pre-freeze states are refused — and P3/P4 "
+            "require a later source commit (errata PE-104, PE-124)."
             % (stage, tuple(snap["authorised_solving_phases"]),
                tuple(snap["authorised_assembly_phases"]),
-               snap["post_freeze_executor_ready"], snap["required_gate"]))
+               snap["post_freeze_executor_ready"], snap["prefreeze_cohort_state"],
+               snap["required_gate"], PREFREEZE_SOLVING_AUTHORIZATION_COHORT,
+               PREFREEZE_ASSEMBLY_AUTHORIZATION_COHORT))
     return snap
 
 

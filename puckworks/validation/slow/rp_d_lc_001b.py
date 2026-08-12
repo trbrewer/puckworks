@@ -2,9 +2,18 @@
 
 NO LATTICE-BOLTZMANN SOLVE HAS BEEN PERFORMED FOR THIS TRANCHE, AND THIS MODULE REFUSES TO
 PERFORM ONE. Authorisation is PHASE-SPECIFIC (erratum PE-11): ``AUTHORISED_SOLVING_PHASES`` is
-empty at this head, so every solving phase raises ``ExecutionNotAuthorised``. Authorising the
-pre-freeze phases cannot authorise P3 or P4; each addition is its own reviewed source commit,
-and the resulting exact head is the object reviewed for execution.
+empty at this head, so every solving phase raises ``ExecutionNotAuthorised``.
+
+The PRE-FREEZE authorization is an ATOMIC SOURCE COHORT (erratum PE-124). ONE exact reviewed
+authorization commit authorizes the complete P0-through-P2b cohort: a committed head may declare
+either no pre-freeze phase authorized or all four solving phases in canonical order plus P2b in the
+assembly allowlist, and every partial state is refused. That is the fact the code already required —
+``require_phase_manifests`` requires every predecessor's authority to carry this phase's own
+``source_commit`` and ``source_tree``, so under sequential per-phase authorization commits P1a could
+never consume P0. Each phase nevertheless remains SEPARATELY gated by its prerequisites, so a shared
+authorization head does not make execution monolithic. P3 and P4 require a LATER source commit, are
+never part of the pre-freeze cohort, and stay unavailable while ``POST_FREEZE_EXECUTOR_READY`` is
+false. The resulting exact head is the object reviewed for execution.
 
 Independently of that allowlist, P3 and P4 refuse without the reviewed bridge freeze AND the
 reviewed instantiated P3/P4 matrix, and every phase refuses without valid completion manifests
@@ -40,9 +49,13 @@ REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 #: the same act as the pre-freeze phases.
 #:
 #: It is deliberately a source-level constant rather than a flag or an environment variable:
-#: adding a phase must be a reviewable change to the repository, and the resulting exact head is
-#: the object reviewed for execution. Authorising P0/P1a/P1b/P2a does NOT authorise P3 or P4, and
+#: authorising the cohort must be a reviewable change to the repository, and the resulting exact head
+#: is the object reviewed for execution. Authorising P0/P1a/P1b/P2a does NOT authorise P3 or P4, and
 #: P3 stays hard-refused even when a syntactically valid freeze exists.
+#:
+#: erratum PE-124: the PRE-FREEZE entries are ATOMIC. This tuple may contain none of
+#: ``vf.PREFREEZE_SOLVING_AUTHORIZATION_COHORT`` or all of it, in canonical order, and the parser
+#: refuses every partial state. It is not filled in one phase at a time.
 AUTHORISED_SOLVING_PHASES = ()
 
 #: The SEPARATE assembly allowlist (erratum PE-39). P2b is arithmetic and must never share the
@@ -106,8 +119,10 @@ AUTHORISATION_NOTE = (
     "RP-D-LC-001b is PRE-EXECUTION. The protocol, the corrected fixture, the conserved-quantity "
     "contract, the similarity law, the negative-control gate and the reachable-set margin are "
     "frozen and awaiting substantive scientific review at an exact head. No solve may run before "
-    "that review, and each phase must be added to AUTHORISED_SOLVING_PHASES by its own reviewed "
-    "source commit."
+    "that review. ONE exact reviewed authorization commit then authorizes the COMPLETE "
+    "P0-through-P2b cohort — the pre-freeze allowlists are atomic and every partial state is "
+    "refused — while each phase remains separately gated by its own prerequisites. P3 and P4 "
+    "require a later source commit and remain unavailable (erratum PE-124)."
 )
 
 #: Every mode that would invoke the solver, in the only order they may run.
@@ -968,8 +983,22 @@ def plan_summary(matrix):
         raise KeyError("the execution matrix carries no %r" % (missing,))
     out = {"mode": "plan"}
     out.update({k: matrix[k] for k in PLAN_SUMMARY_KEYS})
-    out["authorised_solving_phases"] = list(AUTHORISED_SOLVING_PHASES)
-    out["authorised_assembly_phases"] = list(AUTHORISED_ASSEMBLY_PHASES)
+    # erratum PE-124 §9.2: the plan's authorization state is DERIVED from the same strictly parsed
+    # committed driver source the authority reads, not restated from this module's imported
+    # constants. The two are then required to agree, so a live checkout whose imported module and
+    # tracked source have drifted apart is reported rather than silently trusted.
+    authz = vf.committed_authorization_status()
+    if (tuple(authz["authorised_solving_phases"]) != tuple(AUTHORISED_SOLVING_PHASES)
+            or tuple(authz["authorised_assembly_phases"]) != tuple(AUTHORISED_ASSEMBLY_PHASES)
+            or bool(authz["post_freeze_executor_ready"]) != bool(POST_FREEZE_EXECUTOR_READY)):
+        raise vf.SourceAuthorizationError(
+            "the imported driver constants (%r / %r / %r) differ from the tracked driver source "
+            "(%r / %r / %r); the plan may not report an authorization state the committed source "
+            "does not declare (erratum PE-124)"
+            % (AUTHORISED_SOLVING_PHASES, AUTHORISED_ASSEMBLY_PHASES, POST_FREEZE_EXECUTOR_READY,
+               authz["authorised_solving_phases"], authz["authorised_assembly_phases"],
+               authz["post_freeze_executor_ready"]))
+    out.update(authz)
     return out
 
 
