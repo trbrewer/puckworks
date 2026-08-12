@@ -1751,6 +1751,30 @@ None of these is a defect of the apparatus or of any scientific gate.
 | PE-125 | **the README retained C1/C2 descriptions and superseded C3/C4 counts** | at the C8 exact head §4 still described `PROTOCOL.md` as "§19 (C1) and §20 (C2) the effective protocol, §20 governing", `PREFLIGHT_ERRATA.md` as "PE-0 … PE-21 across both generations", and §5 reported 383 normal solves, 144 pressure-plane diagnostics, 112 mandatory minimum, 847 adaptive maximum and 735 refused | README.md is a CURRENT guide, not an append-only protocol. It identifies C9 as effective, states the full C0 → … → C9 precedence, and reports only machine-derived current counts. Historical values live in this errata record, not in the current guide |
 | PE-126 | **the documented P0 command used the unsafe default output location** | `python -m puckworks.validation.slow.rp_d_lc_001b --mode P0` with no `--output`, which under PE-114 selected the repository-internal runs directory | every documented execution or assembly command carries an explicit external absolute-path placeholder, e.g. `--output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY`. No production P0 command that silently selects a repository-internal directory is provided anywhere in the bundle |
 
+## Effective C9 machine-readable artifacts
+
+Regenerated from one machine authority after every C9 document edit. These are the hashes the C9
+head actually carries.
+
+| artifact | effective C9 SHA-256 |
+|---|---|
+| `generated/protocol.json` | `69358ddf1a38a86a2668fdd2337ef791b6e2d54ec94659b7c303b59889c68118` |
+| `generated/fixture_spec.json` | `c73fcd410f69b9f7d1083ce9ad186574467bf09e0fa451d832cc1784a71657b3` |
+| `generated/execution_matrix.json` | `6817f79ca3c3cab51b8e500e19f05c7df9c9a3fba9c1e9f96e69250adf92696e` |
+| `generated/preflight_status.json` | `5da7b701a4fce31b67383ffa82f4514562f99eb0957f929443131892c5239d97` |
+
+`fixture_spec.json` moved only because it carries `correction_version`; no geometry, mask hash or
+topology audit changed. `execution_matrix.json` moved for the same reason plus the derived
+post-freeze readiness field; **no row, no `case_id` and no count changed.** `protocol.json`
+additionally publishes the frozen runtime-bundle policy, its refusal codes and the pre-freeze
+cohorts. `preflight_status.json` carries the derived authorization state and the updated
+`input_file_sha256`.
+
+Effective C9 counts, each independently regenerated: **703** rows = **698** decision-bearing (378
+normal + 320 audits) + **2** tau diagnostic + **3** execution-assurance; **703** planned provider
+invocations; **110** mandatory minimum; **591** refused after the earliest stop; **511** same-field
+node-offset summaries; **0** separate pressure-diagnostic rows; **0** solves executed.
+
 ## Not embedded in any scientific hash
 
 The runtime bundle's absolute pathname is a property of one workstation. The durable contract is

@@ -1,7 +1,7 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
 ```
-PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C8), PENDING EXACT-HEAD REVIEW
+PRE-EXECUTION PREFLIGHT — CORRECTED (PREFLIGHT-C9), PENDING EXACT-HEAD REVIEW
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -10,29 +10,35 @@ NOT_A_REGISTRY_STATUS_PROMOTION · NOT_A_PUBLICATION_RESULT_YET
 
 Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 
-> **Eight exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
-> `39533ad`, `e455c67`, `acb4f6a`, `76e5669` and `b5eb378`. The **common-mode-port apparatus was accepted in principle** at the
-> first review and is unchanged; seventy-seven items of machinery were not, and are corrected
-> append-only across `PREFLIGHT-C1` … `PREFLIGHT-C8`. Every superseded clause, constant, matrix
-> rule and generated hash — for all eight generations — is in
+> **Nine exact-head reviews have returned NOT APPROVED**, at `bbf2304`, `2cf0b63`, `c666707`,
+> `39533ad`, `e455c67`, `acb4f6a`, `76e5669`, `b5eb378` and `67c8c23`. The **common-mode-port
+> apparatus was accepted in principle** at the first review and is unchanged; ninety items of
+> machinery were not, and are corrected append-only across `PREFLIGHT-C1` … `PREFLIGHT-C9`. Every
+> superseded clause, constant, matrix rule and generated hash — for all nine generations — is in
 > [`PREFLIGHT_ERRATA.md`](PREFLIGHT_ERRATA.md). The precedence chain is
 > **C0 → C1 (§19) → C2 (§20) → C3 (§21) → C4 (§22) → C5 (§23) → C6 (§24) → C7 (§25) →
-> C8 (§26)**, and **§26 governs** wherever any earlier text conflicts with it. **PE-66 is
-> accepted and unchanged**, as are the 112 → 110 mandatory minimum and both C7 judgment calls.
+> C8 (§26) → C9 (§27)**, and **§27 governs** wherever any earlier text conflicts with it.
+> **PE-66 is accepted and unchanged**, as are the 112 → 110 mandatory minimum, both C7 judgment
+> calls, **PE-113**'s correction of the historical `preflight_status.json` hash, and the deferred
+> post-freeze current-version boundary as a P3/P4 prerequisite.
 >
-> **C8** is an **execution-identity and predecessor-lineage** correction. The authority now
-> proves that the recorded source commit **authorized the stage** — a snapshot of the committed
-> allowlists, parsed by AST from the tracked driver at that commit and hashed into the authority
-> — so **every production authority construction refuses at this head**, and P2b applies the
-> assembly gate at its **own** public boundary. The complete phase authority is persisted
-> **before the first provider call**, so an interrupted phase stays interpretable. Every
-> validator reconstructs its **exact predecessor chain**, and records and envelopes bind it.
-> Envelopes are **self-authenticating** against their embedded and planned rows. Malformed tau
-> result representations reach **named** narrow outcomes.
+> **C9** is a **runtime-bundle, case-record, audit, replicate-assurance, authorization-cohort and
+> current-documentation** correction. It changes **execution readiness only** — no apparatus, no
+> geometry, no gate, no tolerance, no safety factor, no candidate family, no selection rule, no
+> admission and no claim ceiling. Production execution now **requires an explicit absolute output
+> directory outside this repository**: C8 defaulted it to `docs/analysis/rp_d_lc_001b/runs`, inside
+> the very worktree the authority requires to be clean, so the documented P0 command dirtied the
+> tree and P1a's own authority could then never be constructed. Final record validation now
+> **recomputes** the run status and the scientific-payload identity, so it is no longer weaker than
+> resume validation. Every fixed-step audit is **re-bound to its exact `NORMAL_CONVERGED` base** at
+> final validation instead of authenticating itself. Assurance replicates are an **exact
+> matrix-derived set** whose payload equality is recomputed, not read from stored hashes. And the
+> pre-freeze authorization is **one atomic P0–P2b source cohort**, which is what the predecessor
+> gates already required.
 > **All of it is unreachable: `AUTHORISED_SOLVING_PHASES = ()`,
 > `AUTHORISED_ASSEMBLY_PHASES = ()` and `POST_FREEZE_EXECUTOR_READY = False`.** Another
-> exact-head review is required before P0–P2b, and P3/P4 need a further correction and review of
-> the real pre-freeze artifacts.
+> exact-head review is required before the separate pre-freeze authorization commit, and P3/P4 need
+> a further correction and review of the real pre-freeze artifacts.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
@@ -89,11 +95,11 @@ infrastructure is added.
 
 | file | what it is |
 |---|---|
-| `PROTOCOL.md` | the frozen pre-execution protocol, with **§19 (C1) and §20 (C2) the effective protocol**, §20 governing |
-| `PREFLIGHT_ERRATA.md` | the append-only correction record: PE-0 … PE-21 across both generations, each with its superseded form, why it was unsafe, and the effective replacement |
+| `PROTOCOL.md` | the frozen pre-execution protocol, with **§27 (C9) the effective protocol**, §27 governing; §19–§26 are the superseded C1 … C8 generations, retained |
+| `PREFLIGHT_ERRATA.md` | the append-only correction record: **PE-0 … PE-126** across nine generations, each with its superseded form, why it was unsafe, and the effective replacement |
 | `VIRTUAL_FIXTURE_SPEC.md` | the corrected deterministic geometry, its exact symmetries, the candidate family and every topology invariant |
 | `EXECUTION_MATRIX.md` | every planned configuration, exact solve counts, ordering and early-stop behaviour |
-| `PRE_EXECUTION_REVIEW.md` | the audit, with **§11 the post-review re-audit** — including the one risk the correction itself created (§11.6) |
+| `PRE_EXECUTION_REVIEW.md` | the audit and every subsequent exact-head review, ending with **what the ninth review found** and its unchanged recommendation: authorise nothing yet |
 | `generated/protocol.json` | machine-readable frozen configuration |
 | `generated/fixture_spec.json` | machine-readable geometry, mask hashes and topology audits |
 | `generated/execution_matrix.json` | machine-readable matrix with exact counts |
@@ -105,28 +111,66 @@ an executed result, and a test asserts those files do not exist.
 ## 5. Current state
 
 ```
-RP_D_LC_001B_PREFLIGHT_C8_AUTHORIZATION_PROOF_AND_PREDECESSOR_LINEAGE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
-correction_version: PREFLIGHT-C8
+RP_D_LC_001B_PREFLIGHT_C9_RUNTIME_BUNDLE_AND_RECORD_ASSURANCE_COMPLETE_PENDING_EXACT_HEAD_REVIEW
+correction_version: PREFLIGHT-C9
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
 AUTHORISED_SOLVING_PHASES: ()
 AUTHORISED_ASSEMBLY_PHASES: ()
 POST_FREEZE_EXECUTOR_READY: False
+prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED
 ```
 
 Authorisation is **phase-specific** and empty, so all six solving phases raise
 `ExecutionNotAuthorised`. P3 and P4 additionally raise `PostFreezeExecutorNotReady` — a hard
-refusal that an allowlist edit cannot lift, because the approved instantiated-matrix loader has
-not yet passed exact-head review (erratum PE-76). Independently, P3 and P4 raise `FreezeMissing` (no freeze and no
-instantiated P3/P4 matrix exist) and every phase after P0 raises `ManifestMissing` for its
-predecessors — both checked *before* the allowlist, so neither gate is shadowed by it. All three
+refusal that an allowlist edit cannot lift, because the approved instantiated-matrix loader has not
+yet passed exact-head review (erratum PE-76). Independently, P3 and P4 raise `FreezeMissing` (no
+freeze and no instantiated P3/P4 matrix exist) and every phase after P0 raises `ManifestMissing` for
+its predecessors — both checked *before* the allowlist, so neither gate is shadowed by it. All three
 refusals are asserted by test.
 
-**Planned:** **383** normal solves, **320** fixed-step audits and **144**
-pressure-plane diagnostics (which need no extra solve); **112** mandatory minimum,
-**3** replicates — **847 adaptive maximum**; **735** rows refused if the tranche
-stops at the earliest point. None has run. Every count is generated by `execution_matrix()` and
-asserted against it by test.
+**P0 through P2b require ONE common authorization head** (erratum PE-124). The pre-freeze allowlists
+are **atomic**: a committed head declares either no pre-freeze phase or the complete cohort
+`("P0", "P1a", "P1b", "P2a")` **plus** `("P2b",)`, and every partial state — P0 only, P0 plus P1a,
+solving phases without P2b, P2b without all four, a reordering, or the correct names in the wrong
+allowlist — is refused at the AST parse. That is what the predecessor gates already required:
+`require_phase_manifests` requires every predecessor's authority to carry the consuming phase's own
+`source_commit` and `source_tree`. Each phase nevertheless remains **separately gated** by its
+prerequisites, so a shared authorization head does not make execution monolithic. **P3 and P4 need a
+later source commit.**
+
+**Production execution requires an explicit external output directory** (erratum PE-114). There is
+no default: `PRODUCTION_RUNS_DIRECTORY_POLICY = EXPLICIT_ABSOLUTE_PATH_OUTSIDE_REPOSITORY`, and one
+shared pure validator refuses a missing path, a relative path, the repository root, any descendant of
+it, a symlink whose resolved target lands inside it, and a file where the directory belongs — before
+authority construction, predecessor validation, any provider call and any artifact. The bundle's
+absolute pathname belongs to one workstation and enters **no** scientific hash.
+
+### Planned work — every number machine-derived from `execution_matrix()`
+
+| category | value |
+|---|---|
+| **decision-bearing rows** | **698** |
+| — decision-bearing **normal** rows | **378** |
+| — decision-bearing **fixed-step audits** | **320** |
+| tau diagnostic rows (non-adjudicative) | **2** |
+| execution-assurance replicate rows | **3** |
+| **total planned provider invocations** | **703** |
+| mandatory pre-freeze minimum | **110** |
+| refused after the earliest stop | **591** |
+| same-field **node-offset summaries** | **511** |
+| separate **pressure-diagnostic rows** | **0** |
+| **solves executed** | **0** |
+
+**A same-field summary is not a solver row.** The 511 node-offset summaries are extracted from the
+**same** field a case already produced (errata PE-41/PE-42): they cost no extra solve, appear in no
+row count, and are not planned invocations. Neither are the phase-authority artifacts, the record
+and manifest validation work, the payload recomputations or the runtime-path checks. Only a new case
+record or a new diagnostic-failure envelope corresponds to a provider call, and there are **zero**
+separate pressure-diagnostic rows.
+
+Every count above is generated by `execution_matrix()` and asserted against it by test. **None of it
+has run.**
 
 ## 6. Preflight commands (no solver runs)
 
@@ -135,10 +179,41 @@ python -m puckworks.analysis.rp_d_lc_001b_virtual_fixture --write
 python -m puckworks.analysis.rp_d_lc_001b_virtual_fixture --verify
 python -m pytest tests/test_rp_d_lc_001b_preflight.py -q
 python -m puckworks.validation.slow.rp_d_lc_001b --mode plan     # prints the planned matrix
-python -m puckworks.validation.slow.rp_d_lc_001b --mode P0       # REFUSES (empty allowlist)
-python -m puckworks.validation.slow.rp_d_lc_001b --mode P1a      # REFUSES (manifest gate first)
-python -m puckworks.validation.slow.rp_d_lc_001b --mode P3       # REFUSES (freeze gate first)
 ```
+
+`--mode plan` reads the canonical matrix, writes nothing and needs no output path. **Every other
+mode requires an explicit absolute `--output` outside this repository** and has no default:
+
+```
+python -m puckworks.validation.slow.rp_d_lc_001b \
+    --mode P0 \
+    --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+```
+
+Substitute a real absolute path outside the checkout. At this head every such command **REFUSES**:
+
+```
+# REFUSES: empty allowlist (ExecutionNotAuthorised)
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P0  --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+
+# REFUSES: the manifest gate is checked first (ManifestMissing)
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P1a --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+
+# REFUSES: the freeze gate is checked first (PostFreezeExecutorNotReady / FreezeMissing)
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P3  --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
+```
+
+and the two unsafe forms refuse **before** any of those gates, with a frozen code:
+
+```
+# REFUSES: RUNS_DIRECTORY_NOT_SUPPLIED — there is no default
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P0
+
+# REFUSES: RUNS_DIRECTORY_INSIDE_REPOSITORY — the authority requires a clean worktree
+python -m puckworks.validation.slow.rp_d_lc_001b --mode P0 --output "$PWD/docs/analysis/rp_d_lc_001b/runs"
+```
+
+**No production command in this bundle selects a repository-internal runs directory.**
 
 Heavy LB execution, when authorised, stays in `puckworks/validation/slow/` or local/Colab runs and
 **never** enters normal CI (CLAUDE.md rule 3).
@@ -162,6 +237,11 @@ that future experiment.
 
 **Substantive scientific review at an exact head** — of the apparatus, the similarity law, the
 conserved quantities and the negative controls — before any computation begins. The
-`PRE_EXECUTION_REVIEW.md` recommendation is to authorise **P0–P2 only** (ending at the bridge
-freeze) and to review the freeze artifact again before P3, so that the blindness the design depends
-on is preserved.
+`PRE_EXECUTION_REVIEW.md` recommendation is unchanged: authorise **P0–P2b only** (ending at the
+bridge freeze) and review the freeze artifact again before P3, so that the blindness the design
+depends on is preserved.
+
+Under erratum PE-124 that authorisation is **one commit**, not four: the separate reviewed
+authorization commit must name the **complete P0–P2b cohort at one head**, and it needs its own
+exact-head review. P3/P4 need a further correction beyond that — the approved instantiated-matrix
+loader and the deferred post-freeze historical-version dispatcher, neither of which exists.

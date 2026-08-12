@@ -7063,3 +7063,92 @@ def test_the_c9_errata_names_every_new_blocker():
 def test_rp_d_lc_001_is_still_byte_unchanged_against_the_base_commit():
     out = _git("diff", "--name-only", vf.BASE_COMMIT, "--", "docs/analysis/rp_d_lc_001")
     assert out == "", out
+
+
+# ---- G. the CURRENT README and execution instructions (errata PE-125, PE-126) ------------------
+
+def test_the_readme_is_a_current_guide_at_the_c9_head():
+    txt = (REPO / vf.BUNDLE_REL / "README.md").read_text()
+    assert "PREFLIGHT-C9" in txt
+    assert "C8 (§26) → C9 (§27)" in txt and "**§27 governs**" in txt
+    assert "§27 (C9) the effective protocol" in txt
+    # the superseded C1/C2 "effective protocol" claim is gone
+    assert "§19 (C1) and §20 (C2)" not in txt
+    assert "PE-0 … PE-21 across both" not in txt
+    # every superseded C3/C4 count is gone
+    for stale in ("**383**", "**847**", "**735**", "**112** mandatory", "**144**",
+                  "383 normal", "847 adaptive"):
+        assert stale not in txt, stale
+
+
+def test_the_readme_reports_the_machine_derived_current_counts():
+    txt = (REPO / vf.BUNDLE_REL / "README.md").read_text()
+    mx = vf.execution_matrix()
+    for key in ("decision_bearing_rows", "decision_bearing_normal_solves",
+                "decision_bearing_fixed_step_audits", "tau_diagnostic_rows",
+                "execution_assurance_rows", "planned_solver_invocations",
+                "mandatory_minimum", "refused_after_earliest_stop",
+                "same_field_node_offset_summaries"):
+        assert "**%d**" % mx[key] in txt, key
+    assert mx["planned_pressure_plane_diagnostic_rows"] == 0
+    assert mx["solves_executed"] == 0
+    assert "| separate **pressure-diagnostic rows** | **0** |" in txt
+    assert "| **solves executed** | **0** |" in txt
+    # a same-field summary is distinguished from a solver row
+    assert "A same-field summary is not a solver row" in txt
+    assert "cost no extra solve" in txt
+
+
+def test_the_readme_states_the_common_authorization_head_and_the_external_bundle():
+    txt = (REPO / vf.BUNDLE_REL / "README.md").read_text()
+    assert "P0 through P2b require ONE common authorization head" in txt
+    assert "NO_PREFREEZE_PHASE_AUTHORIZED" in txt
+    assert vf.PRODUCTION_RUNS_DIRECTORY_POLICY in txt
+    assert "requires an explicit external output directory" in txt
+    assert "/ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY" in txt
+    assert "--mode P0" in txt and "--output" in txt
+
+
+#: The CURRENT reader-facing guides. PROTOCOL.md is append-only: its frozen pre-erratum body still
+#: shows the superseded `--mode p0` line, and §27.7 supersedes it rather than rewriting it.
+CURRENT_COMMAND_DOCS = ("README.md", "EXECUTION_MATRIX.md")
+
+
+def test_no_documented_production_command_selects_the_internal_runs_directory():
+    """Erratum PE-126: every command in a CURRENT guide carries an explicit external --output,
+    except the lines explicitly labelled REFUSES, which exist to show the refusals."""
+    for name in CURRENT_COMMAND_DOCS:
+        lines = (REPO / vf.BUNDLE_REL / name).read_text().splitlines()
+        for i, line in enumerate(lines):
+            if "rp_d_lc_001b --mode" not in line or line.strip().startswith("#"):
+                continue
+            mode = line.split("--mode", 1)[1].split()[0]
+            if mode == "plan":
+                continue
+            label = lines[i - 1] if i else ""
+            if "REFUSES" in label:
+                assert ("RUNS_DIRECTORY" in label or "allowlist" in label
+                        or "manifest gate" in label or "freeze gate" in label), label
+                continue
+            assert "--output" in line, "%s: %s" % (name, line)
+            assert vf.RUNS_REL not in line, "%s: %s" % (name, line)
+    # the ONLY internal-path command line in a current guide is the labelled refusal example
+    rd = (REPO / vf.BUNDLE_REL / "README.md").read_text().splitlines()
+    internal = [i for i, ln in enumerate(rd) if vf.RUNS_REL in ln and "--mode" in ln]
+    assert len(internal) == 1
+    assert "RUNS_DIRECTORY_INSIDE_REPOSITORY" in rd[internal[0] - 1]
+    # PROTOCOL.md is append-only; §27.7 supersedes its frozen command block rather than editing it
+    proto = (REPO / vf.BUNDLE_REL / "PROTOCOL.md").read_text()
+    assert "## 27.7 README and execution instructions" in proto
+    assert "/ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY" in proto
+    assert proto.index("## 27.7") > proto.index("--mode p0")
+
+
+def test_the_errata_records_the_effective_c9_artifact_hashes():
+    txt = (REPO / vf.ERRATA_PATH).read_text()
+    assert "Effective C9 machine-readable artifacts" in txt
+    for name in ("protocol.json", "fixture_spec.json", "execution_matrix.json",
+                 "preflight_status.json"):
+        actual = hashlib.sha256(
+            (REPO / vf.BUNDLE_REL / "generated" / name).read_bytes()).hexdigest()
+        assert actual in txt, name
