@@ -773,6 +773,13 @@ def _orchestrate(phase, base, auth, manifests, records, provider, backend, prove
     return manifest
 
 
+def _phase_authority_of(runs_dir, phase):
+    """The complete historical authority a phase persisted (erratum PE-93)."""
+    doc = vf._load_json(pathlib.Path(runs_dir) / ("manifest_%s.json" % phase),
+                        "the %s completion manifest" % phase)
+    return doc.get("execution_authority")
+
+
 def _guarded_result_provider(mask, g, phase, row, tau=None, audit=None, backend="reference"):
     """The ONLY production path to a solve. It refuses unless the phase is on the allowlist."""
     steps = None if audit is None else audit["target_steps"]
@@ -807,6 +814,14 @@ def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, rec
     ``provenance_mode = "TEST_ONLY"``, and the production manifest and freeze validators reject
     those records, so a synthetic pipeline can never masquerade as evidence.
     """
+    # erratum PE-94: the authority must be the one for THIS stage. Production obtains it from
+    # the gate; the seam is handed one, and reusing an earlier phase's would assert that a
+    # stage-P0 authority produced a P1a record.
+    if authority.get("stage") != phase:
+        raise ValueError(
+            "the TEST_ONLY seam was given a stage-%r authority for phase %r; each phase is "
+            "executed under its own stage-correct authority (erratum PE-94)"
+            % (authority.get("stage"), phase))
     return _orchestrate(phase, pathlib.Path(runs_dir), authority, manifests or {}, records or {},
                         provider, backend, "TEST_ONLY")
 

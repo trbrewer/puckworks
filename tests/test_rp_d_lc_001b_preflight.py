@@ -964,13 +964,28 @@ def test_the_execution_authority_fails_closed_rather_than_returning_none():
 
 
 def test_a_dirty_working_tree_cannot_carry_an_execution_authority(tmp_path, monkeypatch):
-    monkeypatch.setattr(vf, "_git", lambda *a: ("M x.py" if a[0] == "status" else "a" * 40))
+    real_git = vf._git
+    monkeypatch.setattr(vf, "_git",
+                        lambda *a: ("M x.py" if a[0] == "status" else real_git(*a)))
     with pytest.raises(vf.ExecutionAuthorityError):
         vf.execution_authority("P0")
-    # the same authority resolves when the tree is clean
-    monkeypatch.setattr(vf, "_git", lambda *a: ("" if a[0] == "status" else "a" * 40))
+    # the same authority resolves when the tree is clean. The commit and tree stay REAL: an
+    # authority reads its tracked content from the recorded commit, so a fabricated object name
+    # can no longer produce one at all (erratum PE-99).
+    monkeypatch.setattr(vf, "_git", lambda *a: ("" if a[0] == "status" else real_git(*a)))
     auth = vf.execution_authority("P0")
     assert auth["working_tree_clean"] is True and auth["clean_tree_required"] is True
+    assert auth["source_commit"] == real_git("rev-parse", "HEAD")
+
+
+def test_a_fabricated_commit_cannot_carry_an_execution_authority(monkeypatch):
+    """Erratum PE-99: a 40-character string is not a commit."""
+    real_git = vf._git
+    monkeypatch.setattr(vf, "_git",
+                        lambda *a: ("" if a[0] == "status"
+                                    else ("a" * 40 if a[0] == "rev-parse" else real_git(*a))))
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.execution_authority("P0")
 
 
 def test_a_missing_input_file_cannot_carry_an_execution_authority(monkeypatch):
@@ -2434,6 +2449,26 @@ def _coherent_fields(mask, meta, g, kind, lane_gain=(1.0, 1.0)):
     return ux, rho
 
 
+def _phase_authority(phase):
+    """A stage-correct TEST_ONLY authority (erratum PE-94)."""
+    return vf.execution_authority(phase, require_clean=False)
+
+
+def _run_prefreeze(d, prov, phases=("P0", "P1a", "P1b", "P2a")):
+    """Drive the pre-freeze phases, each under its OWN stage-correct authority."""
+    mans, recs, out = {}, {}, {}
+    for phase in phases:
+        auth = _phase_authority(phase)
+        out[phase] = drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans),
+                                            records=dict(recs))
+        doc = vf.validate_phase_manifest(phase, d, authority=auth,
+                                         predecessor_records=dict(recs),
+                                         require_production=False)
+        recs.update(doc.pop("_records", {}))
+        mans[phase] = doc
+    return mans, recs, out
+
+
 def _pipeline_provider(prune=SYNTH_PRUNED_CANDIDATE):
     """Deterministic, physically coherent TEST_ONLY stand-in. One candidate is given a 1 % axial
     artifact so the P1a triage screen prunes it. The real kernel is never reached."""
@@ -2459,18 +2494,8 @@ def _pipeline_provider(prune=SYNTH_PRUNED_CANDIDATE):
 def synthetic_prefreeze(tmp_path_factory):
     """P0 -> P1a -> adaptive P1b -> adaptive P2a, end to end, with NO solver."""
     d = tmp_path_factory.mktemp("prefreeze")
-    auth = vf.execution_authority("P0", require_clean=False)
-    prov = _pipeline_provider()
-    mans, recs, out = {}, {}, {}
-    for phase in ("P0", "P1a", "P1b", "P2a"):
-        out[phase] = drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans),
-                                            records=dict(recs))
-        doc = vf.validate_phase_manifest(phase, d, authority=auth,
-                                         predecessor_records=dict(recs),
-                                         require_production=False)
-        recs.update(doc.pop("_records", {}))
-        mans[phase] = doc
-    return d, auth, out, recs
+    mans, recs, out = _run_prefreeze(d, _pipeline_provider())
+    return d, _phase_authority("P0"), out, recs
 
 
 def test_the_whole_pre_freeze_pipeline_runs_with_no_solver(synthetic_prefreeze):
@@ -3768,17 +3793,8 @@ def synthetic_p2b(tmp_path_factory):
     throughout, zero solver calls, and a one-below / three-inside selection.
     """
     d = tmp_path_factory.mktemp("p2b")
-    auth = vf.execution_authority("P0", require_clean=False)
-    prov = _pipeline_provider()
-    mans, recs = {}, {}
-    for phase in ("P0", "P1a", "P1b", "P2a"):
-        drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans), records=dict(recs))
-        doc = vf.validate_phase_manifest(phase, d, authority=auth,
-                                         predecessor_records=dict(recs),
-                                         require_production=False)
-        recs.update(doc.pop("_records", {}))
-        mans[phase] = doc
-    p2b_auth = vf.execution_authority("P2b", require_clean=False)
+    _run_prefreeze(d, _pipeline_provider())
+    p2b_auth = _phase_authority("P2b")
     man = vf._test_only_assemble_p2b_from_runs(d, p2b_auth)
     return d, p2b_auth, man
 
@@ -3787,17 +3803,8 @@ def synthetic_p2b(tmp_path_factory):
 def synthetic_design_block(tmp_path_factory):
     """The DESIGN-BLOCK endpoint: ledger and manifest only, no freeze, no instantiated matrix."""
     d = tmp_path_factory.mktemp("p2b_blocked")
-    auth = vf.execution_authority("P0", require_clean=False)
-    prov = _pipeline_provider(prune="all")
-    mans, recs = {}, {}
-    for phase in ("P0", "P1a", "P1b", "P2a"):
-        drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans), records=dict(recs))
-        doc = vf.validate_phase_manifest(phase, d, authority=auth,
-                                         predecessor_records=dict(recs),
-                                         require_production=False)
-        recs.update(doc.pop("_records", {}))
-        mans[phase] = doc
-    p2b_auth = vf.execution_authority("P2b", require_clean=False)
+    _run_prefreeze(d, _pipeline_provider(prune="all"))
+    p2b_auth = _phase_authority("P2b")
     man = vf._test_only_assemble_p2b_from_runs(d, p2b_auth)
     return d, p2b_auth, man
 
@@ -4105,7 +4112,7 @@ def test_an_audit_record_resumes_only_against_its_exact_base(synthetic_prefreeze
     shutil.copytree(d, work)
     (work / "manifest_P1b.json").unlink()
     prov = _CountingProvider()
-    again = drv._test_only_execute("P1b", work, prov, auth,
+    again = drv._test_only_execute("P1b", work, prov, _phase_authority("P1b"),
                                    manifests={"P0": None, "P1a": None},
                                    records=dict(recs))
     assert prov.calls == 0
@@ -4468,7 +4475,7 @@ def test_p1a_may_consume_a_p0_with_a_failed_tau_diagnostic(tau_failure_phases, m
     d, auth, man = tau_failure_phases[mode]
     doc = vf.validate_phase_manifest("P0", d, authority=auth, require_production=False)
     vf.require_phase_manifests("P1a", runs_dir=d, authority=auth, require_production=False)
-    p1a = drv._test_only_execute("P1a", d, _pipeline_provider(), auth,
+    p1a = drv._test_only_execute("P1a", d, _pipeline_provider(), _phase_authority("P1a"),
                                  manifests={"P0": doc}, records=dict(doc["_records"]))
     assert p1a["terminal_status"] == "PHASE_COMPLETE"
 
@@ -4958,22 +4965,12 @@ def test_no_frozen_tolerance_or_safety_factor_changed():
 def test_a_tau_diagnostic_failure_does_not_block_the_whole_pipeline(tmp_path_factory):
     """The nonblocking rule holds end to end, not only at P0 (erratum PE-79)."""
     d = tmp_path_factory.mktemp("tau_pipeline")
-    auth = vf.execution_authority("P0", require_clean=False)
-    prov = _tau_breaking_provider("unconverged")
-    mans, recs, out = {}, {}, {}
+    mans, recs, out = _run_prefreeze(d, _tau_breaking_provider("unconverged"))
     for phase in ("P0", "P1a", "P1b", "P2a"):
-        out[phase] = drv._test_only_execute(phase, d, prov, auth, manifests=dict(mans),
-                                            records=dict(recs))
-        doc = vf.validate_phase_manifest(phase, d, authority=auth,
-                                         predecessor_records=dict(recs),
-                                         require_production=False)
-        recs.update(doc.pop("_records", {}))
-        mans[phase] = doc
         assert out[phase]["terminal_status"] == "PHASE_COMPLETE", phase
     assert out["P0"]["counts"]["diagnostic_failed"] == 2
     assert out["P0"]["counts"]["failed"] == 0
-    man = vf._test_only_assemble_p2b_from_runs(d, vf.execution_authority("P2b",
-                                                                        require_clean=False))
+    man = vf._test_only_assemble_p2b_from_runs(d, _phase_authority("P2b"))
     assert man["selection_status"] == "SELECTED"
     assert man["terminal_status"] == "PHASE_COMPLETE"
     doc = vf.validate_p2b_manifest(d, require_production=False)
@@ -5212,3 +5209,291 @@ def test_the_provider_call_accounting_covers_both_new_artifact_classes(tau_attem
     assert ec["n_new_diagnostic_failure_envelopes"] == 2
     assert ec["n_reused"] == (ec["n_reused_case_records"]
                               + ec["n_reused_diagnostic_failure_envelopes"])
+
+
+# ---- B/C. durable full execution-authority lineage (errata PE-93 … PE-99) --------------------
+
+def test_the_execution_authority_is_a_complete_canonical_object():
+    a = _phase_authority("P0")
+    assert sorted(a) == sorted(vf.EXECUTION_AUTHORITY_FIELDS)
+    assert a["schema_version"] == vf.EXECUTION_AUTHORITY_SCHEMA_VERSION
+    assert "execution_authority_sha256" not in a          # no self-referential hash
+    assert vf.execution_authority_sha256(a) == vf.record_hash(a)
+    vf.canonical_json(a)                                  # strict + finite
+    assert a["prerequisites"] == list(vf.PHASE_PREREQUISITES["P0"])
+    assert sorted(a["input_file_sha256"]) == sorted(vf.INPUT_FILES)
+
+
+@pytest.mark.parametrize("phase", ["P0", "P1a", "P1b", "P2a"])
+def test_every_phase_manifest_embeds_and_validates_its_own_authority(synthetic_prefreeze, phase):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / ("manifest_%s.json" % phase)).read_text())
+    a = doc["execution_authority"]
+    assert a is not None and a["stage"] == phase          # STAGE-CORRECT, not P0 everywhere
+    assert doc["execution_authority_sha256"] == vf.execution_authority_sha256(a)
+    for k in ("source_commit", "source_tree", "backend", "correction_version"):
+        assert doc[k] == a[k], k
+    vf.validate_execution_authority(a, expected_stage=phase, require_production=False)
+    # and the whole manifest validates with NO externally supplied authority
+    got = vf.validate_phase_manifest(phase, d, authority=None, predecessor_records=dict(recs),
+                                     require_production=False)
+    assert got["_execution_authority"]["stage"] == phase
+
+
+def test_exact_same_phase_resume_requires_canonical_authority_equality(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    a = _phase_authority("P0")
+    vf.validate_phase_manifest("P0", d, authority=a, require_production=False)
+    other = dict(a, seed=None, backend="reference")
+    other["dependencies"] = dict(a["dependencies"], numpy=a["dependencies"]["numpy"] + ".9")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", d, authority=other, require_production=False)
+    assert "canonical equality" in str(exc.value) or "not the one" in str(exc.value)
+
+
+def test_every_record_is_bound_to_its_phase_authority(synthetic_prefreeze):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / "manifest_P1a.json").read_text())
+    want = doc["execution_authority_sha256"]
+    for e in doc["completed"]:
+        rec, _ = vf.read_case_record(d, e["case_id"])
+        assert rec["execution_authority_sha256"] == want
+    src = inspect.getsource(vf.validate_case_record)
+    assert "execution_authority_sha256" in src            # erratum PE-94
+
+
+def test_a_predecessor_is_never_validated_against_a_later_phases_authority():
+    """Erratum PE-95: that would assert the later commit produced the earlier record."""
+    src = inspect.getsource(vf.require_phase_manifests)
+    assert "authority=None" in src
+    assert "rewrites execution history" in src
+    vsrc = inspect.getsource(vf.validate_phase_manifest)
+    assert "expected_current_authority=authority" in vsrc
+
+
+AUTHORITY_TAMPERS = {
+    "source_commit": lambda a: dict(a, source_commit="b" * 40),
+    "source_tree": lambda a: dict(a, source_tree="c" * 40),
+    "nonexistent_commit": lambda a: dict(a, source_commit="0" * 40),
+    "input_file_hash": lambda a: dict(
+        a, input_file_sha256=dict(a["input_file_sha256"],
+                                  **{sorted(a["input_file_sha256"])[0]: "d" * 64})),
+    "protocol_doc": lambda a: dict(a, protocol_sha256="e" * 64),
+    "geometry_doc": lambda a: dict(a, geometry_spec_sha256="f" * 64),
+    "errata_doc": lambda a: dict(a, errata_sha256="a" * 64),
+    "config_hash": lambda a: dict(a, protocol_config_sha256="b" * 64),
+    "matrix_hash": lambda a: dict(a, execution_matrix_sha256="c" * 64),
+    "stage": lambda a: dict(a, stage="P2a"),
+    "prerequisites": lambda a: dict(a, prerequisites=["P0", "P1a"]),
+    "correction_version": lambda a: dict(a, correction_version="PREFLIGHT-C0"),
+    "backend": lambda a: dict(a, backend="taichi"),
+    "dependencies": lambda a: dict(a, dependencies=dict(a["dependencies"],
+                                                    python="not-a-version")),
+    "seed": lambda a: dict(a, seed=7),
+    "solver_config": lambda a: dict(a, solver_config=dict(a["solver_config"], rtol=1e-3)),
+    "base_commit": lambda a: dict(a, base_commit="d" * 40),
+    "extra_field": lambda a: dict(a, invented_field=1),
+}
+
+
+@pytest.mark.parametrize("name", sorted(AUTHORITY_TAMPERS))
+def test_a_tampered_execution_authority_is_rejected(name):
+    a = _phase_authority("P0")
+    bad = AUTHORITY_TAMPERS[name](a)
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.validate_execution_authority(bad, expected_stage="P0", require_production=False)
+
+
+def test_a_real_commit_paired_with_the_wrong_tree_is_rejected():
+    a = _phase_authority("P0")
+    parent = vf._git("rev-parse", "HEAD^{tree}")
+    other = vf._git("rev-parse", "HEAD~1^{tree}")
+    assert parent != other
+    with pytest.raises(vf.ExecutionAuthorityError) as exc:
+        vf.validate_execution_authority(dict(a, source_tree=other), expected_stage="P0",
+                                        require_production=False)
+    assert "that commit's tree is" in str(exc.value)
+
+
+def test_a_dirty_production_authority_is_rejected():
+    a = _phase_authority("P0")
+    with pytest.raises(vf.ExecutionAuthorityError) as exc:
+        vf.validate_execution_authority(dict(a, working_tree_clean=False), expected_stage="P0",
+                                        require_production=True)
+    assert "dirty" in str(exc.value) or "clean" in str(exc.value)
+
+
+def test_measured_historical_fields_are_bound_by_the_authority_hash(synthetic_prefreeze):
+    """The clean-tree flag, the dependency identity and the seed cannot be re-derived from Git.
+
+    Their integrity rests on being bound INSIDE the authority hash, which every record, every
+    envelope, every manifest and every P2b artifact cites — so altering one invalidates all of
+    them at once. Stated here rather than faked as a re-derivation.
+    """
+    d, auth, out, recs = synthetic_prefreeze
+    assert vf.MEASURED_HISTORICAL_AUTHORITY_FIELDS == ("working_tree_clean", "dependencies",
+                                                       "seed")
+    a = _phase_authority("P0")
+    moved = dict(a, dependencies=dict(a["dependencies"],
+                                      numpy=a["dependencies"]["numpy"] + ".post1"))
+    assert vf.execution_authority_sha256(moved) != vf.execution_authority_sha256(a)
+    doc = json.loads((d / "manifest_P0.json").read_text())
+    assert doc["execution_authority_sha256"] == vf.execution_authority_sha256(
+        doc["execution_authority"])
+    rec, _ = vf.read_case_record(d, doc["completed"][0]["case_id"])
+    assert rec["execution_authority_sha256"] == doc["execution_authority_sha256"]
+
+
+@pytest.mark.parametrize("name", ["source_commit", "input_file_hash", "stage", "dependencies"])
+def test_coordinated_authority_tampering_is_rejected(synthetic_prefreeze, tmp_path, name):
+    """Every obvious outer hash is updated; validation still fails against Git history."""
+    import shutil
+    d, auth, out, recs = synthetic_prefreeze
+    work = tmp_path / ("auth_" + name)
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P0.json").read_text())
+    bad = AUTHORITY_TAMPERS[name](doc["execution_authority"])
+    doc["execution_authority"] = bad
+    doc["execution_authority_sha256"] = vf.execution_authority_sha256(bad)
+    for k in ("source_commit", "source_tree", "backend", "correction_version"):
+        if k in bad:
+            doc[k] = bad[k]
+    # ...and make every cited record agree, so no stale record hash is left behind
+    for ledger in ("completed", "failed", "diagnostic_completed"):
+        for e in doc.get(ledger, []):
+            rec, rpath = vf.read_case_record(work, e["case_id"])
+            rec["execution_authority_sha256"] = doc["execution_authority_sha256"]
+            for k in ("source_commit", "source_tree"):
+                if k in bad:
+                    rec[k] = bad[k]
+            rpath.write_text(vf.canonical_json(rec) + "\n")
+            e["record_sha256"] = hashlib.sha256(rpath.read_bytes()).hexdigest()
+    (work / "manifest_P0.json").write_text(vf.canonical_json(doc) + "\n")
+    with pytest.raises(vf.ManifestMissing) as exc:
+        vf.validate_phase_manifest("P0", work, authority=None, require_production=False)
+    assert "execution authority is invalid" in str(exc.value)
+
+
+# ---- D. the P2b assembly authority (errata PE-97, PE-98) -------------------------------------
+
+def test_the_p2b_assembly_authority_nests_its_full_execution_authority(synthetic_p2b):
+    d, auth, man = synthetic_p2b
+    aa = man["assembly_authority"]
+    for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS:
+        assert k in aa, k
+    assert "execution_authority" in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS
+    assert "execution_authority_sha256" in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS
+    nested = aa["execution_authority"]
+    assert nested["stage"] == "P2b"
+    assert aa["execution_authority_sha256"] == vf.execution_authority_sha256(nested)
+    for k in ("source_commit", "source_tree", "backend", "dependencies", "correction_version"):
+        assert aa[k] == nested[k], k
+    # the hash covers every load-bearing field
+    assert aa["assembly_authority_sha256"] == vf.record_hash(
+        {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    for name in vf.P2B_ARTIFACTS:
+        art = json.loads((d / name).read_text())
+        assert art.get("assembly_authority_sha256") == aa["assembly_authority_sha256"], name
+
+
+@pytest.mark.parametrize("name", ["exec_hash_only", "nested_and_hash", "commit_and_tree",
+                                  "input_file", "matrix_identity", "dependencies", "stage",
+                                  "clean_tree", "predecessor_hashes"])
+def test_coordinated_p2b_authority_tampering_is_rejected(synthetic_p2b, tmp_path, name):
+    """Erratum PE-97: changing execution_authority_sha256 alone did not move the assembly hash."""
+    import shutil
+    d, auth, man = synthetic_p2b
+    work = tmp_path / ("p2bauth_" + name)
+    shutil.copytree(d, work)
+    doc = json.loads((work / "manifest_P2b.json").read_text())
+    aa = doc["assembly_authority"]
+    nested = aa["execution_authority"]
+    if name == "exec_hash_only":
+        aa["execution_authority_sha256"] = "0" * 64
+    elif name == "nested_and_hash":
+        nested = AUTHORITY_TAMPERS["input_file_hash"](nested)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+    elif name == "commit_and_tree":
+        nested = dict(nested, source_commit="a" * 40, source_tree="b" * 40)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+        aa["source_commit"], aa["source_tree"] = "a" * 40, "b" * 40
+    elif name == "input_file":
+        nested = AUTHORITY_TAMPERS["input_file_hash"](nested)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+    elif name == "matrix_identity":
+        nested = dict(nested, execution_matrix_sha256="c" * 64)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+        aa["execution_matrix_sha256"] = "c" * 64
+    elif name == "dependencies":
+        nested = AUTHORITY_TAMPERS["dependencies"](nested)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+        aa["dependencies"] = nested["dependencies"]
+    elif name == "stage":
+        nested = dict(nested, stage="P2a", prerequisites=list(vf.PHASE_PREREQUISITES["P2a"]))
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+    elif name == "clean_tree":
+        nested = dict(nested, working_tree_clean=False)
+        aa["execution_authority"] = nested
+        aa["execution_authority_sha256"] = vf.execution_authority_sha256(nested)
+        aa["working_tree_clean"] = False
+    elif name == "predecessor_hashes":
+        aa["predecessor_manifest_file_sha256"] = dict(
+            aa["predecessor_manifest_file_sha256"], P0="d" * 64)
+    aa["assembly_authority_sha256"] = vf.record_hash(
+        {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
+    doc["assembly_authority"] = aa
+    doc["assembly_authority_sha256"] = aa["assembly_authority_sha256"]
+    for art_name in ("candidate_ledger.json", "proposed_bridge_freeze.json",
+                     "instantiated_p3_p4_matrix.json"):
+        f = work / art_name
+        if not f.exists():
+            continue
+        art = json.loads(f.read_text())
+        art["assembly_authority_sha256"] = aa["assembly_authority_sha256"]
+        if "assembly_authority" in art:
+            art["assembly_authority"] = aa
+        f.write_text(vf.canonical_json(art) + "\n")
+    (work / "manifest_P2b.json").write_text(vf.canonical_json(doc) + "\n")
+    _rehash_p2b(work)
+    # a dirty-tree authority is a PRODUCTION violation; everything else fails either way
+    require_production = name == "clean_tree"
+    with pytest.raises(vf.ManifestMissing):
+        vf.validate_p2b_manifest(work, require_production=require_production)
+
+
+def test_the_design_block_endpoint_also_carries_a_full_authority(synthetic_design_block):
+    d, auth, man = synthetic_design_block
+    nested = man["assembly_authority"]["execution_authority"]
+    assert nested["stage"] == "P2b"
+    vf.validate_execution_authority(nested, expected_stage="P2b", require_production=False)
+    doc = vf.validate_p2b_manifest(d, require_production=False)
+    assert doc["selection_status"] == "DESIGN_BLOCKED"
+
+
+# ---- E. role-named manifest fields (erratum PE-100) ------------------------------------------
+
+@pytest.mark.parametrize("phase", ["P0", "P1a", "P1b", "P2a"])
+def test_the_manifest_role_lists_agree_with_the_role_model(synthetic_prefreeze, phase):
+    d, auth, out, recs = synthetic_prefreeze
+    doc = json.loads((d / ("manifest_%s.json" % phase)).read_text())
+    rows = {r["case_id"]: r for r in vf.phase_universe(phase, vf.execution_matrix()["rows"])}
+    for field, role in (("decision_bearing_case_ids", "DECISION_BEARING"),
+                        ("execution_assurance_case_ids", "EXECUTION_ASSURANCE_REPLICATE"),
+                        ("diagnostic_case_ids",
+                         "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE")):
+        assert set(doc[field]) == {c for c, r in rows.items()
+                                   if vf.row_scientific_role(r) == role}, (phase, field)
+    assert set(doc["adjudicative_case_ids"]) == (set(doc["decision_bearing_case_ids"])
+                                                 | set(doc["execution_assurance_case_ids"]))
+    assert not (set(doc["adjudicative_case_ids"]) & set(doc["diagnostic_case_ids"]))
+    # erratum PE-100: an assurance replicate is NOT filed as decision-bearing
+    assur = set(doc["execution_assurance_case_ids"])
+    assert not (assur & set(doc["decision_bearing_case_ids"]))
+    if phase in ("P0", "P1a"):
+        assert len(assur) == 1

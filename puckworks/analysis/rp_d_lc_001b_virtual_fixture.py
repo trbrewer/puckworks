@@ -3991,6 +3991,73 @@ def config_hashes():
     }
 
 
+#: The canonical execution-authority schema (erratum PE-93/PE-96).
+#:
+#: C6 persisted only ``execution_authority_sha256`` and a handful of convenience fields; the
+#: complete object — every input-file hash, the protocol/geometry/errata document hashes, the
+#: stage, the prerequisites, the dependency identity, the clean-tree proof — lived only in
+#: transient Python memory, so nothing downstream could reconstruct it.
+#:
+#: The object itself carries NO self-referential hash. ``execution_authority_sha256`` is
+#: computed separately as ``record_hash(execution_authority)``.
+EXECUTION_AUTHORITY_SCHEMA_VERSION = 1
+EXECUTION_AUTHORITY_FIELDS = (
+    "schema_version", "stage", "tranche", "correction_version",
+    "source_commit", "source_tree", "working_tree_clean", "clean_tree_required",
+    "base_commit", "base_tree",
+    "protocol_sha256", "geometry_spec_sha256", "errata_sha256", "input_file_sha256",
+    "protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256",
+    "backend", "dependencies", "seed", "solver_config", "prerequisites",
+)
+#: The documents whose hashes the authority records, and the field each is recorded under.
+AUTHORITY_DOCUMENT_FIELDS = {
+    "protocol_sha256": PROTOCOL_PATH,
+    "geometry_spec_sha256": BUNDLE_REL + "/VIRTUAL_FIXTURE_SPEC.md",
+    "errata_sha256": ERRATA_PATH,
+}
+#: The generated artifacts whose canonical hashes the three configuration fields must equal.
+AUTHORITY_CONFIG_ARTIFACTS = {
+    "protocol_config_sha256": BUNDLE_REL + "/generated/protocol.json",
+    "fixture_spec_sha256": BUNDLE_REL + "/generated/fixture_spec.json",
+    "execution_matrix_sha256": BUNDLE_REL + "/generated/execution_matrix.json",
+}
+
+
+#: MEASURED HISTORICAL CLAIMS. These three cannot be re-derived from Git by any later process:
+#: the clean-tree status was observed once, the dependency identity is the interpreter and
+#: library versions that were present, and the seed is a declaration that no RNG was used. Their
+#: integrity rests on being BOUND INSIDE the authority hash, which every case record, every
+#: diagnostic envelope, every phase manifest and every P2b artifact cites. Validation checks
+#: their schema and their internal consistency and does not pretend to reproduce them.
+MEASURED_HISTORICAL_AUTHORITY_FIELDS = ("working_tree_clean", "dependencies", "seed")
+_VERSION_RE = __import__("re").compile(r"^[0-9]+(\.[0-9]+)*([a-zA-Z0-9._+-]*)$")
+
+
+def execution_authority_sha256(authority) -> str:
+    """``record_hash`` of the complete authority object, computed OUTSIDE it (PE-93)."""
+    return record_hash(authority)
+
+
+def _git_object_bytes(commit, rel):
+    """Read a tracked file AS IT WAS at ``commit`` — never from the current working tree."""
+    import subprocess
+    try:
+        out = subprocess.run(["git", "show", "%s:%s" % (commit, rel)], cwd=REPO_ROOT,
+                             capture_output=True, check=True).stdout
+    except Exception as exc:
+        raise ExecutionAuthorityError(
+            "the historical authority names %r at commit %s, which cannot be read from the "
+            "repository (%s)" % (rel, commit, exc))
+    return out
+
+
+def _git_commit_exists(commit) -> bool:
+    import subprocess
+    r = subprocess.run(["git", "cat-file", "-e", "%s^{commit}" % commit], cwd=REPO_ROOT,
+                       capture_output=True)
+    return r.returncode == 0
+
+
 def execution_authority(stage: str, backend: str = "reference", require_clean: bool = True):
     """Everything a future stage must record so its output can never be attributed to a head
     that did not produce it — and it FAILS CLOSED (erratum PE-11).
@@ -4017,26 +4084,31 @@ def execution_authority(stage: str, backend: str = "reference", require_clean: b
         raise ExecutionAuthorityError(
             "the working tree is dirty; an execution authority must bind a committed head:\n%s"
             % porcelain)
+    # erratum PE-99: an authority BINDS A COMMITTED HEAD, so every tracked hash it records is
+    # the hash of the content AT ``commit``, not of whatever happens to be in the working tree.
+    # ``working_tree_clean`` separately records whether the two agreed when it was built, and a
+    # production authority requires that they did.
     files = {}
     for rel in INPUT_FILES:
-        h = _sha_file(rel)
-        if h is None:
+        if _sha_file(rel) is None:
             raise ExecutionAuthorityError(
                 "input file %r is missing; an authority may not record a null hash" % rel)
-        files[rel] = h
-    protocol_sha = _sha_file(PROTOCOL_PATH)
-    geometry_sha = _sha_file(BUNDLE_REL + "/VIRTUAL_FIXTURE_SPEC.md")
-    errata_sha = _sha_file(ERRATA_PATH)
-    for name, val in (("protocol", protocol_sha), ("geometry spec", geometry_sha),
-                      ("errata", errata_sha)):
-        if val is None:
-            raise ExecutionAuthorityError("the %s document is missing" % name)
+        files[rel] = hashlib.sha256(_git_object_bytes(commit, rel)).hexdigest()
+    docs = {}
+    for field, rel in sorted(AUTHORITY_DOCUMENT_FIELDS.items()):
+        if _sha_file(rel) is None:
+            raise ExecutionAuthorityError("the %s document is missing" % rel)
+        docs[field] = hashlib.sha256(_git_object_bytes(commit, rel)).hexdigest()
+    protocol_sha = docs["protocol_sha256"]
+    geometry_sha = docs["geometry_spec_sha256"]
+    errata_sha = docs["errata_sha256"]
     try:
         import scipy
         scipy_v = scipy.__version__
     except Exception as exc:                                 # pragma: no cover - env limit
         raise ExecutionAuthorityError("scipy is required for the geometry audits (%s)" % exc)
     out = {
+        "schema_version": EXECUTION_AUTHORITY_SCHEMA_VERSION,
         "stage": stage,
         "tranche": TRANCHE_ID,
         "correction_version": CORRECTION_VERSION,
@@ -4056,8 +4128,143 @@ def execution_authority(stage: str, backend: str = "reference", require_clean: b
                           "min_steps": MIN_STEPS, "max_steps": MAX_STEPS},
         "prerequisites": list(PHASE_PREREQUISITES[stage]),
     }
-    out.update(config_hashes())
+    # the three configuration hashes are likewise those of the COMMITTED generated artifacts
+    for field, rel in sorted(AUTHORITY_CONFIG_ARTIFACTS.items()):
+        raw = _git_object_bytes(commit, rel).decode("utf-8")
+        try:
+            out[field] = record_hash(json.loads(raw))
+        except Exception as exc:                          # pragma: no cover - committed artifact
+            raise ExecutionAuthorityError("the committed %r is not readable JSON: %s"
+                                          % (rel, exc))
     return out
+
+
+def validate_execution_authority(authority, expected_stage=None, expected_current_authority=None,
+                                 require_production=True):
+    """Validate a HISTORICAL execution authority independently (errata PE-95, PE-96, PE-99).
+
+    C6 validated 40-character strings. This asks Git whether ``source_commit`` is a real commit,
+    whether ``rev-parse <commit>^{tree}`` equals ``source_tree``, and reads every tracked input
+    file, document and generated artifact **from that commit** to recompute its hash.
+
+    ``expected_current_authority`` is for EXACT same-phase resume only: when supplied, the whole
+    object must be canonically equal. Downstream historical validation supplies none and
+    validates the embedded object on its own terms — a later phase's authority may NEVER stand in
+    for an earlier phase's, because that would rewrite execution history.
+    """
+    if not isinstance(authority, dict):
+        raise ExecutionAuthorityError("no execution authority was persisted")
+    missing = [k for k in EXECUTION_AUTHORITY_FIELDS if k not in authority]
+    if missing:
+        raise ExecutionAuthorityError("the execution authority is missing %r" % (missing,))
+    extra = sorted(set(authority) - set(EXECUTION_AUTHORITY_FIELDS))
+    if extra:
+        raise ExecutionAuthorityError("the execution authority carries unknown field(s) %r"
+                                      % (extra,))
+    canonical_json(authority)                 # strict: canonical and finite, or it is not bound
+    if authority["schema_version"] != EXECUTION_AUTHORITY_SCHEMA_VERSION:
+        raise ExecutionAuthorityError("execution-authority schema version %r, expected %r"
+                                      % (authority["schema_version"],
+                                         EXECUTION_AUTHORITY_SCHEMA_VERSION))
+    if authority["tranche"] != TRANCHE_ID:
+        raise ExecutionAuthorityError("the authority binds tranche %r" % (authority["tranche"],))
+    if authority["correction_version"] != CORRECTION_VERSION:
+        raise ExecutionAuthorityError("the authority is from a superseded correction version %r"
+                                      % (authority["correction_version"],))
+    stage = authority["stage"]
+    if stage not in PHASE_PREREQUISITES:
+        raise ExecutionAuthorityError("the authority declares an unknown stage %r" % (stage,))
+    if expected_stage is not None and stage != expected_stage:
+        raise ExecutionAuthorityError("the authority declares stage %r, expected %r"
+                                      % (stage, expected_stage))
+    if list(authority["prerequisites"]) != list(PHASE_PREREQUISITES[stage]):
+        raise ExecutionAuthorityError(
+            "the authority declares prerequisites %r; stage %r requires exactly %r"
+            % (authority["prerequisites"], stage, list(PHASE_PREREQUISITES[stage])))
+    if authority["backend"] not in SUPPORTED_BACKENDS:
+        raise ExecutionAuthorityError("the authority names an unsupported backend %r"
+                                      % (authority["backend"],))
+    if require_production:
+        if authority["clean_tree_required"] is not True:
+            raise ExecutionAuthorityError("a production authority must require a clean tree")
+        if authority["working_tree_clean"] is not True:
+            raise ExecutionAuthorityError("a production authority records a dirty working tree")
+    if authority["seed"] is not None:
+        raise ExecutionAuthorityError("this programme uses no RNG; seed must be null")
+    want_solver = {"tau_plus": TAU_PLUS, "nu": NU, "rtol": RTOL, "check": CHECK,
+                   "min_steps": MIN_STEPS, "max_steps": MAX_STEPS}
+    if authority["solver_config"] != want_solver:
+        raise ExecutionAuthorityError("the authority's baseline solver configuration is not the "
+                                      "frozen one")
+    deps = authority["dependencies"]
+    if not isinstance(deps, dict) or sorted(deps) != ["numpy", "python", "scipy"]:
+        raise ExecutionAuthorityError("the authority's dependency identity is malformed")
+    for name, v in sorted(deps.items()):
+        if not isinstance(v, str) or not v:
+            raise ExecutionAuthorityError("the authority's dependency identity is malformed")
+        if not _VERSION_RE.match(v):
+            raise ExecutionAuthorityError(
+                "the authority records %r = %r, which is not a version string" % (name, v))
+    if (authority["base_commit"], authority["base_tree"]) != (BASE_COMMIT, BASE_TREE):
+        raise ExecutionAuthorityError("the authority records a different base commit/tree")
+
+    # ---- the historical Git identity, established against the repository, not a string ------
+    commit, tree = authority["source_commit"], authority["source_tree"]
+    for name, v in (("source_commit", commit), ("source_tree", tree)):
+        if not isinstance(v, str) or len(v) != 40 or set(v) - set("0123456789abcdef"):
+            raise ExecutionAuthorityError("the authority's %s is not a git object name" % name)
+    if not _git_commit_exists(commit):
+        raise ExecutionAuthorityError(
+            "the authority names source_commit %s, which is not a commit in this repository "
+            "(erratum PE-99)" % commit)
+    actual_tree = _git("rev-parse", "%s^{tree}" % commit)
+    if actual_tree != tree:
+        raise ExecutionAuthorityError(
+            "the authority pairs source_commit %s with source_tree %s; that commit's tree is %s "
+            "(erratum PE-99)" % (commit, tree, actual_tree))
+    if not _git_commit_exists(BASE_COMMIT):                # pragma: no cover - base is reachable
+        raise ExecutionAuthorityError("the recorded base commit is not in this repository")
+    if _git("rev-parse", "%s^{tree}" % BASE_COMMIT) != BASE_TREE:
+        raise ExecutionAuthorityError(          # pragma: no cover - base is frozen
+            "the recorded base commit/tree relationship does not hold")
+
+    # ---- every tracked input file, document and generated artifact, AT that commit -----------
+    files = authority["input_file_sha256"]
+    if not isinstance(files, dict) or sorted(files) != sorted(INPUT_FILES):
+        raise ExecutionAuthorityError(
+            "the authority's input-file map is not the exact frozen set; got %r"
+            % (sorted(files) if isinstance(files, dict) else type(files).__name__,))
+    for rel, want in sorted(files.items()):
+        got = hashlib.sha256(_git_object_bytes(commit, rel)).hexdigest()
+        if got != want:
+            raise ExecutionAuthorityError(
+                "the authority records %s for input file %r; at commit %s it hashes to %s"
+                % (want, rel, commit, got))
+    for field, rel in sorted(AUTHORITY_DOCUMENT_FIELDS.items()):
+        got = hashlib.sha256(_git_object_bytes(commit, rel)).hexdigest()
+        if authority[field] != got:
+            raise ExecutionAuthorityError(
+                "the authority records %s = %s; %r at commit %s hashes to %s"
+                % (field, authority[field], rel, commit, got))
+    for field, rel in sorted(AUTHORITY_CONFIG_ARTIFACTS.items()):
+        raw = _git_object_bytes(commit, rel).decode("utf-8")
+        try:
+            doc = json.loads(raw)
+        except Exception as exc:                          # pragma: no cover - committed artifact
+            raise ExecutionAuthorityError("the committed %r is not readable JSON: %s"
+                                          % (rel, exc))
+        got = record_hash(doc)
+        if authority[field] != got:
+            raise ExecutionAuthorityError(
+                "the authority records %s = %s; the committed %r canonically hashes to %s "
+                "(erratum PE-99)" % (field, authority[field], rel, got))
+
+    if expected_current_authority is not None:
+        if record_hash(authority) != record_hash(expected_current_authority):
+            raise ExecutionAuthorityError(
+                "the persisted authority is not the one this resume was invoked under; exact "
+                "same-phase resume requires canonical equality of the complete object")
+    return authority
 
 
 class FreezeMissing(RuntimeError):
@@ -4308,7 +4515,19 @@ def validate_case_record(rec, row=None, authority=None, phase=None):
                              % (rec["case_id"], row["case_id"]))
         if rec["row_sha256"] != row_sha256(row):
             raise ValueError("case record row hash does not match the planned row")
+    if rec["schema_version"] != CASE_RECORD_SCHEMA_VERSION:
+        raise ValueError("case record declares schema version %r, expected %r"
+                         % (rec["schema_version"], CASE_RECORD_SCHEMA_VERSION))
     if authority is not None:
+        # erratum PE-94: the authority HASH is load-bearing. C6 compared a few fragments and
+        # never looked at execution_authority_sha256 at all, so a record could cite an authority
+        # it did not match.
+        if rec.get("execution_authority_sha256") != execution_authority_sha256(authority):
+            raise ValueError(
+                "case record %r cites execution_authority_sha256 %r; its phase authority hashes "
+                "to %r (erratum PE-94)"
+                % (rec.get("case_id"), rec.get("execution_authority_sha256"),
+                   execution_authority_sha256(authority)))
         for k in ("source_commit", "source_tree"):
             if rec[k] != authority[k]:
                 raise ValueError("case record %s %r does not match the authority %r"
@@ -4316,6 +4535,17 @@ def validate_case_record(rec, row=None, authority=None, phase=None):
         for k in ("protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256"):
             if rec.get(k) != authority[k]:
                 raise ValueError("case record %s does not bind this configuration" % (k,))
+        if rec.get("backend") != authority["backend"]:
+            raise ValueError("case record backend does not match the authority")
+        if rec.get("dependencies") != authority["dependencies"]:
+            raise ValueError("case record dependency identity does not match the authority")
+        if rec.get("correction_version") != authority["correction_version"]:
+            raise ValueError(   # pragma: no cover - both checked against CORRECTION_VERSION
+                "case record correction version does not match the authority")
+        if phase is not None and authority["stage"] != phase:
+            raise ValueError(   # pragma: no cover - the validator pins the stage first
+                "case record phase %r is validated against a stage-%r authority"
+                % (phase, authority["stage"]))
     if rec["provenance_mode"] not in ("PRODUCTION", "TEST_ONLY"):
         raise ValueError("unknown provenance_mode %r" % (rec["provenance_mode"],))
     if row is not None:
@@ -4643,12 +4873,14 @@ def validate_diagnostic_failure_envelope(doc, row=None, authority=None, phase=No
         raise ValueError("diagnostic failure envelope provenance %r, expected %r"
                          % (doc["provenance_mode"], provenance_mode))
     if authority is not None:
-        if doc["execution_authority_sha256"] != record_hash(authority):
+        if doc["execution_authority_sha256"] != execution_authority_sha256(authority):
             raise ValueError("diagnostic failure envelope does not bind the phase authority")
         for k in ("source_commit", "source_tree"):
             if doc[k] != authority[k]:
                 raise ValueError("diagnostic failure envelope %s does not match the authority"
                                  % (k,))
+        if doc.get("backend") != authority["backend"]:
+            raise ValueError("diagnostic failure envelope backend does not match the authority")
     canonical_json(doc)
     return doc
 
@@ -5778,7 +6010,11 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
         "provenance_mode": provenance_mode,
         "source_commit": authority["source_commit"],
         "source_tree": authority["source_tree"],
-        "execution_authority_sha256": record_hash(authority),
+        "backend": authority["backend"],
+        # erratum PE-93: the COMPLETE canonical authority, not only its hash. Every convenience
+        # field above and below must equal this object exactly.
+        "execution_authority": dict(authority),
+        "execution_authority_sha256": execution_authority_sha256(authority),
         "full_matrix_sha256": record_hash(execution_matrix()),
         "phase_universe_sha256": record_hash(uni),
         "phase_plan_sha256": record_hash(elig),
@@ -5809,12 +6045,20 @@ def make_phase_manifest(phase, universe_rows, eligible_rows, completed, refused,
                    "refused": len(refused), "failed": len(failed),
                    "diagnostic_completed": len(diagnostic_completed),
                    "diagnostic_failed": len(diagnostic_failed)},
+        # erratum PE-100: each list is formed from the EXACT role. C6 built the
+        # decision-bearing list by excluding tau, so the execution-assurance replicates landed
+        # in a field named decision-bearing while role-resolved reporting counted them apart.
         "decision_bearing_case_ids": [r["case_id"] for r in uni
-                                      if row_scientific_role(r) !=
-                                      "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"],
+                                      if row_scientific_role(r) == "DECISION_BEARING"],
+        "execution_assurance_case_ids": [r["case_id"] for r in uni
+                                         if row_scientific_role(r) ==
+                                         "EXECUTION_ASSURANCE_REPLICATE"],
         "diagnostic_case_ids": [r["case_id"] for r in uni
                                 if row_scientific_role(r) ==
                                 "TAU_RELAXATION_DIAGNOSTIC_NON_ADJUDICATIVE"],
+        "adjudicative_case_ids": [r["case_id"] for r in uni
+                                  if ROW_SCIENTIFIC_ROLES[row_scientific_role(r)][
+                                      "adjudicative"]],
     }
     doc.update(config_hashes())
     return doc
@@ -5840,6 +6084,29 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
         raise ManifestMissing(
             "the %s manifest carries provenance_mode=%r; production validation accepts PRODUCTION "
             "manifests only (erratum PE-34)" % (phase, doc.get("provenance_mode")))
+    if doc.get("schema_version") != MANIFEST_SCHEMA_VERSION:
+        raise ManifestMissing("the %s manifest declares schema version %r, expected %r"
+                              % (phase, doc.get("schema_version"), MANIFEST_SCHEMA_VERSION))
+    # ---- errata PE-93, PE-95, PE-96: ALWAYS load and independently validate the embedded
+    # complete historical authority. ``authority=None`` no longer means "skip"; an external
+    # authority only STRENGTHENS the check, for exact same-phase resume.
+    try:
+        phase_authority = validate_execution_authority(
+            doc.get("execution_authority"), expected_stage=phase,
+            expected_current_authority=authority,
+            require_production=require_production)
+    except ExecutionAuthorityError as exc:
+        raise ManifestMissing("the %s manifest's execution authority is invalid: %s"
+                              % (phase, exc))
+    if doc.get("execution_authority_sha256") != execution_authority_sha256(phase_authority):
+        raise ManifestMissing("the %s manifest cites a stale execution-authority hash" % (phase,))
+    for k in ("source_commit", "source_tree", "backend", "correction_version"):
+        if doc.get(k) != phase_authority[k]:
+            raise ManifestMissing(
+                "the %s manifest's %r does not equal its own embedded authority (erratum PE-93)"
+                % (phase, k))
+    # from here on the PHASE authority is the one every record is bound to
+    authority = phase_authority
     want = config_hashes()
     bad = {k: (doc.get(k), v) for k, v in want.items() if doc.get(k) != v}
     if bad:
@@ -6097,6 +6364,7 @@ def validate_phase_manifest(phase, runs_dir, authority=None, matrix_rows=None,
     doc["_records"] = records
     doc["_diagnostic_records"] = diagnostic_records
     doc["_diagnostic_failures"] = diagnostic_failures
+    doc["_execution_authority"] = phase_authority
     return doc
 
 
@@ -6362,7 +6630,10 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
                                       % (doc.get("terminal_status"),))
             got[pre] = doc
             continue
-        doc = validate_phase_manifest(pre, base, authority=authority, matrix_rows=rows,
+        # erratum PE-95: each predecessor is validated against its OWN persisted historical
+        # authority. Pushing the CURRENT phase's authority at an earlier phase would assert that
+        # the later commit produced the earlier record, which rewrites execution history.
+        doc = validate_phase_manifest(pre, base, authority=None, matrix_rows=rows,
                                       predecessor_records=dict(records),
                                       require_production=require_production)
         # PE-27: a stopped, failed, unconverged, invalid or design-blocked predecessor may NOT
@@ -6395,6 +6666,17 @@ def require_phase_manifests(phase: str, runs_dir=None, authority=None,
                     "(complete=%r, pass=%r, failed=%r); phase %r may not consume it "
                     "(erratum PE-64)" % (pre, sci.get("complete"), sci.get("pass"),
                                          sci.get("failed_families"), phase))
+        # where the programme requires the phases to share a reviewed source identity, compare
+        # those EXPLICIT common fields AFTER each historical authority has validated on its own.
+        pre_auth = doc["_execution_authority"]
+        if authority is not None:
+            for k in ("source_commit", "source_tree", "correction_version", "backend"):
+                if pre_auth[k] != authority[k]:
+                    raise ManifestMissing(
+                        "the %s authority's %r (%r) differs from the %r authority's (%r); a "
+                        "phase may consume only a predecessor sharing its reviewed source "
+                        "identity (erratum PE-95)"
+                        % (pre, k, pre_auth[k], phase, authority[k]))
         records.update(doc.pop("_records", {}))
         got[pre] = doc
     if set(got) != required:                                 # pragma: no cover - loop is exact
@@ -7299,6 +7581,11 @@ P2B_ASSEMBLY_AUTHORITY_FIELDS = (
     "clean_tree_required", "protocol_config_sha256", "fixture_spec_sha256",
     "execution_matrix_sha256", "pre_freeze_matrix_sha256", "predecessor_manifest_file_sha256",
     "backend", "dependencies", "provenance_mode",
+    # errata PE-97/PE-98: the COMPLETE nested execution authority and its hash are load-bearing
+    # identity and belong INSIDE the canonical set the assembly hash is taken over. C6 wrote
+    # execution_authority_sha256 into the document and left it out of the hash, so changing it
+    # did not change assembly_authority_sha256.
+    "execution_authority", "execution_authority_sha256",
 )
 
 
@@ -7329,7 +7616,8 @@ def p2b_assembly_authority(runs_dir, execution_auth, manifest_keys,
         "backend": execution_auth["backend"],
         "dependencies": dict(execution_auth["dependencies"]),
         "provenance_mode": provenance_mode,
-        "execution_authority_sha256": record_hash(execution_auth),
+        "execution_authority": dict(execution_auth),
+        "execution_authority_sha256": execution_authority_sha256(execution_auth),
         "note": ("binds the exact configuration and predecessor files this assembly consumed; a "
                  "later review wrapper may cite it without claiming its own commit produced it"),
     }
@@ -7358,14 +7646,14 @@ def validate_p2b_assembly_authority(doc, runs_dir, require_production=True,
         raise ManifestMissing("the assembly authority names an unsupported backend")
     if require_production and not doc["working_tree_clean"]:
         raise ManifestMissing("the assembly authority records a dirty working tree")
-    for k in ("source_commit", "source_tree"):
-        v = doc[k]
-        if not isinstance(v, str) or len(v) != 40:
-            raise ManifestMissing("the assembly authority's %s is not a git object name" % k)
-    want = config_hashes()
-    for k, v in want.items():
-        if doc.get(k) != v:
-            raise ManifestMissing("the assembly authority binds a different %s" % k)
+    # NOTE: the Git identity itself is established by validate_execution_authority below, from
+    # the repository rather than from the string's shape (erratum PE-99).
+    # NOTE: the assembly authority's three configuration hashes are those of the artifacts
+    # COMMITTED at its own source commit, and validate_execution_authority establishes them
+    # against that commit. Binding the CURRENT configuration is the P2b manifest's job and is
+    # checked there; asserting it here would demand that a historical authority match a later
+    # checkout, which is exactly the rewriting of execution history PE-95 forbids. (On a clean
+    # production tree the committed and live hashes are identical by construction.)
     if doc["pre_freeze_matrix_sha256"] != pre_freeze_matrix_sha256():
         raise ManifestMissing("the assembly authority binds a different pre-freeze matrix")
     cited = dict(doc["predecessor_manifest_file_sha256"])
@@ -7379,6 +7667,25 @@ def validate_p2b_assembly_authority(doc, runs_dir, require_production=True,
         if hashlib.sha256(f.read_bytes()).hexdigest() != sha:
             raise ManifestMissing("the assembly authority cites a stale hash for predecessor %s"
                                   % k)
+    # errata PE-97/PE-98: validate the NESTED complete P2b execution authority independently,
+    # against the recorded Git commit and tracked content, and require every duplicated outer
+    # field to equal it.
+    try:
+        nested = validate_execution_authority(
+            doc.get("execution_authority"), expected_stage="P2b",
+            require_production=require_production)
+    except ExecutionAuthorityError as exc:
+        raise ManifestMissing("the P2b assembly authority's execution authority is invalid: %s"
+                              % exc)
+    if doc.get("execution_authority_sha256") != execution_authority_sha256(nested):
+        raise ManifestMissing("the assembly authority cites a stale execution-authority hash")
+    for k in ("source_commit", "source_tree", "working_tree_clean", "clean_tree_required",
+              "correction_version", "backend", "dependencies", "protocol_config_sha256",
+              "fixture_spec_sha256", "execution_matrix_sha256"):
+        if doc.get(k) != nested[k]:
+            raise ManifestMissing(
+                "the assembly authority's %r does not equal its own nested execution authority "
+                "(erratum PE-98)" % (k,))
     recomputed = record_hash({k: doc[k] for k in P2B_ASSEMBLY_AUTHORITY_FIELDS})
     if doc.get("assembly_authority_sha256") != recomputed:
         raise ManifestMissing("the assembly authority's own SHA-256 does not recompute")
