@@ -968,12 +968,13 @@ def test_a_dirty_working_tree_cannot_carry_an_execution_authority(tmp_path, monk
     monkeypatch.setattr(vf, "_git",
                         lambda *a: ("M x.py" if a[0] == "status" else real_git(*a)))
     with pytest.raises(vf.ExecutionAuthorityError):
-        vf.execution_authority("P0")
+        vf._build_execution_authority("P0", authority_provenance="TEST_ONLY", require_clean=True)
     # the same authority resolves when the tree is clean. The commit and tree stay REAL: an
     # authority reads its tracked content from the recorded commit, so a fabricated object name
     # can no longer produce one at all (erratum PE-99).
     monkeypatch.setattr(vf, "_git", lambda *a: ("" if a[0] == "status" else real_git(*a)))
-    auth = vf.execution_authority("P0")
+    auth = vf._build_execution_authority("P0", authority_provenance="TEST_ONLY",
+                                         require_clean=True)
     assert auth["working_tree_clean"] is True and auth["clean_tree_required"] is True
     assert auth["source_commit"] == real_git("rev-parse", "HEAD")
 
@@ -985,19 +986,19 @@ def test_a_fabricated_commit_cannot_carry_an_execution_authority(monkeypatch):
                         lambda *a: ("" if a[0] == "status"
                                     else ("a" * 40 if a[0] == "rev-parse" else real_git(*a))))
     with pytest.raises(vf.ExecutionAuthorityError):
-        vf.execution_authority("P0")
+        vf._test_only_execution_authority("P0")
 
 
 def test_a_missing_input_file_cannot_carry_an_execution_authority(monkeypatch):
     monkeypatch.setattr(vf, "_sha_file", lambda rel: None)
     with pytest.raises(vf.ExecutionAuthorityError):
-        vf.execution_authority("P0")
+        vf._test_only_execution_authority("P0")
 
 
 def test_the_execution_authority_records_everything_a_future_stage_must_bind():
-    # require_clean=False so the SHAPE of the record is testable from a working checkout; the
-    # dirty-tree refusal itself is asserted separately, and is on by default.
-    a = vf.execution_authority("P0", require_clean=False)
+    # the PRIVATE builder, so the SHAPE of the record is testable from a working checkout whose
+    # allowlists are empty; the dirty-tree and authorization refusals are asserted separately.
+    a = vf._test_only_execution_authority("P0")
     assert isinstance(a["working_tree_clean"], bool)   # MEASURED, never asserted True
     for k in ("stage", "correction_version", "source_commit", "source_tree",
               "working_tree_clean", "protocol_sha256", "geometry_spec_sha256", "errata_sha256",
@@ -2089,7 +2090,7 @@ def test_no_fraction_is_ever_built_from_a_binary_float():
 @pytest.fixture()
 def executed_p0(tmp_path):
     """A complete, validated P0 phase from the PRIVATE TEST_ONLY seam (erratum PE-34)."""
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
     man = drv._test_only_execute("P0", tmp_path, _fake_provider, auth)
     return tmp_path, auth, man
 
@@ -2292,7 +2293,7 @@ def test_p2b_makes_no_solver_call_and_has_its_own_authority_gate():
 
 
 def test_a_failed_case_stops_the_phase(tmp_path, monkeypatch):
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
 
     calls = {"n": 0}
 
@@ -2463,8 +2464,13 @@ def _coherent_fields(mask, meta, g, kind, lane_gain=(1.0, 1.0)):
 
 
 def _phase_authority(phase):
-    """A stage-correct TEST_ONLY authority (erratum PE-94)."""
-    return vf.execution_authority(phase, require_clean=False)
+    """A stage-correct TEST_ONLY authority (errata PE-94, PE-103).
+
+    The PRODUCTION builder refuses at this head, because the committed allowlists are empty.
+    Synthetic pipelines use the private TEST_ONLY builder, whose output every production
+    validator rejects.
+    """
+    return vf._test_only_execution_authority(phase)
 
 
 def _run_prefreeze(d, prov, phases=("P0", "P1a", "P1b", "P2a")):
@@ -2867,8 +2873,13 @@ def test_solving_and_assembly_authority_are_separate_and_both_empty():
     src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
     assert "AUTHORISED_ASSEMBLY_PHASES = ()" in src
     assert "AUTHORISED_SOLVING_PHASES = ()" in src
+    # erratum PE-104: ONE shared gate, so the assembly path names its own gate through the
+    # parser rather than re-implementing the tuple comparison.
     body = inspect.getsource(drv.require_assembly_authorisation)
-    assert "AUTHORISED_ASSEMBLY_PHASES" in body and "AUTHORISED_SOLVING_PHASES" not in body
+    assert "assert_stage_authorised" in body and "AUTHORISED_SOLVING_PHASES" not in body
+    snap = vf.source_authorization_snapshot("P2b", src)
+    assert snap["required_gate"] == "ASSEMBLY" and snap["stage_authorised"] is False
+    assert vf.source_authorization_snapshot("P0", src)["required_gate"] == "SOLVING"
 
 
 def test_every_phase_including_p2b_refuses_at_this_head():
@@ -4022,7 +4033,7 @@ class _CountingProvider:
 @pytest.fixture(scope="module")
 def resumable_p0(tmp_path_factory):
     d = tmp_path_factory.mktemp("resume")
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
     prov = _CountingProvider()
     man = drv._test_only_execute("P0", d, prov, auth)
     return d, auth, man, prov.calls
@@ -4458,7 +4469,7 @@ def tau_failure_phases(tmp_path_factory):
     out = {}
     for mode in ("unconverged", "mach", "conservation"):
         d = tmp_path_factory.mktemp("tau_%s" % mode)
-        auth = vf.execution_authority("P0", require_clean=False)
+        auth = vf._test_only_execution_authority("P0")
         man = drv._test_only_execute("P0", d, _tau_breaking_provider(mode), auth)
         out[mode] = (d, auth, man)
     return out
@@ -4502,7 +4513,7 @@ def test_a_decision_bearing_p0_failure_still_stops_p0(tmp_path):
         if kw["row"]["kind"] == "reference_blocked_ladder":
             res["steps"] = vf.MAX_STEPS
         return res
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
     man = drv._test_only_execute("P0", tmp_path, provider, auth)
     assert man["terminal_status"] == "PHASE_STOPPED_UNCONVERGED"
     assert man["terminal_stop_reason"] == "NORMAL_UNCONVERGED"
@@ -5050,7 +5061,7 @@ def tau_attempt_phases(tmp_path_factory):
     out = {}
     for mode in sorted(TAU_ATTEMPT_MODES):
         d = tmp_path_factory.mktemp("tau_attempt_%s" % mode)
-        auth = vf.execution_authority("P0", require_clean=False)
+        auth = vf._test_only_execution_authority("P0")
         prov = _TauAttemptProvider(mode)
         man = drv._test_only_execute("P0", d, prov, auth)
         out[mode] = (d, auth, man, prov)
@@ -5123,7 +5134,7 @@ def test_an_exact_envelope_resumes_with_zero_provider_calls(tau_attempt_phases, 
 def test_the_same_failure_on_a_decision_bearing_row_is_never_a_diagnostic(tmp_path, mode):
     """Erratum PE-89 §5.1: the nonblocking behaviour is scoped to the tau role ALONE."""
     prov = _TauAttemptProvider(mode, kinds=("reference_blocked_ladder",))
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
     with pytest.raises((RuntimeError, ValueError, vf.NonFiniteValue)) as exc:
         drv._test_only_execute("P0", tmp_path, prov, auth)
     assert not isinstance(exc.value, vf.DiagnosticAttemptFailed)
@@ -5146,7 +5157,7 @@ def test_an_authority_or_persistence_failure_is_never_downgraded():
 def test_an_envelope_may_never_stand_for_an_adjudicative_row():
     rows = vf.execution_matrix()["rows"]
     dec = next(r for r in rows if vf.row_scientific_role(r) == "DECISION_BEARING")
-    auth = vf.execution_authority("P0", require_clean=False)
+    auth = vf._test_only_execution_authority("P0")
     failure = vf.DiagnosticAttemptFailed("DIAGNOSTIC_PROVIDER_EXCEPTION", "PROVIDER_CALL",
                                          exc=RuntimeError("x"))
     with pytest.raises(ValueError) as exc:
@@ -5510,3 +5521,159 @@ def test_the_manifest_role_lists_agree_with_the_role_model(synthetic_prefreeze, 
     assert not (assur & set(doc["decision_bearing_case_ids"]))
     if phase in ("P0", "P1a"):
         assert len(assur) == 1
+
+
+# ==========================================================================================
+# 18. C8 correction regressions — PE-101 … PE-113
+# ==========================================================================================
+
+# ---- A. the committed source-authorization snapshot (errata PE-101 … PE-104) -----------------
+
+DRIVER_SRC = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
+
+
+def _driver_with(solving="()", assembly="()", ready="False"):
+    """A deterministic SOURCE FIXTURE. No real authorization commit is ever created."""
+    return (DRIVER_SRC
+            .replace("AUTHORISED_SOLVING_PHASES = ()", "AUTHORISED_SOLVING_PHASES = %s" % solving,
+                     1)
+            .replace("AUTHORISED_ASSEMBLY_PHASES = ()",
+                     "AUTHORISED_ASSEMBLY_PHASES = %s" % assembly, 1)
+            .replace("POST_FREEZE_EXECUTOR_READY = False",
+                     "POST_FREEZE_EXECUTOR_READY = %s" % ready, 1))
+
+
+def test_the_live_head_authorizes_nothing():
+    """Erratum PE-103: at this head every production authority construction must refuse."""
+    parsed = vf.parse_committed_authorization(DRIVER_SRC)
+    assert parsed["AUTHORISED_SOLVING_PHASES"] == ()
+    assert parsed["AUTHORISED_ASSEMBLY_PHASES"] == ()
+    assert parsed["POST_FREEZE_EXECUTOR_READY"] is False
+    for phase in ("P0", "P1a", "P1b", "P2a", "P2b", "P3", "P4"):
+        with pytest.raises(vf.SourceAuthorizationError):
+            vf.execution_authority(phase, require_clean=False)
+        assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is False
+    # ...and the private TEST_ONLY builder remains available, carrying the true snapshot
+    a = vf._test_only_execution_authority("P0")
+    assert a["authority_provenance"] == "TEST_ONLY"
+    assert a["source_authorization"]["stage_authorised"] is False
+    assert "source_authorization" in vf.EXECUTION_AUTHORITY_FIELDS
+    assert "authority_provenance" in vf.EXECUTION_AUTHORITY_FIELDS
+
+
+def test_a_test_only_authority_is_never_production_eligible():
+    a = vf._test_only_execution_authority("P0")
+    vf.validate_execution_authority(a, expected_stage="P0", require_production=False)
+    with pytest.raises(vf.ExecutionAuthorityError):
+        vf.validate_execution_authority(a, expected_stage="P0", require_production=True)
+    # no public provenance or authorization override exists: the public builder takes neither
+    # a provenance nor a bypass parameter, and pins PRODUCTION itself.
+    assert set(inspect.signature(vf.execution_authority).parameters) == {
+        "stage", "backend", "require_clean"}
+    assert set(inspect.signature(vf._test_only_execution_authority).parameters) == {
+        "stage", "backend", "require_clean"}
+    src = inspect.getsource(vf.execution_authority)
+    assert "ignore_authorisation" not in src
+    assert 'authority_provenance="PRODUCTION"' in src        # pinned, never a caller's choice
+    assert vf.AUTHORITY_PROVENANCE == ("PRODUCTION", "TEST_ONLY")
+
+
+@pytest.mark.parametrize("phase,solving,assembly,ready,expect", [
+    ("P0", '("P0",)', "()", "False", True),          # a solving phase in the solving tuple
+    ("P2a", '("P0", "P1a", "P1b", "P2a")', "()", "False", True),
+    ("P2b", "()", '("P2b",)', "False", True),        # P2b in the assembly tuple
+    ("P0", "()", '("P2b",)', "False", False),        # solving phase absent from solving tuple
+    ("P3", '("P3",)', "()", "False", False),         # post-freeze needs readiness too
+    ("P4", '("P4",)', "()", "True", True),
+    ("P3", "()", "()", "True", False),               # readiness alone is not authorization
+])
+def test_the_parser_resolves_each_gate_against_a_source_fixture(phase, solving, assembly, ready,
+                                                                expect):
+    """Erratum PE-101: exercised against a SOURCE FIXTURE. No real authorization commit is made."""
+    snap = vf.source_authorization_snapshot(phase, _driver_with(solving, assembly, ready))
+    assert snap["stage_authorised"] is expect
+    assert snap["required_gate"] == vf.STAGE_GATE_KIND[phase]
+    assert snap["driver_path"] == vf.DRIVER_REL
+    assert sorted(snap) == sorted(vf.SOURCE_AUTHORIZATION_FIELDS)
+
+
+def test_a_phase_in_the_wrong_allowlist_is_refused():
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.parse_committed_authorization(_driver_with(solving='("P2b",)'))
+    assert "ARITHMETIC assembly phase" in str(exc.value)
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.parse_committed_authorization(_driver_with(assembly='("P0",)'))
+    assert "SOLVING phase" in str(exc.value)
+    with pytest.raises(vf.SourceAuthorizationError):
+        vf.parse_committed_authorization(_driver_with(solving='("P9",)'))
+
+
+def test_a_comment_cannot_fool_the_authorization_parser():
+    """Erratum PE-101: an AST walk cannot confuse a comment or a string with code."""
+    decoy = "\n".join([
+        '# AUTHORISED_SOLVING_PHASES = ("P0", "P1a")',
+        "_NOTE = " + repr('AUTHORISED_SOLVING_PHASES = ("P0",)'),
+        "AUTHORISED_SOLVING_PHASES = ()",
+    ])
+    fooled = DRIVER_SRC.replace("AUTHORISED_SOLVING_PHASES = ()", decoy, 1)
+    assert vf.parse_committed_authorization(fooled)["AUTHORISED_SOLVING_PHASES"] == ()
+
+
+@pytest.mark.parametrize("bad", [
+    'AUTHORISED_SOLVING_PHASES = tuple(os.environ.get("X", "").split(","))',
+    'AUTHORISED_SOLVING_PHASES = _SOMETHING',
+    'AUTHORISED_SOLVING_PHASES = ("P0",)\nAUTHORISED_SOLVING_PHASES = ()',
+    'AUTHORISED_SOLVING_PHASES = ["P0"]',
+    'AUTHORISED_SOLVING_PHASES = (1,)',
+])
+def test_a_nonliteral_or_duplicated_authorization_constant_is_refused(bad):
+    with pytest.raises(vf.SourceAuthorizationError):
+        vf.parse_committed_authorization(
+            DRIVER_SRC.replace("AUTHORISED_SOLVING_PHASES = ()", bad, 1))
+
+
+def test_an_unparseable_readiness_constant_is_refused():
+    with pytest.raises(vf.SourceAuthorizationError):
+        vf.parse_committed_authorization(_driver_with(ready='"False"'))
+    with pytest.raises(vf.SourceAuthorizationError):
+        vf.parse_committed_authorization(_driver_with(ready="_READY"))
+
+
+def test_a_changed_driver_hash_changes_the_snapshot():
+    a = vf.source_authorization_snapshot("P0", DRIVER_SRC)
+    b = vf.source_authorization_snapshot("P0", DRIVER_SRC + "\n# a comment\n")
+    assert a["driver_file_sha256"] != b["driver_file_sha256"]
+    assert a["stage_authorised"] == b["stage_authorised"]      # only the hash moved
+
+
+@pytest.mark.parametrize("field,value", [
+    ("stage_authorised", True),
+    ("authorised_solving_phases", ["P0"]),
+    ("authorised_assembly_phases", ["P2b"]),
+    ("post_freeze_executor_ready", True),
+    ("driver_file_sha256", "0" * 64),
+    ("required_gate", "ASSEMBLY"),
+])
+def test_a_forged_authorization_snapshot_is_rejected(field, value):
+    """It must not recompute from the driver AT the recorded commit (erratum PE-101)."""
+    a = vf._test_only_execution_authority("P0")
+    bad = dict(a, source_authorization=dict(a["source_authorization"], **{field: value}))
+    with pytest.raises(vf.SourceAuthorizationError) as exc:
+        vf.validate_execution_authority(bad, expected_stage="P0", require_production=False)
+    assert "does not recompute" in str(exc.value)
+
+
+def test_the_production_p2b_wrapper_applies_the_assembly_gate_itself(tmp_path):
+    """Erratum PE-104: C7 relied on the driver caller having applied it."""
+    with pytest.raises(vf.ExecutionNotAuthorised) as exc:
+        vf.assemble_p2b_from_runs(tmp_path)
+    assert "NOT AUTHORISED" in str(exc.value) and "ASSEMBLY" in str(exc.value)
+    # it refuses BEFORE validating records, creating an authority or writing anything
+    assert not list(tmp_path.iterdir())
+    src = inspect.getsource(vf.assemble_p2b_from_runs)
+    gate = src.split("assert_stage_authorised")[0]
+    for later in ("execution_authority(", "require_phase_manifests(", "_p2b_decision_core("):
+        assert later not in gate, later
+    # ONE shared implementation, re-exported by the driver
+    assert drv.ExecutionNotAuthorised is vf.ExecutionNotAuthorised
+    assert "assert_stage_authorised" in inspect.getsource(drv.require_assembly_authorisation)

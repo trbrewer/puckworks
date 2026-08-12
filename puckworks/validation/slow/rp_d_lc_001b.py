@@ -68,8 +68,9 @@ POST_FREEZE_NOT_READY_NOTE = (
 )
 
 
-class ExecutionNotAuthorised(RuntimeError):
-    """Raised by every solving mode while the tranche is pre-execution."""
+#: ONE shared implementation, defined beside the committed-authorization parser and re-exported
+#: here so the driver and the assembler cannot drift apart (erratum PE-104).
+ExecutionNotAuthorised = vf.ExecutionNotAuthorised
 
 
 class PostFreezeExecutorNotReady(ExecutionNotAuthorised):
@@ -127,11 +128,9 @@ def require_assembly_authorisation(phase, backend="reference", runs_dir=None):
     if phase not in ASSEMBLY_MODES:
         raise ValueError("phase %r is not an assembly phase" % (phase,))
     vf.require_phase_manifests(phase, runs_dir=runs_dir)
-    if phase not in AUTHORISED_ASSEMBLY_PHASES:
-        raise ExecutionNotAuthorised(
-            "phase %r is an ARITHMETIC assembly phase and is NOT AUTHORISED: "
-            "AUTHORISED_ASSEMBLY_PHASES = %r. Authorising the solving phases does not authorise "
-            "the assembly. %s" % (phase, AUTHORISED_ASSEMBLY_PHASES, AUTHORISATION_NOTE))
+    # erratum PE-104: the SHARED gate, reading the committed constants. The local tuple above is
+    # the source of truth it parses, so the two can never disagree.
+    vf.assert_stage_authorised(phase)
     return vf.execution_authority(phase, backend=backend)         # pragma: no cover - unreached
 
 
@@ -160,6 +159,7 @@ def require_execution_authorisation(phase, backend="reference", runs_dir=None):
     vf.require_phase_manifests(phase, runs_dir=runs_dir)
     if phase not in AUTHORISED_SOLVING_PHASES:
         _refuse(phase)
+    vf.assert_stage_authorised(phase)                             # pragma: no cover - unreached
     return vf.execution_authority(phase, backend=backend)         # pragma: no cover - unreached
 
 

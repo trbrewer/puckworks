@@ -4059,7 +4059,14 @@ EXECUTION_AUTHORITY_FIELDS = (
     "protocol_sha256", "geometry_spec_sha256", "errata_sha256", "input_file_sha256",
     "protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256",
     "backend", "dependencies", "seed", "solver_config", "prerequisites",
+    # errata PE-101/PE-102: the committed authorization snapshot is part of the AUTHORITY, and
+    # therefore inside execution_authority_sha256. Changing any part of it moves every record,
+    # envelope, manifest and P2b artifact bound to that hash.
+    "source_authorization", "authority_provenance",
 )
+#: An authority is PRODUCTION only when the committed driver authorized its stage. TEST_ONLY is
+#: the private synthetic provenance and is rejected by every production validator (PE-103).
+AUTHORITY_PROVENANCE = ("PRODUCTION", "TEST_ONLY")
 #: The documents whose hashes the authority records, and the field each is recorded under.
 AUTHORITY_DOCUMENT_FIELDS = {
     "protocol_sha256": PROTOCOL_PATH,
@@ -4082,6 +4089,179 @@ AUTHORITY_CONFIG_ARTIFACTS = {
 #: their schema and their internal consistency and does not pretend to reproduce them.
 MEASURED_HISTORICAL_AUTHORITY_FIELDS = ("working_tree_clean", "dependencies", "seed")
 _VERSION_RE = __import__("re").compile(r"^[0-9]+(\.[0-9]+)*([a-zA-Z0-9._+-]*)$")
+
+
+# ---- the COMMITTED source-controlled authorization snapshot (errata PE-101 … PE-103) --------
+# C7's authority proved that ``source_commit`` exists, that its tree matches and that every
+# tracked file hashes as recorded. It never asked the one question an execution record must
+# answer: DID THAT COMMIT AUTHORIZE THIS PHASE? The runtime gate reads the allowlists from the
+# LIVE import, so a historical record proved nothing about the allowlists at its own commit.
+#
+# The snapshot below is parsed from the TRACKED driver source AT ``source_commit`` — never from a
+# monkeypatched runtime object, an environment variable, a caller-supplied list, or the
+# validating checkout.
+
+DRIVER_REL = "puckworks/validation/slow/rp_d_lc_001b.py"
+#: The three literal constants the driver must declare, and the type each must have.
+AUTHORIZATION_CONSTANTS = {
+    "AUTHORISED_SOLVING_PHASES": tuple,
+    "AUTHORISED_ASSEMBLY_PHASES": tuple,
+    "POST_FREEZE_EXECUTOR_READY": bool,
+}
+#: Which committed allowlist authorizes which stage, and what else that stage additionally needs.
+STAGE_GATE_KIND = {
+    "P0": "SOLVING", "P1a": "SOLVING", "P1b": "SOLVING", "P2a": "SOLVING",
+    "P2b": "ASSEMBLY",
+    "P3": "POST_FREEZE_SOLVING", "P4": "POST_FREEZE_SOLVING",
+}
+SOURCE_AUTHORIZATION_FIELDS = (
+    "driver_path", "driver_file_sha256", "authorised_solving_phases",
+    "authorised_assembly_phases", "post_freeze_executor_ready",
+    "stage", "required_gate", "stage_authorised",
+)
+
+
+class SourceAuthorizationError(ExecutionAuthorityError):
+    """The committed driver does not authorize the stage, or cannot be parsed strictly."""
+
+
+def _literal_tuple_or_bool(node, name):
+    """A STRICT literal reader. Anything computed, aliased or environment-dependent is
+    rejected outright — an authorization constant may never be inferred (erratum PE-101)."""
+    import ast
+    try:
+        value = ast.literal_eval(node)
+    except (ValueError, SyntaxError, TypeError):
+        raise SourceAuthorizationError(
+            "%s is not a literal assignment in the committed driver; an authorization constant "
+            "may never be computed, aliased or environment-dependent" % name)
+    want = AUTHORIZATION_CONSTANTS[name]
+    if want is tuple:
+        if not isinstance(value, tuple):
+            raise SourceAuthorizationError("%s must be a literal tuple, got %s"
+                                           % (name, type(value).__name__))
+        if not all(isinstance(v, str) for v in value):
+            raise SourceAuthorizationError("%s must contain only phase names" % name)
+        return tuple(value)
+    if not isinstance(value, bool):
+        raise SourceAuthorizationError("%s must be a literal bool, got %s"
+                                       % (name, type(value).__name__))
+    return value
+
+
+def parse_committed_authorization(driver_source, driver_path=DRIVER_REL):
+    """Parse the three authorization constants from committed driver SOURCE, by AST.
+
+    An AST walk over module-level assignments cannot confuse a comment, a docstring or a string
+    literal with code, which an unconstrained regex can. A duplicate assignment is rejected: two
+    values for one constant means the effective value depends on evaluation order, which is not
+    an authorization anyone reviewed.
+    """
+    import ast
+    try:
+        tree = ast.parse(driver_source, filename=driver_path)
+    except SyntaxError as exc:
+        raise SourceAuthorizationError("the committed driver %r does not parse: %s"
+                                       % (driver_path, exc))
+    found = {}
+    for node in tree.body:                      # MODULE LEVEL only: no conditional redefinition
+        if not isinstance(node, ast.Assign):
+            continue
+        for target in node.targets:
+            if not isinstance(target, ast.Name) or target.id not in AUTHORIZATION_CONSTANTS:
+                continue
+            if target.id in found:
+                raise SourceAuthorizationError(
+                    "the committed driver assigns %s more than once; the effective value would "
+                    "depend on evaluation order" % target.id)
+            found[target.id] = _literal_tuple_or_bool(node.value, target.id)
+    missing = sorted(set(AUTHORIZATION_CONSTANTS) - set(found))
+    if missing:
+        raise SourceAuthorizationError(
+            "the committed driver %r declares no module-level literal %r" % (driver_path,
+                                                                             missing))
+    for name in ("AUTHORISED_SOLVING_PHASES", "AUTHORISED_ASSEMBLY_PHASES"):
+        for phase in found[name]:
+            if phase not in PHASE_PREREQUISITES:
+                raise SourceAuthorizationError("%s names an unknown phase %r" % (name, phase))
+    for phase in found["AUTHORISED_SOLVING_PHASES"]:
+        if STAGE_GATE_KIND[phase] == "ASSEMBLY":
+            raise SourceAuthorizationError(
+                "phase %r is an ARITHMETIC assembly phase and may never appear in "
+                "AUTHORISED_SOLVING_PHASES" % (phase,))
+    for phase in found["AUTHORISED_ASSEMBLY_PHASES"]:
+        if STAGE_GATE_KIND[phase] != "ASSEMBLY":
+            raise SourceAuthorizationError(
+                "phase %r is a SOLVING phase and may never appear in "
+                "AUTHORISED_ASSEMBLY_PHASES" % (phase,))
+    return found
+
+
+def source_authorization_snapshot(stage, driver_source, driver_path=DRIVER_REL):
+    """The canonical authorization snapshot for one stage, from committed driver source."""
+    if stage not in STAGE_GATE_KIND:
+        raise SourceAuthorizationError("unknown stage %r" % (stage,))
+    parsed = parse_committed_authorization(driver_source, driver_path=driver_path)
+    gate = STAGE_GATE_KIND[stage]
+    solving = list(parsed["AUTHORISED_SOLVING_PHASES"])
+    assembly = list(parsed["AUTHORISED_ASSEMBLY_PHASES"])
+    ready = parsed["POST_FREEZE_EXECUTOR_READY"]
+    if gate == "SOLVING":
+        authorised = stage in solving
+    elif gate == "ASSEMBLY":
+        authorised = stage in assembly
+    else:                                        # POST_FREEZE_SOLVING needs BOTH
+        authorised = bool(stage in solving and ready)
+    return {
+        "driver_path": driver_path,
+        "driver_file_sha256": hashlib.sha256(driver_source.encode("utf-8")).hexdigest(),
+        "authorised_solving_phases": solving,
+        "authorised_assembly_phases": assembly,
+        "post_freeze_executor_ready": bool(ready),
+        "stage": stage,
+        "required_gate": gate,
+        "stage_authorised": bool(authorised),
+    }
+
+
+def committed_source_authorization(stage, commit, driver_path=DRIVER_REL):
+    """The snapshot as it was AT ``commit`` — read through Git, never from the checkout."""
+    raw = _git_object_bytes(commit, driver_path)
+    return source_authorization_snapshot(stage, raw.decode("utf-8"), driver_path=driver_path)
+
+
+class ExecutionNotAuthorised(RuntimeError):
+    """A phase is not authorized by the committed source constants (erratum PE-104).
+
+    Defined here, beside the parser, so the driver and the assembler share ONE implementation
+    rather than two copies that can drift. The driver re-exports it.
+    """
+
+
+def assert_stage_authorised(stage, driver_source=None):
+    """The one shared source-controlled gate (erratum PE-104).
+
+    Reads the LIVE committed driver by default — the runtime gate's job — and refuses unless the
+    frozen constants authorize the stage. Historical proof that a PAST commit authorized a stage
+    is the authority's ``source_authorization`` snapshot; this is the complementary check that
+    the CURRENT source authorizes the call about to be made.
+    """
+    if driver_source is None:
+        path = REPO_ROOT / DRIVER_REL
+        if not path.exists():                     # pragma: no cover - the driver is tracked
+            raise ExecutionAuthorityError("the driver %r is missing" % (DRIVER_REL,))
+        driver_source = path.read_text()
+    snap = source_authorization_snapshot(stage, driver_source)
+    if not snap["stage_authorised"]:
+        raise ExecutionNotAuthorised(
+            "phase %r is NOT AUTHORISED by the source-controlled constants: "
+            "AUTHORISED_SOLVING_PHASES = %r, AUTHORISED_ASSEMBLY_PHASES = %r, "
+            "POST_FREEZE_EXECUTOR_READY = %r. Its %s gate must name it, and adding it is its own "
+            "reviewed source commit (erratum PE-104)."
+            % (stage, tuple(snap["authorised_solving_phases"]),
+               tuple(snap["authorised_assembly_phases"]),
+               snap["post_freeze_executor_ready"], snap["required_gate"]))
+    return snap
 
 
 def execution_authority_sha256(authority) -> str:
@@ -4110,13 +4290,38 @@ def _git_commit_exists(commit) -> bool:
 
 
 def execution_authority(stage: str, backend: str = "reference", require_clean: bool = True):
-    """Everything a future stage must record so its output can never be attributed to a head
-    that did not produce it — and it FAILS CLOSED (erratum PE-11).
+    """The PRODUCTION execution authority. Everything a future stage must record so its output
+    can never be attributed to a head that did not produce it — and it FAILS CLOSED (PE-11).
 
     It raises ``ExecutionAuthorityError`` rather than returning ``None`` for: an unusable git
-    identity, a dirty working tree, a missing input file, an unsupported backend, or an unknown
-    stage. A partial authority record is never returned.
+    identity, a dirty working tree, a missing input file, an unsupported backend, an unknown
+    stage, or — since erratum PE-103 — **a source commit whose committed allowlists do not
+    authorize the stage**. A partial authority record is never returned.
+
+    There is no public provenance or authorization override. The private synthetic path is
+    :func:`_test_only_execution_authority`, whose output every production validator rejects.
     """
+    return _build_execution_authority(stage, backend=backend, require_clean=require_clean,
+                                      authority_provenance="PRODUCTION")
+
+
+def _test_only_execution_authority(stage: str, backend: str = "reference",
+                                   require_clean: bool = False):
+    """PRIVATE synthetic authority (erratum PE-103).
+
+    Synthetic pipelines need a historical-looking authority while the real allowlists remain
+    empty. This one carries ``authority_provenance = "TEST_ONLY"`` and the ACTUAL committed
+    authorization snapshot, including ``stage_authorised = False``. Production validation rejects
+    it, and it cannot be handed to the public production execution or assembly APIs.
+    """
+    return _build_execution_authority(stage, backend=backend, require_clean=require_clean,
+                                      authority_provenance="TEST_ONLY")
+
+
+def _build_execution_authority(stage: str, backend: str = "reference",
+                               require_clean: bool = True,
+                               authority_provenance: str = "PRODUCTION"):
+    """The shared builder. Private: the provenance argument is never publicly reachable."""
     import platform
 
     if stage not in PHASE_PREREQUISITES:
@@ -4158,10 +4363,25 @@ def execution_authority(stage: str, backend: str = "reference", require_clean: b
         scipy_v = scipy.__version__
     except Exception as exc:                                 # pragma: no cover - env limit
         raise ExecutionAuthorityError("scipy is required for the geometry audits (%s)" % exc)
+    # erratum PE-103: the committed driver must AUTHORIZE this stage. A production authority is
+    # not constructible at a source commit whose allowlists do not name it.
+    authz = committed_source_authorization(stage, commit)
+    if authority_provenance not in AUTHORITY_PROVENANCE:
+        raise ExecutionAuthorityError("unknown authority provenance %r" % (authority_provenance,))
+    if authority_provenance == "PRODUCTION" and not authz["stage_authorised"]:
+        raise SourceAuthorizationError(
+            "source commit %s does not authorize stage %r: %s = %r, %s = %r, "
+            "POST_FREEZE_EXECUTOR_READY = %r. A production execution authority may only be built "
+            "at a commit whose reviewed source constants name the stage (erratum PE-103)."
+            % (commit, stage, "AUTHORISED_SOLVING_PHASES", authz["authorised_solving_phases"],
+               "AUTHORISED_ASSEMBLY_PHASES", authz["authorised_assembly_phases"],
+               authz["post_freeze_executor_ready"]))
     out = {
         "schema_version": EXECUTION_AUTHORITY_SCHEMA_VERSION,
         "stage": stage,
         "tranche": TRANCHE_ID,
+        "source_authorization": authz,
+        "authority_provenance": authority_provenance,
         "correction_version": CORRECTION_VERSION,
         "source_commit": commit, "source_tree": tree,
         "working_tree_clean": not porcelain,        # recorded as MEASURED, never assumed
@@ -4242,6 +4462,13 @@ def validate_execution_authority(authority, expected_stage=None, expected_curren
             raise ExecutionAuthorityError("a production authority records a dirty working tree")
     if authority["seed"] is not None:
         raise ExecutionAuthorityError("this programme uses no RNG; seed must be null")
+    prov = authority["authority_provenance"]
+    if prov not in AUTHORITY_PROVENANCE:
+        raise ExecutionAuthorityError("unknown authority provenance %r" % (prov,))
+    if require_production and prov != "PRODUCTION":
+        raise ExecutionAuthorityError(
+            "the authority carries authority_provenance=%r; production validation accepts "
+            "PRODUCTION only (erratum PE-103)" % (prov,))
     want_solver = {"tau_plus": TAU_PLUS, "nu": NU, "rtol": RTOL, "check": CHECK,
                    "min_steps": MIN_STEPS, "max_steps": MAX_STEPS}
     if authority["solver_config"] != want_solver:
@@ -4309,6 +4536,38 @@ def validate_execution_authority(authority, expected_stage=None, expected_curren
             raise ExecutionAuthorityError(
                 "the authority records %s = %s; the committed %r canonically hashes to %s "
                 "(erratum PE-99)" % (field, authority[field], rel, got))
+
+    # ---- errata PE-101 … PE-103: the committed driver must AUTHORIZE the recorded stage -----
+    # Recomputed from the driver AS IT WAS at source_commit, and compared exactly.
+    persisted = authority["source_authorization"]
+    if not isinstance(persisted, dict):
+        raise ExecutionAuthorityError("the authority carries no source-authorization snapshot")
+    missing_authz = [k for k in SOURCE_AUTHORIZATION_FIELDS if k not in persisted]
+    if missing_authz:
+        raise ExecutionAuthorityError("the source-authorization snapshot is missing %r"
+                                      % (missing_authz,))
+    extra_authz = sorted(set(persisted) - set(SOURCE_AUTHORIZATION_FIELDS))
+    if extra_authz:
+        raise ExecutionAuthorityError("the source-authorization snapshot carries unknown "
+                                      "field(s) %r" % (extra_authz,))
+    driver_path = persisted["driver_path"]
+    if driver_path != DRIVER_REL:
+        raise ExecutionAuthorityError("the snapshot names driver %r; the frozen driver is %r"
+                                      % (driver_path, DRIVER_REL))
+    rebuilt = committed_source_authorization(stage, commit, driver_path=driver_path)
+    if record_hash(rebuilt) != record_hash(persisted):
+        bad = sorted(k for k in SOURCE_AUTHORIZATION_FIELDS if rebuilt[k] != persisted[k])
+        raise SourceAuthorizationError(
+            "the persisted source-authorization snapshot does not recompute from the driver at "
+            "commit %s; differing field(s): %r (erratum PE-101)" % (commit, bad))
+    if require_production and not rebuilt["stage_authorised"]:
+        raise SourceAuthorizationError(
+            "source commit %s does not authorize stage %r (%s gate); a production authority may "
+            "not stand on an unauthorized commit (erratum PE-103)"
+            % (commit, stage, rebuilt["required_gate"]))
+    if not rebuilt["stage_authorised"] and prov != "TEST_ONLY":
+        raise SourceAuthorizationError(   # pragma: no cover - unreachable while both are checked
+            "an unauthorized stage may only be carried by an explicitly TEST_ONLY authority")
 
     if expected_current_authority is not None:
         if record_hash(authority) != record_hash(expected_current_authority):
@@ -7763,6 +8022,11 @@ def assemble_p2b_from_runs(runs_dir, backend="reference"):
     The synthetic harness has its own private wrapper (:func:`_test_only_assemble_p2b_from_runs`)
     and never reaches this function by monkeypatching its guards.
     """
+    # erratum PE-104: the assembly gate is applied HERE, at the public boundary, BEFORE any
+    # record is validated, any authority is created or any artifact is written. C7 relied on the
+    # driver's require_assembly_authorisation having been called by the caller, so a direct call
+    # bypassed it entirely. One shared source-controlled gate, not two drifting copies.
+    assert_stage_authorised("P2b")
     base = pathlib.Path(runs_dir)
     auth = execution_authority("P2b", backend=backend)
     manifests, records = require_phase_manifests("P2b", runs_dir=base, authority=auth,
