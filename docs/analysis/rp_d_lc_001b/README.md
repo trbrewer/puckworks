@@ -1,7 +1,13 @@
 # RP-D-LC-001b — reduced-forcing, lateral-only virtual-fixture re-execution
 
+> **Performance-branch notice:**
+> [`REFERENCE_PROCESS_PARALLELISM_V1.md`](REFERENCE_PROCESS_PARALLELISM_V1.md) documents the focused
+> reference CPU process-pool implementation. This branch is implementation-only and production-
+> deauthorized; no scientific phase has run. The scaling harness must not run before exact-head
+> approval. GPU work is outside scope.
+
 ```
-PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · P0–P2b COHORT SOURCE-AUTHORIZED
+PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · PRODUCTION-DEAUTHORIZED PERFORMANCE IMPLEMENTATION
 PENDING EXACT-HEAD REVIEW BEFORE P0 BEGINS
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
@@ -118,10 +124,10 @@ RP_D_LC_001B_COMPLETE_PREFREEZE_COHORT_AUTHORIZED_PENDING_EXACT_HEAD_REVIEW
 correction_version: PREFLIGHT-C9                  (effective; unchanged by this authorization)
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
-AUTHORISED_SOLVING_PHASES: ("P0", "P1a", "P1b", "P2a")
-AUTHORISED_ASSEMBLY_PHASES: ("P2b",)
+AUTHORISED_SOLVING_PHASES: ()
+AUTHORISED_ASSEMBLY_PHASES: ()
 POST_FREEZE_EXECUTOR_READY: False
-prefreeze_cohort_state: COMPLETE_PREFREEZE_COHORT_AUTHORIZED
+prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED
 ```
 
 **PREFLIGHT-C9 remains the effective protocol** (`PROTOCOL.md` §27). This head changes the
