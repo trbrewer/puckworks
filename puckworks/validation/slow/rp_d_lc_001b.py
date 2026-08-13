@@ -35,12 +35,15 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import pathlib
+import time
 import traceback
 
 import numpy as np
 
 from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
+from puckworks.validation.slow import rp_d_lc_001b_process_pool as pool_engine
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 
@@ -123,7 +126,7 @@ def _refuse_post_freeze(phase):
         % (phase, POST_FREEZE_EXECUTOR_READY, POST_FREEZE_NOT_READY_NOTE))
 
 #: The only supported job count at this stage. A larger value is refused rather than ignored.
-SUPPORTED_JOBS = (1,)
+SUPPORTED_JOBS = tuple(range(1, pool_engine.MAX_REFERENCE_WORKERS + 1))
 
 AUTHORISATION_NOTE = (
     "RP-D-LC-001b is PRE-EXECUTION. The protocol, the corrected fixture, the conserved-quantity "
@@ -161,7 +164,7 @@ def _refuse(phase):
                                                 AUTHORISATION_NOTE))
 
 
-def require_assembly_authorisation(phase, backend="reference", runs_dir=None):
+def require_assembly_authorisation(phase, backend="reference", runs_dir=None, jobs=1):
     """The assembly gate (erratum PE-39). Separate from the solving gate in both directions."""
     if phase not in ASSEMBLY_MODES:
         raise ValueError("phase %r is not an assembly phase" % (phase,))
@@ -169,10 +172,12 @@ def require_assembly_authorisation(phase, backend="reference", runs_dir=None):
     # erratum PE-104: the SHARED gate, reading the committed constants. The local tuple above is
     # the source of truth it parses, so the two can never disagree.
     vf.assert_stage_authorised(phase)
-    return vf.execution_authority(phase, backend=backend)         # pragma: no cover - unreached
+    return vf.execution_authority(
+        phase, backend=backend,
+        execution_engine=pool_engine.execution_engine_identity(jobs))  # pragma: no cover
 
 
-def require_execution_authorisation(phase, backend="reference", runs_dir=None):
+def require_execution_authorisation(phase, backend="reference", runs_dir=None, jobs=1):
     """The complete fail-closed runtime gate (erratum PE-11), in the order a reviewer would
     check it:
 
@@ -198,7 +203,9 @@ def require_execution_authorisation(phase, backend="reference", runs_dir=None):
     if phase not in AUTHORISED_SOLVING_PHASES:
         _refuse(phase)
     vf.assert_stage_authorised(phase)                             # pragma: no cover - unreached
-    return vf.execution_authority(phase, backend=backend)         # pragma: no cover - unreached
+    return vf.execution_authority(
+        phase, backend=backend,
+        execution_engine=pool_engine.execution_engine_identity(jobs))  # pragma: no cover
 
 
 def solve(mask, g, phase, backend="reference", tau=None, fields=REQUIRED_FIELDS, steps=None,
@@ -472,7 +479,7 @@ def _decision_bearing_ok(row, sci, status):
     return v["pass"], v["reason"]
 
 
-def execute_phase(phase, runs_dir, backend="reference"):
+def execute_phase(phase, runs_dir, backend="reference", jobs=1):
     """The PRODUCTION pre-freeze executor (erratum PE-34).
 
     The signature accepts **no** result provider, **no** authority override and **no** scientific
@@ -494,17 +501,21 @@ def execute_phase(phase, runs_dir, backend="reference"):
     if phase in POST_FREEZE_PHASES and not POST_FREEZE_EXECUTOR_READY:
         _refuse_post_freeze(phase)                             # PE-76
     if phase in ASSEMBLY_MODES:
-        require_assembly_authorisation(phase, backend=backend, runs_dir=base)
+        if jobs != 1:
+            raise ValueError("P2b is arithmetic and accepts --jobs 1 only")
+        require_assembly_authorisation(phase, backend=backend, runs_dir=base, jobs=1)
         return vf.assemble_p2b_from_runs(base, backend=backend)   # pragma: no cover - unreached
-    auth = require_execution_authorisation(phase, backend=backend, runs_dir=base)
+    auth = require_execution_authorisation(phase, backend=backend, runs_dir=base, jobs=jobs)
     # PE-114: only now, with the policy passed and the phase authorized, is the bundle created.
     vf.validate_production_runs_dir(base, require_production=True,  # pragma: no cover - unreached
                                     create=True)
     manifests, records = ({}, {})                                 # pragma: no cover - unreached
     if vf.PHASE_PREREQUISITES[phase]:                             # pragma: no cover - unreached
         manifests, records = vf.require_phase_manifests(phase, runs_dir=base, authority=auth)
-    return _orchestrate(phase, base, auth, manifests, records,    # pragma: no cover - unreached
-                        _guarded_result_provider, backend, "PRODUCTION")
+    if jobs == 1:
+        return _orchestrate(phase, base, auth, manifests, records,  # pragma: no cover
+                            _guarded_result_provider, backend, "PRODUCTION")
+    return _orchestrate_parallel(phase, base, auth, manifests, records, jobs)  # pragma: no cover
 
 
 #: The result fields every provider must return. Checked EXPLICITLY, so a missing field is a
@@ -922,13 +933,90 @@ def _guarded_result_provider(mask, g, phase, row, tau=None, audit=None, backend=
                  min_steps=(None if audit is None else audit["min_steps"]))
 
 
+def _process_pool_case_worker(task):
+    """Child-side solve only: no authority decision, verdict, manifest, or durable write."""
+    started, pid, cid = time.monotonic(), os.getpid(), task["case_id"]
+    try:
+        row = task["row"]
+        mask, _meta, _kind = resolve_row(row)
+        audit = task.get("audit")
+        result = _guarded_result_provider(
+            mask=mask, g=vf.row_forcing(row), phase=row["phase"], row=row,
+            tau=row["tau_plus"], audit=audit, backend="reference")
+        return pool_engine.success_result(cid, pid, started, time.monotonic(), result)
+    except BaseException as exc:
+        if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+            raise
+        return pool_engine.failure_result(cid, pid, started, time.monotonic(), exc)
+
+
+def _row_dependency_ids(row):
+    return tuple(x for x in (row.get("audit_of_case_id"), row.get("replicate_of_case_id")) if x)
+
+
+def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initially_complete=()):
+    """Private parent seam: readiness, exact resume, complete waves, canonical consumption."""
+    rows = list(canonical_rows)
+    order = {r["case_id"]: i for i, r in enumerate(rows)}
+    pending = {r["case_id"]: r for r in rows}
+    complete = set(initially_complete)
+    refused = []
+    counts = {"ready_rows": 0, "reused_rows": 0, "newly_dispatched_rows": 0,
+              "completed_worker_results": 0, "failed_worker_results": 0,
+              "waves_dispatched": 0, "worker_calls": 0}
+    with pool_engine.DeterministicWavePool(jobs, worker) as pool:
+        while pending:
+            ready = [r for r in rows if r["case_id"] in pending
+                     and set(_row_dependency_ids(r)) <= complete]
+            if not ready:
+                raise RuntimeError("parallel row dependency graph is blocked")
+            counts["ready_rows"] += len(ready)
+            tasks, selected = [], []
+            for row in ready:
+                task = prepare(row)
+                if task is None:
+                    complete.add(row["case_id"])
+                    pending.pop(row["case_id"])
+                    counts["reused_rows"] += 1
+                    continue
+                tasks.append(task)
+                selected.append(row)
+                if len(tasks) == jobs:
+                    break
+            if not tasks:
+                continue
+            results = pool.run_wave(tasks)
+            counts["waves_dispatched"] += 1
+            counts["newly_dispatched_rows"] += len(tasks)
+            keep_going = True
+            pairs = sorted(zip(selected, results), key=lambda x: order[x[0]["case_id"]])
+            for row, result in pairs:
+                counts["completed_worker_results"] += int(result["success"])
+                counts["failed_worker_results"] += int(not result["success"])
+                keep_going = bool(consume(row, result)) and keep_going
+                complete.add(row["case_id"])
+                pending.pop(row["case_id"])
+            if not keep_going:
+                refused = [r["case_id"] for r in rows if r["case_id"] in pending]
+                break
+        counts["worker_calls"] = pool.worker_calls
+    if counts["worker_calls"] != counts["newly_dispatched_rows"]:
+        raise RuntimeError("worker-call accounting differs from newly dispatched rows")
+    return {"accounting": counts, "refused_after_parallel_stop": refused,
+            "completed_case_ids": [r["case_id"] for r in rows if r["case_id"] in complete]}
+
+
+def _orchestrate_parallel(phase, base, auth, manifests, records, jobs):
+    """Reviewed engine boundary; production remains source-deauthorized on this branch."""
+    raise ExecutionNotAuthorised(
+        "PROCESS_POOL_V1 is implemented pending exact-head review; this performance branch is "
+        "production-deauthorized and no parallel scientific phase may run")
+
+
 def run_phase(mode, out_dir=None, backend="reference", runs_dir=None, jobs=1):
     if mode not in MODES:
         raise ValueError("unknown mode %r; expected one of %r" % (mode, MODES))
-    if jobs not in SUPPORTED_JOBS:
-        raise ValueError("--jobs %r is not supported at this stage; only %r is accepted. The "
-                         "matrix order is the execution order and no concurrency is implemented."
-                         % (jobs, SUPPORTED_JOBS))
+    pool_engine.validate_jobs(jobs)
     if backend not in vf.SUPPORTED_BACKENDS:
         raise ValueError("backend %r is not supported; only %r exists. A backend argument is "
                          "never accepted and then silently routed to the reference solver."
@@ -942,7 +1030,7 @@ def run_phase(mode, out_dir=None, backend="reference", runs_dir=None, jobs=1):
     # the tracked .gitignore does not exclude, so P0 dirtied the worktree whose cleanliness P1a's
     # own authority then required.
     rd = runs_dir if runs_dir is not None else out_dir
-    return execute_phase(mode, rd, backend=backend)
+    return execute_phase(mode, rd, backend=backend, jobs=jobs)
 
 
 def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, records=None,
@@ -1022,8 +1110,8 @@ def main(argv=None):                                             # pragma: no co
                          "directory OUTSIDE the repository. There is no default — the production "
                          "authority requires a clean worktree, so runtime output may never be "
                          "written beneath it (erratum PE-114)")
-    ap.add_argument("--jobs", type=int, default=1,
-                    help="only 1 is supported at this stage; a larger value is refused")
+    ap.add_argument("--jobs", type=int, default=pool_engine.DEFAULT_REFERENCE_WORKERS,
+                    help="reference workers, 1..32; jobs=1 preserves the serial path")
     a = ap.parse_args(argv)
     try:
         res = run_phase(a.mode, out_dir=a.output, backend=a.backend, jobs=a.jobs)

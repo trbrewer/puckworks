@@ -4288,7 +4288,7 @@ EXECUTION_AUTHORITY_FIELDS = (
     "base_commit", "base_tree",
     "protocol_sha256", "geometry_spec_sha256", "errata_sha256", "input_file_sha256",
     "protocol_config_sha256", "fixture_spec_sha256", "execution_matrix_sha256",
-    "backend", "dependencies", "seed", "solver_config", "prerequisites",
+    "backend", "dependencies", "seed", "solver_config", "prerequisites", "execution_engine",
     # errata PE-101/PE-102: the committed authorization snapshot is part of the AUTHORITY, and
     # therefore inside execution_authority_sha256. Changing any part of it moves every record,
     # envelope, manifest and P2b artifact bound to that hash.
@@ -4634,7 +4634,8 @@ def _git_commit_exists(commit) -> bool:
     return r.returncode == 0
 
 
-def execution_authority(stage: str, backend: str = "reference", require_clean: bool = True):
+def execution_authority(stage: str, backend: str = "reference", require_clean: bool = True,
+                        execution_engine=None):
     """The PRODUCTION execution authority. Everything a future stage must record so its output
     can never be attributed to a head that did not produce it — and it FAILS CLOSED (PE-11).
 
@@ -4647,11 +4648,12 @@ def execution_authority(stage: str, backend: str = "reference", require_clean: b
     :func:`_test_only_execution_authority`, whose output every production validator rejects.
     """
     return _build_execution_authority(stage, backend=backend, require_clean=require_clean,
-                                      authority_provenance="PRODUCTION")
+                                      authority_provenance="PRODUCTION",
+                                      execution_engine=execution_engine)
 
 
 def _test_only_execution_authority(stage: str, backend: str = "reference",
-                                   require_clean: bool = False):
+                                   require_clean: bool = False, execution_engine=None):
     """PRIVATE synthetic authority (erratum PE-103).
 
     Synthetic pipelines need a historical-looking authority while the real allowlists remain
@@ -4660,12 +4662,13 @@ def _test_only_execution_authority(stage: str, backend: str = "reference",
     it, and it cannot be handed to the public production execution or assembly APIs.
     """
     return _build_execution_authority(stage, backend=backend, require_clean=require_clean,
-                                      authority_provenance="TEST_ONLY")
+                                      authority_provenance="TEST_ONLY",
+                                      execution_engine=execution_engine)
 
 
 def _build_execution_authority(stage: str, backend: str = "reference",
                                require_clean: bool = True,
-                               authority_provenance: str = "PRODUCTION"):
+                               authority_provenance: str = "PRODUCTION", execution_engine=None):
     """The shared builder. Private: the provenance argument is never publicly reachable."""
     import platform
 
@@ -4743,6 +4746,15 @@ def _build_execution_authority(stage: str, backend: str = "reference",
         "solver_config": {"tau_plus": TAU_PLUS, "nu": NU, "rtol": RTOL, "check": CHECK,
                           "min_steps": MIN_STEPS, "max_steps": MAX_STEPS},
         "prerequisites": list(PHASE_PREREQUISITES[stage]),
+        "execution_engine": dict(execution_engine or {
+            "version": "PROCESS_POOL_V1", "execution_mode": "SERIAL_REFERENCE",
+            "requested_workers": 1, "multiprocessing_start_method": "spawn",
+            "worker_thread_limit_policy": {
+                name: "1" for name in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                                        "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS",
+                                        "VECLIB_MAXIMUM_THREADS", "BLIS_NUM_THREADS")},
+            "scheduler_policy": "CANONICAL_BOUNDED_WAVES_V1",
+        }),
     }
     # the three configuration hashes are likewise those of the COMMITTED generated artifacts
     for field, rel in sorted(AUTHORITY_CONFIG_ARTIFACTS.items()):
@@ -4819,6 +4831,30 @@ def validate_execution_authority(authority, expected_stage=None, expected_curren
     if authority["solver_config"] != want_solver:
         raise ExecutionAuthorityError("the authority's baseline solver configuration is not the "
                                       "frozen one")
+    engine = authority["execution_engine"]
+    engine_fields = {"version", "execution_mode", "requested_workers",
+                     "multiprocessing_start_method", "worker_thread_limit_policy",
+                     "scheduler_policy"}
+    if not isinstance(engine, dict) or set(engine) != engine_fields:
+        raise ExecutionAuthorityError("the authority's execution-engine identity is malformed")
+    if engine["version"] != "PROCESS_POOL_V1":
+        raise ExecutionAuthorityError("the authority names an unsupported execution engine")
+    if engine["execution_mode"] not in ("SERIAL_REFERENCE", "PROCESS_POOL_REFERENCE"):
+        raise ExecutionAuthorityError("the authority names an unsupported execution mode")
+    workers = engine["requested_workers"]
+    if isinstance(workers, bool) or not isinstance(workers, int) or not 1 <= workers <= 32:
+        raise ExecutionAuthorityError("the authority records an invalid worker count")
+    expected_mode = "SERIAL_REFERENCE" if workers == 1 else "PROCESS_POOL_REFERENCE"
+    if engine["execution_mode"] != expected_mode:
+        raise ExecutionAuthorityError("execution mode and requested worker count disagree")
+    if engine["multiprocessing_start_method"] != "spawn":
+        raise ExecutionAuthorityError("the authority records an unsafe multiprocessing method")
+    limits = engine["worker_thread_limit_policy"]
+    expected_limits = {name: "1" for name in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                                                "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS",
+                                                "VECLIB_MAXIMUM_THREADS", "BLIS_NUM_THREADS")}
+    if limits != expected_limits or engine["scheduler_policy"] != "CANONICAL_BOUNDED_WAVES_V1":
+        raise ExecutionAuthorityError("the authority records an unsupported scheduling policy")
     deps = authority["dependencies"]
     if not isinstance(deps, dict) or sorted(deps) != ["numpy", "python", "scipy"]:
         raise ExecutionAuthorityError("the authority's dependency identity is malformed")
