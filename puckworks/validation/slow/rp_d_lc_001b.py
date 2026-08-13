@@ -954,7 +954,174 @@ def _row_dependency_ids(row):
     return tuple(x for x in (row.get("audit_of_case_id"), row.get("replicate_of_case_id")) if x)
 
 
-def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initially_complete=()):
+def _parallel_progress(event):
+    """Operational parent telemetry. It is never persisted or included in a scientific hash."""
+    print("RP_D_LC_001B_PARALLEL_PROGRESS " + json.dumps(event, sort_keys=True), flush=True)
+
+
+def _parallel_geometry_context(row, matrix, base, backend):
+    """Resolve one ready row in the parent and reconstruct any frozen base-derived plan."""
+    if isinstance(row.get("bridge"), str):
+        _refuse_post_freeze(row["phase"])
+    mask, meta, kind = resolve_row(row)
+    audit_plan = None
+    dependency = row.get("audit_of_case_id") or row.get("replicate_of_case_id")
+    if dependency:
+        base_rec, _ = vf.read_case_record(base, dependency)
+        base_row = next((r for r in matrix if r["case_id"] == dependency), None)
+        if base_row is None:
+            raise ValueError("row %r names a base outside the canonical matrix" % row["case_id"])
+        if row.get("audit_of_case_id"):
+            vf.assert_audit_compatible(row, base_row)
+            base_status = vf.recomputed_case_status(base_rec)
+            if base_status != "NORMAL_CONVERGED":
+                raise ValueError("audit %r base %r is not NORMAL_CONVERGED"
+                                 % (row["case_id"], dependency))
+            audit_plan = vf.fixed_step_audit_plan(base_rec["completed_steps"], base_status)
+            audit_plan["base_case_id"] = dependency
+            audit_plan["base_record_sha256"] = vf.record_hash(base_rec)
+        else:
+            vf.assert_replicate_compatible(row, base_row)
+            # Recompute now rather than trusting the stored identity; the final assurance builder
+            # repeats this check from the official records.
+            vf.recomputed_payload_sha256(base_rec, base_row)
+    g = vf.row_forcing(row)
+    cfg = vf.effective_solver_config(row, backend=backend, audit=audit_plan)
+    geometry = {"kind": kind, "mask_sha256": meta["mask_sha256"], "S": row["S"],
+                "shape": list(meta.get("shape") or mask.shape),
+                "bridge": row["bridge"] if isinstance(row["bridge"], dict) else None,
+                "state": row["state"], "variant": row["variant"],
+                "obstructed": bool(meta.get("obstructed"))}
+    return {"mask": mask, "meta": meta, "kind": kind, "audit": audit_plan,
+            "g": g, "cfg": cfg, "geometry": geometry}
+
+
+def _parallel_record_entry(row, rec, path, how, sci, audit_plan, state):
+    entry = {"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+             "artifact_kind": "CASE_RECORD", "record_path": path.name,
+             "write_mode": how, "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+             "status": rec["status"]}
+    verdict = vf.case_decision_verdict(
+        row, sci, vf.recomputed_case_status(rec, audit=audit_plan))
+    entry["scientific_role"] = verdict["scientific_role"]
+    if not verdict["pass"]:
+        entry["reason"] = verdict["reason"]
+    state[verdict["ledger"]].append(entry)
+    if verdict["effect"] == "STOPS_THE_PHASE" and state["terminal"] == "PHASE_COMPLETE":
+        state["terminal"] = ("PHASE_STOPPED_UNCONVERGED"
+                             if verdict["reason"] == "NORMAL_UNCONVERGED"
+                             else "PHASE_STOPPED_INVALID_CASE")
+        state["stop_reason"] = verdict["reason"]
+    return verdict
+
+
+def _parallel_prepare_row(row, state):
+    """Parent-only exact resume and task construction; returns None for an exact reuse."""
+    ctx = _parallel_geometry_context(
+        row, state["matrix"], state["base"], state["backend"])
+    if ctx["audit"] is not None:
+        state["audit_plans"][row["case_id"]] = ctx["audit"]
+    vf.assert_no_coexisting_artifacts(state["base"], row["case_id"])
+    role = vf.row_scientific_role(row)
+    envelope_eligible = role in vf.DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES
+    existing = vf.load_resumable_case_record(
+        state["base"], row, state["auth"], state["phase"], state["pre_sha"],
+        ctx["geometry"], provenance_mode=state["provenance_mode"], audit=ctx["audit"],
+        phase_authority_file_sha256=state["pa_sha"])
+    existing_env = None
+    if existing is None and envelope_eligible:
+        existing_env = vf.load_resumable_diagnostic_failure(
+            state["base"], row, state["auth"], state["phase"], state["pre_sha"],
+            ctx["geometry"], provenance_mode=state["provenance_mode"], audit=ctx["audit"],
+            phase_authority_file_sha256=state["pa_sha"])
+    if existing_env is not None:
+        env, path = existing_env
+        state["n_reused_env"] += 1
+        state["diagnostic_failed"].append({
+            "case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+            "artifact_kind": "DIAGNOSTIC_FAILURE_ENVELOPE", "record_path": path.name,
+            "write_mode": "REUSED_EXACT_MATCH",
+            "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "status": env["status"], "scientific_role": env["scientific_role"],
+            "reason": env["failure_code"], "failure_stage": env["failure_stage"]})
+        return None
+    if existing is not None:
+        rec, path = existing
+        state["n_reused"] += 1
+        _parallel_record_entry(row, rec, path, "REUSED_EXACT_MATCH", rec["scientific"],
+                               ctx["audit"], state)
+        return None
+    state["contexts"][row["case_id"]] = ctx
+    return {"case_id": row["case_id"], "row": row, "audit": ctx["audit"]}
+
+
+def _parallel_consume_result(row, worker_result, state):
+    """Convert one raw worker result through the serial official scientific/record path."""
+    ctx = state["contexts"].pop(row["case_id"])
+    role = vf.row_scientific_role(row)
+    envelope_eligible = role in vf.DIAGNOSTIC_ENVELOPE_ELIGIBLE_ROLES
+    try:
+        if not worker_result["success"]:
+            failure = worker_result["failure"]
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_PROVIDER_EXCEPTION", "PROVIDER_CALL",
+                exc=RuntimeError("worker row-local %s: %s"
+                                 % (failure.get("type"), failure.get("message"))))
+        res, sci = _attempt_case(
+            lambda **_kw: worker_result["payload"], ctx["mask"], ctx["meta"], ctx["g"],
+            state["phase"], row, ctx["kind"], ctx["audit"], state["backend"])
+        try:
+            payload = vf.scientific_payload_hash(
+                ctx["cfg"], sci, ctx["meta"]["mask_sha256"])
+            rec = vf.make_case_record(
+                row, state["auth"], state["pre_sha"], ctx["geometry"], sci,
+                completed_steps=_exact_steps(res["steps"]), run_mode=row["run_mode"],
+                audit=ctx["audit"], provenance_mode=state["provenance_mode"],
+                scientific_payload_sha256=payload,
+                phase_authority_file_sha256=state["pa_sha"])
+        except vf.DIAGNOSTIC_NEVER_CAUGHT:
+            raise
+        except vf.DiagnosticAttemptFailed:
+            raise
+        except vf.NonFiniteValue as exc:
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_RESULT_NONFINITE", "RECORD_CONSTRUCTION", exc=exc)
+        except (TypeError, ValueError) as exc:
+            raise vf.DiagnosticAttemptFailed(
+                "DIAGNOSTIC_SCIENTIFIC_EXTRACTION_FAILED", "RECORD_CONSTRUCTION", exc=exc)
+    except vf.DiagnosticAttemptFailed as failure:
+        if not envelope_eligible:
+            if failure.exc is not None:
+                raise failure.exc
+            raise ValueError("adjudicative row %r failed at %s: %s"
+                             % (row["case_id"], failure.stage, failure.detail))
+        env = vf.make_diagnostic_failure_envelope(
+            row, state["auth"], state["pre_sha"], ctx["geometry"], failure,
+            provenance_mode=state["provenance_mode"], audit=ctx["audit"],
+            traceback_text=_failure_traceback(failure),
+            phase_authority_file_sha256=state["pa_sha"])
+        path, how = vf.write_diagnostic_failure_envelope(state["base"], env)
+        state["n_new_env"] += 1
+        state["diagnostic_failed"].append({
+            "case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
+            "artifact_kind": "DIAGNOSTIC_FAILURE_ENVELOPE", "record_path": path.name,
+            "write_mode": how, "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "status": env["status"], "scientific_role": env["scientific_role"],
+            "reason": env["failure_code"], "failure_stage": env["failure_stage"]})
+        return True
+    vf.validate_case_record(
+        rec, row=row, authority=state["auth"], phase=state["phase"],
+        expected_predecessors=state["pre_sha"], phase_authority_file_sha256=state["pa_sha"],
+        geometry=ctx["geometry"], audit=ctx["audit"],
+        provenance_mode=state["provenance_mode"])
+    path, how = vf.write_case_record(state["base"], rec)
+    state["n_new"] += 1
+    verdict = _parallel_record_entry(row, rec, path, how, sci, ctx["audit"], state)
+    return verdict["effect"] != "STOPS_THE_PHASE"
+
+
+def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initially_complete=(),
+                        progress=None, phase=None):
     """Private parent seam: readiness, exact resume, complete waves, canonical consumption."""
     rows = list(canonical_rows)
     order = {r["case_id"]: i for i, r in enumerate(rows)}
@@ -964,6 +1131,7 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
     counts = {"ready_rows": 0, "reused_rows": 0, "newly_dispatched_rows": 0,
               "completed_worker_results": 0, "failed_worker_results": 0,
               "waves_dispatched": 0, "worker_calls": 0}
+    phase_started = time.monotonic()
     with pool_engine.DeterministicWavePool(jobs, worker) as pool:
         while pending:
             ready = [r for r in rows if r["case_id"] in pending
@@ -985,6 +1153,7 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
                     break
             if not tasks:
                 continue
+            wave_started = time.monotonic()
             results = pool.run_wave(tasks)
             counts["waves_dispatched"] += 1
             counts["newly_dispatched_rows"] += len(tasks)
@@ -998,6 +1167,20 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
                 pending.pop(row["case_id"])
             if not keep_going:
                 refused = [r["case_id"] for r in rows if r["case_id"] in pending]
+            if progress is not None:
+                progress({
+                    "phase": phase, "jobs": jobs, "execution_mode": "PROCESS_POOL_REFERENCE",
+                    "wave_index": counts["waves_dispatched"], "wave_case_count": len(tasks),
+                    "wave_case_ids": [row["case_id"] for row in selected],
+                    "completed_worker_count": counts["completed_worker_results"],
+                    "failed_worker_count": counts["failed_worker_results"],
+                    "reused_rows": counts["reused_rows"], "refused_rows": len(refused),
+                    "elapsed_phase_seconds": time.monotonic() - phase_started,
+                    "elapsed_wave_seconds": time.monotonic() - wave_started,
+                    "cumulative_worker_calls": pool.worker_calls,
+                    "eligible_to_continue": bool(keep_going),
+                })
+            if not keep_going:
                 break
         counts["worker_calls"] = pool.worker_calls
     if counts["worker_calls"] != counts["newly_dispatched_rows"]:
@@ -1006,11 +1189,104 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
             "completed_case_ids": [r["case_id"] for r in rows if r["case_id"] in complete]}
 
 
-def _orchestrate_parallel(phase, base, auth, manifests, records, jobs):
-    """Reviewed engine boundary; production remains source-deauthorized on this branch."""
-    raise ExecutionNotAuthorised(
-        "PROCESS_POOL_V1 is implemented pending exact-head review; this performance branch is "
-        "production-deauthorized and no parallel scientific phase may run")
+def _orchestrate_parallel(phase, base, auth, manifests, records, jobs,
+                          provenance_mode="PRODUCTION", worker=_process_pool_case_worker,
+                          progress=_parallel_progress):
+    """Official PROCESS_POOL_V1 parent path. The public gate remains source-deauthorized."""
+    matrix = vf.execution_matrix()["rows"]
+    universe = vf.phase_universe(phase, matrix)
+    eligible, adaptive = vf.derive_expected_rows(phase, matrix, predecessor_records=records)
+    elig_ids = {r["case_id"] for r in eligible}
+    pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
+               for k in manifests if (base / ("manifest_%s.json" % k)).exists()}
+    pa_doc = vf.make_phase_authority_document(
+        phase, auth, pre_sha, provenance_mode=provenance_mode)
+    pa_path, pa_write_mode = vf.write_phase_authority(base, pa_doc)
+    pa_sha = hashlib.sha256(pa_path.read_bytes()).hexdigest()
+    vf.validate_phase_authority_document(
+        pa_doc, phase, require_production=(provenance_mode == "PRODUCTION"),
+        expected_current_authority=auth,
+        expected_predecessors=pre_sha)
+    mpath = base / ("manifest_%s.json" % phase)
+    if mpath.exists():
+        return vf.validate_phase_manifest(
+            phase, base, authority=auth, matrix_rows=matrix, predecessor_records=records,
+            require_production=(provenance_mode == "PRODUCTION"))
+
+    state = {"phase": phase, "base": base, "auth": auth, "matrix": matrix,
+             "backend": "reference", "provenance_mode": provenance_mode, "pre_sha": pre_sha,
+             "pa_sha": pa_sha, "contexts": {}, "audit_plans": {},
+             "completed": [], "failed": [], "diagnostic_completed": [],
+             "diagnostic_failed": [], "terminal": "PHASE_COMPLETE", "stop_reason": None,
+             "n_new": 0, "n_reused": 0, "n_new_env": 0, "n_reused_env": 0}
+    refused = [{"case_id": r["case_id"], "row_sha256": vf.row_sha256(r),
+                "reason": "ADAPTIVELY_INELIGIBLE"}
+               for r in universe if r["case_id"] not in elig_ids]
+    scheduled = [r for r in universe if r["case_id"] in elig_ids]
+    def emit_progress(event):
+        event.update({
+            "newly_persisted_records": state["n_new"],
+            "newly_persisted_diagnostic_envelopes": state["n_new_env"],
+            "reused_records": state["n_reused"],
+            "reused_diagnostic_envelopes": state["n_reused_env"],
+            "failed_rows": len(state["failed"]),
+            "diagnostic_failures": len(state["diagnostic_failed"]),
+        })
+        if progress is not None:
+            progress(event)
+    wave_result = _run_parallel_waves(
+        scheduled, jobs, worker,
+        lambda row: _parallel_prepare_row(row, state),
+        lambda row, result: _parallel_consume_result(row, result, state),
+        progress=emit_progress, phase=phase)
+    stopped = set(wave_result["refused_after_parallel_stop"])
+    refused.extend({"case_id": r["case_id"], "row_sha256": vf.row_sha256(r),
+                    "reason": "REFUSED_AFTER_PHASE_STOP"}
+                   for r in universe if r["case_id"] in stopped)
+    # Preserve canonical ledger and refusal ordering independent of wave return order.
+    order = {r["case_id"]: i for i, r in enumerate(universe)}
+    for key in ("completed", "failed", "diagnostic_completed", "diagnostic_failed"):
+        state[key].sort(key=lambda entry: order[entry["case_id"]])
+    refused.sort(key=lambda entry: order[entry["case_id"]])
+
+    done = {entry["case_id"] for entry in state["completed"]}
+    expected_pairs = vf.derive_expected_replicates(phase, eligible, matrix)
+    replicates = vf.build_execution_assurance_entries(
+        base, expected_pairs, done, audit_plans=state["audit_plans"])
+    vf.validate_execution_assurance_replicates(
+        phase, base, state["terminal"], eligible, matrix, replicates, done,
+        {entry["case_id"] for entry in refused}, audit_plans=state["audit_plans"])
+    phase_science = None
+    if phase in vf.PHASE_AGGREGATE_SCIENCE:
+        phase_records = {cid: vf.read_case_record(base, cid)[0] for cid in sorted(done)}
+        phase_science = vf.PHASE_AGGREGATE_SCIENCE[phase](phase_records)
+    counts = wave_result["accounting"]
+    if counts["worker_calls"] != state["n_new"] + state["n_new_env"]:
+        raise RuntimeError("parallel worker calls do not equal newly persisted artifacts")
+    execution_counts = {
+        "n_phase_authority_files": 1, "phase_authority_write_mode": pa_write_mode,
+        "n_new_case_records": state["n_new"],
+        "n_new_diagnostic_failure_envelopes": state["n_new_env"],
+        "n_reused_case_records": state["n_reused"],
+        "n_reused_diagnostic_failure_envelopes": state["n_reused_env"],
+        "n_newly_executed": state["n_new"] + state["n_new_env"],
+        "n_reused": state["n_reused"] + state["n_reused_env"],
+        "n_provider_calls": counts["worker_calls"], "n_worker_calls": counts["worker_calls"],
+        "n_waves": counts["waves_dispatched"], "n_completed": len(state["completed"]),
+        "n_failed": len(state["failed"]), "n_refused": len(refused),
+        "n_diagnostic_completed": len(state["diagnostic_completed"]),
+        "n_diagnostic_failed": len(state["diagnostic_failed"])}
+    manifest = vf.make_phase_manifest(
+        phase, universe, eligible, state["completed"], refused, state["failed"], auth, pre_sha,
+        adaptive, state["terminal"], state["stop_reason"], provenance_mode=provenance_mode,
+        replicates=replicates, phase_science=phase_science, execution_counts=execution_counts,
+        diagnostic_completed=state["diagnostic_completed"],
+        diagnostic_failed=state["diagnostic_failed"], phase_authority_file_sha256=pa_sha)
+    vf._atomic_write_json(mpath, manifest)
+    vf.validate_phase_manifest(
+        phase, base, authority=auth, matrix_rows=matrix, predecessor_records=records,
+        require_production=(provenance_mode == "PRODUCTION"))
+    return manifest
 
 
 def run_phase(mode, out_dir=None, backend="reference", runs_dir=None, jobs=1):
@@ -1054,6 +1330,20 @@ def _test_only_execute(phase, runs_dir, provider, authority, manifests=None, rec
     base = vf.validate_production_runs_dir(runs_dir, require_production=False, create=True)
     return _orchestrate(phase, base, authority, manifests or {}, records or {},
                         provider, backend, "TEST_ONLY")
+
+
+def _test_only_execute_parallel(phase, runs_dir, worker, authority, jobs=4, manifests=None,
+                                records=None, progress=None):
+    """PRIVATE fake-worker seam for official parent integration tests; never production evidence."""
+    if authority.get("stage") != phase:
+        raise ValueError("parallel TEST_ONLY authority stage differs from phase")
+    expected_engine = pool_engine.execution_engine_identity(jobs)
+    if authority.get("execution_engine") != expected_engine:
+        raise ValueError("parallel TEST_ONLY authority does not bind the requested engine/jobs")
+    base = vf.validate_production_runs_dir(runs_dir, require_production=False, create=True)
+    return _orchestrate_parallel(
+        phase, base, authority, manifests or {}, records or {}, jobs,
+        provenance_mode="TEST_ONLY", worker=worker, progress=progress)
 
 
 #: The exact keys ``--mode plan`` prints. Kept OUT of the thin-CLI pragma and asserted by test:
