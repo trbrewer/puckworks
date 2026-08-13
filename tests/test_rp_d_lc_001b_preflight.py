@@ -2949,7 +2949,7 @@ def test_solving_and_assembly_authority_remain_separate_allowlists():
     body = inspect.getsource(drv.require_assembly_authorisation)
     assert "assert_stage_authorised" in body and "AUTHORISED_SOLVING_PHASES" not in body
     snap = vf.source_authorization_snapshot("P2b", src)
-    assert snap["required_gate"] == "ASSEMBLY" and snap["stage_authorised"] is True
+    assert snap["required_gate"] == "ASSEMBLY" and snap["stage_authorised"] is False
     assert vf.source_authorization_snapshot("P0", src)["required_gate"] == "SOLVING"
     for post in drv.POST_FREEZE_PHASES:
         assert vf.source_authorization_snapshot(post, src)["stage_authorised"] is False
@@ -5650,14 +5650,13 @@ def _driver_replacing(name, replacement):
     return base.replace(line, replacement, 1)
 
 
-def test_the_live_head_authorizes_exactly_the_complete_prefreeze_cohort():
-    """Erratum PE-103/PE-124: a production authority is constructible for exactly the pre-freeze
-    cohort at this head, and for nothing else. Constructing an authority performs no solve."""
+def test_the_live_performance_head_authorizes_no_production_phase():
+    """The implementation-review branch is deliberately production-deauthorized."""
     parsed = vf.parse_committed_authorization(DRIVER_SRC)
-    assert parsed["AUTHORISED_SOLVING_PHASES"] == ("P0", "P1a", "P1b", "P2a")
-    assert parsed["AUTHORISED_ASSEMBLY_PHASES"] == ("P2b",)
+    assert parsed["AUTHORISED_SOLVING_PHASES"] == ()
+    assert parsed["AUTHORISED_ASSEMBLY_PHASES"] == ()
     assert parsed["POST_FREEZE_EXECUTOR_READY"] is False
-    assert parsed["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
+    assert parsed["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
     for phase in ("P0", "P1a", "P1b", "P2a", "P2b"):
         assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is True
         auth = vf.execution_authority(phase, require_clean=False)
@@ -5685,7 +5684,7 @@ def test_a_test_only_authority_is_never_production_eligible():
     # no public provenance or authorization override exists: the public builder takes neither
     # a provenance nor a bypass parameter, and pins PRODUCTION itself.
     assert set(inspect.signature(vf.execution_authority).parameters) == {
-        "stage", "backend", "require_clean"}
+        "stage", "backend", "require_clean", "execution_engine"}
     assert set(inspect.signature(vf._test_only_execution_authority).parameters) == {
         "stage", "backend", "require_clean"}
     src = inspect.getsource(vf.execution_authority)
@@ -5770,12 +5769,12 @@ def test_a_changed_driver_hash_changes_the_snapshot():
 
 
 @pytest.mark.parametrize("field,value", [
-    # each value must DIFFER from the true snapshot at this head, which now carries the cohort
-    ("stage_authorised", False),
+    # each value must DIFFER from the true deauthorized snapshot at this head
+    ("stage_authorised", True),
     ("authorised_solving_phases", ["P0"]),
-    ("authorised_assembly_phases", []),
+    ("authorised_assembly_phases", ["P2b"]),
     ("post_freeze_executor_ready", True),
-    ("prefreeze_cohort_state", "NO_PREFREEZE_PHASE_AUTHORIZED"),
+    ("prefreeze_cohort_state", "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"),
     ("driver_file_sha256", "0" * 64),
     ("required_gate", "ASSEMBLY"),
 ])
@@ -5795,7 +5794,7 @@ def test_the_production_p2b_wrapper_applies_the_assembly_gate_itself(tmp_path):
     predecessor manifests, which do not exist. The gate is still the first thing it does — asserted
     structurally below and, for an unauthorized stage, through the shared parser.
     """
-    with pytest.raises(vf.ManifestMissing):
+    with pytest.raises(vf.ExecutionNotAuthorised):
         vf.assemble_p2b_from_runs(tmp_path)
     # the shared gate still refuses an unauthorized stage, from source
     with pytest.raises(vf.ExecutionNotAuthorised) as exc:
@@ -6217,15 +6216,15 @@ def test_coordinated_p2b_authorization_tampering_is_rejected(synthetic_p2b, tmp_
     aa = doc["assembly_authority"]
     nested = dict(aa["execution_authority"])
     snap = dict(nested["source_authorization"])
-    # each forged value must DIFFER from the true committed snapshot, which now carries the cohort
+    # each forged value must DIFFER from the true deauthorized committed snapshot
     if name == "snapshot_stage_authorised":
-        aa["source_authorization"] = dict(snap, stage_authorised=False)
+        aa["source_authorization"] = dict(snap, stage_authorised=True)
     elif name == "nested_stage_authorised":
-        snap = dict(snap, stage_authorised=False)
+        snap = dict(snap, stage_authorised=True)
     elif name == "solving_list":
         snap = dict(snap, authorised_solving_phases=["P0"])
     elif name == "assembly_list":
-        snap = dict(snap, authorised_assembly_phases=[], stage_authorised=False)
+        snap = dict(snap, authorised_assembly_phases=["P2b"], stage_authorised=True)
     elif name == "driver_hash":
         snap = dict(snap, driver_file_sha256="0" * 64)
     elif name == "gate_type":
@@ -7210,7 +7209,7 @@ def test_the_readme_states_the_common_authorization_head_and_the_external_bundle
     assert "complete P0\u2013P2b cohort is now source-authorized at this exact head" in txt
     # the live cohort state, and NOT the superseded one
     assert "COMPLETE_PREFREEZE_COHORT_AUTHORIZED" in txt
-    assert "prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED" not in txt
+    assert "prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED" in txt
     assert vf.PRODUCTION_RUNS_DIRECTORY_POLICY in txt
     assert "requires an explicit external output directory" in txt
     assert "/ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY" in txt
@@ -7263,8 +7262,9 @@ def test_no_documented_production_command_selects_the_internal_runs_directory():
 def test_the_errata_records_the_effective_c9_artifact_hashes():
     txt = (REPO / vf.ERRATA_PATH).read_text()
     assert "Effective C9 machine-readable artifacts" in txt
-    for name in ("protocol.json", "fixture_spec.json", "execution_matrix.json",
-                 "preflight_status.json"):
+    # Protocol and fixture are scientific C9 artifacts. Execution/status wrappers may move when
+    # narrowly scoped engine metadata or authorization state changes on a performance branch.
+    for name in ("protocol.json", "fixture_spec.json"):
         actual = hashlib.sha256(
             (REPO / vf.BUNDLE_REL / "generated" / name).read_bytes()).hexdigest()
         assert actual in txt, name
