@@ -5658,13 +5658,9 @@ def test_the_live_performance_head_authorizes_no_production_phase():
     assert parsed["POST_FREEZE_EXECUTOR_READY"] is False
     assert parsed["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
     for phase in ("P0", "P1a", "P1b", "P2a", "P2b"):
-        assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is True
-        auth = vf.execution_authority(phase, require_clean=False)
-        assert auth["authority_provenance"] == "PRODUCTION"
-        assert auth["stage"] == phase
-        assert auth["source_authorization"]["stage_authorised"] is True
-        assert auth["source_authorization"]["prefreeze_cohort_state"] == (
-            "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
+        assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is False
+        with pytest.raises(vf.SourceAuthorizationError):
+            vf.execution_authority(phase, require_clean=False)
     for phase in ("P3", "P4"):
         assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is False
         with pytest.raises(vf.SourceAuthorizationError):
@@ -5686,7 +5682,7 @@ def test_a_test_only_authority_is_never_production_eligible():
     assert set(inspect.signature(vf.execution_authority).parameters) == {
         "stage", "backend", "require_clean", "execution_engine"}
     assert set(inspect.signature(vf._test_only_execution_authority).parameters) == {
-        "stage", "backend", "require_clean"}
+        "stage", "backend", "require_clean", "execution_engine"}
     src = inspect.getsource(vf.execution_authority)
     assert "ignore_authorisation" not in src
     assert 'authority_provenance="PRODUCTION"' in src        # pinned, never a caller's choice
