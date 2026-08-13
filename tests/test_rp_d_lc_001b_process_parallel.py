@@ -3,6 +3,7 @@
 import os
 import time
 
+import numpy as np
 import pytest
 
 from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
@@ -175,6 +176,61 @@ def test_benchmark_result_contract_rejects_malformed_payload():
     result = eng.success_result(task["case_id"], 1, 1.0, 2.0, {"wrong": True})
     with pytest.raises(RuntimeError, match="malformed benchmark"):
         bench.validate_benchmark_result(result, task)
+
+
+def test_benchmark_worker_uses_p0_extraction_and_identity_free_hash(monkeypatch, tmp_path):
+    from puckworks.models.brewer2026 import lb_reference
+
+    real_solve_calls = []
+    phases = []
+    original_extract = drv._fixture_scientific
+
+    def fake_solve(mask, **kwargs):
+        shape = mask.shape
+        return {"ux": np.full(shape, 1.0e-6), "rho": np.ones(shape),
+                "uy": np.zeros(shape), "uz": np.zeros(shape), "steps": 600}
+
+    def checked_extract(result, mask, meta, g, row):
+        phases.append(row["phase"])
+        return original_extract(result, mask, meta, g, row)
+
+    monkeypatch.setattr(lb_reference, "solve", fake_solve)
+    monkeypatch.setattr(drv, "_fixture_scientific", checked_extract)
+    tasks = [dict(bench.benchmark_corpus()[0]), dict(bench.benchmark_corpus()[0])]
+    tasks[1]["case_id"] = "benchmark.S2.repeat99"
+    tasks[1]["benchmark_task_id"] = "S2_reference_blocked_central_99"
+    results = [bench.validate_benchmark_result(bench._benchmark_worker(task), task)
+               for task in tasks]
+    hashes = [result["payload"]["scientific_payload_sha256"] for result in results]
+    assert phases == ["P0", "P0"]
+    assert hashes[0] == hashes[1]
+
+    mask, meta = vf.build_fixture(2, bridge=None, connected=False, variant="mirror")
+    exact = vf.forcing_exact(2, "central")
+    result = fake_solve(mask)
+    row = {"case_id": tasks[0]["benchmark_task_id"], "phase": "P0", "S": 2,
+           "state": "reference_blocked", "variant": "mirror"}
+    scientific = original_extract(result, mask, meta, float(exact), row)
+    changed = dict(scientific)
+    changed["Q_volume"] = scientific["Q_volume"] + 1.0
+    assert bench._benchmark_scientific_payload_hash(tasks[0], scientific,
+                                                    meta["mask_sha256"]) != \
+        bench._benchmark_scientific_payload_hash(tasks[0], changed, meta["mask_sha256"])
+    assert bench._benchmark_scientific_payload_hash(tasks[0], scientific,
+                                                    meta["mask_sha256"]) != \
+        bench._benchmark_scientific_payload_hash(bench.benchmark_corpus()[16], scientific,
+                                                 meta["mask_sha256"])
+    assert real_solve_calls == []
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_jobs_one_benchmark_entry_reasserts_thread_limits(monkeypatch, tmp_path):
+    for name in eng.THREAD_LIMIT_ENV:
+        monkeypatch.setenv(name, "not-one")
+    with pytest.raises(FileExistsError):
+        bench.run_benchmark(1, tmp_path)
+    assert {name: os.environ[name] for name in eng.THREAD_LIMIT_ENV} == {
+        name: "1" for name in eng.THREAD_LIMIT_ENV}
 
 
 def test_reference_solver_was_not_called(monkeypatch):

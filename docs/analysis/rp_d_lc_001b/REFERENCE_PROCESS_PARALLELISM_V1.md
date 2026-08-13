@@ -65,7 +65,12 @@ The dormant module `rp_d_lc_001b_scaling_benchmark` is separate from production 
 no production artifact. Its frozen corpus is 32 independent 600-step reference-blocked central-
 forcing tasks: 16 at S=2 and 16 at S=3, tau-plus 2.0, check 200, and the production return fields.
 Valid counts are 1, 4, 8, 16, and 32. It hashes compact deterministic outputs independently of
-timing and task identity.
+timing and task identity. The benchmark extraction uses the frozen P0 fixture-record semantics but
+creates no P0 authority, record, or manifest. Its payload identity binds the benchmark schema,
+reference backend, resolution, exact and runtime forcing, solver settings, return fields, compact
+science, and mask while excluding task/case/source identity. The one-thread nested-library policy
+is applied before the fixture and driver imports and reasserted at benchmark entry, including for
+the jobs=1 baseline.
 
 The harness must not run until the exact implementation head and tree are explicitly approved. A
 source change after review requires a new review. Benchmark output must be a fresh absolute external

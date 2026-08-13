@@ -8,9 +8,13 @@ import os
 from pathlib import Path
 import time
 
+# Apply the frozen nested-library policy before importing NumPy-heavy fixture/driver modules.
+from puckworks.validation.slow import rp_d_lc_001b_process_pool as engine
+
+engine.apply_worker_thread_limits()
+
 from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
 from puckworks.validation.slow import rp_d_lc_001b as driver
-from puckworks.validation.slow import rp_d_lc_001b_process_pool as engine
 
 BENCHMARK_LABEL = "PERFORMANCE_BENCHMARK_ONLY_NOT_SCIENTIFIC_EVIDENCE"
 BENCHMARK_SCHEMA_VERSION = 1
@@ -34,6 +38,30 @@ def benchmark_corpus():
     return tasks
 
 
+def _effective_benchmark_config(task):
+    exact = vf.forcing_exact_dict(task["S"], task["forcing_level"])
+    return {
+        "benchmark_label": BENCHMARK_LABEL,
+        "benchmark_schema_version": BENCHMARK_SCHEMA_VERSION,
+        "backend": "reference",
+        "S": task["S"],
+        "forcing_exact": exact,
+        "forcing_runtime": vf.forcing_from_exact(exact),
+        "tau_plus": task["tau_plus"],
+        "rtol": vf.RTOL,
+        "check": task["check"],
+        "min_steps": task["min_steps"],
+        "max_steps": task["max_steps"],
+        "return_fields": list(task["return_fields"]),
+    }
+
+
+def _benchmark_scientific_payload_hash(task, scientific, mask_sha256):
+    """Identity-free benchmark physics/configuration hash; never a production record hash."""
+    return vf.scientific_payload_hash(
+        _effective_benchmark_config(task), scientific, mask_sha256)
+
+
 def _benchmark_worker(task):
     started, pid = time.monotonic(), os.getpid()
     cid = task["case_id"]
@@ -47,11 +75,12 @@ def _benchmark_worker(task):
             max_steps=task["max_steps"], check=task["check"], rtol=vf.RTOL,
             verbose=False, return_fields=tuple(task["return_fields"]),
         )
-        row = {"case_id": task["benchmark_task_id"], "S": task["S"],
+        row = {"case_id": task["benchmark_task_id"], "phase": "P0", "S": task["S"],
                "state": "reference_blocked", "variant": "mirror"}
         scientific = driver._fixture_scientific(result, mask, meta, g, row)
         compact = {"S": task["S"], "steps": int(result["steps"]),
-                   "scientific_payload_sha256": vf.record_hash(scientific),
+                   "scientific_payload_sha256": _benchmark_scientific_payload_hash(
+                       task, scientific, meta["mask_sha256"]),
                    "voxel_count": int(mask.size)}
         return engine.success_result(cid, pid, started, time.monotonic(), compact)
     except BaseException as exc:
@@ -77,6 +106,8 @@ def validate_benchmark_result(result, task):
 
 
 def run_benchmark(jobs, output):
+    # Reassert immediately on entry so jobs=1 and spawned workers have the identical policy.
+    engine.apply_worker_thread_limits()
     if jobs not in VALID_BENCHMARK_JOBS:
         raise ValueError("benchmark --jobs must be one of %r" % (VALID_BENCHMARK_JOBS,))
     out = Path(output)
