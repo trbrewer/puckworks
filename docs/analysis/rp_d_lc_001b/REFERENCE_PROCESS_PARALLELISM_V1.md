@@ -37,6 +37,13 @@ results, then consumes results in canonical order. A fixed-step audit waits for 
 `audit_of_case_id`; an assurance replicate waits for `replicate_of_case_id`. No filename or wall
 clock implies a dependency.
 
+Before any pool opens, the parent preflights the complete scheduled dependency graph. Same-phase
+dependencies remain scheduler barriers; cross-phase dependencies are seeded only from exact records
+already admitted by validated predecessor manifests. In particular, P1b central audits may start
+from their validated P1a central bases, while P1b low/high audits still wait for their P1b normal
+bases. Missing, failed, refused, diagnostic-envelope, incompatible, noncanonical, or cyclic inputs
+fail before a worker call.
+
 A stopping adjudicative or assurance failure prevents later waves. Already dispatched results are
 collected and valid current-wave records are retained; never-dispatched rows receive the explicit
 parallel-stop refusal. Overshoot is bounded by the remainder of one wave. Tau diagnostics retain
@@ -47,8 +54,11 @@ their frozen nonblocking role.
 The parent owns `SIGINT`, dispatches no later wave, cancels pending futures, shuts down the pool, and
 writes neither partial records nor a fabricated manifest. Existing atomic records remain untouched.
 Before dispatch, exact records are reopened through the canonical validator and reused with no worker
-call; mismatches fail closed before dispatch. Accounting requires worker calls to equal newly
-dispatched rows.
+call; mismatches fail closed before dispatch. A reused record's status and verdict are recomputed:
+an exact stopping record halts the phase before any new dispatch and never becomes a readiness seed,
+whereas a reused nonblocking tau diagnostic envelope retains its frozen continue semantics.
+Accounting requires worker calls to equal newly dispatched rows. These are execution corrections;
+no scientific rule changes.
 
 Before spawn and again in each worker, `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS`, `MKL_NUM_THREADS`,
 `NUMEXPR_NUM_THREADS`, `VECLIB_MAXIMUM_THREADS`, and `BLIS_NUM_THREADS` are set to `1` in the process

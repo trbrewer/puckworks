@@ -996,6 +996,73 @@ def _parallel_geometry_context(row, matrix, base, backend):
             "g": g, "cfg": cfg, "geometry": geometry}
 
 
+def _parallel_dependency_preflight(phase, scheduled_rows, matrix,
+                                   validated_predecessor_records):
+    """Validate and seed external dependencies, then prove the scheduled graph resolves.
+
+    ``validated_predecessor_records`` is deliberately the private mapping returned by
+    ``require_phase_manifests``.  The public path supplies no caller-controlled dependency IDs.
+    """
+    scheduled = list(scheduled_rows)
+    scheduled_ids = {row["case_id"] for row in scheduled}
+    matrix_by_id = {row["case_id"]: row for row in matrix}
+    external = {}
+    for row in scheduled:
+        for dependency in _row_dependency_ids(row):
+            if dependency not in scheduled_ids:
+                external.setdefault(dependency, []).append(row)
+
+    for dependency, dependents in external.items():
+        base_row = matrix_by_id.get(dependency)
+        dependent = dependents[0]
+        expected_phase = base_row.get("phase") if base_row is not None else "UNKNOWN"
+        detail = ("phase %s dependent %s requires external base %s from predecessor phase %s"
+                  % (phase, dependent["case_id"], dependency, expected_phase))
+        if base_row is None:
+            raise RuntimeError("%s, but the base has no canonical matrix row" % detail)
+        if expected_phase not in vf.PHASE_PREREQUISITES[phase]:
+            raise RuntimeError("%s, which is not an authorized predecessor phase" % detail)
+        rec = validated_predecessor_records.get(dependency)
+        if rec is None:
+            raise RuntimeError("%s, but it is missing from validated predecessor records"
+                               % detail)
+        if (rec.get("case_id") != dependency or rec.get("phase") != expected_phase
+                or rec.get("row") != base_row):
+            raise RuntimeError("%s, but the validated predecessor record is incompatible"
+                               % detail)
+        try:
+            status = vf.recomputed_case_status(rec)
+            if rec.get("status") != status:
+                raise ValueError("stored and recomputed statuses differ")
+            for row in dependents:
+                if row.get("audit_of_case_id") == dependency:
+                    vf.assert_audit_compatible(row, base_row)
+                    if status != "NORMAL_CONVERGED":
+                        raise ValueError("audit base is not NORMAL_CONVERGED")
+                elif row.get("replicate_of_case_id") == dependency:
+                    vf.assert_replicate_compatible(row, base_row)
+                    vf.recomputed_payload_sha256(rec, base_row)
+        except (KeyError, TypeError, ValueError, vf.ManifestMissing) as exc:
+            raise RuntimeError("%s, but it is not a completed compatible record: %s"
+                               % (detail, exc)) from exc
+
+    complete = set(external)
+    unresolved = dict((row["case_id"], row) for row in scheduled)
+    while unresolved:
+        ready = [row for row in scheduled if row["case_id"] in unresolved
+                 and set(_row_dependency_ids(row)) <= complete]
+        if not ready:
+            blocked = next(row for row in scheduled if row["case_id"] in unresolved)
+            missing = sorted(set(_row_dependency_ids(blocked)) - complete)
+            raise RuntimeError(
+                "phase %s parallel dependency graph is internally unresolvable at %s; "
+                "unresolved bases=%r" % (phase, blocked["case_id"], missing))
+        for row in ready:
+            complete.add(row["case_id"])
+            unresolved.pop(row["case_id"])
+    return tuple(sorted(external))
+
+
 def _parallel_record_entry(row, rec, path, how, sci, audit_plan, state):
     entry = {"case_id": row["case_id"], "row_sha256": vf.row_sha256(row),
              "artifact_kind": "CASE_RECORD", "record_path": path.name,
@@ -1015,8 +1082,12 @@ def _parallel_record_entry(row, rec, path, how, sci, audit_plan, state):
     return verdict
 
 
+_PARALLEL_REUSED_CONTINUE = "REUSED_CONTINUE"
+_PARALLEL_REUSED_STOP = "REUSED_STOP"
+
+
 def _parallel_prepare_row(row, state):
-    """Parent-only exact resume and task construction; returns None for an exact reuse."""
+    """Parent-only exact resume and task construction with explicit reuse disposition."""
     ctx = _parallel_geometry_context(
         row, state["matrix"], state["base"], state["backend"])
     if ctx["audit"] is not None:
@@ -1044,13 +1115,14 @@ def _parallel_prepare_row(row, state):
             "record_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "status": env["status"], "scientific_role": env["scientific_role"],
             "reason": env["failure_code"], "failure_stage": env["failure_stage"]})
-        return None
+        return _PARALLEL_REUSED_CONTINUE
     if existing is not None:
         rec, path = existing
         state["n_reused"] += 1
-        _parallel_record_entry(row, rec, path, "REUSED_EXACT_MATCH", rec["scientific"],
-                               ctx["audit"], state)
-        return None
+        verdict = _parallel_record_entry(
+            row, rec, path, "REUSED_EXACT_MATCH", rec["scientific"], ctx["audit"], state)
+        return (_PARALLEL_REUSED_STOP if verdict["effect"] == "STOPS_THE_PHASE"
+                else _PARALLEL_REUSED_CONTINUE)
     state["contexts"][row["case_id"]] = ctx
     return {"case_id": row["case_id"], "row": row, "audit": ctx["audit"]}
 
@@ -1140,17 +1212,24 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
                 raise RuntimeError("parallel row dependency graph is blocked")
             counts["ready_rows"] += len(ready)
             tasks, selected = [], []
+            reused_stop = False
             for row in ready:
                 task = prepare(row)
-                if task is None:
-                    complete.add(row["case_id"])
+                if task in (None, _PARALLEL_REUSED_CONTINUE, _PARALLEL_REUSED_STOP):
                     pending.pop(row["case_id"])
                     counts["reused_rows"] += 1
+                    if task == _PARALLEL_REUSED_STOP:
+                        reused_stop = True
+                        break
+                    complete.add(row["case_id"])
                     continue
                 tasks.append(task)
                 selected.append(row)
                 if len(tasks) == jobs:
                     break
+            if reused_stop:
+                refused = [r["case_id"] for r in rows if r["case_id"] in pending]
+                break
             if not tasks:
                 continue
             wave_started = time.monotonic()
@@ -1197,6 +1276,9 @@ def _orchestrate_parallel(phase, base, auth, manifests, records, jobs,
     universe = vf.phase_universe(phase, matrix)
     eligible, adaptive = vf.derive_expected_rows(phase, matrix, predecessor_records=records)
     elig_ids = {r["case_id"] for r in eligible}
+    scheduled = [r for r in universe if r["case_id"] in elig_ids]
+    initially_complete = _parallel_dependency_preflight(
+        phase, scheduled, matrix, records)
     pre_sha = {k: hashlib.sha256((base / ("manifest_%s.json" % k)).read_bytes()).hexdigest()
                for k in manifests if (base / ("manifest_%s.json" % k)).exists()}
     pa_doc = vf.make_phase_authority_document(
@@ -1222,7 +1304,6 @@ def _orchestrate_parallel(phase, base, auth, manifests, records, jobs,
     refused = [{"case_id": r["case_id"], "row_sha256": vf.row_sha256(r),
                 "reason": "ADAPTIVELY_INELIGIBLE"}
                for r in universe if r["case_id"] not in elig_ids]
-    scheduled = [r for r in universe if r["case_id"] in elig_ids]
     def emit_progress(event):
         event.update({
             "newly_persisted_records": state["n_new"],
@@ -1238,7 +1319,7 @@ def _orchestrate_parallel(phase, base, auth, manifests, records, jobs,
         scheduled, jobs, worker,
         lambda row: _parallel_prepare_row(row, state),
         lambda row, result: _parallel_consume_result(row, result, state),
-        progress=emit_progress, phase=phase)
+        initially_complete=initially_complete, progress=emit_progress, phase=phase)
     stopped = set(wave_result["refused_after_parallel_stop"])
     refused.extend({"case_id": r["case_id"], "row_sha256": vf.row_sha256(r),
                     "reason": "REFUSED_AFTER_PHASE_STOP"}
