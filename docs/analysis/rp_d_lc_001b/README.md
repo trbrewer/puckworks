@@ -2,9 +2,10 @@
 
 > **Performance-branch notice:**
 > [`REFERENCE_PROCESS_PARALLELISM_V1.md`](REFERENCE_PROCESS_PARALLELISM_V1.md) documents the focused
-> reference CPU process-pool implementation. This branch is implementation-only and production-
-> deauthorized; no scientific phase has run. The scaling harness must not run before exact-head
-> approval. GPU work is outside scope.
+> reference CPU process-pool implementation. The accepted scaling evidence selects explicit future
+> `--jobs 4`; the official parent-only parallel integration is implemented. This branch remains
+> production-deauthorized, no scientific phase has run, and another exact-head implementation review
+> is required before any authorization change. GPU work is outside scope.
 
 ```
 PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · PRODUCTION-DEAUTHORIZED PERFORMANCE IMPLEMENTATION
@@ -42,12 +43,12 @@ Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 > matrix-derived set** whose payload equality is recomputed, not read from stored hashes. And the
 > pre-freeze authorization is **one atomic P0–P2b source cohort**, which is what the predecessor
 > gates already required.
-> **The separate pre-freeze authorization commit has now been made.** At this exact head
-> `AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")`,
-> `AUTHORISED_ASSEMBLY_PHASES = ("P2b",)` and `POST_FREEZE_EXECUTOR_READY = False`, so the committed
-> state is `COMPLETE_PREFREEZE_COHORT_AUTHORIZED`. **No phase has run.** Another exact-head review is
-> required before P0 begins, and P3/P4 need a further correction and review of the real pre-freeze
-> artifacts.
+> The accepted C9 pre-authorization baseline demonstrated the complete cohort state, but this
+> performance branch deliberately returned to `AUTHORISED_SOLVING_PHASES = ()` and
+> `AUTHORISED_ASSEMBLY_PHASES = ()` before implementation; `POST_FREEZE_EXECUTOR_READY = False`.
+> Its committed state is `NO_PREFREEZE_PHASE_AUTHORIZED`. **No phase has run.** Following exact-head
+> integration review, a separate minimal commit may restore the complete P0–P2b cohort; P3/P4 still
+> need a later correction and review of the real pre-freeze artifacts.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
