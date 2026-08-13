@@ -5764,12 +5764,12 @@ def test_a_changed_driver_hash_changes_the_snapshot():
 
 
 @pytest.mark.parametrize("field,value", [
-    # each value must DIFFER from the true deauthorized snapshot at this head
-    ("stage_authorised", True),
+    # each value must DIFFER from the true authorized snapshot at this head
+    ("stage_authorised", False),
     ("authorised_solving_phases", ["P0"]),
-    ("authorised_assembly_phases", ["P2b"]),
+    ("authorised_assembly_phases", []),
     ("post_freeze_executor_ready", True),
-    ("prefreeze_cohort_state", "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"),
+    ("prefreeze_cohort_state", "NO_PREFREEZE_PHASE_AUTHORIZED"),
     ("driver_file_sha256", "0" * 64),
     ("required_gate", "ASSEMBLY"),
 ])
@@ -5789,7 +5789,7 @@ def test_the_production_p2b_wrapper_applies_the_assembly_gate_itself(tmp_path):
     predecessor manifests, which do not exist. The gate is still the first thing it does — asserted
     structurally below and, for an unauthorized stage, through the shared parser.
     """
-    with pytest.raises(vf.ExecutionNotAuthorised):
+    with pytest.raises(vf.ManifestMissing):
         vf.assemble_p2b_from_runs(tmp_path)
     # the shared gate still refuses an unauthorized stage, from source
     with pytest.raises(vf.ExecutionNotAuthorised) as exc:
@@ -6211,15 +6211,15 @@ def test_coordinated_p2b_authorization_tampering_is_rejected(synthetic_p2b, tmp_
     aa = doc["assembly_authority"]
     nested = dict(aa["execution_authority"])
     snap = dict(nested["source_authorization"])
-    # each forged value must DIFFER from the true deauthorized committed snapshot
+    # each forged value must DIFFER from the true authorized committed snapshot
     if name == "snapshot_stage_authorised":
-        aa["source_authorization"] = dict(snap, stage_authorised=True)
+        aa["source_authorization"] = dict(snap, stage_authorised=False)
     elif name == "nested_stage_authorised":
-        snap = dict(snap, stage_authorised=True)
+        snap = dict(snap, stage_authorised=False)
     elif name == "solving_list":
         snap = dict(snap, authorised_solving_phases=["P0"])
     elif name == "assembly_list":
-        snap = dict(snap, authorised_assembly_phases=["P2b"], stage_authorised=True)
+        snap = dict(snap, authorised_assembly_phases=[], stage_authorised=False)
     elif name == "driver_hash":
         snap = dict(snap, driver_file_sha256="0" * 64)
     elif name == "gate_type":
