@@ -109,7 +109,7 @@ infrastructure is added.
 | `PREFLIGHT_ERRATA.md` | the append-only correction record: **PE-0 … PE-126** across nine generations, each with its superseded form, why it was unsafe, and the effective replacement |
 | `VIRTUAL_FIXTURE_SPEC.md` | the corrected deterministic geometry, its exact symmetries, the candidate family and every topology invariant |
 | `EXECUTION_MATRIX.md` | every planned configuration, exact solve counts, ordering and early-stop behaviour |
-| `PRE_EXECUTION_REVIEW.md` | the audit and every subsequent exact-head review, ending with **what the ninth review found** and its unchanged recommendation: authorise nothing yet |
+| `PRE_EXECUTION_REVIEW.md` | the immutable historical audit and exact-head reviews, ending with the ninth review's then-current pre-authorization decision: **authorise nothing yet**; the later source-authorization transition is recorded by current source/status, not by rewriting that history |
 | `generated/protocol.json` | machine-readable frozen configuration |
 | `generated/fixture_spec.json` | machine-readable geometry, mask hashes and topology audits |
 | `generated/execution_matrix.json` | machine-readable matrix with exact counts |
@@ -215,13 +215,17 @@ mode requires an explicit absolute `--output` outside this repository** and has 
 
 > ### ⚠ P0 is now source-authorized and would START THE SOLVE
 >
-> Before this head, the command below refused on the empty allowlist. It no longer does. **Do not
-> run it until the exact-head review of this authorization commit has returned APPROVED**, and then
-> only into a real absolute path outside the checkout.
+> Before this head, the command below refused on the empty allowlist. It no longer does and will
+> invoke real solving once exact-head approval is granted. **Do not run it until that review has
+> returned APPROVED.** `--jobs 4` is the explicit reviewed commissioning choice; the runtime default
+> remains one worker, and omitting `--jobs 4` is not the accepted parallel canary. Use a fresh
+> absolute output path outside the checkout and run only bounded Checkpoint 0. Canary approval does
+> not authorize P1a or any later phase.
 >
 > ```
 > python -m puckworks.validation.slow.rp_d_lc_001b \
 >     --mode P0 \
+>     --jobs 4 \
 >     --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY
 > ```
 
@@ -270,10 +274,12 @@ that future experiment.
 
 ## 8. Next step
 
-**Exact-head review of this authorization commit**, before P0 is run. The
-`PRE_EXECUTION_REVIEW.md` recommendation is unchanged and is what this head implements: authorise
-**P0–P2b only** (ending at the bridge freeze) and review the freeze artifact again before P3, so
-that the blindness the design depends on is preserved.
+**Exact-head review of this source-authorized head**, before the Checkpoint 0 canary is run. The
+`PRE_EXECUTION_REVIEW.md` “authorise nothing yet” language is the historical ninth-review decision
+and remains immutable. The separate source-authorization transition has since occurred; operational
+execution still awaits approval of the resulting exact head. The active boundary remains
+**P0–P2b only** (ending at the bridge freeze), with another review before P3 so the blindness the
+design depends on is preserved.
 
 Under erratum PE-124 that authorisation is **one commit**, not four, and it has now been made — the
 allowlists name the complete P0–P2b cohort at one head. **Source authorization is a necessary

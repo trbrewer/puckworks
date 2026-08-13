@@ -20,6 +20,7 @@ import pytest
 from puckworks.analysis import rp_d_lc_001b_virtual_fixture as vf
 from puckworks.analysis import rp_d_lc_virtual_fixture as vf001
 from puckworks.validation.slow import rp_d_lc_001b as drv
+from puckworks.validation.slow import rp_d_lc_001b_process_pool as pool_engine
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 
@@ -7217,6 +7218,46 @@ def test_the_readme_states_the_common_authorization_head_and_the_external_bundle
     assert "Authorization is not a schedule" in txt
     assert "P0 \u2192 P1a \u2192 P1b \u2192 P2a \u2192 P2b" in txt
     assert "PREFLIGHT-C9 remains the effective protocol" in txt
+
+
+def test_live_commissioning_command_is_explicit_jobs4_and_external():
+    txt = (REPO / vf.BUNDLE_REL / "README.md").read_text()
+    lines = txt.splitlines()
+    start = lines.index(
+        "> python -m puckworks.validation.slow.rp_d_lc_001b \\")
+    command = "\n".join(line.removeprefix("> ") for line in lines[start:start + 4])
+    assert command == """python -m puckworks.validation.slow.rp_d_lc_001b \\
+    --mode P0 \\
+    --jobs 4 \\
+    --output /ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY"""
+    assert "omitting `--jobs 4` is not the accepted parallel canary" in txt
+    assert "runtime default\n> remains one worker" in txt
+    assert "run only bounded Checkpoint 0" in txt
+    assert "does\n> not authorize P1a or any later phase" in txt
+    assert vf.RUNS_REL not in command
+
+
+def test_live_driver_prose_matches_authorized_source_state_and_preserves_defaults():
+    src = (REPO / vf.DRIVER_REL).read_text()
+    module_doc = ast.get_docstring(ast.parse(src))
+    parallel_doc = ast.get_docstring(next(
+        node for node in ast.parse(src).body
+        if isinstance(node, ast.FunctionDef) and node.name == "_orchestrate_parallel"))
+    for live in (module_doc, parallel_doc):
+        assert "source-deauthorized" not in live
+        assert "empty at this head" not in live
+    assert "complete atomic P0-through-P2b" in module_doc
+    assert "NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS YET RUN" in module_doc
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
+    assert drv.POST_FREEZE_EXECUTOR_READY is False
+    assert vf.CORRECTION_VERSION == "PREFLIGHT-C9"
+    assert pool_engine.DEFAULT_REFERENCE_WORKERS == 1
+    for phase in ("P3", "P4"):
+        assert phase not in drv.AUTHORISED_SOLVING_PHASES
+        assert phase not in drv.AUTHORISED_ASSEMBLY_PHASES
+        with pytest.raises(drv.PostFreezeExecutorNotReady):
+            drv.solve(None, 0.0, phase)
 
 
 #: The CURRENT reader-facing guides. PROTOCOL.md is append-only: its frozen pre-erratum body still

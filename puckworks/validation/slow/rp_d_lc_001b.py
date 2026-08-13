@@ -1,8 +1,9 @@
-"""RP-D-LC-001b — slow driver SCAFFOLD.
+"""RP-D-LC-001b — reviewed pre-freeze production driver.
 
-NO LATTICE-BOLTZMANN SOLVE HAS BEEN PERFORMED FOR THIS TRANCHE, AND THIS MODULE REFUSES TO
-PERFORM ONE. Authorisation is PHASE-SPECIFIC (erratum PE-11): ``AUTHORISED_SOLVING_PHASES`` is
-empty at this head, so every solving phase raises ``ExecutionNotAuthorised``.
+NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS YET RUN. The complete atomic P0-through-P2b
+pre-freeze cohort is source-authorized at this head. Source authorization does not bypass the
+exact-head human commissioning review, external-output policy, execution authority, predecessor-
+manifest validation, or staged Checkpoint 0/P0/P1a/P1b/P2a-P2b procedure.
 
 The PRE-FREEZE authorization is an ATOMIC SOURCE COHORT (erratum PE-124). ONE exact reviewed
 authorization commit authorizes the complete P0-through-P2b cohort: a committed head may declare
@@ -13,7 +14,7 @@ assembly allowlist, and every partial state is refused. That is the fact the cod
 never consume P0. Each phase nevertheless remains SEPARATELY gated by its prerequisites, so a shared
 authorization head does not make execution monolithic. P3 and P4 require a LATER source commit, are
 never part of the pre-freeze cohort, and stay unavailable while ``POST_FREEZE_EXECUTOR_READY`` is
-false. The resulting exact head is the object reviewed for execution.
+false. This resulting exact head is the object reviewed before commissioning execution.
 
 Independently of that allowlist, P3 and P4 refuse without the reviewed bridge freeze AND the
 reviewed instantiated P3/P4 matrix, and every phase refuses without valid completion manifests
@@ -25,9 +26,9 @@ requires a clean Git worktree, and a repository-internal bundle would destroy th
 phase could construct its own authority. ``--mode plan`` reads the canonical matrix, writes
 nothing, and needs no output path.
 
-What IS implemented here is everything that can be checked without a solver: the per-case
-record construction from already-computed fields, the phase ordering, the freeze gate and the
-execution-authority record. Heavy execution never enters normal CI (CLAUDE.md rule 3).
+The serial and PROCESS_POOL_V1 pre-freeze execution paths, parent-only record construction,
+phase ordering, checkpoint boundaries, freeze gate, and execution-authority record are implemented.
+Heavy execution never enters normal CI (CLAUDE.md rule 3).
 """
 
 from __future__ import annotations
@@ -129,13 +130,12 @@ def _refuse_post_freeze(phase):
 SUPPORTED_JOBS = tuple(range(1, pool_engine.MAX_REFERENCE_WORKERS + 1))
 
 AUTHORISATION_NOTE = (
-    "RP-D-LC-001b is PRE-EXECUTION. The protocol, the corrected fixture, the conserved-quantity "
-    "contract, the similarity law, the negative-control gate and the reachable-set margin are "
-    "frozen and awaiting substantive scientific review at an exact head. No solve may run before "
-    "that review. ONE exact reviewed authorization commit then authorizes the COMPLETE "
-    "P0-through-P2b cohort — the pre-freeze allowlists are atomic and every partial state is "
-    "refused — while each phase remains separately gated by its own prerequisites. P3 and P4 "
-    "require a later source commit and remain unavailable (erratum PE-124)."
+    "RP-D-LC-001b remains PRE-EXECUTION: no solve has run. The COMPLETE atomic P0-through-P2b "
+    "cohort is source-authorized, while each phase remains separately gated by exact-head human "
+    "commissioning review, the external-output policy, execution authority, predecessor manifests, "
+    "validation, and staged checkpoints. Source authorization is not permission to bypass that "
+    "procedure. P3 and P4 remain unavailable because POST_FREEZE_EXECUTOR_READY is false and the "
+    "reviewed instantiated post-freeze matrix loader does not exist (erratum PE-124)."
 )
 
 #: Every mode that would invoke the solver, in the only order they may run.
@@ -363,12 +363,12 @@ def boundary_record(open_rec, blocked_rec, orientation="nominal"):
 
 
 # ------------------------------------------------------------------------------------------
-# Phase entry points — all refuse.
+# Phase entry points — gated by committed source authority and runtime prerequisites.
 # ------------------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------------------
-# The pre-freeze EXECUTOR (erratum PE-19). Real, deterministic, and unreachable at this head
-# because AUTHORISED_SOLVING_PHASES is empty.
+# The pre-freeze EXECUTOR (erratum PE-19). Real, deterministic, and subject to exact-head review,
+# output-path, authority, predecessor, validation, and checkpoint gates before commissioning.
 # ------------------------------------------------------------------------------------------
 
 KNOWN_ROW_KINDS = ("reference_blocked_ladder", "axial_coupon", "tau_cross_check",
@@ -1271,7 +1271,7 @@ def _run_parallel_waves(canonical_rows, jobs, worker, prepare, consume, initiall
 def _orchestrate_parallel(phase, base, auth, manifests, records, jobs,
                           provenance_mode="PRODUCTION", worker=_process_pool_case_worker,
                           progress=_parallel_progress):
-    """Official PROCESS_POOL_V1 parent path. The public gate remains source-deauthorized."""
+    """Official PROCESS_POOL_V1 parent path for the source-authorized pre-freeze cohort."""
     matrix = vf.execution_matrix()["rows"]
     universe = vf.phase_universe(phase, matrix)
     eligible, adaptive = vf.derive_expected_rows(phase, matrix, predecessor_records=records)
@@ -1472,7 +1472,8 @@ def plan_summary(matrix):
 
 
 def main(argv=None):                                             # pragma: no cover - thin CLI
-    ap = argparse.ArgumentParser(description="RP-D-LC-001b driver (PRE-EXECUTION: refuses)")
+    ap = argparse.ArgumentParser(
+        description="RP-D-LC-001b driver (source-authorized pre-freeze cohort; staged review)")
     ap.add_argument("--mode", required=True, choices=list(MODES))
     ap.add_argument("--backend", default="reference",
                     help="only 'reference' exists; anything else fails before execution")
