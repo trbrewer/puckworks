@@ -76,6 +76,84 @@ The harness must not run until the exact implementation head and tree are explic
 source change after review requires a new review. Benchmark output must be a fresh absolute external
 directory and is labelled `PERFORMANCE_BENCHMARK_ONLY_NOT_SCIENTIFIC_EVIDENCE`.
 
+The accepted exact-head scaling run measured 3304.13, 1297.31, 1198.53, 1231.36, and 1286.03
+seconds at jobs 1, 4, 8, 16, and 32. Every correctness gate passed. Under the frozen selection rule,
+jobs=4 achieved `1198.53 / 1297.31 = 92.4%` of maximum throughput and is the smallest count above
+90%. Therefore `RECOMMENDED_PRODUCTION_JOBS = 4`. Four is an explicit future command choice, not a
+new default; execution authority binds the requested count. The benchmark is accepted and will not
+be rerun for this integration tranche.
+
+## Official production integration
+
+The public source gates remain load-bearing and empty. If a later exact-head authorization admits a
+pre-freeze solving phase, jobs=1 retains the existing serial orchestrator and jobs 2–32 enter the
+official parent-only `PROCESS_POOL_V1` orchestrator. P2b remains single-process arithmetic and P3/P4
+remain independently unavailable.
+
+Workers receive a canonical ready row and its frozen audit plan when applicable, reconstruct the
+reference fixture, call the unchanged guarded reference solver once, and return raw result fields
+plus bounded PID/timing metadata. They receive no runtime path and make no authority, verdict,
+manifest, persistence, candidate, or scientific-policy decision. The parent reconstructs geometry
+and applies the same result contract, compact extraction, effective configuration, payload hash,
+official record constructor, case validator, verdict, ledgers, aggregate science, assurance checks,
+manifest constructor, and manifest validator used by serial execution. Exactly one durable writer
+exists.
+
+Complete deterministic waves are persisted in canonical order. A canonical stopping result blocks
+all later waves; valid records from the already dispatched wave remain durable, while never-
+dispatched rows receive `REFUSED_AFTER_PHASE_STOP`. Such bounded overshoot cannot alter a decision
+after the first canonical stopping row. Exact records and diagnostic envelopes are reopened and
+validated before dispatch; authority or jobs mismatch fails closed, and worker calls equal newly
+persisted artifacts. Parent SIGINT closes the pool, writes no partial record or fabricated manifest,
+and leaves existing atomic records exactly resumable. Parent-only progress lines after each wave
+report case IDs, counts, failures, elapsed time, worker calls, and continuation state; telemetry
+enters no scientific artifact or hash.
+
+## Future Production Commissioning and Scientific Checkpoints
+
+This is an execution plan, not a new scientific protocol. One invocation executes one named phase;
+there is no automatic phase chaining.
+
+### Checkpoint 0 — parallel production canary
+
+After a later exact-head authorization, use a fresh external bundle and run P0 explicitly with
+`--jobs 4` only until the Linux-baseline reference normal row and its fixed-step audit complete.
+Send normal SIGINT, validate every complete record, and compare the pair with the serial baseline:
+case IDs, compact science, applicable recomputed payload identity, status, audit target, and verdict.
+Verify no duplicate/missing write, clean repository, and exact resume. A mismatch stops. No partial
+P0 phase verdict is claimed.
+
+### Checkpoint 1 — P0 completion
+
+Resume the same bundle, complete P0 only, then stop. Require validated `PHASE_COMPLETE`, complete P0
+aggregate science, passing forcing and S=2/S=3 consistency controls, passing decision-bearing rows
+and assurance replicate, and valid authority/audit/manifest chain. Review observed jobs=4 throughput,
+remaining-duration projection, numerical discrepancies, and explicitly non-adjudicative tau
+diagnostics. Do not launch P1a until accepted.
+
+### Checkpoint 2 — P1a completion
+
+Run P1a only, then stop. Report terminal status, every candidate, central artifact point estimate,
+point-budget verdict, represented resolutions, survivors/rejections and exact reasons, projected P1b
+rows, and revised compute. P1a is triage-only and admits nothing; a frozen rejection cannot be
+manually restored. If fewer than four candidates remain non-rejected, report that the frozen
+four-slot endpoint is unreachable and stop before P1b without inventing another disposition.
+Otherwise stop for a pragmatic continue/stop decision.
+
+### Checkpoint 3 — P1b completion
+
+After Checkpoint 2 approval, run P1b only and stop. For every candidate report complete artifact R
+evidence, fixed-step/node-offset uncertainty, artifact upper bound, lateral mass-flux and pressure
+verdicts, forcing/resolution verdicts, audit lineage, final eligibility, and exact rejection reason.
+Report adaptive P2a rows and revised compute. If fewer than four pass, stop before P2a because the
+four-slot endpoint cannot be filled.
+
+### Checkpoint 4 — P2a and P2b
+
+Only after Checkpoint 3 approval, execute and validate P2a, execute arithmetic-only P2b, and stop
+with `SELECTED` or `DESIGN_BLOCKED`. Do not execute P3/P4. These are the only intended checkpoints;
+there is no human stop after each case or wave.
+
 ## Non-goals
 
 No CUDA, Taichi, GPU backend, MPI, Dask, Ray, distributed scheduling, worker writes, LB-kernel work,
