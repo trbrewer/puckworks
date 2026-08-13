@@ -256,13 +256,14 @@ def test_jobs_mismatch_refuses_parallel_resume_before_worker_dispatch(
     assert not InlineWavePool.instances or InlineWavePool.instances[-1].worker_calls == 0
 
 
-def test_public_safety_and_no_production_override(tmp_path):
+def test_public_safety_and_no_production_override(tmp_path, monkeypatch):
     import inspect
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert drv.POST_FREEZE_EXECUTOR_READY is False
     assert list(inspect.signature(drv.execute_phase).parameters) == [
         "phase", "runs_dir", "backend", "jobs"]
+    monkeypatch.setattr(drv, "AUTHORISED_SOLVING_PHASES", ())
     with pytest.raises(drv.ExecutionNotAuthorised):
         drv.execute_phase("P0", tmp_path / "never", jobs=4)
     assert not (tmp_path / "never").exists()

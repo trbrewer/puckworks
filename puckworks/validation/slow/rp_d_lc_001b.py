@@ -68,13 +68,13 @@ REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 #: P0 -> P1a -> P1b -> P2a -> P2b: every phase after P0 refuses without a validated completion
 #: manifest for each of its prerequisites, so a shared authorization head does not let a later phase
 #: start early. Nothing has run at this head.
-AUTHORISED_SOLVING_PHASES = ()
+AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")
 
 #: The SEPARATE assembly allowlist (erratum PE-39). P2b is arithmetic and must never share the
 #: solving gate: authorising P0-P2a must not authorise the assembly, and authorising the assembly
 #: must not authorise P3/P4. Both carry the pre-freeze cohort at this head, and neither names a
 #: phase belonging to the other gate.
-AUTHORISED_ASSEMBLY_PHASES = ()
+AUTHORISED_ASSEMBLY_PHASES = ("P2b",)
 
 #: The POST-FREEZE executor is NOT READY (erratum PE-76).
 #:

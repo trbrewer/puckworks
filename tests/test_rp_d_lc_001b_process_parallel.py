@@ -134,9 +134,9 @@ def test_invalid_jobs_refuse(jobs):
         eng.validate_jobs(jobs)
 
 
-def test_branch_is_deauthorized_and_p3_p4_hard_refused():
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+def test_complete_cohort_is_authorized_and_p3_p4_hard_refused():
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert drv.POST_FREEZE_EXECUTOR_READY is False
     for phase in ("P3", "P4"):
         with pytest.raises(drv.PostFreezeExecutorNotReady):

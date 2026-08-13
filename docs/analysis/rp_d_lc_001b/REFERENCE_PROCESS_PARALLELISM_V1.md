@@ -1,9 +1,9 @@
 # RP-D-LC-001b reference process parallelism v1
 
 ```
-IMPLEMENTATION ONLY · PRODUCTION DEAUTHORIZED
+COMPLETE PREFREEZE COHORT SOURCE-AUTHORIZED
 PERFORMANCE_BENCHMARK_ONLY_NOT_SCIENTIFIC_EVIDENCE
-PENDING EXACT-HEAD IMPLEMENTATION REVIEW
+PENDING EXACT-HEAD AUTHORIZATION REVIEW BEFORE CANARY
 ```
 
 ## Objective and boundary
@@ -14,8 +14,10 @@ reference-solver rows. It changes no solver kernel, backend, geometry, mask, for
 setting, fixed-step target, tolerance, matrix row, case identity, scientific payload, control,
 admission rule, decision rule, or claim ceiling.
 
-This branch has empty solving and assembly allowlists and retains `POST_FREEZE_EXECUTOR_READY =
-False`. No production phase or benchmark is authorized by implementation.
+This exact head source-authorizes the complete P0–P2b cohort and retains
+`POST_FREEZE_EXECUTOR_READY = False`. No production phase has run under this head. The first real
+action, only after exact-head authorization review, is the commissioning canary with explicit
+`--jobs 4` and a fresh external bundle.
 
 ## Architecture
 
@@ -95,10 +97,10 @@ be rerun for this integration tranche.
 
 ## Official production integration
 
-The public source gates remain load-bearing and empty. If a later exact-head authorization admits a
-pre-freeze solving phase, jobs=1 retains the existing serial orchestrator and jobs 2–32 enter the
-official parent-only `PROCESS_POOL_V1` orchestrator. P2b remains single-process arithmetic and P3/P4
-remain independently unavailable.
+The public source gates remain load-bearing and now admit the complete atomic P0–P2b pre-freeze
+cohort. Jobs=1 retains the existing serial orchestrator and jobs 2–32 enter the official parent-only
+`PROCESS_POOL_V1` orchestrator. Future solving uses explicit `--jobs 4`; four is not the default.
+P2b remains single-process arithmetic and P3/P4 remain independently unavailable.
 
 Workers receive a canonical ready row and its frozen audit plan when applicable, reconstruct the
 reference fixture, call the unchanged guarded reference solver once, and return raw result fields
@@ -126,7 +128,7 @@ there is no automatic phase chaining.
 
 ### Checkpoint 0 — parallel production canary
 
-After a later exact-head authorization, use a fresh external bundle and run P0 explicitly with
+After exact-head authorization review, use a fresh external bundle and run P0 explicitly with
 `--jobs 4` only until the Linux-baseline reference normal row and its fixed-step audit complete.
 Send normal SIGINT, validate every complete record, and compare the pair with the serial baseline:
 case IDs, compact science, applicable recomputed payload identity, status, audit target, and verdict.

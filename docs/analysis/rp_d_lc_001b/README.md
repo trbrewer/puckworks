@@ -3,13 +3,13 @@
 > **Performance-branch notice:**
 > [`REFERENCE_PROCESS_PARALLELISM_V1.md`](REFERENCE_PROCESS_PARALLELISM_V1.md) documents the focused
 > reference CPU process-pool implementation. The accepted scaling evidence selects explicit future
-> `--jobs 4`; the official parent-only parallel integration is implemented. This branch remains
-> production-deauthorized, no scientific phase has run, and another exact-head implementation review
-> is required before any authorization change. GPU work is outside scope.
+> `--jobs 4`; the official parent-only parallel integration is implemented and the complete P0–P2b
+> cohort is now source-authorized. No scientific phase has run under this head. Exact-head
+> authorization review is required before the commissioning canary. GPU work is outside scope.
 
 ```
-PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · PRODUCTION-DEAUTHORIZED PERFORMANCE IMPLEMENTATION
-PENDING EXACT-HEAD REVIEW BEFORE P0 BEGINS
+PRE-EXECUTION — PREFLIGHT-C9 EFFECTIVE · COMPLETE PREFREEZE COHORT SOURCE-AUTHORIZED
+PENDING EXACT-HEAD AUTHORIZATION REVIEW BEFORE COMMISSIONING CANARY
 NO RP-D-LC-001b LATTICE-BOLTZMANN SOLVE HAS RUN
 CROSS_MODEL_NUMERICAL_VERIFICATION · DETERMINISTIC_SYNTHETIC_GEOMETRY
 NOT_EXPERIMENTAL_VALIDATION · NOT_REAL_PUCK_INFERENCE
@@ -44,11 +44,11 @@ Tracking issue: [#236](https://github.com/trbrewer/puckworks/issues/236).
 > pre-freeze authorization is **one atomic P0–P2b source cohort**, which is what the predecessor
 > gates already required.
 > The accepted C9 pre-authorization baseline demonstrated the complete cohort state, but this
-> performance branch deliberately returned to `AUTHORISED_SOLVING_PHASES = ()` and
-> `AUTHORISED_ASSEMBLY_PHASES = ()` before implementation; `POST_FREEZE_EXECUTOR_READY = False`.
-> Its committed state is `NO_PREFREEZE_PHASE_AUTHORIZED`. **No phase has run.** Following exact-head
-> integration review, a separate minimal commit may restore the complete P0–P2b cohort; P3/P4 still
-> need a later correction and review of the real pre-freeze artifacts.
+> performance branch deliberately returned to empty allowlists during implementation. The reviewed
+> integration is now complete and this authorization-only head restores the complete P0–P2b cohort;
+> `POST_FREEZE_EXECUTOR_READY = False`. **No phase has run.** Exact-head authorization review is
+> required before the commissioning canary; P3/P4 still need a later correction and review of the
+> real pre-freeze artifacts.
 
 **Not an Insight Foundry screen.** No `I-` number, no candidate, no lens, no generator, no scoring;
 `docs/insights/ID_REGISTRY.json` is untouched. This is Stage A of the bounded RP-D activation in
@@ -125,10 +125,10 @@ RP_D_LC_001B_COMPLETE_PREFREEZE_COHORT_AUTHORIZED_PENDING_EXACT_HEAD_REVIEW
 correction_version: PREFLIGHT-C9                  (effective; unchanged by this authorization)
 solves_executed: 0        lb_solver_invoked: false        disposition: null
 cross_model_transfer_adjudicated: false
-AUTHORISED_SOLVING_PHASES: ()
-AUTHORISED_ASSEMBLY_PHASES: ()
+AUTHORISED_SOLVING_PHASES: ("P0", "P1a", "P1b", "P2a")
+AUTHORISED_ASSEMBLY_PHASES: ("P2b",)
 POST_FREEZE_EXECUTOR_READY: False
-prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED
+prefreeze_cohort_state: COMPLETE_PREFREEZE_COHORT_AUTHORIZED
 ```
 
 **PREFLIGHT-C9 remains the effective protocol** (`PROTOCOL.md` §27). This head changes the

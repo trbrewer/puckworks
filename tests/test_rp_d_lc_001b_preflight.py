@@ -880,15 +880,15 @@ def _all_manifests(runs, phases=("P0", "P1a", "P1b", "P2a", "P2b", "P3")):
 def test_authorisation_is_phase_specific_and_carries_only_the_prefreeze_cohort():
     """Erratum PE-11: one boolean would have authorised the primary experiment and Arm J in the
     same act as the pre-freeze phases. The cohort authorized here contains neither."""
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     for post in drv.POST_FREEZE_PHASES:
         assert post not in drv.AUTHORISED_SOLVING_PHASES
         assert post not in drv.AUTHORISED_ASSEMBLY_PHASES
     assert not hasattr(drv, "EXECUTION_AUTHORISED")
     src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
     # source-controlled, not a flag
-    assert "AUTHORISED_SOLVING_PHASES = ()" in src
+    assert 'AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")' in src
     # and it is not reachable from the process environment or a command-line switch
     tree = ast.parse(src)
     names = {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
@@ -2340,9 +2340,9 @@ def test_p2b_makes_no_solver_call_and_has_its_own_authority_gate():
     assert "assemble_p2b_from_runs" in body
     assert "require_assembly_authorisation" in body
     # the assembly allowlist is SEPARATE from the solving one, in both directions (PE-39)
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert "P2b" not in drv.AUTHORISED_SOLVING_PHASES
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
     assert "solver_records" in inspect.getsource(vf._p2b_decision_core)
 
 
@@ -2414,12 +2414,12 @@ def test_the_real_solver_is_never_reached_by_any_test(monkeypatch):
     assert calls == []
 
 
-def test_the_performance_branch_is_deauthorized_and_nothing_has_run():
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+def test_the_performance_branch_authorizes_the_complete_cohort_and_nothing_has_run():
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert drv.POST_FREEZE_EXECUTOR_READY is False
     assert vf.committed_authorization_status()["prefreeze_cohort_state"] == (
-        "NO_PREFREEZE_PHASE_AUTHORIZED")
+        "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
     # every phase is still stopped from the CLI without an explicit external output directory
     for phase in drv.SOLVING_MODES + ("P2b",):
         with pytest.raises((drv.ExecutionNotAuthorised, vf.FreezeMissing, vf.ManifestMissing,
@@ -2936,20 +2936,20 @@ def test_the_output_directory_is_the_runs_directory_actually_used(tmp_path, monk
 def test_solving_and_assembly_authority_remain_separate_allowlists():
     """Erratum PE-39: two allowlists, in both directions. They now carry the pre-freeze cohort, and
     neither names a phase belonging to the other gate."""
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert "P2b" not in drv.AUTHORISED_SOLVING_PHASES
     assert not set(drv.AUTHORISED_ASSEMBLY_PHASES) & set(drv.SOLVING_MODES)
     src = (REPO / "puckworks/validation/slow/rp_d_lc_001b.py").read_text()
-    assert "AUTHORISED_SOLVING_PHASES = ()" in src
-    assert "AUTHORISED_ASSEMBLY_PHASES = ()" in src
+    assert 'AUTHORISED_SOLVING_PHASES = ("P0", "P1a", "P1b", "P2a")' in src
+    assert 'AUTHORISED_ASSEMBLY_PHASES = ("P2b",)' in src
     assert "POST_FREEZE_EXECUTOR_READY = False" in src
     # erratum PE-104: ONE shared gate, so the assembly path names its own gate through the
     # parser rather than re-implementing the tuple comparison.
     body = inspect.getsource(drv.require_assembly_authorisation)
     assert "assert_stage_authorised" in body and "AUTHORISED_SOLVING_PHASES" not in body
     snap = vf.source_authorization_snapshot("P2b", src)
-    assert snap["required_gate"] == "ASSEMBLY" and snap["stage_authorised"] is False
+    assert snap["required_gate"] == "ASSEMBLY" and snap["stage_authorised"] is True
     assert vf.source_authorization_snapshot("P0", src)["required_gate"] == "SOLVING"
     for post in drv.POST_FREEZE_PHASES:
         assert vf.source_authorization_snapshot(post, src)["stage_authorised"] is False
@@ -3929,8 +3929,8 @@ def test_the_successful_p2b_branch_selects_one_below_and_three_inside(synthetic_
     # the adaptive pruning really happened, and P3/P4 stay unauthorized
     assert fz["p3_p4_authorised"] is False
     # the pre-freeze cohort is authorized; P3/P4 are not, in either allowlist
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert not set(drv.POST_FREEZE_PHASES) & (set(drv.AUTHORISED_SOLVING_PHASES)
                                               | set(drv.AUTHORISED_ASSEMBLY_PHASES))
 
@@ -4261,8 +4261,8 @@ def test_the_post_freeze_deferral_is_explicit_and_names_the_reserved_work():
                    "phase universe", "later authorization tranche"):
         assert phrase in note, phrase
     # the pre-freeze cohort is authorized and P3/P4 are still absent and still not ready
-    assert drv.AUTHORISED_SOLVING_PHASES == ()
-    assert drv.AUTHORISED_ASSEMBLY_PHASES == ()
+    assert drv.AUTHORISED_SOLVING_PHASES == ("P0", "P1a", "P1b", "P2a")
+    assert drv.AUTHORISED_ASSEMBLY_PHASES == ("P2b",)
     assert drv.POST_FREEZE_EXECUTOR_READY is False
     for post in drv.POST_FREEZE_PHASES:
         assert post not in drv.AUTHORISED_SOLVING_PHASES
@@ -4454,9 +4454,9 @@ def test_the_documented_plan_command_actually_runs():
         assert k in summary, k
     assert summary["solves_executed"] == 0
     assert summary["post_freeze_executor_ready"] is False
-    assert summary["authorised_solving_phases"] == []
-    assert summary["authorised_assembly_phases"] == []
-    assert summary["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+    assert summary["authorised_solving_phases"] == ["P0", "P1a", "P1b", "P2a"]
+    assert summary["authorised_assembly_phases"] == ["P2b"]
+    assert summary["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
     assert summary["planned_solver_invocations"] == (summary["planned_normal_solves"]
                                                      + summary["planned_fixed_step_audits"])
     # erratum PE-78: the role-resolved counts are reported SEPARATELY
@@ -5650,17 +5650,16 @@ def _driver_replacing(name, replacement):
     return base.replace(line, replacement, 1)
 
 
-def test_the_live_performance_head_authorizes_no_production_phase():
-    """The implementation-review branch is deliberately production-deauthorized."""
+def test_the_live_performance_head_authorizes_only_the_complete_prefreeze_cohort():
+    """The authorization head admits the atomic cohort while P3/P4 stay unavailable."""
     parsed = vf.parse_committed_authorization(DRIVER_SRC)
-    assert parsed["AUTHORISED_SOLVING_PHASES"] == ()
-    assert parsed["AUTHORISED_ASSEMBLY_PHASES"] == ()
+    assert parsed["AUTHORISED_SOLVING_PHASES"] == ("P0", "P1a", "P1b", "P2a")
+    assert parsed["AUTHORISED_ASSEMBLY_PHASES"] == ("P2b",)
     assert parsed["POST_FREEZE_EXECUTOR_READY"] is False
-    assert parsed["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+    assert parsed["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
     for phase in ("P0", "P1a", "P1b", "P2a", "P2b"):
-        assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is False
-        with pytest.raises(vf.SourceAuthorizationError):
-            vf.execution_authority(phase, require_clean=False)
+        assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is True
+        assert vf.execution_authority(phase, require_clean=False)["stage"] == phase
     for phase in ("P3", "P4"):
         assert vf.source_authorization_snapshot(phase, DRIVER_SRC)["stage_authorised"] is False
         with pytest.raises(vf.SourceAuthorizationError):
@@ -6174,10 +6173,10 @@ def test_the_p2b_authority_carries_and_hashes_its_authorization(synthetic_p2b):
     assert aa["source_authorization"] == nested["source_authorization"]
     assert aa["authority_provenance"] == nested["authority_provenance"] == "TEST_ONLY"
     assert aa["source_authorization"]["required_gate"] == "ASSEMBLY"
-    # The performance branch is deliberately source-deauthorized during implementation review.
-    assert aa["source_authorization"]["stage_authorised"] is False
+    # TEST_ONLY provenance stays ineligible even though the committed source gate is open.
+    assert aa["source_authorization"]["stage_authorised"] is True
     assert aa["source_authorization"]["prefreeze_cohort_state"] == (
-        "NO_PREFREEZE_PHASE_AUTHORIZED")
+        "COMPLETE_PREFREEZE_COHORT_AUTHORIZED")
     assert aa["assembly_authority_sha256"] == vf.record_hash(
         {k: aa[k] for k in vf.P2B_ASSEMBLY_AUTHORITY_FIELDS})
     # the P2b phase-authority artifact is persisted and bound
@@ -7060,12 +7059,12 @@ def test_a_comment_cannot_influence_the_cohort_parse():
     assert parsed["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
 
 
-def test_the_live_performance_head_carries_no_production_authorization():
+def test_the_live_performance_head_carries_complete_prefreeze_authorization():
     live = vf.committed_authorization_status()
-    assert live["authorised_solving_phases"] == []
-    assert live["authorised_assembly_phases"] == []
+    assert live["authorised_solving_phases"] == ["P0", "P1a", "P1b", "P2a"]
+    assert live["authorised_assembly_phases"] == ["P2b"]
     assert live["post_freeze_executor_ready"] is False
-    assert live["prefreeze_cohort_state"] == "NO_PREFREEZE_PHASE_AUTHORIZED"
+    assert live["prefreeze_cohort_state"] == "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
     assert live["authorization_source_path"] == vf.DRIVER_REL
     assert live["authorization_source_sha256"] == hashlib.sha256(
         (REPO / vf.DRIVER_REL).read_bytes()).hexdigest()
@@ -7079,7 +7078,7 @@ def test_the_live_performance_head_carries_no_production_authorization():
     assert drv.POST_FREEZE_EXECUTOR_READY is False
     # every fixture in this module is a SOURCE STRING; none writes an authorization commit
     assert vf.parse_committed_authorization(DRIVER_SRC)["prefreeze_cohort_state"] == \
-        "NO_PREFREEZE_PHASE_AUTHORIZED"
+        "COMPLETE_PREFREEZE_COHORT_AUTHORIZED"
 
 
 def test_the_generated_status_and_plan_derive_from_the_parsed_committed_driver():
@@ -7205,7 +7204,7 @@ def test_the_readme_states_the_common_authorization_head_and_the_external_bundle
     assert "complete P0\u2013P2b cohort is now source-authorized at this exact head" in txt
     # the live cohort state, and NOT the superseded one
     assert "COMPLETE_PREFREEZE_COHORT_AUTHORIZED" in txt
-    assert "prefreeze_cohort_state: NO_PREFREEZE_PHASE_AUTHORIZED" in txt
+    assert "prefreeze_cohort_state: COMPLETE_PREFREEZE_COHORT_AUTHORIZED" in txt
     assert vf.PRODUCTION_RUNS_DIRECTORY_POLICY in txt
     assert "requires an explicit external output directory" in txt
     assert "/ABSOLUTE/PATH/OUTSIDE/THE/PUCKWORKS/REPOSITORY" in txt
