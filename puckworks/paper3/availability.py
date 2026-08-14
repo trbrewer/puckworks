@@ -54,9 +54,13 @@ DIMENSIONS = (
 #: Components whose gates need data that is NOT in the repository (retrieval-only or rights-blocked
 #: deposits). Recorded here with the reason, because "the gate did not run" and "the data is not
 #: present" are different facts and only the second belongs in this column.
-DATA_NOT_PRESENT: dict[str, str] = {
-    "grudeva2025.reduced": "source code and data are rights-blocked; nothing is vendored",
-}
+#: Empty since 2026-08-14 (#73). It previously declared `grudeva2025.reduced` as
+#: "source code and data are rights-blocked; nothing is vendored". Both halves are now wrong: the
+#: upstream author gave direct written permission covering code AND data, and the gate data this
+#: component needs (`puckworks/data/grudeva2025/exp13_per_vial_stats.csv`) IS vendored and is what
+#: `gate_grudeva_reduced_solver` reads. The upstream RAW per-shot file is still not redistributed, but
+#: no registered gate needs it, so it is not an availability blocker.
+DATA_NOT_PRESENT: dict[str, str] = {}
 
 
 #: MC8 — implemented capability vs architectural intent, per CAPABILITY rather than per component.

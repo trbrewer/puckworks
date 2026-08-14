@@ -48,12 +48,34 @@ def test_public_artifact_additionally_requires_output_clearance():
     assert art_rows["cameron2020.extraction_bdf"]["output_publication_required"] is True
 
 
-def test_grudeva_stays_blocked_even_locally():
-    v = gate.preflight(lab.ScenarioRequest(
-        "pv19_named", lens_selection_policy="selected", requested_lens_ids=("grudeva2025.reduced",),
-        reference_selection_policy="none"), "LOCAL_PRIVATE")
+def test_grudeva_passes_preflight_in_every_context_after_the_permission_record():
+    # #73 resolved 2026-08-14: PERMISSION_DOCUMENTED is affirmative, so the preflight no longer refuses
+    # it locally OR publicly. Passing the rights preflight is not an execution path (it has no runner).
+    for ctx in ("LOCAL_PRIVATE", "PUBLIC_BATCH", "PUBLIC_ARTIFACT"):
+        v = gate.preflight(lab.ScenarioRequest(
+            "pv19_named", lens_selection_policy="none", reference_selection_policy="selected",
+            requested_reference_runner_ids=("grudeva2025.reduced",)), ctx)
+        row = {r["component_id"]: r for r in v["requested"]}["grudeva2025.reduced"]
+        assert row["code_rights_state"] == "PERMISSION_DOCUMENTED"
+        assert row["blocked"] is False and row["blocker"] == "", (ctx, row)
+        assert v["blocked"] is False, ctx
+
+
+def test_a_rights_blocked_component_is_still_refused_even_locally():
+    # the GENERIC local-block rule (no component is blocked today) stays exercised
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        v = gate.preflight(lab.ScenarioRequest(
+            "pv19_named", lens_selection_policy="selected", requested_lens_ids=(cid,),
+            reference_selection_policy="none"), "LOCAL_PRIVATE")
     assert v["blocked"] is True
-    row = {r["component_id"]: r for r in v["requested"]}["grudeva2025.reduced"]
+    row = {r["component_id"]: r for r in v["requested"]}[cid]
     assert row["code_rights_state"] == "RIGHTS_BLOCKED"
 
 

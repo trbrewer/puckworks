@@ -195,8 +195,10 @@ def main():
         _try_reference_shot()
     st.divider()
     st.caption("Runs in the PUBLIC_ARTIFACT context (fixed). No login is required to browse. No usage "
-               "data, recipe, or result is sent to any Puckworks service. grudeva2025.reduced is "
-               "rights-blocked and never runs (issue #73).")
+               "data, recipe, or result is sent to any Puckworks service. grudeva2025.reduced is no "
+               "longer rights-blocked — the upstream author's direct written permission covering code "
+               "and data was documented on 2026-08-14 (issue #73) — but it has no runner or adapter, so "
+               "only its registered self-checks exist.")
 
 
 if __name__ == "__main__":

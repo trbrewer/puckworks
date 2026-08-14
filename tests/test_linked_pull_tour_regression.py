@@ -36,7 +36,15 @@ import pytest
 #   ('maille2024.two_regime',  'extraction', 'SCIENTIFIC_CHECK', 'EXECUTED', 4, ('gate_metric',))
 # reproduces the previous hash bit-for-bit, so no existing component's route, status or gate count
 # moved (the 3/4 output counts are their gate counts). 25 rows -> 27.
-_BASELINE_TOUR_STRUCTURE = "58492fe8001a7ea438a106532eb972f72fb18eff03ef36e5375ff82790cd96ca"
+# 2026-08-14: updated 58492fe8… -> ad10b26f… for the Grudeva rights correction (#73). VERIFIED to be a
+# SINGLE-ROW change: substituting the old row
+#   ('grudeva2025.reduced', 'extraction', 'RIGHTS_BLOCKED',   'RIGHTS_BLOCKED', 0, ())
+# for the new one
+#   ('grudeva2025.reduced', 'extraction', 'SCIENTIFIC_CHECK', 'EXECUTED',       2, ('gate_metric',))
+# reproduces 58492fe8… bit-for-bit, so NO other component's route, status or gate count moved. The 2
+# outputs are its two pre-existing registered gates (gate_grudeva_no_eps_kappa,
+# gate_grudeva_reduced_solver) — no gate was added and no runner was invented. Row count stays 27.
+_BASELINE_TOUR_STRUCTURE = "ad10b26f3662dcbcd68f36d88e150ecca58c01f71facd6fad98b54dcabc303cd"
 
 
 def _tour_structure_hash(tour) -> str:

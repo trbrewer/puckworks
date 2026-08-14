@@ -7,7 +7,9 @@ and surfaces every assumption. Cameron provides a baseline but not the whole sto
 trail from recipe → assumptions → several scientifically distinct readings of the same hypothetical pull.
 
 This is PRODUCT orchestration, not a validated coupled model. The complete-relay hash proves determinism,
-NOT scientific certainty. Rights are enforced before every producer (grudeva2025.reduced gets zero calls).
+NOT scientific certainty. Rights are enforced before every producer. grudeva2025.reduced still gets zero
+calls, but since 2026-08-14 that is a TECHNICAL fact (no compatible edge / no tested basis conversion),
+not a rights block — its rights are PERMISSION_DOCUMENTED (#73).
 
 CLI:  python -m puckworks.product.linked_pull --preset illustrative_reference_v1 --mode fast --format json
 """
@@ -95,7 +97,7 @@ class _Ctx:
 
 def _rights_ok(cid: str, ctx: _Ctx) -> tuple[bool, str]:
     """Centralized rights preflight — LOCAL_PRIVATE uses may_execute_locally; public also needs batch +
-    publish. grudeva2025.reduced is code-rights-blocked so this returns False (zero producer calls)."""
+    publish. Derived entirely from puckworks.rights; no component is special-cased here."""
     from .. import rights
     d = rights.may_execute_locally(cid)
     if ctx.execution_context != "LOCAL_PRIVATE":
@@ -824,12 +826,19 @@ def _station_other_lenses(ctx: _Ctx):
             ctx.stages.append(_stage(cid, ST.EXECUTION_ERROR, rights_decision=sev, message=str(e)))
     else:
         ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev))
-    # grudeva — rights-blocked, ZERO calls
+    # grudeva — rights are documented (#73, 2026-08-14); NOT selected for a TECHNICAL reason, ZERO calls
     cid = "grudeva2025.reduced"
     ok, sev = _rights_ok(cid, ctx)
-    ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rel=SR.NOT_EXECUTED, rights_decision=sev,
-                             message="Rights-blocked (#73): shown in the chain map, receives ZERO model and "
-                                     "adapter calls. It could have been a reduced whole-shot extraction lens."))
+    if not ok:
+        ctx.stages.append(_stage(cid, ST.RIGHTS_BLOCKED, rights_decision=sev)); return
+    ctx.stages.append(_stage(cid, ST.NOT_SELECTED, rel=SR.NOT_EXECUTED, rights_decision=sev,
+                             message="Shown in the chain map, receives ZERO model and adapter calls — but "
+                                     "NOT for rights reasons: direct written permission is documented "
+                                     "(#73, 2026-08-14). No relay edge can drive it (it prescribes its own "
+                                     "flow and needs a fines radius the recipe lacks) and its grain-volume "
+                                     "concentration basis has no tested inventory-conserving conversion to "
+                                     "the bed-volume basis this chain carries. Wiring one is coupling work "
+                                     "requiring separate authorization."))
 
 
 def _fill_unvisited(ctx: _Ctx):

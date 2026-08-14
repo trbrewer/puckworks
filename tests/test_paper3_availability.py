@@ -64,12 +64,37 @@ def test_the_public_hosting_count_is_far_below_the_component_count(m):
     assert public < local, (public, local)
 
 
-def test_the_rights_blocked_component_is_visible_as_blocked(m):
-    """grudeva2025.reduced is the review's own example. It must not read as available."""
-    row = next(r for r in m["rows"] if r["component"] == "grudeva2025.reduced")
+def test_a_rights_blocked_component_is_visible_as_blocked():
+    """The GENERIC blocked-visibility rule. No component is RIGHTS_BLOCKED today (#73 was resolved on
+    2026-08-14 by documented permission), so it is exercised against a synthetic blocked record."""
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        row = next(r for r in A.matrix()["rows"] if r["component"] == cid)
     assert row["runnable_local"]["value"] is False
-    assert row["required_data_available"]["value"] is False
+    assert row["public_hosting_status"]["value"] is False
+    assert row["included_in_release"]["value"] is False
     assert row["blocking_reason"], "a blocked component with no recorded reason is not actionable"
+
+
+def test_grudeva_reads_as_permission_documented_and_available(m):
+    """#73: the review's own example is no longer blocked — permission is documented, its vendored gate
+    data is present, and NOTHING scientific was promoted."""
+    row = next(r for r in m["rows"] if r["component"] == "grudeva2025.reduced")
+    assert row["runnable_local"]["value"] is True
+    assert row["required_data_available"]["value"] is True
+    assert row["public_hosting_status"]["value"] is True
+    assert row["included_in_release"]["value"] is True
+    assert row["redistribution_license_status"]["value"] == (
+        "code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED")
+    assert row["blocking_reason"] == ""
+    # evidence axis unchanged by a rights change
+    assert row["scientifically_eligible"]["value"] == "post_fit_reconstruction"
 
 
 def test_every_cell_records_how_it_was_obtained(m):
@@ -174,7 +199,7 @@ def test_the_staleness_guard_is_not_vacuous(tmp_path, monkeypatch):
 
 
 def test_the_prose_counts_match_the_generated_matrix():
-    """The prose states three counts (27 registered/importable, 26 runnable, 1 public, 25
+    """The prose states three counts (27 registered/importable, 27 runnable, 2 public, 25
     unreviewed). A generated table beside hand-written prose that disagrees with it is worse than
     no table at all."""
     m = A.matrix()
@@ -185,7 +210,8 @@ def test_the_prose_counts_match_the_generated_matrix():
                      if "NOT_REVIEWED" in str(r["redistribution_license_status"]["value"]))
     assert f"{local} of {m['n_components']} are runnable locally" in text, local
     assert f"**{unreviewed} of {m['n_components']} carry no rights review on record**" in text
-    assert public == 1, ("the prose says exactly one component is publicly cleared", public)
+    assert public == 2, ("the prose says exactly two components are publicly cleared", public)
+    assert "only **two** components are\ncleared for public hosted execution" in text
 
 
 def test_splice_also_writes_the_committed_artifacts(monkeypatch):

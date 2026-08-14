@@ -71,14 +71,36 @@ def test_blocked_public_request_invokes_zero_producers_and_carries_no_science(sp
     assert rec["blocked"] is True and rec["execution_context"] == "PUBLIC_ARTIFACT"
 
 
-def test_blocked_grudeva_private_request_invokes_zero_producers(spy):
+def test_blocked_private_request_invokes_zero_producers(spy):
+    # the GENERIC local block (no component is RIGHTS_BLOCKED today — Grudeva's was resolved on
+    # 2026-08-14 by documented permission, #73), exercised against a synthetic blocked record.
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "waszkiewicz2025.poroelastic"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
+                              reference_selection_policy="selected",
+                              requested_reference_runner_ids=(cid,))
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        r = S.execute_lab_request(req, execution_context="LOCAL_PRIVATE")
+    assert r.blocked is True and r.report is None          # RIGHTS_BLOCKED blocks even locally
+    assert spy == [("preflight", "LOCAL_PRIVATE")]         # zero producers
+    assert any(cid in b for b in r.blockers)
+
+
+def test_grudeva_private_request_is_no_longer_rights_blocked(spy):
+    # #73: the request passes the rights preflight; it simply resolves to RUNNER_NOT_IMPLEMENTED,
+    # because no runner was invented for it.
     req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
                               reference_selection_policy="selected",
                               requested_reference_runner_ids=("grudeva2025.reduced",))
     r = S.execute_lab_request(req, execution_context="LOCAL_PRIVATE")
-    assert r.blocked is True and r.report is None          # RIGHTS_BLOCKED blocks even locally
-    assert spy == [("preflight", "LOCAL_PRIVATE")]         # zero producers
-    assert any("grudeva2025.reduced" in b for b in r.blockers)
+    assert r.blocked is False and list(r.blockers) == []
+    rec = {x["component_id"]: x for x in r.report["reference_selection"]}["grudeva2025.reduced"]
+    assert rec["native_runner_execution_state"] == "RUNNER_NOT_IMPLEMENTED"
 
 
 def test_local_private_not_reviewed_stays_inspectable_and_runs_selected_producers(spy):

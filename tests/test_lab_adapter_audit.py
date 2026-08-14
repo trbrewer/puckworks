@@ -27,13 +27,17 @@ def test_no_candidate_is_ready_and_no_second_lens_is_invented():
     assert "No extraction candidate is ready" in report["conclusion"]
 
 
-def test_grudeva_is_rights_blocked_in_the_audit():
+def test_grudeva_audit_decision_is_technical_not_a_rights_block():
     report = aa.build_audit()
     g = next(r for r in report["candidates"] if r["component_id"] == "grudeva2025.reduced")
     # rights now come from the centralized registry (no hard-coded "clear"/prose "rights" field)
-    assert g["decision"] == "RIGHTS_BLOCKED"
-    assert g["code_rights_state"] == "RIGHTS_BLOCKED" and g["public_execution_allowed"] is False
-    assert "#73" in g["rights_note"]
+    assert g["decision"] == "ADAPTER_REQUIRES_TESTED_CONVERSION"
+    assert g["code_rights_state"] == "PERMISSION_DOCUMENTED" and g["public_execution_allowed"] is True
+    assert "#73" in g["rights_note"] and "permission" in g["rights_note"].lower()
+    # the reason must name the technical blocker, not a rights one
+    assert "conversion" in g["reason"].lower() and "rights" not in g["decision"].lower()
+    # and it is still NOT admissible as a second lens
+    assert g["admissible_as_second_lens"] is False
 
 
 def test_audit_is_deterministic():

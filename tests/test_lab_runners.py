@@ -88,11 +88,13 @@ def test_native_reference_cannot_enter_common_scenario_results():
     assert not (ref_components & lens_components)          # disjoint: refs are not the lens
 
 
-def test_grudeva2025_has_no_runner_and_stays_rights_blocked():
+def test_grudeva2025_still_has_no_runner_after_the_permission_record():
+    # #73 resolved 2026-08-14 by documented permission. NO native runner was invented to fill the gap:
+    # the honest static capability is NOT_IMPLEMENTED, not RIGHTS_BLOCKED.
     assert "grudeva2025.reduced" not in lr.RUNNERS
     matrix = {r["component_id"]: r for r in lab.build_matrix(
         lab.execute_scenario(lab.ScenarioRequest("pv19_named")))}
-    assert matrix["grudeva2025.reduced"]["native_runner_state"] == "RIGHTS_BLOCKED"
+    assert matrix["grudeva2025.reduced"]["native_runner_state"] == "NOT_IMPLEMENTED"
 
 
 def test_scientific_hash_excludes_itself():

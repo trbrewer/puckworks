@@ -116,7 +116,8 @@ def main():
                "public-hosting clearance; NOT_REVIEWED models are inspectable here but not publicly live.")
     st.json(selection_preview(request))
     # single rights-safe path (shared with the public app + batch): the service runs the rights preflight
-    # BEFORE any producer. In LOCAL_PRIVATE only a RIGHTS_BLOCKED selection (e.g. Grudeva) is refused.
+    # BEFORE any producer. In LOCAL_PRIVATE only a RIGHTS_BLOCKED selection is refused (no component
+    # carries that state today — Grudeva's was resolved by documented permission on 2026-08-14, #73).
     try:
         result = lab_service.execute_lab_request(
             request, execution_context=EXECUTION_CONTEXT,

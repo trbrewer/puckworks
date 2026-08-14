@@ -71,8 +71,6 @@ _TOUR_V1_ROUTES: dict[str, TourExecutionKind] = {
     "foster2025.infiltration": _K.NATIVE_REFERENCE,
     "wadsworth2026.permeability": _K.NATIVE_REFERENCE,
     "waszkiewicz2025.poroelastic": _K.NATIVE_REFERENCE,
-    # rights-blocked (shown, never executed) — #73
-    "grudeva2025.reduced": _K.RIGHTS_BLOCKED,
     # optional dependency (taichi), no enabled quick demonstration yet
     "brewer2026.lb_taichi": _K.OPTIONAL_DEPENDENCY,
     # registered scientific checks (the component's own gate(s); not a full simulation)
@@ -81,6 +79,10 @@ _TOUR_V1_ROUTES: dict[str, TourExecutionKind] = {
     "brewer2026.streamtube": _K.SCIENTIFIC_CHECK,
     "fasano2000_partI.fines_migration": _K.SCIENTIFIC_CHECK,
     "foster2025.machine_mode": _K.SCIENTIFIC_CHECK,
+    # grudeva2025.reduced: rights PERMISSION_DOCUMENTED since 2026-08-14 (#73). It has no
+    # common-scenario adapter and no native runner, so its EXISTING registered gates are the only
+    # honest route — a reviewable manifest update from RIGHTS_BLOCKED, not a new runner.
+    "grudeva2025.reduced": _K.SCIENTIFIC_CHECK,
     "lee2023.feedback": _K.SCIENTIFIC_CHECK,
     "liang2021.desorption": _K.SCIENTIFIC_CHECK,
     # maille2024: batch reactor, no bed/pressure/flow and no EY/TDS output, so neither a common

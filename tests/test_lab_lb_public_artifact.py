@@ -122,15 +122,18 @@ def test_broad_default_public_request_still_blocks_before_any_producer(tmp_path,
     assert not (tmp_path / "broad").exists()      # no guided_pull_lab.json / scientific output written
 
 
-def test_grudeva_selection_hard_blocks_even_locally(tmp_path):
+def test_grudeva_selection_passes_preflight_but_has_no_runner(tmp_path):
+    # #73 resolved 2026-08-14 by documented permission: the rights preflight no longer refuses it in
+    # ANY context. That is a rights fact only -- no runner was invented, so nothing can execute.
     req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
                               reference_selection_policy="selected",
                               requested_reference_runner_ids=("grudeva2025.reduced",))
     for ctx in ("LOCAL_PRIVATE", "PUBLIC_BATCH", "PUBLIC_ARTIFACT"):
         v = gate.preflight(req, ctx)
-        assert v["blocked"] is True
-        assert any("grudeva2025.reduced" in b for b in v["blockers"])
-    # grudeva is never a native runner
+        assert v["blocked"] is False, ctx
+        row = {r["component_id"]: r for r in v["requested"]}["grudeva2025.reduced"]
+        assert row["code_rights_state"] == "PERMISSION_DOCUMENTED"
+    # grudeva is still never a native runner
     assert "grudeva2025.reduced" not in lab_runners.RUNNERS
 
 
@@ -187,10 +190,13 @@ def test_no_context_env_or_flag_can_turn_the_lb_record_into_a_generic_bypass():
     assert gate.preflight(req, "PUBLIC_ARTIFACT")["blocked"] is True
 
 
-def test_only_the_lb_component_is_affirmatively_public_live_today():
-    # the set of components that pass BOTH public-execution and output-publication clearance is exactly {LB}
+def test_exactly_two_components_are_affirmatively_public_live_today():
+    # the set that passes BOTH public-execution and output-publication clearance, on two DIFFERENT
+    # bases: LB is first-party CLEAR (#70); grudeva is PERMISSION_DOCUMENTED (#73, 2026-08-14).
     from puckworks import rights
     live = sorted(c.name for c in puckworks.components()
                   if rights.may_execute_in_public_batch(c.name).allowed
                   and rights.may_publish_outputs(c.name).allowed)
-    assert live == [LB]
+    assert live == [LB, "grudeva2025.reduced"]
+    assert rights.rights_record(LB).code_rights_state == "CLEAR"
+    assert rights.rights_record("grudeva2025.reduced").code_rights_state == "PERMISSION_DOCUMENTED"

@@ -60,11 +60,32 @@ def test_catalog_rights_match_the_centralized_registry():
             rec.code_rights_state, rec.data_rights_state, rec.output_redistribution_state)
 
 
-def test_rights_blocked_component_is_dispositioned_rights_blocked():
+def test_grudeva_is_permission_documented_with_a_technical_disposition():
+    # #73 resolved 2026-08-14 by direct written permission: no rights block, but no invented adapter
+    # either — the remaining limit is the untested grain-volume -> bed-volume conversion.
     g = C.catalog_by_id()["grudeva2025.reduced"]
-    assert g.disposition == "RIGHTS_BLOCKED" and g.adapter_capability == "RIGHTS_BLOCKED"
-    assert g.code_rights_state == "RIGHTS_BLOCKED"
-    assert g.public_execution_eligible is False and g.output_publication_eligible is False
+    assert g.disposition == "ADAPTER_REQUIRED" and g.adapter_capability == "ADAPTER_REQUIRED"
+    assert g.code_rights_state == "PERMISSION_DOCUMENTED"
+    assert g.data_rights_state == "PERMISSION_DOCUMENTED"
+    assert g.output_redistribution_state == "PERMISSION_DOCUMENTED"
+    assert g.public_execution_eligible is True and g.output_publication_eligible is True
+    assert g.native_runner_id is None and g.common_scenario_adapter_id is None
+    # evidence/provenance were NOT promoted by the rights change
+    assert g.evidence_strength == "post_fit_reconstruction" and g.provenance_class == "published_port"
+
+
+def test_rights_blocked_component_is_dispositioned_rights_blocked():
+    # the GENERIC catalog guard, exercised against a synthetic block (no component is blocked today)
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        problems = C.validate_catalog()
+    assert any(cid in p and "RIGHTS_BLOCKED" in p for p in problems)
 
 
 def test_cameron_is_the_only_common_scenario_ready_disposition():

@@ -24,8 +24,11 @@ _CAPABILITY: dict[str, dict] = {
     "pannusch2024.solver": {"disposition": "ADAPTER_REQUIRED", "adapter_capability": "ADAPTER_REQUIRED"},
     "romancorrochano2017.extraction": {"disposition": "ADAPTER_REQUIRED",
                                        "adapter_capability": "ADAPTER_REQUIRED"},
-    # rights-blocked extraction model (#73)
-    "grudeva2025.reduced": {"disposition": "RIGHTS_BLOCKED", "adapter_capability": "RIGHTS_BLOCKED"},
+    # grudeva2025.reduced: rights are PERMISSION_DOCUMENTED since 2026-08-14 (#73), so the block is
+    # gone. What remains is TECHNICAL, not legal: its concentrations are on a grain-volume basis
+    # (incl. internal pores) with no tested inventory-conserving conversion to Cameron's bed-volume
+    # basis, so it needs an adapter before it can ever be a common-scenario lens.
+    "grudeva2025.reduced": {"disposition": "ADAPTER_REQUIRED", "adapter_capability": "ADAPTER_REQUIRED"},
     # executable components with a native reference runner (not a common-scenario adapter)
     "foster2025.infiltration": {"disposition": "NATIVE_REFERENCE_ONLY",
                                 "adapter_capability": "NOT_APPLICABLE"},

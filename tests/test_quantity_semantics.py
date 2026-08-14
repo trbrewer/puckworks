@@ -85,8 +85,26 @@ def test_pannusch_and_mo_need_an_input_adapter_and_are_faceted():
         assert qs.candidate_comparability(cid) == "FACETED_SEPARATELY"
 
 
-def test_grudeva_execution_is_rights_blocked():
+def test_grudeva_execution_blocker_is_technical_not_rights():
+    # #73 resolved 2026-08-14 by documented permission. The shared scenario still cannot honestly drive
+    # it: no fines radius, no shared flow prescription, and an untested basis conversion.
     exe = qs.shared_scenario_execution_readiness("grudeva2025.reduced")
+    assert exe["execution_readiness"] == "INPUT_ADAPTER_REQUIRED"
+    assert exe["missing_inputs"]
+    assert "rights" not in exe["reason"].lower().split("(")[0] or "not a rights" in exe["reason"].lower()
+
+
+def test_a_rights_blocked_component_short_circuits_execution_readiness():
+    # the GENERIC short-circuit (no component is blocked today) stays exercised
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "mo2023_2.coupled_bed"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        exe = qs.shared_scenario_execution_readiness(cid)
     assert exe["execution_readiness"] == "RIGHTS_BLOCKED"
 
 
@@ -102,9 +120,12 @@ def test_measurement_agenda_turns_blockers_into_actions():
     assert agenda and all(
         {"blocker_id", "component", "missing_quantity", "acceptance", "enables_test"} <= set(a)
         for a in agenda)
-    # ready + rights-blocked candidates contribute no agenda items
+    # a READY candidate contributes no agenda items; a candidate with input blockers does
     comps = {a["component"] for a in agenda}
-    assert "romancorrochano2017.extraction" not in comps and "grudeva2025.reduced" not in comps
+    assert "romancorrochano2017.extraction" not in comps
+    # grudeva joined the agenda on 2026-08-14: with the rights block gone (#73), its blockers are
+    # genuine missing INPUTS, which is exactly what this agenda exists to record.
+    assert "grudeva2025.reduced" in comps
 
 
 def test_report_covers_every_extraction_runtime_candidate():

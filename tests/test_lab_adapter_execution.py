@@ -87,10 +87,27 @@ def test_domain_blocked_cameron_runs_no_producer(count_producer):
 
 
 def test_rights_blocked_lens_is_declined_without_execution(count_producer):
-    _, r = _run(lens_selection_policy="selected", requested_lens_ids=("grudeva2025.reduced",))
+    # the GENERIC rights decline. No component is RIGHTS_BLOCKED today (#73 was resolved on 2026-08-14
+    # by documented permission), so a synthetic blocked record exercises the branch.
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        _, r = _run(lens_selection_policy="selected", requested_lens_ids=(cid,))
     assert count_producer["n"] == 0
-    le = {x["component_id"]: x for x in r["lens_execution"]}["grudeva2025.reduced"]
+    le = {x["component_id"]: x for x in r["lens_execution"]}[cid]
     assert le["adapter_readiness"] == "RIGHTS_BLOCKED" and le["producer_invoked"] is False
+
+
+def test_grudeva_lens_is_declined_for_having_no_adapter_not_for_rights(count_producer):
+    _, r = _run(lens_selection_policy="selected", requested_lens_ids=("grudeva2025.reduced",))
+    assert count_producer["n"] == 0                    # still zero producer calls
+    le = {x["component_id"]: x for x in r["lens_execution"]}["grudeva2025.reduced"]
+    assert le["adapter_readiness"] == "NO_ADAPTER" and le["producer_invoked"] is False
 
 
 def test_executed_count_equals_producer_invocations(count_producer):
@@ -151,12 +168,33 @@ def test_reference_selection_registered_component_without_runner_is_not_implemen
 
 
 def test_reference_selection_rights_blocked_component_is_not_executed():
+    # GENERIC branch, exercised against a synthetic blocked record: a component that HAS a runner and is
+    # rights-blocked must resolve to RIGHTS_BLOCKED and never execute.
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "waszkiewicz2025.poroelastic"
+    rec_blocked = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                                      rights_note="synthetic block for this test", source="test",
+                                      decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec_blocked}):
+        ex = lab.execute_scenario(lab.ScenarioRequest(
+            "pv19_named", reference_selection_policy="selected",
+            requested_reference_runner_ids=(cid,)))
+        r = lab.build_comparison(ex)
+    rec = {x["component_id"]: x for x in r["reference_selection"]}[cid]
+    assert rec["native_runner_execution_state"] == "RIGHTS_BLOCKED"
+    assert cid not in {x["component_id"] for x in r["executed_reference_results"]}
+
+
+def test_grudeva_reference_selection_resolves_to_runner_not_implemented():
+    # #73: no rights block any more; the honest state is that no runner exists (none was invented)
     ex = lab.execute_scenario(lab.ScenarioRequest(
         "pv19_named", reference_selection_policy="selected",
         requested_reference_runner_ids=("grudeva2025.reduced",)))
     r = lab.build_comparison(ex)
     rec = {x["component_id"]: x for x in r["reference_selection"]}["grudeva2025.reduced"]
-    assert rec["native_runner_execution_state"] == "RIGHTS_BLOCKED"
+    assert rec["native_runner_execution_state"] == "RUNNER_NOT_IMPLEMENTED"
     assert "grudeva2025.reduced" not in {x["component_id"] for x in r["executed_reference_results"]}
 
 

@@ -171,7 +171,7 @@ def adapter_readiness(component_id: str) -> dict:
     admissible = (same_basis or has_validated_conversion) and not rights_blocked \
         and spec.quantity_basis not in ("unspecified", "flow_trend", "not_applicable")
     if rights_blocked:
-        blocker = "code rights blocked (see rights registry / #73)"
+        blocker = "code rights blocked (see the centralized rights registry)"
     elif spec.quantity_basis == "flow_trend":
         blocker = "provides a flow/extraction trend, not an absolute EY/TDS — overlay would upgrade evidence"
     elif spec.quantity_basis == "unspecified":

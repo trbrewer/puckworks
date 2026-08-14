@@ -2,7 +2,7 @@
 
 Offline + deterministic. Guards scenario identity + override provenance, the separated
 scientific-payload vs full-artifact integrity layers, correct observable roles, the explicit
-component capability/rights matrix (incl. RIGHTS_BLOCKED for grudeva2025 per #73), reference-suite
+component capability/rights matrix (incl. PERMISSION_DOCUMENTED for grudeva2025 per #73), reference-suite
 honesty (executed vs coverage placeholders), no equation duplication, and backward compatibility.
 """
 import json
@@ -147,13 +147,22 @@ def test_calibration_does_not_imply_runtime_execution(execution):
         assert r["disposition"] != "COMMON_SCENARIO_READY"
 
 
-def test_grudeva2025_is_rights_blocked(execution):
+def test_grudeva2025_is_permission_documented_not_rights_blocked(execution):
+    # #73 resolved 2026-08-14 by direct written permission (code + data). The matrix must report the
+    # permission state and a TECHNICAL disposition — never RIGHTS_BLOCKED.
     matrix = {r["component_id"]: r for r in lab.build_matrix(execution)}
     g = matrix["grudeva2025.reduced"]
-    assert g["rights_state"] == "RIGHTS_BLOCKED"
-    assert g["disposition"] == "RIGHTS_BLOCKED"
-    assert g["native_runner_state"] == "RIGHTS_BLOCKED"
-    assert "unlicensed" in g["rights_note"].lower()
+    assert g["rights_state"] == "PERMISSION_DOCUMENTED"
+    assert g["disposition"] == "ADAPTER_REQUIRED"
+    assert g["native_runner_state"] == "NOT_IMPLEMENTED"
+    note = g["rights_note"].lower()
+    assert "permission" in note and "2026-08-14" in note
+    assert "no formal licence" in note or "no formal license" in note   # not an SPDX licence
+    # no STATE field reads RIGHTS_BLOCKED (the note may cite the superseded 2026-07-18 determination)
+    for field in ("rights_state", "code_rights_state", "data_rights_state",
+                  "output_redistribution_state", "disposition", "native_runner_state",
+                  "common_scenario_adapter_state"):
+        assert g[field] != "RIGHTS_BLOCKED", field
 
 
 def test_no_substring_heuristic_over_the_run(execution):
