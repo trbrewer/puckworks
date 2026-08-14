@@ -32,9 +32,40 @@ def test_checker_flags_missing_required_data(tmp_path):
     assert any("MISSING required package data" in x for x in problems)
 
 
+def _clean_names():
+    return (["puckworks/__init__.py"] + list(P.REQUIRED_SUFFIXES)
+            + ["puckworks-0.0.0.dist-info/licenses/" + b for b in P.REQUIRED_LICENSE_BASENAMES])
+
+
 def test_checker_passes_clean_distribution(tmp_path):
-    names = ["puckworks/__init__.py"] + list(P.REQUIRED_SUFFIXES)
-    assert P.check_distribution(_fake_dist(tmp_path, names)) == []
+    assert P.check_distribution(_fake_dist(tmp_path, _clean_names())) == []
+
+
+def test_checker_flags_a_missing_third_party_notice(tmp_path):
+    # #73: some shipped material (Grudeva code + derived data) is NOT under the repo's MIT licence;
+    # dropping THIRD_PARTY_NOTICES.md would silently present it as MIT.
+    names = [n for n in _clean_names() if not n.endswith("THIRD_PARTY_NOTICES.md")]
+    problems = P.check_distribution(_fake_dist(tmp_path, names))
+    assert any("MISSING required licence/notice file" in x and "THIRD_PARTY_NOTICES.md" in x
+               for x in problems)
+
+
+def test_checker_flags_a_missing_license(tmp_path):
+    names = [n for n in _clean_names() if not n.endswith("/LICENSE")]
+    problems = P.check_distribution(_fake_dist(tmp_path, names))
+    assert any("MISSING required licence/notice file" in x and "LICENSE" in x for x in problems)
+
+
+def test_pyproject_ships_the_third_party_notice_in_both_artifacts():
+    # the packaging CONFIG, not just the checker: setuptools license-files puts these in the wheel's
+    # dist-info/licenses/ and at the sdist root. A regression here is how the notice goes missing.
+    txt = (_ROOT / "pyproject.toml").read_text()
+    assert "license-files" in txt and "THIRD_PARTY_NOTICES.md" in txt and '"LICENSE"' in txt
+    notice = (_ROOT / "THIRD_PARTY_NOTICES.md").read_text(encoding="utf-8")
+    assert "Dr. Yoana Grudeva" in notice and "2026-08-14" in notice
+    assert "puckworks/models/grudeva2025/reduced.py" in notice
+    assert "exp13_per_vial_stats.csv" in notice
+    assert "@" not in notice, "the shipped notice must carry no email address"
 
 
 def test_no_distributions_is_a_problem(tmp_path):
@@ -66,7 +97,7 @@ def test_checker_flags_non_package_tree_in_sdist_prefix(tmp_path):
 def test_clean_distribution_with_tests_and_top_level_files_passes(tmp_path):
     # a legitimate dist (package tree + required data + tests + top-level metadata) is NOT flagged
     names = ["puckworks/__init__.py", "tests/test_x.py", "README.md", "pyproject.toml",
-             *P.REQUIRED_SUFFIXES]
+             *P.REQUIRED_SUFFIXES, *P.REQUIRED_LICENSE_BASENAMES]
     assert P.check_distribution(_fake_dist(tmp_path, names)) == []
 
 

@@ -65,6 +65,13 @@ markers = [
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+# Ship the third-party notice alongside the MIT licence in BOTH the wheel and the sdist. LICENSE covers
+# Puckworks-authored material only; THIRD_PARTY_NOTICES.md records the narrow exceptions (today: the
+# Grudeva code + derived data used under direct written permission, #73 — NOT under MIT, NOT under an
+# SPDX licence). tests/test_packaging.py asserts both are present in every built distribution.
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+
 [tool.setuptools.packages.find]
 include = ["puckworks*"]
 
