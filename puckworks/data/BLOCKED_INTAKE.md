@@ -159,7 +159,9 @@ None block a gate. From ROADMAP §5.8:
 - 🟢 **Mo / Ellero group** — microCT volumes, SPH params, **k₁-units clarification**
   (§5.3 caveat live). Fallback: use k^D only.
 - 🟢 **Grudeva** — vial raw data + forthcoming experimental companion → upgrades
-  RC-2 from post-fit to `gated + data`. Check the GitHub repo first.
+  RC-2 from post-fit to `gated + data`. **Rights resolved 2026-08-14** (direct written permission
+  covering the upstream code and data, #73); the *data* request itself is still open — the raw
+  per-shot file is not redistributed here and the companion dataset has not landed.
 - 🟢 **Egidi group** — ρ and φ_s definitions in Eq. 4 (blocks *quantitative*
   EY-gate use of Eq. 4; bracket use is fine).
 - 🟢 **Foster group** — raw CT time series (not critical; figures digitizable).

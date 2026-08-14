@@ -19,6 +19,13 @@ REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
                      "puckworks/data/visualizer/PROVENANCE.md")
 
+# Licence/notice files every distribution MUST carry. LICENSE alone is not enough: some shipped
+# material is redistributed on a NON-MIT basis (today the Grudeva code + derived data, used under
+# direct written permission — #73), and THIRD_PARTY_NOTICES.md is where that scope is recorded. A
+# distribution that dropped it would silently present that material as MIT. Matched by basename so
+# the check works for the wheel (dist-info/licenses/) and the sdist (container root) alike.
+REQUIRED_LICENSE_BASENAMES = ("LICENSE", "THIRD_PARTY_NOTICES.md")
+
 # No product runtime fixture ships in the contract-only PR 1A. Any file under puckworks/data/product/
 # would be an unreviewed product-data leak until PR 1B lands an approved fixture and re-adds an
 # explicit allowlist.
@@ -68,6 +75,10 @@ def check_distribution(path: Path):
     for suf in REQUIRED_SUFFIXES:
         if not any(n.endswith(suf) for n in names):
             problems.append("%s: MISSING required package data: %s" % (path.name, suf))
+    basenames = {n.rstrip("/").rsplit("/", 1)[-1] for n in names}
+    for lic in REQUIRED_LICENSE_BASENAMES:
+        if lic not in basenames:
+            problems.append("%s: MISSING required licence/notice file: %s" % (path.name, lic))
     # positive allowlist for product data: no unreviewed member may enter puckworks/data/product/
     for n in names:
         idx = n.find(PRODUCT_DATA_PREFIX)

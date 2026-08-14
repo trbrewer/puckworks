@@ -2,7 +2,8 @@
 
 A component is 'executed' only when an authoritative callable it owns actually ran. Pannusch's registered
 solver is not counted unless the solver runs; fast-mode LB is 'not selected', not a missing dependency;
-Taichi is never represented by a reference-solver call; grudeva gets zero calls.
+Taichi is never represented by a reference-solver call; grudeva gets zero calls (since 2026-08-14 for a
+TECHNICAL reason -- no compatible edge or tested basis conversion -- not a rights block, #73).
 """
 import pytest
 
@@ -24,11 +25,14 @@ EXPECTED_FAST_AUTHORITATIVE_EXECUTIONS = frozenset({
 })
 EXPECTED_FAST_NOT_SELECTED = frozenset({
     "pannusch2024.solver", "brewer2026.lb_reference", "brewer2026.lb_taichi",
+    # grudeva2025.reduced moved here on 2026-08-14 when its rights block was resolved by documented
+    # permission (#73). Its ZERO-call accounting is unchanged; only the recorded reason is.
+    "grudeva2025.reduced",
 })
 EXPECTED_FAST_REFERENCE_ONLY = frozenset({
     "sourcing2026.g3_pump_characteristic", "sourcing2026.g1_glassbead_analog", "lee2023.feedback",
 })
-EXPECTED_FAST_RIGHTS_BLOCKED = frozenset({"grudeva2025.reduced"})
+EXPECTED_FAST_RIGHTS_BLOCKED = frozenset()      # no component is rights-blocked in the relay today
 EXPECTED_FAST_EXECUTED_COUNT = 20
 EXPECTED_FAST_HANDOFF_COUNT = 10
 
@@ -88,7 +92,10 @@ def test_no_executed_with_assumptions_lacks_assumption_ids(result):
 
 def test_grudeva_zero_calls_still_holds(result):
     g = next(s for s in result["stages"] if s["component_id"] == "grudeva2025.reduced")
-    assert g["status"] == "RIGHTS_BLOCKED" and not g["outputs"] and not g["inputs"]
+    assert g["status"] == "NOT_SELECTED" and not g["outputs"] and not g["inputs"]
+    # the reason recorded is technical, and says so explicitly
+    assert "NOT for rights reasons" in g["message"]
+    assert "conversion" in g["message"] and "#73" in g["message"]
     for link in result["links"]:
         assert "grudeva2025.reduced" not in (link["source_component_id"], link["target_component_id"])
 

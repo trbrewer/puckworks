@@ -28,15 +28,39 @@ def test_local_private_runs_not_reviewed_components():
 
 
 def test_rights_blocked_component_gets_zero_gate_calls(monkeypatch):
+    # the GENERIC zero-call guarantee. No component is RIGHTS_BLOCKED today (Grudeva's block was
+    # resolved on 2026-08-14 by documented permission, #73), so it runs against a synthetic record.
+    import unittest.mock as mock
+
+    from puckworks import gate_runner as G
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    calls = []
+    orig = G.evaluate_component_gates
+    monkeypatch.setattr(G, "evaluate_component_gates",
+                        lambda c, component=None: (calls.append(c), orig(c, component))[1])
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        r = CC.run_component_checks([cid], execution_context="LOCAL_PRIVATE")[0]
+    assert r.execution_status == "RIGHTS_BLOCKED"
+    assert cid not in calls                                 # gates NEVER evaluated for a blocked component
+    assert r.gates == [] and r.scientific_hash is None and r.blocker
+
+
+def test_grudeva_checks_run_its_own_registered_gates(monkeypatch):
+    # #73: with permission documented, the component's EXISTING registered gates are the honest route.
     from puckworks import gate_runner as G
     calls = []
     orig = G.evaluate_component_gates
     monkeypatch.setattr(G, "evaluate_component_gates",
-                        lambda cid, component=None: (calls.append(cid), orig(cid, component))[1])
+                        lambda c, component=None: (calls.append(c), orig(c, component))[1])
     r = CC.run_component_checks(["grudeva2025.reduced"], execution_context="LOCAL_PRIVATE")[0]
-    assert r.execution_status == "RIGHTS_BLOCKED"
-    assert "grudeva2025.reduced" not in calls               # gates NEVER evaluated for a blocked component
-    assert r.gates == [] and r.scientific_hash is None and r.blocker
+    assert r.execution_status == "EXECUTED" and not r.blocker
+    assert calls == ["grudeva2025.reduced"]
+    assert {g["gate_id"] for g in r.gates} == {"gate_grudeva_no_eps_kappa", "gate_grudeva_reduced_solver"}
+    assert all(g["status"] == "PASS" for g in r.gates)
 
 
 def test_public_contexts_retain_affirmative_clearance():

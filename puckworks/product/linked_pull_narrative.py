@@ -108,7 +108,9 @@ _PHYSICS = {
         "This particular decline needs an unphysical density, so it is a guarded hypothesis."),
     "grudeva2025.reduced": (
         "A reduced whole-shot extraction model with a moving front.",
-        "Rights-blocked here, so it contributes nothing to this pull."),
+        "Not wired into this relay, so it contributes nothing to this pull — no compatible hand-off and "
+        "no tested way to put its per-grain concentrations on the same footing as the rest of the chain. "
+        "Its rights are documented; this is a technical gap, not a permission one."),
     "maille2024.phi_closure": (
         "Particle size alone predicts what share of the solubles sits in the fast-releasing pool: "
         "the fines, plus a thin outer shell on every coarse grain.",

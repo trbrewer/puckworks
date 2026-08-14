@@ -149,11 +149,18 @@ _EXECUTION: dict[str, dict] = {
         "missing_inputs": [],
         "grinder": "grain-scale microstructural diffusion; NO dial mapping",
         "reason": "can run on the shared scenario as a supporting TREND lens in a separate panel"},
+    # rights are PERMISSION_DOCUMENTED since 2026-08-14 (#73) — the remaining blocker is technical.
     "grudeva2025.reduced": {
-        "state": "RIGHTS_BLOCKED",
-        "missing_inputs": [],
-        "grinder": "n/a",
-        "reason": "code rights blocked (#73); excluded from lens consideration entirely"},
+        "state": "INPUT_ADAPTER_REQUIRED",
+        "missing_inputs": ["a fines RADIUS a*_f (the shared recipe carries no such field; ledger A6)",
+                           "a q(t) prescription for the shared scenario — the model imposes its own "
+                           "Darcy pre-drip + empirical post-drip fit, which is NOT the shared input",
+                           "a tested inventory-conserving map from its grain-volume (incl. internal "
+                           "pore) basis to the shared bed-volume basis"],
+        "grinder": "fines/boulder families; NO dial->size mapping invented",
+        "reason": "not a rights question since 2026-08-14 (#73 permission documented); the shared "
+                  "scenario cannot honestly supply the fines radius or the flow prescription, and the "
+                  "concentration basis needs a tested conversion first"},
 }
 
 

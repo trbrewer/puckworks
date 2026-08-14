@@ -75,9 +75,12 @@ def test_canonical_json_has_no_nan_or_infinity(result):
 
 
 def test_grudeva_receives_zero_calls(result):
+    # zero calls PRESERVED, but the recorded reason is now TECHNICAL: #73 was resolved on 2026-08-14 by
+    # documented permission, and no adapter/edge was invented to replace the rights block.
     g = next(s for s in result["stages"] if s["component_id"] == "grudeva2025.reduced")
-    assert g["status"] == "RIGHTS_BLOCKED"
+    assert g["status"] == "NOT_SELECTED"
     assert g["outputs"] == [] and g["inputs"] == []
+    assert "NOT for rights reasons" in g["message"] and "#73" in g["message"]
     # and it is never a link endpoint
     for link in result["links"]:
         assert link["source_component_id"] != "grudeva2025.reduced"

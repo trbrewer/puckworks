@@ -66,11 +66,19 @@ def test_unrelated_records_are_unchanged():
     assert reviewed == {LB, "grudeva2025.reduced"}
 
 
-def test_grudeva_remains_blocked():
+def test_grudeva_clearance_is_its_own_and_did_not_come_from_this_review():
+    # #73 was resolved on 2026-08-14 by DIRECT WRITTEN PERMISSION from the upstream author — a separate
+    # basis from this LB first-party review, which clears nothing outside itself.
     g = rights.rights_record("grudeva2025.reduced")
-    assert g.code_rights_state == "RIGHTS_BLOCKED" and g.output_redistribution_state == "RIGHTS_BLOCKED"
-    assert rights.blocked_components() == ["grudeva2025.reduced"]
-    assert not rights.may_execute_in_public_batch("grudeva2025.reduced").allowed
+    assert g.code_rights_state == "PERMISSION_DOCUMENTED"
+    assert g.output_redistribution_state == "PERMISSION_DOCUMENTED"
+    assert g.decision_issue == "#73" and g.review_date == "2026-08-14"
+    assert "permission" in g.source.lower() and "linkedin" in g.source.lower()
+    assert rights.blocked_components() == []
+    assert rights.may_execute_in_public_batch("grudeva2025.reduced").allowed
+    # the LB record is a different basis and is untouched
+    assert rights.rights_record(LB).code_rights_state == "CLEAR"
+    assert not rights.rights_record(LB).permission
 
 
 def test_cameron_and_the_source_data_native_runners_remain_unreviewed():

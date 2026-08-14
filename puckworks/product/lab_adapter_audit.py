@@ -57,14 +57,22 @@ _CANDIDATES = {
         "reason": "per-bed-cell concentration needs a tested inventory scale before any overlay",
     },
     "grudeva2025.reduced": {
-        "decision": "RIGHTS_BLOCKED",
-        "temperature_flow": "n/a",
-        "grind_input": "n/a",
-        "concentration_reference_basis": "grain-volume incl. internal pores — differs from Cameron",
-        "output_definition": "n/a",
-        "rights_note": "self-documented port of unlicensed upstream code (issue #73)",
-        "runtime": "n/a",
-        "reason": "rights unresolved (#73); excluded from lens consideration entirely",
+        "decision": "ADAPTER_REQUIRES_TESTED_CONVERSION",
+        "temperature_flow": "prescribed flow (Darcy pre-drip + empirical post-drip fit); no T dependence",
+        "grind_input": "fines/boulder families with a fines RADIUS the common recipe does not carry; "
+                       "no dial mapping",
+        "concentration_reference_basis": "grain-volume incl. internal pores — an inventory-conserving "
+                                         "conversion to Cameron's bed-volume basis is required and "
+                                         "UNTESTED",
+        "output_definition": "per-vial solubles mass / exit concentration on a grain-volume basis, not "
+                             "Cameron's single-pool bed-volume EY/TDS",
+        "rights_note": "port of upstream code used under DIRECT WRITTEN PERMISSION, 2026-08-14 "
+                       "(PERMISSION_DOCUMENTED, no SPDX licence; issue #73)",
+        "runtime": "measure before admitting",
+        "reason": "no longer a rights question (#73 resolved by direct written permission on 2026-08-14). "
+                  "The remaining blocker is TECHNICAL: the grain-volume concentration basis has no tested "
+                  "inventory-conserving conversion to Cameron's bed-volume basis, so overlaying it would "
+                  "require an invented scale — do NOT overlay yet",
     },
 }
 

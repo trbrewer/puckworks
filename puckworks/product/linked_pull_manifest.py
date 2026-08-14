@@ -139,8 +139,15 @@ COMPONENT_DISPOSITIONS: dict = {d.component_id: d for d in (
        _R.ADAPTED_SCENARIO, "Depth-resolved extraction lens."),
     _d("liang2021.desorption", "other_lenses", _K.DIAGNOSTIC_ONLY, _X.EXECUTED,
        _R.NATIVE_REFERENCE, "Equilibrium ceiling / retained-liquid observable context."),
-    _d("grudeva2025.reduced", "other_lenses", _K.RIGHTS_BLOCKED, _X.RIGHTS_BLOCKED,
-       _R.NOT_EXECUTED, "Rights-blocked (#73): shown in the map, ZERO execution and adapter calls."),
+    # Rights are PERMISSION_DOCUMENTED since 2026-08-14 (#73), so this is no longer a rights block.
+    # It stays NOT_SELECTED for a TECHNICAL reason and keeps ZERO calls: no relay edge can hand it a
+    # scenario (it prescribes its own flow and needs a fines radius the recipe lacks) and its
+    # grain-volume concentration basis has no tested inventory-conserving conversion to the
+    # bed-volume basis this chain carries. Wiring one is coupling work, not part of #73.
+    _d("grudeva2025.reduced", "other_lenses", _K.ALTERNATIVE_BRANCH, _X.NOT_SELECTED,
+       _R.NOT_EXECUTED, "Not selected: no compatible relay edge or tested basis conversion exists yet "
+                        "(ZERO execution and adapter calls). Rights are documented (#73), so this is a "
+                        "technical limit, not a rights block."),
 )}
 
 
@@ -162,8 +169,9 @@ def _e(eid, src, sf, tgt, tf, kind, adapter=None, assumptions=(), optional=False
 
 
 # The frozen directed link graph — the hand-offs the chain map draws and the engine fills with typed
-# LinkRecords. Edges never touch grudeva2025.reduced. This is the intended topology; a component executed
-# without an incoming edge is a shared-recipe lens, not a linked hand-off.
+# LinkRecords. grudeva2025.reduced has no edge: not for rights reasons (#73 is resolved by documented
+# permission) but because no compatible hand-off or tested basis conversion exists. This is the intended
+# topology; a component executed without an incoming edge is a shared-recipe lens, not a linked hand-off.
 LINK_EDGES: tuple = (
     _e("recipe_to_cameron", None, "grind_setting", "cameron2020.extraction_bdf", "grind_setting",
        _K.SHARED_INPUT_ONLY),
@@ -223,14 +231,21 @@ def verify_linked_pull_manifest() -> list:
     for d in COMPONENT_DISPOSITIONS.values():
         if d.station_id not in STATION_IDS:
             errs.append(f"{d.component_id}: unknown station {d.station_id}")
-    # edges reference known components (source None == recipe) and never touch grudeva
+    # edges reference known components (source None == recipe); a rights-blocked component must have zero
+    # edges, and so must one the manifest declares NOT_SELECTED (no compatible hand-off exists — an edge
+    # would silently create one). The two reasons are kept distinct.
     blocked = {cid for cid, d in COMPONENT_DISPOSITIONS.items() if d.role_kind == LinkKind.RIGHTS_BLOCKED}
+    unselected = {cid for cid, d in COMPONENT_DISPOSITIONS.items()
+                  if d.intended_status == StageStatus.NOT_SELECTED}
     for e in LINK_EDGES:
         for who in (e.source_component_id, e.target_component_id):
             if who is not None and who not in classified:
                 errs.append(f"edge {e.edge_id}: unknown component {who}")
         if e.source_component_id in blocked or e.target_component_id in blocked:
             errs.append(f"edge {e.edge_id}: touches rights-blocked component (must have zero edges)")
+        if e.source_component_id in unselected or e.target_component_id in unselected:
+            errs.append(f"edge {e.edge_id}: touches a NOT_SELECTED component (no compatible hand-off "
+                        f"exists; it must have zero edges)")
     errs.extend(_acyclicity_errors())
     return errs
 

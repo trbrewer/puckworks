@@ -53,12 +53,38 @@ jobs:
           assert rep["counts"]["common_scenario_producer_invocations"] == 0
           assert rep["counts"]["executed_native_references"] == 1
           assert rights.rights_record("brewer2026.lb_reference").code_rights_state == "CLEAR"
-          # a broad/default PUBLIC_ARTIFACT request and any Grudeva selection still block, from the wheel
+          # a broad/default PUBLIC_ARTIFACT request still blocks, from the wheel
           assert gate.preflight(lab.ScenarioRequest("pv19_named"), "PUBLIC_ARTIFACT")["blocked"] is True
+          # grudeva2025.reduced is PERMISSION_DOCUMENTED since 2026-08-14 (#73): it passes the rights
+          # preflight, and has NO native runner, so nothing executes for it either way.
+          g = rights.rights_record("grudeva2025.reduced")
+          assert (g.code_rights_state, g.data_rights_state, g.output_redistribution_state) == \
+                 ("PERMISSION_DOCUMENTED",) * 3, g
           assert gate.preflight(lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
                   reference_selection_policy="selected",
-                  requested_reference_runner_ids=("grudeva2025.reduced",)), "LOCAL_PRIVATE")["blocked"] is True
+                  requested_reference_runner_ids=("grudeva2025.reduced",)),
+                  "LOCAL_PRIVATE")["blocked"] is False
+          assert lr.has_runner("grudeva2025.reduced") is False
           print("installed-wheel LB service smoke ok")
+          PY
+      - name: licence + third-party notice present in BOTH artifacts, with no private evidence
+        run: |
+          python - <<'PY'
+          import glob, tarfile, zipfile
+          whl, = glob.glob("dist/*.whl"); sd, = glob.glob("dist/*.tar.gz")
+          wn = zipfile.ZipFile(whl).namelist()
+          tn = tarfile.open(sd).getnames()
+          for names, label in ((wn, "wheel"), (tn, "sdist")):
+              base = {n.rstrip("/").rsplit("/", 1)[-1] for n in names}
+              for req in ("LICENSE", "THIRD_PARTY_NOTICES.md"):
+                  assert req in base, (label, req)
+          notice = zipfile.ZipFile(whl).read(
+              [n for n in wn if n.endswith("THIRD_PARTY_NOTICES.md")][0]).decode()
+          assert "Dr. Yoana Grudeva" in notice and "2026-08-14" in notice
+          assert "@" not in notice          # no email address ships
+          for leak in (".png", ".jpg", "screenshot"):
+              assert leak not in notice.lower(), leak
+          print("licence + third-party notice ok in wheel and sdist")
           PY
       - name: sdist can rebuild a wheel
         run: |

@@ -4,8 +4,8 @@ Offline + deterministic. The Tour resolves EVERY registered component to exactly
 runs the available ones honestly: a rights-blocked component receives zero execution calls, incompatible
 outputs are never overlaid, and the scientific hashes are deterministic and free of runtime/timestamps.
 
-A full LOCAL tour runs 23 real component code paths (~20 s, dominated by 18 gate suites), so the
-execution tests share module-scoped tour runs rather than re-running per test.
+A full LOCAL tour runs 26 real component code paths (dominated by 21 gate suites), so the execution
+tests share module-scoped tour runs rather than re-running per test.
 """
 import puckworks
 import pytest
@@ -54,8 +54,16 @@ def test_all_native_runners_and_the_common_adapter_are_represented():
     assert "brewer2026.lb_reference" in T.native_reference_ids()
 
 
-def test_grudeva_is_routed_rights_blocked_not_executable():
-    assert T.tour_manifest()["grudeva2025.reduced"].execution_kind == T.TourExecutionKind.RIGHTS_BLOCKED
+def test_grudeva_is_routed_to_its_own_registered_scientific_check():
+    # #73 resolved 2026-08-14 by documented permission. The frozen manifest moved it from RIGHTS_BLOCKED
+    # to SCIENTIFIC_CHECK -- a reviewable manifest update onto its EXISTING gates, not a new runner.
+    plan = T.tour_manifest()["grudeva2025.reduced"]
+    assert plan.execution_kind == T.TourExecutionKind.SCIENTIFIC_CHECK
+    assert plan.producer_id == "gates:gate_grudeva_no_eps_kappa,gate_grudeva_reduced_solver"
+    assert plan.input_origin == T.InputOrigin.REGISTERED_FIXTURE
+    # not a common-scenario lens and not comparable to anything
+    assert plan.comparability_group is None
+    assert T.verify_tour_manifest() == []
 
 
 def test_a_newly_registered_component_fails_coverage_until_classified(monkeypatch):
@@ -89,13 +97,14 @@ def test_bad_context_and_bad_manifest_are_rejected():
 def test_full_tour_resolves_every_component_and_executes_all_but_two_local(local_tour):
     s = local_tour.summary
     registered = {c.name for c in puckworks.components()}
-    # the two non-executing routes are the standing exceptions: grudeva (rights-blocked, #73) and
-    # lb_taichi (optional taichi dependency). Everything else must execute.
-    assert s["registered"] == len(registered) and s["completed"] == len(registered) - 2
+    # ONE non-executing route remains: lb_taichi (optional taichi dependency). Grudeva stopped being
+    # the second one on 2026-08-14, when its rights block was resolved by documented permission (#73)
+    # and it took the SCIENTIFIC_CHECK route on its existing gates. Everything else must execute.
+    assert s["registered"] == len(registered) and s["completed"] == len(registered) - 1
     # the ROUTE SPLIT stays literal -- it is the reviewable frozen-manifest decision, not a total
-    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 20,
-                            "OPTIONAL_DEPENDENCY": 1, "RIGHTS_BLOCKED": 1, "NO_EXECUTION_PATH": 0}
-    assert s["rights_blocked"] == 1 and s["optional_unavailable"] == 1
+    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 21,
+                            "OPTIONAL_DEPENDENCY": 1, "RIGHTS_BLOCKED": 0, "NO_EXECUTION_PATH": 0}
+    assert s["rights_blocked"] == 0 and s["optional_unavailable"] == 1
     ids = [c.component_id for c in local_tour.components]
     assert set(ids) == registered and len(ids) == len(registered)   # one per component
 
@@ -106,7 +115,7 @@ def test_common_native_and_check_counted_by_distinct_kinds(local_tour):
     for c in local_tour.components:
         if c.execution_status == "EXECUTED":
             by[c.execution_kind] = by.get(c.execution_kind, 0) + 1
-    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 20}
+    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 21}
 
 
 @pytest.mark.slow
@@ -118,9 +127,14 @@ def test_blocked_and_unavailable_entries_carry_no_scientific_payload(local_tour)
 
 
 @pytest.mark.slow
-def test_grudeva_carries_no_payload(local_tour):
+def test_grudeva_runs_its_gates_and_is_not_promoted(local_tour):
     g = next(c for c in local_tour.components if c.component_id == "grudeva2025.reduced")
-    assert g.execution_status == "RIGHTS_BLOCKED" and g.outputs == [] and g.scientific_hash is None
+    assert g.execution_kind == "SCIENTIFIC_CHECK" and g.execution_status == "EXECUTED"
+    assert g.rights_decision["code_rights_state"] == "PERMISSION_DOCUMENTED"
+    assert g.rights_decision["decision_issue"] == "#73"
+    # gate metrics only -- a check is not a simulation, and it is comparable to nothing
+    assert g.output_roles == ["gate_metric"] and g.comparability_group is None
+    assert g.comparable_component_ids == ["grudeva2025.reduced"]   # comparable only to itself
 
 
 @pytest.mark.slow
@@ -146,18 +160,31 @@ def test_no_component_is_comparable_to_another(local_tour):
 @pytest.mark.slow
 def test_public_tour_executes_only_affirmatively_cleared_components(public_tour):
     executed = sorted(c.component_id for c in public_tour.components if c.execution_status == "EXECUTED")
-    assert executed == ["brewer2026.lb_reference"]
+    # exactly the two affirmatively-cleared components, on two DIFFERENT bases: LB is first-party CLEAR
+    # (#70), grudeva is PERMISSION_DOCUMENTED on the 2026-08-14 written permission (#73).
+    assert executed == ["brewer2026.lb_reference", "grudeva2025.reduced"]
     cam = next(c for c in public_tour.components if c.component_id == "cameron2020.extraction_bdf")
     assert cam.execution_status == "RIGHTS_NOT_CLEARED" and cam.outputs == []
+    # grudeva is affirmatively cleared since 2026-08-14 (#73), so it also executes in a public context
     g = next(c for c in public_tour.components if c.component_id == "grudeva2025.reduced")
-    assert g.execution_status == "RIGHTS_BLOCKED"
+    assert g.execution_status == "EXECUTED"
 
 
 # ── isolated monkeypatched runs (each runs its own tour) ─────────────────────────────
 @pytest.mark.slow
-def test_grudeva_receives_zero_producer_and_gate_calls(monkeypatch):
+def test_a_rights_blocked_component_receives_zero_producer_and_gate_calls(monkeypatch):
+    # No component is RIGHTS_BLOCKED today (#73 was resolved on 2026-08-14 by documented permission), so
+    # the zero-call guarantee is exercised against a synthetic block on a SCIENTIFIC_CHECK component --
+    # while grudeva, now cleared, DOES receive exactly its own gate call.
+    import unittest.mock as mock
+
     from puckworks import gate_runner as G
+    from puckworks import rights
     from puckworks.product import lab_runners
+    blocked_id = "liang2021.desorption"
+    rec = rights.RightsRecord(blocked_id, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
     calls = []
     orig_g = G.evaluate_component_gates
     monkeypatch.setattr(G, "evaluate_component_gates",
@@ -165,8 +192,12 @@ def test_grudeva_receives_zero_producer_and_gate_calls(monkeypatch):
     orig_r = lab_runners.execute_runner
     monkeypatch.setattr(lab_runners, "execute_runner",
                         lambda cid: (calls.append(cid), orig_r(cid))[1])
-    T.execute_laboratory_tour(lab.ScenarioRequest("pv19_named"), execution_context="LOCAL_PRIVATE")
-    assert "grudeva2025.reduced" not in calls
+    # the frozen route must move WITH the rights state (the verifier refuses a silent disagreement)
+    with mock.patch.dict(rights._RECORDS, {blocked_id: rec}), \
+            mock.patch.dict(T._TOUR_V1_ROUTES, {blocked_id: T.TourExecutionKind.RIGHTS_BLOCKED}):
+        T.execute_laboratory_tour(lab.ScenarioRequest("pv19_named"), execution_context="LOCAL_PRIVATE")
+    assert blocked_id not in calls
+    assert "grudeva2025.reduced" in calls
 
 
 @pytest.mark.slow

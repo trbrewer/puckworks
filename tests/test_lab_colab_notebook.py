@@ -94,11 +94,14 @@ def test_three_experience_modes_map_to_explicit_finite_requests(code):
     assert "requested_reference_runner_ids" not in code or "grudeva" not in code
 
 
-def test_grudeva_is_never_offered_and_is_named_as_blocked(nb, code, markdown):
+def test_grudeva_is_never_offered_and_its_rights_state_is_stated_accurately(nb, code, markdown):
     # grudeva is never a selectable form option
-    assert "grudeva" not in code.lower() or "rights-blocked" in code.lower()
-    # the rights note names it as blocked
-    assert "grudeva2025.reduced is rights-blocked" in code
+    assert 'requested_reference_runner_ids=("grudeva' not in code
+    # the rights note states the CURRENT state (#73 resolved 2026-08-14) without over-claiming
+    assert "grudeva2025.reduced is no longer rights-blocked" in code
+    assert "2026-08-14" in code and "#73" in code
+    assert "NOT a formal licence" in code            # permission, never an SPDX/OSI licence
+    assert "only its registered checks run" in code  # no invented runner or adapter
 
 
 def test_completion_sentinel_present(code):

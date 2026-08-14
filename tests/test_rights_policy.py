@@ -16,13 +16,43 @@ from puckworks import release, rights
 
 _ROOT = Path(__file__).resolve().parents[1]
 
+# No component is RIGHTS_BLOCKED today (Grudeva's block was resolved on 2026-08-14 by documented
+# permission, #73). The generic blocked-everywhere rules must NOT become vacuous, so they are exercised
+# against a synthetic blocked record patched over a real, packaged component id.
+_SYNTHETIC_BLOCKED_ID = "cameron2020.extraction_bdf"
+
+
+@pytest.fixture
+def synthetic_blocked():
+    """Patch a RIGHTS_BLOCKED record over a registered component for the duration of a test."""
+    import unittest.mock as mock
+    rec = rights.RightsRecord(_SYNTHETIC_BLOCKED_ID, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              "RIGHTS_BLOCKED", rights_note="synthetic block for this test",
+                              source="test", decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {_SYNTHETIC_BLOCKED_ID: rec}):
+        yield _SYNTHETIC_BLOCKED_ID
+
 
 # ── use-specific policy ─────────────────────────────────────────────────────────────
-def test_blocked_component_is_blocked_for_every_use():
+def test_blocked_component_is_blocked_for_every_use(synthetic_blocked):
     for fn in (rights.may_execute_locally, rights.may_execute_in_public_batch,
                rights.may_publish_outputs, rights.may_include_code_in_release):
-        d = fn("grudeva2025.reduced")
+        d = fn(synthetic_blocked)
         assert d.allowed is False and d.severity == "blocked"
+
+
+def test_permission_documented_is_affirmative_for_every_use():
+    # #73: direct written permission (2026-08-14) is an AFFIRMATIVE clearance for each use — the same
+    # generic policy path as CLEAR, with no component-specific bypass anywhere in the module.
+    cid = "grudeva2025.reduced"
+    assert rights.rights_record(cid).code_rights_state == "PERMISSION_DOCUMENTED"
+    for fn in (rights.may_execute_locally, rights.may_execute_in_public_batch,
+               rights.may_publish_outputs, rights.may_include_code_in_release,
+               rights.may_include_data_in_release):
+        d = fn(cid)
+        assert d.allowed is True and d.severity == "clear", (fn.__name__, d)
+    src = (_ROOT / "puckworks" / "release.py").read_text(encoding="utf-8")
+    assert "grudeva" not in src.lower(), "release.py must carry no Grudeva-specific exception"
 
 
 def test_not_reviewed_is_inspectable_locally_but_not_public_or_output():
@@ -37,12 +67,13 @@ def test_not_reviewed_is_inspectable_locally_but_not_public_or_output():
         assert d.severity != "clear"
 
 
-def test_release_inclusion_hard_blocks_only_on_blocked_code():
+def test_release_inclusion_hard_blocks_only_on_blocked_code(synthetic_blocked):
     # NOT_REVIEWED code ships in the dev package as a reported gap (not a hard block)
-    d = rights.may_include_code_in_release("cameron2020.extraction_bdf")
+    d = rights.may_include_code_in_release("romancorrochano2017.extraction")
+    assert rights.rights_record("romancorrochano2017.extraction").code_rights_state == "NOT_REVIEWED"
     assert d.allowed is True and d.severity == "gap"
     # blocked code is a hard block for release inclusion
-    d2 = rights.may_include_code_in_release("grudeva2025.reduced")
+    d2 = rights.may_include_code_in_release(synthetic_blocked)
     assert d2.allowed is False and d2.severity == "blocked"
 
 
@@ -130,11 +161,19 @@ def test_review_backlog_surfaces_the_priority_reviews_without_asserting_clear():
 
 
 # ── release safety: no generic bypass ───────────────────────────────────────────────
-def test_release_guard_blocks_on_blocked_code_and_reports_gaps():
+def test_release_guard_blocks_on_blocked_code_and_reports_gaps(synthetic_blocked):
     problems = release.rights_release_problems(_ROOT)
-    assert any("grudeva2025.reduced" in p for p in problems)
+    assert any(synthetic_blocked in p for p in problems)
     gaps = release.rights_release_gaps(_ROOT)
-    assert any("cameron2020.extraction_bdf" in g for g in gaps)     # NOT_REVIEWED reported, not silent
+    assert any("romancorrochano2017.extraction" in g for g in gaps)  # NOT_REVIEWED reported, not silent
+
+
+def test_release_guard_is_clean_today_and_grudeva_is_not_a_problem():
+    # #73: with permission documented, no component is a release rights BLOCK, and Grudeva is not a gap
+    problems = release.rights_release_problems(_ROOT)
+    assert problems == []
+    gaps = release.rights_release_gaps(_ROOT)
+    assert not any("grudeva2025.reduced" in g for g in gaps)
 
 
 def test_no_generic_allow_rights_blocked_bypass_exists():
@@ -146,7 +185,7 @@ def test_no_generic_allow_rights_blocked_bypass_exists():
     assert proc.returncode != 0 and "unrecognized arguments" in (proc.stderr + proc.stdout).lower()
 
 
-def test_release_main_blocks_without_building_and_no_flag_can_bypass(monkeypatch):
+def test_release_main_blocks_without_building_and_no_flag_can_bypass(monkeypatch, synthetic_blocked):
     import unittest.mock as mock
     from pathlib import Path
     built = {"called": False}

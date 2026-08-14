@@ -71,16 +71,28 @@ def test_rights_preflight_precedes_producers_public_context_is_fail_closed():
     class _Ctx:
         execution_context = "PUBLIC_ARTIFACT"
     allowed, _ = LP._rights_ok("cameron2020.extraction_bdf", _Ctx())
-    blocked, _ = LP._rights_ok("grudeva2025.reduced", _Ctx())
-    assert blocked is False                       # grudeva always blocked
     # cameron is NOT_REVIEWED for public batch, so public is fail-closed (blocked) — not silently run
     assert allowed is False
+    # a NOT_REVIEWED native-reference component is likewise fail-closed
+    assert LP._rights_ok("waszkiewicz2025.poroelastic", _Ctx())[0] is False
+    # an AFFIRMATIVELY cleared component passes the same generic preflight (grudeva since 2026-08-14, #73)
+    assert LP._rights_ok("grudeva2025.reduced", _Ctx())[0] is True
 
 
-def test_local_private_allows_cameron_but_never_grudeva():
+def test_local_private_allows_inspectable_and_cleared_components():
     from puckworks.product import linked_pull as LP
 
     class _Ctx:
         execution_context = "LOCAL_PRIVATE"
-    assert LP._rights_ok("cameron2020.extraction_bdf", _Ctx())[0] is True
-    assert LP._rights_ok("grudeva2025.reduced", _Ctx())[0] is False
+    assert LP._rights_ok("cameron2020.extraction_bdf", _Ctx())[0] is True   # NOT_REVIEWED: inspectable
+    assert LP._rights_ok("grudeva2025.reduced", _Ctx())[0] is True          # PERMISSION_DOCUMENTED (#73)
+    # the generic local block still refuses a RIGHTS_BLOCKED component
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "mo2023_2.swelling"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        assert LP._rights_ok(cid, _Ctx())[0] is False

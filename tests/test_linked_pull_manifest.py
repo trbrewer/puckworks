@@ -42,12 +42,16 @@ def test_graph_is_acyclic():
     assert M._acyclicity_errors() == []
 
 
-def test_grudeva_is_rights_blocked_with_no_edges():
+def test_grudeva_has_no_edges_for_a_technical_reason_not_a_rights_block():
+    from puckworks.product.linked_pull_records import StageStatus
     d = M.COMPONENT_DISPOSITIONS["grudeva2025.reduced"]
-    assert d.role_kind == LinkKind.RIGHTS_BLOCKED
-    for e in M.LINK_EDGES:
+    assert d.role_kind != LinkKind.RIGHTS_BLOCKED          # #73 resolved 2026-08-14 by permission
+    assert d.intended_status == StageStatus.NOT_SELECTED
+    assert "technical limit, not a rights block" in d.role
+    for e in M.LINK_EDGES:                                 # the zero-edge topology is unchanged
         assert e.source_component_id != "grudeva2025.reduced"
         assert e.target_component_id != "grudeva2025.reduced"
+    assert M.verify_linked_pull_manifest() == []
 
 
 def test_fast_mode_omits_optional_slow_edges():

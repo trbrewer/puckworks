@@ -5,6 +5,34 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **Grudeva rights corrected to `PERMISSION_DOCUMENTED` on direct written permission (2026-08-14, #73)
+  — supersedes, does not retract, the earlier block.** On 2026-08-14 the upstream author, **Dr. Yoana
+  Grudeva**, gave the maintainer direct written permission through LinkedIn to use and share material from
+  `github.com/YoanaGrudeva/espresso-model`, expressly confirming that it covers **both code and data**.
+  The complete correspondence is retained **privately** by the maintainer; the sanitized public record is
+  `docs/permissions/grudeva2025.md` and the machine-readable summary is the `permission` metadata on the
+  `puckworks.rights` record. `grudeva2025.reduced` moves code `RIGHTS_BLOCKED` → `PERMISSION_DOCUMENTED`,
+  data `RIGHTS_REVIEW_REQUIRED` → `PERMISSION_DOCUMENTED`, output redistribution `RIGHTS_BLOCKED` →
+  `PERMISSION_DOCUMENTED` (outputs derived from the covered code and data). **The earlier
+  `RIGHTS_BLOCKED` determination was correct when it was made** — no permission was then on record; this
+  is a status correction on new evidence, and prior release history, tags, and artifacts are untouched.
+  **`PERMISSION_DOCUMENTED`, not `CLEAR`: no formal SPDX licence was supplied.** The upstream material is
+  not MIT, CC-BY, public domain, or OSI-approved, is not relicensed, and is **not** placed under the
+  Puckworks MIT licence by being shipped here — a new root `THIRD_PARTY_NOTICES.md` (shipped in the wheel
+  and sdist via `[tool.setuptools] license-files`) records the exception per file, and the
+  article/thesis-derived `grudeva_params.csv` **keeps its separate CC-BY provenance**. Consequences, all
+  from the existing generic machinery with **no** Grudeva special case: the release rights guard reports
+  no problem; the frozen Full Laboratory Tour manifest routes the component to `SCIENTIFIC_CHECK` (its
+  **existing** registered gates — no runner or adapter was invented), so the tour now resolves 27 and
+  executes 26 with **zero** rights-blocked components; the Relay keeps its **zero** producer/adapter calls
+  for `grudeva2025.reduced`, now recorded as `NOT_SELECTED` for the precise technical reason (no
+  compatible edge; no tested inventory-conserving conversion from its grain-volume basis), not as a rights
+  block; the catalog disposition is `ADAPTER_REQUIRED` and shared-scenario readiness
+  `INPUT_ADAPTER_REQUIRED`. Rights protections for every other component are unchanged. **No model
+  equation, parameter, gate, numerical output, CSV value, evidence strength, provenance class, or
+  validation conclusion changed** — `published_port` / `post_fit_reconstruction` stand and RC-2 stays
+  verification-gated pending the companion dataset.
+
 - **New product: the Espresso Model Relay (`illustrative_linked_pull_v1`).** A separate, clearly-labelled
   educational experience that passes ONE illustrative espresso pull from model to model — *not* a validated
   coupled simulation, digital twin, or taste predictor, and a distinct product from the Full Laboratory

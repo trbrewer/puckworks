@@ -71,14 +71,33 @@ def test_no_cross_basis_rule_is_registered_today():
 
 
 # ── second-lens admissibility (mechanical) ──────────────────────────────────────────
-def test_grudeva_is_rights_blocked_from_second_lens():
+def test_grudeva_is_excluded_by_basis_not_by_rights():
+    # #73 resolved 2026-08-14 by documented permission: rights no longer block it. It is still
+    # inadmissible as a second lens, because grain_volume has no validated conversion to bed_volume.
     r = rb.adapter_readiness("grudeva2025.reduced")
+    assert r["code_rights_blocked"] is False
+    assert r["admissible_as_second_lens"] is False
+    assert r["quantity_basis"] == "grain_volume" and r["has_validated_conversion"] is False
+    assert "rights" not in r["blocker"].lower()
+
+
+def test_a_rights_blocked_component_is_inadmissible_as_a_second_lens():
+    # the GENERIC rights branch (no component is blocked today) stays exercised
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "mo2023_2.coupled_bed"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        r = rb.adapter_readiness(cid)
     assert r["code_rights_blocked"] is True
     assert r["admissible_as_second_lens"] is False and "rights" in r["blocker"].lower()
 
 
 @pytest.mark.parametrize("cid", ["mo2023_2.coupled_bed", "pannusch2024.solver",
-                                 "romancorrochano2017.extraction"])
+                                 "romancorrochano2017.extraction", "grudeva2025.reduced"])
 def test_no_candidate_is_admissible_without_a_validated_conversion(cid):
     r = rb.adapter_readiness(cid)
     assert r["admissible_as_second_lens"] is False

@@ -160,10 +160,25 @@ def test_protocol_commit_precedes_every_result_producing_commit():
         pytest.skip("no result-producing commit yet")
     order = _git("log", "--format=%H").stdout.split()
     pos = {h: i for i, h in enumerate(order)}          # 0 = newest
-    first_protocol = max(pos[h] for h in proto if h in pos)
-    first_result = max(pos[h] for h in results if h in pos)
-    assert first_protocol > first_result, (
-        "the protocol commit must be OLDER than the first result-producing commit")
+    proto_pos = [pos[h] for h in proto if h in pos]
+    result_pos = [pos[h] for h in results if h in pos]
+    if not proto_pos or not result_pos:
+        pytest.skip("protocol/result commits not observable in this checkout")
+    # `order` is newest-first, so a LARGER index is an OLDER commit.
+    #
+    # This used to compare max(proto) with max(result) -- the OLDEST protocol commit against the
+    # OLDEST result commit. A protocol AMENDED AFTER the result was seen adds a NEWER commit, which
+    # does not move max(proto), so it passed straight through. Combined with binding the recorded
+    # protocol hash to the LIVE file, that left a route where amending the protocol and re-stamping
+    # the recorded hashes went green.
+    #
+    # The property the freeze actually needs is that EVERY protocol commit is older than the FIRST
+    # result-producing commit: newest protocol (min index) still older than oldest result (max index).
+    newest_protocol = min(proto_pos)
+    oldest_result = max(result_pos)
+    assert newest_protocol > oldest_result, (
+        "every protocol commit must be OLDER than the first result-producing commit; a protocol "
+        "amended after a result was seen is not a frozen protocol")
 
 
 def test_result_is_hash_bound_to_the_live_protocol_and_inputs(result):
@@ -181,10 +196,17 @@ def test_committed_result_is_cross_platform_numerically_equivalent(result):
     """Structure and non-floating content EXACT; computed floats within the frozen portability
     tolerance. Byte identity across numerical environments was never achievable and is not the
     property this artifact needs."""
+    import copy
     path = BUNDLE / "result.json"
     if not path.exists():
         pytest.skip("result not yet written")
-    _assert_result_equivalent(json.loads(path.read_text(encoding="utf-8")), result)
+    committed, fresh = copy.deepcopy(json.loads(path.read_text(encoding="utf-8"))), copy.deepcopy(result)
+    # execution-time provenance is NOT a live binding: sentinel it here and assert it against
+    # history in test_committed_input_hashes_are_the_execution_time_binding_to_base_commit.
+    # Everything else -- every scientific value, decision, structure and ordering -- stays EXACT.
+    for obj in (committed, fresh):
+        obj["provenance"]["input_sha256"] = "<SENTINEL-EXECUTION-TIME-INPUT-BINDING>"
+    _assert_result_equivalent(committed, fresh)
 
 
 def test_screen_is_deterministic():
@@ -442,13 +464,35 @@ def test_no_evidence_label_or_rung_is_changed(result):
         "within_campaign_held_out"
 
 
+#: END of the fixed historical range these "by this branch" guards assert over -- the reviewed head
+#: of the branch that landed this screen: `insights/wave3-i072-i090-cheap-screens` (PR #230), whose
+#: merge-base with BASE_COMMIT is BASE_COMMIT itself. It is deliberately the BRANCH head and not the
+#: screen's execution commit, because the claim is about everything the branch did, including its
+#: post-execution follow-ups. (Named for what it is: an earlier revision called it GUARD_SCOPE_END_COMMIT
+#: and pinned a mid-branch commit, which was not literally "the screen's last commit".)
+#:
+#: It previously compared BASE_COMMIT..HEAD, a different and much stronger claim: that NO commit
+#: since the screen has ever touched these files. That expires the moment any unrelated later work
+#: edits `models/__init__.py` (every new component does) or `MANIFEST.csv` (every data intake does),
+#: and it also passed VACUOUSLY against an uncommitted working tree, because `git diff A B` reads
+#: committed trees only.
+GUARD_SCOPE_END_COMMIT = "172fa57f76f890db349323ecd0dbc65a75afdbc1"
+
+#: Pinned protocol-freeze and execution anchors for this screen (both on the PR #230 branch above).
+#: The recorded protocol bindings are checked against the protocol AS FROZEN, never against the live
+#: file -- see test_protocol_bindings_are_the_frozen_historical_protocol.
+PROTOCOL_FREEZE_COMMIT = "ded4e5a90665300e0215c3f4b3d6cfec2243dacd"
+EXECUTION_COMMIT = "dfc6d20f5b7e18fdea2d4d472dd1be1d1b738fcf"
+
+
 def test_registry_manifest_and_cards_are_unmodified_by_this_branch():
     base = S.BASE_COMMIT
-    if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
-        pytest.skip("base commit not present in this checkout")
+    for ref in (base, GUARD_SCOPE_END_COMMIT):
+        if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            pytest.skip("screen commit range not present in this checkout")
     for path in ("puckworks/models/__init__.py", "puckworks/data/MANIFEST.csv",
                  "docs/cards/mo2023_2.md", "puckworks/validation/gates.py"):
-        r = _git("diff", "--numstat", base, "HEAD", "--", path)
+        r = _git("diff", "--numstat", base, GUARD_SCOPE_END_COMMIT, "--", path)
         assert r.stdout.strip() == "", "%s was modified by this screen branch" % path
 
 
@@ -605,3 +649,77 @@ def test_a_threshold_crossing_structural_deviation_is_rejected(result):
     _rejects(result, fresh)
     # and the scientific assertion that consumes it would fail too
     assert not (_at(fresh, path) < 1e-12)
+
+
+# --------------------------------------------------------------------------------------------
+# EXECUTION-TIME PROVENANCE vs CURRENT BINDINGS
+#
+# `provenance.input_sha256` is written by `screen()` from the WORKING TREE at run time, and is
+# stored next to a PINNED `base_commit`. The committed artifact is therefore a record of ONE
+# execution: for every repository input its hashes are the bytes at BASE_COMMIT. (The screen's own
+# PROTOCOL.md is authored on the screen branch, so it is bound to the branch, not to BASE; that it
+# was frozen BEFORE execution is proved separately by the commit-order test.)
+#
+# The equivalence test below therefore compares the SCIENCE against a fresh run and the PROVENANCE
+# against history. Comparing execution-time hashes against today's tree would mean the artifact
+# "drifts" whenever an unrelated commit edits a bound input, and the only way to make it green
+# again would be to REWRITE the executed artifact -- which destroys the record it exists to be.
+# Asserting the historical binding instead catches exactly that rewrite.
+# --------------------------------------------------------------------------------------------
+def _sha256_at(commit, rel):
+    import hashlib
+    r = subprocess.run(("git", "show", "%s:%s" % (commit, rel)), cwd=REPO, capture_output=True)
+    return hashlib.sha256(r.stdout).hexdigest() if r.returncode == 0 else None
+
+
+def test_committed_input_hashes_are_the_execution_time_binding_to_base_commit():
+    path = BUNDLE / "result.json"
+    if not path.exists():
+        pytest.skip("result not yet written")
+    if _git("cat-file", "-e", S.BASE_COMMIT + "^{commit}").returncode != 0:
+        pytest.skip("base commit not present in this checkout")
+    committed = json.loads(path.read_text(encoding="utf-8"))["provenance"]
+    assert committed["base_commit"] == S.BASE_COMMIT
+    assert set(committed["input_sha256"]) == set(S.INPUT_FILES)
+    for rel, digest in committed["input_sha256"].items():
+        if rel == S.PROTOCOL_PATH:
+            # authored on the screen branch, so it is not bound to BASE. It is bound to its FREEZE
+            # commit -- never to the live file; see
+            # test_protocol_bindings_are_the_frozen_historical_protocol.
+            assert digest == _sha256_at(PROTOCOL_FREEZE_COMMIT, rel), (
+                "the recorded protocol hash is not the protocol as frozen")
+            continue
+        assert digest == _sha256_at(S.BASE_COMMIT, rel), (
+            "%s: the committed input hash is not the byte content at BASE_COMMIT. Either the "
+            "artifact was re-stamped after execution (it must not be -- it is a record), or the "
+            "screen was re-executed and its base_commit was not updated to match." % rel)
+
+
+def test_protocol_bindings_are_the_frozen_historical_protocol():
+    """The three recorded protocol bindings must equal the protocol AS FROZEN, not the live file.
+
+    Binding them to the live file left the last re-stamp route open: amend PROTOCOL.md after
+    execution, re-stamp `protocol.sha256`, `provenance.protocol_sha256` and the PROTOCOL_PATH entry
+    of `provenance.input_sha256` to the new value, and every live-hash check goes green again. The
+    commit-order test did not close it either, because it compared oldest-protocol with
+    oldest-result and a later amendment does not move the oldest protocol commit.
+    """
+    for ref in (PROTOCOL_FREEZE_COMMIT, EXECUTION_COMMIT):
+        if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            pytest.skip("protocol history not present in this checkout")
+    path = BUNDLE / "result.json"
+    if not path.exists():
+        pytest.skip("result not yet written")
+    frozen = _sha256_at(PROTOCOL_FREEZE_COMMIT, S.PROTOCOL_PATH)
+    assert frozen is not None, "the protocol is absent from its own freeze commit"
+    assert frozen == _sha256_at(EXECUTION_COMMIT, S.PROTOCOL_PATH), (
+        "the protocol changed between its freeze commit and the execution commit")
+    committed = json.loads(path.read_text(encoding="utf-8"))
+    for label, got in (("protocol.sha256", committed["protocol"]["sha256"]),
+                       ("provenance.protocol_sha256", committed["provenance"]["protocol_sha256"]),
+                       ("provenance.input_sha256[PROTOCOL_PATH]",
+                        committed["provenance"]["input_sha256"][S.PROTOCOL_PATH])):
+        assert got == frozen, (
+            "%s does not match the protocol as frozen at %s. Either PROTOCOL.md was amended after "
+            "execution and the binding re-stamped, or the artifact no longer records the protocol "
+            "it was actually run against." % (label, PROTOCOL_FREEZE_COMMIT[:7]))

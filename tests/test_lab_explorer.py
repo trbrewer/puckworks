@@ -49,14 +49,34 @@ def test_explorer_public_live_is_affirmative_rights_only():
     cat = E.explorer_catalog()
     rows = {r["component_id"]: r for r in cat["components"]}
     # public-live is the conjunction of affirmative public-execution AND output-publication clearance
-    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference"]
+    # two affirmative clearances on two DIFFERENT bases: LB is first-party CLEAR (#70); Grudeva is
+    # PERMISSION_DOCUMENTED on the 2026-08-14 direct written permission (#73).
+    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference", "grudeva2025.reduced"]
     assert rows["brewer2026.lb_reference"]["public_live_available"] is True
-    # NOT_REVIEWED and RIGHTS_BLOCKED are never public-live, each with a plain reason
+    g = rows["grudeva2025.reduced"]
+    assert g["public_live_available"] is True and g["unavailable_reason"] == ""
+    assert g["code_rights_state"] == g["output_redistribution_state"] == "PERMISSION_DOCUMENTED"
+    # an affirmative rights state is NOT an execution path: no runner, no common-scenario adapter
+    assert g["native_reference_ready"] is False and g["common_scenario_ready"] is False
+    # NOT_REVIEWED is never public-live, with a plain reason
     assert rows["cameron2020.extraction_bdf"]["public_live_available"] is False
     assert rows["cameron2020.extraction_bdf"]["unavailable_reason"]
-    g = rows["grudeva2025.reduced"]
-    assert g["public_live_available"] is False and "rights-blocked" in g["unavailable_reason"]
-    assert E.public_live_component_ids() == ["brewer2026.lb_reference"]
+    assert E.public_live_component_ids() == ["brewer2026.lb_reference", "grudeva2025.reduced"]
+
+
+def test_explorer_reports_a_rights_block_with_a_plain_reason():
+    # the GENERIC rights-blocked branch (no component is blocked today) stays exercised
+    import unittest.mock as mock
+
+    from puckworks import rights
+    cid = "cameron2020.extraction_bdf"
+    rec = rights.RightsRecord(cid, "RIGHTS_BLOCKED", "RIGHTS_BLOCKED", "RIGHTS_BLOCKED",
+                              rights_note="synthetic block for this test", source="test",
+                              decision_issue="#0", review_date="2026-08-14")
+    with mock.patch.dict(rights._RECORDS, {cid: rec}):
+        rows = {r["component_id"]: r for r in E.explorer_catalog()["components"]}
+    assert rows[cid]["public_live_available"] is False
+    assert "rights-blocked" in rows[cid]["unavailable_reason"]
 
 
 def test_explorer_emits_no_scientific_payload_hash():
