@@ -4,28 +4,25 @@
       "True": 27
     },
     "included_in_release": {
-      "False": 1,
-      "True": 26
+      "True": 27
     },
     "public_hosting_status": {
-      "False": 26,
-      "True": 1
+      "False": 25,
+      "True": 2
     },
     "redistribution_license_status": {
       "code:CLEAR/data:NOT_APPLICABLE": 1,
       "code:NOT_REVIEWED/data:NOT_REVIEWED": 25,
-      "code:RIGHTS_BLOCKED/data:RIGHTS_REVIEW_REQUIRED": 1
+      "code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED": 1
     },
     "registered": {
       "True": 27
     },
     "required_data_available": {
-      "False": 1,
-      "True": 26
+      "True": 27
     },
     "runnable_local": {
-      "False": 1,
-      "True": 26
+      "True": 27
     },
     "scientifically_eligible": {
       "code_verification": 5,
@@ -47,8 +44,8 @@
     "public_hosting_status",
     "included_in_release"
   ],
-  "n_cells_declared": 1,
-  "n_cells_derived": 215,
+  "n_cells_declared": 0,
+  "n_cells_derived": 216,
   "n_components": 27,
   "rows": [
     {
@@ -457,7 +454,7 @@
       "stage": "machine"
     },
     {
-      "blocking_reason": "Legacy: a self-documented direct port of the unlicensed upstream solver (YoanaGrudeva/espresso-model, licence: null); no documented permission. The EJAM article (CC-BY) licenses the equations/text, NOT the solver code \u2014 the two are tracked separately. Retained in history and the current package pending the #73 decision; not for new Lab execution, native runners, adapters, or a newly approved release artifact.",
+      "blocking_reason": "",
       "component": "grudeva2025.reduced",
       "importable": {
         "how": "derived",
@@ -466,18 +463,18 @@
       },
       "included_in_release": {
         "how": "derived",
-        "value": false,
+        "value": true,
         "why": "packaged in the wheel; gated on code redistribution rights"
       },
       "public_hosting_status": {
         "how": "derived",
-        "value": false,
-        "why": "rights[code_rights_state]=RIGHTS_BLOCKED: blocked"
+        "value": true,
+        "why": "rights[code_rights_state]=PERMISSION_DOCUMENTED: affirmatively cleared"
       },
       "redistribution_license_status": {
         "how": "derived",
-        "value": "code:RIGHTS_BLOCKED/data:RIGHTS_REVIEW_REQUIRED",
-        "why": "code refused; data allowed"
+        "value": "code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED",
+        "why": "code allowed; data allowed"
       },
       "registered": {
         "how": "derived",
@@ -485,14 +482,14 @@
         "why": "present in registry.components()"
       },
       "required_data_available": {
-        "how": "declared",
-        "value": false,
-        "why": "source code and data are rights-blocked; nothing is vendored"
+        "how": "derived",
+        "value": true,
+        "why": "no recorded data blocker; gates resolve their inputs"
       },
       "runnable_local": {
         "how": "derived",
-        "value": false,
-        "why": "rights[code_rights_state]=RIGHTS_BLOCKED: blocked"
+        "value": true,
+        "why": "rights[code_rights_state]=PERMISSION_DOCUMENTED: affirmatively cleared"
       },
       "scientifically_eligible": {
         "how": "derived",

@@ -135,8 +135,10 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `waszkiewicz2025.poroelastic` | runtime | post_fit_reconstruction (2 gates) | gate_waszkiewicz_dynamic_9bar, gate_waszkiewicz_static_refit | `EXP-004` | — |
 <!-- END GENERATED MODEL-MEASUREMENT MATRIX -->
 
-A component shown with "no current campaign" is either calibration/closure, rights-blocked
-(`grudeva2025.reduced`, #73), or a documented backlog item (see `component_campaign_exemptions`).
+A component shown with "no current campaign" is either calibration/closure or a documented backlog item
+(see `component_campaign_exemptions`). No component is rights-blocked today: `grudeva2025.reduced`'s block
+was resolved on 2026-08-14 by documented permission (#73), and its exemption is now the RC-2 dataset
+backlog — its independent gate is the authors' forthcoming external companion dataset.
 
 ## 9. What Puckworks will not infer from an insufficient dataset
 

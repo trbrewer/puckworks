@@ -9,16 +9,35 @@
 # SENSOR_SELECTION_REQUIRED, PILOT_REQUIRED. Validate with: python tools/experimental_data_needs.py verify
 schema_version: 1
 # runtime/runner components with no current experimental campaign, each for a documented reason:
-#   grudeva2025.reduced   — rights-blocked (#73); no campaign until the rights decision is made.
+#   grudeva2025.reduced   — RC-2 backlog: its independent gate is the authors' forthcoming EXTERNAL
+#                           companion dataset, not a Puckworks campaign. (Until 2026-08-14 the reason
+#                           was the #73 rights block; that was resolved by documented permission.)
 #   foster2025.machine_mode — the pump/headspace "machine mode" backlog; no campaign is defined yet.
 #   wadsworth2026.inertial  — the inertial-flow supporting lens; no campaign is defined yet.
 component_campaign_exemptions:
-  - grudeva2025.reduced       # rights-blocked pending #73 (no new data collection authorized)
+  - grudeva2025.reduced       # RC-2 backlog: its independent gate is the authors' forthcoming
+                              # companion outlet-concentration dataset, an EXTERNAL dataset rather than
+                              # a Puckworks campaign, so none applies yet. (Until 2026-08-14 this
+                              # exemption read "rights-blocked pending #73"; that block was resolved by
+                              # documented permission — the remaining gap is the dataset.)
   - foster2025.machine_mode   # machine-mode backlog (no open campaign yet)
   - wadsworth2026.inertial    # inertial-flow backlog (no open campaign yet)
   - brewer2026.lb_reference   # synthetic NUMERICAL CODE VERIFICATION: its reference is the analytic
                               # plane-Poiseuille solution (k=h^2/12), not an experimental measurement, so
                               # no experimental campaign applies by construction (#70)
+# Structured measurement-agenda blockers (quantity_semantics.measurement_agenda) deliberately NOT mapped
+# to a campaign, each with its reason. These three appeared on 2026-08-14 when grudeva2025.reduced ceased
+# to be rights-blocked (#73) and its genuine INPUT blockers became visible; none of them is an experiment
+# Puckworks would commission, so none is mapped rather than being silently dropped.
+deferred_blockers:
+  - grudeva2025.reduced#0     # a fines radius a*_f: a GRIND-metrology quantity the shared recipe does not
+                              # carry (ledger A6). No open campaign measures it, and inventing one would
+                              # not be an espresso-shot campaign.
+  - grudeva2025.reduced#1     # a shared-scenario q(t): the model imposes its OWN Darcy pre-drip +
+                              # empirical post-drip flow fit. This is adapter/coupling work, not a
+                              # measurement gap.
+  - grudeva2025.reduced#2     # an inventory-conserving grain-volume -> bed-volume conversion: a modelling
+                              # and verification task (fail-closed by design), not data to acquire.
 evidence_levels:
   - protocol_only
   - feasibility_pilot

@@ -92,14 +92,20 @@ counts are derived from the audited reference result and frozen in
   `fasano2000_partI.fines_migration`, `brewer2026.streamtube`, `pannusch2024.closures`,
   `romancorrochano2017.extraction`, `moroney2016.surrogate`, `mo2023_2.coupled_bed`,
   `liang2021.desorption`.
-- **Not selected (3):** `pannusch2024.solver` (the registered multi-solute *solver* is NOT run — the
+- **Not selected (4):** `pannusch2024.solver` (the registered multi-solute *solver* is NOT run — the
   release-clock diagnostic is derived from `pannusch2024.closures`; the solver needs an authoritative
   linked Q(t)/T/inventory adapter), `brewer2026.lb_reference` and `brewer2026.lb_taichi` (slow optional
-  pore-scale path, run only in extended mode — *not* a missing dependency).
+  pore-scale path, run only in extended mode — *not* a missing dependency), and `grudeva2025.reduced`
+  (see below).
 - **Reference-only (3):** `sourcing2026.g3_pump_characteristic`, `sourcing2026.g1_glassbead_analog`,
   `lee2023.feedback` (guarded — its headline decline needs an unphysical density).
-- **Rights-blocked (#73):** `grudeva2025.reduced` — shown in the chain map, **zero** model and adapter
-  calls, no inputs, no outputs, no edges.
+- **`grudeva2025.reduced` — shown in the chain map, **zero** model and adapter calls, no inputs, no
+  outputs, no edges.** Since **2026-08-14** this is **not** a rights block: direct written permission
+  from Dr. Yoana Grudeva covering code and data is documented (#73, `PERMISSION_DOCUMENTED`; no formal
+  SPDX licence). It stays out of the relay for a **technical** reason — no edge can drive it (it
+  prescribes its own flow and needs a fines radius the recipe does not carry), and its grain-volume
+  concentration basis has no tested inventory-conserving conversion to the bed-volume basis this chain
+  carries. Wiring one is coupling work under separate authorization; the zero-call count is unchanged.
 
 In **extended** mode the pore-scale relay adds `brewer2026.lb_reference` (the reference LB solve, run
 once). `brewer2026.lb_taichi` is counted only if the actual Taichi-backed backend runs; the reference solve
@@ -126,8 +132,10 @@ path.
 ## Rights behavior
 
 Every producer call passes a centralized preflight (`rights.may_execute_locally` for `LOCAL_PRIVATE`;
-public contexts additionally require batch + publish clearance and are fail-closed in v1).
-`grudeva2025.reduced` receives zero calls. There is no public-hosted execution mode in v1.
+public contexts additionally require batch + publish clearance and are fail-closed in v1). No component
+is special-cased in the engine — every disposition is derived from `puckworks.rights`. `grudeva2025.reduced`
+receives zero calls for a technical reason, not a rights one (see above). There is no public-hosted
+execution mode in v1.
 
 ## Output schema
 

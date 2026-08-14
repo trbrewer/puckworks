@@ -42,7 +42,10 @@ extra (`pyvista`/`vtk`, `[viz3d]`) — neither is used by the public app and bot
   service; it logs no recipe values or results.
 - No login is required to browse. Browsing the **Model library** runs **no** scientific producer.
 - A blocked request produces and displays **no** scientific result — only the rights decision.
-- `grudeva2025.reduced` is rights-blocked and never runs (#73).
+- `grudeva2025.reduced` is no longer rights-blocked: direct written permission from Dr. Yoana Grudeva,
+  covering code and data, was documented on 2026-08-14 (`PERMISSION_DOCUMENTED`, #73 — permission, not a
+  formal licence). It has no common-scenario adapter and no native runner, so the app exposes only its
+  registered self-checks.
 
 ## Startup verification
 

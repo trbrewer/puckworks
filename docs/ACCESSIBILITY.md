@@ -49,8 +49,10 @@ model runs in a runtime the user controls and does **not** mean it is cleared fo
 the Laboratory ships in the unreleased `0.4.0.dev0`, this notebook installs an **exact commit-pinned
 DEVELOPMENT PREVIEW** (option B below), never mutable `main` and never under a "v0.3.0 release" badge. It
 is not a digital twin, optimizer, or taste predictor; component self-checks are each a model's *own*
-reference case, not a prediction of the chosen shot. `grudeva2025.reduced` is rights-blocked and never
-runs (#73).
+reference case, not a prediction of the chosen shot. `grudeva2025.reduced` runs only its own registered
+gates — it has no common-scenario adapter and no native runner, a technical limit rather than the rights
+block it carried before 2026-08-14, when the upstream author's direct written permission was documented
+(#73).
 
 ## 3. Core platform-support matrix
 

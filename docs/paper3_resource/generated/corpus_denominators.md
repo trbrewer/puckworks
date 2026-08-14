@@ -11,7 +11,7 @@
 | dataset manifest records | 110 |
 | model/source cards written | 109 |
 | components with evidence beyond reconstruction of their own source | 9 |
-| components rights- or data-blocked | 1 |
+| components rights- or data-blocked | 0 |
 | components that are calibration objects only | 15 |
 | components that are reference-only | 3 |
 

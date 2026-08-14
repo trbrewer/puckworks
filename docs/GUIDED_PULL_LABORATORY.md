@@ -30,11 +30,15 @@ overrides everything):
 | `RIGHTS_BLOCKED` | shown but receives **zero** execution calls | — |
 | `NO_EXECUTION_PATH` | catalogued; no defensible runner/check today | — |
 
-Today the frozen tour v1 resolves all **25** components and exercises **23** eligible code paths — **1**
+Today the frozen tour v1 resolves all **27** components and exercises **26** eligible code paths — **1**
 common-scenario run (Cameron), **4** native reference runs (including the batch-only LB reference —
-`interactive_fast` would omit it), and **18** registered scientific checks — with **1** rights-blocked
-(`grudeva2025.reduced`, #73, zero calls) and **1** optional-dependency component (`brewer2026.lb_taichi`,
-no enabled quick demonstration yet). "Ran successfully" and "directly comparable" are **separate** facts:
+`interactive_fast` would omit it), and **21** registered scientific checks — with **0** rights-blocked
+components and **1** optional-dependency component (`brewer2026.lb_taichi`, no enabled quick
+demonstration yet). `grudeva2025.reduced` joined the scientific-check route on **2026-08-14**, when the
+upstream author's direct written permission was documented (#73): it runs its **existing** registered
+gates on their own fixture. That is a rights correction, not a new runner — it has no native runner and
+no common-scenario adapter, and its `ADAPTER_REQUIRED` disposition is unchanged.
+"Ran successfully" and "directly comparable" are **separate** facts:
 a gate pass is not experimental validation; a native reference is not a prediction of the user's shot; a
 calibration/closure gate is not an extraction model; a catalog listing is not an execution.
 
@@ -153,7 +157,8 @@ scientific hash.
    Runner failures are isolated (one erroring never erases the others; `FAILED` is a per-request
    *execution* state, never a static capability). A component's native runner *capability* is `AVAILABLE`
    / `NOT_IMPLEMENTED` / `OPTIONAL_DEPENDENCY_UNAVAILABLE` / `RIGHTS_BLOCKED` / `NOT_APPLICABLE`;
-   `grudeva2025.reduced` is `RIGHTS_BLOCKED` (issue #73). A future integrated chain may pick one compatible
+   `grudeva2025.reduced` is `NOT_IMPLEMENTED` — since 2026-08-14 its rights are documented (#73), and no
+   native runner was invented to fill the gap. A future integrated chain may pick one compatible
    component per physical stage; competing models remain branches.
 
 ## Coverage vocabulary
@@ -234,9 +239,14 @@ are **use-specific** — `rights.may_execute_locally` / `may_execute_in_public_b
 relevant field with the strictness that use demands: `RIGHTS_BLOCKED` is refused everywhere;
 `NOT_REVIEWED` stays inspectable **locally** but is a visible gap for public execution / output
 redistribution / release (never "clear"); only an affirmative clearance permits an outward or release
-use. `grudeva2025.reduced` is `code RIGHTS_BLOCKED` (#73) and can never be a lens, native runner, or
-adapter; the release guard hard-blocks only on code not cleared for release inclusion (no
-`--allow-rights-blocked` bypass — an authorized removal makes it pass) and reports `NOT_REVIEWED` gaps.
+use. `grudeva2025.reduced` is `PERMISSION_DOCUMENTED` for code, data **and** output redistribution (#73,
+2026-08-14): direct written permission from Dr. Yoana Grudeva covering both code and data, with **no**
+formal SPDX licence supplied — an affirmative clearance, not a `CLEAR` licence, and not a relicensing of
+the upstream repository (`docs/permissions/grudeva2025.md`, `THIRD_PARTY_NOTICES.md`). It is therefore no
+longer refused on rights grounds; it is still not a lens or native runner, for the **technical** reasons
+recorded in `lab_catalog` (`ADAPTER_REQUIRED`) and `quantity_semantics` (`INPUT_ADAPTER_REQUIRED`). The
+release guard hard-blocks only on code not cleared for release inclusion (no `--allow-rights-blocked`
+bypass — an authorized removal makes it pass) and reports `NOT_REVIEWED` gaps.
 `rights.review_backlog()` surfaces the reviews still owed (Cameron code + outputs first).
 `capability_snapshot.reference_suite_coverage` lists runner *capabilities* honestly; only
 actually-executed references appear in `executed_reference_results`.
@@ -259,7 +269,9 @@ This is **not** a generic public-execution bypass. The **default / broad** publi
 `PUBLIC_ARTIFACT` run blocks before any producer and emits only the rights preflight. A mixed request
 pairing the cleared LB runner with any `NOT_REVIEWED` runner blocks as a whole (one blocked selection blocks
 the request); the LB clearance never propagates to Cameron, Roman, Waszkiewicz, Wadsworth, Foster, or any
-other component, and `grudeva2025.reduced` stays hard-blocked in every context (#73).
+other component. `grudeva2025.reduced` gained its own affirmative clearance on 2026-08-14 (#73,
+`PERMISSION_DOCUMENTED`) — from documented permission for that component alone, never by propagation, and
+it has no runner to select.
 
 ## Reference-basis groundwork (a possible second lens)
 
@@ -271,8 +283,10 @@ registered rule is the identity, so every cross-basis request raises `Unsupporte
 scale factor), and `assert_inventory_conserved` rejects any transform that does not conserve total solute
 inventory. Admissibility is therefore mechanical — `mo2023_2.coupled_bed` (per-bed-cell) and
 `pannusch2024.solver` (per-species) have no validated conversion, `romancorrochano2017.extraction` is a
-flow trend, and `grudeva2025.reduced` is rights-blocked (#73). **No candidate is admissible, so no second
-lens is added**; the ontology, validators, and audit are the deliverable. `python -m
+flow trend, and `grudeva2025.reduced` — no longer a rights question since 2026-08-14 (#73) — is
+`grain_volume` and likewise has **no tested inventory-conserving conversion** to `bed_volume`. **No
+candidate is admissible, so no second lens is added**; the ontology, validators, and audit are the
+deliverable. `python -m
 puckworks.product.reference_basis --format md` prints the readiness report.
 
 ## Native reference runner authority
