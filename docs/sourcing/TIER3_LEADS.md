@@ -24,9 +24,11 @@ Keep `k^D` as the fallback until k1 is clarified.
 
 ## Grudeva
 
-The repository already has a working reference dataset/configuration. First verify whether the
-requested vial raw data are absent from the current public repo, then ask for replicate-level
-measurements and the experimental-companion manuscript/data DOI.
+Contact was made on 2026-08-14 and the author granted direct written permission to use and share the
+upstream repository's code and data (rights resolved, #73 — see `docs/permissions/grudeva2025.md`). The
+**data** ask is still open: first verify whether the requested vial raw data are absent from the current
+public repo, then ask for replicate-level measurements and the experimental-companion manuscript/data
+DOI.
 
 ## Egidi
 

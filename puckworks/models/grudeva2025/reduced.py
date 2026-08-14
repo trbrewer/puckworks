@@ -1,12 +1,18 @@
 """reduced.py — Grudeva et al. reduced infiltration-coupled extraction model.
 
-RIGHTS STATUS — code RIGHTS_BLOCKED (issue #73). This module is a self-documented direct port of the
-unlicensed upstream solver (github.com/YoanaGrudeva/espresso-model, licence: null); no permission is on
-record. The EJAM article (CC-BY) licenses the equations/text, NOT this solver code. Rights truth is the
-centralized `puckworks.rights` record. Retained in current history (shipped in v0.3.0) but NOT available
-for Guided Pull Laboratory execution, native reference runners, adapters, or a newly approved release,
-pending the #73 maintainer decision. Do NOT extend, re-enable, or promote without resolving #73; a
-replacement must be an independent clean-room reimplementation from permitted equations/data only.
+RIGHTS STATUS — code/data/output PERMISSION_DOCUMENTED (issue #73, 2026-08-14). This module is a
+self-documented direct port of the upstream solver (github.com/YoanaGrudeva/espresso-model), which
+declares no SPDX licence. Use and redistribution rest on DIRECT WRITTEN PERMISSION from the upstream
+author, Dr. Yoana Grudeva, dated 2026-08-14 (LinkedIn), covering both code and data; the complete
+correspondence is held privately by the maintainer (public summary: docs/permissions/grudeva2025.md,
+packaging scope: THIRD_PARTY_NOTICES.md). NO formal licence was supplied — this is NOT MIT, CC-BY,
+public domain, or OSI-approved, and it is not placed under the Puckworks MIT licence by being shipped
+here. The EJAM article (CC-BY) licenses the equations/text and is a SEPARATE record. Rights truth is the
+centralized `puckworks.rights` record. This resolves the rights block ONLY: nothing here is validated,
+independently reproduced, or promoted — provenance stays `published_port`, evidence stays
+`post_fit_reconstruction`, and RC-2 stays verification-gated until the companion dataset lands.
+(Superseded 2026-08-14: the module previously carried a RIGHTS_BLOCKED banner, correct when written —
+no permission was then on record.)
 
 Card: docs/cards/grudeva2025.md (merged card of record; ROADMAP item 1.7b).
 RUNTIME infiltration+extraction: a sharp wetting front sweeps the dry bed; behind

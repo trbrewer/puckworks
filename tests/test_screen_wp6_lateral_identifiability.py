@@ -796,6 +796,26 @@ def test_no_foundry_infrastructure_was_added_or_modified(result):
 _PROVENANCE_KEYS = {"source_commit", "commit"}
 
 
+#: Inputs to the Insight Foundry snapshot that a LATER, separately-reviewed change moved, so this
+#: historical proof does not fail on every subsequent regeneration. 2026-08-14 (#73): the Grudeva rights
+#: correction — direct written permission recorded in place of the RIGHTS_BLOCKED determination. It moved
+#: rights PROSE and rights COLUMNS only; the entity-field assertion below is what keeps the allowance from
+#: hiding anything scientific.
+_RIGHTS_CORRECTION_INPUTS = {
+    "docs/cards/grudeva2025.md",
+    "docs/cards/grudeva2026_2.md",
+    "puckworks/data/MANIFEST.csv",
+}
+#: entity id -> the exact attribute set it is permitted to move in, for the same correction
+_RIGHTS_CORRECTION_ENTITIES = {
+    "card:grudeva2025": {"card_sha256"},
+    "card:grudeva2026_2": {"card_sha256", "section_hashes"},
+    "dataset:grudeva2025/exp13_vial_stats": {"caveat", "license_access"},
+    "dataset:grudeva2025/params": {"caveat"},
+    "model:grudeva2025.reduced": {"notes"},
+}
+
+
 def _strip_provenance(obj):
     """Deep-normalise a generated payload by removing provenance stamps at every depth."""
     if isinstance(obj, dict):
@@ -872,14 +892,17 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
         hb = {i["path"]: i["sha256"] for i in b["inputs"]}
         ha = {i["path"]: i["sha256"] for i in a["inputs"]}
         moved_inputs = {p for p in ha if ha[p] != hb[p]}
-        assert moved_inputs == {"docs/cards/lateral_coupling_feasibility.md"}, (
-            "the moved-input set must be exactly the corrected card, got: %s" % moved_inputs)
+        assert moved_inputs == {"docs/cards/lateral_coupling_feasibility.md"} | _RIGHTS_CORRECTION_INPUTS, (
+            "the moved-input set must be exactly the corrected card plus the separately-reviewed "
+            "rights-correction inputs, got: %s" % moved_inputs)
 
-        # (4) sentinel that card's input hash in BOTH manifests
+        # (4) sentinel those input hashes in BOTH manifests
         for man in (a, b):
             for i in man["inputs"]:
                 if i["path"] == "docs/cards/lateral_coupling_feasibility.md":
                     i["sha256"] = "<SENTINEL-CORRECTED-CARD>"
+                elif i["path"] in _RIGHTS_CORRECTION_INPUTS:
+                    i["sha256"] = "<SENTINEL-RIGHTS-CORRECTION-INPUT>"
 
         # (5) identical output path lists INCLUDING ORDER
         assert [o["path"] for o in a["outputs"]] == [o["path"] for o in b["outputs"]], (
@@ -908,8 +931,16 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
         ea = {e["id"]: e for e in cm_a["entities"]}
         assert set(ea) == set(eb), "no entity may be added or removed"
         moved = {i for i in ea if _strip_provenance(ea[i]) != _strip_provenance(eb[i])}
-        assert moved == {"card:lateral_coupling_feasibility"}, (
-            "only the corrected card's entity may move, but these did: %s" % moved)
+        assert moved == {"card:lateral_coupling_feasibility"} | set(_RIGHTS_CORRECTION_ENTITIES), (
+            "only the corrected card's entity and the separately-reviewed rights-correction entities "
+            "may move, but these did: %s" % moved)
+        # the rights-correction entities may move ONLY in rights-descriptive / content-hash fields.
+        # A scientific field moving here (evidence_strength, provenance_class, valid_range, units,
+        # validation_strength, gate_use, ...) would be caught, not hidden by the allowance.
+        for eid, allowed in _RIGHTS_CORRECTION_ENTITIES.items():
+            fields = {k for k in set(ea[eid]["attrs"]) | set(eb[eid]["attrs"])
+                      if ea[eid]["attrs"].get(k) != eb[eid]["attrs"].get(k)}
+            assert fields == allowed, "%s moved in unexpected fields: %s" % (eid, sorted(fields))
         one_a, one_b = ea["card:lateral_coupling_feasibility"], eb["card:lateral_coupling_feasibility"]
         moved_fields = {k for k in set(one_a["attrs"]) | set(one_b["attrs"])
                         if one_a["attrs"].get(k) != one_b["attrs"].get(k)}

@@ -98,9 +98,12 @@ register(Component(
     valid_range="ε<<1 saturated-fines regime; prescribed flow (Darcy pre-drip + "
                 "empirical post-drip); constant μ,ρ; single solute; RC-2 verification-"
                 "gated (post-fit vial reconstruction) until companion dataset lands",
-    notes="RIGHTS: code RIGHTS_BLOCKED (#73) -- self-documented port of the unlicensed upstream "
-          "solver; see puckworks.rights + docs/cards/grudeva2025.md; not for new Lab execution / "
-          "runners / adapters / release. s_d^{-1}(1)=6.40 == published; per-vial masses reproduce C1 "
+    notes="RIGHTS: code/data/output PERMISSION_DOCUMENTED (#73, 2026-08-14) -- self-documented port of "
+          "the upstream solver, used and redistributed under DIRECT WRITTEN PERMISSION from Dr. Yoana "
+          "Grudeva covering both code and data; NO formal SPDX licence supplied (not MIT/CC-BY/public "
+          "domain, not relicensed); article CC-BY tracked separately. See puckworks.rights, "
+          "docs/permissions/grudeva2025.md, THIRD_PARTY_NOTICES.md. Rights only -- no evidence, "
+          "validation or comparability change. s_d^{-1}(1)=6.40 == published; per-vial masses reproduce C1 "
           "(14-shot total 2.9g, 9/13 within 1 SD); κ Eq6.14@9.2bar=2.27e-15 confirms decade "
           "adjudication. Resolution study is a slow ladder. Creates RC-2"))
 
