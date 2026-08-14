@@ -167,8 +167,23 @@ def test_protocol_commit_precedes_every_result_producing_commit():
         pytest.skip("no result-producing commit yet")
     order = _git("log", "--format=%H").stdout.split()
     pos = {h: i for i, h in enumerate(order)}
-    assert max(pos[h] for h in proto if h in pos) > max(pos[h] for h in results if h in pos), (
-        "the protocol commit must be OLDER than the first result-producing commit")
+    proto_pos = [pos[h] for h in proto if h in pos]
+    result_pos = [pos[h] for h in results if h in pos]
+    if not proto_pos or not result_pos:
+        pytest.skip("protocol/result commits not observable in this checkout")
+    # `order` is newest-first, so a LARGER index is an OLDER commit.
+    #
+    # This used to compare max(proto) with max(result) -- the OLDEST protocol commit against the
+    # OLDEST result commit. A protocol AMENDED AFTER the result was seen adds a NEWER commit, which
+    # does not move max(proto), so it passed straight through. Combined with binding the recorded
+    # protocol hash to the LIVE file, that left a route where amending the protocol and re-stamping
+    # the recorded hashes went green.
+    #
+    # The property the freeze actually needs is that EVERY protocol commit is older than the FIRST
+    # result-producing commit: newest protocol (min index) still older than oldest result (max index).
+    assert min(proto_pos) > max(result_pos), (
+        "every protocol commit must be OLDER than the first result-producing commit; a protocol "
+        "amended after a result was seen is not a frozen protocol")
 
 
 def test_result_is_hash_bound_to_the_live_protocol_and_inputs(result):
@@ -478,12 +493,25 @@ def test_the_recorded_finding_quotes_both_live_authorities_verbatim(result):
     assert f["applied"] is False
 
 
-#: The screen's own last commit. "By this branch" is a claim about a FIXED historical range
-#: (BASE_COMMIT..SCREEN_TIP). Comparing against HEAD instead asserted that no later, unrelated
-#: commit ever edits a correction target -- `MANIFEST.csv` is edited by every data intake, so that
-#: claim expires. It also passed vacuously for an uncommitted working tree, since `git diff A B`
-#: reads committed trees only. The docstring below already reasons this way for `docs/ROADMAP.md`.
-SCREEN_TIP_COMMIT = "f20753fcad9bf231ffbb266cb2fc5ec5ebd7540b"
+#: END of the fixed historical range these "by this branch" guards assert over -- the reviewed head
+#: of the branch that landed this screen: `insights/wave3-i072-i090-cheap-screens` (PR #230), whose
+#: merge-base with BASE_COMMIT is BASE_COMMIT itself. It is deliberately the BRANCH head and not a
+#: mid-branch commit, because the claim is about everything the branch did, including its
+#: post-execution follow-ups. (Named for what it is: an earlier revision called it GUARD_SCOPE_END_COMMIT
+#: and pinned f20753f, commit 10 of 17 on that branch, which was not "the screen's last commit".)
+#:
+#: It previously compared BASE_COMMIT..HEAD, a different and much stronger claim: that NO commit
+#: since the screen has ever touched a correction target -- `MANIFEST.csv` is edited by every data
+#: intake, so that claim expires. It also passed VACUOUSLY against an uncommitted working tree,
+#: because `git diff A B` reads committed trees only. The docstring below already reasons this way
+#: for `docs/ROADMAP.md`.
+GUARD_SCOPE_END_COMMIT = "172fa57f76f890db349323ecd0dbc65a75afdbc1"
+
+#: Pinned protocol-freeze and execution anchors for this screen (both on the PR #230 branch above).
+#: The recorded protocol bindings are checked against the protocol AS FROZEN, never against the live
+#: file -- see test_protocol_bindings_are_the_frozen_historical_protocol.
+PROTOCOL_FREEZE_COMMIT = "556859e884b5b6ea94adc9c5831fd462cd9972c2"
+EXECUTION_COMMIT = "ffd214eeff8e34c538053cfef74883bd97b06ee6"
 
 
 def test_named_correction_targets_are_byte_unchanged_by_this_branch():
@@ -499,13 +527,13 @@ def test_named_correction_targets_are_byte_unchanged_by_this_branch():
     over row content rather than over a line count.
     """
     base = S.BASE_COMMIT
-    for ref in (base, SCREEN_TIP_COMMIT):
+    for ref in (base, GUARD_SCOPE_END_COMMIT):
         if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
             pytest.skip("screen commit range not present in this checkout")
 
-    # BASE..SCREEN_TIP, not BASE..HEAD -- see SCREEN_TIP_COMMIT.
+    # BASE..SCREEN_TIP, not BASE..HEAD -- see GUARD_SCOPE_END_COMMIT.
     for path in S.CORRECTION_TARGET_FILES:
-        r = _git("diff", "--numstat", base, SCREEN_TIP_COMMIT, "--", path)
+        r = _git("diff", "--numstat", base, GUARD_SCOPE_END_COMMIT, "--", path)
         assert r.stdout.strip() == "", "%s was edited; a screen may not apply a correction" % path
 
     assert S.CORRECTION_TARGET_APPEND_ONLY == ("docs/ROADMAP.md",)
@@ -728,10 +756,43 @@ def test_committed_input_hashes_are_the_execution_time_binding_to_base_commit():
     assert committed["base_commit"] == S.BASE_COMMIT
     assert set(committed["input_sha256"]) == set(S.INPUT_FILES)
     for rel, digest in committed["input_sha256"].items():
-        if rel == S.PROTOCOL_PATH:                      # authored on the screen branch, not at BASE
-            assert digest == S._sha256(rel), "the frozen protocol must not drift"
+        if rel == S.PROTOCOL_PATH:
+            # authored on the screen branch, so it is not bound to BASE. It is bound to its FREEZE
+            # commit -- never to the live file; see
+            # test_protocol_bindings_are_the_frozen_historical_protocol.
+            assert digest == _sha256_at(PROTOCOL_FREEZE_COMMIT, rel), (
+                "the recorded protocol hash is not the protocol as frozen")
             continue
         assert digest == _sha256_at(S.BASE_COMMIT, rel), (
             "%s: the committed input hash is not the byte content at BASE_COMMIT. Either the "
             "artifact was re-stamped after execution (it must not be -- it is a record), or the "
             "screen was re-executed and its base_commit was not updated to match." % rel)
+
+def test_protocol_bindings_are_the_frozen_historical_protocol():
+    """The three recorded protocol bindings must equal the protocol AS FROZEN, not the live file.
+
+    Binding them to the live file left the last re-stamp route open: amend PROTOCOL.md after
+    execution, re-stamp `protocol.sha256`, `provenance.protocol_sha256` and the PROTOCOL_PATH entry
+    of `provenance.input_sha256` to the new value, and every live-hash check goes green again. The
+    commit-order test did not close it either, because it compared oldest-protocol with
+    oldest-result and a later amendment does not move the oldest protocol commit.
+    """
+    for ref in (PROTOCOL_FREEZE_COMMIT, EXECUTION_COMMIT):
+        if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            pytest.skip("protocol history not present in this checkout")
+    path = BUNDLE / "result.json"
+    if not path.exists():
+        pytest.skip("result not yet written")
+    frozen = _sha256_at(PROTOCOL_FREEZE_COMMIT, S.PROTOCOL_PATH)
+    assert frozen is not None, "the protocol is absent from its own freeze commit"
+    assert frozen == _sha256_at(EXECUTION_COMMIT, S.PROTOCOL_PATH), (
+        "the protocol changed between its freeze commit and the execution commit")
+    committed = json.loads(path.read_text(encoding="utf-8"))
+    for label, got in (("protocol.sha256", committed["protocol"]["sha256"]),
+                       ("provenance.protocol_sha256", committed["provenance"]["protocol_sha256"]),
+                       ("provenance.input_sha256[PROTOCOL_PATH]",
+                        committed["provenance"]["input_sha256"][S.PROTOCOL_PATH])):
+        assert got == frozen, (
+            "%s does not match the protocol as frozen at %s. Either PROTOCOL.md was amended after "
+            "execution and the binding re-stamped, or the artifact no longer records the protocol "
+            "it was actually run against." % (label, PROTOCOL_FREEZE_COMMIT[:7]))
