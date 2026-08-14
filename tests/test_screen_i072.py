@@ -181,10 +181,17 @@ def test_committed_result_is_cross_platform_numerically_equivalent(result):
     """Structure and non-floating content EXACT; computed floats within the frozen portability
     tolerance. Byte identity across numerical environments was never achievable and is not the
     property this artifact needs."""
+    import copy
     path = BUNDLE / "result.json"
     if not path.exists():
         pytest.skip("result not yet written")
-    _assert_result_equivalent(json.loads(path.read_text(encoding="utf-8")), result)
+    committed, fresh = copy.deepcopy(json.loads(path.read_text(encoding="utf-8"))), copy.deepcopy(result)
+    # execution-time provenance is NOT a live binding: sentinel it here and assert it against
+    # history in test_committed_input_hashes_are_the_execution_time_binding_to_base_commit.
+    # Everything else -- every scientific value, decision, structure and ordering -- stays EXACT.
+    for obj in (committed, fresh):
+        obj["provenance"]["input_sha256"] = "<SENTINEL-EXECUTION-TIME-INPUT-BINDING>"
+    _assert_result_equivalent(committed, fresh)
 
 
 def test_screen_is_deterministic():
@@ -442,13 +449,24 @@ def test_no_evidence_label_or_rung_is_changed(result):
         "within_campaign_held_out"
 
 
+#: The screen's own last commit. The guard below is a statement about what THIS SCREEN did, so it
+#: must compare BASE_COMMIT..SCREEN_TIP -- a fixed historical range. It previously compared
+#: BASE_COMMIT..HEAD, which is a different and much stronger claim: that NO commit since the screen
+#: has ever touched these files. That expires the moment any unrelated later work edits
+#: `models/__init__.py` (every new component does) or `MANIFEST.csv` (every data intake does), and
+#: it silently passed for an uncommitted working tree, because `git diff A B` reads committed trees
+#: only. Pinning the range states the true historical fact permanently instead of decaying.
+SCREEN_TIP_COMMIT = "dfc6d20f5b7e18fdea2d4d472dd1be1d1b738fcf"
+
+
 def test_registry_manifest_and_cards_are_unmodified_by_this_branch():
     base = S.BASE_COMMIT
-    if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
-        pytest.skip("base commit not present in this checkout")
+    for ref in (base, SCREEN_TIP_COMMIT):
+        if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            pytest.skip("screen commit range not present in this checkout")
     for path in ("puckworks/models/__init__.py", "puckworks/data/MANIFEST.csv",
                  "docs/cards/mo2023_2.md", "puckworks/validation/gates.py"):
-        r = _git("diff", "--numstat", base, "HEAD", "--", path)
+        r = _git("diff", "--numstat", base, SCREEN_TIP_COMMIT, "--", path)
         assert r.stdout.strip() == "", "%s was modified by this screen branch" % path
 
 
@@ -605,3 +623,43 @@ def test_a_threshold_crossing_structural_deviation_is_rejected(result):
     _rejects(result, fresh)
     # and the scientific assertion that consumes it would fail too
     assert not (_at(fresh, path) < 1e-12)
+
+
+# --------------------------------------------------------------------------------------------
+# EXECUTION-TIME PROVENANCE vs CURRENT BINDINGS
+#
+# `provenance.input_sha256` is written by `screen()` from the WORKING TREE at run time, and is
+# stored next to a PINNED `base_commit`. The committed artifact is therefore a record of ONE
+# execution: for every repository input its hashes are the bytes at BASE_COMMIT. (The screen's own
+# PROTOCOL.md is authored on the screen branch, so it is bound to the branch, not to BASE; that it
+# was frozen BEFORE execution is proved separately by the commit-order test.)
+#
+# The equivalence test below therefore compares the SCIENCE against a fresh run and the PROVENANCE
+# against history. Comparing execution-time hashes against today's tree would mean the artifact
+# "drifts" whenever an unrelated commit edits a bound input, and the only way to make it green
+# again would be to REWRITE the executed artifact -- which destroys the record it exists to be.
+# Asserting the historical binding instead catches exactly that rewrite.
+# --------------------------------------------------------------------------------------------
+def _sha256_at(commit, rel):
+    import hashlib
+    r = subprocess.run(("git", "show", "%s:%s" % (commit, rel)), cwd=REPO, capture_output=True)
+    return hashlib.sha256(r.stdout).hexdigest() if r.returncode == 0 else None
+
+
+def test_committed_input_hashes_are_the_execution_time_binding_to_base_commit():
+    path = BUNDLE / "result.json"
+    if not path.exists():
+        pytest.skip("result not yet written")
+    if _git("cat-file", "-e", S.BASE_COMMIT + "^{commit}").returncode != 0:
+        pytest.skip("base commit not present in this checkout")
+    committed = json.loads(path.read_text(encoding="utf-8"))["provenance"]
+    assert committed["base_commit"] == S.BASE_COMMIT
+    assert set(committed["input_sha256"]) == set(S.INPUT_FILES)
+    for rel, digest in committed["input_sha256"].items():
+        if rel == S.PROTOCOL_PATH:                      # authored on the screen branch, not at BASE
+            assert digest == S._sha256(rel), "the frozen protocol must not drift"
+            continue
+        assert digest == _sha256_at(S.BASE_COMMIT, rel), (
+            "%s: the committed input hash is not the byte content at BASE_COMMIT. Either the "
+            "artifact was re-stamped after execution (it must not be -- it is a record), or the "
+            "screen was re-executed and its base_commit was not updated to match." % rel)

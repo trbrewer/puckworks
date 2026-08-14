@@ -247,12 +247,17 @@ def test_pannusch_metadata_conflict_is_internal_and_unresolved(result):
 
 
 def test_neither_registry_nor_source_card_was_modified():
+    # BASE..SCREEN_TIP, not BASE..HEAD: this asserts what THIS SCREEN did, which is a fixed
+    # historical range. Against HEAD it would also assert that no later, unrelated commit ever
+    # edits `models/__init__.py` or these cards -- a claim the screen never made and cannot keep.
     base = "14c3753c6e8dab2995332dbe1c3d1e04c4348051"
-    if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
-        pytest.skip("branch base %s not present in this checkout" % base[:7])
+    screen_tip = "fddb109f8274426a33817a5c17bb8563592d0c71"
+    for ref in (base, screen_tip):
+        if _git("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            pytest.skip("screen commit range not present in this checkout")
     for path in ("puckworks/models/__init__.py", "docs/cards/pannusch2024.md",
                  "docs/cards/cameron2020.md", "docs/cards/schmieder2023.md"):
-        r = _git("diff", "--numstat", base, "HEAD", "--", path)
+        r = _git("diff", "--numstat", base, screen_tip, "--", path)
         assert r.returncode == 0, r.stderr
         assert r.stdout.strip() == "", "%s was modified: %s" % (path, r.stdout.strip())
 

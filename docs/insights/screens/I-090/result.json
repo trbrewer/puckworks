@@ -48,11 +48,11 @@
       "docs/insights/screens/I-090/PROTOCOL.md": "24c6f01e130569e64cd5f91d97b82351b6b672f271da9b04c82fa33e2682723f",
       "puckworks/models/foster2025/infiltration.py": "bed1e3b9e7546f805f4341578ad4e6258a9d0005f483096bbe57381dd95a5cc9",
       "puckworks/models/foster2025/machine_mode.py": "b2e5ceb919d10c410d3a91e4d9671028de31803f880d781c2460c6783aaede54",
-      "puckworks/models/__init__.py": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+      "puckworks/models/__init__.py": "ea2feb6254c04ee3f0d4b1b8a8cd0145c2b919a865a73f8ec3d14c047dbefb4f",
       "docs/cards/foster2025.md": "3e8ba677ed35f8f7020ad7c817553fa81dbac1446d85e1814990ae739e601382",
       "docs/cards/foster2025_2.md": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b",
       "puckworks/data/de1_fixtureA.json": "0c3b9402c381df72dde73a901354f00a1b2425b7581b8206425ecf56c179405c",
-      "puckworks/data/MANIFEST.csv": "0c69759242a22e11eec34bf67ec88c800a868a424c1516a38e458823e535965a"
+      "puckworks/data/MANIFEST.csv": "7e020f3063506bdb059aee8da384e92341e212a4dfaac55b2b0bd6272bbe9ea9"
     },
     "command": "python -m puckworks.analysis.screen_i090_first_drip"
   },
