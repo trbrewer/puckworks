@@ -1,0 +1,18 @@
+{
+  "schema_version": "rgt-rp-a-001/private-evidence-manifest/v1",
+  "task_id": "RGT-RP-A-001",
+  "symbolic_bundle_name": "RGT_RP_A_001_PRIVATE_EVIDENCE_BUNDLE",
+  "attempt_id": "attempt_001",
+  "file_count": 6,
+  "ordered_file_hash_manifest_sha256": "a30983ac3f083d32acd717f3e3c2034513eac7a65948bd7990d10aa4e4f9151a",
+  "evidence_files": [
+    {"evidence_id": "CAMERON_SUPPLEMENT", "sha256": "37530ec8c450c6fe5b231a7d4e3b65347555454b366ed4730ec106a4fb56775f", "classification": "private_working_copy"},
+    {"evidence_id": "CAMERON_ELSEVIER_METADATA", "sha256": "28a9a61d60f58c2caebece5594833933bf951869df97bc643ae3548593e7c7f2", "classification": "public_metadata_private_retention_copy"},
+    {"evidence_id": "CAMERON_UPSTREAM_MIT", "sha256": "6a778055e83f687f8c51204aefc48c5c3b9ccfe3e242d2a8547ff474ee562cdf", "classification": "public_license_private_retention_copy"},
+    {"evidence_id": "CAMERON_ELSEVIER_METADATA", "sha256": "3688082f1347015319e8d28942ccc455601fb007159a3e55d2fac36ff3e5f7e6", "classification": "public_policy_private_retention_copy"},
+    {"evidence_id": "FOSTER_CROSSREF_LICENSE", "sha256": "f54997dcba10b765955fa7de4e5f4c86f89604e21684678a9654f048f4bcf148", "classification": "public_metadata_private_retention_copy"},
+    {"evidence_id": "WADSWORTH_CROSSREF_LICENSE", "sha256": "19fedd6218f6650988043642d97aae51e7feb4fd17688fb3dccfefbcc499de60", "classification": "public_metadata_private_retention_copy"}
+  ],
+  "retention_statement": "Working copies remain outside Git. No private correspondence, contact details, access tokens, paywalled article, or raw dataset is committed.",
+  "absolute_paths_in_public_manifest": false
+}

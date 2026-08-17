@@ -93,7 +93,7 @@ def test_native_reference_outputs_are_not_cleared_for_public_publication():
     v = gate.preflight(lab.ScenarioRequest("pv19_named"), "PUBLIC_ARTIFACT")   # default interactive_fast
     ref_rows = [r for r in v["requested"] if r.get("use_kind") == "native_reference"]
     assert ref_rows and any(r["blocked"] for r in ref_rows)
-    assert not next(r for r in ref_rows if r["component_id"] == "wadsworth2026.permeability")["blocked"]
+    assert next(r for r in ref_rows if r["component_id"] == "wadsworth2026.permeability")["blocked"]
 
 
 # ── the batch enforces the gate before any producer ─────────────────────────────────

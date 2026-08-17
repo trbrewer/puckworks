@@ -71,7 +71,7 @@ def test_use_specific_decisions_remain_separate_and_fail_closed():
         assert rights.may_include_code_in_release(component_id).allowed
     assert not rights.may_publish_outputs(cameron).allowed
     assert not rights.may_publish_outputs(foster).allowed
-    assert rights.may_publish_outputs(wadsworth).allowed
+    assert not rights.may_publish_outputs(wadsworth).allowed
     assert rights.may_include_data_in_release(cameron).allowed
     assert rights.may_include_data_in_release(foster).allowed
     assert rights.may_include_data_in_release(wadsworth).allowed
@@ -126,3 +126,24 @@ def test_draft_pr_remote_authority_never_authorizes_science_or_merge():
     assert remote["scientific_execution_authorized"] is False
     assert remote["separate_issue_required_before_ready"] is True
     assert remote["separate_issue_required_before_merge"] is True
+
+
+def test_rp_a_resume_gate_requires_all_three_and_fails_closed():
+    gate = json.loads((REVIEW / "RP_A_001_RESUME_GATE.json").read_text())
+    assert gate["decision"] == "RP_A_001_RESUME_NOT_AUTHORIZED"
+    assert gate["all_three_required"] is True
+    assert gate["automatic_substitution_allowed"] is False
+    rows = {row["component_id"]: row for row in gate["component_verdicts"]}
+    assert set(rows) == set(TRIO)
+    assert rows["wadsworth2026.permeability"]["verdict"] == "NOT_AUTHORIZED_BY_CURRENT_POLICY"
+    assert rows["cameron2020.extraction_bdf"]["verdict"] == "NOT_AUTHORIZED"
+    assert rows["foster2025.infiltration"]["policy_representation_safe"] is False
+    assert gate["scientific_execution_performed"] is False
+
+
+def test_private_evidence_manifest_contains_no_path_or_contact_data():
+    manifest = json.loads((REVIEW / "PRIVATE_EVIDENCE_MANIFEST.json").read_text())
+    assert manifest["symbolic_bundle_name"] == "RGT_RP_A_001_PRIVATE_EVIDENCE_BUNDLE"
+    assert manifest["file_count"] == len(manifest["evidence_files"])
+    assert manifest["absolute_paths_in_public_manifest"] is False
+    assert "/home/" not in json.dumps(manifest)

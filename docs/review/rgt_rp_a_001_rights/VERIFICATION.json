@@ -1,0 +1,32 @@
+{
+  "schema_version": "rgt-rp-a-001/verification/v1",
+  "task_id": "RGT-RP-A-001",
+  "verified_at_utc_date": "2026-08-17",
+  "focused_rights_tests": {"status": "PASS", "passed": 21, "skipped": 2, "command_note": "PYTHONPATH=. used to make the repository-root tools namespace importable when the two files are selected alone"},
+  "expanded_rights_tests": {"status": "PASS", "passed": 110, "skipped": 5},
+  "full_suite": {
+    "status": "FAIL_AUTHORIZED_PATH_RECONCILIATION_REQUIRED",
+    "passed": 4089,
+    "skipped": 59,
+    "failed": 5,
+    "wall_seconds": 2520.97,
+    "failure_reconciliation": "The public-tour failure passed after global Wadsworth output clearance was withdrawn. Four generated Paper 3 availability/manuscript freshness tests remain stale because reviewed rights states change their matrix and prose count; those generated manuscript paths are outside this lane's authorized write set."
+  },
+  "remaining_failures": [
+    "tests/test_manuscript_structure.py::test_paper_3_generated_blocks_are_current",
+    "tests/test_paper3_availability.py::test_generated_artifacts_are_not_stale",
+    "tests/test_paper3_availability.py::test_the_manuscript_tables_are_generated_not_hand_written",
+    "tests/test_paper3_availability.py::test_the_prose_counts_match_the_generated_matrix"
+  ],
+  "scoped_mypy": "PASS (19 source files)",
+  "ruff": "PASS",
+  "statusdoc": "PASS",
+  "insight_foundry": "PASS",
+  "json_validation": "PASS",
+  "csv_validation": "PASS",
+  "compileall": "PASS",
+  "git_diff_check": "PASS",
+  "private_data_scan": "PASS",
+  "registry_gate_result": "PASS=65; ACKNOWLEDGED_EXCEPTION=1",
+  "claim_boundary": "No RP-A scientific execution occurred; existing repository gates are verification only."
+}

@@ -5,8 +5,8 @@ Review: RGT-RP-A-001, 2026-08-17. Discussion authority: draft PR #241; the separ
 The reviewed evidence supports the following bounded repository-use determination for `wadsworth2026.permeability`:
 
 - code: `INDEPENDENT_REIMPLEMENTATION` for the current first-party Python constitutive function;
-- data: `CLEAR` for the two current Table 1 transcriptions under CC BY 4.0;
-- generated outputs: `CLEAR` for reduced outputs produced by that reviewed function and those bounded transcriptions.
+- data: the exact two current Table 1 transcriptions are affirmatively supportable under CC BY 4.0, but the global state remains `RIGHTS_REVIEW_REQUIRED` because it cannot encode that bounded scope safely;
+- generated outputs: exact RP-A reduced outputs are affirmatively supportable with attribution, but the global state remains `RIGHTS_REVIEW_REQUIRED` to avoid clearing broader public-product paths.
 
 Attribution:
 

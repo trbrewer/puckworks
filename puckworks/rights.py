@@ -238,8 +238,8 @@ _RECORDS: dict[str, RightsRecord] = {
     "wadsworth2026.permeability": RightsRecord(
         component_id="wadsworth2026.permeability",
         code_rights_state="INDEPENDENT_REIMPLEMENTATION",
-        data_rights_state="CLEAR",
-        output_redistribution_state="CLEAR",
+        data_rights_state="RIGHTS_REVIEW_REQUIRED",
+        output_redistribution_state="RIGHTS_REVIEW_REQUIRED",
         rights_note=(
             "Bounded to the current constitutive function, the two committed Table 1 transcriptions, "
             "and reduced outputs generated from them. The Python implementation is first-party and no "
@@ -247,7 +247,10 @@ _RECORDS: dict[str, RightsRecord] = {
             "gold open access and its 2026 content as CC BY; the publisher-deposited article record "
             "identifies CC BY 4.0. Attribution and indication of transcription/transformation are "
             "required. Raw XCT volumes and future associated downloads are excluded and not cleared. "
-            "Third-party Table 1 material is not relicensed under Puckworks MIT. Rights only: scientific "
+            "The bounded RP-A profile is affirmatively supportable, but the component-wide record cannot "
+            "express that scope without also clearing broader public-product paths; global data/output "
+            "therefore fail closed. Third-party Table 1 material is not relicensed under Puckworks MIT. "
+            "Rights only: scientific "
             "status, evidence strength, validation, and untamped validity limits are unchanged."),
         source=(
             "Puckworks git history and full-file blame (introduced c54a2a6; Tim Brewer authorship); "

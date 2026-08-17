@@ -49,8 +49,7 @@ def test_explorer_public_live_is_affirmative_rights_only():
     cat = E.explorer_catalog()
     rows = {r["component_id"]: r for r in cat["components"]}
     # public-live is the conjunction of affirmative public-execution AND output-publication clearance
-    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference", "grudeva2025.reduced",
-                                                 "wadsworth2026.permeability"]
+    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference", "grudeva2025.reduced"]
     assert rows["brewer2026.lb_reference"]["public_live_available"] is True
     g = rows["grudeva2025.reduced"]
     assert g["public_live_available"] is True and g["unavailable_reason"] == ""
@@ -60,8 +59,7 @@ def test_explorer_public_live_is_affirmative_rights_only():
     # NOT_REVIEWED is never public-live, with a plain reason
     assert rows["cameron2020.extraction_bdf"]["public_live_available"] is False
     assert rows["cameron2020.extraction_bdf"]["unavailable_reason"]
-    assert E.public_live_component_ids() == ["brewer2026.lb_reference", "grudeva2025.reduced",
-                                             "wadsworth2026.permeability"]
+    assert E.public_live_component_ids() == ["brewer2026.lb_reference", "grudeva2025.reduced"]
 
 
 def test_explorer_reports_a_rights_block_with_a_plain_reason():

@@ -1,0 +1,62 @@
+{
+  "schema_version": "rgt-rp-a-001/resume-gate/v1",
+  "task_id": "RGT-RP-A-001",
+  "use_profile_id": "RP_A_001_LOCAL_DERIVED_OUTPUT_PROFILE_V1",
+  "decision": "RP_A_001_RESUME_NOT_AUTHORIZED",
+  "decision_date": "2026-08-17",
+  "component_verdicts": [
+    {
+      "component_id": "cameron2020.extraction_bdf",
+      "local_execution_allowed": true,
+      "code_path_identified": true,
+      "input_artifacts_identified": true,
+      "input_profile_within_reviewed_scope": true,
+      "derived_output_publication_affirmatively_permitted": false,
+      "attribution_implementable": true,
+      "private_or_unredistributable_data_excluded_from_committed_outputs": false,
+      "cross_component_dependency_resolved": true,
+      "policy_representation_safe": true,
+      "verdict": "NOT_AUTHORIZED",
+      "blocker": "No affirmative outward-use basis was established for reduced outputs derived from embedded SI Tables S1-S5."
+    },
+    {
+      "component_id": "wadsworth2026.permeability",
+      "local_execution_allowed": true,
+      "code_path_identified": true,
+      "input_artifacts_identified": true,
+      "input_profile_within_reviewed_scope": true,
+      "derived_output_publication_affirmatively_permitted": true,
+      "attribution_implementable": true,
+      "private_or_unredistributable_data_excluded_from_committed_outputs": true,
+      "cross_component_dependency_resolved": true,
+      "policy_representation_safe": false,
+      "verdict": "NOT_AUTHORIZED_BY_CURRENT_POLICY",
+      "blocker": "The exact bounded RP-A profile is affirmatively supportable, but the global record would over-clear broader public-product paths."
+    },
+    {
+      "component_id": "foster2025.infiltration",
+      "local_execution_allowed": true,
+      "code_path_identified": true,
+      "input_artifacts_identified": true,
+      "input_profile_within_reviewed_scope": false,
+      "derived_output_publication_affirmatively_permitted": false,
+      "attribution_implementable": true,
+      "private_or_unredistributable_data_excluded_from_committed_outputs": false,
+      "cross_component_dependency_resolved": false,
+      "policy_representation_safe": false,
+      "verdict": "NOT_AUTHORIZED",
+      "blocker": "The current global rights policy cannot clear only synthetic-pressure outputs without appearing to clear DE1/private traces and Cameron-dependent k_from_kappa inputs."
+    }
+  ],
+  "all_three_required": true,
+  "automatic_substitution_allowed": false,
+  "remaining_requirements": [
+    "Cameron: written permission or affirmative licence for the exact SI-derived reduced-output profile",
+    "Foster: exact outward-use evidence for any recorded trace used by RP-A, or a safely represented synthetic-only path",
+    "Foster: Cameron clearance if k_from_kappa is used",
+    "A separately authorized policy change if narrow input-profile rights must be represented"
+  ],
+  "scientific_execution_performed": false,
+  "scientific_status_unchanged": true,
+  "determinism_basis": "All three canonical component determinations must authorize the exact use profile; any unresolved governing field returns NOT_AUTHORIZED."
+}
