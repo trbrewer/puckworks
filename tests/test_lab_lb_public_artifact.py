@@ -144,15 +144,14 @@ def test_roman_remains_deferred_and_unregistered_as_a_producer():
     assert not rights.may_execute_in_public_batch("romancorrochano2017.extraction").allowed
 
 
-def test_the_other_native_runners_are_not_made_outward_clear_by_the_lb_decision():
-    from puckworks import rights
+def test_other_native_runner_publication_follows_each_component_record():
     for cid in ("waszkiewicz2025.poroelastic", "wadsworth2026.permeability", "foster2025.infiltration"):
         req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
                                   reference_selection_policy="selected",
                                   requested_reference_runner_ids=(cid,))
         v = gate.preflight(req, "PUBLIC_ARTIFACT")
-        assert v["blocked"] is True                          # still NOT_REVIEWED for outward use
-        assert rights.rights_record(cid).code_rights_state == "NOT_REVIEWED"
+        expected = cid == "wadsworth2026.permeability"
+        assert v["blocked"] is not expected
 
 
 def test_a_mixed_request_with_lb_plus_an_unreviewed_runner_blocks(tmp_path, spy):
@@ -190,13 +189,13 @@ def test_no_context_env_or_flag_can_turn_the_lb_record_into_a_generic_bypass():
     assert gate.preflight(req, "PUBLIC_ARTIFACT")["blocked"] is True
 
 
-def test_exactly_two_components_are_affirmatively_public_live_today():
+def test_exactly_three_components_are_affirmatively_public_live_today():
     # the set that passes BOTH public-execution and output-publication clearance, on two DIFFERENT
     # bases: LB is first-party CLEAR (#70); grudeva is PERMISSION_DOCUMENTED (#73, 2026-08-14).
     from puckworks import rights
     live = sorted(c.name for c in puckworks.components()
                   if rights.may_execute_in_public_batch(c.name).allowed
                   and rights.may_publish_outputs(c.name).allowed)
-    assert live == [LB, "grudeva2025.reduced"]
+    assert live == [LB, "grudeva2025.reduced", "wadsworth2026.permeability"]
     assert rights.rights_record(LB).code_rights_state == "CLEAR"
     assert rights.rights_record("grudeva2025.reduced").code_rights_state == "PERMISSION_DOCUMENTED"

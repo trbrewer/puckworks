@@ -59,11 +59,12 @@ def test_lb_reference_data_inclusion_is_explicitly_not_applicable():
 
 
 def test_unrelated_records_are_unchanged():
-    # the only affirmatively/blocked reviewed records today are exactly LB (this review) and Grudeva (#73)
+    # Reviewed records include the bounded RGT-RP-A-001 trio determinations.
     reviewed = {r.component_id for r in rights.all_rights()
                 if any(s != "NOT_REVIEWED" for s in
                        (r.code_rights_state, r.data_rights_state, r.output_redistribution_state))}
-    assert reviewed == {LB, "grudeva2025.reduced"}
+    assert reviewed == {LB, "grudeva2025.reduced", "cameron2020.extraction_bdf",
+                        "wadsworth2026.permeability", "foster2025.infiltration"}
 
 
 def test_grudeva_clearance_is_its_own_and_did_not_come_from_this_review():
@@ -81,9 +82,8 @@ def test_grudeva_clearance_is_its_own_and_did_not_come_from_this_review():
     assert not rights.rights_record(LB).permission
 
 
-def test_cameron_and_the_source_data_native_runners_remain_unreviewed():
-    for cid in ("cameron2020.extraction_bdf", "waszkiewicz2025.poroelastic",
-                "wadsworth2026.permeability", "foster2025.infiltration"):
+def test_unreviewed_native_runner_remains_unreviewed():
+    for cid in ("waszkiewicz2025.poroelastic",):
         r = rights.rights_record(cid)
         assert r.code_rights_state == "NOT_REVIEWED"
         # not cleared for public/outward use — a visible gap, never "clear"

@@ -190,6 +190,72 @@ _GRUDEVA_PERMISSION = {
 # validation. Decision issue #70. This record is bounded to the LB channel code-verification path and
 # clears NOTHING else (see rights_review_notes.md).
 _RECORDS: dict[str, RightsRecord] = {
+    "cameron2020.extraction_bdf": RightsRecord(
+        component_id="cameron2020.extraction_bdf",
+        code_rights_state="INDEPENDENT_REIMPLEMENTATION",
+        data_rights_state="RIGHTS_REVIEW_REQUIRED",
+        output_redistribution_state="RIGHTS_REVIEW_REQUIRED",
+        rights_note=(
+            "Code only: first-party Python implementation with independent numerical structure; the "
+            "authors' distinct MATLAB repository is MIT-licensed. Data/output remain unresolved for "
+            "outward use because this module embeds arrays transcribed from SI Tables S1-S5, while the "
+            "article and supplement are governed by the Elsevier user licence, which permits specified "
+            "non-commercial access/copying but says users may not redistribute, display, or adapt the "
+            "article. The MIT upstream contains only a single reference parameter set, not the complete "
+            "grind/flux arrays used here. Local private execution remains inspectable; RP-A publication "
+            "from these embedded arrays is not affirmatively cleared. Rights only: scientific status, "
+            "evidence strength, validation, and validity range are unchanged."),
+        source=(
+            "Puckworks git history and full-file blame (introduced c54a2a6; Tim Brewer authorship); "
+            "puckworks/models/cameron2020/extraction_bdf.py; official Cameron SI and its cited upstream "
+            "github.com/jamiemfoster/Espresso at master (MIT, copyright Jamie Foster 2018); official "
+            "Elsevier article metadata and Elsevier user-licence terms; RGT-RP-A-001 review artifacts"),
+        decision_issue="PR #241 (separate governed issue deferred during GitHub incident)",
+        review_date="2026-08-17"),
+    "foster2025.infiltration": RightsRecord(
+        component_id="foster2025.infiltration",
+        code_rights_state="INDEPENDENT_REIMPLEMENTATION",
+        data_rights_state="RIGHTS_REVIEW_REQUIRED",
+        output_redistribution_state="RIGHTS_REVIEW_REQUIRED",
+        rights_note=(
+            "Code only: first-party NumPy implementation of the documented sharp-front closed form, "
+            "with no upstream code repository or copied implementation identified. The article's "
+            "publisher-deposited record identifies CC BY-NC 4.0, but the component has materially "
+            "different input paths: synthetic prescribed pressure; the committed DE1 recorded trace "
+            "whose exact outward-use grant is not publicly documented for this fixture; article-derived "
+            "parameters; and k_from_kappa(), which imports Cameron's table-backed helpers. The current "
+            "global RightsRecord/output gate cannot affirm only synthetic-input outputs without also "
+            "appearing to clear recorded/private traces and cross-component inputs. Data and output "
+            "therefore fail closed. Rights only: scientific status, evidence strength, validation, and "
+            "validity range are unchanged."),
+        source=(
+            "Puckworks git history and full-file blame (introduced c54a2a6; Tim Brewer authorship); "
+            "puckworks/models/foster2025/infiltration.py; official AIP open-access licence policy; "
+            "publisher-deposited DOI metadata for 10.1063/5.0245167 (CC BY-NC 4.0); MANIFEST row 27 and "
+            "the committed de1_fixtureA provenance; RGT-RP-A-001 review artifacts"),
+        decision_issue="PR #241 (separate governed issue deferred during GitHub incident)",
+        review_date="2026-08-17"),
+    "wadsworth2026.permeability": RightsRecord(
+        component_id="wadsworth2026.permeability",
+        code_rights_state="INDEPENDENT_REIMPLEMENTATION",
+        data_rights_state="CLEAR",
+        output_redistribution_state="CLEAR",
+        rights_note=(
+            "Bounded to the current constitutive function, the two committed Table 1 transcriptions, "
+            "and reduced outputs generated from them. The Python implementation is first-party and no "
+            "upstream code was identified. The Royal Society identifies Royal Society Open Science as "
+            "gold open access and its 2026 content as CC BY; the publisher-deposited article record "
+            "identifies CC BY 4.0. Attribution and indication of transcription/transformation are "
+            "required. Raw XCT volumes and future associated downloads are excluded and not cleared. "
+            "Third-party Table 1 material is not relicensed under Puckworks MIT. Rights only: scientific "
+            "status, evidence strength, validation, and untamped validity limits are unchanged."),
+        source=(
+            "Puckworks git history and full-file blame (introduced c54a2a6; Tim Brewer authorship); "
+            "puckworks/models/wadsworth2026/permeability.py; official Royal Society open-access policy; "
+            "publisher-deposited DOI metadata for 10.1098/rsos.252031 (CC BY 4.0); committed Table 1 "
+            "provenance and hashes; RGT-RP-A-001 review artifacts"),
+        decision_issue="PR #241 (separate governed issue deferred during GitHub incident)",
+        review_date="2026-08-17"),
     "brewer2026.lb_reference": RightsRecord(
         component_id="brewer2026.lb_reference",
         code_rights_state="CLEAR",

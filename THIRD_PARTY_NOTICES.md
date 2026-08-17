@@ -66,3 +66,24 @@ Per-file provenance for the data lives in `puckworks/data/grudeva2025/PROVENANCE
   University of Portsmouth, 2023; Y. Grudeva, K. Moroney & J. M. Foster, "A multiscale model for espresso
   brewing: asymptotic analysis and numerical simulation," *European Journal of Applied Mathematics*
   **37**(2), 496–519 (2026), DOI 10.1017/S095679252500018X.
+
+---
+
+## Wadsworth 2026 — Table 1 transcriptions
+
+The bounded transcriptions in `puckworks/data/wadsworth2026_table1.csv` and
+`puckworks/data/wadsworth2026/wadsworth2026_table1_full.csv` derive from Table 1 of:
+
+> F. B. Wadsworth et al., “A model for the permeability of coffee pucks validated using X-ray computed
+> micro-tomography,” *Royal Society Open Science* **13**, 252031 (2026),
+> [DOI 10.1098/rsos.252031](https://doi.org/10.1098/rsos.252031).
+
+The publisher-deposited article record identifies the version of record as licensed under the
+[Creative Commons Attribution 4.0 International licence](https://creativecommons.org/licenses/by/4.0/).
+The values were transcribed and, where the provenance record says so, transformed by Puckworks. Credit,
+the licence link, and this indication of changes must be retained.
+
+These third-party source values remain under CC BY 4.0; distributing them inside Puckworks does not
+relicense them under Puckworks’ MIT licence. This notice does not cover raw XCT volumes, unreviewed
+supplementary downloads, or future associated data. Rights clearance does not alter scientific evidence,
+validation status, or the component’s untamped validity boundary.

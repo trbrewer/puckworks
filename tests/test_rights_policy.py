@@ -56,7 +56,7 @@ def test_permission_documented_is_affirmative_for_every_use():
 
 
 def test_not_reviewed_is_inspectable_locally_but_not_public_or_output():
-    cid = "cameron2020.extraction_bdf"       # the common lens, NOT_REVIEWED
+    cid = "romancorrochano2017.extraction"   # a genuinely unreviewed component
     assert rights.rights_record(cid).code_rights_state == "NOT_REVIEWED"
     assert rights.may_execute_locally(cid).allowed is True          # dev inspection allowed
     assert rights.may_execute_locally(cid).severity == "gap"        # ...but a gap, not "clear"
@@ -147,14 +147,19 @@ def test_review_backlog_surfaces_the_priority_reviews_without_asserting_clear():
         runner_ids=["waszkiewicz2025.poroelastic", "wadsworth2026.permeability", "foster2025.infiltration"],
         adapter_ids=["cameron2020.extraction_bdf"],
         data_fixtures=["de1_fixtureA.json"])
-    # Cameron public execution + output publication are unreviewed gaps (priority-1 review)
+    # Cameron code is reviewed, while output publication remains an explicit review gap.
     cam = [i for i in bl if i["component_id"] == "cameron2020.extraction_bdf"
            and i["use"] == "public_batch_execution"]
-    assert cam and cam[0]["needs_review"] is True and cam[0]["governing_state"] == "NOT_REVIEWED"
+    assert cam and cam[0]["needs_review"] is False
+    cam_output = [i for i in bl if i["component_id"] == "cameron2020.extraction_bdf"
+                  and i["use"] == "output_publication"]
+    assert cam_output and cam_output[0]["needs_review"] is True
+    assert cam_output[0]["governing_state"] == "RIGHTS_REVIEW_REQUIRED"
     # nothing that STILL NEEDS review is asserted CLEAR (no manufactured clearance for an unreviewed one)
     assert all(i["governing_state"] != "CLEAR" for i in bl if i["needs_review"])
-    # the only CLEAR entries belong to the affirmatively-reviewed first-party LB component (issue #70)
-    assert {i["component_id"] for i in bl if i["governing_state"] == "CLEAR"} == {"brewer2026.lb_reference"}
+    # CLEAR entries are limited to the reviewed LB and bounded Wadsworth determinations.
+    assert {i["component_id"] for i in bl if i["governing_state"] == "CLEAR"} == {
+        "brewer2026.lb_reference", "wadsworth2026.permeability"}
     assert all(i["needs_review"] is False for i in bl if i["governing_state"] == "CLEAR")
     # the data fixture is present as a review item
     assert any(i["component_id"] == "de1_fixtureA.json" for i in bl)

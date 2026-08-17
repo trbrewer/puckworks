@@ -38,20 +38,19 @@ def test_explorer_keeps_code_data_output_rights_separate():
     rows = {r["component_id"]: r for r in E.explorer_catalog()["components"]}
     for r in rows.values():
         assert {"code_rights_state", "data_rights_state", "output_redistribution_state"} <= set(r)
-    # the LB component is affirmatively cleared on all three; Cameron is NOT_REVIEWED
+    # the LB component is affirmatively cleared; Cameron now has reviewed code but unresolved outputs
     lb = rows["brewer2026.lb_reference"]
     assert (lb["code_rights_state"], lb["data_rights_state"], lb["output_redistribution_state"]) == (
         "CLEAR", "NOT_APPLICABLE", "CLEAR")
-    assert rows["cameron2020.extraction_bdf"]["code_rights_state"] == "NOT_REVIEWED"
+    assert rows["cameron2020.extraction_bdf"]["code_rights_state"] == "INDEPENDENT_REIMPLEMENTATION"
 
 
 def test_explorer_public_live_is_affirmative_rights_only():
     cat = E.explorer_catalog()
     rows = {r["component_id"]: r for r in cat["components"]}
     # public-live is the conjunction of affirmative public-execution AND output-publication clearance
-    # two affirmative clearances on two DIFFERENT bases: LB is first-party CLEAR (#70); Grudeva is
-    # PERMISSION_DOCUMENTED on the 2026-08-14 direct written permission (#73).
-    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference", "grudeva2025.reduced"]
+    assert cat["public_live_component_ids"] == ["brewer2026.lb_reference", "grudeva2025.reduced",
+                                                 "wadsworth2026.permeability"]
     assert rows["brewer2026.lb_reference"]["public_live_available"] is True
     g = rows["grudeva2025.reduced"]
     assert g["public_live_available"] is True and g["unavailable_reason"] == ""
@@ -61,7 +60,8 @@ def test_explorer_public_live_is_affirmative_rights_only():
     # NOT_REVIEWED is never public-live, with a plain reason
     assert rows["cameron2020.extraction_bdf"]["public_live_available"] is False
     assert rows["cameron2020.extraction_bdf"]["unavailable_reason"]
-    assert E.public_live_component_ids() == ["brewer2026.lb_reference", "grudeva2025.reduced"]
+    assert E.public_live_component_ids() == ["brewer2026.lb_reference", "grudeva2025.reduced",
+                                             "wadsworth2026.permeability"]
 
 
 def test_explorer_reports_a_rights_block_with_a_plain_reason():
