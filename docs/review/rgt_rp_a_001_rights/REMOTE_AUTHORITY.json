@@ -1,0 +1,39 @@
+{
+  "schema_version": "rgt-rp-a-001/remote-authority/v1",
+  "task_id": "RGT-RP-A-001",
+  "authorization_id": "RGT-RP-A-001-PR-FIRST-DEGRADED-REMOTE-AUTHORIZATION-2026-08-17",
+  "authorization_date": "2026-08-17",
+  "authority_mode": "DRAFT_PR_TEMPORARY_REMOTE_AUTHORITY",
+  "github_incident_confirmed": {
+    "observed_at_utc": "2026-08-17T18:27:35Z",
+    "official_status": "Partial System Outage",
+    "incident_id": "zkxwbgr0cnmx",
+    "incident_status": "investigating",
+    "issues_status": "degraded_performance",
+    "official_status_url": "https://www.githubstatus.com/incidents/zkxwbgr0cnmx"
+  },
+  "issue_creation_state": "DEFERRED_CONFIRMED_GITHUB_SERVICE_DEGRADATION",
+  "remote_attempt_disposition": "GITHUB_ISSUES_503_EXTERNAL_SERVICE_DEGRADATION",
+  "issue_creation_attempts": [
+    {
+      "attempt_ids": [1, 2, 3, 4, 5, 6, 7],
+      "request_date_utc": "2026-08-17",
+      "exact_request_timestamps": "NOT_CAPTURED_BY_PRIOR_NON_ADJUDICATIVE_COMMAND_LOG",
+      "methods": ["GraphQL mutation through gh issue create", "REST POST"],
+      "endpoint_class": "GitHub Issues creation",
+      "http_status": 503,
+      "sanitized_response": "No server is currently available to service your request. Sorry about that.",
+      "credentials_and_repository_reads_worked": true,
+      "issue_created": false,
+      "duplicate_issue_found_after_attempts": false,
+      "notes": "The precise timestamps were not emitted by the earlier command log and are not reconstructed or invented. The requests occurred during the official incident window beginning 2026-08-17T13:40:03Z; the final pre-authorization retry preceded the 2026-08-17T18:27:35Z status capture."
+    }
+  ],
+  "issue_title_sha256": "fbdb91377bf0519779d1c65b8f5609292fa7b031c251038d37bb22c622165281",
+  "issue_body_sha256": "3b86f231b9597ffc7b2fd6ef673d742098980cbe4352362b69e4020d58fa2395",
+  "temporary_remote_authority": "DRAFT_PULL_REQUEST_PENDING_CREATION",
+  "separate_issue_required_before_ready": true,
+  "separate_issue_required_before_merge": true,
+  "scientific_execution_authorized": false,
+  "claim_boundary": "Repository-use review only; not general legal advice; rights and scientific validation remain separate; no RP-A scientific result is authorized or created."
+}

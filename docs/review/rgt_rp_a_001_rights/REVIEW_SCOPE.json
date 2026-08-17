@@ -1,0 +1,25 @@
+{
+  "review_schema_version": "rgt-rp-a-001/review-scope/v1",
+  "task_id": "RGT-RP-A-001",
+  "use_profile_id": "RP_A_001_LOCAL_DERIVED_OUTPUT_PROFILE_V1",
+  "source_commit": "ff44b502cfda06610dd33c2cd149456b46bc9784",
+  "source_tree": "a950de96bb7d74f9b8a029031bf49dc711543645",
+  "components": [
+    "cameron2020.extraction_bdf",
+    "foster2025.infiltration",
+    "wadsworth2026.permeability"
+  ],
+  "reviewed_dimensions": [
+    "code",
+    "source_data_and_transcribed_numerical_material",
+    "generated_output_redistribution",
+    "local_execution",
+    "public_batch_execution",
+    "code_in_release",
+    "data_in_release"
+  ],
+  "public_execution_in_profile": false,
+  "scientific_execution_authorized": false,
+  "private_evidence_namespace": "RGT_RP_A_001_PRIVATE_EVIDENCE_BUNDLE",
+  "prospective_state": "NOT_ADJUDICATED"
+}

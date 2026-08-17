@@ -1,0 +1,23 @@
+{
+  "schema_version": "rgt-rp-a-001/source-binding/v1",
+  "task_id": "RGT-RP-A-001",
+  "source_commit": "ff44b502cfda06610dd33c2cd149456b46bc9784",
+  "source_tree": "a950de96bb7d74f9b8a029031bf49dc711543645",
+  "bindings": [
+    {"path": "puckworks/rights.py", "sha256": "806627f2049922a664df21053875e47222c4b30bc685042bcf88292dcded5883"},
+    {"path": "puckworks/models/__init__.py", "sha256": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114"},
+    {"path": "puckworks/data/MANIFEST.csv", "sha256": "0c69759242a22e11eec34bf67ec88c800a868a424c1516a38e458823e535965a"},
+    {"path": "docs/cards/cameron2020.md", "sha256": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b"},
+    {"path": "puckworks/models/cameron2020/extraction_bdf.py", "sha256": "83e0092d416793291d7f229988744a7e783ccf540b1da9c05d1fd077661d63d9"},
+    {"path": "docs/cards/wadsworth2026.md", "sha256": "606abfce68ba40105b4650ee6af2e8c716c60adb2653b87065b5fd2207c25fe8"},
+    {"path": "puckworks/models/wadsworth2026/permeability.py", "sha256": "8b4ecd5195d5c35ccb7d5c879cf984a7ff4389ccd61e67f38a667cb2997f9758"},
+    {"path": "docs/cards/foster2025_2.md", "sha256": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b"},
+    {"path": "puckworks/models/foster2025/infiltration.py", "sha256": "bed1e3b9e7546f805f4341578ad4e6258a9d0005f483096bbe57381dd95a5cc9"},
+    {"path": "docs/review/rgt_rp_a_001_rights/ISSUE_DRAFT.md", "sha256": "66aad71de1f474730e9fd8cee4ab5b8a47d98ccdeae4e2f984a2539096e0fffe"},
+    {"path": "docs/review/rgt_rp_a_001_rights/REMOTE_AUTHORITY.json", "sha256": "fa8d6697d3f9d911d86e8ea84460a4b7bed5442cd36a8c7f8d6651f2cee6b7ea"},
+    {"path": "docs/review/rgt_rp_a_001_rights/PR_BODY.md", "sha256": "f823bec1cbc1e09d5436b6d1965eacab225210f90c332ccec91e0fbd1ce3d055"}
+  ],
+  "protocol_sha256": "919b359f38561100bcac5cfc4311d033dac9a889f68762780ca1e094041e3118",
+  "review_scope_sha256": "531c97a6759d3bdfe8154ff3803f1a292ee35591df94f176d83cae382e1f0f87",
+  "evidence_inventory_sha256": "687b51bc8772d13c05851a125860b189c1d9e266672cc8805ac1c10d24e3ce35"
+}
