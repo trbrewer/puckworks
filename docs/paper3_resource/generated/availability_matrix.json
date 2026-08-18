@@ -7,12 +7,13 @@
       "True": 27
     },
     "public_hosting_status": {
-      "False": 25,
-      "True": 2
+      "False": 22,
+      "True": 5
     },
     "redistribution_license_status": {
       "code:CLEAR/data:NOT_APPLICABLE": 1,
-      "code:NOT_REVIEWED/data:NOT_REVIEWED": 25,
+      "code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED": 3,
+      "code:NOT_REVIEWED/data:NOT_REVIEWED": 22,
       "code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED": 1
     },
     "registered": {
@@ -288,12 +289,12 @@
       },
       "public_hosting_status": {
         "how": "derived",
-        "value": false,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+        "value": true,
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "redistribution_license_status": {
         "how": "derived",
-        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "value": "code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED",
         "why": "code allowed; data allowed"
       },
       "registered": {
@@ -309,7 +310,7 @@
       "runnable_local": {
         "how": "derived",
         "value": true,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "scientifically_eligible": {
         "how": "derived",
@@ -378,12 +379,12 @@
       },
       "public_hosting_status": {
         "how": "derived",
-        "value": false,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+        "value": true,
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "redistribution_license_status": {
         "how": "derived",
-        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "value": "code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED",
         "why": "code allowed; data allowed"
       },
       "registered": {
@@ -399,7 +400,7 @@
       "runnable_local": {
         "how": "derived",
         "value": true,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "scientifically_eligible": {
         "how": "derived",
@@ -1188,12 +1189,12 @@
       },
       "public_hosting_status": {
         "how": "derived",
-        "value": false,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: not cleared for public/outward use \u2014 review required (NOT_REVIEWED is not clear)"
+        "value": true,
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "redistribution_license_status": {
         "how": "derived",
-        "value": "code:NOT_REVIEWED/data:NOT_REVIEWED",
+        "value": "code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED",
         "why": "code allowed; data allowed"
       },
       "registered": {
@@ -1209,7 +1210,7 @@
       "runnable_local": {
         "how": "derived",
         "value": true,
-        "why": "rights[code_rights_state]=NOT_REVIEWED: inspectable in development; not a clearance"
+        "why": "rights[code_rights_state]=INDEPENDENT_REIMPLEMENTATION: affirmatively cleared"
       },
       "scientifically_eligible": {
         "how": "derived",

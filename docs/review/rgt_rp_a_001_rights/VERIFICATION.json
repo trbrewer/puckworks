@@ -28,5 +28,68 @@
   "git_diff_check": "PASS",
   "private_data_scan": "PASS",
   "registry_gate_result": "PASS=65; ACKNOWLEDGED_EXCEPTION=1",
+  "reconciliation_events": [
+    {
+      "event": "COMMIT_C_VERIFICATION",
+      "authority_commit": "5b46286b90df9ac70d7d22642cd670b5fb54b1cc",
+      "authority_tree": "1b84e026c24ea95e99b224c3dcd2e3de2bb12d6c",
+      "result": "Four Paper 3 availability/manuscript generated-artifact tests remained stale after rights-state reconciliation."
+    },
+    {
+      "event": "INITIAL_COMMIT_D_RECONCILIATION",
+      "preserved_uncommitted_paths": [
+        "docs/PAPER_3_PUCKWORKS_DRAFT.md",
+        "docs/paper3_resource/generated/availability_matrix.json",
+        "docs/paper3_resource/generated/availability_matrix.md",
+        "tests/test_paper3_availability.py"
+      ],
+      "rights_counts": {
+        "registered": 27,
+        "local_execution": 27,
+        "public_code_execution": 5,
+        "output_publication": 2,
+        "no_rights_review": 22,
+        "reviewed_but_output_not_cleared": 3
+      },
+      "result": "The four availability failures passed; the dependent claim-binding audit remained stale because it fingerprints the Paper 3 manuscript."
+    },
+    {
+      "event": "FINAL_COMMIT_D_RECONCILIATION",
+      "parent_commit": "5b46286b90df9ac70d7d22642cd670b5fb54b1cc",
+      "parent_tree": "1b84e026c24ea95e99b224c3dcd2e3de2bb12d6c",
+      "availability_generator": "python -m puckworks.paper3.availability --splice",
+      "claim_binding_generator": "python tools/claim_binding_audit.py --write",
+      "generated_paths": [
+        "docs/paper3_resource/generated/availability_matrix.json",
+        "docs/paper3_resource/generated/availability_matrix.md",
+        "docs/PAPER_3_PUCKWORKS_DRAFT.md",
+        "docs/CLAIM_BINDING_AUDIT.md",
+        "docs/CLAIM_BINDING_AUDIT.json"
+      ],
+      "paper3_fingerprint_before": "76dbd55677a027a7",
+      "paper3_fingerprint_after": "181a58ad99d06772",
+      "paper3_claim_counts_before": {"numerals": 379, "structural": 174, "claims": 205, "verified": 138, "unbound": 67, "unaccounted": 0},
+      "paper3_claim_counts_after": {"numerals": 384, "structural": 178, "claims": 206, "verified": 139, "unbound": 67, "unaccounted": 0},
+      "aggregate_claim_counts_after": {"numerals": 1609, "structural": 445, "claims": 1164, "verified": 564, "unbound": 600},
+      "formerly_failing_availability_tests": "PASS (4 passed)",
+      "claim_binding_targeted_tests": "PASS (2 passed)",
+      "claim_binding_contract_file": "PASS (34 passed)",
+      "affected_paper_suites": "PASS (76 passed)",
+      "paper3_verification_chain": "PASS",
+      "focused_rights_tests": "PASS (21 passed, 2 skipped)",
+      "expanded_rights_tests": "PASS (112 passed, 5 skipped)",
+      "full_suite": {"status": "PASS", "passed": 4094, "skipped": 59, "warnings": 1, "wall_seconds": 2512.72},
+      "registry_gates": "PASS=65; ACKNOWLEDGED_EXCEPTION=1",
+      "scoped_mypy": "PASS (19 source files)",
+      "ruff": "PASS",
+      "statusdoc": "PASS",
+      "insight_foundry": "PASS",
+      "compileall": "PASS",
+      "json_and_audit_agreement": "PASS",
+      "private_data_scan": "PASS",
+      "process_exit_status": "No RGT-RP-A-001 test, generator, or worker process active",
+      "final_path_audit": "PASS"
+    }
+  ],
   "claim_boundary": "No RP-A scientific execution occurred; existing repository gates are verification only."
 }

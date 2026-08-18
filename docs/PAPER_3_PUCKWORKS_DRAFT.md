@@ -281,8 +281,8 @@ cells are derived.
 | runnable_local | `True`: 27 |
 | required_data_available | `True`: 27 |
 | scientifically_eligible | `source_curve_reproduction`: 7, `code_verification`: 5, `post_fit_reconstruction`: 5, `qualitative_capacity`: 5, `sign_or_compatibility`: 3, `exploratory_synthesis`: 1, `within_campaign_held_out`: 1 |
-| redistribution_license_status | `code:NOT_REVIEWED/data:NOT_REVIEWED`: 25, `code:CLEAR/data:NOT_APPLICABLE`: 1, `code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED`: 1 |
-| public_hosting_status | `False`: 25, `True`: 2 |
+| redistribution_license_status | `code:NOT_REVIEWED/data:NOT_REVIEWED`: 22, `code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED`: 3, `code:CLEAR/data:NOT_APPLICABLE`: 1, `code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED`: 1 |
+| public_hosting_status | `False`: 22, `True`: 5 |
 | included_in_release | `True`: 27 |
 
 **Table 1g. Availability by component.** Every registered component against each dimension, with its blocking reason where one applies.
@@ -294,9 +294,9 @@ cells are derived.
 | `brewer2026.lb_taichi` | flow | yes | yes | yes | code_verification | no | yes | — |
 | `brewer2026.pack_generator` | packing | yes | yes | yes | qualitative_capacity | no | yes | — |
 | `brewer2026.streamtube` | bed_dynamics | yes | yes | yes | within_campaign_held_out | no | yes | — |
-| `cameron2020.extraction_bdf` | extraction | yes | yes | yes | code_verification | no | yes | — |
+| `cameron2020.extraction_bdf` | extraction | yes | yes | yes | code_verification | yes | yes | — |
 | `fasano2000_partI.fines_migration` | bed_dynamics | yes | yes | yes | qualitative_capacity | no | yes | — |
-| `foster2025.infiltration` | infiltration | yes | yes | yes | sign_or_compatibility | no | yes | — |
+| `foster2025.infiltration` | infiltration | yes | yes | yes | sign_or_compatibility | yes | yes | — |
 | `foster2025.machine_mode` | machine | yes | yes | yes | source_curve_reproduction | no | yes | — |
 | `grudeva2025.reduced` | extraction | yes | yes | yes | post_fit_reconstruction | yes | yes | — |
 | `lee2023.feedback` | flow | yes | yes | yes | qualitative_capacity | no | yes | — |
@@ -314,17 +314,20 @@ cells are derived.
 | `sourcing2026.g3_pump_characteristic` | machine | yes | yes | yes | sign_or_compatibility | no | yes | — |
 | `wadsworth2026.grindmap` | grind | yes | yes | yes | source_curve_reproduction | no | yes | — |
 | `wadsworth2026.inertial` | flow | yes | yes | yes | source_curve_reproduction | no | yes | — |
-| `wadsworth2026.permeability` | packing | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `wadsworth2026.permeability` | packing | yes | yes | yes | source_curve_reproduction | yes | yes | — |
 | `waszkiewicz2025.poroelastic` | bed_dynamics | yes | yes | yes | post_fit_reconstruction | no | yes | — |
 <!-- availability:end -->
 
-Three counts are worth stating in prose because they are the ones a reader would otherwise assume
-away. All 27 components are registered and importable, and 27 of 27 are runnable locally — the one
+The rights-derived counts are worth stating in prose because a reader could otherwise conflate their
+meanings. All 27 components are registered and importable, and 27 of 27 are runnable locally — the one
 former exception, `grudeva2025.reduced`, ceased to be rights-blocked on 2026-08-14 when the upstream
-author's direct written permission was documented. But only **two** components are
-cleared for public hosted execution, and **25 of 27 carry no rights review on record**
-(`NOT_REVIEWED` on both the code and data axes). "Registered and importable" is therefore a much
-weaker statement than "openly executable", and the gap is a live gap rather than a rhetorical one.
+author's direct written permission was documented. Code rights are sufficient for public hosted
+execution for 5 of 27 components, while only 2 of 27 components also have affirmative output-publication
+clearance. Public code execution and output publication are separate rights decisions. A further 22 of
+27 carry no rights review on record (`NOT_REVIEWED` on both the code and data axes); 3 reviewed components
+have unresolved output rights, so leaving `NOT_REVIEWED` does not itself make them cleared. "Registered
+and importable" is therefore a much weaker statement than either public-execution or output-publication
+clearance, and the gap is a live gap rather than a rhetorical one.
 
 ### 3.5 Implemented capability versus architectural intent
 
