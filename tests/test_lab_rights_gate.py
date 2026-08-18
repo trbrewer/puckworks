@@ -30,14 +30,15 @@ def test_context_vocabulary_is_finite():
         gate.preflight(_req(), "SOMETHING_ELSE")
 
 
-def test_local_contexts_run_cameron_but_public_contexts_block_not_reviewed():
+def test_cameron_code_can_run_publicly_but_outputs_remain_blocked():
     assert gate.preflight(_req(), "LOCAL_PRIVATE")["blocked"] is False
     assert gate.preflight(_req(), "CI_VERIFICATION_NO_PUBLISH")["blocked"] is False
-    for ctx in ("PUBLIC_BATCH", "PUBLIC_ARTIFACT"):
-        v = gate.preflight(_req(), ctx)
-        assert v["blocked"] is True
-        row = {r["component_id"]: r for r in v["requested"]}["cameron2020.extraction_bdf"]
-        assert row["code_rights_state"] == "NOT_REVIEWED" and row["blocked"] is True
+    batch = gate.preflight(_req(), "PUBLIC_BATCH")
+    assert batch["blocked"] is False
+    artifact = gate.preflight(_req(), "PUBLIC_ARTIFACT")
+    assert artifact["blocked"] is True
+    row = {r["component_id"]: r for r in artifact["requested"]}["cameron2020.extraction_bdf"]
+    assert row["code_rights_state"] == "INDEPENDENT_REIMPLEMENTATION" and row["blocked"] is True
 
 
 def test_public_artifact_additionally_requires_output_clearance():
@@ -91,7 +92,8 @@ def test_native_reference_outputs_are_not_cleared_for_public_publication():
     # the native runners are NOT_REVIEWED -> their outputs cannot be published in a PUBLIC_ARTIFACT
     v = gate.preflight(lab.ScenarioRequest("pv19_named"), "PUBLIC_ARTIFACT")   # default interactive_fast
     ref_rows = [r for r in v["requested"] if r.get("use_kind") == "native_reference"]
-    assert ref_rows and all(r["blocked"] for r in ref_rows)
+    assert ref_rows and any(r["blocked"] for r in ref_rows)
+    assert next(r for r in ref_rows if r["component_id"] == "wadsworth2026.permeability")["blocked"]
 
 
 # ── the batch enforces the gate before any producer ─────────────────────────────────

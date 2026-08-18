@@ -1,0 +1,26 @@
+{
+  "schema_version": "rgt-rp-a-001/parallel-lane/v1",
+  "task_id": "RGT-RP-A-001",
+  "branch": "governance/rgt-rp-a-001-rights-review",
+  "worktree_symbol": "PUCKWORKS_RGT_RP_A_001_WORKTREE",
+  "created_utc": "2026-08-17T17:32:05Z",
+  "stopped_rp_a_lane": {
+    "branch": "research/rp-a-001-component-response-atlas-pilot",
+    "worktree_symbol": "PRESERVED_STOPPED_RP_A_WORKTREE",
+    "head": "ff44b502cfda06610dd33c2cd149456b46bc9784",
+    "tree": "a950de96bb7d74f9b8a029031bf49dc711543645",
+    "modified": false
+  },
+  "sci_lc_001a": {
+    "repository": "trbrewer/espresso-whole-pull",
+    "pull_request": 71,
+    "state_observed": "OPEN_DRAFT",
+    "head_observed": "e74bc2ed839fe348decc6ac2162933314953f887",
+    "access": "REMOTE_READ_ONLY",
+    "modified": false
+  },
+  "open_puckworks_prs_observed": [128, 129],
+  "protected_path_overlap": false,
+  "scientific_execution": false,
+  "external_bundle_namespace": "RGT_RP_A_001_PRIVATE_EVIDENCE_BUNDLE"
+}

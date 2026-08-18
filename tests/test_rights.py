@@ -27,8 +27,8 @@ def test_exactly_one_record_per_component_with_not_reviewed_fallback():
     assert set(ids) == {c.name for c in puckworks.components()}
     assert len(ids) == len(set(ids))
     # an unreviewed component is NOT_REVIEWED, never a silent CLEAR
-    cam = rights.rights_record("cameron2020.extraction_bdf")
-    assert cam.code_rights_state == "NOT_REVIEWED"
+    unreviewed = rights.rights_record("romancorrochano2017.extraction")
+    assert unreviewed.code_rights_state == "NOT_REVIEWED"
     for r in records:
         for s in (r.code_rights_state, r.data_rights_state, r.output_redistribution_state):
             assert s in rights.RIGHTS_STATES
@@ -112,8 +112,8 @@ def test_lab_matrix_consumes_centralized_rights_and_grudeva_is_no_longer_blocked
     assert g["native_runner_state"] == "NOT_IMPLEMENTED"          # no runner was invented
     for field in ("disposition", "native_runner_state", "common_scenario_adapter_state", "rights_state"):
         assert g[field] != "RIGHTS_BLOCKED"
-    # non-reviewed components read NOT_REVIEWED (not the old over-claimed "clear")
-    assert m["cameron2020.extraction_bdf"]["rights_state"] == "NOT_REVIEWED"
+    # Cameron now has a reviewed code-only determination; data/output remain fail-closed.
+    assert m["cameron2020.extraction_bdf"]["rights_state"] == "INDEPENDENT_REIMPLEMENTATION"
     # the product-local rights dictionary is gone
     assert not hasattr(lab, "_RIGHTS_BLOCKED")
 

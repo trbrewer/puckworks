@@ -144,15 +144,13 @@ def test_roman_remains_deferred_and_unregistered_as_a_producer():
     assert not rights.may_execute_in_public_batch("romancorrochano2017.extraction").allowed
 
 
-def test_the_other_native_runners_are_not_made_outward_clear_by_the_lb_decision():
-    from puckworks import rights
+def test_other_native_runner_publication_follows_each_component_record():
     for cid in ("waszkiewicz2025.poroelastic", "wadsworth2026.permeability", "foster2025.infiltration"):
         req = lab.ScenarioRequest("pv19_named", lens_selection_policy="none",
                                   reference_selection_policy="selected",
                                   requested_reference_runner_ids=(cid,))
         v = gate.preflight(req, "PUBLIC_ARTIFACT")
-        assert v["blocked"] is True                          # still NOT_REVIEWED for outward use
-        assert rights.rights_record(cid).code_rights_state == "NOT_REVIEWED"
+        assert v["blocked"] is True
 
 
 def test_a_mixed_request_with_lb_plus_an_unreviewed_runner_blocks(tmp_path, spy):

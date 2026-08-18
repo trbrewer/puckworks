@@ -9,8 +9,8 @@
 | runnable_local | `True`: 27 |
 | required_data_available | `True`: 27 |
 | scientifically_eligible | `source_curve_reproduction`: 7, `code_verification`: 5, `post_fit_reconstruction`: 5, `qualitative_capacity`: 5, `sign_or_compatibility`: 3, `exploratory_synthesis`: 1, `within_campaign_held_out`: 1 |
-| redistribution_license_status | `code:NOT_REVIEWED/data:NOT_REVIEWED`: 25, `code:CLEAR/data:NOT_APPLICABLE`: 1, `code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED`: 1 |
-| public_hosting_status | `False`: 25, `True`: 2 |
+| redistribution_license_status | `code:NOT_REVIEWED/data:NOT_REVIEWED`: 22, `code:INDEPENDENT_REIMPLEMENTATION/data:RIGHTS_REVIEW_REQUIRED`: 3, `code:CLEAR/data:NOT_APPLICABLE`: 1, `code:PERMISSION_DOCUMENTED/data:PERMISSION_DOCUMENTED`: 1 |
+| public_hosting_status | `False`: 22, `True`: 5 |
 | included_in_release | `True`: 27 |
 
 **Table 1g. Availability by component.** Every registered component against each dimension, with its blocking reason where one applies.
@@ -22,9 +22,9 @@
 | `brewer2026.lb_taichi` | flow | yes | yes | yes | code_verification | no | yes | — |
 | `brewer2026.pack_generator` | packing | yes | yes | yes | qualitative_capacity | no | yes | — |
 | `brewer2026.streamtube` | bed_dynamics | yes | yes | yes | within_campaign_held_out | no | yes | — |
-| `cameron2020.extraction_bdf` | extraction | yes | yes | yes | code_verification | no | yes | — |
+| `cameron2020.extraction_bdf` | extraction | yes | yes | yes | code_verification | yes | yes | — |
 | `fasano2000_partI.fines_migration` | bed_dynamics | yes | yes | yes | qualitative_capacity | no | yes | — |
-| `foster2025.infiltration` | infiltration | yes | yes | yes | sign_or_compatibility | no | yes | — |
+| `foster2025.infiltration` | infiltration | yes | yes | yes | sign_or_compatibility | yes | yes | — |
 | `foster2025.machine_mode` | machine | yes | yes | yes | source_curve_reproduction | no | yes | — |
 | `grudeva2025.reduced` | extraction | yes | yes | yes | post_fit_reconstruction | yes | yes | — |
 | `lee2023.feedback` | flow | yes | yes | yes | qualitative_capacity | no | yes | — |
@@ -42,5 +42,5 @@
 | `sourcing2026.g3_pump_characteristic` | machine | yes | yes | yes | sign_or_compatibility | no | yes | — |
 | `wadsworth2026.grindmap` | grind | yes | yes | yes | source_curve_reproduction | no | yes | — |
 | `wadsworth2026.inertial` | flow | yes | yes | yes | source_curve_reproduction | no | yes | — |
-| `wadsworth2026.permeability` | packing | yes | yes | yes | source_curve_reproduction | no | yes | — |
+| `wadsworth2026.permeability` | packing | yes | yes | yes | source_curve_reproduction | yes | yes | — |
 | `waszkiewicz2025.poroelastic` | bed_dynamics | yes | yes | yes | post_fit_reconstruction | no | yes | — |

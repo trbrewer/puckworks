@@ -57,8 +57,6 @@ def test_public_app_only_uses_the_service_and_no_forbidden_constructs():
 def test_only_publicly_cleared_components_are_offered_and_runnable():
     from apps import lab_ui_common as C
     live = C.public_live_ids()
-    # affirmative rights only — two components, on two DIFFERENT bases: LB is first-party CLEAR (#70),
-    # grudeva2025.reduced is PERMISSION_DOCUMENTED on the 2026-08-14 written permission (#73).
     assert live == ["brewer2026.lb_reference", "grudeva2025.reduced"]
     # an uncleared selection is refused before the service is called
     with pytest.raises(ValueError):

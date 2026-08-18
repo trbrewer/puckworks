@@ -199,19 +199,24 @@ def test_the_staleness_guard_is_not_vacuous(tmp_path, monkeypatch):
 
 
 def test_the_prose_counts_match_the_generated_matrix():
-    """The prose states three counts (27 registered/importable, 27 runnable, 2 public, 25
-    unreviewed). A generated table beside hand-written prose that disagrees with it is worse than
-    no table at all."""
+    """The prose reports live local, public-code, output-publication, and review counts."""
+    from puckworks import components, rights
+
     m = A.matrix()
     text = A.MANUSCRIPT.read_text(encoding="utf-8")
-    public = sum(1 for r in m["rows"] if r["public_hosting_status"]["value"])
+    public_code = sum(1 for r in m["rows"] if r["public_hosting_status"]["value"])
+    output_publication = sum(1 for component in components()
+                             if rights.may_publish_outputs(component.name).allowed)
     local = sum(1 for r in m["rows"] if r["runnable_local"]["value"])
     unreviewed = sum(1 for r in m["rows"]
                      if "NOT_REVIEWED" in str(r["redistribution_license_status"]["value"]))
     assert f"{local} of {m['n_components']} are runnable locally" in text, local
-    assert f"**{unreviewed} of {m['n_components']} carry no rights review on record**" in text
-    assert public == 2, ("the prose says exactly two components are publicly cleared", public)
-    assert "only **two** components are\ncleared for public hosted execution" in text
+    assert f"execution for {public_code} of {m['n_components']} components" in text
+    assert f"only {output_publication} of {m['n_components']} components also have affirmative " \
+           "output-publication" in text
+    assert f"{unreviewed} of\n{m['n_components']} carry no rights review on record" in text
+    assert public_code > output_publication
+    assert "Public code execution and output publication are separate rights decisions." in text
 
 
 def test_splice_also_writes_the_committed_artifacts(monkeypatch):
