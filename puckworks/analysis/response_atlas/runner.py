@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib,json,platform,subprocess,time
+import json,platform,subprocess,time
 from pathlib import Path
 import numpy as np
 from puckworks.models.foster2025 import machine_mode as foster
@@ -9,7 +9,6 @@ from puckworks.viz.relationship import classify_relationship
 from .adapters import ADAPTER_VERSIONS,pressure_drop_to_gradient
 from .artifacts import canonical_bytes,sha256,write_json
 from .inventory import inventory
-from .measurement_value import discriminate
 from .residuals import nested_difference
 
 ROOT=Path(__file__).resolve().parents[3]; OUT=ROOT/'docs/analysis/rp_a_001'
