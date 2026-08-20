@@ -1,0 +1,23 @@
+{
+  "case_matrix_file": "case_matrix.json",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "comparability_levels": ["DIRECTLY_COMPARABLE", "COMPARABLE_THROUGH_DECLARED_ADAPTER", "SAME_INTERVENTION_DIFFERENT_OBSERVABLE", "SAME_LABEL_DIFFERENT_PHYSICAL_OR_REFERENCE_BASIS", "NOT_COMPARABLE"],
+  "component_response_atlas_spec_sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f",
+  "component_response_atlas_spec_version": "component-response-atlas/v1",
+  "deterministic_seed": 20260820,
+  "disagreement_taxonomy": ["SIGN", "MAGNITUDE", "CURVATURE_OR_REGIME", "PARAMETER_UNCERTAINTY_EXPLAINED", "SEMANTIC_OR_NONCOMPARABLE", "UNSUPPORTED_COMPARISON"],
+  "execution_caps": {"derivative_step_sizes_per_relationship": 2, "openfoam_runs": 0, "uncertainty_realizations_per_model_scenario": 0},
+  "frozen_status": "FROZEN_PRE_ANALYSIS",
+  "measurement_assumptions_file": "measurement_assumptions.json",
+  "numeric_residual_eligible_levels": [1, 2],
+  "pressure_convention": "ROADMAP_A1",
+  "programme_protocol_version": "sci-md-003-rp-a-001/v1",
+  "registry_snapshot_sha256": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+  "residual_closure_tolerance": 1e-12,
+  "response_classification_priority": ["SIGN", "PRESSURE_ORDERING", "GRIND_DIRECTION", "CURVATURE_OR_REGIME", "TIMING_OR_PHASE", "CROSS_CONDITION_TRANSFER", "AGGREGATE_ERROR_WHEN_COMMON_TARGET_EXISTS"],
+  "selected_card_sha256": {"cameron2020.md": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b", "cameron2020_si.md": "546ff2e5e95dd0d0e8ece883928142f635cb90ba9cc7b3481acf15a097ade223", "foster2025_2.md": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b", "wadsworth2026_grindmap.md": "8cffbac5fe9f42072fb880be8b9e972870c847386eacd0ed2091d6f3dd1c34d4", "wadsworth2026_inertial.md": "799b7dc68df3dc5602e7831db08482405c4c40cfccf24dfb81e69676f7a4c888"},
+  "selected_components": ["foster2025.machine_mode", "wadsworth2026.inertial", "cameron2020.extraction_bdf"],
+  "support_states": ["SUPPORTED", "UNSUPPORTED_RELATIONSHIP", "UNSUPPORTED_FOR_CASE", "OUTSIDE_VALID_RANGE", "MISSING_REQUIRED_INPUT", "NUMERICAL_FAILURE", "NOT_EVALUATED"],
+  "uncertainty_treatment": "DETERMINISTIC_DECLARED_BOUNDS_ONLY__NO_DISTRIBUTION_INVENTED",
+  "observable_convention": "ROADMAP_A10"
+}

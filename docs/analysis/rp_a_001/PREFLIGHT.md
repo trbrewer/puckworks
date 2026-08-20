@@ -1,0 +1,10 @@
+# Concise preflight reconciliation
+
+- Puckworks authority: `/home/tim/espresso-development/worktrees/puckworks-rp-a-001`, clean worktree created from `trbrewer/puckworks` `origin/main` at `df71a4532e175fe380431b24e213663f98e42df2`, tree `2282eebdeb8720c3954c85739fd47fdd4e317d0b`.
+- EWP authority: `/home/tim/espresso-development/worktrees/ewp-sci-md-003`, clean worktree created from `trbrewer/espresso-whole-pull` `origin/main` at `73a7b184dacf6c8779d5c2e826ef3f11e8d362ee`, tree `eeee18900d4eb28110b86c137157664991bc393a`.
+- Stale EWP forward pointer found: current-next-action still named SCI-LC-001A. Historical records are preserved; current fields require reconciliation.
+- Retained terminal SCI-LC artifacts verify 3,666 attempted keys: 3,558 COMPLETE, 108 STOPPED, zero failed, zero unattempted; all 108 stopped cases were diagnostic-applicable and lacked an accepted multiplier terminal record; `clean_finalization=false`; classification eligibility false; zero classifications. This is unresolved and excluded from the atlas.
+- Selected Puckworks IDs: `foster2025.machine_mode`, `wadsworth2026.inertial`, `cameron2020.extraction_bdf`.
+- Selected retained EWP inputs: WP03-002 corrected comparison, VAL-CORPUS-002 Stage-B2 result/reduced clock, VAL-CASE-001 retained sensitivity/identifiability outputs, and the generic relaxing-resistance reduced control where its retained compact artifact is available. SCI-MD family outputs are negative controls only; SCI-LC is excluded.
+- No open same-purpose issue or PR existed. Local branch `research/rp-a-001-component-response-atlas-pilot` pointed only at old main (five commits behind) with no unique implementation, so fresh preferred branches were used. Issues: Puckworks #243, EWP #86.
+- Card/registry/code pilot conflict: Cameron pressure is documented as pump overpressure while Wadsworth consumes bed pressure gradient/drop; these are not directly comparable and remain level 4 unless a declared node adapter has sufficient information. Grinder dials are source-specific. Foster does not support prescribed 5/9/11-bar machine-mode control. No card was silently corrected.
