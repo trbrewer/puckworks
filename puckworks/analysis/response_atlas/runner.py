@@ -26,7 +26,7 @@ def validate_protocol():
 def _wads(case):
     m=case['native_mapping']['wadsworth2026.inertial']; L=0.01
     if isinstance(m,str): return None
-    R=m.get('mean_radius_m',grindmap.WADSWORTH_MAHLKONIG.mean_radius_m(m['G']).item())
+    R=m['mean_radius_m'] if 'mean_radius_m' in m else float(grindmap.WADSWORTH_MAHLKONIG.mean_radius_m(m['G']))
     k=float(permeability.k_percolation(R,m['porosity'])); grad=pressure_drop_to_gradient(m['pressure_drop_pa'],L)
     ki=float(inertial.k_I(k,'zhou')); q=float(inertial.solve_q(k,ki,grad)); qd=grad*k/inertial.MU_92C
     return {'case_id':case['case_id'],'support_status':'SUPPORTED','pressure_node':'BED_PRESSURE_DROP','pressure_reference':'DIFFERENTIAL','k_m2':k,'darcy_velocity_m_s':q,'darcy_limit_velocity_m_s':qd,'inertial_flow_ratio':q/qd,'forchheimer_number':float(inertial.forchheimer_number(k,q,ki)),'effective_resistance_pa_s_m2_per_m3':m['pressure_drop_pa']/q}
@@ -40,7 +40,8 @@ def _cameron(case):
     return {'case_id':case['case_id'],'support_status':'SUPPORTED','pressure_node':'PUMP_OUTLET','pressure_reference':'GAUGE','darcy_velocity_m_s':q,'shot_duration_s':r.t_shot,'final_tds_percent':r.tds,'extraction_yield_percent':r.EY,'accumulated_extracted_mass_kg':float(r.m_cup[-1]),'outlet_concentration_final_kg_m3':float(r.cl_out[-1]),'source_kind':'SOURCE_NATIVE_SCALAR_Q'}
 
 def _foster():
-    r=foster.solve(); qmin,tmin=foster.flow_minimum(r); tp,ts=foster.reported_times(r)
+    r=foster.solve(); qmin,tmin=foster.flow_minimum(r)
+    tp=r['t_p']+r['p'].t_shift; ts=r['t_s']+r['p'].t_shift
     tend=ts; qend=foster.bed_flow_norm(tend,r)
     return {'case_id':'MACHINE_REF','support_status':'SUPPORTED','pressure_nodes':['PUMP_OUTLET','HEADSPACE','BED_INLET','BED_PRESSURE_DROP'],'pressure_reference':'ABSOLUTE_AND_DIFFERENTIAL','ponding_time_s':tp,'saturation_time_s':ts,'minimum_normalized_flow':qmin,'time_to_flow_minimum_s':tmin,'recovery_ratio':qend/qmin,'pressure_lag':'SUPPORTED_QUALITATIVELY_NODE_RESOLVED','source_kind':'SOURCE_NATIVE'}
 
