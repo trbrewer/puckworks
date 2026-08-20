@@ -1,0 +1,35 @@
+[
+  {
+    "attribution": "physical assumption: inertial contribution enabled",
+    "causal_eligibility": true,
+    "claim_ceiling": "NESTED_PRODUCER_CONTRAST_ONLY",
+    "closure_error": 0.0,
+    "comparability_level": 1,
+    "component_contrast": 4.120838720341351,
+    "contrast_id": "WADSWORTH_P09_INERTIAL_VS_DARCY",
+    "decomposition_method": "NESTED_DIFFERENCE",
+    "left_model_case": "wadsworth2026.inertial/P09_REF_DARCY_LIMIT",
+    "nested": true,
+    "nested_response": 0.22134233546485,
+    "numerical_tolerance": 1e-12,
+    "observable": "darcy_velocity_m_s",
+    "parent_response": 4.342181055806201,
+    "right_model_case": "wadsworth2026.inertial/P09_REF",
+    "uncertainty": "NOT_PROVIDED"
+  },
+  {
+    "attribution": "pressure-node convention",
+    "causal_eligibility": false,
+    "claim_ceiling": "SEMANTIC_ATTRIBUTION_ONLY",
+    "closure_error": null,
+    "comparability_level": 4,
+    "contrast_id": "FOSTER_VS_CAMERON_PRESSURE",
+    "decomposition_method": "NONADDITIVE_ATTRIBUTION",
+    "left_model_case": "foster2025.machine_mode/MACHINE_REF",
+    "nested": false,
+    "numeric_difference": null,
+    "observable": "pressure",
+    "right_model_case": "cameron2020.extraction_bdf/P09_REF",
+    "uncertainty": "NOT_PROVIDED"
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "minimum_measurement_sets": "NO_COMPLETE_MEASUREMENT_SET",
+  "records": [
+    {
+      "channel": "basket_pressure",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "separate_upstream_pressure",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "flow",
+      "classification": "NOT_ADJUDICATED_MISSING_UNCERTAINTY",
+      "comparison_level": 3,
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "delivered_mass",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "bed_height_or_deformation",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "OWNER_MODEL_INFORMED_STARTING_ASSUMPTION_0.05_MM",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "first_drip_timing",
+      "classification": "NOT_ADJUDICATED_MISSING_UNCERTAINTY",
+      "comparison_level": 3,
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "temperature",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "turbidity_or_downstream_suspended_solids",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "retained_fines_mass",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "spatial_flow_variance",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    },
+    {
+      "channel": "local_extraction",
+      "classification": "UNSUPPORTED",
+      "comparison_level": "NOT_ESTABLISHED",
+      "measurement_assumption": "NOT_PROVIDED",
+      "pair": "ALL_REMAINING_EXPLANATIONS",
+      "scenario": "FROZEN_SUPPORTED_SCENARIOS"
+    }
+  ]
+}

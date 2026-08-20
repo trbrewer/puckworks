@@ -362,6 +362,21 @@
       "issue_or_pr": "#29",
       "verified_commit": "cbc1956",
       "verified_date": "2026-07-16"
+    },
+    {
+      "id": "rp-a-001-common-observable-atlas",
+      "title": "RP-A.1/RP-A.2 bounded common-observable response atlas",
+      "area": "research-program",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "scientific-maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Additional synchronized data with declared uncertainty; RP-C.1 was not entered.",
+      "acceptance_evidence": "docs/analysis/rp_a_001; three authoritative producers; 15 bounded evaluations; NO_COMPLETE_MEASUREMENT_SET; SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED; no evidence promotion or global model winner",
+      "issue_or_pr": "#243",
+      "verified_commit": "2cb75c1",
+      "verified_date": "2026-08-20"
     }
   ]
 }

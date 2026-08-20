@@ -1,0 +1,15 @@
+{
+  "not_selected": {
+    "APPARATUS_OBSERVATION_EXPLANATION_SURVIVES": "no level-1/2 retained EWP gate available in Puckworks-only pilot",
+    "DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE": "no supported unique dynamic-bed observable",
+    "SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE": "no supported spatial observable in selected components"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "reasons": [
+    "comparisons dominated by levels 3 and 4",
+    "measurement uncertainties absent",
+    "no complete robust measurement set",
+    "retained cross-repository evidence not yet consumed"
+  ],
+  "selected_outcome": "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED"
+}

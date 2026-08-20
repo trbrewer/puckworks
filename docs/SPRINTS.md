@@ -324,8 +324,8 @@ order. Documenting a slice does not start, validate, or promote it.*
 
 | slice | program | depends on | effort | next gate / acceptance evidence |
 |---|---|---|---|---|
-| RP-A.1 parameter/observable/comparability schema + inventory | RP-A | registry valid ranges; §5.9/A1 node + §5.10/A10 observable conventions | M | machine-readable schema artifact; unit + valid-range + determinism tests green; missing-relationship cells explicit |
-| RP-A.2 bounded response-atlas pilot (3 components) | RP-A | RP-A.1 | M | per-component response reports + one matched-comparison/disagreement report with comparability tags; tests green |
+| RP-A.1 parameter/observable/comparability schema + inventory | RP-A | **DONE 2026-08-20 with RP-A.2** | M | versioned schema/inventory; explicit support, node, basis, range, adapter, and evidence fields; focused tests green |
+| RP-A.2 bounded response-atlas pilot (3 components) | RP-A | **DONE 2026-08-20 in one SCI-MD-003 tranche** | M | Foster/Wadsworth/Cameron pilot; 15 evaluations; `NO_COMPLETE_MEASUREMENT_SET`; `ADDITIONAL_DATA_REQUIRED`; RP-C.1 not entered |
 | RP-B.1 tier→protocol-pack generator over EXP-009 | RP-B | PV-15 contract; campaign schema; `templates/` | M | EXP-009 emits a capability-tier protocol pack with preregistration + submission validator |
 | RP-F.1 bottom-filter-paper protocol pack | RP-F | EXP-009 (landed); `templates/` | S | `protocols/protocol_EXP-009.md` with one predeclared primary outcome + design placeholders |
 | RP-F.2 filter-paper feasibility pilot (TB) | RP-F | RP-F.1; apparatus + contributor | M | pilot dataset; efficacy and mechanism reported SEPARATELY; treatment-by-control-mode read |

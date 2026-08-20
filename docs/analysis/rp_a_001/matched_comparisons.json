@@ -1,0 +1,48 @@
+[
+  {
+    "common_intervention_domain": "directional prescribed pressure only; nodes differ",
+    "comparability_level": 3,
+    "cross_condition_transfer": "UNSUPPORTED",
+    "curvature_agreement": "NOT_ADJUDICATED_DIFFERENT_OBSERVATION_ROLE",
+    "disagreement_category": "SEMANTIC_OR_NONCOMPARABLE",
+    "evidence_labels": [
+      "source_curve_reproduction",
+      "code_verification"
+    ],
+    "grind_direction_agreement": "DIRECTION_ONLY_NOT_MAGNITUDE_COMPARABLE",
+    "likely_reason": "Wadsworth predicts hydraulic response at bed drop; Cameron observes extraction using pump-overpressure-derived scalar flow",
+    "limiting_behavior_agreement": "UNSUPPORTED",
+    "observable_group": "darcy_velocity",
+    "pair": [
+      "wadsworth2026.inertial",
+      "cameron2020.extraction_bdf"
+    ],
+    "practical_equivalence_status": "NOT_ADJUDICATED",
+    "pressure_ordering_agreement": true,
+    "sign_agreement": true,
+    "timing_agreement": "UNSUPPORTED",
+    "uncertainty_support": "NOT_PROVIDED"
+  },
+  {
+    "comparability_level": 4,
+    "disagreement_category": "SEMANTIC_OR_NONCOMPARABLE",
+    "likely_reason": "generated node-resolved machine pressure versus prescribed pump overpressure",
+    "numeric_residual_eligible": false,
+    "observable_group": "pressure",
+    "pair": [
+      "foster2025.machine_mode",
+      "cameron2020.extraction_bdf"
+    ]
+  },
+  {
+    "comparability_level": 3,
+    "disagreement_category": "SEMANTIC_OR_NONCOMPARABLE",
+    "likely_reason": "time-resolved volumetric flow versus static superficial velocity; area adapter alone does not align interventions",
+    "numeric_residual_eligible": false,
+    "observable_group": "flow",
+    "pair": [
+      "foster2025.machine_mode",
+      "wadsworth2026.inertial"
+    ]
+  }
+]

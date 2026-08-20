@@ -1150,6 +1150,15 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   different questions", public face **PV-08**) is CONDITIONAL on ≥1 robust non-obvious
   result; a manuscript is only a candidate on a novel method / important unresolved
   disagreement / independently tested discrimination. Not scheduled now.
+- **RP-A.1/RP-A.2 bounded tranche completed 2026-08-20.** The additive
+  `sci-md-003-rp-a-001/v1` protocol preserved and hash-bound the original v1
+  specification. Foster machine mode, Wadsworth inertial, and Cameron extraction
+  executed through explicit node/basis/support contracts (15 evaluations, zero
+  numerical failures). Comparisons were levels 3–4; the only numeric residual was
+  the nested Wadsworth inertial-versus-Darcy limit and closed exactly. Missing
+  measurement uncertainty yielded `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`
+  and `NO_COMPLETE_MEASUREMENT_SET`. No model winner, evidence promotion,
+  production coupled model, public article, or RP-C.1 activation followed.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
