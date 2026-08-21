@@ -4,10 +4,10 @@ import hashlib
 import pytest
 
 from puckworks.analysis.response_atlas import runner
-from puckworks.analysis.response_atlas.decision import ADDITIONAL, APPARATUS
+from puckworks.analysis.response_atlas.decision import ADDITIONAL, APPARATUS, DYNAMIC, SPATIAL
 from puckworks.analysis.response_atlas.governance import (
-    DIRECT_CONTRACT_HASH, build_requirements, canonical_apparatus_gate_specs,
-    evaluate_apparatus,
+    DIRECT_CONTRACT_HASH, build_coverage_edges, build_requirements,
+    canonical_apparatus_gate_specs, evaluate_apparatus, minimum_measurement_sets,
 )
 from puckworks.analysis.response_atlas.schema import ObservationContractRecord
 
@@ -89,6 +89,30 @@ def test_apparatus_survival_reaches_decision_through_real_evaluator():
     minimum={"complete":False,"result":"NO_COMPLETE_MEASUREMENT_SET","zero_universe_status":"ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM_PRESENT","all_equally_minimal_sets":[],"minimum_set_ids":[],"uncovered_requirement_ids":["REQ"]}
     decision=runner.derive_scientific_decision(explanations=ex,requirements=[{**req,"relevant_to_final_decision":True}],channel_eligibility=[],component_reports={},comparison_records=[],measurement_records=[{**m,"measurement_option_id":"OPT","left_explanation":"null","right_explanation":"other","pair_id":"PAIR","scenario":"MACHINE_REF"}],coverage_edges=[],minimum_measurement_sets=minimum,apparatus_gate_specs=specs,apparatus_gate_results=[r.to_dict() for r in res],apparatus_evaluation=app.to_dict())
     assert decision.selected_outcome==APPARATUS and ev
+
+
+def _route_pipeline(channel, role, expected):
+    ex=[{"explanation_id":"null","scientific_role":"FIXED_BED_MACHINE_AND_APPARATUS_NULL"},
+        {"explanation_id":"route","scientific_role":role}]
+    specs=[s.to_dict() for s in canonical_apparatus_gate_specs()]
+    requirements=[]; eligibility=[]; measurements=[]
+    for suffix,ch,family in (("GATE","flow","flow"),("ROUTE",channel,channel)):
+        rid=f"REQ_{suffix}"; obs=f"OBS_{suffix}"; oh=hashlib.sha256(obs.encode()).hexdigest()
+        requirements.append({"requirement_id":rid,"left_explanation":"null","right_explanation":"route","scenario":"MACHINE_REF","relevance_status":"RELEVANT","relevant_to_final_decision":True,"applicable_candidate_channels":[ch],"observation_family":family,"observation_contract_id":obs,"pair_id":f"PAIR_{suffix}"})
+        eid=f"ELIG_{suffix}"; option=f"MEASOPT__{ch}__{oh}"
+        eligibility.append({"eligibility_id":eid,"requirement_id":rid,"pair_id":f"PAIR_{suffix}","left_explanation":"null","right_explanation":"route","scenario":"MACHINE_REF","candidate_observable":ch,"adapter_id":"DIRECT_NATIVE","adapter_version":"1.0.0","adapter_contract_hash":DIRECT_CONTRACT_HASH,"comparability_level":1,"intervention_id":"MATCHED","basis_id":"BASIS","observation_contract_id":obs,"observation_contract_hash":oh,"eligibility":"eligible","uncertainty_available":True})
+        measurements.append({"measurement_record_id":f"MV_{suffix}","eligibility_id":eid,"requirement_id":rid,"pair_id":f"PAIR_{suffix}","left_explanation":"null","right_explanation":"route","scenario":"MACHINE_REF","channel":ch,"measurement_option_id":option,"adapter_id":"DIRECT_NATIVE","adapter_version":"1.0.0","adapter_contract_hash":DIRECT_CONTRACT_HASH,"comparability_level":1,"intervention_id":"MATCHED","basis_id":"BASIS","observation_contract_id":obs,"observation_contract_hash":oh,"classification":"ROBUSTLY_DISCRIMINATING","left_prediction_id":"L","right_prediction_id":"R"})
+    evidence,results,apparatus=evaluate_apparatus(ex,requirements,measurements,specs)
+    assert apparatus.status=="RULED_OUT_BY_MATCHED_GATE" and evidence
+    edges=[e.to_dict() for e in build_coverage_edges(measurements,eligibility)]
+    minimum=minimum_measurement_sets(requirements,edges)
+    decision=runner.derive_scientific_decision(explanations=ex,requirements=requirements,channel_eligibility=eligibility,component_reports={},comparison_records=eligibility,measurement_records=measurements,coverage_edges=edges,minimum_measurement_sets=minimum,apparatus_gate_specs=specs,apparatus_gate_results=[r.to_dict() for r in results],apparatus_evaluation=apparatus.to_dict())
+    assert decision.selected_outcome==expected
+
+
+def test_dynamic_and_spatial_outcomes_follow_real_apparatus_ruleout():
+    _route_pipeline("bed_height_or_deformation","DYNAMIC_BED_EXPLANATION",DYNAMIC)
+    _route_pipeline("spatial_flow_variance","SPATIAL_LOCALIZATION_EXPLANATION",SPATIAL)
 
 
 @pytest.mark.parametrize("path", ["scientific_questions", "observation_contracts", "channel_eligibility",

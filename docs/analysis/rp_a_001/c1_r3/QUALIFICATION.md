@@ -1,6 +1,8 @@
 # C1-R3 qualification
 
-- Focused response-atlas suite: **81 passed**, zero failed, 45.38 s.
+- Focused response-atlas suite: **82 passed**, zero failed, 44.09 s. The added
+  route fixture obtains apparatus rule-out from the production evaluator before
+  dynamic/spatial decision selection; it does not inject terminal apparatus status.
 - Full supported suite: **4,266 passed, 31 skipped, zero failed**, six warnings,
   2,810.49 s (wall 2,812.13 s).
 - Environment: Python 3.12.3, NumPy 2.2.6, SciPy 1.15.3; editable source
