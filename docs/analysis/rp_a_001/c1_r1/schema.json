@@ -1,0 +1,20 @@
+{
+  "comparability_levels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "decision_rule_version": "rp-a-001-decision/v1",
+  "schema_version": "puckworks.response-atlas-export/v3",
+  "support_states": [
+    "SUPPORTED",
+    "UNSUPPORTED_RELATIONSHIP",
+    "UNSUPPORTED_FOR_CASE",
+    "OUTSIDE_VALID_RANGE",
+    "MISSING_REQUIRED_INPUT",
+    "NUMERICAL_FAILURE",
+    "NOT_EVALUATED"
+  ]
+}

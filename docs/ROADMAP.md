@@ -1173,6 +1173,17 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. Physical validation and
   evidence levels are unchanged; no model winner, RP-C.1 activation, or public
   article followed.
+- **C1-R1 executable-decision correction (2026-08-21).** Independent review
+  rejected the v2 export because the runner assigned its scientifically
+  plausible outcome directly and a flow eligibility record could authorize
+  unrelated channels. The v3 runner derives all four authorized outcomes
+  through tested precedence, independently recomputes decision consistency,
+  hashes the exact decision inputs, and binds eligibility to pair, scenario,
+  and channel. The complete nine-evaluation pilot was rerun; numerical
+  responses are unchanged, zero eligibility records enter discrimination, and
+  the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
+  blocked; evidence levels, physical-validation status, and production physics
+  are unchanged.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
