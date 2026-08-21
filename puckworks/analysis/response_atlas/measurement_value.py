@@ -42,8 +42,9 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         u = float(measurement_uncertainty)
         expanded_left = [left_interval[0] - u, left_interval[1] + u]
         expanded_right = [right_interval[0] - u, right_interval[1] + u]
+    option_id = f"MEASOPT__{channel}__{pair.adapter_id}__{pair.adapter_version}__{pair.basis_id}"
     return MeasurementValueRecord(
-        measurement_record_id=f"MV__{pair.pair_id}__{pair.scenario}__{channel}", pair_id=pair.pair_id,
+        measurement_record_id=f"MV__{pair.requirement_id}__{channel}__{pair.adapter_id}__{pair.adapter_version}", pair_id=pair.pair_id,
         left_explanation=pair.left_explanation, right_explanation=pair.right_explanation,
         scenario=pair.scenario, channel=channel, comparability_level=pair.comparability_level,
         left_support_state=left_support, right_support_state=right_support,
@@ -57,4 +58,8 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         evidence_label="MODEL_RESPONSE_MEASUREMENT_VALUE_NOT_VALIDATION",
         robustly_covers_pair=classification == "ROBUSTLY_DISCRIMINATING",
         claim_ceiling="MODEL_INFORMED_MEASUREMENT_DESIGN_ONLY",
-        eligibility_id=pair.eligibility_id)
+        eligibility_id=pair.eligibility_id, requirement_id=pair.requirement_id,
+        measurement_option_id=option_id, adapter_id=pair.adapter_id,
+        adapter_version=pair.adapter_version, adapter_contract_hash=pair.adapter_contract_hash,
+        intervention_id=pair.intervention_id, basis_id=pair.basis_id,
+        evidence_references=[pair.eligibility_id])

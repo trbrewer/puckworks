@@ -26,6 +26,7 @@ class ComparabilityLevel(IntEnum):
 
 PAIR_ROLES = {"SCIENTIFICALLY_COMPETING", "NESTED_LIMIT", "OBSERVATION_OPERATOR_COMPARISON", "NONCOMPETING_COMPONENTS"}
 ELIGIBILITY = {"eligible", "ineligible", "unresolved"}
+REQUIREMENT_STATUS = {"relevant", "irrelevant", "unresolved"}
 MEASUREMENT_CLASSES = {"ROBUSTLY_DISCRIMINATING", "NOMINALLY_DISCRIMINATING_BUT_UNCERTAINTY_OVERLAPS", "NOT_DISCRIMINATING", "UNSUPPORTED", "NOT_ADJUDICATED_MISSING_UNCERTAINTY"}
 OUTCOMES = {"SCI_MD_003_RP_A_001_APPARATUS_OBSERVATION_EXPLANATION_SURVIVES", "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE", "SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE", "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED"}
 
@@ -132,6 +133,8 @@ class ComparisonEligibilityRecord(Record):
     scenario: str; candidate_observable: str; common_intervention: str; common_output_basis: str
     comparability_level: int; pair_role: str; eligibility: str; reason_code: str
     adapter_id: str; adapter_version: str; uncertainty_available: bool; eligibility_id: str = ""
+    requirement_id: str = ""; intervention_id: str = ""; basis_id: str = ""
+    support_status: str = "NOT_EVALUATED"; adapter_contract_hash: str = "NOT_APPLICABLE"
     required_nonempty = ("pair_id", "left_explanation", "right_explanation", "scenario", "candidate_observable", "reason_code")
 
     def __post_init__(self):
@@ -140,13 +143,35 @@ class ComparisonEligibilityRecord(Record):
             raise ValueError("invalid pair record")
         if self.eligibility == "eligible" and (self.comparability_level > 2 or self.pair_role not in {"SCIENTIFICALLY_COMPETING", "NESTED_LIMIT"}):
             raise ValueError("ineligible pair presented as discrimination-eligible")
-        if self.comparability_level == 1 and self.adapter_id != "NONE":
-            raise ValueError("level 1 cannot require an adapter")
-        if self.adapter_id == "NONE" and self.adapter_version != "NONE":
-            raise ValueError("adapter version requires adapter identity")
-        expected = f"ELIG__{self.pair_id}__{self.scenario}__{self.candidate_observable}"
+        if self.adapter_id in ("", "NONE") or self.adapter_version in ("", "NONE"):
+            raise ValueError("eligibility requires explicit adapter identity and version")
+        if self.comparability_level == 1 and self.adapter_id != "DIRECT_NATIVE":
+            raise ValueError("level 1 requires DIRECT_NATIVE")
+        if self.support_status not in {s.value for s in SupportStatus}:
+            raise ValueError("unknown eligibility support status")
+        expected = f"ELIG__{self.requirement_id}__{self.candidate_observable}__{self.adapter_id}__{self.adapter_version}"
         if self.eligibility_id != expected:
-            raise ValueError("eligibility identity must bind pair, scenario, and channel")
+            raise ValueError("eligibility identity must bind requirement, channel, and adapter")
+
+
+@dataclass(frozen=True)
+class DiscriminationRequirementRecord(Record):
+    requirement_id: str; pair_id: str; left_explanation: str; right_explanation: str
+    scenario: str; control_mode: str; intervention_id: str; pressure_node: str
+    pressure_reference: str; basis_id: str; time_basis: str; pair_role: str
+    scientific_question: str; relevant_to_final_decision: bool
+    applicable_candidate_channels: list[str]; requirement_status: str; reason_code: str
+    provenance: str
+    required_nonempty = ("requirement_id", "pair_id", "left_explanation", "right_explanation",
+                         "scenario", "intervention_id", "basis_id", "reason_code")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.pair_role not in PAIR_ROLES or self.requirement_status not in REQUIREMENT_STATUS:
+            raise ValueError("invalid discrimination requirement")
+        expected = f"REQ__{self.pair_id}__{self.scenario}__{self.intervention_id}__{self.basis_id}"
+        if self.requirement_id != expected:
+            raise ValueError("requirement identity must bind pair, scenario, intervention, and basis")
 
 
 @dataclass(frozen=True)
@@ -178,6 +203,9 @@ class MeasurementValueRecord(Record):
     expanded_left_interval: list[float] | None; expanded_right_interval: list[float] | None
     interval_combination_method: str; classification: str; reason_code: str; evidence_label: str
     robustly_covers_pair: bool; claim_ceiling: str; eligibility_id: str = ""
+    requirement_id: str = ""; measurement_option_id: str = ""
+    adapter_id: str = ""; adapter_version: str = ""; adapter_contract_hash: str = "NOT_APPLICABLE"
+    intervention_id: str = ""; basis_id: str = ""; evidence_references: list[str] | None = None
     required_nonempty = ("measurement_record_id", "pair_id", "scenario", "channel", "reason_code")
 
     def __post_init__(self):
@@ -192,6 +220,74 @@ class MeasurementValueRecord(Record):
             raise ValueError("robust classification requires complete uncertainty")
         if not self.eligibility_id:
             raise ValueError("measurement record requires channel-specific eligibility identity")
+        if not all((self.requirement_id, self.measurement_option_id, self.adapter_id,
+                    self.adapter_version, self.intervention_id, self.basis_id)):
+            raise ValueError("measurement record requires exact requirement and adapter provenance")
+
+
+@dataclass(frozen=True)
+class CoverageEdgeRecord(Record):
+    coverage_edge_id: str; requirement_id: str; measurement_record_id: str
+    measurement_option_id: str; scenario: str; channel: str; adapter_id: str
+    adapter_version: str; classification: str; robust: bool; provenance: str
+    required_nonempty = ("coverage_edge_id", "requirement_id", "measurement_record_id",
+                         "measurement_option_id", "scenario", "channel", "adapter_id",
+                         "adapter_version")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.classification not in MEASUREMENT_CLASSES:
+            raise ValueError("unknown coverage classification")
+        if self.robust != (self.classification == "ROBUSTLY_DISCRIMINATING"):
+            raise ValueError("coverage edge robustness must derive from classification")
+
+
+APPARATUS_GATE_STATUSES = {"PASS", "FAIL", "UNRESOLVED", "NOT_APPLICABLE"}
+APPARATUS_EVALUATION_STATUSES = {"NOT_EVALUATED", "PARTIALLY_EVALUATED",
+    "SURVIVES_ALL_APPLICABLE_GATES", "RULED_OUT_BY_MATCHED_GATE",
+    "UNRESOLVED_MISSING_UNCERTAINTY", "UNRESOLVED_UNSUPPORTED_GATE", "NOT_APPLICABLE"}
+
+
+@dataclass(frozen=True)
+class ApparatusGateSpec(Record):
+    gate_id: str; gate_name: str; primary: bool; applicability_rule: str
+    required_evidence_type: str; maximum_comparability_level: int
+    uncertainty_required: bool; pass_criterion: str; fail_criterion: str
+    contract_version: str
+    required_nonempty = ("gate_id", "gate_name", "applicability_rule", "contract_version")
+
+
+@dataclass(frozen=True)
+class ApparatusGateResult(Record):
+    gate_result_id: str; gate_id: str; apparatus_explanation_id: str
+    comparator_explanation_id: str; scenario: str; applicability: str; status: str
+    comparison_record_ids: list[str]; measurement_record_ids: list[str]
+    uncertainty_state: str; reason_code: str; evidence_provenance: list[str]
+    required_nonempty = ("gate_result_id", "gate_id", "apparatus_explanation_id",
+                         "comparator_explanation_id", "scenario", "status", "reason_code")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.status not in APPARATUS_GATE_STATUSES:
+            raise ValueError("invalid apparatus gate status")
+        if self.status in {"PASS", "FAIL"} and (not self.comparison_record_ids or
+                                                 self.uncertainty_state != "COMPLETE"):
+            raise ValueError("apparatus pass/fail requires matched evidence and complete uncertainty")
+        if self.status == "NOT_APPLICABLE" and self.applicability != "NOT_APPLICABLE_BY_PROTOCOL":
+            raise ValueError("apparatus gate cannot be marked not applicable without protocol basis")
+
+
+@dataclass(frozen=True)
+class ApparatusEvaluationRecord(Record):
+    evaluation_id: str; apparatus_explanation_ids: list[str]; status: str
+    applicable_gate_result_ids: list[str]; passing_gate_result_ids: list[str]
+    failing_gate_result_ids: list[str]; unresolved_gate_result_ids: list[str]
+    apparatus_gate_coverage_complete: bool; matched_scenario_ids: list[str]
+    reason_code: str; contract_version: str
+
+    def __post_init__(self):
+        if self.status not in APPARATUS_EVALUATION_STATUSES:
+            raise ValueError("invalid apparatus evaluation status")
 
 
 @dataclass(frozen=True)
@@ -219,12 +315,18 @@ class DecisionRecord(Record):
     qualifying_channel_ids: list[str]; minimum_measurement_sets: object; zero_pair_status: str
     unresolved_or_missing_uncertainty_record_ids: list[str]; unsupported_record_summary: dict[str, int]
     nonselection_reasons: dict[str, list[str]]; physical_validation: str; claim_ceiling: str
+    apparatus_status: str = "NOT_EVALUATED"; apparatus_gate_coverage_complete: bool = False
+    global_coverage_complete: bool = False; qualifying_requirement_ids: list[str] | None = None
+    coverage_edge_ids: list[str] | None = None; minimum_set_ids: list[str] | None = None
+    apparatus_gate_ids: list[str] | None = None; unresolved_requirement_ids: list[str] | None = None
 
     def __post_init__(self):
         if self.selected_outcome not in OUTCOMES or self.physical_validation != "NOT_ESTABLISHED":
             raise ValueError("invalid decision")
         if not self.decision_rule_version or len(self.decision_input_hash) != 64:
             raise ValueError("decision requires rule version and SHA-256 input hash")
+        if self.apparatus_status not in APPARATUS_EVALUATION_STATUSES:
+            raise ValueError("decision requires valid apparatus status")
         if self.eligible_pair_count == 0 and (self.zero_pair_status != "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM" or self.minimum_measurement_sets != "NO_COMPLETE_MEASUREMENT_SET"):
             raise ValueError("empty pair universe cannot produce a successful set")
 

@@ -17,19 +17,23 @@ from puckworks.viz.relationship import classify_relationship
 
 from .adapters import ADAPTER_VERSIONS
 from .artifacts import canonical_bytes, sha256, write_json
-from .compare import minimal_sets
 from .decision import RULE_VERSION, derive_scientific_decision
+from .governance import (APPARATUS_VERSION, COVERAGE_VERSION, apparatus_gate_specs,
+                         build_coverage_edges, build_requirements, evaluate_apparatus,
+                         minimum_measurement_sets, validate_measurement_linkage)
 from .inventory import inventory
-from .measurement_value import build_measurement_record
-from .schema import (ComparisonEligibilityRecord, DecisionRecord, ExplanationRecord,
-                     MeasurementValueRecord, PredictionIntervalRecord, QuantityRow,
-                     ResidualRecord, ResultCell)
+from .measurement_value import build_measurement_record, discriminate
+from .schema import (ApparatusEvaluationRecord, ApparatusGateResult, ApparatusGateSpec,
+                     ComparisonEligibilityRecord, CoverageEdgeRecord, DecisionRecord,
+                     DiscriminationRequirementRecord, ExplanationRecord, MeasurementValueRecord,
+                     PredictionIntervalRecord, QuantityRow, ResidualRecord, ResultCell)
 
 ROOT = Path(__file__).resolve().parents[3]
 BASE = ROOT / "docs/analysis/rp_a_001"
 INPUT = BASE / "c1"
-OUT = BASE / "c1_r1"
-SCHEMA_VERSION = "puckworks.response-atlas-export/v3"
+R1 = BASE / "c1_r1"
+OUT = BASE / "c1_r2"
+SCHEMA_VERSION = "puckworks.response-atlas-export/v4"
 CLAIM = "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED"
 CHANNELS = ["basket_pressure", "separate_upstream_pressure", "flow", "delivered_mass",
             "bed_height_or_deformation", "first_drip_timing", "temperature",
@@ -48,7 +52,8 @@ def _git(*args):
 def validate_protocol():
     base = _load(BASE / "protocol.json")
     c1 = _load(INPUT / "correction_protocol.json")
-    r1 = _load(OUT / "correction_protocol.json")
+    r1 = _load(R1 / "correction_protocol.json")
+    r2 = _load(OUT / "correction_protocol.json")
     cases = _load(INPUT / "case_matrix.json")
     if base["programme_protocol_version"] != "sci-md-003-rp-a-001/v1":
         raise ValueError("base protocol changed")
@@ -56,8 +61,10 @@ def validate_protocol():
         raise ValueError("wrong C1 protocol")
     if c1["schema_version"] != "puckworks.response-atlas-export/v2":
         raise ValueError("wrong preserved C1 export schema")
-    if r1["programme_protocol_version"] != "sci-md-003-rp-a-001/c1-r1" or r1["schema_version"] != SCHEMA_VERSION:
-        raise ValueError("wrong C1-R1 protocol or export schema")
+    if r1["programme_protocol_version"] != "sci-md-003-rp-a-001/c1-r1" or r1["schema_version"] != "puckworks.response-atlas-export/v3":
+        raise ValueError("wrong preserved C1-R1 protocol")
+    if r2["programme_protocol_version"] != "sci-md-003-rp-a-001/c1-r2" or r2["export_schema"] != SCHEMA_VERSION:
+        raise ValueError("wrong C1-R2 protocol or export schema")
     if sha256(ROOT / "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md") != c1["component_response_atlas_spec_sha256"]:
         raise ValueError("base specification drift")
     if len(cases["cases"]) != 6 or cases["frozen_status"] != "FROZEN_PRE_CORRECTED_ANALYSIS":
@@ -190,12 +197,21 @@ def _pairs():
         ("PAIR_FOSTER_WADSWORTH_FLOW", "FOSTER_FIXED_BED_MACHINE_NULL", "WADSWORTH_STATIC_INERTIAL_LENS", "MACHINE_REF", "flow", 3, "NONCOMPETING_COMPONENTS", "ineligible", "TIME_RESOLVED_MACHINE_FLOW_VS_STATIC_RESPONSE_LENS"),
         ("PAIR_WADSWORTH_CAMERON_FLOW", "WADSWORTH_STATIC_INERTIAL_LENS", "CAMERON_EXTRACTION_OBSERVER", "P09_REF", "flow", 4, "OBSERVATION_OPERATOR_COMPARISON", "ineligible", "BED_DROP_VS_PUMP_OVERPRESSURE_AND_WADSWORTH_EVIDENCE_EXCLUDED"),
         ("PAIR_WADSWORTH_NESTED_LIMIT", "WADSWORTH_STATIC_INERTIAL_LENS", "WADSWORTH_STATIC_INERTIAL_LENS", "WADSWORTH_WORKED_FO_ENDPOINTS", "flow", 1, "NESTED_LIMIT", "unresolved", "MATHEMATICALLY_NESTED_BUT_NOT_ADJUDICATIVE_IN_TAMPED_COFFEE_DOMAIN")]
-    return [ComparisonEligibilityRecord(pid, left, right, "bounded common-observable response", scenario,
-                                        channel, "NOT_COMMON" if level > 2 else "SAME_PRODUCER_REFERENCE",
-                                        "NOT_COMMON" if level > 2 else "superficial velocity m/s", level, role,
-                                        eligibility, reason, "NONE", "NONE", False,
-                                        f"ELIG__{pid}__{scenario}__{channel}")
-            for pid, left, right, scenario, channel, level, role, eligibility, reason in raw]
+    records = []
+    for pid, left, right, scenario, channel, level, role, eligibility, reason in raw:
+        intervention = "NOT_COMMON" if level > 2 else "SAME_PRODUCER_REFERENCE"
+        basis = "NOT_COMMON" if level > 2 else "SUPERFICIAL_VELOCITY_M_S"
+        requirement = f"REQ__{pid}__{scenario}__{intervention}__{basis}"
+        adapter_id, adapter_version = "DIRECT_NATIVE", "1.0.0"
+        records.append(ComparisonEligibilityRecord(
+            pid, left, right, "bounded common-observable response", scenario, channel,
+            intervention, "NOT_COMMON" if level > 2 else "superficial velocity m/s",
+            level, role, eligibility, reason, adapter_id, adapter_version, False,
+            f"ELIG__{requirement}__{channel}__{adapter_id}__{adapter_version}",
+            requirement, intervention, basis,
+            "SUPPORTED" if eligibility == "eligible" else "NOT_EVALUATED",
+            "DIRECT_NATIVE_CONTRACT_V1"))
+    return records
 
 
 def _derive_measurements(eligible, cells, assumptions, explanations):
@@ -264,35 +280,91 @@ def validate_bundle(bundle):
         ExplanationRecord.from_dict(row)
     for row in bundle["pair_eligibility"]:
         ComparisonEligibilityRecord.from_dict(row)
+    for row in bundle["discrimination_requirements"]:
+        DiscriminationRequirementRecord.from_dict(row)
     for row in bundle["prediction_intervals"]:
         PredictionIntervalRecord.from_dict(row)
     for row in bundle["measurement_value_records"]:
         MeasurementValueRecord.from_dict(row)
+    for row in bundle["coverage_edges"]:
+        CoverageEdgeRecord.from_dict(row)
+    for row in bundle["apparatus_gate_specs"]:
+        ApparatusGateSpec.from_dict(row)
+    for row in bundle["apparatus_gate_results"]:
+        ApparatusGateResult.from_dict(row)
+    ApparatusEvaluationRecord.from_dict(bundle["apparatus_evaluation"])
     for row in bundle["residual_records"]:
         ResidualRecord.from_dict(row)
     decision = DecisionRecord.from_dict(bundle["decision"])
-    eligible = [p for p in bundle["pair_eligibility"] if p["eligibility"] == "eligible"]
-    if decision.eligible_pair_count != len(eligible):
-        raise ValueError("decision eligible-pair count is inconsistent")
+    expected_requirements = [r.to_dict() for r in build_requirements(bundle["pair_eligibility"])]
+    if bundle["discrimination_requirements"] != expected_requirements:
+        raise ValueError("retained discrimination requirements are inconsistent")
+    relevant = [r for r in expected_requirements if r["relevant_to_final_decision"]]
+    if decision.eligible_pair_count != len(relevant):
+        raise ValueError("decision requirement count is inconsistent")
     robust = [r["measurement_record_id"] for r in bundle["measurement_value_records"] if r["robustly_covers_pair"]]
     if decision.robust_measurement_record_ids != robust:
         raise ValueError("decision robust-record inputs are inconsistent")
     eligibility = {p["eligibility_id"]: p for p in bundle["pair_eligibility"]}
+    if len(eligibility) != len(bundle["pair_eligibility"]):
+        raise ValueError("duplicate channel eligibility identity")
+    duplicate_keys = [(p["requirement_id"], p["candidate_observable"], p["adapter_id"], p["adapter_version"])
+                      for p in bundle["pair_eligibility"]]
+    if len(set(duplicate_keys)) != len(duplicate_keys):
+        raise ValueError("duplicate requirement/channel/adapter eligibility")
     for record in bundle["measurement_value_records"]:
         match = eligibility.get(record["eligibility_id"])
-        if match is None or (match["pair_id"], match["scenario"], match["candidate_observable"], match["comparability_level"]) != (record["pair_id"], record["scenario"], record["channel"], record["comparability_level"]):
-            raise ValueError("measurement record lacks exact channel eligibility")
+        validate_measurement_linkage(record, match)
+    predictions = {row["prediction_id"]: row for row in bundle["prediction_intervals"]}
+    for record in bundle["measurement_value_records"]:
+        left = predictions.get(record["left_prediction_id"])
+        right = predictions.get(record["right_prediction_id"])
+        left_interval = None if left is None else (left["lower_bound"], left["upper_bound"])
+        right_interval = None if right is None else (right["lower_bound"], right["upper_bound"])
+        expected_class = discriminate(left_interval, right_interval,
+                                      record["declared_measurement_uncertainty"])
+        if expected_class != "UNSUPPORTED" and ((left and left["missing_uncertainty_flags"]) or
+                                                  (right and right["missing_uncertainty_flags"])):
+            expected_class = "NOT_ADJUDICATED_MISSING_UNCERTAINTY"
+        if record["classification"] != expected_class:
+            raise ValueError("retained measurement classification is inconsistent")
+    expected_edges = [r.to_dict() for r in build_coverage_edges(bundle["measurement_value_records"], bundle["pair_eligibility"])]
+    if bundle["coverage_edges"] != expected_edges:
+        raise ValueError("retained coverage edges are inconsistent")
+    expected_minimum = minimum_measurement_sets(expected_requirements, expected_edges)
+    if bundle["minimum_measurement_sets"] != expected_minimum:
+        raise ValueError("retained minimum measurement sets are inconsistent")
+    expected_gate_results, expected_apparatus = evaluate_apparatus(
+        bundle["explanations"], expected_requirements, bundle["measurement_value_records"],
+        bundle["apparatus_gate_specs"])
+    if bundle["apparatus_gate_results"] != [r.to_dict() for r in expected_gate_results] or bundle["apparatus_evaluation"] != expected_apparatus.to_dict():
+        raise ValueError("retained apparatus evaluation is inconsistent")
     measurement_ids = {r["measurement_record_id"] for r in bundle["measurement_value_records"]}
     pair_ids = {p["pair_id"] for p in bundle["pair_eligibility"]}
+    gate_ids = {g["gate_id"] for g in bundle["apparatus_gate_specs"]}
+    measurement_by_id = {r["measurement_record_id"]: r for r in bundle["measurement_value_records"]}
+    for gate in bundle["apparatus_gate_results"]:
+        if gate["gate_id"] not in gate_ids or not set(gate["comparison_record_ids"]) <= pair_ids or not set(gate["measurement_record_ids"]) <= measurement_ids:
+            raise ValueError("apparatus gate cites missing evidence")
+        if gate["status"] in {"PASS", "FAIL"}:
+            evidence = [measurement_by_id[mid] for mid in gate["measurement_record_ids"]]
+            if not evidence or any(row["comparability_level"] > 2 or
+                                   row["classification"] == "NOT_ADJUDICATED_MISSING_UNCERTAINTY"
+                                   for row in evidence):
+                raise ValueError("apparatus gate evidence is not adjudicative")
     if not set(decision.robust_measurement_record_ids + decision.unresolved_or_missing_uncertainty_record_ids) <= measurement_ids:
         raise ValueError("decision cites nonexistent measurement evidence")
     if not set(decision.qualifying_comparison_record_ids) <= pair_ids:
         raise ValueError("decision cites nonexistent comparison evidence")
     expected = derive_scientific_decision(
-        explanations=bundle["explanations"], pair_eligibility=bundle["pair_eligibility"],
+        explanations=bundle["explanations"], requirements=expected_requirements,
+        pair_eligibility=bundle["pair_eligibility"],
         component_reports=bundle["component_reports"], comparison_records=bundle["matched_comparisons"],
-        measurement_records=bundle["measurement_value_records"], coverage_records=bundle["coverage_matrix"],
-        minimum_measurement_sets=bundle["minimum_measurement_sets"])
+        measurement_records=bundle["measurement_value_records"], coverage_edges=expected_edges,
+        minimum_measurement_sets=expected_minimum,
+        apparatus_gate_specs=bundle["apparatus_gate_specs"],
+        apparatus_gate_results=bundle["apparatus_gate_results"],
+        apparatus_evaluation=bundle["apparatus_evaluation"])
     if decision != expected:
         raise ValueError("retained decision is inconsistent with scientific inputs")
     return True
@@ -318,29 +390,39 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
     pairs = _pairs()
     eligible = [p for p in pairs if p.eligibility == "eligible"]
     predictions, measurements = _derive_measurements(eligible, cells, assumptions, explanations)
-    coverage = [{"channel": ch,
-                 "robustly_covered_pair_ids": sorted(r.pair_id for r in measurements if r.channel == ch and r.robustly_covers_pair),
-                 "robust_measurement_record_ids": sorted(r.measurement_record_id for r in measurements if r.channel == ch and r.robustly_covers_pair)} for ch in CHANNELS]
-    sets = minimal_sets({p.pair_id for p in eligible}, {row["channel"]: set(row["robustly_covered_pair_ids"]) for row in coverage})
-    zero_status = "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM" if not eligible else "ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM_PRESENT"
-    minimum = {"eligible_pair_ids": [x.pair_id for x in eligible],
-               "zero_pair_status": zero_status, "result": sets}
+    pair_dicts = [x.to_dict() for x in pairs]
+    requirements = [x.to_dict() for x in build_requirements(pair_dicts)]
+    measurement_dicts = [x.to_dict() for x in measurements]
+    edges = [x.to_dict() for x in build_coverage_edges(measurement_dicts, pair_dicts)]
+    coverage = [{"measurement_option_id": option,
+                 "covered_requirement_ids": sorted(edge["requirement_id"] for edge in edges
+                                                   if edge["measurement_option_id"] == option),
+                 "coverage_edge_ids": sorted(edge["coverage_edge_id"] for edge in edges
+                                             if edge["measurement_option_id"] == option)}
+                for option in sorted({edge["measurement_option_id"] for edge in edges})]
+    minimum = minimum_measurement_sets(requirements, edges)
     component_reports = {"cameron2020.extraction_bdf": cam_report,
                          "foster2025.machine_mode": foster_report,
                          "wadsworth2026.inertial": wads_report}
-    pair_dicts = [x.to_dict() for x in pairs]
-    measurement_dicts = [x.to_dict() for x in measurements]
+    gate_specs = [x.to_dict() for x in apparatus_gate_specs()]
+    gate_results_obj, apparatus_obj = evaluate_apparatus(
+        [x.to_dict() for x in explanations], requirements, measurement_dicts, gate_specs)
+    gate_results = [x.to_dict() for x in gate_results_obj]
+    apparatus = apparatus_obj.to_dict()
     decision = derive_scientific_decision(
-        explanations=[x.to_dict() for x in explanations], pair_eligibility=pair_dicts,
+        explanations=[x.to_dict() for x in explanations], requirements=requirements,
+        pair_eligibility=pair_dicts,
         component_reports=component_reports, comparison_records=pair_dicts,
-        measurement_records=measurement_dicts, coverage_records=coverage,
-        minimum_measurement_sets=minimum)
+        measurement_records=measurement_dicts, coverage_edges=edges,
+        minimum_measurement_sets=minimum, apparatus_gate_specs=gate_specs,
+        apparatus_gate_results=gate_results, apparatus_evaluation=apparatus)
     execution_commit = execution_commit or _git("rev-parse", "HEAD")
     execution_tree = execution_tree or _git("rev-parse", "HEAD^{tree}")
     evaluation_count = cam_evals + foster_evals + wads_evals
-    manifest = {"schema_version": SCHEMA_VERSION, "programme_protocol_version": "sci-md-003-rp-a-001/c1-r1",
+    manifest = {"schema_version": SCHEMA_VERSION, "programme_protocol_version": "sci-md-003-rp-a-001/c1-r2",
                 "component_response_atlas_spec_sha256": sha256(ROOT / "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md"),
                 "c1_protocol_sha256": sha256(INPUT / "correction_protocol.json"),
+                "c1_r1_protocol_sha256": sha256(R1 / "correction_protocol.json"),
                 "protocol_sha256": sha256(OUT / "correction_protocol.json"),
                 "case_matrix_sha256": sha256(INPUT / "case_matrix.json"),
                 "measurement_assumption_sha256": sha256(INPUT / "measurement_assumptions.json"),
@@ -350,7 +432,9 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
                 "selected_components": ["foster2025.machine_mode", "wadsworth2026.inertial", "cameron2020.extraction_bdf"],
                 "deterministic_seed": 20260820, "evaluation_count": evaluation_count,
                 "environment": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__},
-                "execution_completeness": "COMPLETE_BOUNDED_C1_R1_PILOT", "numerical_failures": 0,
+                "decision_rule_version": RULE_VERSION, "coverage_rule_version": COVERAGE_VERSION,
+                "apparatus_gate_contract_version": APPARATUS_VERSION,
+                "execution_completeness": "COMPLETE_BOUNDED_C1_R2_PILOT", "numerical_failures": 0,
                 "support_state_vocabulary": [s.value for s in __import__("puckworks.analysis.response_atlas.schema", fromlist=["SupportStatus"]).SupportStatus],
                 "frozen_status": "FROZEN", "claim_ceiling": CLAIM}
     bundle = {"schema_version": SCHEMA_VERSION, "run_manifest": manifest,
@@ -359,16 +443,24 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
               "component_reports": component_reports,
               "pair_eligibility": pair_dicts,
               "channel_eligibility": pair_dicts,
+              "discrimination_requirements": requirements,
               "matched_comparisons": pair_dicts,
               "prediction_intervals": [x.to_dict() for x in predictions],
               "residual_records": [residual.to_dict()],
               "measurement_value_records": measurement_dicts,
+              "coverage_edges": edges,
               "coverage_matrix": coverage,
               "minimum_measurement_sets": minimum,
+              "apparatus_gate_specs": gate_specs,
+              "apparatus_gate_results": gate_results,
+              "apparatus_evaluation": apparatus,
               "measurement_assumptions": assumptions,
               "summary_counts": {"explanations": len(explanations), "pair_eligibility": len(pairs),
                                  "channel_eligibility": len(pairs),
+                                 "discrimination_requirements": len(requirements),
+                                 "relevant_requirements": sum(r["relevant_to_final_decision"] for r in requirements),
                                  "eligible_pairs": len(eligible), "measurement_records": len(measurements),
+                                 "coverage_edges": len(edges),
                                  "measurement_classifications": dict(sorted(Counter(x.classification for x in measurements).items())),
                                  "support_states": dict(sorted(Counter(x.support_status for x in cells).items())),
                                  "comparability_levels": dict(sorted(Counter(str(x.comparability_level) for x in pairs).items())),
@@ -386,6 +478,8 @@ def _artifact_map(bundle):
     return {
         "schema.json": {"schema_version": SCHEMA_VERSION,
                         "decision_rule_version": RULE_VERSION,
+                        "coverage_rule_version": COVERAGE_VERSION,
+                        "apparatus_gate_contract_version": APPARATUS_VERSION,
                         "support_states": bundle["run_manifest"]["support_state_vocabulary"],
                         "comparability_levels": [1, 2, 3, 4, 5]},
         "case_matrix.json": _load(INPUT / "case_matrix.json"),
@@ -394,13 +488,19 @@ def _artifact_map(bundle):
         "explanation_registry.json": bundle["explanations"],
         "pair_eligibility.json": bundle["pair_eligibility"],
         "channel_eligibility.json": bundle["channel_eligibility"],
+        "discrimination_requirements.json": bundle["discrimination_requirements"],
         "run_manifest.json": bundle["run_manifest"],
         "component_reports/index.json": bundle["component_reports"],
         "matched_comparisons.json": bundle["matched_comparisons"],
         "residual_decomposition.json": bundle["residual_records"],
         "measurement_value.json": {"records": bundle["measurement_value_records"], "summary": bundle["summary_counts"]},
+        "prediction_intervals.json": bundle["prediction_intervals"],
+        "coverage_edges.json": bundle["coverage_edges"],
         "coverage_matrix.json": bundle["coverage_matrix"],
         "minimum_measurement_sets.json": bundle["minimum_measurement_sets"],
+        "apparatus_gate_spec.json": bundle["apparatus_gate_specs"],
+        "apparatus_gate_results.json": bundle["apparatus_gate_results"],
+        "apparatus_evaluation.json": bundle["apparatus_evaluation"],
         "DECISION.json": bundle["decision"], "atlas_export.json": bundle}
 
 
@@ -412,7 +512,7 @@ def generate_bundle(*, execution_commit=None, execution_tree=None):
         path.parent.mkdir(parents=True, exist_ok=True)
         write_json(path, obj)
     (OUT / "atlas_export.sha256").write_text(sha256(OUT / "atlas_export.json") + "  atlas_export.json\n", encoding="utf-8")
-    write_json(OUT / "runtime.json", {"runtime_schema": "rp-a-001-c1-r1-runtime/v1",
+    write_json(OUT / "runtime.json", {"runtime_schema": "rp-a-001-c1-r2-runtime/v1",
                                       "wall_time_seconds": round(time.perf_counter() - started, 6),
                                       "normalized_for_scientific_verification": ["wall_time_seconds"]})
     return bundle

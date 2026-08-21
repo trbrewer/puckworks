@@ -37,17 +37,17 @@ def test_first_drip_requires_time_contract():
 
 def test_real_runner_is_response_derived_and_nonaggregate(monkeypatch):
     called = []
-    original = runner.minimal_sets
+    original = runner.minimum_measurement_sets
 
-    def observed(pairs, coverage):
-        called.append((pairs, coverage))
-        return original(pairs, coverage)
+    def observed(requirements, coverage):
+        called.append((requirements, coverage))
+        return original(requirements, coverage)
 
-    monkeypatch.setattr(runner, "minimal_sets", observed)
+    monkeypatch.setattr(runner, "minimum_measurement_sets", observed)
     bundle = runner.build_bundle()
     assert called
     assert bundle["summary_counts"]["eligible_pairs"] == 0
-    assert bundle["minimum_measurement_sets"]["zero_pair_status"] == "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
+    assert bundle["minimum_measurement_sets"]["zero_universe_status"] == "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
     assert bundle["minimum_measurement_sets"]["result"] == "NO_COMPLETE_MEASUREMENT_SET"
     assert all(r.get("pair_id") != "ALL_REMAINING_EXPLANATIONS" for r in bundle["measurement_value_records"])
     assert bundle["decision"]["zero_pair_status"] == "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
@@ -56,8 +56,9 @@ def test_real_runner_is_response_derived_and_nonaggregate(monkeypatch):
 def test_real_measurement_path_calls_discrimination(monkeypatch):
     pair = ComparisonEligibilityRecord("pair", "left", "right", "q", "case", "flow",
                                        "same", "m/s", 1, "SCIENTIFICALLY_COMPETING",
-                                       "eligible", "TEST", "NONE", "NONE", True,
-                                       "ELIG__pair__case__flow")
+                                       "eligible", "TEST", "DIRECT_NATIVE", "1.0.0", True,
+                                       "ELIG__REQ__pair__case__same__basis__flow__DIRECT_NATIVE__1.0.0",
+                                       "REQ__pair__case__same__basis", "same", "basis", "SUPPORTED", "hash")
     explanations = [
         ExplanationRecord("left", "a", "test", "flow", "q", "a", "card", "registry", [], "p", "BED_PRESSURE_DROP", "DIFFERENTIAL", "test", ["flow"], "test", "COMPETING_EXPLANATION", "test"),
         ExplanationRecord("right", "b", "test", "flow", "q", "b", "card", "registry", [], "p", "BED_PRESSURE_DROP", "DIFFERENTIAL", "test", ["flow"], "test", "COMPETING_EXPLANATION", "test")]
@@ -86,8 +87,9 @@ def test_real_measurement_path_calls_discrimination(monkeypatch):
 
 def test_interval_classifications_and_robust_uncertainty_invariant():
     pair = ComparisonEligibilityRecord("p", "l", "r", "q", "s", "flow", "same", "m/s", 1,
-                                       "SCIENTIFICALLY_COMPETING", "eligible", "TEST", "NONE", "NONE", True,
-                                       "ELIG__p__s__flow")
+                                       "SCIENTIFICALLY_COMPETING", "eligible", "TEST", "DIRECT_NATIVE", "1.0.0", True,
+                                       "ELIG__REQ__p__s__same__basis__flow__DIRECT_NATIVE__1.0.0",
+                                       "REQ__p__s__same__basis", "same", "basis", "SUPPORTED", "hash")
     def pred(identity, value, missing=None):
         return PredictionIntervalRecord(identity, identity, "s", "flow", "q", "m/s",
                                         "NOT_APPLICABLE", "NOT_APPLICABLE", "NOT_APPLICABLE",
@@ -154,7 +156,7 @@ def generated(tmp_path, monkeypatch):
     (("pair_eligibility", 0, "candidate_observable"), "temperature"),
     (("pair_eligibility", 0, "scenario"), "OTHER_SCENARIO"),
     (("pair_eligibility", 0, "adapter_version"), "9"),
-    (("coverage_matrix", 0, "robustly_covered_pair_ids"), ["fake"]),
+    (("apparatus_evaluation", "status"), "RULED_OUT_BY_MATCHED_GATE"),
     (("decision", "selected_outcome"), "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE"),
     (("decision", "decision_rule_version"), "bad"),
     (("decision", "decision_input_hash"), "0" * 64),
@@ -185,7 +187,7 @@ def test_superseded_v1_export_rejected_by_c1_validator():
         runner.validate_bundle(old)
 
 
-def test_superseded_v2_export_rejected_by_c1_r1_validator():
+def test_superseded_v2_export_rejected_by_current_validator():
     old = json.loads((runner.INPUT / "atlas_export.json").read_text())
     assert old["schema_version"] == "puckworks.response-atlas-export/v2"
     with pytest.raises(ValueError, match="schema"):
