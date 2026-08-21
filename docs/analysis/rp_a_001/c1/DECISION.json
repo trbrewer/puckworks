@@ -1,0 +1,21 @@
+{
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "decision_id": "PUCKWORKS_COMPONENT_ATLAS_DECISION",
+  "decision_reason_record_ids": [
+    "PAIR_FOSTER_CAMERON_MACHINE",
+    "PAIR_FOSTER_WADSWORTH_FLOW",
+    "PAIR_WADSWORTH_CAMERON_FLOW",
+    "PAIR_WADSWORTH_NESTED_LIMIT"
+  ],
+  "eligible_pair_count": 0,
+  "minimum_measurement_sets": "NO_COMPLETE_MEASUREMENT_SET",
+  "not_selected": {
+    "APPARATUS_OBSERVATION_EXPLANATION_SURVIVES": "No level-1/2 matched retained evidence is present in the component-only atlas.",
+    "DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE": "No admitted dynamic-bed competing explanation or robust deformation channel.",
+    "SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE": "No admitted spatial competing explanation or robust spatial channel."
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "robust_measurement_record_ids": [],
+  "selected_outcome": "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED",
+  "zero_pair_status": "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
+}

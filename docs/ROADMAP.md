@@ -1159,6 +1159,20 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   measurement uncertainty yielded `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`
   and `NO_COMPLETE_MEASUREMENT_SET`. No model winner, evidence promotion,
   production coupled model, public article, or RP-C.1 activation followed.
+- **C1 bounded correction and fresh re-execution (2026-08-21).** The initial
+  v1 export is retained as superseded evidence. The v2 runner now derives
+  pairwise measurement records from validated response/support/eligibility and
+  uncertainty records, treats an empty eligible-pair universe non-vacuously,
+  and byte-verifies the exact downstream export. Source-domain review excluded
+  Wadsworth's 5/9/11-bar and complete-grind rows from adjudication (the inertial
+  closure is a tamped-coffee extrapolation and fixed-porosity radius is not a
+  complete grinder intervention); Foster saturation is no longer silently
+  equated to scale-threshold first drip. Nine evaluations, zero numerical
+  failures, zero eligible discrimination pairs, calculated
+  `NO_COMPLETE_MEASUREMENT_SET`, and
+  `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. Physical validation and
+  evidence levels are unchanged; no model winner, RP-C.1 activation, or public
+  article followed.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*

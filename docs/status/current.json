@@ -372,11 +372,11 @@
       "owner_type": "scientific-maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Additional synchronized data with declared uncertainty; RP-C.1 was not entered.",
-      "acceptance_evidence": "docs/analysis/rp_a_001; three authoritative producers; 15 bounded evaluations; NO_COMPLETE_MEASUREMENT_SET; SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED; no evidence promotion or global model winner",
+      "next_gate": "Independent exact-head review of C1, then matched cross-repository evidence with declared uncertainty; RP-C.1 was not entered.",
+      "acceptance_evidence": "docs/analysis/rp_a_001/c1; initial candidate superseded; response-derived pair eligibility; nine bounded evaluations; Wadsworth pressure/grind rows excluded from adjudication; NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM; calculated NO_COMPLETE_MEASUREMENT_SET; SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED; no evidence promotion or global model winner",
       "issue_or_pr": "#243",
-      "verified_commit": "2cb75c1",
-      "verified_date": "2026-08-20"
+      "verified_commit": "8a4d2ff",
+      "verified_date": "2026-08-21"
     }
   ]
 }
