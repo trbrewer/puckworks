@@ -131,7 +131,7 @@ class ComparisonEligibilityRecord(Record):
     pair_id: str; left_explanation: str; right_explanation: str; scientific_question: str
     scenario: str; candidate_observable: str; common_intervention: str; common_output_basis: str
     comparability_level: int; pair_role: str; eligibility: str; reason_code: str
-    adapter_id: str; adapter_version: str; uncertainty_available: bool
+    adapter_id: str; adapter_version: str; uncertainty_available: bool; eligibility_id: str = ""
     required_nonempty = ("pair_id", "left_explanation", "right_explanation", "scenario", "candidate_observable", "reason_code")
 
     def __post_init__(self):
@@ -144,6 +144,9 @@ class ComparisonEligibilityRecord(Record):
             raise ValueError("level 1 cannot require an adapter")
         if self.adapter_id == "NONE" and self.adapter_version != "NONE":
             raise ValueError("adapter version requires adapter identity")
+        expected = f"ELIG__{self.pair_id}__{self.scenario}__{self.candidate_observable}"
+        if self.eligibility_id != expected:
+            raise ValueError("eligibility identity must bind pair, scenario, and channel")
 
 
 @dataclass(frozen=True)
@@ -174,7 +177,7 @@ class MeasurementValueRecord(Record):
     declared_measurement_uncertainty: object; measurement_uncertainty_provenance: str
     expanded_left_interval: list[float] | None; expanded_right_interval: list[float] | None
     interval_combination_method: str; classification: str; reason_code: str; evidence_label: str
-    robustly_covers_pair: bool; claim_ceiling: str
+    robustly_covers_pair: bool; claim_ceiling: str; eligibility_id: str = ""
     required_nonempty = ("measurement_record_id", "pair_id", "scenario", "channel", "reason_code")
 
     def __post_init__(self):
@@ -187,6 +190,8 @@ class MeasurementValueRecord(Record):
             raise ValueError("coverage must derive from robust classification")
         if self.classification == "ROBUSTLY_DISCRIMINATING" and (self.declared_measurement_uncertainty == "NOT_PROVIDED" or self.expanded_left_interval is None or self.expanded_right_interval is None):
             raise ValueError("robust classification requires complete uncertainty")
+        if not self.eligibility_id:
+            raise ValueError("measurement record requires channel-specific eligibility identity")
 
 
 @dataclass(frozen=True)
@@ -207,13 +212,19 @@ class ResidualRecord(Record):
 
 @dataclass(frozen=True)
 class DecisionRecord(Record):
-    decision_id: str; selected_outcome: str; decision_reason_record_ids: list[str]
-    eligible_pair_count: int; robust_measurement_record_ids: list[str]; minimum_measurement_sets: object
-    zero_pair_status: str; not_selected: dict[str, str]; physical_validation: str; claim_ceiling: str
+    decision_id: str; selected_outcome: str; decision_rule_version: str; decision_input_hash: str
+    eligible_pair_count: int; robust_measurement_record_ids: list[str]
+    disqualifying_measurement_record_ids: list[str]; qualifying_comparison_record_ids: list[str]
+    qualifying_explanation_ids: list[str]; qualifying_scenario_ids: list[str]
+    qualifying_channel_ids: list[str]; minimum_measurement_sets: object; zero_pair_status: str
+    unresolved_or_missing_uncertainty_record_ids: list[str]; unsupported_record_summary: dict[str, int]
+    nonselection_reasons: dict[str, list[str]]; physical_validation: str; claim_ceiling: str
 
     def __post_init__(self):
         if self.selected_outcome not in OUTCOMES or self.physical_validation != "NOT_ESTABLISHED":
             raise ValueError("invalid decision")
+        if not self.decision_rule_version or len(self.decision_input_hash) != 64:
+            raise ValueError("decision requires rule version and SHA-256 input hash")
         if self.eligible_pair_count == 0 and (self.zero_pair_status != "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM" or self.minimum_measurement_sets != "NO_COMPLETE_MEASUREMENT_SET"):
             raise ValueError("empty pair universe cannot produce a successful set")
 

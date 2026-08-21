@@ -43,7 +43,7 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         expanded_left = [left_interval[0] - u, left_interval[1] + u]
         expanded_right = [right_interval[0] - u, right_interval[1] + u]
     return MeasurementValueRecord(
-        measurement_record_id=f"MV__{pair.pair_id}__{channel}", pair_id=pair.pair_id,
+        measurement_record_id=f"MV__{pair.pair_id}__{pair.scenario}__{channel}", pair_id=pair.pair_id,
         left_explanation=pair.left_explanation, right_explanation=pair.right_explanation,
         scenario=pair.scenario, channel=channel, comparability_level=pair.comparability_level,
         left_support_state=left_support, right_support_state=right_support,
@@ -56,4 +56,5 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         classification=classification, reason_code=reason,
         evidence_label="MODEL_RESPONSE_MEASUREMENT_VALUE_NOT_VALIDATION",
         robustly_covers_pair=classification == "ROBUSTLY_DISCRIMINATING",
-        claim_ceiling="MODEL_INFORMED_MEASUREMENT_DESIGN_ONLY")
+        claim_ceiling="MODEL_INFORMED_MEASUREMENT_DESIGN_ONLY",
+        eligibility_id=pair.eligibility_id)

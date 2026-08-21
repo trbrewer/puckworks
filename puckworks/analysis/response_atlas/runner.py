@@ -18,6 +18,7 @@ from puckworks.viz.relationship import classify_relationship
 from .adapters import ADAPTER_VERSIONS
 from .artifacts import canonical_bytes, sha256, write_json
 from .compare import minimal_sets
+from .decision import RULE_VERSION, derive_scientific_decision
 from .inventory import inventory
 from .measurement_value import build_measurement_record
 from .schema import (ComparisonEligibilityRecord, DecisionRecord, ExplanationRecord,
@@ -26,8 +27,9 @@ from .schema import (ComparisonEligibilityRecord, DecisionRecord, ExplanationRec
 
 ROOT = Path(__file__).resolve().parents[3]
 BASE = ROOT / "docs/analysis/rp_a_001"
-OUT = BASE / "c1"
-SCHEMA_VERSION = "puckworks.response-atlas-export/v2"
+INPUT = BASE / "c1"
+OUT = BASE / "c1_r1"
+SCHEMA_VERSION = "puckworks.response-atlas-export/v3"
 CLAIM = "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED"
 CHANNELS = ["basket_pressure", "separate_upstream_pressure", "flow", "delivered_mass",
             "bed_height_or_deformation", "first_drip_timing", "temperature",
@@ -45,14 +47,17 @@ def _git(*args):
 
 def validate_protocol():
     base = _load(BASE / "protocol.json")
-    c1 = _load(OUT / "correction_protocol.json")
-    cases = _load(OUT / "case_matrix.json")
+    c1 = _load(INPUT / "correction_protocol.json")
+    r1 = _load(OUT / "correction_protocol.json")
+    cases = _load(INPUT / "case_matrix.json")
     if base["programme_protocol_version"] != "sci-md-003-rp-a-001/v1":
         raise ValueError("base protocol changed")
     if c1["programme_protocol_version"] != "sci-md-003-rp-a-001/c1":
         raise ValueError("wrong C1 protocol")
-    if c1["schema_version"] != SCHEMA_VERSION:
-        raise ValueError("wrong C1 export schema")
+    if c1["schema_version"] != "puckworks.response-atlas-export/v2":
+        raise ValueError("wrong preserved C1 export schema")
+    if r1["programme_protocol_version"] != "sci-md-003-rp-a-001/c1-r1" or r1["schema_version"] != SCHEMA_VERSION:
+        raise ValueError("wrong C1-R1 protocol or export schema")
     if sha256(ROOT / "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md") != c1["component_response_atlas_spec_sha256"]:
         raise ValueError("base specification drift")
     if len(cases["cases"]) != 6 or cases["frozen_status"] != "FROZEN_PRE_CORRECTED_ANALYSIS":
@@ -188,7 +193,8 @@ def _pairs():
     return [ComparisonEligibilityRecord(pid, left, right, "bounded common-observable response", scenario,
                                         channel, "NOT_COMMON" if level > 2 else "SAME_PRODUCER_REFERENCE",
                                         "NOT_COMMON" if level > 2 else "superficial velocity m/s", level, role,
-                                        eligibility, reason, "NONE", "NONE", False)
+                                        eligibility, reason, "NONE", "NONE", False,
+                                        f"ELIG__{pid}__{scenario}__{channel}")
             for pid, left, right, scenario, channel, level, role, eligibility, reason in raw]
 
 
@@ -228,7 +234,7 @@ def _derive_measurements(eligible, cells, assumptions, explanations):
         return rec
 
     for pair in eligible:
-        for channel in CHANNELS:
+        for channel in [pair.candidate_observable]:
             left_cell = find(pair.left_explanation, pair.scenario, channel)
             right_cell = find(pair.right_explanation, pair.scenario, channel)
             left = prediction(pair.left_explanation, left_cell, channel)
@@ -248,6 +254,8 @@ def _derive_measurements(eligible, cells, assumptions, explanations):
 
 
 def validate_bundle(bundle):
+    if bundle.get("schema_version") != SCHEMA_VERSION:
+        raise ValueError("wrong response-atlas export schema")
     for row in bundle["quantity_inventory"]:
         QuantityRow.from_dict(row)
     for cell in bundle["result_cells"]:
@@ -269,15 +277,31 @@ def validate_bundle(bundle):
     robust = [r["measurement_record_id"] for r in bundle["measurement_value_records"] if r["robustly_covers_pair"]]
     if decision.robust_measurement_record_ids != robust:
         raise ValueError("decision robust-record inputs are inconsistent")
-    if any(reason not in {p["pair_id"] for p in bundle["pair_eligibility"]} for reason in decision.decision_reason_record_ids):
-        raise ValueError("decision reason does not point to retained records")
+    eligibility = {p["eligibility_id"]: p for p in bundle["pair_eligibility"]}
+    for record in bundle["measurement_value_records"]:
+        match = eligibility.get(record["eligibility_id"])
+        if match is None or (match["pair_id"], match["scenario"], match["candidate_observable"], match["comparability_level"]) != (record["pair_id"], record["scenario"], record["channel"], record["comparability_level"]):
+            raise ValueError("measurement record lacks exact channel eligibility")
+    measurement_ids = {r["measurement_record_id"] for r in bundle["measurement_value_records"]}
+    pair_ids = {p["pair_id"] for p in bundle["pair_eligibility"]}
+    if not set(decision.robust_measurement_record_ids + decision.unresolved_or_missing_uncertainty_record_ids) <= measurement_ids:
+        raise ValueError("decision cites nonexistent measurement evidence")
+    if not set(decision.qualifying_comparison_record_ids) <= pair_ids:
+        raise ValueError("decision cites nonexistent comparison evidence")
+    expected = derive_scientific_decision(
+        explanations=bundle["explanations"], pair_eligibility=bundle["pair_eligibility"],
+        component_reports=bundle["component_reports"], comparison_records=bundle["matched_comparisons"],
+        measurement_records=bundle["measurement_value_records"], coverage_records=bundle["coverage_matrix"],
+        minimum_measurement_sets=bundle["minimum_measurement_sets"])
+    if decision != expected:
+        raise ValueError("retained decision is inconsistent with scientific inputs")
     return True
 
 
 def build_bundle(*, execution_commit=None, execution_tree=None):
     validate_protocol()
-    cases = _load(OUT / "case_matrix.json")["cases"]
-    assumptions = _load(OUT / "measurement_assumptions.json")
+    cases = _load(INPUT / "case_matrix.json")["cases"]
+    assumptions = _load(INPUT / "measurement_assumptions.json")
     registry_hash = sha256(ROOT / "puckworks/models/__init__.py")
     card_paths = {"foster2025_2.md": ROOT / "docs/cards/foster2025_2.md",
                   "wadsworth2026.md": ROOT / "docs/cards/wadsworth2026.md",
@@ -294,53 +318,60 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
     pairs = _pairs()
     eligible = [p for p in pairs if p.eligibility == "eligible"]
     predictions, measurements = _derive_measurements(eligible, cells, assumptions, explanations)
-    coverage = [{"channel": ch, "robustly_covered_pair_ids": sorted(
-        r.pair_id for r in measurements if r.channel == ch and r.robustly_covers_pair)} for ch in CHANNELS]
+    coverage = [{"channel": ch,
+                 "robustly_covered_pair_ids": sorted(r.pair_id for r in measurements if r.channel == ch and r.robustly_covers_pair),
+                 "robust_measurement_record_ids": sorted(r.measurement_record_id for r in measurements if r.channel == ch and r.robustly_covers_pair)} for ch in CHANNELS]
     sets = minimal_sets({p.pair_id for p in eligible}, {row["channel"]: set(row["robustly_covered_pair_ids"]) for row in coverage})
     zero_status = "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM" if not eligible else "ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM_PRESENT"
-    decision = DecisionRecord("PUCKWORKS_COMPONENT_ATLAS_DECISION",
-                              "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED",
-                              [p.pair_id for p in pairs], len(eligible),
-                              [r.measurement_record_id for r in measurements if r.robustly_covers_pair], sets, zero_status,
-                              {"APPARATUS_OBSERVATION_EXPLANATION_SURVIVES": "No level-1/2 matched retained evidence is present in the component-only atlas.",
-                               "DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE": "No admitted dynamic-bed competing explanation or robust deformation channel.",
-                               "SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE": "No admitted spatial competing explanation or robust spatial channel."},
-                              "NOT_ESTABLISHED", CLAIM)
+    minimum = {"eligible_pair_ids": [x.pair_id for x in eligible],
+               "zero_pair_status": zero_status, "result": sets}
+    component_reports = {"cameron2020.extraction_bdf": cam_report,
+                         "foster2025.machine_mode": foster_report,
+                         "wadsworth2026.inertial": wads_report}
+    pair_dicts = [x.to_dict() for x in pairs]
+    measurement_dicts = [x.to_dict() for x in measurements]
+    decision = derive_scientific_decision(
+        explanations=[x.to_dict() for x in explanations], pair_eligibility=pair_dicts,
+        component_reports=component_reports, comparison_records=pair_dicts,
+        measurement_records=measurement_dicts, coverage_records=coverage,
+        minimum_measurement_sets=minimum)
     execution_commit = execution_commit or _git("rev-parse", "HEAD")
     execution_tree = execution_tree or _git("rev-parse", "HEAD^{tree}")
     evaluation_count = cam_evals + foster_evals + wads_evals
-    manifest = {"schema_version": SCHEMA_VERSION, "programme_protocol_version": "sci-md-003-rp-a-001/c1",
+    manifest = {"schema_version": SCHEMA_VERSION, "programme_protocol_version": "sci-md-003-rp-a-001/c1-r1",
                 "component_response_atlas_spec_sha256": sha256(ROOT / "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md"),
+                "c1_protocol_sha256": sha256(INPUT / "correction_protocol.json"),
                 "protocol_sha256": sha256(OUT / "correction_protocol.json"),
-                "case_matrix_sha256": sha256(OUT / "case_matrix.json"),
-                "measurement_assumption_sha256": sha256(OUT / "measurement_assumptions.json"),
+                "case_matrix_sha256": sha256(INPUT / "case_matrix.json"),
+                "measurement_assumption_sha256": sha256(INPUT / "measurement_assumptions.json"),
                 "execution_code_commit": execution_commit, "execution_code_tree": execution_tree,
                 "repository": "https://github.com/trbrewer/puckworks.git", "registry_snapshot_sha256": registry_hash,
                 "selected_card_sha256": cards, "adapter_versions": ADAPTER_VERSIONS,
                 "selected_components": ["foster2025.machine_mode", "wadsworth2026.inertial", "cameron2020.extraction_bdf"],
                 "deterministic_seed": 20260820, "evaluation_count": evaluation_count,
                 "environment": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__},
-                "execution_completeness": "COMPLETE_BOUNDED_C1_PILOT", "numerical_failures": 0,
+                "execution_completeness": "COMPLETE_BOUNDED_C1_R1_PILOT", "numerical_failures": 0,
                 "support_state_vocabulary": [s.value for s in __import__("puckworks.analysis.response_atlas.schema", fromlist=["SupportStatus"]).SupportStatus],
                 "frozen_status": "FROZEN", "claim_ceiling": CLAIM}
     bundle = {"schema_version": SCHEMA_VERSION, "run_manifest": manifest,
               "quantity_inventory": inventory(), "result_cells": [x.to_dict() for x in cells],
               "explanations": [x.to_dict() for x in explanations],
-              "component_reports": {"cameron2020.extraction_bdf": cam_report,
-                                    "foster2025.machine_mode": foster_report,
-                                    "wadsworth2026.inertial": wads_report},
-              "pair_eligibility": [x.to_dict() for x in pairs],
-              "matched_comparisons": [x.to_dict() for x in pairs],
+              "component_reports": component_reports,
+              "pair_eligibility": pair_dicts,
+              "channel_eligibility": pair_dicts,
+              "matched_comparisons": pair_dicts,
               "prediction_intervals": [x.to_dict() for x in predictions],
               "residual_records": [residual.to_dict()],
-              "measurement_value_records": [x.to_dict() for x in measurements],
+              "measurement_value_records": measurement_dicts,
               "coverage_matrix": coverage,
-              "minimum_measurement_sets": {"eligible_pair_ids": [x.pair_id for x in eligible],
-                                           "zero_pair_status": zero_status, "result": sets},
+              "minimum_measurement_sets": minimum,
               "measurement_assumptions": assumptions,
               "summary_counts": {"explanations": len(explanations), "pair_eligibility": len(pairs),
+                                 "channel_eligibility": len(pairs),
                                  "eligible_pairs": len(eligible), "measurement_records": len(measurements),
                                  "measurement_classifications": dict(sorted(Counter(x.classification for x in measurements).items())),
+                                 "support_states": dict(sorted(Counter(x.support_status for x in cells).items())),
+                                 "comparability_levels": dict(sorted(Counter(str(x.comparability_level) for x in pairs).items())),
                                  "result_cells": len(cells)},
               "decision": decision.to_dict()}
     validate_bundle(_load_bytes(canonical_bytes(bundle)))
@@ -354,11 +385,15 @@ def _load_bytes(data):
 def _artifact_map(bundle):
     return {
         "schema.json": {"schema_version": SCHEMA_VERSION,
+                        "decision_rule_version": RULE_VERSION,
                         "support_states": bundle["run_manifest"]["support_state_vocabulary"],
                         "comparability_levels": [1, 2, 3, 4, 5]},
+        "case_matrix.json": _load(INPUT / "case_matrix.json"),
+        "measurement_assumptions.json": bundle["measurement_assumptions"],
         "quantity_inventory.json": bundle["quantity_inventory"],
         "explanation_registry.json": bundle["explanations"],
         "pair_eligibility.json": bundle["pair_eligibility"],
+        "channel_eligibility.json": bundle["channel_eligibility"],
         "run_manifest.json": bundle["run_manifest"],
         "component_reports/index.json": bundle["component_reports"],
         "matched_comparisons.json": bundle["matched_comparisons"],
@@ -377,7 +412,7 @@ def generate_bundle(*, execution_commit=None, execution_tree=None):
         path.parent.mkdir(parents=True, exist_ok=True)
         write_json(path, obj)
     (OUT / "atlas_export.sha256").write_text(sha256(OUT / "atlas_export.json") + "  atlas_export.json\n", encoding="utf-8")
-    write_json(OUT / "runtime.json", {"runtime_schema": "rp-a-001-c1-runtime/v1",
+    write_json(OUT / "runtime.json", {"runtime_schema": "rp-a-001-c1-r1-runtime/v1",
                                       "wall_time_seconds": round(time.perf_counter() - started, 6),
                                       "normalized_for_scientific_verification": ["wall_time_seconds"]})
     return bundle
