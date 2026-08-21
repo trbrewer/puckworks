@@ -1,0 +1,98 @@
+[
+  {
+    "applicability_rule": "APPLICABLE_WHEN_MATCHED_RESPONSE_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__SIGN",
+    "gate_name": "SIGN",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": true,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "APPLICABLE_WHEN_MATCHED_RESPONSE_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__PRESSURE_OR_FLOW_ORDERING",
+    "gate_name": "PRESSURE_OR_FLOW_ORDERING",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": true,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__PRESSURE_LAG",
+    "gate_name": "PRESSURE_LAG",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__TRANSIENT_TIMING",
+    "gate_name": "TRANSIENT_TIMING",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__FIRST_DRIP_TIMING",
+    "gate_name": "FIRST_DRIP_TIMING",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__FLOW_MINIMUM",
+    "gate_name": "FLOW_MINIMUM",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__FLOW_RECOVERY",
+    "gate_name": "FLOW_RECOVERY",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  },
+  {
+    "applicability_rule": "CONDITIONAL_WHEN_MATCHED_SCENARIO_PHYSICALLY_EXPOSES_GATE",
+    "contract_version": "rp-a-001-apparatus-gates/v1",
+    "fail_criterion": "MATCHED_GATE_ROBUSTLY_FAILS_WITH_COMPLETE_UNCERTAINTY",
+    "gate_id": "APP_GATE__CROSS_CONDITION_TRANSFER",
+    "gate_name": "CROSS_CONDITION_TRANSFER",
+    "maximum_comparability_level": 2,
+    "pass_criterion": "MATCHED_GATE_PASSES_WITHIN_DECLARED_UNCERTAINTY",
+    "primary": false,
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_COMPARISON_WITH_COMPLETE_UNCERTAINTY",
+    "uncertainty_required": true
+  }
+]

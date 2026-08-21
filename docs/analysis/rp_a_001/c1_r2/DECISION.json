@@ -1,0 +1,40 @@
+{
+  "apparatus_gate_coverage_complete": false,
+  "apparatus_gate_ids": [],
+  "apparatus_status": "NOT_EVALUATED",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "coverage_edge_ids": [],
+  "decision_id": "PUCKWORKS_COMPONENT_ATLAS_DECISION",
+  "decision_input_hash": "a830b36dbc62ef8cc5ccf55590e7f8df7c4680a352ad908dc5d607baa7f1236f",
+  "decision_rule_version": "rp-a-001-decision/v2",
+  "disqualifying_measurement_record_ids": [],
+  "eligible_pair_count": 0,
+  "global_coverage_complete": false,
+  "minimum_measurement_sets": "NO_COMPLETE_MEASUREMENT_SET",
+  "minimum_set_ids": [],
+  "nonselection_reasons": {
+    "SCI_MD_003_RP_A_001_APPARATUS_OBSERVATION_EXPLANATION_SURVIVES": [
+      "NO_MATCHED_APPARATUS_COMPARATOR"
+    ],
+    "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE": [
+      "APPARATUS_NOT_RULED_OUT"
+    ],
+    "SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE": [
+      "APPARATUS_NOT_RULED_OUT"
+    ]
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "qualifying_channel_ids": [],
+  "qualifying_comparison_record_ids": [],
+  "qualifying_explanation_ids": [],
+  "qualifying_requirement_ids": [],
+  "qualifying_scenario_ids": [],
+  "robust_measurement_record_ids": [],
+  "selected_outcome": "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED",
+  "unresolved_or_missing_uncertainty_record_ids": [],
+  "unresolved_requirement_ids": [],
+  "unsupported_record_summary": {
+    "UNSUPPORTED": 0
+  },
+  "zero_pair_status": "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
+}

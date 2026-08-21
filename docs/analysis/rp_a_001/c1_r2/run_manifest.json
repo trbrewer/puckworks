@@ -1,0 +1,55 @@
+{
+  "adapter_versions": {
+    "flow_area_density": "1.0.0",
+    "permeability_to_resistance": "1.0.0",
+    "pressure_drop_to_gradient": "2.0.0",
+    "scalar_darcy_flux_override": "1.0.0"
+  },
+  "apparatus_gate_contract_version": "rp-a-001-apparatus-gates/v1",
+  "c1_protocol_sha256": "aee421985ebd904150ed7ca714c0aebc624a2e9a424d4ab6eafd391677a39e53",
+  "c1_r1_protocol_sha256": "4db676c8d1257053032504b50413f85a3d49bff2201818cf0fe888d2504bf7a9",
+  "case_matrix_sha256": "7537675bd469e515724d1fe61535c8047bf5d05a0f71165978b02c5481f6c519",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "component_response_atlas_spec_sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f",
+  "coverage_rule_version": "rp-a-001-coverage/v2",
+  "decision_rule_version": "rp-a-001-decision/v2",
+  "deterministic_seed": 20260820,
+  "environment": {
+    "numpy": "2.2.6",
+    "python": "3.12.3",
+    "scipy": "1.15.3"
+  },
+  "evaluation_count": 9,
+  "execution_code_commit": "a8f2679985948bf82443aee30f35ff4e504fc74a",
+  "execution_code_tree": "0707f3b3a1bfa5b4f2887c46d40bdbf5402e101e",
+  "execution_completeness": "COMPLETE_BOUNDED_C1_R2_PILOT",
+  "frozen_status": "FROZEN",
+  "measurement_assumption_sha256": "17f37c2ccbb39bca86f44d3bbc004085c40b6318ca6d101869fa6dfd3d5aac4a",
+  "numerical_failures": 0,
+  "programme_protocol_version": "sci-md-003-rp-a-001/c1-r2",
+  "protocol_sha256": "3dfefbf9168b31e321b8ae4b56674e0696f6aebd941d701b499e649d9b2641f2",
+  "registry_snapshot_sha256": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+  "repository": "https://github.com/trbrewer/puckworks.git",
+  "schema_version": "puckworks.response-atlas-export/v4",
+  "selected_card_sha256": {
+    "cameron2020.md": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b",
+    "foster2025_2.md": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b",
+    "wadsworth2026.md": "606abfce68ba40105b4650ee6af2e8c716c60adb2653b87065b5fd2207c25fe8",
+    "wadsworth2026_grindmap.md": "8cffbac5fe9f42072fb880be8b9e972870c847386eacd0ed2091d6f3dd1c34d4",
+    "wadsworth2026_inertial.md": "799b7dc68df3dc5602e7831db08482405c4c40cfccf24dfb81e69676f7a4c888"
+  },
+  "selected_components": [
+    "foster2025.machine_mode",
+    "wadsworth2026.inertial",
+    "cameron2020.extraction_bdf"
+  ],
+  "support_state_vocabulary": [
+    "SUPPORTED",
+    "UNSUPPORTED_RELATIONSHIP",
+    "UNSUPPORTED_FOR_CASE",
+    "OUTSIDE_VALID_RANGE",
+    "MISSING_REQUIRED_INPUT",
+    "NUMERICAL_FAILURE",
+    "NOT_EVALUATED"
+  ]
+}

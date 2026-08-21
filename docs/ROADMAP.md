@@ -1184,6 +1184,18 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
   blocked; evidence levels, physical-validation status, and production physics
   are unchanged.
+- **C1-R2 coverage/provenance/precedence correction (2026-08-21).** Independent
+  review rejected v3 because coverage collapsed scenarios to pair IDs, adapter
+  and ordered-explanation provenance was incomplete, and successful decision
+  paths were insufficiently governed by coverage and apparatus evaluation. The
+  v4 contract uses pair/scenario/intervention/basis requirements, exact
+  measurement-option adapters, validated coverage edges, independently
+  recomputed minimum sets, and a frozen apparatus gate contract. The complete
+  nine-evaluation pilot was rerun. Four potential requirements remain, zero are
+  relevant, apparatus is `NOT_EVALUATED`, global coverage is incomplete, and
+  the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
+  blocked; physical validation, evidence levels, and production physics are
+  unchanged.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
