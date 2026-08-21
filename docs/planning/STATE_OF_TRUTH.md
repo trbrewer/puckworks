@@ -40,7 +40,7 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 | quality-ratchet | Quality ratchet: Stage-1 mypy + critical-module coverage floor | #27 | e6eb7fd | 2026-07-16 |
 | public-api-boundary | Explicit supported public API + stability policy + reader-path docs | #28 | 2ecbc9e | 2026-07-16 |
 | distribution-testing | Test the distribution + fix private-corpus leak in the wheel | #29 | cbc1956 | 2026-07-16 |
-| rp-a-001-common-observable-atlas | RP-A.1/RP-A.2 bounded common-observable response atlas | #243 | a8f2679 | 2026-08-21 |
+| rp-a-001-common-observable-atlas | RP-A.1/RP-A.2 bounded common-observable response atlas | #243 | 2d04a56 | 2026-08-21 |
 
 ## Superseded planning snapshots
 

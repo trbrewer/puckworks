@@ -372,10 +372,10 @@
       "owner_type": "scientific-maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Independent exact-head review of C1-R2 v4; EWP remains blocked pending owner adjudication and a separate repin authorization; RP-C.1 was not entered.",
-      "acceptance_evidence": "docs/analysis/rp_a_001/c1_r2; v3 reviewed candidate superseded; scenario/intervention/basis-specific discrimination requirements; exact adapter and ordered-explanation provenance; semantic coverage/minimum-set recomputation; apparatus gate contract and NOT_EVALUATED status; nine bounded evaluations; zero relevant requirements; NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM; calculated NO_COMPLETE_MEASUREMENT_SET; derived SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED; no evidence promotion or global model winner",
+      "next_gate": "Independent exact-head review of C1-R3 v5; EWP remains blocked pending owner adjudication and a separate repin authorization; RP-C.1 was not entered.",
+      "acceptance_evidence": "docs/analysis/rp_a_001/c1_r3; v4 reviewed candidate superseded; independent scientific-question and requirement relevance; complete observation-contract identities; executable evidence-derived apparatus gates; complete semantic reconstruction; nine bounded evaluations; four scientifically excluded questions and zero relevant requirements; apparatus NOT_EVALUATED; calculated NO_COMPLETE_MEASUREMENT_SET; derived SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED; no evidence promotion or global model winner",
       "issue_or_pr": "#243",
-      "verified_commit": "a8f2679",
+      "verified_commit": "2d04a56",
       "verified_date": "2026-08-21"
     }
   ]

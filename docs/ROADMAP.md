@@ -1196,6 +1196,21 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
   blocked; physical validation, evidence levels, and production physics are
   unchanged.
+- **C1-R3 apparatus/question/observation-contract correction (2026-08-21).**
+  Independent review rejected v4 because its real apparatus evaluator was
+  non-adjudicative, requirement relevance was circularly derived from channel
+  eligibility, observation contracts were incomplete, and semantic validation
+  did not reconstruct every retained scientific object. The v5 runner now
+  builds a canonical scientific-question registry before requirements and
+  channel eligibility, binds complete hashed observation contracts end to end,
+  evaluates apparatus gates from validated evidence, and independently
+  reconstructs questions, requirements, contracts, eligibility, measurements,
+  coverage, minimum sets, gates, decision, and summary counts. The complete
+  nine-evaluation pilot was rerun. All four relations are independently excluded
+  by scientific role, apparatus is `NOT_EVALUATED`, global coverage is
+  incomplete, and the derived outcome remains
+  `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains blocked; physical
+  validation, evidence levels, production physics, and RP-C.1 status are unchanged.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
