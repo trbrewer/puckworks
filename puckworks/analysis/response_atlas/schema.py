@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from enum import Enum, IntEnum
 import math
+from typing import Any, ClassVar
 
 
 class SupportStatus(str, Enum):
@@ -23,8 +24,33 @@ class ComparabilityLevel(IntEnum):
     NOT_COMPARABLE = 5
 
 
+PAIR_ROLES = {"SCIENTIFICALLY_COMPETING", "NESTED_LIMIT", "OBSERVATION_OPERATOR_COMPARISON", "NONCOMPETING_COMPONENTS"}
+ELIGIBILITY = {"eligible", "ineligible", "unresolved"}
+MEASUREMENT_CLASSES = {"ROBUSTLY_DISCRIMINATING", "NOMINALLY_DISCRIMINATING_BUT_UNCERTAINTY_OVERLAPS", "NOT_DISCRIMINATING", "UNSUPPORTED", "NOT_ADJUDICATED_MISSING_UNCERTAINTY"}
+OUTCOMES = {"SCI_MD_003_RP_A_001_APPARATUS_OBSERVATION_EXPLANATION_SURVIVES", "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE", "SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE", "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED"}
+
+
+class Record:
+    required_nonempty: ClassVar[tuple[str, ...]] = ()
+
+    def __post_init__(self):
+        for name in self.required_nonempty:
+            if getattr(self, name) in (None, ""):
+                raise ValueError(f"{type(self).__name__}.{name} is required")
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]):
+        expected = {f.name for f in fields(cls)}
+        if set(data) != expected:
+            raise ValueError(f"{cls.__name__} fields mismatch: {set(data) ^ expected}")
+        return cls(**data)
+
+
 @dataclass(frozen=True)
-class ResultCell:
+class ResultCell(Record):
     component_id: str
     case_id: str
     observable: str
@@ -35,78 +61,178 @@ class ResultCell:
     pressure_node: str = "NOT_APPLICABLE"
     pressure_reference: str = "NOT_APPLICABLE"
     reference_basis: str = "NOT_PROVIDED"
+    time_basis: str = "NOT_APPLICABLE"
     evidence_strength: str = "NOT_PROVIDED"
+    evidence_domain_status: str = "NOT_PROVIDED"
+    adjudicative: bool = True
     source_kind: str = "SOURCE_NATIVE"
+    adapter_id: str = "NONE"
+    adapter_version: str = "NONE"
+    required_nonempty = ("component_id", "case_id", "observable", "unit")
 
     def __post_init__(self):
+        super().__post_init__()
         if self.support_status not in {s.value for s in SupportStatus}:
             raise ValueError("unknown support status")
-        if self.support_status == SupportStatus.SUPPORTED.value:
+        if self.support_status == "SUPPORTED":
             if self.value is None or not math.isfinite(float(self.value)):
                 raise ValueError("SUPPORTED requires a finite numeric value")
+            if self.unit in ("", "NOT_PROVIDED"):
+                raise ValueError("numeric result requires units")
+            if "pressure" in self.observable and (self.pressure_node == "NOT_APPLICABLE" or self.pressure_reference == "NOT_APPLICABLE"):
+                raise ValueError("pressure result requires node and reference")
+            if ("time" in self.observable or self.unit == "s") and self.time_basis == "NOT_APPLICABLE":
+                raise ValueError("timing result requires time basis")
         elif self.value is not None:
             raise ValueError("unsupported result cannot carry a numeric value")
-
-    def to_dict(self):
-        return asdict(self)
+        if self.adapter_id == "NONE" and self.adapter_version != "NONE":
+            raise ValueError("adapter version requires adapter identity")
 
 
 @dataclass(frozen=True)
-class QuantityRow:
-    component_id: str
-    stage: str
-    quantity_name: str
-    direction: str
-    unit: str
-    reference_basis: str
-    physical_definition: str
-    role: str
-    provenance: str
-    valid_range: object
-    evidence_strength: str
-    independently_variable: str
-    relationship_kind: str
-    comparable_observable_group: str
-    support_status: str
-    control_mode: str
-    pressure_node: str = "NOT_APPLICABLE"
-    pressure_reference: str = "NOT_APPLICABLE"
-    flow_basis: str = "NOT_APPLICABLE"
-    mass_basis: str = "NOT_APPLICABLE"
-    temperature_basis: str = "NOT_PROVIDED"
-    spatial_basis: str = "LUMPED"
-    initialization: str = "SOURCE_DEFAULT"
-    history_dependence: str = "NONE"
-    adapter_id: str = "NONE"
-    adapter_version: str = "NONE"
-    card_identity: str = "NOT_PROVIDED"
-    registry_identity: str = "NOT_PROVIDED"
-    notes: str = ""
+class QuantityRow(Record):
+    component_id: str; stage: str; quantity_name: str; direction: str; unit: str
+    reference_basis: str; physical_definition: str; role: str; provenance: str
+    valid_range: object; evidence_strength: str; independently_variable: str
+    relationship_kind: str; comparable_observable_group: str; support_status: str; control_mode: str
+    pressure_node: str = "NOT_APPLICABLE"; pressure_reference: str = "NOT_APPLICABLE"
+    flow_basis: str = "NOT_APPLICABLE"; mass_basis: str = "NOT_APPLICABLE"
+    temperature_basis: str = "NOT_PROVIDED"; spatial_basis: str = "LUMPED"
+    initialization: str = "SOURCE_DEFAULT"; history_dependence: str = "NONE"
+    adapter_id: str = "NONE"; adapter_version: str = "NONE"
+    card_identity: str = "NOT_PROVIDED"; registry_identity: str = "NOT_PROVIDED"; notes: str = ""
+    mathematical_domain_status: str = "NOT_PROVIDED"; declared_valid_range: object = "NOT_PROVIDED"
+    evidence_domain: str = "NOT_PROVIDED"; evidence_domain_status: str = "NOT_PROVIDED"
+    adjudicative_support: str = "NOT_PROVIDED"; adjudicative_exclusion_reason: str = "NOT_APPLICABLE"
+    required_nonempty = ("component_id", "stage", "quantity_name", "direction", "unit", "reference_basis", "physical_definition", "role", "provenance")
 
     def __post_init__(self):
-        required = asdict(self)
-        if any(v is None for v in required.values()):
+        super().__post_init__()
+        if any(v is None for v in asdict(self).values()):
             raise ValueError("inventory fields cannot be omitted or null")
         if self.valid_range == "":
             raise ValueError("unknown valid range must be NOT_PROVIDED")
+        if self.support_status not in {s.value for s in SupportStatus}:
+            raise ValueError("unknown support status")
 
-    def to_dict(self):
-        return asdict(self)
+
+@dataclass(frozen=True)
+class ExplanationRecord(Record):
+    explanation_id: str; component_id: str; scientific_role: str; stage: str
+    question_addressed: str; producer_identity: str; card_identity: str; registry_identity: str
+    physical_assumptions: list[str]; control_mode: str; pressure_node: str; pressure_reference: str
+    input_domain: str; output_observables: list[str]; evidence_domain_status: str
+    explanation_kind: str; claim_ceiling: str
+    required_nonempty = ("explanation_id", "component_id", "scientific_role", "stage")
+
+
+@dataclass(frozen=True)
+class ComparisonEligibilityRecord(Record):
+    pair_id: str; left_explanation: str; right_explanation: str; scientific_question: str
+    scenario: str; candidate_observable: str; common_intervention: str; common_output_basis: str
+    comparability_level: int; pair_role: str; eligibility: str; reason_code: str
+    adapter_id: str; adapter_version: str; uncertainty_available: bool
+    required_nonempty = ("pair_id", "left_explanation", "right_explanation", "scenario", "candidate_observable", "reason_code")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.comparability_level not in range(1, 6) or self.pair_role not in PAIR_ROLES or self.eligibility not in ELIGIBILITY:
+            raise ValueError("invalid pair record")
+        if self.eligibility == "eligible" and (self.comparability_level > 2 or self.pair_role not in {"SCIENTIFICALLY_COMPETING", "NESTED_LIMIT"}):
+            raise ValueError("ineligible pair presented as discrimination-eligible")
+        if self.comparability_level == 1 and self.adapter_id != "NONE":
+            raise ValueError("level 1 cannot require an adapter")
+        if self.adapter_id == "NONE" and self.adapter_version != "NONE":
+            raise ValueError("adapter version requires adapter identity")
+
+
+@dataclass(frozen=True)
+class PredictionIntervalRecord(Record):
+    prediction_id: str; explanation_id: str; case_id: str; channel: str; source_result_field: str
+    unit: str; pressure_node: str; pressure_reference: str; time_basis: str
+    nominal_value: float; lower_bound: float; upper_bound: float
+    parameter_uncertainty: object; numerical_uncertainty: object; adapter_uncertainty: object
+    initialization_history_uncertainty: object; evidence_domain_status: str; provenance: str
+    missing_uncertainty_flags: list[str]
+    required_nonempty = ("prediction_id", "explanation_id", "case_id", "channel", "unit")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if not all(math.isfinite(float(v)) for v in (self.nominal_value, self.lower_bound, self.upper_bound)) or not self.lower_bound <= self.nominal_value <= self.upper_bound:
+            raise ValueError("invalid prediction interval")
+        if "pressure" in self.channel and (self.pressure_node == "NOT_APPLICABLE" or self.pressure_reference == "NOT_APPLICABLE"):
+            raise ValueError("pressure prediction requires node/reference")
+        if ("timing" in self.channel or self.unit == "s") and self.time_basis == "NOT_APPLICABLE":
+            raise ValueError("timing prediction requires time basis")
+
+
+@dataclass(frozen=True)
+class MeasurementValueRecord(Record):
+    measurement_record_id: str; pair_id: str; left_explanation: str; right_explanation: str
+    scenario: str; channel: str; comparability_level: int; left_support_state: str; right_support_state: str
+    left_prediction_id: str | None; right_prediction_id: str | None
+    declared_measurement_uncertainty: object; measurement_uncertainty_provenance: str
+    expanded_left_interval: list[float] | None; expanded_right_interval: list[float] | None
+    interval_combination_method: str; classification: str; reason_code: str; evidence_label: str
+    robustly_covers_pair: bool; claim_ceiling: str
+    required_nonempty = ("measurement_record_id", "pair_id", "scenario", "channel", "reason_code")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.classification not in MEASUREMENT_CLASSES:
+            raise ValueError("unknown measurement classification")
+        if self.left_support_state not in {s.value for s in SupportStatus} or self.right_support_state not in {s.value for s in SupportStatus}:
+            raise ValueError("unknown support state")
+        if self.robustly_covers_pair != (self.classification == "ROBUSTLY_DISCRIMINATING"):
+            raise ValueError("coverage must derive from robust classification")
+        if self.classification == "ROBUSTLY_DISCRIMINATING" and (self.declared_measurement_uncertainty == "NOT_PROVIDED" or self.expanded_left_interval is None or self.expanded_right_interval is None):
+            raise ValueError("robust classification requires complete uncertainty")
+
+
+@dataclass(frozen=True)
+class ResidualRecord(Record):
+    contrast_id: str; left_model_case: str; right_model_case: str; observable: str; unit: str
+    comparability_level: int; nested: bool; numeric_difference: float | None; uncertainty: object
+    attribution: str; closure_error: float | None; numerical_tolerance: float | None
+    decomposition_method: str; causal_eligibility: bool; causal_share: float | None; claim_ceiling: str
+
+    def __post_init__(self):
+        if self.numeric_difference is not None and self.comparability_level not in (1, 2):
+            raise ValueError("numeric residuals require comparability level 1 or 2")
+        if not self.nested and self.causal_share is not None:
+            raise ValueError("non-nested comparison cannot carry additive causal share")
+        if self.nested and self.closure_error is not None and self.numerical_tolerance is not None and abs(self.closure_error) > self.numerical_tolerance:
+            raise ValueError("nested residual does not close")
+
+
+@dataclass(frozen=True)
+class DecisionRecord(Record):
+    decision_id: str; selected_outcome: str; decision_reason_record_ids: list[str]
+    eligible_pair_count: int; robust_measurement_record_ids: list[str]; minimum_measurement_sets: object
+    zero_pair_status: str; not_selected: dict[str, str]; physical_validation: str; claim_ceiling: str
+
+    def __post_init__(self):
+        if self.selected_outcome not in OUTCOMES or self.physical_validation != "NOT_ESTABLISHED":
+            raise ValueError("invalid decision")
+        if self.eligible_pair_count == 0 and (self.zero_pair_status != "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM" or self.minimum_measurement_sets != "NO_COMPLETE_MEASUREMENT_SET"):
+            raise ValueError("empty pair universe cannot produce a successful set")
 
 
 def numeric_residual(left: ResultCell, right: ResultCell, level: int) -> float:
-    if level not in (1, 2):
-        raise ValueError("numeric residuals require comparability level 1 or 2")
-    if left.support_status != "SUPPORTED" or right.support_status != "SUPPORTED":
-        raise ValueError("numeric residuals require supported cells")
+    if level not in (1, 2) or left.support_status != "SUPPORTED" or right.support_status != "SUPPORTED":
+        raise ValueError("numeric residuals require level 1/2 supported cells")
     return float(left.value) - float(right.value)
+
+
+def validate_level_one(left: ResultCell, right: ResultCell) -> None:
+    if (left.unit, left.pressure_node, left.pressure_reference, left.reference_basis) != (right.unit, right.pressure_node, right.pressure_reference, right.reference_basis):
+        raise ValueError("level 1 requires matching unit, node, reference, and basis")
 
 
 def flow_conversion(*, darcy_velocity_m_s, area_m2=None, density_kg_m3=None):
     if area_m2 is None or density_kg_m3 is None:
         raise ValueError("flow conversion requires explicit area and density")
-    return {"volumetric_flow_m3_s": darcy_velocity_m_s * area_m2,
-            "mass_flow_kg_s": darcy_velocity_m_s * area_m2 * density_kg_m3}
+    return {"volumetric_flow_m3_s": darcy_velocity_m_s * area_m2, "mass_flow_kg_s": darcy_velocity_m_s * area_m2 * density_kg_m3}
 
 
 def permeability_to_resistance(*, permeability_m2, length_m=None, area_m2=None, viscosity_pa_s=None):

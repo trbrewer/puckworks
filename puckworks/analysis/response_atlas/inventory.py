@@ -9,11 +9,18 @@ CARDS = {
 def _row(cid, stage, name, direction, unit, basis, definition, role, valid, evidence,
          group, support="SUPPORTED", control="SOURCE_NATIVE", node="NOT_APPLICABLE",
          reference="NOT_APPLICABLE", flow="NOT_APPLICABLE", mass="NOT_APPLICABLE", notes=""):
+    is_wads = cid == "wadsworth2026.inertial"
     return QuantityRow(cid, stage, name, direction, unit, basis, definition, role,
         f"{CARDS[cid].split('@')[0]}; authoritative implementation", valid, evidence, "yes" if direction=="input" else "derived",
         "direct", group, support, control, node, reference, flow, mass, "90-92_C_SOURCE_NOMINAL",
         "ONE_DIMENSIONAL_OR_LUMPED", "SOURCE_DEFAULT", "DECLARED_BY_COMPONENT", "NONE", "NONE",
-        CARDS[cid], "puckworks/models/__init__.py@a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114", notes)
+        CARDS[cid], "puckworks/models/__init__.py@a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114", notes,
+        mathematical_domain_status="STRICT_SI_POSITIVE_EXECUTABLE" if is_wads else "DECLARED_BY_COMPONENT",
+        declared_valid_range="Fo_F_REGIME_FLAG__PRESSURE_GRADIENT_RANGE_NOT_PROVIDED" if is_wads else valid,
+        evidence_domain="UNTAMPED_PACK_PERMEABILITY__CERAMICS_FIT_INERTIAL_CLOSURE" if is_wads else "SOURCE_COMPONENT_DOMAIN",
+        evidence_domain_status="TAMPED_COFFEE_EXTRAPOLATION" if is_wads else "DECLARED_BY_COMPONENT",
+        adjudicative_support="EXCLUDED_FOR_C1_PRESSURE_AND_GRIND_CASES" if is_wads else support,
+        adjudicative_exclusion_reason="PRESSURE_GRADIENT_RANGE_NOT_PROVIDED__K_I_NOT_COFFEE_CALIBRATED" if is_wads else "NOT_APPLICABLE")
 
 def inventory():
     rows=[]

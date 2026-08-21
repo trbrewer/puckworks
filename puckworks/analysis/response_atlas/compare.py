@@ -8,6 +8,8 @@ def classify_candidate(*, sign_agrees, ordering_agrees, grind_agrees, comparable
 
 def minimal_sets(pairs, coverage):
     from itertools import combinations
+    if not pairs:
+        return "NO_COMPLETE_MEASUREMENT_SET"
     channels=sorted(coverage)
     for n in range(1,len(channels)+1):
         found=[]
