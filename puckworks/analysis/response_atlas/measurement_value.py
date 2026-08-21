@@ -42,7 +42,7 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         u = float(measurement_uncertainty)
         expanded_left = [left_interval[0] - u, left_interval[1] + u]
         expanded_right = [right_interval[0] - u, right_interval[1] + u]
-    option_id = f"MEASOPT__{channel}__{pair.adapter_id}__{pair.adapter_version}__{pair.basis_id}"
+    option_id = f"MEASOPT__{channel}__{pair.observation_contract_hash}"
     return MeasurementValueRecord(
         measurement_record_id=f"MV__{pair.requirement_id}__{channel}__{pair.adapter_id}__{pair.adapter_version}", pair_id=pair.pair_id,
         left_explanation=pair.left_explanation, right_explanation=pair.right_explanation,
@@ -62,4 +62,6 @@ def build_measurement_record(*, pair, channel, left_support, right_support,
         measurement_option_id=option_id, adapter_id=pair.adapter_id,
         adapter_version=pair.adapter_version, adapter_contract_hash=pair.adapter_contract_hash,
         intervention_id=pair.intervention_id, basis_id=pair.basis_id,
-        evidence_references=[pair.eligibility_id])
+        evidence_references=[pair.eligibility_id],
+        observation_contract_id=pair.observation_contract_id,
+        observation_contract_hash=pair.observation_contract_hash)

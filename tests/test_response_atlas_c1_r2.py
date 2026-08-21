@@ -1,4 +1,5 @@
 import copy
+import hashlib
 
 import pytest
 
@@ -7,7 +8,7 @@ from puckworks.analysis.response_atlas.decision import (
     ADDITIONAL, APPARATUS, DYNAMIC, SPATIAL, derive_scientific_decision,
 )
 from puckworks.analysis.response_atlas.governance import (
-    apparatus_gate_specs, build_coverage_edges, build_requirements,
+    apparatus_gate_specs, build_coverage_edges,
     minimum_measurement_sets, validate_measurement_linkage,
 )
 
@@ -15,7 +16,8 @@ from puckworks.analysis.response_atlas.governance import (
 def eligibility(pair="p", scenario="A", channel="flow", adapter="DIRECT_NATIVE",
                 version="1.0.0", state="eligible", left="null", right="other"):
     intervention, basis = "MATCHED", "FLOW_M_S"
-    requirement = f"REQ__{pair}__{scenario}__{intervention}__{basis}"
+    requirement = f"REQ__Q_TEST__{pair}__{scenario}__{intervention}__{basis}"
+    contract_hash = hashlib.sha256(f"{adapter}/{version}".encode()).hexdigest()
     return {
         "pair_id": pair, "left_explanation": left, "right_explanation": right,
         "scientific_question": "q", "scenario": scenario, "candidate_observable": channel,
@@ -26,11 +28,13 @@ def eligibility(pair="p", scenario="A", channel="flow", adapter="DIRECT_NATIVE",
         "eligibility_id": f"ELIG__{requirement}__{channel}__{adapter}__{version}",
         "requirement_id": requirement, "intervention_id": intervention, "basis_id": basis,
         "support_status": "SUPPORTED", "adapter_contract_hash": "contract",
+        "question_id": "Q_TEST", "observation_contract_id": "OBS_TEST",
+        "observation_contract_hash": contract_hash,
     }
 
 
 def measurement(e, identity=None, classification="ROBUSTLY_DISCRIMINATING"):
-    option = f"MEASOPT__{e['candidate_observable']}__{e['adapter_id']}__{e['adapter_version']}__{e['basis_id']}"
+    option = f"MEASOPT__{e['candidate_observable']}__{e['observation_contract_hash']}"
     return {
         "measurement_record_id": identity or f"MV__{e['requirement_id']}",
         "requirement_id": e["requirement_id"], "eligibility_id": e["eligibility_id"],
@@ -50,7 +54,24 @@ def measurement(e, identity=None, classification="ROBUSTLY_DISCRIMINATING"):
         "interval_combination_method": "CONSERVATIVE_ADDITIVE_BOUNDED_HALF_WIDTHS_NO_DISTRIBUTION",
         "reason_code": "TEST", "evidence_label": "TEST", "claim_ceiling": "TEST",
         "evidence_references": [e["eligibility_id"]],
+        "observation_contract_id": e["observation_contract_id"],
+        "observation_contract_hash": e["observation_contract_hash"],
     }
+
+
+def requirement(e):
+    return {"requirement_id": e["requirement_id"], "pair_id": e["pair_id"],
+            "left_explanation": e["left_explanation"], "right_explanation": e["right_explanation"],
+            "scenario": e["scenario"], "control_mode": e["common_intervention"],
+            "intervention_id": e["intervention_id"], "pressure_node": "NOT_APPLICABLE",
+            "pressure_reference": "NOT_APPLICABLE", "basis_id": e["basis_id"],
+            "time_basis": "NOT_APPLICABLE", "pair_role": e["pair_role"],
+            "scientific_question": "q", "relevant_to_final_decision": True,
+            "applicable_candidate_channels": [e["candidate_observable"]],
+            "requirement_status": "relevant", "reason_code": "RELEVANT", "provenance": "TEST",
+            "question_id": "Q_TEST", "observation_family": e["candidate_observable"],
+            "observation_contract_id": e["observation_contract_id"], "spatial_basis": "LUMPED",
+            "relevance_status": "RELEVANT"}
 
 
 def apparatus(status="NOT_EVALUATED", complete=False):
@@ -66,7 +87,7 @@ def apparatus(status="NOT_EVALUATED", complete=False):
 
 
 def decide(explanations, es, ms, app, complete=None):
-    requirements = [r.to_dict() for r in build_requirements(es)]
+    requirements = [requirement(e) for e in es]
     edges = [r.to_dict() for r in build_coverage_edges(ms, es)]
     minimum = minimum_measurement_sets(requirements, edges)
     if complete is False:
@@ -74,7 +95,7 @@ def decide(explanations, es, ms, app, complete=None):
                    "all_equally_minimal_sets": [], "minimum_set_ids": [],
                    "uncovered_requirement_ids": [r["requirement_id"] for r in requirements]}
     return derive_scientific_decision(
-        explanations=explanations, requirements=requirements, pair_eligibility=es,
+        explanations=explanations, requirements=requirements, channel_eligibility=es,
         component_reports={}, comparison_records=es, measurement_records=ms,
         coverage_edges=edges, minimum_measurement_sets=minimum,
         apparatus_gate_specs=[r.to_dict() for r in apparatus_gate_specs()],
@@ -83,7 +104,7 @@ def decide(explanations, es, ms, app, complete=None):
 
 def test_scenarios_are_distinct_requirements_and_both_must_be_covered():
     a, b = eligibility(scenario="A"), eligibility(scenario="B")
-    requirements = [r.to_dict() for r in build_requirements([a, b])]
+    requirements = [requirement(a), requirement(b)]
     edges = [r.to_dict() for r in build_coverage_edges([measurement(a)], [a, b])]
     result = minimum_measurement_sets(requirements, edges)
     assert not result["complete"] and result["uncovered_requirement_ids"] == [b["requirement_id"]]

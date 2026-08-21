@@ -17,16 +17,17 @@ def test_real_bundle_decision_is_recomputed():
 
 def test_channel_specific_generation_and_isolation():
     bundle = runner.build_bundle()
-    for row in bundle["pair_eligibility"]:
+    for row in bundle["channel_eligibility"]:
         assert row["candidate_observable"] in row["eligibility_id"]
         assert row["adapter_id"] in row["eligibility_id"]
         assert row["requirement_id"] in row["eligibility_id"]
-    assert all(r["eligibility_id"] in {e["eligibility_id"] for e in bundle["pair_eligibility"]}
+    assert all(r["eligibility_id"] in {e["eligibility_id"] for e in bundle["channel_eligibility"]}
                for r in bundle["measurement_value_records"])
 
 
 def test_flow_eligibility_never_generates_other_channels():
-    pair = runner._pairs()[0]
+    bundle = runner.build_bundle()
+    pair = runner.ComparisonEligibilityRecord.from_dict(bundle["channel_eligibility"][0])
     assert pair.candidate_observable == "flow"
     _, records = runner._derive_measurements(
         [pair], [], {"channels": [{"channel": c, "assumption_class": "TEST",

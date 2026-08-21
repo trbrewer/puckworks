@@ -6,7 +6,7 @@ import json
 
 from .schema import DecisionRecord
 
-RULE_VERSION = "rp-a-001-decision/v2"
+RULE_VERSION = "rp-a-001-decision/v3"
 APPARATUS = "SCI_MD_003_RP_A_001_APPARATUS_OBSERVATION_EXPLANATION_SURVIVES"
 DYNAMIC = "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE"
 SPATIAL = "SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE"
@@ -20,7 +20,7 @@ def decision_input_hash(**inputs) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def derive_scientific_decision(*, explanations, requirements, pair_eligibility,
+def derive_scientific_decision(*, explanations, requirements, channel_eligibility,
                                component_reports, comparison_records, measurement_records,
                                coverage_edges, minimum_measurement_sets,
                                apparatus_gate_specs, apparatus_gate_results,
@@ -87,7 +87,7 @@ def derive_scientific_decision(*, explanations, requirements, pair_eligibility,
 
     q_measurements = {r["measurement_record_id"] for r in qualifying}
     inputs = dict(explanations=explanations, requirements=requirements,
-                  pair_eligibility=pair_eligibility, component_reports=component_reports,
+                  channel_eligibility=channel_eligibility, component_reports=component_reports,
                   comparison_records=comparison_records, measurement_records=measurement_records,
                   coverage_edges=coverage_edges, minimum_measurement_sets=minimum_measurement_sets,
                   apparatus_gate_specs=apparatus_gate_specs,

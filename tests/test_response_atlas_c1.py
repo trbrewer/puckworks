@@ -57,8 +57,9 @@ def test_real_measurement_path_calls_discrimination(monkeypatch):
     pair = ComparisonEligibilityRecord("pair", "left", "right", "q", "case", "flow",
                                        "same", "m/s", 1, "SCIENTIFICALLY_COMPETING",
                                        "eligible", "TEST", "DIRECT_NATIVE", "1.0.0", True,
-                                       "ELIG__REQ__pair__case__same__basis__flow__DIRECT_NATIVE__1.0.0",
-                                       "REQ__pair__case__same__basis", "same", "basis", "SUPPORTED", "hash")
+                                           "ELIG__REQ__pair__case__same__basis__flow__DIRECT_NATIVE__1.0.0",
+                                           "REQ__pair__case__same__basis", "same", "basis", "SUPPORTED", "hash",
+                                           "Q_TEST", "OBS_TEST", "a" * 64)
     explanations = [
         ExplanationRecord("left", "a", "test", "flow", "q", "a", "card", "registry", [], "p", "BED_PRESSURE_DROP", "DIFFERENTIAL", "test", ["flow"], "test", "COMPETING_EXPLANATION", "test"),
         ExplanationRecord("right", "b", "test", "flow", "q", "b", "card", "registry", [], "p", "BED_PRESSURE_DROP", "DIFFERENTIAL", "test", ["flow"], "test", "COMPETING_EXPLANATION", "test")]
@@ -88,8 +89,9 @@ def test_real_measurement_path_calls_discrimination(monkeypatch):
 def test_interval_classifications_and_robust_uncertainty_invariant():
     pair = ComparisonEligibilityRecord("p", "l", "r", "q", "s", "flow", "same", "m/s", 1,
                                        "SCIENTIFICALLY_COMPETING", "eligible", "TEST", "DIRECT_NATIVE", "1.0.0", True,
-                                       "ELIG__REQ__p__s__same__basis__flow__DIRECT_NATIVE__1.0.0",
-                                       "REQ__p__s__same__basis", "same", "basis", "SUPPORTED", "hash")
+                                           "ELIG__REQ__p__s__same__basis__flow__DIRECT_NATIVE__1.0.0",
+                                           "REQ__p__s__same__basis", "same", "basis", "SUPPORTED", "hash",
+                                           "Q_TEST", "OBS_TEST", "a" * 64)
     def pred(identity, value, missing=None):
         return PredictionIntervalRecord(identity, identity, "s", "flow", "q", "m/s",
                                         "NOT_APPLICABLE", "NOT_APPLICABLE", "NOT_APPLICABLE",
@@ -152,10 +154,10 @@ def generated(tmp_path, monkeypatch):
     (("run_manifest", "environment"), {"python": "bad"}),
     (("run_manifest", "evaluation_count"), 999),
     (("result_cells", 0, "value"), 999.0),
-    (("pair_eligibility", 0, "comparability_level"), 5),
-    (("pair_eligibility", 0, "candidate_observable"), "temperature"),
-    (("pair_eligibility", 0, "scenario"), "OTHER_SCENARIO"),
-    (("pair_eligibility", 0, "adapter_version"), "9"),
+    (("channel_eligibility", 0, "comparability_level"), 5),
+    (("channel_eligibility", 0, "candidate_observable"), "temperature"),
+    (("channel_eligibility", 0, "scenario"), "OTHER_SCENARIO"),
+    (("channel_eligibility", 0, "adapter_version"), "9"),
     (("apparatus_evaluation", "status"), "RULED_OUT_BY_MATCHED_GATE"),
     (("decision", "selected_outcome"), "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE"),
     (("decision", "decision_rule_version"), "bad"),

@@ -27,6 +27,10 @@ class ComparabilityLevel(IntEnum):
 PAIR_ROLES = {"SCIENTIFICALLY_COMPETING", "NESTED_LIMIT", "OBSERVATION_OPERATOR_COMPARISON", "NONCOMPETING_COMPONENTS"}
 ELIGIBILITY = {"eligible", "ineligible", "unresolved"}
 REQUIREMENT_STATUS = {"relevant", "irrelevant", "unresolved"}
+QUESTION_RELEVANCE = {"RELEVANT", "EXCLUDED_NONCOMPETING_COMPONENTS",
+    "EXCLUDED_OBSERVATION_OPERATOR_RELATIONSHIP", "EXCLUDED_NESTED_LIMIT_ONLY",
+    "EXCLUDED_OUTSIDE_EVIDENCE_DOMAIN", "EXCLUDED_DIFFERENT_SCIENTIFIC_QUESTION",
+    "EXCLUDED_NO_COMMON_INTERVENTION", "EXCLUDED_NO_DEFENSIBLE_COMPARISON_BASIS"}
 MEASUREMENT_CLASSES = {"ROBUSTLY_DISCRIMINATING", "NOMINALLY_DISCRIMINATING_BUT_UNCERTAINTY_OVERLAPS", "NOT_DISCRIMINATING", "UNSUPPORTED", "NOT_ADJUDICATED_MISSING_UNCERTAINTY"}
 OUTCOMES = {"SCI_MD_003_RP_A_001_APPARATUS_OBSERVATION_EXPLANATION_SURVIVES", "SCI_MD_003_RP_A_001_DYNAMIC_BED_SIGNATURE_DISTINGUISHABLE", "SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE", "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED"}
 
@@ -40,11 +44,11 @@ class Record:
                 raise ValueError(f"{type(self).__name__}.{name} is required")
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        return asdict(self)  # type: ignore[call-overload]
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]):
-        expected = {f.name for f in fields(cls)}
+        expected = {f.name for f in fields(cls)}  # type: ignore[arg-type]
         if set(data) != expected:
             raise ValueError(f"{cls.__name__} fields mismatch: {set(data) ^ expected}")
         return cls(**data)
@@ -128,6 +132,59 @@ class ExplanationRecord(Record):
 
 
 @dataclass(frozen=True)
+class ScientificQuestionRecord(Record):
+    question_id: str; pair_id: str; left_explanation: str; right_explanation: str
+    pair_semantics: str; pair_role: str; scientific_purpose: str; scenario_id: str
+    control_mode: str; intervention_id: str; comparison_basis: str
+    model_roles: list[str]; competing_explanations: bool; observation_operator: bool
+    nested_limit: bool; evidence_domain_status: str; relevance_status: str
+    exclusion_reason: str; provenance: str; protocol_identity: str
+    observation_family: str; candidate_channel_classes: list[str]
+    required_nonempty = ("question_id", "pair_id", "left_explanation", "right_explanation",
+                         "scenario_id", "intervention_id", "comparison_basis")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if self.pair_role not in PAIR_ROLES or self.relevance_status not in QUESTION_RELEVANCE:
+            raise ValueError("invalid scientific question")
+
+
+@dataclass(frozen=True)
+class ObservationContractRecord(Record):
+    observation_contract_id: str; contract_sha256: str; quantity_name: str
+    comparable_observable_group: str; channel: str; unit: str; value_type: str
+    control_mode: str; pressure_node: str; pressure_reference: str; flow_basis: str
+    mass_basis: str; concentration_basis: str; deformation_basis: str
+    temperature_basis: str; time_origin: str; event_definition: str
+    summary_operator: str; observation_window_start: object; observation_window_end: object
+    window_reference: str; spatial_basis: str; aggregation_basis: str
+    initialization_history_basis: str; mediation_status: str; adapter_id: str
+    adapter_version: str; adapter_contract_hash: str; uncertainty_basis: str
+    provenance: str
+    required_nonempty = ("observation_contract_id", "contract_sha256", "quantity_name",
+                         "channel", "unit", "value_type", "adapter_id", "adapter_version")
+
+    def __post_init__(self):
+        super().__post_init__()
+        if len(self.contract_sha256) != 64 or not self.adapter_contract_hash:
+            raise ValueError("observation contract requires canonical hashes")
+        if self.mediation_status == "SOURCE_NATIVE" and self.adapter_id != "DIRECT_NATIVE":
+            raise ValueError("source-native contract requires DIRECT_NATIVE")
+        applicable = {
+            "pressure": ("pressure_node", "pressure_reference"),
+            "flow": ("flow_basis",),
+            "delivered_mass": ("mass_basis", "time_origin"),
+            "first_drip_timing": ("time_origin", "event_definition"),
+            "bed_height_or_deformation": ("deformation_basis", "spatial_basis"),
+            "spatial_flow_variance": ("spatial_basis", "aggregation_basis"),
+            "local_extraction": ("concentration_basis", "spatial_basis"),
+        }
+        for family, names in applicable.items():
+            if family in self.channel and any(getattr(self, name) == "NOT_PROVIDED" for name in names):
+                raise ValueError(f"{self.channel} observation contract is incomplete")
+
+
+@dataclass(frozen=True)
 class ComparisonEligibilityRecord(Record):
     pair_id: str; left_explanation: str; right_explanation: str; scientific_question: str
     scenario: str; candidate_observable: str; common_intervention: str; common_output_basis: str
@@ -135,6 +192,7 @@ class ComparisonEligibilityRecord(Record):
     adapter_id: str; adapter_version: str; uncertainty_available: bool; eligibility_id: str = ""
     requirement_id: str = ""; intervention_id: str = ""; basis_id: str = ""
     support_status: str = "NOT_EVALUATED"; adapter_contract_hash: str = "NOT_APPLICABLE"
+    question_id: str = ""; observation_contract_id: str = ""; observation_contract_hash: str = ""
     required_nonempty = ("pair_id", "left_explanation", "right_explanation", "scenario", "candidate_observable", "reason_code")
 
     def __post_init__(self):
@@ -152,6 +210,8 @@ class ComparisonEligibilityRecord(Record):
         expected = f"ELIG__{self.requirement_id}__{self.candidate_observable}__{self.adapter_id}__{self.adapter_version}"
         if self.eligibility_id != expected:
             raise ValueError("eligibility identity must bind requirement, channel, and adapter")
+        if not self.question_id or not self.observation_contract_id or len(self.observation_contract_hash) != 64:
+            raise ValueError("eligibility requires question and observation contract identity")
 
 
 @dataclass(frozen=True)
@@ -162,6 +222,8 @@ class DiscriminationRequirementRecord(Record):
     scientific_question: str; relevant_to_final_decision: bool
     applicable_candidate_channels: list[str]; requirement_status: str; reason_code: str
     provenance: str
+    question_id: str = ""; observation_family: str = ""; observation_contract_id: str = ""
+    spatial_basis: str = "NOT_APPLICABLE"; relevance_status: str = ""
     required_nonempty = ("requirement_id", "pair_id", "left_explanation", "right_explanation",
                          "scenario", "intervention_id", "basis_id", "reason_code")
 
@@ -169,9 +231,11 @@ class DiscriminationRequirementRecord(Record):
         super().__post_init__()
         if self.pair_role not in PAIR_ROLES or self.requirement_status not in REQUIREMENT_STATUS:
             raise ValueError("invalid discrimination requirement")
-        expected = f"REQ__{self.pair_id}__{self.scenario}__{self.intervention_id}__{self.basis_id}"
+        expected = f"REQ__{self.question_id}__{self.pair_id}__{self.scenario}__{self.intervention_id}__{self.basis_id}"
         if self.requirement_id != expected:
-            raise ValueError("requirement identity must bind pair, scenario, intervention, and basis")
+            raise ValueError("requirement identity must bind question, pair, scenario, intervention, and basis")
+        if self.relevance_status not in QUESTION_RELEVANCE:
+            raise ValueError("requirement requires controlled relevance")
 
 
 @dataclass(frozen=True)
@@ -206,6 +270,7 @@ class MeasurementValueRecord(Record):
     requirement_id: str = ""; measurement_option_id: str = ""
     adapter_id: str = ""; adapter_version: str = ""; adapter_contract_hash: str = "NOT_APPLICABLE"
     intervention_id: str = ""; basis_id: str = ""; evidence_references: list[str] | None = None
+    observation_contract_id: str = ""; observation_contract_hash: str = ""
     required_nonempty = ("measurement_record_id", "pair_id", "scenario", "channel", "reason_code")
 
     def __post_init__(self):
@@ -223,6 +288,8 @@ class MeasurementValueRecord(Record):
         if not all((self.requirement_id, self.measurement_option_id, self.adapter_id,
                     self.adapter_version, self.intervention_id, self.basis_id)):
             raise ValueError("measurement record requires exact requirement and adapter provenance")
+        if not self.observation_contract_id or len(self.observation_contract_hash) != 64:
+            raise ValueError("measurement record requires observation contract")
 
 
 @dataclass(frozen=True)
@@ -230,6 +297,7 @@ class CoverageEdgeRecord(Record):
     coverage_edge_id: str; requirement_id: str; measurement_record_id: str
     measurement_option_id: str; scenario: str; channel: str; adapter_id: str
     adapter_version: str; classification: str; robust: bool; provenance: str
+    observation_contract_id: str = ""; observation_contract_hash: str = ""
     required_nonempty = ("coverage_edge_id", "requirement_id", "measurement_record_id",
                          "measurement_option_id", "scenario", "channel", "adapter_id",
                          "adapter_version")
@@ -240,6 +308,8 @@ class CoverageEdgeRecord(Record):
             raise ValueError("unknown coverage classification")
         if self.robust != (self.classification == "ROBUSTLY_DISCRIMINATING"):
             raise ValueError("coverage edge robustness must derive from classification")
+        if not self.observation_contract_id or len(self.observation_contract_hash) != 64:
+            raise ValueError("coverage edge requires observation contract")
 
 
 APPARATUS_GATE_STATUSES = {"PASS", "FAIL", "UNRESOLVED", "NOT_APPLICABLE"}
@@ -254,6 +324,11 @@ class ApparatusGateSpec(Record):
     required_evidence_type: str; maximum_comparability_level: int
     uncertainty_required: bool; pass_criterion: str; fail_criterion: str
     contract_version: str
+    gate_class: str = "conditional"; gate_purpose: str = ""
+    applicable_response_summary_ids: list[str] | None = None
+    applicable_observation_class: str = ""; required_scenarios: list[str] | None = None
+    evidence_query: str = ""; unresolved_rule: str = ""; not_applicable_rule: str = ""
+    rule_out_capable: bool = False; protocol_identity: str = ""
     required_nonempty = ("gate_id", "gate_name", "applicability_rule", "contract_version")
 
 
@@ -263,6 +338,8 @@ class ApparatusGateResult(Record):
     comparator_explanation_id: str; scenario: str; applicability: str; status: str
     comparison_record_ids: list[str]; measurement_record_ids: list[str]
     uncertainty_state: str; reason_code: str; evidence_provenance: list[str]
+    requirement_id: str = ""; observation_contract_id: str = ""
+    prediction_interval_ids: list[str] | None = None; gate_evidence_ids: list[str] | None = None
     required_nonempty = ("gate_result_id", "gate_id", "apparatus_explanation_id",
                          "comparator_explanation_id", "scenario", "status", "reason_code")
 
@@ -278,12 +355,27 @@ class ApparatusGateResult(Record):
 
 
 @dataclass(frozen=True)
+class ApparatusGateEvidenceRecord(Record):
+    gate_evidence_id: str; gate_id: str; apparatus_explanation_id: str
+    comparator_explanation_id: str; requirement_id: str; scenario: str
+    observation_contract_id: str; comparison_record_ids: list[str]
+    measurement_record_ids: list[str]; prediction_interval_ids: list[str]
+    uncertainty_state: str; derived_comparison_state: str; provenance: list[str]
+    required_nonempty = ("gate_evidence_id", "gate_id", "apparatus_explanation_id",
+                         "comparator_explanation_id", "requirement_id", "scenario")
+
+
+@dataclass(frozen=True)
 class ApparatusEvaluationRecord(Record):
     evaluation_id: str; apparatus_explanation_ids: list[str]; status: str
     applicable_gate_result_ids: list[str]; passing_gate_result_ids: list[str]
     failing_gate_result_ids: list[str]; unresolved_gate_result_ids: list[str]
     apparatus_gate_coverage_complete: bool; matched_scenario_ids: list[str]
     reason_code: str; contract_version: str
+    not_applicable_gate_result_ids: list[str] | None = None
+    gate_evidence_ids: list[str] | None = None; uncertainty_complete: bool = False
+    rule_out_evidence_ids: list[str] | None = None; survival_evidence_ids: list[str] | None = None
+    claim_ceiling: str = "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED"
 
     def __post_init__(self):
         if self.status not in APPARATUS_EVALUATION_STATUSES:
@@ -334,6 +426,7 @@ class DecisionRecord(Record):
 def numeric_residual(left: ResultCell, right: ResultCell, level: int) -> float:
     if level not in (1, 2) or left.support_status != "SUPPORTED" or right.support_status != "SUPPORTED":
         raise ValueError("numeric residuals require level 1/2 supported cells")
+    assert left.value is not None and right.value is not None
     return float(left.value) - float(right.value)
 
 
