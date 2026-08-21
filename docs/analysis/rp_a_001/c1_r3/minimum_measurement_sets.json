@@ -1,0 +1,11 @@
+{
+  "algorithm_version": "rp-a-001-coverage/v3",
+  "all_equally_minimal_sets": [],
+  "complete": false,
+  "coverage_options": {},
+  "minimum_set_ids": [],
+  "result": "NO_COMPLETE_MEASUREMENT_SET",
+  "uncovered_requirement_ids": [],
+  "universe_requirement_ids": [],
+  "zero_universe_status": "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
+}

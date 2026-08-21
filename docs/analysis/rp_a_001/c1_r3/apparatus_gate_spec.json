@@ -1,0 +1,210 @@
+[
+  {
+    "applicability_rule": "MATCHED_MACHINE_SCENARIO",
+    "applicable_observation_class": "SIGN",
+    "applicable_response_summary_ids": [
+      "SIGN"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_SIGN",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "primary",
+    "gate_id": "APP_GATE__SIGN",
+    "gate_name": "SIGN",
+    "gate_purpose": "evaluate SIGN",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_SIGN",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": true,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": true,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "MATCHED_MACHINE_SCENARIO",
+    "applicable_observation_class": "PRESSURE_OR_FLOW_ORDERING",
+    "applicable_response_summary_ids": [
+      "PRESSURE_OR_FLOW_ORDERING"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_PRESSURE_OR_FLOW_ORDERING",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "primary",
+    "gate_id": "APP_GATE__PRESSURE_OR_FLOW_ORDERING",
+    "gate_name": "PRESSURE_OR_FLOW_ORDERING",
+    "gate_purpose": "evaluate PRESSURE_OR_FLOW_ORDERING",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_PRESSURE_OR_FLOW_ORDERING",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": true,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": true,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_PRESSURE_LAG",
+    "applicable_observation_class": "PRESSURE_LAG",
+    "applicable_response_summary_ids": [
+      "PRESSURE_LAG"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_PRESSURE_LAG",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__PRESSURE_LAG",
+    "gate_name": "PRESSURE_LAG",
+    "gate_purpose": "evaluate PRESSURE_LAG",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_PRESSURE_LAG",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_TRANSIENT_TIMING",
+    "applicable_observation_class": "TRANSIENT_TIMING",
+    "applicable_response_summary_ids": [
+      "TRANSIENT_TIMING"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_TRANSIENT_TIMING",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__TRANSIENT_TIMING",
+    "gate_name": "TRANSIENT_TIMING",
+    "gate_purpose": "evaluate TRANSIENT_TIMING",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_TRANSIENT_TIMING",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_FIRST_DRIP_TIMING",
+    "applicable_observation_class": "FIRST_DRIP_TIMING",
+    "applicable_response_summary_ids": [
+      "FIRST_DRIP_TIMING"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_FIRST_DRIP_TIMING",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__FIRST_DRIP_TIMING",
+    "gate_name": "FIRST_DRIP_TIMING",
+    "gate_purpose": "evaluate FIRST_DRIP_TIMING",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_FIRST_DRIP_TIMING",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_FLOW_MINIMUM",
+    "applicable_observation_class": "FLOW_MINIMUM",
+    "applicable_response_summary_ids": [
+      "FLOW_MINIMUM"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_FLOW_MINIMUM",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__FLOW_MINIMUM",
+    "gate_name": "FLOW_MINIMUM",
+    "gate_purpose": "evaluate FLOW_MINIMUM",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_FLOW_MINIMUM",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_FLOW_RECOVERY",
+    "applicable_observation_class": "FLOW_RECOVERY",
+    "applicable_response_summary_ids": [
+      "FLOW_RECOVERY"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_FLOW_RECOVERY",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__FLOW_RECOVERY",
+    "gate_name": "FLOW_RECOVERY",
+    "gate_purpose": "evaluate FLOW_RECOVERY",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_FLOW_RECOVERY",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  },
+  {
+    "applicability_rule": "SCENARIO_EXPOSES_CROSS_CONDITION_TRANSFER",
+    "applicable_observation_class": "CROSS_CONDITION_TRANSFER",
+    "applicable_response_summary_ids": [
+      "CROSS_CONDITION_TRANSFER"
+    ],
+    "contract_version": "rp-a-001-apparatus-gates/v2",
+    "evidence_query": "QUERY_CROSS_CONDITION_TRANSFER",
+    "fail_criterion": "ROBUST_DISAGREEMENT",
+    "gate_class": "conditional",
+    "gate_id": "APP_GATE__CROSS_CONDITION_TRANSFER",
+    "gate_name": "CROSS_CONDITION_TRANSFER",
+    "gate_purpose": "evaluate CROSS_CONDITION_TRANSFER",
+    "maximum_comparability_level": 2,
+    "not_applicable_rule": "ONLY_WHEN_SCENARIO_DOES_NOT_EXPOSE_CROSS_CONDITION_TRANSFER",
+    "pass_criterion": "AGREES_OR_EQUIVALENT_WITH_COMPLETE_UNCERTAINTY",
+    "primary": false,
+    "protocol_identity": "rp-a-001-scientific-questions/v1",
+    "required_evidence_type": "MATCHED_LEVEL_1_OR_2_OBSERVATION_CONTRACT",
+    "required_scenarios": [
+      "MACHINE_REF"
+    ],
+    "rule_out_capable": false,
+    "uncertainty_required": true,
+    "unresolved_rule": "MISSING_OR_NONCOMPARABLE_IS_UNRESOLVED"
+  }
+]

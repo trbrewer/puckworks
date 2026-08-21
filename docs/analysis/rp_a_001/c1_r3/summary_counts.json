@@ -1,0 +1,28 @@
+{
+  "apparatus_gate_results": 0,
+  "apparatus_gate_statuses": {},
+  "channel_eligibility": 4,
+  "coverage_edges": 0,
+  "covered_requirements": 0,
+  "discrimination_requirements": 4,
+  "eligible_pairs": 0,
+  "eligible_records": 0,
+  "excluded_questions": {
+    "EXCLUDED_NESTED_LIMIT_ONLY": 1,
+    "EXCLUDED_NONCOMPETING_COMPONENTS": 1,
+    "EXCLUDED_OBSERVATION_OPERATOR_RELATIONSHIP": 2
+  },
+  "explanations": 3,
+  "measurement_classifications": {},
+  "measurement_records": 0,
+  "numerical_failures": 0,
+  "relevant_questions": 0,
+  "relevant_requirements": 0,
+  "result_cells": 45,
+  "scientific_questions": 4,
+  "support_states": {
+    "SUPPORTED": 37,
+    "UNSUPPORTED_FOR_CASE": 6,
+    "UNSUPPORTED_RELATIONSHIP": 2
+  }
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "card_identity": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b",
+    "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "component_id": "foster2025.machine_mode",
+    "control_mode": "MACHINE_COUPLED",
+    "evidence_domain_status": "SOURCE_FINE_GRIND_POST_FIT",
+    "explanation_id": "FOSTER_FIXED_BED_MACHINE_NULL",
+    "explanation_kind": "COMPETING_EXPLANATION",
+    "input_domain": "source fine-grind post-fit case",
+    "output_observables": [
+      "ponding_time",
+      "saturation_time",
+      "flow_minimum",
+      "recovery_ratio"
+    ],
+    "physical_assumptions": [
+      "fixed bed",
+      "sharp wetting front",
+      "pump and headspace dynamics",
+      "no evolving bed physics"
+    ],
+    "pressure_node": "MULTIPLE_SOURCE_NATIVE_NODES",
+    "pressure_reference": "ABSOLUTE_AND_DIFFERENTIAL",
+    "producer_identity": "puckworks.models.foster2025.machine_mode",
+    "question_addressed": "Can apparatus and fixed-bed wetting generate response features?",
+    "registry_identity": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "scientific_role": "FIXED_BED_MACHINE_AND_APPARATUS_NULL",
+    "stage": "machine"
+  },
+  {
+    "card_identity": "799b7dc68df3dc5602e7831db08482405c4c40cfccf24dfb81e69676f7a4c888",
+    "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "component_id": "wadsworth2026.inertial",
+    "control_mode": "PRESCRIBED_BED_PRESSURE_GRADIENT",
+    "evidence_domain_status": "NOT_VALIDATED_FOR_TAMPED_COFFEE_INERTIAL_CLOSURE",
+    "explanation_id": "WADSWORTH_STATIC_INERTIAL_LENS",
+    "explanation_kind": "RESPONSE_LENS",
+    "input_domain": "mathematical positive-SI domain; tamped evidence extrapolative",
+    "output_observables": [
+      "darcy_velocity",
+      "forchheimer_number"
+    ],
+    "physical_assumptions": [
+      "steady single phase",
+      "declared k",
+      "ceramics-fit inertial closure"
+    ],
+    "pressure_node": "BED_PRESSURE_DROP",
+    "pressure_reference": "DIFFERENTIAL",
+    "producer_identity": "puckworks.models.wadsworth2026.inertial",
+    "question_addressed": "How does a static Forchheimer closure depart from Darcy?",
+    "registry_identity": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "scientific_role": "STATIC_OR_INERTIAL_HYDRAULIC_RESPONSE_LENS",
+    "stage": "flow"
+  },
+  {
+    "card_identity": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b",
+    "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "component_id": "cameron2020.extraction_bdf",
+    "control_mode": "PRESCRIBED_PUMP_OVERPRESSURE_OR_SCALAR_Q",
+    "evidence_domain_status": "WITHIN_CODE_VERIFICATION_DOMAIN",
+    "explanation_id": "CAMERON_EXTRACTION_OBSERVER",
+    "explanation_kind": "OBSERVATION_OPERATOR",
+    "input_domain": "EK43 1.1-2.3; 5-11 bar pilot",
+    "output_observables": [
+      "outlet_concentration",
+      "tds",
+      "extraction_yield"
+    ],
+    "physical_assumptions": [
+      "scalar Darcy flux",
+      "saturated static bed",
+      "one-way extraction observer"
+    ],
+    "pressure_node": "PUMP_OUTLET",
+    "pressure_reference": "GAUGE",
+    "producer_identity": "puckworks.models.cameron2020.extraction_bdf",
+    "question_addressed": "Does a scalar hydraulic contrast remain visible at the cup observer?",
+    "registry_identity": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "scientific_role": "DOWNSTREAM_EXTRACTION_OBSERVER",
+    "stage": "extraction"
+  }
+]
