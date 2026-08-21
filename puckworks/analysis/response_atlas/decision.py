@@ -103,8 +103,6 @@ def derive_scientific_decision(*, explanations, pair_eligibility, component_repo
     qexpl = sorted({x for r in qualifying for x in (r["left_explanation"], r["right_explanation"])})
     qscenario = sorted({r["scenario"] for r in qualifying})
     qchannel = sorted({r["channel"] for r in qualifying})
-    if not eligible:
-        disqualifying.extend(p["pair_id"] for p in pair_eligibility)
     input_hash = decision_input_hash(
         explanations=explanations, pair_eligibility=pair_eligibility,
         component_reports=component_reports, comparison_records=comparison_records,
