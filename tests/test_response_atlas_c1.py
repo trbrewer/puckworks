@@ -50,7 +50,7 @@ def test_real_runner_is_response_derived_and_nonaggregate(monkeypatch):
     assert bundle["minimum_measurement_sets"]["zero_pair_status"] == "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
     assert bundle["minimum_measurement_sets"]["result"] == "NO_COMPLETE_MEASUREMENT_SET"
     assert all(r.get("pair_id") != "ALL_REMAINING_EXPLANATIONS" for r in bundle["measurement_value_records"])
-    assert bundle["decision"]["disqualifying_measurement_record_ids"]
+    assert bundle["decision"]["zero_pair_status"] == "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
 
 
 def test_real_measurement_path_calls_discrimination(monkeypatch):
