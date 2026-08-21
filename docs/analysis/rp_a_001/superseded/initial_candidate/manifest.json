@@ -1,0 +1,15 @@
+{
+  "classification_eligibility": "SUPERSEDED_NOT_ELIGIBLE_AS_CORRECTED_RESULT",
+  "prior_case_matrix_sha256": "63a8cfe7b959840964d46fefe55f87a0ca919c1a02922b6e62926e825b362071",
+  "prior_execution_code_commit": "2cb75c1fdd8aae34abad66e8fb1d42b0630fdaad",
+  "prior_export_git_path": "docs/analysis/rp_a_001/atlas_export.json@92f2931e899b8f322c45e5818de00979a86a8ae3",
+  "prior_export_schema": "puckworks.response-atlas-export/v1",
+  "prior_export_sha256": "434c8bd208474bd4fe33281cc6f633ee8ac4e47ffefae9039a4014cba7ad2420",
+  "prior_final_head": "92f2931e899b8f322c45e5818de00979a86a8ae3",
+  "prior_final_tree": "7fe52d2fb676e5d5841383258251e5c8d874e596",
+  "prior_outcome": "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED",
+  "prior_protocol_sha256": "f56254b255a70a846b5e8ec48d5879b49a9ac678746482eaf6cac35ba53a4f2b",
+  "prior_result_commit": "d8d7172c29639ab73e9ee9d426c0ba24a17b97de",
+  "review_disposition": "SCI_MD_003_RP_A_001_BOUNDED_CORRECTION_REQUIRED_NOT_READY_FOR_INDEPENDENT_EXACT_HEAD_PASS_OR_MERGE",
+  "supersession_reason": "Measurement value was not response-derived; source-domain, schema-path, first-drip, and deterministic-export protections were incomplete."
+}

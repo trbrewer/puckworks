@@ -1,0 +1,23 @@
+{
+  "authorization": "SCI-MD-003-RP-A-001-BOUNDED-CORRECTION-C1-RESPONSE-DERIVED-MEASUREMENT-VALUE-SOURCE-DOMAIN-ENFORCEMENT-DETERMINISTIC-EXPORT-AND-FRESH-CROSS-REPOSITORY-REEXECUTION-2026-08-20",
+  "base_protocol_sha256": "f56254b255a70a846b5e8ec48d5879b49a9ac678746482eaf6cac35ba53a4f2b",
+  "case_matrix_file": "case_matrix.json",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "component_response_atlas_spec_sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f",
+  "component_response_atlas_spec_version": "component-response-atlas/v1",
+  "deterministic_export": "CANONICAL_SORTED_JSON_PAYLOAD_SHA256_WITH_SEPARATE_HASH_FILE",
+  "deterministic_seed": 20260820,
+  "execution_caps": {"derivative_step_sizes_per_relationship": 2, "openfoam_runs": 0, "producer_evaluations": 16, "uncertainty_realizations_per_model_scenario": 0},
+  "first_drip_treatment": "UNSUPPORTED_RELATIONSHIP_NO_SATURATION_TO_SCALE_OBSERVATION_ADAPTER",
+  "frozen_status": "FROZEN_PRE_CORRECTED_ANALYSIS",
+  "measurement_assumptions_file": "measurement_assumptions.json",
+  "minimum_set_rule": "ALL_EQUALLY_MINIMAL_SETS_FROM_ROBUST_CELLS_ONLY__EMPTY_UNIVERSE_IS_NOT_SUCCESS",
+  "numeric_residual_eligible_levels": [1, 2],
+  "pair_roles_admissible_for_discrimination": ["SCIENTIFICALLY_COMPETING", "NESTED_LIMIT"],
+  "programme_protocol_version": "sci-md-003-rp-a-001/c1",
+  "response_classification_priority": ["SIGN", "PRESSURE_ORDERING", "GRIND_DIRECTION", "CURVATURE_OR_REGIME", "TIMING_OR_PHASE", "CROSS_CONDITION_TRANSFER", "AGGREGATE_ERROR_WHEN_COMMON_TARGET_EXISTS"],
+  "schema_version": "puckworks.response-atlas-export/v2",
+  "uncertainty_interval_rule": "CONSERVATIVE_ADDITIVE_BOUNDED_HALF_WIDTHS_NO_DISTRIBUTION",
+  "wadsworth_adjudicative_treatment": "PRESSURE_CASES_UNSUPPORTED__WORKED_FO_ENDPOINT_DIAGNOSTIC_NONADJUDICATIVE",
+  "zero_pair_result": "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM"
+}

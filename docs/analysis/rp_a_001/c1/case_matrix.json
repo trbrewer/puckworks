@@ -1,0 +1,15 @@
+{
+  "cases": [
+    {"case_id":"P05_REF","family":"PRESCRIBED_PRESSURE","nominal_pressure_bar":5.0,"native_mapping":{"cameron2020.extraction_bdf":{"gs":1.9,"p_bar":5.0,"pressure_node":"PUMP_OUTLET","pressure_reference":"GAUGE"},"foster2025.machine_mode":"UNSUPPORTED_FOR_CASE","wadsworth2026.inertial":"UNSUPPORTED_FOR_CASE_SOURCE_EVIDENCE_DOMAIN"}},
+    {"case_id":"P09_REF","family":"PRESCRIBED_PRESSURE","nominal_pressure_bar":9.0,"native_mapping":{"cameron2020.extraction_bdf":{"gs":1.9,"p_bar":9.0,"pressure_node":"PUMP_OUTLET","pressure_reference":"GAUGE"},"foster2025.machine_mode":"UNSUPPORTED_FOR_CASE","wadsworth2026.inertial":"UNSUPPORTED_FOR_CASE_SOURCE_EVIDENCE_DOMAIN"}},
+    {"case_id":"P11_REF","family":"PRESCRIBED_PRESSURE","nominal_pressure_bar":11.0,"native_mapping":{"cameron2020.extraction_bdf":{"gs":1.9,"p_bar":11.0,"pressure_node":"PUMP_OUTLET","pressure_reference":"GAUGE"},"foster2025.machine_mode":"UNSUPPORTED_FOR_CASE","wadsworth2026.inertial":"UNSUPPORTED_FOR_CASE_SOURCE_EVIDENCE_DOMAIN"}},
+    {"case_id":"MACHINE_REF","family":"MACHINE_COUPLED","nominal_pressure_bar":null,"native_mapping":{"cameron2020.extraction_bdf":"UNSUPPORTED_RELATIONSHIP_TRANSIENT_HISTORY","foster2025.machine_mode":{"parameters":"SOURCE_DEFAULT_TABLE_I_II"},"wadsworth2026.inertial":"UNSUPPORTED_FOR_CASE"}},
+    {"case_id":"P09_COARSE","family":"PRESCRIBED_PRESSURE","nominal_pressure_bar":9.0,"native_mapping":{"cameron2020.extraction_bdf":{"direction":"COARSER_WITHIN_CAMERON_EK43_DOMAIN","gs":2.3,"p_bar":9.0,"pressure_node":"PUMP_OUTLET","pressure_reference":"GAUGE"},"foster2025.machine_mode":"UNSUPPORTED_FOR_CASE","wadsworth2026.inertial":"UNSUPPORTED_FOR_COMPLETE_GRIND_INTERVENTION"}},
+    {"case_id":"P09_FINE","family":"PRESCRIBED_PRESSURE","nominal_pressure_bar":9.0,"native_mapping":{"cameron2020.extraction_bdf":{"direction":"FINER_WITHIN_CAMERON_EK43_DOMAIN","gs":1.5,"p_bar":9.0,"pressure_node":"PUMP_OUTLET","pressure_reference":"GAUGE"},"foster2025.machine_mode":"UNSUPPORTED_FOR_CASE","wadsworth2026.inertial":"UNSUPPORTED_FOR_COMPLETE_GRIND_INTERVENTION"}}
+  ],
+  "diagnostic_baselines": [{"case_id":"WADSWORTH_WORKED_FO_ENDPOINTS","adjudicative":false,"producer":"wadsworth2026.inertial.espresso_fo_band","reason":"Source-worked endpoint diagnostic; inertial closure not coffee-calibrated and pressure-gradient range not provided."},{"case_id":"WADSWORTH_DARCY_LIMIT","adjudicative":false,"producer":"wadsworth2026.inertial.solve_q","reason":"Exact same-producer mathematical nested-limit verification."}],
+  "frozen_status":"FROZEN_PRE_CORRECTED_ANALYSIS",
+  "grind_semantics":"CAMERON_SOURCE_NATIVE_DIRECTION_ONLY__WADSWORTH_FIXED_POROSITY_RADIUS_NOT_COMPLETE_GRIND",
+  "summary_observables":{"cameron2020.extraction_bdf":["darcy_velocity","shot_duration","final_tds","extraction_yield","accumulated_extracted_mass"],"foster2025.machine_mode":["ponding_time","saturation_time","minimum_normalized_flow","time_to_flow_minimum","recovery_ratio"],"wadsworth2026.inertial":["worked_fo_endpoint_band","darcy_limit_closure"]},
+  "tolerances":{"ordering_relative":1e-9,"residual_closure_absolute":1e-12}
+}
