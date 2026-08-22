@@ -90,6 +90,84 @@ def _validate_contract_identity(contract):
  if not contract["observation_contract_id"].endswith(contract["contract_sha256"][:16]):
   raise ValueError("observation contract identity does not bind canonical hash")
 
+def _authoritative_contract_map(explanations, authoritative_contracts):
+ if authoritative_contracts is None:
+  try:
+   questions=[x.to_dict() for x in canonical_scientific_questions(explanations)]
+   authoritative_contracts=[x.to_dict() for x in canonical_observation_contracts(questions)]
+  except (KeyError, TypeError, ValueError) as exc:
+   raise ValueError("UNAUTHORIZED_ROOT: explicit authoritative contracts required") from exc
+ out=_index_unique(authoritative_contracts,"observation_contract_id","authoritative observation contract")
+ for contract in authoritative_contracts: _validate_contract_identity(contract)
+ return out
+
+def _validate_global_evidence_universe(explanations,requirements,measurements,specs,
+                                       comparisons,predictions,contracts,
+                                       authoritative_contracts=None):
+ """Close every supplied lower-level record before scientific applicability."""
+ explanation_ids=set(_index_unique(explanations,"explanation_id","explanation"))
+ reqs=_index_unique(requirements,"requirement_id","requirement")
+ specmap=_index_unique(specs,"gate_id","gate specification")
+ compmap=_index_unique(comparisons,"eligibility_id","comparison")
+ predmap=_index_unique(predictions,"prediction_id","prediction interval")
+ contractmap=_index_unique(contracts,"observation_contract_id","observation contract")
+ measurements_by_id=_index_unique(measurements,"measurement_record_id","measurement")
+ authority=_authoritative_contract_map(explanations,authoritative_contracts)
+ for requirement in requirements:
+  DiscriminationRequirementRecord.from_dict(requirement)
+  if requirement["left_explanation"] not in explanation_ids or requirement["right_explanation"] not in explanation_ids:
+   raise ValueError("DANGLING_REFERENCE: requirement explanation")
+  if requirement["observation_contract_id"] not in contractmap:
+   raise ValueError("DANGLING_REFERENCE: requirement observation contract")
+ for spec in specs: ApparatusGateSpec.from_dict(spec)
+ for contract in contracts:
+  _validate_contract_identity(contract)
+  expected=authority.get(contract["observation_contract_id"])
+  if expected is None or contract!=expected:
+   raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: observation contract")
+ if set(contractmap)!=set(authority):
+  raise ValueError("ORPHAN_RECORD: authoritative or supplied observation contract")
+ comparison_fields=("requirement_id","pair_id","left_explanation","right_explanation","scenario",
+                    "intervention_id","basis_id","question_id","observation_contract_id")
+ for comparison in comparisons:
+  ComparisonEligibilityRecord.from_dict(comparison)
+  requirement=reqs.get(comparison["requirement_id"])
+  if requirement is None: raise ValueError("DANGLING_REFERENCE: comparison requirement")
+  if any(comparison[field]!=requirement[field] for field in comparison_fields):
+   raise ValueError("CROSS_CONTEXT_REFERENCE: comparison requirement")
+  contract=contractmap.get(comparison["observation_contract_id"])
+  if contract is None: raise ValueError("DANGLING_REFERENCE: comparison observation contract")
+  if (comparison["candidate_observable"]!=contract["channel"] or
+      comparison["observation_contract_hash"]!=contract["contract_sha256"] or
+      comparison["adapter_id"]!=contract["adapter_id"] or
+      comparison["adapter_version"]!=contract["adapter_version"] or
+      comparison["adapter_contract_hash"]!=contract["adapter_contract_hash"]):
+   raise ValueError("CROSS_CONTEXT_REFERENCE: comparison observation contract")
+ for prediction in predictions:
+  PredictionIntervalRecord.from_dict(prediction)
+  if prediction["explanation_id"] not in explanation_ids:
+   raise ValueError("DANGLING_REFERENCE: prediction explanation")
+  if prediction["prediction_id"]!=f"PRED__{prediction['explanation_id']}__{prediction['case_id']}__{prediction['channel']}":
+   raise ValueError("CANONICAL_IDENTITY_MISMATCH: prediction")
+  owners=[]
+  for requirement in requirements:
+   contract=contractmap[requirement["observation_contract_id"]]
+   if (prediction["explanation_id"] in {requirement["left_explanation"],requirement["right_explanation"]} and
+       prediction["case_id"]==requirement["scenario"] and
+       prediction["channel"] in set(requirement["applicable_candidate_channels"]+[requirement["observation_family"]]) and
+       prediction["channel"]==contract["channel"] and prediction["unit"]==contract["unit"] and
+       prediction["pressure_node"]==contract["pressure_node"] and
+       prediction["pressure_reference"]==contract["pressure_reference"] and
+       prediction["time_basis"]==contract["time_origin"]):
+    owners.append(requirement["requirement_id"])
+  if not owners: raise ValueError("ORPHAN_RECORD: prediction outside authorized atlas roots")
+ for measurement in measurements:
+  requirement=reqs.get(measurement.get("requirement_id"))
+  if requirement is None: raise ValueError("DANGLING_REFERENCE: measurement requirement")
+  _closed_measurement(measurement,requirement,compmap,predmap,contractmap)
+ # These indexes are returned so evaluation cannot silently rebuild a subset.
+ return reqs,specmap,compmap,predmap,contractmap,measurements_by_id
+
 def _closed_measurement(m, requirement, comparisons, predictions, contracts):
  MeasurementValueRecord.from_dict(m)
  comparison=comparisons.get(m["eligibility_id"])
@@ -147,20 +225,13 @@ def _closed_measurement(m, requirement, comparisons, predictions, contracts):
   raise ValueError("retained measurement derivatives are stale")
  return expected,comparison,left,right
 
-def evaluate_apparatus(explanations,requirements,measurements,specs,comparisons=None,predictions=None,contracts=None):
+def evaluate_apparatus(explanations,requirements,measurements,specs,comparisons=None,predictions=None,contracts=None,*,authoritative_contracts=None):
  aids=sorted(e["explanation_id"] for e in explanations if e["scientific_role"]=="FIXED_BED_MACHINE_AND_APPARATUS_NULL"); matched=[r for r in requirements if r["relevance_status"]=="RELEVANT" and ({r["left_explanation"],r["right_explanation"]}&set(aids))]
  if comparisons is None or predictions is None or contracts is None: raise ValueError("apparatus evaluation requires closed evidence collections")
  if _hash(specs)!=CANONICAL_GATE_RECORDS_HASH: raise ValueError("noncanonical apparatus gate specification")
- _index_unique(explanations,"explanation_id","explanation")
- for requirement in requirements: DiscriminationRequirementRecord.from_dict(requirement)
- for spec in specs: ApparatusGateSpec.from_dict(spec)
- for comparison in comparisons: ComparisonEligibilityRecord.from_dict(comparison)
- for prediction in predictions: PredictionIntervalRecord.from_dict(prediction)
- reqs=_index_unique(requirements,"requirement_id","requirement"); specmap=_index_unique(specs,"gate_id","gate specification")
- compmap=_index_unique(comparisons,"eligibility_id","comparison"); predmap=_index_unique(predictions,"prediction_id","prediction interval")
- contractmap=_index_unique(contracts,"observation_contract_id","observation contract")
- for contract in contracts: _validate_contract_identity(contract)
- _index_unique(measurements,"measurement_record_id","measurement")
+ reqs,specmap,compmap,predmap,contractmap,_=_validate_global_evidence_universe(
+  explanations,requirements,measurements,specs,comparisons,predictions,contracts,
+  authoritative_contracts)
  if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  evs=[]; results=[]
  for r in matched:
