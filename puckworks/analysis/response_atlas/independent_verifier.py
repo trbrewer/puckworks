@@ -3,7 +3,7 @@
 This module deliberately does not import producer governance or decision functions.
 """
 from __future__ import annotations
-import hashlib, json
+import hashlib, json, math
 from .measurement_value import discriminate
 from .schema import (ApparatusEvaluationRecord, ApparatusGateEvidenceRecord,
  ApparatusGateResult, ApparatusGateSpec, ComparisonEligibilityRecord,
@@ -34,9 +34,11 @@ def _classification(measurement,requirement,comparison,predictions,contract):
  if _hash(body)!=contract["contract_sha256"]: raise ValueError("independent stale contract hash")
  if comparison["requirement_id"]!=requirement["requirement_id"] or measurement["requirement_id"]!=requirement["requirement_id"]: raise ValueError("independent requirement mismatch")
  if comparison["question_id"]!=requirement["question_id"] or comparison["pair_id"]!=requirement["pair_id"]: raise ValueError("independent question/pair mismatch")
+ if any(measurement[k]!=requirement[k] for k in ("pair_id","left_explanation","right_explanation","scenario","intervention_id","basis_id","observation_contract_id")): raise ValueError("independent requirement context mismatch")
  if measurement["eligibility_id"]!=comparison["eligibility_id"] or measurement["scenario"]!=requirement["scenario"]: raise ValueError("independent comparison/case mismatch")
  if measurement["channel"]!=comparison["candidate_observable"] or measurement["observation_contract_id"]!=contract["observation_contract_id"] or measurement["observation_contract_hash"]!=contract["contract_sha256"]: raise ValueError("independent channel/contract mismatch")
  if any(measurement[k]!=contract[k] for k in ("adapter_id","adapter_version","adapter_contract_hash")): raise ValueError("independent adapter mismatch")
+ if (contract["control_mode"]!=requirement["control_mode"] or contract["pressure_node"]!=requirement["pressure_node"] or contract["pressure_reference"]!=requirement["pressure_reference"] or contract["time_origin"]!=requirement["time_basis"] or contract["spatial_basis"]!=requirement["spatial_basis"] or contract["aggregation_basis"]!=requirement["basis_id"]): raise ValueError("independent requirement/contract mismatch")
  if measurement["measurement_record_id"]!=f"MV__{measurement['requirement_id']}__{measurement['channel']}__{measurement['adapter_id']}__{measurement['adapter_version']}": raise ValueError("independent measurement identity mismatch")
  if measurement["measurement_option_id"]!=f"MEASOPT__{measurement['channel']}__{measurement['observation_contract_hash']}": raise ValueError("independent measurement option identity mismatch")
  left=predictions.get(measurement["left_prediction_id"]); right=predictions.get(measurement["right_prediction_id"])
@@ -46,9 +48,16 @@ def _classification(measurement,requirement,comparison,predictions,contract):
   if record["prediction_id"]!=f"PRED__{side}__{measurement['scenario']}__{measurement['channel']}": raise ValueError("independent prediction identity mismatch")
   if record["explanation_id"]!=side or record["case_id"]!=measurement["scenario"] or record["channel"]!=measurement["channel"] or record["unit"]!=contract["unit"]: raise ValueError("independent prediction context mismatch")
   if record["pressure_node"]!=contract["pressure_node"] or record["pressure_reference"]!=contract["pressure_reference"] or record["time_basis"]!=contract["time_origin"]: raise ValueError("independent prediction contract mismatch")
- result=discriminate((left["lower_bound"],left["upper_bound"]),(right["lower_bound"],right["upper_bound"]),measurement["declared_measurement_uncertainty"])
+ uncertainty=measurement["declared_measurement_uncertainty"]
+ if uncertainty!="NOT_PROVIDED" and (not math.isfinite(float(uncertainty)) or float(uncertainty)<0): raise ValueError("independent invalid uncertainty")
+ result=discriminate((left["lower_bound"],left["upper_bound"]),(right["lower_bound"],right["upper_bound"]),uncertainty)
  if left["missing_uncertainty_flags"] or right["missing_uncertainty_flags"]: result="NOT_ADJUDICATED_MISSING_UNCERTAINTY"
  if result!=measurement["classification"]: raise ValueError("independent stale classification")
+ expanded_left=expanded_right=None
+ if uncertainty!="NOT_PROVIDED":
+  u=float(uncertainty); expanded_left=[left["lower_bound"]-u,left["upper_bound"]+u]; expanded_right=[right["lower_bound"]-u,right["upper_bound"]+u]
+ reasons={"UNSUPPORTED":"RESPONSE_OR_RELATIONSHIP_UNSUPPORTED","NOT_ADJUDICATED_MISSING_UNCERTAINTY":"MEASUREMENT_OR_MODEL_UNCERTAINTY_NOT_PROVIDED","ROBUSTLY_DISCRIMINATING":"CONSERVATIVE_EXPANDED_INTERVALS_DISJOINT","NOMINALLY_DISCRIMINATING_BUT_UNCERTAINTY_OVERLAPS":"NOMINAL_INTERVALS_DISJOINT_EXPANDED_INTERVALS_OVERLAP","NOT_DISCRIMINATING":"PREDICTION_INTERVALS_OVERLAP"}
+ if measurement["expanded_left_interval"]!=expanded_left or measurement["expanded_right_interval"]!=expanded_right or measurement["reason_code"]!=reasons[result] or measurement["evidence_references"]!=[measurement["eligibility_id"]]: raise ValueError("independent stale measurement derivatives")
  return result
 
 def reconstruct_apparatus(explanations,requirements,measurements,specs,comparisons,predictions,contracts):

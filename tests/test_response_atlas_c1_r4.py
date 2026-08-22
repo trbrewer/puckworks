@@ -71,6 +71,14 @@ def test_stale_classification_and_contract_rejected():
  fixture=list(closed_fixture()); fixture[5][0]["unit"]="kg/s"
  with pytest.raises(ValueError,match="stale observation contract hash"): evaluate(tuple(fixture))
 
+@pytest.mark.parametrize("mutation,match",[
+ (lambda m: m.__setitem__("left_explanation","other"),"context mismatch"),
+ (lambda m: m.__setitem__("declared_measurement_uncertainty",-0.1),"finite and nonnegative"),
+ (lambda m: m.__setitem__("expanded_left_interval",[0.0,99.0]),"derivatives are stale")])
+def test_cross_model_invalid_uncertainty_and_stale_derivatives_rejected(mutation,match):
+ fixture=list(closed_fixture()); mutation(fixture[2])
+ with pytest.raises(ValueError,match=match): evaluate(tuple(fixture))
+
 def test_cross_case_and_wrong_context_rejected():
  fixture=list(closed_fixture()); fixture[4][0]["case_id"]="OTHER_CASE"
  with pytest.raises(ValueError,match="context mismatch"): evaluate(tuple(fixture))

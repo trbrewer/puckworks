@@ -1,7 +1,7 @@
 """Independent questions, observation contracts, coverage, and apparatus gates."""
 from __future__ import annotations
 from itertools import combinations
-import hashlib, json
+import hashlib, json, math
 from .schema import (ApparatusEvaluationRecord, ApparatusGateEvidenceRecord, ApparatusGateResult,
  ApparatusGateSpec, ComparisonEligibilityRecord, CoverageEdgeRecord, DiscriminationRequirementRecord,
  MeasurementValueRecord, ObservationContractRecord, PredictionIntervalRecord, ScientificQuestionRecord)
@@ -96,14 +96,21 @@ def _closed_measurement(m, requirement, comparisons, predictions, contracts):
  if comparison is None: raise ValueError("measurement has dangling comparison reference")
  contract=contracts.get(m["observation_contract_id"])
  if contract is None: raise ValueError("measurement has dangling observation contract reference")
- fields=("requirement_id","pair_id","scenario","adapter_id","adapter_version",
+ fields=("requirement_id","pair_id","left_explanation","right_explanation","scenario","adapter_id","adapter_version",
          "adapter_contract_hash","intervention_id","basis_id","observation_contract_id")
  if any(m[x]!=comparison[x] for x in fields) or m["channel"]!=comparison["candidate_observable"]:
   raise ValueError("measurement and comparison context mismatch")
- if any(m[x]!=requirement[x] for x in ("requirement_id","pair_id","scenario")):
+ if any(m[x]!=requirement[x] for x in ("requirement_id","pair_id","left_explanation","right_explanation","scenario","intervention_id","basis_id","observation_contract_id")):
   raise ValueError("measurement and requirement context mismatch")
  if comparison["question_id"]!=requirement["question_id"]:
   raise ValueError("comparison and requirement question mismatch")
+ if (contract["control_mode"]!=requirement["control_mode"] or
+     contract["pressure_node"]!=requirement["pressure_node"] or
+     contract["pressure_reference"]!=requirement["pressure_reference"] or
+     contract["time_origin"]!=requirement["time_basis"] or
+     contract["spatial_basis"]!=requirement["spatial_basis"] or
+     contract["aggregation_basis"]!=requirement["basis_id"]):
+  raise ValueError("requirement and observation contract mismatch")
  if (m["observation_contract_hash"]!=contract["contract_sha256"] or
      m["adapter_id"]!=contract["adapter_id"] or
      m["adapter_version"]!=contract["adapter_version"] or
@@ -124,10 +131,20 @@ def _closed_measurement(m, requirement, comparisons, predictions, contracts):
    raise ValueError("prediction and measurement context mismatch")
   if prediction["unit"]!=contract["unit"] or prediction["pressure_node"]!=contract["pressure_node"] or prediction["pressure_reference"]!=contract["pressure_reference"] or prediction["time_basis"]!=contract["time_origin"]:
    raise ValueError("prediction observation contract mismatch")
- expected=discriminate((left["lower_bound"],left["upper_bound"]),(right["lower_bound"],right["upper_bound"]),m["declared_measurement_uncertainty"])
+ uncertainty=m["declared_measurement_uncertainty"]
+ if uncertainty!="NOT_PROVIDED" and (not math.isfinite(float(uncertainty)) or float(uncertainty)<0):
+  raise ValueError("measurement uncertainty must be finite and nonnegative")
+ expected=discriminate((left["lower_bound"],left["upper_bound"]),(right["lower_bound"],right["upper_bound"]),uncertainty)
  if left["missing_uncertainty_flags"] or right["missing_uncertainty_flags"]:
   expected="NOT_ADJUDICATED_MISSING_UNCERTAINTY"
  if m["classification"]!=expected: raise ValueError("retained measurement classification is stale")
+ expanded_left=expanded_right=None
+ if uncertainty!="NOT_PROVIDED":
+  u=float(uncertainty); expanded_left=[left["lower_bound"]-u,left["upper_bound"]+u]; expanded_right=[right["lower_bound"]-u,right["upper_bound"]+u]
+ reasons={"UNSUPPORTED":"RESPONSE_OR_RELATIONSHIP_UNSUPPORTED","NOT_ADJUDICATED_MISSING_UNCERTAINTY":"MEASUREMENT_OR_MODEL_UNCERTAINTY_NOT_PROVIDED","ROBUSTLY_DISCRIMINATING":"CONSERVATIVE_EXPANDED_INTERVALS_DISJOINT","NOMINALLY_DISCRIMINATING_BUT_UNCERTAINTY_OVERLAPS":"NOMINAL_INTERVALS_DISJOINT_EXPANDED_INTERVALS_OVERLAP","NOT_DISCRIMINATING":"PREDICTION_INTERVALS_OVERLAP"}
+ if (m["expanded_left_interval"]!=expanded_left or m["expanded_right_interval"]!=expanded_right or
+     m["reason_code"]!=reasons[expected] or m["evidence_references"]!=[m["eligibility_id"]]):
+  raise ValueError("retained measurement derivatives are stale")
  return expected,comparison,left,right
 
 def evaluate_apparatus(explanations,requirements,measurements,specs,comparisons=None,predictions=None,contracts=None):
