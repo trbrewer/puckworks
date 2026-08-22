@@ -4,6 +4,7 @@ This module deliberately does not import producer governance or decision functio
 """
 from __future__ import annotations
 import hashlib, json, math
+from pathlib import Path
 from .measurement_value import discriminate
 from .schema import (ApparatusEvaluationRecord, ApparatusGateEvidenceRecord,
  ApparatusGateResult, ApparatusGateSpec, ComparisonEligibilityRecord,
@@ -18,6 +19,7 @@ SPATIAL="SCI_MD_003_RP_A_001_SPATIAL_LOCALIZATION_ONLY_DISTINGUISHABLE_ROUTE"
 ADDITIONAL="SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED"
 DYNAMIC_CHANNELS={"bed_height_or_deformation"}
 SPATIAL_CHANNELS={"spatial_flow_variance","local_extraction"}
+ROOT=Path(__file__).resolve().parents[3]
 
 def _hash(value): return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(",",":")).encode()).hexdigest()
 def _unique(rows,key,label):
@@ -27,6 +29,154 @@ def _unique(rows,key,label):
   if not identity or identity in out: raise ValueError(f"invalid or duplicate {label} identity")
   out[identity]=row
  return out
+
+def _file_hash(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def independently_validate_bundle_universe(bundle, authoritative_contracts,
+                                           authoritative_comparisons):
+ """Independent full-bundle ownership and provenance reconstruction."""
+ manifest=bundle["run_manifest"]
+ cards={name:_file_hash(ROOT/"docs/cards"/name) for name in (
+  "foster2025_2.md","wadsworth2026.md","wadsworth2026_inertial.md",
+  "wadsworth2026_grindmap.md","cameron2020.md")}
+ selected={"foster2025.machine_mode","wadsworth2026.inertial","cameron2020.extraction_bdf"}
+ expected_hashes={
+  "component_response_atlas_spec_sha256":_file_hash(ROOT/"docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md"),
+  "c1_protocol_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1/correction_protocol.json"),
+  "c1_r1_protocol_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1_r1/correction_protocol.json"),
+  "c1_r2_protocol_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1_r2/correction_protocol.json"),
+  "protocol_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1_r3/correction_protocol.json"),
+  "case_matrix_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1/case_matrix.json"),
+  "measurement_assumption_sha256":_file_hash(ROOT/"docs/analysis/rp_a_001/c1/measurement_assumptions.json"),
+  "registry_snapshot_sha256":_file_hash(ROOT/"puckworks/models/__init__.py")}
+ for field,value in expected_hashes.items():
+  if manifest.get(field)!=value: raise ValueError(f"independent AUTHORITATIVE_PROVENANCE_MISMATCH: {field}")
+ if manifest.get("selected_card_sha256")!=cards or set(manifest.get("selected_components",[]))!=selected:
+  raise ValueError("independent UNAUTHORIZED_ROOT: cards or components")
+ explanations=_unique(bundle["explanations"],"explanation_id","explanation")
+ if {x["component_id"] for x in explanations.values()}!=selected:
+  raise ValueError("independent UNAUTHORIZED_ROOT: explanations")
+ for explanation in explanations.values():
+  if explanation["registry_identity"]!=expected_hashes["registry_snapshot_sha256"] or explanation["card_identity"] not in set(cards.values()):
+   raise ValueError("independent AUTHORITATIVE_PROVENANCE_MISMATCH: explanation")
+ if bundle["observation_contracts"]!=authoritative_contracts:
+  raise ValueError("independent AUTHORITATIVE_PROVENANCE_MISMATCH: contract universe")
+ if bundle["matched_comparisons"]!=authoritative_comparisons:
+  raise ValueError("independent EXTRANEOUS_MATERIAL_RECORD: comparison universe")
+ case_data=json.loads((ROOT/"docs/analysis/rp_a_001/c1/case_matrix.json").read_text())
+ cases={row["case_id"] for row in case_data["cases"]}|{"WADSWORTH_WORKED_FO_ENDPOINTS"}
+ cell_keys=set()
+ for cell in bundle["result_cells"]:
+  key=(cell["component_id"],cell["case_id"],cell["observable"])
+  if key in cell_keys: raise ValueError("independent DUPLICATE_ID: result cell")
+  cell_keys.add(key)
+  if cell["component_id"] not in selected or cell["case_id"] not in cases:
+   raise ValueError("independent ORPHAN_RECORD: result cell")
+ if set(bundle["component_reports"])!=selected:
+  raise ValueError("independent ORPHAN_RECORD: component report")
+ for row in bundle["quantity_inventory"]:
+  if row["component_id"] not in selected:
+   raise ValueError("independent ORPHAN_RECORD: quantity inventory")
+ requirements={row["requirement_id"] for row in bundle["discrimination_requirements"]}
+ measurements={row["measurement_record_id"] for row in bundle["measurement_value_records"]}
+ comparisons={row["eligibility_id"] for row in bundle["matched_comparisons"]}
+ predictions={row["prediction_id"] for row in bundle["prediction_intervals"]}
+ evidence=_unique(bundle["apparatus_gate_evidence"],"gate_evidence_id","gate evidence")
+ results=_unique(bundle["apparatus_gate_results"],"gate_result_id","gate result")
+ referenced_evidence=set()
+ for row in evidence.values():
+  if row["requirement_id"] not in requirements or not set(row["comparison_record_ids"])<=comparisons or not set(row["measurement_record_ids"])<=measurements or not set(row["prediction_interval_ids"] or [])<=predictions:
+   raise ValueError("independent DANGLING_REFERENCE: gate evidence")
+ for row in results.values():
+  if row["requirement_id"] not in requirements or not set(row["gate_evidence_ids"] or [])<=set(evidence):
+   raise ValueError("independent DANGLING_REFERENCE: gate result")
+  referenced_evidence.update(row["gate_evidence_ids"] or [])
+ if referenced_evidence!=set(evidence): raise ValueError("independent ORPHAN_RECORD: gate evidence")
+ apparatus=bundle["apparatus_evaluation"]
+ referenced_results=set(apparatus["applicable_gate_result_ids"]+apparatus["passing_gate_result_ids"]+
+                        apparatus["failing_gate_result_ids"]+apparatus["unresolved_gate_result_ids"]+
+                        apparatus["not_applicable_gate_result_ids"])
+ if referenced_results!=set(results): raise ValueError("independent ORPHAN_RECORD: gate result")
+ edge_ids=set()
+ for edge in bundle["coverage_edges"]:
+  if edge["coverage_edge_id"] in edge_ids: raise ValueError("independent DUPLICATE_ID: coverage edge")
+  edge_ids.add(edge["coverage_edge_id"])
+  if edge["requirement_id"] not in requirements or edge["measurement_record_id"] not in measurements:
+   raise ValueError("independent DANGLING_REFERENCE: coverage edge")
+ matrix_edges={identity for row in bundle["coverage_matrix"] for identity in row["coverage_edge_ids"]}
+ if matrix_edges!=edge_ids: raise ValueError("independent ORPHAN_RECORD: coverage edge")
+ return True
+
+def _independent_global_universe(explanations,requirements,measurements,specs,
+                                 comparisons,predictions,contracts,
+                                 authoritative_contracts):
+ if authoritative_contracts is None:
+  raise ValueError("independent UNAUTHORIZED_ROOT: authoritative contracts required")
+ explanation_ids=set(_unique(explanations,"explanation_id","explanation"))
+ reqmap=_unique(requirements,"requirement_id","requirement")
+ specmap=_unique(specs,"gate_id","gate")
+ compmap=_unique(comparisons,"eligibility_id","comparison")
+ predmap=_unique(predictions,"prediction_id","prediction")
+ contractmap=_unique(contracts,"observation_contract_id","contract")
+ _unique(measurements,"measurement_record_id","measurement")
+ authority=_unique(authoritative_contracts,"observation_contract_id","authoritative contract")
+ for requirement in requirements:
+  DiscriminationRequirementRecord.from_dict(requirement)
+  if requirement["left_explanation"] not in explanation_ids or requirement["right_explanation"] not in explanation_ids:
+   raise ValueError("independent DANGLING_REFERENCE: requirement explanation")
+  if requirement["observation_contract_id"] not in contractmap:
+   raise ValueError("independent DANGLING_REFERENCE: requirement contract")
+ for spec in specs: ApparatusGateSpec.from_dict(spec)
+ for contract in contracts:
+  ObservationContractRecord.from_dict(contract)
+  body={k:v for k,v in contract.items() if k not in {"observation_contract_id","contract_sha256"}}
+  if _hash(body)!=contract["contract_sha256"] or not contract["observation_contract_id"].endswith(contract["contract_sha256"][:16]):
+   raise ValueError("independent CANONICAL_IDENTITY_MISMATCH: contract")
+  if authority.get(contract["observation_contract_id"])!=contract:
+   raise ValueError("independent AUTHORITATIVE_PROVENANCE_MISMATCH: contract")
+ if set(contractmap)!=set(authority):
+  raise ValueError("independent ORPHAN_RECORD: contract universe")
+ fields=("requirement_id","pair_id","left_explanation","right_explanation","scenario",
+         "intervention_id","basis_id","question_id","observation_contract_id")
+ for comparison in comparisons:
+  ComparisonEligibilityRecord.from_dict(comparison)
+  requirement=reqmap.get(comparison["requirement_id"])
+  if requirement is None: raise ValueError("independent DANGLING_REFERENCE: comparison requirement")
+  if any(comparison[field]!=requirement[field] for field in fields):
+   raise ValueError("independent CROSS_CONTEXT_REFERENCE: comparison requirement")
+  contract=contractmap.get(comparison["observation_contract_id"])
+  if contract is None: raise ValueError("independent DANGLING_REFERENCE: comparison contract")
+  if (comparison["candidate_observable"]!=contract["channel"] or
+      comparison["observation_contract_hash"]!=contract["contract_sha256"] or
+      comparison["adapter_id"]!=contract["adapter_id"] or
+      comparison["adapter_version"]!=contract["adapter_version"] or
+      comparison["adapter_contract_hash"]!=contract["adapter_contract_hash"]):
+   raise ValueError("independent CROSS_CONTEXT_REFERENCE: comparison contract")
+ for prediction in predictions:
+  PredictionIntervalRecord.from_dict(prediction)
+  if prediction["explanation_id"] not in explanation_ids:
+   raise ValueError("independent DANGLING_REFERENCE: prediction explanation")
+  if prediction["prediction_id"]!=f"PRED__{prediction['explanation_id']}__{prediction['case_id']}__{prediction['channel']}":
+   raise ValueError("independent CANONICAL_IDENTITY_MISMATCH: prediction")
+  owned=False
+  for requirement in requirements:
+   contract=contractmap[requirement["observation_contract_id"]]
+   if (prediction["explanation_id"] in {requirement["left_explanation"],requirement["right_explanation"]} and
+       prediction["case_id"]==requirement["scenario"] and
+       prediction["channel"] in set(requirement["applicable_candidate_channels"]+[requirement["observation_family"]]) and
+       prediction["channel"]==contract["channel"] and prediction["unit"]==contract["unit"] and
+       prediction["pressure_node"]==contract["pressure_node"] and
+       prediction["pressure_reference"]==contract["pressure_reference"] and
+       prediction["time_basis"]==contract["time_origin"]): owned=True
+  if not owned: raise ValueError("independent ORPHAN_RECORD: prediction")
+ for measurement in measurements:
+  requirement=reqmap.get(measurement.get("requirement_id"))
+  comparison=compmap.get(measurement.get("eligibility_id"))
+  contract=contractmap.get(measurement.get("observation_contract_id"))
+  if requirement is None or comparison is None or contract is None:
+   raise ValueError("independent DANGLING_REFERENCE: measurement")
+  _classification(measurement,requirement,comparison,predmap,contract)
+ return reqmap,specmap,compmap,predmap,contractmap
 
 def _classification(measurement,requirement,comparison,predictions,contract):
  MeasurementValueRecord.from_dict(measurement); ObservationContractRecord.from_dict(contract)
@@ -60,23 +210,13 @@ def _classification(measurement,requirement,comparison,predictions,contract):
  if measurement["expanded_left_interval"]!=expanded_left or measurement["expanded_right_interval"]!=expanded_right or measurement["reason_code"]!=reasons[result] or measurement["evidence_references"]!=[measurement["eligibility_id"]]: raise ValueError("independent stale measurement derivatives")
  return result
 
-def reconstruct_apparatus(explanations,requirements,measurements,specs,comparisons,predictions,contracts):
+def reconstruct_apparatus(explanations,requirements,measurements,specs,comparisons,predictions,contracts,*,authoritative_contracts=None):
  aids=sorted(x["explanation_id"] for x in explanations if x["scientific_role"]=="FIXED_BED_MACHINE_AND_APPARATUS_NULL")
  matched=[r for r in requirements if r["relevance_status"]=="RELEVANT" and ({r["left_explanation"],r["right_explanation"]}&set(aids))]
  if _hash(specs)!=CANONICAL_GATE_RECORDS_HASH: raise ValueError("independent noncanonical gate specification")
- _unique(explanations,"explanation_id","explanation")
- for requirement in requirements: DiscriminationRequirementRecord.from_dict(requirement)
- for spec in specs: ApparatusGateSpec.from_dict(spec)
- for comparison in comparisons: ComparisonEligibilityRecord.from_dict(comparison)
- for prediction in predictions: PredictionIntervalRecord.from_dict(prediction)
- reqmap=_unique(requirements,"requirement_id","requirement"); specmap=_unique(specs,"gate_id","gate")
- compmap=_unique(comparisons,"eligibility_id","comparison"); predmap=_unique(predictions,"prediction_id","prediction")
- contractmap=_unique(contracts,"observation_contract_id","contract"); _unique(measurements,"measurement_record_id","measurement")
- for contract in contracts:
-  ObservationContractRecord.from_dict(contract)
-  body={k:v for k,v in contract.items() if k not in {"observation_contract_id","contract_sha256"}}
-  if _hash(body)!=contract["contract_sha256"]: raise ValueError("independent stale contract hash")
- for measurement in measurements: MeasurementValueRecord.from_dict(measurement)
+ reqmap,specmap,compmap,predmap,contractmap=_independent_global_universe(
+  explanations,requirements,measurements,specs,comparisons,predictions,contracts,
+  authoritative_contracts)
  if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  evidence=[]; results=[]
  for req in matched:
