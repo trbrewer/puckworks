@@ -55,6 +55,10 @@ def test_partial_evidence_is_unresolved_but_dangling_is_invalid():
 def test_no_comparator_is_not_evaluated():
  bundle=__import__("puckworks.analysis.response_atlas.runner",fromlist=["build_bundle"]).build_bundle()
  assert bundle["apparatus_evaluation"]["status"]=="NOT_EVALUATED"
+ changed=copy.deepcopy(bundle); changed["prediction_intervals"].append({"bad":True})
+ with pytest.raises(ValueError): reconstruct_apparatus(
+  changed["explanations"],changed["discrimination_requirements"],changed["measurement_value_records"],
+  changed["apparatus_gate_specs"],changed["matched_comparisons"],changed["prediction_intervals"],changed["observation_contracts"])
 
 @pytest.mark.parametrize("target,key",[("comparison",3),("prediction",4),("contract",5)])
 def test_duplicate_id_rejected(target,key):

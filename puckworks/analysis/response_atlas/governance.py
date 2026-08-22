@@ -132,7 +132,6 @@ def _closed_measurement(m, requirement, comparisons, predictions, contracts):
 
 def evaluate_apparatus(explanations,requirements,measurements,specs,comparisons=None,predictions=None,contracts=None):
  aids=sorted(e["explanation_id"] for e in explanations if e["scientific_role"]=="FIXED_BED_MACHINE_AND_APPARATUS_NULL"); matched=[r for r in requirements if r["relevance_status"]=="RELEVANT" and ({r["left_explanation"],r["right_explanation"]}&set(aids))]
- if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  if comparisons is None or predictions is None or contracts is None: raise ValueError("apparatus evaluation requires closed evidence collections")
  if _hash(specs)!=CANONICAL_GATE_RECORDS_HASH: raise ValueError("noncanonical apparatus gate specification")
  _index_unique(explanations,"explanation_id","explanation")
@@ -145,6 +144,7 @@ def evaluate_apparatus(explanations,requirements,measurements,specs,comparisons=
  contractmap=_index_unique(contracts,"observation_contract_id","observation contract")
  for contract in contracts: _validate_contract_identity(contract)
  _index_unique(measurements,"measurement_record_id","measurement")
+ if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  evs=[]; results=[]
  for r in matched:
   aid=next(iter({r["left_explanation"],r["right_explanation"]}&set(aids))); comp=r["right_explanation"] if r["left_explanation"]==aid else r["left_explanation"]; rows=[m for m in measurements if m["requirement_id"]==r["requirement_id"]]

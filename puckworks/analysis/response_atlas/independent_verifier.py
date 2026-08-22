@@ -54,7 +54,6 @@ def _classification(measurement,requirement,comparison,predictions,contract):
 def reconstruct_apparatus(explanations,requirements,measurements,specs,comparisons,predictions,contracts):
  aids=sorted(x["explanation_id"] for x in explanations if x["scientific_role"]=="FIXED_BED_MACHINE_AND_APPARATUS_NULL")
  matched=[r for r in requirements if r["relevance_status"]=="RELEVANT" and ({r["left_explanation"],r["right_explanation"]}&set(aids))]
- if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  if _hash(specs)!=CANONICAL_GATE_RECORDS_HASH: raise ValueError("independent noncanonical gate specification")
  _unique(explanations,"explanation_id","explanation")
  for requirement in requirements: DiscriminationRequirementRecord.from_dict(requirement)
@@ -64,6 +63,12 @@ def reconstruct_apparatus(explanations,requirements,measurements,specs,compariso
  reqmap=_unique(requirements,"requirement_id","requirement"); specmap=_unique(specs,"gate_id","gate")
  compmap=_unique(comparisons,"eligibility_id","comparison"); predmap=_unique(predictions,"prediction_id","prediction")
  contractmap=_unique(contracts,"observation_contract_id","contract"); _unique(measurements,"measurement_record_id","measurement")
+ for contract in contracts:
+  ObservationContractRecord.from_dict(contract)
+  body={k:v for k,v in contract.items() if k not in {"observation_contract_id","contract_sha256"}}
+  if _hash(body)!=contract["contract_sha256"]: raise ValueError("independent stale contract hash")
+ for measurement in measurements: MeasurementValueRecord.from_dict(measurement)
+ if not matched: return [],[],ApparatusEvaluationRecord("APPARATUS_EVALUATION",aids,"NOT_EVALUATED",[],[],[],[],False,[],"NO_MATCHED_APPARATUS_COMPARATOR",APPARATUS_VERSION,[],[],False,[],[])
  evidence=[]; results=[]
  for req in matched:
   if req["requirement_id"] not in reqmap: raise ValueError("independent dangling requirement")
