@@ -26,6 +26,7 @@ from .governance import (APPARATUS_VERSION, COVERAGE_VERSION, OBSERVATION_VERSIO
                          evaluate_apparatus, minimum_measurement_sets, validate_measurement_linkage)
 from .inventory import inventory
 from .measurement_value import build_measurement_record, discriminate
+from .independent_verifier import independently_select, reconstruct_apparatus
 from .schema import (ApparatusEvaluationRecord, ApparatusGateEvidenceRecord, ApparatusGateResult, ApparatusGateSpec,
                      ComparisonEligibilityRecord, CoverageEdgeRecord, DecisionRecord,
                      DiscriminationRequirementRecord, ExplanationRecord, MeasurementValueRecord,
@@ -318,8 +319,18 @@ def validate_bundle(bundle):
     evidence,results,apparatus=evaluate_apparatus(bundle["explanations"],requirements,bundle["measurement_value_records"],specs,bundle["matched_comparisons"],bundle["prediction_intervals"],contracts)
     if bundle["apparatus_gate_specs"]!=specs or bundle["apparatus_gate_evidence"]!=[x.to_dict() for x in evidence] or bundle["apparatus_gate_results"]!=[x.to_dict() for x in results] or bundle["apparatus_evaluation"]!=apparatus.to_dict():
         raise ValueError("retained apparatus artifacts are semantically inconsistent")
+    independent_evidence,independent_results,independent_apparatus=reconstruct_apparatus(
+        bundle["explanations"],requirements,bundle["measurement_value_records"],specs,
+        bundle["matched_comparisons"],bundle["prediction_intervals"],contracts)
+    if (bundle["apparatus_gate_evidence"]!=[x.to_dict() for x in independent_evidence] or
+        bundle["apparatus_gate_results"]!=[x.to_dict() for x in independent_results] or
+        bundle["apparatus_evaluation"]!=independent_apparatus.to_dict()):
+        raise ValueError("independent apparatus reconstruction disagrees")
     expected_decision=derive_scientific_decision(explanations=bundle["explanations"],requirements=requirements,channel_eligibility=eligibility,component_reports=bundle["component_reports"],comparison_records=bundle["matched_comparisons"],measurement_records=bundle["measurement_value_records"],coverage_edges=edges,minimum_measurement_sets=minimum,apparatus_gate_specs=specs,apparatus_gate_results=[x.to_dict() for x in results],apparatus_evaluation=apparatus.to_dict())
     if decision != expected_decision: raise ValueError("retained decision is inconsistent with scientific inputs")
+    if decision.selected_outcome != independently_select(bundle["explanations"],
+            bundle["measurement_value_records"],minimum,independent_apparatus.to_dict()):
+        raise ValueError("independent decision reconstruction disagrees")
     expected_counts=_summary_counts(bundle["explanations"],questions,requirements,eligibility,bundle["measurement_value_records"],edges,results,bundle["result_cells"])
     if bundle["summary_counts"] != expected_counts: raise ValueError("retained summary counts are inconsistent")
     return True
