@@ -26,7 +26,9 @@ from .governance import (APPARATUS_VERSION, COVERAGE_VERSION, OBSERVATION_VERSIO
                          evaluate_apparatus, minimum_measurement_sets, validate_measurement_linkage)
 from .inventory import inventory
 from .measurement_value import build_measurement_record, discriminate
-from .independent_verifier import independently_select, reconstruct_apparatus
+from .independent_verifier import (independently_select,
+                                   independently_validate_bundle_universe,
+                                   reconstruct_apparatus)
 from .schema import (ApparatusEvaluationRecord, ApparatusGateEvidenceRecord, ApparatusGateResult, ApparatusGateSpec,
                      ComparisonEligibilityRecord, CoverageEdgeRecord, DecisionRecord,
                      DiscriminationRequirementRecord, ExplanationRecord, MeasurementValueRecord,
@@ -46,6 +48,13 @@ CHANNELS = ["basket_pressure", "separate_upstream_pressure", "flow", "delivered_
             "bed_height_or_deformation", "first_drip_timing", "temperature",
             "turbidity_or_downstream_suspended_solids", "retained_fines_mass",
             "spatial_flow_variance", "local_extraction"]
+CARD_PATHS = {"foster2025_2.md": ROOT / "docs/cards/foster2025_2.md",
+              "wadsworth2026.md": ROOT / "docs/cards/wadsworth2026.md",
+              "wadsworth2026_inertial.md": ROOT / "docs/cards/wadsworth2026_inertial.md",
+              "wadsworth2026_grindmap.md": ROOT / "docs/cards/wadsworth2026_grindmap.md",
+              "cameron2020.md": ROOT / "docs/cards/cameron2020.md"}
+SELECTED_COMPONENTS = ["foster2025.machine_mode", "wadsworth2026.inertial",
+                       "cameron2020.extraction_bdf"]
 
 
 def _load(path: Path):
@@ -279,9 +288,67 @@ def _derive_measurements(eligible, cells, assumptions, explanations):
     return list(unique.values()), records
 
 
+def _validate_authoritative_bundle_roots(bundle):
+    """Bind supplied atlas roots to committed repository authority."""
+    validate_protocol()
+    manifest = bundle["run_manifest"]
+    cards = {name: sha256(path) for name, path in CARD_PATHS.items()}
+    registry_hash = sha256(ROOT / "puckworks/models/__init__.py")
+    expected_manifest = {
+        "component_response_atlas_spec_sha256": sha256(
+            ROOT / "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md"),
+        "c1_protocol_sha256": sha256(INPUT / "correction_protocol.json"),
+        "c1_r1_protocol_sha256": sha256(R1 / "correction_protocol.json"),
+        "c1_r2_protocol_sha256": sha256(R2 / "correction_protocol.json"),
+        "protocol_sha256": sha256(OUT / "correction_protocol.json"),
+        "case_matrix_sha256": sha256(INPUT / "case_matrix.json"),
+        "measurement_assumption_sha256": sha256(INPUT / "measurement_assumptions.json"),
+        "registry_snapshot_sha256": registry_hash,
+        "selected_card_sha256": cards,
+        "selected_components": SELECTED_COMPONENTS,
+        "schema_version": SCHEMA_VERSION,
+        "claim_ceiling": CLAIM,
+    }
+    for field, expected in expected_manifest.items():
+        if manifest.get(field) != expected:
+            raise ValueError(f"AUTHORITATIVE_PROVENANCE_MISMATCH: run_manifest.{field}")
+    commit = manifest.get("execution_code_commit")
+    tree = manifest.get("execution_code_tree")
+    try:
+        authoritative_tree = _git("rev-parse", f"{commit}^{{tree}}")
+    except (subprocess.CalledProcessError, TypeError) as exc:
+        raise ValueError("DANGLING_REFERENCE: execution commit") from exc
+    if authoritative_tree != tree:
+        raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: execution tree")
+    expected_explanations = [item.to_dict() for item in _explanations(registry_hash, cards)]
+    if bundle["explanations"] != expected_explanations:
+        raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: explanations")
+    if bundle["measurement_assumptions"] != _load(INPUT / "measurement_assumptions.json"):
+        raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: measurement assumptions")
+    if bundle["quantity_inventory"] != inventory():
+        raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: quantity inventory")
+    cases = _load(INPUT / "case_matrix.json")["cases"]
+    cam_cells, cam_report, _ = _cameron_results(cases)
+    foster_cells, foster_report, _ = _foster_results()
+    wads_cells, wads_report, residual, _ = _wadsworth_results(cases)
+    expected_cells = [item.to_dict() for item in sorted(
+        cam_cells + foster_cells + wads_cells,
+        key=lambda item: (item.component_id, item.case_id, item.observable))]
+    if bundle["result_cells"] != expected_cells:
+        raise ValueError("ORPHAN_RECORD: result cells outside authoritative execution")
+    expected_reports = {"cameron2020.extraction_bdf": cam_report,
+                        "foster2025.machine_mode": foster_report,
+                        "wadsworth2026.inertial": wads_report}
+    if bundle["component_reports"] != expected_reports:
+        raise ValueError("AUTHORITATIVE_PROVENANCE_MISMATCH: component reports")
+    if bundle["residual_records"] != [residual.to_dict()]:
+        raise ValueError("ORPHAN_RECORD: residual records outside authoritative execution")
+
+
 def validate_bundle(bundle):
     if bundle.get("schema_version") != SCHEMA_VERSION or "pair_eligibility" in bundle:
         raise ValueError("wrong v5 response-atlas schema or redundant eligibility contract")
+    _validate_authoritative_bundle_roots(bundle)
     typed = (("quantity_inventory", QuantityRow), ("result_cells", ResultCell),
              ("explanations", ExplanationRecord), ("scientific_questions", ScientificQuestionRecord),
              ("observation_contracts", ObservationContractRecord),
@@ -303,6 +370,9 @@ def validate_bundle(bundle):
     for key, expected in (("scientific_questions", questions), ("observation_contracts", contracts),
                           ("discrimination_requirements", requirements), ("channel_eligibility", eligibility)):
         if bundle[key] != expected: raise ValueError(f"retained {key} is semantically inconsistent")
+    if bundle["matched_comparisons"] != eligibility:
+        raise ValueError("EXTRANEOUS_MATERIAL_RECORD: matched comparisons differ from authorized atlas")
+    independently_validate_bundle_universe(bundle,contracts,eligibility)
     emap = {e["eligibility_id"]: e for e in eligibility}
     for m in bundle["measurement_value_records"]: validate_measurement_linkage(m, emap.get(m["eligibility_id"]))
     predictions = {p["prediction_id"]: p for p in bundle["prediction_intervals"]}
@@ -316,12 +386,12 @@ def validate_bundle(bundle):
     if bundle["coverage_edges"]!=edges or bundle["coverage_matrix"]!=matrix or bundle["minimum_measurement_sets"]!=minimum:
         raise ValueError("retained coverage or minimum sets are semantically inconsistent")
     specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
-    evidence,results,apparatus=evaluate_apparatus(bundle["explanations"],requirements,bundle["measurement_value_records"],specs,bundle["matched_comparisons"],bundle["prediction_intervals"],contracts)
+    evidence,results,apparatus=evaluate_apparatus(bundle["explanations"],requirements,bundle["measurement_value_records"],specs,bundle["matched_comparisons"],bundle["prediction_intervals"],bundle["observation_contracts"],authoritative_contracts=contracts)
     if bundle["apparatus_gate_specs"]!=specs or bundle["apparatus_gate_evidence"]!=[x.to_dict() for x in evidence] or bundle["apparatus_gate_results"]!=[x.to_dict() for x in results] or bundle["apparatus_evaluation"]!=apparatus.to_dict():
         raise ValueError("retained apparatus artifacts are semantically inconsistent")
     independent_evidence,independent_results,independent_apparatus=reconstruct_apparatus(
         bundle["explanations"],requirements,bundle["measurement_value_records"],specs,
-        bundle["matched_comparisons"],bundle["prediction_intervals"],contracts)
+        bundle["matched_comparisons"],bundle["prediction_intervals"],bundle["observation_contracts"],authoritative_contracts=contracts)
     if (bundle["apparatus_gate_evidence"]!=[x.to_dict() for x in independent_evidence] or
         bundle["apparatus_gate_results"]!=[x.to_dict() for x in independent_results] or
         bundle["apparatus_evaluation"]!=independent_apparatus.to_dict()):
@@ -357,12 +427,7 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
     cases = _load(INPUT / "case_matrix.json")["cases"]
     assumptions = _load(INPUT / "measurement_assumptions.json")
     registry_hash = sha256(ROOT / "puckworks/models/__init__.py")
-    card_paths = {"foster2025_2.md": ROOT / "docs/cards/foster2025_2.md",
-                  "wadsworth2026.md": ROOT / "docs/cards/wadsworth2026.md",
-                  "wadsworth2026_inertial.md": ROOT / "docs/cards/wadsworth2026_inertial.md",
-                  "wadsworth2026_grindmap.md": ROOT / "docs/cards/wadsworth2026_grindmap.md",
-                  "cameron2020.md": ROOT / "docs/cards/cameron2020.md"}
-    cards = {name: sha256(path) for name, path in card_paths.items()}
+    cards = {name: sha256(path) for name, path in CARD_PATHS.items()}
     cam_cells, cam_report, cam_evals = _cameron_results(cases)
     foster_cells, foster_report, foster_evals = _foster_results()
     wads_cells, wads_report, residual, wads_evals = _wadsworth_results(cases)
@@ -386,7 +451,8 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
     gate_specs = [x.to_dict() for x in canonical_apparatus_gate_specs()]
     gate_evidence_obj, gate_results_obj, apparatus_obj = evaluate_apparatus(
         [x.to_dict() for x in explanations], requirements, measurement_dicts, gate_specs,
-        pair_dicts, [x.to_dict() for x in predictions], contracts)
+        pair_dicts, [x.to_dict() for x in predictions], contracts,
+        authoritative_contracts=contracts)
     gate_evidence=[x.to_dict() for x in gate_evidence_obj]
     gate_results = [x.to_dict() for x in gate_results_obj]
     apparatus = apparatus_obj.to_dict()
@@ -411,7 +477,7 @@ def build_bundle(*, execution_commit=None, execution_tree=None):
                 "execution_code_commit": execution_commit, "execution_code_tree": execution_tree,
                 "repository": "https://github.com/trbrewer/puckworks.git", "registry_snapshot_sha256": registry_hash,
                 "selected_card_sha256": cards, "adapter_versions": ADAPTER_VERSIONS,
-                "selected_components": ["foster2025.machine_mode", "wadsworth2026.inertial", "cameron2020.extraction_bdf"],
+                "selected_components": SELECTED_COMPONENTS,
                 "deterministic_seed": 20260820, "evaluation_count": evaluation_count,
                 "environment": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__},
                 "decision_rule_version": RULE_VERSION, "coverage_rule_version": COVERAGE_VERSION,
