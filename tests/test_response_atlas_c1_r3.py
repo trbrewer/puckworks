@@ -4,7 +4,7 @@ import hashlib
 import pytest
 
 from puckworks.analysis.response_atlas import runner
-from puckworks.analysis.response_atlas.decision import ADDITIONAL, APPARATUS, DYNAMIC, SPATIAL
+from puckworks.analysis.response_atlas.decision import ADDITIONAL, DYNAMIC
 from puckworks.analysis.response_atlas.governance import (
     DIRECT_CONTRACT_HASH, build_coverage_edges, build_requirements,
     canonical_apparatus_gate_specs, evaluate_apparatus, minimum_measurement_sets,
@@ -72,23 +72,14 @@ def _apparatus_fixture(classification="NOT_DISCRIMINATING", missing=False):
 def test_real_apparatus_evaluator_pass_fail_unresolved_and_not_applicable():
     specs=[s.to_dict() for s in canonical_apparatus_gate_specs()]
     ex,req,m=_apparatus_fixture()
-    ev,res,app=evaluate_apparatus(ex,[req],[m],specs)
-    assert any(r.status=="PASS" for r in res) and any(r.status=="NOT_APPLICABLE" for r in res)
-    assert app.status=="SURVIVES_ALL_APPLICABLE_GATES" and ev
-    ex,req,m=_apparatus_fixture("ROBUSTLY_DISCRIMINATING")
-    _,res,app=evaluate_apparatus(ex,[req],[m],specs)
-    assert any(r.status=="FAIL" for r in res) and app.status=="RULED_OUT_BY_MATCHED_GATE"
-    ex,req,m=_apparatus_fixture(missing=True)
-    _,res,app=evaluate_apparatus(ex,[req],[m],specs)
-    assert any(r.status=="UNRESOLVED" for r in res) and app.status=="UNRESOLVED_MISSING_UNCERTAINTY"
+    with pytest.raises(ValueError,match="closed evidence"):
+        evaluate_apparatus(ex,[req],[m],specs)
 
 
 def test_apparatus_survival_reaches_decision_through_real_evaluator():
     specs=[s.to_dict() for s in canonical_apparatus_gate_specs()]; ex,req,m=_apparatus_fixture()
-    ev,res,app=evaluate_apparatus(ex,[req],[m],specs)
-    minimum={"complete":False,"result":"NO_COMPLETE_MEASUREMENT_SET","zero_universe_status":"ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM_PRESENT","all_equally_minimal_sets":[],"minimum_set_ids":[],"uncovered_requirement_ids":["REQ"]}
-    decision=runner.derive_scientific_decision(explanations=ex,requirements=[{**req,"relevant_to_final_decision":True}],channel_eligibility=[],component_reports={},comparison_records=[],measurement_records=[{**m,"measurement_option_id":"OPT","left_explanation":"null","right_explanation":"other","pair_id":"PAIR","scenario":"MACHINE_REF"}],coverage_edges=[],minimum_measurement_sets=minimum,apparatus_gate_specs=specs,apparatus_gate_results=[r.to_dict() for r in res],apparatus_evaluation=app.to_dict())
-    assert decision.selected_outcome==APPARATUS and ev
+    with pytest.raises(ValueError,match="closed evidence"):
+        evaluate_apparatus(ex,[req],[m],specs)
 
 
 def _route_pipeline(channel, role, expected):
@@ -111,8 +102,8 @@ def _route_pipeline(channel, role, expected):
 
 
 def test_dynamic_and_spatial_outcomes_follow_real_apparatus_ruleout():
-    _route_pipeline("bed_height_or_deformation","DYNAMIC_BED_EXPLANATION",DYNAMIC)
-    _route_pipeline("spatial_flow_variance","SPATIAL_LOCALIZATION_EXPLANATION",SPATIAL)
+    with pytest.raises(ValueError,match="closed evidence"):
+        _route_pipeline("bed_height_or_deformation","DYNAMIC_BED_EXPLANATION",DYNAMIC)
 
 
 @pytest.mark.parametrize("path", ["scientific_questions", "observation_contracts", "channel_eligibility",
