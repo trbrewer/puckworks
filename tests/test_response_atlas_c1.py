@@ -137,6 +137,13 @@ def generated(tmp_path, monkeypatch):
     out.mkdir()
     shutil.copy(runner.OUT / "correction_protocol.json", out / "correction_protocol.json")
     monkeypatch.setattr(runner, "OUT", out)
+    original_git = runner._git
+    monkeypatch.setattr(
+        runner, "_git",
+        lambda *args: "2" * 40
+        if args == ("rev-parse", f"{'1' * 40}^{{tree}}")
+        else original_git(*args),
+    )
     runner.generate_bundle(execution_commit="1" * 40, execution_tree="2" * 40)
     assert runner.verify_bundle()
     return out

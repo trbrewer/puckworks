@@ -103,7 +103,10 @@ def independently_validate_bundle_universe(bundle, authoritative_contracts,
   edge_ids.add(edge["coverage_edge_id"])
   if edge["requirement_id"] not in requirements or edge["measurement_record_id"] not in measurements:
    raise ValueError("independent DANGLING_REFERENCE: coverage edge")
- matrix_edges={identity for row in bundle["coverage_matrix"] for identity in row["coverage_edge_ids"]}
+ try:
+  matrix_edges={identity for row in bundle["coverage_matrix"] for identity in row["coverage_edge_ids"]}
+ except (KeyError, TypeError) as exc:
+  raise ValueError("independent WRONG_TYPE_REFERENCE: coverage matrix") from exc
  if matrix_edges!=edge_ids: raise ValueError("independent ORPHAN_RECORD: coverage edge")
  return True
 

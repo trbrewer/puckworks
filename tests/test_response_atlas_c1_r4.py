@@ -29,13 +29,13 @@ def closed_fixture(classification="pass",channel="flow",role="OTHER",missing=Fal
 
 def evaluate(fixture):
  ex,req,m,comp,pred,contract=fixture; specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
- return evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract)
+ return evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract,authoritative_contracts=copy.deepcopy(contract))
 
 @pytest.mark.parametrize("classification",["NOT_DISCRIMINATING","ROBUSTLY_DISCRIMINATING"])
 def test_review_c1r3_001_empty_evidence_classification_is_rejected(classification):
- ex,req,m,_,_,_=closed_fixture(); m["classification"]=classification; m["robustly_covers_pair"]=classification=="ROBUSTLY_DISCRIMINATING"
- with pytest.raises(ValueError,match="dangling|closed evidence"):
-  evaluate_apparatus(ex,[req],[m],[x.to_dict() for x in canonical_apparatus_gate_specs()],[],[],[])
+ ex,req,m,_,_,contract=closed_fixture(); m["classification"]=classification; m["robustly_covers_pair"]=classification=="ROBUSTLY_DISCRIMINATING"
+ with pytest.raises(ValueError,match="ORPHAN_RECORD|DANGLING_REFERENCE|dangling|closed evidence"):
+  evaluate_apparatus(ex,[req],[m],[x.to_dict() for x in canonical_apparatus_gate_specs()],[],[],[],authoritative_contracts=copy.deepcopy(contract))
 
 def test_complete_closed_evidence_reaches_pass_fail_and_not_applicable():
  for kind,status in (("pass","SURVIVES_ALL_APPLICABLE_GATES"),("fail","RULED_OUT_BY_MATCHED_GATE")):
@@ -48,9 +48,9 @@ def test_missing_uncertainty_is_legitimate_unresolved():
 
 def test_partial_evidence_is_unresolved_but_dangling_is_invalid():
  ex,req,m,comp,pred,contract=closed_fixture(); specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
- assert evaluate_apparatus(ex,[req],[],specs,comp,pred,contract)[2].status=="UNRESOLVED_MISSING_UNCERTAINTY"
+ assert evaluate_apparatus(ex,[req],[],specs,comp,pred,contract,authoritative_contracts=copy.deepcopy(contract))[2].status=="UNRESOLVED_MISSING_UNCERTAINTY"
  m["left_prediction_id"]="DANGLING"
- with pytest.raises(ValueError,match="dangling prediction"): evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract)
+ with pytest.raises(ValueError,match="dangling prediction"): evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract,authoritative_contracts=copy.deepcopy(contract))
 
 def test_no_comparator_is_not_evaluated():
  bundle=__import__("puckworks.analysis.response_atlas.runner",fromlist=["build_bundle"]).build_bundle()
@@ -58,7 +58,7 @@ def test_no_comparator_is_not_evaluated():
  changed=copy.deepcopy(bundle); changed["prediction_intervals"].append({"bad":True})
  with pytest.raises(ValueError): reconstruct_apparatus(
   changed["explanations"],changed["discrimination_requirements"],changed["measurement_value_records"],
-  changed["apparatus_gate_specs"],changed["matched_comparisons"],changed["prediction_intervals"],changed["observation_contracts"])
+  changed["apparatus_gate_specs"],changed["matched_comparisons"],changed["prediction_intervals"],changed["observation_contracts"],authoritative_contracts=bundle["observation_contracts"])
 
 @pytest.mark.parametrize("target,key",[("comparison",3),("prediction",4),("contract",5)])
 def test_duplicate_id_rejected(target,key):
@@ -81,7 +81,7 @@ def test_cross_model_invalid_uncertainty_and_stale_derivatives_rejected(mutation
 
 def test_cross_case_and_wrong_context_rejected():
  fixture=list(closed_fixture()); fixture[4][0]["case_id"]="OTHER_CASE"
- with pytest.raises(ValueError,match="context mismatch"): evaluate(tuple(fixture))
+ with pytest.raises(ValueError,match="context mismatch|CANONICAL_IDENTITY_MISMATCH"): evaluate(tuple(fixture))
 
 def test_wrong_type_and_noncanonical_gate_records_rejected():
  fixture=list(closed_fixture()); fixture[3]=[fixture[4][0]]
@@ -89,7 +89,7 @@ def test_wrong_type_and_noncanonical_gate_records_rejected():
  fixture=closed_fixture(); specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
  specs[0]["pass_rule"]="CALLER_CONTROLLED"
  with pytest.raises(ValueError,match="noncanonical"): evaluate_apparatus(
-  fixture[0],[fixture[1]],[fixture[2]],specs,*fixture[3:])
+  fixture[0],[fixture[1]],[fixture[2]],specs,*fixture[3:],authoritative_contracts=copy.deepcopy(fixture[5]))
 
 def test_duplicate_measurement_and_explanation_id_rejected():
  ex,req,m,comp,pred,contract=closed_fixture(); specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
@@ -128,12 +128,12 @@ def test_self_consistent_terminal_derivative_chain_is_rejected():
 def test_independent_verifier_is_behaviorally_separate(monkeypatch):
  fixture=closed_fixture("fail"); ex,req,m,comp,pred,contract=fixture; specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
  monkeypatch.setattr(governance,"evaluate_apparatus",lambda *a,**k: (_ for _ in ()).throw(AssertionError("producer called")))
- assert reconstruct_apparatus(ex,[req],[m],specs,comp,pred,contract)[2].status=="RULED_OUT_BY_MATCHED_GATE"
+ assert reconstruct_apparatus(ex,[req],[m],specs,comp,pred,contract,authoritative_contracts=copy.deepcopy(contract))[2].status=="RULED_OUT_BY_MATCHED_GATE"
 
 @pytest.mark.parametrize("channel,role,expected",[("bed_height_or_deformation","DYNAMIC_BED_EXPLANATION",DYNAMIC),("spatial_flow_variance","SPATIAL_LOCALIZATION_EXPLANATION",SPATIAL)])
 def test_downstream_requires_genuine_closed_ruleout(channel,role,expected):
  ex,req,m,comp,pred,contract=closed_fixture("fail",channel,role); specs=[x.to_dict() for x in canonical_apparatus_gate_specs()]
- evidence,results,apparatus=evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract)
+ evidence,results,apparatus=evaluate_apparatus(ex,[req],[m],specs,comp,pred,contract,authoritative_contracts=copy.deepcopy(contract))
  edges=[x.to_dict() for x in build_coverage_edges([m],comp)]; minimum=minimum_measurement_sets([req],edges)
  decision=derive_scientific_decision(explanations=ex,requirements=[req],channel_eligibility=comp,component_reports={},comparison_records=comp,measurement_records=[m],coverage_edges=edges,minimum_measurement_sets=minimum,apparatus_gate_specs=specs,apparatus_gate_results=[x.to_dict() for x in results],apparatus_evaluation=apparatus.to_dict())
  assert evidence and decision.selected_outcome==expected
