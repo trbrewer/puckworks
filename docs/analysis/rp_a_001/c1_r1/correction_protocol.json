@@ -1,0 +1,15 @@
+{
+  "authorization": "SCI-MD-003-RP-A-001-C1-R1-OWNER-ADJUDICATION-PUCKWORKS-EXECUTABLE-SCIENTIFIC-DECISION-DERIVATION-CHANNEL-SPECIFIC-ELIGIBILITY-V3-EXPORT-AND-FRESH-EXACT-REEXECUTION-2026-08-21",
+  "base_specification_sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f",
+  "c1_protocol_sha256": "aee421985ebd904150ed7ca714c0aebc624a2e9a424d4ab6eafd391677a39e53",
+  "channel_eligibility_key": ["pair_id", "scenario", "channel"],
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "decision_precedence": ["APPARATUS_NULL", "UNIQUE_DYNAMIC_BED", "UNIQUE_SPATIAL_ONLY", "ADDITIONAL_DATA_REQUIRED"],
+  "decision_rule_version": "rp-a-001-decision/v1",
+  "deterministic_seed": 20260820,
+  "execution_cap": 16,
+  "frozen_status": "FROZEN_PRE_C1_R1_EXECUTION",
+  "programme_protocol_version": "sci-md-003-rp-a-001/c1-r1",
+  "schema_version": "puckworks.response-atlas-export/v3",
+  "zero_pair_semantics": "NO_ELIGIBLE_PAIRWISE_DISCRIMINATION_PROBLEM__NO_COMPLETE_MEASUREMENT_SET"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "attribution": "same producer with inertial contribution disabled",
+    "causal_eligibility": true,
+    "causal_share": null,
+    "claim_ceiling": "MATHEMATICAL_NESTED_LIMIT_NONADJUDICATIVE",
+    "closure_error": 0.0,
+    "comparability_level": 1,
+    "contrast_id": "WADSWORTH_SOURCE_REFERENCE_INERTIAL_VS_DARCY",
+    "decomposition_method": "NESTED_DIFFERENCE",
+    "left_model_case": "wadsworth2026.inertial/WADSWORTH_WORKED_FO_ENDPOINTS",
+    "nested": true,
+    "numeric_difference": -3.1942787547775665e-05,
+    "numerical_tolerance": 1e-12,
+    "observable": "darcy_velocity",
+    "right_model_case": "wadsworth2026.inertial/WADSWORTH_DARCY_LIMIT",
+    "uncertainty": "NOT_PROVIDED",
+    "unit": "m/s"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "apparatus_explanation_ids": [
+    "FOSTER_FIXED_BED_MACHINE_NULL"
+  ],
+  "apparatus_gate_coverage_complete": false,
+  "applicable_gate_result_ids": [],
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "contract_version": "rp-a-001-apparatus-gates/v2",
+  "evaluation_id": "APPARATUS_EVALUATION",
+  "failing_gate_result_ids": [],
+  "gate_evidence_ids": [],
+  "matched_scenario_ids": [],
+  "not_applicable_gate_result_ids": [],
+  "passing_gate_result_ids": [],
+  "reason_code": "NO_MATCHED_APPARATUS_COMPARATOR",
+  "rule_out_evidence_ids": [],
+  "status": "NOT_EVALUATED",
+  "survival_evidence_ids": [],
+  "uncertainty_complete": false,
+  "unresolved_gate_result_ids": []
+}

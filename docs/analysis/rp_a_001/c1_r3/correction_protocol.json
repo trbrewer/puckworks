@@ -1,0 +1,14 @@
+{
+  "apparatus_gate_rule_version": "rp-a-001-apparatus-gates/v2",
+  "authorization": "SCI-MD-003-RP-A-001-C1-R3-OWNER-ADJUDICATION-PUCKWORKS-REAL-APPARATUS-GATE-EVALUATION-INDEPENDENT-DISCRIMINATION-REQUIREMENT-RELEVANCE-COMPLETE-OBSERVATION-CONTRACT-SEMANTIC-RECONSTRUCTION-V5-EXPORT-AND-FRESH-EXACT-REEXECUTION-2026-08-21",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "decision_rule_version": "rp-a-001-decision/v3",
+  "deterministic_seed": 20260820,
+  "execution_cap": 16,
+  "export_schema": "puckworks.response-atlas-export/v5",
+  "observation_contract_version": "rp-a-001-observation-contract/v1",
+  "programme_protocol_version": "sci-md-003-rp-a-001/c1-r3",
+  "requirement_rule_version": "rp-a-001-requirements/v3",
+  "scientific_question_registry_version": "rp-a-001-scientific-questions/v1",
+  "semantic_validation_version": "rp-a-001-semantic-validation/v2"
+}

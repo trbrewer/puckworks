@@ -1,0 +1,28 @@
+{
+  "apparatus_gate_contract_version": "rp-a-001-apparatus-gates/v1",
+  "authorization": "SCI-MD-003-RP-A-001-C1-R2-OWNER-ADJUDICATION-PUCKWORKS-SCENARIO-SPECIFIC-COVERAGE-ADAPTER-PROVENANCE-APPARATUS-GATE-CONTRACT-DECISION-PRECEDENCE-V4-EXPORT-AND-FRESH-EXACT-REEXECUTION-2026-08-21",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "coverage_rule_version": "rp-a-001-coverage/v2",
+  "decision_rule_version": "rp-a-001-decision/v2",
+  "deterministic_seed": 20260820,
+  "execution_cap": 16,
+  "export_schema": "puckworks.response-atlas-export/v4",
+  "frozen_apparatus_gates": [
+    "SIGN",
+    "PRESSURE_OR_FLOW_ORDERING",
+    "PRESSURE_LAG",
+    "TRANSIENT_TIMING",
+    "FIRST_DRIP_TIMING",
+    "FLOW_MINIMUM",
+    "FLOW_RECOVERY",
+    "CROSS_CONDITION_TRANSFER"
+  ],
+  "minimum_set_universe": "RELEVANT_DISCRIMINATION_REQUIREMENT_IDS",
+  "native_adapter": {
+    "adapter_id": "DIRECT_NATIVE",
+    "adapter_version": "1.0.0"
+  },
+  "programme_protocol_version": "sci-md-003-rp-a-001/c1-r2",
+  "scenario_inheritance": "PROHIBITED",
+  "uncertainty_rule": "CONSERVATIVE_ADDITIVE_BOUNDED_HALF_WIDTHS_NO_DISTRIBUTION"
+}

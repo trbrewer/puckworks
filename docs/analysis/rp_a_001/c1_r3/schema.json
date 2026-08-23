@@ -1,0 +1,26 @@
+{
+  "apparatus_gate_contract_version": "rp-a-001-apparatus-gates/v2",
+  "comparability_levels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "coverage_rule_version": "rp-a-001-coverage/v3",
+  "decision_rule_version": "rp-a-001-decision/v3",
+  "observation_contract_version": "rp-a-001-observation-contract/v1",
+  "requirement_rule_version": "rp-a-001-requirements/v3",
+  "schema_version": "puckworks.response-atlas-export/v5",
+  "scientific_question_registry_version": "rp-a-001-scientific-questions/v1",
+  "semantic_validation_version": "rp-a-001-semantic-validation/v2",
+  "support_states": [
+    "SUPPORTED",
+    "UNSUPPORTED_RELATIONSHIP",
+    "UNSUPPORTED_FOR_CASE",
+    "OUTSIDE_VALID_RANGE",
+    "MISSING_REQUIRED_INPUT",
+    "NUMERICAL_FAILURE",
+    "NOT_EVALUATED"
+  ]
+}

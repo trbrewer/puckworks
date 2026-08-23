@@ -1,0 +1,22 @@
+{
+  "apparatus_gate_contract_version": "rp-a-001-apparatus-gates/v1",
+  "comparability_levels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "coverage_rule_version": "rp-a-001-coverage/v2",
+  "decision_rule_version": "rp-a-001-decision/v2",
+  "schema_version": "puckworks.response-atlas-export/v4",
+  "support_states": [
+    "SUPPORTED",
+    "UNSUPPORTED_RELATIONSHIP",
+    "UNSUPPORTED_FOR_CASE",
+    "OUTSIDE_VALID_RANGE",
+    "MISSING_REQUIRED_INPUT",
+    "NUMERICAL_FAILURE",
+    "NOT_EVALUATED"
+  ]
+}

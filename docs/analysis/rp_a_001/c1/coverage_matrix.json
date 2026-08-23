@@ -1,0 +1,46 @@
+[
+  {
+    "channel": "basket_pressure",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "separate_upstream_pressure",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "flow",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "delivered_mass",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "bed_height_or_deformation",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "first_drip_timing",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "temperature",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "turbidity_or_downstream_suspended_solids",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "retained_fines_mass",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "spatial_flow_variance",
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "local_extraction",
+    "robustly_covered_pair_ids": []
+  }
+]

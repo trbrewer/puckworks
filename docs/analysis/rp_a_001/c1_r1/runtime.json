@@ -1,0 +1,7 @@
+{
+  "normalized_for_scientific_verification": [
+    "wall_time_seconds"
+  ],
+  "runtime_schema": "rp-a-001-c1-r1-runtime/v1",
+  "wall_time_seconds": 0.531117
+}

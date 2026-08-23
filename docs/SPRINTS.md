@@ -324,8 +324,8 @@ order. Documenting a slice does not start, validate, or promote it.*
 
 | slice | program | depends on | effort | next gate / acceptance evidence |
 |---|---|---|---|---|
-| RP-A.1 parameter/observable/comparability schema + inventory | RP-A | registry valid ranges; §5.9/A1 node + §5.10/A10 observable conventions | M | machine-readable schema artifact; unit + valid-range + determinism tests green; missing-relationship cells explicit |
-| RP-A.2 bounded response-atlas pilot (3 components) | RP-A | RP-A.1 | M | per-component response reports + one matched-comparison/disagreement report with comparability tags; tests green |
+| RP-A.1 parameter/observable/comparability schema + inventory | RP-A | **DONE 2026-08-20; C1-R3 corrected 2026-08-21** | M | v5 schema; independent questions/requirements; complete observation contracts; executable apparatus gates; complete semantic reconstruction |
+| RP-A.2 bounded response-atlas pilot (3 components) | RP-A | **DONE 2026-08-20; C1-R3 fresh re-execution 2026-08-21** | M | v4 candidate superseded; 9 evaluations; four independently excluded questions; zero relevant requirements handled non-vacuously; apparatus NOT_EVALUATED; calculated `NO_COMPLETE_MEASUREMENT_SET`; derived `ADDITIONAL_DATA_REQUIRED`; EWP blocked; RP-C.1 not entered |
 | RP-B.1 tier→protocol-pack generator over EXP-009 | RP-B | PV-15 contract; campaign schema; `templates/` | M | EXP-009 emits a capability-tier protocol pack with preregistration + submission validator |
 | RP-F.1 bottom-filter-paper protocol pack | RP-F | EXP-009 (landed); `templates/` | S | `protocols/protocol_EXP-009.md` with one predeclared primary outcome + design placeholders |
 | RP-F.2 filter-paper feasibility pilot (TB) | RP-F | RP-F.1; apparatus + contributor | M | pilot dataset; efficacy and mechanism reported SEPARATELY; treatment-by-control-mode read |

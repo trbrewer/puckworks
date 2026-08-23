@@ -1,0 +1,57 @@
+[
+  {
+    "channel": "basket_pressure",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "separate_upstream_pressure",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "flow",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "delivered_mass",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "bed_height_or_deformation",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "first_drip_timing",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "temperature",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "turbidity_or_downstream_suspended_solids",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "retained_fines_mass",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "spatial_flow_variance",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  },
+  {
+    "channel": "local_extraction",
+    "robust_measurement_record_ids": [],
+    "robustly_covered_pair_ids": []
+  }
+]

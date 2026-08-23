@@ -1,0 +1,19 @@
+{
+  "comparability_levels": [
+    "DIRECTLY_COMPARABLE",
+    "COMPARABLE_THROUGH_DECLARED_ADAPTER",
+    "SAME_INTERVENTION_DIFFERENT_OBSERVABLE",
+    "SAME_LABEL_DIFFERENT_PHYSICAL_OR_REFERENCE_BASIS",
+    "NOT_COMPARABLE"
+  ],
+  "schema_version": "puckworks.response-atlas-export/v1",
+  "support_states": [
+    "SUPPORTED",
+    "UNSUPPORTED_RELATIONSHIP",
+    "UNSUPPORTED_FOR_CASE",
+    "OUTSIDE_VALID_RANGE",
+    "MISSING_REQUIRED_INPUT",
+    "NUMERICAL_FAILURE",
+    "NOT_EVALUATED"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "apparatus_explanation_ids": [
+    "FOSTER_FIXED_BED_MACHINE_NULL"
+  ],
+  "apparatus_gate_coverage_complete": false,
+  "applicable_gate_result_ids": [],
+  "contract_version": "rp-a-001-apparatus-gates/v1",
+  "evaluation_id": "APPARATUS_EVALUATION",
+  "failing_gate_result_ids": [],
+  "matched_scenario_ids": [],
+  "passing_gate_result_ids": [],
+  "reason_code": "NO_MATCHED_APPARATUS_COMPARATOR",
+  "status": "NOT_EVALUATED",
+  "unresolved_gate_result_ids": []
+}

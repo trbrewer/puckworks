@@ -1,0 +1,14 @@
+{
+  "execution_commit": "a8f2679985948bf82443aee30f35ff4e504fc74a",
+  "execution_tree": "0707f3b3a1bfa5b4f2887c46d40bdbf5402e101e",
+  "export_reference": "git:bc84a858a7c2933a9b24eba3b98fb280db50ccc3:docs/analysis/rp_a_001/c1_r2/atlas_export.json",
+  "export_schema": "puckworks.response-atlas-export/v4",
+  "export_sha256": "caf0c8d2152c82e498aa08172a33eed9ac494236f5816b7c314c4c8cd5b22a5b",
+  "final_head": "bc84a858a7c2933a9b24eba3b98fb280db50ccc3",
+  "final_tree": "4bfa085e71f548ed8528e9a2397fa986686f6a10",
+  "outcome": "SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED",
+  "result_commit": "326662eb6af2dc74ccfd9a795cb1ce1863cc8450",
+  "result_tree": "4cffbade03ee1bb6096465faaa8fbac01993319b",
+  "review_disposition": "SCI_MD_003_RP_A_001_C1_R2_PUCKWORKS_INDEPENDENT_EXACT_HEAD_REVIEW_CORRECTION_REQUIRED_NOT_READY_FOR_OWNER_ADJUDICATION",
+  "status": "SUPERSEDED_NOT_APPROVED"
+}

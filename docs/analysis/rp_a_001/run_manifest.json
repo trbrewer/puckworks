@@ -1,0 +1,33 @@
+{
+  "adapter_versions": {
+    "flow_area_density": "1.0.0",
+    "permeability_to_resistance": "1.0.0",
+    "pressure_drop_to_gradient": "1.0.0",
+    "scalar_darcy_flux_override": "1.0.0"
+  },
+  "case_matrix_sha256": "63a8cfe7b959840964d46fefe55f87a0ca919c1a02922b6e62926e825b362071",
+  "claim_ceiling": "MODEL_RESPONSE_COMPARISON_ONLY__PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+  "component_response_atlas_spec_sha256": "a3064d18f026bef7b54e70f825febfd7b8bb01fe5bdbaff1477435030c8b678f",
+  "deterministic_seed": 20260820,
+  "environment": {
+    "numpy": "1.26.4",
+    "python": "3.12.3"
+  },
+  "evaluation_count": 15,
+  "execution_code_commit": "2cb75c1fdd8aae34abad66e8fb1d42b0630fdaad",
+  "execution_code_tree": "66fa1f25a9302c8e4be7dba35e8b9d99f527bd78",
+  "execution_completeness": "COMPLETE_BOUNDED_PILOT",
+  "frozen_status": "FROZEN",
+  "numerical_failures": 0,
+  "programme_protocol_version": "sci-md-003-rp-a-001/v1",
+  "protocol_sha256": "f56254b255a70a846b5e8ec48d5879b49a9ac678746482eaf6cac35ba53a4f2b",
+  "registry_snapshot_sha256": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+  "repository": "https://github.com/trbrewer/puckworks.git",
+  "schema_version": "puckworks.response-atlas-export/v1",
+  "selected_components": [
+    "cameron2020.extraction_bdf",
+    "foster2025.machine_mode",
+    "wadsworth2026.inertial"
+  ],
+  "wall_time_seconds": 0.532703
+}

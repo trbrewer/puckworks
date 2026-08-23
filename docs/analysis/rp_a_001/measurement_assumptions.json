@@ -1,0 +1,15 @@
+{
+  "channels": [
+    {"channel": "basket_pressure", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "separate_upstream_pressure", "assumption_class": "OWNER_MODEL_INFORMED_STARTING_ASSUMPTION", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "flow", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "delivered_mass", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "bed_height_or_deformation", "assumption_class": "OWNER_MODEL_INFORMED_STARTING_ASSUMPTION", "measurement_uncertainty": {"resolution_m": 0.00005}},
+    {"channel": "first_drip_timing", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "temperature", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "turbidity_or_downstream_suspended_solids", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "retained_fines_mass", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "spatial_flow_variance", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"},
+    {"channel": "local_extraction", "assumption_class": "NOT_PROVIDED", "measurement_uncertainty": "NOT_PROVIDED"}
+  ]
+}

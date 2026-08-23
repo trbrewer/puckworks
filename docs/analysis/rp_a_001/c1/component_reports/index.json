@@ -1,0 +1,105 @@
+{
+  "cameron2020.extraction_bdf": {
+    "cases": [
+      {
+        "case_id": "P05_REF",
+        "darcy_velocity_m_s": 0.000526,
+        "extraction_yield_percent": 15.164596915917441,
+        "final_tds_percent": 7.5822984579587205,
+        "gs": 1.9,
+        "p_bar": 5.0,
+        "shot_duration_s": 28.474985609583804
+      },
+      {
+        "case_id": "P09_REF",
+        "darcy_velocity_m_s": 0.0009468,
+        "extraction_yield_percent": 13.728400854170774,
+        "final_tds_percent": 6.864200427085387,
+        "gs": 1.9,
+        "p_bar": 9.0,
+        "shot_duration_s": 15.81943644976878
+      },
+      {
+        "case_id": "P11_REF",
+        "darcy_velocity_m_s": 0.0011572000000000002,
+        "extraction_yield_percent": 13.216360971980073,
+        "final_tds_percent": 6.608180485990037,
+        "gs": 1.9,
+        "p_bar": 11.0,
+        "shot_duration_s": 12.943175277083546
+      },
+      {
+        "case_id": "P09_COARSE",
+        "darcy_velocity_m_s": 0.0011232000000000002,
+        "extraction_yield_percent": 12.41187306514693,
+        "final_tds_percent": 6.205936532573465,
+        "gs": 2.3,
+        "p_bar": 9.0,
+        "shot_duration_s": 13.33497367400381
+      },
+      {
+        "case_id": "P09_FINE",
+        "darcy_velocity_m_s": 0.0007956,
+        "extraction_yield_percent": 14.251441461443465,
+        "final_tds_percent": 7.125720730721732,
+        "gs": 1.5,
+        "p_bar": 9.0,
+        "shot_duration_s": 18.82584518682891
+      }
+    ],
+    "curvature": {
+      "classification": "decreasing",
+      "direction_after": null,
+      "direction_before": null,
+      "n_points": 3,
+      "rel_tolerance": 0.02,
+      "total_change": -1.9482359439373678,
+      "turning_index": null,
+      "turning_x": null,
+      "x_end": 11.0,
+      "x_start": 5.0,
+      "y_end": 13.216360971980073,
+      "y_start": 15.164596915917441,
+      "y_turning": null
+    },
+    "evidence_ceiling": "code_verification; observation operator only",
+    "grind_direction": "CAMERON_EK43_SOURCE_NATIVE_ONLY",
+    "pressure_ordering_extraction_yield": "STRICT_DECREASING",
+    "role": "DOWNSTREAM_EXTRACTION_OBSERVER",
+    "transient_flow_history": "UNSUPPORTED_RELATIONSHIP",
+    "uncertainty": "NOT_PROVIDED"
+  },
+  "foster2025.machine_mode": {
+    "case_id": "MACHINE_REF",
+    "evidence_ceiling": "source_curve_reproduction; post-fit machine case",
+    "first_drip_reason": "Saturation is native; scale-threshold first drip is a distinct measurement comparator.",
+    "first_drip_timing": "UNSUPPORTED_RELATIONSHIP",
+    "minimum_normalized_flow": 0.18085278196692967,
+    "ponding_time_s": 0.8231936302655938,
+    "pressure_ordering": "NOT_APPLICABLE_MACHINE_GENERATED",
+    "recovery_ratio": 2.5185908673918074,
+    "role": "FIXED_BED_MACHINE_AND_APPARATUS_NULL",
+    "saturation_time_s": 6.665255635789558,
+    "time_to_flow_minimum_s": 1.9945343832528546,
+    "uncertainty": "NOT_PROVIDED"
+  },
+  "wadsworth2026.inertial": {
+    "adjudicative_support": "EXCLUDED",
+    "declared_valid_range": "Fo_F regime flag; pressure-gradient range NOT_PROVIDED",
+    "evidence_ceiling": "non-adjudicative response lens",
+    "evidence_domain": "permeability validated on untamped packs; k_I ceramics-fit; tamped-coffee extrapolation",
+    "grind_direction": "NOT_ADJUDICATED_FIXED_POROSITY_RADIUS_IS_NOT_COMPLETE_GRIND",
+    "mathematical_domain_status": "EXECUTABLE_STRICT_SI_POSITIVE",
+    "primary_pressure_cases": "UNSUPPORTED_FOR_CASE_SOURCE_EVIDENCE_DOMAIN",
+    "role": "STATIC_OR_INERTIAL_HYDRAULIC_RESPONSE_LENS",
+    "timing": "UNSUPPORTED_RELATIONSHIP",
+    "worked_fo_band_exp": [
+      0.010664034183366903,
+      0.011842454499840288
+    ],
+    "worked_fo_band_zhou": [
+      0.016146380671181303,
+      0.06381975402519773
+    ]
+  }
+}

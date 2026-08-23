@@ -1150,6 +1150,67 @@ are `RP-A`…`RP-F` (distinct from the card-driven Phase 0–3 items and from PV
   different questions", public face **PV-08**) is CONDITIONAL on ≥1 robust non-obvious
   result; a manuscript is only a candidate on a novel method / important unresolved
   disagreement / independently tested discrimination. Not scheduled now.
+- **RP-A.1/RP-A.2 bounded tranche completed 2026-08-20.** The additive
+  `sci-md-003-rp-a-001/v1` protocol preserved and hash-bound the original v1
+  specification. Foster machine mode, Wadsworth inertial, and Cameron extraction
+  executed through explicit node/basis/support contracts (15 evaluations, zero
+  numerical failures). Comparisons were levels 3–4; the only numeric residual was
+  the nested Wadsworth inertial-versus-Darcy limit and closed exactly. Missing
+  measurement uncertainty yielded `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`
+  and `NO_COMPLETE_MEASUREMENT_SET`. No model winner, evidence promotion,
+  production coupled model, public article, or RP-C.1 activation followed.
+- **C1 bounded correction and fresh re-execution (2026-08-21).** The initial
+  v1 export is retained as superseded evidence. The v2 runner now derives
+  pairwise measurement records from validated response/support/eligibility and
+  uncertainty records, treats an empty eligible-pair universe non-vacuously,
+  and byte-verifies the exact downstream export. Source-domain review excluded
+  Wadsworth's 5/9/11-bar and complete-grind rows from adjudication (the inertial
+  closure is a tamped-coffee extrapolation and fixed-porosity radius is not a
+  complete grinder intervention); Foster saturation is no longer silently
+  equated to scale-threshold first drip. Nine evaluations, zero numerical
+  failures, zero eligible discrimination pairs, calculated
+  `NO_COMPLETE_MEASUREMENT_SET`, and
+  `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. Physical validation and
+  evidence levels are unchanged; no model winner, RP-C.1 activation, or public
+  article followed.
+- **C1-R1 executable-decision correction (2026-08-21).** Independent review
+  rejected the v2 export because the runner assigned its scientifically
+  plausible outcome directly and a flow eligibility record could authorize
+  unrelated channels. The v3 runner derives all four authorized outcomes
+  through tested precedence, independently recomputes decision consistency,
+  hashes the exact decision inputs, and binds eligibility to pair, scenario,
+  and channel. The complete nine-evaluation pilot was rerun; numerical
+  responses are unchanged, zero eligibility records enter discrimination, and
+  the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
+  blocked; evidence levels, physical-validation status, and production physics
+  are unchanged.
+- **C1-R2 coverage/provenance/precedence correction (2026-08-21).** Independent
+  review rejected v3 because coverage collapsed scenarios to pair IDs, adapter
+  and ordered-explanation provenance was incomplete, and successful decision
+  paths were insufficiently governed by coverage and apparatus evaluation. The
+  v4 contract uses pair/scenario/intervention/basis requirements, exact
+  measurement-option adapters, validated coverage edges, independently
+  recomputed minimum sets, and a frozen apparatus gate contract. The complete
+  nine-evaluation pilot was rerun. Four potential requirements remain, zero are
+  relevant, apparatus is `NOT_EVALUATED`, global coverage is incomplete, and
+  the method derives `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains
+  blocked; physical validation, evidence levels, and production physics are
+  unchanged.
+- **C1-R3 apparatus/question/observation-contract correction (2026-08-21).**
+  Independent review rejected v4 because its real apparatus evaluator was
+  non-adjudicative, requirement relevance was circularly derived from channel
+  eligibility, observation contracts were incomplete, and semantic validation
+  did not reconstruct every retained scientific object. The v5 runner now
+  builds a canonical scientific-question registry before requirements and
+  channel eligibility, binds complete hashed observation contracts end to end,
+  evaluates apparatus gates from validated evidence, and independently
+  reconstructs questions, requirements, contracts, eligibility, measurements,
+  coverage, minimum sets, gates, decision, and summary counts. The complete
+  nine-evaluation pilot was rerun. All four relations are independently excluded
+  by scientific role, apparatus is `NOT_EVALUATED`, global coverage is
+  incomplete, and the derived outcome remains
+  `SCI_MD_003_RP_A_001_ADDITIONAL_DATA_REQUIRED`. EWP remains blocked; physical
+  validation, evidence levels, production physics, and RP-C.1 status are unchanged.
 
 ### RP-B — Community experimental-design system
 *Extension + execution layer for **PV-15** and the `docs/data_requests/` infrastructure — NOT a second recommender.*
