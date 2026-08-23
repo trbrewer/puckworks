@@ -1,0 +1,11 @@
+{
+  "artifacts": {
+    "STAGE_A_CONTRACT.md": "4f5cb01325589d02f44bb1d12b51339e54e5f8350d17d16cc84b3c32c2126a43",
+    "angeloni_conditions.csv": "275adaae17513dc1df7fd9266940d567672bfae25c19ee3a1d24b97b00f3a393",
+    "angeloni_inventories_long.csv": "618236827430ecf53acc3c2bfa774b1de09312496cf10fd046c84ec40e46d94c",
+    "angeloni_targets_long.csv": "f3282db7e86a9aff1fce04e71c65beb430925ca515d5a898339e2e379844d1c5",
+    "data_contract.json": "767e93731798e81468d2a5e07f17a7b3f760ed2f61cc3a3999ed53f8f902940b"
+  },
+  "deterministic": true,
+  "schema_version": "puckworks.angeloni2023-multispecies/v1"
+}
