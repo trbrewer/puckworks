@@ -1,0 +1,187 @@
+{
+  "additivity_double_counting_groups": {
+    "CQA": [
+      "3CQA",
+      "5CQA",
+      "3_5diCQA",
+      "totCQA"
+    ],
+    "OA": [
+      "TA",
+      "AA",
+      "CA",
+      "totOA"
+    ]
+  },
+  "authorization": "SCI-MD-004-STAGE-A-OWNER-AUTHORIZATION-MULTISPECIES-DATA-CONTRACT-ANGELONI-PROTECTED-EXTERNAL-ENDPOINT-HOLDOUT-AND-EXACT-ONE-SPECIES-REDUCTION-DESIGN-2026-08-23",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claim_ceiling": "SCI-MD-004 may establish software verification of an indexed passive-species extraction implementation and may test cup-level endpoint predictions conditional on measured roast-and-ground species inventories and the exact predeclared hydraulic/scenario inputs. It cannot, from the Angeloni endpoint data alone, validate internal transient concentration fields, spatial species distributions, thermal physics, lipid transport, reaction chemistry, bean/roast composition prediction, taste, or unrestricted transfer across coffees, grinders, baskets, machines, and recipes. Physical validation of the general Espresso Whole-Pull solver remains NOT_ESTABLISHED unless and until a later owner decision changes that claim ceiling on the basis of appropriate evidence.",
+  "classification": {
+    "all_66_beverage_rows": "PROTECTED_TARGET_SIDE_DATA",
+    "conditions_and_inventories": "ALLOWED_INPUT_SIDE_DATA"
+  },
+  "deterministic_sort_order": {
+    "conditions": "sample_id",
+    "inventories": "variety,species_id",
+    "targets": "sample_id,observable_id,source_species_code"
+  },
+  "forbidden_derivations": [
+    "bed-volume inventory without dry bulk density",
+    "mass fraction cumulativeTds from total solids",
+    "prediction",
+    "model-versus-target score",
+    "holdout parameterization",
+    "fabricated time histories"
+  ],
+  "holdout_status": "PROTECTED_EXTERNAL_NO_RETUNING_ENDPOINT_HOLDOUT",
+  "mass_and_volume_bases": {
+    "beverage": "nominal mass; not volume",
+    "density_assumption": null,
+    "dose": "dry coffee mass"
+  },
+  "missing_value_policy": "JSON null/empty CSV cell; never zero imputation",
+  "observable_registry": {
+    "aggregate": [
+      "total_solids"
+    ],
+    "deferred": [
+      "total_lipids"
+    ],
+    "primary": [
+      "caffeine_beverage_concentration",
+      "trigonelline_beverage_concentration"
+    ]
+  },
+  "permitted_derivations": [
+    "declared SI conversions",
+    "aggregate identity verification",
+    "future nominal-yield derived mass with explicit density and propagated uncertainty"
+  ],
+  "preexisting_exposure": true,
+  "schema_version": "puckworks.angeloni2023-multispecies/v1",
+  "source_dataset_identifiers": [
+    "angeloni2023/inventories",
+    "angeloni2023/bioactives",
+    "angeloni2023/total_solids",
+    "angeloni2023/lipids"
+  ],
+  "source_files": [
+    {
+      "path": "puckworks/data/angeloni2023/inventories.csv",
+      "sha256": "6e1c8116ee3841380b3623e523c91ea2dc6fb35b749342f4719394ec38776a9c"
+    },
+    {
+      "path": "puckworks/data/angeloni2023/bioactives.csv",
+      "sha256": "780ba72d13f87f695cd41c16a18b003871f87ed80149e9c3bf0b76d2d2f2866a"
+    },
+    {
+      "path": "puckworks/data/angeloni2023/total_solids.csv",
+      "sha256": "a88af06a7139178905da8d8a44d064b0bb7a9f75ea4f5cd3601749661f08d683"
+    },
+    {
+      "path": "puckworks/data/angeloni2023/lipids.csv",
+      "sha256": "cd01d45822d6176208c5577aaca58a394878d823368bbc5db23ab6411844c5ea"
+    },
+    {
+      "path": "puckworks/data/angeloni2023/MANIFEST_UNCERTAINTY.md",
+      "sha256": "fd0dbcdd63d4fa024f412dabbccedd99bacc596b401520342d86b1d6cbc25fcb"
+    }
+  ],
+  "source_rights_provenance": [
+    "docs/cards/angeloni2023.md",
+    "puckworks/data/MANIFEST.csv",
+    "puckworks/data/angeloni2023/MANIFEST_UNCERTAINTY.md"
+  ],
+  "species_registry": [
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "3CQA",
+      "species_id": "3_caffeoylquinic_acid"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "3_5diCQA",
+      "species_id": "3_5_dicaffeoylquinic_acid"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "5CQA",
+      "species_id": "5_caffeoylquinic_acid"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "AA",
+      "species_id": "acetic_acid"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "CA",
+      "species_id": "citric_acid"
+    },
+    {
+      "role": "PRIMARY_ADJUDICATIVE_SPECIES",
+      "source_code": "CF",
+      "species_id": "caffeine"
+    },
+    {
+      "role": "SECONDARY_ADAPTER_READY_NONADJUDICATIVE",
+      "source_code": "CQA",
+      "species_id": "total_chlorogenic_acids"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "FA",
+      "species_id": "ferulic_acid"
+    },
+    {
+      "role": "DEFERRED_MULTIPHASE_CHANNEL",
+      "source_code": "LP",
+      "species_id": "total_lipids"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "TA",
+      "species_id": "tartaric_acid"
+    },
+    {
+      "role": "PRIMARY_ADJUDICATIVE_SPECIES",
+      "source_code": "TR",
+      "species_id": "trigonelline"
+    },
+    {
+      "role": "SECONDARY_ADAPTER_READY_NONADJUDICATIVE",
+      "source_code": "totCQA",
+      "species_id": "total_chlorogenic_acids"
+    },
+    {
+      "role": "SOURCE_PRESERVED_DEFERRED",
+      "source_code": "totOA",
+      "species_id": "total_organic_acids"
+    },
+    {
+      "chemical_identity": false,
+      "role": "STRUCTURAL_BALANCE_SPECIES",
+      "source_code": null,
+      "species_id": "residual_extractables"
+    },
+    {
+      "chemical_species": false,
+      "role": "AGGREGATE_DIAGNOSTIC",
+      "source_code": null,
+      "species_id": "total_solids"
+    }
+  ],
+  "target_bundle_sha256": "f3282db7e86a9aff1fce04e71c65beb430925ca515d5a898339e2e379844d1c5",
+  "uncertainty_semantics": {
+    "analytes": "VARIETY_RANGE_ONLY_NOT_CONDITION_SPECIFIC",
+    "nominal_replicates": "almost in duplicate (n=2), qualified",
+    "total_solids_lipids": "condition-level RSD; reconstructed SD permitted",
+    "variance_floor": "POSITIVE_FLOOR_MUST_BE_FROZEN_BEFORE_WEIGHTING"
+  },
+  "units": {
+    "inventory": "kg/kg dry coffee",
+    "pressure": "Pa",
+    "targets": "kg/m^3 beverage volume",
+    "temperature": "K"
+  }
+}
