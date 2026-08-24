@@ -1,0 +1,20 @@
+{
+  "canary_disclosures_visible": 0,
+  "cases": [
+    "assertion_failure",
+    "dataframe_assertion_diff",
+    "direct_stdout",
+    "exception",
+    "logging",
+    "parametrized_node_id",
+    "stderr",
+    "subprocess_output",
+    "temporary_filename",
+    "warning"
+  ],
+  "framework_output_control": "PASS",
+  "result": "SILENT_QA_HARNESS_SYNTHETIC_CANARY_PASS",
+  "schema_version": "puckworks.sci-md-004-stage-e0-r2-canary/v1",
+  "target_value_comparison_performed": false,
+  "tests": "12 passed"
+}

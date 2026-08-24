@@ -1,0 +1,8 @@
+{
+  "bundle_manifest_sha256_r1": "112f8b3b943a5cea3399746fde512048e3898f99c8079433dae86bd142db8709",
+  "bundle_manifest_sha256_r2": "112f8b3b943a5cea3399746fde512048e3898f99c8079433dae86bd142db8709",
+  "r1_candidate_commit": "a80294ea7daede6b3ae1cc87aa7d2935ff6a9cb1",
+  "r1_scientific_subtree_git_tree": "beee8119613da8fa36da3213ffee30a2c706cbcb",
+  "r2_scientific_subtree_git_tree": "beee8119613da8fa36da3213ffee30a2c706cbcb",
+  "scientific_subtree_byte_identical": true
+}

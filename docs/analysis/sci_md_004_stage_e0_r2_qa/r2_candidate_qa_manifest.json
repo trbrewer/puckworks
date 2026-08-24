@@ -1,0 +1,23 @@
+{
+  "bundle_manifest_sha256": "112f8b3b943a5cea3399746fde512048e3898f99c8079433dae86bd142db8709",
+  "change_scope": "QA_ONLY_NO_SCIENTIFIC_SUBTREE_CHANGE",
+  "harness_sha256": "ec370021ba4c4170bb9f3139feb291393301bd9dbb5dbe71f98a741460e9f632",
+  "marked_test_manifest_sha256": "2850b1682a40692890c87930ede7a4aed65f64f8ad86364bb4f6d55713225dfa",
+  "phase1": {
+    "focused_passed": 76,
+    "protected_tests_deselected": 468,
+    "semantic_open_audit_sha256": "9011ce23bb14963687210faa8b3b430385599842853ef00832f566bdf902b960",
+    "semantic_protected_paths_opened": 0,
+    "skipped": 59,
+    "target_blind_full_passed": 3782
+  },
+  "r1_parent_commit": "a80294ea7daede6b3ae1cc87aa7d2935ff6a9cb1",
+  "r1_parent_tree": "c4626b90bd7ff3fc901eba09887df61ae3aa2af5",
+  "r1_scientific_subtree_git_tree": "beee8119613da8fa36da3213ffee30a2c706cbcb",
+  "r2_scientific_subtree_git_tree": "beee8119613da8fa36da3213ffee30a2c706cbcb",
+  "schema_version": "puckworks.sci-md-004-stage-e0-r2-qa-candidate/v1",
+  "scientific_subtree_byte_identical": true,
+  "synthetic_canary_result": "SILENT_QA_HARNESS_SYNTHETIC_CANARY_PASS",
+  "synthetic_canary_result_sha256": "b9980d9e39e0815a658c88c3df87a4a85d2b1d84354e4f23ed9c14896010a5e5",
+  "target_value_comparison_performed": false
+}
