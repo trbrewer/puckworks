@@ -18,7 +18,6 @@ import ast
 import copy
 import json
 import pathlib
-import subprocess
 import sys
 import tempfile
 

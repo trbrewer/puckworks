@@ -2,7 +2,7 @@
   "coverage_violations": [],
   "generation_basis": "STATIC_AST_NO_TEST_IMPORT_NO_API_EXECUTION",
   "schema_version": "puckworks.protected-target-test-manifest/v2",
-  "source_selector_sha256": "f4f47315ab07deda4b88b8929c71567b5aefb372333164f238666e6058acdd29",
+  "source_selector_sha256": "e4433714e3fdf8ef55755db50b844fcd042a533a7f02f7bbe444756242a613e6",
   "static_target_reference_coverage": [
     {
       "module_path": "tests/test_data_loaders.py",
@@ -37,22 +37,22 @@
     {
       "module_path": "tests/test_paper_a_source_observations.py",
       "reference_kind": "call:ORACLE.read_source_records",
-      "source_line_number": 96
+      "source_line_number": 95
     },
     {
       "module_path": "tests/test_paper_a_source_observations.py",
       "reference_kind": "call:ORACLE.read_source_records",
-      "source_line_number": 127
+      "source_line_number": 126
     },
     {
       "module_path": "tests/test_paper_a_source_observations.py",
       "reference_kind": "call:ORACLE.read_source_records",
-      "source_line_number": 137
+      "source_line_number": 136
     },
     {
       "module_path": "tests/test_paper_a_source_observations.py",
       "reference_kind": "call:angeloni_bioactives",
-      "source_line_number": 186
+      "source_line_number": 185
     },
     {
       "module_path": "tests/test_paper_a_source_schema.py",
