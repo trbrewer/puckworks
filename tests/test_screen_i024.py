@@ -21,6 +21,8 @@ import pathlib
 import numpy as np
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 from puckworks.analysis import screen_i024_common_state as S
 
 REPO = pathlib.Path(__file__).resolve().parents[1]

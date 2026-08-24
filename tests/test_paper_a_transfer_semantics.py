@@ -26,6 +26,8 @@ import sys
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 REPO = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))

@@ -15,14 +15,19 @@ CATEGORIES = (
 )
 MODULE_CATEGORIES = {
     "tests/test_data_loaders.py": ("ANGELONI_BIOACTIVES", "ANGELONI_TOTAL_SOLIDS", "ANGELONI_LIPIDS"),
+    "tests/test_paper_a.py": CATEGORIES,
+    "tests/test_paper_a_empirical_benchmarks.py": ("ANGELONI_BIOACTIVES",),
+    "tests/test_paper_a_information_parity.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_paper_a_model_contract.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_paper_a_source_observations.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_paper_a_source_schema.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_paper_a_transfer_contract.py": ("ANGELONI_BIOACTIVES",),
+    "tests/test_paper_a_transfer_semantics.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_sci_md_004_silent_qa.py": ("ANGELONI_BIOACTIVES",),
     "tests/test_sci_md_004_stage_a.py": CATEGORIES,
     "tests/test_sci_md_004_stage_e0_r1.py": ("ANGELONI_STAGE_A_TARGETS",),
-    "tests/test_screen_i010.py": ("ANGELONI_TOTAL_SOLIDS",),
+    "tests/test_screen_i010.py": ("ANGELONI_BIOACTIVES", "ANGELONI_TOTAL_SOLIDS"),
+    "tests/test_screen_i024.py": ("ANGELONI_BIOACTIVES", "ANGELONI_TOTAL_SOLIDS"),
 }
 TARGET_CALLS = {
     "angeloni_bioactives", "angeloni_total_solids", "angeloni_lipids",

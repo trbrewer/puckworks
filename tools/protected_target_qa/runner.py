@@ -133,10 +133,22 @@ class ProtectedQAPlugin:
         if opaque in self.warned:
             output_kinds.add("WARNING")
         original_failed = report.failed
+        warning_failure = bool(
+            call.excinfo is not None and issubclass(call.excinfo.type, Warning)
+        )
+        access_failure = bool(
+            call.excinfo is not None
+            and call.excinfo.type.__name__ == "ProtectedTargetDenied"
+        )
+        if warning_failure:
+            output_kinds.add("WARNING")
         if output_kinds and report.when in {"setup", "call", "teardown"}:
             report.outcome = "failed"
         if report.failed:
-            failure_class = "PROTECTED_TARGET_TEST_NOT_SILENT" if output_kinds else "ASSERTION_OR_EXCEPTION"
+            failure_class = (
+                "PROTECTED_TARGET_ACCESS_DENIED" if access_failure else
+                ("PROTECTED_TARGET_TEST_NOT_SILENT" if output_kinds else "ASSERTION_OR_EXCEPTION")
+            )
             report.longrepr = (
                 f"{FAILURE_TEXT}\nOPAQUE_TEST_ID={opaque}\n"
                 f"FAILURE_PHASE={report.when}\nGENERIC_FAILURE_CLASS={failure_class}\n"
@@ -150,8 +162,10 @@ class ProtectedQAPlugin:
                 "phase": report.when,
                 "status": "FAIL" if report.failed else ("SKIP" if report.skipped else "PASS"),
                 "generic_failure_class": (
-                    "PROTECTED_TARGET_TEST_NOT_SILENT" if output_kinds else
+                    "PROTECTED_TARGET_ACCESS_DENIED" if access_failure else
+                    ("PROTECTED_TARGET_TEST_NOT_SILENT" if output_kinds else
                     ("ASSERTION_OR_EXCEPTION" if original_failed else None)
+                    )
                 ),
             })
 

@@ -15,6 +15,8 @@ import statistics
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 from puckworks.analysis import screen_i010_closure_portability as S
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
