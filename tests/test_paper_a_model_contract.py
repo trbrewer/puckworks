@@ -22,6 +22,8 @@ import sys
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 REPO = pathlib.Path(__file__).resolve().parents[1]
 MANUSCRIPT = REPO / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md"
 DRAFT = REPO / "docs" / "PAPER_A_DRAFT.md"
@@ -469,10 +471,16 @@ def test_claim_binding_audit_is_not_stale():
 
 def test_claim_binding_audit_headline_matches_the_live_audits():
     """The document's headline counts must be the ones the coverage modules produce now."""
+    import warnings
+
     sys.path.insert(0, str(REPO))
     from tools.claim_binding_audit import coverage  # noqa: PLC0415
 
-    cov = coverage()
+    # Some optional coverage backends emit import-time warnings under pytest's global warning
+    # filter. They are not part of this claim-count contract and protected tests must stay silent.
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        cov = coverage()
     text = (REPO / "docs" / "CLAIM_BINDING_AUDIT.md").read_text()
     p1 = cov["papers"]["Paper 1"]
     assert f"**{p1['claims']}**" in text

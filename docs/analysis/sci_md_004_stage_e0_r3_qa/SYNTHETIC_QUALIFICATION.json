@@ -1,0 +1,28 @@
+{
+  "collection_canaries": [
+    "module_level_file_access",
+    "decorator_time_file_access",
+    "parametrization_time_file_access",
+    "pytest_generate_tests_access",
+    "plugin_collection_hook_access",
+    "static_manifest_generator_access"
+  ],
+  "collection_canary_disclosures_visible": 0,
+  "collection_result": "COLLECTION_PROVENANCE_SYNTHETIC_CANARY_PASS",
+  "disclosure_canaries": [
+    "stdout",
+    "stderr",
+    "logging",
+    "warning",
+    "assertion",
+    "exception",
+    "dataframe_diff",
+    "parameter_id",
+    "temporary_filename",
+    "subprocess_output",
+    "junit"
+  ],
+  "disclosure_canary_values_visible": 0,
+  "silent_result": "SILENT_QA_HARNESS_SYNTHETIC_CANARY_PASS",
+  "tests": "16 passed"
+}

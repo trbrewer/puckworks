@@ -157,7 +157,7 @@ def _string_spans(src: str):
 
 
 def _offending_lines(path: Path, pattern: str, lookback: int = 1):
-    """Flag a match unless the SENTENCE containing it withdraws or negates the term.
+    r"""Flag a match unless the SENTENCE containing it withdraws or negates the term.
 
     Two scoping bugs were found here by mutation-testing this guard against itself, and both made
     it weaker than it looked:

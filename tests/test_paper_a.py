@@ -6,6 +6,10 @@ integration time when the manuscript claims a fixed beverage mass.
 """
 import inspect
 
+import pytest
+
+pytestmark = pytest.mark.protected_target_integrity
+
 from puckworks.validation.slow import angeloni_bracket as ab
 
 
@@ -386,7 +390,8 @@ def test_paper_a_bundle_named_headline_and_cited_blocks():
     if not os.path.exists(p):
         import pytest
         pytest.skip("Paper A bundle not computed")
-    b = json.load(open(p))
+    with open(p, encoding="utf-8") as handle:
+        b = json.load(handle)
     for key in ("per_condition", "flow_map_refinement", "flow_map_sensitivity_transfer",
                 "endpoint_mass_sensitivity", "transfer_skill", "external_waszkiewicz"):
         assert key in b, f"cited bundle block missing: {key}"

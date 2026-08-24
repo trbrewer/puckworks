@@ -87,19 +87,8 @@ jobs:
       - name: offline suite on the declared minimum dependencies
         run: pytest -q -m "not slow and not live and not gpu and not external_data"
 
-  quality:
-    # P1.3 quality ratchet — Stage-1 mypy on the core public/release/control modules and a
-    # coverage FLOOR on those modules. Not a required check until the maintainer opts in.
-    #
-    # timeout raised 15 -> 25 on 2026-07-28. The job had been hitting the 15-minute wall on EVERY
-    # run, including on main at 352dacd (15:16) — so it was reporting "cancelled" regardless of
-    # whether the code was good, and a check that always times out carries no signal. The suite is
-    # now ~2100 tests and this job runs all the non-slow ones under coverage instrumentation.
-    #
-    # The budget is the symptom, not the disease: the coverage FLOOR reports on seven modules, but
-    # the run traces all of `puckworks` to get there. Narrowing the traced scope (or measuring the
-    # floor from a targeted subset) would cut this materially and is worth doing separately —
-    # raising the ceiling here only restores the signal.
+  quality-mypy:
+    # Keep static analysis independently bounded so it cannot consume the coverage budget.
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -112,7 +101,26 @@ jobs:
       - run: pip install -e ".[dev]"
       - name: mypy (core modules, Stage 1)
         run: mypy
+
+  quality:
+    # P1.3 quality ratchet — coverage FLOOR on the core public/release/control modules.
+    # Mypy runs as the independently bounded quality-mypy job above.
+    # The complete non-slow suite remains selected, but coverage instrumentation is deliberately
+    # scoped to the same seven critical modules governed by the floor. This restores CI signal
+    # without weakening test selection, the 70% floor, mypy, or the existing timeout.
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
       - name: coverage floor on critical modules (baseline 70%; ratchet up over time)
         run: |
-          pytest -q -m "not slow and not live and not gpu and not external_data" --cov=puckworks --cov-report=
+          # Python 3.12 sys.monitoring preserves coverage semantics with lower tracing overhead.
+          COVERAGE_CORE=sysmon coverage run --include="puckworks/validate.py,puckworks/statusdoc.py,puckworks/gate_runner.py,puckworks/registry.py,puckworks/release.py,puckworks/paper3/archive.py,puckworks/paper3/evidence_graph.py" \
+            -m pytest -q -m "not slow and not live and not gpu and not external_data"
           coverage report --fail-under=70 --include="puckworks/validate.py,puckworks/statusdoc.py,puckworks/gate_runner.py,puckworks/registry.py,puckworks/release.py,puckworks/paper3/archive.py,puckworks/paper3/evidence_graph.py"

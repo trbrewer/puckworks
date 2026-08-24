@@ -4,8 +4,11 @@ These assert structure and a few card-anchored values; they are NOT validation
 gates (no model runs here).
 """
 import numpy as np
+import pytest
 
 from puckworks import data as pwdata
+
+pytestmark = pytest.mark.protected_target_integrity
 
 
 def test_waszkiewicz_traces_11_pressures():
@@ -399,7 +402,8 @@ def test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries():
     import csv
     from pathlib import Path
     p = Path(__file__).resolve().parent.parent / "puckworks/data/schmieder2023/cup_masses.csv"
-    rows = list(csv.DictReader(open(p)))
+    with p.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
     def complete(r):
         return (r.get("grind_level", "").strip() and r.get("mass_in_cup", "").strip()
                 and r.get("conc_in_cup", "").strip())

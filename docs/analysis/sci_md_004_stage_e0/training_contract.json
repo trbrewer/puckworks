@@ -1,0 +1,88 @@
+{
+  "authorization": "SCI-MD-004-STAGE-E0-R1-OWNER-ADJUDICATION-PRESERVE-FAILED-ACCESS-INCIDENT-CLEAN-RESTART-TARGET-ACCESS-TAXONOMY-NO-HOLDOUT-PARAMETERIZATION-CONDITIONAL-CASE-FREEZE-AND-INDEPENDENT-PRE-SCORING-AUDIT-2026-08-24",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claim_ceiling": [
+    "TRAINING FIT IS NOT VALIDATION",
+    "BLOCKED TRAINING PREDICTION IS NOT AN INDEPENDENT HOLDOUT",
+    "ANGELONI REMAINS THE PROTECTED EXTERNAL ENDPOINT HOLDOUT"
+  ],
+  "failed_v1_result_preserved": "SCI_MD_004_STAGE_E0_UNAUTHORIZED_HOLDOUT_ACCESS",
+  "fraction_coordinate": {
+    "lower": "midpoint - fraction_mass/2",
+    "printed_precision_tolerance_kg": 5e-08,
+    "source_meaning": "MIDPOINT_PER_SCHMIEDER_EQUATION_1",
+    "unmeasured_fraction_policy": "PRESERVE_GAPS_NO_INTERPOLATED_OBSERVATIONS",
+    "upper": "midpoint + fraction_mass/2"
+  },
+  "inventory_role": "TRAINING_DATA_ESTIMATE_NOT_DIRECT_INITIAL_INVENTORY",
+  "maille_role": "NONADJUDICATIVE_EXTERNAL_PLAUSIBILITY_CHECK",
+  "missing_value_policy": "EMPTY_RETAINED_NO_IMPUTATION",
+  "pannusch_lineage": "SAME_SCHMIEDER_LINEAGE_NOT_INDEPENDENT",
+  "pannusch_reconstruction_role": "ROUND_TRIP_UNIT_AGGREGATION_ONLY_EXCLUDED_FROM_OBJECTIVE",
+  "primary_fit_observation": "CONDITION_FRACTION_REPLICATE_MEAN",
+  "primary_training_evidence": "SCHMIEDER_RAW_FRACTIONS",
+  "raw_replicates_role": "SECONDARY_DIAGNOSTIC",
+  "rights": {
+    "maille": "White Rose eTheses table transcription; source PDF not redistributed",
+    "pannusch": "CC-BY-NC-3.0 Mendeley 10.17632/y2tz67f6ry.1 / paper CC-BY",
+    "schmieder": "CC-BY DOI 10.3390/foods12152871"
+  },
+  "schema_version": "puckworks.sci-md-004-stage-e0-r1-training/v1",
+  "sources": [
+    {
+      "path": "puckworks/data/schmieder2023/raw_fractions.csv",
+      "sha256": "f3511dd46648fb34962c9d774cc901fa65acd7f0caaf130f143e4f04dbb0915f"
+    },
+    {
+      "path": "puckworks/data/schmieder2023/kinetics_fit_params_avg.csv",
+      "sha256": "00ff8c8344e9690274d2a6e7ec3f3d63b092d8b233d5f5f381301af09816b1d6"
+    },
+    {
+      "path": "puckworks/data/schmieder2023/source/TableS1_ExperimentRawData.xlsx",
+      "sha256": "669de01944a5a79e007461acc81013e1fa6f64f7b140488583624731917a130c"
+    },
+    {
+      "path": "puckworks/data/schmieder2023/source/foods-12-02871.xml",
+      "sha256": "c6088a6a169a19d8f4a86324f2ea0bc113e5d3573c96fb6f9ef656d909cbbd21"
+    },
+    {
+      "path": "puckworks/data/schmieder2023/PROVENANCE.md",
+      "sha256": "5ff593f0ecec62cd3156118b020697e115a6528d2e26b31300f6938e5fe269cf"
+    },
+    {
+      "path": "puckworks/data/pannusch2024/table2_fitted_params.csv",
+      "sha256": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409"
+    },
+    {
+      "path": "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv",
+      "sha256": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+    },
+    {
+      "path": "puckworks/data/pannusch2024/experimental_kinetics.csv",
+      "sha256": "735c8aa86e06ff1c46f13335924d91636e77da161962a1b7e9394421dbdd28ca"
+    },
+    {
+      "path": "puckworks/data/pannusch2024/PROVENANCE.md",
+      "sha256": "701d85305fadd078ed1bf355cfaf7b3cbf4923d53977ac360219d1fabaad754b"
+    },
+    {
+      "path": "puckworks/data/maille2024/Table 6.4 - Model parameter values with 95pct CI R2 and MPE for caffeine and 3-CQA extraction kinetic models.csv",
+      "sha256": "1c1e52f487a54f749c86942fdf94518b6b52fd5e2a01e3a5e38bed621e87ef7f"
+    },
+    {
+      "path": "puckworks/data/maille2024/Table 6.2 - Variable values for estimating Bim and Fom.csv",
+      "sha256": "f83cf455fa08e85daf418f187446f066e70a890b39f8e67c46f4f2d11fb8d4ab"
+    },
+    {
+      "path": "puckworks/data/maille2024/PROVENANCE.md",
+      "sha256": "710397a165a1a3ae05004a449ca9a8ae3b2a9ed36be4ec0cc54eb449cb39172c"
+    }
+  ],
+  "units": {
+    "flow": "m3/s",
+    "fraction_concentration": "kg species/kg beverage",
+    "inventory": "kg species/kg dry coffee",
+    "mass": "kg",
+    "temperature": "K"
+  }
+}

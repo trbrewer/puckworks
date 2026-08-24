@@ -18,11 +18,12 @@ import ast
 import copy
 import json
 import pathlib
-import subprocess
 import sys
 import tempfile
 
 import pytest
+
+pytestmark = pytest.mark.protected_target_integrity
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
@@ -59,10 +60,11 @@ def _mutated_source(mutate) -> pathlib.Path:
 
 
 def _drop_column(name: str):
-    _lines, index, header = _source_lines()
-    position = header.index(name)
-
     def mutate(lines):
+        # Collection purity: resolve source-dependent structure only when the marked test calls
+        # the mutation, never while pytest evaluates the parametrization decorator.
+        _source, index, header = _source_lines()
+        position = header.index(name)
         for i in range(index, len(lines)):
             if not lines[i].strip():
                 continue
@@ -74,10 +76,10 @@ def _drop_column(name: str):
 
 
 def _set_cell(column: str, value: str, sample: str = "A12"):
-    _lines, index, header = _source_lines()
-    position = header.index(column)
-
     def mutate(lines):
+        # As above, keep target structure out of collection and inside item execution.
+        _source, index, header = _source_lines()
+        position = header.index(column)
         for i in range(index + 1, len(lines)):
             if lines[i].startswith(sample + ","):
                 cells = lines[i].split(",")
@@ -435,9 +437,9 @@ def test_has_exact_audit_is_false_rather_than_raising_on_a_malformed_list():
 
 # ── the whole chain, on the committed tree ──────────────────────────────────────────────────
 def test_the_artefact_checker_passes_on_the_committed_tree():
-    result = subprocess.run([sys.executable, "tools/paper_a_transfer_artifacts.py", "--check"],
-                            cwd=REPO, capture_output=True, text=True)
-    assert result.returncode == 0, result.stderr or result.stdout
+    from tools import paper_a_transfer_artifacts as artifacts
+
+    assert artifacts.check() == []
 
 
 def test_the_checker_reports_a_named_problem_rather_than_a_traceback(monkeypatch):

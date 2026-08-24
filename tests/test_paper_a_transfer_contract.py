@@ -19,6 +19,8 @@ import sys
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 REPO = pathlib.Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
@@ -372,9 +374,9 @@ def test_declaring_refitting_inside_resampling_is_rejected():
 
 # ── the checker actually runs (round-8: no contract may be untested at the CLI) ─────────────
 def test_transfer_artifact_check_cli_passes():
-    r = subprocess.run([sys.executable, "tools/paper_a_transfer_artifacts.py", "--check"],
-                       cwd=REPO, capture_output=True, text=True)
-    assert r.returncode == 0, r.stderr or r.stdout
+    from tools import paper_a_transfer_artifacts as artifacts
+
+    assert artifacts.check() == []
 
 
 def test_transfer_text_check_cli_passes():

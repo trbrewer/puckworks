@@ -5,6 +5,11 @@ typed contracts; each published model is a component with provenance,
 assumptions, validity range, and validation gates. A simulation is a
 configuration.
 
+Scientific-development governance follows
+`docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md`. Controls must remain
+proportional to the declared governance class; stricter controls require an
+explicit owner exception tied to a named risk.
+
 ## Read first, always
 - `docs/ONBOARDING.md` — session entry point (read order, state-verification,
   standing caveats).

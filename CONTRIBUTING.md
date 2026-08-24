@@ -8,6 +8,11 @@ Participation is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). To repor
 propose a feature, open an issue (the **Bug report** / **Feature request** forms guide you); for a
 security problem follow [`SECURITY.md`](SECURITY.md) — never a public issue.
 
+Scientific-development governance follows
+[`docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md`](docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md).
+Controls must remain proportional to the declared governance class; stricter controls require an
+explicit owner exception tied to a named risk.
+
 ## Setup
 
 ```

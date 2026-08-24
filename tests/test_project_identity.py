@@ -21,10 +21,15 @@ _THIS = Path(__file__).name
 
 
 def _tracked_text_files():
+    from tools.protected_target_qa.audit import PROTECTED
+
+    protected = {path.resolve() for path in PROTECTED.values()}
     files = subprocess.check_output(["git", "-C", str(_ROOT), "ls-files"], text=True).splitlines()
     out = []
     for f in files:
         p = _ROOT / f
+        if p.resolve() in protected:
+            continue
         try:
             raw = p.read_bytes()
         except OSError:

@@ -15,6 +15,8 @@ import statistics
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 from puckworks.analysis import screen_i010_closure_portability as S
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
@@ -68,6 +70,7 @@ def test_bioactive_band_is_the_manifest_cell_not_an_invention():
     assert S.BIOACTIVE_RSD_BAND_PCT == (0.3, 19.7)
 
 
+@pytest.mark.protected_target_integrity
 def test_total_solids_authority_is_the_measured_per_condition_column():
     from puckworks import data as d
     shots = S._held_out_shots()

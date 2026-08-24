@@ -26,8 +26,25 @@ BUNDLE = REPO / "docs/insights/screens/I-045"
 
 
 @pytest.fixture(scope="module")
-def result():
+def result(_exclude_protected_targets_from_repository_scan):
     return S.screen()
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _exclude_protected_targets_from_repository_scan():
+    """The I-045 text inventory has no reason to inspect protected holdout artifacts."""
+    from tools.protected_target_qa.audit import PROTECTED
+
+    original = S._files
+    protected = {path.resolve() for path in PROTECTED.values()}
+
+    def target_blind_files():
+        yield from ((path, relative) for path, relative in original()
+                    if path.resolve() not in protected)
+
+    S._files = target_blind_files
+    yield
+    S._files = original
 
 
 # --------------------------------------------------------------------------------------------

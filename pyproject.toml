@@ -53,6 +53,7 @@ ignore = ["F841"]
 [tool.pytest.ini_options]
 # WP5: CI lanes select DIFFERENT marked sets (quick-pr excludes these; slow-science runs slow).
 markers = [
+    "protected_target_integrity: segregated post-freeze QA that may read protected target bytes",
     "slow: science-heavy test (>~2 s); excluded from quick-pr, run by slow-science",
     "live: hits a live external service (bounded, secret-gated); never in quick-pr",
     "release: release-build / archive verification",

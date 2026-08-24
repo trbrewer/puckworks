@@ -1,0 +1,18 @@
+{
+  "attempted_access_mode": "r",
+  "call_stack_sha256": "5c0d08f88521a3a49d781613988c270db4799c62ebda87e1ead4dadcd25d9c53",
+  "candidate_commit": "f42cf1ea15f8a6e8e5a744c94861b7d36b36c107",
+  "candidate_tree": "db72471f15730c31b883f5c0e089935a0dc219c7",
+  "classification": "PARAMETRIZATION_DURING_COLLECTION",
+  "collector_filename": "tests/test_paper_a_source_observations.py",
+  "opaque_callsite_id": "CPO-001",
+  "protected_artifact_category": "ANGELONI_BIOACTIVES",
+  "pytest_phase": "collection",
+  "python_function": "_source_lines",
+  "python_module": "test_paper_a_source_observations",
+  "source_filename": "tests/test_paper_a_source_observations.py",
+  "source_line_number": 46,
+  "static_node_id": null,
+  "target_content_returned": false,
+  "target_row_or_value_recorded": false
+}
