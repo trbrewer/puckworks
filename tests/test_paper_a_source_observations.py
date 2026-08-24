@@ -438,9 +438,9 @@ def test_has_exact_audit_is_false_rather_than_raising_on_a_malformed_list():
 
 # ── the whole chain, on the committed tree ──────────────────────────────────────────────────
 def test_the_artefact_checker_passes_on_the_committed_tree():
-    result = subprocess.run([sys.executable, "tools/paper_a_transfer_artifacts.py", "--check"],
-                            cwd=REPO, capture_output=True, text=True)
-    assert result.returncode == 0, result.stderr or result.stdout
+    from tools import paper_a_transfer_artifacts as artifacts
+
+    assert artifacts.check() == []
 
 
 def test_the_checker_reports_a_named_problem_rather_than_a_traceback(monkeypatch):
