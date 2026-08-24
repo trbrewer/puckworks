@@ -11,6 +11,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 CANARY = "ZXQ_STAGE_E0_R3_CANARY_86420_0.271828182845904"
+pytestmark = pytest.mark.slow
 
 
 def _manifest(path: Path) -> Path:
