@@ -1,171 +1,2799 @@
 {
-  "generation_basis": "STATIC_SOURCE_PATH_LINE_FUNCTION_NAME_NO_PARAMETER_REPR",
-  "opaque_test_mapping": {
-    "tests/test_data_loaders.py::test_angeloni2023_66shot_intake": "PTI-026",
-    "tests/test_data_loaders.py::test_angeloni2023_inventories": "PTI-025",
-    "tests/test_data_loaders.py::test_bruno_roasted_composition": "PTI-029",
-    "tests/test_data_loaders.py::test_cameron_fig5_grind_deviation": "PTI-002",
-    "tests/test_data_loaders.py::test_ellero2019_digitized_figures": "PTI-033",
-    "tests/test_data_loaders.py::test_fasano2000_partI_intake": "PTI-020",
-    "tests/test_data_loaders.py::test_fasano_partI_freeboundary_model": "PTI-023",
-    "tests/test_data_loaders.py::test_foster_machine_mode": "PTI-014",
-    "tests/test_data_loaders.py::test_gagne2021_grinder_arm_intake": "PTI-041",
-    "tests/test_data_loaders.py::test_gagne2021_shots_intake": "PTI-042",
-    "tests/test_data_loaders.py::test_grudeva_data_load": "PTI-012",
-    "tests/test_data_loaders.py::test_hargarten2020_loaders": "PTI-031",
-    "tests/test_data_loaders.py::test_khamitova2020_tamping_intake": "PTI-043",
-    "tests/test_data_loaders.py::test_khomyakov_kinematic_viscosity": "PTI-030",
-    "tests/test_data_loaders.py::test_liang_figures_load": "PTI-010",
-    "tests/test_data_loaders.py::test_mckeonaloe2022_basket_intake": "PTI-036",
-    "tests/test_data_loaders.py::test_mo2023_2_coupled_bed": "PTI-028",
-    "tests/test_data_loaders.py::test_mo2023_2_intake": "PTI-018",
-    "tests/test_data_loaders.py::test_mo2023_2_swelling_insensitivity": "PTI-024",
-    "tests/test_data_loaders.py::test_mo2023_2_swelling_model": "PTI-022",
-    "tests/test_data_loaders.py::test_mo2023_and_egidi_load": "PTI-015",
-    "tests/test_data_loaders.py::test_moroney2015_data_intake": "PTI-046",
-    "tests/test_data_loaders.py::test_moroney2019_table2_intake": "PTI-037",
-    "tests/test_data_loaders.py::test_moroney_figures_load": "PTI-011",
-    "tests/test_data_loaders.py::test_pannusch_table2_load": "PTI-013",
-    "tests/test_data_loaders.py::test_pocketscience2024_intake": "PTI-035",
-    "tests/test_data_loaders.py::test_ribes2020_radial_ey_intake": "PTI-038",
-    "tests/test_data_loaders.py::test_ribes2021_radial_ey_intake": "PTI-039",
-    "tests/test_data_loaders.py::test_romancorrochano2015_table2_intake": "PTI-040",
-    "tests/test_data_loaders.py::test_romancorrochano2017_intake": "PTI-017",
-    "tests/test_data_loaders.py::test_romancorrochano_extraction_model": "PTI-021",
-    "tests/test_data_loaders.py::test_romancorrochano_y0_ceiling": "PTI-019",
-    "tests/test_data_loaders.py::test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries": "PTI-034",
-    "tests/test_data_loaders.py::test_schmieder_raw_fractions_and_rsm": "PTI-016",
-    "tests/test_data_loaders.py::test_schmieder_reps_and_cupmasses": "PTI-008",
-    "tests/test_data_loaders.py::test_schmieder_table_a1_matches_card": "PTI-007",
-    "tests/test_data_loaders.py::test_schulman_baskets": "PTI-027",
-    "tests/test_data_loaders.py::test_smrke2024_figures_intake": "PTI-044",
-    "tests/test_data_loaders.py::test_sobolik2002_rheology_intake": "PTI-045",
-    "tests/test_data_loaders.py::test_telisromero2001_measured_tables": "PTI-032",
-    "tests/test_data_loaders.py::test_wadsworth_grindmap_table1": "PTI-009",
-    "tests/test_data_loaders.py::test_waszkiewicz_constants_and_brewer": "PTI-005",
-    "tests/test_data_loaders.py::test_waszkiewicz_psd_shape": "PTI-006",
-    "tests/test_data_loaders.py::test_waszkiewicz_static_calibration_matches_card": "PTI-003",
-    "tests/test_data_loaders.py::test_waszkiewicz_tds_fractions": "PTI-004",
-    "tests/test_data_loaders.py::test_waszkiewicz_traces_11_pressures": "PTI-001",
-    "tests/test_paper_a_model_contract.py::test_a_count_preserving_membership_change_is_detected": "PTI-057",
-    "tests/test_paper_a_model_contract.py::test_a_metadata_change_under_unchanged_ids_is_detected": "PTI-058",
-    "tests/test_paper_a_model_contract.py::test_a_secondary_interval_cannot_satisfy_the_primary_contract": "PTI-066",
-    "tests/test_paper_a_model_contract.py::test_card_reynolds_equation_matches_the_code": "PTI-050",
-    "tests/test_paper_a_model_contract.py::test_claim_binding_audit_headline_matches_the_live_audits": "PTI-071",
-    "tests/test_paper_a_model_contract.py::test_claim_binding_audit_is_not_stale": "PTI-070",
-    "tests/test_paper_a_model_contract.py::test_corpus_completeness_claims_are_qualified": "PTI-055",
-    "tests/test_paper_a_model_contract.py::test_endpoint_stopping_rule_is_a_mass_target": "PTI-051",
-    "tests/test_paper_a_model_contract.py::test_generated_blocks_carry_the_current_manifest_stamp": "PTI-059",
-    "tests/test_paper_a_model_contract.py::test_interval_flags_are_derived_from_unrounded_bounds": "PTI-068",
-    "tests/test_paper_a_model_contract.py::test_manuscript_reynolds_equation_matches_the_code": "PTI-049",
-    "tests/test_paper_a_model_contract.py::test_negative_zero_is_normalised_only_for_display": "PTI-069",
-    "tests/test_paper_a_model_contract.py::test_no_off_grid_cf_condition_has_an_o_counterpart": "PTI-054",
-    "tests/test_paper_a_model_contract.py::test_no_volume_labelled_endpoints_in_the_prose": "PTI-052",
-    "tests/test_paper_a_model_contract.py::test_off_grid_cf_records_exist_and_are_known": "PTI-053",
-    "tests/test_paper_a_model_contract.py::test_primary_interval_is_never_rendered_at_an_unapproved_precision": "PTI-067",
-    "tests/test_paper_a_model_contract.py::test_primary_interval_is_rendered_by_the_production_formatter": "PTI-064",
-    "tests/test_paper_a_model_contract.py::test_primary_interval_occurs_in_every_required_block": "PTI-065",
-    "tests/test_paper_a_model_contract.py::test_primary_resampling_cluster_keeps_solutes_of_one_condition_together": "PTI-061",
-    "tests/test_paper_a_model_contract.py::test_resampling_output_is_not_called_a_confidence_interval": "PTI-062",
-    "tests/test_paper_a_model_contract.py::test_sherwood_reynolds_is_built_on_superficial_velocity": "PTI-047",
-    "tests/test_paper_a_model_contract.py::test_solver_transports_at_interstitial_and_scales_reynolds_by_superficial": "PTI-048",
-    "tests/test_paper_a_model_contract.py::test_source_derived_manifest_is_the_committed_corpus": "PTI-056",
-    "tests/test_paper_a_model_contract.py::test_supplement_describes_objective_specific_level_optimizers": "PTI-063",
-    "tests/test_paper_a_model_contract.py::test_the_transfer_caption_reports_the_complete_corpus_not_the_matched_subset": "PTI-060",
-    "tests/test_paper_a_source_observations.py::test_a_malformed_audit_element_raises_a_controlled_keyerror": "PTI-097",
-    "tests/test_paper_a_source_observations.py::test_a_relabelled_record_with_a_refreshed_hash_still_fails": "PTI-084",
-    "tests/test_paper_a_source_observations.py::test_a_solute_without_a_declared_source_column_is_refused": "PTI-081",
-    "tests/test_paper_a_source_observations.py::test_dropping_a_scored_column_entirely_is_refused_by_production_too": "PTI-082",
-    "tests/test_paper_a_source_observations.py::test_every_scored_solute_declares_its_source_column": "PTI-073",
-    "tests/test_paper_a_source_observations.py::test_group_by_relation_refuses_untyped_input": "PTI-091",
-    "tests/test_paper_a_source_observations.py::test_group_by_relation_returns_every_relation_key": "PTI-090",
-    "tests/test_paper_a_source_observations.py::test_has_exact_audit_is_false_rather_than_raising_on_a_malformed_list": "PTI-098",
-    "tests/test_paper_a_source_observations.py::test_malformed_endpoint_targets_return_named_problems_and_never_raise": "PTI-095",
-    "tests/test_paper_a_source_observations.py::test_manifest_solute_label_mutations_all_fail": "PTI-083",
-    "tests/test_paper_a_source_observations.py::test_observation_ids_come_from_validated_cells_only": "PTI-076",
-    "tests/test_paper_a_source_observations.py::test_one_bad_target_does_not_also_produce_a_misleading_order_complaint": "PTI-096",
-    "tests/test_paper_a_source_observations.py::test_publication_renderers_do_not_read_the_cached_zero_flags": "PTI-086",
-    "tests/test_paper_a_source_observations.py::test_table_s6_does_not_claim_to_contain_membership_it_does_not_show": "PTI-092",
-    "tests/test_paper_a_source_observations.py::test_the_artefact_checker_passes_on_the_committed_tree": "PTI-099",
-    "tests/test_paper_a_source_observations.py::test_the_audit_prose_still_states_its_exact_scope": "PTI-094",
-    "tests/test_paper_a_source_observations.py::test_the_audited_bound_is_named_explicitly": "PTI-093",
-    "tests/test_paper_a_source_observations.py::test_the_checker_reports_a_named_problem_rather_than_a_traceback": "PTI-100",
-    "tests/test_paper_a_source_observations.py::test_the_committed_source_yields_the_documented_census": "PTI-072",
-    "tests/test_paper_a_source_observations.py::test_the_contract_may_still_read_them": "PTI-087",
-    "tests/test_paper_a_source_observations.py::test_the_endpoint_sweep_names_every_relation_present": "PTI-089",
-    "tests/test_paper_a_source_observations.py::test_the_manifest_validator_never_raises": "PTI-085",
-    "tests/test_paper_a_source_observations.py::test_the_oracle_names_the_sample_solute_and_source_column": "PTI-075",
-    "tests/test_paper_a_source_observations.py::test_the_oracle_refuses_a_source_that_cannot_supply_the_observations": "PTI-074",
-    "tests/test_paper_a_source_observations.py::test_the_oracle_still_shares_no_grouping_code_with_production": "PTI-077",
-    "tests/test_paper_a_source_observations.py::test_the_production_manifest_reads_the_scored_columns": "PTI-079",
-    "tests/test_paper_a_source_observations.py::test_the_production_manifest_refuses_an_unscoreable_retained_row": "PTI-080",
-    "tests/test_paper_a_source_observations.py::test_the_renderer_follows_the_bounds_when_the_cached_flag_contradicts_them": "PTI-088",
-    "tests/test_paper_a_source_observations.py::test_the_two_analyte_maps_agree_but_are_declared_separately": "PTI-078",
-    "tests/test_paper_a_source_schema.py::test_a_collision_would_actually_move_a_cluster": "PTI-113",
-    "tests/test_paper_a_source_schema.py::test_a_corrupt_controlled_token_fails_rather_than_vanishing": "PTI-104",
-    "tests/test_paper_a_source_schema.py::test_a_non_finite_or_unparseable_coordinate_fails": "PTI-108",
-    "tests/test_paper_a_source_schema.py::test_a_row_claiming_support_that_does_not_exist_fails": "PTI-114",
-    "tests/test_paper_a_source_schema.py::test_a_row_denying_support_that_does_exist_fails": "PTI-115",
-    "tests/test_paper_a_source_schema.py::test_an_optimal_row_whose_analytes_are_unusable_is_not_support": "PTI-116",
-    "tests/test_paper_a_source_schema.py::test_an_unrecognised_boolean_token_fails_instead_of_becoming_false": "PTI-106",
-    "tests/test_paper_a_source_schema.py::test_changing_one_side_of_the_analyte_map_is_still_detected": "PTI-121",
-    "tests/test_paper_a_source_schema.py::test_duplicate_optimal_support_needs_a_declared_rule": "PTI-117",
-    "tests/test_paper_a_source_schema.py::test_lookup_defined_equals_actual_support_for_every_record": "PTI-118",
-    "tests/test_paper_a_source_schema.py::test_near_equal_but_distinct_coordinates_stay_distinct": "PTI-110",
-    "tests/test_paper_a_source_schema.py::test_no_cluster_identifier_can_contain_nan_or_inf": "PTI-109",
-    "tests/test_paper_a_source_schema.py::test_numerically_equal_coordinates_still_share_one_key": "PTI-111",
-    "tests/test_paper_a_source_schema.py::test_the_canonical_form_is_plain_not_exponential": "PTI-112",
-    "tests/test_paper_a_source_schema.py::test_the_corpus_is_byte_identical_after_the_hardening": "PTI-102",
-    "tests/test_paper_a_source_schema.py::test_the_oracle_does_not_import_the_production_membership_implementation": "PTI-119",
-    "tests/test_paper_a_source_schema.py::test_the_oracle_still_reproduces_the_documented_census": "PTI-103",
-    "tests/test_paper_a_source_schema.py::test_the_paper_states_what_the_source_contract_does_not_verify": "PTI-122",
-    "tests/test_paper_a_source_schema.py::test_the_preflight_passes_the_committed_source": "PTI-101",
-    "tests/test_paper_a_source_schema.py::test_the_two_analyte_maps_are_declared_separately": "PTI-120",
-    "tests/test_paper_a_source_schema.py::test_the_two_declared_tokens_still_parse": "PTI-107",
-    "tests/test_paper_a_source_schema.py::test_whitespace_corruption_is_not_normalised_away": "PTI-105",
-    "tests/test_paper_a_transfer_contract.py::test_a_malformed_interval_returns_named_problems_and_never_raises": "PTI-135",
-    "tests/test_paper_a_transfer_contract.py::test_a_scheme_that_drops_an_observation_is_rejected": "PTI-148",
-    "tests/test_paper_a_transfer_contract.py::test_a_valid_endpoint_artifact_passes": "PTI-124",
-    "tests/test_paper_a_transfer_contract.py::test_a_valid_record_still_validates_after_the_totality_fix": "PTI-159",
-    "tests/test_paper_a_transfer_contract.py::test_a_volume_schema_is_rejected_not_coerced": "PTI-126",
-    "tests/test_paper_a_transfer_contract.py::test_all_schemes_partition_the_same_observation_set": "PTI-146",
-    "tests/test_paper_a_transfer_contract.py::test_binding_rules_and_registered_results_are_distinct_populations": "PTI-153",
-    "tests/test_paper_a_transfer_contract.py::test_complete_corpus_census_from_source": "PTI-139",
-    "tests/test_paper_a_transfer_contract.py::test_condition_cluster_ids_include_variety": "PTI-143",
-    "tests/test_paper_a_transfer_contract.py::test_construct_then_validate_holds_for_every_geometry": "PTI-136",
-    "tests/test_paper_a_transfer_contract.py::test_declaring_refitting_inside_resampling_is_rejected": "PTI-149",
-    "tests/test_paper_a_transfer_contract.py::test_display_quantisation_normalises_negative_zero": "PTI-129",
-    "tests/test_paper_a_transfer_contract.py::test_endpoint_is_a_collected_mass_in_grams": "PTI-123",
-    "tests/test_paper_a_transfer_contract.py::test_endpoint_mutations_are_rejected": "PTI-125",
-    "tests/test_paper_a_transfer_contract.py::test_every_record_carries_the_canonical_three_solutes": "PTI-141",
-    "tests/test_paper_a_transfer_contract.py::test_exact_zero_contact_is_a_separate_field_from_display_rounding": "PTI-131",
-    "tests/test_paper_a_transfer_contract.py::test_interval_record_mutations_all_fail": "PTI-134",
-    "tests/test_paper_a_transfer_contract.py::test_interval_validation_catches_a_hand_edited_display": "PTI-133",
-    "tests/test_paper_a_transfer_contract.py::test_manifest_hash_is_order_independent_but_content_sensitive": "PTI-142",
-    "tests/test_paper_a_transfer_contract.py::test_matched_grid_corpus_is_a_distinct_support_set": "PTI-140",
-    "tests/test_paper_a_transfer_contract.py::test_no_malformed_number_makes_the_interval_validator_raise": "PTI-157",
-    "tests/test_paper_a_transfer_contract.py::test_no_sample_has_its_solutes_split_across_clusters": "PTI-147",
-    "tests/test_paper_a_transfer_contract.py::test_percentages_are_two_decimals": "PTI-128",
-    "tests/test_paper_a_transfer_contract.py::test_primary_cluster_census_is_eighteen_by_six_plus_eight_by_three": "PTI-144",
-    "tests/test_paper_a_transfer_contract.py::test_range_formatting_matches_the_papers_typography": "PTI-127",
-    "tests/test_paper_a_transfer_contract.py::test_round8_brief_states_the_snapshot_counts": "PTI-156",
-    "tests/test_paper_a_transfer_contract.py::test_round8_coverage_snapshot_is_commit_pinned_and_reconciles": "PTI-155",
-    "tests/test_paper_a_transfer_contract.py::test_sample_record_scheme_is_forty_four_clusters_of_three": "PTI-145",
-    "tests/test_paper_a_transfer_contract.py::test_slow_lane_categories_reconcile_to_the_registered_total": "PTI-152",
-    "tests/test_paper_a_transfer_contract.py::test_status_confidence_level_and_margin_share_the_totality_contract": "PTI-160",
-    "tests/test_paper_a_transfer_contract.py::test_the_audit_generator_refuses_to_publish_unreconciled_counts": "PTI-154",
-    "tests/test_paper_a_transfer_contract.py::test_the_constructor_refuses_invalid_bounds": "PTI-137",
-    "tests/test_paper_a_transfer_contract.py::test_the_constructor_refuses_invalid_display_precision": "PTI-138",
-    "tests/test_paper_a_transfer_contract.py::test_the_overflow_diagnostic_names_the_field_rather_than_crashing": "PTI-158",
-    "tests/test_paper_a_transfer_contract.py::test_transfer_artifact_check_cli_passes": "PTI-150",
-    "tests/test_paper_a_transfer_contract.py::test_transfer_text_check_cli_passes": "PTI-151",
-    "tests/test_paper_a_transfer_contract.py::test_width_uses_full_precision_bounds": "PTI-132",
-    "tests/test_paper_a_transfer_contract.py::test_zero_classification_uses_full_precision": "PTI-130",
-    "tests/test_sci_md_004_stage_a.py::test_aggregate_identities_source_precision": "PTI-163",
-    "tests/test_sci_md_004_stage_a.py::test_counts_roles_and_separation": "PTI-161",
-    "tests/test_sci_md_004_stage_a.py::test_deterministic_bundle_and_no_model_products": "PTI-164",
-    "tests/test_sci_md_004_stage_a.py::test_units_uncertainty_and_cqa_distinction": "PTI-162"
-  },
-  "schema_version": "puckworks.protected-target-test-manifest/v1",
-  "source_selector_sha256": "777f3d6e86d49773e06b75c9a1b4eba04704314ce7c6d1e63447750ead5f336d"
+  "coverage_violations": [],
+  "generation_basis": "STATIC_AST_NO_TEST_IMPORT_NO_API_EXECUTION",
+  "schema_version": "puckworks.protected-target-test-manifest/v2",
+  "source_selector_sha256": "0157b09ce0496074a12ac7c4b58c64c2d92f83a6fec7b126769ff99b761f501e",
+  "static_target_reference_coverage": [
+    {
+      "module_path": "tests/test_data_loaders.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 298
+    },
+    {
+      "module_path": "tests/test_data_loaders.py",
+      "reference_kind": "call:angeloni_total_solids",
+      "source_line_number": 304
+    },
+    {
+      "module_path": "tests/test_data_loaders.py",
+      "reference_kind": "call:angeloni_lipids",
+      "source_line_number": 305
+    },
+    {
+      "module_path": "tests/test_paper_a_model_contract.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 131
+    },
+    {
+      "module_path": "tests/test_paper_a_model_contract.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 172
+    },
+    {
+      "module_path": "tests/test_paper_a_source_observations.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 1
+    },
+    {
+      "module_path": "tests/test_paper_a_source_observations.py",
+      "reference_kind": "call:ORACLE.read_source_records",
+      "source_line_number": 96
+    },
+    {
+      "module_path": "tests/test_paper_a_source_observations.py",
+      "reference_kind": "call:ORACLE.read_source_records",
+      "source_line_number": 127
+    },
+    {
+      "module_path": "tests/test_paper_a_source_observations.py",
+      "reference_kind": "call:ORACLE.read_source_records",
+      "source_line_number": 137
+    },
+    {
+      "module_path": "tests/test_paper_a_source_observations.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 186
+    },
+    {
+      "module_path": "tests/test_paper_a_source_schema.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 46
+    },
+    {
+      "module_path": "tests/test_paper_a_source_schema.py",
+      "reference_kind": "call:SS.preflight",
+      "source_line_number": 59
+    },
+    {
+      "module_path": "tests/test_paper_a_source_schema.py",
+      "reference_kind": "call:ORACLE.read_source_records",
+      "source_line_number": 86
+    },
+    {
+      "module_path": "tests/test_paper_a_source_schema.py",
+      "reference_kind": "call:ORACLE.read_source_records",
+      "source_line_number": 295
+    },
+    {
+      "module_path": "tests/test_paper_a_transfer_contract.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 1
+    },
+    {
+      "module_path": "tests/test_paper_a_transfer_contract.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 34
+    },
+    {
+      "module_path": "tests/test_sci_md_004_silent_qa.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 122
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "call:adapter.build_contract",
+      "source_line_number": 11
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "call:adapter.build_targets",
+      "source_line_number": 11
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "call:adapter.build_targets",
+      "source_line_number": 20
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "call:angeloni_bioactives",
+      "source_line_number": 29
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "call:adapter.write_bundle",
+      "source_line_number": 35
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_a.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 36
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 19
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 125
+    },
+    {
+      "module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "reference_kind": "protected-path-reference",
+      "source_line_number": 131
+    },
+    {
+      "module_path": "tests/test_screen_i010.py",
+      "reference_kind": "call:angeloni_total_solids",
+      "source_line_number": 77
+    }
+  ],
+  "tests": [
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-001",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_waszkiewicz_traces_11_pressures",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_waszkiewicz_traces_11_pressures"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-002",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_cameron_fig5_grind_deviation",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_cameron_fig5_grind_deviation"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-003",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_waszkiewicz_static_calibration_matches_card",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_waszkiewicz_static_calibration_matches_card"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-004",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_waszkiewicz_tds_fractions",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_waszkiewicz_tds_fractions"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-005",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_waszkiewicz_constants_and_brewer",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_waszkiewicz_constants_and_brewer"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-006",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_waszkiewicz_psd_shape",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_waszkiewicz_psd_shape"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-007",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_schmieder_table_a1_matches_card",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_schmieder_table_a1_matches_card"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-008",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_schmieder_reps_and_cupmasses",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_schmieder_reps_and_cupmasses"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-009",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_wadsworth_grindmap_table1",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_wadsworth_grindmap_table1"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-010",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_liang_figures_load",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_liang_figures_load"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-011",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_moroney_figures_load",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_moroney_figures_load"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-012",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_grudeva_data_load",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_grudeva_data_load"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-013",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_pannusch_table2_load",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_pannusch_table2_load"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-014",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_foster_machine_mode",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_foster_machine_mode"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-015",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mo2023_and_egidi_load",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mo2023_and_egidi_load"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-016",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_schmieder_raw_fractions_and_rsm",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_schmieder_raw_fractions_and_rsm"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-017",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_romancorrochano2017_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_romancorrochano2017_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-018",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mo2023_2_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mo2023_2_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-019",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_romancorrochano_y0_ceiling",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_romancorrochano_y0_ceiling"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-020",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_fasano2000_partI_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_fasano2000_partI_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-021",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_romancorrochano_extraction_model",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_romancorrochano_extraction_model"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-022",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mo2023_2_swelling_model",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mo2023_2_swelling_model"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-023",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_fasano_partI_freeboundary_model",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_fasano_partI_freeboundary_model"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-024",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mo2023_2_swelling_insensitivity",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mo2023_2_swelling_insensitivity"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-025",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_angeloni2023_inventories",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_angeloni2023_inventories"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-026",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_angeloni2023_66shot_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_angeloni2023_66shot_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-027",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_schulman_baskets",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_schulman_baskets"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-028",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mo2023_2_coupled_bed",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mo2023_2_coupled_bed"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-029",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_bruno_roasted_composition",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_bruno_roasted_composition"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-030",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_khomyakov_kinematic_viscosity",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_khomyakov_kinematic_viscosity"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-031",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_hargarten2020_loaders",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_hargarten2020_loaders"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-032",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_telisromero2001_measured_tables",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_telisromero2001_measured_tables"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-033",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_ellero2019_digitized_figures",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_ellero2019_digitized_figures"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-034",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_schmieder_cup_masses_malformed_rows_are_explicit_design_summaries"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-035",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_pocketscience2024_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_pocketscience2024_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-036",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_mckeonaloe2022_basket_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_mckeonaloe2022_basket_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-037",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_moroney2019_table2_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_moroney2019_table2_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-038",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_ribes2020_radial_ey_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_ribes2020_radial_ey_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-039",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_ribes2021_radial_ey_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_ribes2021_radial_ey_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-040",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_romancorrochano2015_table2_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_romancorrochano2015_table2_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-041",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_gagne2021_grinder_arm_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_gagne2021_grinder_arm_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-042",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_gagne2021_shots_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_gagne2021_shots_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-043",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_khamitova2020_tamping_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_khamitova2020_tamping_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-044",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_smrke2024_figures_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_smrke2024_figures_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-045",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_sobolik2002_rheology_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_sobolik2002_rheology_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-046",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_moroney2015_data_intake",
+      "static_module_path": "tests/test_data_loaders.py",
+      "static_node_id": "tests/test_data_loaders.py::test_moroney2015_data_intake"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-047",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_sherwood_reynolds_is_built_on_superficial_velocity",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_sherwood_reynolds_is_built_on_superficial_velocity"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-048",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_solver_transports_at_interstitial_and_scales_reynolds_by_superficial",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_solver_transports_at_interstitial_and_scales_reynolds_by_superficial"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-049",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_manuscript_reynolds_equation_matches_the_code",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_manuscript_reynolds_equation_matches_the_code"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-050",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_card_reynolds_equation_matches_the_code",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_card_reynolds_equation_matches_the_code"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-051",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_endpoint_stopping_rule_is_a_mass_target",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_endpoint_stopping_rule_is_a_mass_target"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-052",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_no_volume_labelled_endpoints_in_the_prose",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_no_volume_labelled_endpoints_in_the_prose"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-053",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_off_grid_cf_records_exist_and_are_known",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_off_grid_cf_records_exist_and_are_known"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-054",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_no_off_grid_cf_condition_has_an_o_counterpart",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_no_off_grid_cf_condition_has_an_o_counterpart"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-055",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_corpus_completeness_claims_are_qualified",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_corpus_completeness_claims_are_qualified"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-056",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_source_derived_manifest_is_the_committed_corpus",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_source_derived_manifest_is_the_committed_corpus"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-057",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_count_preserving_membership_change_is_detected",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_a_count_preserving_membership_change_is_detected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-058",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_metadata_change_under_unchanged_ids_is_detected",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_a_metadata_change_under_unchanged_ids_is_detected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-059",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_generated_blocks_carry_the_current_manifest_stamp",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_generated_blocks_carry_the_current_manifest_stamp"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-060",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_transfer_caption_reports_the_complete_corpus_not_the_matched_subset",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_the_transfer_caption_reports_the_complete_corpus_not_the_matched_subset"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-061",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_primary_resampling_cluster_keeps_solutes_of_one_condition_together",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_primary_resampling_cluster_keeps_solutes_of_one_condition_together"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-062",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_resampling_output_is_not_called_a_confidence_interval",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_resampling_output_is_not_called_a_confidence_interval"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-063",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_supplement_describes_objective_specific_level_optimizers",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_supplement_describes_objective_specific_level_optimizers"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-064",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_primary_interval_is_rendered_by_the_production_formatter",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_primary_interval_is_rendered_by_the_production_formatter"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-065",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_primary_interval_occurs_in_every_required_block",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_primary_interval_occurs_in_every_required_block"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-066",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_secondary_interval_cannot_satisfy_the_primary_contract",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_a_secondary_interval_cannot_satisfy_the_primary_contract"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-067",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_primary_interval_is_never_rendered_at_an_unapproved_precision",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_primary_interval_is_never_rendered_at_an_unapproved_precision"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-068",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_interval_flags_are_derived_from_unrounded_bounds",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_interval_flags_are_derived_from_unrounded_bounds"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-069",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_negative_zero_is_normalised_only_for_display",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_negative_zero_is_normalised_only_for_display"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-070",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_claim_binding_audit_is_not_stale",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_claim_binding_audit_is_not_stale"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-071",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_claim_binding_audit_headline_matches_the_live_audits",
+      "static_module_path": "tests/test_paper_a_model_contract.py",
+      "static_node_id": "tests/test_paper_a_model_contract.py::test_claim_binding_audit_headline_matches_the_live_audits"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-072",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_committed_source_yields_the_documented_census",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_committed_source_yields_the_documented_census"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-073",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_every_scored_solute_declares_its_source_column",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_every_scored_solute_declares_its_source_column"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-074",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_oracle_refuses_a_source_that_cannot_supply_the_observations",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_oracle_refuses_a_source_that_cannot_supply_the_observations"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-075",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_oracle_names_the_sample_solute_and_source_column",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_oracle_names_the_sample_solute_and_source_column"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-076",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_observation_ids_come_from_validated_cells_only",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_observation_ids_come_from_validated_cells_only"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-077",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_oracle_still_shares_no_grouping_code_with_production",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_oracle_still_shares_no_grouping_code_with_production"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-078",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_two_analyte_maps_agree_but_are_declared_separately",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_two_analyte_maps_agree_but_are_declared_separately"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-079",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_production_manifest_reads_the_scored_columns",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_production_manifest_reads_the_scored_columns"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-080",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_production_manifest_refuses_an_unscoreable_retained_row",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_production_manifest_refuses_an_unscoreable_retained_row"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-081",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_solute_without_a_declared_source_column_is_refused",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_a_solute_without_a_declared_source_column_is_refused"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-082",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_dropping_a_scored_column_entirely_is_refused_by_production_too",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_dropping_a_scored_column_entirely_is_refused_by_production_too"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-083",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_manifest_solute_label_mutations_all_fail",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_manifest_solute_label_mutations_all_fail"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-084",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_relabelled_record_with_a_refreshed_hash_still_fails",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_a_relabelled_record_with_a_refreshed_hash_still_fails"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-085",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_manifest_validator_never_raises",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_manifest_validator_never_raises"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-086",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_publication_renderers_do_not_read_the_cached_zero_flags",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_publication_renderers_do_not_read_the_cached_zero_flags"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-087",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_contract_may_still_read_them",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_contract_may_still_read_them"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-088",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_renderer_follows_the_bounds_when_the_cached_flag_contradicts_them",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_renderer_follows_the_bounds_when_the_cached_flag_contradicts_them"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-089",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_endpoint_sweep_names_every_relation_present",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_endpoint_sweep_names_every_relation_present"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-090",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_group_by_relation_returns_every_relation_key",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_group_by_relation_returns_every_relation_key"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-091",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_group_by_relation_refuses_untyped_input",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_group_by_relation_refuses_untyped_input"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-092",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_table_s6_does_not_claim_to_contain_membership_it_does_not_show",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_table_s6_does_not_claim_to_contain_membership_it_does_not_show"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-093",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_audited_bound_is_named_explicitly",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_audited_bound_is_named_explicitly"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-094",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_audit_prose_still_states_its_exact_scope",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_audit_prose_still_states_its_exact_scope"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-095",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_malformed_endpoint_targets_return_named_problems_and_never_raise",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_malformed_endpoint_targets_return_named_problems_and_never_raise"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-096",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_one_bad_target_does_not_also_produce_a_misleading_order_complaint",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_one_bad_target_does_not_also_produce_a_misleading_order_complaint"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-097",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_malformed_audit_element_raises_a_controlled_keyerror",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_a_malformed_audit_element_raises_a_controlled_keyerror"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-098",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_has_exact_audit_is_false_rather_than_raising_on_a_malformed_list",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_has_exact_audit_is_false_rather_than_raising_on_a_malformed_list"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-099",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_artefact_checker_passes_on_the_committed_tree",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_artefact_checker_passes_on_the_committed_tree"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-100",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_checker_reports_a_named_problem_rather_than_a_traceback",
+      "static_module_path": "tests/test_paper_a_source_observations.py",
+      "static_node_id": "tests/test_paper_a_source_observations.py::test_the_checker_reports_a_named_problem_rather_than_a_traceback"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-101",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_preflight_passes_the_committed_source",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_preflight_passes_the_committed_source"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-102",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_corpus_is_byte_identical_after_the_hardening",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_corpus_is_byte_identical_after_the_hardening"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-103",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_oracle_still_reproduces_the_documented_census",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_oracle_still_reproduces_the_documented_census"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-104",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_corrupt_controlled_token_fails_rather_than_vanishing",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_a_corrupt_controlled_token_fails_rather_than_vanishing"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-105",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_whitespace_corruption_is_not_normalised_away",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_whitespace_corruption_is_not_normalised_away"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-106",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_an_unrecognised_boolean_token_fails_instead_of_becoming_false",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_an_unrecognised_boolean_token_fails_instead_of_becoming_false"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-107",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_two_declared_tokens_still_parse",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_two_declared_tokens_still_parse"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-108",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_non_finite_or_unparseable_coordinate_fails",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_a_non_finite_or_unparseable_coordinate_fails"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-109",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_no_cluster_identifier_can_contain_nan_or_inf",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_no_cluster_identifier_can_contain_nan_or_inf"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-110",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_near_equal_but_distinct_coordinates_stay_distinct",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_near_equal_but_distinct_coordinates_stay_distinct"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-111",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_numerically_equal_coordinates_still_share_one_key",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_numerically_equal_coordinates_still_share_one_key"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-112",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_canonical_form_is_plain_not_exponential",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_canonical_form_is_plain_not_exponential"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-113",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_collision_would_actually_move_a_cluster",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_a_collision_would_actually_move_a_cluster"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-114",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_row_claiming_support_that_does_not_exist_fails",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_a_row_claiming_support_that_does_not_exist_fails"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-115",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_row_denying_support_that_does_exist_fails",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_a_row_denying_support_that_does_exist_fails"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-116",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_an_optimal_row_whose_analytes_are_unusable_is_not_support",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_an_optimal_row_whose_analytes_are_unusable_is_not_support"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-117",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_duplicate_optimal_support_needs_a_declared_rule",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_duplicate_optimal_support_needs_a_declared_rule"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-118",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_lookup_defined_equals_actual_support_for_every_record",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_lookup_defined_equals_actual_support_for_every_record"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-119",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_oracle_does_not_import_the_production_membership_implementation",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_oracle_does_not_import_the_production_membership_implementation"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-120",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_two_analyte_maps_are_declared_separately",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_two_analyte_maps_are_declared_separately"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-121",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_changing_one_side_of_the_analyte_map_is_still_detected",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_changing_one_side_of_the_analyte_map_is_still_detected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-122",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_paper_states_what_the_source_contract_does_not_verify",
+      "static_module_path": "tests/test_paper_a_source_schema.py",
+      "static_node_id": "tests/test_paper_a_source_schema.py::test_the_paper_states_what_the_source_contract_does_not_verify"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-123",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_endpoint_is_a_collected_mass_in_grams",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_endpoint_is_a_collected_mass_in_grams"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-124",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_valid_endpoint_artifact_passes",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_a_valid_endpoint_artifact_passes"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-125",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_endpoint_mutations_are_rejected",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_endpoint_mutations_are_rejected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-126",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_volume_schema_is_rejected_not_coerced",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_a_volume_schema_is_rejected_not_coerced"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-127",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_range_formatting_matches_the_papers_typography",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_range_formatting_matches_the_papers_typography"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-128",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_percentages_are_two_decimals",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_percentages_are_two_decimals"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-129",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_display_quantisation_normalises_negative_zero",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_display_quantisation_normalises_negative_zero"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-130",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_zero_classification_uses_full_precision",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_zero_classification_uses_full_precision"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-131",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_exact_zero_contact_is_a_separate_field_from_display_rounding",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_exact_zero_contact_is_a_separate_field_from_display_rounding"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-132",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_width_uses_full_precision_bounds",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_width_uses_full_precision_bounds"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-133",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_interval_validation_catches_a_hand_edited_display",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_interval_validation_catches_a_hand_edited_display"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-134",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_interval_record_mutations_all_fail",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_interval_record_mutations_all_fail"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-135",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_malformed_interval_returns_named_problems_and_never_raises",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_a_malformed_interval_returns_named_problems_and_never_raises"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-136",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_construct_then_validate_holds_for_every_geometry",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_construct_then_validate_holds_for_every_geometry"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-137",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_constructor_refuses_invalid_bounds",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_the_constructor_refuses_invalid_bounds"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-138",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_constructor_refuses_invalid_display_precision",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_the_constructor_refuses_invalid_display_precision"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-139",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_complete_corpus_census_from_source",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_complete_corpus_census_from_source"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-140",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_matched_grid_corpus_is_a_distinct_support_set",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_matched_grid_corpus_is_a_distinct_support_set"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-141",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_every_record_carries_the_canonical_three_solutes",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_every_record_carries_the_canonical_three_solutes"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-142",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_manifest_hash_is_order_independent_but_content_sensitive",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_manifest_hash_is_order_independent_but_content_sensitive"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-143",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_condition_cluster_ids_include_variety",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_condition_cluster_ids_include_variety"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-144",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_primary_cluster_census_is_eighteen_by_six_plus_eight_by_three",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_primary_cluster_census_is_eighteen_by_six_plus_eight_by_three"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-145",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_sample_record_scheme_is_forty_four_clusters_of_three",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_sample_record_scheme_is_forty_four_clusters_of_three"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-146",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_all_schemes_partition_the_same_observation_set",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_all_schemes_partition_the_same_observation_set"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-147",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_no_sample_has_its_solutes_split_across_clusters",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_no_sample_has_its_solutes_split_across_clusters"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-148",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_scheme_that_drops_an_observation_is_rejected",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_a_scheme_that_drops_an_observation_is_rejected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-149",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_declaring_refitting_inside_resampling_is_rejected",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_declaring_refitting_inside_resampling_is_rejected"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-150",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_transfer_artifact_check_cli_passes",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_transfer_artifact_check_cli_passes"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-151",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_transfer_text_check_cli_passes",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_transfer_text_check_cli_passes"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-152",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_slow_lane_categories_reconcile_to_the_registered_total",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_slow_lane_categories_reconcile_to_the_registered_total"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-153",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_binding_rules_and_registered_results_are_distinct_populations",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_binding_rules_and_registered_results_are_distinct_populations"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-154",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_audit_generator_refuses_to_publish_unreconciled_counts",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_the_audit_generator_refuses_to_publish_unreconciled_counts"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-155",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_round8_coverage_snapshot_is_commit_pinned_and_reconciles",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_round8_coverage_snapshot_is_commit_pinned_and_reconciles"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-156",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_round8_brief_states_the_snapshot_counts",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_round8_brief_states_the_snapshot_counts"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-157",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_no_malformed_number_makes_the_interval_validator_raise",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_no_malformed_number_makes_the_interval_validator_raise"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-158",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_the_overflow_diagnostic_names_the_field_rather_than_crashing",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_the_overflow_diagnostic_names_the_field_rather_than_crashing"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-159",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_a_valid_record_still_validates_after_the_totality_fix",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_a_valid_record_still_validates_after_the_totality_fix"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-160",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_status_confidence_level_and_margin_share_the_totality_contract",
+      "static_module_path": "tests/test_paper_a_transfer_contract.py",
+      "static_node_id": "tests/test_paper_a_transfer_contract.py::test_status_confidence_level_and_margin_share_the_totality_contract"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-161",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_BIOACTIVES"
+      ],
+      "static_function_name": "test_old_value_scanner_is_not_an_r2_gate",
+      "static_module_path": "tests/test_sci_md_004_silent_qa.py",
+      "static_node_id": "tests/test_sci_md_004_silent_qa.py::test_old_value_scanner_is_not_an_r2_gate"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-162",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS",
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_counts_roles_and_separation",
+      "static_module_path": "tests/test_sci_md_004_stage_a.py",
+      "static_node_id": "tests/test_sci_md_004_stage_a.py::test_counts_roles_and_separation"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-163",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS",
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_units_uncertainty_and_cqa_distinction",
+      "static_module_path": "tests/test_sci_md_004_stage_a.py",
+      "static_node_id": "tests/test_sci_md_004_stage_a.py::test_units_uncertainty_and_cqa_distinction"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-164",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS",
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_aggregate_identities_source_precision",
+      "static_module_path": "tests/test_sci_md_004_stage_a.py",
+      "static_node_id": "tests/test_sci_md_004_stage_a.py::test_aggregate_identities_source_precision"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-165",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS",
+        "ANGELONI_BIOACTIVES",
+        "ANGELONI_TOTAL_SOLIDS",
+        "ANGELONI_LIPIDS"
+      ],
+      "static_function_name": "test_deterministic_bundle_and_no_model_products",
+      "static_module_path": "tests/test_sci_md_004_stage_a.py",
+      "static_node_id": "tests/test_sci_md_004_stage_a.py::test_deterministic_bundle_and_no_model_products"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-166",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS"
+      ],
+      "static_function_name": "test_guard_rejects_direct_relative_absolute_traversal_and_case_variants",
+      "static_module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "static_node_id": "tests/test_sci_md_004_stage_e0_r1.py::test_guard_rejects_direct_relative_absolute_traversal_and_case_variants"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-167",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS"
+      ],
+      "static_function_name": "test_audit_hook_denies_open_and_records_permitted_source",
+      "static_module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "static_node_id": "tests/test_sci_md_004_stage_e0_r1.py::test_audit_hook_denies_open_and_records_permitted_source"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-168",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS"
+      ],
+      "static_function_name": "test_stage_e0_source_has_no_target_import_or_path_literal",
+      "static_module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "static_node_id": "tests/test_sci_md_004_stage_e0_r1.py::test_stage_e0_source_has_no_target_import_or_path_literal"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-169",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_STAGE_A_TARGETS"
+      ],
+      "static_function_name": "test_every_target_touching_test_is_marked",
+      "static_module_path": "tests/test_sci_md_004_stage_e0_r1.py",
+      "static_node_id": "tests/test_sci_md_004_stage_e0_r1.py::test_every_target_touching_test_is_marked"
+    },
+    {
+      "expected_execution_phase": [
+        "setup",
+        "call",
+        "teardown"
+      ],
+      "marker_name": "protected_target_integrity",
+      "opaque_test_id": "PTI-170",
+      "permitted_protected_artifact_categories": [
+        "ANGELONI_TOTAL_SOLIDS"
+      ],
+      "static_function_name": "test_total_solids_authority_is_the_measured_per_condition_column",
+      "static_module_path": "tests/test_screen_i010.py",
+      "static_node_id": "tests/test_screen_i010.py::test_total_solids_authority_is_the_measured_per_condition_column"
+    }
+  ]
 }

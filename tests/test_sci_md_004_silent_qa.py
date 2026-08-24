@@ -116,6 +116,7 @@ def test_r1_scientific_subtree_and_bundle_are_immutable():
     assert __import__("hashlib").sha256(bundle.read_bytes()).hexdigest() == "112f8b3b943a5cea3399746fde512048e3898f99c8079433dae86bd142db8709"
 
 
+@pytest.mark.protected_target_integrity
 def test_old_value_scanner_is_not_an_r2_gate():
     plugin = (ROOT / "puckworks/analysis/sci_md_004_silent_qa.py").read_text()
     assert "bioactives.csv" not in plugin

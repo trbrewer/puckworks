@@ -61,10 +61,11 @@ def _mutated_source(mutate) -> pathlib.Path:
 
 
 def _drop_column(name: str):
-    _lines, index, header = _source_lines()
-    position = header.index(name)
-
     def mutate(lines):
+        # Collection purity: resolve source-dependent structure only when the marked test calls
+        # the mutation, never while pytest evaluates the parametrization decorator.
+        _source, index, header = _source_lines()
+        position = header.index(name)
         for i in range(index, len(lines)):
             if not lines[i].strip():
                 continue
@@ -76,10 +77,10 @@ def _drop_column(name: str):
 
 
 def _set_cell(column: str, value: str, sample: str = "A12"):
-    _lines, index, header = _source_lines()
-    position = header.index(column)
-
     def mutate(lines):
+        # As above, keep target structure out of collection and inside item execution.
+        _source, index, header = _source_lines()
+        position = header.index(column)
         for i in range(index + 1, len(lines)):
             if lines[i].startswith(sample + ","):
                 cells = lines[i].split(",")

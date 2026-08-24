@@ -10,6 +10,7 @@ from puckworks.analysis import sci_md_004_stage_e0 as stage_e0
 from puckworks.analysis import sci_md_004_target_guard as guard
 
 
+@pytest.mark.protected_target_integrity
 def test_guard_rejects_direct_relative_absolute_traversal_and_case_variants(tmp_path):
     denied = guard.ROOT / guard.DENIED_RELATIVE_PATHS[0]
     attempts = [
@@ -48,6 +49,7 @@ def test_guard_allows_input_only_and_opaque_metadata_paths():
         assert guard.assert_semantic_path_allowed(relative) == (guard.ROOT / relative).resolve()
 
 
+@pytest.mark.protected_target_integrity
 def test_audit_hook_denies_open_and_records_permitted_source():
     allowed = guard.ROOT / stage_e0.RAW_FRACTIONS
     denied = guard.ROOT / guard.DENIED_RELATIVE_PATHS[0]
@@ -109,6 +111,7 @@ def test_bundle_is_target_blind_deterministic_and_verifiable():
         assert not ({Path(path).name for path in guard.DENIED_RELATIVE_PATHS} & {path.name for path in Path(first).iterdir()})
 
 
+@pytest.mark.protected_target_integrity
 def test_stage_e0_source_has_no_target_import_or_path_literal():
     source = Path(stage_e0.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -122,6 +125,7 @@ def test_stage_e0_source_has_no_target_import_or_path_literal():
     assert "angeloni_targets_long.csv" not in source
 
 
+@pytest.mark.protected_target_integrity
 def test_every_target_touching_test_is_marked():
     tests = guard.ROOT / "tests"
     needles = ("build_targets(", "build_contract(", "write_bundle(", "angeloni_targets_long.csv", "angeloni_bioactives")
