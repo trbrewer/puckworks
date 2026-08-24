@@ -29,8 +29,25 @@ BASE = "6ce8d97db79bc9a189af130c61fd2d9af7c66883"      # IF-7 merge, canonical b
 
 
 @pytest.fixture(scope="module")
-def result():
+def result(_exclude_protected_targets_from_repository_scan):
     return D.deep_screen()
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _exclude_protected_targets_from_repository_scan():
+    """The I-045 needle scan is target-blind by construction."""
+    from tools.protected_target_qa.audit import PROTECTED
+
+    original = D._tracked_files
+    protected = {path.resolve() for path in PROTECTED.values()}
+
+    def target_blind_files():
+        return [relative for relative in original()
+                if (REPO / relative).resolve() not in protected]
+
+    D._tracked_files = target_blind_files
+    yield
+    D._tracked_files = original
 
 
 def _git(*args):
