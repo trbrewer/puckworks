@@ -1,8 +1,11 @@
 import tempfile
 from decimal import Decimal
 from pathlib import Path
+import pytest
 from puckworks.analysis import angeloni2023_multispecies as adapter
 from puckworks.data import angeloni_bioactives
+
+pytestmark = pytest.mark.protected_target_integrity
 
 def test_counts_roles_and_separation():
  c=adapter.build_inputs(); i=adapter.build_inventories(); t=adapter.build_targets(); contract=adapter.build_contract()

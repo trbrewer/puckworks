@@ -22,6 +22,8 @@ import sys
 
 import pytest
 
+pytestmark = pytest.mark.protected_target_integrity
+
 REPO = pathlib.Path(__file__).resolve().parents[1]
 MANUSCRIPT = REPO / "docs" / "submission" / "PAPER_A_JFE_MANUSCRIPT.md"
 DRAFT = REPO / "docs" / "PAPER_A_DRAFT.md"

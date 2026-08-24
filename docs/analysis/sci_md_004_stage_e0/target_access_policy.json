@@ -1,0 +1,36 @@
+{
+  "automated_target_integrity_qa_read": "POST_CANDIDATE_FREEZE_SEPARATE_PROCESS_ONLY",
+  "denied_apis": [
+    "puckworks.analysis.angeloni2023_multispecies.build_targets",
+    "puckworks.analysis.angeloni2023_multispecies.build_contract",
+    "puckworks.analysis.angeloni2023_multispecies.write_bundle",
+    "puckworks.data.angeloni_bioactives",
+    "puckworks.data.angeloni_total_solids",
+    "puckworks.data.angeloni_lipids"
+  ],
+  "denied_paths": [
+    "docs/analysis/sci_md_004/angeloni_targets_long.csv",
+    "puckworks/data/angeloni2023/bioactives.csv",
+    "puckworks/data/angeloni2023/total_solids.csv",
+    "puckworks/data/angeloni2023/lipids.csv"
+  ],
+  "failed_v1_incident": "EXECUTION_OF_TARGET_TOUCHING_STAGE_A_INTEGRITY_TEST",
+  "failed_v1_result": "SCI_MD_004_STAGE_E0_UNAUTHORIZED_HOLDOUT_ACCESS",
+  "integrity_test_files": [
+    "tests/test_data_loaders.py",
+    "tests/test_paper_a_model_contract.py",
+    "tests/test_paper_a_source_observations.py",
+    "tests/test_paper_a_source_schema.py",
+    "tests/test_paper_a_transfer_contract.py",
+    "tests/test_sci_md_004_stage_a.py"
+  ],
+  "integrity_test_marker": "protected_target_integrity",
+  "opaque_metadata_paths": [
+    "docs/analysis/sci_md_004/data_contract.json",
+    "docs/analysis/sci_md_004/bundle_manifest.json"
+  ],
+  "opaque_target_metadata_access": "PERMITTED_FILENAME_HASH_ROW_COUNT_CLASSIFICATION_FLAG_SCHEMA_ONLY",
+  "protected_scoring_access": "UNAUTHORIZED_IN_STAGE_E0_R1",
+  "schema_version": "puckworks.sci-md-004-stage-e0-r1-target-policy/v1",
+  "semantic_target_access": "PROHIBITED"
+}

@@ -4,8 +4,11 @@ These assert structure and a few card-anchored values; they are NOT validation
 gates (no model runs here).
 """
 import numpy as np
+import pytest
 
 from puckworks import data as pwdata
+
+pytestmark = pytest.mark.protected_target_integrity
 
 
 def test_waszkiewicz_traces_11_pressures():
