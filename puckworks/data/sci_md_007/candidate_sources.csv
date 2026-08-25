@@ -1,0 +1,13 @@
+candidate_id,doi_or_stable_id,title,retrieval_method,full_text_available,numerical_table_available,screening_decision,exclusion_reason
+c01,10.1038/s41598-026-43923-9,A preliminary model to establish a digital twin for coffee roasting,existing card plus publisher,yes,yes,ATLAS_INCLUDED,primary dry basis not explicit for alkaloids
+c02,10.3390/beverages1030127,Discrimination between Arabica and Robusta Coffees Using Hydrosoluble Compounds,web rank,yes,yes,EXCLUDED_PRIMARY,reported values not explicitly dry basis and mixtures limit botanical independence
+c03,10.1016/j.jfca.2022.105140,Caffeine trigonelline chlorogenic acids melanoidins and diterpenes contents of Coffea canephora coffees produced in the Amazon,web rank,yes,yes,EXCLUDED_PRIMARY,Robusta only and exact dry-basis status not confirmed during bounded screen
+c04,10.1021/jf990702b,Discriminate analysis of roasted coffee varieties for trigonelline nicotinic acid and caffeine content,PubMed rank,abstract only,no,RIGHTS_OR_ACCESS_BLOCKED,exact table and mass basis unavailable reproducibly
+c05,S0308814699002289,HPLC diode-array applied to thermal degradation of trigonelline nicotinic acid and caffeine in coffee,web rank,metadata only,no,RIGHTS_OR_ACCESS_BLOCKED,exact table unavailable reproducibly
+c06,PMC10558851,Impact of different roasting conditions on chemical composition antioxidant activities and color,web rank,yes,yes,EXCLUDED_PRIMARY,mass basis not explicitly dry and one base material per species
+c07,PMC6365344,Critical roasting level determines bioactive content and antioxidant activity of Robusta coffee beans,web rank,yes,yes,EXCLUDED_PRIMARY,Robusta only and analyte table basis cannot form qualifying joint cohort
+c08,scielo-QN-commercial-2010,Teores de compostos bioativos em cafes torrados e moidos comerciais,web rank,yes,yes,EXCLUDED_PRIMARY,commercial blends with unknown species fractions and indistinguishable provenance
+c09,scielo-QN-commercial-2005,Determinacao de compostos bioativos em amostras comerciais de cafe torrado,web rank,yes,figure only,EXCLUDED_PRIMARY,commercial blends; source-level figure values not distinguishable material assays
+c10,espublisher-faf1717,ES Food Agroforestry 2025 arabica roast study,web rank,yes,yes,EXCLUDED_PRIMARY,Arabica only and source identity/rights insufficiently resolved
+c11,PMC12575026,Coffee Roast Level Timing and Carbohydrate Source Affect Peak Blood Glucose,web rank,yes,partial,EXCLUDED_PRIMARY,clinical/brew endpoint focus and bean table basis not qualifying
+c12,PMC11475540,Comparison of Ultra-High-Pressure and Conventional Cold Brew Coffee,web rank,yes,yes,EXCLUDED_PRIMARY,beverage concentration target

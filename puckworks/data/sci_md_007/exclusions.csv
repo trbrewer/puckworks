@@ -1,0 +1,13 @@
+record_id,record_type,typed_reason,detail
+c02,source,MASS_BASIS_UNRESOLVED,dry roasted basis not explicit
+c03,source,MASS_BASIS_UNRESOLVED,dry roasted basis not confirmed
+c04,source,RIGHTS_OR_ACCESS_BLOCKED,exact numerical table unavailable
+c05,source,RIGHTS_OR_ACCESS_BLOCKED,exact numerical table unavailable
+c06,source,MASS_BASIS_UNRESOLVED,dry roasted basis not explicit
+c07,source,SPECIES_SCOPE_INSUFFICIENT,Robusta only
+c08,source,UNKNOWN_SPECIES_BLEND,commercial blends lack known fractions
+c09,source,INDISTINGUISHABLE_MATERIALS,figure-level commercial summaries
+c10,source,SOURCE_IDENTITY_OR_RIGHTS_UNRESOLVED,insufficiently resolved in bounded screen
+c11,source,TARGET_SEMANTICS_INELIGIBLE,clinical and beverage endpoint focus
+c12,source,BEVERAGE_CONCENTRATION,not starting roasted inventory
+bruno_nonlipid,observation,MASS_BASIS_UNRESOLVED,roasted powder basis not explicitly dry and no same-batch moisture

@@ -1,0 +1,133 @@
+{
+  "F5": {
+    "paired_units": 0,
+    "pass": false,
+    "required": 20,
+    "required_validation_groups": 4,
+    "validation_groups": 0
+  },
+  "compound_gates": {
+    "caffeine": {
+      "F0": {
+        "eligible_rows": 0,
+        "failure_reasons": [],
+        "pass": true
+      },
+      "F1": {
+        "eligible_dry_basis_rows": 0,
+        "failure_reasons": [],
+        "pass": true,
+        "unsupported_conversions": 0
+      },
+      "F2": {
+        "base_materials": 0,
+        "failure_reasons": [
+          "no qualifying dry-basis cohort"
+        ],
+        "identified_laboratories": 0,
+        "largest_group_share": null,
+        "material_roast_units": 0,
+        "pass": false,
+        "publications": 0,
+        "required": 24,
+        "required_base_materials": 16,
+        "required_laboratories": 3,
+        "required_publications": 4,
+        "required_validation_groups": 4,
+        "validation_groups": 0
+      },
+      "F3": {
+        "arabica_units": 0,
+        "failure_reasons": [
+          "both species minima unmet"
+        ],
+        "pass": false,
+        "required_each_species": 8,
+        "robusta_units": 0
+      },
+      "F4": {
+        "failure_reasons": [
+          "no eligible roast strata or metric"
+        ],
+        "pass": false,
+        "route": "NEITHER"
+      },
+      "F6": {
+        "failure_reasons": [
+          "no eligible dry-basis units"
+        ],
+        "pass": false,
+        "source_laboratory_groups": 0,
+        "uncertainty_bearing_fraction": null
+      },
+      "F7": {
+        "failure_reasons": [
+          "fewer than four eligible validation groups"
+        ],
+        "outer_validation_groups": 0,
+        "pass": false
+      }
+    },
+    "trigonelline": {
+      "F0": {
+        "eligible_rows": 0,
+        "failure_reasons": [],
+        "pass": true
+      },
+      "F1": {
+        "eligible_dry_basis_rows": 0,
+        "failure_reasons": [],
+        "pass": true,
+        "unsupported_conversions": 0
+      },
+      "F2": {
+        "base_materials": 0,
+        "failure_reasons": [
+          "no qualifying dry-basis cohort"
+        ],
+        "identified_laboratories": 0,
+        "largest_group_share": null,
+        "material_roast_units": 0,
+        "pass": false,
+        "publications": 0,
+        "required": 24,
+        "required_base_materials": 16,
+        "required_laboratories": 3,
+        "required_publications": 4,
+        "required_validation_groups": 4,
+        "validation_groups": 0
+      },
+      "F3": {
+        "arabica_units": 0,
+        "failure_reasons": [
+          "both species minima unmet"
+        ],
+        "pass": false,
+        "required_each_species": 8,
+        "robusta_units": 0
+      },
+      "F4": {
+        "failure_reasons": [
+          "no eligible roast strata or metric"
+        ],
+        "pass": false,
+        "route": "NEITHER"
+      },
+      "F6": {
+        "failure_reasons": [
+          "no eligible dry-basis units"
+        ],
+        "pass": false,
+        "source_laboratory_groups": 0,
+        "uncertainty_bearing_fraction": null
+      },
+      "F7": {
+        "failure_reasons": [
+          "fewer than four eligible validation groups"
+        ],
+        "outer_validation_groups": 0,
+        "pass": false
+      }
+    }
+  }
+}

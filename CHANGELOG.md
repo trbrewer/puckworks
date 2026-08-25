@@ -5,6 +5,14 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **SCI-MD-007 inventory evidence atlas and feasibility screen (2026-08-25).** The frozen
+  F0--F7 reducer returns
+  `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
+  Eight direct Bruno caffeine/trigonelline rows remain useful total-roasted-content atlas
+  evidence but are not primary labels because their roasted-powder mass basis is not explicitly
+  dry and no same-batch moisture supports conversion. No model ran, no extractable fraction or
+  c_s0 mapping was established, and no Angeloni data were used.
+
 - **Grudeva rights corrected to `PERMISSION_DOCUMENTED` on direct written permission (2026-08-14, #73)
   — supersedes, does not retract, the earlier block.** On 2026-08-14 the upstream author, **Dr. Yoana
   Grudeva**, gave the maintainer direct written permission through LinkedIn to use and share material from

@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "docs/analysis/sci_md_007/feasibility_contract.json": "2f89470195572dc2e4c28960bad6a5f7357c36db6342fb0c13cf9443ab6417a2",
+    "puckworks/data/bruno2026/bruno2026_roasted_composition.csv": "b0168053f0a8fe5baf01683331b47639ce0c8c288d139b4c1011933adbf75b56",
+    "puckworks/data/sci_md_007/candidate_sources.csv": "01e26e9a94f19768eb78fd48da847ce0e43ceb8d3ce48f8b08e2b0bcbed7b4f1",
+    "puckworks/data/sci_md_007/coffee_material_register.csv": "38e14bdac5c59f01766d3fb18935b9f2f9cbf58237048d745af26983644242d0",
+    "puckworks/data/sci_md_007/duplicate_lineage_audit.csv": "3473d60a84fcb6a99f881aca55354a9112995a500548fefe92a3a939408fbc42",
+    "puckworks/data/sci_md_007/exclusions.csv": "ddea853390467c7885ac87ef1c52c1757356d1f843355fef35b0bb5d91f7d8ee",
+    "puckworks/data/sci_md_007/inventory_observation_register.csv": "f28d86dc9554820eb73947e6ce0e3649f81c02c220f6eaa02174f1459f7d5c88",
+    "puckworks/data/sci_md_007/search_log.csv": "8940b1233d9aa9602a0fdffbea393cf8326034ecc1972ecf303a06025bc1b3e8",
+    "puckworks/data/sci_md_007/source_register.csv": "9865d697707438e3cc6567558177909200cb4fdfbc5aa39a19186ad60a0926af"
+  },
+  "outputs": {
+    "docs/analysis/sci_md_007/SCI_MD_007_EXPORT.json": "626822addc1113bb41c0b51481a0ddbe2f21f9d52f358d1cf5e70cb342e07cd1",
+    "docs/analysis/sci_md_007/coffee_material_summary.csv": "cd132f39b61f2a6f8ea84f7ee57aa81d2a5902fb9df117e4542c6ca26e0f5864",
+    "docs/analysis/sci_md_007/descriptor_coverage.csv": "b60f95f3bc95704aa74ba528c0675d166705d5a6e5042f7cc74a6e8a553d7ead",
+    "docs/analysis/sci_md_007/evidence_class_summary.csv": "a331351b11098b2fe13673520757dfae1801d1bfe18e6df568e33b4f3c0341a3",
+    "docs/analysis/sci_md_007/feasibility_contract.json": "2f89470195572dc2e4c28960bad6a5f7357c36db6342fb0c13cf9443ab6417a2",
+    "docs/analysis/sci_md_007/feasibility_gates.json": "2bb39fd223be30311ce36709f0a2528436a5f22c8ba3675e46c170617b623848",
+    "docs/analysis/sci_md_007/independence_audit.csv": "58c767e3a8b9541590083e5ec9986ba9b5b9ac99e72a33cd07d9cc1e42d77101",
+    "docs/analysis/sci_md_007/mass_basis_conversion_audit.csv": "1b501fc8d2d06eb89b7914934ab9511a5ef81b0e3798ded9d7fa0dc5a6688f8c",
+    "docs/analysis/sci_md_007/paired_analyte_coverage.csv": "c71514c833a618acab71f4714bdfdaeee1e2251716651d63eab18cead0cf2d82",
+    "docs/analysis/sci_md_007/result.json": "0948fb72026112b144b7f900a6a4dc1e6538e53d63443e5925c73b99971f8232",
+    "docs/analysis/sci_md_007/result.md": "411072276ad073a301998ff9565235b40ada3ae3ee02f4693c51f28f52db7f9c",
+    "docs/analysis/sci_md_007/source_summary.csv": "cf9d39d410b76059b97cabd680800637d14416d82016eee53d54d6635ce046e2",
+    "docs/analysis/sci_md_007/uncertainty_floor.csv": "eeb3766e089124330022573537eeb5ce45dfa800e0171c873be02806219f115c"
+  },
+  "schema_version": "1.0.0"
+}

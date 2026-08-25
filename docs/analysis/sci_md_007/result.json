@@ -1,0 +1,193 @@
+{
+  "canonical_mass_basis": "mg analyte / g dry roasted coffee",
+  "claim_ceiling": [
+    "Evidence-adequacy and prediction-feasibility screen only.",
+    "Not physical validation of Espresso Whole-Pull or any extraction-kinetics formulation.",
+    "Does not establish an extractable fraction or turn total roasted content into c_s0.",
+    "Does not authorize runtime integration or an elaborate predictor.",
+    "Does not reopen SCI-MD-006 and does not reuse Angeloni.",
+    "FAIL means a descriptor-conditioned inventory model is not justified by admitted direct evidence; only restricted source-specific or broad priors remain defensible."
+  ],
+  "compound_gates": {
+    "caffeine": {
+      "F0": {
+        "eligible_rows": 0,
+        "failure_reasons": [],
+        "pass": true
+      },
+      "F1": {
+        "eligible_dry_basis_rows": 0,
+        "failure_reasons": [],
+        "pass": true,
+        "unsupported_conversions": 0
+      },
+      "F2": {
+        "base_materials": 0,
+        "failure_reasons": [
+          "no qualifying dry-basis cohort"
+        ],
+        "identified_laboratories": 0,
+        "largest_group_share": null,
+        "material_roast_units": 0,
+        "pass": false,
+        "publications": 0,
+        "required": 24,
+        "required_base_materials": 16,
+        "required_laboratories": 3,
+        "required_publications": 4,
+        "required_validation_groups": 4,
+        "validation_groups": 0
+      },
+      "F3": {
+        "arabica_units": 0,
+        "failure_reasons": [
+          "both species minima unmet"
+        ],
+        "pass": false,
+        "required_each_species": 8,
+        "robusta_units": 0
+      },
+      "F4": {
+        "failure_reasons": [
+          "no eligible roast strata or metric"
+        ],
+        "pass": false,
+        "route": "NEITHER"
+      },
+      "F6": {
+        "failure_reasons": [
+          "no eligible dry-basis units"
+        ],
+        "pass": false,
+        "source_laboratory_groups": 0,
+        "uncertainty_bearing_fraction": null
+      },
+      "F7": {
+        "failure_reasons": [
+          "fewer than four eligible validation groups"
+        ],
+        "outer_validation_groups": 0,
+        "pass": false
+      }
+    },
+    "trigonelline": {
+      "F0": {
+        "eligible_rows": 0,
+        "failure_reasons": [],
+        "pass": true
+      },
+      "F1": {
+        "eligible_dry_basis_rows": 0,
+        "failure_reasons": [],
+        "pass": true,
+        "unsupported_conversions": 0
+      },
+      "F2": {
+        "base_materials": 0,
+        "failure_reasons": [
+          "no qualifying dry-basis cohort"
+        ],
+        "identified_laboratories": 0,
+        "largest_group_share": null,
+        "material_roast_units": 0,
+        "pass": false,
+        "publications": 0,
+        "required": 24,
+        "required_base_materials": 16,
+        "required_laboratories": 3,
+        "required_publications": 4,
+        "required_validation_groups": 4,
+        "validation_groups": 0
+      },
+      "F3": {
+        "arabica_units": 0,
+        "failure_reasons": [
+          "both species minima unmet"
+        ],
+        "pass": false,
+        "required_each_species": 8,
+        "robusta_units": 0
+      },
+      "F4": {
+        "failure_reasons": [
+          "no eligible roast strata or metric"
+        ],
+        "pass": false,
+        "route": "NEITHER"
+      },
+      "F6": {
+        "failure_reasons": [
+          "no eligible dry-basis units"
+        ],
+        "pass": false,
+        "source_laboratory_groups": 0,
+        "uncertainty_bearing_fraction": null
+      },
+      "F7": {
+        "failure_reasons": [
+          "fewer than four eligible validation groups"
+        ],
+        "outer_validation_groups": 0,
+        "pass": false
+      }
+    }
+  },
+  "counts": {
+    "atlas_base_materials": 4,
+    "atlas_data_lineages": 1,
+    "atlas_laboratories": 1,
+    "atlas_material_roast_units": 4,
+    "atlas_observations": 8,
+    "atlas_publications": 1,
+    "atlas_sources": 1,
+    "candidate_sources": 12,
+    "eligible_observations_per_analyte": {
+      "caffeine": 0,
+      "trigonelline": 0
+    },
+    "excluded_candidates": 11,
+    "rights_or_access_blocked": 2
+  },
+  "descriptor_coverage_summary": {
+    "eligible_cohort": 0,
+    "post_pass_descriptors": []
+  },
+  "evidence_class_counts": {
+    "DIRECT_ROASTED_MATERIAL_ASSAY_TOTAL_ROASTED_CONTENT": 8
+  },
+  "evidence_cutoff_date": "2026-08-25",
+  "extractable_inventory_mapping_status": "NOT_ESTABLISHED",
+  "measurement_recommendation": {
+    "minimum_design": "paired caffeine/trigonelline direct dry-basis assays spanning both species, at least two comparable roast levels, 24 material-roast units, 16 base materials, four publications, three laboratories, four leakage-safe groups, same-batch moisture and raw replicates",
+    "status": "PROSPECTIVE_NOT_COMMISSIONED"
+  },
+  "model_adoption_status": "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN",
+  "model_comparison_summary": null,
+  "model_stage": "NOT_RUN_FEASIBILITY_FAILED",
+  "operational_status": "COMPLETE",
+  "overall_gate_result": false,
+  "paired_coverage": {
+    "F5": {
+      "paired_units": 0,
+      "pass": false,
+      "required": 20,
+      "required_validation_groups": 4,
+      "validation_groups": 0
+    }
+  },
+  "schema_version": "1.0.0",
+  "scientific_disposition": "SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED",
+  "target_semantics": "TOTAL_ROASTED_CONTENT",
+  "task_id": "SCI-MD-007",
+  "uncertainty_floor_summary": {
+    "between_lab_reproducibility_floor": "NOT_IDENTIFIABLE",
+    "caffeine": "NOT_ESTIMABLE_ON_ELIGIBLE_COHORT",
+    "trigonelline": "NOT_ESTIMABLE_ON_ELIGIBLE_COHORT"
+  },
+  "unit_conversion_counts": {
+    "dry_basis_conversions": 0,
+    "exact_unit_conversions": 8,
+    "excluded_unresolved_basis": 8,
+    "moisture_supported": 0
+  }
+}

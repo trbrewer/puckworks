@@ -1,0 +1,7 @@
+descriptor,eligible_observation_completeness,eligible_for_model,note
+species,NOT_ESTIMABLE,false,no eligible dry-basis cohort
+roast_category,NOT_ESTIMABLE,false,no eligible dry-basis cohort
+quantitative_roast_metric,NOT_ESTIMABLE,false,no eligible dry-basis cohort
+moisture,NOT_ESTIMABLE,false,no eligible dry-basis cohort
+analytical_method,NOT_ESTIMABLE,false,no eligible dry-basis cohort
+replicate_count,NOT_ESTIMABLE,false,no eligible dry-basis cohort

@@ -1,0 +1,11 @@
+search_id,provider,query,execution_date,retrieval_window,screened_count,citation_pass_status
+q01,OpenAI web search,"caffeine trigonelline roasted coffee HPLC",2026-08-25,first results page,screened,complete
+q02,OpenAI web search,"caffeine trigonelline roasting degree arabica robusta",2026-08-25,first results page,screened,complete
+q03,OpenAI web search,"trigonelline caffeine coffee roast level content",2026-08-25,first results page,screened,complete
+q04,OpenAI web search,"Coffea arabica Coffea canephora caffeine trigonelline roasted beans",2026-08-25,first results page,screened,complete
+q05,OpenAI web search,"coffee roast colour caffeine trigonelline",2026-08-25,first results page,screened,complete
+q06,OpenAI web search,"Agtron caffeine trigonelline coffee",2026-08-25,first results page,screened,complete
+q07,OpenAI web search,"coffee roasting caffeine trigonelline dry basis moisture",2026-08-25,first results page,screened,complete
+q08,OpenAI web search,"roasted coffee alkaloid composition species roast analytical method",2026-08-25,first results page,screened,complete
+bruno_backward,Scientific Reports references,Bruno 2026 backward references screened for direct roasted assays,2026-08-25,all displayed references,screened,complete
+bruno_forward,OpenAI web search,Bruno 2026 cited by,2026-08-25,first results page,screened,complete
