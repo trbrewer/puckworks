@@ -10,7 +10,6 @@ import argparse
 import csv
 import hashlib
 import json
-import math
 from pathlib import Path
 
 TARGET_SEMANTICS = {
@@ -90,9 +89,57 @@ def contract_path() -> Path:
 def validate_contract() -> dict:
     raw = contract_path().read_bytes()
     obj = json.loads(raw)
-    assert obj["task_id"] == "SCI-MD-007"
-    assert obj["thresholds"]["F2"]["material_roast_units"] == 24
-    return {"contract_sha256": hashlib.sha256(raw).hexdigest(), "valid": True}
+    expected = {
+        "contract_id": "SCI_MD_007_FEASIBILITY_CONTRACT_V1",
+        "schema_version": "1.0.0", "task_id": "SCI-MD-007",
+        "evidence_cutoff_date": "2026-08-25",
+        "canonical_unit": "mg analyte / g dry roasted coffee",
+        "eligible_target_semantics": "TOTAL_ROASTED_CONTENT",
+        "eligible_measurement_provenance": "DIRECT_ROASTED_MATERIAL_ASSAY",
+        "thresholds": {
+            "F2": {"material_roast_units": 24, "base_coffee_materials": 16,
+                   "source_publications": 4, "identified_laboratories": 3,
+                   "validation_groups": 4, "largest_group_max_fraction": .5},
+            "F3": {"units_per_species": 8, "validation_groups_per_species": 3,
+                   "publications_per_species": 2, "laboratories_per_species": 2},
+            "F4": {"categorical_strata_per_species": 2,
+                   "categorical_units_per_stratum": 4,
+                   "categorical_groups_per_stratum": 2,
+                   "quantitative_metric_units": 16,
+                   "quantitative_metric_units_per_species": 6,
+                   "quantitative_metric_groups": 3,
+                   "within_species_varying_groups": 2},
+            "F5": {"paired_material_roast_units": 20, "validation_groups": 4},
+            "F6": {"uncertainty_bearing_fraction": .5,
+                   "uncertainty_source_laboratory_groups": 3},
+            "F7": {"outer_validation_groups": 4}},
+        "compound_formula": "F0 and F1 and F2 and F3 and F4 and F6 and F7",
+        "overall_formula": "caffeine_feasible and trigonelline_feasible and F5",
+        "pass_disposition": PASS, "fail_disposition": FAIL,
+        "model_adoption_status": "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN"}
+    digest = hashlib.sha256(raw).hexdigest()
+    if obj != expected or digest != "2f89470195572dc2e4c28960bad6a5f7357c36db6342fb0c13cf9443ab6417a2":
+        raise ValueError("frozen SCI-MD-007 contract differs from commit 241eca9")
+    r1_path = contract_path().parent / "r1/R1_CORRECTIVE_SEARCH_CONTRACT.json"
+    r1 = json.loads(r1_path.read_text(encoding="utf-8"))
+    protocol = contract_path().parent / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md"
+    required = {"schema_version", "closure_class", "task_id", "authorization_id",
+                "evidence_cutoff_date", "original_contract_commit",
+                "original_contract_sha256", "providers", "result_limit_per_query_per_provider",
+                "queries", "mandatory_rescreen", "citation_passes", "source_screening_states",
+                "row_eligibility_rules", "search_completion_formula", "rights_rules",
+                "angeloni_rule", "protocol_sha256"}
+    if set(r1) < required or r1["closure_class"] != "R1_CORRECTIVE_CONTRACT_CLOSURE":
+        raise ValueError("R1 corrective contract schema incomplete")
+    if len(r1["queries"]) != 8 or r1["providers"] != ["Crossref", "OpenAlex", "GeneralPublicWeb"]:
+        raise ValueError("R1 query/provider set differs from frozen corrective design")
+    if r1["result_limit_per_query_per_provider"] != 20:
+        raise ValueError("R1 result limit changed")
+    protocol_digest = hashlib.sha256(protocol.read_bytes()).hexdigest()
+    if protocol_digest != r1["protocol_sha256"]:
+        raise ValueError("R1 protocol hash mismatch")
+    return {"contract_sha256": digest, "r1_contract_sha256": hashlib.sha256(r1_path.read_bytes()).hexdigest(),
+            "r1_protocol_sha256": protocol_digest, "valid": True}
 
 
 ROOT = Path(__file__).parents[2]
