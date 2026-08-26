@@ -1,7 +1,10 @@
 {
   "c_s0_mapping_status": "NOT_ESTABLISHED",
   "commissioning_authorized": false,
-  "disposition": "SCI_ED_002_PROTOCOL_FROZEN_COMMISSIONING_NOT_AUTHORIZED",
+  "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED",
+  "blockers": [
+    "REQUIRED_PUCKWORKS_QUICK_LANE_NOT_COMPLETED_AFTER_REPOSITORY_ENVIRONMENT_AND_EXPECTATION_FAILURES"
+  ],
   "formal_quotes_obtained": false,
   "governing_physics_change": false,
   "laboratories_contacted": false,
