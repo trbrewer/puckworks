@@ -190,10 +190,22 @@ def validate_contract() -> dict:
     protocol_digest = hashlib.sha256(protocol.read_bytes()).hexdigest()
     if protocol_digest != r1["protocol_sha256"]:
         raise ValueError("R1 protocol hash mismatch")
+    r2_path = contract_path().parent / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json"
+    r2 = json.loads(r2_path.read_text(encoding="utf-8"))
+    if (
+        r2["result_schema_version"] != "1.2.0-R2"
+        or r2["thresholds"] != expected["thresholds"]
+        or r2["scientific_disposition"]["compound_formula"] != expected["compound_formula"]
+        or r2["scientific_disposition"]["overall_formula"] != expected["overall_formula"]
+        or r2["scientific_disposition"]["pass"] != PASS
+        or r2["scientific_disposition"]["fail"] != FAIL
+    ):
+        raise ValueError("R2 correction contract changes frozen feasibility authority")
     return {
         "contract_sha256": digest,
         "r1_contract_sha256": hashlib.sha256(r1_path.read_bytes()).hexdigest(),
         "r1_protocol_sha256": protocol_digest,
+        "r2_contract_sha256": hashlib.sha256(r2_path.read_bytes()).hexdigest(),
         "valid": True,
     }
 
@@ -215,8 +227,8 @@ def _hash(path: Path) -> str:
 
 
 def build_atlas(check: bool = False) -> dict:
-    """Run the R1 data-derived generator; authoritative inputs are read-only."""
-    from .sci_md_007_r1 import build
+    """Run the R2 data-derived generator; authoritative inputs are read-only."""
+    from .sci_md_007_r2 import build
 
     return build(check=check)
 
@@ -231,7 +243,7 @@ def main(argv=None) -> int:
     if args.command == "validate-contract":
         print(json.dumps(validate_contract(), sort_keys=True))
     else:
-        from .sci_md_007_r1 import build
+        from .sci_md_007_r2 import build
 
         result = build(check=args.check)
         print(

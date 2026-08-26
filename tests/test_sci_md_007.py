@@ -1,7 +1,7 @@
 import pytest
 
 from puckworks.analysis import sci_md_007 as s
-from puckworks.analysis import sci_md_007_r1 as r1
+from puckworks.analysis import sci_md_007_r2 as r2
 
 
 @pytest.mark.parametrize(
@@ -114,12 +114,12 @@ def test_each_row_eligibility_primitive_is_required(field, value):
 
 
 def test_registers_validate_and_eligibility_is_data_derived():
-    sources = r1.read_csv("sources.csv")
-    materials = r1.read_csv("materials.csv")
-    observations = r1.read_csv("observations.csv")
-    r1.validate_registers(sources, materials, observations)
-    mapping, _ = r1.groups(materials, observations)
-    qualified = r1.qualify(observations, mapping)
+    sources = r2.read_csv("sources.csv")
+    materials = r2.read_csv("materials.csv")
+    observations = r2.read_csv("observations.csv")
+    r2.validate_registers(sources, materials, observations)
+    mapping, _ = r2.groups(materials, observations)
+    qualified = r2.qualify(observations, mapping)
     direct = next(x for x in qualified if x["observation_id"].startswith("acre-caf"))
     fitted = next(x for x in qualified if x["observation_id"] == "pannusch-caffeine")
     assert direct["primary_prediction_label_eligible"] is True
@@ -129,7 +129,7 @@ def test_registers_validate_and_eligibility_is_data_derived():
     row["canonical_unit"] = ""
     row["conversion_status"] = "UNRESOLVED"
     assert not next(
-        x for x in r1.qualify(changed, mapping) if x["observation_id"] == row["observation_id"]
+        x for x in r2.qualify(changed, mapping) if x["observation_id"] == row["observation_id"]
     )["primary_prediction_label_eligible"]
 
 
@@ -156,18 +156,18 @@ def test_registers_validate_and_eligibility_is_data_derived():
     ],
 )
 def test_register_validator_fails_closed(mutation, match):
-    sources = r1.read_csv("sources.csv")
-    materials = r1.read_csv("materials.csv")
-    observations = r1.read_csv("observations.csv")
+    sources = r2.read_csv("sources.csv")
+    materials = r2.read_csv("materials.csv")
+    observations = r2.read_csv("observations.csv")
     mutation(sources, materials, observations)
     with pytest.raises(ValueError, match=match):
-        r1.validate_registers(sources, materials, observations)
+        r2.validate_registers(sources, materials, observations)
 
 
 def test_connected_groups_join_publications_and_roasts():
-    materials = r1.read_csv("materials.csv")
-    observations = r1.read_csv("observations.csv")
-    mapping, edges = r1.groups(materials, observations)
+    materials = r2.read_csv("materials.csv")
+    observations = r2.read_csv("observations.csv")
+    mapping, edges = r2.groups(materials, observations)
     dias = {
         mapping[(m["base_coffee_material_id"], m["roast_batch_id"])]
         for m in materials
@@ -178,10 +178,10 @@ def test_connected_groups_join_publications_and_roasts():
 
 
 def test_real_reducer_is_register_derived_and_blocks_model():
-    sources = r1.read_csv("sources.csv")
-    materials = r1.read_csv("materials.csv")
-    observations = r1.read_csv("observations.csv")
-    rows, edges, gates, f5, feasible, overall = r1.reduce(sources, materials, observations)
+    sources = r2.read_csv("sources.csv")
+    materials = r2.read_csv("materials.csv")
+    observations = r2.read_csv("observations.csv")
+    rows, edges, gates, f5, feasible, overall = r2.reduce(sources, materials, observations)
     assert len(rows) == len(observations) == 228 and edges
     assert gates["caffeine"]["F2"]["material_roast_units"] == 112
     assert gates["caffeine"]["F2"]["publications"] == 3
@@ -192,7 +192,7 @@ def test_real_reducer_is_register_derived_and_blocks_model():
 
 
 def test_fitted_and_asymptotic_classes_are_present_without_inflation():
-    observations = r1.read_csv("observations.csv")
+    observations = r2.read_csv("observations.csv")
     assert sum(x["measurement_provenance"] == "MODEL_INFERRED_OR_FITTED" for x in observations) == 2
     assert (
         sum(x["measurement_provenance"] == "ASYMPTOTIC_EXTRACTION_ESTIMATE" for x in observations)
@@ -211,8 +211,8 @@ def test_fitted_and_asymptotic_classes_are_present_without_inflation():
 
 
 def test_search_is_numeric_terminal_and_citation_complete():
-    sources = r1.read_csv("sources.csv")
-    result = r1.search_complete(sources)
+    sources = r2.read_csv("sources.csv")
+    result = r2.search_complete(sources)
     assert result["pass"] and result["searches"] == 24 and result["result_records"] == 400
     assert result["citation_records"] >= 12
 
@@ -231,21 +231,21 @@ def test_synthetic_pass_path_runs_all_models_without_group_leakage():
                         "target": 10 + group + (species == "Robusta") * 4 - roast_i,
                     }
                 )
-    result = r1.run_simple_models(records)
+    result = r2.run_simple_models(records)
     assert set(result["models"]) == {"M0", "M1", "M2", "M3"}
     assert result["outer_groups"] == ["g0", "g1", "g2", "g3"]
     assert all(x["prediction_count"] == len(records) for x in result["models"].values())
-    assert result == r1.run_simple_models(records)
+    assert result == r2.run_simple_models(records)
 
 
 def test_generated_artifacts_are_byte_identical():
-    result = r1.build(check=True)
+    result = r2.build(check=True)
     assert result["operational_status"] == "COMPLETE"
     assert result["model_stage"] == "NOT_RUN_FEASIBILITY_FAILED"
 
 
 def test_claim_ceiling_and_extractable_status_are_independent():
-    result = __import__("json").loads((r1.OUT / "result.json").read_text())
+    result = __import__("json").loads((r2.OUT / "result.json").read_text())
     assert result["extractable_inventory_mapping_status"] == "NOT_ESTABLISHED"
     assert any("Physical validation remains NOT_ESTABLISHED" in x for x in result["claim_ceiling"])
     assert result["model_adoption_status"] == "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN"
