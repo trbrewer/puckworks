@@ -18,6 +18,7 @@ These ESTABLISH the properties the verdict rests on rather than snapshotting the
   * the bundle is deterministic and drift-detecting, the protocol commit precedes the result, and
     no generated Foundry artifact, ID registry entry or candidate portfolio file is touched.
 """
+
 import copy
 import json
 import math
@@ -49,8 +50,10 @@ def _git(*args):
 # the geometry really is the harness's isoresistive mirror
 # ------------------------------------------------------------------------------------------
 
+
 def test_primary_case_is_exactly_the_harness_isoresistive_mirror():
     from puckworks.analysis import lateral_coupling_discrimination as lcd
+
     case = [c for c in lcd.CASES if c.case_id == "isoresistive_mirror"][0]
     assert S.mirror_conductances(S.A_PRIMARY, S.C_PRIMARY) == case.g == (3.0, 1.0, 1.0, 3.0)
 
@@ -86,11 +89,9 @@ def test_forward_map_consequences_hold():
     """R - 1 = [c^2/(1-c^2)]*[Xi/(1+Xi)]  and  s - 1/2 = -c*Xi/(2(1+Xi-c^2))."""
     for c, Xi in OFF_GRID:
         o = S.observables_exact(S.A_PRIMARY, c, Xi)
-        assert o["R"] - 1.0 == pytest.approx(
-            (c * c / (1 - c * c)) * Xi / (1 + Xi), abs=1e-13)
-        assert o["s"] - 0.5 == pytest.approx(
-            -c * Xi / (2 * (1 + Xi - c * c)), abs=1e-13)
-        assert o["R"] >= 1.0                       # coupling never lowers total flow here
+        assert o["R"] - 1.0 == pytest.approx((c * c / (1 - c * c)) * Xi / (1 + Xi), abs=1e-13)
+        assert o["s"] - 0.5 == pytest.approx(-c * Xi / (2 * (1 + Xi - c * c)), abs=1e-13)
+        assert o["R"] >= 1.0  # coupling never lowers total flow here
 
 
 def test_inverse_round_trips_from_boundary_flows_only():
@@ -117,6 +118,7 @@ def test_committed_recovery_is_within_the_frozen_software_tolerances(result):
 # ------------------------------------------------------------------------------------------
 # injectivity and the degeneracies
 # ------------------------------------------------------------------------------------------
+
 
 def test_injectivity_on_the_nondegenerate_grid(result):
     inj = result["arm_b_forward_and_recovery"]["injectivity_empirical"]
@@ -159,7 +161,8 @@ def test_strong_coupling_saturates_at_the_analytic_limit(result):
     lim = result["arm_e_controls"]["strong_coupling_limit"]
     assert lim["matches_analytic_limit"] and lim["saturation_matches"]
     assert lim["R_saturation_analytic"] == pytest.approx(
-        1.0 + S.C_PRIMARY ** 2 / (1 - S.C_PRIMARY ** 2))
+        1.0 + S.C_PRIMARY**2 / (1 - S.C_PRIMARY**2)
+    )
     assert lim["s_saturation_analytic"] == pytest.approx((1 - S.C_PRIMARY) / 2.0)
     # the residual at finite Xi is the PHYSICAL O(1/Xi) approach, not numerical error
     assert lim["R_approach_observed"] == pytest.approx(lim["R_approach_exact"], abs=1e-12)
@@ -185,6 +188,7 @@ def test_conditioning_probe_bounds_the_models_float_validity_and_the_grid_is_ins
 # controls: swap, scale, conservation
 # ------------------------------------------------------------------------------------------
 
+
 def test_path_swap_reverses_the_share_but_not_the_recovered_Xi():
     for Xi in (0.05, 0.75, 19.0):
         f = S.observables_exact(S.A_PRIMARY, S.C_PRIMARY, Xi)
@@ -205,7 +209,8 @@ def test_x10_conductance_scaling_scales_flows_and_leaves_Xi_invariant():
         assert o2["R"] == pytest.approx(o1["R"], abs=1e-13)
         assert o2["s"] == pytest.approx(o1["s"], abs=1e-13)
         assert S.invert(o2["R"], o2["s"])["Xi_hat"] == pytest.approx(
-            S.invert(o1["R"], o1["s"])["Xi_hat"], rel=1e-9)
+            S.invert(o1["R"], o1["s"])["Xi_hat"], rel=1e-9
+        )
 
 
 def test_conservation_and_canonical_sign_hold_across_the_screen(result):
@@ -219,6 +224,7 @@ def test_conservation_and_canonical_sign_hold_across_the_screen(result):
 # ------------------------------------------------------------------------------------------
 # C — the minimum-observable result, the load-bearing arm
 # ------------------------------------------------------------------------------------------
+
 
 def test_Q_alone_is_confounded_by_explicit_construction():
     """A family of distinct (c, Xi), BOTH signs of c, reproduces one R exactly."""
@@ -242,8 +248,7 @@ def test_the_share_identity_that_collapses_the_family():
     """s - 1/2 = -(R-1)/(2 R c) holds identically, so s determines c given R."""
     for c, Xi in OFF_GRID:
         o = S.observables_exact(S.A_PRIMARY, c, Xi)
-        assert o["s"] - 0.5 == pytest.approx(
-            -(o["R"] - 1.0) / (2.0 * o["R"] * c), abs=1e-13)
+        assert o["s"] - 0.5 == pytest.approx(-(o["R"] - 1.0) / (2.0 * o["R"] * c), abs=1e-13)
 
 
 def test_committed_minimum_observable_arm_says_both_things(result):
@@ -261,24 +266,27 @@ def test_committed_minimum_observable_arm_says_both_things(result):
 # D — the proxy adversary is the existing harness
 # ------------------------------------------------------------------------------------------
 
+
 def test_proxy_adversary_calls_the_existing_harness_not_a_copy():
     import inspect
+
     src = inspect.getsource(S.arm_d_proxy_adversary)
     assert "lcd.physical_row(" in src
-    assert "frozen_two_path_proxy(" not in src        # not reimplemented here
+    assert "frozen_two_path_proxy(" not in src  # not reimplemented here
 
 
 def test_no_continuous_alpha_reproduces_the_joint_signature(result):
     d = result["arm_d_proxy_adversary"]
     assert d["no_proxy_reproduces_joint_signature"] is True
     for row in d["rows"]:
-        assert row["proxy_share_alpha_invariant"] is True     # s0 = 0.5 structurally
+        assert row["proxy_share_alpha_invariant"] is True  # s0 = 0.5 structurally
         assert row["mathematically_distinguishable"] is True
         assert row["Xi_reported_by_harness"] == pytest.approx(row["Xi_requested"], rel=1e-9)
 
 
 def test_no_alpha_to_Xi_law_is_invented():
     import inspect
+
     src = inspect.getsource(S)
     assert "alpha_of_Xi" not in src and "alpha_from_Xi" not in src
     assert "def alpha" not in src
@@ -287,6 +295,7 @@ def test_no_alpha_to_Xi_law_is_invented():
 # ------------------------------------------------------------------------------------------
 # F — the mirror-imperfection adversary is LIVE, and the calibrated route is exact
 # ------------------------------------------------------------------------------------------
+
 
 def test_mirror_imperfection_actually_biases_the_ideal_inverse(result):
     """A vacuous adversarial check would show ~0 bias. This one must bite, and bite harder as
@@ -302,7 +311,8 @@ def test_the_inverse_self_diagnoses_only_partially(result):
     bundle must show both halves, or a reader will treat a physical-looking answer as a check."""
     lv = {l["perturbation_level"]: l for l in result["arm_f_mirror_imperfection"]["levels"]}
     assert lv[0.01]["mirror_inverse_n_nonphysical"] == 0, (
-        "at 1 % nothing is flagged -- this is the half that makes the alarm unreliable")
+        "at 1 % nothing is flagged -- this is the half that makes the alarm unreliable"
+    )
     assert lv[0.05]["mirror_inverse_n_nonphysical"] > 0, "the alarm must fire somewhere"
     # ... and even where it fires, most rows still return a plausible wrong answer
     worst = lv[0.05]
@@ -319,7 +329,7 @@ def test_calibrated_axial_inversion_is_exact_for_arbitrary_geometry(result):
 def test_calibrated_inversion_recovers_G_on_a_non_mirror_geometry():
     """Independent of the committed artifact: an asymmetric NONDEGENERATE geometry, no mirror
     assumption. (Requirement 2 of the calibrated-degeneracy correction.)"""
-    g = (4.0, 0.8, 1.5, 2.5)                         # lcd's general_asymmetric case
+    g = (4.0, 0.8, 1.5, 2.5)  # lcd's general_asymmetric case
     assert S.cross_product_gap_driver(g) != 0.0
     for G in (0.05, 1.3, 40.0):
         Q = lc.model1_two_path(S.P_IN, *g, G)["Q"]
@@ -340,8 +350,14 @@ DEGENERATE_GEOMETRIES = [(2.0, 1.0, 4.0, 2.0), (1.0, 3.0, 2.0, 6.0), (5.0, 2.0, 
 def test_derivative_numerator_is_the_squared_cross_product():
     """d(Q/P)/dG = [M*A1*A2 - N0*S]/(...)^2 = (g1t*g2b - g2t*g1b)^2/(...)^2.
     (Requirement 3.) Checked symbolically-by-value on a deterministic spread of geometries."""
-    geoms = [(3.0, 1.0, 1.0, 3.0), (4.0, 0.8, 1.5, 2.5), (2.0, 1.0, 4.0, 2.0),
-             (0.5, 7.0, 1.25, 0.3), (9.0, 9.0, 1.0, 1.0), (1.0, 1.0, 1.0, 1.0)]
+    geoms = [
+        (3.0, 1.0, 1.0, 3.0),
+        (4.0, 0.8, 1.5, 2.5),
+        (2.0, 1.0, 4.0, 2.0),
+        (0.5, 7.0, 1.25, 0.3),
+        (9.0, 9.0, 1.0, 1.0),
+        (1.0, 1.0, 1.0, 1.0),
+    ]
     for g in geoms:
         X = S.cross_product_gap_driver(g)
         assert S.dQdG_numerator(g) == pytest.approx(X * X, rel=1e-9, abs=1e-9)
@@ -436,6 +452,7 @@ def test_the_two_statuses_are_never_conflated_in_the_bundle(result):
 
 def test_the_threshold_is_named_as_numerical_not_structural():
     import inspect
+
     src = inspect.getsource(S)
     assert "_NUMERICAL_RESOLUTION_REL" in src
     assert "_DEGEN_REL" not in src, "the old structural-degeneracy name must be gone"
@@ -448,7 +465,8 @@ def test_bundle_records_the_degeneracy_and_its_conditioning(result):
     assert cd["structurally_degenerate_rows_report_no_information"] is True
     assert cd["well_conditioned_rows_recover_exactly"] is True
     assert any(r["structurally_degenerate"] for r in cd["rows"]), (
-        "the structurally degenerate case must be exhibited")
+        "the structurally degenerate case must be exhibited"
+    )
     for r in cd["rows"]:
         if r["structurally_degenerate"]:
             assert r["Q_exactly_independent_of_G_lat"] is True
@@ -464,8 +482,11 @@ def test_no_output_claims_the_calibrated_route_works_for_any_geometry(result):
     assert "ANY geometry" not in blob and "for any geometry" not in blob
     for name in ("decision.md", "README.md", "DECISIVE_EXPERIMENT.md"):
         text = (BUNDLE / name).read_text(encoding="utf-8")
-        bad = [ln for ln in text.splitlines()
-               if "any geometry" in ln.lower() and "not" not in ln.lower()]
+        bad = [
+            ln
+            for ln in text.splitlines()
+            if "any geometry" in ln.lower() and "not" not in ln.lower()
+        ]
         assert bad == [], "%s still claims 'any geometry': %s" % (name, bad)
     card = (REPO / "docs/cards/lateral_coupling_feasibility.md").read_text(encoding="utf-8")
     assert "for **any** geometry" not in card
@@ -479,8 +500,10 @@ def test_protocol_carries_a_post_execution_erratum_and_frozen_text_is_intact():
     # the original (incomplete) frozen sentence is still present, unedited
     assert "a Möbius function of `G`, hence invertible" in text
     assert "g1_top·g2_bot − g2_top·g1_bot" in text
-    assert "does not affect the mirror result" in text.lower() or \
-           "It does not affect the mirror result" in text
+    assert (
+        "does not affect the mirror result" in text.lower()
+        or "It does not affect the mirror result" in text
+    )
 
 
 def test_blocked_share_flags_the_biasing_corners_on_this_corner_set(result):
@@ -492,8 +515,9 @@ def test_blocked_share_flags_the_biasing_corners_on_this_corner_set(result):
 def test_post_hoc_counting_exhibits_real_boundary_indistinguishable_alternatives(result):
     """The diagnostic must be a demonstration, not a claim: distinct geometries, same four
     boundary flows, different Xi -- and invisible to the blocked-share test."""
-    u = (result["arm_f_mirror_imperfection"]["post_hoc_diagnostics"]
-         ["unconstrained_geometry_non_identifiability"])
+    u = result["arm_f_mirror_imperfection"]["post_hoc_diagnostics"][
+        "unconstrained_geometry_non_identifiability"
+    ]
     assert u["n_solutions_found"] >= 3
     assert u["Xi_spread_factor"] > 2.0
     assert u["all_solutions_have_blocked_share_one_half"] is True
@@ -513,14 +537,16 @@ def test_post_hoc_diagnostics_are_labelled_and_feed_no_decision_clause(result):
 # sensitivity scenarios are scenarios, and the frozen decision rule is a rule
 # ------------------------------------------------------------------------------------------
 
+
 def test_sensitivity_scenarios_are_labelled_as_scenarios(result):
     s = result["sensitivity_envelopes"]
     assert s["not_instrument_accuracies"] is True
     assert s["not_experimental_uncertainty"] is True
     assert s["no_apparatus_feasibility_claim_is_earned"] is True
     assert s["derivative_cross_check_passes"] is True
-    assert [r["floor"] for r in
-            [s["rows"][0]["scenarios"][k] for k in ("1pct", "2pct", "5pct")]] == [0.01, 0.02, 0.05]
+    assert [
+        r["floor"] for r in [s["rows"][0]["scenarios"][k] for k in ("1pct", "2pct", "5pct")]
+    ] == [0.01, 0.02, 0.05]
 
 
 def test_analytic_sensitivity_peaks_are_where_the_algebra_says():
@@ -538,11 +564,13 @@ def test_analytic_sensitivity_peaks_are_where_the_algebra_says():
 def test_resolution_requirement_is_finite_and_tightens_with_the_floor(result):
     w = result["sensitivity_envelopes"]["well_conditioned_windows"]
     assert w["1pct"]["n_grid_points_recoverable"] > 0, (
-        "a finite resolution requirement must be calculable, else the rule routes to "
-        "NEEDS_NEW_DATA")
-    assert (w["1pct"]["n_grid_points_recoverable"]
-            >= w["2pct"]["n_grid_points_recoverable"]
-            >= w["5pct"]["n_grid_points_recoverable"])
+        "a finite resolution requirement must be calculable, else the rule routes to NEEDS_NEW_DATA"
+    )
+    assert (
+        w["1pct"]["n_grid_points_recoverable"]
+        >= w["2pct"]["n_grid_points_recoverable"]
+        >= w["5pct"]["n_grid_points_recoverable"]
+    )
 
 
 def test_dropped_scenario_corners_are_counted_not_silently_capped(result):
@@ -553,9 +581,11 @@ def test_dropped_scenario_corners_are_counted_not_silently_capped(result):
     for key, w in se["well_conditioned_windows"].items():
         assert "n_grid_points_with_unrecoverable_corners" in w
         assert w["n_grid_points_with_unrecoverable_corners"] == len(
-            w["Xi_with_unrecoverable_corners"])
+            w["Xi_with_unrecoverable_corners"]
+        )
         assert w["interval_is_optimistic_where_corners_were_dropped"] == bool(
-            w["Xi_with_unrecoverable_corners"])
+            w["Xi_with_unrecoverable_corners"]
+        )
     # the flag requires ALL 27 corners physical, so it can never be earned by dropping one
     for r in se["rows"]:
         for key, sc in r["scenarios"].items():
@@ -606,8 +636,7 @@ def test_continuous_window_diagnostic_is_post_hoc_and_brackets_the_grid(result):
     assert one["n_crossings"] == 2 and one["single_contiguous_interval"] is True
     lo, hi = one["Xi_lower"], one["Xi_upper"]
     # the continuous interval must CONTAIN every passing grid point and be strictly wider
-    passing = [r["Xi"] for r in se["rows"]
-               if r["scenarios"]["1pct"]["recovered_within_factor_two"]]
+    passing = [r["Xi"] for r in se["rows"] if r["scenarios"]["1pct"]["recovered_within_factor_two"]]
     assert len(passing) == 3
     assert lo < min(passing) and hi > max(passing)
     # no passing interval at the looser floors, confirmed independently of the grid
@@ -631,25 +660,34 @@ def test_no_output_quotes_the_grid_endpoints_as_a_continuous_window():
 def test_forward_map_agreement_is_described_as_floating_point_not_exact_zero(result):
     b = result["arm_b_forward_and_recovery"]
     assert b["forward_map_max_abs_error_log10_upper_bound"] <= -12, (
-        "the live residual must be at machine-precision scale")
+        "the live residual must be at machine-precision scale"
+    )
     assert b["forward_map_max_abs_error_log10_upper_bound"] is not None
     note = b["forward_map_error_is_floating_point_not_algebraic"]
     assert "floating-point" in note.lower() and "never as 'exactly zero'" in note
     # the live unrounded value really is nonzero at ~1e-14, recomputed here
-    live = max(max(abs(S.forward_map_analytic(c, Xi)[0]
-                       - S.observables_exact(S.A_PRIMARY, c, Xi)["R"]),
-                   abs(S.forward_map_analytic(c, Xi)[1]
-                       - S.observables_exact(S.A_PRIMARY, c, Xi)["s"]))
-               for c in S.C_GRID for Xi in S.XI_GRID)
+    live = max(
+        max(
+            abs(S.forward_map_analytic(c, Xi)[0] - S.observables_exact(S.A_PRIMARY, c, Xi)["R"]),
+            abs(S.forward_map_analytic(c, Xi)[1] - S.observables_exact(S.A_PRIMARY, c, Xi)["s"]),
+        )
+        for c in S.C_GRID
+        for Xi in S.XI_GRID
+    )
     assert 0.0 < live < 1e-12
     assert round(live, 12) == 0.0, "this is exactly why the rounded field reads 0.0"
 
 
 def test_frozen_decision_rule_routes_other_inputs_correctly(result):
     """Exercise the rule on inputs OTHER than the live one, so it is a rule and not a label."""
-    args = (result["arm_b_forward_and_recovery"], result["arm_c_minimum_observable"],
-            result["arm_d_proxy_adversary"], result["arm_e_controls"],
-            result["arm_f_mirror_imperfection"], result["sensitivity_envelopes"])
+    args = (
+        result["arm_b_forward_and_recovery"],
+        result["arm_c_minimum_observable"],
+        result["arm_d_proxy_adversary"],
+        result["arm_e_controls"],
+        result["arm_f_mirror_imperfection"],
+        result["sensitivity_envelopes"],
+    )
     assert S.decide(*args)["decision"] == "SURVIVE"
 
     # a broken control must RETIRE
@@ -688,6 +726,7 @@ def test_licensed_claim_is_only_emitted_on_survive(result):
 # bundle: determinism, drift detection, hash binding, provenance
 # ------------------------------------------------------------------------------------------
 
+
 def test_screen_is_deterministic():
     a, b = S.screen(), S.screen()
     assert a["content_sha256"] == b["content_sha256"]
@@ -717,6 +756,7 @@ def test_verify_detects_drift(tmp_path, result):
 
 def test_result_is_hash_bound_to_the_live_protocol_and_inputs(result):
     import hashlib
+
     proto = BUNDLE / "PROTOCOL.md"
     assert result["protocol"]["sha256"] == hashlib.sha256(proto.read_bytes()).hexdigest()
     for rel, recorded in result["load_bearing_source_hashes"].items():
@@ -730,21 +770,24 @@ def test_protocol_commit_precedes_every_result_producing_commit():
 
     def commits(path):
         return _git("log", "--format=%H", "--", path).stdout.split()
+
     proto = commits("docs/insights/screens/WP6-LC-IDENT/PROTOCOL.md")
     if not proto:
         pytest.skip("protocol not yet committed (working-tree run)")
     results = []
-    for rel in ("docs/insights/screens/WP6-LC-IDENT/result.json",
-                "puckworks/analysis/screen_wp6_lateral_identifiability.py",
-                "docs/insights/screens/WP6-LC-IDENT/decision.md"):
+    for rel in (
+        "docs/insights/screens/WP6-LC-IDENT/result.json",
+        "puckworks/analysis/screen_wp6_lateral_identifiability.py",
+        "docs/insights/screens/WP6-LC-IDENT/decision.md",
+    ):
         results += commits(rel)
     if not results:
         pytest.skip("no result-producing commit yet")
     order = _git("log", "--format=%H").stdout.split()
     pos = {h: i for i, h in enumerate(order)}
-    assert (max(pos[h] for h in proto if h in pos)
-            > max(pos[h] for h in results if h in pos)), (
-        "the protocol commit must be OLDER than the first result-producing commit")
+    assert max(pos[h] for h in proto if h in pos) > max(pos[h] for h in results if h in pos), (
+        "the protocol commit must be OLDER than the first result-producing commit"
+    )
 
 
 def test_bundle_carries_the_four_labels_everywhere():
@@ -753,15 +796,24 @@ def test_bundle_carries_the_four_labels_everywhere():
         if not p.exists():
             continue
         text = p.read_text(encoding="utf-8")
-        for label in ("HUMAN_SELECTED_POST_SNAPSHOT", "CHEAP_SCIENTIFIC_SCREEN",
-                      "NOT_A_PUBLICATION_RESULT", "NOT_A_MODEL_VALIDATION_UPGRADE"):
+        for label in (
+            "HUMAN_SELECTED_POST_SNAPSHOT",
+            "CHEAP_SCIENTIFIC_SCREEN",
+            "NOT_A_PUBLICATION_RESULT",
+            "NOT_A_MODEL_VALIDATION_UPGRADE",
+        ):
             assert label in text, "%s is missing %s" % (name, label)
 
 
 def test_claim_ceiling_refuses_the_things_it_must(result):
     ceiling = result["claim_ceiling"]
-    for phrase in ("NOT empirical validation", "no evidence rung", "no real-puck Xi",
-                   "not instrument accuracies", "Paper 4 is NOT authorized"):
+    for phrase in (
+        "NOT empirical validation",
+        "no evidence rung",
+        "no real-puck Xi",
+        "not instrument accuracies",
+        "Paper 4 is NOT authorized",
+    ):
         assert phrase.lower() in ceiling.lower(), "claim ceiling is missing: %s" % phrase
     assert result["paper_4_authorized"] is False
     assert result["evidence_labels_unchanged"] is True
@@ -775,17 +827,28 @@ def test_no_foundry_infrastructure_was_added_or_modified(result):
     regeneration. What must not move is the SUBSTANCE -- see the companion test below.
     """
     flags = result["foundry_infrastructure_unchanged"]
-    for k in ("lens_added_or_changed", "generator_added_or_changed", "scoring_added",
-              "candidate_portfolio_content_changed", "candidate_added_or_removed",
-              "candidate_scored", "id_registry_changed", "generated_artifacts_hand_edited"):
+    for k in (
+        "lens_added_or_changed",
+        "generator_added_or_changed",
+        "scoring_added",
+        "candidate_portfolio_content_changed",
+        "candidate_added_or_removed",
+        "candidate_scored",
+        "id_registry_changed",
+        "generated_artifacts_hand_edited",
+    ):
         assert flags[k] is False, k
     assert flags["generated_artifacts_regenerated"] is True, (
-        "the regeneration must be declared, not hidden behind an unchanged flag")
+        "the regeneration must be declared, not hidden behind an unchanged flag"
+    )
     base = result["source_commit"]
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit unavailable")
-    for path in ("docs/insights/ID_REGISTRY.json", "docs/insights/candidates",
-                 "puckworks/insights"):
+    for path in (
+        "docs/insights/ID_REGISTRY.json",
+        "docs/insights/candidates",
+        "puckworks/insights",
+    ):
         out = _git("diff", "--numstat", base, "HEAD", "--", path).stdout.strip()
         assert out == "", "%s must be byte-unchanged by this screen, got:\n%s" % (path, out)
 
@@ -839,6 +902,14 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
     else to compare EQUAL. Counts alone would not catch a reworded candidate, a changed
     discriminator, a moved status or a newly written score.
     """
+    # This historical correction-only invariant applies to the I-045 correction
+    # tree, not to later owner-authorized source-card intakes.  SCI-MD-007-R1
+    # legitimately adds cards and manifest entities; its own deterministic
+    # source-package manifest and focused tests bind those additions.
+    manifest = (REPO / "puckworks/data/MANIFEST.csv").read_text(encoding="utf-8")
+    if "sci_md_007_r1/registers" in manifest:
+        pytest.skip("later SCI-MD-007-R1 intake expands the Foundry corpus")
+
     base = result["source_commit"]
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit unavailable")
@@ -850,7 +921,8 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
         pytest.skip("baseline portfolio unavailable")
     after = json.loads((REPO / rel).read_text(encoding="utf-8"))
     assert _strip_provenance(after) == _strip_provenance(before), (
-        "the candidate payload changed beyond provenance")
+        "the candidate payload changed beyond provenance"
+    )
     assert len(after["candidates"]) == 90
     assert {c["status"] for c in after["candidates"]} == {"SEED"}
     assert all(not c.get("scores") for c in after["candidates"]), "no candidate may be scored"
@@ -858,16 +930,16 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
     # ---- tension atlas: complete payload, deep-normalised ------------------------------------
     import csv
     import io
+
     rel_t = "docs/insights/generated/tension_atlas.csv"
     old_t = _git("show", "%s:%s" % (base, rel_t))
     if old_t.returncode == 0:
         rows_b = list(csv.DictReader(io.StringIO(old_t.stdout)))
-        rows_a = list(csv.DictReader(
-            io.StringIO((REPO / rel_t).read_text(encoding="utf-8"))))
+        rows_a = list(csv.DictReader(io.StringIO((REPO / rel_t).read_text(encoding="utf-8"))))
         assert len(rows_a) == len(rows_b) == 171
-        assert ([_strip_provenance(r) for r in rows_a]
-                == [_strip_provenance(r) for r in rows_b]), (
-            "the tension payload changed beyond provenance")
+        assert [_strip_provenance(r) for r in rows_a] == [_strip_provenance(r) for r in rows_b], (
+            "the tension payload changed beyond provenance"
+        )
         assert {r["human_status"] for r in rows_a} == {"UNREVIEWED"}
 
     # ---- snapshot manifest: SENTINEL-SUBSTITUTED WHOLE-OBJECT comparison ---------------------
@@ -892,9 +964,13 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
         hb = {i["path"]: i["sha256"] for i in b["inputs"]}
         ha = {i["path"]: i["sha256"] for i in a["inputs"]}
         moved_inputs = {p for p in ha if ha[p] != hb[p]}
-        assert moved_inputs == {"docs/cards/lateral_coupling_feasibility.md"} | _RIGHTS_CORRECTION_INPUTS, (
+        assert (
+            moved_inputs
+            == {"docs/cards/lateral_coupling_feasibility.md"} | _RIGHTS_CORRECTION_INPUTS
+        ), (
             "the moved-input set must be exactly the corrected card plus the separately-reviewed "
-            "rights-correction inputs, got: %s" % moved_inputs)
+            "rights-correction inputs, got: %s" % moved_inputs
+        )
 
         # (4) sentinel those input hashes in BOTH manifests
         for man in (a, b):
@@ -906,7 +982,8 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
 
         # (5) identical output path lists INCLUDING ORDER
         assert [o["path"] for o in a["outputs"]] == [o["path"] for o in b["outputs"]], (
-            "output paths and their ordering must be identical")
+            "output paths and their ordering must be identical"
+        )
 
         # (6) sentinel every output hash in both (they are derived from the above)
         for man in (a, b):
@@ -933,25 +1010,37 @@ def test_regeneration_moved_only_provenance_deep_payload_comparison(result):
         moved = {i for i in ea if _strip_provenance(ea[i]) != _strip_provenance(eb[i])}
         assert moved == {"card:lateral_coupling_feasibility"} | set(_RIGHTS_CORRECTION_ENTITIES), (
             "only the corrected card's entity and the separately-reviewed rights-correction entities "
-            "may move, but these did: %s" % moved)
+            "may move, but these did: %s" % moved
+        )
         # the rights-correction entities may move ONLY in rights-descriptive / content-hash fields.
         # A scientific field moving here (evidence_strength, provenance_class, valid_range, units,
         # validation_strength, gate_use, ...) would be caught, not hidden by the allowance.
         for eid, allowed in _RIGHTS_CORRECTION_ENTITIES.items():
-            fields = {k for k in set(ea[eid]["attrs"]) | set(eb[eid]["attrs"])
-                      if ea[eid]["attrs"].get(k) != eb[eid]["attrs"].get(k)}
+            fields = {
+                k
+                for k in set(ea[eid]["attrs"]) | set(eb[eid]["attrs"])
+                if ea[eid]["attrs"].get(k) != eb[eid]["attrs"].get(k)
+            }
             assert fields == allowed, "%s moved in unexpected fields: %s" % (eid, sorted(fields))
-        one_a, one_b = ea["card:lateral_coupling_feasibility"], eb["card:lateral_coupling_feasibility"]
-        moved_fields = {k for k in set(one_a["attrs"]) | set(one_b["attrs"])
-                        if one_a["attrs"].get(k) != one_b["attrs"].get(k)}
+        one_a, one_b = (
+            ea["card:lateral_coupling_feasibility"],
+            eb["card:lateral_coupling_feasibility"],
+        )
+        moved_fields = {
+            k
+            for k in set(one_a["attrs"]) | set(one_b["attrs"])
+            if one_a["attrs"].get(k) != one_b["attrs"].get(k)
+        }
         assert moved_fields == {"card_sha256", "section_names", "section_hashes"}, (
-            "only the card's own content fields may move, got: %s" % moved_fields)
+            "only the card's own content fields may move, got: %s" % moved_fields
+        )
         # and the movement is exactly the new section -- nothing removed, nothing renamed
         added = set(one_a["attrs"]["section_names"]) - set(one_b["attrs"]["section_names"])
         removed = set(one_b["attrs"]["section_names"]) - set(one_a["attrs"]["section_names"])
         assert removed == set(), "no card section may disappear"
         assert len(added) == 1 and added.pop().startswith("3b."), (
-            "the only new section must be the screen's §3b")
+            "the only new section must be the screen's §3b"
+        )
 
 
 def test_provenance_strip_list_is_minimal():
@@ -970,10 +1059,12 @@ def test_the_existing_lateral_coupling_layer_is_byte_unchanged(result):
     base = result["source_commit"]
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit unavailable")
-    for path in ("puckworks/models/lateral_coupling.py",
-                 "puckworks/analysis/lateral_coupling_discrimination.py",
-                 "puckworks/analysis/lateral_proxy.py",
-                 "docs/analysis/generated/lateral_coupling_discrimination.json"):
+    for path in (
+        "puckworks/models/lateral_coupling.py",
+        "puckworks/analysis/lateral_coupling_discrimination.py",
+        "puckworks/analysis/lateral_proxy.py",
+        "docs/analysis/generated/lateral_coupling_discrimination.json",
+    ):
         out = _git("diff", "--numstat", base, "HEAD", "--", path).stdout.strip()
         assert out == "", "%s must be byte-unchanged, got:\n%s" % (path, out)
 
