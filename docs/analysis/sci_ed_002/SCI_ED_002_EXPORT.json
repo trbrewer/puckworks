@@ -1,6 +1,6 @@
 {
-  "candidate_commit": "SELF_REFERENTIAL_FINAL_COMMIT_RECORDED_BY_RELEASE_STEP",
-  "candidate_tree": "SELF_REFERENTIAL_FINAL_TREE_RECORDED_BY_RELEASE_STEP",
+  "candidate_commit": "2b8c3937bf05c4c0cc00b1bbe532845532a48e1e",
+  "candidate_tree": "b9c84f73bbc1057d63edccb0018a6a7b04d7d4ea",
   "claim_ceiling": {
     "c_s0_mapping_status": "NOT_ESTABLISHED",
     "commissioning_authorized": false,
