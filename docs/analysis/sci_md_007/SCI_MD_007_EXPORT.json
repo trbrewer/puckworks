@@ -1,170 +1,370 @@
 {
-  "authoritative_artifact_hashes": {
-    "coffee_material_summary.csv": "cd132f39b61f2a6f8ea84f7ee57aa81d2a5902fb9df117e4542c6ca26e0f5864",
-    "descriptor_coverage.csv": "b60f95f3bc95704aa74ba528c0675d166705d5a6e5042f7cc74a6e8a553d7ead",
-    "evidence_class_summary.csv": "a331351b11098b2fe13673520757dfae1801d1bfe18e6df568e33b4f3c0341a3",
-    "feasibility_gates.json": "2bb39fd223be30311ce36709f0a2528436a5f22c8ba3675e46c170617b623848",
-    "independence_audit.csv": "58c767e3a8b9541590083e5ec9986ba9b5b9ac99e72a33cd07d9cc1e42d77101",
-    "mass_basis_conversion_audit.csv": "1b501fc8d2d06eb89b7914934ab9511a5ef81b0e3798ded9d7fa0dc5a6688f8c",
-    "paired_analyte_coverage.csv": "c71514c833a618acab71f4714bdfdaeee1e2251716651d63eab18cead0cf2d82",
-    "result.json": "0948fb72026112b144b7f900a6a4dc1e6538e53d63443e5925c73b99971f8232",
-    "result.md": "411072276ad073a301998ff9565235b40ada3ae3ee02f4693c51f28f52db7f9c",
-    "source_summary.csv": "cf9d39d410b76059b97cabd680800637d14416d82016eee53d54d6635ce046e2",
-    "uncertainty_floor.csv": "eeb3766e089124330022573537eeb5ce45dfa800e0171c873be02806219f115c"
-  },
   "claim_ceiling": [
     "Evidence-adequacy and prediction-feasibility screen only.",
-    "Not physical validation of Espresso Whole-Pull or any extraction-kinetics formulation.",
-    "Does not establish an extractable fraction or turn total roasted content into c_s0.",
-    "Does not authorize runtime integration or an elaborate predictor.",
-    "Does not reopen SCI-MD-006 and does not reuse Angeloni.",
-    "FAIL means a descriptor-conditioned inventory model is not justified by admitted direct evidence; only restricted source-specific or broad priors remain defensible."
+    "Physical validation remains NOT_ESTABLISHED; no extraction-kinetics formulation was validated.",
+    "Total roasted content is not extractable inventory or c_s0.",
+    "No runtime integration or elaborate predictor is authorized.",
+    "SCI-MD-006 is not reopened; Angeloni is not reused; G0 remains separate and deferred.",
+    "A PASS means only that bounded leakage-safe simple-model comparison is structurally possible; a FAIL leaves restricted source-specific or broad priors."
   ],
+  "compound_feasible": {
+    "caffeine": false,
+    "trigonelline": false
+  },
   "compound_gates": {
     "caffeine": {
       "F0": {
-        "eligible_rows": 0,
-        "failure_reasons": [],
+        "applicability": "APPLICABLE",
+        "eligible_rows": 112,
         "pass": true
       },
       "F1": {
-        "eligible_dry_basis_rows": 0,
-        "failure_reasons": [],
+        "applicability": "APPLICABLE",
+        "eligible_dry_basis_rows": 112,
         "pass": true,
         "unsupported_conversions": 0
       },
       "F2": {
-        "base_materials": 0,
+        "base_materials": 102,
         "failure_reasons": [
-          "no qualifying dry-basis cohort"
+          "publications",
+          "identified_laboratories",
+          "validation_groups",
+          "largest_group_share"
         ],
-        "identified_laboratories": 0,
-        "largest_group_share": null,
-        "material_roast_units": 0,
+        "identified_laboratories": 1,
+        "largest_group_share": 0.5982142857142857,
+        "material_roast_units": 112,
         "pass": false,
-        "publications": 0,
-        "required": 24,
-        "required_base_materials": 16,
-        "required_laboratories": 3,
-        "required_publications": 4,
-        "required_validation_groups": 4,
-        "validation_groups": 0
+        "publications": 3,
+        "thresholds": {
+          "base_coffee_materials": 16,
+          "identified_laboratories": 3,
+          "largest_group_max_fraction": 0.5,
+          "material_roast_units": 24,
+          "source_publications": 4,
+          "validation_groups": 4
+        },
+        "validation_groups": 3
       },
       "F3": {
-        "arabica_units": 0,
         "failure_reasons": [
-          "both species minima unmet"
+          "Arabica",
+          "Robusta"
         ],
         "pass": false,
-        "required_each_species": 8,
-        "robusta_units": 0
+        "species": {
+          "Arabica": {
+            "laboratories": 1,
+            "material_roast_units": 3,
+            "publications": 1,
+            "validation_groups": 1
+          },
+          "Robusta": {
+            "laboratories": 1,
+            "material_roast_units": 100,
+            "publications": 3,
+            "validation_groups": 3
+          }
+        },
+        "thresholds": {
+          "laboratories_per_species": 2,
+          "publications_per_species": 2,
+          "units_per_species": 8,
+          "validation_groups_per_species": 3
+        }
       },
       "F4": {
+        "categorical_route": {
+          "pass": false,
+          "strata": {
+            "Arabica": {
+              "dark": 1,
+              "light": 1,
+              "medium": 1
+            },
+            "Robusta": {
+              "dark": 1,
+              "light": 1,
+              "medium": 68
+            }
+          }
+        },
         "failure_reasons": [
-          "no eligible roast strata or metric"
+          "neither roast route qualifies"
         ],
         "pass": false,
-        "route": "NEITHER"
+        "quantitative_route": {
+          "groups": 3,
+          "pass": false,
+          "units": 112
+        },
+        "thresholds": {
+          "categorical_groups_per_stratum": 2,
+          "categorical_strata_per_species": 2,
+          "categorical_units_per_stratum": 4,
+          "quantitative_metric_groups": 3,
+          "quantitative_metric_units": 16,
+          "quantitative_metric_units_per_species": 6,
+          "within_species_varying_groups": 2
+        }
       },
       "F6": {
-        "failure_reasons": [
-          "no eligible dry-basis units"
-        ],
-        "pass": false,
-        "source_laboratory_groups": 0,
-        "uncertainty_bearing_fraction": null
+        "between_lab_reproducibility_floor": "NOT_IDENTIFIABLE",
+        "eligible_units": 112,
+        "failure_reasons": [],
+        "pass": true,
+        "source_laboratory_groups": 3,
+        "thresholds": {
+          "uncertainty_bearing_fraction": 0.5,
+          "uncertainty_source_laboratory_groups": 3
+        },
+        "uncertainty_bearing_fraction": 1.0,
+        "uncertainty_bearing_units": 112
       },
       "F7": {
+        "base_material_leakage": 0,
+        "category_support_all_folds": false,
+        "data_lineage_leakage": 0,
         "failure_reasons": [
-          "fewer than four eligible validation groups"
+          "outer group/category support threshold unmet"
         ],
-        "outer_validation_groups": 0,
-        "pass": false
+        "outer_validation_groups": 3,
+        "pass": false,
+        "proposed_folds": [
+          {
+            "test_group": "vg_001",
+            "training_groups": [
+              "vg_002",
+              "vg_004"
+            ]
+          },
+          {
+            "test_group": "vg_002",
+            "training_groups": [
+              "vg_001",
+              "vg_004"
+            ]
+          },
+          {
+            "test_group": "vg_004",
+            "training_groups": [
+              "vg_001",
+              "vg_002"
+            ]
+          }
+        ],
+        "publication_leakage": 0,
+        "thresholds": {
+          "outer_validation_groups": 4
+        }
       }
     },
     "trigonelline": {
       "F0": {
-        "eligible_rows": 0,
-        "failure_reasons": [],
+        "applicability": "APPLICABLE",
+        "eligible_rows": 112,
         "pass": true
       },
       "F1": {
-        "eligible_dry_basis_rows": 0,
-        "failure_reasons": [],
+        "applicability": "APPLICABLE",
+        "eligible_dry_basis_rows": 112,
         "pass": true,
         "unsupported_conversions": 0
       },
       "F2": {
-        "base_materials": 0,
+        "base_materials": 102,
         "failure_reasons": [
-          "no qualifying dry-basis cohort"
+          "publications",
+          "identified_laboratories",
+          "validation_groups",
+          "largest_group_share"
         ],
-        "identified_laboratories": 0,
-        "largest_group_share": null,
-        "material_roast_units": 0,
+        "identified_laboratories": 1,
+        "largest_group_share": 0.5982142857142857,
+        "material_roast_units": 112,
         "pass": false,
-        "publications": 0,
-        "required": 24,
-        "required_base_materials": 16,
-        "required_laboratories": 3,
-        "required_publications": 4,
-        "required_validation_groups": 4,
-        "validation_groups": 0
+        "publications": 3,
+        "thresholds": {
+          "base_coffee_materials": 16,
+          "identified_laboratories": 3,
+          "largest_group_max_fraction": 0.5,
+          "material_roast_units": 24,
+          "source_publications": 4,
+          "validation_groups": 4
+        },
+        "validation_groups": 3
       },
       "F3": {
-        "arabica_units": 0,
         "failure_reasons": [
-          "both species minima unmet"
+          "Arabica",
+          "Robusta"
         ],
         "pass": false,
-        "required_each_species": 8,
-        "robusta_units": 0
+        "species": {
+          "Arabica": {
+            "laboratories": 1,
+            "material_roast_units": 3,
+            "publications": 1,
+            "validation_groups": 1
+          },
+          "Robusta": {
+            "laboratories": 1,
+            "material_roast_units": 100,
+            "publications": 3,
+            "validation_groups": 3
+          }
+        },
+        "thresholds": {
+          "laboratories_per_species": 2,
+          "publications_per_species": 2,
+          "units_per_species": 8,
+          "validation_groups_per_species": 3
+        }
       },
       "F4": {
+        "categorical_route": {
+          "pass": false,
+          "strata": {
+            "Arabica": {
+              "dark": 1,
+              "light": 1,
+              "medium": 1
+            },
+            "Robusta": {
+              "dark": 1,
+              "light": 1,
+              "medium": 68
+            }
+          }
+        },
         "failure_reasons": [
-          "no eligible roast strata or metric"
+          "neither roast route qualifies"
         ],
         "pass": false,
-        "route": "NEITHER"
+        "quantitative_route": {
+          "groups": 3,
+          "pass": false,
+          "units": 112
+        },
+        "thresholds": {
+          "categorical_groups_per_stratum": 2,
+          "categorical_strata_per_species": 2,
+          "categorical_units_per_stratum": 4,
+          "quantitative_metric_groups": 3,
+          "quantitative_metric_units": 16,
+          "quantitative_metric_units_per_species": 6,
+          "within_species_varying_groups": 2
+        }
       },
       "F6": {
-        "failure_reasons": [
-          "no eligible dry-basis units"
-        ],
-        "pass": false,
-        "source_laboratory_groups": 0,
-        "uncertainty_bearing_fraction": null
+        "between_lab_reproducibility_floor": "NOT_IDENTIFIABLE",
+        "eligible_units": 112,
+        "failure_reasons": [],
+        "pass": true,
+        "source_laboratory_groups": 3,
+        "thresholds": {
+          "uncertainty_bearing_fraction": 0.5,
+          "uncertainty_source_laboratory_groups": 3
+        },
+        "uncertainty_bearing_fraction": 1.0,
+        "uncertainty_bearing_units": 112
       },
       "F7": {
+        "base_material_leakage": 0,
+        "category_support_all_folds": false,
+        "data_lineage_leakage": 0,
         "failure_reasons": [
-          "fewer than four eligible validation groups"
+          "outer group/category support threshold unmet"
         ],
-        "outer_validation_groups": 0,
-        "pass": false
+        "outer_validation_groups": 3,
+        "pass": false,
+        "proposed_folds": [
+          {
+            "test_group": "vg_001",
+            "training_groups": [
+              "vg_002",
+              "vg_004"
+            ]
+          },
+          {
+            "test_group": "vg_002",
+            "training_groups": [
+              "vg_001",
+              "vg_004"
+            ]
+          },
+          {
+            "test_group": "vg_004",
+            "training_groups": [
+              "vg_001",
+              "vg_002"
+            ]
+          }
+        ],
+        "publication_leakage": 0,
+        "thresholds": {
+          "outer_validation_groups": 4
+        }
       }
     }
   },
   "counts": {
-    "atlas_base_materials": 4,
-    "atlas_data_lineages": 1,
-    "atlas_laboratories": 1,
-    "atlas_material_roast_units": 4,
-    "atlas_observations": 8,
-    "atlas_publications": 1,
-    "atlas_sources": 1,
-    "candidate_sources": 12,
-    "eligible_observations_per_analyte": {
-      "caffeine": 0,
-      "trigonelline": 0
+    "atlas_material_roast_units": 114,
+    "atlas_observations": 228,
+    "identified_laboratories": 1,
+    "primary_eligible_observations": 224,
+    "primary_eligible_per_analyte": {
+      "caffeine": 112,
+      "trigonelline": 112
     },
-    "excluded_candidates": 11,
-    "rights_or_access_blocked": 2
+    "publications": 3,
+    "sources": 6
+  },
+  "evidence_class_counts": {
+    "ASYMPTOTIC_EXTRACTION_ESTIMATE|ASYMPTOTIC_EXTRACTED_MASS": 2,
+    "DIRECT_ROASTED_MATERIAL_ASSAY|TOTAL_ROASTED_CONTENT": 224,
+    "MODEL_INFERRED_OR_FITTED|SOLID_PHASE_CONCENTRATION": 2
   },
   "evidence_cutoff_date": "2026-08-25",
   "extractable_inventory_mapping_status": "NOT_ESTABLISHED",
-  "measurement_recommendation": {
-    "minimum_design": "paired caffeine/trigonelline direct dry-basis assays spanning both species, at least two comparable roast levels, 24 material-roast units, 16 base materials, four publications, three laboratories, four leakage-safe groups, same-batch moisture and raw replicates",
-    "status": "PROSPECTIVE_NOT_COMMISSIONED"
+  "measurement_deficits": {
+    "caffeine": {
+      "F2": [
+        "publications",
+        "identified_laboratories",
+        "validation_groups",
+        "largest_group_share"
+      ],
+      "F3": [
+        "Arabica",
+        "Robusta"
+      ],
+      "F4": [
+        "neither roast route qualifies"
+      ],
+      "F7": [
+        "outer group/category support threshold unmet"
+      ]
+    },
+    "trigonelline": {
+      "F2": [
+        "publications",
+        "identified_laboratories",
+        "validation_groups",
+        "largest_group_share"
+      ],
+      "F3": [
+        "Arabica",
+        "Robusta"
+      ],
+      "F4": [
+        "neither roast route qualifies"
+      ],
+      "F7": [
+        "outer group/category support threshold unmet"
+      ]
+    }
   },
   "model_adoption_status": "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN",
   "model_comparison_summary": null,
@@ -173,14 +373,19 @@
   "overall_gate_result": false,
   "paired_coverage": {
     "F5": {
-      "paired_units": 0,
+      "failure_reasons": [
+        "paired units or validation groups below threshold"
+      ],
+      "paired_material_roast_units": 112,
       "pass": false,
-      "required": 20,
-      "required_validation_groups": 4,
-      "validation_groups": 0
+      "thresholds": {
+        "paired_material_roast_units": 20,
+        "validation_groups": 4
+      },
+      "validation_groups": 3
     }
   },
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0-R1",
   "scientific_disposition": "SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED",
   "task_id": "SCI-MD-007"
 }

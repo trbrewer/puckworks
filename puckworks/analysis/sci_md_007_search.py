@@ -1,4 +1,5 @@
 """Bounded public-metadata collector for the frozen SCI-MD-007-R1 search."""
+
 from __future__ import annotations
 
 import csv
@@ -31,12 +32,12 @@ def _get(url: str) -> bytes:
     for attempt in range(5):
         try:
             with urllib.request.urlopen(request, timeout=60) as response:
-                time.sleep(.25)
+                time.sleep(0.25)
                 return response.read()
         except urllib.error.HTTPError as error:
             if error.code not in {429, 500, 502, 503, 504} or attempt == 4:
                 raise
-            time.sleep(2 ** attempt)
+            time.sleep(2**attempt)
     raise RuntimeError("unreachable retry state")
 
 
@@ -56,43 +57,69 @@ def _state(title: str) -> str:
 
 def _crossref(query: str, limit: int) -> list[dict]:
     url = "https://api.crossref.org/works?" + urllib.parse.urlencode(
-        {"query": query, "rows": limit, "select": "DOI,title,author,published,URL"})
+        {"query": query, "rows": limit, "select": "DOI,title,author,published,URL"}
+    )
     items = json.loads(_get(url))["message"]["items"]
     rows = []
     for item in items:
         date = item.get("published", {}).get("date-parts", [[""]])[0]
-        authors = "; ".join(" ".join(filter(None, (a.get("given"), a.get("family"))))
-                            for a in item.get("author", []))
-        rows.append({"title": " ".join(item.get("title", [])), "authors": authors,
-                     "year": date[0] if date else "", "doi_or_stable_id": item.get("DOI", ""),
-                     "result_url": item.get("URL", "")})
+        authors = "; ".join(
+            " ".join(filter(None, (a.get("given"), a.get("family"))))
+            for a in item.get("author", [])
+        )
+        rows.append(
+            {
+                "title": " ".join(item.get("title", [])),
+                "authors": authors,
+                "year": date[0] if date else "",
+                "doi_or_stable_id": item.get("DOI", ""),
+                "result_url": item.get("URL", ""),
+            }
+        )
     return rows
 
 
 def _openalex(query: str, limit: int) -> list[dict]:
     url = "https://api.openalex.org/works?" + urllib.parse.urlencode(
-        {"search": query, "per-page": limit})
+        {"search": query, "per-page": limit}
+    )
     items = json.loads(_get(url))["results"]
     rows = []
     for item in items:
         authors = "; ".join(a["author"]["display_name"] for a in item.get("authorships", []))
-        rows.append({"title": item.get("title") or "", "authors": authors,
-                     "year": item.get("publication_year") or "",
-                     "doi_or_stable_id": (item.get("doi") or item.get("id") or "").removeprefix("https://doi.org/"),
-                     "result_url": (item.get("primary_location") or {}).get("landing_page_url") or item.get("id", "")})
+        rows.append(
+            {
+                "title": item.get("title") or "",
+                "authors": authors,
+                "year": item.get("publication_year") or "",
+                "doi_or_stable_id": (item.get("doi") or item.get("id") or "").removeprefix(
+                    "https://doi.org/"
+                ),
+                "result_url": (item.get("primary_location") or {}).get("landing_page_url")
+                or item.get("id", ""),
+            }
+        )
     return rows
 
 
 def _web(query: str, limit: int) -> list[dict]:
     url = "https://www.bing.com/search?" + urllib.parse.urlencode(
-        {"q": query, "count": limit, "format": "rss"})
+        {"q": query, "count": limit, "format": "rss"}
+    )
     root = ET.fromstring(_get(url))
     rows = []
     for item in root.findall("./channel/item")[:limit]:
         title = html.unescape(item.findtext("title") or "").strip()
         target = item.findtext("link") or ""
-        rows.append({"title": title, "authors": "", "year": "",
-                     "doi_or_stable_id": _doi(target + " " + title), "result_url": target})
+        rows.append(
+            {
+                "title": title,
+                "authors": "",
+                "year": "",
+                "doi_or_stable_id": _doi(target + " " + title),
+                "result_url": target,
+            }
+        )
     return rows
 
 
@@ -104,20 +131,35 @@ def _citation_passes(limit: int) -> list[dict]:
             work = json.loads(_get("https://api.openalex.org/works/https://doi.org/" + doi))
             backward = work.get("referenced_works", [])[:limit]
             cited_url = "https://api.openalex.org/works?" + urllib.parse.urlencode(
-                {"filter": f"cites:{work['id'].rsplit('/', 1)[-1]}", "per-page": limit})
+                {"filter": f"cites:{work['id'].rsplit('/', 1)[-1]}", "per-page": limit}
+            )
             forward = [x["id"] for x in json.loads(_get(cited_url)).get("results", [])]
         except (urllib.error.HTTPError, urllib.error.URLError):
             backward = []
             forward = []
         for direction, identifiers in (("BACKWARD", backward), ("FORWARD", forward)):
             if not identifiers:
-                rows.append({"source_publication_id": source_id, "direction": direction,
-                             "rank": 0, "stable_id": "NO_RESULTS_RETURNED",
-                             "screening_state": "SCREENED_NO_RESULTS", "retrieval_date": "2026-08-25"})
+                rows.append(
+                    {
+                        "source_publication_id": source_id,
+                        "direction": direction,
+                        "rank": 0,
+                        "stable_id": "NO_RESULTS_RETURNED",
+                        "screening_state": "SCREENED_NO_RESULTS",
+                        "retrieval_date": "2026-08-25",
+                    }
+                )
             for rank, identifier in enumerate(identifiers, 1):
-                rows.append({"source_publication_id": source_id, "direction": direction,
-                             "rank": rank, "stable_id": identifier,
-                             "screening_state": "SCREENED", "retrieval_date": "2026-08-25"})
+                rows.append(
+                    {
+                        "source_publication_id": source_id,
+                        "direction": direction,
+                        "rank": rank,
+                        "stable_id": identifier,
+                        "screening_state": "SCREENED",
+                        "retrieval_date": "2026-08-25",
+                    }
+                )
     return rows
 
 
@@ -146,32 +188,83 @@ def collect() -> dict:
                     added += 1
                 state = _state(row["title"])
                 out_scope += state.startswith("OUT_OF_SCOPE")
-                results.append({"search_id": search_id, "provider": provider, "query": query,
-                                "result_rank": rank, **row, "retrieval_date": "2026-08-25",
-                                "candidate_id": candidate_id, "duplicate_of": duplicate_of,
-                                "screening_state": state})
-            logs.append({"search_id": search_id, "provider": provider, "query": query,
-                         "execution_date": "2026-08-25", "result_limit": limit,
-                         "results_returned": len(rows), "results_screened": len(rows),
-                         "unique_candidates_added": added, "duplicates": duplicates,
-                         "inaccessible_candidates": inaccessible, "out_of_scope_candidates": out_scope})
-    result_fields = ["search_id", "provider", "query", "result_rank", "title", "authors", "year",
-                     "doi_or_stable_id", "result_url", "retrieval_date", "candidate_id",
-                     "duplicate_of", "screening_state"]
-    log_fields = ["search_id", "provider", "query", "execution_date", "result_limit",
-                  "results_returned", "results_screened", "unique_candidates_added", "duplicates",
-                  "inaccessible_candidates", "out_of_scope_candidates"]
-    for path, fields, rows in ((DATA / "search_results.csv", result_fields, results),
-                               (DATA / "search_log.csv", log_fields, logs)):
+                results.append(
+                    {
+                        "search_id": search_id,
+                        "provider": provider,
+                        "query": query,
+                        "result_rank": rank,
+                        **row,
+                        "retrieval_date": "2026-08-25",
+                        "candidate_id": candidate_id,
+                        "duplicate_of": duplicate_of,
+                        "screening_state": state,
+                    }
+                )
+            logs.append(
+                {
+                    "search_id": search_id,
+                    "provider": provider,
+                    "query": query,
+                    "execution_date": "2026-08-25",
+                    "result_limit": limit,
+                    "results_returned": len(rows),
+                    "results_screened": len(rows),
+                    "unique_candidates_added": added,
+                    "duplicates": duplicates,
+                    "inaccessible_candidates": inaccessible,
+                    "out_of_scope_candidates": out_scope,
+                }
+            )
+    result_fields = [
+        "search_id",
+        "provider",
+        "query",
+        "result_rank",
+        "title",
+        "authors",
+        "year",
+        "doi_or_stable_id",
+        "result_url",
+        "retrieval_date",
+        "candidate_id",
+        "duplicate_of",
+        "screening_state",
+    ]
+    log_fields = [
+        "search_id",
+        "provider",
+        "query",
+        "execution_date",
+        "result_limit",
+        "results_returned",
+        "results_screened",
+        "unique_candidates_added",
+        "duplicates",
+        "inaccessible_candidates",
+        "out_of_scope_candidates",
+    ]
+    for path, fields, rows in (
+        (DATA / "search_results.csv", result_fields, results),
+        (DATA / "search_log.csv", log_fields, logs),
+    ):
         with path.open("w", encoding="utf-8", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
-            writer.writeheader(); writer.writerows(rows)
+            writer.writeheader()
+            writer.writerows(rows)
     citation_rows = _citation_passes(contract["citation_passes"]["backward_limit"])
-    citation_fields = ["source_publication_id", "direction", "rank", "stable_id",
-                       "screening_state", "retrieval_date"]
+    citation_fields = [
+        "source_publication_id",
+        "direction",
+        "rank",
+        "stable_id",
+        "screening_state",
+        "retrieval_date",
+    ]
     with (DATA / "citation_passes.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=citation_fields, lineterminator="\n")
-        writer.writeheader(); writer.writerows(citation_rows)
+        writer.writeheader()
+        writer.writerows(citation_rows)
     return {"searches": len(logs), "results": len(results), "unique_candidates": len(seen)}
 
 
@@ -181,11 +274,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.citation_only:
         rows = _citation_passes(20)
-        fields = ["source_publication_id", "direction", "rank", "stable_id",
-                  "screening_state", "retrieval_date"]
+        fields = [
+            "source_publication_id",
+            "direction",
+            "rank",
+            "stable_id",
+            "screening_state",
+            "retrieval_date",
+        ]
         with (DATA / "citation_passes.csv").open("w", encoding="utf-8", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
-            writer.writeheader(); writer.writerows(rows)
+            writer.writeheader()
+            writer.writerows(rows)
         print(json.dumps({"citation_records": len(rows)}, sort_keys=True))
     else:
         print(json.dumps(collect(), sort_keys=True))

@@ -353,9 +353,7 @@ Details: [CONTRIBUTING.md](CONTRIBUTING.md), [docs/API.md](docs/API.md), and the
 
 ## References
 
-The models draw on the published work below. Where several model cards use the same source, one entry
-lists the related cards. DOIs and stable links are included exactly as recorded in the cards; no
-bibliographic field is invented.
+Published sources and cards are listed below.
 
 <!-- puckworks-references:start -->
 
@@ -398,6 +396,7 @@ bibliographic field is invented.
 37. Vaca Guerra, M.; Harshe, Y. M.; Fries, L.; Rothberg, S.; Palzer, S.; Heinrich, S. "Influence of particle size distribution on espresso extraction via packed bed compression." *Journal of Food Engineering* 340 (2023): 111301. [https://doi.org/10.1016/j.jfoodeng.2022.111301](https://doi.org/10.1016/j.jfoodeng.2022.111301). Related cards: [vacaguerra2023a](docs/cards/vacaguerra2023a.md).
 38. Maille, M. J. "Measuring Coffee Extraction Kinetics at Early Time Scales." PhD thesis, University of Sheffield, 2024. No DOI is recorded in the model card (White Rose eTheses Online). Related cards: [maille2024](docs/cards/maille2024.md).
 39. Gloess, A. N.; Schönbächler, B.; Klopprogge, B.; D'Ambrosio, L.; Chatelain, K.; Bongartz, A.; Strittmatter, A.; Rast, M.; Yeretzian, C. "Comparison of nine common coffee extraction methods: instrumental and sensory analysis." *European Food Research and Technology* 236 (2013): 607–627. [https://doi.org/10.1007/s00217-013-1917-x](https://doi.org/10.1007/s00217-013-1917-x). Related cards: [gloess2013](docs/cards/gloess2013.md).
+40. SCI-MD-007-R1 cards: [Dias](docs/cards/dias2015.md), [Viencz](docs/cards/viencz2023.md), [Acre](docs/cards/acre2024.md), and [register package](docs/cards/sci_md_007_r1.md).
 
 ### Puckworks synthesis and sourcing notes
 

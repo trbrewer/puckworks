@@ -1,9 +1,11 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
-> **SCI-MD-007 completed 2026-08-25:** the bounded direct-assay evidence atlas fails the
+> **SCI-MD-007-R1 corrected 2026-08-25:** the bounded evidence atlas and data-derived reducer fail the
 > predeclared structural feasibility contract. The exact disposition is
 > `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
-> This leaves Bruno total roasted content as a restricted reference prior, does not establish
+> The corrected cohort contains 112 paired eligible material–roast units but only three
+> publication/validation groups and one identified laboratory, with insufficient Arabica and
+> comparable roast coverage. This leaves total roasted content as restricted priors, does not establish
 > extractable inventory/c_s0, does not reuse Angeloni, and does not reopen SCI-MD-006.
 
 > **Current execution (2026-07-18).** The **v0.3.0 Guided Espresso Pull** is publicly released

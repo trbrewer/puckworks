@@ -10,7 +10,7 @@ NOT_A_SCIENTIFIC_RESULT
 > public badge, physical conclusion or numerical gate result.
 >
 > Machine-readable companion: [`correction_result.json`](correction_result.json)
-> (sha256 `5b28588faf98…`), regenerated with
+> (sha256 `388f496ccb7a…`), regenerated with
 > `python -m puckworks.analysis.correction_i045_lineage`.
 
 ## Authority — quoted, not re-adjudicated

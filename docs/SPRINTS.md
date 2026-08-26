@@ -14,6 +14,10 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 - [x] Rights-aware source/material/observation atlas generated; Angeloni excluded.
 - [x] Mechanical disposition: `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
 - [x] Model stage: `NOT_RUN_FEASIBILITY_FAILED`; extractable mapping: `NOT_ESTABLISHED`.
+- [x] R1 correction: 24 numeric provider/query searches and 400 result records; Acre, Viencz,
+      and Dias dry-basis rows intaken; Pannusch fitted and Schmieder asymptotic classes retained.
+- [x] R1 data-derived outcome: 112 paired eligible units, three validation groups, one identified
+      laboratory; F2/F3/F4/F5/F7 fail and the provisional result is superseded.
 
 ## Sprint 0 — plumbing (CC, done when this file exists in repo)
 - [x] Commit `docs/ROADMAP.md` (rev. 2), `CLAUDE.md`, `docs/SPRINTS.md`
