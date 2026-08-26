@@ -1434,6 +1434,7 @@ def build(check=False):
                 OUT / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md",
                 OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json",
                 OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.md",
+                OUT / "r2/R2_QUALIFICATION.md",
             ]
             + sorted(DATA.glob("*.csv"))
             + [ROOT / s["source_card_path"] for s in read_csv("sources.csv")]

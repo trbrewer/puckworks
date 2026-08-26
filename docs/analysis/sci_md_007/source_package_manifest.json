@@ -5,6 +5,7 @@
     "docs/analysis/sci_md_007/r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md": "c77fde9765ee684e8c568be8b66eba1bb116757e78e0a9107f857baa9d25af2d",
     "docs/analysis/sci_md_007/r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json": "4893158c36c6902c73a7839b9b7ad65df07a74951240dc3910599b50bdaecd1d",
     "docs/analysis/sci_md_007/r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.md": "d903e360caeee916c778245a950405571a5e5e1dae2fa671b74d90b6d92b0d88",
+    "docs/analysis/sci_md_007/r2/R2_QUALIFICATION.md": "9b8aea14254db85a34fb0b03a97872e7afca6eaee7bec008ae55afe900810108",
     "docs/cards/acre2024.md": "51da3efd8290e29cddfe8a9b1dc195b363af8e438aafb3047b0cd59df2314fea",
     "docs/cards/bruno2026.md": "b842c3a5855efe0c8ebfa3b722bee2596f6d40b8513e76ec8893aa76747070f9",
     "docs/cards/dias2015.md": "497ab532d9cb6b252266b14b1a64cb61c70d17e9e4a7b517407b2f00064c4159",
@@ -12,7 +13,7 @@
     "docs/cards/schmieder2023.md": "30a9d9b34b2e75892255aba231cfb8b217bd90bdfed125bad0fe4add56022da6",
     "docs/cards/viencz2023.md": "2c0008295b7478a516ba248af868bc7e0dc26cd4e45b73aa98e48863c29553b3",
     "puckworks/analysis/sci_md_007.py": "93ea401360ff27d5c2d03ad59a342053e6412427205741adae6784e7587d291a",
-    "puckworks/analysis/sci_md_007_r2.py": "2e1281ad9e1db86ee004149af88c6098eef247696af66e5e37e5314822384c58",
+    "puckworks/analysis/sci_md_007_r2.py": "ed20340f53ee81a79e1f03ce41c42411435def3825ab64a557347601f9cc369c",
     "puckworks/data/sci_md_007/candidate_sources.csv": "3d3b6131de1ad1bc2cb8f9315c6a2f7c6daeb3c565590c228d055dd9b22f00b6",
     "puckworks/data/sci_md_007/citation_passes.csv": "4971dab7141032becbe9d2d868fbc3a2ae1d1ceda9b0769537ea4878cebb09cd",
     "puckworks/data/sci_md_007/exclusions.csv": "9da7646c08fddfa1e46ca90dce5bfe808c93e5706403f2af6cfc1a0c49cfd7f5",
@@ -47,6 +48,6 @@
   },
   "r2_contract_sha256": "4893158c36c6902c73a7839b9b7ad65df07a74951240dc3910599b50bdaecd1d",
   "reducer_path": "puckworks/analysis/sci_md_007_r2.py",
-  "reducer_sha256": "2e1281ad9e1db86ee004149af88c6098eef247696af66e5e37e5314822384c58",
+  "reducer_sha256": "ed20340f53ee81a79e1f03ce41c42411435def3825ab64a557347601f9cc369c",
   "schema_version": "1.2.0-R2"
 }
