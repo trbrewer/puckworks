@@ -1,0 +1,401 @@
+occurrence_row,candidate_id,immediate_duplicate_target,canonical_root,traversal_path,path_length,normalized_identity,canonical_introduction_row
+1,candidate_0001,,candidate_0001,candidate_0001,0,doi|10.1021/acsomega.5c05526.s001,1
+2,candidate_0002,,candidate_0002,candidate_0002,0,doi|10.13031/2013.7478,2
+3,candidate_0003,,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+4,candidate_0004,,candidate_0004,candidate_0004,0,doi|10.3403/00271775u,4
+5,candidate_0005,,candidate_0005,candidate_0005,0,doi|10.3403/00271775,5
+6,candidate_0006,,candidate_0006,candidate_0006,0,doi|10.1021/jf990702b,6
+7,candidate_0007,,candidate_0007,candidate_0007,0,doi|10.3403/30478362u,7
+8,candidate_0008,,candidate_0008,candidate_0008,0,doi|10.3403/30478362,8
+9,candidate_0009,,candidate_0009,candidate_0009,0,doi|10.1093/9780197610145.003.4005,9
+10,candidate_0010,,candidate_0010,candidate_0010,0,doi|10.3403/30154826,10
+11,candidate_0011,,candidate_0011,candidate_0011,0,doi|10.3403/30154826u,11
+12,candidate_0012,,candidate_0012,candidate_0012,0,doi|10.3403/30187771,12
+13,candidate_0013,,candidate_0013,candidate_0013,0,doi|10.3403/02817174,13
+14,candidate_0014,,candidate_0014,candidate_0014,0,doi|10.3403/02817174u,14
+15,candidate_0015,,candidate_0015,candidate_0015,0,doi|10.5740/jaoacint.11-275,15
+16,candidate_0016,,candidate_0016,candidate_0016,0,doi|10.3390/molecules26247502,16
+17,candidate_0017,,candidate_0017,candidate_0017,0,doi|10.1016/s1383-5718(97)00065-x,17
+18,candidate_0018,,candidate_0018,candidate_0018,0,doi|10.1080/10826079808001267,18
+19,candidate_0019,,candidate_0019,candidate_0019,0,doi|10.3390/icc2024-18171,19
+20,candidate_0020,,candidate_0020,candidate_0020,0,doi|10.2116/analsci.31.831,20
+21,candidate_0021,,candidate_0021,candidate_0021,0,doi|10.1016/j.foodchem.2005.07.032,21
+22,candidate_0006,candidate_0006,candidate_0006,candidate_0006,0,doi|10.1021/jf990702b,6
+23,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+24,candidate_0022,,candidate_0022,candidate_0022,0,doi|10.1021/jf0402429,24
+25,candidate_0023,,candidate_0023,candidate_0023,0,doi|10.1016/j.jfca.2013.09.002,25
+26,candidate_0024,,candidate_0024,candidate_0024,0,doi|10.1590/s1677-04202006000100003,26
+27,candidate_0025,,candidate_0025,candidate_0025,0,doi|10.2337/dc09-0207,27
+28,candidate_0026,,candidate_0026,candidate_0026,0,doi|10.3390/antiox9020093,28
+29,candidate_0027,,candidate_0027,candidate_0027,0,doi|10.2116/analsci.20.325,29
+30,candidate_0028,,candidate_0028,candidate_0028,0,doi|10.1021/acsomega.5c05526,30
+31,candidate_0029,,candidate_0029,candidate_0029,0,doi|10.1016/j.foodres.2017.12.031,31
+32,candidate_0018,candidate_0018,candidate_0018,candidate_0018,0,doi|10.1080/10826079808001267,18
+33,candidate_0030,,candidate_0030,candidate_0030,0,doi|10.1007/s00217-016-2643-y,33
+34,candidate_0031,,candidate_0031,candidate_0031,0,doi|10.1021/jf010314l,34
+35,candidate_0032,,candidate_0032,candidate_0032,0,doi|10.1016/j.lwt.2018.02.029,35
+36,candidate_0033,,candidate_0033,candidate_0033,0,doi|10.3390/beverages5020037,36
+37,candidate_0034,,candidate_0034,candidate_0034,0,doi|10.3390/molecules28083460,37
+38,candidate_0035,,candidate_0035,candidate_0035,0,doi|10.1038/s41598-017-18247-4,38
+39,candidate_0036,,candidate_0036,candidate_0036,0,doi|10.3390/molecules191119180,39
+40,candidate_0037,,candidate_0037,candidate_0037,0,doi|10.1016/j.foodchem.2009.05.042,40
+41,candidate_0038,,candidate_0038,candidate_0038,0,fallback|caffeine wikipedia||,41
+42,candidate_0039,,candidate_0039,candidate_0039,0,fallback|caffeine how much is too much mayo clinic||,42
+43,candidate_0040,,candidate_0040,candidate_0040,0,fallback|caffeine what it is benefits and side effects||,43
+44,candidate_0041,,candidate_0041,candidate_0041,0,fallback|what is caffeine and is it good or bad for health||,44
+45,candidate_0042,,candidate_0042,candidate_0042,0,fallback|spilling the beans how much caffeine is too much fda||,45
+46,candidate_0043,,candidate_0043,candidate_0043,0,fallback|caffeine content for coffee tea soda and more mayo clinic||,46
+47,candidate_0044,,candidate_0044,candidate_0044,0,fallback|caffeine c8h10n4o2 cid 2519 pubchem||,47
+48,candidate_0045,,candidate_0045,candidate_0045,0,fallback|caffeine the nutrition source||,48
+49,candidate_0046,,candidate_0046,candidate_0046,0,fallback|caffeine alcohol and drug foundation||,49
+50,candidate_0047,,candidate_0047,candidate_0047,0,fallback|caffeine stimulant health benefits addiction britannica||,50
+51,candidate_0048,,candidate_0048,candidate_0048,0,doi|10.47328/ufvbbt.2023.663,51
+52,candidate_0049,,candidate_0049,candidate_0049,0,doi|10.1016/j.lwt.2020.109344,52
+53,candidate_0050,,candidate_0050,candidate_0050,0,doi|10.31942/ce.v10i1.12731,53
+54,candidate_0051,,candidate_0051,candidate_0051,0,doi|10.1111/ijfs.15900/v1/review2,54
+55,candidate_0052,,candidate_0052,candidate_0052,0,doi|10.1111/ijfs.15900/v1/review3,55
+56,candidate_0053,,candidate_0053,candidate_0053,0,doi|10.1111/ijfs.15900/v2/review1,56
+57,candidate_0054,,candidate_0054,candidate_0054,0,doi|10.24961/j.tek.ind.pert.2024.34.1.28,57
+58,candidate_0055,,candidate_0055,candidate_0055,0,doi|10.1111/ijfs.15900/v1/review1,58
+59,candidate_0056,,candidate_0056,candidate_0056,0,doi|10.1111/ijfs.15900/v2/decision1,59
+60,candidate_0057,,candidate_0057,candidate_0057,0,doi|10.1111/ijfs.15900/v1/decision1,60
+61,candidate_0058,,candidate_0058,candidate_0058,0,doi|10.1111/j.1365-2621.2011.02748.x,61
+62,candidate_0059,,candidate_0059,candidate_0059,0,doi|10.3390/pr9112040,62
+63,candidate_0060,,candidate_0060,candidate_0060,0,doi|10.1016/j.foodcont.2015.06.055,63
+64,candidate_0061,,candidate_0061,candidate_0061,0,doi|10.1088/1755-1315/425/1/012081,64
+65,candidate_0062,,candidate_0062,candidate_0062,0,doi|10.22146/jfps.25012,65
+66,candidate_0063,,candidate_0063,candidate_0063,0,doi|10.1111/ijfs.15900/v2/response1,66
+67,candidate_0064,,candidate_0064,candidate_0064,0,doi|10.1007/s00425-014-2170-7,67
+68,candidate_0065,,candidate_0065,candidate_0065,0,doi|10.53043/2320-1991.acb90013,68
+69,candidate_0066,,candidate_0066,candidate_0066,0,doi|10.64920/iprc25010,69
+70,candidate_0067,,candidate_0067,candidate_0067,0,doi|10.1016/s0308-8146(01)00204-7,70
+71,candidate_0068,,candidate_0068,candidate_0068,0,doi|10.1016/j.foodres.2013.06.006,71
+72,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+73,candidate_0069,,candidate_0069,candidate_0069,0,doi|10.3390/beverages1030127,73
+74,candidate_0070,,candidate_0070,candidate_0070,0,doi|10.1016/j.foodres.2018.03.077,74
+75,candidate_0071,,candidate_0071,candidate_0071,0,doi|10.1007/s00217-011-1518-5,75
+76,candidate_0064,candidate_0064,candidate_0064,candidate_0064,0,doi|10.1007/s00425-014-2170-7,67
+77,candidate_0072,,candidate_0072,candidate_0072,0,doi|10.3109/09637486.2011.588594,77
+78,candidate_0029,candidate_0029,candidate_0029,candidate_0029,0,doi|10.1016/j.foodres.2017.12.031,31
+79,candidate_0073,,candidate_0073,candidate_0073,0,doi|10.1016/j.talanta.2010.11.001,79
+80,candidate_0074,,candidate_0074,candidate_0074,0,doi|10.1590/s0103-50532012000700020,80
+81,candidate_0075,,candidate_0075,candidate_0075,0,doi|10.1016/j.foodchem.2019.04.072,81
+82,candidate_0076,,candidate_0076,candidate_0076,0,doi|10.1016/j.foodchem.2020.128514,82
+83,candidate_0077,,candidate_0077,candidate_0077,0,doi|10.1590/s0100-40422006000600003,83
+84,candidate_0078,,candidate_0078,candidate_0078,0,doi|10.9755/ejfa.v25i12.17290,84
+85,candidate_0079,,candidate_0079,candidate_0079,0,doi|10.1016/j.jfca.2023.105140,85
+86,candidate_0034,candidate_0034,candidate_0034,candidate_0034,0,doi|10.3390/molecules28083460,37
+87,candidate_0080,,candidate_0080,candidate_0080,0,doi|10.1016/j.fct.2018.10.005,87
+88,candidate_0081,,candidate_0081,candidate_0081,0,doi|10.17221/1105-cjfs,88
+89,candidate_0082,,candidate_0082,candidate_0082,0,doi|10.1016/j.heliyon.2023.e19580,89
+90,candidate_0024,candidate_0024,candidate_0024,candidate_0024,0,doi|10.1590/s1677-04202006000100003,26
+91,candidate_0038,candidate_0038,candidate_0038,candidate_0038,0,fallback|caffeine wikipedia||,41
+92,candidate_0039,candidate_0039,candidate_0039,candidate_0039,0,fallback|caffeine how much is too much mayo clinic||,42
+93,candidate_0040,candidate_0040,candidate_0040,candidate_0040,0,fallback|caffeine what it is benefits and side effects||,43
+94,candidate_0041,candidate_0041,candidate_0041,candidate_0041,0,fallback|what is caffeine and is it good or bad for health||,44
+95,candidate_0042,candidate_0042,candidate_0042,candidate_0042,0,fallback|spilling the beans how much caffeine is too much fda||,45
+96,candidate_0043,candidate_0043,candidate_0043,candidate_0043,0,fallback|caffeine content for coffee tea soda and more mayo clinic||,46
+97,candidate_0044,candidate_0044,candidate_0044,candidate_0044,0,fallback|caffeine c8h10n4o2 cid 2519 pubchem||,47
+98,candidate_0045,candidate_0045,candidate_0045,candidate_0045,0,fallback|caffeine the nutrition source||,48
+99,candidate_0046,candidate_0046,candidate_0046,candidate_0046,0,fallback|caffeine alcohol and drug foundation||,49
+100,candidate_0047,candidate_0047,candidate_0047,candidate_0047,0,fallback|caffeine stimulant health benefits addiction britannica||,50
+101,candidate_0083,,candidate_0083,candidate_0083,0,doi|10.1016/0308-8146(87)90167-1,101
+102,candidate_0084,,candidate_0084,candidate_0084,0,doi|10.2139/ssrn.5533441,102
+103,candidate_0085,,candidate_0085,candidate_0085,0,doi|10.3403/00090300u,103
+104,candidate_0086,,candidate_0086,candidate_0086,0,doi|10.3403/00090300,104
+105,candidate_0001,candidate_0001,candidate_0001,candidate_0001,0,doi|10.1021/acsomega.5c05526.s001,1
+106,candidate_0087,,candidate_0087,candidate_0087,0,doi|10.1038/s41598-024-80385-3,106
+107,candidate_0004,candidate_0004,candidate_0004,candidate_0004,0,doi|10.3403/00271775u,4
+108,candidate_0005,candidate_0005,candidate_0005,candidate_0005,0,doi|10.3403/00271775,5
+109,candidate_0088,,candidate_0088,candidate_0088,0,doi|10.1007/bf01229683,109
+110,candidate_0089,,candidate_0089,candidate_0089,0,doi|10.1271/bbb1961.49.3467,110
+111,candidate_0090,,candidate_0090,candidate_0090,0,doi|10.1080/00021369.1985.10867295,111
+112,candidate_0010,candidate_0010,candidate_0010,candidate_0010,0,doi|10.3403/30154826,10
+113,candidate_0011,candidate_0011,candidate_0011,candidate_0011,0,doi|10.3403/30154826u,11
+114,candidate_0006,candidate_0006,candidate_0006,candidate_0006,0,doi|10.1021/jf990702b,6
+115,candidate_0091,,candidate_0091,candidate_0091,0,doi|10.1021/acsfoodscitech.5c00066.s001,115
+116,candidate_0092,,candidate_0092,candidate_0092,0,doi|10.1158/1557-3265.tcm17-b73,116
+117,candidate_0093,,candidate_0093,candidate_0093,0,doi|10.1021/ac60079a036,117
+118,candidate_0094,,candidate_0094,candidate_0094,0,doi|10.1016/j.foodchem.2008.03.012,118
+119,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+120,candidate_0095,,candidate_0095,candidate_0095,0,doi|10.1016/j.vibspec.2018.05.003,120
+121,candidate_0024,candidate_0024,candidate_0024,candidate_0024,0,doi|10.1590/s1677-04202006000100003,26
+122,candidate_0030,candidate_0030,candidate_0030,candidate_0030,0,doi|10.1007/s00217-016-2643-y,33
+123,candidate_0096,,candidate_0096,candidate_0096,0,doi|10.2337/diacare.29.02.06.dc05-1512,123
+124,candidate_0029,candidate_0029,candidate_0029,candidate_0029,0,doi|10.1016/j.foodres.2017.12.031,31
+125,candidate_0070,candidate_0070,candidate_0070,candidate_0070,0,doi|10.1016/j.foodres.2018.03.077,74
+126,candidate_0033,candidate_0033,candidate_0033,candidate_0033,0,doi|10.3390/beverages5020037,36
+127,candidate_0049,candidate_0049,candidate_0049,candidate_0049,0,doi|10.1016/j.lwt.2020.109344,52
+128,candidate_0097,,candidate_0097,candidate_0097,0,doi|10.3945/jn.109.108001,128
+129,candidate_0098,,candidate_0098,candidate_0098,0,doi|10.1021/jf1031229,129
+130,candidate_0080,candidate_0080,candidate_0080,candidate_0080,0,doi|10.1016/j.fct.2018.10.005,87
+131,candidate_0099,,candidate_0099,candidate_0099,0,doi|10.3390/ijms22010107,131
+132,candidate_0100,,candidate_0100,candidate_0100,0,doi|10.1136/bmj.j5024,132
+133,candidate_0034,candidate_0034,candidate_0034,candidate_0034,0,doi|10.3390/molecules28083460,37
+134,candidate_0101,,candidate_0101,candidate_0101,0,doi|10.1016/j.lwt.2012.07.016,134
+135,candidate_0068,candidate_0068,candidate_0068,candidate_0068,0,doi|10.1016/j.foodres.2013.06.006,71
+136,candidate_0026,candidate_0026,candidate_0026,candidate_0026,0,doi|10.3390/antiox9020093,28
+137,candidate_0035,candidate_0035,candidate_0035,candidate_0035,0,doi|10.1038/s41598-017-18247-4,38
+138,candidate_0036,candidate_0036,candidate_0036,candidate_0036,0,doi|10.3390/molecules191119180,39
+139,candidate_0102,,candidate_0102,candidate_0102,0,doi|10.1590/s1677-04202006000100016,139
+140,candidate_0103,,candidate_0103,candidate_0103,0,doi|10.1016/j.tifs.2016.09.003,140
+141,candidate_0104,,candidate_0104,candidate_0104,0,fallback|trigonelline wikipedia||,141
+142,candidate_0105,,candidate_0105,candidate_0105,0,fallback|trigonelline is an nad precursor that improves muscle nature||,142
+143,candidate_0106,,candidate_0106,candidate_0106,0,fallback|trigonelline c7h7no2 cid 5570 pubchem||,143
+144,candidate_0107,,candidate_0107,candidate_0107,0,fallback|trigonelline an overview sciencedirect topics||,144
+145,candidate_0108,,candidate_0108,candidate_0108,0,fallback|trigonelline benefits sources and health effects||,145
+146,candidate_0107,candidate_0107,candidate_0107,candidate_0107,0,fallback|trigonelline an overview sciencedirect topics||,144
+147,candidate_0109,,candidate_0109,candidate_0109,0,fallback|trigonelline supplier effepharm||,147
+148,candidate_0110,,candidate_0110,candidate_0110,0,fallback|trigonelline supplement benefits sources and safety||,148
+149,candidate_0111,,candidate_0111,candidate_0111,0,fallback|trigonelline 535 83 1 chemicalbook||,149
+150,candidate_0112,,candidate_0112,candidate_0112,0,fallback|trigonelline trigenolline nrf2 inhibitor medchemexpress||,150
+151,candidate_0113,,candidate_0113,candidate_0113,0,doi|10.1016/j.foodchem.2016.02.154,151
+152,candidate_0114,,candidate_0114,candidate_0114,0,doi|10.1016/j.plantsci.2006.03.017,152
+153,candidate_0115,,candidate_0115,candidate_0115,0,doi|10.14720/aas.2012.99.1.14533,153
+154,candidate_0116,,candidate_0116,candidate_0116,0,doi|10.1111/ijfs.15393/v1/review1,154
+155,candidate_0117,,candidate_0117,candidate_0117,0,doi|10.1016/0308-8146(95)00030-m,155
+156,candidate_0118,,candidate_0118,candidate_0118,0,doi|10.30516/bilgesci.912146,156
+157,candidate_0119,,candidate_0119,candidate_0119,0,doi|10.1111/ijfs.15393/v1/review2,157
+158,candidate_0120,,candidate_0120,candidate_0120,0,doi|10.23960/jbekh.v9i2.267,158
+159,candidate_0121,,candidate_0121,candidate_0121,0,doi|10.1021/acs.jafc.9b08149.s001,159
+160,candidate_0067,candidate_0067,candidate_0067,candidate_0067,0,doi|10.1016/s0308-8146(01)00204-7,70
+161,candidate_0122,,candidate_0122,candidate_0122,0,doi|10.1111/ijfs.15393/v1/decision1,161
+162,candidate_0123,,candidate_0123,candidate_0123,0,doi|10.1016/j.talanta.2012.12.003,162
+163,candidate_0124,,candidate_0124,candidate_0124,0,doi|10.1590/1678-457x.19216,163
+164,candidate_0125,,candidate_0125,candidate_0125,0,doi|10.1111/ijfs.15393/v2/decision1,164
+165,candidate_0126,,candidate_0126,candidate_0126,0,doi|10.47749/t/unicamp.1999.175809,165
+166,candidate_0064,candidate_0064,candidate_0064,candidate_0064,0,doi|10.1007/s00425-014-2170-7,67
+167,candidate_0127,,candidate_0127,candidate_0127,0,doi|10.1111/ijfs.15393/v2/response1,167
+168,candidate_0128,,candidate_0128,candidate_0128,0,doi|10.15517/am.v33i1.45719,168
+169,candidate_0129,,candidate_0129,candidate_0129,0,doi|10.25026/jsk.v4i6.1253,169
+170,candidate_0130,,candidate_0130,candidate_0130,0,doi|10.1016/j.chroma.2017.10.031,170
+171,candidate_0131,,candidate_0131,candidate_0131,0,doi|10.3389/fpls.2021.708013,171
+172,candidate_0132,,candidate_0132,candidate_0132,0,doi|10.1515/znc-2007-9-1017,172
+173,candidate_0133,,candidate_0133,candidate_0133,0,doi|10.1186/1471-2229-11-30,173
+174,candidate_0134,,candidate_0134,candidate_0134,0,doi|10.1590/s1677-04202006000100014,174
+175,candidate_0078,candidate_0078,candidate_0078,candidate_0078,0,doi|10.9755/ejfa.v25i12.17290,84
+176,candidate_0135,,candidate_0135,candidate_0135,0,doi|10.1016/j.foodchem.2019.01.088,176
+177,candidate_0079,candidate_0079,candidate_0079,candidate_0079,0,doi|10.1016/j.jfca.2023.105140,85
+178,candidate_0136,,candidate_0136,candidate_0136,0,doi|10.3390/beverages2010001,178
+179,candidate_0029,candidate_0029,candidate_0029,candidate_0029,0,doi|10.1016/j.foodres.2017.12.031,31
+180,candidate_0030,candidate_0030,candidate_0030,candidate_0030,0,doi|10.1007/s00217-016-2643-y,33
+181,candidate_0137,,candidate_0137,candidate_0137,0,doi|10.1016/j.apjtm.2016.11.008,181
+182,candidate_0082,candidate_0082,candidate_0082,candidate_0082,0,doi|10.1016/j.heliyon.2023.e19580,89
+183,candidate_0138,,candidate_0138,candidate_0138,0,doi|10.5897/jpp2016.0413,183
+184,candidate_0139,,candidate_0139,candidate_0139,0,doi|10.1016/j.foodchem.2009.05.063,184
+185,candidate_0073,candidate_0073,candidate_0073,candidate_0073,0,doi|10.1016/j.talanta.2010.11.001,79
+186,candidate_0140,,candidate_0140,candidate_0140,0,doi|10.1016/b978-0-12-409517-5.00017-6,186
+187,candidate_0068,candidate_0068,candidate_0068,candidate_0068,0,doi|10.1016/j.foodres.2013.06.006,71
+188,candidate_0141,,candidate_0141,candidate_0141,0,doi|10.1016/j.foodcont.2016.12.019,188
+189,candidate_0075,candidate_0075,candidate_0075,candidate_0075,0,doi|10.1016/j.foodchem.2019.04.072,81
+190,candidate_0069,candidate_0069,candidate_0069,candidate_0069,0,doi|10.3390/beverages1030127,73
+191,candidate_0142,,candidate_0142,candidate_0142,0,fallback|coffea roasterie and espresso bar sioux falls south dakota||,191
+192,candidate_0143,,candidate_0143,candidate_0143,0,fallback|coffea wikipedia||,192
+193,candidate_0144,,candidate_0144,candidate_0144,0,fallback|coffea description genus coffee species facts britannica||,193
+194,candidate_0145,,candidate_0145,candidate_0145,0,fallback|coffea roasterie facebook||,194
+195,candidate_0146,,candidate_0146,candidate_0146,0,fallback|coffee wikipedia||,195
+196,candidate_0147,,candidate_0147,candidate_0147,0,fallback|coffea simple english wikipedia the free encyclopedia||,196
+197,candidate_0148,,candidate_0148,candidate_0148,0,fallback|coffee origin types uses history facts britannica||,197
+198,candidate_0149,,candidate_0149,candidate_0149,0,fallback|coffea arabica wikipedia||,198
+199,candidate_0150,,candidate_0150,candidate_0150,0,fallback|coffea canephora wikipedia||,199
+200,candidate_0151,,candidate_0151,candidate_0151,0,fallback|home coffea foods||,200
+201,candidate_0001,candidate_0001,candidate_0001,candidate_0001,0,doi|10.1021/acsomega.5c05526.s001,1
+202,candidate_0088,candidate_0088,candidate_0088,candidate_0088,0,doi|10.1007/bf01229683,109
+203,candidate_0083,candidate_0083,candidate_0083,candidate_0083,0,doi|10.1016/0308-8146(87)90167-1,101
+204,candidate_0092,candidate_0092,candidate_0092,candidate_0092,0,doi|10.1158/1557-3265.tcm17-b73,116
+205,candidate_0093,candidate_0093,candidate_0093,candidate_0093,0,doi|10.1021/ac60079a036,117
+206,candidate_0094,candidate_0094,candidate_0094,candidate_0094,0,doi|10.1016/j.foodchem.2008.03.012,118
+207,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+208,candidate_0084,candidate_0084,candidate_0084,candidate_0084,0,doi|10.2139/ssrn.5533441,102
+209,candidate_0095,candidate_0095,candidate_0095,candidate_0095,0,doi|10.1016/j.vibspec.2018.05.003,120
+210,candidate_0002,candidate_0002,candidate_0002,candidate_0002,0,doi|10.13031/2013.7478,2
+211,candidate_0152,,candidate_0152,candidate_0152,0,doi|10.1007/978-94-009-3417-7_7,211
+212,candidate_0153,,candidate_0153,candidate_0153,0,doi|10.1016/0308-8146(95)93298-6,212
+213,candidate_0154,,candidate_0154,candidate_0154,0,doi|10.1002/jps.3030430711,213
+214,candidate_0155,,candidate_0155,candidate_0155,0,doi|10.22452/mjs.vol44no4.5,214
+215,candidate_0156,,candidate_0156,candidate_0156,0,doi|10.3390/plants15142117,215
+216,candidate_0157,,candidate_0157,candidate_0157,0,doi|10.1021/acs.jafc.9b06502.s001,216
+217,candidate_0158,,candidate_0158,candidate_0158,0,doi|10.1016/j.jfoodeng.2017.03.002,217
+218,candidate_0087,candidate_0087,candidate_0087,candidate_0087,0,doi|10.1038/s41598-024-80385-3,106
+219,candidate_0159,,candidate_0159,candidate_0159,0,doi|10.3136/nskkk1962.33.10_725,219
+220,candidate_0160,,candidate_0160,candidate_0160,0,doi|10.3109/09637486.2013.873890,220
+221,candidate_0161,,candidate_0161,candidate_0161,0,doi|10.1016/j.foodchem.2004.03.028,221
+222,candidate_0070,candidate_0070,candidate_0070,candidate_0070,0,doi|10.1016/j.foodres.2018.03.077,74
+223,candidate_0103,candidate_0103,candidate_0103,candidate_0103,0,doi|10.1016/j.tifs.2016.09.003,140
+224,candidate_0037,candidate_0037,candidate_0037,candidate_0037,0,doi|10.1016/j.foodchem.2009.05.042,40
+225,candidate_0162,,candidate_0162,candidate_0162,0,doi|10.1016/j.foodchem.2021.131159,225
+226,candidate_0163,,candidate_0163,candidate_0163,0,doi|10.1016/j.foodres.2014.01.005,226
+227,candidate_0164,,candidate_0164,candidate_0164,0,doi|10.1111/ijfs.16261,227
+228,candidate_0078,candidate_0078,candidate_0078,candidate_0078,0,doi|10.9755/ejfa.v25i12.17290,84
+229,candidate_0165,,candidate_0165,candidate_0165,0,doi|10.1016/j.fm.2021.103962,229
+230,candidate_0166,,candidate_0166,candidate_0166,0,doi|10.3390/nu15040994,230
+231,candidate_0167,,candidate_0167,candidate_0167,0,doi|10.3389/fpls.2018.00287,231
+232,candidate_0076,candidate_0076,candidate_0076,candidate_0076,0,doi|10.1016/j.foodchem.2020.128514,82
+233,candidate_0168,,candidate_0168,candidate_0168,0,doi|10.1155/2012/580857,233
+234,candidate_0169,,candidate_0169,candidate_0169,0,doi|10.3390/molecules200916687,234
+235,candidate_0170,,candidate_0170,candidate_0170,0,doi|10.33549/physiolres.934674,235
+236,candidate_0171,,candidate_0171,candidate_0171,0,doi|10.1016/j.foodchem.2011.11.121,236
+237,candidate_0172,,candidate_0172,candidate_0172,0,doi|10.1016/j.afres.2022.100253,237
+238,candidate_0081,candidate_0081,candidate_0081,candidate_0081,0,doi|10.17221/1105-cjfs,88
+239,candidate_0173,,candidate_0173,candidate_0173,0,doi|10.1016/j.foodres.2021.110825,239
+240,candidate_0174,,candidate_0174,candidate_0174,0,doi|10.3390/agronomy12102540,240
+241,candidate_0175,,candidate_0175,candidate_0175,0,fallback|10 best coffee shops in lubbock tx 2026||,241
+242,candidate_0176,,candidate_0176,candidate_0176,0,fallback|the best 10 coffee tea in lubbock tx updated august 2026 yelp||,242
+243,candidate_0177,,candidate_0177,candidate_0177,0,fallback|9 must try coffee shops in lubbock visit lubbock||,243
+244,candidate_0178,,candidate_0178,candidate_0178,0,fallback|monomyth coffee lubbock coffee roaster caf||,244
+245,candidate_0146,candidate_0146,candidate_0146,candidate_0146,0,fallback|coffee wikipedia||,195
+246,candidate_0179,,candidate_0179,candidate_0179,0,fallback|top 10 best coffeeshops in lubbock tx updated 2026 yelp||,246
+247,candidate_0180,,candidate_0180,candidate_0180,0,fallback|coffee shop in lubbock dutch bros coffee drive thru||,247
+248,candidate_0181,,candidate_0181,candidate_0181,0,fallback|8 best coffee shops in lubbock 2026 great caf s to try||,248
+249,candidate_0182,,candidate_0182,candidate_0182,0,fallback|7 brew drive thru coffee||,249
+250,candidate_0183,,candidate_0183,candidate_0183,0,fallback|menu starbucks coffee company||,250
+251,candidate_0001,candidate_0001,candidate_0001,candidate_0001,0,doi|10.1021/acsomega.5c05526.s001,1
+252,candidate_0083,candidate_0083,candidate_0083,candidate_0083,0,doi|10.1016/0308-8146(87)90167-1,101
+253,candidate_0092,candidate_0092,candidate_0092,candidate_0092,0,doi|10.1158/1557-3265.tcm17-b73,116
+254,candidate_0093,candidate_0093,candidate_0093,candidate_0093,0,doi|10.1021/ac60079a036,117
+255,candidate_0094,candidate_0094,candidate_0094,candidate_0094,0,doi|10.1016/j.foodchem.2008.03.012,118
+256,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+257,candidate_0084,candidate_0084,candidate_0084,candidate_0084,0,doi|10.2139/ssrn.5533441,102
+258,candidate_0095,candidate_0095,candidate_0095,candidate_0095,0,doi|10.1016/j.vibspec.2018.05.003,120
+259,candidate_0002,candidate_0002,candidate_0002,candidate_0002,0,doi|10.13031/2013.7478,2
+260,candidate_0153,candidate_0153,candidate_0153,candidate_0153,0,doi|10.1016/0308-8146(95)93298-6,212
+261,candidate_0154,candidate_0154,candidate_0154,candidate_0154,0,doi|10.1002/jps.3030430711,213
+262,candidate_0155,candidate_0155,candidate_0155,candidate_0155,0,doi|10.22452/mjs.vol44no4.5,214
+263,candidate_0156,candidate_0156,candidate_0156,candidate_0156,0,doi|10.3390/plants15142117,215
+264,candidate_0158,candidate_0158,candidate_0158,candidate_0158,0,doi|10.1016/j.jfoodeng.2017.03.002,217
+265,candidate_0160,candidate_0160,candidate_0160,candidate_0160,0,doi|10.3109/09637486.2013.873890,220
+266,candidate_0184,,candidate_0184,candidate_0184,0,doi|10.3390/foods9121746,266
+267,candidate_0089,candidate_0089,candidate_0089,candidate_0089,0,doi|10.1271/bbb1961.49.3467,110
+268,candidate_0185,,candidate_0185,candidate_0185,0,doi|10.1002/fsn3.2456,268
+269,candidate_0186,,candidate_0186,candidate_0186,0,doi|10.1016/0031-9422(91)83637-z,269
+270,candidate_0090,candidate_0090,candidate_0090,candidate_0090,0,doi|10.1080/00021369.1985.10867295,111
+271,candidate_0073,candidate_0073,candidate_0073,candidate_0073,0,doi|10.1016/j.talanta.2010.11.001,79
+272,candidate_0068,candidate_0068,candidate_0068,candidate_0068,0,doi|10.1016/j.foodres.2013.06.006,71
+273,candidate_0079,candidate_0079,candidate_0079,candidate_0079,0,doi|10.1016/j.jfca.2023.105140,85
+274,candidate_0187,,candidate_0187,candidate_0187,0,doi|10.1002/fsn3.1904,274
+275,candidate_0188,,candidate_0188,candidate_0188,0,doi|10.1016/j.foodchem.2020.127117,275
+276,candidate_0189,,candidate_0189,candidate_0189,0,doi|10.1088/1755-1315/974/1/012115,276
+277,candidate_0190,,candidate_0190,candidate_0190,0,doi|10.1016/j.lwt.2012.08.015,277
+278,candidate_0191,,candidate_0191,candidate_0191,0,doi|10.1016/j.crfs.2023.100485,278
+279,candidate_0192,,candidate_0192,candidate_0192,0,doi|10.1016/j.foodres.2020.110014,279
+280,candidate_0193,,candidate_0193,candidate_0193,0,doi|10.3390/ijerph20085586,280
+281,candidate_0194,,candidate_0194,candidate_0194,0,doi|10.3390/agronomy13020341,281
+282,candidate_0195,,candidate_0195,candidate_0195,0,doi|10.1016/j.foodchem.2021.130133,282
+283,candidate_0196,,candidate_0196,candidate_0196,0,doi|10.21577/1984-6835.20190057,283
+284,candidate_0197,,candidate_0197,candidate_0197,0,doi|10.1016/j.crfs.2022.01.017,284
+285,candidate_0198,,candidate_0198,candidate_0198,0,doi|10.26656/fr.2017.7(6).1006,285
+286,candidate_0199,,candidate_0199,candidate_0199,0,doi|10.1016/j.foodchem.2020.128304,286
+287,candidate_0200,,candidate_0200,candidate_0200,0,doi|10.1016/j.foodres.2020.110089,287
+288,candidate_0201,,candidate_0201,candidate_0201,0,doi|10.3390/foods13111757,288
+289,candidate_0202,,candidate_0202,candidate_0202,0,doi|10.1081/jfp-200048060,289
+290,candidate_0203,,candidate_0203,candidate_0203,0,doi|10.1016/j.foodchem.2021.129618,290
+291,candidate_0204,,candidate_0204,candidate_0204,0,fallback|ara itas en las piernas sus causas y c mo eliminarlas||,291
+292,candidate_0205,,candidate_0205,candidate_0205,0,fallback|ara itas en las piernas por qu salen y c mo eliminarlas bioguia||,292
+293,candidate_0206,,candidate_0206,candidate_0206,0,fallback|c mo quitar las ara itas de las piernas 2 recetas efectivas||,293
+294,candidate_0207,,candidate_0207,candidate_0207,0,fallback|ara itas vasculares en las piernas por qu salen y c mo quitarlas||,294
+295,candidate_0208,,candidate_0208,candidate_0208,0,fallback|ara itas en las piernas causas s ntomas y tratamientos||,295
+296,candidate_0209,,candidate_0209,candidate_0209,0,fallback|4 remedios caseros para eliminar las ara itas de las piernas y aliviar||,296
+297,candidate_0210,,candidate_0210,candidate_0210,0,fallback|ara itas en las piernas causas prevenci n y tratamiento||,297
+298,candidate_0211,,candidate_0211,candidate_0211,0,fallback|ara itas en las piernas por qu salen y c mo se eliminan||,298
+299,candidate_0212,,candidate_0212,candidate_0212,0,fallback|ara as vasculares en las piernas consejos y tratamientos||,299
+300,candidate_0213,,candidate_0213,candidate_0213,0,fallback|c mo quitar ara as vasculares tratamientos efectivos para eliminarlas||,300
+301,candidate_0214,,candidate_0214,candidate_0214,0,doi|10.1533/9781845698232.4.206,301
+302,candidate_0089,candidate_0089,candidate_0089,candidate_0089,0,doi|10.1271/bbb1961.49.3467,110
+303,candidate_0090,candidate_0090,candidate_0090,candidate_0090,0,doi|10.1080/00021369.1985.10867295,111
+304,candidate_0001,candidate_0001,candidate_0001,candidate_0001,0,doi|10.1021/acsomega.5c05526.s001,1
+305,candidate_0083,candidate_0083,candidate_0083,candidate_0083,0,doi|10.1016/0308-8146(87)90167-1,101
+306,candidate_0215,,candidate_0215,candidate_0215,0,doi|10.7176/cmr/11-8-03,306
+307,candidate_0216,,candidate_0216,candidate_0216,0,doi|10.17221/629-cjfs,307
+308,candidate_0050,candidate_0050,candidate_0050,candidate_0050,0,doi|10.31942/ce.v10i1.12731,53
+309,candidate_0217,,candidate_0217,candidate_0217,0,doi|10.4103/ijas.ijas_6_21,309
+310,candidate_0092,candidate_0092,candidate_0092,candidate_0092,0,doi|10.1158/1557-3265.tcm17-b73,116
+311,candidate_0093,candidate_0093,candidate_0093,candidate_0093,0,doi|10.1021/ac60079a036,117
+312,candidate_0094,candidate_0094,candidate_0094,candidate_0094,0,doi|10.1016/j.foodchem.2008.03.012,118
+313,candidate_0003,candidate_0003,candidate_0003,candidate_0003,0,doi|10.1016/s0308-8146(99)00228-9,3
+314,candidate_0084,candidate_0084,candidate_0084,candidate_0084,0,doi|10.2139/ssrn.5533441,102
+315,candidate_0095,candidate_0095,candidate_0095,candidate_0095,0,doi|10.1016/j.vibspec.2018.05.003,120
+316,candidate_0049,candidate_0049,candidate_0049,candidate_0049,0,doi|10.1016/j.lwt.2020.109344,52
+317,candidate_0002,candidate_0002,candidate_0002,candidate_0002,0,doi|10.13031/2013.7478,2
+318,candidate_0153,candidate_0153,candidate_0153,candidate_0153,0,doi|10.1016/0308-8146(95)93298-6,212
+319,candidate_0154,candidate_0154,candidate_0154,candidate_0154,0,doi|10.1002/jps.3030430711,213
+320,candidate_0218,,candidate_0218,candidate_0218,0,doi|10.33394/hjkk.v12i3.12140,320
+321,candidate_0029,candidate_0029,candidate_0029,candidate_0029,0,doi|10.1016/j.foodres.2017.12.031,31
+322,candidate_0134,candidate_0134,candidate_0134,candidate_0134,0,doi|10.1590/s1677-04202006000100014,174
+323,candidate_0102,candidate_0102,candidate_0102,candidate_0102,0,doi|10.1590/s1677-04202006000100016,139
+324,candidate_0163,candidate_0163,candidate_0163,candidate_0163,0,doi|10.1016/j.foodres.2014.01.005,226
+325,candidate_0079,candidate_0079,candidate_0079,candidate_0079,0,doi|10.1016/j.jfca.2023.105140,85
+326,candidate_0193,candidate_0193,candidate_0193,candidate_0193,0,doi|10.3390/ijerph20085586,280
+327,candidate_0081,candidate_0081,candidate_0081,candidate_0081,0,doi|10.17221/1105-cjfs,88
+328,candidate_0219,,candidate_0219,candidate_0219,0,doi|10.1016/j.jfoodeng.2018.01.009,328
+329,candidate_0026,candidate_0026,candidate_0026,candidate_0026,0,doi|10.3390/antiox9020093,28
+330,candidate_0220,,candidate_0220,candidate_0220,0,doi|10.1016/j.foodchem.2022.132888,330
+331,candidate_0162,candidate_0162,candidate_0162,candidate_0162,0,doi|10.1016/j.foodchem.2021.131159,225
+332,candidate_0221,,candidate_0221,candidate_0221,0,doi|10.3390/foods10030683,332
+333,candidate_0222,,candidate_0222,candidate_0222,0,doi|10.3390/foods6050038,333
+334,candidate_0223,,candidate_0223,candidate_0223,0,doi|10.5897/ajar2016.10832,334
+335,candidate_0169,candidate_0169,candidate_0169,candidate_0169,0,doi|10.3390/molecules200916687,234
+336,candidate_0224,,candidate_0224,candidate_0224,0,doi|10.3390/molecules26133856,336
+337,candidate_0225,,candidate_0225,candidate_0225,0,doi|10.1016/j.lwt.2021.112717,337
+338,candidate_0226,,candidate_0226,candidate_0226,0,doi|10.1016/j.lwt.2013.04.008,338
+339,candidate_0227,,candidate_0227,candidate_0227,0,doi|10.1038/s41598-021-01001-2,339
+340,candidate_0228,,candidate_0228,candidate_0228,0,doi|10.1007/s13197-015-2163-y,340
+341,candidate_0175,candidate_0175,candidate_0175,candidate_0175,0,fallback|10 best coffee shops in lubbock tx 2026||,241
+342,candidate_0176,candidate_0176,candidate_0176,candidate_0176,0,fallback|the best 10 coffee tea in lubbock tx updated august 2026 yelp||,242
+343,candidate_0177,candidate_0177,candidate_0177,candidate_0177,0,fallback|9 must try coffee shops in lubbock visit lubbock||,243
+344,candidate_0178,candidate_0178,candidate_0178,candidate_0178,0,fallback|monomyth coffee lubbock coffee roaster caf||,244
+345,candidate_0146,candidate_0146,candidate_0146,candidate_0146,0,fallback|coffee wikipedia||,195
+346,candidate_0179,candidate_0179,candidate_0179,candidate_0179,0,fallback|top 10 best coffeeshops in lubbock tx updated 2026 yelp||,246
+347,candidate_0180,candidate_0180,candidate_0180,candidate_0180,0,fallback|coffee shop in lubbock dutch bros coffee drive thru||,247
+348,candidate_0181,candidate_0181,candidate_0181,candidate_0181,0,fallback|8 best coffee shops in lubbock 2026 great caf s to try||,248
+349,candidate_0182,candidate_0182,candidate_0182,candidate_0182,0,fallback|7 brew drive thru coffee||,249
+350,candidate_0183,candidate_0183,candidate_0183,candidate_0183,0,fallback|menu starbucks coffee company||,250
+351,candidate_0229,,candidate_0229,candidate_0229,0,doi|10.1016/j.jfca.2010.02.009,351
+352,candidate_0230,,candidate_0230,candidate_0230,0,doi|10.3403/00438662u,352
+353,candidate_0231,,candidate_0231,candidate_0231,0,doi|10.3403/00438662,353
+354,candidate_0232,,candidate_0232,candidate_0232,0,doi|10.3390/icc2024-18164,354
+355,candidate_0233,,candidate_0233,candidate_0233,0,doi|10.1093/9780197610145.003.2860,355
+356,candidate_0234,,candidate_0234,candidate_0234,0,doi|10.1093/9780197610145.003.2849,356
+357,candidate_0235,,candidate_0235,candidate_0235,0,doi|10.1093/9780197610145.003.2851,357
+358,candidate_0236,,candidate_0236,candidate_0236,0,doi|10.1093/9780197610145.003.2859,358
+359,candidate_0237,,candidate_0237,candidate_0237,0,doi|10.1093/9780197610145.003.2845,359
+360,candidate_0238,,candidate_0238,candidate_0238,0,doi|10.3403/30397041,360
+361,candidate_0239,,candidate_0239,candidate_0239,0,doi|10.1093/9780197610145.003.2847,361
+362,candidate_0240,,candidate_0240,candidate_0240,0,doi|10.1093/9780197610145.003.2850,362
+363,candidate_0241,,candidate_0241,candidate_0241,0,doi|10.3403/30397041u,363
+364,candidate_0242,,candidate_0242,candidate_0242,0,doi|10.1093/9780197610145.003.2846,364
+365,candidate_0243,,candidate_0243,candidate_0243,0,doi|10.1093/9780197610145.003.2844,365
+366,candidate_0244,,candidate_0244,candidate_0244,0,doi|10.1093/9780197610145.003.2848,366
+367,candidate_0245,,candidate_0245,candidate_0245,0,doi|10.1093/9780197610145.003.2855,367
+368,candidate_0246,,candidate_0246,candidate_0246,0,doi|10.1093/9780197610145.003.2858,368
+369,candidate_0247,,candidate_0247,candidate_0247,0,doi|10.1093/9780197610145.003.2854,369
+370,candidate_0248,,candidate_0248,candidate_0248,0,doi|10.1093/9780197610145.003.2852,370
+371,candidate_0024,candidate_0024,candidate_0024,candidate_0024,0,doi|10.1590/s1677-04202006000100003,26
+372,candidate_0070,candidate_0070,candidate_0070,candidate_0070,0,doi|10.1016/j.foodres.2018.03.077,74
+373,candidate_0249,,candidate_0249,candidate_0249,0,doi|10.1016/j.foodchem.2016.04.124,373
+374,candidate_0026,candidate_0026,candidate_0026,candidate_0026,0,doi|10.3390/antiox9020093,28
+375,candidate_0250,,candidate_0250,candidate_0250,0,doi|10.1007/s00217-014-2356-z,375
+376,candidate_0164,candidate_0164,candidate_0164,candidate_0164,0,doi|10.1111/ijfs.16261,227
+377,candidate_0163,candidate_0163,candidate_0163,candidate_0163,0,doi|10.1016/j.foodres.2014.01.005,226
+378,candidate_0251,,candidate_0251,candidate_0251,0,doi|10.1007/s00217-019-03388-9,378
+379,candidate_0099,candidate_0099,candidate_0099,candidate_0099,0,doi|10.3390/ijms22010107,131
+380,candidate_0252,,candidate_0252,candidate_0252,0,doi|10.1007/s12161-012-9467-6,380
+381,candidate_0253,,candidate_0253,candidate_0253,0,doi|10.4314/bcse.v25i1.63356,381
+382,candidate_0254,,candidate_0254,candidate_0254,0,doi|10.1155/2014/384230,382
+383,candidate_0255,,candidate_0255,candidate_0255,0,doi|10.3390/foods9050665,383
+384,candidate_0033,candidate_0033,candidate_0033,candidate_0033,0,doi|10.3390/beverages5020037,36
+385,candidate_0192,candidate_0192,candidate_0192,candidate_0192,0,doi|10.1016/j.foodres.2020.110014,279
+386,candidate_0080,candidate_0080,candidate_0080,candidate_0080,0,doi|10.1016/j.fct.2018.10.005,87
+387,candidate_0256,,candidate_0256,candidate_0256,0,doi|10.3390/foods11193146,387
+388,candidate_0257,,candidate_0257,candidate_0257,0,doi|10.3390/foods9020121,388
+389,candidate_0258,,candidate_0258,candidate_0258,0,doi|10.1039/c4fo00290c,389
+390,candidate_0259,,candidate_0259,candidate_0259,0,doi|10.1016/j.heliyon.2023.e21402,390
+391,candidate_0260,,candidate_0260,candidate_0260,0,fallback|roasted pub and eatery||,391
+392,candidate_0261,,candidate_0261,candidate_0261,0,fallback|roasted||,392
+393,candidate_0262,,candidate_0262,candidate_0262,0,fallback|roasted vegetables recipe||,393
+394,candidate_0263,,candidate_0263,candidate_0263,0,fallback|roasted coffee nut roastery in tampa fl roasted813||,394
+395,candidate_0264,,candidate_0264,candidate_0264,0,fallback|home discover artisanal cuisine and craft roasted||,395
+396,candidate_0265,,candidate_0265,candidate_0265,0,fallback|perfect roasted potatoes recipe cookie and kate||,396
+397,candidate_0266,,candidate_0266,candidate_0266,0,fallback|roasting wikipedia||,397
+398,candidate_0267,,candidate_0267,candidate_0267,0,fallback|roasted english meaning cambridge dictionary||,398
+399,candidate_0268,,candidate_0268,candidate_0268,0,fallback|roasted updated august 2026 42 photos 37 reviews 4322 yelp||,399
+400,candidate_0269,,candidate_0269,candidate_0269,0,fallback|roasted definition meaning merriam webster||,400

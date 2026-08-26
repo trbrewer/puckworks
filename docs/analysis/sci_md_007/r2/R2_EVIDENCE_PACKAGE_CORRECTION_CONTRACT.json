@@ -1,0 +1,112 @@
+{
+  "authorization_id": "SCI-MD-007-R2-OWNER-AUTHORIZATION-CORRECT-SEARCH-RELATIONAL-CLOSURE-F4-F7-SEMANTICS-AUDIT-ARTIFACT-CONSISTENCY-EXACT-PUCKWORKS-HANDOFF-AND-COORDINATED-INDEPENDENT-REVIEW-2026-08-26",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claim_ceiling": [
+    "Physical validation remains NOT_ESTABLISHED.",
+    "No extraction-kinetics formulation is validated.",
+    "Total roasted content is not extractable inventory or c_s0.",
+    "extractable_inventory_mapping_status remains NOT_ESTABLISHED.",
+    "No runtime inventory provider, OpenFOAM execution, governing-physics change, Angeloni reuse, SCI-MD-006 reopening, G0 work, predictor adoption, or experimental commissioning is authorized."
+  ],
+  "correction_id": "SCI-MD-007-R2",
+  "current_authorities": {
+    "ewp": {
+      "commit": "7dbe311bfe41999283403e98af325d89cafc3719",
+      "tree": "15e0cdcfd6501dc2e57d455108d0222a752e03d4"
+    },
+    "puckworks": {
+      "commit": "7a9603c0f795fa28dca75c7be1aa594cc929c4e9",
+      "tree": "02f52fa29e3b1e70fcba5e4656d5f5ddfdce5aa6"
+    }
+  },
+  "evidence_cutoff_date": "2026-08-25",
+  "f4_semantics": {
+    "categorical": "Distinct eligible material-roast units by required pure species and nonempty harmonized category; qualifying strata meet both unit and validation-group thresholds.",
+    "decision": "F4 passes when either the complete categorical route or complete quantitative route passes.",
+    "quantitative": "Distinct eligible material-roast units with nonempty metric type, finite value, and required units; metric types are never converted or pooled.",
+    "within_species_varying_group": "For one required species, a validation group qualifies when at least two distinct eligible material-roast units share one nonempty metric type and contain at least two distinct finite values; count each group at most once per species."
+  },
+  "f7_semantics": {
+    "decision": "F7 passes iff outer validation groups meet the frozen threshold and publication, data-lineage, and base-material leakage computed from actual folds are all zero.",
+    "diagnostics_not_gates": [
+      "species_support_all_folds",
+      "harmonized_roast_category_support_all_folds",
+      "quantitative_metric_type_support_all_folds"
+    ],
+    "leakage": "For each held-out group, preserve train/test intersections of publication ID, data-lineage ID, and base-material ID and aggregate their distinct counts."
+  },
+  "frozen_contract_hashes": {
+    "feasibility_contract_sha256": "2f89470195572dc2e4c28960bad6a5f7357c36db6342fb0c13cf9443ab6417a2",
+    "r1_search_contract_sha256": "1cba90afb8d879f3172d3e4102d9558336d11fdb8f654991e67e5d4a642b2823",
+    "r1_search_protocol_sha256": "c77fde9765ee684e8c568be8b66eba1bb116757e78e0a9107f857baa9d25af2d"
+  },
+  "independent_review_requirement": "One reviewer independent of implementation must review exact frozen producer and consumer candidates after terminal green CI.",
+  "input_mutation": {
+    "allowed": [
+      "Deterministically derivable corrections to existing search bookkeeping recorded in R2_REGISTER_CORRECTIONS.csv"
+    ],
+    "prohibited": [
+      "new search or candidate",
+      "new or removed numeric observation, material, or roast realization",
+      "changed analyte value or uncertainty",
+      "changed eligibility, evidence class, rights status, lineage linkage, or validation-group linkage",
+      "Angeloni access"
+    ],
+    "scientific_evidence_registers": "BYTE_IDENTICAL_SCIENTIFIC_EVIDENCE_REGISTERS"
+  },
+  "model_execution_rule": {
+    "fail": "NOT_RUN_FEASIBILITY_FAILED",
+    "pass": "NOT_RUN_R2_CORRECTION_SCOPE_PENDING_OWNER_AUTHORIZATION",
+    "real_evidence_models_prohibited": true
+  },
+  "operational_stop_statuses": [
+    "SCI_MD_007_R2_REGISTER_CLOSURE_STOP"
+  ],
+  "result_schema_version": "1.2.0-R2",
+  "scientific_disposition": {
+    "compound_formula": "F0 and F1 and F2 and F3 and F4 and F6 and F7",
+    "fail": "SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED",
+    "overall_formula": "caffeine_feasible and trigonelline_feasible and F5",
+    "pass": "SCI_MD_007_INVENTORY_PREDICTION_FEASIBLE_WITH_EXISTING_EVIDENCE"
+  },
+  "search_relational_closure": {
+    "candidate_identity_priority": [
+      "normalized_doi",
+      "pmid_or_stable_id",
+      "normalized_title_year_first_author"
+    ],
+    "citation_directions": [
+      "BACKWARD",
+      "FORWARD"
+    ],
+    "citation_limit": 20,
+    "execution_count": 24,
+    "providers": [
+      "Crossref",
+      "OpenAlex",
+      "GeneralPublicWeb"
+    ],
+    "queries": 8,
+    "result_limit": 20,
+    "rules": [
+      "Exactly one log row per contract-derived query/provider search ID and no extras.",
+      "Result rows reconcile counts, bindings, contiguous ranks, dates, terminal states, and canonical candidate roots.",
+      "Duplicate lineages have exactly one canonical introduction; links terminate without dangling references, multiple roots, duplicate-only lineages, or cycles.",
+      "Each atlas source has one bounded completed backward and forward citation pass; absence is not zero-result completion."
+    ]
+  },
+  "artifact_consistency": {
+    "blank_required_csv_fields_fail": true,
+    "manifest_self_hash_prohibited": true,
+    "required": "Result, export, gates, summaries, observation register, R2 search/fold audits, and source-package manifest must reconcile semantically and byte-deterministically."
+  },
+  "task_id": "SCI-MD-007",
+  "thresholds": {
+    "F2": {"base_coffee_materials": 16, "identified_laboratories": 3, "largest_group_max_fraction": 0.5, "material_roast_units": 24, "source_publications": 4, "validation_groups": 4},
+    "F3": {"laboratories_per_species": 2, "publications_per_species": 2, "units_per_species": 8, "validation_groups_per_species": 3},
+    "F4": {"categorical_groups_per_stratum": 2, "categorical_strata_per_species": 2, "categorical_units_per_stratum": 4, "quantitative_metric_groups": 3, "quantitative_metric_units": 16, "quantitative_metric_units_per_species": 6, "within_species_varying_groups": 2},
+    "F5": {"paired_material_roast_units": 20, "validation_groups": 4},
+    "F6": {"uncertainty_bearing_fraction": 0.5, "uncertainty_source_laboratory_groups": 3},
+    "F7": {"outer_validation_groups": 4}
+  }
+}

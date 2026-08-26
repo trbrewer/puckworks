@@ -16,7 +16,7 @@
     "exact_match": true,
     "contains_incorrect_independent_attribution": false,
     "incorrect_occurrences": 0,
-    "n_rows": 110
+    "n_rows": 114
   },
   "gate_docstring": {
     "function": "gate_foster_ct_trajectory",

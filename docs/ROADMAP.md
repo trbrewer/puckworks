@@ -1,5 +1,15 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+> **SCI-MD-007-R2 corrected 2026-08-26:** evidence rows remain byte-identical. Search relations, F4 within-species variation, F7 fold leakage, laboratory audit output, and cross-artifact consistency now close mechanically under schema `1.2.0-R2`. The recomputed disposition remains prior-only; no predictor or runtime integration is authorized.
+
+> **SCI-MD-007-R1 corrected 2026-08-25:** the bounded evidence atlas and data-derived reducer fail the
+> predeclared structural feasibility contract. The exact disposition is
+> `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
+> The corrected cohort contains 112 paired eligible material–roast units but only three
+> publication/validation groups and one identified laboratory, with insufficient Arabica and
+> comparable roast coverage. This leaves total roasted content as restricted priors, does not establish
+> extractable inventory/c_s0, does not reuse Angeloni, and does not reopen SCI-MD-006.
+
 > **Current execution (2026-07-18).** The **v0.3.0 Guided Espresso Pull** is publicly released
 > (GitHub Release; not on PyPI); issue **#48** awaits only one signed-out human Colab acceptance run.
 > **PV-03 "The Cup Hides the Clock"**, **PV-05 "More Physics Made It Worse"**, and **PV-04 "How We

@@ -1,0 +1,2 @@
+path,row_identity,field,previous_value,corrected_value,deterministic_derivation,reason,scientific_content_impact,authorizing_contract_field
+NO_REGISTER_CORRECTIONS_REQUIRED,NOT_APPLICABLE,NOT_APPLICABLE,NOT_APPLICABLE,NOT_APPLICABLE,Strengthened reducer closes existing rows without edits,Existing zero-result citation sentinels are schema-valid,NONE,input_mutation.allowed

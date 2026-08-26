@@ -1,0 +1,4 @@
+link_id,left_type,left_id,right_type,right_id,reason
+l1,publication,viencz2023,laboratory,lab_uel_benassi,shared UEL Benassi analytical laboratory
+l2,publication,acre2024,laboratory,lab_uel_benassi,shared UEL Benassi analytical laboratory; separate data lineage
+l3,publication,pannusch2024,publication,schmieder2023,Pannusch fit reuses Schmieder experimental lineage

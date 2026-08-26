@@ -1,0 +1,61 @@
+{
+  "schema_version": "SCI_MD_007_R1_CORRECTIVE_SEARCH_CONTRACT_V1",
+  "closure_class": "R1_CORRECTIVE_CONTRACT_CLOSURE",
+  "task_id": "SCI-MD-007",
+  "authorization_id": "SCI-MD-007-R1-OWNER-AUTHORIZATION-CORRECT-INCOMPLETE-EVIDENCE-ATLAS-DATA-DERIVED-FEASIBILITY-ADJUDICATION-EXACT-PUCKWORKS-HANDOFF-AND-FULL-QUALIFICATION-2026-08-25",
+  "evidence_cutoff_date": "2026-08-25",
+  "original_contract_commit": "241eca9",
+  "original_contract_sha256": "2f89470195572dc2e4c28960bad6a5f7357c36db6342fb0c13cf9443ab6417a2",
+  "original_search_log_was_frozen": false,
+  "protocol_path": "docs/analysis/sci_md_007/r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md",
+  "protocol_sha256": "c77fde9765ee684e8c568be8b66eba1bb116757e78e0a9107f857baa9d25af2d",
+  "contract_hash_definition": "SHA-256 of complete tracked contract bytes; recorded by validator and result manifest, not self-embedded",
+  "providers": ["Crossref", "OpenAlex", "GeneralPublicWeb"],
+  "result_limit_per_query_per_provider": 20,
+  "queries": [
+    "caffeine trigonelline roasted coffee HPLC",
+    "caffeine trigonelline roasting degree arabica robusta",
+    "trigonelline caffeine coffee roast level content",
+    "Coffea arabica Coffea canephora caffeine trigonelline roasted beans",
+    "coffee roast colour caffeine trigonelline",
+    "Agtron caffeine trigonelline coffee",
+    "coffee roasting caffeine trigonelline dry basis moisture",
+    "roasted coffee alkaloid composition species roast analytical method"
+  ],
+  "deduplication_key_priority": ["normalized_doi", "pmid_or_stable_id", "normalized_title_year_first_author"],
+  "mandatory_rescreen": [
+    "10.1038/s41598-026-43923-9",
+    "10.3390/beverages1030127",
+    "10.1016/j.jfca.2023.105140",
+    "10.21577/0103-5053.20240031",
+    "10.1021/jf990702b",
+    "S0308814699002289",
+    "PUBLIC_60_COMMERCIAL_SAMPLE_PROCEEDINGS",
+    "ALL_CURRENT_CANDIDATE_SOURCES",
+    "ALL_PUCKWORKS_CAFFEINE_OR_TRIGONELLINE_INVENTORY_LIKE_SOURCES"
+  ],
+  "citation_passes": {"backward_limit_per_included_source": 20, "forward_limit_per_included_source": 20},
+  "source_screening_states": [
+    "ATLAS_INCLUDED_NUMERIC_ROWS",
+    "ATLAS_INCLUDED_METADATA_ONLY",
+    "RIGHTS_OR_ACCESS_BLOCKED",
+    "DUPLICATE_PUBLICATION_OR_LINEAGE",
+    "OUT_OF_SCOPE_NON_INVENTORY",
+    "OUT_OF_SCOPE_NON_ROASTED_MATERIAL",
+    "UNRESOLVED_PENDING_SCREEN"
+  ],
+  "row_eligibility_rules": {
+    "analyte": ["caffeine", "trigonelline"],
+    "roasted_unextracted": true,
+    "target_semantics": "TOTAL_ROASTED_CONTENT",
+    "measurement_provenance": "DIRECT_ROASTED_MATERIAL_ASSAY",
+    "traceability_required": true,
+    "rights_usable_required": true,
+    "duplicate_forbidden": true,
+    "canonical_basis": "mg analyte / g dry roasted coffee",
+    "imputed_moisture_forbidden": true
+  },
+  "search_completion_formula": "all queries x providers have numeric terminal counts AND every result has terminal screening state AND every included source has bounded backward and forward rows AND all duplicate lineages resolved",
+  "rights_rules": {"paywall_bypass": false, "authentication_bypass": false, "restricted_tables_committed": false, "normalized_factual_intake_requires_policy_permission": true},
+  "angeloni_rule": "NO_NUMERICAL_OR_PROTECTED_ANGELONI_READ_OR_LINEAGE; metadata-only exclusion audit permitted"
+}

@@ -1,0 +1,50 @@
+{
+  "contract_id": "SCI_MD_007_FEASIBILITY_CONTRACT_V1",
+  "schema_version": "1.0.0",
+  "task_id": "SCI-MD-007",
+  "evidence_cutoff_date": "2026-08-25",
+  "canonical_unit": "mg analyte / g dry roasted coffee",
+  "eligible_target_semantics": "TOTAL_ROASTED_CONTENT",
+  "eligible_measurement_provenance": "DIRECT_ROASTED_MATERIAL_ASSAY",
+  "thresholds": {
+    "F2": {
+      "material_roast_units": 24,
+      "base_coffee_materials": 16,
+      "source_publications": 4,
+      "identified_laboratories": 3,
+      "validation_groups": 4,
+      "largest_group_max_fraction": 0.5
+    },
+    "F3": {
+      "units_per_species": 8,
+      "validation_groups_per_species": 3,
+      "publications_per_species": 2,
+      "laboratories_per_species": 2
+    },
+    "F4": {
+      "categorical_strata_per_species": 2,
+      "categorical_units_per_stratum": 4,
+      "categorical_groups_per_stratum": 2,
+      "quantitative_metric_units": 16,
+      "quantitative_metric_units_per_species": 6,
+      "quantitative_metric_groups": 3,
+      "within_species_varying_groups": 2
+    },
+    "F5": {
+      "paired_material_roast_units": 20,
+      "validation_groups": 4
+    },
+    "F6": {
+      "uncertainty_bearing_fraction": 0.5,
+      "uncertainty_source_laboratory_groups": 3
+    },
+    "F7": {
+      "outer_validation_groups": 4
+    }
+  },
+  "compound_formula": "F0 and F1 and F2 and F3 and F4 and F6 and F7",
+  "overall_formula": "caffeine_feasible and trigonelline_feasible and F5",
+  "pass_disposition": "SCI_MD_007_INVENTORY_PREDICTION_FEASIBLE_WITH_EXISTING_EVIDENCE",
+  "fail_disposition": "SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED",
+  "model_adoption_status": "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN"
+}

@@ -7,6 +7,24 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 **INTAKE** = card project conversation · **CHAT** = analysis session ·
 **TB** = Tim task (correspondence etc.).
 
+## SCI-MD-007-R2 evidence-package closure (2026-08-26)
+
+- [x] Search bookkeeping closes without register edits at 24 executions, 400 rows, 269 roots, and 131 duplicates.
+- [x] F4 within-species variation and F7 leakage/support semantics are executable and audited.
+- [x] Scientific evidence registers remain byte-identical; the mechanically recomputed result remains prior-only.
+
+## SCI-MD-007 inventory evidence atlas (2026-08-25)
+
+- [x] Frozen F0--F7 feasibility contract committed before new numerical extraction.
+- [x] Eight predeclared searches plus bounded backward/forward citation passes completed.
+- [x] Rights-aware source/material/observation atlas generated; Angeloni excluded.
+- [x] Mechanical disposition: `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
+- [x] Model stage: `NOT_RUN_FEASIBILITY_FAILED`; extractable mapping: `NOT_ESTABLISHED`.
+- [x] R1 correction: 24 numeric provider/query searches and 400 result records; Acre, Viencz,
+      and Dias dry-basis rows intaken; Pannusch fitted and Schmieder asymptotic classes retained.
+- [x] R1 data-derived outcome: 112 paired eligible units, three validation groups, one identified
+      laboratory; F2/F3/F4/F5/F7 fail and the provisional result is superseded.
+
 ## Sprint 0 — plumbing (CC, done when this file exists in repo)
 - [x] Commit `docs/ROADMAP.md` (rev. 2), `CLAUDE.md`, `docs/SPRINTS.md`
 - [x] Create `puckworks/data/MANIFEST.csv` header per ROADMAP §3 manifest rule

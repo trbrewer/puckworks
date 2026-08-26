@@ -5,6 +5,18 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **SCI-MD-007-R2 evidence-package semantic closure (2026-08-26).** Preserved the scientific evidence registers byte-identically while closing search relations, executing every frozen F4 primitive, deriving F7 leakage from folds, separating transportability diagnostics from gates, correcting laboratory audit output, and adding cross-artifact validation. The mechanically recomputed disposition remains prior-only; no real-data predictor ran.
+
+- **SCI-MD-007-R1 corrective inventory evidence atlas (2026-08-25).** Superseding the
+  provisional branch-head result without rewriting its history, the validated registers now
+  contain 228 atlas observations and 224 direct dry-basis eligible rows (112 paired
+  material–roast units). The frozen, fully data-derived F0--F7 reducer returns
+  `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
+  F2/F7 fail with three source/validation groups and one identified laboratory; F3/F4 also fail
+  for Arabica and cross-source roast coverage, and F5 has only three paired groups. Pannusch
+  fitted c_s0 and Schmieder asymptotic rows remain atlas-only. No model ran, no extractable
+  fraction or c_s0 mapping was established, and no Angeloni data were used.
+
 - **Grudeva rights corrected to `PERMISSION_DOCUMENTED` on direct written permission (2026-08-14, #73)
   — supersedes, does not retract, the earlier block.** On 2026-08-14 the upstream author, **Dr. Yoana
   Grudeva**, gave the maintainer direct written permission through LinkedIn to use and share material from

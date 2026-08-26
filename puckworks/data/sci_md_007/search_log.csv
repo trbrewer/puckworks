@@ -1,0 +1,25 @@
+search_id,provider,query,execution_date,result_limit,results_returned,results_screened,unique_candidates_added,duplicates,inaccessible_candidates,out_of_scope_candidates
+q01_crossref,Crossref,caffeine trigonelline roasted coffee HPLC,2026-08-25,20,20,20,20,0,0,8
+q01_openalex,OpenAlex,caffeine trigonelline roasted coffee HPLC,2026-08-25,20,20,20,17,3,0,10
+q01_generalpublicweb,GeneralPublicWeb,caffeine trigonelline roasted coffee HPLC,2026-08-25,20,10,10,10,0,0,9
+q02_crossref,Crossref,caffeine trigonelline roasting degree arabica robusta,2026-08-25,20,20,20,20,0,0,15
+q02_openalex,OpenAlex,caffeine trigonelline roasting degree arabica robusta,2026-08-25,20,20,20,15,5,0,15
+q02_generalpublicweb,GeneralPublicWeb,caffeine trigonelline roasting degree arabica robusta,2026-08-25,20,10,10,0,10,0,9
+q03_crossref,Crossref,trigonelline caffeine coffee roast level content,2026-08-25,20,20,20,13,7,0,5
+q03_openalex,OpenAlex,trigonelline caffeine coffee roast level content,2026-08-25,20,20,20,8,12,0,11
+q03_generalpublicweb,GeneralPublicWeb,trigonelline caffeine coffee roast level content,2026-08-25,20,10,10,9,1,0,10
+q04_crossref,Crossref,Coffea arabica Coffea canephora caffeine trigonelline roasted beans,2026-08-25,20,20,20,18,2,0,20
+q04_openalex,OpenAlex,Coffea arabica Coffea canephora caffeine trigonelline roasted beans,2026-08-25,20,20,20,11,9,0,17
+q04_generalpublicweb,GeneralPublicWeb,Coffea arabica Coffea canephora caffeine trigonelline roasted beans,2026-08-25,20,10,10,10,0,0,10
+q05_crossref,Crossref,coffee roast colour caffeine trigonelline,2026-08-25,20,20,20,9,11,0,2
+q05_openalex,OpenAlex,coffee roast colour caffeine trigonelline,2026-08-25,20,20,20,14,6,0,20
+q05_generalpublicweb,GeneralPublicWeb,coffee roast colour caffeine trigonelline,2026-08-25,20,10,10,9,1,0,10
+q06_crossref,Crossref,Agtron caffeine trigonelline coffee,2026-08-25,20,20,20,3,17,0,0
+q06_openalex,OpenAlex,Agtron caffeine trigonelline coffee,2026-08-25,20,20,20,17,3,0,18
+q06_generalpublicweb,GeneralPublicWeb,Agtron caffeine trigonelline coffee,2026-08-25,20,10,10,10,0,0,10
+q07_crossref,Crossref,coffee roasting caffeine trigonelline dry basis moisture,2026-08-25,20,20,20,5,15,0,0
+q07_openalex,OpenAlex,coffee roasting caffeine trigonelline dry basis moisture,2026-08-25,20,20,20,10,10,0,18
+q07_generalpublicweb,GeneralPublicWeb,coffee roasting caffeine trigonelline dry basis moisture,2026-08-25,20,10,10,0,10,0,10
+q08_crossref,Crossref,roasted coffee alkaloid composition species roast analytical method,2026-08-25,20,20,20,20,0,0,16
+q08_openalex,OpenAlex,roasted coffee alkaloid composition species roast analytical method,2026-08-25,20,20,20,11,9,0,17
+q08_generalpublicweb,GeneralPublicWeb,roasted coffee alkaloid composition species roast analytical method,2026-08-25,20,10,10,10,0,0,10
