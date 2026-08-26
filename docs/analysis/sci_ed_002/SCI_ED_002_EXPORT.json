@@ -4,7 +4,7 @@
   "claim_ceiling": {
     "c_s0_mapping_status": "NOT_ESTABLISHED",
     "commissioning_authorized": false,
-    "disposition": "SCI_ED_002_PROTOCOL_FROZEN_COMMISSIONING_NOT_AUTHORIZED",
+    "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN",
     "formal_quotes_obtained": false,
     "governing_physics_change": false,
     "laboratories_contacted": false,
@@ -25,7 +25,7 @@
     "total_base_materials": 24,
     "total_units": 36
   },
-  "disposition": "SCI_ED_002_PROTOCOL_FROZEN_COMMISSIONING_NOT_AUTHORIZED",
+  "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN",
   "espresso_crosswalk_identity": "SCI-ED-002-ESPRESSO-EXTENSION-v1.0.0",
   "estimand_statuses": {
     "I_ref": {
