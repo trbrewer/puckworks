@@ -1,0 +1,25 @@
+{
+  "blank_violations": [],
+  "comparisons": {
+    "caffeine_f4_export_result": true,
+    "caffeine_f7_export_result": true,
+    "caffeine_independence_laboratory_equals_f2": true,
+    "caffeine_independence_laboratory_nonblank": true,
+    "caffeine_source_summary_laboratory_equals_f2": true,
+    "eligible_observations": true,
+    "evidence_classes_sum": true,
+    "no_blank_required_summary_fields": true,
+    "paired_units": true,
+    "result_export_disposition": true,
+    "result_export_overall": true,
+    "search_totals": true,
+    "trigonelline_f4_export_result": true,
+    "trigonelline_f7_export_result": true,
+    "trigonelline_independence_laboratory_equals_f2": true,
+    "trigonelline_independence_laboratory_nonblank": true,
+    "trigonelline_source_summary_laboratory_equals_f2": true
+  },
+  "manifest_closure": "VERIFIED_BY_BUILD_AFTER_MANIFEST_SERIALIZATION",
+  "schema_version": "1.2.0-R2",
+  "status": "PASS"
+}

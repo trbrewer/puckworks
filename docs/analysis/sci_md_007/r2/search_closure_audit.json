@@ -1,0 +1,388 @@
+{
+  "citation_pass_audit": [
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 20,
+      "source_publication_id": "bruno2026",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 1,
+      "source_publication_id": "bruno2026",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 20,
+      "source_publication_id": "dias2015",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 20,
+      "source_publication_id": "dias2015",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 20,
+      "source_publication_id": "viencz2023",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 20,
+      "source_publication_id": "viencz2023",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 0,
+      "source_publication_id": "acre2024",
+      "zero_result_sentinel": true
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 3,
+      "source_publication_id": "acre2024",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 20,
+      "source_publication_id": "pannusch2024",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 0,
+      "source_publication_id": "pannusch2024",
+      "zero_result_sentinel": true
+    },
+    {
+      "complete": true,
+      "direction": "BACKWARD",
+      "result_count": 20,
+      "source_publication_id": "schmieder2023",
+      "zero_result_sentinel": false
+    },
+    {
+      "complete": true,
+      "direction": "FORWARD",
+      "result_count": 14,
+      "source_publication_id": "schmieder2023",
+      "zero_result_sentinel": false
+    }
+  ],
+  "citation_records": 160,
+  "duplicates": 131,
+  "inaccessible_candidates": 0,
+  "out_of_scope_candidates": 270,
+  "pass": true,
+  "query_provider_audit": [
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 8,
+      "provider": "Crossref",
+      "query": "caffeine trigonelline roasted coffee HPLC",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q01_crossref",
+      "unique_candidates_added": 20
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 9,
+      "provider": "GeneralPublicWeb",
+      "query": "caffeine trigonelline roasted coffee HPLC",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q01_generalpublicweb",
+      "unique_candidates_added": 10
+    },
+    {
+      "duplicates": 3,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "OpenAlex",
+      "query": "caffeine trigonelline roasted coffee HPLC",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q01_openalex",
+      "unique_candidates_added": 17
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 15,
+      "provider": "Crossref",
+      "query": "caffeine trigonelline roasting degree arabica robusta",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q02_crossref",
+      "unique_candidates_added": 20
+    },
+    {
+      "duplicates": 10,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 9,
+      "provider": "GeneralPublicWeb",
+      "query": "caffeine trigonelline roasting degree arabica robusta",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q02_generalpublicweb",
+      "unique_candidates_added": 0
+    },
+    {
+      "duplicates": 5,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 15,
+      "provider": "OpenAlex",
+      "query": "caffeine trigonelline roasting degree arabica robusta",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q02_openalex",
+      "unique_candidates_added": 15
+    },
+    {
+      "duplicates": 7,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 5,
+      "provider": "Crossref",
+      "query": "trigonelline caffeine coffee roast level content",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q03_crossref",
+      "unique_candidates_added": 13
+    },
+    {
+      "duplicates": 1,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "trigonelline caffeine coffee roast level content",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q03_generalpublicweb",
+      "unique_candidates_added": 9
+    },
+    {
+      "duplicates": 12,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 11,
+      "provider": "OpenAlex",
+      "query": "trigonelline caffeine coffee roast level content",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q03_openalex",
+      "unique_candidates_added": 8
+    },
+    {
+      "duplicates": 2,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 20,
+      "provider": "Crossref",
+      "query": "Coffea arabica Coffea canephora caffeine trigonelline roasted beans",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q04_crossref",
+      "unique_candidates_added": 18
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "Coffea arabica Coffea canephora caffeine trigonelline roasted beans",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q04_generalpublicweb",
+      "unique_candidates_added": 10
+    },
+    {
+      "duplicates": 9,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 17,
+      "provider": "OpenAlex",
+      "query": "Coffea arabica Coffea canephora caffeine trigonelline roasted beans",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q04_openalex",
+      "unique_candidates_added": 11
+    },
+    {
+      "duplicates": 11,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 2,
+      "provider": "Crossref",
+      "query": "coffee roast colour caffeine trigonelline",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q05_crossref",
+      "unique_candidates_added": 9
+    },
+    {
+      "duplicates": 1,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "coffee roast colour caffeine trigonelline",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q05_generalpublicweb",
+      "unique_candidates_added": 9
+    },
+    {
+      "duplicates": 6,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 20,
+      "provider": "OpenAlex",
+      "query": "coffee roast colour caffeine trigonelline",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q05_openalex",
+      "unique_candidates_added": 14
+    },
+    {
+      "duplicates": 17,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 0,
+      "provider": "Crossref",
+      "query": "Agtron caffeine trigonelline coffee",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q06_crossref",
+      "unique_candidates_added": 3
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "Agtron caffeine trigonelline coffee",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q06_generalpublicweb",
+      "unique_candidates_added": 10
+    },
+    {
+      "duplicates": 3,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 18,
+      "provider": "OpenAlex",
+      "query": "Agtron caffeine trigonelline coffee",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q06_openalex",
+      "unique_candidates_added": 17
+    },
+    {
+      "duplicates": 15,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 0,
+      "provider": "Crossref",
+      "query": "coffee roasting caffeine trigonelline dry basis moisture",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q07_crossref",
+      "unique_candidates_added": 5
+    },
+    {
+      "duplicates": 10,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "coffee roasting caffeine trigonelline dry basis moisture",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q07_generalpublicweb",
+      "unique_candidates_added": 0
+    },
+    {
+      "duplicates": 10,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 18,
+      "provider": "OpenAlex",
+      "query": "coffee roasting caffeine trigonelline dry basis moisture",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q07_openalex",
+      "unique_candidates_added": 10
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 16,
+      "provider": "Crossref",
+      "query": "roasted coffee alkaloid composition species roast analytical method",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q08_crossref",
+      "unique_candidates_added": 20
+    },
+    {
+      "duplicates": 0,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 10,
+      "provider": "GeneralPublicWeb",
+      "query": "roasted coffee alkaloid composition species roast analytical method",
+      "result_limit": 20,
+      "results_returned": 10,
+      "results_screened": 10,
+      "search_id": "q08_generalpublicweb",
+      "unique_candidates_added": 10
+    },
+    {
+      "duplicates": 9,
+      "inaccessible_candidates": 0,
+      "out_of_scope_candidates": 17,
+      "provider": "OpenAlex",
+      "query": "roasted coffee alkaloid composition species roast analytical method",
+      "result_limit": 20,
+      "results_returned": 20,
+      "results_screened": 20,
+      "search_id": "q08_openalex",
+      "unique_candidates_added": 11
+    }
+  ],
+  "reasons": [],
+  "result_records": 400,
+  "searches": 24,
+  "unique_candidates": 269,
+  "unresolved_candidates": 0
+}

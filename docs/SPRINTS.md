@@ -7,6 +7,12 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
 **INTAKE** = card project conversation · **CHAT** = analysis session ·
 **TB** = Tim task (correspondence etc.).
 
+## SCI-MD-007-R2 evidence-package closure (2026-08-26)
+
+- [x] Search bookkeeping closes without register edits at 24 executions, 400 rows, 269 roots, and 131 duplicates.
+- [x] F4 within-species variation and F7 leakage/support semantics are executable and audited.
+- [x] Scientific evidence registers remain byte-identical; the mechanically recomputed result remains prior-only.
+
 ## SCI-MD-007 inventory evidence atlas (2026-08-25)
 
 - [x] Frozen F0--F7 feasibility contract committed before new numerical extraction.

@@ -76,28 +76,237 @@
       },
       "F4": {
         "categorical_route": {
+          "failure_reasons": [
+            "categorical_Arabica_qualifying_strata_below_threshold",
+            "categorical_Robusta_qualifying_strata_below_threshold"
+          ],
           "pass": false,
-          "strata": {
+          "species": {
             "Arabica": {
-              "dark": 1,
-              "light": 1,
-              "medium": 1
+              "categories": {
+                "dark": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "light": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "medium": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                }
+              },
+              "pass": false,
+              "qualifying_strata": [],
+              "qualifying_strata_count": 0
             },
             "Robusta": {
-              "dark": 1,
-              "light": 1,
-              "medium": 68
+              "categories": {
+                "dark": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "light": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "medium": {
+                  "failure_reasons": [],
+                  "material_roast_units": 68,
+                  "qualifies": true,
+                  "validation_groups": 2
+                }
+              },
+              "pass": false,
+              "qualifying_strata": [
+                "medium"
+              ],
+              "qualifying_strata_count": 1
             }
           }
         },
         "failure_reasons": [
-          "neither roast route qualifies"
+          "neither_roast_route_qualifies",
+          "categorical_Arabica_qualifying_strata_below_threshold",
+          "categorical_Robusta_qualifying_strata_below_threshold",
+          "quantitative_validation_groups_failed",
+          "quantitative_units_per_species_failed",
+          "quantitative_within_species_varying_groups_failed"
         ],
         "pass": false,
         "quantitative_route": {
-          "groups": 3,
+          "failure_reasons": [
+            "quantitative_validation_groups_failed",
+            "quantitative_units_per_species_failed",
+            "quantitative_within_species_varying_groups_failed"
+          ],
+          "invalid_metric_unit_ids": [
+            "viencz_r1|viencz_r1_medium",
+            "viencz_r2|viencz_r2_medium",
+            "viencz_r3|viencz_r3_medium",
+            "viencz_r4|viencz_r4_medium",
+            "viencz_r5|viencz_r5_medium",
+            "viencz_r6|viencz_r6_medium",
+            "viencz_r7|viencz_r7_medium",
+            "viencz_r8|viencz_r8_medium",
+            "viencz_r9|viencz_r9_medium",
+            "viencz_r10|viencz_r10_medium",
+            "viencz_r11|viencz_r11_medium",
+            "viencz_r12|viencz_r12_medium",
+            "viencz_r13|viencz_r13_medium",
+            "viencz_r14|viencz_r14_medium",
+            "viencz_r15|viencz_r15_medium",
+            "viencz_r16|viencz_r16_medium",
+            "viencz_r17|viencz_r17_medium",
+            "viencz_r18|viencz_r18_medium",
+            "viencz_r19|viencz_r19_medium",
+            "viencz_r20|viencz_r20_medium",
+            "viencz_r21|viencz_r21_medium",
+            "viencz_r22|viencz_r22_medium",
+            "viencz_r23|viencz_r23_medium",
+            "viencz_r24|viencz_r24_medium",
+            "viencz_r25|viencz_r25_medium",
+            "viencz_r26|viencz_r26_medium",
+            "viencz_r27|viencz_r27_medium",
+            "viencz_r28|viencz_r28_medium",
+            "viencz_r29|viencz_r29_medium",
+            "viencz_r30|viencz_r30_medium",
+            "viencz_r31|viencz_r31_medium",
+            "viencz_r32|viencz_r32_medium",
+            "viencz_r33|viencz_r33_medium",
+            "viencz_r34|viencz_r34_medium",
+            "viencz_r35|viencz_r35_medium",
+            "viencz_r36|viencz_r36_medium",
+            "viencz_r37|viencz_r37_medium",
+            "viencz_r38|viencz_r38_medium",
+            "viencz_r39|viencz_r39_medium",
+            "viencz_r40|viencz_r40_medium",
+            "viencz_r41|viencz_r41_medium",
+            "viencz_r42|viencz_r42_medium",
+            "viencz_r43|viencz_r43_medium",
+            "viencz_r44|viencz_r44_medium",
+            "viencz_r45|viencz_r45_medium",
+            "viencz_r46|viencz_r46_medium",
+            "viencz_r47|viencz_r47_medium",
+            "viencz_r48|viencz_r48_medium",
+            "viencz_r49|viencz_r49_medium",
+            "viencz_r50|viencz_r50_medium",
+            "viencz_r51|viencz_r51_medium",
+            "viencz_r52|viencz_r52_medium",
+            "viencz_r53|viencz_r53_medium",
+            "viencz_r54|viencz_r54_medium",
+            "viencz_r55|viencz_r55_medium",
+            "viencz_r56|viencz_r56_medium",
+            "viencz_r57|viencz_r57_medium",
+            "viencz_brs1216|viencz_brs1216_medium",
+            "viencz_brs2299|viencz_brs2299_medium",
+            "viencz_brs2314|viencz_brs2314_medium",
+            "viencz_brs2336|viencz_brs2336_medium",
+            "viencz_brs2357|viencz_brs2357_medium",
+            "viencz_brs3137|viencz_brs3137_medium",
+            "viencz_brs3193|viencz_brs3193_medium",
+            "viencz_brs3210|viencz_brs3210_medium",
+            "viencz_brs3213|viencz_brs3213_medium",
+            "viencz_brs3220|viencz_brs3220_medium"
+          ],
+          "material_roast_units": 45,
+          "minimum_within_species_varying_groups": 1,
           "pass": false,
-          "units": 112
+          "primitive_pass": {
+            "total_units": true,
+            "units_per_species": false,
+            "validation_groups": false,
+            "within_species_varying_groups": false
+          },
+          "units_per_species": {
+            "Arabica": 3,
+            "Robusta": 33
+          },
+          "validation_groups": 2,
+          "within_species_varying_groups": {
+            "Arabica": {
+              "count": 1,
+              "pass": false,
+              "qualifying_groups": [
+                {
+                  "qualifying_metric_types": [
+                    {
+                      "distinct_values": [
+                        13.0,
+                        17.0,
+                        20.0
+                      ],
+                      "metric_type": "roast_mass_loss",
+                      "unit_ids": [
+                        "dias_r000|dias_r000_dark",
+                        "dias_r000|dias_r000_light",
+                        "dias_r000|dias_r000_medium"
+                      ]
+                    }
+                  ],
+                  "validation_group_id": "vg_002"
+                }
+              ],
+              "qualifying_validation_group_ids": [
+                "vg_002"
+              ],
+              "threshold": 2
+            },
+            "Robusta": {
+              "count": 1,
+              "pass": false,
+              "qualifying_groups": [
+                {
+                  "qualifying_metric_types": [
+                    {
+                      "distinct_values": [
+                        13.0,
+                        17.0,
+                        20.0
+                      ],
+                      "metric_type": "roast_mass_loss",
+                      "unit_ids": [
+                        "dias_r100|dias_r100_dark",
+                        "dias_r100|dias_r100_light",
+                        "dias_r100|dias_r100_medium"
+                      ]
+                    }
+                  ],
+                  "validation_group_id": "vg_002"
+                }
+              ],
+              "qualifying_validation_group_ids": [
+                "vg_002"
+              ],
+              "threshold": 2
+            }
+          }
         },
         "thresholds": {
           "categorical_groups_per_stratum": 2,
@@ -124,37 +333,81 @@
       },
       "F7": {
         "base_material_leakage": 0,
-        "category_support_all_folds": false,
+        "base_material_leakage_ids": [],
         "data_lineage_leakage": 0,
+        "data_lineage_leakage_ids": [],
         "failure_reasons": [
-          "outer group/category support threshold unmet"
+          "outer_validation_groups_below_threshold"
         ],
+        "harmonized_roast_category_support_all_folds": false,
         "outer_validation_groups": 3,
         "pass": false,
         "proposed_folds": [
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_001",
+            "test_species": [
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_002",
               "vg_004"
-            ]
+            ],
+            "training_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": []
           },
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_002",
+            "test_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_001",
               "vg_004"
+            ],
+            "training_species": [
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": [
+              "Blend",
+              "Coffea arabica"
             ]
           },
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_004",
+            "test_species": [
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_001",
               "vg_002"
-            ]
+            ],
+            "training_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": []
           }
         ],
         "publication_leakage": 0,
+        "publication_leakage_ids": [],
+        "quantitative_metric_type_support_all_folds": false,
+        "species_support_all_folds": false,
         "thresholds": {
           "outer_validation_groups": 4
         }
@@ -224,28 +477,237 @@
       },
       "F4": {
         "categorical_route": {
+          "failure_reasons": [
+            "categorical_Arabica_qualifying_strata_below_threshold",
+            "categorical_Robusta_qualifying_strata_below_threshold"
+          ],
           "pass": false,
-          "strata": {
+          "species": {
             "Arabica": {
-              "dark": 1,
-              "light": 1,
-              "medium": 1
+              "categories": {
+                "dark": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "light": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "medium": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                }
+              },
+              "pass": false,
+              "qualifying_strata": [],
+              "qualifying_strata_count": 0
             },
             "Robusta": {
-              "dark": 1,
-              "light": 1,
-              "medium": 68
+              "categories": {
+                "dark": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "light": {
+                  "failure_reasons": [
+                    "units_below_threshold",
+                    "validation_groups_below_threshold"
+                  ],
+                  "material_roast_units": 1,
+                  "qualifies": false,
+                  "validation_groups": 1
+                },
+                "medium": {
+                  "failure_reasons": [],
+                  "material_roast_units": 68,
+                  "qualifies": true,
+                  "validation_groups": 2
+                }
+              },
+              "pass": false,
+              "qualifying_strata": [
+                "medium"
+              ],
+              "qualifying_strata_count": 1
             }
           }
         },
         "failure_reasons": [
-          "neither roast route qualifies"
+          "neither_roast_route_qualifies",
+          "categorical_Arabica_qualifying_strata_below_threshold",
+          "categorical_Robusta_qualifying_strata_below_threshold",
+          "quantitative_validation_groups_failed",
+          "quantitative_units_per_species_failed",
+          "quantitative_within_species_varying_groups_failed"
         ],
         "pass": false,
         "quantitative_route": {
-          "groups": 3,
+          "failure_reasons": [
+            "quantitative_validation_groups_failed",
+            "quantitative_units_per_species_failed",
+            "quantitative_within_species_varying_groups_failed"
+          ],
+          "invalid_metric_unit_ids": [
+            "viencz_r1|viencz_r1_medium",
+            "viencz_r2|viencz_r2_medium",
+            "viencz_r3|viencz_r3_medium",
+            "viencz_r4|viencz_r4_medium",
+            "viencz_r5|viencz_r5_medium",
+            "viencz_r6|viencz_r6_medium",
+            "viencz_r7|viencz_r7_medium",
+            "viencz_r8|viencz_r8_medium",
+            "viencz_r9|viencz_r9_medium",
+            "viencz_r10|viencz_r10_medium",
+            "viencz_r11|viencz_r11_medium",
+            "viencz_r12|viencz_r12_medium",
+            "viencz_r13|viencz_r13_medium",
+            "viencz_r14|viencz_r14_medium",
+            "viencz_r15|viencz_r15_medium",
+            "viencz_r16|viencz_r16_medium",
+            "viencz_r17|viencz_r17_medium",
+            "viencz_r18|viencz_r18_medium",
+            "viencz_r19|viencz_r19_medium",
+            "viencz_r20|viencz_r20_medium",
+            "viencz_r21|viencz_r21_medium",
+            "viencz_r22|viencz_r22_medium",
+            "viencz_r23|viencz_r23_medium",
+            "viencz_r24|viencz_r24_medium",
+            "viencz_r25|viencz_r25_medium",
+            "viencz_r26|viencz_r26_medium",
+            "viencz_r27|viencz_r27_medium",
+            "viencz_r28|viencz_r28_medium",
+            "viencz_r29|viencz_r29_medium",
+            "viencz_r30|viencz_r30_medium",
+            "viencz_r31|viencz_r31_medium",
+            "viencz_r32|viencz_r32_medium",
+            "viencz_r33|viencz_r33_medium",
+            "viencz_r34|viencz_r34_medium",
+            "viencz_r35|viencz_r35_medium",
+            "viencz_r36|viencz_r36_medium",
+            "viencz_r37|viencz_r37_medium",
+            "viencz_r38|viencz_r38_medium",
+            "viencz_r39|viencz_r39_medium",
+            "viencz_r40|viencz_r40_medium",
+            "viencz_r41|viencz_r41_medium",
+            "viencz_r42|viencz_r42_medium",
+            "viencz_r43|viencz_r43_medium",
+            "viencz_r44|viencz_r44_medium",
+            "viencz_r45|viencz_r45_medium",
+            "viencz_r46|viencz_r46_medium",
+            "viencz_r47|viencz_r47_medium",
+            "viencz_r48|viencz_r48_medium",
+            "viencz_r49|viencz_r49_medium",
+            "viencz_r50|viencz_r50_medium",
+            "viencz_r51|viencz_r51_medium",
+            "viencz_r52|viencz_r52_medium",
+            "viencz_r53|viencz_r53_medium",
+            "viencz_r54|viencz_r54_medium",
+            "viencz_r55|viencz_r55_medium",
+            "viencz_r56|viencz_r56_medium",
+            "viencz_r57|viencz_r57_medium",
+            "viencz_brs1216|viencz_brs1216_medium",
+            "viencz_brs2299|viencz_brs2299_medium",
+            "viencz_brs2314|viencz_brs2314_medium",
+            "viencz_brs2336|viencz_brs2336_medium",
+            "viencz_brs2357|viencz_brs2357_medium",
+            "viencz_brs3137|viencz_brs3137_medium",
+            "viencz_brs3193|viencz_brs3193_medium",
+            "viencz_brs3210|viencz_brs3210_medium",
+            "viencz_brs3213|viencz_brs3213_medium",
+            "viencz_brs3220|viencz_brs3220_medium"
+          ],
+          "material_roast_units": 45,
+          "minimum_within_species_varying_groups": 1,
           "pass": false,
-          "units": 112
+          "primitive_pass": {
+            "total_units": true,
+            "units_per_species": false,
+            "validation_groups": false,
+            "within_species_varying_groups": false
+          },
+          "units_per_species": {
+            "Arabica": 3,
+            "Robusta": 33
+          },
+          "validation_groups": 2,
+          "within_species_varying_groups": {
+            "Arabica": {
+              "count": 1,
+              "pass": false,
+              "qualifying_groups": [
+                {
+                  "qualifying_metric_types": [
+                    {
+                      "distinct_values": [
+                        13.0,
+                        17.0,
+                        20.0
+                      ],
+                      "metric_type": "roast_mass_loss",
+                      "unit_ids": [
+                        "dias_r000|dias_r000_dark",
+                        "dias_r000|dias_r000_light",
+                        "dias_r000|dias_r000_medium"
+                      ]
+                    }
+                  ],
+                  "validation_group_id": "vg_002"
+                }
+              ],
+              "qualifying_validation_group_ids": [
+                "vg_002"
+              ],
+              "threshold": 2
+            },
+            "Robusta": {
+              "count": 1,
+              "pass": false,
+              "qualifying_groups": [
+                {
+                  "qualifying_metric_types": [
+                    {
+                      "distinct_values": [
+                        13.0,
+                        17.0,
+                        20.0
+                      ],
+                      "metric_type": "roast_mass_loss",
+                      "unit_ids": [
+                        "dias_r100|dias_r100_dark",
+                        "dias_r100|dias_r100_light",
+                        "dias_r100|dias_r100_medium"
+                      ]
+                    }
+                  ],
+                  "validation_group_id": "vg_002"
+                }
+              ],
+              "qualifying_validation_group_ids": [
+                "vg_002"
+              ],
+              "threshold": 2
+            }
+          }
         },
         "thresholds": {
           "categorical_groups_per_stratum": 2,
@@ -272,37 +734,81 @@
       },
       "F7": {
         "base_material_leakage": 0,
-        "category_support_all_folds": false,
+        "base_material_leakage_ids": [],
         "data_lineage_leakage": 0,
+        "data_lineage_leakage_ids": [],
         "failure_reasons": [
-          "outer group/category support threshold unmet"
+          "outer_validation_groups_below_threshold"
         ],
+        "harmonized_roast_category_support_all_folds": false,
         "outer_validation_groups": 3,
         "pass": false,
         "proposed_folds": [
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_001",
+            "test_species": [
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_002",
               "vg_004"
-            ]
+            ],
+            "training_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": []
           },
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_002",
+            "test_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_001",
               "vg_004"
+            ],
+            "training_species": [
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": [
+              "Blend",
+              "Coffea arabica"
             ]
           },
           {
+            "base_material_intersection_ids": [],
+            "data_lineage_intersection_ids": [],
+            "publication_intersection_ids": [],
             "test_group": "vg_004",
+            "test_species": [
+              "Coffea canephora"
+            ],
             "training_groups": [
               "vg_001",
               "vg_002"
-            ]
+            ],
+            "training_species": [
+              "Blend",
+              "Coffea arabica",
+              "Coffea canephora"
+            ],
+            "unsupported_test_species": []
           }
         ],
         "publication_leakage": 0,
+        "publication_leakage_ids": [],
+        "quantitative_metric_type_support_all_folds": false,
+        "species_support_all_folds": false,
         "thresholds": {
           "outer_validation_groups": 4
         }
@@ -341,10 +847,15 @@
         "Robusta"
       ],
       "F4": [
-        "neither roast route qualifies"
+        "neither_roast_route_qualifies",
+        "categorical_Arabica_qualifying_strata_below_threshold",
+        "categorical_Robusta_qualifying_strata_below_threshold",
+        "quantitative_validation_groups_failed",
+        "quantitative_units_per_species_failed",
+        "quantitative_within_species_varying_groups_failed"
       ],
       "F7": [
-        "outer group/category support threshold unmet"
+        "outer_validation_groups_below_threshold"
       ]
     },
     "trigonelline": {
@@ -359,10 +870,15 @@
         "Robusta"
       ],
       "F4": [
-        "neither roast route qualifies"
+        "neither_roast_route_qualifies",
+        "categorical_Arabica_qualifying_strata_below_threshold",
+        "categorical_Robusta_qualifying_strata_below_threshold",
+        "quantitative_validation_groups_failed",
+        "quantitative_units_per_species_failed",
+        "quantitative_within_species_varying_groups_failed"
       ],
       "F7": [
-        "outer group/category support threshold unmet"
+        "outer_validation_groups_below_threshold"
       ]
     }
   },
@@ -385,7 +901,7 @@
       "validation_groups": 3
     }
   },
-  "schema_version": "1.1.0-R1",
+  "schema_version": "1.2.0-R2",
   "scientific_disposition": "SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED",
   "task_id": "SCI-MD-007"
 }

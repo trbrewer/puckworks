@@ -1,0 +1,13 @@
+source_publication_id,direction,result_count,zero_result_sentinel,complete
+bruno2026,BACKWARD,20,False,True
+bruno2026,FORWARD,1,False,True
+dias2015,BACKWARD,20,False,True
+dias2015,FORWARD,20,False,True
+viencz2023,BACKWARD,20,False,True
+viencz2023,FORWARD,20,False,True
+acre2024,BACKWARD,0,True,True
+acre2024,FORWARD,3,False,True
+pannusch2024,BACKWARD,20,False,True
+pannusch2024,FORWARD,0,True,True
+schmieder2023,BACKWARD,20,False,True
+schmieder2023,FORWARD,14,False,True

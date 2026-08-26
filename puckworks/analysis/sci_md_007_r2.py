@@ -1012,6 +1012,11 @@ def generate(target: Path):
         (target / "result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         return result
     rows, edges, gates, f5, feasible, overall = reduce(sources, materials, raw)
+    transport_rows = [
+        row
+        for analyte in sorted(ANALYTES)
+        for row in gates[analyte]["F7"].pop("transportability_rows")
+    ]
     eligible = [r for r in rows if r["primary_prediction_label_eligible"]]
     classes = Counter(f"{r['measurement_provenance']}|{r['target_semantics']}" for r in rows)
     claim = [
@@ -1264,9 +1269,6 @@ def generate(target: Path):
         ],
         search["citation_pass_audit"],
     )
-    transport = [
-        row for analyte in sorted(ANALYTES) for row in gates[analyte]["F7"]["transportability_rows"]
-    ]
     _write_csv(
         r2 / "fold_transportability_audit.csv",
         [
@@ -1281,7 +1283,7 @@ def generate(target: Path):
             "roast_metric_type",
             "quantitative_metric_type_supported",
         ],
-        transport,
+        transport_rows,
     )
     _write_csv(
         r2 / "R2_REGISTER_CORRECTIONS.csv",

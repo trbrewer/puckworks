@@ -1,5 +1,7 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+> **SCI-MD-007-R2 corrected 2026-08-26:** evidence rows remain byte-identical. Search relations, F4 within-species variation, F7 fold leakage, laboratory audit output, and cross-artifact consistency now close mechanically under schema `1.2.0-R2`. The recomputed disposition remains prior-only; no predictor or runtime integration is authorized.
+
 > **SCI-MD-007-R1 corrected 2026-08-25:** the bounded evidence atlas and data-derived reducer fail the
 > predeclared structural feasibility contract. The exact disposition is
 > `SCI_MD_007_INVENTORY_PRIOR_ONLY_ADDITIONAL_DIRECT_MEASUREMENTS_REQUIRED`.
