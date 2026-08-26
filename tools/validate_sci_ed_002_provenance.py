@@ -22,8 +22,8 @@ def validate(mutation=None):
     if mutation == "quotation": sources[0]["status"] = "QUOTE_RECEIVED"
     if mutation == "missing_access_date": sources[0]["access_date"] = ""
     for s in sources:
+        if s["source_id"].startswith("AOAC") and s.get("status") != "REMOVED_UNSUPPORTED" and not s.get("identity", "").startswith("AOAC Official Method"): raise ValueError("AOAC_EXACT_APPLICABLE_METHOD_IDENTITY_REQUIRED")
         if not s.get("source_id") or not s.get("identity") or not s.get("access_date"): raise ValueError("SOURCE_IDENTITY_VERSION_ACCESS_DATE_REQUIRED")
-        if s["source_id"].startswith("AOAC") and s.get("status") != "REMOVED_UNSUPPORTED" and not s["identity"].startswith("AOAC Official Method"): raise ValueError("AOAC_EXACT_APPLICABLE_METHOD_IDENTITY_REQUIRED")
         if s["source_id"] == "ISO20481" and "trigonelline" in s["supported_claims"].lower(): raise ValueError("ISO_20481_CANNOT_SUPPORT_TRIGONELLINE")
         if s.get("supports_method") != "true" and s.get("supported_claims") not in {"", "correction provenance"}: raise ValueError("SOURCE_TOPIC_DOES_NOT_SUPPORT_ASSIGNED_METHOD_CLAIM")
         if "QUOTE_RECEIVED" in s.get("status", ""): raise ValueError("COST_ESTIMATE_MUST_NOT_BE_LABELLED_QUOTATION")
