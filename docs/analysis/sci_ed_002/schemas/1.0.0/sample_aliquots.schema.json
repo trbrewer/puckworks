@@ -1,0 +1,51 @@
+{
+  "$id": "sci-ed-002/1.0.0/sample_aliquots",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aliquot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "archive_mass_g": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "blind_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lane": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "minimum_mass_g": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "split_order": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "storage_condition": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "aliquot_id",
+    "material_roast_unit_id",
+    "lane",
+    "split_order",
+    "minimum_mass_g",
+    "blind_code",
+    "storage_condition",
+    "archive_mass_g"
+  ],
+  "title": "sample_aliquots",
+  "type": "object"
+}

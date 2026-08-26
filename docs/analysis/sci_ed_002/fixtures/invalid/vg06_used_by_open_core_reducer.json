@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "SEALED_GROUP_ACCESS_BY_OPEN_REDUCER",
+  "mutation": "vg06_used_by_open_core_reducer"
+}

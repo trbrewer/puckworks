@@ -1,0 +1,27 @@
+{
+  "c_s0_mapping_status": "NOT_ESTABLISHED",
+  "estimands": {
+    "I_ref": {
+      "basis": "mass analyte per mass dry roasted coffee",
+      "method_conditioned": true,
+      "name": "OPERATIONALLY_DEFINED_REFERENCE_EXTRACTABLE_INVENTORY"
+    },
+    "Q_production_solid_initial": {
+      "mapping_available": false,
+      "status": "NOT_ESTABLISHED"
+    },
+    "T_total": {
+      "basis": "mass analyte per mass dry roasted coffee",
+      "method_conditioned": true,
+      "name": "TOTAL_ASSAYABLE_ROASTED_CONTENT"
+    }
+  },
+  "ratio": {
+    "clip": false,
+    "discrepancy_investigation": "required_if_difference_exceeds_combined_expanded_uncertainty",
+    "formula": "I_ref/T_total",
+    "name": "f_ref",
+    "preserve_covariance": true
+  },
+  "schema_version": "1.0.0"
+}

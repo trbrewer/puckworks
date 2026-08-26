@@ -1,0 +1,36 @@
+{
+  "$id": "sci-ed-002/1.0.0/validation_groups",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "data_lineage_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "group_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "laboratory_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_study_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_group_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "validation_group_id",
+    "source_study_id",
+    "data_lineage_id",
+    "laboratory_id",
+    "group_role"
+  ],
+  "title": "validation_groups",
+  "type": "object"
+}

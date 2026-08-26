@@ -1,0 +1,111 @@
+{
+  "$id": "sci-ed-002/1.0.0/total_content_measurements",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analyte": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analytical_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "as_received_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "calibration_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "censoring_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dry_basis_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "estimand": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expanded_uncertainty": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "injection_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lod": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "loq": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "measurement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "moisture_measurement_set_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "preparation_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qc_set_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "standard_uncertainty": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "measurement_id",
+    "material_roast_unit_id",
+    "analyte",
+    "estimand",
+    "as_received_result",
+    "moisture_measurement_set_id",
+    "dry_basis_result",
+    "unit",
+    "method_version",
+    "preparation_replicate_id",
+    "analytical_batch_id",
+    "injection_replicate_id",
+    "calibration_id",
+    "qc_set_id",
+    "lod",
+    "loq",
+    "censoring_status",
+    "standard_uncertainty",
+    "expanded_uncertainty",
+    "quality_status"
+  ],
+  "title": "total_content_measurements",
+  "type": "object"
+}

@@ -1,0 +1,7 @@
+# Laboratory bridge plan
+
+Central QA homogenizes and studies six surplus open materials spanning species × roast and at least four groups. It randomizes tamper-evident ≥10 g aliquots, dry-barrier packages them, logs storage/shipping temperature and custody, and retains archives. An independent custodian holds the blind key; analysts and primary reducers do not.
+
+Each of four labs measures all six materials in two non-consecutive batches with three independent preparations per batch and nested duplicate injections: at least 144 preparation records. Homogeneity passes when between-unit variation is not significant at 0.05 and contributes <30% of the target analytical variance; stability passes when the change and its 95% interval are within ±5%. These ISO 13528-informed preregistered design criteria require confirmation at final method review. Failed material is replaced only under a recorded pre-result rule; failed batches are rejected and repeated with all versions retained.
+
+The analyte-specific preregistered mixed model contains material, laboratory, material×laboratory, batch nested in laboratory, preparation, injection, and residual terms. Outputs are preparation repeatability, batch variability, reproducibility SD, lab deviation from a robust consensus, laboratory-choice uncertainty, and species/roast interaction. No value is estimated here and no post-hoc correction is authorized.

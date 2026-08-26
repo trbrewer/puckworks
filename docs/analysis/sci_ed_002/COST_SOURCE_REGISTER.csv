@@ -1,0 +1,7 @@
+source_id,source_type,description,currency,price_date,geography,url,confidence,formal_quote_required
+C01,OFFICIAL_PRODUCT_PRICE,Certified caffeine and trigonelline standards public catalog anchor,USD,2026-08-26,United States,https://www.sigmaaldrich.com/US/en/search/caffeine-certified-reference-material,medium,false
+C02,PUBLIC_FEE_SCHEDULE,University analytical core HPLC hourly-rate benchmark,USD,2026-08-26,United States,https://research.uga.edu/cores/fees/,low,false
+C03,ENGINEERING_ESTIMATE,Commercial food laboratory paired-analyte preparation and HPLC assumption,USD,2026-08-26,Multi-country,internal quantity model,low,true
+C04,ENGINEERING_ESTIMATE,Reference sequential extraction labor and fraction analysis assumption,USD,2026-08-26,Multi-country,internal quantity model,low,true
+C05,ENGINEERING_ESTIMATE,Roasting materials custody shipping and data QA assumptions,USD,2026-08-26,Multi-country,internal quantity model,low,true
+C06,ENGINEERING_ESTIMATE,Espresso extension shot operation telemetry and chemistry assumption,USD,2026-08-26,United States,internal quantity model,low,true

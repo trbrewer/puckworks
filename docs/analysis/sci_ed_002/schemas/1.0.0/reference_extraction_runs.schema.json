@@ -1,0 +1,46 @@
+{
+  "$id": "sci-ed-002/1.0.0/reference_extraction_runs",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analytical_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extraction_run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maximum_cycles": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "preparation_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stop_status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "extraction_run_id",
+    "material_roast_unit_id",
+    "preparation_replicate_id",
+    "analytical_batch_id",
+    "method_version",
+    "maximum_cycles",
+    "stop_status"
+  ],
+  "title": "reference_extraction_runs",
+  "type": "object"
+}

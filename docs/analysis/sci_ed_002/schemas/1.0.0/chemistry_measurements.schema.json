@@ -1,0 +1,96 @@
+{
+  "$id": "sci-ed-002/1.0.0/chemistry_measurements",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analyte": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analytical_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "chemistry_measurement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "corrected_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "estimand": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "injection_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lod": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "loq": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "mass_basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "parent_record_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "preparation_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quantification_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "raw_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "standard_uncertainty": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "chemistry_measurement_id",
+    "parent_record_id",
+    "analyte",
+    "estimand",
+    "raw_result",
+    "corrected_result",
+    "unit",
+    "mass_basis",
+    "method_version",
+    "preparation_replicate_id",
+    "analytical_batch_id",
+    "injection_replicate_id",
+    "lod",
+    "loq",
+    "quantification_status",
+    "standard_uncertainty",
+    "quality_status"
+  ],
+  "title": "chemistry_measurements",
+  "type": "object"
+}

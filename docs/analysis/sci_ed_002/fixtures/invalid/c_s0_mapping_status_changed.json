@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "C_S0_MAPPING_MUST_REMAIN_NOT_ESTABLISHED",
+  "mutation": "c_s0_mapping_status_changed"
+}

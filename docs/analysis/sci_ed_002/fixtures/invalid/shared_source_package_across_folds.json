@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "SOURCE_PACKAGE_OVERLAP_ACROSS_GROUPS",
+  "mutation": "shared_source_package_across_folds"
+}

@@ -1,0 +1,36 @@
+{
+  "$id": "sci-ed-002/1.0.0/study_source_groups",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "provenance_uri": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rights_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_organization_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_package_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_study_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_study_id",
+    "source_package_id",
+    "source_organization_id",
+    "rights_status",
+    "provenance_uri"
+  ],
+  "title": "study_source_groups",
+  "type": "object"
+}

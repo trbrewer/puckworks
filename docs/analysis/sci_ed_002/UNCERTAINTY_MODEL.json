@@ -1,0 +1,43 @@
+{
+  "components": [
+    "material_heterogeneity",
+    "aliquot_selection",
+    "moisture",
+    "mass_volume",
+    "sample_preparation",
+    "extraction_recovery",
+    "sequential_stopping",
+    "dilution",
+    "calibration",
+    "instrument_repeatability",
+    "analytical_batch",
+    "laboratory",
+    "bridge_consensus",
+    "dry_basis_conversion",
+    "ratio_covariance"
+  ],
+  "dry_basis": "x_dry=x_as_received/(1-w)",
+  "hierarchy": [
+    "validation_group",
+    "base_material",
+    "material_roast_unit",
+    "laboratory",
+    "analytical_batch",
+    "preparation",
+    "extraction_step",
+    "injection"
+  ],
+  "ratio_covariance": "delta_method_with_joint_preparation_or_adjacent_aliquot_covariance",
+  "report": [
+    "point_estimate",
+    "standard_uncertainty",
+    "degrees_of_freedom_or_method",
+    "coverage_factor",
+    "expanded_uncertainty",
+    "coverage_level",
+    "component_contributions",
+    "method_version",
+    "quality_status"
+  ],
+  "schema_version": "1.0.0"
+}

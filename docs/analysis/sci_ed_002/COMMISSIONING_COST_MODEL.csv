@@ -1,0 +1,16 @@
+module,line_item,quantity,unit,low_unit_cost,base_unit_cost,high_unit_cost,low_total,base_total,high_total,currency,price_date,geography,source_type,source_id,confidence,assumption,formal_quote_required
+A,material procurement and rights traceability,24,base_material,75,150,300,1800,3600,7200,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C05,low,unique traceable lots,true
+B,roasting and quantitative color plus mass loss,36,roast_batch,125,225,400,4500,8100,14400,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C05,low,pilot-scale controlled roast,true
+C,homogenization aliquoting packaging archive,36,primary_unit,100,180,300,3600,6480,10800,USD,2026-08-26,United States,ENGINEERING_ESTIMATE,C05,low,central processing,true
+D,moisture triplicates,108,determination,20,35,60,2160,3780,6480,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C03,low,three per unit,true
+E,total paired-analyte preparations,108,preparation,120,220,400,12960,23760,43200,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C03,low,three per unit across batches,true
+F,reference extraction preparation workflows,108,preparation_workflow,300,600,1200,32400,64800,129600,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C04,low,up to eight fractions,true
+G,standards calibration and QC,4,laboratory_package,1500,3000,6000,6000,12000,24000,USD,2026-08-26,multi-country,OFFICIAL_PRODUCT_PRICE,C01,medium,paired CRM and controls,true
+H,four-laboratory bridge,144,preparation,120,220,400,17280,31680,57600,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C03,low,six materials x four labs x two batches x three,true
+I,bridge homogeneity and stability,72,preparation,120,220,400,8640,15840,28800,USD,2026-08-26,United States,ENGINEERING_ESTIMATE,C03,low,central study,true
+J,shipping customs and dry storage,10,shipment,250,600,1500,2500,6000,15000,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C05,low,international dry barrier,true
+K,data management and independent QA,400,hour,80,140,225,32000,56000,90000,USD,2026-08-26,United States,ENGINEERING_ESTIMATE,C05,low,schemas audits reconciliation,true
+L,optional full espresso extension,90,shot,250,500,900,22500,45000,81000,USD,2026-08-26,United States,ENGINEERING_ESTIMATE,C06,low,telemetry fractions paired chemistry,true
+M,optional minimum espresso extension,54,shot,250,500,900,13500,27000,48600,USD,2026-08-26,United States,ENGINEERING_ESTIMATE,C06,low,alternative not additive to full,true
+N,sealed VG06 laboratory and custody premium,6,primary_unit,900,1800,3500,5400,10800,21000,USD,2026-08-26,multi-country,ENGINEERING_ESTIMATE,C05,low,separation encryption custodian,true
+O,programme contingency,1,programme,16574,33166,66316,16574,33166,66316,USD,2026-08-26,multi-country,ASSUMPTION_REQUIRING_QUOTE,C05,low,20 percent of core bridge and VG06 before optional espresso,true

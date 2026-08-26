@@ -1,0 +1,91 @@
+{
+  "$id": "sci-ed-002/1.0.0/reference_extraction_steps",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "agitation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "blank_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "censoring_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "coffee_liquid_ratio": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "contact_time_min": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cumulative_recovery_mg": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extraction_run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "extraction_step_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fraction_volume_ml": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "increment_fraction": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "separation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "solvent": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "step_number": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stopping_rule_qualifies": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "temperature_c": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "transfer_loss_g": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "extraction_step_id",
+    "extraction_run_id",
+    "step_number",
+    "solvent",
+    "coffee_liquid_ratio",
+    "temperature_c",
+    "contact_time_min",
+    "agitation",
+    "separation",
+    "transfer_loss_g",
+    "fraction_volume_ml",
+    "blank_result",
+    "censoring_status",
+    "cumulative_recovery_mg",
+    "increment_fraction",
+    "stopping_rule_qualifies"
+  ],
+  "title": "reference_extraction_steps",
+  "type": "object"
+}

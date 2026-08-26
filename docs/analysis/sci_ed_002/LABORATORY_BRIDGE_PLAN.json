@@ -1,0 +1,31 @@
+{
+  "batches_per_lab": 2,
+  "bridge_materials": [
+    "BR-A-LIGHT",
+    "BR-A-MEDIUM",
+    "BR-A-DARK",
+    "BR-R-LIGHT",
+    "BR-R-MEDIUM",
+    "BR-R-DARK"
+  ],
+  "correction_factors_authorized": false,
+  "laboratories": [
+    "LAB-A",
+    "LAB-B",
+    "LAB-C",
+    "LAB-D"
+  ],
+  "minimum_preparation_records": 144,
+  "preparations_per_batch": 3,
+  "primary_count_contribution": 0,
+  "source_groups_minimum": 4,
+  "variance_components": [
+    "material",
+    "laboratory",
+    "laboratory_x_material",
+    "batch_within_laboratory",
+    "preparation",
+    "injection",
+    "residual"
+  ]
+}

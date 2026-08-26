@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "GROUP_SPECIES_ROAST_MATRIX_INCOMPLETE",
+  "mutation": "missing_species_roast_cell"
+}

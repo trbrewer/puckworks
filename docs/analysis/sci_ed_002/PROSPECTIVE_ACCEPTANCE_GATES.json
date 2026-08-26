@@ -1,0 +1,43 @@
+{
+  "canonical_sci_md_007_modified": false,
+  "contract": "SCI_ED_002_PROSPECTIVE_ACCEPTANCE_GATES",
+  "gates": {
+    "ED2-G0": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G1": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G10": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G11": {
+      "status": "NOT_ELIGIBLE_NO_COMMISSIONED_MEASUREMENTS"
+    },
+    "ED2-G2": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G3": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G4": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G5": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G6": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G7": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G8": {
+      "status": "PROJECTED_CAPACITY"
+    },
+    "ED2-G9": {
+      "status": "PROJECTED_CAPACITY"
+    }
+  },
+  "schema_version": "1.0.0"
+}

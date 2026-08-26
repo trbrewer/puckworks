@@ -1,0 +1,61 @@
+{
+  "$id": "sci-ed-002/1.0.0/roast_measurements",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "calibration_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "metric_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "raw_value": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "roast_measurement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "standard_uncertainty": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "roast_measurement_id",
+    "material_roast_unit_id",
+    "metric_type",
+    "raw_value",
+    "unit",
+    "replicate_id",
+    "standard_uncertainty",
+    "method_version",
+    "calibration_id",
+    "quality_status"
+  ],
+  "title": "roast_measurements",
+  "type": "object"
+}

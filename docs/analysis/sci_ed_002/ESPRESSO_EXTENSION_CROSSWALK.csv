@@ -1,0 +1,20 @@
+sci_ed_002_field,existing_campaign,existing_template_or_entity,relationship,required_addition
+material_roast_unit_id,EXP-001,shot_metadata,foreign key,yes
+prebrew_aliquot_id,EXP-001,shot_metadata,foreign key,yes
+dose_g,EXP-001,shot_metadata,reuse,no
+same_batch_moisture_id,EXP-001,shot_metadata,foreign key,yes
+elapsed_time,EXP-001,shot_timeseries,reuse,no
+basket_pressure,EXP-001,shot_timeseries,reuse,no
+flow_rate_or_beverage_mass,EXP-001,shot_timeseries,reuse,no
+brew_temperature,EXP-001,shot_timeseries,reuse,no
+fraction_boundary_time,EXP-006,fraction_metadata,reuse,no
+fraction_mass,EXP-006,fraction_metadata,reuse,no
+caffeine,EXP-006,chemistry_measurements,reuse,no
+trigonelline,EXP-006,chemistry_measurements,reuse,no
+fraction_tds,EXP-006,fraction_metadata,reuse,no
+final_beverage_mass,EXP-001,shot_metadata,reuse,no
+final_tds,EXP-001,shot_metadata,reuse,no
+final_extraction_yield,EXP-001,shot_metadata,reuse,no
+calibration_id,EXP-001|EXP-006,calibration,reuse,no
+exclusion_event_id,EXP-001|EXP-006,exclusions,reuse,no
+raw_file_id,EXP-001|EXP-006,file_manifest,reuse,no

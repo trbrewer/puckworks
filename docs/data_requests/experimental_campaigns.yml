@@ -456,3 +456,48 @@ campaigns:
     recommended_repository: Zenodo or OSF with a DOI
     data_license_status: REQUIRED_FROM_CONTRIBUTOR
     submission_instructions: open an experimental-data proposal issue, then submit metadata + external DOI
+
+  - campaign_id: EXP-010
+    title: Paired inventory and reference-extractability gap closure
+    status: PROTOCOL_ONLY; COMMISSIONING_NOT_AUTHORIZED; NO_MEASUREMENTS_COLLECTED
+    priority: 1
+    scientific_question: >-
+      What are the separately measured total assayable caffeine/trigonelline content and
+      operational reference-extractable inventory across independent species and roast groups?
+    decision_enabled: >-
+      prospective closure of SCI-MD-007 independence, pairing, species, roast, laboratory,
+      uncertainty, and outer-validation gaps without creating a predictor or c_s0 mapping
+    target_components: [cameron2020.extraction_bdf, pannusch2024.solver]
+    target_gates: [gate_cameron_conservation, gate_pannusch_solver_mape]
+    quantity_definitions: [cameron.extraction_yield, pannusch.species_concentration]
+    required_observables:
+      - {name: total_assayable_analyte_content, unit: mg, reference_basis: dry_coffee_mass}
+      - {name: reference_extractable_analyte_inventory, unit: mg, reference_basis: dry_coffee_mass}
+      - {name: initial_moisture, unit: "%", reference_basis: dry_coffee_mass}
+      - {name: quantitative_roast_metric, unit: "-", reference_basis: not_applicable}
+    required_metadata: [validation_group_id, source_package_id, data_lineage_id, base_material_id, species, roast_batch_id, laboratory_id, analytical_batch_id, preparation_replicate_id, method_version]
+    prescribed_vs_measured: [categorical_roast_vs_preregistered_quantitative_metric, total_content_vs_separate_reference_extraction]
+    design_factors: [species, roast_stratum, validation_group, laboratory]
+    controls: [same-batch moisture, paired analytes, blinded four-laboratory bridge, sealed VG06]
+    replication_design_status: frozen in docs/analysis/sci_ed_002/PROTOCOL.md
+    instrument_requirements: HPLC-DAD or qualified equivalent plus gravimetric moisture and standardized color
+    calibration_requirements: [traceable caffeine and trigonelline calibrants, balance and volumetric calibration, roast-color calibration]
+    synchronization_requirements: [aliquot and batch linkage; optional espresso uses EXP-001 and EXP-006 clocks]
+    raw_file_schema: docs/analysis/sci_ed_002/templates/1.0.0
+    processed_file_schema: docs/analysis/sci_ed_002/schemas/1.0.0
+    uncertainty_requirements: replicate-level model in docs/analysis/sci_ed_002/UNCERTAINTY_MODEL.json
+    quality_control_checks: [frozen analytical QC, bridge homogeneity and stability, no pre-averaging]
+    preregistered_analysis: prospective gates only; exact SCI-MD-007 replay prohibited until real open-core evidence exists
+    acceptance_calculation: docs/analysis/sci_ed_002/PROSPECTIVE_ACCEPTANCE_GATES.json
+    holdout_requirement: VG06 sealed independent coffee roast family and source group
+    current_evidence: protocol_only
+    evidence_gap: additional direct paired measurements remain required
+    evidence_ceiling: protocol capacity only; no predictor eligibility physical validation or c_s0 mapping
+    measurement_agenda_blockers: []
+    related_issues: ["#70"]
+    code_rights_expectation: Puckworks protocol and validator MIT
+    data_rights_expectation: future source packages must permit the intended analysis and governed sharing
+    output_rights_expectation: derived outputs follow future source-package rights
+    recommended_repository: stable DOI packages with sealed VG06 under independent custody
+    data_license_status: REQUIRED_FROM_CONTRIBUTOR
+    submission_instructions: separate owner commissioning authority required; this campaign accepts no measurements now

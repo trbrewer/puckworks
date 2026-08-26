@@ -1,0 +1,46 @@
+{
+  "$id": "sci-ed-002/1.0.0/file_manifest",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "file_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "media_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "provenance_uri": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "raw_or_processed": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "relative_path": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "rights_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "sha256": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "file_id",
+    "relative_path",
+    "sha256",
+    "media_type",
+    "raw_or_processed",
+    "rights_status",
+    "provenance_uri"
+  ],
+  "title": "file_manifest",
+  "type": "object"
+}

@@ -1,0 +1,1 @@
+extraction_step_id,extraction_run_id,step_number,solvent,coffee_liquid_ratio,temperature_c,contact_time_min,agitation,separation,transfer_loss_g,fraction_volume_ml,blank_result,censoring_status,cumulative_recovery_mg,increment_fraction,stopping_rule_qualifies
