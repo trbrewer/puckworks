@@ -1,13 +1,12 @@
 record_id,record_type,typed_reason,detail
-c02,source,MASS_BASIS_UNRESOLVED,dry roasted basis not explicit
-c03,source,MASS_BASIS_UNRESOLVED,dry roasted basis not confirmed
-c04,source,RIGHTS_OR_ACCESS_BLOCKED,exact numerical table unavailable
-c05,source,RIGHTS_OR_ACCESS_BLOCKED,exact numerical table unavailable
-c06,source,MASS_BASIS_UNRESOLVED,dry roasted basis not explicit
-c07,source,SPECIES_SCOPE_INSUFFICIENT,Robusta only
-c08,source,UNKNOWN_SPECIES_BLEND,commercial blends lack known fractions
-c09,source,INDISTINGUISHABLE_MATERIALS,figure-level commercial summaries
-c10,source,SOURCE_IDENTITY_OR_RIGHTS_UNRESOLVED,insufficiently resolved in bounded screen
-c11,source,TARGET_SEMANTICS_INELIGIBLE,clinical and beverage endpoint focus
-c12,source,BEVERAGE_CONCENTRATION,not starting roasted inventory
-bruno_nonlipid,observation,MASS_BASIS_UNRESOLVED,roasted powder basis not explicitly dry and no same-batch moisture
+c01,observation,MASS_BASIS_UNRESOLVED,Bruno alkaloid rows do not state dry basis and have no same-batch moisture
+c05,source,RIGHTS_OR_ACCESS_BLOCKED,Casal exact individual numerical table unavailable
+c06,source,RIGHTS_OR_ACCESS_BLOCKED,thermal-degradation exact individual numerical table unavailable
+c07,source,NUMERIC_TABLE_UNAVAILABLE,public proceedings page describes 60 samples but exposes no individual table
+c08,source,MASS_BASIS_UNRESOLVED,source-reported basis not confirmed as dry roasted coffee in bounded screen
+c09,source,MASS_BASIS_UNRESOLVED,source-reported basis not confirmed as dry roasted coffee in bounded screen
+c10,source,PRIMARY_ELIGIBILITY_NOT_ESTABLISHED,same-material dry-basis and uncertainty support incomplete
+c11,source,PRIMARY_ELIGIBILITY_NOT_ESTABLISHED,exact row semantics basis rights and lineage require future intake
+c12,source,PRIMARY_ELIGIBILITY_NOT_ESTABLISHED,exact row semantics basis and lineage require future intake
+pannusch2024,observation,FITTED_SOLID_PHASE_CONCENTRATION,mg/mL solid phase not converted to mg/g coffee
+schmieder2023,observation,ASYMPTOTIC_EXTRACTION_ESTIMATE,multiple brew programs remain one coffee/source lineage
