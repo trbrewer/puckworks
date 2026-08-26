@@ -1,6 +1,6 @@
 # Result
 
-`SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED`
+`SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN`
 
 Blocker: the required repository-wide Puckworks quick lane did not complete successfully. Focused SCI-ED-002, campaign, and unchanged SCI-MD-007 tests passed, but successful task completion requires the complete documented qualification sequence.
 

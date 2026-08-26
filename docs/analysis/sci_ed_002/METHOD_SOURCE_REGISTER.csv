@@ -2,8 +2,9 @@ source_id,citation_or_identifier,support_role,numeric_threshold_support,access_d
 M01,ISO 20481:2008 Coffee and coffee products caffeine HPLC reference method,method_selection,no,2026-08-26,https://www.iso.org/standard/34185.html
 M02,ISO 6673:2003 Green coffee determination of loss in mass at 105 C,moisture_method,no,2026-08-26,https://www.iso.org/standard/33694.html
 M03,ISO 6668:2008 Green coffee preparation of samples for sensory analysis,test_sample_principles,no,2026-08-26,https://www.iso.org/standard/38375.html
-M04,AOAC Official Methods roasted coffee reference table,method_selection,no,2026-08-26,https://academic.oup.com/aoac-publications/book/45491/chapter/392387460
-M05,Optimization of simultaneous trigonelline 5-CQA and caffeine in roasted coffee by HPLC-UV,simultaneous_method_and_recovery,yes recovery 90-107 percent cited from INMETRO rationale,2026-08-26,https://pmc.ncbi.nlm.nih.gov/articles/PMC12423835/
+M04,REMOVED unsupported AOAC reference-table appendix,correction_provenance,no,2026-08-26,REMOVED
+M05,da Silva et al. 2025 ACS Omega DOI 10.1021/acsomega.5c05526,simultaneous_method_and_recovery,no sequential stopping support,2026-08-26,https://doi.org/10.1021/acsomega.5c05526
+M11,Casal Oliveira Ferreira 1998 DOI 10.1080/10826079808001267,simultaneous roasted coffee caffeine trigonelline HPLC-DAD recovery,no sequential stopping support,2026-08-26,https://doi.org/10.1080/10826079808001267
 M06,ISO 13528:2022 Statistical methods for proficiency testing,bridge_homogeneity_and_consensus,no licensed detail required,2026-08-26,https://www.iso.org/standard/78879.html
 M07,Eurachem Quantifying Uncertainty in Analytical Measurement third edition,uncertainty_model,no,2026-08-26,https://www.eurachem.org/index.php/publications/guides/quam
 M08,JCGM 100:2008 Evaluation of measurement data GUM,uncertainty_propagation,no,2026-08-26,https://www.bipm.org/en/committees/jc/jcgm/publications
