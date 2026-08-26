@@ -1,4 +1,5 @@
 import csv
+import copy
 import hashlib
 import json
 import shutil
@@ -140,6 +141,220 @@ def test_identity_normalization_and_conflict_detection():
     }
     with pytest.raises(ValueError, match="different identities"):
         r2.resolve_candidate_roots([base, dict(base, duplicate_of="c1", doi_or_stable_id="10.1/b")])
+
+
+def test_candidate_root_chain_terminates_and_cycle_fails():
+    def row(candidate, duplicate, doi="10.1/a"):
+        return {
+            "candidate_id": candidate,
+            "duplicate_of": duplicate,
+            "doi_or_stable_id": doi,
+            "title": "A",
+            "year": "2020",
+            "authors": "X",
+        }
+
+    assert r2.resolve_candidate_roots(
+        [row("root", ""), row("middle", "root"), row("leaf", "middle")]
+    ) == {"root": "root", "middle": "root", "leaf": "root"}
+    with pytest.raises(ValueError, match="cycle"):
+        r2.resolve_candidate_roots([row("a", "b"), row("b", "a")])
+    with pytest.raises(ValueError, match="dangling"):
+        r2.resolve_candidate_roots([row("a", "missing")])
+
+
+def candidate_row(candidate, duplicate, doi="10.1/a"):
+    return {
+        "candidate_id": candidate,
+        "duplicate_of": duplicate,
+        "doi_or_stable_id": doi,
+        "title": "A",
+        "year": "2020",
+        "authors": "X",
+    }
+
+
+def test_candidate_three_hop_chain_and_depth_are_derived():
+    audit = r2.resolve_candidate_lineage(
+        [
+            candidate_row("root", ""),
+            candidate_row("one", "root"),
+            candidate_row("two", "one"),
+            candidate_row("three", "two"),
+        ]
+    )
+    assert audit["roots"]["three"] == "root"
+    assert audit["summary"]["maximum_chain_depth"] == 3
+    assert audit["occurrences"][-1]["traversal_path"] == "three -> two -> one -> root"
+
+
+def test_same_candidate_repeat_marker_is_not_a_cycle():
+    audit = r2.resolve_candidate_lineage([candidate_row("root", ""), candidate_row("root", "root")])
+    assert audit["roots"] == {"root": "root"}
+    assert audit["summary"]["duplicate_occurrence_count"] == 1
+
+
+@pytest.mark.parametrize(
+    "values,reason",
+    [
+        ([candidate_row("self", "self")], "no unique target"),
+        (
+            [candidate_row("a", "b"), candidate_row("b", "c"), candidate_row("c", "a")],
+            "cycle",
+        ),
+        (
+            [
+                candidate_row("root", ""),
+                candidate_row("other", ""),
+                candidate_row("leaf", "root"),
+                candidate_row("leaf", "other"),
+            ],
+            "no unique target",
+        ),
+        (
+            [candidate_row("root", ""), candidate_row("root", "")],
+            "multiple introductions",
+        ),
+        (
+            [candidate_row("leaf", "terminal"), candidate_row("terminal", "terminal")],
+            "no unique target",
+        ),
+        (
+            [candidate_row("root", "", "10.1/a"), candidate_row("leaf", "root", "10.1/b")],
+            "different identities",
+        ),
+    ],
+)
+def test_candidate_graph_invalid_structures_fail(values, reason):
+    with pytest.raises(ValueError, match=reason):
+        r2.resolve_candidate_lineage(values)
+
+
+def synthetic_f4():
+    _, _, current_gates, _, _, _ = current_reduction()
+    source_rows = [
+        r
+        for r in r2.reduce(
+            r2.read_csv("sources.csv"),
+            r2.read_csv("materials.csv"),
+            r2.read_csv("observations.csv"),
+        )[0]
+        if r["analyte"] == "caffeine" and r["primary_prediction_label_eligible"]
+    ]
+    source_materials = r2.read_csv("materials.csv")
+    material_template = next(
+        m for m in source_materials if m["species_scientific"] == "Coffea canephora"
+    )
+    row_template = source_rows[0]
+    rows_out, materials_out = [], []
+    for species_label, scientific in (
+        ("Arabica", "Coffea arabica"),
+        ("Robusta", "Coffea canephora"),
+    ):
+        for index in range(8):
+            base = f"{species_label.lower()}_{index}"
+            roast = f"r{index}"
+            group = f"g{index // 2}"
+            category = "light" if index % 2 == 0 else "dark"
+            material = copy.deepcopy(material_template)
+            material.update(
+                base_coffee_material_id=base,
+                roast_batch_id=roast,
+                species_scientific=scientific,
+                roast_category_harmonized=category,
+                roast_metric_type="agtron",
+                roast_metric_value=str(index % 2),
+                roast_metric_units="Agtron",
+            )
+            row = copy.deepcopy(row_template)
+            row.update(
+                base_coffee_material_id=base,
+                roast_batch_id=roast,
+                validation_group_id=group,
+                analyte="caffeine",
+                source_publication_id=f"p{index % 4}",
+                data_lineage_id=f"d{index % 4}",
+                laboratory_id=f"lab{index % 4}",
+                primary_prediction_label_eligible=True,
+            )
+            materials_out.append(material)
+            rows_out.append(row)
+    contract = json.loads((r2.OUT / "feasibility_contract.json").read_text())
+    return rows_out, materials_out, contract, current_gates
+
+
+def test_f4_synthetic_positive_and_categorical_failures():
+    values, materials, contract, _ = synthetic_f4()
+    gate = r2._gate("caffeine", values, materials, contract)["F4"]
+    assert gate["categorical_route"]["pass"]
+    assert gate["quantitative_route"]["pass"]
+    for material in materials:
+        if material["species_scientific"] == "Coffea arabica":
+            material["roast_category_harmonized"] = "light"
+    failed = r2._gate("caffeine", values, materials, contract)["F4"]["categorical_route"]
+    assert not failed["pass"]
+    assert failed["species"]["Arabica"]["qualifying_strata_count"] == 1
+
+
+def test_f4_synthetic_quantitative_primitive_failures():
+    values, materials, contract, _ = synthetic_f4()
+    for mode in ("same_value", "mixed_metric", "missing_species", "too_few_groups"):
+        changed = copy.deepcopy(materials)
+        rows_changed = copy.deepcopy(values)
+        if mode == "same_value":
+            for m in changed:
+                m["roast_metric_value"] = "1"
+        elif mode == "mixed_metric":
+            for i, m in enumerate(changed):
+                m["roast_metric_type"] = f"metric_{i}"
+        elif mode == "missing_species":
+            for m in changed:
+                if m["species_scientific"] == "Coffea arabica":
+                    m["roast_metric_type"] = ""
+        else:
+            for row in rows_changed:
+                row["validation_group_id"] = "g0"
+        quantitative = r2._gate("caffeine", rows_changed, changed, contract)["F4"][
+            "quantitative_route"
+        ]
+        assert not quantitative["pass"], mode
+
+
+def test_f7_injected_leakage_is_computed_for_each_key():
+    rows_current, _, _, _, _, _ = current_reduction()
+    materials = r2.read_csv("materials.csv")
+    contract = json.loads((r2.OUT / "feasibility_contract.json").read_text())
+    eligible = [
+        copy.deepcopy(r)
+        for r in rows_current
+        if r["analyte"] == "caffeine" and r["primary_prediction_label_eligible"]
+    ]
+    by_group = {}
+    for row in eligible:
+        by_group.setdefault(row["validation_group_id"], row)
+    a, b = list(by_group.values())[:2]
+    for field, result_field in (
+        ("source_publication_id", "publication_leakage"),
+        ("data_lineage_id", "data_lineage_leakage"),
+        ("base_coffee_material_id", "base_material_leakage"),
+    ):
+        changed = copy.deepcopy(eligible)
+        materials_changed = copy.deepcopy(materials)
+        target = next(r for r in changed if r["observation_id"] == b["observation_id"])
+        target[field] = a[field]
+        if field == "base_coffee_material_id":
+            source_material = next(
+                m
+                for m in materials_changed
+                if m["base_coffee_material_id"] == b["base_coffee_material_id"]
+                and m["roast_batch_id"] == b["roast_batch_id"]
+            )
+            clone = copy.deepcopy(source_material)
+            clone["base_coffee_material_id"] = a[field]
+            materials_changed.append(clone)
+        gate = r2._gate("caffeine", changed, materials_changed, contract)["F7"]
+        assert gate[result_field] >= 1
+        assert not gate["pass"]
 
 
 @pytest.mark.parametrize(

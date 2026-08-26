@@ -63,6 +63,11 @@ def bibliographic_identity(row: dict[str, str]) -> tuple[str, ...]:
     )
 
 
+def canonical_json_sha256(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+
+
 def read_csv(name: str) -> list[dict[str, str]]:
     with (DATA / name).open(encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
@@ -203,36 +208,112 @@ def _integer(value: str, field: str) -> int:
     return int(value)
 
 
-def resolve_candidate_roots(rows: list[dict[str, str]]) -> dict[str, str]:
+def resolve_candidate_lineage(rows: list[dict[str, str]]) -> dict:
     by_candidate: dict[str, list[dict[str, str]]] = defaultdict(list)
     for row in rows:
         if not row["candidate_id"]:
             raise ValueError("blank candidate_id")
         by_candidate[row["candidate_id"]].append(row)
-    roots: dict[str, str] = {}
+    introductions: dict[str, list[dict[str, str]]] = {}
+    targets: dict[str, str] = {}
     for candidate, occurrences in by_candidate.items():
         canonical = [r for r in occurrences if not r["duplicate_of"]]
+        if len(canonical) > 1:
+            raise ValueError(f"candidate lineage {candidate} has multiple introductions")
+        introductions[candidate] = canonical
+        links = {
+            r["duplicate_of"]
+            for r in occurrences
+            if r["duplicate_of"] and r["duplicate_of"] != candidate
+        }
+        if any(link not in by_candidate for link in links):
+            raise ValueError(f"dangling duplicate_of in candidate lineage {candidate}")
+        if canonical and links:
+            raise ValueError(f"canonical candidate {candidate} links to another lineage")
+        elif not canonical and len(links) != 1:
+            raise ValueError(f"duplicate-only lineage {candidate} has no unique target")
+        if links:
+            targets[candidate] = next(iter(links))
+
+    roots: dict[str, str] = {}
+    paths: dict[str, list[str]] = {}
+    states = {candidate: 0 for candidate in by_candidate}
+
+    def resolve(candidate: str) -> str:
+        if candidate in roots:
+            return roots[candidate]
+        if states[candidate] == 1:
+            raise ValueError("candidate lineage cycle")
+        states[candidate] = 1
+        if introductions[candidate]:
+            root = candidate
+            path = [candidate]
+        else:
+            target = targets[candidate]
+            root = resolve(target)
+            path = [candidate, *paths[target]]
+        roots[candidate] = root
+        paths[candidate] = path
+        states[candidate] = 2
+        return root
+
+    for candidate in sorted(by_candidate):
+        resolve(candidate)
+    components: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for candidate, occurrences in by_candidate.items():
+        components[roots[candidate]].extend(occurrences)
+    for root, occurrences in components.items():
+        canonical = [r for r in occurrences if not r["duplicate_of"]]
         if len(canonical) != 1:
-            raise ValueError(f"candidate lineage {candidate} has {len(canonical)} introductions")
+            raise ValueError(f"candidate lineage {root} has {len(canonical)} introductions")
         identities = {bibliographic_identity(r) for r in occurrences}
         identities.discard(("fallback", "", "", ""))
         if len(identities) > 1:
-            raise ValueError(f"candidate lineage {candidate} joins different identities")
-        roots[candidate] = candidate
-    for row in rows:
-        duplicate = row["duplicate_of"]
-        if duplicate and duplicate not in by_candidate:
-            raise ValueError(f"dangling duplicate_of: {duplicate}")
-        if duplicate and duplicate != row["candidate_id"]:
-            raise ValueError("duplicate occurrence does not resolve to its canonical lineage")
+            raise ValueError(f"candidate lineage {root} joins different identities")
     identity_roots: dict[tuple[str, ...], str] = {}
     for candidate, occurrences in by_candidate.items():
         identity = bibliographic_identity(occurrences[0])
         if identity != ("fallback", "", "", ""):
-            prior = identity_roots.setdefault(identity, candidate)
-            if prior != candidate:
+            prior = identity_roots.setdefault(identity, roots[candidate])
+            if prior != roots[candidate]:
                 raise ValueError("same normalized identity has multiple canonical roots")
-    return roots
+    introduction_rows = {
+        root: next(
+            i
+            for i, row in enumerate(rows, 1)
+            if row["candidate_id"] == root and not row["duplicate_of"]
+        )
+        for root in set(roots.values())
+    }
+    occurrences = [
+        {
+            "occurrence_row": index,
+            "candidate_id": row["candidate_id"],
+            "immediate_duplicate_target": row["duplicate_of"],
+            "canonical_root": roots[row["candidate_id"]],
+            "traversal_path": " -> ".join(paths[row["candidate_id"]]),
+            "path_length": len(paths[row["candidate_id"]]) - 1,
+            "normalized_identity": "|".join(bibliographic_identity(row)),
+            "canonical_introduction_row": introduction_rows[roots[row["candidate_id"]]],
+        }
+        for index, row in enumerate(rows, 1)
+    ]
+    return {
+        "roots": roots,
+        "occurrences": occurrences,
+        "summary": {
+            "canonical_root_count": len(set(roots.values())),
+            "duplicate_occurrence_count": sum(bool(row["duplicate_of"]) for row in rows),
+            "maximum_chain_depth": max((len(path) - 1 for path in paths.values()), default=0),
+            "cycle_count": 0,
+            "dangling_link_count": 0,
+            "conflicting_link_count": 0,
+        },
+    }
+
+
+def resolve_candidate_roots(rows: list[dict[str, str]]) -> dict[str, str]:
+    return resolve_candidate_lineage(rows)["roots"]
 
 
 def search_complete(sources, *, data: Path = DATA) -> dict:
@@ -332,8 +413,10 @@ def search_complete(sources, *, data: Path = DATA) -> dict:
     for sid in set(result_by) - set(plan):
         reasons.append(f"unexpected result search_id: {sid}")
     roots = {}
+    lineage = {}
     try:
-        roots = resolve_candidate_roots(results)
+        lineage = resolve_candidate_lineage(results)
+        roots = lineage["roots"]
     except ValueError as exc:
         reasons.append(str(exc))
     citation_audit = []
@@ -395,9 +478,12 @@ def search_complete(sources, *, data: Path = DATA) -> dict:
         "reasons": sorted(set(reasons)),
         "searches": len(logs),
         "result_records": len(results),
-        "unique_candidates": len(roots),
+        "unique_candidates": (
+            lineage.get("summary", {}).get("canonical_root_count", 0) if lineage else 0
+        ),
         "duplicates": duplicate_count,
         "unresolved_candidates": unresolved,
+        "candidate_lineage": lineage,
         "inaccessible_candidates": sum(
             r["screening_state"] == "RIGHTS_OR_ACCESS_BLOCKED" for r in results
         ),
@@ -991,6 +1077,17 @@ def _write_csv(path, fields, rows):
         w.writerows([{k: r.get(k, "") for k in fields} for r in rows])
 
 
+def _primitive_items(value, prefix=()):
+    if isinstance(value, dict):
+        for key in sorted(value):
+            yield from _primitive_items(value[key], (*prefix, str(key)))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            yield from _primitive_items(item, (*prefix, str(index)))
+    else:
+        yield prefix, value
+
+
 def generate(target: Path):
     validation = validate_contract()
     sources, materials, raw = (
@@ -1019,14 +1116,10 @@ def generate(target: Path):
     ]
     eligible = [r for r in rows if r["primary_prediction_label_eligible"]]
     classes = Counter(f"{r['measurement_provenance']}|{r['target_semantics']}" for r in rows)
-    claim = [
-        "Evidence-adequacy and prediction-feasibility screen only.",
-        "Physical validation remains NOT_ESTABLISHED; no extraction-kinetics formulation was validated.",
-        "Total roasted content is not extractable inventory or c_s0.",
-        "No runtime integration or elaborate predictor is authorized.",
-        "SCI-MD-006 is not reopened; Angeloni is not reused; G0 remains separate and deferred.",
-        "A PASS means only that bounded leakage-safe simple-model comparison is structurally possible; a FAIL leaves restricted source-specific or broad priors.",
-    ]
+    r2_contract = json.loads((OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json").read_text())
+    claim = r2_contract["claim_ceiling"]
+    claim_source = "docs/analysis/sci_md_007/r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json"
+    claim_hash = canonical_json_sha256(claim)
     result = {
         "task_id": "SCI-MD-007",
         "schema_version": "1.2.0-R2",
@@ -1062,6 +1155,8 @@ def generate(target: Path):
         "model_comparison_summary": None,
         "model_adoption_status": "NOT_AUTHORIZED_BY_FEASIBILITY_SCREEN",
         "claim_ceiling": claim,
+        "claim_ceiling_source": claim_source,
+        "claim_ceiling_sha256": claim_hash,
         "measurement_deficits": {
             a: {g: v["failure_reasons"] for g, v in gates[a].items() if not v["pass"]}
             for a in ANALYTES
@@ -1091,14 +1186,20 @@ def generate(target: Path):
             "model_comparison_summary",
             "model_adoption_status",
             "claim_ceiling",
+            "claim_ceiling_source",
+            "claim_ceiling_sha256",
             "measurement_deficits",
         )
     }
     (target / "SCI_MD_007_EXPORT.json").write_text(
         json.dumps(export, indent=2, sort_keys=True) + "\n"
     )
+    claim_markdown = "\n".join(f"- {item}" for item in claim)
     (target / "result.md").write_text(
-        f"# SCI-MD-007-R2 corrected result\n\n**{result['scientific_disposition']}**\n\nAll counts and F0-F7 values are reduced from validated registers. Model stage: {result['model_stage']}.\n"
+        f"# SCI-MD-007-R2-C1 corrected result\n\n**{result['scientific_disposition']}**\n\n"
+        f"All counts and F0-F7 values are reduced from validated registers. Model stage: {result['model_stage']}.\n\n"
+        f"Claim ceiling source: `{claim_source}`\n\nClaim ceiling SHA-256: `{claim_hash}`\n\n"
+        f"{claim_markdown}\n"
     )
     _write_csv(
         target / "inventory_observation_register.csv",
@@ -1258,6 +1359,24 @@ def generate(target: Path):
     (r2 / "search_closure_audit.json").write_text(
         json.dumps(search, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
+    lineage = search["candidate_lineage"]
+    _write_csv(
+        r2 / "candidate_lineage_resolution.csv",
+        [
+            "occurrence_row",
+            "candidate_id",
+            "immediate_duplicate_target",
+            "canonical_root",
+            "traversal_path",
+            "path_length",
+            "normalized_identity",
+            "canonical_introduction_row",
+        ],
+        lineage["occurrences"],
+    )
+    (r2 / "candidate_lineage_summary.json").write_text(
+        json.dumps(lineage["summary"], indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     _write_csv(
         r2 / "citation_pass_summary.csv",
         [
@@ -1317,21 +1436,78 @@ def generate(target: Path):
         for row in csv.DictReader((target / "source_summary.csv").open(newline=""))
     }
     independence = list(csv.DictReader((target / "independence_audit.csv").open(newline="")))
+    coffee_summary = {
+        row["metric"]: int(row["value"])
+        for row in csv.DictReader((target / "coffee_material_summary.csv").open(newline=""))
+    }
+    paired_summary = next(csv.DictReader((target / "paired_analyte_coverage.csv").open(newline="")))
+    uncertainty_summary = {
+        row["analyte"]: row
+        for row in csv.DictReader((target / "uncertainty_floor.csv").open(newline=""))
+    }
+    gates_artifact = json.loads((target / "feasibility_gates.json").read_text())
+    observation_register = list(
+        csv.DictReader((target / "inventory_observation_register.csv").open(newline=""))
+    )
+    r2_contract = json.loads((OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json").read_text())
     comparisons = {
         "result_export_disposition": export["scientific_disposition"]
         == result["scientific_disposition"],
         "result_export_overall": export["overall_gate_result"] == result["overall_gate_result"],
+        "result_export_compound_feasibility": export["compound_feasible"]
+        == result["compound_feasible"],
+        "result_export_model_stage": export["model_stage"] == result["model_stage"],
+        "result_export_claim_ceiling": export["claim_ceiling"] == result["claim_ceiling"],
+        "contract_result_export_claim_ceiling": result["claim_ceiling"]
+        == r2_contract["claim_ceiling"],
+        "result_claim_ceiling_hash": result["claim_ceiling_sha256"] == claim_hash,
+        "export_claim_ceiling_hash": export["claim_ceiling_sha256"] == claim_hash,
+        "result_claim_ceiling_source": result["claim_ceiling_source"] == claim_source,
+        "export_claim_ceiling_source": export["claim_ceiling_source"] == claim_source,
+        "gates_artifact_compound_gates": gates_artifact["compound_gates"]
+        == result["compound_gates"],
+        "gates_artifact_f5": gates_artifact["F5"] == result["paired_coverage"]["F5"],
         "evidence_classes_sum": sum(classes.values()) == len(rows),
+        "evidence_class_artifact": {
+            row["class"]: int(row["count"])
+            for row in csv.DictReader((target / "evidence_class_summary.csv").open(newline=""))
+        }
+        == dict(classes),
+        "observation_register_total": len(observation_register)
+        == result["counts"]["atlas_observations"],
         "eligible_observations": len(eligible)
         == sum(result["counts"]["primary_eligible_per_analyte"].values()),
-        "paired_units": f5["paired_material_roast_units"]
-        == int(
-            next(csv.DictReader((target / "paired_analyte_coverage.csv").open()))["paired_units"]
+        "eligible_observation_register": sum(
+            row["primary_prediction_label_eligible"] == "true" for row in observation_register
+        )
+        == result["counts"]["primary_eligible_observations"],
+        "paired_units": f5["paired_material_roast_units"] == int(paired_summary["paired_units"]),
+        "paired_groups": f5["validation_groups"] == int(paired_summary["validation_groups"]),
+        "coffee_material_atlas_units": coffee_summary["atlas_material_roast_units"]
+        == result["counts"]["atlas_material_roast_units"],
+        "coffee_material_eligible_units": coffee_summary["eligible_material_roast_units"]
+        == gates["caffeine"]["F2"]["material_roast_units"],
+        "coffee_material_base_materials": coffee_summary["eligible_base_materials"]
+        == gates["caffeine"]["F2"]["base_materials"],
+        "source_summary_sources": int(source_summary["atlas_sources"])
+        == result["counts"]["sources"],
+        "source_summary_publications": int(source_summary["eligible_publications"])
+        == result["counts"]["publications"],
+        "top_level_laboratories": int(source_summary["identified_laboratories"])
+        == result["counts"]["identified_laboratories"],
+        "model_stage_scope": result["model_stage"]
+        == (
+            "NOT_RUN_FEASIBILITY_FAILED"
+            if not result["overall_gate_result"]
+            else "NOT_RUN_R2_CORRECTION_SCOPE_PENDING_OWNER_AUTHORIZATION"
         ),
         "search_totals": search["searches"] == 24
         and search["result_records"] == 400
         and search["unique_candidates"] == 269
         and search["duplicates"] == 131,
+        "candidate_lineage_root_count": lineage["summary"]["canonical_root_count"] == 269,
+        "candidate_lineage_duplicate_count": lineage["summary"]["duplicate_occurrence_count"]
+        == 131,
     }
     for row in independence:
         analyte = row["analyte"]
@@ -1343,12 +1519,42 @@ def generate(target: Path):
             int(source_summary["identified_laboratories"])
             == gates[analyte]["F2"]["identified_laboratories"]
         )
-        comparisons[f"{analyte}_f4_export_result"] = (
-            export["compound_gates"][analyte]["F4"] == result["compound_gates"][analyte]["F4"]
+        comparisons[f"{analyte}_all_gates_export_result"] = (
+            export["compound_gates"][analyte] == result["compound_gates"][analyte]
         )
-        comparisons[f"{analyte}_f7_export_result"] = (
-            export["compound_gates"][analyte]["F7"] == result["compound_gates"][analyte]["F7"]
+        comparisons[f"{analyte}_f2_independence_full"] = all(
+            float(row[field]) == gates[analyte]["F2"][source]
+            for field, source in {
+                "material_roast_units": "material_roast_units",
+                "base_materials": "base_materials",
+                "publications": "publications",
+                "laboratories": "identified_laboratories",
+                "validation_groups": "validation_groups",
+                "largest_group_share": "largest_group_share",
+            }.items()
         )
+        comparisons[f"{analyte}_f6_uncertainty_summary"] = (
+            int(uncertainty_summary[analyte]["eligible_units"])
+            == gates[analyte]["F6"]["eligible_units"]
+            and int(uncertainty_summary[analyte]["uncertainty_units"])
+            == gates[analyte]["F6"]["uncertainty_bearing_units"]
+            and uncertainty_summary[analyte]["between_lab_status"]
+            == gates[analyte]["F6"]["between_lab_reproducibility_floor"]
+        )
+    # Enumerate every scientific primitive independently so a one-field mutation has a named failure.
+    for section in ("compound_gates", "paired_coverage", "compound_feasible"):
+        for path, expected_value in _primitive_items(result[section], (section,)):
+            actual = export
+            for key in path:
+                actual = actual[int(key)] if isinstance(actual, list) else actual[key]
+            comparisons["export_result__" + "__".join(path)] = actual == expected_value
+    for path, expected_value in _primitive_items(
+        {"compound_gates": result["compound_gates"], "F5": result["paired_coverage"]["F5"]}
+    ):
+        actual = gates_artifact
+        for key in path:
+            actual = actual[int(key)] if isinstance(actual, list) else actual[key]
+        comparisons["gates_artifact__" + "__".join(path)] = actual == expected_value
     required_csvs = [
         "independence_audit.csv",
         "source_summary.csv",
@@ -1372,18 +1578,21 @@ def generate(target: Path):
         "status": "PASS",
         "comparisons": comparisons,
         "blank_violations": blank_violations,
-        "manifest_closure": "VERIFIED_BY_BUILD_AFTER_MANIFEST_SERIALIZATION",
+        "comparison_count": len(comparisons),
     }
     (r2 / "R2_CROSS_ARTIFACT_AUDIT.json").write_text(
         json.dumps(cross_audit, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     (r2 / "R2_CORRECTION_REPORT.md").write_text(
-        "# SCI-MD-007-R2 correction report\n\n"
+        "# SCI-MD-007-R2-C1 correction report\n\n"
         f"Search relational closure: {'PASS' if search['pass'] else 'FAIL'}. "
         f"Scientific disposition: `{result['scientific_disposition']}`. "
         "Laboratory identity is counted for F2/F3 independence but is not a validation-group edge. "
         "EWP verifies exact producer/package bytes and independently reduces exported Boolean gates; "
-        "Puckworks remains authoritative for raw-register primitives.\n",
+        "Puckworks remains authoritative for raw-register primitives.\n\n"
+        f"Claim ceiling source: `{claim_source}`. Canonical claim-ceiling SHA-256: `{claim_hash}`.\n\n"
+        + "\n".join(f"- {item}" for item in claim)
+        + "\n",
         encoding="utf-8",
     )
     return result
@@ -1408,49 +1617,165 @@ EXPECTED = {
     "r2/R2_CORRECTION_REPORT.md",
     "r2/R2_REGISTER_CORRECTIONS.csv",
     "r2/citation_pass_summary.csv",
+    "r2/candidate_lineage_resolution.csv",
+    "r2/candidate_lineage_summary.json",
     "r2/fold_transportability_audit.csv",
     "r2/search_closure_audit.json",
 }
 
 
+def _digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _manifest_for(output_root: Path) -> dict:
+    inputs = (
+        [
+            OUT / "feasibility_contract.json",
+            OUT / "r1/R1_CORRECTIVE_SEARCH_CONTRACT.json",
+            OUT / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md",
+            OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json",
+            OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.md",
+        ]
+        + sorted(DATA.glob("*.csv"))
+        + [ROOT / source["source_card_path"] for source in read_csv("sources.csv")]
+        + [ROOT / "puckworks/analysis/sci_md_007.py", Path(__file__)]
+    )
+    input_map = {str(path.relative_to(ROOT)): _digest(path) for path in inputs}
+    output_map = {
+        str((OUT / name).relative_to(ROOT)): _digest(output_root / name)
+        for name in sorted(EXPECTED)
+    }
+    contract_path = OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json"
+    contract = json.loads(contract_path.read_text())
+    return {
+        "schema_version": "1.3.0-R2-C1",
+        "reducer_path": str(Path(__file__).relative_to(ROOT)),
+        "reducer_sha256": _digest(Path(__file__)),
+        "feasibility_contract_sha256": _digest(OUT / "feasibility_contract.json"),
+        "r1_contract_sha256": _digest(OUT / "r1/R1_CORRECTIVE_SEARCH_CONTRACT.json"),
+        "r1_protocol_sha256": _digest(OUT / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md"),
+        "r2_contract_sha256": _digest(contract_path),
+        "claim_ceiling_sha256": canonical_json_sha256(contract["claim_ceiling"]),
+        "evidence_register_hashes": {
+            name: _digest(DATA / name)
+            for name in ("sources.csv", "materials.csv", "observations.csv")
+        },
+        "expected_input_members": sorted(input_map),
+        "expected_output_members": sorted(output_map),
+        "inputs": input_map,
+        "outputs": output_map,
+    }
+
+
+def _closure_for(
+    manifest: dict, manifest_bytes: bytes, output_root: Path, deterministic: bool
+) -> dict:
+    input_checks = {
+        path: {
+            "expected_sha256": expected,
+            "observed_sha256": _digest(ROOT / path),
+            "pass": _digest(ROOT / path) == expected,
+        }
+        for path, expected in manifest["inputs"].items()
+    }
+    output_checks = {
+        path: {
+            "expected_sha256": expected,
+            "observed_sha256": _digest(output_root / Path(path).relative_to(OUT.relative_to(ROOT))),
+            "pass": _digest(output_root / Path(path).relative_to(OUT.relative_to(ROOT)))
+            == expected,
+        }
+        for path, expected in manifest["outputs"].items()
+    }
+    observed_inputs = sorted(manifest["inputs"])
+    observed_outputs = sorted(manifest["outputs"])
+    missing = [
+        path for path, check in {**input_checks, **output_checks}.items() if not check["pass"]
+    ]
+    cross = json.loads((output_root / "r2/R2_CROSS_ARTIFACT_AUDIT.json").read_text())
+    checks = {
+        "reducer_hash": manifest["reducer_sha256"] == _digest(Path(__file__)),
+        "feasibility_contract_hash": manifest["feasibility_contract_sha256"]
+        == _digest(OUT / "feasibility_contract.json"),
+        "r1_contract_hash": manifest["r1_contract_sha256"]
+        == _digest(OUT / "r1/R1_CORRECTIVE_SEARCH_CONTRACT.json"),
+        "r1_protocol_hash": manifest["r1_protocol_sha256"]
+        == _digest(OUT / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md"),
+        "r2_contract_hash": manifest["r2_contract_sha256"]
+        == _digest(OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json"),
+        "claim_ceiling_hash": manifest["claim_ceiling_sha256"]
+        == canonical_json_sha256(
+            json.loads((OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json").read_text())[
+                "claim_ceiling"
+            ]
+        ),
+        "evidence_register_hashes": manifest["evidence_register_hashes"]
+        == {
+            name: _digest(DATA / name)
+            for name in ("sources.csv", "materials.csv", "observations.csv")
+        },
+        "cross_artifact_audit": cross["status"] == "PASS" and all(cross["comparisons"].values()),
+        "deterministic_regeneration": deterministic,
+    }
+    passed = (
+        not missing
+        and all(check["pass"] for check in input_checks.values())
+        and all(check["pass"] for check in output_checks.values())
+        and all(checks.values())
+    )
+    return {
+        "schema_version": "1.0.0",
+        "manifest_path": "docs/analysis/sci_md_007/source_package_manifest.json",
+        "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+        "expected_input_members": manifest["expected_input_members"],
+        "observed_input_members": observed_inputs,
+        "expected_output_members": manifest["expected_output_members"],
+        "observed_output_members": observed_outputs,
+        "input_member_checks": input_checks,
+        "output_member_checks": output_checks,
+        "missing_members": [],
+        "unexpected_members": [],
+        "wrong_hash_members": missing,
+        "checks": checks,
+        "final_package_status": "PASS" if passed else "FAIL",
+    }
+
+
 def build(check=False):
-    with tempfile.TemporaryDirectory(prefix="sci-md-007-r2-") as tmp:
-        temp = Path(tmp)
-        result = generate(temp)
+    with (
+        tempfile.TemporaryDirectory(prefix="sci-md-007-r2-c1-a-") as first_tmp,
+        tempfile.TemporaryDirectory(prefix="sci-md-007-r2-c1-b-") as second_tmp,
+    ):
+        first, second = Path(first_tmp), Path(second_tmp)
+        result = generate(first)
+        generate(second)
+        deterministic = all(
+            (first / name).read_bytes() == (second / name).read_bytes() for name in EXPECTED
+        )
+        if not deterministic:
+            raise ValueError("nondeterministic scientific regeneration")
+        manifest = _manifest_for(first)
+        manifest_bytes = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
+        closure = _closure_for(manifest, manifest_bytes, first, deterministic)
+        closure_bytes = (json.dumps(closure, indent=2, sort_keys=True) + "\n").encode()
+        if closure["final_package_status"] != "PASS":
+            raise ValueError("package authority closure failed")
         if check:
-            existing = {name for name in EXPECTED if (OUT / name).is_file()}
-            if existing != EXPECTED or any(
-                (OUT / n).read_bytes() != (temp / n).read_bytes() for n in EXPECTED
+            if any(
+                not (OUT / name).is_file()
+                or (OUT / name).read_bytes() != (first / name).read_bytes()
+                for name in EXPECTED
             ):
                 raise ValueError("generated output drift")
+            if (OUT / "source_package_manifest.json").read_bytes() != manifest_bytes:
+                raise ValueError("source package manifest drift")
+            if (OUT / "r2/R2_PACKAGE_AUTHORITY_CLOSURE.json").read_bytes() != closure_bytes:
+                raise ValueError("package authority closure drift")
             return result
         for name in EXPECTED:
             (OUT / name).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(temp / name, OUT / name)
-        inputs = (
-            [
-                OUT / "feasibility_contract.json",
-                OUT / "r1/R1_CORRECTIVE_SEARCH_CONTRACT.json",
-                OUT / "r1/R1_CORRECTIVE_SEARCH_PROTOCOL.md",
-                OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json",
-                OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.md",
-                OUT / "r2/R2_QUALIFICATION.md",
-            ]
-            + sorted(DATA.glob("*.csv"))
-            + [ROOT / s["source_card_path"] for s in read_csv("sources.csv")]
-            + [ROOT / "puckworks/analysis/sci_md_007.py", Path(__file__)]
-        )
-        outputs = sorted(OUT / n for n in EXPECTED)
-        digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-        manifest = {
-            "schema_version": "1.2.0-R2",
-            "reducer_path": str(Path(__file__).relative_to(ROOT)),
-            "reducer_sha256": digest(Path(__file__)),
-            "r2_contract_sha256": digest(OUT / "r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json"),
-            "inputs": {str(p.relative_to(ROOT)): digest(p) for p in inputs},
-            "outputs": {str(p.relative_to(ROOT)): digest(p) for p in outputs},
-        }
-        (OUT / "source_package_manifest.json").write_text(
-            json.dumps(manifest, indent=2, sort_keys=True) + "\n"
-        )
+            shutil.copyfile(first / name, OUT / name)
+        (OUT / "source_package_manifest.json").write_bytes(manifest_bytes)
+        (OUT / "r2/R2_PACKAGE_AUTHORITY_CLOSURE.json").write_bytes(closure_bytes)
         return result

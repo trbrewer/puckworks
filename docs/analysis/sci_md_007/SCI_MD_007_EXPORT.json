@@ -1,12 +1,13 @@
 {
   "claim_ceiling": [
-    "Evidence-adequacy and prediction-feasibility screen only.",
-    "Physical validation remains NOT_ESTABLISHED; no extraction-kinetics formulation was validated.",
+    "Physical validation remains NOT_ESTABLISHED.",
+    "No extraction-kinetics formulation is validated.",
     "Total roasted content is not extractable inventory or c_s0.",
-    "No runtime integration or elaborate predictor is authorized.",
-    "SCI-MD-006 is not reopened; Angeloni is not reused; G0 remains separate and deferred.",
-    "A PASS means only that bounded leakage-safe simple-model comparison is structurally possible; a FAIL leaves restricted source-specific or broad priors."
+    "extractable_inventory_mapping_status remains NOT_ESTABLISHED.",
+    "No runtime inventory provider, OpenFOAM execution, governing-physics change, Angeloni reuse, SCI-MD-006 reopening, G0 work, predictor adoption, or experimental commissioning is authorized."
   ],
+  "claim_ceiling_sha256": "fa0a8f3fd523a690867ed101bbf71aff0e11806b2399c0efee474500b82c7d21",
+  "claim_ceiling_source": "docs/analysis/sci_md_007/r2/R2_EVIDENCE_PACKAGE_CORRECTION_CONTRACT.json",
   "compound_feasible": {
     "caffeine": false,
     "trigonelline": false
