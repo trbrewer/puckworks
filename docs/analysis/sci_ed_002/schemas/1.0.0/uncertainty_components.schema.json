@@ -1,0 +1,56 @@
+{
+  "$id": "sci-ed-002/1.0.0/uncertainty_components",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "component_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "covariance_group_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "degrees_of_freedom": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "distribution": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "estimand_record_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "uncertainty_component_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "value": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "uncertainty_component_id",
+    "estimand_record_id",
+    "component_type",
+    "value",
+    "unit",
+    "distribution",
+    "degrees_of_freedom",
+    "covariance_group_id",
+    "method_version"
+  ],
+  "title": "uncertainty_components",
+  "type": "object"
+}

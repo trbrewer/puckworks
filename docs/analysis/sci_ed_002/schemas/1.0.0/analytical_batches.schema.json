@@ -1,0 +1,36 @@
+{
+  "$id": "sci-ed-002/1.0.0/analytical_batches",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acceptance_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analytical_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "batch_day_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "laboratory_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "analytical_batch_id",
+    "laboratory_id",
+    "method_version",
+    "batch_day_code",
+    "acceptance_status"
+  ],
+  "title": "analytical_batches",
+  "type": "object"
+}

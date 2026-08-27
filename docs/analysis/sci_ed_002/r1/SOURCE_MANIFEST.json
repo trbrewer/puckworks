@@ -1,0 +1,73 @@
+{
+  "files": [
+    {
+      "path": "ACTIVATION.json",
+      "sha256": "8528b2130eb6979861b2724fc45ec487a6eeb8e60608ac7cba4ce824d5b34c16"
+    },
+    {
+      "path": "ACTIVATION.md",
+      "sha256": "1a71a5663b9b2878a9b576dcd40dea12035d8fd86ccd9f3c747ab0ab508f932f"
+    },
+    {
+      "path": "AUTHORIZATION.md",
+      "sha256": "83c95ecdf0ba7e03e493318df6a8598f4a64fbc7692757f86b72873dada0ad95"
+    },
+    {
+      "path": "FINAL_HEAD_QUALIFICATION.json",
+      "sha256": "f3aba5e34dec910d2173bf68486c8ebde652a2e2c870f96b12d67635a7fd4116"
+    },
+    {
+      "path": "FINAL_HEAD_QUALIFICATION.md",
+      "sha256": "e3a3449a810e7511eb8d8fd431419dde39224c7e7772c4d50dc035ffc3099a66"
+    },
+    {
+      "path": "FINAL_HEAD_QUALIFICATION_PLAN.md",
+      "sha256": "549d3fd18c6eec48031ee5d496465f23c9a67f46ba7798c43bad181c8983cd75"
+    },
+    {
+      "path": "LABORATORY_IDENTITY_AUDIT.csv",
+      "sha256": "3d620212aa20bcc976e782de9f861a3c19aeba14ae9a4c26f2a1eb3154441bba"
+    },
+    {
+      "path": "METHOD_PROVENANCE_AUDIT.csv",
+      "sha256": "a8a6208519416c52755cf85cc654675c36f12e3056d7a7671faf7f9be447379c"
+    },
+    {
+      "path": "METHOD_PROVENANCE_AUDIT.json",
+      "sha256": "1d981261fd7381cd0cbacc8c1d83628987ab9308c5ae41dabcd534e18e5f7ad2"
+    },
+    {
+      "path": "METHOD_PROVENANCE_AUDIT.md",
+      "sha256": "0ed27cf3dc5581a4dc5de36fecce9ca30a2da006a1258c316a258050b93519c4"
+    },
+    {
+      "path": "PRODUCER_AUTHORITY_MODEL.md",
+      "sha256": "5a0121580dbec58058ccd584bc3bd93138f2179c522033765ccf3c959c100ac7"
+    },
+    {
+      "path": "R0_AUTHORITY_PRESERVATION.json",
+      "sha256": "4a8726c24d49f96dc4aa27e0b168d3337721139dbcf247d5c4563dfbbebf052f"
+    },
+    {
+      "path": "R1_RESULT.json",
+      "sha256": "a6958a9875cee55b06e0a8a05d8700612e3341828480d7e51cf2e3d358b9e53d"
+    },
+    {
+      "path": "R1_RESULT.md",
+      "sha256": "1157cf43f3dccad76e34ba184b921e33863433a7c0acfb965faa17dad02ee525"
+    },
+    {
+      "path": "REFERENCE_EXTRACTABILITY_STOPPING_RULE_PROVENANCE.json",
+      "sha256": "bc7db115f0ea864406c0a63c0c6debad7c4a214999158900bf05f81ffa7eeb40"
+    },
+    {
+      "path": "REFERENCE_EXTRACTABILITY_STOPPING_RULE_PROVENANCE.md",
+      "sha256": "22025044986ebceef12da57d6f8dbc1327f29037cc3833b0270b99aaadd13cbd"
+    },
+    {
+      "path": "SOURCE_CORRECTIONS.md",
+      "sha256": "3afa04bf13b518a4743311f43ee2099b461f5371b0b4b05af8bc076c8267f18c"
+    }
+  ],
+  "schema_version": "sci-ed-002-r1-source-manifest/v1"
+}

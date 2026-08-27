@@ -1,0 +1,1 @@
+chemistry_measurement_id,parent_record_id,analyte,estimand,raw_result,corrected_result,unit,mass_basis,method_version,preparation_replicate_id,analytical_batch_id,injection_replicate_id,lod,loq,quantification_status,standard_uncertainty,quality_status

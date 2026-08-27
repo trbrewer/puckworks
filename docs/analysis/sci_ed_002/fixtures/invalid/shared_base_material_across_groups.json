@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "BASE_MATERIAL_CROSSES_VALIDATION_GROUPS",
+  "mutation": "shared_base_material_across_groups"
+}

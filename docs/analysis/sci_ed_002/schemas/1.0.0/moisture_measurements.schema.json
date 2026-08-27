@@ -1,0 +1,61 @@
+{
+  "$id": "sci-ed-002/1.0.0/moisture_measurements",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aliquot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dry_mass_g": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "moisture_fraction": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "moisture_measurement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "standard_uncertainty": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "wet_mass_g": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "moisture_measurement_id",
+    "material_roast_unit_id",
+    "aliquot_id",
+    "replicate_id",
+    "wet_mass_g",
+    "dry_mass_g",
+    "moisture_fraction",
+    "standard_uncertainty",
+    "method_version",
+    "quality_status"
+  ],
+  "title": "moisture_measurements",
+  "type": "object"
+}

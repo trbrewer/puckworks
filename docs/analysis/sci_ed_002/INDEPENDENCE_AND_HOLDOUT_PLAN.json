@@ -1,0 +1,12 @@
+{
+  "bridge_use": false,
+  "domain": "INDEPENDENT_COFFEE_ROAST_FAMILY_AND_SOURCE_GROUP",
+  "emergency_access": "OWNER_AUTHORIZATION_WITH_AUDIT_AND_INVALIDATION_REVIEW",
+  "first_sci_md_007_replay_use": false,
+  "open_core_reducer_access": false,
+  "operations_metadata_visibility": "IDENTITY_ONLY_NO_ANALYTE_RESULTS",
+  "owner_role": "INDEPENDENT_HOLDOUT_CUSTODIAN",
+  "sealed": true,
+  "unseal_once_after_separate_authorization": true,
+  "validation_group_id": "VG06"
+}

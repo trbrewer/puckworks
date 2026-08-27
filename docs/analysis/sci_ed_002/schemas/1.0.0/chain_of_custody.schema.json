@@ -1,0 +1,46 @@
+{
+  "$id": "sci-ed-002/1.0.0/chain_of_custody",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actor_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "aliquot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "custody_event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "event_time_utc": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "event_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "location_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "seal_status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "custody_event_id",
+    "aliquot_id",
+    "actor_role",
+    "event_type",
+    "event_time_utc",
+    "location_code",
+    "seal_status"
+  ],
+  "title": "chain_of_custody",
+  "type": "object"
+}

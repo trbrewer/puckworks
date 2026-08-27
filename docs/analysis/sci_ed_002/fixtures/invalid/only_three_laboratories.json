@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "OPEN_CORE_REQUIRES_FOUR_LABORATORIES",
+  "mutation": "only_three_laboratories"
+}

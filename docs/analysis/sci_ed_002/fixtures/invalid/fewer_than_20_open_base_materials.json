@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "OPEN_CORE_REQUIRES_20_BASE_MATERIALS",
+  "mutation": "fewer_than_20_open_base_materials"
+}

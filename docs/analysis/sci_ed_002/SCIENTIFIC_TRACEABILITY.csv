@@ -1,0 +1,13 @@
+gate,source_boundary,closure_design
+ED2-G0,SCI-MD-007 F0 provenance eligibility,rights custody and direct-measurement schema
+ED2-G1,SCI-MD-007 F1 F2 F7 independence and size,five unique open folds with 30 units and 20 bases
+ED2-G2,SCI-MD-007 laboratory gap,four participating roles in open core
+ED2-G3,SCI-MD-007 F3 species gap,15 units per species across five folds and four labs
+ED2-G4,SCI-MD-007 F4 roast gap,five units per species-roast cell with common quantitative metric
+ED2-G5,SCI-MD-007 F5 pairing failure,paired caffeine and trigonelline for every primary unit
+ED2-G6,SCI-MD-007 uncertainty and basis gap,same-batch moisture plus replicate uncertainty
+ED2-G7,laboratory comparability boundary,144-preparation blinded bridge excluded from primary counts
+ED2-G8,claim ceiling,T_total I_ref and production quantity remain separate
+ED2-G9,canonical replay boundary,unchanged F0-F7 on future real open data only
+ED2-G10,outer-validation boundary,VG06 sealed and excluded
+ED2-G11,predictor ineligibility,not eligible without commissioned passing evidence

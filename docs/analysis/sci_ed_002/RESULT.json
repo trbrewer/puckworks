@@ -1,0 +1,17 @@
+{
+  "c_s0_mapping_status": "NOT_ESTABLISHED",
+  "commissioning_authorized": false,
+  "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN",
+  "blockers": [
+    "REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN"
+  ],
+  "formal_quotes_obtained": false,
+  "governing_physics_change": false,
+  "laboratories_contacted": false,
+  "measurements_collected": false,
+  "physical_validation_status": "NOT_ESTABLISHED",
+  "predictor_developed": false,
+  "predictor_eligible": false,
+  "sci_md_007_reexecuted": false,
+  "synthetic_status": "PROSPECTIVE_DESIGN_CAPACITY_ONLY_NO_MEASUREMENTS"
+}

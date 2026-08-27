@@ -1,0 +1,76 @@
+{
+  "candidate_commit": "2b8c3937bf05c4c0cc00b1bbe532845532a48e1e",
+  "candidate_tree": "b9c84f73bbc1057d63edccb0018a6a7b04d7d4ea",
+  "claim_ceiling": {
+    "c_s0_mapping_status": "NOT_ESTABLISHED",
+    "commissioning_authorized": false,
+    "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN",
+    "formal_quotes_obtained": false,
+    "governing_physics_change": false,
+    "laboratories_contacted": false,
+    "measurements_collected": false,
+    "physical_validation_status": "NOT_ESTABLISHED",
+    "predictor_developed": false,
+    "predictor_eligible": false,
+    "sci_md_007_reexecuted": false,
+    "synthetic_status": "PROSPECTIVE_DESIGN_CAPACITY_ONLY_NO_MEASUREMENTS"
+  },
+  "design_counts": {
+    "bridge_preparations": 144,
+    "laboratories": 4,
+    "open_base_materials": 20,
+    "open_groups": 5,
+    "open_units": 30,
+    "sealed_groups": 1,
+    "total_base_materials": 24,
+    "total_units": 36
+  },
+  "disposition": "SCI_ED_002_PROTOCOL_INCOMPLETE_COMMISSIONING_BLOCKED_REFERENCE_EXTRACTABILITY_STOPPING_RULE_NOT_DEFENSIBLY_FROZEN",
+  "espresso_crosswalk_identity": "SCI-ED-002-ESPRESSO-EXTENSION-v1.0.0",
+  "estimand_statuses": {
+    "I_ref": {
+      "basis": "mass analyte per mass dry roasted coffee",
+      "method_conditioned": true,
+      "name": "OPERATIONALLY_DEFINED_REFERENCE_EXTRACTABLE_INVENTORY"
+    },
+    "Q_production_solid_initial": {
+      "mapping_available": false,
+      "status": "NOT_ESTABLISHED"
+    },
+    "T_total": {
+      "basis": "mass analyte per mass dry roasted coffee",
+      "method_conditioned": true,
+      "name": "TOTAL_ASSAYABLE_ROASTED_CONTENT"
+    }
+  },
+  "holdout_status": "SEALED_NOT_ACCESSED",
+  "producer_repository": "https://github.com/trbrewer/puckworks.git",
+  "schema_sha256": {
+    "analytical_batches": "a6b084871533ed739317006f7d1b07c509a9a599d6082b94d6e890a3e30949b2",
+    "base_coffee_materials": "f43bc4681638b76cc33603f9b666e1340d26520c72be956828c1a090e52ebcad",
+    "bridge_assignments": "fd05af5c9c7f6b36204fb7d98a30f1ed8f80b32d45d9d66a0561dc20989e02cb",
+    "chain_of_custody": "88e74cfb37a719e102f7252b9d164c66bc77e09e0672a50f1b8408af53bd516b",
+    "chemistry_measurements": "2f6759365c522f53b52d6be910ec8af1e970e8d736f9cac590cdbb8e094ce435",
+    "exclusions_and_reruns": "bb87e706f099047f70f1ca223c19037ca9f45ca67305f6a59980fc9c39b505d4",
+    "file_manifest": "96f238850b243c21ecddf35d82dc1afe04f150b8448277532bda838f4a1bec7d",
+    "holdout_registry": "20118c596afc3ae8123c543feb76e34a0f80901044630cfe761e3fccc5253f6b",
+    "laboratories": "3383bf8e8670863256ce7247fbdc1e6e1ca787e1205be5271f8c52d47711d7a2",
+    "material_roast_units": "8cddec5854fb0763a737e4d76452f05ef9e050514fd6527cd904dfe984455c49",
+    "moisture_measurements": "05422fee99a129e8871e79e8ccc976477be3efc7eedc72b91c0d5c19c390b1da",
+    "quality_control_measurements": "65ff7d242319bdb9f94af82d6cdc1702cac1c8b5cb61eab8c9a8c5d2404d74a1",
+    "reference_extraction_runs": "1da6bbed29e440d3c3590fc0d12ff3430a2a2bee933a409564b69128d6d6d5e3",
+    "reference_extraction_steps": "bc1dda55933eda8b9702cb22bc7710757f9e334caff4a9d178d8fcaefc60fb52",
+    "roast_measurements": "3f33d253381378112ad3ee9fddc2a79bdf6531d7add1a34feb7a051e6bb92eb8",
+    "sample_aliquots": "5a4d4c6bc1b615bfea832ef96a5bc2672b83b147e049e249c52cca0123f60eb3",
+    "study_source_groups": "a8de4c32bb467c288ef4c52deedc760b5773d699fffa0d7e219f376c9baf0269",
+    "total_content_measurements": "050e3896eabdf0d3cdc572ed6e60e5a08e80f2222082335828c7fff293d2c628",
+    "uncertainty_components": "93ce3447a5ceea46ea30e4f4b522b1bca64e9a218d0f5fbb847a42a32e3675b4",
+    "validation_groups": "5ed2f252060927c9e358becde19ab1f5da5d1485bd0bd694881c979d829d843c"
+  },
+  "schema_version": "1.0.0",
+  "sci_md_007_authority": {
+    "commit": "31741303fb604ed3e6586a555ea6ef6989c24a62",
+    "tree": "a918072d28f555bf98638fa97da1adb568bf09b8"
+  },
+  "source_manifest_sha256": "bfcc32b28b7a5662778b1bdb25d03b735f637961e92654658e1de4de8699f146"
+}

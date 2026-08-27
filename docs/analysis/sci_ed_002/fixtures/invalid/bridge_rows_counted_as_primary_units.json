@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "BRIDGE_RECORD_COUNTED_AS_PRIMARY",
+  "mutation": "bridge_rows_counted_as_primary_units"
+}

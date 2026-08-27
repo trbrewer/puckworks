@@ -1,0 +1,51 @@
+{
+  "$id": "sci-ed-002/1.0.0/holdout_registry",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "access_control": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "audit_log_uri": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "domain": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "invalidation_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "owner_role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "sealed_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unsealing_trigger": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_group_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "validation_group_id",
+    "domain",
+    "owner_role",
+    "access_control",
+    "sealed_status",
+    "unsealing_trigger",
+    "audit_log_uri",
+    "invalidation_rule"
+  ],
+  "title": "holdout_registry",
+  "type": "object"
+}

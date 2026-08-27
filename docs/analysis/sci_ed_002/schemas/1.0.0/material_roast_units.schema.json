@@ -1,0 +1,101 @@
+{
+  "$id": "sci-ed-002/1.0.0/material_roast_units",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "base_material_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "country_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "data_lineage_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "harvest_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "processing_method": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "region_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "roast_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "roast_date": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "roast_stratum": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_organization_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_package_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_study_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "species": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_group_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "variety_status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "material_roast_unit_id",
+    "validation_group_id",
+    "source_study_id",
+    "source_package_id",
+    "data_lineage_id",
+    "source_organization_id",
+    "base_material_id",
+    "species",
+    "variety_status",
+    "country_status",
+    "region_status",
+    "processing_method",
+    "lot_id",
+    "harvest_id",
+    "roast_batch_id",
+    "roast_stratum",
+    "roast_date",
+    "role"
+  ],
+  "title": "material_roast_units",
+  "type": "object"
+}

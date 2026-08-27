@@ -1,0 +1,51 @@
+{
+  "$id": "sci-ed-002/1.0.0/quality_control_measurements",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analyte": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "analytical_batch_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "criterion_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qc_measurement_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "qc_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "quality_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "qc_measurement_id",
+    "analytical_batch_id",
+    "qc_type",
+    "analyte",
+    "result",
+    "unit",
+    "criterion_id",
+    "quality_status"
+  ],
+  "title": "quality_control_measurements",
+  "type": "object"
+}

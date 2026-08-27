@@ -1,0 +1,8 @@
+source_id,identity,access_date,supports_method,supported_claims,unsupported_claims,source_class,status
+ISO20481,ISO 20481:2008 edition 1 corrected 2008-11,2026-08-26,true,caffeine HPLC reference method for green roasted and soluble coffee,trigonelline|simultaneous paired method|sequential extraction|stopping threshold|bridge,AUTHORITATIVE,RETAINED
+CASAL1998,Casal Oliveira Ferreira 1998 DOI 10.1080/10826079808001267,2026-08-26,true,simultaneous HPLC-DAD caffeine and trigonelline in green and roasted coffee with reported recovery,sequential completeness|1 percent threshold|two consecutive fractions|eight cycles,PEER_REVIEWED_PRIMARY,RETAINED
+DASILVA2025,da Silva et al. 2025 ACS Omega DOI 10.1021/acsomega.5c05526,2026-08-26,true,simultaneous HPLC-UV-DAD method and recovery in green and roasted Arabica extracts,Robusta direct validation|sequential completeness|stopping rule,PEER_REVIEWED_PRIMARY,RETAINED
+ISO6673,ISO 6673:2003,2026-08-26,true,loss in mass at 105 C for green coffee,unmodified direct roasted-coffee scope|constant-mass detail without licensed text,AUTHORITATIVE,ANALOGOUS_ONLY
+ISO13528,ISO 13528:2022,2026-08-26,true,statistical principles for proficiency testing and homogeneity/stability study design,SCI-ED-002 numeric 30 percent or 5 percent criteria,AUTHORITATIVE,BACKGROUND_ONLY
+JCGM100,JCGM 100:2008 GUM,2026-08-26,true,measurement uncertainty propagation,method-specific thresholds,AUTHORITATIVE,RETAINED
+AOAC_REMOVED,AOAC citation removed because R0 URL resolved to an unrelated reference-table appendix,2026-08-26,false,correction provenance,no retained method claim,AUTHORITATIVE,REMOVED_UNSUPPORTED

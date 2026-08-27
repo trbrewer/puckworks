@@ -1,0 +1,46 @@
+{
+  "$id": "sci-ed-002/1.0.0/bridge_assignments",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "batch_index": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "blind_code": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "bridge_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "laboratory_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "preparation_replicate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_material_roast_unit_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "bridge_id",
+    "source_material_roast_unit_id",
+    "laboratory_id",
+    "batch_index",
+    "preparation_replicate_id",
+    "blind_code",
+    "role"
+  ],
+  "title": "bridge_assignments",
+  "type": "object"
+}

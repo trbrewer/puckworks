@@ -1,0 +1,313 @@
+{
+  "files": [
+    {
+      "path": "ANALYTICAL_SOP.md",
+      "sha256": "543427de098b7d3643839f8e450e0f9905ccb81bcc40022fa9e5f3f2486b97f2"
+    },
+    {
+      "path": "COMMISSIONING_COST_MODEL.csv",
+      "sha256": "4aeb2abcb307137468c38b80eff0be7df3eff1273ed6e04c60b735e7761f10d5"
+    },
+    {
+      "path": "COMMISSIONING_PLAN.md",
+      "sha256": "a8141bcc2578e5d57bb882e3c2df7a85e4aaca791dc0bb4f4e3ff7485be0b091"
+    },
+    {
+      "path": "COST_SOURCE_REGISTER.csv",
+      "sha256": "b07db060e100669062da27db52f9a091c42d2a81d6f82dfae01cad96b2f7717e"
+    },
+    {
+      "path": "DATA_DICTIONARY.md",
+      "sha256": "92c1eb685a40174a41214e64cfd800e104254a27915d95432aa5fbcd59eee402"
+    },
+    {
+      "path": "ESPRESSO_EXTENSION_CROSSWALK.csv",
+      "sha256": "84b718f71848d2d31afd6711d76be60b51d96c58a23b7c4a9486aea967349847"
+    },
+    {
+      "path": "ESTIMAND_CONTRACT.json",
+      "sha256": "f8f4acd9b15ce06bbb7181ba51ce8f42d15f76d44518beb5e5e74accb7c63c11"
+    },
+    {
+      "path": "ESTIMAND_CONTRACT.md",
+      "sha256": "0a0759180a89829dc5d175f50c624dad86fe836f5dfffc06a195fbbdf788f492"
+    },
+    {
+      "path": "INDEPENDENCE_AND_HOLDOUT_PLAN.json",
+      "sha256": "edba73fd398df3f74471a50d86d27c4081c8f6414c58dbb8d27667348611c928"
+    },
+    {
+      "path": "INDEPENDENCE_AND_HOLDOUT_PLAN.md",
+      "sha256": "6ad6358a3611f5c89b3fc3e1e2adb45aca866bf49257b9c9cc468a80195481e8"
+    },
+    {
+      "path": "LABORATORY_BRIDGE_PLAN.json",
+      "sha256": "669f5f31de882bfb0b144d966f8878164eb9b581c2665889bb680cb5bdd9cd7a"
+    },
+    {
+      "path": "LABORATORY_BRIDGE_PLAN.md",
+      "sha256": "458f514f367d941d96d27178ad0b3d4eb66079cce7a8e1523a03104c1f62d55b"
+    },
+    {
+      "path": "LABORATORY_CANDIDATE_REGISTER.csv",
+      "sha256": "1c2054f1080a97584c8d873986de59ce13551fba6e8615cc7c2f6196bcea93f0"
+    },
+    {
+      "path": "METHOD_SOURCE_REGISTER.csv",
+      "sha256": "e1eda7efa49fa00df03830fe8440c21fc3c46371f88938836e01e46881613096"
+    },
+    {
+      "path": "PROSPECTIVE_ACCEPTANCE_GATES.json",
+      "sha256": "3179f683cc89715855b5f202338c480576879bbf1579c7614abf6dd05a22539b"
+    },
+    {
+      "path": "PROSPECTIVE_ACCEPTANCE_GATES.md",
+      "sha256": "68882a4c1517ec646896684310cb9f09af23055eceaa7f18445a75ab60f2eb22"
+    },
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "334413bcb4fcc60096daccce895b00e874163dee7c901b11787acd653508351e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "93ef976334e93af24d0e7f3940e4be13fc3c3fa588032ab0e0b7c5d6eeeef4e0"
+    },
+    {
+      "path": "RESULT.json",
+      "sha256": "3c9c49172fd5be72e3459df7cef6fa8043a2affc57e9db4fc6dc2d3474ea0e21"
+    },
+    {
+      "path": "RESULT.md",
+      "sha256": "353812d3af2d4840b194dc83e73380947b1db881d7b430698571b7444222a384"
+    },
+    {
+      "path": "SAMPLING_MATRIX.csv",
+      "sha256": "3ecdea8bb682363aac17913ae21bc52b0a24a90e4b93c49b6383dead9d2a49c8"
+    },
+    {
+      "path": "SAMPLING_MATRIX_NOTES.md",
+      "sha256": "12e5139e52e305f3eb31f135af8ce75c2e9ddd2d549037fd13a24f48059c8e47"
+    },
+    {
+      "path": "SCIENTIFIC_TRACEABILITY.csv",
+      "sha256": "62dbdccc42205f033b1fac83c351a75590e00353a6fcf2e8d9963e918bf112e2"
+    },
+    {
+      "path": "UNCERTAINTY_MODEL.json",
+      "sha256": "b7ce260cec4fff24eaf8f3e602562faa339c87c60f3947449fe9becf1d126135"
+    },
+    {
+      "path": "UNCERTAINTY_MODEL.md",
+      "sha256": "b38c2be9321b026c4f7d0a342c635d29e69477e4f7c8fdba41883164fdecc97c"
+    },
+    {
+      "path": "fixtures/invalid/bridge_rows_counted_as_primary_units.json",
+      "sha256": "158e55d48ac9f05a1af76e43fac076de66db1229f49e6e8fd38a2786f4cfb2b2"
+    },
+    {
+      "path": "fixtures/invalid/c_s0_mapping_status_changed.json",
+      "sha256": "6890b94826735af8a8c1465a7c66a4b55b5546d3ead8ca77d11fb24656b8d30c"
+    },
+    {
+      "path": "fixtures/invalid/fewer_than_20_open_base_materials.json",
+      "sha256": "9af66bf8fb0d639a8e6633275b9316e772fb6e2403407e62f48c18ff383b52fb"
+    },
+    {
+      "path": "fixtures/invalid/missing_moisture.json",
+      "sha256": "2093054284ebe8cbb6be70edfa0dd6a5c0e97b7d0716ae88f738d6c18c98b12e"
+    },
+    {
+      "path": "fixtures/invalid/missing_species_roast_cell.json",
+      "sha256": "cc3fef7811c220dc28799fa7c9f2b732ae5ec158ed17dd72f24e1e819e6db078"
+    },
+    {
+      "path": "fixtures/invalid/missing_uncertainty.json",
+      "sha256": "2cf0dc7d6c77668cc9a4978112aa870a43e618e7d72c48d0bbfe33935e7b4923"
+    },
+    {
+      "path": "fixtures/invalid/only_three_laboratories.json",
+      "sha256": "e379543a65e66dbce781ff1c730fe7b265adb9fb15a251ffae012cc2e5071a70"
+    },
+    {
+      "path": "fixtures/invalid/shared_base_material_across_groups.json",
+      "sha256": "2762b215763423f085e01c1fe9ecf8c11f90f44b96b2bace27817ca53083a666"
+    },
+    {
+      "path": "fixtures/invalid/shared_source_package_across_folds.json",
+      "sha256": "9c75443aad49332d9370902bf2f9b56574905092e811b58843f72e180ad57aad"
+    },
+    {
+      "path": "fixtures/invalid/unpaired_analyte_plan.json",
+      "sha256": "41ee55a0c09052cc22084c11256cc2353ffcb4cf77a97da0799fc4a948f476fb"
+    },
+    {
+      "path": "fixtures/invalid/vg06_used_by_open_core_reducer.json",
+      "sha256": "add5cab51b0c8e3775b6d396f54561b7d045df44ad226cab83a937dc2238eb59"
+    },
+    {
+      "path": "fixtures/valid/design.json",
+      "sha256": "72f9d90414b828b154a26a184d27d5c180270b8f760b8d1d4e619e0cca9fabf9"
+    },
+    {
+      "path": "schemas/1.0.0/analytical_batches.schema.json",
+      "sha256": "a6b084871533ed739317006f7d1b07c509a9a599d6082b94d6e890a3e30949b2"
+    },
+    {
+      "path": "schemas/1.0.0/base_coffee_materials.schema.json",
+      "sha256": "f43bc4681638b76cc33603f9b666e1340d26520c72be956828c1a090e52ebcad"
+    },
+    {
+      "path": "schemas/1.0.0/bridge_assignments.schema.json",
+      "sha256": "fd05af5c9c7f6b36204fb7d98a30f1ed8f80b32d45d9d66a0561dc20989e02cb"
+    },
+    {
+      "path": "schemas/1.0.0/chain_of_custody.schema.json",
+      "sha256": "88e74cfb37a719e102f7252b9d164c66bc77e09e0672a50f1b8408af53bd516b"
+    },
+    {
+      "path": "schemas/1.0.0/chemistry_measurements.schema.json",
+      "sha256": "2f6759365c522f53b52d6be910ec8af1e970e8d736f9cac590cdbb8e094ce435"
+    },
+    {
+      "path": "schemas/1.0.0/exclusions_and_reruns.schema.json",
+      "sha256": "bb87e706f099047f70f1ca223c19037ca9f45ca67305f6a59980fc9c39b505d4"
+    },
+    {
+      "path": "schemas/1.0.0/file_manifest.schema.json",
+      "sha256": "96f238850b243c21ecddf35d82dc1afe04f150b8448277532bda838f4a1bec7d"
+    },
+    {
+      "path": "schemas/1.0.0/holdout_registry.schema.json",
+      "sha256": "20118c596afc3ae8123c543feb76e34a0f80901044630cfe761e3fccc5253f6b"
+    },
+    {
+      "path": "schemas/1.0.0/laboratories.schema.json",
+      "sha256": "3383bf8e8670863256ce7247fbdc1e6e1ca787e1205be5271f8c52d47711d7a2"
+    },
+    {
+      "path": "schemas/1.0.0/material_roast_units.schema.json",
+      "sha256": "8cddec5854fb0763a737e4d76452f05ef9e050514fd6527cd904dfe984455c49"
+    },
+    {
+      "path": "schemas/1.0.0/moisture_measurements.schema.json",
+      "sha256": "05422fee99a129e8871e79e8ccc976477be3efc7eedc72b91c0d5c19c390b1da"
+    },
+    {
+      "path": "schemas/1.0.0/quality_control_measurements.schema.json",
+      "sha256": "65ff7d242319bdb9f94af82d6cdc1702cac1c8b5cb61eab8c9a8c5d2404d74a1"
+    },
+    {
+      "path": "schemas/1.0.0/reference_extraction_runs.schema.json",
+      "sha256": "1da6bbed29e440d3c3590fc0d12ff3430a2a2bee933a409564b69128d6d6d5e3"
+    },
+    {
+      "path": "schemas/1.0.0/reference_extraction_steps.schema.json",
+      "sha256": "bc1dda55933eda8b9702cb22bc7710757f9e334caff4a9d178d8fcaefc60fb52"
+    },
+    {
+      "path": "schemas/1.0.0/roast_measurements.schema.json",
+      "sha256": "3f33d253381378112ad3ee9fddc2a79bdf6531d7add1a34feb7a051e6bb92eb8"
+    },
+    {
+      "path": "schemas/1.0.0/sample_aliquots.schema.json",
+      "sha256": "5a4d4c6bc1b615bfea832ef96a5bc2672b83b147e049e249c52cca0123f60eb3"
+    },
+    {
+      "path": "schemas/1.0.0/study_source_groups.schema.json",
+      "sha256": "a8de4c32bb467c288ef4c52deedc760b5773d699fffa0d7e219f376c9baf0269"
+    },
+    {
+      "path": "schemas/1.0.0/total_content_measurements.schema.json",
+      "sha256": "050e3896eabdf0d3cdc572ed6e60e5a08e80f2222082335828c7fff293d2c628"
+    },
+    {
+      "path": "schemas/1.0.0/uncertainty_components.schema.json",
+      "sha256": "93ce3447a5ceea46ea30e4f4b522b1bca64e9a218d0f5fbb847a42a32e3675b4"
+    },
+    {
+      "path": "schemas/1.0.0/validation_groups.schema.json",
+      "sha256": "5ed2f252060927c9e358becde19ab1f5da5d1485bd0bd694881c979d829d843c"
+    },
+    {
+      "path": "templates/1.0.0/analytical_batches.csv",
+      "sha256": "bc48b2603324ced80f690d65ac565c0eade20805bbe70025144465b7584ca1e2"
+    },
+    {
+      "path": "templates/1.0.0/base_coffee_materials.csv",
+      "sha256": "f0b8a103d3fd5c5c152bf39dd0f1babd4c8cc1f6dccd81e6064d9f10053b1b5c"
+    },
+    {
+      "path": "templates/1.0.0/bridge_assignments.csv",
+      "sha256": "144b65c5ea3a39651fcd77fcf4adf322970f1d301cca748936300416df616f8e"
+    },
+    {
+      "path": "templates/1.0.0/chain_of_custody.csv",
+      "sha256": "6c6b76d506c70803e894c0bf468fbc8862b5dee4ee430fea4ab37c3fd4e21d56"
+    },
+    {
+      "path": "templates/1.0.0/chemistry_measurements.csv",
+      "sha256": "f18d40f997681dcc6e4ebc889d47d8b0eaba84410ec4de534d2d6bcb8a01669f"
+    },
+    {
+      "path": "templates/1.0.0/exclusions_and_reruns.csv",
+      "sha256": "e2f2d2af9d89f69f51295a8386b8610bb499391de24dfe1984932fb746f54db9"
+    },
+    {
+      "path": "templates/1.0.0/file_manifest.csv",
+      "sha256": "592fae4f4185ae563b7eb20b1ae2ca74c36b098d2b9ba692defe8080e0c9027b"
+    },
+    {
+      "path": "templates/1.0.0/holdout_registry.csv",
+      "sha256": "bb869b942b1111cff710c252c8f49f5c645bb22b8927165b20dadf3c46063b65"
+    },
+    {
+      "path": "templates/1.0.0/laboratories.csv",
+      "sha256": "1ccd00e23db7b918c8697f9efd79a6a485008e3ebfab2ddae7167b677ee5e372"
+    },
+    {
+      "path": "templates/1.0.0/material_roast_units.csv",
+      "sha256": "c1718e24e312fde226e79441b19f3b41d5df8504febbe033903f04fe1151f9f8"
+    },
+    {
+      "path": "templates/1.0.0/moisture_measurements.csv",
+      "sha256": "a12d98d82f1b0939358963765c9f6fc1a10608ff279802e0cdaa61401c500650"
+    },
+    {
+      "path": "templates/1.0.0/quality_control_measurements.csv",
+      "sha256": "efe5a34a62d3835047d5375f1bfced8ff1482a81a843a222506197ff4642c82a"
+    },
+    {
+      "path": "templates/1.0.0/reference_extraction_runs.csv",
+      "sha256": "0571db3e64e1d45cd001e5c632213989dc7b1bdf4cc18397857bb8ada22ce9b4"
+    },
+    {
+      "path": "templates/1.0.0/reference_extraction_steps.csv",
+      "sha256": "032662c5de9733d9005153777d8aaa59dd3cac1faefcc4dbb074f8661079c691"
+    },
+    {
+      "path": "templates/1.0.0/roast_measurements.csv",
+      "sha256": "3c4aaf2d7c1c6975765565922bfa1551d12be95ff289dd9f7ab9f3bfa73f0969"
+    },
+    {
+      "path": "templates/1.0.0/sample_aliquots.csv",
+      "sha256": "75f10714a601ec88237b9886a9bb0118510148e51c1fc40a91968b68ed52c8a3"
+    },
+    {
+      "path": "templates/1.0.0/study_source_groups.csv",
+      "sha256": "fcb006fc4ed31a74bac022ac7eb0a36ef0fb0037acafdc19cb77c36cbc2b9161"
+    },
+    {
+      "path": "templates/1.0.0/total_content_measurements.csv",
+      "sha256": "3c77b4b94a159251019fa4f37232cfa6acfa137481e2d85bc530dbb8b7aaf3e9"
+    },
+    {
+      "path": "templates/1.0.0/uncertainty_components.csv",
+      "sha256": "8b85d170d288804093fa5b11763405c60bc47d3fb5a2e91b03be318669ae1f0f"
+    },
+    {
+      "path": "templates/1.0.0/validation_groups.csv",
+      "sha256": "f3ec9f5f9dcbc9a8a77ae078f71cd04f71b2cd7db98315a505c5d45c342f4ae1"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "PRIMARY_ANALYTE_PLAN_NOT_PAIRED",
+  "mutation": "unpaired_analyte_plan"
+}

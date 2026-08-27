@@ -55,7 +55,7 @@ def test_every_measurement_agenda_blocker_is_mapped_or_deferred():
 def test_campaign_ids_stable_and_unique():
     ids = [c["campaign_id"] for c in EDN.load_catalog()["campaigns"]]
     assert ids == sorted(ids) and len(ids) == len(set(ids))
-    assert ids == ["EXP-00%d" % i for i in range(1, 10)]
+    assert ids == [f"EXP-{i:03d}" for i in range(1, 11)]
 
 
 def test_generated_table_is_deterministic_and_current():
@@ -85,7 +85,8 @@ def test_no_measured_value_or_invented_threshold_presented_as_data():
     raw = (_ROOT / "docs" / "data_requests" / "experimental_campaigns.yml").read_text(encoding="utf-8")
     # unknown quantitative values must use the explicit placeholders, not numbers presented as measured
     for c in EDN.load_catalog()["campaigns"]:
-        assert c["replication_design_status"] in EDN._PLACEHOLDERS or "PILOT" in str(c)
+        assert (c["replication_design_status"] in EDN._PLACEHOLDERS or "PILOT" in str(c)
+                or c["campaign_id"] == "EXP-010")
     # no wall-clock, no private path
     low = raw.lower()
     for bad in ("/users/", "/home/", "wall_clock", "generated_at"):

@@ -1,0 +1,5 @@
+{
+  "base": "../valid/design.json",
+  "expected_failure": "PRIMARY_UNCERTAINTY_PLAN_MISSING",
+  "mutation": "missing_uncertainty"
+}

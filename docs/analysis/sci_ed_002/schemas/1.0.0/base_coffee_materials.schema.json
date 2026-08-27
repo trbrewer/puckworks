@@ -1,0 +1,61 @@
+{
+  "$id": "sci-ed-002/1.0.0/base_coffee_materials",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "base_material_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "country_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "harvest_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "processing_method": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "region_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "role": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "species": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validation_group_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "variety_status": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "base_material_id",
+    "validation_group_id",
+    "species",
+    "variety_status",
+    "country_status",
+    "region_status",
+    "processing_method",
+    "lot_id",
+    "harvest_id",
+    "role"
+  ],
+  "title": "base_coffee_materials",
+  "type": "object"
+}
