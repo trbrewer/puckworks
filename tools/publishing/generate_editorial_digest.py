@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from datetime import date, timedelta
 from pathlib import Path
+from typing import cast
 
 from tools.publishing.common import ValidationError, load_yaml, parse_date, parse_frontmatter
 from tools.publishing.scan_triggers import scan
@@ -54,7 +55,7 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
             draft_diagnostics.append(f"- `{path}`: {'; '.join(result.errors)}")
     triggers = scan(root / "content/triggers")
     eligible = [
-        path for path in triggers["eligible"]
+        path for path in cast(list[str], triggers["eligible"])
         if Path(path).stem not in used_triggers
     ]
     ledger_diagnostics: list[str] = []
@@ -66,7 +67,7 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
     def section(title: str, rows: list[str]) -> list[str]:
         return [f"## {title}", "", *(rows or ["- None"]), ""]
 
-    lines = [f"<!-- publishing-digest-date: {today} -->", f"# Editorial digest: {today}", ""]
+    lines = [f"<!-- publishing-editorial-digest: {today} -->", f"# Editorial digest: {today}", ""]
     lines += section("Posts due in the next 14 days", upcoming)
     lines += section("Overdue drafts", overdue)
     lines += section("Drafts blocked by evidence", evidence_blocked)
@@ -74,7 +75,11 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
     lines += section("Missing platform URLs", missing_urls)
     lines += section("Medium canonical URL unverified", canonical)
     lines += section("Eligible new trigger manifests", [f"- `{p}`" for p in eligible])
-    diagnostics = [f"- `{d['path']}`: {'; '.join(d['errors'])}" for d in triggers["diagnostics"]]
+    trigger_diagnostics = cast(list[dict[str, object]], triggers["diagnostics"])
+    diagnostics = [
+        f"- `{d['path']}`: {'; '.join(cast(list[str], d['errors']))}"
+        for d in trigger_diagnostics
+    ]
     lines += section("Trigger diagnostics", diagnostics)
     lines += section("Draft diagnostics", draft_diagnostics)
     lines += section("Evidence-ledger diagnostics", ledger_diagnostics)

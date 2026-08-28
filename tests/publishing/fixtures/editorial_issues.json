@@ -1,0 +1,9 @@
+[
+  {
+    "number": 9001,
+    "title": "Editorial reminder: What puckworks is for",
+    "body": "<!-- publishing-schedule-id: launch-01 -->\nSynthetic human fixture note.\n",
+    "state": "open",
+    "labels": ["editorial", "publish-reminder"]
+  }
+]

@@ -29,3 +29,14 @@ Automation may assemble evidence, draft, validate, build variants, schedule, and
 authorized human may approve scientific claims, mark content ready or published, send email, submit
 to a publication, record public URLs, or press Publish. No credentials for publishing platforms may
 be stored in this repository or its workflows.
+
+## Editorial reminders and provenance metadata
+
+- [ ] The default reminder command is a credential-free dry run; only explicit `--apply` may mutate
+      GitHub issues, and live scheduled application remains owner-enabled.
+- [ ] Reminder and digest identity markers and the unkeyed managed-region markers are exact; human
+      issue text is preserved and unchanged governed issue state produces no PATCH.
+- [ ] Overdue nonterminal schedule items remain visible until published, cancelled, or withdrawn.
+- [ ] Draft evidence, claim, and figure IDs and ledger evidence and claim IDs are unique.
+- [ ] Figure scripts are checked-out repository files; figure data are checked-out files or cited,
+      exact-commit evidence artifacts. Output existence and SHA-256 checks pass.

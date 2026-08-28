@@ -20,4 +20,7 @@ Schedule validation is `python -m tools.publishing.validate_schedule`. Tests are
 `tests/publishing/`. GitHub Actions may create or update editorial reminder issues; it has no
 publication credentials or publication code path. Manual workflow dispatch is a dry run unless the
 human explicitly selects `apply_changes`. The issue-sync CLI is also dry-run by default; `--apply`
-is required for writes, and managed updates preserve human text outside automation-owned delimiters.
+is required for writes. A credential-free plan can use `--issues-json PATH`; without that fixture it
+plans from an empty issue list and warns that remote deduplication was not evaluated. Updates preserve
+human text outside the exact unkeyed `<!-- publishing-managed:start -->` and
+`<!-- publishing-managed:end -->` region, and unchanged issues are not patched.
