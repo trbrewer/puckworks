@@ -1,0 +1,102 @@
+schema_version: 1
+trigger_id: PW-PUB-2026-002
+draft_slug: what-happens-before-the-first-drop
+assembled_at: "2026-08-28T19:36:41Z"
+artifacts:
+  - evidence_id: E1
+    repository: external-paper
+    path: null
+    commit_sha: null
+    paper_citation: "J. Foster, W. Lee, K. Moroney, D. Prjamkov, M. Salamon, A. Smith, J. Petrassem-de-Sousa, and M. Vynnycky, ‘Dynamics of liquid infiltration into an espresso bed using time-resolved micro-computed tomography: Insights from experiment and modeling,’ Physics of Fluids 37, 013383 (2025). DOI: 10.1063/5.0245167."
+    evidence_level: mixed
+    establishes: direct time-resolved observation of infiltration in the stated configurations, fine-grind wetting-front behavior, coarse-grind non-uniformity, and the source model and its calibration
+    does_not_establish: a universal wetting pattern, parameter-free validation of the fitted source model, a universal first-drip target, taste, or extraction quality
+  - evidence_id: E2
+    repository: puckworks
+    path: docs/cards/foster2025_2.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    paper_citation: null
+    evidence_level: mixed
+    establishes: the implementation scope, source assumptions, current status, fine/coarse observations, fitted-model interpretation, first-drip reference, and current limits
+    does_not_establish: peer review of the Puckworks implementation, universal physical validation, coarse-grind applicability of the sharp-front model, or a taste optimum
+  - evidence_id: E3
+    repository: puckworks
+    path: puckworks/validation/gates.py
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    paper_citation: null
+    evidence_level: verification
+    establishes: the executable first-drip gate computation, explicit observed crossing, predicted bracket construction, stated porosity endpoints, and pass criterion
+    does_not_establish: independence from the evaluated shot, portability to another fixture, an ideal first-drip time, or taste quality
+  - evidence_id: E4
+    repository: puckworks
+    path: docs/publishing/PUBLISHING_SYSTEM.md
+    commit_sha: 40246bb3a5dbee3be2b539251c5191584666ecdd
+    paper_citation: null
+    evidence_level: descriptive
+    establishes: the reader-first public-copy rules, internal evidence requirements, practical-guidance boundary, and human editorial gate
+    does_not_establish: any wetting physics independently
+  - evidence_id: E5
+    repository: puckworks
+    path: puckworks/data/de1_fixtureA.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    paper_citation: null
+    evidence_level: post_fit
+    establishes: the exact fixture inputs, recorded pressure and weight traces, fitted permeability multiplier, and observation context consumed by the first-drip gate
+    does_not_establish: a held-out or universally transferable first-drip prediction
+  - evidence_id: E6
+    repository: puckworks
+    path: puckworks/paper3/EVIDENCE_LINKS.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    paper_citation: null
+    evidence_level: mixed
+    establishes: the adjudicated same-campaign compatibility classification and that no parameter was tuned specifically to hit first-drip time
+    does_not_establish: an independent parameter-free prediction because permeability and pressure came from the same evaluated shot
+claims:
+  - claim_id: C1
+    text: "Before the first drop appears, water is invading an initially dry puck, filling connected pore space, and building a path to the basket."
+    evidence_ids: [E1, E2]
+    conditions: physical description of the initial wetting and filling stage represented by the cited infiltration evidence
+    evidence_level: mixed
+    applicability: early shot behavior before liquid exits the basket
+    caveat: real wetting can be spatially non-uniform, especially outside the cited fine-grind conditions
+    quantitative: false
+  - claim_id: C2
+    text: "In the cited fine-grind experiment, the wetting front was sufficiently uniform for a one-dimensional sharp-front description, while the coarse-grind front was visibly non-uniform."
+    evidence_ids: [E1, E2]
+    conditions: the source experiment's stated coffee, grind ranges, apparatus, and imaging procedure
+    evidence_level: mixed
+    applicability: comparison of the source fine- and coarse-grind observations
+    caveat: this does not establish that every fine grind wets uniformly or every coarse grind channels
+    quantitative: false
+  - claim_id: C3
+    text: "The source model was calibrated against the same wetting data it reproduced, so the agreement supports the model form but is not a blind prediction."
+    evidence_ids: [E1, E2, E6]
+    conditions: the source model fit to its own wetting-front and headspace observations
+    evidence_level: post_fit
+    applicability: interpretation of the source model-data agreement
+    caveat: a successful fitted reproduction does not establish parameter portability or independent physical validation
+    quantitative: false
+  - claim_id: C4
+    text: "In a separate Puckworks check, a predicted first-drip window of 6.4–7.8 seconds contained the observed 7.0-second first drip on the stated DE1 fixture; no parameter was tuned to hit first-drip time itself."
+    evidence_ids: [E2, E3, E5, E6]
+    conditions: the exact fixture, recorded pressure and weight traces, fitted permeability multiplier, observation definition, porosity bracket, and gate rules
+    evidence_level: mixed
+    applicability: that fixture only
+    caveat: permeability and pressure came from the same evaluated shot, so this is a same-campaign compatibility check rather than held-out validation and does not define an ideal time
+    quantitative: true
+  - claim_id: C5
+    text: "Record time to first drip as a diagnostic of puck filling under repeated conditions, not as a universal target for taste or extraction."
+    evidence_ids: [E1, E2, E3, E4, E5, E6]
+    conditions: repeated shots with the same machine, basket, dose, preparation method, pressure or pre-infusion programme, and temperature as closely as practical
+    evidence_level: mixed
+    applicability: within-shot-development diagnostics
+    caveat: first-drip time alone cannot identify the mechanism responsible for a change
+    quantitative: false
+  - claim_id: C6
+    text: "A change in first-drip time can tell you that the hydraulic state changed, but it cannot by itself identify whether the cause was grind, packing, permeability, trapped air, pump behavior, or another mechanism."
+    evidence_ids: [E1, E2, E3, E5, E6]
+    conditions: interpretation of first-drip timing without additional spatial or hydraulic measurements
+    evidence_level: mixed
+    applicability: diagnostic use of first-drip timing
+    caveat: identifying the cause requires controlled changes or additional measurements
+    quantitative: false
