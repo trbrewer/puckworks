@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 import re
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -124,6 +125,8 @@ def validate(
                 errors.append("draft claim ceiling does not exactly match the trigger control artifact")
     evidence = meta.get("source_artifacts")
     evidence_ids: set[str] = set()
+    first_evidence_index: dict[str, int] = {}
+    validated_artifact_ids: set[str] = set()
     if not isinstance(evidence, list) or not evidence:
         errors.append("source_artifacts must not be empty")
     else:
@@ -134,7 +137,13 @@ def validate(
             evidence_id = item.get("evidence_id")
             if not re.fullmatch(r"E\d+", str(evidence_id or "")):
                 errors.append(f"source_artifacts[{index}].evidence_id is invalid")
+            elif str(evidence_id) in first_evidence_index:
+                errors.append(
+                    f"duplicate evidence_id {evidence_id}: first index "
+                    f"{first_evidence_index[str(evidence_id)]}, duplicate index {index}"
+                )
             else:
+                first_evidence_index[str(evidence_id)] = index
                 evidence_ids.add(str(evidence_id))
             if item.get("evidence_level") not in EVIDENCE_LEVELS:
                 errors.append(f"source_artifacts[{index}].evidence_level is invalid")
@@ -146,14 +155,15 @@ def validate(
                 repo = repos.get(str(item.get("repository")))
                 if repo is None:
                     errors.append(f"source_artifacts[{index}].repository is unavailable")
-                elif not item.get("path") or not git_object_exists(
-                    repo, str(item["commit_sha"]), str(item["path"])
-                ):
+                elif not item.get("path") or not git_object_exists(repo, str(item["commit_sha"]), str(item["path"])):
                     errors.append(f"source_artifacts[{index}] path does not exist at commit")
+                else:
+                    validated_artifact_ids.add(str(evidence_id))
             if item.get("repository") == "external-paper" and not item.get("paper_citation"):
                 errors.append(f"source_artifacts[{index}].paper_citation is required")
     claims = meta.get("claims")
     claim_ids: set[str] = set()
+    first_claim_index: dict[str, int] = {}
     quantitative_text = ""
     if not isinstance(claims, list) or not claims:
         errors.append("claims must not be empty")
@@ -162,7 +172,15 @@ def validate(
             if not isinstance(claim, dict) or not re.fullmatch(r"C\d+", str(claim.get("claim_id", ""))):
                 errors.append(f"claims[{index}].claim_id is invalid")
                 continue
-            claim_ids.add(str(claim["claim_id"]))
+            claim_id = str(claim["claim_id"])
+            if claim_id in first_claim_index:
+                errors.append(
+                    f"duplicate claim_id {claim_id}: first index "
+                    f"{first_claim_index[claim_id]}, duplicate index {index}"
+                )
+            else:
+                first_claim_index[claim_id] = index
+                claim_ids.add(claim_id)
             cited = claim.get("evidence_ids")
             if not isinstance(cited, list) or not cited:
                 errors.append(f"claims[{index}] has no evidence_ids")
@@ -171,6 +189,8 @@ def validate(
             for field in ("text", "conditions", "evidence_level", "applicability", "caveat"):
                 if not claim.get(field):
                     errors.append(f"claims[{index}].{field} is required")
+            if claim.get("evidence_level") not in EVIDENCE_LEVELS:
+                errors.append(f"claims[{index}].evidence_level is invalid")
             if not isinstance(claim.get("quantitative"), bool):
                 errors.append(f"claims[{index}].quantitative must be boolean")
             elif claim["quantitative"]:
@@ -235,10 +255,22 @@ def validate(
             errors.append("ready Medium variant requires substantive_human_rewrite_medium: true")
     figures = meta.get("figures", [])
     if isinstance(figures, list):
+        first_figure_index: dict[str, int] = {}
+        publishing_repo = repos.get("puckworks")
         for index, figure in enumerate(figures):
             if not isinstance(figure, dict):
                 errors.append(f"figures[{index}] must be a mapping")
                 continue
+            figure_id = str(figure.get("figure_id", ""))
+            if not re.fullmatch(r"F\d+", figure_id):
+                errors.append(f"figures[{index}].figure_id is invalid")
+            elif figure_id in first_figure_index:
+                errors.append(
+                    f"duplicate figure_id {figure_id}: first index "
+                    f"{first_figure_index[figure_id]}, duplicate index {index}"
+                )
+            else:
+                first_figure_index[figure_id] = index
             if figure.get("hand_edited") is not False:
                 errors.append(f"figures[{index}].hand_edited must be false")
             if not re.fullmatch(r"[0-9a-f]{64}", str(figure.get("output_sha256", ""))):
@@ -246,6 +278,12 @@ def validate(
             for field in ("figure_id", "source_script", "source_data", "output_path", "caption", "alt_text", "evidence_ids", "regenerated_at"):
                 if not figure.get(field):
                     errors.append(f"figures[{index}].{field} is required")
+            try:
+                regenerated = datetime.fromisoformat(str(figure.get("regenerated_at", "")).replace("Z", "+00:00"))
+                if regenerated.tzinfo is None:
+                    raise ValueError
+            except ValueError:
+                errors.append(f"figures[{index}].regenerated_at must be a timezone-aware timestamp")
             output_path = content_root / str(figure.get("output_path", ""))
             relative_output = Path(str(figure.get("output_path", "")))
             if relative_output.is_absolute() or ".." in relative_output.parts:
@@ -254,30 +292,52 @@ def validate(
                 errors.append(f"figures[{index}].output_path does not exist")
             elif sha256_file(output_path) != figure.get("output_sha256"):
                 errors.append(f"figures[{index}] output SHA-256 does not match the file")
-            figure_evidence = set(map(str, figure.get("evidence_ids", [])))
+            raw_figure_evidence = figure.get("evidence_ids", [])
+            figure_evidence = set(map(str, raw_figure_evidence)) if isinstance(raw_figure_evidence, list) else set()
             if not figure_evidence or figure_evidence - evidence_ids:
                 errors.append(f"figures[{index}].evidence_ids contains missing or unknown IDs")
             source_data = figure.get("source_data")
-            source_paths = [
-                figure.get("source_script"),
-                *(source_data if isinstance(source_data, list) else []),
-            ]
-            artifact_paths = {
-                str(item.get("path")) for item in evidence or []
-                if isinstance(item, dict) and item.get("repository") != "external-paper"
-            }
-            missing_sources = [source for source in source_paths if source not in artifact_paths]
-            if missing_sources:
-                errors.append(
-                    f"figures[{index}] sources are not exact source_artifacts: {missing_sources}"
+            if not isinstance(source_data, list) or not source_data:
+                errors.append(f"figures[{index}].source_data must contain at least one path")
+                source_data = []
+
+            def safe_relative(value: object) -> Path | None:
+                candidate = Path(str(value or ""))
+                if not value or candidate.is_absolute() or ".." in candidate.parts:
+                    return None
+                return candidate
+
+            script_relative = safe_relative(figure.get("source_script"))
+            if script_relative is None:
+                errors.append(f"figures[{index}].source_script must be a safe repository-relative path")
+            elif publishing_repo is None:
+                errors.append(f"figures[{index}].source_script repository is unavailable")
+            elif not (publishing_repo / script_relative).resolve().is_relative_to(publishing_repo.resolve()) or not (publishing_repo / script_relative).is_file():
+                errors.append(f"figures[{index}].source_script does not exist in the checked-out puckworks repository")
+            for data_index, source in enumerate(source_data):
+                relative = safe_relative(source)
+                if relative is None:
+                    errors.append(f"figures[{index}].source_data[{data_index}] must be a safe repository-relative path")
+                    continue
+                local = publishing_repo is not None and (publishing_repo / relative).resolve().is_relative_to(publishing_repo.resolve()) and (publishing_repo / relative).is_file()
+                historical = any(
+                    isinstance(item, dict)
+                    and str(item.get("evidence_id")) in figure_evidence
+                    and str(item.get("evidence_id")) in validated_artifact_ids
+                    and item.get("path") == str(source)
+                    for item in evidence or []
                 )
+                if not local and not historical:
+                    errors.append(f"figures[{index}].source_data[{data_index}] has no checked-out file or cited exact artifact")
             bound_commits = [
                 str(item.get("commit_sha")) for item in evidence or []
                 if isinstance(item, dict) and item.get("evidence_id") in figure_evidence
                 and FULL_SHA.fullmatch(str(item.get("commit_sha", "")))
             ]
+            if not bound_commits and FULL_SHA.fullmatch(str(ceiling.get("commit_sha", ""))):
+                bound_commits = [str(ceiling["commit_sha"])]
             caption = str(figure.get("caption", ""))
-            if figure.get("source_script") not in caption or not any(
+            if str(figure.get("source_script", "")) not in caption or not any(
                 commit in caption for commit in bound_commits
             ):
                 errors.append(f"figures[{index}].caption must name its source script and exact commit")

@@ -134,9 +134,12 @@ conclusion. Figures are never manually altered, selectively cropped, or stripped
 Static fallbacks accompany interactive material. Code excerpts are at most 20 lines and link to exact
 files/commits.
 
-Every figure output must exist and match its SHA-256. Figure evidence IDs must resolve, while its
-generating script and every source-data path must be exact repository source artifacts with full
-commits. A missing output, dangling ID, unbound source, or checksum mismatch is fatal.
+Every figure output must exist and match its SHA-256. Figure evidence IDs must resolve. Its generating
+script must be a safe repository-relative regular file in the checked-out puckworks repository. Each
+source-data path must either be a checked-out regular file or match a cited evidence artifact already
+validated at its exact repository commit. Absolute paths, parent traversal, missing output, dangling
+IDs, uncited historical inputs, unbound sources, and checksum mismatches are fatal. Draft evidence,
+claim, and figure IDs and evidence-ledger evidence and claim IDs must each be unique.
 
 Generate at most three draft Notes per week in `content/notes/YYYY-Www.md`: Figure Notes are 80–160
 words/900 characters before links, Observation Notes 60–120/700, and one-question Reader Notes
@@ -169,10 +172,16 @@ stands alone, discloses AI in its first two paragraphs, and is never generated a
 A Medium variant cannot validate as `ready` unless Tim's gates pass and
 `substantive_human_rewrite_medium: true` is explicitly recorded.
 
-Reminder synchronization is dry-run by default. Applying GitHub issue mutations requires `--apply`
-or the workflow's explicit/scheduled apply path. Automation owns only delimited blocks inside issue
-bodies; updates preserve human text outside those blocks. Dry runs read and plan only and never
-create labels/issues, edit bodies, change state, or close issues.
+Reminder synchronization is credential-free and dry-run by default. `--issues-json PATH` supplies a
+local issue-state array; without it, planning uses an empty list and warns that remote deduplication
+was not evaluated. Applying mutations requires explicit `--apply` and GitHub credentials, or the
+workflow's enabled scheduled apply path. Once the earliest reminder threshold is reached, a
+nonterminal item remains due even after its draft and publication dates. Schedule issues use the exact
+`<!-- publishing-schedule-id: ID -->` marker; digests use
+`<!-- publishing-editorial-digest: YYYY-MM-DD -->`. Automation owns only the exact unkeyed
+`<!-- publishing-managed:start -->` through `<!-- publishing-managed:end -->` region. Updates preserve
+human text outside it and suppress PATCH requests when governed content, labels, title, and state are
+unchanged. Dry runs perform no network access or writes.
 
 ## AI disclosure and self-review
 

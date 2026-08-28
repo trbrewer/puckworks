@@ -85,8 +85,8 @@ def validate_trigger(path: Path, repositories: dict[str, Path] | None = None) ->
         artifact_rows.append(artifact)
         repository = artifact.get("repository")
         relative_path = artifact.get("path")
-        commit = artifact.get("commit_sha")
-        if not FULL_SHA.fullmatch(str(commit or "")):
+        artifact_commit = artifact.get("commit_sha")
+        if not FULL_SHA.fullmatch(str(artifact_commit or "")):
             errors.append(f"{prefix}.commit_sha must be a full lowercase SHA")
         if not isinstance(relative_path, str) or not relative_path:
             errors.append(f"{prefix}.path is required")
@@ -95,9 +95,9 @@ def validate_trigger(path: Path, repositories: dict[str, Path] | None = None) ->
         repo = repos.get(str(repository))
         if repo is None:
             errors.append(f"{prefix}.repository is unavailable for validation")
-        elif isinstance(relative_path, str) and FULL_SHA.fullmatch(str(commit or "")):
-            if not git_object_exists(repo, str(commit), relative_path):
-                errors.append(f"{prefix}: {relative_path} does not exist at {commit}")
+        elif isinstance(relative_path, str) and FULL_SHA.fullmatch(str(artifact_commit or "")):
+            if not git_object_exists(repo, str(artifact_commit), relative_path):
+                errors.append(f"{prefix}: {relative_path} does not exist at {artifact_commit}")
         if not artifact.get("purpose"):
             errors.append(f"{prefix}.purpose is required")
         checksum = artifact.get("sha256")
@@ -155,6 +155,7 @@ def validate_ledger(path: Path, repositories: dict[str, Path] | None = None) -> 
         errors.append("draft_slug and assembled_at are required")
     artifacts = doc.get("artifacts")
     ids: set[str] = set()
+    first_evidence_index: dict[str, int] = {}
     if not isinstance(artifacts, list) or not artifacts:
         return CheckResult(path, tuple(errors + ["artifacts must not be empty"]))
     for index, item in enumerate(artifacts):
@@ -163,9 +164,16 @@ def validate_ledger(path: Path, repositories: dict[str, Path] | None = None) -> 
             errors.append(f"{prefix} must be a mapping")
             continue
         evidence_id = str(item.get("evidence_id", ""))
-        if not re.fullmatch(r"E\d+", evidence_id) or evidence_id in ids:
-            errors.append(f"{prefix}.evidence_id is invalid or duplicated")
-        ids.add(evidence_id)
+        if not re.fullmatch(r"E\d+", evidence_id):
+            errors.append(f"{prefix}.evidence_id is invalid")
+        elif evidence_id in first_evidence_index:
+            errors.append(
+                f"duplicate evidence_id {evidence_id}: first index "
+                f"{first_evidence_index[evidence_id]}, duplicate index {index}"
+            )
+        else:
+            first_evidence_index[evidence_id] = index
+            ids.add(evidence_id)
         if item.get("evidence_level") not in EVIDENCE_LEVELS:
             errors.append(f"{prefix}.evidence_level is invalid")
         for field in ("establishes", "does_not_establish"):
@@ -188,10 +196,31 @@ def validate_ledger(path: Path, repositories: dict[str, Path] | None = None) -> 
     if not isinstance(claims, list) or not claims:
         errors.append("claims must not be empty")
     else:
+        first_claim_index: dict[str, int] = {}
         for index, claim in enumerate(claims):
-            cited = claim.get("evidence_ids", []) if isinstance(claim, dict) else []
+            if not isinstance(claim, dict):
+                errors.append(f"claims[{index}] must be a mapping")
+                continue
+            claim_id = str(claim.get("claim_id", ""))
+            if not re.fullmatch(r"C\d+", claim_id):
+                errors.append(f"claims[{index}].claim_id is invalid")
+            elif claim_id in first_claim_index:
+                errors.append(
+                    f"duplicate claim_id {claim_id}: first index "
+                    f"{first_claim_index[claim_id]}, duplicate index {index}"
+                )
+            else:
+                first_claim_index[claim_id] = index
+            cited = claim.get("evidence_ids", [])
             if not cited or set(map(str, cited)) - ids:
                 errors.append(f"claims[{index}] has missing or unknown evidence_ids")
+            for field in ("text", "conditions", "applicability", "caveat"):
+                if not claim.get(field):
+                    errors.append(f"claims[{index}].{field} is required")
+            if claim.get("evidence_level") not in EVIDENCE_LEVELS:
+                errors.append(f"claims[{index}].evidence_level is invalid")
+            if not isinstance(claim.get("quantitative"), bool):
+                errors.append(f"claims[{index}].quantitative must be boolean")
     return CheckResult(path, tuple(errors))
 
 

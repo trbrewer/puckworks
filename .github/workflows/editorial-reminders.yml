@@ -43,7 +43,9 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           args=()
-          if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.apply_changes }}" == "true" ]]; then
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ vars.ENABLE_EDITORIAL_REMINDERS }}" == "true" ]]; then
+            args=(--apply)
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.apply_changes }}" == "true" ]]; then
             args=(--apply)
           fi
           python -m tools.publishing.sync_editorial_issues "${args[@]}"
