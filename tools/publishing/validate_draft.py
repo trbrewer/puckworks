@@ -14,12 +14,23 @@ from tools.publishing.common import (
 )
 from tools.publishing.validate_evidence import validate_ledger, validate_trigger
 
-REQUIRED_SECTIONS = (
-    "Result or question in one sentence", "Why this matters", "Question or hypothesis",
-    "Evidence box", "Method", "Result", "Interpretation", "What this does not show",
-    "Uncertainty and limitations", "What evidence would change the conclusion",
-    "How to reproduce or inspect the result", "Claims-to-evidence table",
-    "AI-assistance disclosure", "Agent self-review",
+SOURCES_HEADING = "Sources and technical notes"
+FORBIDDEN_HEADINGS = (
+    "Evidence box", "Claims-to-evidence table", "Agent self-review",
+    "How to reproduce or inspect the result",
+)
+INTERNAL_BODY_PATTERNS = (
+    (r"\b[0-9a-f]{40}\b", "full Git SHA"),
+    (r"\bPW-PUB-\d{4}-\d{3}\b", "publication trigger ID"),
+    (r"\bSCI_[A-Z0-9_]{12,}\b", "internal scientific disposition"),
+    (r"content/triggers/", "trigger path"),
+    (r"content/evidence/", "evidence path"),
+    (r"docs/status/current\.json", "project-state path"),
+    (r"\bgit (?:clone|checkout|show)\b", "Git reproduction command"),
+    (r"\bpytest\b", "test command"),
+    (r"python -m tools\.publishing", "publishing validation command"),
+    (r"\bclaim ceiling\b", "claim-ceiling terminology"),
+    (r"\bevidence ledger\b", "evidence-ledger terminology"),
 )
 BANNED = (
     "revolutionize", "revolutionary", "game-changing", "journey", "unlock the secret",
@@ -46,12 +57,12 @@ def validate(
         meta, body = parse_frontmatter(path)
     except (OSError, ValidationError) as exc:
         return CheckResult(path, (str(exc),))
-    if meta.get("schema_version") != 1:
-        errors.append("schema_version must be 1")
+    if meta.get("schema_version") != 2:
+        errors.append("schema_version must be 2")
     for field in (
         "title", "subtitle", "slug", "created_at", "updated_at", "author",
         "target_platforms", "primary_platform", "target_length_words", "uncertainty",
-        "practical_implication", "ai_assistance", "cross_posting", "review",
+        "practical_implication", "ai_assistance", "cross_posting", "review", "reader_contract",
     ):
         if field not in meta:
             errors.append(f"{field} is required")
@@ -195,29 +206,75 @@ def validate(
                 errors.append(f"claims[{index}].quantitative must be boolean")
             elif claim["quantitative"]:
                 quantitative_text += " " + str(claim.get("text", ""))
-    headings = [match.group(1).strip().casefold() for match in re.finditer(r"^##\s+(.+)$", body, re.M)]
-    positions = []
-    for required in REQUIRED_SECTIONS:
-        target = required.casefold()
-        try:
-            positions.append(headings.index(target))
-        except ValueError:
-            errors.append(f"missing required section: {required}")
-    if len(positions) == len(REQUIRED_SECTIONS) and positions != sorted(positions):
-        errors.append("required body sections are out of order")
-    table_claim_ids = set(re.findall(r"^\|\s*(C\d+)\s*\|", body, re.M))
-    if table_claim_ids != claim_ids:
-        errors.append("claims-to-evidence table IDs must exactly match frontmatter claims")
+    heading_matches = list(re.finditer(r"^##\s+(.+)$", body, re.M))
+    headings = [match.group(1).strip().casefold() for match in heading_matches]
+    source_indices = [i for i, heading in enumerate(headings) if heading == SOURCES_HEADING.casefold()]
+    if len(source_indices) != 1:
+        errors.append(f"exactly one second-level section is required: {SOURCES_HEADING}")
+        narrative = body
+        sources_and_end = ""
+    else:
+        source_match = heading_matches[source_indices[0]]
+        narrative = body[:source_match.start()]
+        sources_and_end = body[source_match.end():]
+        next_heading = re.search(r"^##\s+(.+)$", sources_and_end, re.M)
+        source_text = sources_and_end[:next_heading.start()] if next_heading else sources_and_end
+        source_text = source_text.replace("[PLATFORM DISCLOSURE]", "").strip()
+        if not source_text:
+            errors.append("Sources and technical notes must not be empty")
+        if next_heading and next_heading.group(1).strip().casefold() not in {
+            "ai-assistance disclosure", "ai assistance disclosure"
+        }:
+            errors.append("only the AI disclosure may follow Sources and technical notes")
+    for forbidden in FORBIDDEN_HEADINGS:
+        if forbidden.casefold() in headings:
+            errors.append(f"forbidden public section: {forbidden}")
+    if re.search(r"^\|\s*C\d+\s*\|", body, re.M | re.I):
+        errors.append("public tables must not expose internal claim IDs")
     if "ledger" in locals() and isinstance(ledger, dict):
         ledger_evidence = {str(item.get("evidence_id")) for item in ledger.get("artifacts", [])}
         ledger_claims = {str(item.get("claim_id")) for item in ledger.get("claims", [])}
         if ledger_evidence != evidence_ids or ledger_claims != claim_ids:
             errors.append("draft evidence/claim IDs must exactly match the evidence ledger")
-    number_body = re.sub(
-        r"^## (?:Evidence box|Claims-to-evidence table).*?(?=^## |\Z)", "", body,
-        flags=re.M | re.S,
-    )
-    number_body = re.sub(r"```.*?```|`[^`]+`", "", number_body, flags=re.S)
+    def normalize(value: object) -> str:
+        return " ".join(str(value).casefold().split())
+
+    normalized_narrative = normalize(narrative)
+    for claim in claims if isinstance(claims, list) else []:
+        if isinstance(claim, dict) and normalize(claim.get("text")) not in normalized_narrative:
+            errors.append(f"claim {claim.get('claim_id')} exact text is missing from the public narrative")
+    reader_contract = meta.get("reader_contract", {})
+    if not isinstance(reader_contract, dict) or any(
+        not reader_contract.get(field) for field in ("question", "answer", "takeaway")
+    ):
+        errors.append("reader_contract must define question, answer, and takeaway")
+    else:
+        answer = normalize(reader_contract["answer"])
+        claim_texts = {
+            normalize(claim.get("text")) for claim in claims or [] if isinstance(claim, dict)
+        }
+        if answer not in claim_texts:
+            errors.append("reader_contract.answer must exactly match a frontmatter claim")
+        opening_words = list(re.finditer(r"\b[^\W_]+(?:[’'-][^\W_]+)*\b", narrative, re.UNICODE))
+        opening = narrative[:opening_words[249].end()] if len(opening_words) > 250 else narrative
+        if answer not in normalize(opening):
+            errors.append("reader_contract.answer must appear within the first 250 narrative words")
+        takeaway = normalize(reader_contract["takeaway"])
+        if takeaway not in normalized_narrative:
+            errors.append("reader_contract.takeaway is missing from the public narrative")
+        practical = meta.get("practical_implication", {})
+        if isinstance(practical, dict) and practical.get("supported") is True and takeaway != normalize(practical.get("text")):
+            errors.append("reader_contract.takeaway must exactly match practical_implication.text")
+    for pattern, label in INTERNAL_BODY_PATTERNS:
+        if re.search(pattern, body, re.I):
+            errors.append(f"public body contains forbidden internal mechanics: {label}")
+    if re.search(r"```\s*(?:sh|bash|shell|console)\b.*?```", body, re.I | re.S):
+        errors.append("public body contains a fenced shell reproduction block")
+    for term in ("repository", "validator", "governance", "workflow", "schema", "commit"):
+        if re.search(rf"\b{term}\b", narrative, re.I):
+            warnings.append(f"reader-facing prose uses internal process term: {term}")
+    number_body = re.sub(r"```.*?```|`[^`]+`", "", narrative, flags=re.S)
+    number_body = re.sub(r"https?://\S+|\bdoi:\s*\S+", "", number_body, flags=re.I)
     numbers = set(re.findall(r"(?<![A-Za-z])\d+(?:\.\d+)?", number_body))
     unsupported_numbers = sorted(number for number in numbers if number not in quantitative_text)
     if unsupported_numbers:

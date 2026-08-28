@@ -77,28 +77,49 @@ draft's claim-ceiling repository, path, and full commit must exactly match that 
 resolve through Git. The source identifier must likewise be closed by a listed commit SHA, release
 tag, issue number, or run ID; syntactically valid but unbound identifiers are ineligible.
 
-## Draft and evidence contract
+## Two-layer draft and evidence contract
 
 Masters live only in `content/drafts/YYYY-MM-DD-slug.md`; platform variants live in
-`content/variants/`. Draft prose never enters scientific result directories. YAML frontmatter schema
-version 1 records identity/status, author, platforms, length, source event, exact claim ceiling, source
-artifacts, figures, claims, uncertainty, practical implications, AI roles and human checks,
-cross-posting, and review gates.
+`content/variants/`. Master frontmatter schema version 2 records identity and status, author,
+platforms, length, a reader contract, source event, exact claim ceiling, source artifacts, figures,
+claims, uncertainty, practical implications, AI roles and human checks, cross-posting, and review
+gates.
+
+The **internal evidence package** remains mandatory: publication trigger, exact source artifacts,
+evidence ledger, claim inventory, evidence levels, conditions and applicability, quantitative-claim
+closure, uncertainty inventory, figure provenance, full commits and paths, human scientific checks,
+and the no-automated-publication boundary. It supports evidence assembly, review, auditability,
+correction, reproducibility, and resistance to claim inflation. It is not automatically public copy.
+
+The **public narrative** normally contains a recognizable espresso question or experience; an early,
+narrow answer; a plain-language explanation of the physical mechanism; the important measurement,
+model comparison, or failed explanation; a useful takeaway where justified; a short account of the
+material limits; sources and technical notes; and the required AI disclosure. Authors choose natural
+headings for the story. The only required public heading is `Sources and technical notes`.
 
 Each evidence item states what it establishes and does not establish and labels its level as
 `independent`, `post_fit`, `calibration`, `verification`, `descriptive`, `exploratory`, `qualitative`,
 or `mixed`. Each claim has an ID, exact text, evidence IDs, conditions, evidence level,
-applicability, caveat, and quantitative flag. Every number in prose, subtitle, caption, callout, or
-table belongs to a quantitative claim row or is directly identified in the evidence box.
+applicability, caveat, and quantitative flag. Every scientific number in reader-facing prose belongs
+to a quantitative claim. Every reviewed claim sentence appears in the narrative, while claim IDs and
+evidence IDs stay backstage.
 
-Every master uses this order: result/question in one sentence; why it matters; hypothesis; evidence
-box; method; result; interpretation; what it does not show; uncertainty and limitations; practical
-implication only if supported; evidence that would change the conclusion; reproduction/inspection;
-claims-to-evidence table; AI disclosure; and a removable agent self-review.
+The public article does not have to display an evidence box, claims table, full commits, trigger IDs,
+repository paths, validation commands, reproduction tutorial, internal disposition, or agent
+self-review. Its reader contract records the promised question, exact early answer, and useful
+takeaway. When a practical implication is supported, that implication and the takeaway are identical.
 
-The evidence box names repository, full commit, run/result, primary artifact, figure source, evidence
-level, and exact claim ceiling. The claims table has claim ID, exact claim, evidence IDs, evidence
-level, applicability/conditions, and caveat.
+A mechanically valid article may still fail human review because it is dull, inward-looking,
+over-technical, poorly framed, or offers no reader value.
+
+Evidence-supported practical guidance is permitted when the outcome is measurable, sources and
+conditions are explicit, the advice does not outrun the evidence, it is framed as a bounded
+diagnostic or experiment, and confounders are stated. Recording first-drip time or interpreting a
+pressure reading at its physical location can be useful under repeated conditions; neither is a
+universal quality target. Affiliate or sponsored recommendations, product rankings, endorsements,
+purchasing instructions, objectively best recipes, unsupported taste or flavor predictions,
+chemical-to-preference translation, and universal grinder, pressure, or shot-time settings remain
+prohibited.
 
 ## Archetypes and verdicts
 
@@ -121,8 +142,10 @@ requires substantive human rewriting. A failure leaves the draft in draft/eviden
 the exact failure reported. Automation cannot invent, soften, or approve the missing material.
 
 Ready frontmatter must name Tim Brewer, set all four AI-assisted scientific check flags true, set all
-three automated gate flags true, record `human_approved: true`, and include `approved_at`. Only a human
-may set `published`, record public URLs, approve corrections or claim-ceiling changes, send email,
+three review gate flags true, record `human_approved: true`, and include `approved_at`.
+`style_gate_passed` is Tim Brewer's human editorial decision. Automated tools may check mechanical
+hazards but cannot set or imply that the title, voice, pacing, framing, or usefulness is right. Only a
+human may set `published`, record public URLs, approve corrections or claim-ceiling changes, send email,
 submit to Medium, or press Publish.
 
 ## Figures, notes, and short form
@@ -270,7 +293,7 @@ owner_notes: ""
 
 ```yaml
 ---
-schema_version: 1
+schema_version: 2
 title: ""
 subtitle: ""
 slug: ""
@@ -282,6 +305,10 @@ author: "Tim Brewer"
 target_platforms: [substack, medium]
 primary_platform: substack
 target_length_words: {minimum: 1200, preferred: 1500, maximum: 1800}
+reader_contract:
+  question: ""
+  answer: ""
+  takeaway: ""
 source_event:
   trigger_id: "PW-PUB-YYYY-NNN"
   repository: puckworks | espresso-whole-pull
@@ -365,26 +392,16 @@ review:
 ---
 ```
 
-## Archetype body contracts
+## Archetype narrative properties
 
-Finding reports contain the result in one sentence, why it matters, what was tested, evidence box,
-predeclared method/comparison, result, sensitivity/uncertainty, interpretation, non-establishment,
-conditional practical consequence, discriminating measurement, reproduction, claims table,
-limitations, and drafting note. Myth checks contain the strongest reasonable claim, plausibility,
-required evidence, available evidence, one governed verdict, safe practical meaning, untested
-conditions, claims table, and note; titles never use “debunk”, “destroyed”, “myth busted”, or a
-person's name. Innovation reviews contain claim, mechanism, necessary conditions, direct evidence,
-model plausibility, alternatives, decisive missing experiment, one governed verdict, explicit
-non-endorsement, claims table, and note. Practical guides define the goal, first measurement,
-controls, approximate constants, things not yet justified for optimization, repeatability protocol,
-confounders, limits, “chemistry is not taste”, evidence table, and note. Behind-the-model posts cover
-the physical problem/boundary, one governing idea and at most one equation, assumptions,
-implementation, verification, calibration, validation status, identifiability/extrapolation,
-reproduction, open question, claims table, and note. Data releases cover source/rights,
-digitization/calibration, quality and error, files/units, permitted and prohibited uses, exact paths,
-commit/checksums, claims table, and note. Corrections identify the old statement, trigger, technical
-change, revised claim, affected and surviving results, corrected links, process change, claims table,
-and note; original and correction link prominently to one another.
+Archetypes guide emphasis rather than impose a heading template. Finding reports lead with what was
+observed and distinguish measurement, fitted reproduction, prediction, and inference. Myth checks
+state the strongest reasonable claim and one governed verdict. Innovation reviews explain mechanism,
+direct evidence, alternatives, the decisive missing experiment, and non-endorsement. Practical guides
+define a measurable goal, controls, confounders, and bounded action. Behind-the-model articles explain
+one physical idea and its limits without becoming software documentation. Data releases explain
+source, rights, quality, permitted uses, and material errors. Corrections identify the old and revised
+statements and link both ways. All finish with compact sources and technical notes plus disclosure.
 
 ## Automated evidence gate checklist
 
@@ -431,9 +448,9 @@ explaining axes/conditions/value, one explicit limitation, and one source. An Ob
 A Reader-question Note is 30–80 words and at most 450 characters, supplies enough context, and asks
 exactly one question without treating anecdotes as representative evidence.
 
-## Agent self-review questions
+## Backstage editorial review questions
 
-Before presenting a draft, answer these in `## Agent self-review`, which is removed before publication:
+Reviewers may use these questions outside the public body:
 
 1. What is the narrowest exact claim this evidence supports?
 2. Does the title claim more than the body?
