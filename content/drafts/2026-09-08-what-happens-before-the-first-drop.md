@@ -4,9 +4,9 @@ title: "What happens before the first drop of espresso?"
 subtitle: "That quiet pause is when water is filling the puck, compressing trapped air, and finding a path to the cup."
 slug: what-happens-before-the-first-drop
 archetype: finding_report
-status: human_review
+status: ready
 created_at: "2026-08-28T19:36:41Z"
-updated_at: "2026-08-28T19:36:41Z"
+updated_at: "2026-08-28T20:24:44Z"
 author: Tim Brewer
 primary_platform: substack
 target_platforms: [substack, medium]
@@ -144,11 +144,11 @@ practical_implication:
 ai_assistance:
   used: true
   tool_role: [evidence_assembly, outline, draft, copy_edit]
-  human_reviewer: null
-  scientific_claims_checked: false
-  numbers_checked: false
-  citations_checked: false
-  figures_checked: false
+  human_reviewer: Tim Brewer
+  scientific_claims_checked: true
+  numbers_checked: true
+  citations_checked: true
+  figures_checked: true
   substantive_human_rewrite_medium: false
   disclosure_substack: "Drafting note: I used AI assistance to organize the source material and prepare an initial draft. I reviewed the scientific claims and rewrote the final article before publication."
   disclosure_medium: "Disclosure: I used an AI writing tool to help organize source material and prepare an initial draft. I personally reviewed the scientific claims and rewrote the final article."
@@ -159,10 +159,10 @@ cross_posting:
   canonical_verified: false
 review:
   evidence_gate_passed: true
-  style_gate_passed: false
-  platform_gate_passed: false
-  human_approved: false
-  approved_at: null
+  style_gate_passed: true
+  platform_gate_passed: true
+  human_approved: true
+  approved_at: "2026-08-28T20:24:44Z"
 ---
 
 Press the brew button and the machine becomes noisy, but the cup remains stubbornly empty. That pause can look like dead time: pressure rises, a few seconds pass, and only then does espresso appear beneath the basket. Inside the puck, though, the shot is already under way.
