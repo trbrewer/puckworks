@@ -31,6 +31,22 @@ def dump(path: Path, value: object) -> None:
     path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
 
 
+def dump_schedule_fixture(path: Path, schedule: dict[str, object]) -> None:
+    dump(path, schedule)
+    items = schedule.get("items")
+    assert isinstance(items, list), "canonical schedule fixture must contain an items list"
+    for item in items:
+        assert isinstance(item, dict), "canonical schedule fixture items must be mappings"
+        trigger_ids = item.get("source_triggers", [])
+        assert isinstance(trigger_ids, list), "schedule source_triggers must be a list"
+        for trigger_id in trigger_ids:
+            source = ROOT / "content" / "triggers" / f"{trigger_id}.yml"
+            assert source.is_file(), f"canonical schedule trigger manifest does not exist: {source}"
+            destination = path.parent / "triggers" / source.name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(source.read_bytes())
+
+
 @pytest.fixture
 def publication_fixture(tmp_path: Path) -> dict[str, object]:
     repo = tmp_path / "repo"; repo.mkdir()
@@ -88,8 +104,26 @@ def test_schedule_adverse_paths(tmp_path: Path, mutation: str) -> None:
     if mutation == "delivery": schedule["items"][0]["platforms"]["substack"]["send_email"] = False
     if mutation == "lag": schedule["items"][0]["platforms"]["medium"]["publish_not_before"] = date(2026, 9, 9)
     if mutation == "published": schedule["items"][0]["status"] = "published"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
-    assert not validate_schedule(path).ok
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
+    result = validate_schedule(path)
+    assert not result.ok
+    assert not any("source_triggers contains a missing manifest" in error for error in result.errors)
+
+
+def test_temporary_schedule_fixture_preserves_trigger_closure(tmp_path: Path) -> None:
+    schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
+    path = tmp_path / "schedule.yml"
+    dump_schedule_fixture(path, schedule)
+    assert validate_schedule(path).ok
+    referenced = next(
+        trigger_id
+        for item in schedule["items"]
+        for trigger_id in item.get("source_triggers", [])
+    )
+    (path.parent / "triggers" / f"{referenced}.yml").unlink()
+    result = validate_schedule(path)
+    assert not result.ok
+    assert any("source_triggers contains a missing manifest" in error for error in result.errors)
 
 
 def test_trigger_and_ledger_success(publication_fixture: dict[str, object]) -> None:
@@ -174,7 +208,7 @@ def test_dry_run_makes_no_writes() -> None:
 
 def test_issue_dedup_and_terminal_close(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text()); schedule["items"][0]["status"] = "cancelled"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     actions = plan_actions([{"number": 17, "body": "<!-- publishing-schedule-id: launch-01 -->"}], path, date(2026, 8, 28), ROOT)
     matching = [action for action in actions if action.path == "/issues/17"]
     assert len(matching) == 1 and matching[0].payload["state"] == "closed"
@@ -347,7 +381,7 @@ def test_managed_region_rejects_single_marker() -> None:
 def test_unchanged_issue_plans_no_patch(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
     schedule["items"] = [schedule["items"][0]]
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     item = schedule["items"][0]
     issue = {"number": 1, "title": f"Editorial reminder: {item['title']}",
              "body": reminder_block(item, date(2026, 8, 28)), "state": "open",
@@ -363,7 +397,7 @@ def test_terminal_reminder_creation_and_closure(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
     schedule["items"] = [schedule["items"][0]]
     schedule["items"][0]["status"] = "cancelled"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     assert plan_actions([], path, date(2026, 9, 9), ROOT) == []
     item = schedule["items"][0]
     issue = {"number": 1, "title": f"Editorial reminder: {item['title']}",
