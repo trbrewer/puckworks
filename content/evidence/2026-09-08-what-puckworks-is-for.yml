@@ -1,0 +1,141 @@
+schema_version: 1
+trigger_id: PW-PUB-2026-002
+draft_slug: what-puckworks-is-for
+assembled_at: "2026-08-28T18:01:53Z"
+artifacts:
+  - evidence_id: E1
+    repository: puckworks
+    path: docs/publishing/PUBLISHING_SYSTEM.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: the publication purpose, H1 wording, current-state precedence, evidence rules, non-commercial boundary, and human-publication boundary
+    does_not_establish: that H1 is true, that any model is physically validated, or that an article has been approved
+  - evidence_id: E2
+    repository: puckworks
+    path: README.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: Puckworks as an open research toolkit that keeps models as separate testable modules
+    does_not_establish: arbitrary model compatibility, universal validation, or scientific correctness of every component
+  - evidence_id: E3
+    repository: puckworks
+    path: docs/PAPER_3_PUCKWORKS_DRAFT.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: the typed-contract, provenance, evidence-relation, selected-composition, and refusal architecture, including implemented-versus-intended limitations
+    does_not_establish: peer-reviewed acceptance, detection of every semantic error, or universal valid composition
+  - evidence_id: E4
+    repository: puckworks
+    path: docs/status/current.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: the canonical machine-readable project state at the cited commit
+    does_not_establish: physical validation merely because an implementation, test, or release state is complete
+  - evidence_id: E5
+    repository: puckworks
+    path: docs/CURRENT.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: which current artifacts control project claims and status
+    does_not_establish: any scientific result independently of those controlling artifacts
+  - evidence_id: E6
+    repository: puckworks
+    path: content/schedule.yml
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: the planned article identity, archetype, owner, platform sequence, and dates
+    does_not_establish: human approval or publication
+  - evidence_id: E7
+    repository: espresso-whole-pull
+    path: README.md
+    commit_sha: 3874865e124dba0340ca93626b9bbf80f1385664
+    evidence_level: descriptive
+    establishes: the repository's actual current role in model development, simulation, and evidence generation
+    does_not_establish: a completed grinder-to-cup model or validation of H1
+  - evidence_id: E8
+    repository: espresso-whole-pull
+    path: docs/validation/sci_ed_002/RESULT.json
+    commit_sha: 3874865e124dba0340ca93626b9bbf80f1385664
+    evidence_level: descriptive
+    establishes: the exact current commissioning blocker and prohibited downstream claims
+    does_not_establish: that H1 is false or that the proposed experiment would necessarily resolve every model ambiguity
+  - evidence_id: E9
+    repository: puckworks
+    path: docs/public/README.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    evidence_level: descriptive
+    establishes: that the public layer presents producer-bound claims and evidence without becoming a physics model
+    does_not_establish: additional scientific validation
+claims:
+  - claim_id: C1
+    text: "Puckworks is an open research toolkit that keeps published espresso models as separate, inspectable components rather than forcing them into one all-purpose model."
+    evidence_ids: [E2, E3]
+    conditions: current architecture, registry, and source descriptions at the cited Puckworks commit
+    evidence_level: descriptive
+    applicability: the current Puckworks architecture and registered components at the cited commit
+    caveat: registration does not itself establish correctness, compatibility, rights clearance, or validation.
+    quantitative: false
+  - claim_id: C2
+    text: "Puckworks records assumptions, observable meanings, units, applicability, provenance, and evidence relations so that model comparisons and selected compositions can be inspected."
+    evidence_ids: [E2, E3, E9]
+    conditions: current contracts, model and source cards, evidence records, and public claim layer
+    evidence_level: descriptive
+    applicability: implemented current contracts and explicitly supported configurations
+    caveat: the architecture does not guarantee detection of every semantic error and does not synthesize arbitrary component combinations.
+    quantitative: false
+  - claim_id: C3
+    text: "A scientifically unsupported composition may be refused or preserved as a blocked result rather than converted into a convenient combined answer."
+    evidence_ids: [E3, E4]
+    conditions: use of the current contract, evidence, and selected-composition machinery
+    evidence_level: descriptive
+    applicability: configurations evaluated through the current contract and evidence machinery
+    caveat: refusal by the software is not proof that no scientifically valid formulation could ever exist.
+    quantitative: false
+  - claim_id: C4
+    text: "H1 is the programme's central hypothesis, but it is not a standing conclusion and has not been confirmed by the current controlling record."
+    evidence_ids: [E1, E4, E8]
+    conditions: no superseding controlling authority beyond the exact cited commits
+    evidence_level: descriptive
+    applicability: the exact current Puckworks and espresso-whole-pull authority cited by the article
+    caveat: absence of confirmation is not evidence that H1 is false.
+    quantitative: false
+  - claim_id: C5
+    text: "Puckworks and espresso-whole-pull have complementary roles: the former organizes models and evidence contracts, while the latter develops and tests mechanisms and the measurements needed to discriminate them."
+    evidence_ids: [E2, E3, E7, E8]
+    conditions: current documented scopes and the present blocked measurement lane
+    evidence_level: descriptive
+    applicability: the current scope of both repositories
+    caveat: neither repository currently establishes a universally validated grinder-to-cup model.
+    quantitative: false
+  - claim_id: C6
+    text: "The current espresso-whole-pull commissioning lane remains blocked because its reference-extractability stopping rule has not been defensibly frozen."
+    evidence_ids: [E8]
+    conditions: the exact current machine-readable SCI-ED-002 result
+    evidence_level: descriptive
+    applicability: the exact current SCI-ED-002 authority
+    caveat: the blocker prevents the authorized commissioning and downstream claims; it does not adjudicate H1.
+    quantitative: false
+  - claim_id: C7
+    text: "The linked demonstrations and public interfaces are explanatory research tools, not evidence of a universally validated coupled espresso simulation."
+    evidence_ids: [E2, E3, E4, E9]
+    conditions: current public experiences, selected compositions, and producer-bound public claims
+    evidence_level: descriptive
+    applicability: current public experiences and supported configurations
+    caveat: individual components retain distinct evidence levels and applicability limits.
+    quantitative: false
+  - claim_id: C8
+    text: "The Puckworks publication is free and non-commercial and does not provide taste prediction, product ranking, purchasing advice, or endorsement."
+    evidence_ids: [E1]
+    conditions: the governing publication system remains controlling
+    evidence_level: descriptive
+    applicability: the governing publication system
+    caveat: future articles may discuss physical controls only within their evidence and applicability limits.
+    quantitative: false
+  - claim_id: C9
+    text: "This launch article reports no new simulation, experiment, parameter estimate, calibration, or physical-validation result."
+    evidence_ids: [E1, E4, E6]
+    conditions: the bounded PW-PUB-002 content task and its exact-commit repository review method
+    evidence_level: descriptive
+    applicability: PW-PUB-002
+    caveat: it describes the current evidence system and programme state rather than resolving the open scientific questions.
+    quantitative: false

@@ -1,0 +1,109 @@
+schema_version: 1
+trigger_id: PW-PUB-2026-002
+publication_trigger: true
+source:
+  repository: puckworks
+  event_type: public_explainer
+  identifier: commit:dfe0bdc761574e3327fa96f1d84e8199e156c192
+  source_url: null
+  detected_at: "2026-08-28T18:01:53Z"
+scientific_state:
+  disposition: PW_PUB_002_PUBLIC_EXPLAINER_AUTHORIZED_CURRENT_CLAIM_CEILING_UNCHANGED
+  claim_ceiling_path: docs/publishing/PUBLISHING_SYSTEM.md
+  project_state_path: docs/status/current.json
+  evidence_level: descriptive
+  hypothesis_ids:
+    - H1
+  changes_claim_ceiling: false
+recommended_content:
+  archetype: behind_model
+  provisional_title: "What puckworks is for"
+  public_value_summary: "Explains how Puckworks keeps espresso models, evidence, assumptions, and limits inspectable without claiming a universal validated answer."
+  urgency: routine
+  target_platforms:
+    - substack
+    - medium
+artifacts:
+  - repository: puckworks
+    path: docs/publishing/PUBLISHING_SYSTEM.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the governing H1 wording, publication claim ceiling, non-commercial boundary, and human-publication boundary
+  - repository: puckworks
+    path: docs/status/current.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the canonical machine-readable current project state
+  - repository: puckworks
+    path: docs/CURRENT.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes which current Puckworks artifacts control project claims and status
+  - repository: puckworks
+    path: README.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the user-facing open-toolkit scope, separate-module design, and bounded public experiences
+  - repository: puckworks
+    path: docs/PAPER_3_PUCKWORKS_DRAFT.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the implemented-versus-intended architecture, typed contracts, provenance, evidence relations, selected composition, refusal behavior, and limitations
+  - repository: puckworks
+    path: content/schedule.yml
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the scheduled launch-article identity, owner, archetype, platform sequence, and dates
+  - repository: puckworks
+    path: docs/public/README.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes that the public layer presents producer-bound claims and evidence without becoming a physics model
+  - repository: espresso-whole-pull
+    path: README.md
+    commit_sha: 3874865e124dba0340ca93626b9bbf80f1385664
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes espresso-whole-pull's current model-development, simulation, evidence-generation scope and physical-validation boundary
+  - repository: espresso-whole-pull
+    path: docs/validation/sci_ed_002/RESULT.json
+    commit_sha: 3874865e124dba0340ca93626b9bbf80f1385664
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the current SCI-ED-002 reference-extractability commissioning blocker and prohibited downstream claims
+stop_reasons: []
+owner_notes: "PW-PUB-002 authorizes a master draft for Tim Brewer's human scientific review only; no platform publication or human approval is authorized."
