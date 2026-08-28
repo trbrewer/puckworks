@@ -58,6 +58,19 @@ def validate(
         errors.append("author must be Tim Brewer and primary_platform must be substack")
     if meta.get("archetype") not in ARCHETYPES:
         errors.append("archetype is invalid")
+    platform = meta.get("platform")
+    filename_platform = next(
+        (candidate for candidate in ("substack", "medium") if path.name.endswith(f".{candidate}.md")),
+        None,
+    )
+    if filename_platform and platform != filename_platform:
+        errors.append("variant platform metadata must match its filename")
+    effective_platform = filename_platform or platform
+    ledger_stem = (
+        path.name.removesuffix(f".{effective_platform}.md")
+        if effective_platform in {"substack", "medium"}
+        else path.stem
+    )
     status = meta.get("status")
     if status not in {"draft", "evidence_review", "human_review", "ready", "published", "withdrawn"}:
         errors.append("status is invalid")
@@ -72,7 +85,11 @@ def validate(
         else:
             trigger_result = validate_trigger(trigger_path, repos)
             errors.extend(f"source trigger: {error}" for error in trigger_result.errors)
-        ledger_path = content_root / "content/evidence" / f"{path.stem}.yml"
+            try:
+                trigger = yaml.safe_load(trigger_path.read_text(encoding="utf-8"))
+            except (OSError, yaml.YAMLError):
+                trigger = {}
+        ledger_path = content_root / "content/evidence" / f"{ledger_stem}.yml"
         if not ledger_path.exists():
             errors.append(f"evidence ledger does not exist: {ledger_path}")
         else:
@@ -89,6 +106,22 @@ def validate(
         errors.append("claim_ceiling.commit_sha must be a full SHA")
     elif not ceiling.get("path") or not ceiling.get("exact_status"):
         errors.append("claim_ceiling path and exact_status are required")
+    else:
+        ceiling_repo = repos.get(str(ceiling.get("repository")))
+        if ceiling_repo is None or not git_object_exists(
+            ceiling_repo, str(ceiling["commit_sha"]), str(ceiling["path"])
+        ):
+            errors.append("claim_ceiling path does not exist at its exact repository commit")
+        if "trigger" in locals() and isinstance(trigger, dict):
+            state = trigger.get("scientific_state", {})
+            bound = [
+                artifact for artifact in trigger.get("artifacts", [])
+                if artifact.get("repository") == ceiling.get("repository")
+                and artifact.get("path") == ceiling.get("path")
+                and artifact.get("commit_sha") == ceiling.get("commit_sha")
+            ]
+            if state.get("claim_ceiling_path") != ceiling.get("path") or len(bound) != 1:
+                errors.append("draft claim ceiling does not exactly match the trigger control artifact")
     evidence = meta.get("source_artifacts")
     evidence_ids: set[str] = set()
     if not isinstance(evidence, list) or not evidence:
@@ -198,9 +231,14 @@ def validate(
             errors.append("ready requires Tim Brewer and all human scientific checks")
         if not review.get("approved_at"):
             errors.append("ready requires review.approved_at")
+        if effective_platform == "medium" and ai.get("substantive_human_rewrite_medium") is not True:
+            errors.append("ready Medium variant requires substantive_human_rewrite_medium: true")
     figures = meta.get("figures", [])
     if isinstance(figures, list):
         for index, figure in enumerate(figures):
+            if not isinstance(figure, dict):
+                errors.append(f"figures[{index}] must be a mapping")
+                continue
             if figure.get("hand_edited") is not False:
                 errors.append(f"figures[{index}].hand_edited must be false")
             if not re.fullmatch(r"[0-9a-f]{64}", str(figure.get("output_sha256", ""))):
@@ -209,8 +247,40 @@ def validate(
                 if not figure.get(field):
                     errors.append(f"figures[{index}].{field} is required")
             output_path = content_root / str(figure.get("output_path", ""))
-            if output_path.is_file() and sha256_file(output_path) != figure.get("output_sha256"):
+            relative_output = Path(str(figure.get("output_path", "")))
+            if relative_output.is_absolute() or ".." in relative_output.parts:
+                errors.append(f"figures[{index}].output_path must stay within the repository")
+            elif not output_path.is_file():
+                errors.append(f"figures[{index}].output_path does not exist")
+            elif sha256_file(output_path) != figure.get("output_sha256"):
                 errors.append(f"figures[{index}] output SHA-256 does not match the file")
+            figure_evidence = set(map(str, figure.get("evidence_ids", [])))
+            if not figure_evidence or figure_evidence - evidence_ids:
+                errors.append(f"figures[{index}].evidence_ids contains missing or unknown IDs")
+            source_data = figure.get("source_data")
+            source_paths = [
+                figure.get("source_script"),
+                *(source_data if isinstance(source_data, list) else []),
+            ]
+            artifact_paths = {
+                str(item.get("path")) for item in evidence or []
+                if isinstance(item, dict) and item.get("repository") != "external-paper"
+            }
+            missing_sources = [source for source in source_paths if source not in artifact_paths]
+            if missing_sources:
+                errors.append(
+                    f"figures[{index}] sources are not exact source_artifacts: {missing_sources}"
+                )
+            bound_commits = [
+                str(item.get("commit_sha")) for item in evidence or []
+                if isinstance(item, dict) and item.get("evidence_id") in figure_evidence
+                and FULL_SHA.fullmatch(str(item.get("commit_sha", "")))
+            ]
+            caption = str(figure.get("caption", ""))
+            if figure.get("source_script") not in caption or not any(
+                commit in caption for commit in bound_commits
+            ):
+                errors.append(f"figures[{index}].caption must name its source script and exact commit")
     ai = meta.get("ai_assistance", {})
     if not isinstance(ai, dict) or ai.get("used") is not True:
         errors.append("ai_assistance.used must be true for generated drafts")
@@ -218,12 +288,16 @@ def validate(
         for field in ("disclosure_substack", "disclosure_medium"):
             if not ai.get(field):
                 errors.append(f"ai_assistance.{field} is required")
-    if "[PLATFORM DISCLOSURE]" not in body and "Drafting note: I used AI assistance" not in body:
+    disclosures = (
+        "[PLATFORM DISCLOSURE]", "Drafting note: I used AI assistance",
+        "Disclosure: I used an AI writing tool",
+    )
+    if not any(disclosure in body for disclosure in disclosures):
         errors.append("AI-assistance disclosure text or platform placeholder is missing")
     if re.search(r"H1 (?:is|has been) confirmed", body, re.I) and "confirmed" not in str(ceiling.get("exact_status", "")).casefold():
         errors.append("H1 confirmation exceeds the recorded claim ceiling")
     if status == "published":
-        record = content_root / "content/published" / f"{path.stem}.yml"
+        record = content_root / "content/published" / f"{ledger_stem}.yml"
         if not record.exists():
             errors.append("published status requires a publication record")
         else:

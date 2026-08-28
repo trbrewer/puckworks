@@ -72,6 +72,11 @@ Every path must exist at its stated commit. Disposition must match its controlli
 claim ceiling must itself be listed. Missing artifacts, ambiguous disposition, stale ceilings, or stop
 reasons produce diagnostics and no substitute prose.
 
+Both control paths must be closed by exactly one listed artifact from the source repository. A
+draft's claim-ceiling repository, path, and full commit must exactly match that trigger artifact and
+resolve through Git. The source identifier must likewise be closed by a listed commit SHA, release
+tag, issue number, or run ID; syntactically valid but unbound identifiers are ineligible.
+
 ## Draft and evidence contract
 
 Masters live only in `content/drafts/YYYY-MM-DD-slug.md`; platform variants live in
@@ -129,6 +134,10 @@ conclusion. Figures are never manually altered, selectively cropped, or stripped
 Static fallbacks accompany interactive material. Code excerpts are at most 20 lines and link to exact
 files/commits.
 
+Every figure output must exist and match its SHA-256. Figure evidence IDs must resolve, while its
+generating script and every source-data path must be exact repository source artifacts with full
+commits. A missing output, dangling ID, unbound source, or checksum mismatch is fatal.
+
 Generate at most three draft Notes per week in `content/notes/YYYY-Www.md`: Figure Notes are 80–160
 words/900 characters before links, Observation Notes 60–120/700, and one-question Reader Notes
 30–80/450. Notes supply value without a click, include limitations where required, never solicit
@@ -157,6 +166,13 @@ Medium variant; substantive human rewrite/review; manual Medium publication/subm
 assignment and verification; URL/date record. Variants may alter framing, not scientific claims,
 numbers, levels, applicability, verdict, uncertainty, or ceiling. Medium stays outside the paywall,
 stands alone, discloses AI in its first two paragraphs, and is never generated as publication-ready.
+A Medium variant cannot validate as `ready` unless Tim's gates pass and
+`substantive_human_rewrite_medium: true` is explicitly recorded.
+
+Reminder synchronization is dry-run by default. Applying GitHub issue mutations requires `--apply`
+or the workflow's explicit/scheduled apply path. Automation owns only delimited blocks inside issue
+bodies; updates preserve human text outside those blocks. Dry runs read and plan only and never
+create labels/issues, edit bodies, change state, or close issues.
 
 ## AI disclosure and self-review
 

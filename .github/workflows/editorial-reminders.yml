@@ -42,9 +42,9 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          args=(--dry-run)
+          args=()
           if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.apply_changes }}" == "true" ]]; then
-            args=()
+            args=(--apply)
           fi
           python -m tools.publishing.sync_editorial_issues "${args[@]}"
 

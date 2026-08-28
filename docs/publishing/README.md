@@ -19,4 +19,5 @@ controls. Nothing here publishes to Substack, Medium, or a community platform.
 Schedule validation is `python -m tools.publishing.validate_schedule`. Tests are in
 `tests/publishing/`. GitHub Actions may create or update editorial reminder issues; it has no
 publication credentials or publication code path. Manual workflow dispatch is a dry run unless the
-human explicitly selects `apply_changes`.
+human explicitly selects `apply_changes`. The issue-sync CLI is also dry-run by default; `--apply`
+is required for writes, and managed updates preserve human text outside automation-owned delimiters.

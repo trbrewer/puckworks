@@ -76,11 +76,13 @@ def validate_trigger(path: Path, repositories: dict[str, Path] | None = None) ->
     if not isinstance(artifacts, list) or not artifacts:
         return CheckResult(path, tuple(errors + ["artifacts must contain at least one item"]))
     listed_paths: set[str] = set()
+    artifact_rows: list[dict[str, object]] = []
     for index, artifact in enumerate(artifacts):
         prefix = f"artifacts[{index}]"
         if not isinstance(artifact, dict):
             errors.append(f"{prefix} must be a mapping")
             continue
+        artifact_rows.append(artifact)
         repository = artifact.get("repository")
         relative_path = artifact.get("path")
         commit = artifact.get("commit_sha")
@@ -105,8 +107,31 @@ def validate_trigger(path: Path, repositories: dict[str, Path] | None = None) ->
     project = state.get("project_state_path")
     if not ceiling or not project:
         errors.append("claim_ceiling_path and project_state_path are required")
+    for field, control_path in (("claim_ceiling_path", ceiling), ("project_state_path", project)):
+        matches = [
+            artifact for artifact in artifact_rows
+            if artifact.get("repository") == source.get("repository")
+            and artifact.get("path") == control_path
+        ]
+        if len(matches) != 1:
+            errors.append(
+                f"scientific_state.{field} must resolve through exactly one source-repository artifact"
+            )
     if state.get("changes_claim_ceiling") is True and ceiling not in listed_paths:
         errors.append("changed claim ceiling must be a listed artifact")
+    identifier_matches = []
+    if identifier.startswith("commit:"):
+        identifier_matches = [a for a in artifact_rows if a.get("commit_sha") == identifier[7:]]
+    elif identifier.startswith("release:"):
+        identifier_matches = [a for a in artifact_rows if a.get("release_tag") == identifier[8:]]
+    elif identifier.startswith("issue:#"):
+        identifier_matches = [
+            a for a in artifact_rows if str(a.get("issue_number")) == identifier[7:]
+        ]
+    elif identifier.startswith("run:"):
+        identifier_matches = [a for a in artifact_rows if str(a.get("run_id")) == identifier[4:]]
+    if not identifier_matches:
+        errors.append("source.identifier is not closed by any listed artifact")
     stop_reasons = doc.get("stop_reasons", [])
     if not isinstance(stop_reasons, list):
         errors.append("stop_reasons must be a list")

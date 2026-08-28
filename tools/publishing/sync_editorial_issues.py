@@ -69,14 +69,32 @@ def reminder_is_due(item: dict[str, object], today: date, reminder_days: list[in
     return earliest <= today <= latest
 
 
-def reminder_body(item: dict[str, object], today: date) -> str:
+def reminder_block(item: dict[str, object], today: date) -> str:
     marker = f"<!-- publishing-schedule-id: {item['id']} -->"
     return "\n".join([
-        marker, f"# Editorial reminder: {item['title']}", "",
+        marker, f"<!-- publishing-managed:start {item['id']} -->",
+        f"# Editorial reminder: {item['title']}", "",
         f"- Status: `{item['status']}`", f"- Draft due: `{item['draft_due']}`",
         f"- Publication date: `{item['publish_date']}`", f"- Evaluated locally: `{today}`",
         "", "Human review and manual publication are mandatory. This issue cannot approve or publish.",
+        f"<!-- publishing-managed:end {item['id']} -->",
     ])
+
+
+def merge_managed(existing_body: str, block: str, key: str) -> str:
+    """Replace only the automation-owned block and retain all human-authored issue text."""
+    start = f"<!-- publishing-managed:start {key} -->"
+    end = f"<!-- publishing-managed:end {key} -->"
+    if start in existing_body and end in existing_body:
+        before, remainder = existing_body.split(start, 1)
+        _, after = remainder.split(end, 1)
+        managed = block[block.index(start): block.index(end) + len(end)]
+        return before + managed + after
+    if not existing_body.strip():
+        return block
+    marker = block.splitlines()[0]
+    addition = "\n".join(block.splitlines()[1:]) if marker in existing_body else block
+    return existing_body.rstrip() + "\n\n" + addition + "\n"
 
 
 def plan_actions(
@@ -93,7 +111,8 @@ def plan_actions(
         reminder_days = schedule["defaults"]["reminder_days_before"]
         active = reminder_is_due(item, today, reminder_days)
         terminal = item["status"] in TERMINAL_SCHEDULE_STATUSES
-        body = reminder_body(item, today)
+        block = reminder_block(item, today)
+        body = merge_managed(str(existing.get("body", "")), block, str(item["id"])) if existing else block
         if existing:
             state = "closed" if terminal else "open"
             actions.append(IssueAction("PATCH", f"/issues/{existing['number']}", {"body": body, "state": state}))
@@ -105,15 +124,22 @@ def plan_actions(
         body = generate(schedule_path, today, root)
         existing = next((i for i in issues if marker in str(i.get("body", ""))), None)
         if existing:
-            actions.append(IssueAction("PATCH", f"/issues/{existing['number']}", {"title": title, "body": body, "state": "open"}))
+            digest_block = "\n".join([
+                f"<!-- publishing-managed:start digest-{today} -->", body,
+                f"<!-- publishing-managed:end digest-{today} -->",
+            ])
+            merged = merge_managed(
+                str(existing.get("body", "")), digest_block, f"digest-{today}"
+            )
+            actions.append(IssueAction("PATCH", f"/issues/{existing['number']}", {"title": title, "body": merged, "state": "open"}))
         else:
-            actions.append(IssueAction("POST", "/issues", {"title": title, "body": body, "labels": ["editorial"]}))
+            actions.append(IssueAction("POST", "/issues", {"title": title, "body": "\n".join([f"<!-- publishing-managed:start digest-{today} -->", body, f"<!-- publishing-managed:end digest-{today} -->"]), "labels": ["editorial"]}))
     return actions
 
 
 def synchronize(
     api: GitHubIssues, schedule_path: Path, today: date, root: Path = Path("."),
-    *, dry_run: bool = False,
+    *, dry_run: bool = True,
 ) -> list[IssueAction]:
     issues = api.issues()
     actions = plan_actions(issues, schedule_path, today, root)
@@ -129,14 +155,16 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--schedule", type=Path, default=Path("content/schedule.yml"))
     parser.add_argument("--date", type=date.fromisoformat)
-    parser.add_argument("--dry-run", action="store_true", help="plan and print without issue writes")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--apply", action="store_true", help="apply the planned GitHub issue writes")
+    mode.add_argument("--dry-run", action="store_true", help="plan only (the default)")
     args = parser.parse_args()
     token, repository = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
     if not token or not repository:
         parser.error("GITHUB_TOKEN and GITHUB_REPOSITORY are required")
     timezone = ZoneInfo("America/Chicago")
     today = args.date or datetime.now(timezone).date()
-    actions = synchronize(GitHubIssues(repository, token), args.schedule, today, dry_run=args.dry_run)
+    actions = synchronize(GitHubIssues(repository, token), args.schedule, today, dry_run=not args.apply)
     print(json.dumps([action.__dict__ for action in actions], indent=2))
     return 0
 

@@ -15,9 +15,11 @@ if str(ROOT) not in sys.path:
 
 from tools.publishing.build_variants import build
 from tools.publishing.check_canonical import canonical_from_html
-from tools.publishing.common import ValidationError
+from tools.publishing.common import ValidationError, parse_frontmatter, sha256_file
 from tools.publishing.generate_editorial_digest import generate
-from tools.publishing.sync_editorial_issues import plan_actions, reminder_is_due, synchronize
+from tools.publishing.sync_editorial_issues import (
+    merge_managed, plan_actions, reminder_block, reminder_is_due, synchronize,
+)
 from tools.publishing.validate_draft import validate as validate_draft
 from tools.publishing.validate_evidence import validate_ledger, validate_trigger
 from tools.publishing.validate_schedule import validate as validate_schedule
@@ -184,7 +186,7 @@ def test_canonical_parser_requires_exactly_one() -> None:
 def test_workflow_dispatch_is_dry_run_by_default() -> None:
     workflow = (ROOT / ".github/workflows/editorial-reminders.yml").read_text()
     assert "apply_changes:" in workflow and "default: false" in workflow
-    assert "args=(--dry-run)" in workflow
+    assert "args=(--apply)" in workflow
 
 
 def test_evidence_ledger_must_match_draft(publication_fixture: dict[str, object]) -> None:
@@ -193,3 +195,91 @@ def test_evidence_ledger_must_match_draft(publication_fixture: dict[str, object]
     dump(ledger_path, ledger)
     result = validate_draft(publication_fixture["draft"], {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"])
     assert not result.ok and any("exactly match" in error for error in result.errors)
+
+
+def test_trigger_requires_exact_control_artifacts(publication_fixture: dict[str, object]) -> None:
+    trigger = deepcopy(publication_fixture["trigger"])
+    trigger["scientific_state"]["project_state_path"] = "unlisted-state.txt"
+    path = publication_fixture["root"] / "bad-control.yml"; dump(path, trigger)
+    result = validate_trigger(path, {"puckworks": publication_fixture["repo"]})
+    assert not result.ok and any("project_state_path" in error for error in result.errors)
+
+
+def test_draft_claim_ceiling_must_match_trigger_binding(publication_fixture: dict[str, object]) -> None:
+    path = publication_fixture["draft"]
+    text = path.read_text().replace("path: control.txt\n  commit_sha:", "path: other.txt\n  commit_sha:", 1)
+    path.write_text(text, encoding="utf-8")
+    result = validate_draft(path, {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"])
+    assert not result.ok and any("claim ceiling" in error or "claim_ceiling" in error for error in result.errors)
+
+
+def test_identifier_must_be_closed_by_artifact(publication_fixture: dict[str, object]) -> None:
+    trigger = deepcopy(publication_fixture["trigger"]); trigger["source"]["identifier"] = "run:RUN-1"
+    path = publication_fixture["root"] / "run-trigger.yml"; dump(path, trigger)
+    assert not validate_trigger(path, {"puckworks": publication_fixture["repo"]}).ok
+    trigger["artifacts"][0]["run_id"] = "RUN-1"; dump(path, trigger)
+    assert validate_trigger(path, {"puckworks": publication_fixture["repo"]}).ok
+
+
+def test_ready_medium_requires_substantive_human_rewrite(publication_fixture: dict[str, object]) -> None:
+    path = publication_fixture["draft"]
+    text = path.read_text().replace("url: null\n  medium:", "url: https://example.test/substack\n  medium:", 1).replace("canonical_url: null", "canonical_url: https://example.test/substack")
+    path.write_text(text, encoding="utf-8")
+    output = build(path, publication_fixture["root"] / "content/variants", "medium", repositories={"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"])
+    meta, body = parse_frontmatter(output); meta["status"] = "ready"
+    meta["ai_assistance"].update({"human_reviewer": "Tim Brewer", "scientific_claims_checked": True, "numbers_checked": True, "citations_checked": True, "figures_checked": True})
+    meta["review"].update({"evidence_gate_passed": True, "style_gate_passed": True, "platform_gate_passed": True, "human_approved": True, "approved_at": "2026-08-28T13:00:00Z"})
+    output.write_text("---\n" + yaml.safe_dump(meta, sort_keys=False) + "---\n" + body, encoding="utf-8")
+    result = validate_draft(output, {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"])
+    assert not result.ok and any("substantive_human_rewrite_medium" in error for error in result.errors)
+    meta["ai_assistance"]["substantive_human_rewrite_medium"] = True
+    output.write_text("---\n" + yaml.safe_dump(meta, sort_keys=False) + "---\n" + body, encoding="utf-8")
+    assert validate_draft(output, {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"]).ok
+
+
+def test_figure_requires_exact_sources_output_and_checksum(publication_fixture: dict[str, object]) -> None:
+    repo = publication_fixture["repo"]
+    for name, text in (("figure.py", "print('fixture')\n"), ("data.csv", "x,y\n")):
+        (repo / name).write_text(text, encoding="utf-8")
+    subprocess.run(["git", "-C", str(repo), "add", "figure.py", "data.csv"], check=True)
+    subprocess.run(["git", "-C", str(repo), "commit", "-qm", "figure fixture"], check=True)
+    sha = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
+    path = publication_fixture["draft"]; meta, body = parse_frontmatter(path)
+    items = []
+    for index, name in enumerate(("figure.py", "data.csv"), 2):
+        items.append({"evidence_id": f"E{index}", "repository": "puckworks", "path": name, "commit_sha": sha, "paper_citation": None, "evidence_level": "qualitative", "establishes": "Synthetic figure provenance", "does_not_establish": "Science"})
+    meta["source_artifacts"].extend(items)
+    ledger_path = publication_fixture["root"] / "content/evidence/2026-08-28-synthetic-fixture.yml"
+    ledger = yaml.safe_load(ledger_path.read_text()); ledger["artifacts"].extend(items); dump(ledger_path, ledger)
+    output = publication_fixture["root"] / "figure.png"; output.write_bytes(b"synthetic figure")
+    meta["figures"] = [{"figure_id": "F1", "source_script": "figure.py", "source_data": ["data.csv"], "output_path": "figure.png", "output_sha256": sha256_file(output), "caption": f"Synthetic result generated by figure.py at commit {sha}; synthetic-data limitation.", "alt_text": "Line chart with synthetic axes, trend, and no uncertainty.", "evidence_ids": ["E2", "E3"], "regenerated_at": "2026-08-28T13:00:00Z", "hand_edited": False}]
+    path.write_text("---\n" + yaml.safe_dump(meta, sort_keys=False) + "---\n" + body, encoding="utf-8")
+    assert validate_draft(path, {"puckworks": repo}, content_root=publication_fixture["root"]).ok
+    output.write_bytes(b"tampered")
+    assert not validate_draft(path, {"puckworks": repo}, content_root=publication_fixture["root"]).ok
+
+
+def test_sync_defaults_to_no_writes() -> None:
+    api = FakeIssues()
+    assert synchronize(api, ROOT / "content/schedule.yml", date(2026, 8, 28), ROOT)
+    assert api.calls == []
+
+
+def test_sync_requires_explicit_apply_for_writes() -> None:
+    api = FakeIssues()
+    actions = synchronize(
+        api, ROOT / "content/schedule.yml", date(2026, 8, 28), ROOT, dry_run=False
+    )
+    assert actions
+    assert api.calls[0][0] == "LABELS"
+    assert any(call[0] == "POST" and call[1] == "/issues" for call in api.calls)
+
+
+def test_managed_issue_update_preserves_human_text() -> None:
+    item = {"id": "launch-01", "title": "Fixture", "status": "planned", "draft_due": "2026-09-03", "publish_date": "2026-09-08"}
+    old = "<!-- publishing-schedule-id: launch-01 -->\nHuman note: keep this.\n"
+    first = merge_managed(old, reminder_block(item, date(2026, 8, 28)), "launch-01")
+    second = merge_managed(first, reminder_block(item, date(2026, 8, 29)), "launch-01")
+    assert "Human note: keep this." in second
+    assert second.count("publishing-managed:start launch-01") == 1
+    assert "2026-08-29" in second
