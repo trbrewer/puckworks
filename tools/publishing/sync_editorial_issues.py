@@ -5,6 +5,7 @@ import json
 import os
 import urllib.error
 import urllib.request
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -29,8 +30,17 @@ class GitHubIssues:
             return json.loads(response.read()) if response.length != 0 else {}
 
     def issues(self) -> list[dict[str, object]]:
-        result = self.request("GET", "/issues?state=all&labels=editorial&per_page=100")
-        return [item for item in result if "pull_request" not in item]  # type: ignore[union-attr]
+        issues: list[dict[str, object]] = []
+        for page in range(1, 101):
+            result = self.request(
+                "GET", f"/issues?state=all&labels=editorial&per_page=100&page={page}"
+            )
+            if not isinstance(result, list):
+                raise ValueError("GitHub issues response must be a list")
+            issues.extend(item for item in result if "pull_request" not in item)
+            if len(result) < 100:
+                return issues
+        raise ValueError("GitHub issues pagination exceeded the safety limit")
 
     def ensure_labels(self) -> None:
         for name, color in (("editorial", "1d76db"), ("publish-reminder", "fbca04")):
@@ -39,6 +49,24 @@ class GitHubIssues:
             except urllib.error.HTTPError as exc:
                 if exc.code != 422:
                     raise
+
+
+@dataclass(frozen=True)
+class IssueAction:
+    method: str
+    path: str
+    payload: dict[str, object]
+
+
+def reminder_is_due(item: dict[str, object], today: date, reminder_days: list[int]) -> bool:
+    """Return true throughout the catch-up window after the earliest reminder threshold."""
+    due_dates = (
+        parse_date(item["draft_due"], "draft_due"),
+        parse_date(item["publish_date"], "publish_date"),
+    )
+    earliest = min(due - timedelta(days=max(reminder_days)) for due in due_dates)
+    latest = max(due_dates)
+    return earliest <= today <= latest
 
 
 def reminder_body(item: dict[str, object], today: date) -> str:
@@ -51,48 +79,65 @@ def reminder_body(item: dict[str, object], today: date) -> str:
     ])
 
 
-def synchronize(api: GitHubIssues, schedule_path: Path, today: date, root: Path = Path(".")) -> None:
+def plan_actions(
+    issues: list[dict[str, object]], schedule_path: Path, today: date, root: Path = Path(".")
+) -> list[IssueAction]:
     result = validate(schedule_path)
     if not result.ok:
         raise ValueError("invalid schedule: " + "; ".join(result.errors))
     schedule = load_yaml(schedule_path)
-    api.ensure_labels()
-    issues = api.issues()
+    actions: list[IssueAction] = []
     for item in schedule["items"]:
         marker = f"<!-- publishing-schedule-id: {item['id']} -->"
         existing = next((i for i in issues if marker in str(i.get("body", ""))), None)
-        due_dates = (parse_date(item["draft_due"], "draft_due"), parse_date(item["publish_date"], "publish_date"))
         reminder_days = schedule["defaults"]["reminder_days_before"]
-        active = any(today == due - timedelta(days=days) for due in due_dates for days in reminder_days)
+        active = reminder_is_due(item, today, reminder_days)
         terminal = item["status"] in TERMINAL_SCHEDULE_STATUSES
         body = reminder_body(item, today)
         if existing:
             state = "closed" if terminal else "open"
-            api.request("PATCH", f"/issues/{existing['number']}", {"body": body, "state": state})
+            actions.append(IssueAction("PATCH", f"/issues/{existing['number']}", {"body": body, "state": state}))
         elif active and not terminal:
-            api.request("POST", "/issues", {"title": f"Editorial reminder: {item['title']}", "body": body, "labels": ["editorial", "publish-reminder"]})
+            actions.append(IssueAction("POST", "/issues", {"title": f"Editorial reminder: {item['title']}", "body": body, "labels": ["editorial", "publish-reminder"]}))
     if today.weekday() == 0:
         title = f"Editorial digest: {today}"
         marker = f"<!-- publishing-digest-date: {today} -->"
         body = generate(schedule_path, today, root)
         existing = next((i for i in issues if marker in str(i.get("body", ""))), None)
         if existing:
-            api.request("PATCH", f"/issues/{existing['number']}", {"title": title, "body": body, "state": "open"})
+            actions.append(IssueAction("PATCH", f"/issues/{existing['number']}", {"title": title, "body": body, "state": "open"}))
         else:
-            api.request("POST", "/issues", {"title": title, "body": body, "labels": ["editorial"]})
+            actions.append(IssueAction("POST", "/issues", {"title": title, "body": body, "labels": ["editorial"]}))
+    return actions
+
+
+def synchronize(
+    api: GitHubIssues, schedule_path: Path, today: date, root: Path = Path("."),
+    *, dry_run: bool = False,
+) -> list[IssueAction]:
+    issues = api.issues()
+    actions = plan_actions(issues, schedule_path, today, root)
+    if dry_run:
+        return actions
+    api.ensure_labels()
+    for action in actions:
+        api.request(action.method, action.path, action.payload)
+    return actions
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--schedule", type=Path, default=Path("content/schedule.yml"))
     parser.add_argument("--date", type=date.fromisoformat)
+    parser.add_argument("--dry-run", action="store_true", help="plan and print without issue writes")
     args = parser.parse_args()
     token, repository = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
     if not token or not repository:
         parser.error("GITHUB_TOKEN and GITHUB_REPOSITORY are required")
     timezone = ZoneInfo("America/Chicago")
     today = args.date or datetime.now(timezone).date()
-    synchronize(GitHubIssues(repository, token), args.schedule, today)
+    actions = synchronize(GitHubIssues(repository, token), args.schedule, today, dry_run=args.dry_run)
+    print(json.dumps([action.__dict__ for action in actions], indent=2))
     return 0
 
 

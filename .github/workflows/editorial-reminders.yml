@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: "5 14 * * *"
   workflow_dispatch:
+    inputs:
+      apply_changes:
+        description: "Write GitHub issues (default is a read-only dry run)"
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
@@ -35,6 +41,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python -m tools.publishing.sync_editorial_issues
+        run: |
+          args=(--dry-run)
+          if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.apply_changes }}" == "true" ]]; then
+            args=()
+          fi
+          python -m tools.publishing.sync_editorial_issues "${args[@]}"
 
 # This workflow has no publication-platform credentials or API calls. It writes GitHub issues only.

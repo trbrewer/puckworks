@@ -14,8 +14,12 @@ def render(meta: dict[str, object], body: str) -> str:
     return "---\n" + yaml.safe_dump(meta, sort_keys=False, allow_unicode=True) + "---\n" + body
 
 
-def build(master: Path, output_dir: Path, platform: str) -> Path:
-    result = validate(master)
+def build(
+    master: Path, output_dir: Path, platform: str, *, force: bool = False,
+    repositories: dict[str, Path] | None = None, content_root: Path | None = None,
+) -> Path:
+    root = content_root or master.resolve().parents[2]
+    result = validate(master, repositories, content_root=root)
     if not result.ok:
         raise ValidationError("master draft failed validation: " + "; ".join(result.errors))
     meta, body = parse_frontmatter(master)
@@ -29,14 +33,17 @@ def build(master: Path, output_dir: Path, platform: str) -> Path:
     slug = str(meta["slug"])
     date_prefix = master.name[:10]
     output = output_dir / f"{date_prefix}-{slug}.{platform}.md"
+    if output.exists() and not force:
+        raise ValidationError(f"refusing to overwrite existing variant: {output}; use --force")
     if platform == "substack":
         disclosure = meta["ai_assistance"]["disclosure_substack"]
         body = body.replace("[PLATFORM DISCLOSURE]", str(disclosure))
     elif platform == "medium":
         cross = meta.get("cross_posting", {})
         canonical = cross.get("canonical_url") if isinstance(cross, dict) else None
-        if not canonical or not cross.get("canonical_verified"):
-            raise ValidationError("Medium generation requires a verified exact Substack canonical URL")
+        substack = cross.get("substack", {}) if isinstance(cross, dict) else {}
+        if not canonical or not isinstance(substack, dict) or canonical != substack.get("url"):
+            raise ValidationError("Medium generation requires the exact published Substack URL as canonical")
         derived["canonical_url"] = canonical
         derived["ai_assistance"]["substantive_human_rewrite_medium"] = False
         disclosure = meta["ai_assistance"]["disclosure_medium"]
@@ -54,9 +61,10 @@ def main() -> int:
     parser.add_argument("master", type=Path)
     parser.add_argument("--platform", required=True, choices=("substack", "medium"))
     parser.add_argument("--output-dir", type=Path, default=Path("content/variants"))
+    parser.add_argument("--force", action="store_true", help="replace an existing generated variant")
     args = parser.parse_args()
     try:
-        print(build(args.master, args.output_dir, args.platform))
+        print(build(args.master, args.output_dir, args.platform, force=args.force))
     except ValidationError as exc:
         parser.error(str(exc))
     return 0

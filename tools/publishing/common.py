@@ -90,6 +90,24 @@ def git_object_exists(repo: Path, commit: str, relative_path: str) -> bool:
     return result.returncode == 0
 
 
+def git_commit_exists(repo: Path, commit: str) -> bool:
+    if not FULL_SHA.fullmatch(commit):
+        return False
+    result = subprocess.run(
+        ["git", "-C", str(repo), "cat-file", "-e", f"{commit}^{{commit}}"],
+        capture_output=True, check=False,
+    )
+    return result.returncode == 0
+
+
+def git_tag_exists(repo: Path, tag: str) -> bool:
+    result = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "--verify", "--quiet", f"refs/tags/{tag}^{{}}"],
+        capture_output=True, check=False,
+    )
+    return result.returncode == 0
+
+
 def parse_date(value: Any, field: str) -> date:
     if isinstance(value, datetime):
         return value.date()

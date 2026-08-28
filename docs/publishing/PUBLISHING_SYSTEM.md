@@ -183,3 +183,264 @@ commits/papers/quotes, hidden corrections, figure alteration, favorable-run sele
 commerce, brands outside evidence necessity, taste claims, H1 upgrade, mass event-to-draft conversion,
 governance-as-science, cross-platform conclusion changes, unverified Medium canonical, or automated
 `ready`/`published` state is permitted.
+
+## Repository layout
+
+```text
+content/
+├── drafts/YYYY-MM-DD-slug.md
+├── variants/YYYY-MM-DD-slug.{substack,medium}.md
+├── notes/YYYY-Www.md
+├── evidence/YYYY-MM-DD-slug.yml
+├── triggers/TRIGGER-ID.yml
+├── published/YYYY-MM-DD-slug.yml
+└── schedule.yml
+docs/publishing/{PUBLISHING_SYSTEM.md,STYLE_GUIDE.md,PLATFORM_CHECKLIST.md,README.md}
+tools/publishing/{scan_triggers.py,validate_draft.py,validate_evidence.py,
+validate_schedule.py,build_variants.py,generate_editorial_digest.py,
+check_canonical.py,sync_editorial_issues.py}
+.github/workflows/editorial-reminders.yml
+```
+
+## Complete trigger schema
+
+```yaml
+schema_version: 1
+trigger_id: PW-PUB-YYYY-NNN
+publication_trigger: true
+source:
+  repository: puckworks | espresso-whole-pull
+  event_type: tagged_release | milestone_closed | dataset_added | validation_completed | hypothesis_updated | correction | blocked_result | public_explainer
+  identifier: "release:v0.0.0 | issue:#123 | run:RUN-ID | commit:FULL_SHA"
+  source_url: null
+  detected_at: "YYYY-MM-DDTHH:MM:SSZ"
+scientific_state:
+  disposition: "EXACT_CONTROLLING_DISPOSITION"
+  claim_ceiling_path: "relative/path/to/claim/ceiling"
+  project_state_path: "relative/path/to/project/state"
+  evidence_level: independent | post_fit | calibration | verification | descriptive | exploratory | qualitative | mixed
+  hypothesis_ids: []
+  changes_claim_ceiling: false
+recommended_content:
+  archetype: finding_report | myth_check | innovation_review | practical_guide | behind_model | data_release | correction
+  provisional_title: ""
+  public_value_summary: ""
+  urgency: routine | timely | correction
+  target_platforms: [substack, medium]
+artifacts:
+  - repository: puckworks
+    path: "relative/path"
+    commit_sha: "FULL_40_CHARACTER_SHA"
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: "What this artifact establishes"
+stop_reasons: []
+owner_notes: ""
+```
+
+## Complete master frontmatter schema
+
+```yaml
+---
+schema_version: 1
+title: ""
+subtitle: ""
+slug: ""
+archetype: finding_report | myth_check | innovation_review | practical_guide | behind_model | data_release | correction
+status: draft | evidence_review | human_review | ready | published | withdrawn
+created_at: "YYYY-MM-DDTHH:MM:SSZ"
+updated_at: "YYYY-MM-DDTHH:MM:SSZ"
+author: "Tim Brewer"
+target_platforms: [substack, medium]
+primary_platform: substack
+target_length_words: {minimum: 1200, preferred: 1500, maximum: 1800}
+source_event:
+  trigger_id: "PW-PUB-YYYY-NNN"
+  repository: puckworks | espresso-whole-pull
+  event_type: ""
+  identifier: ""
+claim_ceiling:
+  repository: ""
+  path: ""
+  commit_sha: "FULL_40_CHARACTER_SHA"
+  exact_status: ""
+source_artifacts:
+  - evidence_id: E1
+    repository: puckworks | espresso-whole-pull | external-paper
+    path: null
+    commit_sha: null
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    paper_citation: null
+    evidence_level: independent | post_fit | calibration | verification | descriptive | exploratory | qualitative | mixed
+    establishes: ""
+    does_not_establish: ""
+figures:
+  - figure_id: F1
+    source_script: ""
+    source_data: [""]
+    output_path: ""
+    output_sha256: ""
+    caption: ""
+    alt_text: ""
+    evidence_ids: [E1]
+    regenerated_at: ""
+    hand_edited: false
+claims:
+  - claim_id: C1
+    text: ""
+    evidence_ids: [E1]
+    conditions: ""
+    evidence_level: ""
+    applicability: ""
+    caveat: ""
+    quantitative: false
+uncertainty:
+  numerical: ""
+  measurement: ""
+  parameter: ""
+  model_form: ""
+  identifiability: ""
+  external_validity: ""
+  largest_remaining_uncertainty: ""
+  next_discriminating_measurement: ""
+practical_implication:
+  supported: false
+  text: ""
+  conditions: ""
+  prohibited_overreach: ""
+ai_assistance:
+  used: true
+  tool_role: [evidence_assembly, outline, draft, copy_edit]
+  human_reviewer: null
+  scientific_claims_checked: false
+  numbers_checked: false
+  citations_checked: false
+  figures_checked: false
+  substantive_human_rewrite_medium: false
+  disclosure_substack: "Drafting note: I used AI assistance to prepare and edit this article from the linked repository materials. I checked every scientific claim, number, citation, and figure before publication."
+  disclosure_medium: "Disclosure: I used an AI writing tool to help draft and edit this article from the linked repository materials. I personally checked every scientific claim, number, citation, and figure."
+cross_posting:
+  substack: {planned: true, send_email: true, publication_date: null, url: null}
+  medium: {planned: true, publication_name: null, publication_date: null, publish_not_before: null, url: null}
+  canonical_url: null
+  canonical_verified: false
+review:
+  evidence_gate_passed: false
+  style_gate_passed: false
+  platform_gate_passed: false
+  human_approved: false
+  approved_at: null
+---
+```
+
+## Archetype body contracts
+
+Finding reports contain the result in one sentence, why it matters, what was tested, evidence box,
+predeclared method/comparison, result, sensitivity/uncertainty, interpretation, non-establishment,
+conditional practical consequence, discriminating measurement, reproduction, claims table,
+limitations, and drafting note. Myth checks contain the strongest reasonable claim, plausibility,
+required evidence, available evidence, one governed verdict, safe practical meaning, untested
+conditions, claims table, and note; titles never use “debunk”, “destroyed”, “myth busted”, or a
+person's name. Innovation reviews contain claim, mechanism, necessary conditions, direct evidence,
+model plausibility, alternatives, decisive missing experiment, one governed verdict, explicit
+non-endorsement, claims table, and note. Practical guides define the goal, first measurement,
+controls, approximate constants, things not yet justified for optimization, repeatability protocol,
+confounders, limits, “chemistry is not taste”, evidence table, and note. Behind-the-model posts cover
+the physical problem/boundary, one governing idea and at most one equation, assumptions,
+implementation, verification, calibration, validation status, identifiability/extrapolation,
+reproduction, open question, claims table, and note. Data releases cover source/rights,
+digitization/calibration, quality and error, files/units, permitted and prohibited uses, exact paths,
+commit/checksums, claims table, and note. Corrections identify the old statement, trigger, technical
+change, revised claim, affected and surviving results, corrected links, process change, claims table,
+and note; original and correction link prominently to one another.
+
+## Automated evidence gate checklist
+
+Source closure requires eligible activation, path-at-commit resolution, full SHAs, resolvable event
+identities, complete citations and rights, the current claim ceiling, and absence of superseding
+corrections. Traceability requires every quantitative and qualitative conclusion to map to evidence,
+units and conditions, value-type distinctions, no validation-label upgrade, and no chemical-to-taste
+inference. Titles, subtitles, openings, captions, and takeaways remain within the exact ceiling and H1
+stays a hypothesis unless controlling evidence explicitly changes it. Commercial neutrality excludes
+affiliate, payment, sponsorship, ranking, endorsement, and purchase language. Limitations name the
+largest uncertainty, external validity, next measurement, null/adverse results, and alternatives.
+Figures are regenerated from committed inputs, script/data/checksum bound, unedited, accurately
+captioned and described, and have static fallbacks. Any failed box is a fatal readiness stop.
+
+## Human sign-off contract
+
+```yaml
+status: ready
+ai_assistance:
+  human_reviewer: "Tim Brewer"
+  scientific_claims_checked: true
+  numbers_checked: true
+  citations_checked: true
+  figures_checked: true
+review:
+  evidence_gate_passed: true
+  style_gate_passed: true
+  platform_gate_passed: true
+  human_approved: true
+  approved_at: "YYYY-MM-DDTHH:MM:SSZ"
+```
+
+## Figure and Note templates
+
+Figure captions use: `**Figure N. [Plain-language result].** Generated by
+path/to/script.py from path/to/data.csv at commit FULL_SHA, run RUN_ID. [Applicability or
+limitation.]` Alt text states chart type, both axes and units, compared groups or curves, principal
+trend, uncertainty encoding, and key visual conclusion; “plot”, “graph”, or “figure showing results”
+alone is never adequate.
+
+A Figure Note is 80–160 words and at most 900 characters before links: one observation, one paragraph
+explaining axes/conditions/value, one explicit limitation, and one source. An Observation Note is
+60–120 words and at most 700 characters before links, explaining one change, failure, or clarification.
+A Reader-question Note is 30–80 words and at most 450 characters, supplies enough context, and asks
+exactly one question without treating anecdotes as representative evidence.
+
+## Agent self-review questions
+
+Before presenting a draft, answer these in `## Agent self-review`, which is removed before publication:
+
+1. What is the narrowest exact claim this evidence supports?
+2. Does the title claim more than the body?
+3. Does any sentence turn calibration or reconstruction into validation?
+4. Does any number lack a path, commit, run, issue, or paper?
+5. Have I confused chemical composition with taste?
+6. Have I generalized beyond the tested coffee, grinder, machine, basket, pressure, or laboratory?
+7. Have I hidden a null, adverse, or superseded result?
+8. Is the principal limitation stated before the reader reaches the end?
+9. Could the practical takeaway imply a product endorsement?
+10. Have I represented a community belief charitably?
+11. Is every figure regenerated and unedited?
+12. Does each caption state what the figure does not prove?
+13. Is the AI disclosure correct for the platform?
+14. Does Medium contain substantive first-hand human reasoning?
+15. Can a skeptical researcher locate the evidence without asking?
+16. Can a home brewer understand what, if anything, to do differently?
+17. What measurement would most efficiently change the conclusion?
+18. Is the article worth publishing, or merely evidence that work occurred?
+
+## Platform references
+
+Re-check current platform behavior when material:
+
+- <https://support.substack.com/hc/en-us/articles/14564821756308-Getting-started-on-Substack-Notes>
+- <https://support.substack.com/hc/en-us/articles/5036794583828-How-can-I-recommend-other-publications-on-Substack>
+- <https://support.substack.com/hc/en-us/articles/360037831771-How-do-I-publish-a-new-post-on-Substack>
+- <https://support.substack.com/hc/en-us/articles/50891130623508-How-can-I-detect-AI-on-Substack>
+- <https://help.medium.com/hc/en-us/articles/360006362473-Medium-s-Distribution-Guidelines-How-curators-review-stories-for-Boost-General-and-Network-Distribution>
+- <https://help.medium.com/hc/en-us/articles/22576852947223-Artificial-Intelligence-AI-content-policy>
+- <https://help.medium.com/hc/en-us/articles/360033930293-Set-a-canonical-link>
+- <https://help.medium.com/hc/en-us/articles/115004747067-Your-profile-page>
+
+Platform documentation never overrides the evidence rules, non-commercial constraint, or
+manual-publication boundary.

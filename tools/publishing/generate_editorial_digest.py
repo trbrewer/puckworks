@@ -6,10 +6,14 @@ from pathlib import Path
 
 from tools.publishing.common import ValidationError, load_yaml, parse_date, parse_frontmatter
 from tools.publishing.scan_triggers import scan
+from tools.publishing.validate_draft import validate as validate_draft
+from tools.publishing.validate_evidence import validate_ledger
+from tools.publishing.validate_schedule import validate as validate_schedule
 
 
 def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
     schedule = load_yaml(schedule_path)
+    schedule_result = validate_schedule(schedule_path)
     upcoming: list[str] = []
     overdue: list[str] = []
     missing_urls: list[str] = []
@@ -31,6 +35,8 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
             canonical.append(f"- `{item['id']}` — Medium canonical unverified")
     evidence_blocked: list[str] = []
     human_review: list[str] = []
+    draft_diagnostics: list[str] = []
+    used_triggers: set[str] = set()
     for path in sorted((root / "content/drafts").glob("*.md")):
         try:
             meta, _ = parse_frontmatter(path)
@@ -40,7 +46,22 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
             evidence_blocked.append(f"- `{path}`")
         if meta.get("status") == "human_review":
             human_review.append(f"- `{path}`")
+        source_event = meta.get("source_event", {})
+        if isinstance(source_event, dict) and source_event.get("trigger_id"):
+            used_triggers.add(str(source_event["trigger_id"]))
+        result = validate_draft(path, content_root=root.resolve())
+        if not result.ok:
+            draft_diagnostics.append(f"- `{path}`: {'; '.join(result.errors)}")
     triggers = scan(root / "content/triggers")
+    eligible = [
+        path for path in triggers["eligible"]
+        if Path(path).stem not in used_triggers
+    ]
+    ledger_diagnostics: list[str] = []
+    for path in sorted((root / "content/evidence").glob("*.yml")):
+        result = validate_ledger(path)
+        if not result.ok:
+            ledger_diagnostics.append(f"- `{path}`: {'; '.join(result.errors)}")
 
     def section(title: str, rows: list[str]) -> list[str]:
         return [f"## {title}", "", *(rows or ["- None"]), ""]
@@ -52,9 +73,12 @@ def generate(schedule_path: Path, today: date, root: Path = Path(".")) -> str:
     lines += section("Drafts awaiting human review", human_review)
     lines += section("Missing platform URLs", missing_urls)
     lines += section("Medium canonical URL unverified", canonical)
-    lines += section("Eligible new trigger manifests", [f"- `{p}`" for p in triggers["eligible"]])
+    lines += section("Eligible new trigger manifests", [f"- `{p}`" for p in eligible])
     diagnostics = [f"- `{d['path']}`: {'; '.join(d['errors'])}" for d in triggers["diagnostics"]]
     lines += section("Trigger diagnostics", diagnostics)
+    lines += section("Draft diagnostics", draft_diagnostics)
+    lines += section("Evidence-ledger diagnostics", ledger_diagnostics)
+    lines += section("Schedule diagnostics", [f"- {error}" for error in schedule_result.errors])
     lines += ["This digest is an editorial reminder only. It cannot approve or publish content.", ""]
     return "\n".join(lines)
 

@@ -5,11 +5,13 @@ import os
 import re
 from pathlib import Path
 
+import yaml
+
 from tools.publishing.common import (
     ARCHETYPES, CheckResult, EVIDENCE_LEVELS, FULL_SHA, ROOT, ValidationError,
-    git_object_exists, parse_frontmatter, print_result,
+    git_object_exists, parse_frontmatter, print_result, sha256_file,
 )
-from tools.publishing.validate_evidence import validate_trigger
+from tools.publishing.validate_evidence import validate_ledger, validate_trigger
 
 REQUIRED_SECTIONS = (
     "Result or question in one sentence", "Why this matters", "Question or hypothesis",
@@ -33,7 +35,9 @@ def repository_paths() -> dict[str, Path]:
     return paths
 
 
-def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckResult:
+def validate(
+    path: Path, repositories: dict[str, Path] | None = None, *, content_root: Path = ROOT
+) -> CheckResult:
     errors: list[str] = []
     warnings: list[str] = []
     repos = repositories or repository_paths()
@@ -43,6 +47,15 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
         return CheckResult(path, (str(exc),))
     if meta.get("schema_version") != 1:
         errors.append("schema_version must be 1")
+    for field in (
+        "title", "subtitle", "slug", "created_at", "updated_at", "author",
+        "target_platforms", "primary_platform", "target_length_words", "uncertainty",
+        "practical_implication", "ai_assistance", "cross_posting", "review",
+    ):
+        if field not in meta:
+            errors.append(f"{field} is required")
+    if meta.get("author") != "Tim Brewer" or meta.get("primary_platform") != "substack":
+        errors.append("author must be Tim Brewer and primary_platform must be substack")
     if meta.get("archetype") not in ARCHETYPES:
         errors.append("archetype is invalid")
     status = meta.get("status")
@@ -53,12 +66,24 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
     if not isinstance(trigger_id, str):
         errors.append("source_event.trigger_id is required")
     else:
-        trigger_path = ROOT / "content/triggers" / f"{trigger_id}.yml"
+        trigger_path = content_root / "content/triggers" / f"{trigger_id}.yml"
         if not trigger_path.exists():
-            errors.append(f"source trigger does not exist: {trigger_path.relative_to(ROOT)}")
+            errors.append(f"source trigger does not exist: {trigger_path}")
         else:
             trigger_result = validate_trigger(trigger_path, repos)
             errors.extend(f"source trigger: {error}" for error in trigger_result.errors)
+        ledger_path = content_root / "content/evidence" / f"{path.stem}.yml"
+        if not ledger_path.exists():
+            errors.append(f"evidence ledger does not exist: {ledger_path}")
+        else:
+            ledger_result = validate_ledger(ledger_path, repos)
+            errors.extend(f"evidence ledger: {error}" for error in ledger_result.errors)
+            try:
+                ledger = yaml.safe_load(ledger_path.read_text(encoding="utf-8"))
+            except (OSError, yaml.YAMLError):
+                ledger = {}
+            if isinstance(ledger, dict) and ledger.get("trigger_id") != trigger_id:
+                errors.append("evidence ledger trigger_id does not match the draft")
     ceiling = meta.get("claim_ceiling", {})
     if not isinstance(ceiling, dict) or not FULL_SHA.fullmatch(str(ceiling.get("commit_sha", ""))):
         errors.append("claim_ceiling.commit_sha must be a full SHA")
@@ -95,6 +120,8 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
             if item.get("repository") == "external-paper" and not item.get("paper_citation"):
                 errors.append(f"source_artifacts[{index}].paper_citation is required")
     claims = meta.get("claims")
+    claim_ids: set[str] = set()
+    quantitative_text = ""
     if not isinstance(claims, list) or not claims:
         errors.append("claims must not be empty")
     else:
@@ -102,6 +129,7 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
             if not isinstance(claim, dict) or not re.fullmatch(r"C\d+", str(claim.get("claim_id", ""))):
                 errors.append(f"claims[{index}].claim_id is invalid")
                 continue
+            claim_ids.add(str(claim["claim_id"]))
             cited = claim.get("evidence_ids")
             if not isinstance(cited, list) or not cited:
                 errors.append(f"claims[{index}] has no evidence_ids")
@@ -110,6 +138,10 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
             for field in ("text", "conditions", "evidence_level", "applicability", "caveat"):
                 if not claim.get(field):
                     errors.append(f"claims[{index}].{field} is required")
+            if not isinstance(claim.get("quantitative"), bool):
+                errors.append(f"claims[{index}].quantitative must be boolean")
+            elif claim["quantitative"]:
+                quantitative_text += " " + str(claim.get("text", ""))
     headings = [match.group(1).strip().casefold() for match in re.finditer(r"^##\s+(.+)$", body, re.M)]
     positions = []
     for required in REQUIRED_SECTIONS:
@@ -120,6 +152,23 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
             errors.append(f"missing required section: {required}")
     if len(positions) == len(REQUIRED_SECTIONS) and positions != sorted(positions):
         errors.append("required body sections are out of order")
+    table_claim_ids = set(re.findall(r"^\|\s*(C\d+)\s*\|", body, re.M))
+    if table_claim_ids != claim_ids:
+        errors.append("claims-to-evidence table IDs must exactly match frontmatter claims")
+    if "ledger" in locals() and isinstance(ledger, dict):
+        ledger_evidence = {str(item.get("evidence_id")) for item in ledger.get("artifacts", [])}
+        ledger_claims = {str(item.get("claim_id")) for item in ledger.get("claims", [])}
+        if ledger_evidence != evidence_ids or ledger_claims != claim_ids:
+            errors.append("draft evidence/claim IDs must exactly match the evidence ledger")
+    number_body = re.sub(
+        r"^## (?:Evidence box|Claims-to-evidence table).*?(?=^## |\Z)", "", body,
+        flags=re.M | re.S,
+    )
+    number_body = re.sub(r"```.*?```|`[^`]+`", "", number_body, flags=re.S)
+    numbers = set(re.findall(r"(?<![A-Za-z])\d+(?:\.\d+)?", number_body))
+    unsupported_numbers = sorted(number for number in numbers if number not in quantitative_text)
+    if unsupported_numbers:
+        errors.append(f"numbers missing from quantitative claim text: {unsupported_numbers}")
     body_lower = body.casefold()
     for phrase in BANNED:
         if re.search(rf"\b{re.escape(phrase)}\b", body_lower):
@@ -131,9 +180,16 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
         r"^## Practical implication\s*$", body, re.M
     ):
         errors.append("practical implication section present without supported: true")
+    uncertainty = meta.get("uncertainty", {})
+    uncertainty_fields = (
+        "numerical", "measurement", "parameter", "model_form", "identifiability",
+        "external_validity", "largest_remaining_uncertainty", "next_discriminating_measurement",
+    )
+    if not isinstance(uncertainty, dict) or any(field not in uncertainty for field in uncertainty_fields):
+        errors.append("uncertainty must contain every governed uncertainty field")
     review = meta.get("review", {})
     ai = meta.get("ai_assistance", {})
-    if status == "ready":
+    if status in {"ready", "published"}:
         required_review = ("evidence_gate_passed", "style_gate_passed", "platform_gate_passed", "human_approved")
         if not isinstance(review, dict) or any(review.get(field) is not True for field in required_review):
             errors.append("ready requires every review gate and human_approved")
@@ -149,8 +205,42 @@ def validate(path: Path, repositories: dict[str, Path] | None = None) -> CheckRe
                 errors.append(f"figures[{index}].hand_edited must be false")
             if not re.fullmatch(r"[0-9a-f]{64}", str(figure.get("output_sha256", ""))):
                 errors.append(f"figures[{index}].output_sha256 must be SHA-256")
+            for field in ("figure_id", "source_script", "source_data", "output_path", "caption", "alt_text", "evidence_ids", "regenerated_at"):
+                if not figure.get(field):
+                    errors.append(f"figures[{index}].{field} is required")
+            output_path = content_root / str(figure.get("output_path", ""))
+            if output_path.is_file() and sha256_file(output_path) != figure.get("output_sha256"):
+                errors.append(f"figures[{index}] output SHA-256 does not match the file")
+    ai = meta.get("ai_assistance", {})
+    if not isinstance(ai, dict) or ai.get("used") is not True:
+        errors.append("ai_assistance.used must be true for generated drafts")
+    else:
+        for field in ("disclosure_substack", "disclosure_medium"):
+            if not ai.get(field):
+                errors.append(f"ai_assistance.{field} is required")
+    if "[PLATFORM DISCLOSURE]" not in body and "Drafting note: I used AI assistance" not in body:
+        errors.append("AI-assistance disclosure text or platform placeholder is missing")
+    if re.search(r"H1 (?:is|has been) confirmed", body, re.I) and "confirmed" not in str(ceiling.get("exact_status", "")).casefold():
+        errors.append("H1 confirmation exceeds the recorded claim ceiling")
     if status == "published":
-        warnings.append("Only a human may set published; automated validation cannot attest authorization")
+        record = content_root / "content/published" / f"{path.stem}.yml"
+        if not record.exists():
+            errors.append("published status requires a publication record")
+        else:
+            try:
+                published = yaml.safe_load(record.read_text(encoding="utf-8"))
+            except (OSError, yaml.YAMLError) as exc:
+                errors.append(f"invalid publication record: {exc}")
+            else:
+                if not isinstance(published, dict) or published.get("published_by") != "Tim Brewer":
+                    errors.append("publication record must name Tim Brewer as publisher")
+                elif published.get("schema_version") != 1 or not published.get("substack_url") or not published.get("published_at"):
+                    errors.append("publication record requires schema, Substack URL, and published_at")
+                elif published.get("medium_url") and (
+                    published.get("canonical_url") != published.get("substack_url")
+                    or published.get("canonical_verified") is not True
+                ):
+                    errors.append("published Medium record requires verified exact Substack canonical")
     return CheckResult(path, tuple(errors), tuple(warnings))
 
 
