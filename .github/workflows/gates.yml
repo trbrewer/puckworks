@@ -83,7 +83,7 @@ jobs:
       # It is installed here so the round-11 P1-6 structural scan actually RUNS on this lane
       # rather than reporting NOT RUN: a check that cannot look must not look like a check
       # that looked and found nothing.
-      - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest markdown-it-py && pip install -e . --no-deps
+      - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest markdown-it-py pyyaml && pip install -e . --no-deps
       - name: offline suite on the declared minimum dependencies
         run: pytest -q -m "not slow and not live and not gpu and not external_data"
 

@@ -1,0 +1,51 @@
+name: editorial-reminders
+
+on:
+  schedule:
+    - cron: "5 14 * * *"
+  workflow_dispatch:
+    inputs:
+      apply_changes:
+        description: "Write GitHub issues (default is a read-only dry run)"
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: editorial-reminders
+  cancel-in-progress: false
+
+jobs:
+  reminders:
+    if: >-
+      github.repository == 'trbrewer/puckworks'
+      && github.ref == 'refs/heads/main'
+      && (github.event_name == 'workflow_dispatch' || vars.ENABLE_EDITORIAL_REMINDERS == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet pyyaml
+      - name: Validate editorial schedule
+        run: python -m tools.publishing.validate_schedule content/schedule.yml
+      - name: Open or update reminders and Monday digest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          args=()
+          if [[ "${{ github.event_name }}" == "schedule" || "${{ inputs.apply_changes }}" == "true" ]]; then
+            args=(--apply)
+          fi
+          python -m tools.publishing.sync_editorial_issues "${args[@]}"
+
+# This workflow has no publication-platform credentials or API calls. It writes GitHub issues only.
