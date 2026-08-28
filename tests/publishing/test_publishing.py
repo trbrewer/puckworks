@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 from copy import deepcopy
 from datetime import date
 from pathlib import Path
 
 import pytest
 import yaml
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from tools.publishing.build_variants import build
 from tools.publishing.check_canonical import canonical_from_html
@@ -16,9 +21,6 @@ from tools.publishing.sync_editorial_issues import plan_actions, reminder_is_due
 from tools.publishing.validate_draft import validate as validate_draft
 from tools.publishing.validate_evidence import validate_ledger, validate_trigger
 from tools.publishing.validate_schedule import validate as validate_schedule
-
-ROOT = Path(__file__).resolve().parents[2]
-
 
 def dump(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
