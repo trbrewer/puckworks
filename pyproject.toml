@@ -32,6 +32,7 @@ puckworks-pull = "puckworks.product._pull_cli:main"
 lb = ["taichi"]
 radar = ["pyyaml"]   # research-radar query-config parsing (tools/research_radar.py); not a core dep
 dev = ["pytest", "ruff", "pytest-cov", "mypy", "pyyaml", "markdown-it-py"]   # coverage + type-check baselines (P1.3); pyyaml for radar tests; markdown-it-py for the submission scanner
+reconstruct = ["openpyxl>=3.1"]  # external CC-BY-NC Pannusch workbook reconstruction; not runtime
 submission = ["markdown-it-py"]   # structural CommonMark parsing for tools/paper_a_consistency.py (round-11 P1-6); NOT a core dep
 figures = ["matplotlib"]
 harvest = ["requests"]
