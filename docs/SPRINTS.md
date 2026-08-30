@@ -1,5 +1,11 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+## PANNUSCH-PRIOR-IMPACT-001 available-data control (2026-08-30)
+
+- [x] Preserve MANIFEST as row-level authority and generate a complete capability register.
+- [x] Register the recovered external Pannusch corpus without raw payloads or local paths.
+- [x] Add one scoped preflight utility, concise policy, onboarding pointers and focused tests.
+
 Each sprint ≈ one Claude Code session (S items may pair; M items stand alone).
 Definition of done, every sprint: gates green (`pytest -v`), manifest rows for
 any data, registry entries for any component, ROADMAP §7.1 + this checklist

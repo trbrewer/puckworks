@@ -1,5 +1,11 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+> **Available-data authority (2026-08-30):** `puckworks/data/MANIFEST.csv`
+> remains canonical provenance. `puckworks/data/AVAILABLE_DATA_REGISTER.json`
+> is its deterministic decision-use view, including logical external corpora.
+> Apply `docs/data/AVAILABLE_DATA_FIRST_POLICY.md` before material data-gap,
+> new-model, or laboratory recommendations.
+
 > **SCI-MD-007-R2 corrected 2026-08-26:** evidence rows remain byte-identical. Search relations, F4 within-species variation, F7 fold leakage, laboratory audit output, and cross-artifact consistency now close mechanically under schema `1.2.0-R2`. The recomputed disposition remains prior-only; no predictor or runtime integration is authorized.
 
 > **SCI-MD-007-R1 corrected 2026-08-25:** the bounded evidence atlas and data-derived reducer fail the
