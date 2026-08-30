@@ -19,6 +19,13 @@ explicit owner exception tied to a named risk.
 - `docs/cards/` — cards are the source of truth for each model's physics.
   Never implement from memory of a paper; implement from its card, and if the
   card is ambiguous, STOP and flag it (do not guess).
+- Before proposing a new model, general data-gap claim, or laboratory
+  recommendation, read `puckworks/data/MANIFEST.csv`,
+  `puckworks/data/AVAILABLE_DATA_REGISTER.json`, and
+  `docs/data/AVAILABLE_DATA_FIRST_POLICY.md`, then check known external corpora.
+  The full Pannusch 2024 corpus is recovered and source-qualified; raw files
+  remain external for rights and repository-size reasons. Resolve them with
+  `PUCKWORKS_EXTERNAL_DATA_ROOT` or `~/.config/puckworks/data_sources.json`.
 
 ## Commands
 ```

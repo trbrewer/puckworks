@@ -187,3 +187,11 @@ ANALYSIS section, not just this file.
   tracked.
 
 If in doubt: read the changelog, run the gates, ask one clarifying question.
+# Available data first
+
+Before a substantive scientific task, a general data-gap conclusion, or new
+measurement proposal, read `puckworks/data/MANIFEST.csv`, the generated
+`puckworks/data/AVAILABLE_DATA_REGISTER.json`, and
+`docs/data/AVAILABLE_DATA_FIRST_POLICY.md`. Check registered external corpora:
+an unmounted corpus is not absent. The recovered Pannusch 2024 raw corpus stays
+external; use `PUCKWORKS_EXTERNAL_DATA_ROOT` or the user data-source config.

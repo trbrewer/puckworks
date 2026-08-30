@@ -49,4 +49,13 @@ Historical; not an authoritative statement of current status (archived under `do
 
 - **next-step-plan-snapshot** — Planning snapshot: NEXT_STEP_PLAN_2026-07-16 (publication-integrity convergence lane)
 - **product-first-reprioritization-snapshot** — Planning snapshot: PRODUCT_FIRST_REPRIORITIZATION (product vertical-slice lane)
+# Current available-data authority
+
+The canonical dataset provenance remains `puckworks/data/MANIFEST.csv`; the
+generated decision-use view is `puckworks/data/AVAILABLE_DATA_REGISTER.json`.
+PANNUSCH-RAW-REPRO-001 is merged at commit
+`57f7e74eef92aa9d83ae0995f8b6123663b37548`, tree
+`2aa223e77a6bec66bd2b73e87fc2c774bc56cef9`. Apply
+`docs/data/AVAILABLE_DATA_FIRST_POLICY.md` before material data-gap or new
+measurement claims.
 
