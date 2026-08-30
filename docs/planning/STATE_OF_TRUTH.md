@@ -41,7 +41,7 @@ Generated from `docs/status/current.json` (the single machine-readable status so
 | public-api-boundary | Explicit supported public API + stability policy + reader-path docs | #28 | 2ecbc9e | 2026-07-16 |
 | distribution-testing | Test the distribution + fix private-corpus leak in the wheel | #29 | cbc1956 | 2026-07-16 |
 | rp-a-001-common-observable-atlas | RP-A.1/RP-A.2 bounded common-observable response atlas | #243 | 2d04a56 | 2026-08-21 |
-| pannusch-raw-repro-001 | Source-faithful Pannusch reconstruction and transfer eligibility | #258 | candidate-branch | 2026-08-30 |
+| pannusch-raw-repro-001 | Source-faithful Pannusch reconstruction and transfer eligibility | #258 | c4b21a9 | 2026-08-30 |
 
 ## Superseded planning snapshots
 
