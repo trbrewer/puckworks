@@ -1,4 +1,4 @@
-import importlib.util, json, pathlib, pytest
+import importlib.util, pathlib, pytest
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location("pre",ROOT/"tools/data_availability_preflight.py"); pre=importlib.util.module_from_spec(spec); spec.loader.exec_module(pre)
 def base():
