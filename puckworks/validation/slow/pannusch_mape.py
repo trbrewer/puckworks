@@ -15,11 +15,12 @@ PUB = {"caffeine": 4.59, "trigonelline": 7.85, "5CQA": 4.98, "tds": 6.07}
 
 def per_experiment_breakdown():
     exps = ps._exp_kinetics(); params = ps._solute_params()
+    grinds = ps._source_grinds()
     print(f"{'exp':>4} " + " ".join(f"{s[:4]:>7}" for s in PUB))
     for eid, rows in sorted(exps.items()):
         line = f"{eid:>4} "
         for s in PUB:
-            m = ps.mape_for_experiment(rows, s, params[s])
+            m = ps.mape_for_experiment(rows, s, params[s], grinds[eid])
             line += f"{('' if m is None else f'{m:6.2f}'):>7} "
         print(line)
     res = ps.mape_all()

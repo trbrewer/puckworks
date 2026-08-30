@@ -101,8 +101,8 @@
       "pass": true
     },
     "docs/cards/pannusch2024.md": {
-      "expected_sha256": "8b81dcf37520037cc9cc386af909c89d88027cc417593308036e1a15ed258ee6",
-      "observed_sha256": "8b81dcf37520037cc9cc386af909c89d88027cc417593308036e1a15ed258ee6",
+      "expected_sha256": "e53d7bbfe682e799e04436b2ba91389dd2982c65ce0e04e2063ac15482c9c220",
+      "observed_sha256": "e53d7bbfe682e799e04436b2ba91389dd2982c65ce0e04e2063ac15482c9c220",
       "pass": true
     },
     "docs/cards/schmieder2023.md": {
@@ -172,7 +172,7 @@
     }
   },
   "manifest_path": "docs/analysis/sci_md_007/source_package_manifest.json",
-  "manifest_sha256": "d29689477be1df64f6248734c2faf817dd8dafbf17f31ca49e0a1d055798cf0e",
+  "manifest_sha256": "fb8e9b5b3077f57d43eb8686fe2419eed90e40234a2296b2448a38fccc28f1a9",
   "missing_members": [],
   "observed_input_members": [
     "docs/analysis/sci_md_007/feasibility_contract.json",

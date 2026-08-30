@@ -4,7 +4,7 @@
 representative taste components," J. Food Eng. 367, 111887 (2024). DOI 10.1016/j.jfoodeng.2023.111887.
 Reprinted as Article 3 in Pannusch (V.B.), PhD dissertation, TU Munich, 2024 (accepted 21.06.2024).
 **Stage(s):** extraction (primary); grind, packing (PSD→representative particles, porosity) · **Kind:** runtime
-**Status:** card-only
+**Status:** implemented; source-faithful reconstructed data authority
 
 ## Scope and mechanism
 One-dimensional, convection-dominated **two-grain** (bidisperse fine/coarse) saturated
@@ -198,3 +198,13 @@ the flow-rate-prediction regime (their own MAPE 18.23 %) and the CGA validation 
 confound). Dependency: a flow-rate provider, since the model does not consume pressure.
 
 VERDICT: implement-now — fills the top extraction backlog gap (named multi-solute chemistry with polarity-linked kinetics) and ships full equations, fitted parameters, and public validation data, complementing rather than duplicating cameron2020 — effort M.
+
+## Reconstructed estimand and campaign contract (2026-08-30)
+
+`c_s0` is a `FITTED_MODEL_PARAMETER`. Experiment-46 totals are direct or directly
+derived recovered mass and an `N1_OPERATIONAL_REFERENCE_ESTIMATE`; total roasted
+composition, production M0, `I_ref→M0`, and a common-basis `c_s0→recovered mass`
+mapping are not established. Its tail is `EMPIRICALLY_RESOLVED_MEASURED_TAIL`, not
+proof of exhaustion. Lot and roast batch remain unresolved. The March campaign is
+source-designated prediction, campaign-separated, target-exposed, source-internal,
+and not independent validation. See `PANNUSCH_RAW_REPRO_001_REPORT.md`.

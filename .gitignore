@@ -28,6 +28,23 @@ puckworks/data/pannusch2024/*
 !puckworks/data/pannusch2024/table2_fitted_params.csv
 !puckworks/data/pannusch2024/table2_grind_psi_ds2.csv
 !puckworks/data/pannusch2024/experimental_kinetics.csv
+!puckworks/data/pannusch2024/source_inputs.csv
+!puckworks/data/pannusch2024/experiment_register.csv
+!puckworks/data/pannusch2024/fit_fraction_replicates.csv
+!puckworks/data/pannusch2024/exclusion_register.csv
+!puckworks/data/pannusch2024/experiment_grind_assignments.csv
+!puckworks/data/pannusch2024/psd_summary.csv
+!puckworks/data/pannusch2024/prediction_fraction_replicates.csv
+!puckworks/data/pannusch2024/prediction_conditions.csv
+!puckworks/data/pannusch2024/reference_extraction_exp46_fractions.csv
+!puckworks/data/pannusch2024/reference_extraction_exp46_summary.json
+!puckworks/data/pannusch2024/analytical_method_register.csv
+!puckworks/data/pannusch2024/telemetry_inventory.csv
+!puckworks/data/pannusch2024/DATA_DICTIONARY.md
+!puckworks/data/pannusch2024/experimental_kinetics_correction_ledger.json
+!puckworks/data/pannusch2024/pannusch_transfer_eligibility.json
+!puckworks/data/pannusch2024/pannusch_raw_repro_001_result.json
+!puckworks/data/pannusch2024/metric_attribution.json
 # visualizer.coffee: user-contributed shot CORPUS has NO research-use license
 # (visualizer app is MIT, app code only). The raw harvested store is NEVER
 # committed (ROADMAP 0.13). Only PROVENANCE.md and the small DERIVED

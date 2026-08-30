@@ -1,0 +1,7 @@
+grind_id,source_sheet_sample,reported_or_derived,descriptor,value,unit,source_id,instrument_method,limitations
+1.4,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,psi,0.19,1,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted
+1.4,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,d_s2,332,um,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted
+1.7,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,psi,0.23,1,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted
+1.7,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,d_s2,330,um,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted
+2.0,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,psi,0.22,1,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted
+2.0,workbook sheet metadata,FITTED_TABLE2_NOT_RECALCULATED,d_s2,301,um,P24-PSD,Sympatec HELOS H2607 / RODOS dry dispersion,raw PSD retained externally; fitted psi/d_s2 equivalence not asserted

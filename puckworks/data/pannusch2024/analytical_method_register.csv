@@ -1,0 +1,3 @@
+method_id,source_id,analytes,calibration_status,blank_status,lod_status,loq_status,recovery_status,analytical_repeats,unresolved
+HPLC-ALK-CQA,P24-HPLC-FIT;P24-HPLC-PRED,caffeine;trigonelline;5CQA;CQA_sum,SOURCE_CALIBRATION_EQUATIONS_PRESENT,NOT_ESTABLISHED,NOT_ESTABLISHED,NOT_ESTABLISHED,NOT_ESTABLISHED,workbook-level analytical processing,recovery/censoring uncertainty
+RI-TDS,P24-RI-FIT;P24-RI-PRED,TDS,SOURCE_CALIBRATION_PRESENT,NOT_ESTABLISHED,NOT_ESTABLISHED,NOT_ESTABLISHED,NOT_ESTABLISHED,source workbook,recovery/censoring uncertainty

@@ -17,10 +17,9 @@ Consumes the constitutive closures in closures.py (Wilke-Chang D, VDI water
 props, Sherwood, van't Hoff). Creates RC-4a: reproduces the authors' fit MAPEs
 against the Schmieder kinetics — POST-FIT reconstruction (params fitted to it).
 
-Grind note: psi/d_s2 are fitted per grind (1.4/1.7/2.0); the per-experiment
-grind assignment lives in the source's opaque parameter list, so this port uses
-the centre grind (1.7) for all experiments — psi/d_s2 vary <15% across grinds,
-so the effect on MAPE is second order (documented approximation).
+Benchmark grind note: source experiment assignments are explicit in the reconstructed
+data contract and the benchmark fails closed when one is missing. The public simulation
+API retains its centre-grind default for interactive calls.
 """
 from functools import lru_cache
 
@@ -40,6 +39,9 @@ TC = 30.0               # characteristic time [s]
 NZ = 200                # axial grid points
 ACS = DBED ** 2 * np.pi / 4
 GRIND_17 = dict(psi=0.23, d_s2=330e-6)   # centre-grind psi/d_s2 (Table 2)
+GRINDS = {1.4: dict(psi=0.19, d_s2=332e-6),
+          1.7: GRIND_17,
+          2.0: dict(psi=0.22, d_s2=301e-6)}
 
 
 def five_point_biased_upwind(n, dz, v):
@@ -236,7 +238,7 @@ _MEAS = {"caffeine": ("c_caffeine_mg_g", 1.0),
          "tds": ("TDS_pct", 10.0)}
 
 
-def mape_for_experiment(exp_rows, solute, sp):
+def mape_for_experiment(exp_rows, solute, sp, grind=None):
     """Model MAPE (%) for one experiment/solute over its 6 measured fractions."""
     rows = sorted(exp_rows, key=lambda r: r["fraction"])
     col, scale = _MEAS[solute]
@@ -246,7 +248,7 @@ def mape_for_experiment(exp_rows, solute, sp):
     # integrate to the union of fraction [lower, upper] boundaries
     bounds = sorted({r["t_lower_s"] for r in rows} | {r["t_upper_s"] for r in rows})
     T = rows[0]["Temp_C"]; flow = rows[0]["flow_mL_s"]
-    cfrac = simulate_fractions(T, flow, bounds, sp, meas[0])
+    cfrac = simulate_fractions(T, flow, bounds, sp, meas[0], GRIND_17 if grind is None else grind)
     idx = {b: i for i, b in enumerate(bounds)}
     sim = np.array([(lambda lo, hi: _interval_conc(cfrac, bounds, lo, hi))
                     (r["t_lower_s"], r["t_upper_s"]) for r in rows])
@@ -269,14 +271,32 @@ def _interval_conc(cfrac, bounds, lo, hi):
     return float(np.sum(np.asarray(cfrac[i0:i1]) * w) / np.sum(w))
 
 
-def mape_all():
+def _source_grinds():
+    """Return the complete fit-experiment grind map, failing closed on ambiguity."""
+    from puckworks import data as d
+    out = {}
+    for row in d.pannusch_experiment_grinds():
+        if row["campaign_id"] != "FIT_2021_12":
+            continue
+        eid = int(row["source_experiment_id"])
+        setting = float(row["grind_setting"])
+        if eid in out or setting not in GRINDS:
+            raise ValueError(f"invalid or duplicate Pannusch grind assignment for experiment {eid}")
+        out[eid] = GRINDS[setting]
+    if set(out) != set(range(1, 16)):
+        raise ValueError("Pannusch benchmark requires one explicit grind assignment for experiments 1-15")
+    return out
+
+
+def mape_all(use_source_grind=True, experiments=None):
     """Per-solute mean MAPE over the 15 experiments. Compare to published:
     TDS 6.07, caffeine 4.59, trigonelline 7.85, CGA 4.98 %."""
-    exps = _exp_kinetics(); params = _solute_params()
+    exps = _exp_kinetics() if experiments is None else experiments
+    params = _solute_params(); grinds = _source_grinds() if use_source_grind else {}
     out = {}
     for solute in ("caffeine", "trigonelline", "5CQA", "tds"):
-        vals = [mape_for_experiment(rows, solute, params[solute])
-                for rows in exps.values()]
+        vals = [mape_for_experiment(rows, solute, params[solute], grinds.get(eid))
+                for eid, rows in exps.items()]
         vals = [v for v in vals if v is not None]
         out[solute] = float(np.mean(vals))
     return out

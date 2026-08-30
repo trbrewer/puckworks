@@ -87,3 +87,12 @@ These third-party source values remain under CC BY 4.0; distributing them inside
 relicense them under Puckworks’ MIT licence. This notice does not cover raw XCT volumes, unreviewed
 supplementary downloads, or future associated data. Rights clearance does not alter scientific evidence,
 validation status, or the component’s untamped validity boundary.
+
+### Pannusch et al. (2024) reconstructed source data
+
+The normalized tables in `puckworks/data/pannusch2024/` derived from Mendeley Data DOI
+10.17632/y2tz67f6ry.1 remain licensed CC-BY-NC-3.0 and are attributed to the repository
+for “Model-Based Kinetic Espresso Brewing Control Chart for Representative Taste
+Components.” They are third-party data, not relicensed under Puckworks' MIT license.
+Raw workbooks, MAT files, source MATLAB, telemetry, applications, and binaries are not
+distributed. `source_inputs.csv` records exact external source identities and hashes.

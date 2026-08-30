@@ -1,0 +1,23 @@
+{
+  "absolute_mass": {"disposition": "BLOCKED_INVENTORY_MAPPING", "inventory_mapping_established": false},
+  "baseline_contract": {"source_exponential": "TARGET_FITTED_DESCRIPTIVE_REFERENCE_ONLY", "source_rsm": "SOURCE_REPORTED_ONLY_PRIVILEGES_REQUIRE_AUDIT", "fair_future_baselines": ["pooled_calibration_mean", "nearest_calibration_condition", "calibration_only_interpolation", "condition_invariant_endpoint", "no_ramp_effect"]},
+  "campaign": "PREDICTION_2022_03",
+  "conditions": [
+    {"condition_id":"PRED-C01","observation":"fraction concentration and derived mass","input":"programmed constant 86 C, 2.0 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"},
+    {"condition_id":"PRED-C02","observation":"fraction concentration and derived mass","input":"programmed constant 92 C, 2.0 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"},
+    {"condition_id":"PRED-C03","observation":"fraction concentration and derived mass","input":"programmed 88 to 93 C, 2.0 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"BLOCKED_TEMPERATURE_PHYSICS"},
+    {"condition_id":"PRED-C04","observation":"fraction concentration and derived mass","input":"programmed 93 to 88 C, 2.0 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"BLOCKED_TEMPERATURE_PHYSICS"},
+    {"condition_id":"PRED-C05","observation":"fraction concentration and derived mass","input":"programmed constant 90 C, 1.7 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"},
+    {"condition_id":"PRED-C06","observation":"fraction concentration and derived mass","input":"programmed constant 90 C, 2.3 mL/s","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"},
+    {"condition_id":"PRED-C07","observation":"fraction concentration and derived mass","input":"programmed 1.7 to 2.3 mL/s at 90 C","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"},
+    {"condition_id":"PRED-C08","observation":"fraction concentration and derived mass","input":"programmed 2.3 to 1.7 mL/s at 90 C","pannusch":"ELIGIBLE_SOURCE_DESIGNATED_PREDICTION_REPRODUCTION","ewp":"CONDITIONALLY_ELIGIBLE_EWP_NORMALIZED_FRACTION_TRANSFER"}
+  ],
+  "fraction_shape_tests":"trajectory shape only; not inventory, absolute recovery, closure, M0, or retained residual",
+  "hydraulic_validation":false,
+  "independent_external_validation":false,
+  "maximum_claim":"CAMPAIGN_SEPARATED_TARGET_EXPOSED_FIXED_PARAMETER_COMPARISON",
+  "multispecies":"separate one-solute comparisons only",
+  "recommended_task_id":"XSV-PANNUSCH-TRANSFER-001",
+  "target_blind":false
+}
+

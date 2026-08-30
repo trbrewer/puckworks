@@ -284,7 +284,7 @@ def gate_pannusch_solver_mape():
     """The two-grain multi-solute PDE solver reproduces the authors' fit MAPEs
     against the Schmieder kinetics (POST-FIT reconstruction). Model per-solute
     MAPE within ~3.5 pts of published (TDS 6.07, caffeine 4.59, trigonelline
-    7.85, CGA 4.98 %); centre-grind approximation raises the alcaloids slightly."""
+    7.85, CGA 4.98 %), using valid-only data and explicit source grind."""
     from puckworks.models.pannusch2024 import solver as ps
     pub = {"caffeine": 4.59, "trigonelline": 7.85, "5CQA": 4.98, "tds": 6.07}
     m = ps.mape_all()

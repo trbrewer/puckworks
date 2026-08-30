@@ -377,6 +377,21 @@
       "issue_or_pr": "#243",
       "verified_commit": "2d04a56",
       "verified_date": "2026-08-21"
+    },
+    {
+      "id": "pannusch-raw-repro-001",
+      "title": "Source-faithful Pannusch reconstruction and transfer eligibility",
+      "area": "research-program",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "scientific-maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "One independent exact-head review; then a separate XSV-PANNUSCH-TRANSFER-001 may use only the bounded normalized constant-temperature subset.",
+      "acceptance_evidence": "Deterministic 13-source reconstruction; 15 fit experiments/45 shots; three invalid spills excluded from valid-only means; explicit grind mappings; 8-condition/24-shot exposed source-prediction campaign; experiment 46 n=1 operational reference; four-cell no-refit metric attribution; no EWP scoring or validation promotion",
+      "issue_or_pr": "#258",
+      "verified_commit": "c4b21a9",
+      "verified_date": "2026-08-30"
     }
   ]
 }

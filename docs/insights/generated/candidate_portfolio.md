@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `3e193fea4a` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `dfe0bdc761` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -888,7 +888,7 @@ Tracks overlap by design — public value and academic value are separate axes (
 
 ### I-055 — Is pannusch2024 evaluated against data it is not independent of?
 
-- **Question.** For the 2 pannusch2024 datasets sharing a source card with a component the manifest links to them, does any gate read that pairing as independent?
+- **Question.** For the 1 pannusch2024 datasets sharing a source card with a component the manifest links to them, does any gate read that pairing as independent?
 - **Lens.** lineage_circularity · tracks: data_note, technical_note
 - **Cheap screen.** Cross-read the manifest lineage against each gate's claimed evaluation relationship; list every same-source pairing and how it is labelled.
 - **Minimum figure.** A lineage graph of dataset to source card to consuming component, with same-source edges highlighted.
@@ -898,8 +898,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The manifest cannot say whether the fit and evaluation rows come from the same campaign.
 - **Stop condition.** Every same-source pairing carries an accurate relationship label.
 - **Strongest alternative.** Sharing a source card does not mean sharing a campaign — the rows may be a genuine held-out split.
-- **Entities.** `dataset:pannusch2024/experimental_kinetics`, `dataset:pannusch2024/table2_params`
-- **Tension rows.** T-0087, T-0088
+- **Entities.** `dataset:pannusch2024/table2_params`
+- **Tension rows.** T-0088
 - **Status.** SEED
 
 ### I-056 — Is pannusch2024 (Mendeley repo) evaluated against data it is not independent of?

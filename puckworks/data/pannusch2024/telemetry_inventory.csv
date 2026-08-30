@@ -1,0 +1,2 @@
+telemetry_id,source_id,shot_join,channels,sample_interval,pressure_node,temperature_meaning,flow_meaning,beverage_mass_availability,input_class,time_origin_status,eligibility_status
+PRED-MASS-FITS,P24-MASS-PRED,24 source-order joins,quadratic beverage mass fit coefficients,DERIVED,NOT_APPLICABLE,NOT_APPLICABLE,BEVERAGE_MASS_DERIVED_OUTFLOW_TIMING,FITTED_24,DERIVED_NOT_INLET_FLOW,SOURCE_RECONSTRUCTED,CONTEXT_ONLY
