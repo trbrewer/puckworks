@@ -3,7 +3,8 @@
     "A_LEGACY_DATA_CENTER_GRIND": {
       "accepted_experiment_fraction_rows": 90,
       "experiment_analyte_scores": 60,
-      "invalid_physical_fraction_records_excluded": 3,
+      "invalid_physical_fraction_records_embedded_as_zero": 3,
+      "invalid_physical_fraction_records_excluded": 0,
       "per_analyte_mape_percent": {
         "5CQA": 7.2232100089550135,
         "caffeine": 6.415024367348749,
@@ -108,6 +109,7 @@
     "B_VALID_ONLY_DATA_CENTER_GRIND": {
       "accepted_experiment_fraction_rows": 90,
       "experiment_analyte_scores": 60,
+      "invalid_physical_fraction_records_embedded_as_zero": 0,
       "invalid_physical_fraction_records_excluded": 3,
       "per_analyte_mape_percent": {
         "5CQA": 5.7715509156160865,
@@ -213,7 +215,8 @@
     "C_LEGACY_DATA_SOURCE_GRIND": {
       "accepted_experiment_fraction_rows": 90,
       "experiment_analyte_scores": 60,
-      "invalid_physical_fraction_records_excluded": 3,
+      "invalid_physical_fraction_records_embedded_as_zero": 3,
+      "invalid_physical_fraction_records_excluded": 0,
       "per_analyte_mape_percent": {
         "5CQA": 6.9128238249757645,
         "caffeine": 6.603444769534097,
@@ -318,6 +321,7 @@
     "D_VALID_ONLY_DATA_SOURCE_GRIND": {
       "accepted_experiment_fraction_rows": 90,
       "experiment_analyte_scores": 60,
+      "invalid_physical_fraction_records_embedded_as_zero": 0,
       "invalid_physical_fraction_records_excluded": 3,
       "per_analyte_mape_percent": {
         "5CQA": 5.465495526964199,
@@ -421,7 +425,7 @@
       "warnings": []
     }
   },
-  "grind_mapping_sha256": "619c5d25a04765a10aaca8c04a5aa1af5c8177940c348342f72962d1e8358548",
+  "grind_mapping_sha256": "b7a98c4cc3c020fa1213f90a8c1cfa17603a90b057b0000aeaa1ef145b2252b0",
   "legacy_data_sha256": "735c8aa86e06ff1c46f13335924d91636e77da161962a1b7e9394421dbdd28ca",
   "metric": "mean absolute percentage error over six fractions; pooled is equal-weight mean of four analyte means",
   "parameter_refit": false,

@@ -23,7 +23,7 @@ def legacy_experiments(valid, ledger):
     return exps
 
 
-def cell(ps, exps, source_grind):
+def cell(ps, exps, source_grind, valid_only):
     params = ps._solute_params()
     grinds = ps._source_grinds() if source_grind else {}
     per_experiment = {}
@@ -44,7 +44,8 @@ def cell(ps, exps, source_grind):
             "pooled_mape_percent": float(np.mean(list(means.values()))),
             "experiment_analyte_scores": sum(map(len, by_solute.values())),
             "accepted_experiment_fraction_rows": sum(len(v) for v in exps.values()),
-            "invalid_physical_fraction_records_excluded": 3,
+            "invalid_physical_fraction_records_excluded": 3 if valid_only else 0,
+            "invalid_physical_fraction_records_embedded_as_zero": 0 if valid_only else 3,
             "warnings": warnings}
 
 
@@ -70,10 +71,10 @@ def main():
         "legacy_data_sha256": ledger["base_file_sha256"],
         "valid_only_data_sha256": ledger["candidate_file_sha256"],
         "cells": {
-            "A_LEGACY_DATA_CENTER_GRIND": cell(ps, legacy, False),
-            "B_VALID_ONLY_DATA_CENTER_GRIND": cell(ps, valid, False),
-            "C_LEGACY_DATA_SOURCE_GRIND": cell(ps, legacy, True),
-            "D_VALID_ONLY_DATA_SOURCE_GRIND": cell(ps, valid, True),
+            "A_LEGACY_DATA_CENTER_GRIND": cell(ps, legacy, False, False),
+            "B_VALID_ONLY_DATA_CENTER_GRIND": cell(ps, valid, False, True),
+            "C_LEGACY_DATA_SOURCE_GRIND": cell(ps, legacy, True, False),
+            "D_VALID_ONLY_DATA_SOURCE_GRIND": cell(ps, valid, True, True),
         },
     }
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")

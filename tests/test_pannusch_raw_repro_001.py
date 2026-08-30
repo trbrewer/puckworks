@@ -25,6 +25,9 @@ def test_grind_mapping_is_explicit_and_fails_closed(monkeypatch):
     fit=[r for r in read('experiment_grind_assignments.csv') if r['campaign_id']=='FIT_2021_12']
     assert len(fit)==15 and {int(r['source_experiment_id']) for r in fit}==set(range(1,16))
     assert {float(r['grind_setting']) for r in fit}=={1.4,1.7,2.0}; assert set(ps._source_grinds())==set(range(1,16))
+    pred=[r for r in read('experiment_grind_assignments.csv') if r['campaign_id']=='PREDICTION_2022_03']
+    assert len(pred)==8 and {float(r['grind_setting']) for r in pred}=={1.7}
+    assert all(r['source_location']==f"DoE!F{45+int(r['source_experiment_id'])}" for r in pred)
     monkeypatch.setattr('puckworks.data.pannusch_experiment_grinds',lambda:fit[:-1])
     with pytest.raises(ValueError,match='requires one explicit'):ps._source_grinds()
 
@@ -36,6 +39,21 @@ def test_exp46_estimand_and_totals():
     assert x['estimand']=='N1_OPERATIONAL_REFERENCE_ESTIMATE' and x['tail_class']=='EMPIRICALLY_RESOLVED_MEASURED_TAIL'
     for f in ('total_roasted_content_established','analytical_exhaustion_established','production_M0_established','cs0_replacement_established'):assert x[f] is False
     assert len(read('reference_extraction_exp46_fractions.csv'))==12
+
+def test_shot_dates_and_temperature_program_ids_are_source_faithful():
+    rows=read('experiment_register.csv')
+    e2={r['physical_replicate_id']:r['collection_date'] for r in rows if r['campaign_id']=='FIT_2021_12' and r['source_experiment_id']=='2'}
+    assert e2=={'1':'2021-12-06','2':'2021-12-09','3':'2021-12-09'}
+    ids={r['nominal_temperature_program_id'] for r in rows}
+    assert 'CONST-80C' in ids and '90-90C' in ids
+    assert 'CONST-8C' not in ids and 'CONST-9C' not in ids
+
+def test_metric_attribution_exclusion_accounting():
+    cells=json.loads((DATA/'metric_attribution.json').read_text())['cells']
+    for name,cell in cells.items():
+        valid=name.startswith(('B_','D_'))
+        assert cell['invalid_physical_fraction_records_excluded']==(3 if valid else 0)
+        assert cell['invalid_physical_fraction_records_embedded_as_zero']==(0 if valid else 3)
 
 def test_eligibility_fails_closed():
     x=json.loads((DATA/'pannusch_transfer_eligibility.json').read_text())

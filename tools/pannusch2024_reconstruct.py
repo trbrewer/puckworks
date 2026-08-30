@@ -28,7 +28,9 @@ def write_csv(p,fields,data):
  with p.open('w',newline='',encoding='utf-8') as f:
   w=csv.DictWriter(f,fieldnames=fields,lineterminator='\n');w.writeheader();w.writerows(data)
 def write_json(p,obj):p.write_text(json.dumps(obj,indent=2,sort_keys=True,ensure_ascii=False)+'\n',encoding='utf-8')
-def fmt(x,n=8):return f'{float(x):.{n}f}'.rstrip('0').rstrip('.') if x is not None else ''
+def fmt(x,n=8):
+ s=f'{float(x):.{n}f}'
+ return s.rstrip('0').rstrip('.') if '.' in s else s
 def load_sources(root,manifest,strict):
  out={}; seen={}
  for r in rows(manifest):
@@ -47,24 +49,35 @@ def workbook(path):
  except ImportError as e:raise RuntimeError('install the reconstruct extra: pip install -e ".[reconstruct]"') from e
  return openpyxl.load_workbook(path,data_only=True,read_only=True)
 def doe_conditions(path,expected,prediction=False):
- ws=workbook(path)['ExpSheet'];out=[]
+ wb=workbook(path);ws=wb['ExpSheet'];out=[]
  for r in range(2,ws.max_row+1):
   exp=ws.cell(r,2).value
   if isinstance(exp,(int,float)) and int(exp)==exp and 1<=int(exp)<=expected:
-   out.append(dict(exp=int(exp),flow0=float(ws.cell(r,4).value),flow1=float(ws.cell(r,5).value) if prediction else float(ws.cell(r,4).value),grind=2.0 if prediction else float(ws.cell(r,5).value),
+   out.append(dict(exp=int(exp),flow0=float(ws.cell(r,4).value),flow1=float(ws.cell(r,5).value) if prediction else float(ws.cell(r,4).value),grind=float(wb['DoE'].cell(45+int(exp),6).value) if prediction else float(ws.cell(r,5).value),
     temp0=float(ws.cell(r,6).value),temp1=float(ws.cell(r,7).value) if prediction else float(ws.cell(r,6).value),
     dose=float(ws.cell(r,10).value),date=str(ws.cell(r,11).value or 'UNKNOWN')[:10]))
  return sorted({x['exp']:x for x in out}.values(),key=lambda x:x['exp'])
+def shot_dates(path,expected):
+ ws=workbook(path)['ExpSheet'];out={};current=None
+ for r in range(2,ws.max_row+1):
+  if isinstance(ws.cell(r,2).value,(int,float)):current=int(ws.cell(r,2).value)
+  shot=ws.cell(r,3).value;date=ws.cell(r,11).value
+  if current and current<=expected and isinstance(shot,(int,float)) and int(shot) in (1,2,3):
+   out[(current,int(shot))]=str(date or 'UNKNOWN')[:10]
+ return out
 def grind_map(fit,pred):
  pars={1.4:(.19,332),1.7:(.23,330),2.0:(.22,301)};out=[]
  for camp,cs in [('FIT_2021_12',fit),('PREDICTION_2022_03',pred)]:
   for c in cs:
-   psi,ds=pars[c['grind']];out.append({'campaign_id':camp,'source_experiment_id':c['exp'],'grind_setting':fmt(c['grind'],1),'psi':fmt(psi,2),'d_s2_um':ds,'source_statement':f"ExpSheet grind={fmt(c['grind'],1)}",'source_id':'P24-DOE-FIT' if camp.startswith('FIT') else 'P24-DOE-PRED','source_location':'ExpSheet','mapping_kind':'DIRECTLY_STATED','mapping_confidence':'HIGH','unresolved_fields':''})
+   psi,ds=pars[c['grind']];prediction=camp.startswith('PREDICTION')
+   location=f"DoE!F{45+c['exp']}" if prediction else 'ExpSheet grind column'
+   out.append({'campaign_id':camp,'source_experiment_id':c['exp'],'grind_setting':fmt(c['grind'],1),'psi':fmt(psi,2),'d_s2_um':ds,'source_statement':f"{location}={fmt(c['grind'],1)}",'source_id':'P24-DOE-PRED' if prediction else 'P24-DOE-FIT','source_location':location,'mapping_kind':'DIRECTLY_STATED','mapping_confidence':'HIGH','unresolved_fields':''})
  return out
 def reconstruct(source_root,out,manifest,strict=True):
  import numpy as np
  src=load_sources(source_root,manifest,strict);out.mkdir(parents=True,exist_ok=True)
  fitc=doe_conditions(src['P24-DOE-FIT'],15);predc=doe_conditions(src['P24-DOE-PRED'],8,True)
+ fitdates=shot_dates(src['P24-DOE-FIT'],15);preddates=shot_dates(src['P24-DOE-PRED'],8)
  if len(fitc)!=15 or len(predc)!=8:raise ValueError('condition count mismatch')
  fit=np.atleast_1d(mat(src['P24-MAT-FIT'])['ExperimentalData']);pred=np.atleast_1d(mat(src['P24-MAT-PRED'])['ExperimentalData'])
  expreg=[];fitlong=[];legacy=[];valid=[]
@@ -72,6 +85,7 @@ def reconstruct(source_root,out,manifest,strict=True):
   runs=np.atleast_1d(fit[c['exp']-1].run)
   if len(runs)!=3:raise ValueError('fit replicate count mismatch')
   for j,run in enumerate(runs,1):
+   c['date']=fitdates[(c['exp'],j)]
    sid=f"FIT-E{c['exp']:02d}-R{j}"
    expreg.append({'campaign_id':'FIT_2021_12','source_experiment_id':c['exp'],'condition_id':f"FIT-C{c['exp']:02d}",'shot_id':sid,'physical_replicate_id':j,'source_role':'SOURCE_FIT_DATA','collection_date':c['date'],'coffee_product':'SOURCE_COMMERCIAL_PRODUCT','coffee_lot_id':'UNKNOWN','roast_batch_id':'UNKNOWN','grinder':'E65S','burr_set':'UNKNOWN','grind_setting':fmt(c['grind'],1),'machine':'DE1','basket':'UNKNOWN','dose_g':fmt(c['dose'],1),'nominal_temperature_program_id':f"CONST-{fmt(c['temp0'],0)}C",'nominal_flow_program_id':f"CONST-{fmt(c['flow0'],1)}ML_S",'measurement_validity':'VALID_WITH_DECLARED_FRACTION_EXCLUSIONS' if any(x[0]==c['exp'] and x[1]==j for x in SPILLS) else 'VALID','exclusion_reason':'SEE_EXCLUSION_REGISTER' if any(x[0]==c['exp'] and x[1]==j for x in SPILLS) else '','source_id':'P24-MAT-FIT;P24-DOE-FIT'})
    for k,(mi,fid) in enumerate(zip(SAMP,FIDS)):
