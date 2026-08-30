@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `3e193fea4aafeb91c81786aee79aae6003daa3bc` · **schema** v1 · **generator** v1
+**Commit** `dfe0bdc761574e3327fa96f1d84e8199e156c192` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -56,7 +56,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 
 ## Tension atlas
 
-171 rows across 11 lenses.
+170 rows across 11 lenses.
 
 | lens | rows |
 |---|---|
@@ -65,7 +65,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | cross_species_inconsistency | 4 |
 | evidence_asymmetry | 3 |
 | hidden_discriminator | 11 |
-| lineage_circularity | 65 |
+| lineage_circularity | 64 |
 | missing_experiment | 1 |
 | model_disagreement | 38 |
 | negative_result | 3 |

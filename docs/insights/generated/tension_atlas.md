@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `3e193fea4a` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `dfe0bdc761` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -13,7 +13,7 @@ Commit `3e193fea4a` · 171 rows across 11 lenses. A row is a source-bound statem
 | cross_species_inconsistency | H | 4 |
 | evidence_asymmetry | K | 3 |
 | hidden_discriminator | G | 11 |
-| lineage_circularity | E | 65 |
+| lineage_circularity | E | 64 |
 | missing_experiment | L | 1 |
 | model_disagreement | A | 38 |
 | negative_result | J | 3 |
@@ -299,9 +299,6 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0086** [same_source_consumer] pannusch2024 (Mendeley repo) (post_fit) shares a source card with the component(s) pannusch2024.closures, pannusch2024.solver that the manifest links to it; its strength is recorded as 'deferred (post-fit reconstruction when landed at 1.8a)'
   - discriminator: an out-of-source dataset measuring the same observable · data: YES · cheap test: YES · candidate: I-056
-  - sources: `puckworks/data/MANIFEST.csv`
-- **T-0087** [same_source_consumer] pannusch2024/experimental_kinetics (post_fit) shares a source card with the component(s) pannusch2024.closures, pannusch2024.solver that the manifest links to it; its strength is recorded as 'post-fit reconstruction'
-  - discriminator: an out-of-source dataset measuring the same observable · data: YES · cheap test: YES · candidate: I-055
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0088** [same_source_consumer] pannusch2024/table2_params (post_fit) shares a source card with the component(s) pannusch2024.closures, pannusch2024.solver that the manifest links to it; its strength is recorded as 'post-fit reconstruction'
   - discriminator: an out-of-source dataset measuring the same observable · data: YES · cheap test: YES · candidate: I-055

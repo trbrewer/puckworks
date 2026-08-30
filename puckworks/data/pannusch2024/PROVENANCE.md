@@ -1,4 +1,4 @@
-# pannusch2024 — data provenance (Mendeley repo landed; extraction deferred)
+# pannusch2024 — source-faithful reconstructed authority
 
 Source card: `docs/cards/pannusch2024.md` (ROADMAP item 0.1, the Mendeley half).
 
@@ -25,11 +25,18 @@ subfolder). The full repository is on disk under this directory but is
   caffeine 6.4 / trigonelline 10.2 / CGA 7.2 % (published 6.07/4.59/7.85/4.98;
   post-fit reconstruction). **Creates RC-4a.**
 
-## Caveats
-- Per-experiment **grind assignment** is in the source's opaque `ListOfExperiments`
-  table; this port uses the centre grind (1.7) for all experiments (ψ/d_s2 vary
-  <15% across grinds → second-order on MAPE; verified against a pressure-based
-  assignment). TDS uses %·10 → mg/mL to match the mg/mL cs0.
+## PANNUSCH-RAW-REPRO-001 correction (2026-08-30)
+
+The hash-bound generator reconstructs 15 fit experiments (45 shots), eight March
+prediction conditions (24 shots), and experiment 46. Three source-declared spilled
+HPLC samples (experiments 3, 11, 14; fraction 2) remain visible but no longer enter
+accepted means. Benchmark scoring consumes explicit source grind assignments.
+
+Committed normalized products remain **CC-BY-NC-3.0 third-party data**, not MIT; raw
+MAT/workbook/telemetry files remain external. `c_s0` is fitted, not inventory.
+Experiment 46 is n=1 operational recovered mass, not total content, production M0,
+analytical exhaustion, or a c_s0 bridge. March targets are exposed, source-internal,
+campaign-separated source-prediction observations, not independent validation.
 
 ## Status: kinetics covered via schmieder2023; Pannusch-specific data deferred
 The extraction **kinetics** this repo fits are the Schmieder-2023 measurements,
