@@ -507,6 +507,11 @@ def pannusch_experimental_kinetics():
     return _typed_rows(PANNUSCH / "experimental_kinetics.csv")
 
 
+def pannusch_experiment_grinds():
+    """Explicit source experiment/condition grind assignments; no implicit fallback."""
+    return _typed_rows(PANNUSCH / "experiment_grind_assignments.csv")
+
+
 # --- foster2025_2 machine mode (ROADMAP 0.11 / 1.6) ----------------------
 FOSTER2 = DATA_DIR / "foster2025_2"
 

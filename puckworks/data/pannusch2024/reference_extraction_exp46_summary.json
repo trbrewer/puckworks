@@ -1,0 +1,36 @@
+{
+  "analytical_exhaustion_established": false,
+  "cs0_replacement_established": false,
+  "direct_recovered_mass": true,
+  "dose_g": 20.0,
+  "estimand": "N1_OPERATIONAL_REFERENCE_ESTIMATE",
+  "fractions": 12,
+  "lod_loq_present": false,
+  "measured_tail_percent": {
+    "5CQA": 0.060724343412915445,
+    "CQA_sum": 0.06829178653648268,
+    "caffeine": 0.21152465988446525,
+    "trigonelline": 0.10611350921182884
+  },
+  "moisture_basis_present": false,
+  "operational_reference_estimate": true,
+  "physical_reference_replicates": 1,
+  "production_M0_established": false,
+  "recovered_liquid_g": 819.7000000000002,
+  "recovery_study_present": false,
+  "retained_liquid_correction_present": false,
+  "same_lot_status": "UNRESOLVED",
+  "same_roast_batch_status": "UNRESOLVED",
+  "spent_puck_assay_present": false,
+  "tail_boundary_g": 212.68,
+  "tail_class": "EMPIRICALLY_RESOLVED_MEASURED_TAIL",
+  "tds_yield_percent": 26.209566091312155,
+  "total_roasted_content_established": false,
+  "totals_mg": {
+    "5CQA": 144.52075415305484,
+    "CQA_sum": 280.2572657246617,
+    "TDS": 5241.913218262431,
+    "caffeine": 251.5984417401655,
+    "trigonelline": 168.64326492646288
+  }
+}

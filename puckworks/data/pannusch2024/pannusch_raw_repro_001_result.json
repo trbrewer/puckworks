@@ -1,0 +1,34 @@
+{
+  "authorities": {
+    "independent_review_freeze_sha256": "cc177088c923220dff26add619f4b7c5177d5aa8102dd36bc50706acd9d31f4f",
+    "puckworks_base_commit": "dfe0bdc761574e3327fa96f1d84e8199e156c192",
+    "puckworks_base_tree": "56efc9dea3e910d94e8a51fc80efc891cf3b8c88",
+    "raw_source_manifest_sha256": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "campaigns": {"fit_experiments":15,"fit_physical_shots":45,"fit_fractions_per_experiment":6,"prediction_conditions":8,"prediction_physical_shots":24,"prediction_fractions_per_shot":6,"reference_extraction_replicates":1,"reference_extraction_fractions":12},
+  "change_declarations": {"ewp_mutation":false,"ewp_target_scoring":false,"governing_physics_change":false,"parameter_refit":false,"protected_holdout_scoring":false},
+  "corrections": {"affected_experiments":[3,11,14],"accepted_rows_changed":3,"grind_approximation_retired":true,"spill_invalid_records":3},
+  "disposition": "PANNUSCH_RAW_REPRO_001_COMPLETE_TRANSFER_SUBSET_ELIGIBLE",
+  "future_transfer": {
+    "authorized_by_this_result": true,
+    "blocked_conditions": ["PRED-C03","PRED-C04","absolute_mass","hydraulic_validation"],
+    "conditionally_eligible_conditions": ["PRED-C01","PRED-C02","PRED-C05","PRED-C06","PRED-C07","PRED-C08"],
+    "controlling_blockers": ["unestablished inventory mapping","unsupported time-varying temperature physics","prescribed flow cannot validate hydraulics"],
+    "eligible_conditions": [],
+    "maximum_claim": "CAMPAIGN_SEPARATED_TARGET_EXPOSED_FIXED_PARAMETER_COMPARISON",
+    "recommended_task_id": "XSV-PANNUSCH-TRANSFER-001"
+  },
+  "governance_class": "G1",
+  "home_lab": {"disposition":"HOME_LAB_REDESIGN"},
+  "metrics": {
+    "artifact":"metric_attribution.json",
+    "legacy_data_center_grind":{"caffeine":6.415024,"trigonelline":10.180162,"5CQA":7.223210,"tds":6.724869,"pooled":7.635816},
+    "valid_only_data_center_grind":{"caffeine":4.913993,"trigonelline":8.718988,"5CQA":5.771551,"tds":6.724869,"pooled":6.532350},
+    "legacy_data_source_grind":{"caffeine":6.603445,"trigonelline":9.856898,"5CQA":6.912824,"tds":6.517859,"pooled":7.472756},
+    "valid_only_data_source_grind":{"caffeine":5.108174,"trigonelline":8.397664,"5CQA":5.465496,"tds":6.517859,"pooled":6.372298},
+    "parameter_refit":false
+  },
+  "prediction_campaign": {"independent_external_validation":false,"source_role":"SOURCE_DESIGNATED_PREDICTION","target_blind":false,"target_exposed":true},
+  "reference_extraction": {"cs0_replacement_established":false,"estimand":"N1_OPERATIONAL_REFERENCE_ESTIMATE","production_M0_established":false,"same_lot_status":"UNRESOLVED","same_roast_batch_status":"UNRESOLVED","total_roasted_content_established":false},
+  "task_id": "PANNUSCH-RAW-REPRO-001"
+}

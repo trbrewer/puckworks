@@ -1,0 +1,59 @@
+{
+  "affected_keys": [
+    {
+      "corrected": "6.4271",
+      "key": "exp=3;fraction=2;field=c_caffeine_mg_g",
+      "old": "4.2848"
+    },
+    {
+      "corrected": "3.8658",
+      "key": "exp=3;fraction=2;field=c_trigonelline_mg_g",
+      "old": "2.5772"
+    },
+    {
+      "corrected": "4.4014",
+      "key": "exp=3;fraction=2;field=c_5CQA_mg_g",
+      "old": "2.9342"
+    },
+    {
+      "corrected": "5.2568",
+      "key": "exp=11;fraction=2;field=c_caffeine_mg_g",
+      "old": "3.5045"
+    },
+    {
+      "corrected": "2.7054",
+      "key": "exp=11;fraction=2;field=c_trigonelline_mg_g",
+      "old": "1.8036"
+    },
+    {
+      "corrected": "3.1815",
+      "key": "exp=11;fraction=2;field=c_5CQA_mg_g",
+      "old": "2.121"
+    },
+    {
+      "corrected": "6.4811",
+      "key": "exp=14;fraction=2;field=c_caffeine_mg_g",
+      "old": "4.3207"
+    },
+    {
+      "corrected": "3.7048",
+      "key": "exp=14;fraction=2;field=c_trigonelline_mg_g",
+      "old": "2.4698"
+    },
+    {
+      "corrected": "4.1619",
+      "key": "exp=14;fraction=2;field=c_5CQA_mg_g",
+      "old": "2.7746"
+    }
+  ],
+  "base_file_sha256": "735c8aa86e06ff1c46f13335924d91636e77da161962a1b7e9394421dbdd28ca",
+  "candidate_file_sha256": "d3ba1f8d9d8072a41b74060e7402b6814a4775e3f7387a212c71df61eebd6362",
+  "correction_reason": "INVALID_SPILL_EXCLUDED_FROM_VALID_ONLY_MEAN",
+  "downstream_metrics_affected": true,
+  "no_parameter_refit": true,
+  "source_evidence": [
+    "P24-M-PREP-FIT",
+    "P24-DOE-FIT",
+    "P24-MAT-FIT"
+  ]
+}

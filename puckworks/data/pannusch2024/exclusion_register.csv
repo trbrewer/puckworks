@@ -1,0 +1,4 @@
+campaign_id,source_experiment_id,shot_id,fraction_id,analyte_or_measurement,source_status,normalized_status,exclusion_reason,source_evidence,effect_on_aggregate,notes
+FIT_2021_12,3,FIT-E03-R1,2,ALL_HPLC_ANALYTES,SET_TO_ZERO_AS_INVALID_BY_SOURCE_CODE,INVALID_SPILL,INVALID_SPILL,P24-M-PREP-FIT explicit assignment; P24-DOE-FIT SampleWeights spill,excluded from valid-only mean,not a nondetect or valid zero
+FIT_2021_12,11,FIT-E11-R3,2,ALL_HPLC_ANALYTES,SET_TO_ZERO_AS_INVALID_BY_SOURCE_CODE,INVALID_SPILL,INVALID_SPILL,P24-M-PREP-FIT explicit assignment; P24-DOE-FIT SampleWeights spill,excluded from valid-only mean,not a nondetect or valid zero
+FIT_2021_12,14,FIT-E14-R3,2,ALL_HPLC_ANALYTES,SET_TO_ZERO_AS_INVALID_BY_SOURCE_CODE,INVALID_SPILL,INVALID_SPILL,P24-M-PREP-FIT explicit assignment; P24-DOE-FIT SampleWeights spill,excluded from valid-only mean,not a nondetect or valid zero
