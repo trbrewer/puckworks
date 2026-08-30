@@ -108,10 +108,10 @@ def test_component_no_gate_is_detected(report):
 
 
 def test_card_registry_status_drift_is_detected(report):
-    # a registered/executable component whose card still says proposed/card-only is surfaced
+    # PANNUSCH-RAW-REPRO-001 retired the former card-only drift.
     stale = {f["subject"] for f in report["findings"]
              if f["category"] == "component_card_status_stale"}
-    assert "pannusch2024.solver" in stale       # known drift (card 'card-only', component gated)
+    assert "pannusch2024.solver" not in stale
 
 
 def test_waszkiewicz_card_no_longer_drifts(report):
