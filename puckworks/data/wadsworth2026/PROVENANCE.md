@@ -1,5 +1,11 @@
 # wadsworth2026 (grind map) — data provenance
 
+Reviewed C1 authority: 22 PSD-related rows, 21 permeability values, and an
+approximately `1.58e-11` to `1.91e-10 m^2` permeability range. Use this source
+as its own prior/observation authority. It must not be row-fused with Vaca
+Guerra as though coffee, apparatus, PSD method, porosity, compaction,
+permeability method, and geometry were identical.
+
 Source card: `docs/cards/wadsworth2026_grindmap.md` (ROADMAP items 0.6 / 1.5).
 
 **Origin:** Wadsworth et al., *"A model for the permeability of coffee pucks

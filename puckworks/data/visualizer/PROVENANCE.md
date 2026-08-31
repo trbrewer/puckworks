@@ -1,5 +1,19 @@
 # visualizer.coffee — data intake provenance (ROADMAP 0.13)
 
+## Reviewed July 15 local snapshot status (2026-08-31)
+
+The owner-attested written permission covers internal analysis of API-accessible
+records under the documented rate limit. The external logical corpus
+`VISUALIZER_COFFEE_API_CRAWL_2026_07_15` contains 23,169 unique records; no raw
+record is committed here. Private-record use and raw redistribution are not
+authorized, and this correction made no API request. The deterministic bounded
+sample contains 1,966 records (1,223 time-series-qualified and 1,061
+resistance-qualified). Only 8 plausible nonzero TDS and 9 plausible nonzero EY
+values exist before joint consistency checks, so broad field presence is not
+usable population chemistry. Apparent-resistance evolution is motivating
+descriptive evidence, not predictive dynamic-resistance model selection. The
+immediately ready use is a real-world boundary library and operating envelope.
+
 **Data-only intake.** No registry component, no physics gate — this is a
 Phase-0 corpus plus an ingestion tool (`puckworks/lib/visualizer_harvest.py`).
 Card: `docs/cards/visualizer_coffee.md` (verdict `data-only`). Manifest rows:

@@ -1,0 +1,1163 @@
+{
+  "available_data_register_sha256": "1f16be1dac674ba4d94a0ee6060bc74ac941bc70e669dad8d6126d7114d1f77d",
+  "families": [
+    {
+      "aliases": [
+        "angeloni2023"
+      ],
+      "family_id": "angeloni2023",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "8 species x 2 varieties; the 66-shot chemistry (Tables 2-5) is a PENDING drop -- not in card, MDPI unreachable",
+        "66 shots (33 A + 33 R); 11 species; on_grid flags 54 calib vs 12 off-grid; 'Average' row dropped | PER-CONDITION analysis (gate_pannusch_angeloni_per_condition) maps angeloni pressure->flow by a REFINED Darcy map q~p/mu(T) (registered water viscosity; single physical anchor, granulometry O; NOT fitted to the concentrations); a crude linear-tau baseline is also available. The refinement closes ~5 pp of the gap (31->26% overall; caffeine to ~15% with inventory-matching). The residual >> angeloni's ~9-13% is cross-coffee INVENTORY + per-species KINETIC mismatch, not flow -- closable only by refitting to the angeloni coffee. Treat per-condition MAPE as regime-level, not accuracy-grade.",
+        "66 shots; TS g/100mL ~ TDS %; cameron reads ~2-4 pts LOW (bracket miss, informative) | PER-CONDITION analysis (gate_pannusch_angeloni_per_condition) maps angeloni pressure->flow by a REFINED Darcy map q~p/mu(T) (registered water viscosity; single physical anchor, granulometry O; NOT fitted to the concentrations); a crude linear-tau baseline is also available. The refinement closes ~5 pp of the gap (31->26% overall; caffeine to ~15% with inventory-matching). The residual >> angeloni's ~9-13% is cross-coffee INVENTORY + per-species KINETIC mismatch, not flow -- closable only by refitting to the angeloni coffee. Treat per-condition MAPE as regime-level, not accuracy-grade.",
+        "66 shots",
+        "66 conditions x (TS+lipid)=132 mean/RSD pairs; 'almost in duplicate' n_reported=2 qualified; A21 lipid RSD printed 0.0% = rounded (apply variance floor, not infinite weight); caffeine/trigonelline/CGA solute-specific RSD NOT recovered (Tables 4-5 give only global ranges 0.3-19.7%); raw replicates still owed. See angeloni2023/MANIFEST_UNCERTAINTY.md + docs/data_intake/ANGELONI_TRANSCRIPTION_AUDIT.md."
+      ],
+      "manifest_dataset_ids": [
+        "angeloni2023/inventories",
+        "angeloni2023/bioactives",
+        "angeloni2023/total_solids",
+        "angeloni2023/lipids",
+        "angeloni2023/total_solids_lipids_rsd"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Angeloni et al. Appl. Sci. 2023, 13, 2688 (MDPI, open access; Cloudflare-blocked for fetch)",
+        "Angeloni et al. Appl. Sci. 13 (2023) 2688 (MDPI, open access; Cloudflare-blocked for fetch); transcribed from article tables, no repository",
+        "Angeloni et al. Appl. Sci. 13 (2023) 2688 (MDPI open access); author-deposited PDF hashed"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:ANGELONI2023",
+      "strongest_current_uses": [
+        "extraction inventory priors; INDEPENDENT multi-species target for pannusch2024"
+      ]
+    },
+    {
+      "aliases": [
+        "bruno2026"
+      ],
+      "family_id": "bruno2026",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "Roasting is UPSTREAM of every registry stage -> DATA-ONLY (the Bruno ODE model is NOT implemented, per card: over-parameterised non-identifiable fit). mg/kg roasted powder (non-lipid); lipids % w/w dry basis. Bean-averaged; no solubility/diffusivity/partitioning (bruno card) -> use as an inventory PRIOR only, never Bruno-ODE -> extraction. Medium Arabica (Mexico/Rwanda) + hard-roast Robusta (Nicaragua/Indonesia)."
+      ],
+      "manifest_dataset_ids": [
+        "bruno2026/roasted_composition"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "CC BY 4.0 (Scientific Reports, open access)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:BRUNO2026",
+      "strongest_current_uses": [
+        "G6 / ledger-A4 SoluteInventory prior (offline provider); NOT a registered component"
+      ]
+    },
+    {
+      "aliases": [
+        "cameron2020"
+      ],
+      "family_id": "cameron2020",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "3 in-campaign grinds GS 1.1/1.3/1.5 (rel deviation 0.131/0.061/0.026); LOO over only 3 points",
+        "Gs 1.0/1.5/2.0/2.5, ~1-1900 um; enables maille's phi closure to be applied to Cameron's grind (an extrapolation above maille's own coarse-grind range)"
+      ],
+      "manifest_dataset_ids": [
+        "cameron2020/fig5_grind_deviation",
+        "cameron2020/psd_figure2"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paper (DOI 10.1016/j.matt.2020.06.019)",
+        "Cameron et al., Matter 2 (2020) 631-648; Fig 2 PSD digitized 2026-07-25"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:CAMERON2020",
+      "strongest_current_uses": [
+        "gate_streamtube_heldout; streamtube sigma(GS) fines-closure leave-one-out"
+      ]
+    },
+    {
+      "aliases": [
+        "egidi2024"
+      ],
+      "family_id": "egidi2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "p,T absorbed into q,tau (egidi); EY 19-23%; cameron reads ~15% (below bracket, documented); rho/phi_s undefined in Eq4 (\u00a75.8)"
+      ],
+      "manifest_dataset_ids": [
+        "egidi2024/table2"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paper (DOI 10.1016/j.chaos.2024.115625)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:EGIDI2024",
+      "strongest_current_uses": [
+        "RC-1 EY/TDS range bracket (2.1)"
+      ]
+    },
+    {
+      "aliases": [
+        "ellero2019"
+      ],
+      "family_id": "ellero2019",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "SPH model OUTPUT in dimensionless sim units with NOMINAL parameters -> characterizes the MODEL, not coffee (card VERDICT: skip). theta=0.0058 is FIT to the flow data (circular at that theta). Pump-off windows (t/tnu ~37.6-52.6, 75.2-90.2) read as Re~0. Only the fig2 Ref.[8] markers are experimental (secondary ref, overlaid). Does NOT close G2 -- the raw ASIC 1993/1997 transient-discharge series (refs [13]/[18]) is still owed.",
+        "Exploratory parameter sweep, NO experimental comparison (card). Simulation units, nominal params -> model characterization, not coffee. Blue curve near-legend gap bridged by column median (notes).",
+        "Exploratory sweep, NO experimental comparison. Simulation units, nominal params. Supports the mechanism claim qualitatively (content rises with Dr, weakly with Db); not a coffee measurement."
+      ],
+      "manifest_dataset_ids": [
+        "ellero2019/fig2_inverse_discharge",
+        "ellero2019/fig3_direct_discharge",
+        "ellero2019/fig4_caffeine_content"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "no DOI (conference proceedings); figures digitized, no PDF redistributed",
+        "no DOI (conference proceedings); figures digitized"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:ELLERO2019",
+      "strongest_current_uses": [
+        "G2 fines-migration mechanism SHAPE/timescale (qualitative pointer)"
+      ]
+    },
+    {
+      "aliases": [
+        "fasano2000_partI"
+      ],
+      "family_id": "fasano2000_partI",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "low fidelity; 3/5/7 bar; transient peak then decay to a pressure-nonmonotone asymptote",
+        "3 segments: direct decay / off-on resume at low plateau / inverted replays full peak",
+        "nonmonotone q_inf(p0) for beta1,beta2; peak tracks the Fig 8.7 beta knee (Cor 8.2)",
+        "monotone-decreasing with a steep drop; beta1 knee ~q=0.33, beta2 knee ~q=0.23"
+      ],
+      "manifest_dataset_ids": [
+        "fasano2000_partI/fig8_1_experimental",
+        "fasano2000_partI/fig8_4_reversal",
+        "fasano2000_partI/fig8_6_model_q_inf",
+        "fasano2000_partI/fig8_7_thresholds"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Fasano/Talamucci/Petracco, Complex Flows in Industrial Processes ch.8, Springer 2000 (no DOI; no code/data); digitized figures"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:FASANO2000_PARTI",
+      "strongest_current_uses": [
+        "3.3 experimental target (only nonmonotone-q_inf evidence)"
+      ]
+    },
+    {
+      "aliases": [
+        "foster2025_2"
+      ],
+      "family_id": "foster2025_2",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "fine grind fit; t_shift=0.796 start-align; reported t_p/t_s = model + t_shift; Fig 15 flow-min pending 0.11",
+        "Q_norm = bed flow min(Qp,f)/Qm (Eq18); flow-min 0.181 @ t=2.0s; reproduced by solving Eqs 32-38, not pixel-traced",
+        "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)"
+      ],
+      "manifest_dataset_ids": [
+        "foster2025_2/params",
+        "foster2025_2/fig15_flow",
+        "foster2025_2/fig12_14_curves"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paper (DOI 10.1063/5.0245167)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:FOSTER2025_2",
+      "strongest_current_uses": [
+        "item 1.6: machine-mode t_p/t_s reproduction"
+      ]
+    },
+    {
+      "aliases": [
+        "g10_liquor_rheology",
+        "khomyakov2020",
+        "telisromero2000"
+      ],
+      "family_id": "g10_liquor_rheology",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "Sources measured INSTANT-COFFEE processing conc (dilute end 90% water); espresso TDS 4-12% solids is BELOW their range -> mu_espresso is EXTRAPOLATION toward pure water (~1.3-2x). Espresso IS Newtonian (validates single-mu assumption; power-law only >36% solids). Quantitative per-cell mu(T,c) needs Tim drop of Telis-Romero tables. No espresso-TDS measurement on file (new open sub-search).",
+        "Industrial SOLUBLE-COFFEE extract (51 Brix, one batch), NOT espresso liquor -> unquantified composition bias (no oils/fines/CO2). Newtonian domain X_w 76-90%; power-law only >36% solids. Espresso TDS 4-12% solids sits at/below the source's dilute end -> mu EXTRAPOLATED toward water. Bulk shot-TDS mu ~=1.06x water (negligible); ~1.3-2x belongs to concentrated early in-pore liquor. Table1(24)/Table2(54) per-cell values NOT yet digitized (figure/table-only). Companion rho/thermal in telisromero2000 (card-only).",
+        "CLOSES the OWED per-cell digitization. Cross-validates the transcribed closures (independent path) against the measured grid -> agreement at the authors' own fit quality confirms both. Table 1 spans exactly the espresso in-pore X_w range (76-90%); used directly (bilinear, data.telisromero_eta_measured) by analysis.g10_viscosity_sensitivity. Composition caveat (soluble-coffee extract != espresso liquor) + dilute-end extrapolation (espresso is >90% X_w, above the box top) stand.",
+        "COMPANION to telisromero2001 (same batch family) -> mu/rho/cp/k/alpha(T,X_w) liquor set. X_w is a FRACTION here vs PERCENT in 2001 (normalization hazard -> loaders guard). Eq (6) alpha T-coeff has a ~100x EXPONENT TYPO (printed 0.0212e-10; corrected 0.0212e-8 = 2.12e-10 reproduces Fig 5); corrected value loaded, printed noted. Direct alpha convection-biased +~11% vs k/(rho*cp) -> pick ONE path. Espresso TDS at UPPER edge of conc range + brew T 88-96C ABOVE 82C -> extrapolation. Water-referenced Eqs (2)/(5)/(7) NOT loaded (need external water-property tables). Bulk rho ~1003 (<=1% over water); first-drip rho ~1196 (20% mass<->volume effect). DATA-ONLY companion (no separate component; gated under sourcing2026.g10_liquor_rheology).",
+        "MEASURED kinematic viscosity 15-70 wt% x 20-80 C; nu monotone down in T, up in solids (smoke-tested). DOMAIN GUARD: >=15 wt%, ABOVE espresso TDS (4-12 wt%) -> espresso is an EXTRAPOLATION; do not extrapolate below 15 wt% silently. Industrial soluble-coffee extract, not fraction-resolved espresso. Printed density (+0.8*T sign conflict) and dynamic-viscosity power-law (literal eval 5.8-1194x off Table 1) equations QUARANTINED in-dir (_FLAGGED/_QUARANTINED.csv), NOT loaded. See docs/cards/khomyakov2020.md."
+      ],
+      "manifest_dataset_ids": [
+        "g10_liquor_rheology/telis_romero_envelope",
+        "g10_liquor_rheology/telisromero2001_closures",
+        "g10_liquor_rheology/telisromero2001_tables",
+        "g10_liquor_rheology/telisromero2000_thermal",
+        "g10_liquor_rheology/khomyakov_kinematic_viscosity"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paywalled (Wiley/Tandfonline, bot-blocked here); ranges/forms from snippets + open 2013 xref",
+        "paywalled (Wiley, bot-blocked here); coefficients + anchors transcribed from docs/cards/telisromero2001.md, primary Tables 1-2 NOT redistributed",
+        "paywalled (Wiley); tables digitized by author-side drop, not redistributed beyond this repo",
+        "paywalled (Tandfonline, bot-blocked here); coefficients + anchors from docs/cards/telisromero2000.md, Figs 2-5 NOT digitized/redistributed",
+        "CC BY 3.0 (IOP; open access)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:G10_LIQUOR_RHEOLOGY",
+      "strongest_current_uses": [
+        "G10 flow-closure mu(T,c)/rho(T,c); RC-2/RC-3 early-shot-bias check"
+      ]
+    },
+    {
+      "aliases": [
+        "g1_glassbead_analog"
+      ],
+      "family_id": "g1_glassbead_analog",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "ANALOG (spherical glass beads, NOT coffee): transfers K_r(S) shape + S_r=0.07 + linearized-VG slope, NOT magnitude. Coffee retention search target (g1_retention_search_target.md) STAYS OPEN. Do NOT upgrade without a coffee measurement + \u00a77.1 entry. Valid 0.2<S<0.8 only."
+      ],
+      "manifest_dataset_ids": [
+        "g1_glassbead_analog/retention_kr"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "open arXiv:2501.13361 (no journal DOI); underlying bead data per cited 1966-2017 refs"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:G1_GLASSBEAD_ANALOG",
+      "strongest_current_uses": [
+        "G1 Richards closure shape prior (egidi2018 solver); P3 hyp#2 machinery only"
+      ]
+    },
+    {
+      "aliases": [
+        "g3_pump_characteristic"
+      ],
+      "family_id": "g3_pump_characteristic",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "Manufacturer ENDPOINTS only measured (Q_free~10.8 mL/s, P_deadhead 15 bar, +/-15%); interior curve is CONCAVE DROOP not quadratic. True DE1 Q(P) is CLOSED ESP32 firmware (country-calibrated, unpublished). Does NOT replace waszkiewicz2025/brewer_quadratic (operative measured quad). Independent DE1 curve = TB bench pull or Decent request. 120V/60Hz only."
+      ],
+      "manifest_dataset_ids": [
+        "g3_pump_characteristic/ulka_envelope"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "public (manufacturer datasheet; Decent blog; espressoaf community)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:G3_PUMP_CHARACTERISTIC",
+      "strongest_current_uses": [
+        "RC-3 machine-mode envelope bound; flow boundary-condition context"
+      ]
+    },
+    {
+      "aliases": [
+        "gagne2021"
+      ],
+      "family_id": "gagne2021",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "11 .shot P/flow/T traces NOT held (external acquisition target data/gagne2021_shots/; verify links); resistance is DE1-firmware instrument-defined; ~20% end-of-shot flow-sensor drift; no PSD; single coffee/machine/profile",
+        "DE1 firmware-defined resistance channel; ~20% end-of-shot showerhead-flow drift contaminates R(t); no PSD; single coffee/machine/profile; blog redistribution posture unverified; raw .shot files tracked",
+        "apparent resistance from the DE1 flow estimate (drifts ~20% near shot end); single coffee/machine/profile; the raw .shot traces are the provenance (gagne2021/shots), redistribution posture unverified"
+      ],
+      "manifest_dataset_ids": [
+        "gagne2021/grinder_arm_summary",
+        "gagne2021/shots",
+        "gagne2021/resistance_decline_summary"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "J. Gagne, Coffee Ad Astra / Patreon (2021); no DOI, not peer-reviewed; 11 .shot files published alongside",
+        "J. Gagne, Coffee Ad Astra (2021); .shot files published alongside the post; no explicit licence (blog); not peer-reviewed",
+        "J. Gagne, Coffee Ad Astra (2021); derived summary of the published .shot files; not peer-reviewed"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:GAGNE2021",
+      "strongest_current_uses": [
+        "arms the kappa(t)-vs-viscosity-decline discrimination (needs the .shot traces, an acquisition target); grinder-contrast observable"
+      ]
+    },
+    {
+      "aliases": [
+        "gloess2013"
+      ],
+      "family_id": "gloess2013",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "ONE in-scope condition only (DE Dalla Corte espresso); the paper's 8 other methods are non-espresso and NOT transcribed. Each sample is a composite of FIVE double shots, so the spread is between composites, not between shots. Headline TDS/EY are FIGURE-READS -- the ESM tables were not retrieved. Beverage given as VOLUME (60 ml) with no density, so any volume->mass conversion is an assumption. PSD is mode+FWHM only (400/220 um). Single coffee, single operating point: no parameter dependence is testable."
+      ],
+      "manifest_dataset_ids": [
+        "gloess2013/de_espresso_endpoint"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "CC-BY (open access; Eur. Food Res. Technol. 236:607-627; DOI 10.1007/s00217-013-1917-x)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:GLOESS2013",
+      "strongest_current_uses": [
+        "no gate -- low-priority cross-check anchor only (EY ~20% at TDS ~5.5% sits below cameron2020's 29.6% inventory ceiling)"
+      ]
+    },
+    {
+      "aliases": [
+        "grudeva2025"
+      ],
+      "family_id": "grudeva2025",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "kappa row adjudicated 2.2e-15 (decade typo); P_app 9.2e5 (printed 9.2e-6 typo); two configs not merged; rights basis is UNCHANGED article/thesis CC-BY - transcribed from the publications, NOT from the upstream repo, so the 2026-08-14 Grudeva permission (#73) is a cross-reference only and does not replace it",
+        "derived per-vial mean/SD over 14 shots; raw per-shot file still NOT redistributed (permission does not itself authorize new upstream payloads); solubles = vial weight x TDS; permission is a rights basis only - validation strength unchanged"
+      ],
+      "manifest_dataset_ids": [
+        "grudeva2025/params",
+        "grudeva2025/exp13_vial_stats"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "thesis + EJAM CC-BY (DOI 10.1017/S095679252500018X)",
+        "reference repo declares no SPDX license; DIRECT WRITTEN PERMISSION from Dr. Yoana Grudeva 2026-08-14 (LinkedIn) covering code and data - full evidence retained privately (docs/permissions/grudeva2025.md; #73); paper CC-BY is a separate record"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:GRUDEVA2025",
+      "strongest_current_uses": [
+        "item 1.7b: two named configs; adjudicated kappa/P_app"
+      ]
+    },
+    {
+      "aliases": [
+        "hargarten2020"
+      ],
+      "family_id": "hargarten2020",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "Ambient pressure ONLY -- the ~9 bar espresso regime is explicitly NOT covered (card's key silence). Progress >100% @4min = 20-min-normalization artifact, not overshoot. Two roasts, demineralized water. Pairs with Mo 2021/2022 swelling/erosion models (not implemented) to become runtime-relevant. Figures (PSD dry/wet, single-particle time-courses) OWED as a digitization drop.",
+        "~15% ISOTROPIC swelling, size- and roast-INDEPENDENT (non-significant slopes), erosion-corrected via sieving; temperature-enhanced fines erosion (sign only, mass not quantified). No k(swelling) or porosity(t) relation -- direction only. Ambient pressure only."
+      ],
+      "manifest_dataset_ids": [
+        "hargarten2020/swelling_progress",
+        "hargarten2020/scalar_anchors"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "CC BY-NC (JSFA, open access); PSD/single-particle figures NOT digitized (owed)",
+        "CC BY-NC (JSFA)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:HARGARTEN2020",
+      "strongest_current_uses": [
+        "DATA-ONLY empirical anchor for the (not-yet-open) bed_dynamics swelling/erosion backlog; NOT a registered component"
+      ]
+    },
+    {
+      "aliases": [
+        "khamitova2020"
+      ],
+      "family_id": "khamitova2020",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "tamping-force effect is approximately null (narrow variation) at fixed 1:2 ratio; single rig/coffee; the 3D model params (Tables 5.8-5.10) are NOT transcribed (rig-specific, superseded); precursor of the angeloni2023 lineage"
+      ],
+      "manifest_dataset_ids": [
+        "khamitova2020/tamping"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Khamitova PhD dissertation, University of Camerino (2020); no DOI"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:KHAMITOVA2020",
+      "strongest_current_uses": [
+        "weak-effect reference (tamping ~ null on per-species concentration at fixed 1:2 ratio); multi-compound espresso chemistry beside pannusch/schmieder"
+      ]
+    },
+    {
+      "aliases": [
+        "liang2021"
+      ],
+      "family_id": "liang2021",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "digitized subset ~42 of 99 pts; refit K*E_max=0.2186 vs card 0.215+/-0.002; R_brew>=3 (excl. moist-sludge R=2)",
+        "measurement col = equilibrium|oven_drying; equil E ~20.4% (card ~21%); oven under-reads",
+        "5A/5B panels; caf/decaf/roast levels"
+      ],
+      "manifest_dataset_ids": [
+        "liang2021/fig3_tds",
+        "liang2021/fig4_E",
+        "liang2021/fig5_cupping"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "open access (DOI 10.1038/s41598-021-85787-1)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:LIANG2021",
+      "strongest_current_uses": [
+        "item 1.3: refit K*E_max (Eq 11, R_brew>=3)"
+      ]
+    },
+    {
+      "aliases": [
+        "maille2024"
+      ],
+      "family_id": "maille2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "21 materials; single Colombian origin; two roasts; coarse sieved + full-PSD",
+        "17 materials; TWO-cell-layer shell adopted (printed one-layer form is wrong, ~doubles phi); per-bin PSD unpublished so D[4,3] approximation used",
+        "21 materials; hybrid = liquid-dispersion fines below 186um + air above (Eq 5.1-5.3)",
+        "24 materials; documents that GrindState.fines_fraction is dispersion-method-dependent (186um cut here)",
+        "17 materials; E5: OmegaT/3-CQA lambda_fast CI internally impossible (upper<est) -> UNUSABLE (analysis.maille2024.kinetics_flags)",
+        "16 materials; '*' = unreported; E5: OmegaL/quinic lambda_slow CI internally impossible -> UNUSABLE",
+        "21 materials; C_inf measured not predicted (no solute-inventory model)",
+        "3 materials x 5 compounds x 7 times; the extraction FIGURES (Figs 4.6-4.10, ~60 events) are a separate digitization OWED",
+        "was redacted in the release the card was written from; supplied here from the unredacted thesis",
+        "closed porosity rises with particle size; unredacted",
+        "single material Omega_A only; per-figure digitization schemas normalized; batch WMBR, coarse grind"
+      ],
+      "manifest_dataset_ids": [
+        "maille2024/materials",
+        "maille2024/phi",
+        "maille2024/psd_hybrid",
+        "maille2024/psd_dispersion",
+        "maille2024/kinetics_caffeine_3cqa",
+        "maille2024/kinetics_organic_acids",
+        "maille2024/equilibrium_concentrations",
+        "maille2024/normalized_curves",
+        "maille2024/ssa",
+        "maille2024/particle_porosity",
+        "maille2024/extraction_curves"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Maille PhD thesis, U. Sheffield 2024 (unredacted tables); White Rose eTheses; digitized 2026-07-25",
+        "Maille PhD thesis, U. Sheffield 2024; White Rose eTheses; figures digitized 2026-07-25"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MAILLE2024",
+      "strongest_current_uses": [
+        "material legend for all maille datasets (Sample ID -> roast, sieve class)"
+      ]
+    },
+    {
+      "aliases": [
+        "mckeonaloe2022"
+      ],
+      "family_id": "mckeonaloe2022",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "n=1 basket each; mean diameters read off bar charts (mean_hole_diam_approx=True); hole count / plate thickness not provided; holes taper wider on coffee face (exit face flow-limiting); geometry only, NO dP/resistance -> does NOT close G9"
+      ],
+      "manifest_dataset_ids": [
+        "mckeonaloe2022/basket_open_area_geometry"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "R. McKeon Aloe, Medium / Coffee Data Science (2022); non-peer-reviewed; no DOI"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MCKEONALOE2022",
+      "strongest_current_uses": [
+        "G9 exit-boundary geometry seed (complements schulman2011 multi-brand table); orifice open-area reference"
+      ]
+    },
+    {
+      "aliases": [
+        "mo2023"
+      ],
+      "family_id": "mo2023",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "K1 UNITS CAVEAT (\u00a75.3): Eq.2 needs [k1]=m but tables give 1e-9 m2; inconsistent ~1e4 vs Fig 8b -> do NOT use k1 quantitatively (author corresp pending)",
+        "Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (\u00a75.2)"
+      ],
+      "manifest_dataset_ids": [
+        "mo2023/forchheimer",
+        "mo2023/fig8a"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "preprint arXiv:2305.03911 (no journal DOI)",
+        "preprint arXiv:2305.03911"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MO2023",
+      "strongest_current_uses": [
+        "1.1 \u00a75.2 Mo Re overlay; P6 Forchheimer priors"
+      ]
+    },
+    {
+      "aliases": [
+        "mo2023_2"
+      ],
+      "family_id": "mo2023_2",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "bimodal fine/coarse split at 100 um; distinct from the mo2023 arXiv PSD table",
+        "t=0 flow closure sanity only, NOT swelling",
+        "powders E/M/F x q 2/3/4 mL/s; monotone in grind (NO fine-grind dip -- fixed-flow defeats clogging)",
+        "fixed-dP swelling regime; the paper's headline claim rests on ZERO data here",
+        "CAPTION HAZARD: 'K=0.9 hindrance factor' is the PARTITION coefficient, mislabeled",
+        "K tuned to 0.9; implement-later solver reproduction target"
+      ],
+      "manifest_dataset_ids": [
+        "mo2023_2/granulometry_table1",
+        "mo2023_2/k0_table2",
+        "mo2023_2/yield_strength_figs6_9",
+        "mo2023_2/fig3a_qdecay",
+        "mo2023_2/fig6_Ksweep_typeM",
+        "mo2023_2/sim_lines_figs7_9"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Elsevier, J. Food Eng. 2023 DOI 10.1016/j.jfoodeng.2023.111843 (paywalled); no code/data published"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MO2023_2",
+      "strongest_current_uses": [
+        "Carman-Kozeny k0 input; 3.1"
+      ]
+    },
+    {
+      "aliases": [
+        "moroney2015"
+      ],
+      "family_id": "moroney2015",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "Philips drip-filter chamber (60 g, 250 mL/min, ~1 L), NOT espresso brew ratio; Fig 8 y-calibration ESTIMATED (raster source); some figure series duplicate others (Fig 9=Fig 1; Fig 11/12 blue=Fig 3); a # provenance header rides on every file"
+      ],
+      "manifest_dataset_ids": [
+        "moroney2015/data"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Moroney et al. 2015, Chemical Engineering Science (Elsevier); DOI 10.1016/j.ces.2015.06.003; digitized/transcribed by Puckworks"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MORONEY2015",
+      "strongest_current_uses": [
+        "primary-source provenance for moroney2016/moroney2019/cooper2021 parameters; a permeability anchor + bed-depth scaling (Fig 11) and the pressure-invariance result (Fig 12); fine+coarse extraction curves; measured kappa=3.1 and c_sat=212.4 cross-checks"
+      ]
+    },
+    {
+      "aliases": [
+        "moroney2016"
+      ],
+      "family_id": "moroney2016",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "fine-grind params; alpha*/beta* fitted; constant-dP baked in",
+        "leading-order matches plateau + wash-through (c=0.5 at t~3.1); tail needs outer soln (Moroney 2015), not on card"
+      ],
+      "manifest_dataset_ids": [
+        "moroney2016/table1",
+        "moroney2016/fig6"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paper (DOI 10.1137/15M1036658)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MORONEY2016",
+      "strongest_current_uses": [
+        "item 1.4: surrogate parameters (a2=5.139, a3=0.473, eps=0.127)"
+      ]
+    },
+    {
+      "aliases": [
+        "moroney2019"
+      ],
+      "family_id": "moroney2019",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "h_sl_reported carries the paper's ~10^3 CFD-scaling error; use h_sl_corrected (=reported/965.3). Kinetics duplicate cameron2020 at lower fidelity; pre-dissolution IC overshoots saturation early; single Philips drip-brew dataset, not espresso"
+      ],
+      "manifest_dataset_ids": [
+        "moroney2019/table2"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Moroney et al. 2019 PLoS ONE (CC BY 4.0); cooper2021 Quantitative Cafe blog (errata, author-confirmed)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:MORONEY2019",
+      "strongest_current_uses": [
+        "transcription-check target (reproduce 1-D two-grain c_exit RMSE 5.81/6.23 kg m^-3 from CORRECTED h_sl); two Delta-p permeability cross-check anchors"
+      ]
+    },
+    {
+      "aliases": [
+        "pannusch2024"
+      ],
+      "family_id": "pannusch2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "independent external validation",
+        "target-blind claim",
+        "total roasted inventory",
+        "production M0",
+        "I_ref-to-M0 bridge",
+        "absolute closure",
+        "hydraulic validation under prescribed flow",
+        "temperature-ramp EWP comparison under current physics",
+        "local home-lab method qualification",
+        "fit_experiments=15; fit_physical_shots=45; fit_fractions=6; prediction_conditions=8; prediction_physical_shots=24; prediction_fractions_per_shot=6; reference_preparations=1; reference_fractions=12; invalid_spills=3",
+        "Raw source files are external and are resolved at runtime; they are not redistributed."
+      ],
+      "manifest_dataset_ids": [
+        "pannusch2024/table2_params",
+        "pannusch2024/experimental_kinetics"
+      ],
+      "model_chain_stages": [
+        "extraction"
+      ],
+      "raw_access_status": "EXTERNAL_RECOVERED_LOCAL_CORPUS",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "CC-BY-NC-3.0 (Mendeley 10.17632/y2tz67f6ry.1) / paper CC-BY",
+        "CC-BY-NC-3.0 (Mendeley 10.17632/y2tz67f6ry.1)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:PANNUSCH2024",
+      "strongest_current_uses": [
+        "source reconstruction",
+        "replicate analysis",
+        "source-internal campaign-separated comparison",
+        "programmed-flow contrast",
+        "source-apparatus variance planning"
+      ]
+    },
+    {
+      "aliases": [
+        "perticarini2024"
+      ],
+      "family_id": "perticarini2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "18 conditions for Cibao Altura: 5 granulometries incl. extra fine and extra coarse, T 90.4/93.4 degC, p 6/9 bar plus 12 bar on the two extreme grinds only. Extends the registry's grind envelope past egidi2024's Modoetia set in BOTH directions. EY is the thesis's own TDS x brew-ratio product, not an independent measurement -- implied beverage/dose ratio spans 1.95-2.07, consistent with the stated 40+/-2 g out of 20+/-0.1 g. Table 4.3 (Modoetia) is NOT transcribed: expected to duplicate egidi2024 Table 2 and unverified",
+        "Mean tamped height L and mean extraction time per granulometry per coffee; VST Competition basket, inner radius 29.25 mm, 20+/-0.1 g dose, 20 kgF tamp",
+        "Fines/boulder representative radii and fines solid fraction for the six simulated I=1 extractions. a_f, a_b are the two MODES of a bimodal PSD split at 100 um, not independently measured radii. Store WITH the factor-2 a_s convention flag the card records"
+      ],
+      "manifest_dataset_ids": [
+        "perticarini2024/ey_tds_cibao",
+        "perticarini2024/bed_height_time",
+        "perticarini2024/granulometry_params"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Universita degli Studi di Camerino PhD thesis (Perticarini 2024), deposited 28 Feb 2024; no DOI, no explicit licence stated -- transcribed table values only, under academic quotation; no code or figures reproduced"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:PERTICARINI2024",
+      "strongest_current_uses": [
+        "NONE YET -- held for the multi-class extraction backlog; no component consumes it (perticarini2024 verdict is implement-later)"
+      ]
+    },
+    {
+      "aliases": [
+        "pocketscience2024"
+      ],
+      "family_id": "pocketscience2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "shot style confounded with grinder; two-zone radial only (no depth); section EY anchored to shot EY by construction; VST18xbrass cells absent (12 of 16); Gagne MC edge losses differ from raw means; label erratum carried (outer-to-TOTAL, not outer-to-inner); does NOT close G1 or G9",
+        "lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target"
+      ],
+      "manifest_dataset_ids": [
+        "pocketscience2024/edge_ey_condition_means",
+        "pocketscience2024/lrr_scalars"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:POCKETSCIENCE2024",
+      "strongest_current_uses": [
+        "offline validation target for a future radial two-zone bed_dynamics/extraction variant (reproduce edge-loss SIGN structure); prior-shaping caution for brewer2026.streamtube sigma"
+      ]
+    },
+    {
+      "aliases": [
+        "ribes2020"
+      ],
+      "family_id": "ribes2020",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "outlet-side paper filter changes flow distribution + fines retention + resistance at once (unseparable); zone-EY method undocumented so absolute EYs are not cross-source comparable; single machine/coffee/grind; 12 g in a 15 g basket (under-dosed)"
+      ],
+      "manifest_dataset_ids": [
+        "ribes2020/radial_ey"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "S. Ribes 2020 slide deck (Decent community); no DOI, not peer-reviewed"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:RIBES2020",
+      "strongest_current_uses": [
+        "qualitative secondary target for a future radial bed_dynamics/extraction variant (reproduce outer/center ratio sign structure); G9 outlet-boundary context"
+      ]
+    },
+    {
+      "aliases": [
+        "ribes2021"
+      ],
+      "family_id": "ribes2021",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "contact screen ABOVE the puck (inlet-side), 19 g in a 20 g basket; light-polish tamp confound in the no-screen arm; Pullman/no-screen area-weight slack (22.3 vs stated 21); vendor-adjacent (BPLUS under test)"
+      ],
+      "manifest_dataset_ids": [
+        "ribes2021/radial_ey"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "S. Ribes 2021 slide deck (Decent community); no DOI, not peer-reviewed"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:RIBES2021",
+      "strongest_current_uses": [
+        "qualitative secondary target (outer deficit + contact-screen flattening); corroborates ribes2020/pocketscience2024"
+      ]
+    },
+    {
+      "aliases": [
+        "romancorrochano2015"
+      ],
+      "family_id": "romancorrochano2015",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV"
+      ],
+      "manifest_dataset_ids": [
+        "romancorrochano2015/table2"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Roman-Corrochano et al. 2015 (CC BY 4.0; DOI'd version of record)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:ROMANCORROCHANO2015",
+      "strongest_current_uses": [
+        "tamped-permeability data for wadsworth2026.permeability tamped-reconciliation (G9/P4); supersedes the thesis Table 6.1 transcription target"
+      ]
+    },
+    {
+      "aliases": [
+        "romancorrochano2017"
+      ],
+      "family_id": "romancorrochano2017",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "4 grinds x 3 densities; PsiE non-monotone in density (thesis notes kappa noisy at coarsest); NOT a K-C validation (K-C closures are poorer than wadsworth2026.inertial)",
+        "grind PsiG not reported; med-MW is the parameter-free bed choice",
+        "swelling factor S=1 (none observed)",
+        "keyed by blend not the PsiB..H grind ladder; Hm~=tau/eps_total consistency holds",
+        "caffeine Db nominal (Poling 2008); galactomannan rh from lit/DLS",
+        "keyed by grind; all-grinds-joint vs per-grind single Deff -- NOT the 1-vs-4-Deff comparison (that is Figs 5.11/5.13)",
+        "y-axis max 80%; min-MPE class per grind matches thesis text within ~0.2pp",
+        "multiple-Deff drops MPE ~50% vs best single; two dialysis/diafiltration weightings",
+        "15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class)",
+        "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest"
+      ],
+      "manifest_dataset_ids": [
+        "romancorrochano2017/tamped_kappa",
+        "romancorrochano2017/deff_table4_9",
+        "romancorrochano2017/partition_K_table4_10",
+        "romancorrochano2017/hindrance_table4_8",
+        "romancorrochano2017/Db_table3_4",
+        "romancorrochano2017/mpe_table5_3",
+        "romancorrochano2017/fig5_11_mpe",
+        "romancorrochano2017/fig5_13_mpe",
+        "romancorrochano2017/fig7_4_espresso",
+        "romancorrochano2017/y0_extractable"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "University of Birmingham e-theses (open access; non-commercial research use); no DOI"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:ROMANCORROCHANO2017",
+      "strongest_current_uses": [
+        "G9 permeability target; \u00a75.5; permeability card is DATA-ONLY"
+      ]
+    },
+    {
+      "aliases": [
+        "schmieder2023"
+      ],
+      "family_id": "schmieder2023",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "authoritative averaged fits; Exp7 caffeine c0=9.70981 lambda=23.09434 == card",
+        "15 exp x 3 reps (Exp7 center point x6)",
+        "per-rep mass + concentration at BR 1/1,1/2,1/3; mean RSD 2.5% (max 8.5%)",
+        "no TDS column (TDS gravimetric); fractions 1,2,3,5,7,10 per card; earliest brew misfits exponential",
+        "adj R2 0.41-0.75 (caffeine worst); authors restrict to qualitative trends; eliminated terms = 0"
+      ],
+      "manifest_dataset_ids": [
+        "schmieder2023/kinetics_fit_params_avg",
+        "schmieder2023/kinetics_fit_params_reps",
+        "schmieder2023/cup_masses",
+        "schmieder2023/raw_fractions",
+        "schmieder2023/rsm_coefficients"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "open access CC-BY (Foods 12,2871; DOI 10.3390/foods12152871)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:SCHMIEDER2023",
+      "strongest_current_uses": [
+        "RC-4 / item 1.8a: reproduce fit c0,lambda (post-fit); liang/cameron ceiling context"
+      ]
+    },
+    {
+      "aliases": [
+        "schulman2011"
+      ],
+      "family_id": "schulman2011",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "14 baskets; A_h face-side (tapered holes, unknown bias); hole count derived; plate thickness assumed"
+      ],
+      "manifest_dataset_ids": [
+        "schulman2011/basket_geometry"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Schulman, Home-Barista.com (2011); non-peer-reviewed; no DOI"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:SCHULMAN2011",
+      "strongest_current_uses": [
+        "G9 screen-resistance [RS] orifice/Poiseuille construction"
+      ]
+    },
+    {
+      "aliases": [
+        "smrke2024"
+      ],
+      "family_id": "smrke2024",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "no published coefficients/error stats so no reproduction gate is possible; the fines-mechanism claim is an absence-of-effect argument at n=3/condition; sensory is single Q-grader (not double-blind); PTR-MS IDs tentative; marker-overlap uncertainty on some Fig 3 clusters"
+      ],
+      "manifest_dataset_ids": [
+        "smrke2024/figures"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Smrke et al. 2024, Scientific Reports (CC BY 4.0); DOI 10.1038/s41598-024-55831-x; raw on request from S. Smrke"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:SMRKE2024",
+      "strongest_current_uses": [
+        "consumer gate target: an extraction config at 20 g/40 g/9 bar lands its (EY, t_shot) on the Fig 3 curve within scatter; Fig S1 is a second-machine flow-profile complement to DE1 fixture A"
+      ]
+    },
+    {
+      "aliases": [
+        "sobolik2002"
+      ],
+      "family_id": "sobolik2002",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "limits": [
+        "soluble-coffee (freeze-dried) extract, NOT espresso liquor; omega = dry-coffee mass fraction; Fig 5 deliberately not scatter-digitized (carried by Table 1); Table 1 endpoint anomaly + thixotropy flags in the dir README; Weisser 1972 data available via Fig 3 only"
+      ],
+      "manifest_dataset_ids": [
+        "sobolik2002/rheology"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "Sobolik et al. 2002, Journal of Food Engineering 51:93-98 (Elsevier); PII S0260-8774(01)00042-5; digitized/computed by Puckworks"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:SOBOLIK2002",
+      "strongest_current_uses": [
+        "third independent liquor-viscosity source for gap G10 (adjudicate the ~40-55% telisromero/khomyakov offset); mu(omega,T) data for flow-coupling sensitivity"
+      ]
+    },
+    {
+      "aliases": [
+        "telisromero2001"
+      ],
+      "family_id": "telisromero2001",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "limits": [
+        "coffee-specific production viscosity validation",
+        "direct EWP rheology validation",
+        "unbounded extrapolation outside concentration-temperature-shear-rate domain",
+        "one industrial soluble-coffee extract batch; not fresh espresso liquor; concentration/temperature validity box and percent-water basis must be retained; no coffee-specific production-viscosity or direct EWP validation claim"
+      ],
+      "manifest_dataset_ids": [
+        "telisromero2001/rheology_authority"
+      ],
+      "model_chain_stages": [
+        "flow",
+        "fluid_property"
+      ],
+      "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "paywalled Wiley article; bibliographic facts and compact normalized factual values retained for research verification; no article PDF or raw rheograms redistributed"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:TELISROMERO2001",
+      "strongest_current_uses": [
+        "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
+      ]
+    },
+    {
+      "aliases": [
+        "vacaguerra2023a"
+      ],
+      "family_id": "vacaguerra2023a",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "limits": [
+        "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET",
+        "50 dry-porosity validation rows; do not equate coffee, apparatus, PSD method, porosity definition, compaction state, permeability method, or geometry with Wadsworth"
+      ],
+      "manifest_dataset_ids": [
+        "vacaguerra2023a/extraction_conditions",
+        "vacaguerra2023a/psd",
+        "vacaguerra2023a/phi_coefficients",
+        "vacaguerra2023a/omega_coefficients",
+        "vacaguerra2023a/dry_porosity_validation"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "JFE 340 (2023) 111301 (Elsevier); preprint digitized, not redistributed",
+        "JFE 340 (2023) 111301 (Elsevier); preprint digitized"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:VACAGUERRA2023A",
+      "strongest_current_uses": [
+        "SEPARATE_SOURCE_PRIORS_AND_OBSERVATION_OPERATORS"
+      ]
+    },
+    {
+      "aliases": [
+        "visualizer",
+        "visualizer_coffee"
+      ],
+      "family_id": "visualizer",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "limits": [
+        "population TDS/EY analysis",
+        "laboratory-grade chemistry",
+        "dynamic-resistance production adoption",
+        "device-stratified conclusions without integration identity",
+        "causal mechanism attribution",
+        "raw redistribution",
+        "private-record use",
+        "23,169 unique records; deterministic sample 1,966; time-series-qualified 1,223; resistance-qualified 1,061; plausible nonzero TDS/EY before joint consistency checks 8/9; hydraulics are descriptive motivating evidence, not predictive qualification"
+      ],
+      "manifest_dataset_ids": [
+        "visualizer/hydraulic_timeseries",
+        "visualizer/user_outcomes"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PERMISSIONED_LOCAL_API_SNAPSHOT_READY_FOR_INTERNAL_ANALYSIS",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "public shots used with author (Miha Rekar) permission 2026-07-14 via documented API within published rate limits; PUBLICATION MUST credit Visualizer + collectively acknowledge contributing users; raw corpus gitignored (not redistributed)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:VISUALIZER",
+      "strongest_current_uses": [
+        "REAL_WORLD_BOUNDARY_LIBRARY_AND_OPERATING_ENVELOPE",
+        "profile and response variability",
+        "descriptive apparent-resistance analysis"
+      ]
+    },
+    {
+      "aliases": [
+        "wadsworth2026",
+        "wadsworth2026_grindmap / wadsworth2026 (one paper)"
+      ],
+      "family_id": "wadsworth2026",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "limits": [
+        "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET",
+        "22 PSD-related rows; 21 permeability values; permeability range 1.58e-11 to 1.91e-10 m^2"
+      ],
+      "manifest_dataset_ids": [
+        "wadsworth2026/table1_full"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "open access CC-BY-4.0 (DOI 10.1098/rsos.252031)"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:WADSWORTH2026",
+      "strongest_current_uses": [
+        "SEPARATE_SOURCE_PRIORS_AND_OBSERVATION_OPERATORS"
+      ]
+    },
+    {
+      "aliases": [
+        "waszkiewicz2025"
+      ],
+      "family_id": "waszkiewicz2025",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "limits": [
+        "direct permeability validation",
+        "universal coffee transfer",
+        "independent whole-model validation",
+        "56 distinct physical brews grouped in 11 controlled conditions; pressure is a processed basket-node/basket-location quantity; flow and mass are processed or derived according to the source; claim ceiling is source-internal controlled component evidence on one apparatus"
+      ],
+      "manifest_dataset_ids": [
+        "waszkiewicz2025/traces_time_dependent",
+        "waszkiewicz2025/tds_fractions",
+        "waszkiewicz2025/static_calibration",
+        "waszkiewicz2025/tds_solids_calibration",
+        "waszkiewicz2025/brewer_quadratic",
+        "waszkiewicz2025/mastersizer_psd",
+        "waszkiewicz2025/constants",
+        "waszkiewicz2025/traces_per_brew",
+        "waszkiewicz2025/equilibrium_windows"
+      ],
+      "model_chain_stages": [
+        "UNKNOWN"
+      ],
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "review_trigger": "after the next substantive task or a material rights/source change",
+      "rights_access_status": [
+        "CC-BY-4.0 (Zenodo 10.5281/zenodo.18046315); code GPLv3 not ingested",
+        "CC-BY-4.0 (Zenodo 10.5281/zenodo.18046315, record license); code GPLv3 not ingested"
+      ],
+      "source_registration": "AVAILABLE_DATA_REGISTER:WASZKIEWICZ2025",
+      "strongest_current_uses": [
+        "controlled component-level fixed-versus-evolving effective-resistance comparison"
+      ]
+    }
+  ],
+  "mapped_or_registered_family_count": 39,
+  "material_family_count": 39,
+  "review_authority": "ESPRESSO_CORPUS_LEVERAGE_002_R1_INDEPENDENT_REVIEW_PASS_WITH_MATERIAL_QUALIFICATIONS_WASZKIEWICZ_REMAINS_PRIORITY",
+  "reviewed_family_census": "INDEPENDENT_LOCAL_FAMILY_CENSUS.csv",
+  "schema_version": 1,
+  "unregistered_material_family_count": 0
+}

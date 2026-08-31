@@ -1,0 +1,34 @@
+{
+  "additional_api_requests_made": 0,
+  "authority": "OWNER_ATTESTED_WRITTEN_PERMISSION",
+  "corpus_records": [
+    {
+      "access_status": "PERMISSIONED_LOCAL_API_SNAPSHOT_READY_FOR_INTERNAL_ANALYSIS",
+      "additional_api_acquisition_required_for_current_pilot": false,
+      "corpus_id": "VISUALIZER_COFFEE_API_CRAWL_2026_07_15",
+      "private_data_authority": false,
+      "raw_redistribution": false,
+      "unique_records": 23169
+    },
+    {
+      "access_status": "PERMISSIONED_RATE_LIMITED_API_REFRESH_AVAILABLE_WHEN_DECISION_LINKED",
+      "corpus_id": "VISUALIZER_API_REFRESH"
+    },
+    {
+      "access_status": "OPTIONAL_EFFICIENCY_ROUTE_NOT_REQUIRED_FOR_INITIAL_ANALYSIS",
+      "corpus_id": "VISUALIZER_MAINTAINER_BULK_EXPORT"
+    }
+  ],
+  "hydraulic_evidence": "DESCRIPTIVE_APPARENT_RESISTANCE_EVOLUTION_MOTIVATION",
+  "private_record_use": false,
+  "raw_redistribution": false,
+  "real_world_boundaries_status": "EWP_REAL_WORLD_BOUNDARIES_READY_FOR_FUTURE_TASK",
+  "review_authority": "ESPRESSO_CORPUS_LEVERAGE_002_R1_INDEPENDENT_REVIEW_PASS_WITH_MATERIAL_QUALIFICATIONS_WASZKIEWICZ_REMAINS_PRIORITY",
+  "schema_version": 1,
+  "tds_ey": {
+    "historical_field_presence_interpretation": "ZERO_FILLED_OR_NONUSABLE_FIELD_PRESENCE",
+    "plausible_nonzero_ey_before_joint_consistency_checks": 9,
+    "plausible_nonzero_tds_before_joint_consistency_checks": 8,
+    "population_chemistry_ready": false
+  }
+}

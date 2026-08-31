@@ -1,5 +1,5 @@
 {
-  "dataset_count": 114,
+  "dataset_count": 115,
   "families": [
     {
       "analytes": [
@@ -2792,7 +2792,83 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "coffee-specific production viscosity validation",
+        "direct EWP rheology validation",
+        "unbounded extrapolation outside concentration-temperature-shear-rate domain"
+      ],
+      "coffee_count_if_known": "UNKNOWN",
+      "coffee_lot_count_if_known": "UNKNOWN",
+      "conditionally_eligible_uses": [],
+      "consumed_comparison_status": "UNKNOWN",
+      "directness": [
+        "MEASURED_TABLE_VALUES_AND_FITTED_CLOSURES"
+      ],
+      "eligible_uses": [
+        "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
+      ],
+      "external_corpus_id": null,
+      "external_source_manifest_hash": null,
+      "family_id": "TELISROMERO2001",
+      "fraction_resolution": "UNKNOWN",
+      "grinder_count_if_known": "UNKNOWN",
+      "historical_task_uses": [
+        "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
+      ],
+      "laboratory_count_if_known": "UNKNOWN",
+      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "manifest_dataset_ids": [
+        "telisromero2001/rheology_authority"
+      ],
+      "measurement_resolution": "CONCENTRATION_TEMPERATURE_GRID",
+      "missing_joins": [],
+      "notes": [
+        "one industrial soluble-coffee extract batch; not fresh espresso liquor; concentration/temperature validity box and percent-water basis must be retained; no coffee-specific production-viscosity or direct EWP validation claim"
+      ],
+      "observables": [
+        "dynamic_viscosity",
+        "consistency_index",
+        "flow_behavior_index"
+      ],
+      "physical_replicate_structure": "one industrial soluble-coffee extract batch; row-level replicates not published",
+      "physical_shot_count_if_known": "UNKNOWN",
+      "publication_or_repository": "Journal of Food Process Engineering 24 (2001) 217-230",
+      "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
+      "rights": [
+        "paywalled Wiley article; bibliographic facts and compact normalized factual values retained for research verification; no article PDF or raw rheograms redistributed"
+      ],
+      "roast_batch_count_if_known": "UNKNOWN",
+      "source_cards": [
+        "telisromero2001"
+      ],
+      "source_identifiers": [
+        "10.1111/j.1745-4530.2001.tb00542.x"
+      ],
+      "source_internal_or_external": "SOURCE_INTERNAL",
+      "spatial_resolution": "UNKNOWN",
+      "stages": [
+        "flow",
+        "fluid_property"
+      ],
+      "target_exposure": "UNKNOWN",
+      "time_resolution": "UNKNOWN",
+      "title": "Telis-Romero 2001 coffee-extract rheology",
+      "uncertainty_status": [
+        "authors' aggregate fit errors; not row-level independent uncertainty"
+      ],
+      "validation_strength": [
+        "source-internal rheology consistency; not direct EWP validation"
+      ]
+    },
+    {
+      "analytes": [
+        "UNKNOWN"
+      ],
+      "apparatus_count_if_known": "UNKNOWN",
+      "blocked_uses": [
+        "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
@@ -2802,7 +2878,9 @@
         "table transcription (2022-09-27 preprint)",
         "figure digitization (2022-09-27 preprint; Tim drop 2026-07-25)"
       ],
-      "eligible_uses": [],
+      "eligible_uses": [
+        "SEPARATE_SOURCE_PRIORS_AND_OBSERVATION_OPERATORS"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "VACAGUERRA2023A",
@@ -2817,7 +2895,7 @@
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
       "manifest_dataset_ids": [
         "vacaguerra2023a/extraction_conditions",
         "vacaguerra2023a/psd",
@@ -2828,11 +2906,7 @@
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "mu=3.5 mPa s convention inflates K ~3-7x vs G10 -- renormalize before cross-source comparison; the two loosest 17.5 g beds (B/C) sit ~1.3-1.7x above the stated 1.8e-14..3.6e-13 band (pump curve unpublished); Eq-11 permeability is POST-FIT (lambda=7.5 on these same 9 points)",
-        "3 distributions A/B/C; beta is the paper's central variable (widest C packs densest); needs a Rosin-Rammler (alpha,beta)<->GrindState adapter (no home in the contract)",
-        "PRINTED k3 is POSITIVE but the +k3*beta form is unphysical (omega ~0.48-0.62); registry adopts -k3*beta -- material-scoped (dark-roast arabica)",
-        "same -x3*beta sign correction as phi; material-scoped",
-        "two independent vessels (60 mm stainless portafilter + 50 mm acrylic square); same lab, single coffee"
+        "50 dry-porosity validation rows; do not equate coffee, apparatus, PSD method, porosity definition, compaction state, permeability method, or geometry with Wadsworth"
       ],
       "observables": [
         "UNKNOWN"
@@ -2938,16 +3012,30 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "population TDS/EY analysis",
+        "laboratory-grade chemistry",
+        "dynamic-resistance production adoption",
+        "device-stratified conclusions without integration identity",
+        "causal mechanism attribution",
+        "raw redistribution",
+        "private-record use"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
-      "conditionally_eligible_uses": [],
+      "conditionally_eligible_uses": [
+        "bounded predictive hydraulic study under a new qualified protocol"
+      ],
       "consumed_comparison_status": "UNKNOWN",
       "directness": [
         "repository/API pull (harvester)"
       ],
-      "eligible_uses": [],
-      "external_corpus_id": null,
+      "eligible_uses": [
+        "REAL_WORLD_BOUNDARY_LIBRARY_AND_OPERATING_ENVELOPE",
+        "profile and response variability",
+        "descriptive apparent-resistance analysis"
+      ],
+      "external_corpus_id": "VISUALIZER_COFFEE_API_CRAWL_2026_07_15",
       "external_source_manifest_hash": null,
       "family_id": "VISUALIZER",
       "fraction_resolution": "UNKNOWN",
@@ -2958,7 +3046,7 @@
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
       "manifest_dataset_ids": [
         "visualizer/hydraulic_timeseries",
         "visualizer/user_outcomes"
@@ -2966,16 +3054,15 @@
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "selection bias (public self-selected shots; showcase+diagnostic skew); no PSD, no basket geometry, no independent EY groundtruth; commanded (*_goal) vs achieved differ; node identity of 'pressure' per \u00a75.9. flow_weight is the trustworthier channel (espresso_flow may be volumetric); privacy: user id salted-hashed, free-text dropped on ingest.",
-        "sparse, self-reported; sensory sliders not inter-rater calibrated; do NOT use as an extraction-outcome gate (contrast the controlled Schmieder/Angeloni/Egidi sets)."
+        "23,169 unique records; deterministic sample 1,966; time-series-qualified 1,223; resistance-qualified 1,061; plausible nonzero TDS/EY before joint consistency checks 8/9; hydraulics are descriptive motivating evidence, not predictive qualification"
       ],
       "observables": [
         "UNKNOWN"
       ],
       "physical_replicate_structure": "UNKNOWN",
-      "physical_shot_count_if_known": "UNKNOWN",
+      "physical_shot_count_if_known": 23169,
       "publication_or_repository": "visualizer.coffee API /shots/{id} .data series",
-      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "raw_access_status": "PERMISSIONED_LOCAL_API_SNAPSHOT_READY_FOR_INTERNAL_ANALYSIS",
       "rights": [
         "public shots used with author (Miha Rekar) permission 2026-07-14 via documented API within published rate limits; PUBLICATION MUST credit Visualizer + collectively acknowledge contributing users; raw corpus gitignored (not redistributed)"
       ],
@@ -3005,7 +3092,9 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
@@ -3013,7 +3102,9 @@
       "directness": [
         "transcription (Tim drop)"
       ],
-      "eligible_uses": [],
+      "eligible_uses": [
+        "SEPARATE_SOURCE_PRIORS_AND_OBSERVATION_OPERATORS"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "WADSWORTH2026",
@@ -3024,14 +3115,14 @@
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
       "manifest_dataset_ids": [
         "wadsworth2026/table1_full"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "CARD DISCREPANCY: OLS refit <R>~G gives beta=5.805e-5/R0=1.380e-4 (R2=0.994), NOT card's 4.3505e-5/1.016e-4 (~1.33x). Moments self-consistent (S=<R><R2>/<R3>). Operative map uses refit; card beta/R0 flagged for reconciliation. Raw 22-PSD zip still pending (0.6)."
+        "22 PSD-related rows; 21 permeability values; permeability range 1.58e-11 to 1.91e-10 m^2"
       ],
       "observables": [
         "UNKNOWN"
@@ -3131,7 +3222,11 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "direct permeability validation",
+        "universal coffee transfer",
+        "independent whole-model validation"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
@@ -3141,7 +3236,9 @@
         "repository pull (Zenodo source zip) + reduction re-implemented from the deposit's documented method; the deposit's own script is GPLv3 and is NOT ingested",
         "repository pull (Zenodo source zip) + per-window means; reduction re-implemented from the deposit's documented method (its script is GPLv3, not ingested)"
       ],
-      "eligible_uses": [],
+      "eligible_uses": [
+        "controlled component-level fixed-versus-evolving effective-resistance comparison"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "WASZKIEWICZ2025",
@@ -3160,7 +3257,7 @@
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
       "manifest_dataset_ids": [
         "waszkiewicz2025/traces_time_dependent",
         "waszkiewicz2025/tds_fractions",
@@ -3172,24 +3269,16 @@
         "waszkiewicz2025/traces_per_brew",
         "waszkiewicz2025/equilibrium_windows"
       ],
-      "measurement_resolution": "UNKNOWN",
+      "measurement_resolution": "PHYSICAL_BREW_AND_PROCESSED_TIME_SERIES",
       "missing_joins": [],
       "notes": [
-        "soft circularity: m_d(t) from TDS x Q on same rig; 11-13 bar dip below monotone model; basket vs line pressure both present (node id per RC-3/S5.9) | S5.9 nodes: basket_pressure__bar = P_basket (basket gauge), pressure__bar = line/pump-side.",
-        "5-s interval fractions; first fraction (2.5 s) single replicate",
-        "P_c=12.4+/-3.0 bar weakly constrained (edge of measured range, ~25% unc)",
-        "first_drop_offset 8.0 s; Phi(t) attributes all porosity change to dissolution (CT shows swelling too - untested)",
-        "single rig; DP=aQ^2+bQ+c",
-        "semicolon-delimited, UTF-8 BOM, transposed (bins as columns); bimodal ~50/100-200 um",
-        "mu = pure-water @ 90C (G10 concentration-dependence not modeled); h0 and r_basket 'approximate' per source",
-        "57 records over 11 reference pressures (9 bar has 5) but 56 DISTINCT brews: 12-8-6_alt is an exact duplicate of 12-8-6 (its raw file is a strict prefix of the alt), declared in puckworks.data.WASZ_TRACE_ALIASES and retained here because the source aggregates both; shot-as-unit analyses pass include_aliases=False. 13 bar therefore has 7 records / 6 brews. Filename prefixes are NOT the reference pressure (10-2 is 11 bar, 12-8-2 is 13 bar) -- pressure is the median line pressure per the source's definition. The source's reduction is BAKED IN: t=0 alignment, Savitzky-Golay flow derivative (window 31, polyorder 1, ~3 s) and brewer-calibration basket-pressure subtraction, so these are smoothed and alignment-dependent, not raw instrument output. The source's excluded/ brews are NOT included. Time stored as an index on the exact 0-100 s 1000-point grid. NOTE the published aggregate's *_std columns are standard ERRORS (sem), so shot spread is recoverable only from this file.",
-        "57 shots x 3 windows. The 110-120 s window is NOT usable as published: shot 9-1 has ENDED inside it (falling cup mass -> negative flow derivative -> -106 bar via the brewer subtraction), and alone drags the static refit to P_c ~ 82 bar. Excluding it is an exclusion the SOURCE did not make (9-1 is not in their excluded/ set). The repository's equilibrium observable is the 100 s endpoint, which reproduces the published static fit (P_c 12.394 vs 12.39; Q_c 1.907 vs 1.897)."
+        "56 distinct physical brews grouped in 11 controlled conditions; pressure is a processed basket-node/basket-location quantity; flow and mass are processed or derived according to the source; claim ceiling is source-internal controlled component evidence on one apparatus"
       ],
       "observables": [
         "UNKNOWN"
       ],
-      "physical_replicate_structure": "UNKNOWN",
-      "physical_shot_count_if_known": "UNKNOWN",
+      "physical_replicate_structure": "56 distinct physical brews grouped in 11 controlled conditions; source time samples are not independent observations",
+      "physical_shot_count_if_known": 56,
       "publication_or_repository": "Zenodo formatted_measurements/time_dependent.csv (Figs 5/8)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
@@ -3210,12 +3299,7 @@
       "time_resolution": "UNKNOWN",
       "title": "waszkiewicz2025",
       "uncertainty_status": [
-        "y",
-        "y (std)",
-        "n (3 replicates)",
-        "n",
-        "n (these ARE the individual shots; spread is computed from them, not carried)",
-        "n (per-shot values; spread computed from them)"
+        "aggregate SEM; not row-level independent noise"
       ],
       "validation_strength": [
         "independent within-rig (equilibrium) / post-fit (9-bar Q(t) reproduction)",
@@ -3229,6 +3313,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "3f073e3c5b2cbbfb9d94a7a2ebc3b06b2d1755b705c101804a3b7946966fb081",
+  "manifest_sha256": "f765f2ad3d104c54f813e9bf449f651e590b02fa0f65b5958e00131a0e170fba",
   "schema_version": 1
 }

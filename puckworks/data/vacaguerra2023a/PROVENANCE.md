@@ -1,5 +1,11 @@
 # vacaguerra2023a — data provenance
 
+Reviewed C1 authority: Figure 12 contributes 50 dry-porosity validation rows.
+Use this as a source-specific observation operator or prior. Direct row-level
+fusion with Wadsworth as one common validation set is blocked because source
+materials, apparatus, PSD and porosity definitions, compaction, permeability
+methods, and geometry differ.
+
 **Source:** Vaca Guerra, M., Harshe, Y.M., Fries, L., Rothberg, S., Palzer, S., Heinrich, S.
 "Influence of particle size distribution on espresso extraction via packed bed compression."
 *Journal of Food Engineering* **340** (2023) 111301. DOI 10.1016/j.jfoodeng.2022.111301.
