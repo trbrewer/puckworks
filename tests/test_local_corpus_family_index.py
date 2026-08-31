@@ -17,7 +17,11 @@ def test_reviewed_special_authorities_are_narrow_and_explicit():
     index = builder.build()
     families = {item["family_id"]: item for item in index["families"]}
     assert len(families) == 39
-    assert "telisromero2001/rheology_authority" in families["telisromero2001"]["manifest_dataset_ids"]
+    assert set(families["telisromero2001"]["manifest_dataset_ids"]) == {
+        "g10_liquor_rheology/telisromero2001_closures",
+        "g10_liquor_rheology/telisromero2001_tables",
+    }
+    assert families["telisromero2001"]["source_registration"].startswith("SOURCE_CARD:")
     assert "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET" in families["wadsworth2026"]["limits"]
     assert "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET" in families["vacaguerra2023a"]["limits"]
     wasz = families["waszkiewicz2025"]

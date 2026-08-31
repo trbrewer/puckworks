@@ -22,7 +22,10 @@ FAMILIES = (
     "telisromero2001", "vacaguerra2023a", "visualizer", "wadsworth2026",
     "waszkiewicz2025",
 )
-REGISTER_ALIASES = {"fasano2000_partI": "fasano2000_parti"}
+REGISTER_ALIASES = {
+    "fasano2000_partI": "fasano2000_parti",
+    "telisromero2001": "g10_liquor_rheology",
+}
 
 
 def digest(path: Path) -> str:
@@ -37,20 +40,34 @@ def build() -> dict:
     for family_id in FAMILIES:
         source = by_id[REGISTER_ALIASES.get(family_id, family_id)]
         aliases = {family_id.lower(): family_id}
-        for alias in [family_id.upper(), *source["source_cards"]]:
+        source_aliases = [] if family_id == "telisromero2001" else source["source_cards"]
+        for alias in [family_id.upper(), *source_aliases]:
             if alias.lower() in material_ids and alias.lower() != family_id.lower():
                 continue
             aliases.setdefault(alias.lower(), alias)
+        dataset_ids = source["manifest_dataset_ids"]
+        source_registration = f"AVAILABLE_DATA_REGISTER:{source['family_id']}"
+        strongest_uses = source["eligible_uses"] or source["historical_task_uses"][:1]
+        limits = [*source["blocked_uses"], *source["notes"]]
+        rights = source["rights"]
+        raw_access = source["raw_access_status"]
+        if family_id == "telisromero2001":
+            dataset_ids = [item for item in dataset_ids if "telisromero2001" in item]
+            source_registration = "SOURCE_CARD:docs/cards/telisromero2001.md;PROVENANCE:puckworks/data/telisromero2001/PROVENANCE.md;G10_LINK:AVAILABLE_DATA_REGISTER:G10_LIQUOR_RHEOLOGY"
+            strongest_uses = ["RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"]
+            limits = ["coffee-specific production viscosity validation", "direct EWP rheology validation", "one industrial soluble-coffee extract batch; source domain must be retained"]
+            rights = ["paywalled Wiley article; compact normalized factual transcriptions only; no article PDF or raw rheograms redistributed"]
+            raw_access = "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE"
         records.append({
             "family_id": family_id,
             "aliases": sorted(aliases.values(), key=str.lower),
-            "manifest_dataset_ids": source["manifest_dataset_ids"],
-            "source_registration": f"AVAILABLE_DATA_REGISTER:{source['family_id']}",
-            "rights_access_status": source["rights"],
-            "raw_access_status": source["raw_access_status"],
+            "manifest_dataset_ids": dataset_ids,
+            "source_registration": source_registration,
+            "rights_access_status": rights,
+            "raw_access_status": raw_access,
             "model_chain_stages": source["stages"],
-            "strongest_current_uses": source["eligible_uses"] or source["historical_task_uses"][:1],
-            "limits": [*source["blocked_uses"], *source["notes"]],
+            "strongest_current_uses": strongest_uses,
+            "limits": limits,
             "last_qualified_task": source["last_qualified_task"],
             "review_trigger": "after the next substantive task or a material rights/source change",
         })

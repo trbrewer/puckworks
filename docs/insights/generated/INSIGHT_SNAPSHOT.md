@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `3e6a6c64a21d318354dca9267ce290c24f23b41b` · **schema** v1 · **generator** v1
+**Commit** `1117d9d94bffc5435c7c728afa92941435e555aa` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -12,7 +12,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 |---|---|
 | card | 112 |
 | claim | 5 |
-| dataset | 115 |
+| dataset | 114 |
 | model | 27 |
 | observable | 15 |
 | result | 5 |
@@ -23,7 +23,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | CARD_NAMES_IN_OVERLAPS | 17 |
 | COMPETES_WITH | 13 |
 | COMPLEMENTS | 20 |
-| DERIVED_FROM | 104 |
+| DERIVED_FROM | 103 |
 | MEASURES | 126 |
 | PREDICTS | 49 |
 | SHARES_OBSERVABLE_WITH | 119 |
@@ -112,17 +112,17 @@ The repository has already published these; a candidate restating one is a dupli
 
 36 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
 
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 32 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 38 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 39 (dataset romancorrochano2017/deff_table4_9) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 40 (dataset romancorrochano2017/partition_K_table4_10) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 41 (dataset romancorrochano2017/hindrance_table4_8) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 42 (dataset romancorrochano2017/Db_table3_4) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 43 (dataset romancorrochano2017/mpe_table5_3) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 44 (dataset romancorrochano2017/fig5_11_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 45 (dataset romancorrochano2017/fig5_13_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 46 (dataset romancorrochano2017/fig7_4_espresso) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
-- MANIFEST_SOURCE_CARD_UNRESOLVED: row 53 (dataset romancorrochano2017/y0_extractable) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 31 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 37 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 38 (dataset romancorrochano2017/deff_table4_9) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 39 (dataset romancorrochano2017/partition_K_table4_10) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 40 (dataset romancorrochano2017/hindrance_table4_8) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 41 (dataset romancorrochano2017/Db_table3_4) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 42 (dataset romancorrochano2017/mpe_table5_3) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 43 (dataset romancorrochano2017/fig5_11_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 44 (dataset romancorrochano2017/fig5_13_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 45 (dataset romancorrochano2017/fig7_4_espresso) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- MANIFEST_SOURCE_CARD_UNRESOLVED: row 52 (dataset romancorrochano2017/y0_extractable) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
 - NO_INTERFACE_MAPPING: docs/cards/wadsworth2026.md (component wadsworth2026.permeability) — no observable edges inferred
 - TEMPLATE_DEVIATION: docs/cards/acre2024.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/cameron2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate

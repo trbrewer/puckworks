@@ -1,5 +1,5 @@
 {
-  "dataset_count": 115,
+  "dataset_count": 114,
   "families": [
     {
       "analytes": [
@@ -2793,80 +2793,6 @@
       ],
       "apparatus_count_if_known": "UNKNOWN",
       "blocked_uses": [
-        "coffee-specific production viscosity validation",
-        "direct EWP rheology validation",
-        "unbounded extrapolation outside concentration-temperature-shear-rate domain"
-      ],
-      "coffee_count_if_known": "UNKNOWN",
-      "coffee_lot_count_if_known": "UNKNOWN",
-      "conditionally_eligible_uses": [],
-      "consumed_comparison_status": "UNKNOWN",
-      "directness": [
-        "MEASURED_TABLE_VALUES_AND_FITTED_CLOSURES"
-      ],
-      "eligible_uses": [
-        "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
-      ],
-      "external_corpus_id": null,
-      "external_source_manifest_hash": null,
-      "family_id": "TELISROMERO2001",
-      "fraction_resolution": "UNKNOWN",
-      "grinder_count_if_known": "UNKNOWN",
-      "historical_task_uses": [
-        "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
-      ],
-      "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
-      "manifest_dataset_ids": [
-        "telisromero2001/rheology_authority"
-      ],
-      "measurement_resolution": "CONCENTRATION_TEMPERATURE_GRID",
-      "missing_joins": [],
-      "notes": [
-        "one industrial soluble-coffee extract batch; not fresh espresso liquor; concentration/temperature validity box and percent-water basis must be retained; no coffee-specific production-viscosity or direct EWP validation claim"
-      ],
-      "observables": [
-        "dynamic_viscosity",
-        "consistency_index",
-        "flow_behavior_index"
-      ],
-      "physical_replicate_structure": "one industrial soluble-coffee extract batch; row-level replicates not published",
-      "physical_shot_count_if_known": "UNKNOWN",
-      "publication_or_repository": "Journal of Food Process Engineering 24 (2001) 217-230",
-      "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
-      "rights": [
-        "paywalled Wiley article; bibliographic facts and compact normalized factual values retained for research verification; no article PDF or raw rheograms redistributed"
-      ],
-      "roast_batch_count_if_known": "UNKNOWN",
-      "source_cards": [
-        "telisromero2001"
-      ],
-      "source_identifiers": [
-        "10.1111/j.1745-4530.2001.tb00542.x"
-      ],
-      "source_internal_or_external": "SOURCE_INTERNAL",
-      "spatial_resolution": "UNKNOWN",
-      "stages": [
-        "flow",
-        "fluid_property"
-      ],
-      "target_exposure": "UNKNOWN",
-      "time_resolution": "UNKNOWN",
-      "title": "Telis-Romero 2001 coffee-extract rheology",
-      "uncertainty_status": [
-        "authors' aggregate fit errors; not row-level independent uncertainty"
-      ],
-      "validation_strength": [
-        "source-internal rheology consistency; not direct EWP validation"
-      ]
-    },
-    {
-      "analytes": [
-        "UNKNOWN"
-      ],
-      "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [
         "DIRECT_ROW_LEVEL_FUSION_AS_ONE_COMMON_VALIDATION_SET"
       ],
       "coffee_count_if_known": "UNKNOWN",
@@ -3313,6 +3239,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "f765f2ad3d104c54f813e9bf449f651e590b02fa0f65b5958e00131a0e170fba",
+  "manifest_sha256": "3f073e3c5b2cbbfb9d94a7a2ebc3b06b2d1755b705c101804a3b7946966fb081",
   "schema_version": 1
 }

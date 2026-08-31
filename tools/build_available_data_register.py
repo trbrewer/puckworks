@@ -88,23 +88,6 @@ def build() -> dict:
         "missing_joins": ["production M0", "spent-puck residual", "retained liquid", "same lot", "same roast batch", "independent coffee/apparatus/laboratory"],
         "notes": ["fit_experiments=15; fit_physical_shots=45; fit_fractions=6; prediction_conditions=8; prediction_physical_shots=24; prediction_fractions_per_shot=6; reference_preparations=1; reference_fractions=12; invalid_spills=3", "Raw source files are external and are resolved at runtime; they are not redistributed."]
     })
-    families["TELISROMERO2001"].update({
-        "title": "Telis-Romero 2001 coffee-extract rheology",
-        "publication_or_repository": "Journal of Food Process Engineering 24 (2001) 217-230",
-        "source_identifiers": ["10.1111/j.1745-4530.2001.tb00542.x"],
-        "stages": ["flow", "fluid_property"],
-        "observables": ["dynamic_viscosity", "consistency_index", "flow_behavior_index"],
-        "measurement_resolution": "CONCENTRATION_TEMPERATURE_GRID",
-        "physical_replicate_structure": "one industrial soluble-coffee extract batch; row-level replicates not published",
-        "directness": ["MEASURED_TABLE_VALUES_AND_FITTED_CLOSURES"],
-        "uncertainty_status": ["authors' aggregate fit errors; not row-level independent uncertainty"],
-        "validation_strength": ["source-internal rheology consistency; not direct EWP validation"],
-        "source_internal_or_external": "SOURCE_INTERNAL",
-        "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
-        "eligible_uses": ["RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"],
-        "blocked_uses": ["coffee-specific production viscosity validation", "direct EWP rheology validation", "unbounded extrapolation outside concentration-temperature-shear-rate domain"],
-        "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
-    })
     families["VISUALIZER"].update({
         "raw_access_status": "PERMISSIONED_LOCAL_API_SNAPSHOT_READY_FOR_INTERNAL_ANALYSIS",
         "external_corpus_id": "VISUALIZER_COFFEE_API_CRAWL_2026_07_15",

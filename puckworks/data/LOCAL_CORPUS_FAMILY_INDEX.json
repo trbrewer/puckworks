@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "1f16be1dac674ba4d94a0ee6060bc74ac941bc70e669dad8d6126d7114d1f77d",
+  "available_data_register_sha256": "0c318f43c40361629bb8f25ab4b8ca9f073425ca3ec3a2418bbd8a6cb67a5481",
   "families": [
     {
       "aliases": [
@@ -998,26 +998,25 @@
         "telisromero2001"
       ],
       "family_id": "telisromero2001",
-      "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
+      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
       "limits": [
         "coffee-specific production viscosity validation",
         "direct EWP rheology validation",
-        "unbounded extrapolation outside concentration-temperature-shear-rate domain",
-        "one industrial soluble-coffee extract batch; not fresh espresso liquor; concentration/temperature validity box and percent-water basis must be retained; no coffee-specific production-viscosity or direct EWP validation claim"
+        "one industrial soluble-coffee extract batch; source domain must be retained"
       ],
       "manifest_dataset_ids": [
-        "telisromero2001/rheology_authority"
+        "g10_liquor_rheology/telisromero2001_closures",
+        "g10_liquor_rheology/telisromero2001_tables"
       ],
       "model_chain_stages": [
-        "flow",
-        "fluid_property"
+        "UNKNOWN"
       ],
       "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "paywalled Wiley article; bibliographic facts and compact normalized factual values retained for research verification; no article PDF or raw rheograms redistributed"
+        "paywalled Wiley article; compact normalized factual transcriptions only; no article PDF or raw rheograms redistributed"
       ],
-      "source_registration": "AVAILABLE_DATA_REGISTER:TELISROMERO2001",
+      "source_registration": "SOURCE_CARD:docs/cards/telisromero2001.md;PROVENANCE:puckworks/data/telisromero2001/PROVENANCE.md;G10_LINK:AVAILABLE_DATA_REGISTER:G10_LIQUOR_RHEOLOGY",
       "strongest_current_uses": [
         "RHEOLOGY_OR_VISCOSITY_SOURCE_AUTHORITY_FOR_BOUNDED_FLUID_PROPERTY_SENSITIVITY"
       ]
