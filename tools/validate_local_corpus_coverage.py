@@ -28,6 +28,8 @@ def validate() -> list[str]:
             problems.append(f"{item['family_id']}: no manifest/source registration")
         if not item["rights_access_status"] or not item["raw_access_status"]:
             problems.append(f"{item['family_id']}: rights/access absent")
+        if not item["model_chain_stages"] or "UNKNOWN" in item["model_chain_stages"]:
+            problems.append(f"{item['family_id']}: model-chain stage absent or unknown")
     encoded = INDEX.read_text(encoding="utf-8")
     if re.search(r"/(?:home|Users)/", encoded):
         problems.append("local absolute path in family index")

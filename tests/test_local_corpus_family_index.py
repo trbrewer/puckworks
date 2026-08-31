@@ -17,6 +17,7 @@ def test_reviewed_special_authorities_are_narrow_and_explicit():
     index = builder.build()
     families = {item["family_id"]: item for item in index["families"]}
     assert len(families) == 39
+    assert all(row["model_chain_stages"] and "UNKNOWN" not in row["model_chain_stages"] for row in families.values())
     assert set(families["telisromero2001"]["manifest_dataset_ids"]) == {
         "g10_liquor_rheology/telisromero2001_closures",
         "g10_liquor_rheology/telisromero2001_tables",

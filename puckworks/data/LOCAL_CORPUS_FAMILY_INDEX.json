@@ -22,7 +22,8 @@
         "angeloni2023/total_solids_lipids_rsd"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "chemistry",
+        "extraction"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -49,7 +50,8 @@
         "bruno2026/roasted_composition"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -76,7 +78,8 @@
         "cameron2020/psd_figure2"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -102,7 +105,8 @@
         "egidi2024/table2"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -131,7 +135,8 @@
         "ellero2019/fig4_caffeine_content"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -163,7 +168,8 @@
         "fasano2000_partI/fig8_7_thresholds"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -192,7 +198,8 @@
         "foster2025_2/fig12_14_curves"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "wetting",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -227,7 +234,8 @@
         "g10_liquor_rheology/khomyakov_kinematic_viscosity"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "rheology",
+        "thermal"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -256,7 +264,8 @@
         "g1_glassbead_analog/retention_kr"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "bed_structure",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -281,7 +290,8 @@
         "g3_pump_characteristic/ulka_envelope"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "machine_boundary",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -310,7 +320,8 @@
         "gagne2021/resistance_decline_summary"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "hydraulics",
+        "bed_structure"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -337,7 +348,8 @@
         "gloess2013/de_espresso_endpoint"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "sensory",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -364,7 +376,8 @@
         "grudeva2025/exp13_vial_stats"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -392,7 +405,8 @@
         "hargarten2020/scalar_anchors"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -418,7 +432,8 @@
         "khamitova2020/tamping"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -447,7 +462,8 @@
         "liang2021/fig5_cupping"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -492,7 +508,8 @@
         "maille2024/extraction_curves"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "bed_structure",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -518,7 +535,8 @@
         "mckeonaloe2022/basket_open_area_geometry"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "sensory"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -545,7 +563,8 @@
         "mo2023/fig8a"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "bed_structure",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -581,7 +600,9 @@
         "mo2023_2/sim_lines_figs7_9"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "bed_structure",
+        "hydraulics",
+        "extraction"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -606,7 +627,8 @@
         "moroney2015/data"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -633,7 +655,8 @@
         "moroney2016/fig6"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -658,7 +681,8 @@
         "moroney2019/table2"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -694,7 +718,8 @@
         "pannusch2024/experimental_kinetics"
       ],
       "model_chain_stages": [
-        "extraction"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "EXTERNAL_RECOVERED_LOCAL_CORPUS",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -728,7 +753,8 @@
         "perticarini2024/granulometry_params"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "sensory"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -755,7 +781,8 @@
         "pocketscience2024/lrr_scalars"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "machine_boundary",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -780,7 +807,8 @@
         "ribes2020/radial_ey"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -805,7 +833,8 @@
         "ribes2021/radial_ey"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -830,7 +859,8 @@
         "romancorrochano2015/table2"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -873,7 +903,8 @@
         "romancorrochano2017/y0_extractable"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "transport"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -906,7 +937,8 @@
         "schmieder2023/rsm_coefficients"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -931,7 +963,8 @@
         "schulman2011/basket_geometry"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "extraction",
+        "chemistry"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -956,7 +989,8 @@
         "smrke2024/figures"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "extraction"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -981,7 +1015,8 @@
         "sobolik2002/rheology"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "rheology",
+        "thermal"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -1009,7 +1044,8 @@
         "g10_liquor_rheology/telisromero2001_tables"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "rheology",
+        "thermal"
       ],
       "raw_access_status": "RIGHTS_BOUNDED_COMPACT_TRANSCRIPTION_NO_RAW_ARTICLE",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -1039,7 +1075,8 @@
         "vacaguerra2023a/dry_porosity_validation"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "bed_structure",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -1074,7 +1111,8 @@
         "visualizer/user_outcomes"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "machine_boundary",
+        "hydraulics"
       ],
       "raw_access_status": "PERMISSIONED_LOCAL_API_SNAPSHOT_READY_FOR_INTERNAL_ANALYSIS",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -1103,7 +1141,9 @@
         "wadsworth2026/table1_full"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "source_material",
+        "bed_structure",
+        "hydraulics"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
@@ -1139,7 +1179,9 @@
         "waszkiewicz2025/equilibrium_windows"
       ],
       "model_chain_stages": [
-        "UNKNOWN"
+        "machine_boundary",
+        "hydraulics",
+        "extraction"
       ],
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",

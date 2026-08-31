@@ -27,6 +27,31 @@ REGISTER_ALIASES = {
     "telisromero2001": "g10_liquor_rheology",
 }
 
+# Reviewed source-to-EWP chain roles. These are routing labels, not claims that
+# every family independently validates the corresponding stage.
+MODEL_CHAIN_STAGES = {
+    "angeloni2023": ["chemistry", "extraction"], "bruno2026": ["source_material", "chemistry"],
+    "cameron2020": ["extraction", "chemistry"], "egidi2024": ["extraction", "chemistry"],
+    "ellero2019": ["extraction", "transport"], "fasano2000_partI": ["extraction", "transport"],
+    "foster2025_2": ["wetting", "hydraulics"], "g10_liquor_rheology": ["rheology", "thermal"],
+    "g1_glassbead_analog": ["bed_structure", "hydraulics"], "g3_pump_characteristic": ["machine_boundary", "hydraulics"],
+    "gagne2021": ["hydraulics", "bed_structure"], "gloess2013": ["sensory", "chemistry"],
+    "grudeva2025": ["extraction", "transport"], "hargarten2020": ["source_material", "chemistry"],
+    "khamitova2020": ["source_material", "chemistry"], "liang2021": ["extraction", "transport"],
+    "maille2024": ["bed_structure", "hydraulics"], "mckeonaloe2022": ["source_material", "sensory"],
+    "mo2023": ["bed_structure", "hydraulics"], "mo2023_2": ["bed_structure", "hydraulics", "extraction"],
+    "moroney2015": ["extraction", "transport"], "moroney2016": ["extraction", "transport"],
+    "moroney2019": ["extraction", "transport"], "pannusch2024": ["extraction", "chemistry"],
+    "perticarini2024": ["source_material", "sensory"], "pocketscience2024": ["machine_boundary", "hydraulics"],
+    "ribes2020": ["source_material", "chemistry"], "ribes2021": ["source_material", "chemistry"],
+    "romancorrochano2015": ["extraction", "chemistry"], "romancorrochano2017": ["extraction", "transport"],
+    "schmieder2023": ["extraction", "chemistry"], "schulman2011": ["extraction", "chemistry"],
+    "smrke2024": ["source_material", "extraction"], "sobolik2002": ["rheology", "thermal"],
+    "telisromero2001": ["rheology", "thermal"], "vacaguerra2023a": ["bed_structure", "hydraulics"],
+    "visualizer": ["machine_boundary", "hydraulics"], "wadsworth2026": ["source_material", "bed_structure", "hydraulics"],
+    "waszkiewicz2025": ["machine_boundary", "hydraulics", "extraction"],
+}
+
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -65,7 +90,7 @@ def build() -> dict:
             "source_registration": source_registration,
             "rights_access_status": rights,
             "raw_access_status": raw_access,
-            "model_chain_stages": source["stages"],
+            "model_chain_stages": MODEL_CHAIN_STAGES[family_id],
             "strongest_current_uses": strongest_uses,
             "limits": limits,
             "last_qualified_task": source["last_qualified_task"],
