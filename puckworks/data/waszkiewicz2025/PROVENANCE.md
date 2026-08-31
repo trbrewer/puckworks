@@ -1,5 +1,17 @@
 # waszkiewicz2025 — data provenance
 
+## Reviewed grouped-use authority (2026-08-31)
+
+The authority contains 56 distinct physical brews across 11 controlled
+conditions. Physical brew is the independent unit; time samples and the
+approximately 11,000 condition-level time-series rows are not independent
+experiments. Basket pressure is processed from the source's basket-node or
+basket-location definition, mass is scale-derived/processed, and flow is the
+source's smoothed mass derivative. Published aggregate uncertainty is SEM, not
+row-level independent noise. The strongest current use is a grouped,
+source-internal fixed-versus-bounded-evolving effective-resistance comparison;
+this is not direct permeability validation.
+
 Source card: `docs/cards/waszkiewicz2025.md` (ROADMAP item 0.2).
 
 **Origin:** Zenodo deposit *"Under pressure: Poroelastic regulation of flow in
