@@ -1,5 +1,11 @@
 # Model card: visualizer.coffee shot corpus (data-only)
 
+**Pressure-interface closure (2026-09-01):** the final authorized offline reconciliation
+recovered disclosure-qualified Beanconqueror parser provenance for 1,004 retained records but
+zero pressure-bearing overlap; 22,165 records remained source-unresolved. No command or achieved
+pressure lane transfers to EWP, and parser identity establishes neither hardware nor sensor
+identity. See `puckworks/data/visualizer/reconciliation/ewp_rwb_001/RESULT.md`.
+
 **Source:** visualizer.coffee public shot database + REST API (`openapi.yaml`
 v1.13.0, base `https://visualizer.coffee/api`), Miha Rekar. A user-contributed
 archive of espresso shots logged by Decent DE1, Meticulous, Beanconqueror,

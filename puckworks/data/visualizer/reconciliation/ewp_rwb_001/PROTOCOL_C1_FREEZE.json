@@ -1,0 +1,26 @@
+{
+  "protocol_id": "EWP_RWB_001_RECON_PROTOCOL_C1_V1",
+  "governance_class": "G1_SOURCE_SCHEMA_AND_MEASUREMENT_CONTRACT_CORRECTION",
+  "attempt_1_protocol_sha256": "a1b5c9737095cd7104a76c338da99cf4c1ff59f91dfa1a625967e3a098856e64",
+  "recovery_contract_sha256": "2eeebda9fbac62d3c0e1a4b82dddd996ac798796527b8d831bf76cf6c1cd4c64",
+  "pressure_bearing_gate_id": "EWP_RWB_001_PRESSURE_BEARING_PROVENANCE_GATE_V1",
+  "preserving_enrichment_rule_id": "EWP_RWB_001_V6_PRESERVING_BRONZE_ENRICHMENT_RULE_V1",
+  "authorities": {
+    "puckworks_main": "a3428a4d4ad571ef3168a70e8a04620fca5d3520",
+    "ewp_merge": "97d586fe21ca28cf7ef80a03ec0e15f3032ac0b5",
+    "visualizer_source": "c46dda76c8271a2ae22531fa4ee9bb81728ed128",
+    "visualizer_openapi_version": "1.13.0"
+  },
+  "privacy_thresholds": {"minimum_shots": 20, "minimum_distinct_users": 10},
+  "pressure_channel_validity": "channel exists in schema-v6 hydraulic data, length equals valid time length, and contains at least one finite numeric value; Bronze never supplies pressure or QC validity",
+  "positive_gate": "resolved explicit or unique structural family, both disclosure thresholds, and at least one structurally valid commanded or achieved pressure record",
+  "join_key": ["id", "updated_at"],
+  "join_requirements": ["unique keys", "identical key sets", "23169 records", "canonical version alignment"],
+  "migration": "deep-copy schema-v6 record and add only source provenance derived from aligned Bronze; never call normalize_shot for historical fields",
+  "schema_v6_authority": "Every pre-existing normalized value is authoritative and must be preserved exactly, including context.profile_present and context.n_tags.",
+  "additive_allowlist": ["schema_version", "context.integration_source", "context.integration_source_provenance", "context.integration_family", "context.integration_recovery_rule_id", "source-authority flags", "content_sha256", "index content_sha256"],
+  "immutable_existing_domains": ["identity", "updated_at", "hashed_user", "machine", "hydraulic", "outcomes", "pre-existing context outside integration fields", "units", "non-source qc", "n_samples", "timestamps", "canonical ordering"],
+  "decision": "Stage 2 executes only if at least one disclosure-qualified recovered family has a valid schema-v6 commanded or achieved pressure channel; otherwise select OBS-PANNUSCH-FRACTION-WINDOW-001 and close the Visualizer route.",
+  "no_rule_tuning": "No recovery or semantic rule changed after Attempt-1 corpus counts were observed.",
+  "network": "PROHIBITED"
+}

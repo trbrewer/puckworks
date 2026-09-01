@@ -1,0 +1,7 @@
+field_path,records_present,distinct_values,disclosure_qualified_values,suppressed_rare_values,authority
+integration_source,0,0,0,0,SOURCE_PAYLOAD_CENSUS
+integration,0,0,0,0,SOURCE_PAYLOAD_CENSUS
+parser,0,0,0,0,SOURCE_PAYLOAD_CENSUS
+brewdata.parser,1004,1,1,0,VERSION_MATCHED_PUBLIC_SOURCE_CANDIDATE
+brewdata.source,0,0,0,0,SOURCE_PAYLOAD_CENSUS
+brewdata.machine,0,0,0,0,SOURCE_PAYLOAD_CENSUS

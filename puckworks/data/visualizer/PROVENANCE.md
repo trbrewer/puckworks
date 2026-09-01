@@ -1,5 +1,16 @@
 # visualizer.coffee — data intake provenance (ROADMAP 0.13)
 
+## EWP-RWB-001 reconciliation closure (2026-09-01)
+
+The retained crawl was inspected offline under the committed C1 protocol in
+`reconciliation/ewp_rwb_001/`. Bronze schema 1 is a
+`PRIVACY_FILTERED_SOURCE_PAYLOAD`, not a lossless replay source for normalized fields derived
+from removed free text. It retained explicit `brewdata.parser` authority for 1,004
+Beanconqueror records (41 linked contributors), but those records carry neither a valid
+commanded- nor achieved-pressure channel. Frozen structural signatures recovered no additional
+family among 22,165 unresolved records. The final authorized Visualizer reconciliation pass
+therefore made no normalizer/schema change and reopened no EWP lane.
+
 ## Reviewed July 15 local snapshot status (2026-08-31)
 
 The owner-attested written permission covers internal analysis of API-accessible
