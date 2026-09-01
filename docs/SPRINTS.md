@@ -77,6 +77,12 @@ updated, one commit per item. Venue key: **CC** = Claude Code in repo ·
       2nd independent dataset**. Report-style (misses are the finding).
 
 ## Sprint D5 — visualizer.coffee harvester + intake (CC, data-only tool) [DONE]
+**EWP-RWB-001 C1 closure (2026-09-01):** final offline reconciliation completed. Explicit
+Beanconqueror provenance recovered for 1,004 records / 41 contributors, with zero commanded or
+achieved pressure overlap; no structural recovery among 22,165 unresolved records. Schema v7 and
+migration were not justified. No EWP lane reopens; successor selected (not implemented):
+`OBS-PANNUSCH-FRACTION-WINDOW-001`.
+
 *Phase-0 data intake + ingestion tool — NO registry component, NO physics gate
 (CLAUDE.md rule 1 governs components; a harvester is tooling). Item 0.13.*
 - [x] (A) `puckworks/lib/visualizer_harvest.py` — new `puckworks/lib/` subpackage;
