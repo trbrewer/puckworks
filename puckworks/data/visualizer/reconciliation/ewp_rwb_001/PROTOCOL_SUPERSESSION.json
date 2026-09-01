@@ -1,0 +1,21 @@
+{
+  "attempt_1_protocol_commit": "bc43366442d504b61b3cce5e013950538877130b",
+  "attempt_1_protocol_sha256": "a1b5c9737095cd7104a76c338da99cf4c1ff59f91dfa1a625967e3a098856e64",
+  "superseded_only": [
+    "complete Bronze normalization replay as the historical migration architecture",
+    "migration before pressure-bearing scientific-value gating"
+  ],
+  "preserved": [
+    "explicit integration recovery rules",
+    "structural parser-signature rules",
+    "parser-family normalization",
+    "source conflict rules",
+    "pressure semantic requirements",
+    "privacy thresholds",
+    "command-versus-achieved separation",
+    "decision claim ceilings",
+    "no-network and no-hardware-inference requirements",
+    "EWP consumer contract"
+  ],
+  "recovery_contract_sha256": "2eeebda9fbac62d3c0e1a4b82dddd996ac798796527b8d831bf76cf6c1cd4c64"
+}

@@ -1,0 +1,17 @@
+{
+  "attempt": 1,
+  "stop_code": "EWP_RWB_001_RECON_STOP_UNEXPECTED_NORMALIZATION_MUTATION",
+  "bronze_aggregate_sha256": "ba154f09703c00aff6cbaab666c617d36e93651eec836185a01b2a8bddc9a80c",
+  "schema_v6_aggregate_sha256": "37e32d657cb9e82974dc408e6afad4303e3fd767868cee53969dc31aef5f001a",
+  "index_sha256": "2c570cc441dac5256736214b109649688a6153550b1194baf1c7c2836b9cd751",
+  "schema_v7_temporary_store_a_sha256": "d1d94761ff48bf204ff751e9296347fcf4e69aeff20a79c53e7484e8af15f3e8",
+  "schema_v7_temporary_store_b_sha256": "d1d94761ff48bf204ff751e9296347fcf4e69aeff20a79c53e7484e8af15f3e8",
+  "cross_run_semantic_equality_records": 23169,
+  "changed_records_outside_permitted_set": 23168,
+  "hydraulic_mutation_records": 0,
+  "outcome_mutation_records": 0,
+  "identity_mutation_records": 0,
+  "linkage_mutation_records": 0,
+  "root_cause": "Bronze schema 1 is a privacy-filtered source payload, not a lossless replay source for normalized presence fields derived before source text removal.",
+  "owner_adjudication": "ACCEPTED_STOP_DATA_LOSS_NOT_PERMITTED"
+}
