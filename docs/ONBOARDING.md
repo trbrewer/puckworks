@@ -1,5 +1,14 @@
 # ONBOARDING — read this first
 
+## External espresso data — start here
+
+Read the [espresso data guide](data/ESPRESSO_DATA_GUIDE.md) before proposing scientific work.
+Identify relevant dataset IDs, inspect capabilities and prior-use limits, and state
+whether underlying files were inspected or only catalog metadata was available.
+An unmounted collection is known evidence unavailable here, not nonexistent or
+exhausted. Repository-only recommendations may proceed provisionally with that
+limitation. Discovery metadata do not advance qualified scientific authority.
+
 You are joining an in-progress research-engineering project (puckworks: a
 component registry for espresso process models). This file is the fixed entry
 point for any new session, human or Claude. Follow it in order.

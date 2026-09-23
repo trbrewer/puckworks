@@ -102,7 +102,7 @@ order is:
 
 1. Hero (wordmark + physics headline)
 2. Physics-first opening — what Puckworks models, and the "separate, testable modules" framing
-3. Primary calls to action
+3. A prominent “External espresso data — start here” link to `docs/data/ESPRESSO_DATA_GUIDE.md`, followed by primary calls to action
 4. **The espresso pull, modeled stage by stage** — the stage sequence, the library-vs-Guided-Pull
    distinction, and the near-top **model map** covering *every* registered component grouped by
    stage, each with a one-to-two-line physics role and a card link

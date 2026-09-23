@@ -1,5 +1,9 @@
 # Reviewed local-corpus coverage
 
+For the current disk census and practical access, start with the
+[espresso data guide](ESPRESSO_DATA_GUIDE.md). The 39-family authority below is
+a historical reviewed source-family register, not a fresh filesystem census.
+
 The controlling independent review identifies 39 material local source
 families. All 39 now resolve to canonical `MANIFEST.csv` dataset IDs and the
 generated available-data register; none remains an unregistered local family.

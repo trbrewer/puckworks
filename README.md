@@ -19,14 +19,14 @@
 **Physics-based models for the espresso pull — from grind and puck structure to water flow, puck
 change, and extraction.**
 
-Puckworks is an open-source research toolkit for understanding how an espresso shot develops. It
-brings together published models of particle size, puck structure, water entering and moving through
-porous coffee, changes inside the puck during the shot, and the release of soluble material into the
-cup.
+Puckworks is an open-source research toolkit for the espresso shot: particle size, puck
+structure, water flow, bed changes, and soluble material delivered to the cup. Each published
+model remains a separate, testable module, with its conditions of use and supporting measurements.
 
-Rather than forcing every paper into one all-purpose model, Puckworks keeps each physical model as a
-separate, testable module. This lets researchers compare alternative explanations, see the conditions
-where each model applies, and check predictions against the measurements that are actually available.
+## External espresso data — start here
+
+[Open the data guide](docs/data/ESPRESSO_DATA_GUIDE.md) for the external collection,
+inspected subsets, limits and local access. Private source files remain outside Git.
 
 <table align="center">
   <tr>
