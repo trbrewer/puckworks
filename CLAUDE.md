@@ -1,5 +1,14 @@
 # CLAUDE.md — puckworks
 
+## External espresso data — start here
+
+Read the [espresso data guide](docs/data/ESPRESSO_DATA_GUIDE.md) before proposing scientific work.
+Identify relevant dataset IDs, inspect capabilities and prior-use limits, and state
+whether underlying files were inspected or only catalog metadata was available.
+An unmounted collection is known evidence unavailable here, not nonexistent or
+exhausted. Repository-only recommendations may proceed provisionally with that
+limitation. Discovery metadata do not advance qualified scientific authority.
+
 Component registry for espresso process models. NOT a monolith: stages with
 typed contracts; each published model is a component with provenance,
 assumptions, validity range, and validation gates. A simulation is a
