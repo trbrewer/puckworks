@@ -1173,8 +1173,8 @@
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "Held basket_geometry CSV has a malformed quoted comment/header layout; strict parsing cannot certify the advertised geometry table.",
-        "practical_use_and_limits": "Basket geometry context remains available in the public source card. Local table requires a bounded out-of-place adapter checked against the 14-basket source table; failure is not zero observations. No pressure-loss experiment held.",
+        "observed_structure": "The quoted comment/header layout defeated the initial strict CSV reader; the final comment-filtered structural receipt recovered 14 rows with six consistent columns: basket, D_base_mm, d_hole_um, sigma_hole_um, A_h_mm2, grid.",
+        "practical_use_and_limits": "Basket geometry context is available in the public source card. Structural recovery is not a new scientific qualification: face-side hole area has tapered-hole bias, hole count is derived and plate thickness assumed. Check source conventions for any adapter. No pressure-loss experiment held.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,

@@ -200,8 +200,9 @@ Objective discrepancies retained without rewriting scientific history:
   scientific use. It is not a newly discovered physical campaign.
 - **Smrke:** the source card's intake-time “supplement not held” statement is
   historical. Fig S1 digitization is now present; native raw logs are not established.
-- **Schulman:** malformed local CSV cannot supply a certified observation count.
-  Next step: an out-of-place header adapter checked against the existing source card.
+- **Schulman:** the initial reader failed on quoted comments/header layout. The
+  final comment-filtered receipt recovered 14 structurally consistent rows; this
+  corrects the stale parse warning, without qualifying a pressure-loss experiment.
 - **Pannusch:** old local PROVENANCE text still says “deferred” and describes an
   earlier center-grind approximation. Use the newer qualified canonical register
   and reconstruction; this task did not newly recover the already-recovered corpus.
@@ -216,10 +217,9 @@ Objective discrepancies retained without rewriting scientific history:
 - **Waszkiewicz:** 57 source labels versus 56 physical brews is documented duplicate
   lineage, not a discovered independent replicate. The existing negative scientific
   dispositions are unchanged.
-- **Same-path mismatches:** ten files differ from current Puckworks bytes: six
-  source provenance records plus the root manifest/loader/intake records and the
-  earlier Pannusch kinetics export are covered by the exact private reconciliation.
-  These indicate local historical copies; no original was overwritten.
+- **Same-path mismatches:** ten individually tracked differences are listed below.
+  A pathname is not a content identity; the local versions are not substitutes for
+  accepted hash-bound inputs. No original or historical receipt was overwritten.
 - **MATLAB/text:** opaque MATLAB table objects and legacy text encodings cause
   explicit parse failures. The qualified Pannusch adapter, not unsafe object loading,
   is the bounded recovery path. Archive resource-fork members also fail parsing;
@@ -229,6 +229,61 @@ Reopen a scientific disposition only for a named material change in source
 semantics, compatible input/observation mapping or genuinely different question,
 with the relevant prior-use record cited. A recovered file or successful parse
 alone does not reopen a negative result.
+
+### Historical identity differences
+
+Comparison authority is Puckworks base `2058d0e947ee9eb92c52d64f6165b810f1fb4732`.
+The private `final-review-mismatches.json` beside `RESULT.json` pairs each observed
+snapshot hash with that base's exact Git-blob SHA-256 and locator. These public
+record IDs are inventory exceptions, not newly qualified dataset IDs. Except for
+DCG-M06, the originating version and impact on accepted scientific inputs remain
+**UNKNOWN**; metadata differences must not be presumed harmless or used to
+invalidate prior results. Resolve a proposed use against its own accepted receipt.
+
+| Record ID | Public counterpart / dataset scope | Inspection and provenance limit |
+|---|---|---|
+| DCG-M01 | Root intake record (`BLOCKED_INTAKE.md`) | Hash-only local administrative copy; historical authority/impact UNKNOWN. |
+| DCG-M02 | Root dataset register (`MANIFEST.csv`) | Hash-only local register copy; no silent replacement of canonical dataset identities. |
+| DCG-M03 | Root loader (`__init__.py`) | Hash-only author-code copy; not executed; historical consumer overlap UNKNOWN. |
+| DCG-M04 | `grudeva2025` provenance record | Text decoded; scientific/rights equivalence not established. |
+| DCG-M05 | `pannusch2024` provenance record | Text decoded; earlier intake account is not current reconstruction authority. |
+| DCG-M06 | `pannusch2024/experimental_kinetics` | Structured 90-row export; verified legacy/corrected distinction below. |
+| DCG-M07 | `vacaguerra2023a` provenance record | Text decoded; impact on accepted porosity/source interpretation UNKNOWN. |
+| DCG-M08 | `visualizer` provenance record | Text decoded; no redistribution grant or accepted-input equivalence inferred. |
+| DCG-M09 | `wadsworth2026/table1_full` provenance record | Text decoded; accepted scientific-input impact UNKNOWN. |
+| DCG-M10 | `waszkiewicz2025` provenance record | Text decoded; accepted scientific-input impact UNKNOWN. |
+
+**Known scientific lineage overlap (DCG-M06):** the observed local hash equals
+`base_file_sha256` in the existing
+[kinetics correction ledger](../../puckworks/data/pannusch2024/experimental_kinetics_correction_ledger.json),
+whereas the compared canonical file equals `candidate_file_sha256`. The accepted
+PANNUSCH-RAW-REPRO-001 correction excluded spilled samples from valid-only means;
+its [metric attribution](../../puckworks/data/pannusch2024/metric_attribution.json)
+already records downstream metric effects without parameter refitting. The legacy
+hash also appears in the historical
+[SCI-MD-004 training contract](../analysis/sci_md_004_stage_e0/training_contract.json).
+This is a traced, previously documented scientific-input difference, **not source
+equivalence** and not a new adjudication of that historical result. Preserve both
+versions and receipts. Any untraced downstream adoption remains UNKNOWN; a proposed
+reuse must name its accepted input hash and consult the existing correction before
+seeking separate adjudication of an actual conflicting claim.
+
+### Inspection exception lookup
+
+The private manifest is the exact-file/member lookup; the following public records
+make limitations selectable without exposing private locators. Content role and
+inspection state are separate: an unresolved role does not mean unreadable data.
+
+| Exception ID / scope | Permitted state, reason and bounded next step |
+|---|---|
+| DCG-E01 / `angeloni2023` | All material hash-only under protected-source restrictions; no target exposure. Nine files fall in the unresolved-role class. Consult the existing holdout contract before any deeper inspection. |
+| DCG-E02 / 89 unresolved-role physical files | 12 generated/unmapped hash-only; 9 protected hash-only; 23 format-not-parsed; 22 decoded text without file-level semantic review; 20 structurally parsed; 2 bounded archives; 1 parse failure. These disjoint states total 89. Exact family/locator routing is retained privately. Review role/lineage for the selected question, never infer 89 failed datasets. |
+| DCG-E03 / `pannusch2024` MATLAB array | One physical `Experiments.mat` parse failure: TypeError on opaque MATLAB content. Use the qualified source adapter or a separately authorized safe export; do not deserialize unsafe objects. |
+| DCG-E04 / `pannusch2024` author code | Two physical MATLAB-text failures (`controlfunctions.m`, `physical_parameters.m`): UnicodeDecodeError. A bounded encoding-aware text read is the next step; do not execute code. Together E03/E04 account for all three physical parse failures. |
+| DCG-E05 / `g10_liquor_rheology` | Ragged liquor-rheology table; exact bytes match the canonical table. Check documented row/header conventions before an adapter; raggedness alone does not invalidate the measurements. |
+| DCG-E06 / `g1_glassbead_analog` | Ragged retention table; exact bytes match the canonical table. Check row/header conventions before a source-specific reader. E05/E06 account for both ragged physical tables. |
+| DCG-E07 / `schulman2011/basket_geometry` | Initial strict-reader problem with quoted comments/header retained as history. Final comment-filtered receipt: 14 rows, six columns, consistent widths; not a physical PARSE_FAILED entry. Check geometry conventions against the source card before scientific use. |
+| DCG-E08 / archive members | 303 member parse failures, all in Pannusch archives: 128 UnicodeDecodeError, 92 ValueError, 70 XLRDError, 12 BadZipFile, 1 TypeError. Resource-fork/opaque or encoding-incompatible members remain explicit exceptions. They are not 303 additional physical failures or absent experiments. Use the private member diagnostic to select one relevant member; retain depth/size/traversal limits and never execute archive code. |
 
 ## Publication and storage
 
@@ -757,9 +812,9 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 1 files / 1,004 bytes; 1 structured files, 1 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-Held basket_geometry CSV has a malformed quoted comment/header layout; strict parsing cannot certify the advertised geometry table.
+The quoted comment/header layout defeated the initial strict CSV reader; the final comment-filtered structural receipt recovered 14 rows with six consistent columns: basket, D_base_mm, d_hole_um, sigma_hole_um, A_h_mm2, grid.
 
-Basket geometry context remains available in the public source card. Local table requires a bounded out-of-place adapter checked against the 14-basket source table; failure is not zero observations. No pressure-loss experiment held.
+Basket geometry context is available in the public source card. Structural recovery is not a new scientific qualification: face-side hole area has tapered-hole bias, hole count is derived and plate thickness assumed. Check source conventions for any adapter. No pressure-loss experiment held.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|

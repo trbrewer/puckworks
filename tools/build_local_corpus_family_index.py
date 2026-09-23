@@ -210,11 +210,13 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                    'parameters are derived, cup totals overlap fractions, and Pannusch shares the '
                    'fit-campaign lineage. No independent cross-corpus doubling or production-inventory '
                    'bridge.'),
- 'schulman2011': ('Held basket_geometry CSV has a malformed quoted comment/header layout; strict parsing '
-                  'cannot certify the advertised geometry table.',
-                  'Basket geometry context remains available in the public source card. Local table requires '
-                  'a bounded out-of-place adapter checked against the 14-basket source table; failure is not '
-                  'zero observations. No pressure-loss experiment held.'),
+ 'schulman2011': ('The quoted comment/header layout defeated the initial strict CSV reader; the final '
+                  'comment-filtered structural receipt recovered 14 rows with six consistent columns: '
+                  'basket, D_base_mm, d_hole_um, sigma_hole_um, A_h_mm2, grid.',
+                  'Basket geometry context is available in the public source card. Structural recovery '
+                  'is not a new scientific qualification: face-side hole area has tapered-hole bias, '
+                  'hole count is derived and plate thickness assumed. Check source conventions for '
+                  'any adapter. No pressure-loss experiment held.'),
  'smrke2024': ('Figures 2–7 and supplementary Fig S1 are present as digitized CSVs and images. Fig S1: '
                '18,001 time/flow/series/run-index rows; PSD curves: 4,342 sampled curve rows. Fitted '
                'PLSR/sensory curves are separate from experimental marker digitizations.',
