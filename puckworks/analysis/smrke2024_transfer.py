@@ -327,7 +327,8 @@ def gain(parent: Sequence[dict], corrected: Sequence[dict]) -> dict:
     return dict(parent_balanced_rmse=bp, correction_balanced_rmse=bc,
         absolute_gain_pp=bp-bc, relative_gain=reduction, per_arm_rmse_change=(c-p).tolist(),
         interior_nonworse=bool(np.all(c[1:3] <= p[1:3])),
-        material=bool(reduction >= .2 and bp-bc >= .1 and np.all(c[1:3] <= p[1:3]) and np.all(c-p <= .1)))
+        interior_positive_gain=bool(np.any(c[1:3] < p[1:3])),
+        material=bool(reduction >= .2 and bp-bc >= .1 and np.all(c[1:3] <= p[1:3]) and np.any(c[1:3] < p[1:3]) and np.all(c-p <= .1)))
 
 
 def adjudicate(reports: dict, numerical_ok: bool) -> dict:

@@ -120,7 +120,9 @@ arms in every treatment. TESTED_COMMON_MODELS_INADEQUATE requires both models
 failing in every treatment. Otherwise UNRESOLVED.
 
 B material gain over each own parent requires equal-arm RMSE reduction >=20%
-and >=.10 pp, interior folds both non-worse, and no arm worsens >.10 pp RMSE.
+and >=.10 pp, interior folds both non-worse with strictly positive RMSE gain
+in at least one interior fold, and no arm worsens >.10 pp RMSE. Unchanged
+interior errors cannot earn gain from endpoint extrapolation alone.
 MATERIAL_OUT_OF_FIT_GAIN_FOR_TESTED_CORRECTION requires a named correction to
 pass every treatment. NO_MATERIAL_GAIN_FOR_TESTED_CORRECTIONS requires neither
 correction to pass any treatment. Mixed source dispositions give UNRESOLVED.

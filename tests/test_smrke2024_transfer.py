@@ -172,6 +172,7 @@ def test_gain_cannot_be_earned_by_endpoint_only_or_bad_arm():
     parent=[s.metrics([1.]*4)]*4
     def errors(values):
         return [s.metrics([v]*4) for v in values]
+    assert not s.gain(parent,errors([0.,1.,1.,0.]))['material']
     assert not s.gain(parent,errors([0.,1.01,1.,0.]))['material']
     assert not s.gain(parent,errors([1.11,.1,.1,.1]))['material']
     assert not s.gain(parent,errors([.85]*4))['material']
