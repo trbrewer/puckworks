@@ -24,3 +24,5 @@ EWP copy; [AUDIT.json](AUDIT.json) is genuine independent agent review, not huma
 approval. [RESULT.json](RESULT.json) contains bounded public replay dispositions.
 The task-local EWP consumer binds the assay code SHA and separately records its
 analysis commit. No production lock update is authorized.
+
+Linked retained-field diagnostic: [EWP PR #172](https://github.com/trbrewer/espresso-whole-pull/pull/172).

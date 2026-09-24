@@ -97,3 +97,7 @@ actually contains it.
 No evidence badge, validation rung, model verdict, public scientific claim or numerical result
 changed. No other candidate, MANIFEST row or model was touched. No correction framework, lifecycle
 schema, portfolio machinery, Foundry lens, generator or governance mechanism was added.
+
+SCI-MD-RADIAL-OBS-001 current inventory-count refresh: live correction receipt
+`4cab5b0f46a38203e348a046f0bae406e17c5b15502f4ead6de89447eef12eea` changes only the unrelated manifest row count
+from 114 to 115. Historical correction outcomes and gate numerics are unchanged.
