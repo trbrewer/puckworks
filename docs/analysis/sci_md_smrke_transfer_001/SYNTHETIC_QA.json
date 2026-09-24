@@ -1,0 +1,20 @@
+{
+  "phase": "PRE_SCORING_SYNTHETIC_ONLY",
+  "python": "3.12.3",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "pytest": "9.1.1",
+  "focused_tests": {
+    "passed": 36,
+    "failed": 0,
+    "command": "python -m pytest -q tests/test_smrke2024_transfer.py"
+  },
+  "registry_gates": {
+    "passed": 65,
+    "acknowledged_exception": 1
+  },
+  "ruff": "PASS",
+  "repository_quick_suite": "RUNNING_SEPARATELY; not claimed passed",
+  "failed_attempt": "Initial synthetic decreasing-response boundary test: B1 SLSQP conditioning failure, 29 passed/1 failed. Fixed by algebraic log-time centering before freeze; all 36 focused tests now pass. No real-data fit or score occurred.",
+  "pre_score_audit_correction": "Independent reviewer found endpoint-only gain could pass with exactly unchanged interior folds; added positive gain in at least one interior fold and exact-equality synthetic regression before real-data fitting/scoring. Same one pre-scoring audit; original candidate remains in Git."
+}

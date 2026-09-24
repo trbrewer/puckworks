@@ -1,0 +1,784 @@
+[
+  {
+    "blob": "blue12",
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L2",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 11.81,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 17.576
+  },
+  {
+    "blob": "blue12",
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L3",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 11.82,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 17.424
+  },
+  {
+    "blob": "blue12",
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L4",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 12.44,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 17.533
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L5",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 22.46,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 18.999
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L6",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 23.86,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.02
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L7",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 25.97,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.301
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L8",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 34.99,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.536
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L9",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 37.04,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.151
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L10",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 38.68,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.946
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "1g_fines",
+      "row_id": "Fig3:L11",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 39.73,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.588
+  },
+  {
+    "blob": "mixed17",
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L12",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 16.85,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 18.743
+  },
+  {
+    "blob": "mixed17",
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L13",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 17.47,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 18.796
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L14",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 18.24,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.362
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L15",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 31.04,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.673
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L16",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 33.17,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.707
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L17",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 34.52,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.183
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L18",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 51.59,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.925
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L19",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 55.35,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.242
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "2g_fines",
+      "row_id": "Fig3:L20",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 62.91,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.706
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L21",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 29.77,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.722
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L22",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 32.96,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.798
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L23",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 33.41,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.47
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L24",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 54.86,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.874
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L25",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 59.97,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.756
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L26",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 60.64,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 21.313
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "4g_fines",
+      "row_id": "Fig3:L27",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 79.52,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 21.267
+  },
+  {
+    "blob": "black9",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L28",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 8.24,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 16.769
+  },
+  {
+    "blob": "black9",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L29",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 9.01,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 16.813
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L30",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 9.18,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 16.408
+  },
+  {
+    "blob": "black9",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L31",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 9.28,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 3,
+    "note": "cluster split k=3",
+    "yield_pp": 16.691
+  },
+  {
+    "blob": "mixed17",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L32",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 17.31,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "partially occluded",
+    "yield_pp": 18.674
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L33",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 19.55,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 18.865
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L34",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 19.67,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.313
+  },
+  {
+    "blob": "black23",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L35",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 22.63,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 19.291
+  },
+  {
+    "blob": "black23",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L36",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 23.34,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 19.347
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L37",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 26.68,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.799
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L38",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 28.35,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 19.716
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L39",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 42.89,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.965
+  },
+  {
+    "blob": "black46",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L40",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 45.58,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 20.91
+  },
+  {
+    "blob": "black46",
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L41",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 45.96,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 2,
+    "note": "cluster split k=2",
+    "yield_pp": 20.804
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L42",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 55.49,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.354
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L43",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 57.59,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 21.166
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L44",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 58.54,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.453
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L45",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 62.66,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.201
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L46",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 67.75,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 20.845
+  },
+  {
+    "blob": null,
+    "covariate": {
+      "level": "no_added_fines",
+      "row_id": "Fig3:L47",
+      "source": "smrke2024/fig3_ey_vs_time",
+      "time_s": 68.07,
+      "units": [
+        "s",
+        "source_yield_pp",
+        "g"
+      ]
+    },
+    "markers_in_blob": 1,
+    "note": "",
+    "yield_pp": 21.291
+  }
+]

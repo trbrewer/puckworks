@@ -1,0 +1,54 @@
+{
+  "NEW_NATIVE_BUILDS": 0,
+  "NEW_NATIVE_INTEGRATIONS": 0,
+  "NO_SUCCESSOR_EXECUTION_AUTHORIZED": true,
+  "PHYSICAL_VALIDATION_OF_EWP": "NOT_ESTABLISHED",
+  "PRODUCTION_DEFAULTS_AND_LOCK": "UNCHANGED",
+  "SMRKE_CROSS_SETUP_S_B": "UNCHANGED",
+  "base_applicability": "Exact base tree independently verified and base is ancestor of reviewed head. All eight SOURCE.json inherited file hashes also match their base-commit bytes: source data, loader, Smrke card/envelope, validation gates and production registry are unchanged. New candidate is a focused analysis-only addition.",
+  "base_commit": "e786b7846a19da8fae4f02b52b8a2dbbf8b8abee",
+  "base_tree": "fa3ae8b0066066afd42944a9a4bc58f2d4411d51",
+  "checks": [
+    "Read applicable agent/onboarding, source-guide and minimum-governance instructions; reviewed CONTRACT, FREEZE, SOURCE_USE, source identities, synthetic QA, observations, support, module, focused tests and plotting code.",
+    "Independently matched all 19 frozen file hashes to both working bytes and reviewed commit. Verified exact head/tree, base tree and ancestry. Real prediction/receipt/metric/residual artifacts were absent when issuing this receipt.",
+    "Inspected unchanged digitization notes, source card and newly annotated source image. Explicit blue12, mixed17, black9, black23 and black46 connected-position identities agree with visible clusters; equal blob areas are not used as identities.",
+    "Independently regenerated observations and all 18 pre-fit support maps exactly. All-marker counts 20/10/9/7, primary counts 12/7/7/7; every declared treatment has sufficient training and supported-test coverage. Protocol A primary supported counts 7/7/6 and line 27 time extrapolation agree.",
+    "Independently inspected publication indexed PMC methods, Figure 3 discussion and CC BY 4.0 statement: machine-displayed time, 20 g nominal replacement recipe, source endpoint interpretation and rights are consistent. Direct PMC page retrieval remains reCAPTCHA-limited as disclosed.",
+    "Checked exactly M0/M1/B0/B1 equations, internal coefficient transformations, broad M parameter bounds, linear-f endpoint constraints, B monotonic derivative constraints and analytical vertex checks. No prediction clipping, whole-source maximum ceiling or production registration.",
+    "Checked deterministic group-balanced least squares, fixed feasible initialization, profile search, explicit optimizer failures, parameter-bound and Jacobian diagnostics, tested near-profile prediction spread and tighter frozen calculation.",
+    "Checked zero-fines-only Protocol A and whole-level Protocol B folds, disjoint marker identities, separate time/intervention support flags and identical parent/correction scoring support. Training receives only fold training observations; prediction receives Covariate objects without target yield.",
+    "Checked immutable exclusive prediction write followed by hash receipt, subsequent separate scoring verification of observation/prediction/audit/freeze hashes, and scientific-file identity checks against the actual reviewed candidate. No real-data fit or score was executed by this reviewer.",
+    "Checked per-arm residual metrics, equal-arm RMSE, adequacy thresholds, corrected material-gain conditions, named-family treatment robustness, insufficient-support handling, numerical .01 pp threshold and unresolved disposition rules.",
+    "Checked fixed primary/all treatments plus eight coordinate shifts each, axis/rounding allowances, shared connected-position signs and unchanged observation identities. No row bootstrap, independent-replicate inference, confidence interval or physical-parameter claim.",
+    "Independently reran focused tests on corrected exact candidate: 36 passed in 4.97 s, using /home/tim/Documents/data/.smrke-transfer-venv/bin/python -m pytest -q tests/test_smrke2024_transfer.py. Tests include known common/correction, zero gain, insufficient support, bounds, determinism, information flow, labels/units, and explicit convergence failure.",
+    "Reviewed plotting as evaluation of frozen fitted functions and result artifacts; across-shot endpoint and digitization-sensitivity labels are retained, without full-data refits or native physics adoption."
+  ],
+  "completed_utc": "2026-09-24T17:11:15.032839+00:00",
+  "corrections_within_this_audit": [
+    {
+      "finding": "Gain could be earned entirely at endpoint intervention folds with both interior errors exactly unchanged; synthetic parent [1,1,1,1] and correction [0,1,1,0] passed.",
+      "initial_reviewed_head": "89c8fcfbd3a294634376bd72490146194adb76b8",
+      "resolution": "Corrected candidate requires strictly positive gain in at least one interior fold as well as both non-worse. Contract states the rule, exact-equality synthetic regression passes, and refreshed freeze binds corrected bytes. Original candidate remains in Git history. No scored source results informed the correction."
+    }
+  ],
+  "disposition": "PASS",
+  "freeze_sha256": "b01c7a89161611ff62f7f7ba0436119d40d97c13f9b48972434cf81db3309587",
+  "independent_of_implementation_author": true,
+  "limits": [
+    "PASS establishes readiness to execute the bounded frozen comparison; it does not predict its scientific verdict or establish numerical reliability on unexecuted real-data fits.",
+    "Public plotted observations were already inspected; no protected or previously unseen holdout and no second independent validation experiment is claimed.",
+    "Marker estimates are not verified raw-shot identities. Original digitizer overlays and per-shot raw records remain unavailable; visual inspection does not establish hidden replication.",
+    "Full repository quick suite and registry gates were not rerun by this reviewer. Implementer reports their separate status; this receipt only claims the independently executed focused suite.",
+    "Finite profile candidates and digitization perturbations are diagnostics, not exhaustive uncertainty bounds or parameter confidence intervals. Stable predictions do not establish physical tau, causal fines effects or an in-shot extraction trajectory.",
+    "This receipt covers precise candidate/base and frozen scientific bytes. No native runs/builds, production default/lock change, S-B gate reopening, merge or successor authorization is supplied."
+  ],
+  "reviewed_head": "4419c342940be7f9921ebefc169f233a52437729",
+  "reviewed_tree": "abf4e8c6c04047ec18b588209eaacdba5c0eafb1",
+  "reviewer": {
+    "agent_identity": "/root/independent_prescore_audit",
+    "independence": "Separate reviewer agent; did not author implementation, contract, tests or source artifacts. This receipt is not human, GitHub or merge approval.",
+    "role": "Independent pre-scoring scientific reviewer"
+  },
+  "scope": "One independent pre-scoring audit of the frozen four-model source-conditioned endpoint comparison; bounded correction handled within this same audit before real-data fitting, prediction or scoring.",
+  "task": "SCI-MD-SMRKE-TRANSFER-001"
+}

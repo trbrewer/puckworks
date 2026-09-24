@@ -1492,3 +1492,13 @@ corpus and proposes questions; it runs no components and produces no results.*
   three-scalar interface (I-010), and a dataset can be consumed as a pure TIME BASE with no
   measured column scored against it (I-040) — a category the mixed-strength manifest vocabulary
   does not currently have. Both are registry facts, not physics, and both belong on a card.
+
+### SCI-MD-SMRKE-TRANSFER-001 (2026-09-24)
+
+[Source-conditioned endpoint result](analysis/sci_md_smrke_transfer_001/RESULT.md):
+TESTED_COMMON_MODELS_INADEQUATE; NO_MATERIAL_GAIN_FOR_TESTED_CORRECTIONS.
+Implemented/audited/executed M0/M1/B0/B1 on 33 primary and 46 all-marker Figure 3
+estimates with whole-intervention folds and 18 digitization treatments. Reject
+these tested adequacy forms; no specific missing mechanism or extra fines term
+is established. S-A/S-B, registry, production defaults and EWP physical-validation
+ceiling remain unchanged. No successor execution or merge is authorized.
