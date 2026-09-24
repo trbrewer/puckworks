@@ -163,7 +163,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 114 dataset rows; 107 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 115 dataset rows; 108 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -722,8 +722,9 @@ Retained-liquid and radial extraction context. Multirow exports need a header ad
 |---|---|---|
 | `pocketscience2024/edge_ey_condition_means` — [pocketscience2024](../cards/pocketscience2024.md); Espresso water flow experiment.xlsx (VST18 + Sworks High Flow sheets); 12 condition means per card Parameters table | card transcription (condition means; raw workbook held locally, gitignored); published: % (extraction yield); fraction (outer mass / dose); registry: % ; fraction | used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked; shot style confounded with grinder; two-zone radial only (no depth); section EY anchored to shot EY by construction; VST18xbrass cells absent (12 of 16); Gagne MC edge losses differ from raw means; label erratum carried (outer-to-TOTAL, not outer-to-inner); does NOT close G1 or G9 |
 | `pocketscience2024/lrr_scalars` — [pocketscience2024](../cards/pocketscience2024.md); Espresso water flow experiment.xlsx (LRR sheet; 10 flush shots, 2 grinders) | card transcription (grinder-level means; raw sheet gitignored); published: g water / g dose; registry: g/g (dimensionless) | used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked; lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target |
+| `pocketscience2024/workbook_assay_reconstruction` — [pocketscience2024](../cards/pocketscience2024.md); Espresso water flow experiment.xlsx; SHA256 9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc; source-export CSVs; docs/analysis/sci_md_radial_obs_001/CONTRACT.json | explicit formula graph and typed assay; 60 experimental rows (3 source rejects), 10 separate flush rows; local replay output external; published: g; numeric TDS percent; Excel percent fractions; registry: kg; dimensionless mass fractions; named display units for replay | recorded permission with attribution to Pocket Science Coffee (2024); original expanded grant not held; new rows/aggregates private only; new task-local subset ID; same workbook lineage as older card means; Sworks and VST use different denominators and retention corrections; Y54 unfiltered anchor anomaly retained; no production dependency authority |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-RADIAL-OBS-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### ribes2020
 

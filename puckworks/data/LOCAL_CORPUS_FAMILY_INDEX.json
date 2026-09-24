@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "0c318f43c40361629bb8f25ab4b8ca9f073425ca3ec3a2418bbd8a6cb67a5481",
+  "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
   "families": [
     {
       "aliases": [
@@ -953,27 +953,33 @@
       },
       "external_corpus_id": null,
       "family_id": "pocketscience2024",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-RADIAL-OBS-001",
       "limits": [
+        "UNQUALIFIED_RADIAL_SOLID_DEPLETION",
+        "PHYSICAL_VALIDATION",
+        "NEW_SOURCE_AGGREGATE_PUBLICATION_WITHOUT_GRANT_SCOPE",
         "shot style confounded with grinder; two-zone radial only (no depth); section EY anchored to shot EY by construction; VST18xbrass cells absent (12 of 16); Gagne MC edge losses differ from raw means; label erratum carried (outer-to-TOTAL, not outer-to-inner); does NOT close G1 or G9",
-        "lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target"
+        "lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target",
+        "new task-local subset ID; same workbook lineage as older card means; Sworks and VST use different denominators and retention corrections; Y54 unfiltered anchor anomaly retained; no production dependency authority"
       ],
       "manifest_dataset_ids": [
         "pocketscience2024/edge_ey_condition_means",
-        "pocketscience2024/lrr_scalars"
+        "pocketscience2024/lrr_scalars",
+        "pocketscience2024/workbook_assay_reconstruction"
       ],
       "model_chain_stages": [
         "machine_boundary",
         "hydraulics"
       ],
-      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "raw_access_status": "EXTERNAL_WORKBOOK_CONFIGURED_RESOLVER",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked"
+        "used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked",
+        "recorded permission with attribution to Pocket Science Coffee (2024); original expanded grant not held; new rows/aggregates private only"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:POCKETSCIENCE2024",
       "strongest_current_uses": [
-        "offline validation target for a future radial two-zone bed_dynamics/extraction variant (reproduce edge-loss SIGN structure); prior-shaping caution for brewer2026.streamtube sigma"
+        "SHEET_SPECIFIC_OPERATIONAL_RECOVERABLE_SOLUTE_CONTRAST"
       ]
     },
     {

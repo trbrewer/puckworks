@@ -1,0 +1,130 @@
+{
+  "SOURCE_RECONSTRUCTION": "REPRODUCED",
+  "FORWARD_ASSAY_MAP": "CONDITIONAL",
+  "IDENTIFIED_OBSERVABLE": {
+    "Sworks": "U_center/d_initial_center - U_edge/d_initial_edge, with source recovery LRR and asserted original section mass fractions",
+    "VST": "U_center/H_dried_center - U_edge/H_dried_edge, without LRR correction",
+    "solid_depletion": "NOT_IDENTIFIED_FROM_AVAILABLE_MEASUREMENTS",
+    "apparent_section_EY_difference": "IDENTIFIED_UNDER_DOCUMENTED_SOURCE_ASSUMPTIONS",
+    "fractional_edge_loss": "IDENTIFIED_UNDER_DOCUMENTED_SOURCE_ASSUMPTIONS; shared anchor remains"
+  },
+  "EWP_FIELD_DIAGNOSTIC": "OWNED_BY_LINKED_EWP_RESULT",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "NEW_NATIVE_INTEGRATIONS": 0,
+  "NEW_NATIVE_BUILDS": 0,
+  "PRODUCTION_DEFAULTS_AND_LOCK": "UNCHANGED",
+  "workbook_sha256": "9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc",
+  "external_replay_sha256": "f6a1a07cdba0aa2c42501700df4112b5fefe67e9f1a18fe2f7948910f617b1d4",
+  "source_replay_contract_sha256": "beb74f934168fcdb9cc4fad0c073d84f752d12e2dc4d0584cbcbc55dc61de47b",
+  "source_code_sha256": "9e0bb78814d2f4ff97f85b914a2f42a011a1b14c2ffbeed8aa7521373d1e5487",
+  "experimental_shots": 60,
+  "source_exclusions": 3,
+  "retained_shots": 57,
+  "conditions": 12,
+  "flush_measurements": 10,
+  "formula_cells": 1672,
+  "cache_discrepancies": 0,
+  "unsupported_formulas": 0,
+  "maximum_absolute_display_error": 4.996592029016256e-09,
+  "source_export_numeric_cells": 2629,
+  "source_export_rounding_discrepancies": 0,
+  "rounded_registry_discrepancies": [
+    {
+      "condition": [
+        "VST18",
+        "Superjolly MP64",
+        "N",
+        "Teflon"
+      ],
+      "quantity": "edge_yield_loss_pct"
+    },
+    {
+      "condition": [
+        "VST18",
+        "Superjolly MP64",
+        "N",
+        "Teflon"
+      ],
+      "quantity": "shot_ey_filtered_pct"
+    },
+    {
+      "condition": [
+        "VST18",
+        "Superjolly MP64",
+        "Y",
+        "Teflon"
+      ],
+      "quantity": "edge_yield_loss_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Niche Zero",
+        "N",
+        "Teflon"
+      ],
+      "quantity": "ey_edge_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Niche Zero",
+        "Y",
+        "Teflon"
+      ],
+      "quantity": "shot_ey_filtered_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Niche Zero",
+        "Y",
+        "Brass"
+      ],
+      "quantity": "edge_yield_loss_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Superjolly MP64",
+        "N",
+        "Teflon"
+      ],
+      "quantity": "ey_edge_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Superjolly MP64",
+        "Y",
+        "Teflon"
+      ],
+      "quantity": "edge_yield_loss_pct"
+    },
+    {
+      "condition": [
+        "Sworks High Flow",
+        "Superjolly MP64",
+        "Y",
+        "Brass"
+      ],
+      "quantity": "edge_yield_loss_pct"
+    }
+  ],
+  "registry_reconciliation": "9 entries outside source decimal rounding intervals; mixture of card rounding/transcription or unprovided later transformations cannot be uniquely assigned. No retrospective repair or formula fitting. Full discrepant values external.",
+  "source_anomalies": [
+    "Sworks Y54 filtered-label cell uses unfiltered C54",
+    "Excluded Sworks AL9 refers to next row",
+    "Sworks LRR uses literal 3.29/3.38, not live links to LRR means",
+    "VST recovery lacks LRR and final section EY uses dried-mass denominator"
+  ],
+  "rights": "No new per-shot/condition aggregates published; actual expanded grant unavailable in targeted holdings",
+  "uncertainty": "No published MC replication or confidence intervals; conditional sensitivity only",
+  "physical_unknowns": [
+    "initial regional inventory and actual initial section mass calibration",
+    "retained pore solute at stop and through handling",
+    "drainage and material/volatile losses",
+    "recovery efficiencies and refractometric/model-pool equivalence",
+    "precise later plotting and Monte Carlo algorithm"
+  ]
+}

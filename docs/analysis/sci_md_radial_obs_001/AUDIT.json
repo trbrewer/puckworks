@@ -1,0 +1,74 @@
+{
+  "NEW_NATIVE_BUILDS": 0,
+  "NEW_NATIVE_INTEGRATIONS": 0,
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "checks": [
+    "Identical contracts and all frozen source-code, observer, report, historical-helper and receipt hashes verified.",
+    "Actual original workbook plus all eight frozen local source identities independently rehashed. Both workbook views inspected; no missing formula caches found.",
+    "Present experimental workbook formula strings independently compared to explicit graph, including denominator differences, numeric-percent conventions, percent-formatted cells, cross-row AL9, Y54 unfiltered anchor, and original-mass q denominators. Only graph cells absent from excluded source rows differ structurally.",
+    "Independently counted 40 Sworks and 20 VST experimental rows, exclusions at Sworks rows 7/9/23, 12 retained groups and 10 separate LRR rows. All 12 LRR formula strings checked without numerical replay.",
+    "Primary workflow and results posts independently inspected: paper-on-top treatment, nominal flat 6-bar programme, preparation/handling limits, later anchor and incomplete Monte Carlo specification agree with qualification.",
+    "Analytical anchor cancellation in absolute radial contrast and non-cancellation in fractional ratio checked; Sworks initial-mass and VST residue denominators kept distinct.",
+    "Nonnegative synthetic ambiguity independently checked for identical dry residue, recovery water/beverage/solute and retention, conserved total dry mass, fixed whole-shot anchor and differing normalized radial solid depletion. Establishes non-injectivity for the conditional ideal recovery map without making source-shot-specific claims.",
+    "Drying balance, pore-liquid mass basis, remaining-solid integral without porosity, native solvent convention, named efficiencies/survival and model-derived anchor inspected.",
+    "Independent hash-only verification of all 16 retained completion manifests plus 160 direct field/mesh/scenario hashes; exact fixed field-set identity checked. No field observation performed.",
+    "Generic annular partition and oriented-volume reuse reviewed; historical three-region parity, unequal-region partial-cell conservation, unresolved E2 subcells, dimensions/positivity and inherited mass limits checked in code and synthetic tests.",
+    "Final frozen synthetic suites: 11 Puckworks tests passed; 5 EWP tests passed. No native solver/build or full source replay invoked.",
+    "Report derives actual successful counts and preserves named missing results; publication excludes private source rows/aggregates and private paths."
+  ],
+  "completed_utc": "2026-09-24T15:19:51.760182+00:00",
+  "conclusion": "The frozen source-specific reconstruction and conditional observation contract are coherent and suitable for the bounded complete replay. The operational sheet-specific recoverable-solute contrast is identifiable as a source calculation; radial solid depletion is not identified by those measurements without the named additional assumptions.",
+  "contract_sha256": "e33301e3c402b14d4fd9ebdf07669510844fe96ac4cf056902cc5c6536607285",
+  "corrections_within_this_audit": [
+    "Corrected dimensional wording of synthetic anchor to cup solute divided by initial dose.",
+    "Enforced frozen retained receipts and exact field-set identities before observation.",
+    "Changed generic exclusion status to SOURCE_EXCLUDED without asserting all rejected rows lack primitives.",
+    "Made report counts and named missing-result reporting reflect actual diagnostic completion."
+  ],
+  "limits": [
+    "Pre-analysis contract/code review only. Full workbook numerical replay, source-export numerical comparison and 32 field/partition observations remain pending; PASS does not predetermine their success.",
+    "No complete new observer results consumed. Hash verification is input-identity checking, not scientific replay.",
+    "Exact later plotting/Monte Carlo algorithm and expanded source redistribution grant remain unavailable.",
+    "Drainage/handling, recovery efficiencies, model-soluble/refractometer pool equivalence and regional initial inventory remain additional physical assumptions.",
+    "No physical validation, hydraulic-invariance inference, treatment-effect reproduction or new E2 accuracy qualification."
+  ],
+  "original_preanalysis_contract_sha256": "beb74f934168fcdb9cc4fad0c073d84f752d12e2dc4d0584cbcbc55dc61de47b",
+  "qa_addenda": [
+    {
+      "NEW_NATIVE_BUILDS": 0,
+      "NEW_NATIVE_INTEGRATIONS": 0,
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "checks": [
+        "Exact delta against hash-verified original observer is helper extraction plus declared-input guard correction only.",
+        "Source code/measurement map/inputs, all scientific assumptions and tolerances, fixed field set, historical helpers and retained receipts are byte-identity unchanged.",
+        "Regression directly exercises scenario_masses and rejects changed dose, fraction and density. Independently reproduced original guard rejection for the accepted inputs and confirmed corrected helper accepts them.",
+        "Six EWP synthetic tests passed; unchanged Puckworks source suite/replay not rerun.",
+        "Private original contract/audit/source replay/initial partial result were rehashed only; no numerical source replay or successful field outputs consumed by reviewer."
+      ],
+      "completed_utc": "2026-09-24T15:23:43.103147+00:00",
+      "conclusion": "Corrected exact contract passes the limited QA review. Reuse unchanged source replay and retained native evidence; resume only the corrected EWP observation. Original pre-analysis PASS and its limitations remain recorded by their exact artifact identities.",
+      "corrected_contract_sha256": "e33301e3c402b14d4fd9ebdf07669510844fe96ac4cf056902cc5c6536607285",
+      "correction": "scenario_masses validates exact declared dose .020 kg, initial soluble fraction .28 and density 965 kg/m3, then returns their unchanged computed inventory. observation calls this helper.",
+      "defect": "Binary64 product of declared dose and soluble fraction differs from decimal literal .0056; exact comparison rejected unchanged accepted scenarios before successful observation.",
+      "initial_partial_result_sha256": "eee110a795806679f19b546cf89bc65bfff58f7df61d1355525799bdd48311d2",
+      "original_audit_sha256": "21614801252e456efd183341914beceedf1f0edae253cf438199faf47a03adc6",
+      "original_contract_sha256": "beb74f934168fcdb9cc4fad0c073d84f752d12e2dc4d0584cbcbc55dc61de47b",
+      "reported_execution_state": "Implementer reports original audited source replay passed 1672 formula cells and source-export rounding checks; independent reviewer did not reproduce that numerical replay. Field observation remains to be resumed.",
+      "reviewer_agent_identity": "/root/independent_audit",
+      "scope": "Bounded software correction within the same independent audit; no change to scientific formulas, data, tolerances, assumptions or native work.",
+      "source_replay_unchanged_sha256": "f6a1a07cdba0aa2c42501700df4112b5fefe67e9f1a18fe2f7948910f617b1d4",
+      "status": "PASS"
+    }
+  ],
+  "reviewer": {
+    "agent_identity": "/root/independent_audit",
+    "independence": "Separate agent; did not author implementation or contract. Examined source, code and synthetic tests independently. This is not human, GitHub or merge approval.",
+    "role": "Independent pre-analysis reviewer"
+  },
+  "source_links": [
+    "https://pocketsciencecoffee.com/2024/01/07/espresso-water-flow-part-0-workflow/",
+    "https://pocketsciencecoffee.com/2024/02/27/espresso-water-flow-part-1-dispersion-puck-screens-and-baskets/"
+  ],
+  "status": "PASS",
+  "task": "SCI-MD-RADIAL-OBS-001"
+}

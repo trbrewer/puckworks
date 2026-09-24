@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `0ba5b4a2adb837b27ac0cbd998904b00950d269d` · **schema** v1 · **generator** v1
+**Commit** `518fb9c480dbcef475789f48f25843238ff8a9d4` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -12,7 +12,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 |---|---|
 | card | 112 |
 | claim | 5 |
-| dataset | 114 |
+| dataset | 115 |
 | model | 27 |
 | observable | 15 |
 | result | 5 |
@@ -23,8 +23,8 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | CARD_NAMES_IN_OVERLAPS | 17 |
 | COMPETES_WITH | 13 |
 | COMPLEMENTS | 20 |
-| DERIVED_FROM | 103 |
-| MEASURES | 126 |
+| DERIVED_FROM | 104 |
+| MEASURES | 129 |
 | PREDICTS | 49 |
 | SHARES_OBSERVABLE_WITH | 119 |
 | SUPPORTS_CLAIM | 10 |

@@ -1,0 +1,434 @@
+{
+  "DECISION_IF_BLOCKED": "Preserve reconstruction/tests and name missing source or mapping input; no simulations",
+  "DECISION_IF_NEGATIVE": "Identify composite and construct nonnegative mass-conserving ambiguity for solid depletion",
+  "DECISION_IF_POSITIVE": "Name exact sheet-specific operational recoverable-solute contrast for future source-conditioned comparison",
+  "GRINDER_TO_CUP_LINK": "Test spatial extraction representation through actual measurement process, not cup totals alone",
+  "LOWER_COST_ALTERNATIVE": "Existing workbook and stored fields; no new runs",
+  "NEW_INFORMATION": "Workbook formulas, recovery/anchoring semantics, executable radial measurement operator absent from prior CSV checks",
+  "REPEATED_BLOCKER": "No global inventory-surrogate or E2C lane reopening",
+  "assumptions": {
+    "actual_recovery_solution_retention": 0,
+    "anchor": "MODEL_DERIVED_NATIVE_CUP",
+    "dissolved_efficiency": 1,
+    "nonextractable_survival": 1,
+    "pore_solute_survival": [
+      1,
+      0
+    ],
+    "recovery_water_per_residue": 20,
+    "role": "ILLUSTRATIVE_CONDITIONAL_MODEL",
+    "solid_efficiency": 1,
+    "solid_survival": 1,
+    "source_recovery_lrr": 0
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "code_sha256": {
+    "tests/test_sci_md_radial_obs_001.py": "f2338079241730f4195356c516c3155b5fc30ee989e77b30f841368149a2e00c",
+    "tools/sci_md_radial_obs_001/observe.py": "5910f53d6cbd0f6237ede1bce4133085215ef547bed0a1d3b55f5b4d105a9c8a",
+    "tools/sci_md_radial_obs_001/prepare.py": "ce76224b6f838787082e6d29c166a767f06f78eafa02cc39e2f4bcef3edbe4b3",
+    "tools/sci_md_radial_obs_001/report.py": "edb04186cc30583e4cd541069cc004d08d865b099cd0be4582f1a560151847fb"
+  },
+  "dispositions": [
+    "SOURCE_RECONSTRUCTION",
+    "FORWARD_ASSAY_MAP",
+    "IDENTIFIED_OBSERVABLE",
+    "EWP_FIELD_DIAGNOSTIC"
+  ],
+  "ewp_base": "63fd95ec1cdfeffbf184194bf5319bf9a8249c38",
+  "exposure": "SOURCE_INTERNAL / TARGET_EXPOSED",
+  "field_receipt_verification": "16 eligible retained completions verified against complete artifact file manifests before freeze; no native calls",
+  "field_set": {
+    "new_C_SW_WATER_ANCHORED_90C_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "8e29ac9e1ea4d2752dc16de64bcb3642f1b61ece41ce00fa89a9ca12ee27c465",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "f45a5d8116cb81676b7b5d3a22718d91d3965301a45b60a2d0c6b1ab8c7a9c72",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "c0da80c90f1aaf4c2583f44888174d73cce4c9139ef54caacba88328fc97d486",
+      "stored_time_s": 30.0,
+      "trace_sha256": "acef2359b11a078a6ee6522d810c215a5134dc3151f4ef68e45971cb642279eb"
+    },
+    "new_C_SW_WATER_ANCHORED_90C_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "844c82848b2f5222af8766ea1b7bfb1f1c07cf4957c195a3877a65924c3f88b9",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "bb31e7349767474342a4084903ef5636876b2efb79381c9b12a163b7250426fd",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "22f01b8dc4c73daa925527627e7397ba910f13f9ebfee78ae50029820263983f",
+      "stored_time_s": 30.0,
+      "trace_sha256": "5304f4ebf532276ca5f4f04dc37672f5fd0c191415952098c6642ce5cdbe886b"
+    },
+    "new_C_TR_LINEAR_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "b15e5d612e16d36adf0b92b2333a218bc24e4acb5b8de57d1039e8e150653546",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "3b029260da361956e4bf2790aa8dc3b1e92698057722c15bcb3bb42fa4415478",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "a5e4382efe7bec62841efb8c41bb067cab2fabefe1c134ef1008548354111d99",
+      "stored_time_s": 30.0,
+      "trace_sha256": "d8d93588d2612a3c57b8de2eb673f5b9913610126f512c4014fa669969de7f17"
+    },
+    "new_C_TR_LINEAR_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "bc09988900a106caa356cc3f6b904947ba6494bc81e12847b2d11b7245594c6b",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "e3af5913855b9b2ef3fcb5b243ee8e36d16e0512c69eb2a8d529754f998b10d7",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "edb3b017101b7bfe04b981796f38b1c585eddef33fa3bda01d84dfb9267332e5",
+      "stored_time_s": 30.0,
+      "trace_sha256": "1ee01ff498c4acd30e7bb327150227ed579b4cd2ca9758abe3cf8049629190a5"
+    },
+    "new_E2_SW_WATER_ANCHORED_90C_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "7de0f8db85c7a8a1540d91ca78879acb44d817039dc9b02ebdab147da0760ee6",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "fcddb520239cf7d7e9dcae6b488d3a6a8e093405f94b1592fcafb366359b1e45",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "2c9bf753e8107298d1c2e6a1017de113f1251693148fa597b59efb7c6a949844",
+      "stored_time_s": 30.0,
+      "trace_sha256": "ebc6f7969a2c90623e368c253a00030e4c2ff09b009ae0ca71349d5d22f833d5"
+    },
+    "new_E2_SW_WATER_ANCHORED_90C_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "39c4c784514802d6220d928c24dea1fcdad0990bf06b93dcb43421706a5be814",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "415e9519277961f34bc4fd364bea2f5c6aea30ddf7a9c279f4d99653c3643e44",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "c622aedaaa587aacf5e92c8dc9f488dd419540a48fc7e4dc5c9696fb23521c52",
+      "stored_time_s": 30.0,
+      "trace_sha256": "db888fde73da7320f5593e7db3f43803b56f9a1db768677874dd394a02e7adf7"
+    },
+    "new_E2_TR_LINEAR_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "ce45a080c3f47052cf9137a4d3851e56a95daa7a716a86b4f1ff33e7a076ebf6",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "49dfd27e879f77a1ad18607adb6a158c25933740275b96e714bda6087930e943",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "dfcef526bb78f974681310d97a02b964eaf09a375708a6ce3507071accceed21",
+      "stored_time_s": 30.0,
+      "trace_sha256": "d10c1bc45973a757d63db6baf4ccee9d684e4384c2fe004fab2cd0b8086092ea"
+    },
+    "new_E2_TR_LINEAR_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "5bb5070733bcb1b310c224d208ed9a2ccb004d8309c406fd7a6be8a96198b09b",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "de86a95b65897bafdcb916cbfc85be0d1c03d453e5c2dbafdd05a9ce1034ff43",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "e73079bf08b9f1e474ab294aa72758a8843bde388e803a8bab27966696b5cf34",
+      "stored_time_s": 30.0,
+      "trace_sha256": "6aecf7c64133ce0c9ec6643b8e8edeeb730f44e615589e021718d66840ee7576"
+    },
+    "old_C_SW_WATER_ANCHORED_90C_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "26607a04123e4457c276c1c465afe30083c803bf59789a5d6aeed663175e324c",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "ec0e373930d7ea324fdd9f8407063b7defab09150ee8c434f2730669f30c9315",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "bd42d30250592d48dbf2dea19d6710ef91e30b6c023aed244f6d866158d24a8e",
+      "stored_time_s": 30.0,
+      "trace_sha256": "9960f2b38d7febff949f799556dc86987aa8bf88223cefb96a1e1c968793c3a5"
+    },
+    "old_C_SW_WATER_ANCHORED_90C_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "4f62dcf8e432ab59399efa85882e351d88de62214710bbfa81d0f3ce8a0206d6",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "a34ff7fbc8243d328d4231592e252ea64e51f4dccfb62793c490ef57d0ee31b0",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "223c43989f16df8a55d3cb250a37bc685fc7026531d7934f19d57b85794c6704",
+      "stored_time_s": 30.0,
+      "trace_sha256": "3fa8d9f2687137518fd52fddadeba3122b3a3d5af22377ae8c65975c7d38699c"
+    },
+    "old_C_TR_LINEAR_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "1a7dd6e1041d7c982a7e024f106762642d6d3b4e66c3dfc4474a0f5b126505a8",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "d6d3dc87f23ae6acde8dff14f293148a4e50d1a12ce913a9d765d53953b949e2",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "b4b1b4b9b166e993a80e916f723a59253814fc01f129253ddceaa325c42abd73",
+      "stored_time_s": 30.0,
+      "trace_sha256": "17ea6a16f7c1cff8f7dcee73367d0f566e3f5c8c8ce0daa691ec7c7223d12fd3"
+    },
+    "old_C_TR_LINEAR_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "00c4639efc7c7ac2ed3921e76fe22a52e5cfca83fac013fcf198b0a7116fb196",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "329c35fc0fe4778f8021dc51b839c9b430a9b45b6d492b5ccff0e1601d2b7c36",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "ecc40d61d538134c4a1fcde88b6c80414461dc7bdf742cd1c8d865bdaa0ebcce",
+        "faces": "dd213b53dc923578b1eb5567ed32e44cd09947dab25b0a8845c69e264e2ebd5c",
+        "neighbour": "b4bbfd5bbe3afe3bc82367c56faba66bff3169fb8c89129e18bfe6b641dc39fc",
+        "owner": "8cd44a859d35502c1bd7be9d848a277f0d83afe10107cadb86ea3f90a53a936f",
+        "points": "2f92be625daf6a241bf653638f9220e112f71d3d7f20559533a8dcc40aa8a824"
+      },
+      "radial_cells": 64,
+      "scenario_sha256": "6e96f62c9196f5c1721b094efbb02facda1a7090128eb1915ad1725366347ecb",
+      "stored_time_s": 30.0,
+      "trace_sha256": "f911c54a66f5a76f6154c8751a4362b5b917d155a3b1f9306ea8585e89d9160f"
+    },
+    "old_E2_SW_WATER_ANCHORED_90C_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "56f40a5fb5b651ff09a7586e5fa3cb1da51e4a670609782c8d7c5bb05a3ac763",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "a5fe2df3246bcaf130c7705964287c0a0cc64815ba2d684721752c4c11627922",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "723009eaa9cd9e82e69563cec3caec4a6850368a42309421992689b801b3cb99",
+      "stored_time_s": 30.0,
+      "trace_sha256": "ccebe4e8f6035e38070c5a5c2fcd1d664f0d3a073edbb9160af5f6a24d07dcfc"
+    },
+    "old_E2_SW_WATER_ANCHORED_90C_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "67aa35d8190dcba2c4a839c6ddf0b5442b85dc6ff039c223b714d50b196a2992",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "2e70e24a8c1ab927b075376c62a461054a78b72b52ec4217135d607044354273",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "d792de23e8a4986bfcfbf1e40fffd49bd1ea7c1399b86010ae8dfec1571ac870",
+      "stored_time_s": 30.0,
+      "trace_sha256": "3fc7730fa9bfea707ea29be7833adc8dc648793e309560bd6904834154f5c076"
+    },
+    "old_E2_TR_LINEAR_DOWN_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "12f24fe83eb378f83f07788ed08211b4a9fb54d10204214f8e46aef421f0693f",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "9338df670bcb03a7ecf042301b77a846b33f05e935c4ca3124a3ddf6917cf654",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "9121e5a0a577ddd759d559948cbfe0167075e0689973fe8bd3d613e5f3532849",
+      "stored_time_s": 30.0,
+      "trace_sha256": "24abc8bb50043b94d6a76f82820233119321796c49e63a0027f9c41894c5441b"
+    },
+    "old_E2_TR_LINEAR_UP_base": {
+      "field_sha256": {
+        "dissolvedConcentration": "7b907b07c23e3820382141bbdb02053c67438e525a9596385fa25ca9cc958844",
+        "porosity": "f168d817ac641f3f33da5fbcef33867ab3e587d16b23979f137b2cbe180e6f34",
+        "remainingExtractable": "4f499bba02b5c9f956fe253d081c98e926145970adf00e79100f6c366734a14a",
+        "saturation": "d75cd5fa34bf0ca91ccdd7859b410bee0457fccc799f27c0d763cd2dba47900f"
+      },
+      "mesh_sha256": {
+        "boundary": "638e74950aacdbd5df93fd75b61a1bc65308958880f5df5a77252fb23b581f65",
+        "faces": "22e51ae00355f2a45fd800fdabe113c994444452c81fa75ef7ff7f8413199b55",
+        "neighbour": "7100da16277d11f71b38d67e8608d8354c6a0151ad07e12efe711c038934c6d0",
+        "owner": "b87cd59a08d5fb6db6ed643b49a05c5c1b39b15ab2a3b947b999dc159e365164",
+        "points": "d143a2779fa572461ab8d1a410c9acc3e0ee6cc59236c23adf93e20fc5c775b1"
+      },
+      "radial_cells": 2,
+      "scenario_sha256": "bd7b533701fd1e6b224d7573a61e793ac4bab8110d32e7bdfd561b02d21a5fb9",
+      "stored_time_s": 30.0,
+      "trace_sha256": "db84362d2e7a175cd8bcc15c5faecca1a49d4c58c9a731b50130391dec1f51c7"
+    }
+  },
+  "formulas_and_assumptions": "docs/analysis/sci_md_radial_obs_001/MEASUREMENT_MAP.md",
+  "governance": "G1",
+  "inherited_limits": {
+    "Qdt_volume_m3": 1e-15,
+    "absolute_correction_sum_kg": 1e-10,
+    "allowance_budget_fraction": 0.2,
+    "analytical_relative": 1e-06,
+    "baseline_normalized": 1e-10,
+    "c_max_kg_m3": 180.00000001,
+    "c_min_kg_m3": -1e-10,
+    "clock_dt_s": 1e-12,
+    "clock_end_s": 1e-09,
+    "face_alignment_m": 1e-12,
+    "field_mass_kg": 1e-10,
+    "geometry_relative": 1e-08,
+    "inventory_max_kg": 0.0056000000999999995,
+    "inventory_min_kg": -1e-12,
+    "mpi_floors": {
+      "flow_m3_s": 1e-14,
+      "mass_kg": 1e-12,
+      "other": 1e-08,
+      "viscosity_Pa_s": 1e-12,
+      "volume_m3": 1e-16
+    },
+    "mpi_relative": 1e-06,
+    "pressure_Pa": 1e-06,
+    "regional_flow_sum_relative": 1e-10,
+    "repeat_absolute": 1e-12,
+    "reverse_relative": 1e-10,
+    "solute_balance_kg": 1e-08,
+    "storage_min_kg": -1e-12,
+    "w_max": 0.24,
+    "water_balance_kg": 1e-08,
+    "water_increment_kg": 1e-14
+  },
+  "native_builds": 0,
+  "native_integrations": 0,
+  "partition_role": "SYNTHETIC_INITIAL_MASS_EXAMPLES; source calibration mass semantics do not qualify cutter geometry",
+  "partitions": [
+    0.31,
+    0.34
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "production_defaults_and_lock": "UNCHANGED",
+  "puckworks_assay_sha256": "9e0bb78814d2f4ff97f85b914a2f42a011a1b14c2ffbeed8aa7521373d1e5487",
+  "puckworks_base": "518fb9c480dbcef475789f48f25843238ff8a9d4",
+  "puckworks_code_sha256": {
+    "docs/analysis/sci_md_radial_obs_001/MEASUREMENT_MAP.md": "bfedf86ca96487930b7e10dc87b108666592eabc55c1970d89e382aa4aa06e9b",
+    "puckworks/analysis/pocketscience2024_assay.py": "9e0bb78814d2f4ff97f85b914a2f42a011a1b14c2ffbeed8aa7521373d1e5487",
+    "tests/test_pocketscience2024_assay.py": "617550c9afcb0614a2b8e4a1bca648b6c40eff20cd1d5f2b87c98dedca6b34e2",
+    "tools/reconstruct_pocketscience2024_assay.py": "6985106ef6677fc6d8ae10db1194cae733357e4faec8c8cc150b4d86c336c78a"
+  },
+  "replay_tolerance": {
+    "absolute": 1e-08,
+    "relative": 1e-10,
+    "rounding": "export/registry rounding half-unit intervals, never tolerance fitting",
+    "units": [
+      "g",
+      "percent_display",
+      "dimensionless_ratio"
+    ]
+  },
+  "retained_receipt_sha256": {
+    "docs/analysis/sci_md_rheology_009/ARTIFACT_RECEIPT.json": "881b62741d8c30631bd0c8d52a97a4ed380e5b78cf4edc96b19e30c53db5bad1",
+    "docs/analysis/sci_md_rheology_010/ARTIFACT_RECEIPT.json": "e53eaa3eeb52a5d8b0ec2872ce285be1d9c8de3604e532984d58b5ca3143cf9a",
+    "docs/analysis/sci_md_rheology_010/SECTIONS.json": "bcfa05a0217919d92a53279173abfb55bf8579fa154b21f35fb256d651373a90",
+    "tools/sci_md_rheology_010/sections.py": "7f22c1fdb87e7057eb34e05f0420504700eec452d0fcb0f21b6b25712a3cd755"
+  },
+  "section_partition_closure_kg": 1e-12,
+  "source_aggregates_publication": "PRIVATE_ONLY; actual expanded grant not present",
+  "source_files_sha256": {
+    "Espresso Water Flow Part 1_ Dispersion, Puck Screens and Baskets \u2013 Pocket Science Coffee.pdf": "97ab4c9249c4743bc9bccd6b9ce43e4012ecef90a51c8451041e80d1adc3bda1",
+    "Espresso water flow experiment - LRR.csv": "abe24e1ed40475074a2290b5be43a7320fe48ee3aff38db2a5c549f0a373a5e2",
+    "Espresso water flow experiment - Sworks High Flow.csv": "c1172725b4bc48f0daeade28fabe75720b65e4409d5f181b46e2121878696982",
+    "Espresso water flow experiment - VST18.csv": "5c476647593edfe914d096736e4a0e9fabcc8bad58b7b93f69a3d08135250901",
+    "Espresso water flow experiment.xlsx": "9e9063baea1e8f67d905b1e2d03a61a4227e26ed2964ae118426be09bced01cc",
+    "PROVENANCE.md": "75832d8ceed0443fee4f7bd39a5b40abcef718280a83218c93c642979d32032d",
+    "edge_ey_condition_means.csv": "01665a54d2eab1efb82d1c0d466a14f6bfc4487a5bd7566ab813435d6a0847aa",
+    "lrr_scalars.csv": "b2848db723597d8c4f31777c8611f7de16e522dcfe4a5a2c73de38b3b1091b54"
+  },
+  "source_inspection": "FILES_INSPECTED: workbook formula/cache structure and formulas, source-export CSVs, card/PROVENANCE/notices, summaries, primary workflow/results posts. Full numerical replay pending audit.",
+  "task": "SCI-MD-RADIAL-OBS-001",
+  "unavailable": [
+    "Actual expanded redistribution grant text",
+    "Gagne plotting/Monte Carlo algorithm",
+    "section handling/drainage and recovery efficiencies",
+    "regional initial mass calibration raw measurements"
+  ]
+}

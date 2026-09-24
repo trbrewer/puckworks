@@ -1,0 +1,19 @@
+name: Pocket Science assay synthetic fixtures
+on:
+  pull_request:
+    paths:
+      - 'puckworks/analysis/pocketscience2024_assay.py'
+      - 'tests/test_pocketscience2024_assay.py'
+      - '.github/workflows/pocketscience-assay.yml'
+permissions:
+  contents: read
+jobs:
+  assay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[reconstruct]' pytest
+      - run: pytest -q tests/test_pocketscience2024_assay.py

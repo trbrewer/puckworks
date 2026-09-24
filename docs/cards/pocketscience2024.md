@@ -1,5 +1,34 @@
 # Model card: Pocket Science Coffee 2024 — radially sectioned extraction yield (dispersion, puck screens, baskets)
 
+## SCI-MD-RADIAL-OBS-001 source inspection correction (2026-09-24)
+
+The historical account below is retained, with these source-verified corrections
+taking precedence for new assay use. See the [executable measurement map](../analysis/sci_md_radial_obs_001/MEASUREMENT_MAP.md)
+for formulas, cell locators, units and qualified observables. The original workbook
+is held through the configured external-data resolver, not in this checkout.
+
+The [primary workflow](https://pocketsciencecoffee.com/2024/01/07/espresso-water-flow-part-0-workflow/)
+reports a nominal flat 6-bar DE1 programme and compares metal screen with paper on
+top. N is not a bare puck; this does not qualify true puck-inlet pressure.
+The workbook has different sheet calculations: Sworks corrects recovery using
+literal LRR and divides recovered solubles by inferred original section mass;
+VST has no LRR correction and subtracts solubles per dried residue mass. Only
+Sworks enforces the initial-mass-weighted shot-EY identity. Y54 uses unfiltered
+TDS despite its filtered label. Existing rounded card means are preserved as a
+comparison artifact, not corrected silently. The q constants are original-total
+ratios by their formulas/headers, with raw calibration measurements unavailable;
+no measured cutter radius follows.
+
+The permission record is attribution-required use, but the actual expanded grant
+text was not found in targeted source holdings/notices. New per-shot rows and
+condition aggregates remain private; do not follow the old force-track suggestion
+without verifying actual grant scope. `pocketscience2024/workbook_assay_reconstruction`
+is a new explicitly registered external subset, not an alias for the old CSVs.
+Solid depletion is not identified without retained-liquid, initial-inventory,
+handling and recovery assumptions. Exact sheet-specific operational composites
+remain usable. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
 **Paper/thesis:** Pocket Science Coffee (pseudonymous author), "Espresso Water Flow Part 1: Dispersion, Puck Screens and Baskets," blog post, 27 Feb 2024 — <https://pocketsciencecoffee.com/2024/02/27/espresso-water-flow-part-1-dispersion-puck-screens-and-baskets/> (BibTeX key `pocketscience2024`). No DOI; not peer-reviewed. Plots and Monte-Carlo error analysis by Jonathan Gagné (credited collaborator). Raw workbook (`Espresso_water_flow_experiment.xlsx`, 3 sheets) published alongside the post and held in intake. **Data used with the author's permission (Tim, 2026-07-13); attribution/citation required on any use.**
 **Stage(s):** bed_dynamics (radial extraction heterogeneity), observables (partitioned EY) · **Kind:** calibration (data source only)
 **Status:** intaken 2026-07-13 (data-only; card-derived 12-condition edge/center EY summary + LRR scalars tracked with a MANIFEST row + loader + smoke test; raw workbook gitignored, not redistributed — see `puckworks/data/pocketscience2024/PROVENANCE.md`). No gate against the source (verdict: data-only).

@@ -120,6 +120,17 @@ def build() -> dict:
         "notes": ["50 dry-porosity validation rows; do not equate coffee, apparatus, PSD method, porosity definition, compaction state, permeability method, or geometry with Wadsworth"],
         "last_qualified_task": "ESPRESSO-CORPUS-LEVERAGE-002-C1",
     })
+    families["POCKETSCIENCE2024"].update({
+        "raw_access_status": "EXTERNAL_WORKBOOK_CONFIGURED_RESOLVER",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "eligible_uses": ["SHEET_SPECIFIC_OPERATIONAL_RECOVERABLE_SOLUTE_CONTRAST"],
+        "conditionally_eligible_uses": ["MODEL_TO_ASSAY_MAP_WITH_EXPLICIT_RECOVERY_DRAINAGE_AND_INVENTORY_ASSUMPTIONS"],
+        "blocked_uses": ["UNQUALIFIED_RADIAL_SOLID_DEPLETION", "PHYSICAL_VALIDATION", "NEW_SOURCE_AGGREGATE_PUBLICATION_WITHOUT_GRANT_SCOPE"],
+        "missing_joins": ["regional initial mass calibration", "post-stop drainage and handling", "recovery efficiencies and model-pool equivalence", "actual expanded publication grant", "exact plotting/MC algorithm"],
+        "last_qualified_task": "SCI-MD-RADIAL-OBS-001",
+        "last_qualified_commit": "TASK_BRANCH_CONTRACT_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+    })
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

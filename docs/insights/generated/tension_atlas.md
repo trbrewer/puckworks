@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `0ba5b4a2ad` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `518fb9c480` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -174,7 +174,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0044** [discriminator_with_data] 6 registered models name permeability among their interface outputs and 15 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, lee2023.feedback, wadsworth2026.inertial, waszkiewicz2025.poroelastic
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-029
   - sources: `puckworks/registry.py`
-- **T-0045** [discriminator_with_data] 5 registered models name flow among their interface outputs and 21 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, wadsworth2026.inertial, waszkiewicz2025.poroelastic
+- **T-0045** [discriminator_with_data] 5 registered models name flow among their interface outputs and 22 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, wadsworth2026.inertial, waszkiewicz2025.poroelastic
   - discriminator: flow · data: YES · cheap test: YES · candidate: I-030
   - sources: `puckworks/registry.py`
 - **T-0046** [discriminator_with_data] 2 registered models name porosity among their interface outputs and 5 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, wadsworth2026.grindmap
@@ -189,7 +189,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0050** [discriminator_with_data] 10 registered models name extraction_yield among their interface outputs and 5 manifest dataset(s) measure it: grudeva2025.reduced, lee2023.feedback, maille2024.phi_closure, maille2024.two_regime, mo2023_2.coupled_bed, mo2023_2.swelling, moroney2016.surrogate, pannusch2024.closures, pannusch2024.solver, romancorrochano2017.extraction
   - discriminator: extraction_yield · data: YES · cheap test: YES · candidate: I-033
   - sources: `puckworks/registry.py`
-- **T-0051** [discriminator_with_data] 9 registered models name tds among their interface outputs and 15 manifest dataset(s) measure it: grudeva2025.reduced, maille2024.phi_closure, maille2024.two_regime, mo2023_2.coupled_bed, mo2023_2.swelling, moroney2016.surrogate, pannusch2024.closures, pannusch2024.solver, romancorrochano2017.extraction
+- **T-0051** [discriminator_with_data] 9 registered models name tds among their interface outputs and 16 manifest dataset(s) measure it: grudeva2025.reduced, maille2024.phi_closure, maille2024.two_regime, mo2023_2.coupled_bed, mo2023_2.swelling, moroney2016.surrogate, pannusch2024.closures, pannusch2024.solver, romancorrochano2017.extraction
   - discriminator: tds · data: YES · cheap test: YES · candidate: I-034
   - sources: `puckworks/registry.py`
 - **T-0052** [discriminator_with_data] 4 registered models name species_concentration among their interface outputs and 9 manifest dataset(s) measure it: maille2024.phi_closure, maille2024.two_regime, pannusch2024.closures, pannusch2024.solver
@@ -540,7 +540,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0162** [unclaimed_contrast_with_data] permeability is predicted by 6 model(s) and measured by 15 manifest dataset(s), of which 14 are not cited by any existing public claim
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-081
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0163** [unclaimed_contrast_with_data] flow is predicted by 5 model(s) and measured by 21 manifest dataset(s), of which 19 are not cited by any existing public claim
+- **T-0163** [unclaimed_contrast_with_data] flow is predicted by 5 model(s) and measured by 22 manifest dataset(s), of which 20 are not cited by any existing public claim
   - discriminator: flow · data: YES · cheap test: YES · candidate: I-082
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0164** [unclaimed_contrast_with_data] porosity is predicted by 2 model(s) and measured by 5 manifest dataset(s), of which 5 are not cited by any existing public claim
@@ -555,7 +555,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0166** [unclaimed_contrast_with_data] extraction_yield is predicted by 10 model(s) and measured by 5 manifest dataset(s), of which 5 are not cited by any existing public claim
   - discriminator: extraction_yield · data: YES · cheap test: YES · candidate: I-085
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0167** [unclaimed_contrast_with_data] tds is predicted by 9 model(s) and measured by 15 manifest dataset(s), of which 11 are not cited by any existing public claim
+- **T-0167** [unclaimed_contrast_with_data] tds is predicted by 9 model(s) and measured by 16 manifest dataset(s), of which 12 are not cited by any existing public claim
   - discriminator: tds · data: YES · cheap test: YES · candidate: I-086
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0168** [unclaimed_contrast_with_data] species_concentration is predicted by 4 model(s) and measured by 9 manifest dataset(s), of which 6 are not cited by any existing public claim
