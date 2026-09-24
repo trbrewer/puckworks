@@ -59,7 +59,7 @@
   },
   "governance": "G1",
   "independent_reviews": {
-    "final_exact_head_base": "PENDING_NOT_SELF_CERTIFIED",
+    "final_exact_head_base": "EXTERNAL_EXACT_HEAD_RECEIPT_CONTROLS_SEE_PR_270_AND_EWP_176",
     "pre_scoring": "NOT_PERFORMED_NO_SCORING_FREEZE"
   },
   "local_qa": {

@@ -130,10 +130,23 @@ marginal summaries, not an empirical bound on this source's error.
 
 Using `G(t)/G(600)` would assume away the selected-measurement operation. Using
 the source's assumed equilibrium would add a different unsupported observer.
-Neither accounts for selection error, for which no qualified bound is available
-at the requested 0.005–0.01 comparison margins. A finite set of arbitrary
+Neither accounts for selection error. This audit establishes no qualified
+mapping or bound sufficient to adjudicate the requested 0.005–0.01 comparison
+margins and 0.05 RMSE / 0.025 bias adequacy budgets. A finite set of arbitrary
 denominator perturbations cannot certify robustness. We therefore freeze no
 scoring observer or treatment set, and choose no favorable alternative.
+
+Table 5.10 already supplies the observed targets. The unresolved step is mapping
+a deterministic release response to those replicate-max-normalized observations,
+not recovering missing target values. The pooled-summary discrepancy rejects
+that particular reconstruction; the synthetic example establishes only that
+marginal summaries do not uniquely determine the replicate-normalized result.
+Neither diagnostic bounds the source's normalization error, establishes a lower
+bound on ranking sensitivity, or proves that no informative bound can exist.
+No source-supported mapping or sufficiently informative bound was established
+for this specified early/late, selected-maximum protocol. A separately authorized
+narrower descriptive observable or independently justified selection bounds
+could support a revised question; neither is selected or executed here.
 
 Table 5.10 prints two decimal places; a ±0.005 nearest-rounding allowance is
 explicitly an assumption, not a standard deviation. Table 5.11's reported SDs
@@ -178,8 +191,10 @@ does not test or falsify EWP's aggregate effective-solute law.
 earns no coupling change and rejects no kinetic family. The precise missing
 contract is B/C's replicate numerator/reference lineage and selected-denominator
 semantics, together with a defensible treatment of selection uncertainty.
-That is a named information gap, not a laboratory recommendation, a claim that
-all existing data are exhausted, or authorization to run a successor.
+Original replicate records could help resolve that gap, but are not the only
+logically possible route to an answerable narrower question. This is not a
+laboratory recommendation, a claim that all existing data are exhausted, or
+authorization to run a successor.
 
 ## Reproduction and assurance status
 
@@ -208,7 +223,12 @@ exact-head/base identities and hosted CI remain separate PR records.
 Software tests establish adapter behavior only; they do not pass the scientific
 hypothesis. Hosted CI is separate. Independent pre-scoring review was **not
 performed** because the task stopped before a scoring freeze; independent final
-review remains **pending**, with no approval invented or self-certified.
+review is recorded in the external exact-head/base receipt linked from PR #270
+and companion EWP PR #176. That receipt controls the reviewed identities and
+outcome; this committed report does not certify its own subsequent commit.
+The adapter's fixed blocked status records the source assessment described
+above. Status-assertion tests enforce that assessment and prevent accidental
+scoring; they do not independently prove the scientific necessity of the stop.
 
 Native OpenFOAM builds **0**; native integrations **0**. Registered component
 behavior, production defaults and the EWP Puckworks runtime lock are unchanged.
