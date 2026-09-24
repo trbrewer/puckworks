@@ -1,0 +1,344 @@
+{
+  "analyte_decisions": {
+    "3-CQA": {
+      "adequacy": "NOT_ADJUDICATED",
+      "source_phi_increment": "NOT_ADJUDICATED",
+      "two_rate_gain": "NOT_ADJUDICATED"
+    },
+    "Caffeine": {
+      "adequacy": "NOT_ADJUDICATED",
+      "source_phi_increment": "NOT_ADJUDICATED",
+      "two_rate_gain": "NOT_ADJUDICATED"
+    },
+    "Citric Acid": {
+      "adequacy": "NOT_ADJUDICATED",
+      "source_phi_increment": "NOT_ADJUDICATED",
+      "two_rate_gain": "NOT_ADJUDICATED"
+    },
+    "Malic Acid": {
+      "adequacy": "NOT_ADJUDICATED",
+      "source_phi_increment": "NOT_ADJUDICATED",
+      "two_rate_gain": "NOT_ADJUDICATED"
+    },
+    "Quinic Acid": {
+      "adequacy": "NOT_ADJUDICATED",
+      "source_phi_increment": "NOT_ADJUDICATED",
+      "two_rate_gain": "NOT_ADJUDICATED"
+    }
+  },
+  "blockers": [
+    "Replicate-specific selected maxima and reference-time identities are missing for B/C.",
+    "Table 5.11 marginal means/SD cannot reconstruct mean of per-replicate ratios or maximum-selection error.",
+    "Early comparative cells lack exact time/replicate lineage; nominal clocks have a reported 1 s allowance."
+  ],
+  "candidate_status": {
+    "MAILLE_B2": "NOT_IMPLEMENTED_SOURCE_GATE_STOP",
+    "MAILLE_DS": "NOT_IMPLEMENTED_SOURCE_GATE_STOP",
+    "MAILLE_E0": "NOT_IMPLEMENTED_SOURCE_GATE_STOP",
+    "MAILLE_ES": "NOT_IMPLEMENTED_SOURCE_GATE_STOP",
+    "MAILLE_P2": "NOT_IMPLEMENTED_SOURCE_GATE_STOP"
+  },
+  "curves": [
+    {
+      "analyte": "Caffeine",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_A",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "3-CQA",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_A",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Citric Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_A",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Malic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_A",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Quinic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_A",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Caffeine",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_B",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "3-CQA",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_B",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Citric Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_B",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Malic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_B",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Quinic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_B",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Caffeine",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_C",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "3-CQA",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_C",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Citric Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_C",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Malic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_C",
+      "qualified_for_scoring": false
+    },
+    {
+      "analyte": "Quinic Acid",
+      "both_windows_present": true,
+      "early_n": 5,
+      "late_n": 2,
+      "material_id": "Omega_C",
+      "qualified_for_scoring": false
+    }
+  ],
+  "declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "descriptors": {
+    "Omega_A": {
+      "D43_um": 1540.0,
+      "phi": 0.356,
+      "roast": "Light",
+      "sieve_class_um": "1000-1180"
+    },
+    "Omega_B": {
+      "D43_um": 1080.0,
+      "phi": 0.468,
+      "roast": "Light",
+      "sieve_class_um": "710-1000"
+    },
+    "Omega_C": {
+      "D43_um": 782.0,
+      "phi": 0.576,
+      "roast": "Light",
+      "sieve_class_um": "600-710"
+    }
+  },
+  "diagnostic_role": "source_operator_check_only; not prediction errors or model scores",
+  "executed_folds": 0,
+  "failure_category": "Data, rights, or provenance failure",
+  "fitted_parameters": 0,
+  "governance": "G1",
+  "independent_pre_scoring_review": "NOT_PERFORMED_NO_SCORING",
+  "missing_cells": [],
+  "missing_times": [],
+  "new_native_builds": 0,
+  "new_native_integrations": 0,
+  "next_action": "OWNER_DISPOSITION; NO_SUCCESSOR_EXECUTION_AUTHORIZED",
+  "normalization_operator_qualified": false,
+  "observation_kinds": {
+    "mean_of_three_normalized_replicates": 30,
+    "measured_comparative_value_approximate_time": 75
+  },
+  "observed_cells": 105,
+  "observer": "per_experiment_maximum_then_late_replicate_average; early_selection_lineage_unknown",
+  "optimizer_attempts": 0,
+  "planned_material_folds": [
+    {
+      "held": "Omega_A",
+      "train": [
+        "Omega_B",
+        "Omega_C"
+      ]
+    },
+    {
+      "held": "Omega_B",
+      "train": [
+        "Omega_A",
+        "Omega_C"
+      ]
+    },
+    {
+      "held": "Omega_C",
+      "train": [
+        "Omega_A",
+        "Omega_B"
+      ]
+    }
+  ],
+  "pooled_denominator_diagnostic": [
+    {
+      "analyte": "Caffeine",
+      "material_id": "Omega_A",
+      "table510_minus_ratio_of_pooled_means": -0.0010416666666666075
+    },
+    {
+      "analyte": "3-CQA",
+      "material_id": "Omega_A",
+      "table510_minus_ratio_of_pooled_means": -0.0039215686274509665
+    },
+    {
+      "analyte": "Citric Acid",
+      "material_id": "Omega_A",
+      "table510_minus_ratio_of_pooled_means": -0.004039735099337749
+    },
+    {
+      "analyte": "Malic Acid",
+      "material_id": "Omega_A",
+      "table510_minus_ratio_of_pooled_means": -0.00736842105263158
+    },
+    {
+      "analyte": "Quinic Acid",
+      "material_id": "Omega_A",
+      "table510_minus_ratio_of_pooled_means": 0.011621621621621614
+    },
+    {
+      "analyte": "Caffeine",
+      "material_id": "Omega_B",
+      "table510_minus_ratio_of_pooled_means": 0.001339031339031349
+    },
+    {
+      "analyte": "3-CQA",
+      "material_id": "Omega_B",
+      "table510_minus_ratio_of_pooled_means": 0.0013705583756346007
+    },
+    {
+      "analyte": "Citric Acid",
+      "material_id": "Omega_B",
+      "table510_minus_ratio_of_pooled_means": -0.029999999999999916
+    },
+    {
+      "analyte": "Malic Acid",
+      "material_id": "Omega_B",
+      "table510_minus_ratio_of_pooled_means": -0.030000000000000027
+    },
+    {
+      "analyte": "Quinic Acid",
+      "material_id": "Omega_B",
+      "table510_minus_ratio_of_pooled_means": -0.050276243093922646
+    },
+    {
+      "analyte": "Caffeine",
+      "material_id": "Omega_C",
+      "table510_minus_ratio_of_pooled_means": 0.0038888888888888307
+    },
+    {
+      "analyte": "3-CQA",
+      "material_id": "Omega_C",
+      "table510_minus_ratio_of_pooled_means": -0.003271028037383217
+    },
+    {
+      "analyte": "Citric Acid",
+      "material_id": "Omega_C",
+      "table510_minus_ratio_of_pooled_means": -0.016577181208053737
+    },
+    {
+      "analyte": "Malic Acid",
+      "material_id": "Omega_C",
+      "table510_minus_ratio_of_pooled_means": 0.0
+    },
+    {
+      "analyte": "Quinic Acid",
+      "material_id": "Omega_C",
+      "table510_minus_ratio_of_pooled_means": -0.020000000000000018
+    }
+  ],
+  "pre_scoring_freeze": "NOT_REACHED_SOURCE_GATE_STOP",
+  "predictions": 0,
+  "primary_eligible_cells": 0,
+  "production_defaults_and_runtime_lock": "UNCHANGED",
+  "scientific_verdict": "BLOCKED_SOURCE_CONTRACT",
+  "source_treatments": "NOT_FROZEN_NO_QUALIFIED_OBSERVER",
+  "sources": {
+    "Table 5.1": {
+      "rows": 21,
+      "sha256": "bf5d6297eb11e080857b0bfab5f875b0a0104cb6972c929593a72abf39b890e4",
+      "source_file": "puckworks/data/maille2024/Table 5.1 - List of coffee materials for extraction testing.csv"
+    },
+    "Table 5.10": {
+      "rows": 7,
+      "sha256": "b694d82dc46c44d111e357668b7c91083190ec67fb104778a00adafb09621774",
+      "source_file": "puckworks/data/maille2024/Table 5.10 - Normalized chemical compound extraction concentrations for coffee materials Omega_A - Omega_C.csv"
+    },
+    "Table 5.11": {
+      "rows": 21,
+      "sha256": "9243633a5f9acc8f4b52de4a13d05f88d5baf996cc98403092fb441e0511ffbb",
+      "source_file": "puckworks/data/maille2024/Table 5.11 - Average and standard deviation of absolute concentrations for each chemical compound for each coffee material at 180 300 and 600 s.csv"
+    },
+    "Table 5.4": {
+      "rows": 21,
+      "sha256": "d5679b5325d5b1692ff2201eed2d484989c62a3bb46fecf179600f68aebc7e5b",
+      "source_file": "puckworks/data/maille2024/Table 5.4 - Key particle size values for hybrid particle size distribution for all coffee materials.csv"
+    },
+    "Table 6.3": {
+      "rows": 17,
+      "sha256": "c1d8a45e12fad229e1de604f552510f0279f32ef1f6f5508a440d3973738dce0",
+      "source_file": "puckworks/data/maille2024/Table 6.3 - Calculated values for phi theta_v_fines and theta_v_coarse.csv"
+    }
+  },
+  "synthetic_counterexample": {
+    "aligned": 0.5033670033670034,
+    "difference": 0.03367003367003363,
+    "kind": "synthetic_nonidentifiability_example_not_empirical_bound",
+    "reversed_pairing": 0.4696969696969697
+  },
+  "task": "SCI-MD-MAILLE-TRANSFER-001",
+  "tighter_numerical_repeat": "NOT_APPLICABLE_NO_FITS_OR_PREDICTIONS"
+}
