@@ -1,0 +1,11 @@
+{
+  "python": "3.12.3",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "real_data_fits": 0,
+  "target_scores": 0,
+  "native_builds": 0,
+  "production_changes": 0,
+  "lock_changes": 0,
+  "successor_execution": 0
+}

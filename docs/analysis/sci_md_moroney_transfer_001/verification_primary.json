@@ -1,0 +1,50 @@
+{
+  "60/uniform": {
+    "mass_balance_relative": 4.841016892829075e-14,
+    "outlet_mesh_difference_mg_g": [
+      0.996573347620739,
+      0.43424913814899924
+    ],
+    "delivery_mesh_difference_ey_pp": [
+      0.009861715310807399,
+      0.0032900584185584997
+    ],
+    "nfev": 4737
+  },
+  "12.5/uniform": {
+    "mass_balance_relative": 6.119636621774773e-14,
+    "outlet_mesh_difference_mg_g": [
+      8.533369215448488,
+      1.8144521632910369
+    ],
+    "delivery_mesh_difference_ey_pp": [
+      0.01434002774214164,
+      0.002512800092935308
+    ],
+    "nfev": 4324
+  },
+  "60/linear": {
+    "mass_balance_relative": 1.4042644421946938e-14,
+    "outlet_mesh_difference_mg_g": [
+      0.1547122656169222,
+      0.05157075520565968
+    ],
+    "delivery_mesh_difference_ey_pp": [
+      0.009998613325657497,
+      0.0033344647398514393
+    ],
+    "nfev": 4899
+  },
+  "12.5/linear": {
+    "mass_balance_relative": 3.4145798541786764e-14,
+    "outlet_mesh_difference_mg_g": [
+      0.15471226561695062,
+      0.0515707552056881
+    ],
+    "delivery_mesh_difference_ey_pp": [
+      0.008527809249542218,
+      0.0028437152603274134
+    ],
+    "nfev": 4102
+  }
+}

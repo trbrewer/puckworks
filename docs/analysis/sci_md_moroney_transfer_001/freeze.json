@@ -1,0 +1,24 @@
+{
+  "files": {
+    "puckworks/analysis/moroney_transfer.py": "86e65a0b50b7187aea3fe8d4c96fa8582085217cd930c8b4f352bf2825e76302",
+    "puckworks/analysis/moroney_transfer_run.py": "7b073f0acbe0ed7765625e51246eb885fd1c67faa6291f2e1ae2c8e87f3e164f",
+    "tests/test_moroney_transfer.py": "b073d09e0b4fed5271f846eec25772ff162b88d82701c88ff83757a9977a5398",
+    "docs/analysis/sci_md_moroney_transfer_001/protocol.json": "7693d242abef61033e721fb038a3aaeb8cc114b67e804f35eb19b88610baed3d",
+    "docs/analysis/sci_md_moroney_transfer_001/PROTOCOL.md": "c3d15ec56ca5b92ce58df8947cf0912599531328350f305a3d2a6fce0f22a6a1",
+    "docs/analysis/sci_md_moroney_transfer_001/qualified_rows.csv": "5f4066e17a70c23dedb197bd5a1d559b516adbb889a8c7cdc72e5fa75fc7a390",
+    "docs/analysis/sci_md_moroney_transfer_001/target_support.json": "1e68eb519cc330b0ec796e651035bd61947215844d56c33497ce3ecdb1c528d1",
+    "docs/analysis/sci_md_moroney_transfer_001/identities.json": "7474ccfc03f3b92d15390af671009a7b4aa1100381a7c420bf9ee5343fe9d393",
+    "puckworks/data/moroney2015/fig03_cylindrical_chamber_profiles.csv": "47caea0c0d041d0e4abd744fcacc3abccbacc2d555bf0f030ac794ffe4bc9e2d",
+    "puckworks/data/moroney2015/fig11_bed_mass_comparison.csv": "a6c13d245e0301b60a2e8c894e6977eb6657023e953bb06be707ed9e7ea7c155",
+    "puckworks/data/moroney2015/fig07_cylindrical_model_vs_experiment.csv": "60237af0206202c2af750c9e7a957291ce5620e728c7474c9e72314ecd996603",
+    "puckworks/data/moroney2015/table1_batch_simulation_parameters.csv": "3354740f0efa45a171cfa44d96add20388543a55ffc26d6565cdd187e39454bc",
+    "puckworks/data/moroney2015/table2_cylindrical_simulation_parameters.csv": "31108fa4d047be0499522412f1665fe2ffe0f3d2f9dbeaee4ad9e694ea6bee63"
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "source_ready": false,
+  "claim": "RETROSPECTIVE_SAME_SOURCE_MODEL_DEVELOPMENT"
+}

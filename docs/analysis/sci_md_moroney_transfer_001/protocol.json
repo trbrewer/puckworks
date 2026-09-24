@@ -1,0 +1,163 @@
+{
+  "task": "SCI-MD-MORONEY-TRANSFER-001",
+  "governance": [
+    "G2_RESEARCH_NUMERICAL_METHOD",
+    "G1_PRE_SCORING",
+    "G3_RETROSPECTIVE_TRANSFER"
+  ],
+  "families": [
+    {
+      "id": "dose_uniform_0",
+      "basis": "dose",
+      "profile": "uniform",
+      "amplitude": 0
+    },
+    {
+      "id": "dose_uniform_0.5",
+      "basis": "dose",
+      "profile": "uniform",
+      "amplitude": 0.5
+    },
+    {
+      "id": "dose_uniform_1",
+      "basis": "dose",
+      "profile": "uniform",
+      "amplitude": 1
+    },
+    {
+      "id": "dose_linear_0.5",
+      "basis": "dose",
+      "profile": "linear",
+      "amplitude": 0.5
+    },
+    {
+      "id": "dose_linear_1",
+      "basis": "dose",
+      "profile": "linear",
+      "amplitude": 1
+    },
+    {
+      "id": "hydraulic_uniform_0",
+      "basis": "hydraulic",
+      "profile": "uniform",
+      "amplitude": 0
+    },
+    {
+      "id": "hydraulic_uniform_0.5",
+      "basis": "hydraulic",
+      "profile": "uniform",
+      "amplitude": 0.5
+    },
+    {
+      "id": "hydraulic_uniform_1",
+      "basis": "hydraulic",
+      "profile": "uniform",
+      "amplitude": 1
+    },
+    {
+      "id": "hydraulic_linear_0.5",
+      "basis": "hydraulic",
+      "profile": "linear",
+      "amplitude": 0.5
+    },
+    {
+      "id": "hydraulic_linear_1",
+      "basis": "hydraulic",
+      "profile": "linear",
+      "amplitude": 1
+    }
+  ],
+  "resolutions": [
+    480,
+    960,
+    1920
+  ],
+  "fit_cells": 480,
+  "max_nfev": 60,
+  "pot_objective_weight": 0.25,
+  "mechanistic_bounds": [
+    [
+      -4.605170185988091,
+      -6.907755278982137,
+      0.65
+    ],
+    [
+      0.6931471805599453,
+      -0.6931471805599453,
+      0.95
+    ]
+  ],
+  "mechanistic_starts": [
+    [
+      -1.6966311241364778,
+      -3.107781777362614,
+      0.77
+    ],
+    [
+      -2.995732273553991,
+      -1.8971199848858813,
+      0.9
+    ]
+  ],
+  "empirical_bounds": [
+    [
+      0,
+      0,
+      -0.6931471805599453,
+      -4.605170185988091
+    ],
+    [
+      0.3259886363636364,
+      1,
+      6.214608098422191,
+      7.600902459542082
+    ]
+  ],
+  "empirical_starts": [
+    [
+      0.3,
+      0.75,
+      2.995732273553991,
+      5.0106352940962555
+    ],
+    [
+      0.28,
+      0.4,
+      4.0943445622221,
+      6.214608098422191
+    ]
+  ],
+  "source_perturbations": [
+    {
+      "id": "central",
+      "mass_factor": 1.0,
+      "concentration_factor": 1.0,
+      "concentration_offset_mg_g": 0.0
+    },
+    {
+      "id": "readout_low",
+      "mass_factor": 0.998,
+      "concentration_factor": 0.995,
+      "concentration_offset_mg_g": -0.75
+    },
+    {
+      "id": "readout_high",
+      "mass_factor": 1.002,
+      "concentration_factor": 1.005,
+      "concentration_offset_mg_g": 0.75
+    }
+  ],
+  "thresholds": {
+    "outlet_rmse_mg_g": 5.0,
+    "cumulative_max_ey_pp": 1.0,
+    "relative_advantage": 0.2,
+    "absolute_advantage_mg_g": 1.0,
+    "max_delivery_regression_ey_pp": 0.1,
+    "mass_balance_relative": 1e-06,
+    "numerical_outlet_mg_g": 0.5,
+    "numerical_delivery_ey_pp": 0.1
+  },
+  "initialization": "fixed peak fraction of csat; identical policy across geometries; all kernel inventory initially dissolved; mobile deducted locally from surface",
+  "uncertainty": "finite sensitivity family; no experimental CI or exhaustive uncertainty bound",
+  "near_optima": "all successful starts within 5% of minimum objective + 0.01; preserve all failed and boundary fits"
+}

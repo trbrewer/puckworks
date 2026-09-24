@@ -1,0 +1,25 @@
+{
+  "puckworks": {
+    "base_commit": "e95d4585aa2dd9ab6eaa9da4f6aa8d311109e5ba",
+    "base_tree": "f806e8d4dfc8cf7a0efe323d919536d1e6e7b221"
+  },
+  "ewp": {
+    "base_commit": "09cdda7fb4b28229be34915a3371c79229316cee",
+    "base_tree": "6d962e653ab30e3e191e09edb842718d6df76bc0"
+  },
+  "source_files": {
+    "puckworks/data/moroney2015/fig11_bed_mass_comparison.csv": "a6c13d245e0301b60a2e8c894e6977eb6657023e953bb06be707ed9e7ea7c155",
+    "puckworks/data/moroney2015/fig08_component_extraction_kinetics.csv": "a2c422f71a053408f625d34ca13853f9f1a811d13e495d7b610cf987cbd6ea86",
+    "puckworks/data/moroney2015/fig06_batch_model_vs_experiment.csv": "95305e6b74b67488c35133764ecc1acd2ecc1ae2eb57966714f516bcf1e3f7d2",
+    "puckworks/data/moroney2015/fig01_grind_size_distributions.csv": "dcc7c4fb1ef72c3f6dd93a170914958e47b7d798f195d7c7f26dbdba0c6c0334",
+    "puckworks/data/moroney2015/fig09_grind_size_distributions_supplementary.csv": "0365bfcc07009712fced8c5ff3aeb62d1fbf71102f6e1c6605db2a0eeaf78dbd",
+    "puckworks/data/moroney2015/fig02_batch_extraction_cbrew.csv": "7f3b3be8a00f48031f75213e9e843764db2819d975cc093a113b70983f6e8431",
+    "puckworks/data/moroney2015/fig10_batch_extraction_five_grinds.csv": "3c400000574bdd7b631c769ad2fcf52a8667f4e42434b4a4337702e6ee9b7336",
+    "puckworks/data/moroney2015/fig12_pressure_comparison.csv": "03716bc0938fabd5bdb58069d4445fc8702da9581ff1715625c14cde044562fa",
+    "puckworks/data/moroney2015/fig03_cylindrical_chamber_profiles.csv": "47caea0c0d041d0e4abd744fcacc3abccbacc2d555bf0f030ac794ffe4bc9e2d",
+    "puckworks/data/moroney2015/README_manifest.csv": "78f947b14d654c44a83210ed66fcec6bdb5d48142c89b6e3344ab503ab72894e",
+    "puckworks/data/moroney2015/table2_cylindrical_simulation_parameters.csv": "31108fa4d047be0499522412f1665fe2ffe0f3d2f9dbeaee4ad9e694ea6bee63",
+    "puckworks/data/moroney2015/fig07_cylindrical_model_vs_experiment.csv": "60237af0206202c2af750c9e7a957291ce5620e728c7474c9e72314ecd996603",
+    "puckworks/data/moroney2015/table1_batch_simulation_parameters.csv": "3354740f0efa45a171cfa44d96add20388543a55ffc26d6565cdd187e39454bc"
+  }
+}
