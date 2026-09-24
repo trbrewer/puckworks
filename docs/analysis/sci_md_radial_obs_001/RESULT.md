@@ -53,3 +53,15 @@ external because the actual expanded redistribution grant was not found.
 
 NEW_NATIVE_INTEGRATIONS=0; NEW_NATIVE_BUILDS=0;
 PRODUCTION_DEFAULTS_AND_LOCK=UNCHANGED. No merge, successor or native campaign.
+
+Software QA: the full local quick selection ran 4,568 tests: 4,523 passed,
+32 skipped and 13 failed on stale generated current-count/fingerprint artifacts
+or the initially missing editable package installation. All 13 affected tests
+subsequently passed after the required generators and environment setup; the
+focused source/metadata suite (19), Foundry suite (65), current-count suites
+(116 across the corrected run), and three remaining generator checks passed.
+Lint and registry gates passed (65 PASS, one acknowledged historical exception).
+These repairs change no assay formula, source value, tolerance or scientific
+result. Hosted final-head CI is reported on the PR; earlier failed/superseded
+checks are retained in its history. Current inventory counts and fingerprints
+were refreshed; historical correction outcomes and numerical results were not.
