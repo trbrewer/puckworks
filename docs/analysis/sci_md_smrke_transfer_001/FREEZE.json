@@ -1,0 +1,30 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSFER-001",
+  "governance": "G1 / NO_GOVERNING_PHYSICS_CHANGE",
+  "base_commit": "e786b7846a19da8fae4f02b52b8a2dbbf8b8abee",
+  "base_tree": "fa3ae8b0066066afd42944a9a4bc58f2d4411d51",
+  "prior_exposure": "Public and previously inspected comparison data; implementation author read original yields before freeze. No real-data fitting/prediction/scoring yet.",
+  "files": {
+    "docs/analysis/sci_md_smrke_transfer_001/CONTRACT.md": "239408eba1022887ce7ebb3ad59f683ce30855f44756c0fa2ad3abcb28187254",
+    "docs/analysis/sci_md_smrke_transfer_001/README.md": "feedeaacd728b6788491199b643e47c1f94a537d910bb426d120331013a806e6",
+    "docs/analysis/sci_md_smrke_transfer_001/SOURCE.json": "82179a49bb79f2e34ff30d7780318a98a2d4ec0ada059c04bfd87f821af08c94",
+    "docs/analysis/sci_md_smrke_transfer_001/SOURCE_USE.md": "236c8fd6e8c8572859f12b75e31ba138f940ee728a5e902dce571aa727083e5c",
+    "docs/analysis/sci_md_smrke_transfer_001/SYNTHETIC_QA.json": "6b2e44eab06e84383d83040954bbf0b192dda5b9ccb9153643c9d06a96c5b578",
+    "docs/analysis/sci_md_smrke_transfer_001/VIZ_SPEC.json": "dae54e2edf42dc67f2d4768b2ba9b622572688f68f8d079696b9911415a6dd40",
+    "docs/analysis/sci_md_smrke_transfer_001/observations.json": "945db6c046e2fd23e306fc33389196b944ba7ff710eab982b411b85cff980889",
+    "docs/analysis/sci_md_smrke_transfer_001/source_overlay.png": "e83b21e92ae36eef9e6a5bee6b22d52a07e5bf3cc661c964ed7b2f0e00e5a5f2",
+    "docs/analysis/sci_md_smrke_transfer_001/support.json": "458f86801dc7b220dd0d1ded2a236f130caf287fad9cb3eeae975dd88326a3fe",
+    "docs/cards/smrke2024.md": "72f7cc038d8980c0bf55e66892f669a975dc89dd22f2b40584800e829ca764b2",
+    "puckworks/analysis/smrke2024_envelope.py": "f054292cd8af9ce19b86b9155702c9c6451b777b2694e4fdce8c1d6d4f37c68d",
+    "puckworks/analysis/smrke2024_transfer.py": "d2b6ef9cc7501866e8712bbcd3896b5b5d6ae056774f05b01d0a764420d97ce4",
+    "puckworks/data/__init__.py": "7adb18f36784058bbf8ea596cf54d9ca0a8d8ac20ed57037bffdb2243957c805",
+    "puckworks/data/smrke2024/41598_2024_55831_Fig3_HTML.csv": "0bad68815ece1a753dfff89cd134bc2d6b3e32962c1f086c247b6e2f954728e6",
+    "puckworks/data/smrke2024/41598_2024_55831_Fig3_HTML.webp": "4c56c8a90bc89e9e525d7169e32884bc931c0dcabbd6863dab18c603f70a159c",
+    "puckworks/data/smrke2024/DIGITIZATION_NOTES.md": "d3af5c239f400139890ded9ea3c717ec7b1217b2c17480cf4bf0aa39dc27855c",
+    "puckworks/models/__init__.py": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "puckworks/validation/gates.py": "1382346f5a304854cad259996d4458262200c134e3be9daa0df536ccef56d675",
+    "tests/test_smrke2024_transfer.py": "bd6786353bd47c6e76dcd625e2525429709e4240ea128d1583d770dd628c9488",
+    "tools/plot_smrke2024_transfer.py": "b1c71a6879e024b4da4f9983955d24deb17da64d38f7282ff3eba0d2f7b99ab4"
+  },
+  "review": "Requires separate independent reviewer of precise candidate head/tree and base applicability. Self-reference is avoided: audit names committed candidate containing this freeze."
+}

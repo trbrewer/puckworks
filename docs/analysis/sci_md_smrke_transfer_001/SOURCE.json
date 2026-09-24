@@ -1,0 +1,15 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSFER-001",
+  "base_commit": "e786b7846a19da8fae4f02b52b8a2dbbf8b8abee",
+  "base_tree": "fa3ae8b0066066afd42944a9a4bc58f2d4411d51",
+  "source_files": {
+    "puckworks/data/smrke2024/41598_2024_55831_Fig3_HTML.csv": "0bad68815ece1a753dfff89cd134bc2d6b3e32962c1f086c247b6e2f954728e6",
+    "puckworks/data/smrke2024/41598_2024_55831_Fig3_HTML.webp": "4c56c8a90bc89e9e525d7169e32884bc931c0dcabbd6863dab18c603f70a159c",
+    "puckworks/data/smrke2024/DIGITIZATION_NOTES.md": "d3af5c239f400139890ded9ea3c717ec7b1217b2c17480cf4bf0aa39dc27855c",
+    "puckworks/data/__init__.py": "7adb18f36784058bbf8ea596cf54d9ca0a8d8ac20ed57037bffdb2243957c805",
+    "puckworks/analysis/smrke2024_envelope.py": "f054292cd8af9ce19b86b9155702c9c6451b777b2694e4fdce8c1d6d4f37c68d",
+    "puckworks/validation/gates.py": "1382346f5a304854cad259996d4458262200c134e3be9daa0df536ccef56d675",
+    "puckworks/models/__init__.py": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "docs/cards/smrke2024.md": "72f7cc038d8980c0bf55e66892f669a975dc89dd22f2b40584800e829ca764b2"
+  }
+}

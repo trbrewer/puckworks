@@ -1,0 +1,12 @@
+{
+  "producer": "puckworks.analysis.smrke2024_transfer",
+  "evidence_strength": "source-conditioned public-data out-of-fit comparison",
+  "badge": "ANALYSIS_ONLY",
+  "fidelity_ceiling": "Across-shot final endpoints; no within-shot trajectory, physical parameter, permeability, or causal fines claim",
+  "figures": {
+    "source_overlay.png": "Unchanged Figure 3 pixels with historical marker-coordinate/CSV-line QA annotations; no model predictions",
+    "endpoints.png": "Primary and ambiguous source markers, supported 0-g-trained common endpoint responses only",
+    "residuals.png": "Frozen individual out-of-fit endpoint errors, supported and extrapolated times separately",
+    "errors.png": "Matched parent/correction errors with tested digitization sensitivity ranges, not confidence intervals"
+  }
+}

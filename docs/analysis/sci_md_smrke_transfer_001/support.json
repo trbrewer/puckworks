@@ -1,0 +1,2702 @@
+{
+  "all:central": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.24,
+          68.07
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.24,
+          68.07
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.24,
+          68.07
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          8.24,
+          79.52
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          8.24,
+          79.52
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          8.24,
+          68.07
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          11.81,
+          79.52
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:global:-1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          7.94,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          7.94,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          11.51,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:global:-1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          7.94,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          7.94,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          11.51,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:global:1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          8.540000000000001,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          8.540000000000001,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          12.110000000000001,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:global:1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          8.540000000000001,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          8.540000000000001,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          12.110000000000001,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:position:-1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          7.94,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          7.94,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          12.110000000000001,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:position:-1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          7.94,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          7.94,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          7.94,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          12.110000000000001,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:position:1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          8.540000000000001,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          8.540000000000001,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          11.51,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "all:position:1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 20,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 10,
+        "excluded": [],
+        "supported": [
+          "Fig3:L2",
+          "Fig3:L3",
+          "Fig3:L4",
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 36,
+        "training_time_range": [
+          8.540000000000001,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 9,
+        "excluded": [],
+        "supported": [
+          "Fig3:L12",
+          "Fig3:L13",
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 37,
+        "training_time_range": [
+          8.540000000000001,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 39,
+        "training_time_range": [
+          8.540000000000001,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 20,
+        "excluded": [
+          "Fig3:L28",
+          "Fig3:L29",
+          "Fig3:L30",
+          "Fig3:L31"
+        ],
+        "supported": [
+          "Fig3:L32",
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L35",
+          "Fig3:L36",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L40",
+          "Fig3:L41",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          11.51,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:central": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.18,
+          68.07
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.18,
+          68.07
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.18,
+          68.07
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.18,
+          79.52
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.18,
+          79.52
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.18,
+          68.07
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.24,
+          79.52
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:global:-1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.15,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:global:-1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.15,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:global:1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.33,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:global:1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.33,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:position:-1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.15,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:position:-1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.61
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          79.61
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.09,
+          67.97999999999999
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.15,
+          79.61
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:position:1:-1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.33,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  },
+  "primary:position:1:1": {
+    "A": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 12,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      }
+    },
+    "B": {
+      "1g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L5",
+          "Fig3:L6",
+          "Fig3:L7",
+          "Fig3:L8",
+          "Fig3:L9",
+          "Fig3:L10",
+          "Fig3:L11"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.42999999999999
+        ]
+      },
+      "2g_fines": {
+        "eligible_n": 7,
+        "excluded": [],
+        "supported": [
+          "Fig3:L14",
+          "Fig3:L15",
+          "Fig3:L16",
+          "Fig3:L17",
+          "Fig3:L18",
+          "Fig3:L19",
+          "Fig3:L20"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          79.42999999999999
+        ]
+      },
+      "4g_fines": {
+        "eligible_n": 7,
+        "excluded": [
+          "Fig3:L27"
+        ],
+        "supported": [
+          "Fig3:L21",
+          "Fig3:L22",
+          "Fig3:L23",
+          "Fig3:L24",
+          "Fig3:L25",
+          "Fig3:L26"
+        ],
+        "training_n": 26,
+        "training_time_range": [
+          9.27,
+          68.16
+        ]
+      },
+      "no_added_fines": {
+        "eligible_n": 12,
+        "excluded": [
+          "Fig3:L30"
+        ],
+        "supported": [
+          "Fig3:L33",
+          "Fig3:L34",
+          "Fig3:L37",
+          "Fig3:L38",
+          "Fig3:L39",
+          "Fig3:L42",
+          "Fig3:L43",
+          "Fig3:L44",
+          "Fig3:L45",
+          "Fig3:L46",
+          "Fig3:L47"
+        ],
+        "training_n": 21,
+        "training_time_range": [
+          18.33,
+          79.42999999999999
+        ]
+      }
+    },
+    "sufficient": true
+  }
+}
