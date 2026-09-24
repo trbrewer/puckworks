@@ -1,5 +1,5 @@
 {
-  "dataset_count": 114,
+  "dataset_count": 115,
   "families": [
     {
       "analytes": [
@@ -2091,16 +2091,25 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "UNQUALIFIED_RADIAL_SOLID_DEPLETION",
+        "PHYSICAL_VALIDATION",
+        "NEW_SOURCE_AGGREGATE_PUBLICATION_WITHOUT_GRANT_SCOPE"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
-      "conditionally_eligible_uses": [],
+      "conditionally_eligible_uses": [
+        "MODEL_TO_ASSAY_MAP_WITH_EXPLICIT_RECOVERY_DRAINAGE_AND_INVENTORY_ASSUMPTIONS"
+      ],
       "consumed_comparison_status": "UNKNOWN",
       "directness": [
         "card transcription (condition means; raw workbook held locally, gitignored)",
-        "card transcription (grinder-level means; raw sheet gitignored)"
+        "card transcription (grinder-level means; raw sheet gitignored)",
+        "explicit formula graph and typed assay; 60 experimental rows (3 source rejects), 10 separate flush rows; local replay output external"
       ],
-      "eligible_uses": [],
+      "eligible_uses": [
+        "SHEET_SPECIFIC_OPERATIONAL_RECOVERABLE_SOLUTE_CONTRAST"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "POCKETSCIENCE2024",
@@ -2108,20 +2117,29 @@
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
         "offline validation target for a future radial two-zone bed_dynamics/extraction variant (reproduce edge-loss SIGN structure); prior-shaping caution for brewer2026.streamtube sigma",
-        "park beside foster2025 W_dead with a units/definition caveat (lumped retention scalar)"
+        "park beside foster2025 W_dead with a units/definition caveat (lumped retention scalar)",
+        "SCI-MD-RADIAL-OBS-001 source-internal observation reconstruction; no physical validation"
       ],
       "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_commit": "TASK_BRANCH_CONTRACT_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+      "last_qualified_task": "SCI-MD-RADIAL-OBS-001",
       "manifest_dataset_ids": [
         "pocketscience2024/edge_ey_condition_means",
-        "pocketscience2024/lrr_scalars"
+        "pocketscience2024/lrr_scalars",
+        "pocketscience2024/workbook_assay_reconstruction"
       ],
       "measurement_resolution": "UNKNOWN",
-      "missing_joins": [],
+      "missing_joins": [
+        "regional initial mass calibration",
+        "post-stop drainage and handling",
+        "recovery efficiencies and model-pool equivalence",
+        "actual expanded publication grant",
+        "exact plotting/MC algorithm"
+      ],
       "notes": [
         "shot style confounded with grinder; two-zone radial only (no depth); section EY anchored to shot EY by construction; VST18xbrass cells absent (12 of 16); Gagne MC edge losses differ from raw means; label erratum carried (outer-to-TOTAL, not outer-to-inner); does NOT close G1 or G9",
-        "lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target"
+        "lumped POST-FLUSH retention (~285 g water / 14 g dose), NOT in-shot dead water and NOT a retention curve theta(psi); does NOT satisfy the G1 search target",
+        "new task-local subset ID; same workbook lineage as older card means; Sworks and VST use different denominators and retention corrections; Y54 unfiltered anchor anomaly retained; no production dependency authority"
       ],
       "observables": [
         "UNKNOWN"
@@ -2129,30 +2147,33 @@
       "physical_replicate_structure": "UNKNOWN",
       "physical_shot_count_if_known": "UNKNOWN",
       "publication_or_repository": "Espresso water flow experiment.xlsx (VST18 + Sworks High Flow sheets); 12 condition means per card Parameters table",
-      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "raw_access_status": "EXTERNAL_WORKBOOK_CONFIGURED_RESOLVER",
       "rights": [
-        "used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked"
+        "used with author's permission (attribution/citation pocketscience2024 required); raw workbook kept local for size, derived summary tracked",
+        "recorded permission with attribution to Pocket Science Coffee (2024); original expanded grant not held; new rows/aggregates private only"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
         "pocketscience2024"
       ],
       "source_identifiers": [],
-      "source_internal_or_external": "UNKNOWN",
+      "source_internal_or_external": "SOURCE_INTERNAL",
       "spatial_resolution": "UNKNOWN",
       "stages": [
         "UNKNOWN"
       ],
-      "target_exposure": "UNKNOWN",
+      "target_exposure": "TARGET_EXPOSED",
       "time_resolution": "UNKNOWN",
       "title": "pocketscience2024",
       "uncertainty_status": [
         "partial (n=4-5 per condition; per-condition SD not transcribed)",
-        "n=5 mean only (no SD transcribed)"
+        "n=5 mean only (no SD transcribed)",
+        "measurement precision distinct from unknown drainage/recovery; MC algorithm unavailable"
       ],
       "validation_strength": [
         "qualitative (hobbyist, non-peer-reviewed, single DE1, shot-style-vs-grinder confounded)",
-        "qualitative"
+        "qualitative",
+        "source-internal reconstruction; forward map conditional"
       ]
     },
     {
@@ -3239,6 +3260,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "3f073e3c5b2cbbfb9d94a7a2ebc3b06b2d1755b705c101804a3b7946966fb081",
+  "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
   "schema_version": 1
 }

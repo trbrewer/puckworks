@@ -1,5 +1,34 @@
 # Provenance — pocketscience2024 (radially sectioned edge/center extraction yield)
 
+## SCI-MD-RADIAL-OBS-001 source inspection correction (2026-09-24)
+
+The historical account below is retained, with these source-verified corrections
+taking precedence for new assay use. See the [executable measurement map](../../../docs/analysis/sci_md_radial_obs_001/MEASUREMENT_MAP.md)
+for formulas, cell locators, units and qualified observables. The original workbook
+is held through the configured external-data resolver, not in this checkout.
+
+The [primary workflow](https://pocketsciencecoffee.com/2024/01/07/espresso-water-flow-part-0-workflow/)
+reports a nominal flat 6-bar DE1 programme and compares metal screen with paper on
+top. N is not a bare puck; this does not qualify true puck-inlet pressure.
+The workbook has different sheet calculations: Sworks corrects recovery using
+literal LRR and divides recovered solubles by inferred original section mass;
+VST has no LRR correction and subtracts solubles per dried residue mass. Only
+Sworks enforces the initial-mass-weighted shot-EY identity. Y54 uses unfiltered
+TDS despite its filtered label. Existing rounded card means are preserved as a
+comparison artifact, not corrected silently. The q constants are original-total
+ratios by their formulas/headers, with raw calibration measurements unavailable;
+no measured cutter radius follows.
+
+The permission record is attribution-required use, but the actual expanded grant
+text was not found in targeted source holdings/notices. New per-shot rows and
+condition aggregates remain private; do not follow the old force-track suggestion
+without verifying actual grant scope. `pocketscience2024/workbook_assay_reconstruction`
+is a new explicitly registered external subset, not an alias for the old CSVs.
+Solid depletion is not identified without retained-liquid, initial-inventory,
+handling and recovery assumptions. Exact sheet-specific operational composites
+remain usable. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
 **Card:** `docs/cards/pocketscience2024.md` (verdict: data-only; no model, no gate
 against the source itself).
 
