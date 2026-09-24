@@ -1,0 +1,35 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSFER-001",
+  "verdict": {
+    "COMMON_TIME_RESPONSE": "TESTED_COMMON_MODELS_INADEQUATE",
+    "FINES_COVARIATE_INCREMENT": "NO_MATERIAL_GAIN_FOR_TESTED_CORRECTIONS"
+  },
+  "prediction_commit": "67f329b3374b379b1455ed4cb0d7f06bfff9ba45",
+  "prediction_tree": "52e794577d0ecb2ada601de82e223aca728b59ac",
+  "files": {
+    "AUDIT.json": "9eeb3e29c4a684a15c265226d68de363ff309ced0e5b10099fba14750f36db60",
+    "CONTRACT.md": "73b527f547acb5f8912937042f3f5fd1b6a4c338339ab9d5296cc626605ca925",
+    "FREEZE.json": "b01c7a89161611ff62f7f7ba0436119d40d97c13f9b48972434cf81db3309587",
+    "PREDICTION_RECEIPT.json": "140a8ad9a2c0f5164079936652fda60cd9c0407f9c035277d27ce0c58e95251d",
+    "PRIMARY_PREDICTIONS.md": "5c1f8d089ee7b4bde9549ec9b33b382b9f2f0e3ed9d36e6106aa270ec2656040",
+    "README.md": "feedeaacd728b6788491199b643e47c1f94a537d910bb426d120331013a806e6",
+    "RESULT.md": "9bb949c595d784fbb71ba609ef94d523d544bfde4e61f1960df4a238c0e54eb3",
+    "SOURCE.json": "82179a49bb79f2e34ff30d7780318a98a2d4ec0ada059c04bfd87f821af08c94",
+    "SOURCE_USE.md": "236c8fd6e8c8572859f12b75e31ba138f940ee728a5e902dce571aa727083e5c",
+    "SYNTHETIC_QA.json": "c161f661216b05186a0724b1a3ea3f04c2151802f2644ebff085681af594ad0e",
+    "VIZ_SPEC.json": "dae54e2edf42dc67f2d4768b2ba9b622572688f68f8d079696b9911415a6dd40",
+    "endpoints.png": "1f8113688720a235d7105dc0508b2f6663f5de410347286cd867c7697c797853",
+    "errors.png": "387746bf934b3a063c91406853bfe677c6de263ba494ee4251bf4ed0cd27bbb8",
+    "metrics.json": "d9c299566698863736fa693c190f00c862c9b8280a460fb29ab7c849a5b51e43",
+    "observations.json": "945db6c046e2fd23e306fc33389196b944ba7ff710eab982b411b85cff980889",
+    "predictions.json": "28e739ac1b164893d21f35d489809b55d13700069f69274d86adbc21b0e56859",
+    "residuals.json": "26ba7a3bbaf37147734b921ff91b20d06b06e5ee039dbfc2015c4e017153c3b5",
+    "residuals.png": "6c4f89c6b7b6f6e1a55d147b7bf8a3c756a52ef2474c5dc46f11ed8cafdbf28b",
+    "source_overlay.png": "e83b21e92ae36eef9e6a5bee6b22d52a07e5bf3cc661c964ed7b2f0e00e5a5f2",
+    "support.json": "458f86801dc7b220dd0d1ded2a236f130caf287fad9cb3eeae975dd88326a3fe"
+  },
+  "native_integrations": 0,
+  "native_builds": 0,
+  "production_defaults_and_lock": "UNCHANGED",
+  "successor_execution": "NOT_AUTHORIZED"
+}
