@@ -1,0 +1,206 @@
+{
+  "catalog_only": [
+    "maille2024/psd_dispersion",
+    "maille2024/ssa",
+    "maille2024/particle_porosity",
+    "Tables 6.1/6.2 hydration/transport estimates"
+  ],
+  "code_sha256": {
+    "puckworks/analysis/maille_transfer.py": "c99734b08ae2ee0ff307792bed8e0bde93c73954ff7b81b89d8846a430799744",
+    "tests/test_maille_transfer.py": "04fad9e52f29885c883b38f294241de807f4660e0d8b6d6005eab1f52eca4b7d",
+    "tools/analyze_maille_transfer.py": "83129cf48e6f5db55547516e52da1f51256630dbfdb7b34e678f98d1365ccaa3"
+  },
+  "date": "2026-09-24",
+  "declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "duplicate_question_check": {
+    "open_related_assignment_found": false,
+    "prior_distinct_prs": [
+      171,
+      173,
+      174,
+      179
+    ],
+    "prior_work_not_restarted": [
+      "source-rate reproduction",
+      "shell-depth convention",
+      "model-generated timescale portability",
+      "Smrke transfer",
+      "radial observation"
+    ]
+  },
+  "excluded_historical_fit_tables": [
+    "6.4",
+    "6.5"
+  ],
+  "external_directory_byte_comparison": {
+    "additional_B_C_denominator_data": 0,
+    "files": 20,
+    "identical_to_packaged_files": 20
+  },
+  "files_inspected": {
+    "dense_figures": "CSV headers, replicate/quality fields and byte identity only; no overlay or scoring",
+    "source_context": [
+      "PROVENANCE.md",
+      "docs/cards/maille2024.md",
+      "puckworks/data/__init__.py",
+      "puckworks/models/maille2024/phi_closure.py",
+      "puckworks/models/maille2024/two_regime.py",
+      "puckworks/analysis/maille2024.py",
+      "tests/test_maille2024.py",
+      "tests/test_maille2024_component.py"
+    ],
+    "tables": [
+      "5.1",
+      "5.4",
+      "6.3",
+      "5.10",
+      "5.11"
+    ]
+  },
+  "governance": "G1",
+  "independent_reviews": {
+    "final_exact_head_base": "EXTERNAL_EXACT_HEAD_RECEIPT_CONTROLS_SEE_PR_270_AND_EWP_176",
+    "pre_scoring": "NOT_PERFORMED_NO_SCORING_FREEZE"
+  },
+  "local_qa": {
+    "existing_quick_suite": {
+      "deselected": 65,
+      "note": "Existing suite collected before task tests were added; final 26 task tests separately passed.",
+      "passed": 4571,
+      "skipped": 33,
+      "warnings": 6
+    },
+    "final_adapter": {
+      "includes_one_new_artifact_replay_test": true,
+      "passed": 26
+    },
+    "focused_initial_combined": {
+      "passed": 64
+    },
+    "hosted_ci": "SEPARATE_PR_STATUS",
+    "mypy": "PASS_19_FILES",
+    "readme_governance": "PASS",
+    "registry_gates": "PASS",
+    "ruff": "PASS",
+    "scientific_hypothesis": "NOT_TESTED",
+    "source_and_registered_maille_files_unchanged": 23
+  },
+  "next_action": "OWNER_DISPOSITION_NO_SUCCESSOR_EXECUTION_AUTHORIZED",
+  "private_export_hashes": {
+    "RESULT.json": "5f8e3dd55de68e53e4010bacfb31b60d95b110914298cf0fe79bd5ba13d7b1d1",
+    "analysis_view.csv": "6373b31bc1e363806fcc09d1503949268ea884c87cccb7dbb6f0d54d722ffdbc",
+    "reference_summaries.csv": "56591d243a791b56962da50749d0ad8c4e795adf529fc3fe27a4860ac5f83d74"
+  },
+  "public_source": {
+    "locators": [
+      "sections 3.2.4, 4.4, 4.5.1-4.5.4",
+      "Table 5.4 printed p107",
+      "Table 5.10 printed p129 PDF p151",
+      "section 5.5 printed p141 PDF p163",
+      "Table 5.11 printed p142",
+      "Table 6.3 printed p159"
+    ],
+    "no_B_C_replicate_reference_table_recovered": true,
+    "rights": "CC BY-NC-ND 4.0; no PDF/text/page-image redistribution",
+    "sha256": "840c22d792fe32662bdf4c9f77f75fda41f3b3fc5b05b26293913af88f6fb0ea",
+    "url": "https://etheses.whiterose.ac.uk/id/eprint/36281/2/Measuring%20Coffee%20Extraction%20Kinetics%20at%20Early%20Time%20Scales_Doctoral%20Thesis_MJMaille_Final_012825_Redacted_V1.pdf"
+  },
+  "requested_protocol_unexecuted": {
+    "P2_gain": {
+      "P2_adequate": true,
+      "aggregate_absolute_min": 0.01,
+      "aggregate_relative_min": 0.2,
+      "all_mandatory_qualified_treatments": true,
+      "each_comparator": [
+        "MAILLE_E0",
+        "MAILLE_ES",
+        "MAILLE_DS"
+      ],
+      "improving_folds_min": 2,
+      "max_fold_worsening": 0.01
+    },
+    "P2_phi_increment": {
+      "P2_adequate": true,
+      "P2_minus_B2_rmse_max_aggregate_and_every_fold": 0.005,
+      "source_phi_values_are_information": true
+    },
+    "adequacy_per_fold": {
+      "absolute_balanced_bias_max": 0.025,
+      "balanced_rmse_max": 0.05,
+      "early_rmse_max": 0.05
+    },
+    "bounds_reference_timescale_s": [
+      0.1,
+      10000
+    ],
+    "candidates": {
+      "MAILLE_B2": "w*(1-exp(-x/a_fast))+(1-w)*(1-exp(-x/(a_slow*q)))",
+      "MAILLE_DS": "1-(6/pi^2)*sum(exp(-n^2*x/(a*q))/n^2,n=1..infinity)",
+      "MAILLE_E0": "1-exp(-x/a)",
+      "MAILLE_ES": "1-exp(-x/(a*q))",
+      "MAILLE_P2": "phi_m*(1-exp(-x/a_fast))+(1-phi_m)*(1-exp(-x/(a_slow*q)))"
+    },
+    "fitted_parameter_counts": {
+      "MAILLE_B2": 3,
+      "MAILLE_DS": 1,
+      "MAILLE_E0": 1,
+      "MAILLE_ES": 1,
+      "MAILLE_P2": 2
+    },
+    "held_material_inputs": "documented descriptors and qualified normalization metadata only",
+    "loss": "equal materials; within curve half early <=35s, half late; equal observations within window; both windows required",
+    "mandatory_lag_sensitivity": {
+      "3-CQA": 3,
+      "Caffeine": 4,
+      "Citric Acid": 0,
+      "Malic Acid": 0,
+      "Quinic Acid": 0
+    },
+    "maximum_source_treatments": 12,
+    "metrics": [
+      "early RMSE",
+      "later RMSE",
+      "window-balanced RMSE",
+      "window-balanced signed bias",
+      "maximum absolute error",
+      "pairwise error differences"
+    ],
+    "numerical_checks": "NOT_REACHED; no candidate mathematics implemented",
+    "optimizer_configuration": "NOT_REACHED; no multistarts or recovery rule selected",
+    "ordering": "a_slow*q_m >= a_fast for every declared eligible material; same B2/P2 constraint",
+    "parameter_scope": "one analyte per fold; shared across two training materials; no held response inputs",
+    "precision_repeat_target_normalized_units": 0.0001,
+    "primary_lag_s": 0,
+    "q": "(D43_um/1000)^2; fixed unit convention; D43 not diffusion radius",
+    "reason": "No source-qualified observation operator; no candidate implementation/fit/score",
+    "thresholds": "proposed development budgets; no significance/p-value claim",
+    "weight_bounds": [
+      0,
+      1
+    ],
+    "x": "max(t-tau,0)"
+  },
+  "result_sha256": "5f8e3dd55de68e53e4010bacfb31b60d95b110914298cf0fe79bd5ba13d7b1d1",
+  "source_observer": {
+    "early_replicate_and_exact_clock_lineage": "UNRESOLVED",
+    "finite_600s_substitution": "UNQUALIFIED_WITHOUT_SELECTION_TREATMENT",
+    "operation": "normalize each experiment by its own selected maximum measured concentration; then average late normalized replicates",
+    "pooled_max_substitution": "NOT_EQUIVALENT",
+    "qualified_alternatives": [],
+    "selected_reference_times_and_values_B_C": "UNRESOLVED",
+    "selection_uncertainty": "UNRESOLVED",
+    "unit_asymptote_substitution": "UNQUALIFIED"
+  },
+  "stage": "SOURCE_CONTRACT_STOP_NOT_PRE_SCORING_FREEZE",
+  "starting_main": {
+    "ewp": {
+      "commit": "3ca164871cb4cdfdd2958f1ef34c6e62a8d8bb35",
+      "tree": "329dac55b06f2a946c4b0a746ba5b83ecea68a8c"
+    },
+    "puckworks": {
+      "commit": "1648fa095f1aca133616b8a4bb07dcae569a91d2",
+      "tree": "df57a459b9b40e4e7adb5a026502da37eee5a974"
+    }
+  },
+  "task": "SCI-MD-MAILLE-TRANSFER-001"
+}
