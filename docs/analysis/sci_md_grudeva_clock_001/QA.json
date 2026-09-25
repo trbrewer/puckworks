@@ -1,0 +1,17 @@
+{
+  "environment": {
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1"
+  },
+  "independent_audit_correction": "Before real fitting/scoring: explicit unresolved scientific dispositions and failed-fold report generation; exception attempts retain last evaluation. Original freeze/evidence preserved privately; scientific family/budgets unchanged. Numerical qualification checks all predicted vials, including unavailable chemistry, without changing metric denominators.",
+  "independent_tolerance": 1e-11,
+  "initial_qa": "3 failed / 11 passed: 64-point quadrature insufficient at extreme bound; exact float test equality; corrected before freeze/no real fits",
+  "operator_order": 128,
+  "per_vial_target_g": 1e-06,
+  "physical_validation": "NOT_ESTABLISHED",
+  "refinement_order": 256,
+  "synthetic_max_integration_allowance_g": 1.6433826847266177e-09,
+  "synthetic_tests": "20 passed",
+  "test_log_sha256": "60f3b7bb3f39363282b0e8129d528519b6460b69a1a0af2052c5840a4220a168"
+}

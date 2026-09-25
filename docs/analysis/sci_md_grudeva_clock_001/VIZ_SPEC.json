@@ -1,0 +1,13 @@
+{
+  "producer": "puckworks.analysis.grudeva_clock",
+  "badge": "ANALYSIS_ONLY",
+  "evidence_strength": "retrospective source-conditioned whole-shot-grouped prediction",
+  "fidelity_ceiling": "Conditional beverage-mass delivery only; no physical validation or puck inventory balance",
+  "publication": "private row-level figures, no raw measurements redistributed",
+  "figures": {
+    "predicted_observed.png": "Positive-mass held-shot predicted versus observed vial solute, gaps omitted and counts stated",
+    "cumulative_residuals.png": "Running residuals over observed support, chemistry gaps marked, not complete cup totals",
+    "paired_errors.png": "Paired held-shot errors for TIME/MASS/MIXED/TEMPLATE",
+    "sensitivities.png": "Bounded zero and timing sensitivities; alternate cohort unqualified"
+  }
+}

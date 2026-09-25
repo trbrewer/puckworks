@@ -1,0 +1,23 @@
+{
+  "comparative_scoring_executed": false,
+  "files": {
+    "docs/analysis/sci_md_grudeva_clock_001/PREFLIGHT.md": "6ebe2339a0cbf54c6bd27440618dfc829fc2c9607e8ffef95c44b5e703a78d4b",
+    "docs/analysis/sci_md_grudeva_clock_001/PROTOCOL.md": "795a416b7206d94bccfda01e799b0a9a98c0211161ea7760e80678435558941e",
+    "docs/analysis/sci_md_grudeva_clock_001/QA.json": "d9676935d035bb73e9685994c00634aa1b37d475de16812df6543a2cd14ea9fe",
+    "docs/analysis/sci_md_grudeva_clock_001/README.md": "f80b8f018d49ff290998f69fa255b28c2a3c271029df920fb80d3ca13b9fd023",
+    "docs/analysis/sci_md_grudeva_clock_001/SOURCE.json": "660ba40fc9451a8c6601c40ab7350cb3f82264c4260432fabe2e99c161833eb5",
+    "docs/analysis/sci_md_grudeva_clock_001/SOURCE_AUDIT.json": "189c094b6d5096e58b6760f689d0082c10424b97eb8e2e73aa2659e6ea7dd964",
+    "docs/analysis/sci_md_grudeva_clock_001/VIZ_SPEC.json": "7a9b59c2c95cecb4f87ca31cde4adf8c7b3e623fdbc041a6fada85a88093bc18",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "tests/test_grudeva_clock.py": "594d63d2977506a067b2357b2c81b04227931e02c5b136b599686ec994ebf46b"
+  },
+  "pre_scoring_correction_of_freeze": "b1e586d2115b03582260a76c476fa5a395ba4ee3a5c78f17c3d5ab737a94f9a6",
+  "real_data_fitting_executed": false,
+  "software_identity": {
+    "base_commit": "09ee96b56220b5db75051efebbb575b9b1cb49d8",
+    "identity_scope": "pre-freeze staged tree; exact code/test/protocol file hashes below",
+    "staged_candidate_tree": "6b8d81644772d1a6a3f95a39be16c2eb79489704"
+  },
+  "source_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+  "task": "SCI-MD-GRUDEVA-CLOCK-001"
+}
