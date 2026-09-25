@@ -1,0 +1,39 @@
+{
+  "boundary_hit_counts": {
+    "literal_zero/MIXED/a_t_per_s": 13,
+    "primary/MIXED/a_t_per_s": 13,
+    "time_sqrt/MIXED/a_t_per_s": 13,
+    "time_u2/MIXED/a_t_per_s": 13
+  },
+  "counts": {
+    "attempts": 1040,
+    "fits": 130
+  },
+  "environment": {
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1"
+  },
+  "failed_attempts": 0,
+  "failed_folds": 0,
+  "max_fixed_parameter_endpoint_width_g": {
+    "MASS": 0.0,
+    "MIXED": 7.216449660063518e-16,
+    "TEMPLATE": 0.0,
+    "TIME": 0.0575840566985632
+  },
+  "max_integration_allowance_g": 8.413285821259199e-13,
+  "objective_calls": 57362,
+  "optimizer_status_counts": {
+    "1": 94,
+    "2": 851,
+    "3": 95
+  },
+  "real_scoring_passes": 1,
+  "software_commit": "66c09e12916f2d0e1e1b66ecd30705a01aec7b5e",
+  "software_tree": "4be165c5fae225e50cd54137fbdff08964e7b29c",
+  "template_effective_positions_range": [
+    14,
+    15
+  ]
+}

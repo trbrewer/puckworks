@@ -1,0 +1,26 @@
+{
+  "files": {
+    "audit/observations.json": "f838d309e6f8a237e9443c8093d2d5d25aed6fbda4871d8731097e2c2b23ec7d",
+    "audit/source_audit.json": "189c094b6d5096e58b6760f689d0082c10424b97eb8e2e73aa2659e6ea7dd964",
+    "audit/source_rows.json": "e0618fd5c8d93458d8a5913cf1f99ba5eb2f189e637ae6d665c872a607de3073",
+    "baseline-puckworks-tests.log": "50477406e043e743ceaf5bc9e8cc4f88e5f669fd0fce83a5cf931eb46cf9542a",
+    "execution_summary.json": "200e4e0ea62c75a0eddcc570599d7b592e3701dce2c48e463566a55a42d3ff7a",
+    "fit-predict.log": "5f8cbdba038b91a957bd334e85184ee5ba21b017b61c7d377f9f7a0c5a5f130b",
+    "predictions/manifest.json": "c87dc894ee5b1e3b835b14f608ca0a843ace5eeea1173750e702fca1e60f48ae",
+    "puckworks-lint.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "puckworks-registry-gates.log": "fcca3c9228c85ad3e998f4be2e1479c83d5c22d639c6ad88e63829a988f2a3c4",
+    "report/aggregate.json": "1211b60738148c0a379c0353bac14315dc2a40e10330e1b11a9176bb7b83bf89",
+    "report/cumulative_residuals.png": "b7ebc42ca273453984b9a2b5c9089898bd50361732a854cb76f9974031833835",
+    "report/paired_errors.png": "30bedcbd616dabf05939b57efba03919019eba7981705097590b793ed5cc934c",
+    "report/predicted_observed.png": "d8effee7d65f8de67735fc0298290d44c65ff56d03ae286abb5ef2a764f70025",
+    "report/sensitivities.png": "217c798c91888342005d8f29c588b24baa48ef6c4593af074d7a526b524ca56d",
+    "scored/score_receipt.json": "5646797a38a4e13c2af5d15bcf970ef37d19f746ee0044d9dce15184d112c028",
+    "scored/scores.json": "3d14d51ef2812e4d3c65202dac8a76b153baa09e2c1a148a509becb72f1b0668",
+    "source/PlotData.ipynb": "bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff",
+    "source/exp13.csv": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+    "source/thesis.pdf": "bbe73a303ab0b6838fe727f05d970438c7ba42576a9959f032aa63b88aff84e6",
+    "task-tests-audited-final.log": "60f3b7bb3f39363282b0e8129d528519b6460b69a1a0af2052c5840a4220a168"
+  },
+  "private_root_label": "grudeva-clock-001-private (outside Git)",
+  "publication": "hashes/counts/aggregate only; raw and row-level values/predictions/plots private"
+}
