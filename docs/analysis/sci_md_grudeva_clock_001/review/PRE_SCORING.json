@@ -1,0 +1,59 @@
+{
+  "reviewer": "independent agent /root/independent_prescore_audit",
+  "freeze_sha256": "6c436b8f5721193a18c879a50c6b58d28f65aeac2b89916b183867c872a50355",
+  "decision": "APPROVED_FOR_SCORING",
+  "real_source_fitting_executed_by_reviewer": false,
+  "real_comparative_scoring_executed_by_reviewer": false,
+  "reviewed_evidence": [
+    "all frozen file hashes and three source hashes",
+    "CSV rectangular mapping and regular cohort counts independently checked",
+    "thesis sections 2.1\u20132.2",
+    "notebook cells 3/4/6/8/14/18/19 as JSON only",
+    "protocol and source audit",
+    "full frozen implementation and synthetic tests",
+    "independent synthetic suite: 16 passed",
+    "synthetic failed-fold report reproduction: TypeError",
+    "bounded final code/protocol/test delta against original preserved freeze",
+    "final exact freeze hash and all nine file hashes verified",
+    "final independent synthetic suite: 20 passed, no skips",
+    "excluded-chemistry numerical-gate regression"
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "blocking",
+      "summary": "Failed-fold reports crash and numerical uncertainty lacks explicit unresolved decision disposition",
+      "status": "RESOLVED_BEFORE_SCORING",
+      "resolution": "Explicit scientific unresolved dispositions, failure-safe reports, expected 13-shot denominator, and numerical qualification across every prediction row; regression tests pass."
+    },
+    {
+      "id": "R2",
+      "severity": "minor",
+      "summary": "Exception optimizer attempt trace must label last evaluated values and unavailable scipy counters",
+      "status": "RESOLVED_BEFORE_SCORING",
+      "resolution": "Last evaluated theta/loss and exact wrapper call count retained; unavailable scipy counters explicit."
+    }
+  ],
+  "limitations": [
+    "retrospective exposed source; no prospective independence",
+    "ordinal physical-shot identity only within pinned source; alternate14 not qualified",
+    "bounded zero/timing sensitivities; no factorial robustness",
+    "no physical mechanism, inventory bridge or validation upgrade",
+    "final review and CI separate"
+  ],
+  "original_freeze_sha256": "b1e586d2115b03582260a76c476fa5a395ba4ee3a5c78f17c3d5ab737a94f9a6",
+  "original_decision": "CHANGES_REQUIRED",
+  "independent_synthetic_tests": {
+    "passed": 20,
+    "skipped": 0,
+    "seconds": 6.41
+  },
+  "approval_scope": "Frozen retrospective source-conditioned fit-predict and comparative scoring only; final review and CI separate",
+  "unchanged_scientific_choices": [
+    "source identity/cohort/zero policy",
+    "conditional concentration family and observation mathematics",
+    "optimizer bounds, scales, starts, budgets and selection",
+    "training/held-shot separation",
+    "metrics, thresholds and comparison definitions"
+  ]
+}

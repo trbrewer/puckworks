@@ -1,0 +1,9 @@
+{
+  "ci": "See live PR checks; not inferred from local success",
+  "no_production_changes": true,
+  "offline_quick": "3936 passed, 33 skipped, 762 deselected; 6 pre-existing warnings; 979.05 s",
+  "quick_selector": "not slow and not live and not release and not gpu and not external_data and not protected_target_integrity",
+  "registry_gates": "65 PASS, 1 ACKNOWLEDGED_EXCEPTION",
+  "ruff": "PASS all puckworks/ and tests/",
+  "task_tests": "20 passed (includes slow synthetic verification)"
+}

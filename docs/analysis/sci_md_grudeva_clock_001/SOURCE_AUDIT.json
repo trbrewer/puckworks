@@ -1,0 +1,173 @@
+{
+  "alternate14": "SOURCE_CONTRACT_BLOCKED_FOR_NAMED_COMPARISON: extra block lacks physical-shot/cohort authority",
+  "folds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "historical_reconciliation": [
+    {
+      "mean_matches": true,
+      "mean_round4": 0.0,
+      "sd_matches": true,
+      "sd_round4": 0.0,
+      "vial": 1
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.0077,
+      "sd_matches": true,
+      "sd_round4": 0.029,
+      "vial": 2
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.0666,
+      "sd_matches": true,
+      "sd_round4": 0.0642,
+      "vial": 3
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.1452,
+      "sd_matches": true,
+      "sd_round4": 0.0729,
+      "vial": 4
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2027,
+      "sd_matches": true,
+      "sd_round4": 0.0695,
+      "vial": 5
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2325,
+      "sd_matches": true,
+      "sd_round4": 0.0641,
+      "vial": 6
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2694,
+      "sd_matches": true,
+      "sd_round4": 0.0481,
+      "vial": 7
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.286,
+      "sd_matches": true,
+      "sd_round4": 0.0356,
+      "vial": 8
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2832,
+      "sd_matches": true,
+      "sd_round4": 0.0301,
+      "vial": 9
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2743,
+      "sd_matches": true,
+      "sd_round4": 0.0223,
+      "vial": 10
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2523,
+      "sd_matches": true,
+      "sd_round4": 0.0208,
+      "vial": 11
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2404,
+      "sd_matches": true,
+      "sd_round4": 0.0197,
+      "vial": 12
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.2158,
+      "sd_matches": true,
+      "sd_round4": 0.0237,
+      "vial": 13
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.1984,
+      "sd_matches": true,
+      "sd_round4": 0.0215,
+      "vial": 14
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.1824,
+      "sd_matches": true,
+      "sd_round4": 0.0237,
+      "vial": 15
+    },
+    {
+      "mean_matches": true,
+      "mean_round4": 0.1668,
+      "sd_matches": true,
+      "sd_round4": 0.0218,
+      "vial": 16
+    }
+  ],
+  "missing_tare": [
+    {
+      "shot": 6,
+      "vial": 17
+    }
+  ],
+  "missing_tds": [
+    {
+      "shot": 5,
+      "vial": 17
+    },
+    {
+      "shot": 8,
+      "vial": 17
+    },
+    {
+      "shot": 13,
+      "vial": 17
+    }
+  ],
+  "net_discrepancies": [],
+  "positive_scoring_vials": 180,
+  "present_vials": 240,
+  "primary_shots": 13,
+  "raw_blocks": 14,
+  "rectangular_rows": 252,
+  "regular_vials": 208,
+  "source_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c",
+  "source_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+  "structural_zeros": 26,
+  "terminal_vials": 16,
+  "unavailable_chemistry": [
+    {
+      "shot": 6,
+      "vial": 3
+    },
+    {
+      "shot": 13,
+      "vial": 2
+    }
+  ]
+}
