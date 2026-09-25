@@ -1,0 +1,29 @@
+{
+  "rows": 51,
+  "conditions": 9,
+  "counts": {
+    "E-q2": 6,
+    "E-q3": 6,
+    "E-q4": 3,
+    "M-q2": 6,
+    "M-q3": 6,
+    "M-q4": 6,
+    "F-q2": 6,
+    "F-q3": 6,
+    "F-q4": 6
+  },
+  "accepted_scoring_rows": 0,
+  "retained_audit_rows": 51,
+  "excluded_subsets": [
+    "H granulometry is input only",
+    "simulation lines",
+    "Fig6 K sweep",
+    "Fig3 flow decay"
+  ],
+  "source_supported_correction": "Fig7 displays E/4 markers beyond20g; retained CSV has only3 rows. No late values transcribed; no silent correction or added support.",
+  "uncertainty": "Caption SD of three brews, not SE. Replicate averaging/covariance/raw values unavailable; zero bars unknown; no Gaussian likelihood.",
+  "flow_axis": "BLOCKED_SOURCE_CONTRACT",
+  "powder_axis": "BLOCKED_SOURCE_CONTRACT",
+  "external_family": "FILES_INSPECTED: six CSVs match repository bytes; source PDF not in registered family directory but recovered from institutional repository",
+  "mapping_audit": "7.5g and15g residuals are dimensional audits of explicit source alternatives, never fitted dose estimates"
+}

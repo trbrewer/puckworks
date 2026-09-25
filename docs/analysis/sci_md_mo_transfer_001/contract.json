@@ -1,0 +1,154 @@
+{
+  "task": "SCI-MD-MO-TRANSFER-001",
+  "governance": "G1",
+  "change": "NUMERICAL_METHOD_CHANGE_ANALYSIS_ONLY",
+  "source_ready": false,
+  "eligible_axes": {
+    "flow": false,
+    "powder": false
+  },
+  "numerical_status": "NUMERICALLY_UNRESOLVED",
+  "missing_facts": [
+    "Campaign-specific split/collected-mass mapping for whole-basket 2/3/4 mL/s and single-shot 7.5 g reference",
+    "Resolution of Eq37 accessible-solute denominator versus experimental dry-dose EY",
+    "Campaign startup inlet history and downstream storage mapping for exit-controlled flow",
+    "Common material/accessible inventory for powder transfer"
+  ],
+  "inventory_sharing": "per_powder_flow_only_if_source_mapping_resolved",
+  "bed": null,
+  "numerics": {
+    "nz": 24,
+    "nr": 12,
+    "rtol": 1e-07,
+    "atol": 1e-10
+  },
+  "fitting_resolution": "NOT_SELECTED_SOURCE_MAPPING_BLOCKED",
+  "bounds": {
+    "S0": [
+      [
+        1e-05,
+        0.1
+      ],
+      [
+        1000.0,
+        2.0
+      ]
+    ],
+    "S2": [
+      [
+        1e-05,
+        0.1
+      ],
+      [
+        1000.0,
+        2.0
+      ]
+    ],
+    "D2": [
+      [
+        1e-13,
+        0.1
+      ],
+      [
+        2e-09,
+        2.0
+      ]
+    ]
+  },
+  "inventory_bounds": [
+    0.0001,
+    1
+  ],
+  "starts": {
+    "S0": [
+      [
+        0.25,
+        0.05,
+        0.6
+      ],
+      [
+        0.5,
+        0.5,
+        1.2
+      ]
+    ],
+    "S2": [
+      [
+        0.25,
+        0.05,
+        0.6
+      ],
+      [
+        0.5,
+        0.5,
+        1.2
+      ]
+    ],
+    "D2": [
+      [
+        0.25,
+        1e-11,
+        0.6
+      ],
+      [
+        0.5,
+        1e-10,
+        1.2
+      ]
+    ]
+  },
+  "objective": "mean over training conditions of mean row squared EY error; no uncertainty weights; strength secondary",
+  "optimizer": {
+    "method": "Nelder-Mead",
+    "max_objective_evaluations_per_start": 100,
+    "starts": 2,
+    "xatol": 0.0001,
+    "fatol": 1e-06,
+    "adaptive": false
+  },
+  "failure_policy": "record each failure; finite penalty 1e30; no automatic retry; choose best finite training evaluation only",
+  "folds": {
+    "flow": [
+      2,
+      3,
+      4
+    ],
+    "powder": [
+      "E",
+      "M",
+      "F"
+    ]
+  },
+  "maximum_optimization_starts": 36,
+  "actual_optimization_starts": 0,
+  "score_passes": 0,
+  "numerical_allowance_ey_pp": 0.1,
+  "solute_balance_relative": 1e-06,
+  "water_balance_relative": 1e-08,
+  "positivity_tolerance": "50*atol of initial accessible inventory; never clip states",
+  "thresholds": {
+    "mean_rmse_plus_allowance": 1,
+    "every_condition_rmse_plus_allowance": 2,
+    "material_gain_absolute_pp": 0.25,
+    "material_gain_fraction": 0.2,
+    "conditions_improving_beyond_ambiguity": 7,
+    "worst_worsening_plus_paired_allowance_pp": 0.5
+  },
+  "simpler_selection": "training score only; tie within 2*numerical_allowance chooses S0",
+  "instability": "within 2*allowance training score but any held EY differs by >0.25 pp: CALIBRATION_INSTABILITY",
+  "primary_support": "all retained source rows",
+  "diagnostics": [
+    "mass_g<30",
+    "mass_g>=30"
+  ],
+  "nuisance_cases": [],
+  "nuisance_reason": "no mapping selected; alternatives below are unresolved contracts, not fit-selected nuisance cases",
+  "source_alternatives": [
+    "single-cup half-basket delivery with 7.5g denominator and Q/2 after breakthrough",
+    "pooled delivery with 15g denominator and full Q",
+    "literal Eq37 accessible-inventory yield; incompatible with task dry-dose response without further authority"
+  ],
+  "claim_ceiling": "RETROSPECTIVE_SOURCE_CONDITIONED_MODEL_DEVELOPMENT_ONLY",
+  "physical_validation": "NOT_ESTABLISHED",
+  "native_integrations": 0
+}

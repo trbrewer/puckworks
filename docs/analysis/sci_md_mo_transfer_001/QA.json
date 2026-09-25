@@ -1,0 +1,15 @@
+{
+  "focused_tests": "13 passed in2.39s",
+  "baseline_nonprotected_quick_lane": "3922 passed;33 skipped;762 deselected;8 warnings",
+  "ruff": "PASS",
+  "readme_governance": "PASS",
+  "data_preflight": "VALID",
+  "source_gate": "BLOCKED_SOURCE_CONTRACT before any fit",
+  "private_campaign_logs": "retained externally; no full logs committed",
+  "campaign_retries": 0,
+  "initial_test_qa_corrections": [
+    "D2 zero-inventory test mistakenly used .05m2/s; corrected to1e-11",
+    "radial analytic control refined24/48/96 instead of12/24/48 to meet existing .0003 mass-fraction criterion"
+  ],
+  "ci": "LIVE_PR_STATUS_SEPARATE"
+}

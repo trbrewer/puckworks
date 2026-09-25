@@ -619,6 +619,8 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 ### mo2023_2
 
+[SCI-MD-MO-TRANSFER-001](../analysis/sci_md_mo_transfer_001/RESULT.md) implemented an analysis-only conservative S0/S2/D2 reference and audited all 51 supplied rows. Both absolute transfer axes remain `BLOCKED_SOURCE_CONTRACT`; numerical application is separately `NUMERICALLY_UNRESOLVED`. Original institutional manuscript inspected; no real fit/score or production integration. Historical reconstruction remains unchanged.
+
 **Access:** FOUND on 2026-09-23; 7 files / 49,822 bytes; 6 structured files, 6 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
 fig3a_qdecay contains powder/swelling setting/time/flow curves; figs6_9 has cup mass, yield/strength and errors; fig6_Ksweep contains model sensitivity curves.

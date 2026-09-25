@@ -1,0 +1,65 @@
+{
+  "task": "SCI-MD-MO-TRANSFER-001",
+  "primary_disposition": "BLOCKED_SOURCE_CONTRACT",
+  "secondary_disposition": "NUMERICALLY_UNRESOLVED",
+  "flow": "BLOCKED_SOURCE_CONTRACT",
+  "powder": "BLOCKED_SOURCE_CONTRACT",
+  "development_decision": "RETAIN_PRODUCTION_NO_KINETIC_WINNER_OR_REJECTION",
+  "candidates": {
+    "S0": {
+      "training": "NOT_EXECUTED",
+      "flow_transfer": "NOT_EXECUTED",
+      "powder_transfer": "NOT_EXECUTED",
+      "material_gain": "NOT_ADJUDICATED"
+    },
+    "S2": {
+      "training": "NOT_EXECUTED",
+      "flow_transfer": "NOT_EXECUTED",
+      "powder_transfer": "NOT_EXECUTED",
+      "material_gain": "NOT_ADJUDICATED"
+    },
+    "D2": {
+      "training": "NOT_EXECUTED",
+      "flow_transfer": "NOT_EXECUTED",
+      "powder_transfer": "NOT_EXECUTED",
+      "material_gain": "NOT_ADJUDICATED"
+    }
+  },
+  "observations": {
+    "retained_for_audit": 51,
+    "eligible_for_scoring": 0,
+    "conditions": 9
+  },
+  "optimization_starts": 0,
+  "objective_evaluations": 0,
+  "cache_hits": 0,
+  "score_passes": 0,
+  "real_prediction_trajectories": 0,
+  "verification": {
+    "bed_launched": 36,
+    "bed_passed": 32,
+    "bed_rejected": 4,
+    "bed_solver_calls": 2412,
+    "radial_launched": 3,
+    "radial_completed": 3,
+    "radial_solver_calls": 3,
+    "legacy_launched": 4,
+    "legacy_completed": 4,
+    "legacy_solver_calls": 4,
+    "total_launched": 43,
+    "total_passed_or_returned": 39,
+    "total_rejected": 4,
+    "total_solver_calls": 2419,
+    "failed_extrema": "NOT_RETAINED_NO_RETRY",
+    "max_returned_solute_residual": 3.469402543032629e-11,
+    "max_returned_water_residual": 4.0805237929638016e-17
+  },
+  "native_integrations": 0,
+  "native_builds": 0,
+  "production_lock_changed": false,
+  "physical_validation": "NOT_ESTABLISHED",
+  "ewp_architecture": "NOT_ADJUDICATED",
+  "successor_execution": false,
+  "scope": "implemented source-blocked research preparation; not completed transfer experiment",
+  "independent_review": "source and implementation reviewed; exact final acceptance pending external receipt"
+}
