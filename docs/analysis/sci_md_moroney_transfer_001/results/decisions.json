@@ -1,0 +1,1161 @@
+{
+  "observation_contract": "QUALIFIED_FOR_DECLARED_USE",
+  "baselines": {
+    "N_M": {
+      "coverage": "COMPLETE",
+      "deep_adequacy": [
+        "FAIL",
+        "FAIL"
+      ],
+      "shallow_adequacy": [
+        "FAIL",
+        "FAIL"
+      ]
+    },
+    "N_T": {
+      "coverage": "COMPLETE",
+      "deep_adequacy": [
+        "FAIL",
+        "FAIL"
+      ],
+      "shallow_adequacy": [
+        "FAIL",
+        "FAIL"
+      ]
+    }
+  },
+  "families": {
+    "dose_uniform_0": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        1.1891315802072895,
+        2.122384001646813
+      ],
+      "cumulative_interval_ey_pp": [
+        3.465826389036334,
+        4.25904620180026
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "dose_uniform_0.5": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        5.860388696276186,
+        6.735858855661576
+      ],
+      "cumulative_interval_ey_pp": [
+        3.823388968450309,
+        4.882954353735285
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "dose_uniform_1": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        13.10986825668642,
+        14.191478394040516
+      ],
+      "cumulative_interval_ey_pp": [
+        10.257010152566274,
+        11.022128308630988
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "dose_linear_0.5": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        3.0275190786217987,
+        3.8279817429100045
+      ],
+      "cumulative_interval_ey_pp": [
+        3.6630803043180964,
+        4.652556019362798
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "dose_linear_1": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        5.60590526813603,
+        6.630631837956646
+      ],
+      "cumulative_interval_ey_pp": [
+        4.034519371800434,
+        5.170901714572686
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "hydraulic_uniform_0": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        2.674022263184477,
+        2.9898876404114914
+      ],
+      "cumulative_interval_ey_pp": [
+        3.0834942839214934,
+        3.9583049974660667
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "hydraulic_uniform_0.5": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        5.206806408072844,
+        5.572556400386474
+      ],
+      "cumulative_interval_ey_pp": [
+        3.6393410438896248,
+        4.681152447113558
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "hydraulic_uniform_1": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "FAIL",
+            "N_T": "FAIL"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        7.555559841804721,
+        8.515543263547912
+      ],
+      "cumulative_interval_ey_pp": [
+        5.152616993587846,
+        5.785896282736755
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "hydraulic_linear_0.5": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        3.7478667342721113,
+        4.045772302021349
+      ],
+      "cumulative_interval_ey_pp": [
+        3.4942563698657003,
+        4.447962331238557
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    },
+    "hydraulic_linear_1": {
+      "coverage": "COMPLETE",
+      "instances": {
+        "central/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "central/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_low/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "FAIL",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/0": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        },
+        "readout_high/1": {
+          "numerics": "PASS",
+          "deep_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "shallow_adequacy": [
+            "PASS",
+            "FAIL"
+          ],
+          "baseline_gain": {
+            "N_M": "PASS",
+            "N_T": "PASS"
+          },
+          "overall": "CALIBRATION_INADEQUATE"
+        }
+      },
+      "parameter_decision_varies": false,
+      "source_or_threshold_decision_varies": false,
+      "outlet_interval_mg_g": [
+        4.775019765260529,
+        5.252977987283101
+      ],
+      "cumulative_interval_ey_pp": [
+        3.965259663160058,
+        5.059451391071917
+      ],
+      "overall": "CALIBRATION_INADEQUATE"
+    }
+  },
+  "volume_basis_decisions": {
+    "dose": [
+      "CALIBRATION_INADEQUATE"
+    ],
+    "hydraulic": [
+      "CALIBRATION_INADEQUATE"
+    ]
+  },
+  "initialization_parameter_sensitivity": "NO_ESTABLISHED_DECISION_DIFFERENCE",
+  "overall": "CALIBRATION_INADEQUATE",
+  "physical_validation": "NOT_ESTABLISHED",
+  "successor_execution": false
+}

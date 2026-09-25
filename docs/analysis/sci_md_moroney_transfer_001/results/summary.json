@@ -1,0 +1,254 @@
+{
+  "overall": "CALIBRATION_INADEQUATE",
+  "central_deep_selected_comparison": [
+    {
+      "candidate": "dose_uniform_0",
+      "selected_deep_start": 1,
+      "deep_outlet_rmse_mg_g": 5.49478797888639,
+      "deep_cumulative_max_ey_pp": 2.9008345445428714,
+      "deep_endpoint_ey_pp": 2.7544559630341507,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 6.8717511745799325,
+      "shallow_outlet_rmse_mg_g": 1.6894075484693876,
+      "shallow_cumulative_max_ey_pp": 3.8523727615196672,
+      "shallow_endpoint_ey_pp": 3.325586413000244,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 2.202161916899299,
+      "parameters": [
+        0.034722590366793864,
+        0.030295027741509474,
+        0.7409457449316083
+      ]
+    },
+    {
+      "candidate": "dose_uniform_0.5",
+      "selected_deep_start": 1,
+      "deep_outlet_rmse_mg_g": 5.696354204418798,
+      "deep_cumulative_max_ey_pp": 2.9110964601911005,
+      "deep_endpoint_ey_pp": 2.7161210445148,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.124474930022209,
+      "shallow_outlet_rmse_mg_g": 6.667271224271019,
+      "shallow_cumulative_max_ey_pp": 3.8492935300474893,
+      "shallow_endpoint_ey_pp": 3.8492935300474893,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 9.160097508686295,
+      "parameters": [
+        0.029968658649404026,
+        0.031090786943243482,
+        0.7723156908163296
+      ]
+    },
+    {
+      "candidate": "dose_uniform_1",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.953805539554315,
+      "deep_cumulative_max_ey_pp": 3.3738441565949158,
+      "deep_endpoint_ey_pp": 2.7217289808584324,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.388609042619759,
+      "shallow_outlet_rmse_mg_g": 14.140032626079048,
+      "shallow_cumulative_max_ey_pp": 10.804883391385403,
+      "shallow_endpoint_ey_pp": 4.438315716510255,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 19.219710701279364,
+      "parameters": [
+        0.024850526250025453,
+        0.03222058548922545,
+        0.8047190837752044
+      ]
+    },
+    {
+      "candidate": "dose_linear_0.5",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.635274332486397,
+      "deep_cumulative_max_ey_pp": 2.879632188880497,
+      "deep_endpoint_ey_pp": 2.700245097178456,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.061882031929143,
+      "shallow_outlet_rmse_mg_g": 3.680572551221564,
+      "shallow_cumulative_max_ey_pp": 3.6654514225777404,
+      "shallow_endpoint_ey_pp": 3.6654514225777404,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 5.1839376471618825,
+      "parameters": [
+        0.03121886510347127,
+        0.03074551386932496,
+        0.7624653862619485
+      ]
+    },
+    {
+      "candidate": "dose_linear_1",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.808181275064088,
+      "deep_cumulative_max_ey_pp": 2.869727505127919,
+      "deep_endpoint_ey_pp": 2.6516165845728983,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.270573366934145,
+      "shallow_outlet_rmse_mg_g": 6.5966995989513,
+      "shallow_cumulative_max_ey_pp": 4.037744130569102,
+      "shallow_endpoint_ey_pp": 4.037744130569102,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 9.085085007115225,
+      "parameters": [
+        0.0273564059499138,
+        0.03129144149057066,
+        0.7848407933857994
+      ]
+    },
+    {
+      "candidate": "hydraulic_uniform_0",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.388204100935346,
+      "deep_cumulative_max_ey_pp": 2.985259142576953,
+      "deep_endpoint_ey_pp": 2.865030793653834,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 6.696367951153305,
+      "shallow_outlet_rmse_mg_g": 2.8712077436488825,
+      "shallow_cumulative_max_ey_pp": 3.0850021204666733,
+      "shallow_endpoint_ey_pp": 3.0850021204666733,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 3.9938753613331546,
+      "parameters": [
+        0.03856995278699557,
+        0.030119468239492294,
+        0.7207417509518821
+      ]
+    },
+    {
+      "candidate": "hydraulic_uniform_0.5",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.523572243341193,
+      "deep_cumulative_max_ey_pp": 2.7588483771198313,
+      "deep_endpoint_ey_pp": 2.570779585956748,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 6.84184361571917,
+      "shallow_outlet_rmse_mg_g": 5.544206318834059,
+      "shallow_cumulative_max_ey_pp": 3.64095482248498,
+      "shallow_endpoint_ey_pp": 3.64095482248498,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 7.771516067769915,
+      "parameters": [
+        0.029480585961595914,
+        0.029769326748866603,
+        0.7645638940026185
+      ]
+    },
+    {
+      "candidate": "hydraulic_uniform_1",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.762300368160345,
+      "deep_cumulative_max_ey_pp": 3.3616155200278235,
+      "deep_endpoint_ey_pp": 2.3491592763245057,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 6.987435393338388,
+      "shallow_outlet_rmse_mg_g": 8.514213994988364,
+      "shallow_cumulative_max_ey_pp": 5.154539429158622,
+      "shallow_endpoint_ey_pp": 4.406700071985888,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 11.829658567420804,
+      "parameters": [
+        0.019373520539822726,
+        0.02978943196427238,
+        0.8123070031769946
+      ]
+    },
+    {
+      "candidate": "hydraulic_linear_0.5",
+      "selected_deep_start": 1,
+      "deep_outlet_rmse_mg_g": 5.550894889588802,
+      "deep_cumulative_max_ey_pp": 2.9398364127124705,
+      "deep_endpoint_ey_pp": 2.780457362533477,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 6.938957916326372,
+      "shallow_outlet_rmse_mg_g": 4.018949446307553,
+      "shallow_cumulative_max_ey_pp": 3.4958560278726347,
+      "shallow_endpoint_ey_pp": 3.4958560278726347,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 5.605900658427264,
+      "parameters": [
+        0.0340012001469923,
+        0.03064630409441067,
+        0.7491019457297002
+      ]
+    },
+    {
+      "candidate": "hydraulic_linear_1",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 5.7719108308713425,
+      "deep_cumulative_max_ey_pp": 2.9069563022920564,
+      "deep_endpoint_ey_pp": 2.6982752787606876,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.216430510349501,
+      "shallow_outlet_rmse_mg_g": 5.250939982068849,
+      "shallow_cumulative_max_ey_pp": 3.967260680415071,
+      "shallow_endpoint_ey_pp": 3.967260680415071,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 7.281186315461156,
+      "parameters": [
+        0.02875229569253318,
+        0.03133358861833405,
+        0.7792691499199327
+      ]
+    },
+    {
+      "candidate": "N_M",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 6.127837909801781,
+      "deep_cumulative_max_ey_pp": 4.248557587306783,
+      "deep_endpoint_ey_pp": 2.962434768495963,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.574156008308838,
+      "shallow_outlet_rmse_mg_g": 8.702432711549536,
+      "shallow_cumulative_max_ey_pp": 11.073055223253004,
+      "shallow_endpoint_ey_pp": 6.617373915234877,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 9.651131150723833,
+      "parameters": [
+        0.2958300091544557,
+        0.8191516046524396,
+        53.816040762710635,
+        53.91849093478155
+      ]
+    },
+    {
+      "candidate": "N_T",
+      "selected_deep_start": 0,
+      "deep_outlet_rmse_mg_g": 6.127837909801781,
+      "deep_cumulative_max_ey_pp": 4.248557587306783,
+      "deep_endpoint_ey_pp": 2.962434768495963,
+      "deep_early_rmse_mg_g": null,
+      "deep_post_wash_rmse_mg_g": 7.574156008308838,
+      "shallow_outlet_rmse_mg_g": 8.762495563351365,
+      "shallow_cumulative_max_ey_pp": 6.476556151280666,
+      "shallow_endpoint_ey_pp": 6.476556151280666,
+      "shallow_early_rmse_mg_g": null,
+      "shallow_post_wash_rmse_mg_g": 12.339836510077344,
+      "parameters": [
+        0.2958300091544557,
+        0.8191516046524396,
+        53.816040762710635,
+        53.91849093478155
+      ]
+    }
+  ],
+  "scientific_freeze_sha256": "39ff2ff62c77879bfd5640217406f4b85c2c9e683f3bf5129e27c3c22b6ba067",
+  "prediction_freeze_sha256": "69eb224f51112e036bbf1cbbe17e554a4741c61259cd037d28f28191913868d8",
+  "reporter_sha256": "a6225892300b556945908d38e9a16d863091316e4254e5bc2e46d9bfc1800697",
+  "calibrated_families": 33,
+  "deterministic_starts_executed": 66,
+  "unsuccessful_starts": 0,
+  "boundary_hitting_starts": 5,
+  "mechanistic_calibration_solver_calls": 4827,
+  "mechanistic_calibration_rhs_evaluations": 5566821,
+  "calibration_integration_failures": 0,
+  "empirical_function_calls": 359,
+  "prediction_numerical_solver_calls": 480,
+  "prediction_numerical_rhs_evaluations": 930702,
+  "prediction_elapsed_s": 1512.7286573145539,
+  "max_balance_relative": 6.202375882708884e-10,
+  "max_adjacent_or_tight_outlet_mg_g": 0.1352058406858681,
+  "max_adjacent_or_tight_delivery_ey_pp": 0.05965762501462709,
+  "scope": "RETROSPECTIVE_SAME_SOURCE_MODEL_DEVELOPMENT",
+  "physical_validation": "NOT_ESTABLISHED"
+}

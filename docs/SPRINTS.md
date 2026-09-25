@@ -541,3 +541,14 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 - [x] Preserve source markers/ambiguity, explicit support, predictions and
   numerical diagnostics. No production/S-B change, native run/build or successor.
 - PR/CI disposition is tracked live in #268; leave OPEN/UNMERGED.
+
+### SCI-MD-MORONEY-TRANSFER-001 — executed research comparison (2026-09-24)
+
+- [x] Conservative analysis-only solver, initialization/observer, bounded empirical
+  transfer CLI and synthetic tests; no production component or gate promotion.
+- [x] Original Fig11/selected-Fig3 object qualification and independent pre-scoring approval.
+- [x] Real deep calibration, frozen shallow predictions and one-shot scoring.
+- [Result](analysis/sci_md_moroney_transfer_001/RESULT.md):
+  CALIBRATION_INADEQUATE across the frozen family; do not prioritize the tested
+  formulation for integration. Qualified numerics; no independent transfer-failure
+  inference, default promotion or successor.

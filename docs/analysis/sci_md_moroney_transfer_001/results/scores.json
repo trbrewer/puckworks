@@ -1,0 +1,1301 @@
+{
+  "prediction_freeze_sha256": "69eb224f51112e036bbf1cbbe17e554a4741c61259cd037d28f28191913868d8",
+  "scores": {
+    "central/empirical/0/N_M/deep": {
+      "outlet_rmse_mg_g": 6.127837909801781,
+      "cumulative_max_ey_pp": 4.248557587306783,
+      "endpoint_ey_pp": 2.962434768495963,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.574156008308838
+    },
+    "central/empirical/0/N_T/deep": {
+      "outlet_rmse_mg_g": 6.127837909801781,
+      "cumulative_max_ey_pp": 4.248557587306783,
+      "endpoint_ey_pp": 2.962434768495963,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.574156008308838
+    },
+    "central/empirical/0/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.702432711549536,
+      "cumulative_max_ey_pp": 11.073055223253004,
+      "endpoint_ey_pp": 6.617373915234877,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.651131150723833
+    },
+    "central/empirical/0/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.762495563351365,
+      "cumulative_max_ey_pp": 6.476556151280666,
+      "endpoint_ey_pp": 6.476556151280666,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.339836510077344
+    },
+    "central/empirical/1/N_M/deep": {
+      "outlet_rmse_mg_g": 6.127601052473263,
+      "cumulative_max_ey_pp": 4.249718397120696,
+      "endpoint_ey_pp": 2.962163556029589,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.57257540584706
+    },
+    "central/empirical/1/N_T/deep": {
+      "outlet_rmse_mg_g": 6.127601052473263,
+      "cumulative_max_ey_pp": 4.249718397120696,
+      "endpoint_ey_pp": 2.962163556029589,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.57257540584706
+    },
+    "central/empirical/1/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.705841792514162,
+      "cumulative_max_ey_pp": 11.075130380185927,
+      "endpoint_ey_pp": 6.617102700593376,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.654364576265925
+    },
+    "central/empirical/1/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.759170617293888,
+      "cumulative_max_ey_pp": 6.4765629737777335,
+      "endpoint_ey_pp": 6.4765629737777335,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.33529818349578
+    },
+    "central/dose_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 5.4891817215531065,
+      "cumulative_max_ey_pp": 2.924068879098793,
+      "endpoint_ey_pp": 2.778246645453555,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.863604930615974
+    },
+    "central/dose_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 1.6825446105076427,
+      "cumulative_max_ey_pp": 3.8483376029387872,
+      "endpoint_ey_pp": 3.3365123336797753,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 2.1893553313497423
+    },
+    "central/dose_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 5.49478797888639,
+      "cumulative_max_ey_pp": 2.9008345445428714,
+      "endpoint_ey_pp": 2.7544559630341507,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.8717511745799325
+    },
+    "central/dose_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 1.6894075484693876,
+      "cumulative_max_ey_pp": 3.8523727615196672,
+      "endpoint_ey_pp": 3.325586413000244,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 2.202161916899299
+    },
+    "central/dose_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.696751702869179,
+      "cumulative_max_ey_pp": 2.90952449628967,
+      "endpoint_ey_pp": 2.7144814762248255,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.124982087138377
+    },
+    "central/dose_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 6.667519211390748,
+      "cumulative_max_ey_pp": 3.8486348636749343,
+      "endpoint_ey_pp": 3.8486348636749343,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.16061435518403
+    },
+    "central/dose_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.696354204418798,
+      "cumulative_max_ey_pp": 2.9110964601911005,
+      "endpoint_ey_pp": 2.7161210445148,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.124474930022209
+    },
+    "central/dose_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 6.667271224271019,
+      "cumulative_max_ey_pp": 3.8492935300474893,
+      "endpoint_ey_pp": 3.8492935300474893,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.160097508686295
+    },
+    "central/dose_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 5.953805539554315,
+      "cumulative_max_ey_pp": 3.3738441565949158,
+      "endpoint_ey_pp": 2.7217289808584324,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.388609042619759
+    },
+    "central/dose_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 14.140032626079048,
+      "cumulative_max_ey_pp": 10.804883391385403,
+      "endpoint_ey_pp": 4.438315716510255,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 19.219710701279364
+    },
+    "central/dose_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 5.950470745479654,
+      "cumulative_max_ey_pp": 3.3728561274951026,
+      "endpoint_ey_pp": 2.7349909368167684,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.385054516013817
+    },
+    "central/dose_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 14.13944982079895,
+      "cumulative_max_ey_pp": 10.804473806297697,
+      "endpoint_ey_pp": 4.44343199069257,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 19.218557592795467
+    },
+    "central/dose_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.635274332486397,
+      "cumulative_max_ey_pp": 2.879632188880497,
+      "endpoint_ey_pp": 2.700245097178456,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.061882031929143
+    },
+    "central/dose_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 3.680572551221564,
+      "cumulative_max_ey_pp": 3.6654514225777404,
+      "endpoint_ey_pp": 3.6654514225777404,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.1839376471618825
+    },
+    "central/dose_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.635349514998696,
+      "cumulative_max_ey_pp": 2.879318492482084,
+      "endpoint_ey_pp": 2.699918341525643,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.0619951349920065
+    },
+    "central/dose_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 3.6806555059503614,
+      "cumulative_max_ey_pp": 3.6653281087074143,
+      "endpoint_ey_pp": 3.6653281087074143,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.1841038014099645
+    },
+    "central/dose_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 5.808181275064088,
+      "cumulative_max_ey_pp": 2.869727505127919,
+      "endpoint_ey_pp": 2.6516165845728983,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.270573366934145
+    },
+    "central/dose_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 6.5966995989513,
+      "cumulative_max_ey_pp": 4.037744130569102,
+      "endpoint_ey_pp": 4.037744130569102,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.085085007115225
+    },
+    "central/dose_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 5.808167960976389,
+      "cumulative_max_ey_pp": 2.869783011546535,
+      "endpoint_ey_pp": 2.6516752481258767,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.270554531840599
+    },
+    "central/dose_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 6.596689375999679,
+      "cumulative_max_ey_pp": 4.037764169886634,
+      "endpoint_ey_pp": 4.037764169886634,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.085062779890468
+    },
+    "central/hydraulic_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 5.388204100935346,
+      "cumulative_max_ey_pp": 2.985259142576953,
+      "endpoint_ey_pp": 2.865030793653834,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.696367951153305
+    },
+    "central/hydraulic_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 2.8712077436488825,
+      "cumulative_max_ey_pp": 3.0850021204666733,
+      "endpoint_ey_pp": 3.0850021204666733,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.9938753613331546
+    },
+    "central/hydraulic_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 5.388047716675726,
+      "cumulative_max_ey_pp": 2.985811272596565,
+      "endpoint_ey_pp": 2.8655906525494417,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.696718359783138
+    },
+    "central/hydraulic_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 2.871952791730266,
+      "cumulative_max_ey_pp": 3.085267554538233,
+      "endpoint_ey_pp": 3.085267554538233,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.995268474929752
+    },
+    "central/hydraulic_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.523572243341193,
+      "cumulative_max_ey_pp": 2.7588483771198313,
+      "endpoint_ey_pp": 2.570779585956748,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.84184361571917
+    },
+    "central/hydraulic_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 5.544206318834059,
+      "cumulative_max_ey_pp": 3.64095482248498,
+      "endpoint_ey_pp": 3.64095482248498,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.771516067769915
+    },
+    "central/hydraulic_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.52322370355171,
+      "cumulative_max_ey_pp": 2.760349050331318,
+      "endpoint_ey_pp": 2.572351497215412,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.841386026453896
+    },
+    "central/hydraulic_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 5.544026750008823,
+      "cumulative_max_ey_pp": 3.641538388536577,
+      "endpoint_ey_pp": 3.641538388536577,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.771089777466138
+    },
+    "central/hydraulic_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 5.762300368160345,
+      "cumulative_max_ey_pp": 3.3616155200278235,
+      "endpoint_ey_pp": 2.3491592763245057,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.987435393338388
+    },
+    "central/hydraulic_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 8.514213994988364,
+      "cumulative_max_ey_pp": 5.154539429158622,
+      "endpoint_ey_pp": 4.406700071985888,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 11.829658567420804
+    },
+    "central/hydraulic_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 5.762392146849679,
+      "cumulative_max_ey_pp": 3.3616639410756552,
+      "endpoint_ey_pp": 2.3486139007203346,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.9875536963666836
+    },
+    "central/hydraulic_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 8.514289476620561,
+      "cumulative_max_ey_pp": 5.154501499259595,
+      "endpoint_ey_pp": 4.406587894319925,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 11.829844101968218
+    },
+    "central/hydraulic_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.550831258370283,
+      "cumulative_max_ey_pp": 2.940096624379265,
+      "endpoint_ey_pp": 2.78072569619594,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.938867050678717
+    },
+    "central/hydraulic_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 4.018917181331036,
+      "cumulative_max_ey_pp": 3.4959664979239893,
+      "endpoint_ey_pp": 3.4959664979239893,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.605815935934143
+    },
+    "central/hydraulic_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.550894889588802,
+      "cumulative_max_ey_pp": 2.9398364127124705,
+      "endpoint_ey_pp": 2.780457362533477,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.938957916326372
+    },
+    "central/hydraulic_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 4.018949446307553,
+      "cumulative_max_ey_pp": 3.4958560278726347,
+      "endpoint_ey_pp": 3.4958560278726347,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.605900658427264
+    },
+    "central/hydraulic_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 5.7719108308713425,
+      "cumulative_max_ey_pp": 2.9069563022920564,
+      "endpoint_ey_pp": 2.6982752787606876,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.216430510349501
+    },
+    "central/hydraulic_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 5.250939982068849,
+      "cumulative_max_ey_pp": 3.967260680415071,
+      "endpoint_ey_pp": 3.967260680415071,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.281186315461156
+    },
+    "central/hydraulic_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 5.771916066374474,
+      "cumulative_max_ey_pp": 2.9069348086181974,
+      "endpoint_ey_pp": 2.698252659315463,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.216437713030245
+    },
+    "central/hydraulic_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 5.250942392814216,
+      "cumulative_max_ey_pp": 3.9672528267781892,
+      "endpoint_ey_pp": 3.9672528267781892,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.281192883845451
+    },
+    "readout_low/empirical/0/N_M/deep": {
+      "outlet_rmse_mg_g": 6.231618371667471,
+      "cumulative_max_ey_pp": 4.129915999234242,
+      "endpoint_ey_pp": 3.7441292966783344,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.7598441139312815
+    },
+    "readout_low/empirical/0/N_T/deep": {
+      "outlet_rmse_mg_g": 6.231618371667471,
+      "cumulative_max_ey_pp": 4.129915999234242,
+      "endpoint_ey_pp": 3.7441292966783344,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.7598441139312815
+    },
+    "readout_low/empirical/0/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.48297652158972,
+      "cumulative_max_ey_pp": 10.820630327251395,
+      "endpoint_ey_pp": 7.888366184454314,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.369917985372185
+    },
+    "readout_low/empirical/0/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.807985614445723,
+      "cumulative_max_ey_pp": 7.761469499200309,
+      "endpoint_ey_pp": 7.761469499200309,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.260676083913044
+    },
+    "readout_low/empirical/1/N_M/deep": {
+      "outlet_rmse_mg_g": 6.231461030551159,
+      "cumulative_max_ey_pp": 4.129751764493527,
+      "endpoint_ey_pp": 3.743965055611821,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.758735615447543
+    },
+    "readout_low/empirical/1/N_T/deep": {
+      "outlet_rmse_mg_g": 6.231461030551159,
+      "cumulative_max_ey_pp": 4.129751764493527,
+      "endpoint_ey_pp": 3.743965055611821,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.758735615447543
+    },
+    "readout_low/empirical/1/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.485371839100376,
+      "cumulative_max_ey_pp": 10.822064290334154,
+      "endpoint_ey_pp": 7.888201942166311,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.372194540418146
+    },
+    "readout_low/empirical/1/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.805633349938061,
+      "cumulative_max_ey_pp": 7.76148814303697,
+      "endpoint_ey_pp": 7.76148814303697,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.257477622326517
+    },
+    "readout_low/dose_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 5.720114436773151,
+      "cumulative_max_ey_pp": 2.302548146353432,
+      "endpoint_ey_pp": 2.094808188389919,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.048157540457508
+    },
+    "readout_low/dose_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 2.1201086963258526,
+      "cumulative_max_ey_pp": 4.256914274948853,
+      "endpoint_ey_pp": 4.256914274948853,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 2.776684293421507
+    },
+    "readout_low/dose_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 5.721580488944934,
+      "cumulative_max_ey_pp": 2.3013594270464015,
+      "endpoint_ey_pp": 2.0832963142726975,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.047030318192853
+    },
+    "readout_low/dose_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 2.115097501023902,
+      "cumulative_max_ey_pp": 4.252282380590603,
+      "endpoint_ey_pp": 4.252282380590603,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 2.769213392288146
+    },
+    "readout_low/dose_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.877315167058979,
+      "cumulative_max_ey_pp": 2.520142816837638,
+      "endpoint_ey_pp": 2.062997305269694,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.2430336837593075
+    },
+    "readout_low/dose_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 6.708398346665133,
+      "cumulative_max_ey_pp": 4.857193324769363,
+      "endpoint_ey_pp": 4.857193324769363,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.367433168860234
+    },
+    "readout_low/dose_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.877969199293126,
+      "cumulative_max_ey_pp": 2.520102856798928,
+      "endpoint_ey_pp": 2.0580617457779673,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.244839224466158
+    },
+    "readout_low/dose_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 6.7097582081424925,
+      "cumulative_max_ey_pp": 4.85634411818523,
+      "endpoint_ey_pp": 4.85634411818523,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.370197884353132
+    },
+    "readout_low/dose_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 6.034525828573542,
+      "cumulative_max_ey_pp": 3.4818529431760608,
+      "endpoint_ey_pp": 2.4988926168265557,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.384146991045623
+    },
+    "readout_low/dose_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 14.110879554654407,
+      "cumulative_max_ey_pp": 10.962471117762842,
+      "endpoint_ey_pp": 5.598671232488206,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 19.273971017119354
+    },
+    "readout_low/dose_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 6.034431576575073,
+      "cumulative_max_ey_pp": 3.481749666332465,
+      "endpoint_ey_pp": 2.4991339661400005,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.384517499209387
+    },
+    "readout_low/dose_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 14.110969151309865,
+      "cumulative_max_ey_pp": 10.962460098298346,
+      "endpoint_ey_pp": 5.598984707138125,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 19.274281380049164
+    },
+    "readout_low/dose_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.823284143661676,
+      "cumulative_max_ey_pp": 2.208934294820812,
+      "endpoint_ey_pp": 2.052773352419336,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.18938458210045
+    },
+    "readout_low/dose_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 3.8260955824157987,
+      "cumulative_max_ey_pp": 4.650223791691151,
+      "endpoint_ey_pp": 4.650223791691151,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.505596872218992
+    },
+    "readout_low/dose_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.823161226323694,
+      "cumulative_max_ey_pp": 2.2098250018350525,
+      "endpoint_ey_pp": 2.0537695645977934,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.189021412789179
+    },
+    "readout_low/dose_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 3.8256924251278033,
+      "cumulative_max_ey_pp": 4.650394665665018,
+      "endpoint_ey_pp": 4.650394665665018,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.504866911688374
+    },
+    "readout_low/dose_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 5.946153149592848,
+      "cumulative_max_ey_pp": 2.850823162856623,
+      "endpoint_ey_pp": 2.0925882301963132,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.335992739054064
+    },
+    "readout_low/dose_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 6.628795258035246,
+      "cumulative_max_ey_pp": 5.091044305525446,
+      "endpoint_ey_pp": 5.091044305525446,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.271702329732395
+    },
+    "readout_low/dose_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 5.946144487313931,
+      "cumulative_max_ey_pp": 2.8508166630773215,
+      "endpoint_ey_pp": 2.0926183131876455,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.3360280576177646
+    },
+    "readout_low/dose_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 6.628835103308032,
+      "cumulative_max_ey_pp": 5.091082038633169,
+      "endpoint_ey_pp": 5.091082038633169,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.271785486204177
+    },
+    "readout_low/hydraulic_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 5.660467325516922,
+      "cumulative_max_ey_pp": 2.8716535218691996,
+      "endpoint_ey_pp": 2.1831329036118348,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.931073113224616
+    },
+    "readout_low/hydraulic_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 2.9880675801106142,
+      "cumulative_max_ey_pp": 3.955528802752547,
+      "endpoint_ey_pp": 3.955528802752547,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.256825797918307
+    },
+    "readout_low/hydraulic_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 5.660025255860022,
+      "cumulative_max_ey_pp": 2.871322207831666,
+      "endpoint_ey_pp": 2.1871700561817575,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.930047706030386
+    },
+    "readout_low/hydraulic_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 2.987227675661563,
+      "cumulative_max_ey_pp": 3.956863085361003,
+      "endpoint_ey_pp": 3.956863085361003,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.255204424284302
+    },
+    "readout_low/hydraulic_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.669060782461245,
+      "cumulative_max_ey_pp": 2.188626011126997,
+      "endpoint_ey_pp": 1.9476536383047547,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.907624113790884
+    },
+    "readout_low/hydraulic_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 5.5713229092164696,
+      "cumulative_max_ey_pp": 4.67940897214448,
+      "endpoint_ey_pp": 4.67940897214448,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.9489033243419165
+    },
+    "readout_low/hydraulic_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.668866919395679,
+      "cumulative_max_ey_pp": 2.1885186015597626,
+      "endpoint_ey_pp": 1.9492942045268087,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.907155733671849
+    },
+    "readout_low/hydraulic_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 5.571056055622734,
+      "cumulative_max_ey_pp": 4.679611099231754,
+      "endpoint_ey_pp": 4.679611099231754,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.948291034509153
+    },
+    "readout_low/hydraulic_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 5.695501875044681,
+      "cumulative_max_ey_pp": 3.3954434293558733,
+      "endpoint_ey_pp": 2.5978743579018753,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.7731531049002305
+    },
+    "readout_low/hydraulic_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 8.476690476240858,
+      "cumulative_max_ey_pp": 5.723026621357344,
+      "endpoint_ey_pp": 5.723026621357344,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 11.859948442359375
+    },
+    "readout_low/hydraulic_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 5.695885811994617,
+      "cumulative_max_ey_pp": 3.395291600019976,
+      "endpoint_ey_pp": 2.596986831952626,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.772890550146883
+    },
+    "readout_low/hydraulic_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 8.476389366319516,
+      "cumulative_max_ey_pp": 5.721921569978406,
+      "endpoint_ey_pp": 5.721921569978406,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 11.859013116944476
+    },
+    "readout_low/hydraulic_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 5.773060167505868,
+      "cumulative_max_ey_pp": 2.230835182436864,
+      "endpoint_ey_pp": 2.1068537690650815,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.109356967127792
+    },
+    "readout_low/hydraulic_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 4.043703879796423,
+      "cumulative_max_ey_pp": 4.446290616352325,
+      "endpoint_ey_pp": 4.446290616352325,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.77440023395474
+    },
+    "readout_low/hydraulic_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 5.772866929643796,
+      "cumulative_max_ey_pp": 2.2324062933676316,
+      "endpoint_ey_pp": 2.1086226893421345,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.108770419040965
+    },
+    "readout_low/hydraulic_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 4.043405953324727,
+      "cumulative_max_ey_pp": 4.4464316717533485,
+      "endpoint_ey_pp": 4.4464316717533485,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.7736510515268495
+    },
+    "readout_low/hydraulic_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 5.936894543059959,
+      "cumulative_max_ey_pp": 2.754904980472268,
+      "endpoint_ey_pp": 2.051484081387238,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.314901480960922
+    },
+    "readout_low/hydraulic_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 5.223069985256805,
+      "cumulative_max_ey_pp": 4.998878961272482,
+      "endpoint_ey_pp": 4.998878961272482,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.389592584216374
+    },
+    "readout_low/hydraulic_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 5.936956535335577,
+      "cumulative_max_ey_pp": 2.7549563787847444,
+      "endpoint_ey_pp": 2.050982611073396,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.315019016284079
+    },
+    "readout_low/hydraulic_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 5.223108287380481,
+      "cumulative_max_ey_pp": 4.998805300251222,
+      "endpoint_ey_pp": 4.998805300251222,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.38970894835525
+    },
+    "readout_high/empirical/0/N_M/deep": {
+      "outlet_rmse_mg_g": 6.1047613758240695,
+      "cumulative_max_ey_pp": 4.460439077848523,
+      "endpoint_ey_pp": 2.1830301068967812,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.45374131379297
+    },
+    "readout_high/empirical/0/N_T/deep": {
+      "outlet_rmse_mg_g": 6.1047613758240695,
+      "cumulative_max_ey_pp": 4.460439077848523,
+      "endpoint_ey_pp": 2.1830301068967812,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.45374131379297
+    },
+    "readout_high/empirical/0/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.970907266017623,
+      "cumulative_max_ey_pp": 11.326976894662637,
+      "endpoint_ey_pp": 5.346681127023659,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.975873997800951
+    },
+    "readout_high/empirical/0/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.754420018823328,
+      "cumulative_max_ey_pp": 5.190849013712229,
+      "endpoint_ey_pp": 5.190849013712229,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.44535755370616
+    },
+    "readout_high/empirical/1/N_M/deep": {
+      "outlet_rmse_mg_g": 6.104643402598439,
+      "cumulative_max_ey_pp": 4.4606312165649715,
+      "endpoint_ey_pp": 2.1831487453910383,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.4535086531496715
+    },
+    "readout_high/empirical/1/N_T/deep": {
+      "outlet_rmse_mg_g": 6.104643402598439,
+      "cumulative_max_ey_pp": 4.4606312165649715,
+      "endpoint_ey_pp": 2.1831487453910383,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.4535086531496715
+    },
+    "readout_high/empirical/1/N_M/shallow": {
+      "outlet_rmse_mg_g": 8.971084392246786,
+      "cumulative_max_ey_pp": 11.327209169352628,
+      "endpoint_ey_pp": 5.346799765305073,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.976080188336814
+    },
+    "readout_high/empirical/1/N_T/shallow": {
+      "outlet_rmse_mg_g": 8.754229984358048,
+      "cumulative_max_ey_pp": 5.190983761057155,
+      "endpoint_ey_pp": 5.190983761057155,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 12.44508015155498
+    },
+    "readout_high/dose_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 4.44260754781604,
+      "cumulative_max_ey_pp": 4.139914754537949,
+      "endpoint_ey_pp": 3.7298497874387575,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.885538342359002
+    },
+    "readout_high/dose_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 1.19420624019904,
+      "cumulative_max_ey_pp": 3.5095528891068226,
+      "endpoint_ey_pp": 3.5095528891068226,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 1.1712214670988141
+    },
+    "readout_high/dose_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 4.468786541871459,
+      "cumulative_max_ey_pp": 4.108768926842156,
+      "endpoint_ey_pp": 3.703030120008611,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.9132943686617905
+    },
+    "readout_high/dose_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 1.191904281433629,
+      "cumulative_max_ey_pp": 3.468271248719738,
+      "endpoint_ey_pp": 3.468271248719738,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 1.1725083550591822
+    },
+    "readout_high/dose_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 4.110584044175778,
+      "cumulative_max_ey_pp": 4.649898033785183,
+      "endpoint_ey_pp": 4.146122060924197,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.618189272459445
+    },
+    "readout_high/dose_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 5.875510309833544,
+      "cumulative_max_ey_pp": 4.644887374506035,
+      "endpoint_ey_pp": 4.644887374506035,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.476008620803095
+    },
+    "readout_high/dose_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 4.146988207382557,
+      "cumulative_max_ey_pp": 4.625509098486106,
+      "endpoint_ey_pp": 4.126725024897496,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.655207656514319
+    },
+    "readout_high/dose_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 5.896769206028273,
+      "cumulative_max_ey_pp": 4.596418431989116,
+      "endpoint_ey_pp": 4.596418431989116,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.519268935577709
+    },
+    "readout_high/dose_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 3.304643918813042,
+      "cumulative_max_ey_pp": 5.0705507302653245,
+      "endpoint_ey_pp": 4.4525455086727455,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.896138981798974
+    },
+    "readout_high/dose_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 13.147879455769312,
+      "cumulative_max_ey_pp": 10.310457236607794,
+      "endpoint_ey_pp": 6.170112777339998,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 17.515522671477182
+    },
+    "readout_high/dose_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 3.305210415555163,
+      "cumulative_max_ey_pp": 5.070460416179183,
+      "endpoint_ey_pp": 4.4524882206790695,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.896739266694707
+    },
+    "readout_high/dose_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 13.148689944763712,
+      "cumulative_max_ey_pp": 10.310538541074878,
+      "endpoint_ey_pp": 6.169524958940245,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 17.5167637559497
+    },
+    "readout_high/dose_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 4.3936096901796615,
+      "cumulative_max_ey_pp": 4.376157266126373,
+      "endpoint_ey_pp": 3.924485133710286,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.90316963705796
+    },
+    "readout_high/dose_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 3.029907955612524,
+      "cumulative_max_ey_pp": 4.076567525266106,
+      "endpoint_ey_pp": 4.076567525266106,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.7333864816563858
+    },
+    "readout_high/dose_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 4.426235232686046,
+      "cumulative_max_ey_pp": 4.3449761836587495,
+      "endpoint_ey_pp": 3.898323026399679,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.937624217649355
+    },
+    "readout_high/dose_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 3.0471804034235985,
+      "cumulative_max_ey_pp": 4.029353858679241,
+      "endpoint_ey_pp": 4.029353858679241,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.773295776487769
+    },
+    "readout_high/dose_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 3.963589585029197,
+      "cumulative_max_ey_pp": 4.826712878171337,
+      "endpoint_ey_pp": 4.281337118375954,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.550045816935587
+    },
+    "readout_high/dose_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 5.608175088336685,
+      "cumulative_max_ey_pp": 5.16802145086905,
+      "endpoint_ey_pp": 5.16802145086905,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.005120144869237
+    },
+    "readout_high/dose_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 4.00630661393774,
+      "cumulative_max_ey_pp": 4.805600290920359,
+      "endpoint_ey_pp": 4.26537343117417,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 16.621821438648325,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.5923448019567115
+    },
+    "readout_high/dose_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 5.633396460419124,
+      "cumulative_max_ey_pp": 5.114115446557995,
+      "endpoint_ey_pp": 5.114115446557995,
+      "wash_through_reference_basis": "dose",
+      "wash_through_mass_g": 10.753399329386022,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 7.058540270261732
+    },
+    "readout_high/hydraulic_uniform_0/0/deep": {
+      "outlet_rmse_mg_g": 4.314379773590404,
+      "cumulative_max_ey_pp": 4.137778061980926,
+      "endpoint_ey_pp": 3.7335006943645297,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.6632197485094276
+    },
+    "readout_high/hydraulic_uniform_0/0/shallow": {
+      "outlet_rmse_mg_g": 2.6764914120513392,
+      "cumulative_max_ey_pp": 3.299950527301317,
+      "endpoint_ey_pp": 3.299950527301317,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.258410940269112
+    },
+    "readout_high/hydraulic_uniform_0/1/deep": {
+      "outlet_rmse_mg_g": 4.363146064548186,
+      "cumulative_max_ey_pp": 4.0779523997382014,
+      "endpoint_ey_pp": 3.682226875463108,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.716899634904048
+    },
+    "readout_high/hydraulic_uniform_0/1/shallow": {
+      "outlet_rmse_mg_g": 2.6817701968298637,
+      "cumulative_max_ey_pp": 3.2198706881713037,
+      "endpoint_ey_pp": 3.2198706881713037,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 3.289969085594045
+    },
+    "readout_high/hydraulic_uniform_0.5/0/deep": {
+      "outlet_rmse_mg_g": 4.445586545394009,
+      "cumulative_max_ey_pp": 4.192293740625797,
+      "endpoint_ey_pp": 3.768059774992135,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.85124766358631
+    },
+    "readout_high/hydraulic_uniform_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 5.208273421169136,
+      "cumulative_max_ey_pp": 3.7906921800976288,
+      "endpoint_ey_pp": 3.7906921800976288,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.852526064323434
+    },
+    "readout_high/hydraulic_uniform_0.5/1/deep": {
+      "outlet_rmse_mg_g": 4.484668371137445,
+      "cumulative_max_ey_pp": 4.149008156552164,
+      "endpoint_ey_pp": 3.7306419744435235,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.8935826716557465
+    },
+    "readout_high/hydraulic_uniform_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 5.225651353531778,
+      "cumulative_max_ey_pp": 3.7356588399132216,
+      "endpoint_ey_pp": 3.7356588399132216,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 6.892278773930272
+    },
+    "readout_high/hydraulic_uniform_1/0/deep": {
+      "outlet_rmse_mg_g": 3.483492939160338,
+      "cumulative_max_ey_pp": 4.995456107567828,
+      "endpoint_ey_pp": 4.40227561392029,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.939814454789003
+    },
+    "readout_high/hydraulic_uniform_1/0/shallow": {
+      "outlet_rmse_mg_g": 7.5569763728430575,
+      "cumulative_max_ey_pp": 5.783671586879546,
+      "endpoint_ey_pp": 5.783671586879546,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.707795179835871
+    },
+    "readout_high/hydraulic_uniform_1/1/deep": {
+      "outlet_rmse_mg_g": 3.5852818770484474,
+      "cumulative_max_ey_pp": 4.965677640650449,
+      "endpoint_ey_pp": 4.381422822086108,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.037521190495155
+    },
+    "readout_high/hydraulic_uniform_1/1/shallow": {
+      "outlet_rmse_mg_g": 7.602497220151496,
+      "cumulative_max_ey_pp": 5.675872256388396,
+      "endpoint_ey_pp": 5.675872256388396,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 9.809545954121155
+    },
+    "readout_high/hydraulic_linear_0.5/0/deep": {
+      "outlet_rmse_mg_g": 4.302209197903007,
+      "cumulative_max_ey_pp": 4.35921656133145,
+      "endpoint_ey_pp": 3.9131589731159497,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.751188953501934
+    },
+    "readout_high/hydraulic_linear_0.5/0/shallow": {
+      "outlet_rmse_mg_g": 3.749531943175915,
+      "cumulative_max_ey_pp": 3.90260989323703,
+      "endpoint_ey_pp": 3.90260989323703,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.707259360877248
+    },
+    "readout_high/hydraulic_linear_0.5/1/deep": {
+      "outlet_rmse_mg_g": 4.359459649931975,
+      "cumulative_max_ey_pp": 4.303296283953207,
+      "endpoint_ey_pp": 3.8662704259139082,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.812167398764143
+    },
+    "readout_high/hydraulic_linear_0.5/1/shallow": {
+      "outlet_rmse_mg_g": 3.7656539068638857,
+      "cumulative_max_ey_pp": 3.81766112076903,
+      "endpoint_ey_pp": 3.81766112076903,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 4.754490618287109
+    },
+    "readout_high/hydraulic_linear_1/0/deep": {
+      "outlet_rmse_mg_g": 3.931642591714852,
+      "cumulative_max_ey_pp": 4.815651851620813,
+      "endpoint_ey_pp": 4.273350332008498,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.486209430544183
+    },
+    "readout_high/hydraulic_linear_1/0/shallow": {
+      "outlet_rmse_mg_g": 4.77656558743191,
+      "cumulative_max_ey_pp": 5.057460007725108,
+      "endpoint_ey_pp": 5.057460007725108,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.895364956773813
+    },
+    "readout_high/hydraulic_linear_1/1/deep": {
+      "outlet_rmse_mg_g": 4.0361300575478545,
+      "cumulative_max_ey_pp": 4.761120444410313,
+      "endpoint_ey_pp": 4.231777934847007,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 21.42104469108249,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.59184879592233
+    },
+    "readout_high/hydraulic_linear_1/1/shallow": {
+      "outlet_rmse_mg_g": 4.805294210718374,
+      "cumulative_max_ey_pp": 4.923618735349288,
+      "endpoint_ey_pp": 4.923618735349288,
+      "wash_through_reference_basis": "hydraulic",
+      "wash_through_mass_g": 6.341798063287368,
+      "early_rmse_mg_g": null,
+      "post_wash_rmse_mg_g": 5.980769551090194
+    }
+  }
+}

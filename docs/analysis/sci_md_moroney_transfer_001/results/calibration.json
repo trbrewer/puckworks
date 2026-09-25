@@ -1,0 +1,2066 @@
+{
+  "central/empirical": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          0.2958300091544557,
+          0.8191516046524396,
+          3.9855715781689565,
+          -2.2783787247386638
+        ],
+        "parameters": [
+          0.2958300091544557,
+          0.8191516046524396,
+          53.816040762710635,
+          53.91849093478155
+        ],
+        "cost": 2.146934441632319,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 15,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          0.2958272970080216,
+          0.8023292361778879,
+          3.98489063146897,
+          -1.7239883519417718
+        ],
+        "parameters": [
+          0.2958272970080216,
+          0.8023292361778879,
+          53.77940738145251,
+          53.957760772852
+        ],
+        "cost": 2.146939647861111,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 116,
+      "failures": 0,
+      "nfev": 0,
+      "failure_records": []
+    },
+    "elapsed_s": 0.01388965267688036
+  },
+  "central/dose_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.351675822343531,
+          -3.495701371186905,
+          0.7407347375831642
+        ],
+        "parameters": [
+          0.03502560819393458,
+          0.030327470161766838,
+          0.7407347375831642
+        ],
+        "cost": 1.3468135139214963,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 18,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.3603647846344438,
+          -3.4967716808731275,
+          0.7409457449316083
+        ],
+        "parameters": [
+          0.034722590366793864,
+          0.030295027741509474,
+          0.7409457449316083
+        ],
+        "cost": 1.3468006880835799,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 20,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 131,
+      "failures": 0,
+      "nfev": 133101,
+      "failure_records": []
+    },
+    "elapsed_s": 29.902083264663815
+  },
+  "central/dose_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.5082988186280404,
+          -3.4709072454436405,
+          0.7723293403379743
+        ],
+        "parameters": [
+          0.02994781779649275,
+          0.031088812679027317,
+          0.7723293403379743
+        ],
+        "cost": 1.4659449951344912,
+        "success": true,
+        "status": 4,
+        "message": "Both `ftol` and `xtol` termination conditions are satisfied.",
+        "evaluations": 24,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.50760315509814,
+          -3.4708437434517068,
+          0.7723156908163296
+        ],
+        "parameters": [
+          0.029968658649404026,
+          0.031090786943243482,
+          0.7723156908163296
+        ],
+        "cost": 1.465944906599514,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 151,
+      "failures": 0,
+      "nfev": 186262,
+      "failure_records": []
+    },
+    "elapsed_s": 36.234513176605105
+  },
+  "central/dose_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.6948763496003316,
+          -3.4351497297899236,
+          0.8047190837752044
+        ],
+        "parameters": [
+          0.024850526250025453,
+          0.03222058548922545,
+          0.8047190837752044
+        ],
+        "cost": 1.6586846168779021,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 23,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.688140872517806,
+          -3.434751568320909,
+          0.8046426116754349
+        ],
+        "parameters": [
+          0.025018471360366983,
+          0.03223341703922123,
+          0.8046426116754349
+        ],
+        "cost": 1.6586975030817739,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 153,
+      "failures": 0,
+      "nfev": 209653,
+      "failure_records": []
+    },
+    "elapsed_s": 41.963324197568
+  },
+  "central/dose_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.4667327161420283,
+          -3.4820111858011105,
+          0.7624653862619485
+        ],
+        "parameters": [
+          0.03121886510347127,
+          0.03074551386932496,
+          0.7624653862619485
+        ],
+        "cost": 1.4223871128761192,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 23,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.4668677637093905,
+          -3.482027599052765,
+          0.762468864025399
+        ],
+        "parameters": [
+          0.03121464935635284,
+          0.030745009239609888,
+          0.762468864025399
+        ],
+        "cost": 1.4223871455426798,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 143,
+      "failures": 0,
+      "nfev": 144690,
+      "failure_records": []
+    },
+    "elapsed_s": 30.239358853548765
+  },
+  "central/dose_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.598804556336221,
+          -3.4644106536321915,
+          0.7848407933857994
+        ],
+        "parameters": [
+          0.0273564059499138,
+          0.03129144149057066,
+          0.7848407933857994
+        ],
+        "cost": 1.5312980283705695,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 19,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.5987770339499057,
+          -3.464407815382152,
+          0.7848402196250499
+        ],
+        "parameters": [
+          0.027357158873847636,
+          0.031291530303631736,
+          0.7848402196250499
+        ],
+        "cost": 1.5312980327739163,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 137,
+      "failures": 0,
+      "nfev": 132786,
+      "failure_records": []
+    },
+    "elapsed_s": 27.88255702611059
+  },
+  "central/hydraulic_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.255281730848942,
+          -3.5025835309376223,
+          0.7207417509518821
+        ],
+        "parameters": [
+          0.03856995278699557,
+          0.030119468239492294,
+          0.7207417509518821
+        ],
+        "cost": 1.3172588731838692,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 23,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.255088082588157,
+          -3.5027135425347034,
+          0.7207352907326908
+        ],
+        "parameters": [
+          0.038577422514497854,
+          0.030115552613867135,
+          0.7207352907326908
+        ],
+        "cost": 1.317259303308022,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 137,
+      "failures": 0,
+      "nfev": 147885,
+      "failure_records": []
+    },
+    "elapsed_s": 29.868192488327622
+  },
+  "central/hydraulic_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.5240233352779438,
+          -3.5142767192969555,
+          0.7645638940026185
+        ],
+        "parameters": [
+          0.029480585961595914,
+          0.029769326748866603,
+          0.7645638940026185
+        ],
+        "cost": 1.3481083184103058,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 18,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.523364528960384,
+          -3.5142158493561277,
+          0.7645482408947243
+        ],
+        "parameters": [
+          0.029500014356944874,
+          0.029771138861175314,
+          0.7645482408947243
+        ],
+        "cost": 1.3481088572849884,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 127,
+      "failures": 0,
+      "nfev": 166760,
+      "failure_records": []
+    },
+    "elapsed_s": 31.996912608854473
+  },
+  "central/hydraulic_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.943848065893197,
+          -3.5136015804389986,
+          0.8123070031769946
+        ],
+        "parameters": [
+          0.019373520539822726,
+          0.02978943196427238,
+          0.8123070031769946
+        ],
+        "cost": 1.4989020551599255,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 19,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.944204532188028,
+          -3.5136346506170555,
+          0.8123136434791113
+        ],
+        "parameters": [
+          0.019366615763471207,
+          0.029788446838742336,
+          0.8123136434791113
+        ],
+        "cost": 1.4989020733255964,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 137,
+      "failures": 0,
+      "nfev": 186532,
+      "failure_records": []
+    },
+    "elapsed_s": 35.8761677024886
+  },
+  "central/hydraulic_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.3812556500413304,
+          -3.4852314635311914,
+          0.7490989505837943
+        ],
+        "parameters": [
+          0.03400472987600341,
+          0.030646664023115146,
+          0.7490989505837943
+        ],
+        "cost": 1.3919826152853978,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 23,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.381359456548001,
+          -3.4852432080661857,
+          0.7491019457297002
+        ],
+        "parameters": [
+          0.0340012001469923,
+          0.03064630409441067,
+          0.7491019457297002
+        ],
+        "cost": 1.3919825998837674,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 137,
+      "failures": 0,
+      "nfev": 146551,
+      "failure_records": []
+    },
+    "elapsed_s": 29.723948010243475
+  },
+  "central/hydraulic_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.549037664751566,
+          -3.4630646380197927,
+          0.7792691499199327
+        ],
+        "parameters": [
+          0.02875229569253318,
+          0.03133358861833405,
+          0.7792691499199327
+        ],
+        "cost": 1.5217952313788974,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 24,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.5490479383541405,
+          -3.4630656607898516,
+          0.7792693896130334
+        ],
+        "parameters": [
+          0.028752000304391484,
+          0.03133355657129416,
+          0.7792693896130334
+        ],
+        "cost": 1.5217952323627184,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 147,
+      "failures": 0,
+      "nfev": 152444,
+      "failure_records": []
+    },
+    "elapsed_s": 32.03479234967381
+  },
+  "readout_low/empirical": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          0.2889781195186408,
+          0.5473653846197479,
+          3.968027508486802,
+          -2.235985625767004
+        ],
+        "parameters": [
+          0.2889781195186408,
+          0.5473653846197479,
+          52.88012230858692,
+          52.987009036192106
+        ],
+        "cost": 2.275932304633393,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 14,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          0.2889764770957509,
+          0.7584325555797184,
+          3.9683113770062426,
+          -2.5210106047000687
+        ],
+        "parameters": [
+          0.2889764770957509,
+          0.7584325555797184,
+          52.89513544139157,
+          52.97551377635809
+        ],
+        "cost": 2.2759337069605636,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 13,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 119,
+      "failures": 0,
+      "nfev": 0,
+      "failure_records": []
+    },
+    "elapsed_s": 0.013612386770546436
+  },
+  "readout_low/dose_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.137264239954684,
+          -3.5526313853961797,
+          0.7427174061743258
+        ],
+        "parameters": [
+          0.015966472246200177,
+          0.028649153417190373,
+          0.7427174061743258
+        ],
+        "cost": 1.3887683045196773,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 15,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.142193129279976,
+          -3.552101809481358,
+          0.7427242503683267
+        ],
+        "parameters": [
+          0.015887968897671228,
+          0.028664329336866252,
+          0.7427242503683267
+        ],
+        "cost": 1.3887686986068182,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 18,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 111,
+      "failures": 0,
+      "nfev": 112726,
+      "failure_records": []
+    },
+    "elapsed_s": 23.203303817659616
+  },
+  "readout_low/dose_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.467862956998679,
+          -3.5233453232134027,
+          0.7727594687674764
+        ],
+        "parameters": [
+          0.011471805415033962,
+          0.02950058093219729,
+          0.7727594687674764
+        ],
+        "cost": 1.4880098713641359,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.471422974178733,
+          -3.523670410364015,
+          0.7728083261911488
+        ],
+        "parameters": [
+          0.011431038199719676,
+          0.029490992231066847,
+          0.7728083261911488
+        ],
+        "cost": 1.4880098301061002,
+        "success": true,
+        "status": 4,
+        "message": "Both `ftol` and `xtol` termination conditions are satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 136,
+      "failures": 0,
+      "nfev": 167471,
+      "failure_records": []
+    },
+    "elapsed_s": 32.576918669976294
+  },
+  "readout_low/dose_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.605161430128881,
+          -3.474995978720121,
+          0.8005104486790063
+        ],
+        "parameters": [
+          0.010000087558975431,
+          0.030961958329626598,
+          0.8005104486790063
+        ],
+        "cost": 1.671735148694186,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 20,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.605170185641372,
+          -3.4751053633030717,
+          0.8005211397157257
+        ],
+        "parameters": [
+          0.010000000003467195,
+          0.030958571753950326,
+          0.8005211397157257
+        ],
+        "cost": 1.6717353586884622,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 14,
+        "boundary": [
+          -1,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 115,
+      "failures": 0,
+      "nfev": 154668,
+      "failure_records": []
+    },
+    "elapsed_s": 31.338484949432313
+  },
+  "readout_low/dose_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.352690346980007,
+          -3.5355586768557092,
+          0.7629552842842022
+        ],
+        "parameters": [
+          0.012872135443913267,
+          0.029142471216391786,
+          0.7629552842842022
+        ],
+        "cost": 1.4483832996740116,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.35205136399303,
+          -3.53549216126158,
+          0.7629447501853184
+        ],
+        "parameters": [
+          0.012880363147869476,
+          0.029144409709648437,
+          0.7629447501853184
+        ],
+        "cost": 1.4483831881817018,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 126,
+      "failures": 0,
+      "nfev": 124126,
+      "failure_records": []
+    },
+    "elapsed_s": 26.07678209990263
+  },
+  "readout_low/dose_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.605170183005816,
+          -3.5143201775134796,
+          0.7834510911866216
+        ],
+        "parameters": [
+          0.010000000029822754,
+          0.02976803305512999,
+          0.7834510911866216
+        ],
+        "cost": 1.542738483483774,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 17,
+        "boundary": [
+          -1,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.605170181384767,
+          -3.5143301872483765,
+          0.7834523609668648
+        ],
+        "parameters": [
+          0.010000000046033243,
+          0.029767735086502,
+          0.7834523609668648
+        ],
+        "cost": 1.542738552554823,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          -1,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 129,
+      "failures": 0,
+      "nfev": 126080,
+      "failure_records": []
+    },
+    "elapsed_s": 26.374359632842243
+  },
+  "readout_low/hydraulic_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -3.9667239121984736,
+          -3.5580430740572164,
+          0.7246061778191493
+        ],
+        "parameters": [
+          0.018935365551843813,
+          0.028494531877668858,
+          0.7246061778191493
+        ],
+        "cost": 1.3786502174746558,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 19,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -3.9651046268585337,
+          -3.5578817336329767,
+          0.724581924692135
+        ],
+        "parameters": [
+          0.018966052150162473,
+          0.028499129568417228,
+          0.724581924692135
+        ],
+        "cost": 1.3786518758376578,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 18,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 112,
+      "failures": 0,
+      "nfev": 120957,
+      "failure_records": []
+    },
+    "elapsed_s": 24.30000274721533
+  },
+  "readout_low/hydraulic_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.444948230823256,
+          -3.569224839835771,
+          0.7660257878191622
+        ],
+        "parameters": [
+          0.01173771366698732,
+          0.028177687437699144,
+          0.7660257878191622
+        ],
+        "cost": 1.3626404591159407,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.4437656176429625,
+          -3.5691386606546827,
+          0.7660050986273141
+        ],
+        "parameters": [
+          0.011751603053143196,
+          0.028180115872366237,
+          0.7660050986273141
+        ],
+        "cost": 1.3626401103702417,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 21,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 127,
+      "failures": 0,
+      "nfev": 166074,
+      "failure_records": []
+    },
+    "elapsed_s": 32.815441992133856
+  },
+  "readout_low/hydraulic_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.605170185755422,
+          -3.5446757855543507,
+          0.8046822193268546
+        ],
+        "parameters": [
+          0.010000000002326695,
+          0.02887798365155543,
+          0.8046822193268546
+        ],
+        "cost": 1.4987106598128916,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 13,
+        "boundary": [
+          -1,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.605169587230472,
+          -3.5444828271928226,
+          0.8046448894225239
+        ],
+        "parameters": [
+          0.010000005987577982,
+          0.028883556437605613,
+          0.8046448894225239
+        ],
+        "cost": 1.498709982781884,
+        "success": true,
+        "status": 4,
+        "message": "Both `ftol` and `xtol` termination conditions are satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          -1,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 101,
+      "failures": 0,
+      "nfev": 139374,
+      "failure_records": []
+    },
+    "elapsed_s": 27.802188269793987
+  },
+  "readout_low/hydraulic_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.20577320285775,
+          -3.538627455862883,
+          0.7513934414192243
+        ],
+        "parameters": [
+          0.014909253733631266,
+          0.029053176495465308,
+          0.7513934414192243
+        ],
+        "cost": 1.4303110902358311,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 20,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.204697602147618,
+          -3.5385225309189865,
+          0.7513642486151386
+        ],
+        "parameters": [
+          0.014925298765011367,
+          0.029056225058311454,
+          0.7513642486151386
+        ],
+        "cost": 1.4303113064681414,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 20,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 118,
+      "failures": 0,
+      "nfev": 123982,
+      "failure_records": []
+    },
+    "elapsed_s": 25.5563511447981
+  },
+  "readout_low/hydraulic_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -4.570643130473554,
+          -3.5137218468401534,
+          0.7796048011077723
+        ],
+        "parameters": [
+          0.010351300339729417,
+          0.029785849511926234,
+          0.7796048011077723
+        ],
+        "cost": 1.5386618315291776,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 17,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -4.5710532246802815,
+          -3.513741439775565,
+          0.77961018168395
+        ],
+        "parameters": [
+          0.010347056201735682,
+          0.029785265925417675,
+          0.77961018168395
+        ],
+        "cost": 1.5386618666154834,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 129,
+      "failures": 0,
+      "nfev": 132742,
+      "failure_records": []
+    },
+    "elapsed_s": 27.371306650340557
+  },
+  "readout_high/empirical": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          0.30276145672607585,
+          0.7755986098960725,
+          4.001814217024769,
+          -1.6104820558588455
+        ],
+        "parameters": [
+          0.30276145672607585,
+          0.7755986098960725,
+          54.69729283253947,
+          54.89708411284013
+        ],
+        "cost": 2.0761923050433215,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          0.30276264310888756,
+          0.6457374495457372,
+          4.001764776196542,
+          -2.0303121439081404
+        ],
+        "parameters": [
+          0.30276264310888756,
+          0.6457374495457372,
+          54.69458861992986,
+          54.8258831518931
+        ],
+        "cost": 2.076189812738656,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 124,
+      "failures": 0,
+      "nfev": 0,
+      "failure_records": []
+    },
+    "elapsed_s": 0.014797925017774105
+  },
+  "readout_high/dose_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.386677711238054,
+          -3.3536656857876626,
+          0.7248293423913472
+        ],
+        "parameters": [
+          0.09193461039300817,
+          0.034955981313547296,
+          0.7248293423913472
+        ],
+        "cost": 1.1887909575384996,
+        "success": true,
+        "status": 4,
+        "message": "Both `ftol` and `xtol` termination conditions are satisfied.",
+        "evaluations": 28,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.402441885732126,
+          -3.356957739069479,
+          0.7253893057837653
+        ],
+        "parameters": [
+          0.09049670066038695,
+          0.03484109357258632,
+          0.7253893057837653
+        ],
+        "cost": 1.1888044682499448,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 22,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 182,
+      "failures": 0,
+      "nfev": 188530,
+      "failure_records": []
+    },
+    "elapsed_s": 38.72335033211857
+  },
+  "readout_high/dose_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.1114190931466195,
+          -3.259359875988682,
+          0.7477660028963505
+        ],
+        "parameters": [
+          0.12106604048442632,
+          0.03841297921954859,
+          0.7477660028963505
+        ],
+        "cost": 1.3090673608764383,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 28,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.1306067977940053,
+          -3.2642591145976385,
+          0.7484975286597471
+        ],
+        "parameters": [
+          0.1187652055183874,
+          0.038225245121250195,
+          0.7484975286597471
+        ],
+        "cost": 1.30908353728013,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 43,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 281,
+      "failures": 0,
+      "nfev": 351549,
+      "failure_records": []
+    },
+    "elapsed_s": 67.87743419129401
+  },
+  "readout_high/dose_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -1.5923626089796372,
+          -3.069593622527979,
+          0.7611287211666014
+        ],
+        "parameters": [
+          0.20344438395313852,
+          0.04644002320256605,
+          0.7611287211666014
+        ],
+        "cost": 1.446056784077043,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 17,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -1.5926011488410887,
+          -3.0696959893901035,
+          0.761124901605247
+        ],
+        "parameters": [
+          0.2033958601456385,
+          0.04643526952642743,
+          0.761124901605247
+        ],
+        "cost": 1.4460571241250224,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 32,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 190,
+      "failures": 0,
+      "nfev": 255086,
+      "failure_records": []
+    },
+    "elapsed_s": 49.33179195038974
+  },
+  "readout_high/dose_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.2877938741111405,
+          -3.3114438931111527,
+          0.7443636020949058
+        ],
+        "parameters": [
+          0.10149011502987346,
+          0.036463486348656024,
+          0.7443636020949058
+        ],
+        "cost": 1.2744380489983025,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 30,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.306560930077453,
+          -3.3159528486680503,
+          0.7449858753139761
+        ],
+        "parameters": [
+          0.09960320560927238,
+          0.03629944421652592,
+          0.7449858753139761
+        ],
+        "cost": 1.274464171015351,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 32,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 245,
+      "failures": 0,
+      "nfev": 245903,
+      "failure_records": []
+    },
+    "elapsed_s": 51.05258558224887
+  },
+  "readout_high/dose_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -1.966248001610198,
+          -3.2068591938621194,
+          0.7589657359792624
+        ],
+        "parameters": [
+          0.13998108094520775,
+          0.04048356483145737,
+          0.7589657359792624
+        ],
+        "cost": 1.383850702924756,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 25,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -1.988360013034077,
+          -3.213273950139267,
+          0.759780167453543
+        ],
+        "parameters": [
+          0.13691978808717345,
+          0.04022470378275961,
+          0.759780167453543
+        ],
+        "cost": 1.3838669896578275,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 49,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 293,
+      "failures": 0,
+      "nfev": 297779,
+      "failure_records": []
+    },
+    "elapsed_s": 61.846298379823565
+  },
+  "readout_high/hydraulic_uniform_0": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.3582743392815,
+          -3.3670843577440506,
+          0.7010565190736622
+        ],
+        "parameters": [
+          0.0945833011346311,
+          0.034490051538077736,
+          0.7010565190736622
+        ],
+        "cost": 1.137935391500867,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 17,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.3875280926898066,
+          -3.3730583705003045,
+          0.7024687107627752
+        ],
+        "parameters": [
+          0.0918564641373283,
+          0.034284621761241044,
+          0.7024687107627752
+        ],
+        "cost": 1.137857512518407,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 30,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 155,
+      "failures": 0,
+      "nfev": 171401,
+      "failure_records": []
+    },
+    "elapsed_s": 34.7443228289485
+  },
+  "readout_high/hydraulic_uniform_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.392091061378307,
+          -3.3585981280649557,
+          0.7447092886145594
+        ],
+        "parameters": [
+          0.09143828077200601,
+          0.03478398747701031,
+          0.7447092886145594
+        ],
+        "cost": 1.2207048230196367,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 35,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.4153283695353904,
+          -3.3639048171475174,
+          0.7455516394383432
+        ],
+        "parameters": [
+          0.08933799822775104,
+          0.03459988858025396,
+          0.7455516394383432
+        ],
+        "cost": 1.2207496139807115,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 20,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 205,
+      "failures": 0,
+      "nfev": 273943,
+      "failure_records": []
+    },
+    "elapsed_s": 52.363016944378614
+  },
+  "readout_high/hydraulic_uniform_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -1.761717190212417,
+          -3.167087460069825,
+          0.7679618684541842
+        ],
+        "parameters": [
+          0.17174968357964362,
+          0.0421261133885645,
+          0.7679618684541842
+        ],
+        "cost": 1.3964391327381658,
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "evaluations": 16,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -1.8117919499324528,
+          -3.1837362173929495,
+          0.7706148054076271
+        ],
+        "parameters": [
+          0.16336113938007396,
+          0.04143057196580804,
+          0.7706148054076271
+        ],
+        "cost": 1.396449447642912,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 52,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 239,
+      "failures": 0,
+      "nfev": 333509,
+      "failure_records": []
+    },
+    "elapsed_s": 66.46355553064495
+  },
+  "readout_high/hydraulic_linear_0.5": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -2.2787467450853094,
+          -3.324332005435312,
+          0.7274779312584411
+        ],
+        "parameters": [
+          0.10241247526010215,
+          0.03599655622799244,
+          0.7274779312584411
+        ],
+        "cost": 1.2291705643320214,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 24,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.310922728848306,
+          -3.3316457656293825,
+          0.7287111265921158
+        ],
+        "parameters": [
+          0.09916970258324902,
+          0.035734246452594,
+          0.7287111265921158
+        ],
+        "cost": 1.2291541480353736,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 31,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 1,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 208,
+      "failures": 0,
+      "nfev": 230040,
+      "failure_records": []
+    },
+    "elapsed_s": 46.464038589037955
+  },
+  "readout_high/hydraulic_linear_1": {
+    "records": [
+      {
+        "start": 0,
+        "x": [
+          -1.972753375277567,
+          -3.2196938318474513,
+          0.7488616592893056
+        ],
+        "parameters": [
+          0.13907340728650747,
+          0.039967293099890035,
+          0.7488616592893056
+        ],
+        "cost": 1.3655047202771418,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 23,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "start": 1,
+        "x": [
+          -2.02637969662921,
+          -3.2348333819524506,
+          0.751048909474661
+        ],
+        "parameters": [
+          0.1318118572988348,
+          0.039366763606985364,
+          0.751048909474661
+        ],
+        "cost": 1.3655551378623696,
+        "success": true,
+        "status": 2,
+        "message": "`ftol` termination condition is satisfied.",
+        "evaluations": 37,
+        "boundary": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "selected": 0,
+    "admitted": [
+      0,
+      1
+    ],
+    "cost": {
+      "solver_calls": 225,
+      "failures": 0,
+      "nfev": 244217,
+      "failure_records": []
+    },
+    "elapsed_s": 50.17065194435418
+  }
+}

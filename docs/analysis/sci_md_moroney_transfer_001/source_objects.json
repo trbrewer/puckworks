@@ -1,0 +1,2513 @@
+{
+  "task": "SCI-MD-MORONEY-TRANSFER-001",
+  "pdf_sha256": "896672a997e585a50d97f988caa66259a9a8ed0067300ea7d19725a13c01c4a8",
+  "pdf_pages": 19,
+  "source_title": "Modelling of coffee extraction during brewing using multiscale methods: An experimentally validated model",
+  "doi": "10.1016/j.ces.2015.06.003",
+  "pdf_redistributed": false,
+  "coordinate_convention": "PyMuPDF page points; origin top-left; 0-based drawing_index, seqno and subpath; data rows 1-based excluding comments/header",
+  "method": "Page.get_drawings(); split blue circles into four-Bezier subpaths and red rectangles individually; calibrate from major tick marks, not padded frame. Match all rows by panel, color and plotted coordinates. Original CSV coordinates retained; object re-extraction is a qualification check, not new fitted axis conversion.",
+  "visual_confirmation_by": "implementation author and independent scientific reviewer",
+  "confirmed_legend_rows": [
+    "fig11_bed_mass_comparison.csv:data:7",
+    "fig11_bed_mass_comparison.csv:data:33",
+    "fig11_bed_mass_comparison.csv:data:45",
+    "fig11_bed_mass_comparison.csv:data:71"
+  ],
+  "audits": {
+    "fig3": {
+      "printed_page": 219,
+      "pdf_page_index": 3,
+      "panels": [
+        "a",
+        "b"
+      ],
+      "visual_confirmation": true,
+      "axis_coordinates": {
+        "a": {
+          "x0": 150.617,
+          "x1000": 293.282,
+          "y0": 156.02099609375,
+          "y200": 82.54397583007812
+        },
+        "b": {
+          "x0": 333.125,
+          "x1000": 475.79,
+          "y0": 152.49400329589844,
+          "y200": 81.95696258544922
+        }
+      },
+      "marker_objects": [
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:1",
+          "role": "observation",
+          "drawing_index": 4,
+          "seqno": 19,
+          "subpath": 0,
+          "pdf_center": [
+            153.75099182128906,
+            75.91551208496094
+          ],
+          "pdf_bbox": [
+            152.37799072265625,
+            74.54501342773438,
+            155.12399291992188,
+            77.2860107421875
+          ],
+          "readout_delta_g": 0.007489021757770331,
+          "readout_delta_mg_g": 0.00027694953058698957
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:2",
+          "role": "observation",
+          "drawing_index": 5,
+          "seqno": 20,
+          "subpath": 0,
+          "pdf_center": [
+            157.82200622558594,
+            89.34349060058594
+          ],
+          "pdf_bbox": [
+            156.44900512695312,
+            87.97299194335938,
+            159.19500732421875,
+            90.7139892578125
+          ],
+          "readout_delta_g": 0.012970073850958386,
+          "readout_delta_mg_g": 0.0001325167847312514
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:3",
+          "role": "observation",
+          "drawing_index": 6,
+          "seqno": 21,
+          "subpath": 0,
+          "pdf_center": [
+            161.89300537109375,
+            102.77146911621094
+          ],
+          "pdf_bbox": [
+            160.52000427246094,
+            101.40097045898438,
+            163.26600646972656,
+            104.1419677734375
+          ],
+          "readout_delta_g": 0.008344170565734998,
+          "readout_delta_mg_g": -1.1915961124486785e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:4",
+          "role": "observation",
+          "drawing_index": 7,
+          "seqno": 22,
+          "subpath": 0,
+          "pdf_center": [
+            165.22349548339844,
+            111.63249206542969
+          ],
+          "pdf_bbox": [
+            163.8509979248047,
+            110.26199340820312,
+            166.5959930419922,
+            113.00299072265625
+          ],
+          "readout_delta_g": 0.013173752486224544,
+          "readout_delta_mg_g": 0.0008201661755293799
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:5",
+          "role": "observation",
+          "drawing_index": 8,
+          "seqno": 23,
+          "subpath": 0,
+          "pdf_center": [
+            169.84950256347656,
+            119.68949890136719
+          ],
+          "pdf_bbox": [
+            168.4770050048828,
+            118.31900024414062,
+            171.2220001220703,
+            121.05999755859375
+          ],
+          "readout_delta_g": 0.008835828525377565,
+          "readout_delta_mg_g": 0.00013542412972356033
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:6",
+          "role": "observation",
+          "drawing_index": 9,
+          "seqno": 24,
+          "subpath": 0,
+          "pdf_center": [
+            175.2165069580078,
+            126.40348815917969
+          ],
+          "pdf_bbox": [
+            173.84400939941406,
+            125.03298950195312,
+            176.58900451660156,
+            127.77398681640625
+          ],
+          "readout_delta_g": 0.008464991468315475,
+          "readout_delta_mg_g": 6.320775679569124e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:7",
+          "role": "observation",
+          "drawing_index": 10,
+          "seqno": 25,
+          "subpath": 0,
+          "pdf_center": [
+            182.06201171875,
+            131.7744598388672
+          ],
+          "pdf_bbox": [
+            180.6890106201172,
+            130.40396118164062,
+            183.4350128173828,
+            133.14495849609375
+          ],
+          "readout_delta_g": 0.011535546560196508,
+          "readout_delta_mg_g": 0.0006035170567741943
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:8",
+          "role": "observation",
+          "drawing_index": 11,
+          "seqno": 26,
+          "subpath": 0,
+          "pdf_center": [
+            188.7224884033203,
+            135.8035125732422
+          ],
+          "pdf_bbox": [
+            187.34999084472656,
+            134.43301391601562,
+            190.09498596191406,
+            137.17401123046875
+          ],
+          "readout_delta_g": 0.007665182913285662,
+          "readout_delta_mg_g": -0.00023405996191172562
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:9",
+          "role": "observation",
+          "drawing_index": 12,
+          "seqno": 27,
+          "subpath": 0,
+          "pdf_center": [
+            195.5699920654297,
+            138.48851013183594
+          ],
+          "pdf_bbox": [
+            194.19699096679688,
+            137.11801147460938,
+            196.9429931640625,
+            139.8590087890625
+          ],
+          "readout_delta_g": 0.014746892578443749,
+          "readout_delta_mg_g": 0.0003651666843182966
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:10",
+          "role": "observation",
+          "drawing_index": 13,
+          "seqno": 28,
+          "subpath": 0,
+          "pdf_center": [
+            202.78599548339844,
+            140.6374969482422
+          ],
+          "pdf_bbox": [
+            201.41299438476562,
+            139.26699829101562,
+            204.15899658203125,
+            142.00799560546875
+          ],
+          "readout_delta_g": 0.014800991122172036,
+          "readout_delta_mg_g": -4.682279109147203e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:11",
+          "role": "observation",
+          "drawing_index": 14,
+          "seqno": 29,
+          "subpath": 0,
+          "pdf_center": [
+            209.6320037841797,
+            142.78550720214844
+          ],
+          "pdf_bbox": [
+            208.25900268554688,
+            141.41500854492188,
+            211.0050048828125,
+            144.156005859375
+          ],
+          "readout_delta_g": 0.011401073702074882,
+          "readout_delta_mg_g": 0.00019933172598740612
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:12",
+          "role": "observation",
+          "drawing_index": 15,
+          "seqno": 30,
+          "subpath": 0,
+          "pdf_center": [
+            216.8489990234375,
+            143.85948181152344
+          ],
+          "pdf_bbox": [
+            215.4759979248047,
+            142.48898315429688,
+            218.2220001220703,
+            145.22998046875
+          ],
+          "readout_delta_g": 0.008407271843225317,
+          "readout_delta_mg_g": -9.452401571508062e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:13",
+          "role": "observation",
+          "drawing_index": 16,
+          "seqno": 31,
+          "subpath": 0,
+          "pdf_center": [
+            223.3260040283203,
+            144.9344940185547
+          ],
+          "pdf_bbox": [
+            221.9530029296875,
+            143.56399536132812,
+            224.69900512695312,
+            146.30499267578125
+          ],
+          "readout_delta_g": 0.008505438056545245,
+          "readout_delta_mg_g": 0.0007873422505788596
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:14",
+          "role": "observation",
+          "drawing_index": 17,
+          "seqno": 32,
+          "subpath": 0,
+          "pdf_center": [
+            230.72750854492188,
+            145.74046325683594
+          ],
+          "pdf_bbox": [
+            229.35400390625,
+            144.36996459960938,
+            232.10101318359375,
+            147.1109619140625
+          ],
+          "readout_delta_g": 0.008816072070203518,
+          "readout_delta_mg_g": 0.0009878784480576996
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:15",
+          "role": "observation",
+          "drawing_index": 18,
+          "seqno": 33,
+          "subpath": 0,
+          "pdf_center": [
+            238.1284942626953,
+            146.8144989013672
+          ],
+          "pdf_bbox": [
+            236.75599670410156,
+            145.44400024414062,
+            239.50099182128906,
+            148.18499755859375
+          ],
+          "readout_delta_g": 0.0054902232175209065,
+          "readout_delta_mg_g": 0.0005278887068342897
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:16",
+          "role": "observation",
+          "drawing_index": 19,
+          "seqno": 34,
+          "subpath": 0,
+          "pdf_center": [
+            245.7154998779297,
+            147.62046813964844
+          ],
+          "pdf_bbox": [
+            244.34300231933594,
+            146.24996948242188,
+            247.08799743652344,
+            148.990966796875
+          ],
+          "readout_delta_g": 0.016057392700986384,
+          "readout_delta_mg_g": -0.00027157509568453975
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:17",
+          "role": "observation",
+          "drawing_index": 20,
+          "seqno": 35,
+          "subpath": 0,
+          "pdf_center": [
+            253.1165008544922,
+            148.1575164794922
+          ],
+          "pdf_bbox": [
+            251.74400329589844,
+            146.78701782226562,
+            254.48899841308594,
+            149.52801513671875
+          ],
+          "readout_delta_g": 0.012838499226859312,
+          "readout_delta_mg_g": -8.463696606142435e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:18",
+          "role": "observation",
+          "drawing_index": 21,
+          "seqno": 36,
+          "subpath": 0,
+          "pdf_center": [
+            261.2580108642578,
+            148.69346618652344
+          ],
+          "pdf_bbox": [
+            259.885009765625,
+            147.32296752929688,
+            262.6310119628906,
+            150.06396484375
+          ],
+          "readout_delta_g": 0.010164120546960476,
+          "readout_delta_mg_g": 9.27131551122784e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:19",
+          "role": "observation",
+          "drawing_index": 22,
+          "seqno": 37,
+          "subpath": 0,
+          "pdf_center": [
+            268.6595153808594,
+            149.2314910888672
+          ],
+          "pdf_bbox": [
+            267.2870178222656,
+            147.86099243164062,
+            270.0320129394531,
+            150.60198974609375
+          ],
+          "readout_delta_g": 0.010474754560618749,
+          "readout_delta_mg_g": 0.0006215072922444165
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:20",
+          "role": "observation",
+          "drawing_index": 23,
+          "seqno": 38,
+          "subpath": 0,
+          "pdf_center": [
+            276.6160125732422,
+            149.7675018310547
+          ],
+          "pdf_bbox": [
+            275.2430114746094,
+            148.39700317382812,
+            277.989013671875,
+            151.13800048828125
+          ],
+          "readout_delta_g": 0.010966412520360791,
+          "readout_delta_mg_g": 0.0006327234138865379
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:21",
+          "role": "observation",
+          "drawing_index": 24,
+          "seqno": 39,
+          "subpath": 0,
+          "pdf_center": [
+            284.0179901123047,
+            150.03648376464844
+          ],
+          "pdf_bbox": [
+            282.6449890136719,
+            148.66598510742188,
+            285.3909912109375,
+            151.406982421875
+          ],
+          "readout_delta_g": 0.014592663265034389,
+          "readout_delta_mg_g": 0.0004801874822177865
+        },
+        {
+          "panel": "a",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:22",
+          "role": "observation",
+          "drawing_index": 25,
+          "seqno": 40,
+          "subpath": 0,
+          "pdf_center": [
+            291.23399353027344,
+            150.3054656982422
+          ],
+          "pdf_bbox": [
+            289.8609924316406,
+            148.93496704101562,
+            292.60699462890625,
+            151.67596435546875
+          ],
+          "readout_delta_g": 0.014646761808876363,
+          "readout_delta_mg_g": 0.0003276515505472588
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:23",
+          "role": "observation",
+          "drawing_index": 124,
+          "seqno": 155,
+          "subpath": 0,
+          "pdf_center": [
+            336.2204895019531,
+            75.41050720214844
+          ],
+          "pdf_bbox": [
+            334.8479919433594,
+            74.04000854492188,
+            337.5929870605469,
+            76.781005859375
+          ],
+          "readout_delta_g": 0.017609798851328406,
+          "readout_delta_mg_g": -0.00024771392489242317
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:24",
+          "role": "observation",
+          "drawing_index": 125,
+          "seqno": 156,
+          "subpath": 0,
+          "pdf_center": [
+            340.4215087890625,
+            97.70646667480469
+          ],
+          "pdf_bbox": [
+            339.04901123046875,
+            96.33596801757812,
+            341.79400634765625,
+            99.07696533203125
+          ],
+          "readout_delta_g": 0.014350675095492704,
+          "readout_delta_mg_g": 1.803442154368895e-05
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:25",
+          "role": "observation",
+          "drawing_index": 126,
+          "seqno": 157,
+          "subpath": 0,
+          "pdf_center": [
+            344.0749969482422,
+            124.81651306152344
+          ],
+          "pdf_bbox": [
+            342.7019958496094,
+            123.44601440429688,
+            345.447998046875,
+            126.18701171875
+          ],
+          "readout_delta_g": 0.013211707441826093,
+          "readout_delta_mg_g": 0.000471242930700555
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:26",
+          "role": "observation",
+          "drawing_index": 127,
+          "seqno": 158,
+          "subpath": 0,
+          "pdf_center": [
+            347.5455017089844,
+            136.9774627685547
+          ],
+          "pdf_bbox": [
+            346.1730041503906,
+            135.60696411132812,
+            348.9179992675781,
+            138.34796142578125
+          ],
+          "readout_delta_g": 0.009463841757778368,
+          "readout_delta_mg_g": 0.0014394770779162513
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:27",
+          "role": "observation",
+          "drawing_index": 128,
+          "seqno": 159,
+          "subpath": 0,
+          "pdf_center": [
+            352.2955017089844,
+            142.8054656982422
+          ],
+          "pdf_bbox": [
+            350.9230041503906,
+            141.43496704101562,
+            353.6679992675781,
+            144.17596435546875
+          ],
+          "readout_delta_g": 0.014245322849831155,
+          "readout_delta_mg_g": -0.00022010882997136605
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:28",
+          "role": "observation",
+          "drawing_index": 129,
+          "seqno": 160,
+          "subpath": 0,
+          "pdf_center": [
+            357.59300231933594,
+            146.3514862060547
+          ],
+          "pdf_bbox": [
+            356.2200012207031,
+            144.98098754882812,
+            358.96600341796875,
+            147.72198486328125
+          ],
+          "readout_delta_g": 0.01669273708290575,
+          "readout_delta_mg_g": 0.00042980192053931887
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:29",
+          "role": "observation",
+          "drawing_index": 130,
+          "seqno": 161,
+          "subpath": 0,
+          "pdf_center": [
+            364.3509979248047,
+            148.6324920654297
+          ],
+          "pdf_bbox": [
+            362.9779968261719,
+            147.26199340820312,
+            365.7239990234375,
+            150.00299072265625
+          ],
+          "readout_delta_g": 0.01637419692764297,
+          "readout_delta_mg_g": -0.00011075946594552022
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:30",
+          "role": "observation",
+          "drawing_index": 131,
+          "seqno": 162,
+          "subpath": 0,
+          "pdf_center": [
+            371.1094970703125,
+            150.1525115966797
+          ],
+          "pdf_bbox": [
+            369.73699951171875,
+            148.78201293945312,
+            372.48199462890625,
+            151.52301025390625
+          ],
+          "readout_delta_g": 0.01958518426027922,
+          "readout_delta_mg_g": 0.0010414897910120402
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:31",
+          "role": "observation",
+          "drawing_index": 132,
+          "seqno": 163,
+          "subpath": 0,
+          "pdf_center": [
+            378.2329864501953,
+            150.9134979248047
+          ],
+          "pdf_bbox": [
+            376.8599853515625,
+            149.54299926757812,
+            379.6059875488281,
+            152.28399658203125
+          ],
+          "readout_delta_g": 0.011168823434672959,
+          "readout_delta_mg_g": 0.0003486791475708628
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:32",
+          "role": "observation",
+          "drawing_index": 133,
+          "seqno": 164,
+          "subpath": 0,
+          "pdf_center": [
+            385.3575134277344,
+            151.16551208496094
+          ],
+          "pdf_bbox": [
+            383.9850158691406,
+            149.79501342773438,
+            386.7300109863281,
+            152.5360107421875
+          ],
+          "readout_delta_g": 0.020025428341682527,
+          "readout_delta_mg_g": 0.0007903205377877143
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:33",
+          "role": "observation",
+          "drawing_index": 134,
+          "seqno": 165,
+          "subpath": 0,
+          "pdf_center": [
+            392.1164855957031,
+            151.6735076904297
+          ],
+          "pdf_bbox": [
+            390.7439880371094,
+            150.30300903320312,
+            393.4889831542969,
+            153.04400634765625
+          ],
+          "readout_delta_g": 0.016552032405343198,
+          "readout_delta_mg_g": 0.00042480377604903197
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:34",
+          "role": "observation",
+          "drawing_index": 135,
+          "seqno": 166,
+          "subpath": 0,
+          "pdf_center": [
+            399.2410125732422,
+            151.92649841308594
+          ],
+          "pdf_bbox": [
+            397.8680114746094,
+            150.55599975585938,
+            400.614013671875,
+            153.2969970703125
+          ],
+          "readout_delta_g": 0.015408637312418705,
+          "readout_delta_mg_g": 9.750989434675894e-05
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:35",
+          "role": "observation",
+          "drawing_index": 136,
+          "seqno": 167,
+          "subpath": 1,
+          "pdf_center": [
+            406.1824951171875,
+            152.1794891357422
+          ],
+          "pdf_bbox": [
+            404.8089904785156,
+            150.80899047851562,
+            407.5559997558594,
+            153.54998779296875
+          ],
+          "readout_delta_g": 0.02122852267541475,
+          "readout_delta_mg_g": 0.0007702160126444868
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:36",
+          "role": "observation",
+          "drawing_index": 136,
+          "seqno": 167,
+          "subpath": 0,
+          "pdf_center": [
+            413.3064880371094,
+            152.1794891357422
+          ],
+          "pdf_bbox": [
+            411.9339904785156,
+            150.80899047851562,
+            414.6789855957031,
+            153.54998779296875
+          ],
+          "readout_delta_g": 0.016341689337764365,
+          "readout_delta_mg_g": 0.0007702160126444868
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:37",
+          "role": "observation",
+          "drawing_index": 137,
+          "seqno": 168,
+          "subpath": 0,
+          "pdf_center": [
+            420.6129913330078,
+            152.4335174560547
+          ],
+          "pdf_bbox": [
+            419.239990234375,
+            151.06301879882812,
+            421.9859924316406,
+            153.80401611328125
+          ],
+          "readout_delta_g": 0.020748137299165137,
+          "readout_delta_mg_g": 0.0005009284045275897
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:38",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 6,
+          "pdf_center": [
+            428.28399658203125,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            426.9119873046875,
+            151.31600952148438,
+            429.656005859375,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.02010466499314134,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:39",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 5,
+          "pdf_center": [
+            435.77349853515625,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            434.4010009765625,
+            151.31600952148438,
+            437.14599609375,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.0172269663634097,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:40",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 4,
+          "pdf_center": [
+            443.81048583984375,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            442.43798828125,
+            151.31600952148438,
+            445.1829833984375,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.021908245496319978,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:41",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 3,
+          "pdf_center": [
+            451.3004913330078,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            449.927978515625,
+            151.31600952148438,
+            452.6730041503906,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.02256007435448737,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:42",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 2,
+          "pdf_center": [
+            459.1554870605469,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            457.7829895019531,
+            151.31600952148438,
+            460.5279846191406,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.021584555054573684,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:43",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 1,
+          "pdf_center": [
+            466.4624938964844,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            465.0899963378906,
+            151.31600952148438,
+            467.8349914550781,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.029520530503987175,
+          "readout_delta_mg_g": 0.0001736345228254832
+        },
+        {
+          "panel": "b",
+          "row_id": "fig03_cylindrical_chamber_profiles.csv:data:44",
+          "role": "observation",
+          "drawing_index": 138,
+          "seqno": 169,
+          "subpath": 0,
+          "pdf_center": [
+            473.76849365234375,
+            152.68650817871094
+          ],
+          "pdf_bbox": [
+            472.39599609375,
+            151.31600952148438,
+            475.1409912109375,
+            154.0570068359375
+          ],
+          "readout_delta_g": 0.020397450977725384,
+          "readout_delta_mg_g": 0.0001736345228254832
+        }
+      ],
+      "classification_evidence": "All blue circular marks in selected Fig3 panels are data; no legend box or legend markers are present.",
+      "counts": {
+        "observation": 44,
+        "duplicate": 0,
+        "legend": 0
+      },
+      "max_coordinate_disagreement": {
+        "mass_g": 0.029520530503987175,
+        "concentration_mg_g": 0.0014394770779162513
+      }
+    },
+    "fig11": {
+      "printed_page": 233,
+      "pdf_page_index": 17,
+      "panels": [
+        "a",
+        "b"
+      ],
+      "visual_confirmation": true,
+      "axis_coordinates": {
+        "a": {
+          "x0": 155.871,
+          "x1000": 292.624,
+          "y0": 148.9869842529297,
+          "y200": 81.3709716796875
+        },
+        "b": {
+          "x0": 334.908,
+          "x1000": 471.661,
+          "y0": 148.9869842529297,
+          "y200": 81.3709716796875
+        }
+      },
+      "marker_objects": [
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:1",
+          "role": "duplicate",
+          "drawing_index": 0,
+          "seqno": 63,
+          "subpath": 0,
+          "pdf_center": [
+            158.88099670410156,
+            75.2604866027832
+          ],
+          "pdf_bbox": [
+            157.37799072265625,
+            73.7599868774414,
+            160.38400268554688,
+            76.760986328125
+          ],
+          "readout_delta_g": 0.010461957701497937,
+          "readout_delta_mg_g": 0.001076965971236632
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:2",
+          "role": "duplicate",
+          "drawing_index": 1,
+          "seqno": 64,
+          "subpath": 0,
+          "pdf_center": [
+            162.78199768066406,
+            87.61751937866211
+          ],
+          "pdf_bbox": [
+            161.27899169921875,
+            86.11602020263672,
+            164.28500366210938,
+            89.1190185546875
+          ],
+          "readout_delta_g": 0.016351529136848342,
+          "readout_delta_mg_g": 0.0014662286295106242
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:3",
+          "role": "duplicate",
+          "drawing_index": 2,
+          "seqno": 65,
+          "subpath": 0,
+          "pdf_center": [
+            166.68450927734375,
+            99.9744758605957
+          ],
+          "pdf_bbox": [
+            165.1820068359375,
+            98.4739761352539,
+            168.18701171875,
+            101.4749755859375
+          ],
+          "readout_delta_g": 0.013287440449119003,
+          "readout_delta_mg_g": 8.1159564842892e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:4",
+          "role": "duplicate",
+          "drawing_index": 3,
+          "seqno": 66,
+          "subpath": 0,
+          "pdf_center": [
+            169.8780059814453,
+            108.1295051574707
+          ],
+          "pdf_bbox": [
+            168.375,
+            106.6290054321289,
+            171.38101196289062,
+            109.6300048828125
+          ],
+          "readout_delta_g": 0.01558467781548245,
+          "readout_delta_mg_g": 0.0004892865113674816
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:5",
+          "role": "duplicate",
+          "drawing_index": 4,
+          "seqno": 67,
+          "subpath": 0,
+          "pdf_center": [
+            174.31199645996094,
+            115.54350662231445
+          ],
+          "pdf_bbox": [
+            172.80899047851562,
+            114.04300689697266,
+            175.81500244140625,
+            117.04400634765625
+          ],
+          "readout_delta_g": 0.008935379559687817,
+          "readout_delta_mg_g": 0.0007682553788583846
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:6",
+          "role": "duplicate",
+          "drawing_index": 5,
+          "seqno": 68,
+          "subpath": 0,
+          "pdf_center": [
+            179.45648956298828,
+            121.72146224975586
+          ],
+          "pdf_bbox": [
+            177.95298767089844,
+            120.21996307373047,
+            180.95999145507812,
+            123.22296142578125
+          ],
+          "readout_delta_g": 0.007803726340682715,
+          "readout_delta_mg_g": 0.002121548544749885
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:7",
+          "role": "legend",
+          "drawing_index": 36,
+          "seqno": 99,
+          "subpath": 0,
+          "pdf_center": [
+            181.83750915527344,
+            79.17398834228516
+          ],
+          "pdf_bbox": [
+            180.3350067138672,
+            77.67298889160156,
+            183.3400115966797,
+            80.67498779296875
+          ],
+          "readout_delta_g": 0.008899587383268681,
+          "readout_delta_mg_g": 0.00041140816330198504
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:8",
+          "role": "duplicate",
+          "drawing_index": 6,
+          "seqno": 69,
+          "subpath": 0,
+          "pdf_center": [
+            186.01900482177734,
+            126.66350173950195
+          ],
+          "pdf_bbox": [
+            184.51600646972656,
+            125.16300201416016,
+            187.52200317382812,
+            128.16400146484375
+          ],
+          "readout_delta_g": 0.01589363141818012,
+          "readout_delta_mg_g": 0.0011655299379498274
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:9",
+          "role": "duplicate",
+          "drawing_index": 7,
+          "seqno": 70,
+          "subpath": 0,
+          "pdf_center": [
+            192.40399169921875,
+            130.3724822998047
+          ],
+          "pdf_bbox": [
+            190.90098571777344,
+            128.87197875976562,
+            193.90699768066406,
+            131.87298583984375
+          ],
+          "readout_delta_g": 0.00581544257704536,
+          "readout_delta_mg_g": 0.0004489225806594277
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:10",
+          "role": "duplicate",
+          "drawing_index": 8,
+          "seqno": 71,
+          "subpath": 0,
+          "pdf_center": [
+            198.9669952392578,
+            132.8420181274414
+          ],
+          "pdf_bbox": [
+            197.4639892578125,
+            131.3410186767578,
+            200.47000122070312,
+            134.343017578125
+          ],
+          "readout_delta_g": 0.007475881756192848,
+          "readout_delta_mg_g": 0.0018601612670678946
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:11",
+          "role": "duplicate",
+          "drawing_index": 9,
+          "seqno": 72,
+          "subpath": 0,
+          "pdf_center": [
+            205.88400268554688,
+            134.8204803466797
+          ],
+          "pdf_bbox": [
+            204.38099670410156,
+            133.31997680664062,
+            207.3870086669922,
+            136.32098388671875
+          ],
+          "readout_delta_g": 0.007773544615929495,
+          "readout_delta_mg_g": 0.0008078324042912755
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:12",
+          "role": "duplicate",
+          "drawing_index": 10,
+          "seqno": 73,
+          "subpath": 0,
+          "pdf_center": [
+            212.44650268554688,
+            136.79747009277344
+          ],
+          "pdf_bbox": [
+            210.94400024414062,
+            135.29696655273438,
+            213.94900512695312,
+            138.2979736328125
+          ],
+          "readout_delta_g": 0.005751870502763268,
+          "readout_delta_mg_g": 0.0001109012897586581
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:13",
+          "role": "duplicate",
+          "drawing_index": 11,
+          "seqno": 74,
+          "subpath": 0,
+          "pdf_center": [
+            219.364501953125,
+            137.78550720214844
+          ],
+          "pdf_bbox": [
+            217.86199951171875,
+            136.28500366210938,
+            220.86700439453125,
+            139.2860107421875
+          ],
+          "readout_delta_g": 0.013302180756454618,
+          "readout_delta_mg_g": 0.0006164453951598148
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:14",
+          "role": "duplicate",
+          "drawing_index": 12,
+          "seqno": 75,
+          "subpath": 0,
+          "pdf_center": [
+            225.57300567626953,
+            138.77298736572266
+          ],
+          "pdf_bbox": [
+            224.07000732421875,
+            137.27198791503906,
+            227.0760040283203,
+            140.27398681640625
+          ],
+          "readout_delta_g": 0.012699072557893487,
+          "readout_delta_mg_g": 0.002769367923463051
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:15",
+          "role": "duplicate",
+          "drawing_index": 13,
+          "seqno": 76,
+          "subpath": 0,
+          "pdf_center": [
+            232.66699981689453,
+            139.5150146484375
+          ],
+          "pdf_bbox": [
+            231.16400146484375,
+            138.0150146484375,
+            234.1699981689453,
+            141.0150146484375
+          ],
+          "readout_delta_g": 0.00720376806737022,
+          "readout_delta_mg_g": 0.0019422715723642625
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:16",
+          "role": "duplicate",
+          "drawing_index": 14,
+          "seqno": 77,
+          "subpath": 0,
+          "pdf_center": [
+            239.7624969482422,
+            140.5024871826172
+          ],
+          "pdf_bbox": [
+            238.25999450683594,
+            139.00198364257812,
+            241.26499938964844,
+            142.00299072265625
+          ],
+          "readout_delta_g": 0.012699013858309627,
+          "readout_delta_mg_g": 0.0021177609283817844
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:17",
+          "role": "duplicate",
+          "drawing_index": 15,
+          "seqno": 78,
+          "subpath": 0,
+          "pdf_center": [
+            247.03399658203125,
+            141.24449157714844
+          ],
+          "pdf_bbox": [
+            245.53099060058594,
+            139.74398803710938,
+            248.53700256347656,
+            142.7449951171875
+          ],
+          "readout_delta_g": 0.005204434500342359,
+          "readout_delta_mg_g": 0.0003583650604106481
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:18",
+          "role": "duplicate",
+          "drawing_index": 16,
+          "seqno": 79,
+          "subpath": 0,
+          "pdf_center": [
+            254.12899780273438,
+            141.73948669433594
+          ],
+          "pdf_bbox": [
+            252.62599182128906,
+            140.23898315429688,
+            255.6320037841797,
+            143.239990234375
+          ],
+          "readout_delta_g": 0.007073356594332836,
+          "readout_delta_mg_g": 0.00022258316609224948
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:19",
+          "role": "duplicate",
+          "drawing_index": 17,
+          "seqno": 80,
+          "subpath": 0,
+          "pdf_center": [
+            261.9340057373047,
+            142.2324676513672
+          ],
+          "pdf_bbox": [
+            260.4309997558594,
+            140.73196411132812,
+            263.43701171875,
+            143.73297119140625
+          ],
+          "readout_delta_g": 0.01083360002826339,
+          "readout_delta_mg_g": 0.0020444437875006827
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:20",
+          "role": "duplicate",
+          "drawing_index": 18,
+          "seqno": 81,
+          "subpath": 0,
+          "pdf_center": [
+            269.0279998779297,
+            142.7280044555664
+          ],
+          "pdf_bbox": [
+            267.5249938964844,
+            141.2270050048828,
+            270.531005859375,
+            144.22900390625
+          ],
+          "readout_delta_g": 0.005338295537740123,
+          "readout_delta_mg_g": 0.0003064171256923487
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:21",
+          "role": "duplicate",
+          "drawing_index": 19,
+          "seqno": 82,
+          "subpath": 0,
+          "pdf_center": [
+            276.65501403808594,
+            143.22098541259766
+          ],
+          "pdf_bbox": [
+            275.1520080566406,
+            141.71998596191406,
+            278.15802001953125,
+            144.72198486328125
+          ],
+          "readout_delta_g": 0.007527279737246317,
+          "readout_delta_mg_g": 0.0011282777471031125
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:22",
+          "role": "duplicate",
+          "drawing_index": 20,
+          "seqno": 83,
+          "subpath": 0,
+          "pdf_center": [
+            283.74998474121094,
+            143.46849060058594
+          ],
+          "pdf_bbox": [
+            282.2469787597656,
+            141.96798706054688,
+            285.25299072265625,
+            144.968994140625
+          ],
+          "readout_delta_g": 0.009173043450005025,
+          "readout_delta_mg_g": 3.781997223128997e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:23",
+          "role": "duplicate",
+          "drawing_index": 21,
+          "seqno": 84,
+          "subpath": 0,
+          "pdf_center": [
+            290.66700744628906,
+            143.7164764404297
+          ],
+          "pdf_bbox": [
+            289.16400146484375,
+            142.21597290039062,
+            292.1700134277344,
+            145.21697998046875
+          ],
+          "readout_delta_g": 0.0095822855004144,
+          "readout_delta_mg_g": 0.0005256520515608543
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:24",
+          "role": "observation",
+          "drawing_index": 22,
+          "seqno": 85,
+          "subpath": 0,
+          "pdf_center": [
+            157.43299865722656,
+            116.88351440429688
+          ],
+          "pdf_bbox": [
+            156.13099670410156,
+            115.58905029296875,
+            158.73500061035156,
+            118.177978515625
+          ],
+          "readout_delta_g": 0.002043079322231023,
+          "readout_delta_mg_g": 0.00018705327553902862
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:25",
+          "role": "observation",
+          "drawing_index": 23,
+          "seqno": 86,
+          "subpath": 0,
+          "pdf_center": [
+            159.61500549316406,
+            125.37606811523438
+          ],
+          "pdf_bbox": [
+            158.31300354003906,
+            124.0811767578125,
+            160.91700744628906,
+            126.67095947265625
+          ],
+          "readout_delta_g": -0.002132654025487568,
+          "readout_delta_mg_g": 0.00023872228427990194
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:26",
+          "role": "observation",
+          "drawing_index": 24,
+          "seqno": 87,
+          "subpath": 0,
+          "pdf_center": [
+            162.16949462890625,
+            131.95950317382812
+          ],
+          "pdf_bbox": [
+            160.8679962158203,
+            130.6650390625,
+            163.4709930419922,
+            133.25396728515625
+          ],
+          "readout_delta_g": -0.002548763784055552,
+          "readout_delta_mg_g": 0.0002328230898314132
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:27",
+          "role": "observation",
+          "drawing_index": 25,
+          "seqno": 88,
+          "subpath": 0,
+          "pdf_center": [
+            164.7770538330078,
+            135.75503540039062
+          ],
+          "pdf_bbox": [
+            163.47500610351562,
+            134.4600830078125,
+            166.0791015625,
+            137.04998779296875
+          ],
+          "readout_delta_g": -0.004892448371862201,
+          "readout_delta_mg_g": -0.0004931612357026438
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:28",
+          "role": "observation",
+          "drawing_index": 26,
+          "seqno": 89,
+          "subpath": 0,
+          "pdf_center": [
+            167.330810546875,
+            138.337646484375
+          ],
+          "pdf_bbox": [
+            166.0290069580078,
+            137.04229736328125,
+            168.6326141357422,
+            139.63299560546875
+          ],
+          "readout_delta_g": -0.0006643592828652345,
+          "readout_delta_mg_g": 0.000455123944913538
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:29",
+          "role": "observation",
+          "drawing_index": 27,
+          "seqno": 90,
+          "subpath": 0,
+          "pdf_center": [
+            170.2574920654297,
+            140.162109375
+          ],
+          "pdf_bbox": [
+            168.95599365234375,
+            138.86724853515625,
+            171.55899047851562,
+            141.45697021484375
+          ],
+          "readout_delta_g": 0.000559149924868052,
+          "readout_delta_mg_g": -8.578756987986935e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:30",
+          "role": "observation",
+          "drawing_index": 28,
+          "seqno": 91,
+          "subpath": 0,
+          "pdf_center": [
+            173.07679748535156,
+            141.33609008789062
+          ],
+          "pdf_bbox": [
+            171.77499389648438,
+            140.04119873046875,
+            174.37860107421875,
+            142.6309814453125
+          ],
+          "readout_delta_g": -0.003400105653611263,
+          "readout_delta_mg_g": 0.0004210315612880322
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:31",
+          "role": "observation",
+          "drawing_index": 29,
+          "seqno": 92,
+          "subpath": 0,
+          "pdf_center": [
+            175.9770050048828,
+            142.53152465820312
+          ],
+          "pdf_bbox": [
+            174.6750030517578,
+            141.237060546875,
+            177.2790069580078,
+            143.82598876953125
+          ],
+          "readout_delta_g": -0.005766492268520551,
+          "readout_delta_mg_g": 0.00046993116891869136
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:32",
+          "role": "observation",
+          "drawing_index": 30,
+          "seqno": 93,
+          "subpath": 0,
+          "pdf_center": [
+            178.90375518798828,
+            143.23007202148438
+          ],
+          "pdf_bbox": [
+            177.6020050048828,
+            141.9351806640625,
+            180.20550537109375,
+            144.52496337890625
+          ],
+          "readout_delta_g": -0.004040876702759988,
+          "readout_delta_mg_g": 0.00025118594321327237
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:33",
+          "role": "legend",
+          "drawing_index": 38,
+          "seqno": 103,
+          "subpath": 0,
+          "pdf_center": [
+            181.86174774169922,
+            94.28152465820312
+          ],
+          "pdf_bbox": [
+            180.55999755859375,
+            92.987060546875,
+            183.1634979248047,
+            95.57598876953125
+          ],
+          "readout_delta_g": -0.003856868228069743,
+          "readout_delta_mg_g": 0.00014334539227434107
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:34",
+          "role": "observation",
+          "drawing_index": 31,
+          "seqno": 94,
+          "subpath": 0,
+          "pdf_center": [
+            182.0435562133789,
+            143.82308959960938
+          ],
+          "pdf_bbox": [
+            180.74200439453125,
+            142.5281982421875,
+            183.34510803222656,
+            145.11798095703125
+          ],
+          "readout_delta_g": -0.004390811324810784,
+          "readout_delta_mg_g": 0.00017680161704980435
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:35",
+          "role": "observation",
+          "drawing_index": 32,
+          "seqno": 95,
+          "subpath": 0,
+          "pdf_center": [
+            185.26274871826172,
+            144.49801635742188
+          ],
+          "pdf_bbox": [
+            183.96099853515625,
+            143.20306396484375,
+            186.5644989013672,
+            145.79296875
+          ],
+          "readout_delta_g": -0.0041942168602986385,
+          "readout_delta_mg_g": -0.00017504501517962012
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:36",
+          "role": "observation",
+          "drawing_index": 33,
+          "seqno": 96,
+          "subpath": 0,
+          "pdf_center": [
+            188.2689971923828,
+            144.91006469726562
+          ],
+          "pdf_bbox": [
+            186.9669952392578,
+            143.6151123046875,
+            189.5709991455078,
+            146.20501708984375
+          ],
+          "readout_delta_g": -0.0011410178730955067,
+          "readout_delta_mg_g": 3.572396527218302e-05
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:37",
+          "role": "observation",
+          "drawing_index": 34,
+          "seqno": 97,
+          "subpath": 0,
+          "pdf_center": [
+            191.88774871826172,
+            145.30911254882812
+          ],
+          "pdf_bbox": [
+            190.58599853515625,
+            144.01422119140625,
+            193.1894989013672,
+            146.60400390625
+          ],
+          "readout_delta_g": 0.0008124740350012871,
+          "readout_delta_mg_g": -0.0002996326346114131
+        },
+        {
+          "panel": "a",
+          "row_id": "fig11_bed_mass_comparison.csv:data:38",
+          "role": "observation",
+          "drawing_index": 35,
+          "seqno": 98,
+          "subpath": 0,
+          "pdf_center": [
+            195.23904418945312,
+            145.75051879882812
+          ],
+          "pdf_bbox": [
+            193.93699645996094,
+            144.4560546875,
+            196.5410919189453,
+            147.04498291015625
+          ],
+          "readout_delta_g": -0.002994088223942981,
+          "readout_delta_mg_g": 7.398331363539512e-05
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:39",
+          "role": "duplicate",
+          "drawing_index": 141,
+          "seqno": 224,
+          "subpath": 0,
+          "pdf_center": [
+            337.87998962402344,
+            75.0779800415039
+          ],
+          "pdf_bbox": [
+            336.3769836425781,
+            73.57698059082031,
+            339.38299560546875,
+            76.5789794921875
+          ],
+          "readout_delta_g": 0.01253693903185038,
+          "readout_delta_mg_g": 0.0019093350616401494
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:40",
+          "role": "duplicate",
+          "drawing_index": 142,
+          "seqno": 225,
+          "subpath": 0,
+          "pdf_center": [
+            341.90699768066406,
+            96.45146560668945
+          ],
+          "pdf_bbox": [
+            340.40399169921875,
+            94.95096588134766,
+            343.4100036621094,
+            97.95196533203125
+          ],
+          "readout_delta_g": 0.019847467068714764,
+          "readout_delta_mg_g": 0.0007200580508879284
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:41",
+          "role": "duplicate",
+          "drawing_index": 143,
+          "seqno": 226,
+          "subpath": 0,
+          "pdf_center": [
+            345.4090118408203,
+            122.4379653930664
+          ],
+          "pdf_bbox": [
+            343.906005859375,
+            120.93696594238281,
+            346.9120178222656,
+            123.93896484375
+          ],
+          "readout_delta_g": 0.01816436071089811,
+          "readout_delta_mg_g": 0.0007917743010210643
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:42",
+          "role": "duplicate",
+          "drawing_index": 144,
+          "seqno": 227,
+          "subpath": 0,
+          "pdf_center": [
+            348.7344970703125,
+            134.09598541259766
+          ],
+          "pdf_bbox": [
+            347.2309875488281,
+            132.59498596191406,
+            350.2380065917969,
+            135.59698486328125
+          ],
+          "readout_delta_g": 0.0056215974237261435,
+          "readout_delta_mg_g": 0.0017763586753574145
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:43",
+          "role": "duplicate",
+          "drawing_index": 145,
+          "seqno": 228,
+          "subpath": 0,
+          "pdf_center": [
+            353.2880096435547,
+            139.68247985839844
+          ],
+          "pdf_bbox": [
+            351.7850036621094,
+            138.18197631835938,
+            354.791015625,
+            141.1829833984375
+          ],
+          "readout_delta_g": 0.012972099732195375,
+          "readout_delta_mg_g": 0.0006004033143440779
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:44",
+          "role": "duplicate",
+          "drawing_index": 146,
+          "seqno": 229,
+          "subpath": 0,
+          "pdf_center": [
+            358.36651611328125,
+            143.0820083618164
+          ],
+          "pdf_bbox": [
+            356.8630065917969,
+            141.5810089111328,
+            359.8700256347656,
+            144.5830078125
+          ],
+          "readout_delta_g": 0.009316236435324754,
+          "readout_delta_mg_g": 0.00020561133197816162
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:45",
+          "role": "legend",
+          "drawing_index": 168,
+          "seqno": 251,
+          "subpath": 0,
+          "pdf_center": [
+            359.5070037841797,
+            80.8635139465332
+          ],
+          "pdf_bbox": [
+            358.0039978027344,
+            79.3630142211914,
+            361.010009765625,
+            82.364013671875
+          ],
+          "readout_delta_g": 0.009079685123339232,
+          "readout_delta_mg_g": -1.3050396603375702e-06
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:46",
+          "role": "duplicate",
+          "drawing_index": 147,
+          "seqno": 230,
+          "subpath": 0,
+          "pdf_center": [
+            364.84498596191406,
+            145.2675018310547
+          ],
+          "pdf_bbox": [
+            363.34197998046875,
+            143.76699829101562,
+            366.3479919433594,
+            146.76800537109375
+          ],
+          "readout_delta_g": 0.012827959269998246,
+          "readout_delta_mg_g": 0.0017798457015718583
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:47",
+          "role": "duplicate",
+          "drawing_index": 148,
+          "seqno": 231,
+          "subpath": 0,
+          "pdf_center": [
+            371.323486328125,
+            146.72447204589844
+          ],
+          "pdf_bbox": [
+            369.8199768066406,
+            145.22396850585938,
+            372.8269958496094,
+            148.2249755859375
+          ],
+          "readout_delta_g": 0.006562840486083132,
+          "readout_delta_mg_g": 0.0012378913736714736
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:48",
+          "role": "duplicate",
+          "drawing_index": 149,
+          "seqno": 232,
+          "subpath": 0,
+          "pdf_center": [
+            378.15199279785156,
+            147.45347595214844
+          ],
+          "pdf_bbox": [
+            376.64898681640625,
+            145.95297241210938,
+            379.6549987792969,
+            148.9539794921875
+          ],
+          "readout_delta_g": 0.01970119742566112,
+          "readout_delta_mg_g": -6.763007463028714e-05
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:49",
+          "role": "duplicate",
+          "drawing_index": 150,
+          "seqno": 233,
+          "subpath": 0,
+          "pdf_center": [
+            384.98150634765625,
+            147.69749450683594
+          ],
+          "pdf_bbox": [
+            383.4779968261719,
+            146.19699096679688,
+            386.4850158691406,
+            149.197998046875
+          ],
+          "readout_delta_g": 0.010203780949893826,
+          "readout_delta_mg_g": 0.00015495241445862007
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:50",
+          "role": "duplicate",
+          "drawing_index": 151,
+          "seqno": 234,
+          "subpath": 0,
+          "pdf_center": [
+            391.46051025390625,
+            148.1829605102539
+          ],
+          "pdf_bbox": [
+            389.9580078125,
+            146.6819610595703,
+            392.9630126953125,
+            149.6839599609375
+          ],
+          "readout_delta_g": 0.017620775458283333,
+          "readout_delta_mg_g": 0.0002051383312688948
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:51",
+          "role": "duplicate",
+          "drawing_index": 152,
+          "seqno": 235,
+          "subpath": 0,
+          "pdf_center": [
+            398.2899932861328,
+            148.4254608154297
+          ],
+          "pdf_bbox": [
+            396.7869873046875,
+            146.92495727539062,
+            399.7929992675781,
+            149.92596435546875
+          ],
+          "readout_delta_g": 0.017900200601104643,
+          "readout_delta_mg_g": 0.0009185195348615505
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:52",
+          "role": "duplicate",
+          "drawing_index": 153,
+          "seqno": 236,
+          "subpath": 1,
+          "pdf_center": [
+            404.9429931640625,
+            148.66746520996094
+          ],
+          "pdf_bbox": [
+            403.44000244140625,
+            147.16696166992188,
+            406.44598388671875,
+            150.16796875
+          ],
+          "readout_delta_g": 0.01765470638667921,
+          "readout_delta_mg_g": 0.001098744539673957
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:53",
+          "role": "duplicate",
+          "drawing_index": 153,
+          "seqno": 236,
+          "subpath": 0,
+          "pdf_center": [
+            411.77198791503906,
+            148.66746520996094
+          ],
+          "pdf_bbox": [
+            410.26898193359375,
+            147.16696166992188,
+            413.2749938964844,
+            150.16796875
+          ],
+          "readout_delta_g": 0.014363597427859531,
+          "readout_delta_mg_g": 0.001098744539673957
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:54",
+          "role": "duplicate",
+          "drawing_index": 154,
+          "seqno": 237,
+          "subpath": 0,
+          "pdf_center": [
+            418.77601623535156,
+            148.9100112915039
+          ],
+          "pdf_bbox": [
+            417.27301025390625,
+            147.4090118408203,
+            420.2790222167969,
+            150.4110107421875
+          ],
+          "readout_delta_g": 0.01099738471236833,
+          "readout_delta_mg_g": 0.0016767247770002602
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:55",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 5,
+          "pdf_center": [
+            426.1315002441406,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            424.6289978027344,
+            147.65298461914062,
+            427.6340026855469,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.017634670834468125,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:56",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 4,
+          "pdf_center": [
+            433.3090057373047,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            431.8059997558594,
+            147.65298461914062,
+            434.81201171875,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.0128122769131096,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:57",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 3,
+          "pdf_center": [
+            441.0144958496094,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            439.5119934082031,
+            147.65298461914062,
+            442.5169982910156,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.008853038758729781,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:58",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 2,
+          "pdf_center": [
+            448.1929931640625,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            446.69000244140625,
+            147.65298461914062,
+            449.69598388671875,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.011283292231269115,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:59",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 1,
+          "pdf_center": [
+            455.72300720214844,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            454.2200012207031,
+            147.65298461914062,
+            457.22601318359375,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.01416336130421314,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:60",
+          "role": "duplicate",
+          "drawing_index": 155,
+          "seqno": 238,
+          "subpath": 0,
+          "pdf_center": [
+            462.7259979248047,
+            149.1534881591797
+          ],
+          "pdf_bbox": [
+            461.2229919433594,
+            147.65298461914062,
+            464.22900390625,
+            150.65399169921875
+          ],
+          "readout_delta_g": 0.01320976362262627,
+          "readout_delta_mg_g": 0.002501552033575827
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:61",
+          "role": "duplicate",
+          "drawing_index": 156,
+          "seqno": 239,
+          "subpath": 0,
+          "pdf_center": [
+            469.72999572753906,
+            149.1525115966797
+          ],
+          "pdf_bbox": [
+            468.22698974609375,
+            147.65200805664062,
+            471.2330017089844,
+            150.65301513671875
+          ],
+          "readout_delta_g": 0.01962039252566683,
+          "readout_delta_mg_g": 0.0013901059805929705
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:62",
+          "role": "observation",
+          "drawing_index": 157,
+          "seqno": 240,
+          "subpath": 0,
+          "pdf_center": [
+            336.5220031738281,
+            116.98849487304688
+          ],
+          "pdf_bbox": [
+            335.2200012207031,
+            115.69403076171875,
+            337.8240051269531,
+            118.282958984375
+          ],
+          "readout_delta_g": 0.00232370644965485,
+          "readout_delta_mg_g": -0.0003324960287898193
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:63",
+          "role": "observation",
+          "drawing_index": 158,
+          "seqno": 241,
+          "subpath": 0,
+          "pdf_center": [
+            338.6889953613281,
+            131.47750854492188
+          ],
+          "pdf_bbox": [
+            337.3869934082031,
+            130.18304443359375,
+            339.9909973144531,
+            132.77197265625
+          ],
+          "readout_delta_g": -0.001645950523130324,
+          "readout_delta_mg_g": -8.526943550890564e-05
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:64",
+          "role": "observation",
+          "drawing_index": 159,
+          "seqno": 242,
+          "subpath": 0,
+          "pdf_center": [
+            341.2264862060547,
+            141.65011596679688
+          ],
+          "pdf_bbox": [
+            339.92498779296875,
+            140.355224609375,
+            342.5279846191406,
+            142.94500732421875
+          ],
+          "readout_delta_g": 0.0036387213053643563,
+          "readout_delta_mg_g": -0.000429597026414541
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:65",
+          "role": "observation",
+          "drawing_index": 160,
+          "seqno": 243,
+          "subpath": 0,
+          "pdf_center": [
+            343.822998046875,
+            145.34957885742188
+          ],
+          "pdf_bbox": [
+            342.52099609375,
+            144.05517578125,
+            345.125,
+            146.64398193359375
+          ],
+          "readout_delta_g": 0.0005117026682057713,
+          "readout_delta_mg_g": 5.913185864514503e-06
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:66",
+          "role": "observation",
+          "drawing_index": 161,
+          "seqno": 244,
+          "subpath": 0,
+          "pdf_center": [
+            346.4209899902344,
+            146.88949584960938
+          ],
+          "pdf_bbox": [
+            345.1189880371094,
+            145.59503173828125,
+            347.7229919433594,
+            148.1839599609375
+          ],
+          "readout_delta_g": -0.0017921344733906608,
+          "readout_delta_mg_g": 0.0001174079831960384
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:67",
+          "role": "observation",
+          "drawing_index": 162,
+          "seqno": 245,
+          "subpath": 0,
+          "pdf_center": [
+            349.2799987792969,
+            147.66110229492188
+          ],
+          "pdf_bbox": [
+            347.9779968261719,
+            146.3662109375,
+            350.5820007324219,
+            148.95599365234375
+          ],
+          "readout_delta_g": 0.0045776640867956075,
+          "readout_delta_mg_g": -0.00020127940373093622
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:68",
+          "role": "observation",
+          "drawing_index": 163,
+          "seqno": 246,
+          "subpath": 0,
+          "pdf_center": [
+            352.0880126953125,
+            148.12301635742188
+          ],
+          "pdf_bbox": [
+            350.7860107421875,
+            146.82806396484375,
+            353.3900146484375,
+            149.41796875
+          ],
+          "readout_delta_g": -0.0019501925918348206,
+          "readout_delta_mg_g": -0.00048729634284239154
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:69",
+          "role": "observation",
+          "drawing_index": 164,
+          "seqno": 247,
+          "subpath": 0,
+          "pdf_center": [
+            354.9989929199219,
+            148.58657836914062
+          ],
+          "pdf_bbox": [
+            353.6969909667969,
+            147.29217529296875,
+            356.3009948730469,
+            149.8809814453125
+          ],
+          "readout_delta_g": 0.0044583294104256765,
+          "readout_delta_mg_g": 0.0003522519324539175
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:70",
+          "role": "observation",
+          "drawing_index": 165,
+          "seqno": 248,
+          "subpath": 1,
+          "pdf_center": [
+            358.0150146484375,
+            148.74007415771484
+          ],
+          "pdf_bbox": [
+            356.7140197753906,
+            147.44517517089844,
+            359.3160095214844,
+            150.03497314453125
+          ],
+          "readout_delta_g": -0.0010219999745118002,
+          "readout_delta_mg_g": 0.0003302452134066325
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:71",
+          "role": "legend",
+          "drawing_index": 170,
+          "seqno": 255,
+          "subpath": 0,
+          "pdf_center": [
+            359.53050231933594,
+            95.97109985351562
+          ],
+          "pdf_bbox": [
+            358.2279968261719,
+            94.67620849609375,
+            360.8330078125,
+            97.2659912109375
+          ],
+          "readout_delta_g": 0.0009116387641938672,
+          "readout_delta_mg_g": -0.00041605219075790956
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:72",
+          "role": "observation",
+          "drawing_index": 165,
+          "seqno": 248,
+          "subpath": 0,
+          "pdf_center": [
+            361.0830078125,
+            148.74007415771484
+          ],
+          "pdf_bbox": [
+            359.781005859375,
+            147.44517517089844,
+            362.385009765625,
+            150.03497314453125
+          ],
+          "readout_delta_g": 0.0035363940826584894,
+          "readout_delta_mg_g": 0.0003302452134066325
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:73",
+          "role": "observation",
+          "drawing_index": 166,
+          "seqno": 249,
+          "subpath": 0,
+          "pdf_center": [
+            364.3054962158203,
+            149.04812622070312
+          ],
+          "pdf_bbox": [
+            363.0039978027344,
+            147.75323486328125,
+            365.60699462890625,
+            150.343017578125
+          ],
+          "readout_delta_g": -0.0021659062667538365,
+          "readout_delta_mg_g": 0.00014944272347308662
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:74",
+          "role": "observation",
+          "drawing_index": 167,
+          "seqno": 250,
+          "subpath": 2,
+          "pdf_center": [
+            367.27049255371094,
+            149.20152282714844
+          ],
+          "pdf_bbox": [
+            365.968994140625,
+            147.90707397460938,
+            368.5719909667969,
+            150.4959716796875
+          ],
+          "readout_delta_g": -0.0007670492718432342,
+          "readout_delta_mg_g": 0.0004208047646697688
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:75",
+          "role": "observation",
+          "drawing_index": 167,
+          "seqno": 250,
+          "subpath": 1,
+          "pdf_center": [
+            370.9624938964844,
+            149.20152282714844
+          ],
+          "pdf_bbox": [
+            369.6600036621094,
+            147.90707397460938,
+            372.2649841308594,
+            150.4959716796875
+          ],
+          "readout_delta_g": -0.003177652524129826,
+          "readout_delta_mg_g": 0.0004208047646697688
+        },
+        {
+          "panel": "b",
+          "row_id": "fig11_bed_mass_comparison.csv:data:76",
+          "role": "observation",
+          "drawing_index": 167,
+          "seqno": 250,
+          "subpath": 0,
+          "pdf_center": [
+            374.237548828125,
+            149.20152282714844
+          ],
+          "pdf_bbox": [
+            372.9350891113281,
+            147.90707397460938,
+            375.5400085449219,
+            150.4959716796875
+          ],
+          "readout_delta_g": -0.004489640995188893,
+          "readout_delta_mg_g": 0.0004208047646697688
+        }
+      ],
+      "classification_evidence": "Four markers sit inside rounded legend boxes immediately before the 60g and 12.5g labels. They are visually and structurally distinct from the descending data series; classification uses no model residual.",
+      "counts": {
+        "observation": 28,
+        "duplicate": 44,
+        "legend": 4
+      },
+      "max_coordinate_disagreement": {
+        "mass_g": 0.019847467068714764,
+        "concentration_mg_g": 0.002769367923463051
+      }
+    }
+  },
+  "additional_source_checks": {
+    "fig7": {
+      "printed_page": 226,
+      "pdf_page_index": 10,
+      "visual_inspection": "Native axes kg and kg/m3; stars are duplicated measurements and solid blue curves fitted model references; no legend-marker contamination in selected JK panel. Not a target."
+    },
+    "table1": {
+      "printed_page": 224,
+      "rho_kg_m3": 965.3,
+      "csat_kg_m3": 212.4,
+      "phi_c0": 0.143435,
+      "phi_dry_from_section_5_1": 0.56
+    },
+    "table2_and_equations": {
+      "printed_page": 225,
+      "uniform_JK_startup": "csat",
+      "linear_profile_origin": "source Cimbali policy; conditional sensitivity only when applied to JK",
+      "printed_exchange_sign": "Eq59 prints -alpha*(ch-cv). The task explicitly uses +alpha*(ch-cv) in the internal mass balance, opposite Eq57 mobile exchange, as required by conservation and existing conservative batch implementation. Not an author-confirmed erratum."
+    },
+    "appendix_G3": {
+      "printed_page": 232,
+      "scope": "reported changed bed geometry and flow; source-conditioned inputs, not prediction successes"
+    }
+  }
+}
