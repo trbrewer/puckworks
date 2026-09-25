@@ -2,10 +2,14 @@
 
 The original CSVs and README manifest are preserved. The task-local
 [qualified view](../../../docs/analysis/sci_md_moroney_transfer_001/qualified_rows.csv)
-flags four apparent legend symbols in Figure 11: one-based data rows 7, 33, 45,
-71. Their removal from scientific scoring is **pending original-PDF object and
-visual confirmation**; it is not a residual-based correction. Do not describe
-this notice as confirmed page-233 inspection.
+excludes four confirmed legend symbols in Figure 11: one-based data rows 7, 33,
+45, 71. Their classification is now confirmed against the original PDF, printed
+page 233, by vector-object matching and visual inspection. The objects are inside
+the legend boxes before the series labels; this is not residual screening.
+See the task's source_objects.json for the PDF hash, tick anchors and exact
+object/row mapping. Selected Fig3 panels contain no analogous contamination.
+The filename retains the historical pending notice identity; this paragraph
+supersedes its earlier pending status. Original source CSVs remain unchanged.
 
 `MEASURED` in README_manifest.csv refers to plotted-coordinate extraction. It
 does not establish that every plotted object is an observation, that model lines

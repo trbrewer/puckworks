@@ -1,0 +1,16 @@
+{
+  "protocol_freeze_sha256": "39ff2ff62c77879bfd5640217406f4b85c2c9e683f3bf5129e27c3c22b6ba067",
+  "files": {
+    "calibration.json": "99d1701cf007ffc79acbd13720681e1f6889e512e2e4612ee1a385d9337e075c",
+    "numerics.json": "546a8449d47f7b0e456006537030706f4f4a9d28b95a48fcb9c06f692708ece9",
+    "predictions.json": "303a393558fafc628c24cc69a4eae7db3f1db8661e9d0ee625bd911533e49a05"
+  },
+  "review_sha256": "fcfc0017b3ca011a66b3e104af849f5937f9b164d87dab8fe8e73426f315db81",
+  "elapsed_s": 1512.7286573145539,
+  "environment": {
+    "python": "3.12.3",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "target_concentrations_attached": false
+}

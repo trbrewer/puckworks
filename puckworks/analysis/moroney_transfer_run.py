@@ -207,7 +207,12 @@ def predict(review,out):
         variants=[('empirical',None)]+[(f['id'],{k:v for k,v in f.items() if k!='id'}) for f in cfg['families']]
         for label,family in variants:
             key=perturb['id']+'/'+label
+            print(json.dumps({'phase':'calibration_started','family':key}),flush=True)
             fits[key]=calibrate(tr,cfg,family)
+            write_json(out/'calibration.json',fits)  # retain completed work before final freeze
+            print(json.dumps({'phase':'calibration_completed','family':key,
+                  'selected':fits[key]['selected'],'elapsed_s':fits[key].get('elapsed_s'),
+                  'cost':fits[key].get('cost',{})}),flush=True)
             if fits[key]['selected'] is None: continue
             for r in fits[key]['records']:
                 if r['start'] not in fits[key]['admitted']: continue

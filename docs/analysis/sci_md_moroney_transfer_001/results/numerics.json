@@ -1,0 +1,2762 @@
+{
+  "central/dose_uniform_0/0/deep": {
+    "balance_relative": 3.2550849770073006e-11,
+    "minimum_mass_kg": -2.912654945298989e-13,
+    "solver_calls": 4,
+    "nfev": 8423,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024674726689978,
+        "outlet_max_mg_g": 0.494684866751669,
+        "delivery_max_ey_pp": 0.00850042449924519
+      },
+      {
+        "outlet_rmse_mg_g": 0.008052351050623885,
+        "outlet_max_mg_g": 0.1922058177544841,
+        "delivery_max_ey_pp": 0.0028357302162489934
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014605779846433545,
+        "outlet_max_mg_g": 0.0036222676140766907,
+        "delivery_max_ey_pp": 1.2776552325381257e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0/0/shallow": {
+    "balance_relative": 7.7664618783294e-11,
+    "minimum_mass_kg": -9.245802305788529e-14,
+    "solver_calls": 4,
+    "nfev": 6443,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.009909114108084288,
+        "outlet_max_mg_g": 0.7432386205053092,
+        "delivery_max_ey_pp": 0.006655461801289657
+      },
+      {
+        "outlet_rmse_mg_g": 0.002398256348147363,
+        "outlet_max_mg_g": 0.2916819859999151,
+        "delivery_max_ey_pp": 0.002223058904921027
+      },
+      {
+        "outlet_rmse_mg_g": 7.115906638550705e-05,
+        "outlet_max_mg_g": 0.005921973905593347,
+        "delivery_max_ey_pp": 2.1876879855812582e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0/1/deep": {
+    "balance_relative": 3.164528397649456e-11,
+    "minimum_mass_kg": -6.764818716913386e-14,
+    "solver_calls": 4,
+    "nfev": 7989,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.02467409165240182,
+        "outlet_max_mg_g": 0.49547537926534346,
+        "delivery_max_ey_pp": 0.008498582421384572
+      },
+      {
+        "outlet_rmse_mg_g": 0.00817911259261459,
+        "outlet_max_mg_g": 0.19250411607973206,
+        "delivery_max_ey_pp": 0.0028364711652332604
+      },
+      {
+        "outlet_rmse_mg_g": 0.00013907985427001336,
+        "outlet_max_mg_g": 0.0036078482327468464,
+        "delivery_max_ey_pp": 1.2840723222372497e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0/1/shallow": {
+    "balance_relative": 4.489729056315846e-11,
+    "minimum_mass_kg": -3.754660956484705e-14,
+    "solver_calls": 4,
+    "nfev": 6382,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.009897835849397687,
+        "outlet_max_mg_g": 0.7427831940218255,
+        "delivery_max_ey_pp": 0.006650786568190847
+      },
+      {
+        "outlet_rmse_mg_g": 0.0023950230274055045,
+        "outlet_max_mg_g": 0.2915041321308678,
+        "delivery_max_ey_pp": 0.0022214727658953493
+      },
+      {
+        "outlet_rmse_mg_g": 8.86932886921526e-05,
+        "outlet_max_mg_g": 0.005926604686884218,
+        "delivery_max_ey_pp": 2.8294428052374105e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0.5/0/deep": {
+    "balance_relative": 4.582336600845842e-14,
+    "minimum_mass_kg": -7.88932981182101e-14,
+    "solver_calls": 4,
+    "nfev": 9015,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025053997828708357,
+        "outlet_max_mg_g": 1.3423371949296552,
+        "delivery_max_ey_pp": 0.00876969354873494
+      },
+      {
+        "outlet_rmse_mg_g": 0.008537342288088147,
+        "outlet_max_mg_g": 0.4763333104671972,
+        "delivery_max_ey_pp": 0.0029235468441104724
+      },
+      {
+        "outlet_rmse_mg_g": 0.0003686639112508625,
+        "outlet_max_mg_g": 0.019539486150904395,
+        "delivery_max_ey_pp": 1.070755618738496e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0.5/0/shallow": {
+    "balance_relative": 7.982134724054049e-14,
+    "minimum_mass_kg": -2.556153000848221e-13,
+    "solver_calls": 4,
+    "nfev": 7409,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.22823933781464584,
+        "outlet_max_mg_g": 6.630901890914544,
+        "delivery_max_ey_pp": 0.06277689424534216
+      },
+      {
+        "outlet_rmse_mg_g": 0.02087046617486756,
+        "outlet_max_mg_g": 3.4064489117949677,
+        "delivery_max_ey_pp": 0.025245895224625576
+      },
+      {
+        "outlet_rmse_mg_g": 0.00012795580656458857,
+        "outlet_max_mg_g": 0.0544921505711784,
+        "delivery_max_ey_pp": 4.669247575990927e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0.5/1/deep": {
+    "balance_relative": 7.11370802953891e-14,
+    "minimum_mass_kg": -7.924872380405472e-14,
+    "solver_calls": 4,
+    "nfev": 8783,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025054438382037234,
+        "outlet_max_mg_g": 1.342123928047215,
+        "delivery_max_ey_pp": 0.00876978900072076
+      },
+      {
+        "outlet_rmse_mg_g": 0.008540091501964636,
+        "outlet_max_mg_g": 0.47625625453949283,
+        "delivery_max_ey_pp": 0.0029235726161184568
+      },
+      {
+        "outlet_rmse_mg_g": 0.00036262126943018116,
+        "outlet_max_mg_g": 0.019528178650574546,
+        "delivery_max_ey_pp": 1.0675439316493792e-05
+      }
+    ]
+  },
+  "central/dose_uniform_0.5/1/shallow": {
+    "balance_relative": 6.38570777924324e-14,
+    "minimum_mass_kg": -2.4892489213222184e-13,
+    "solver_calls": 4,
+    "nfev": 7427,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.22823333045004682,
+        "outlet_max_mg_g": 6.630725506279035,
+        "delivery_max_ey_pp": 0.06277566415427613
+      },
+      {
+        "outlet_rmse_mg_g": 0.020871334749790273,
+        "outlet_max_mg_g": 3.406353106682147,
+        "delivery_max_ey_pp": 0.025245386460800063
+      },
+      {
+        "outlet_rmse_mg_g": 0.00012167820503699894,
+        "outlet_max_mg_g": 0.05449545810886036,
+        "delivery_max_ey_pp": 4.669069735470839e-05
+      }
+    ]
+  },
+  "central/dose_uniform_1/0/deep": {
+    "balance_relative": 8.647312617725219e-14,
+    "minimum_mass_kg": -9.3090874140212e-14,
+    "solver_calls": 4,
+    "nfev": 9846,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025286613026709134,
+        "outlet_max_mg_g": 2.5872025968844525,
+        "delivery_max_ey_pp": 0.009082728213106864
+      },
+      {
+        "outlet_rmse_mg_g": 0.00831771866322634,
+        "outlet_max_mg_g": 0.9466050995387434,
+        "delivery_max_ey_pp": 0.0030296428141692497
+      },
+      {
+        "outlet_rmse_mg_g": 0.00018485923621963316,
+        "outlet_max_mg_g": 0.022529248214880226,
+        "delivery_max_ey_pp": 1.0697044583452e-05
+      }
+    ]
+  },
+  "central/dose_uniform_1/0/shallow": {
+    "balance_relative": 7.804753952408403e-14,
+    "minimum_mass_kg": -2.7957404539588353e-13,
+    "solver_calls": 4,
+    "nfev": 7793,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.5713528380152265,
+        "outlet_max_mg_g": 16.553249061153878,
+        "delivery_max_ey_pp": 0.14545073460952757
+      },
+      {
+        "outlet_rmse_mg_g": 0.051445767961467916,
+        "outlet_max_mg_g": 8.67998173070535,
+        "delivery_max_ey_pp": 0.058827438683813536
+      },
+      {
+        "outlet_rmse_mg_g": 0.000110202122525432,
+        "outlet_max_mg_g": 0.05382398953456402,
+        "delivery_max_ey_pp": 6.389101467145034e-05
+      }
+    ]
+  },
+  "central/dose_uniform_1/1/deep": {
+    "balance_relative": 5.321423149369365e-14,
+    "minimum_mass_kg": -1.626131819061766e-13,
+    "solver_calls": 4,
+    "nfev": 9510,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025241582838369768,
+        "outlet_max_mg_g": 2.584394260319982,
+        "delivery_max_ey_pp": 0.009083426766784728
+      },
+      {
+        "outlet_rmse_mg_g": 0.008451581413712847,
+        "outlet_max_mg_g": 0.9455574780268137,
+        "delivery_max_ey_pp": 0.0030296254204747403
+      },
+      {
+        "outlet_rmse_mg_g": 0.00021256527251622045,
+        "outlet_max_mg_g": 0.022519434347884726,
+        "delivery_max_ey_pp": 8.05661182829493e-06
+      }
+    ]
+  },
+  "central/dose_uniform_1/1/shallow": {
+    "balance_relative": 8.1816880921554e-14,
+    "minimum_mass_kg": -2.785876495821736e-13,
+    "solver_calls": 4,
+    "nfev": 7839,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.571300715218923,
+        "outlet_max_mg_g": 16.551735028466545,
+        "delivery_max_ey_pp": 0.1454393219707047
+      },
+      {
+        "outlet_rmse_mg_g": 0.05155181553799802,
+        "outlet_max_mg_g": 8.6787687408072,
+        "delivery_max_ey_pp": 0.05882312770549477
+      },
+      {
+        "outlet_rmse_mg_g": 0.00010897622670645008,
+        "outlet_max_mg_g": 0.05384544545769643,
+        "delivery_max_ey_pp": 6.376352505258845e-05
+      }
+    ]
+  },
+  "central/dose_linear_0.5/0/deep": {
+    "balance_relative": 4.619290928272018e-15,
+    "minimum_mass_kg": -2.6876909894598637e-13,
+    "solver_calls": 4,
+    "nfev": 8452,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024444929332655244,
+        "outlet_max_mg_g": 0.450793976502581,
+        "delivery_max_ey_pp": 0.008783062269294522
+      },
+      {
+        "outlet_rmse_mg_g": 0.008033689488498903,
+        "outlet_max_mg_g": 0.17380484311084388,
+        "delivery_max_ey_pp": 0.002927916715652253
+      },
+      {
+        "outlet_rmse_mg_g": 0.0005813464857025212,
+        "outlet_max_mg_g": 0.006863117989801992,
+        "delivery_max_ey_pp": 1.0663391000445247e-05
+      }
+    ]
+  },
+  "central/dose_linear_0.5/0/shallow": {
+    "balance_relative": 1.9290158916463952e-14,
+    "minimum_mass_kg": -5.274558048867617e-14,
+    "solver_calls": 4,
+    "nfev": 5948,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006502354200734904,
+        "outlet_max_mg_g": 0.2161340029584835,
+        "delivery_max_ey_pp": 0.0067350765243519755
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020198726174026804,
+        "outlet_max_mg_g": 0.08585443467342202,
+        "delivery_max_ey_pp": 0.0022478283274488904
+      },
+      {
+        "outlet_rmse_mg_g": 8.69155584201389e-05,
+        "outlet_max_mg_g": 0.006195022322593502,
+        "delivery_max_ey_pp": 6.017881901317542e-05
+      }
+    ]
+  },
+  "central/dose_linear_0.5/1/deep": {
+    "balance_relative": 3.880204379748496e-15,
+    "minimum_mass_kg": -2.698547437867854e-13,
+    "solver_calls": 4,
+    "nfev": 8519,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.02444490530211302,
+        "outlet_max_mg_g": 0.4508029644851774,
+        "delivery_max_ey_pp": 0.00878304004773351
+      },
+      {
+        "outlet_rmse_mg_g": 0.008034310852448635,
+        "outlet_max_mg_g": 0.17380838885532057,
+        "delivery_max_ey_pp": 0.0029279098284824066
+      },
+      {
+        "outlet_rmse_mg_g": 0.0005752290969358843,
+        "outlet_max_mg_g": 0.006802504172785717,
+        "delivery_max_ey_pp": 1.065654619177477e-05
+      }
+    ]
+  },
+  "central/dose_linear_0.5/1/shallow": {
+    "balance_relative": 9.534216475953448e-15,
+    "minimum_mass_kg": -5.275100134284394e-14,
+    "solver_calls": 4,
+    "nfev": 5948,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006502214080829167,
+        "outlet_max_mg_g": 0.21612183546795904,
+        "delivery_max_ey_pp": 0.0067350048880273254
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020198395053435854,
+        "outlet_max_mg_g": 0.08584952308241611,
+        "delivery_max_ey_pp": 0.002247804389317783
+      },
+      {
+        "outlet_rmse_mg_g": 8.689960170710735e-05,
+        "outlet_max_mg_g": 0.006194795505656714,
+        "delivery_max_ey_pp": 6.017953353050961e-05
+      }
+    ]
+  },
+  "central/dose_linear_1/0/deep": {
+    "balance_relative": 1.0347211679329323e-14,
+    "minimum_mass_kg": -1.9812524213720951e-13,
+    "solver_calls": 4,
+    "nfev": 8538,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0250720505966207,
+        "outlet_max_mg_g": 0.40220214601529847,
+        "delivery_max_ey_pp": 0.009108223537992085
+      },
+      {
+        "outlet_rmse_mg_g": 0.009009875458046261,
+        "outlet_max_mg_g": 0.1521541221607663,
+        "delivery_max_ey_pp": 0.003036327128755654
+      },
+      {
+        "outlet_rmse_mg_g": 0.0006322652387088566,
+        "outlet_max_mg_g": 0.006683652240308646,
+        "delivery_max_ey_pp": 8.288771302039028e-06
+      }
+    ]
+  },
+  "central/dose_linear_1/0/shallow": {
+    "balance_relative": 1.2860105944309304e-14,
+    "minimum_mass_kg": -1.7192179209901812e-13,
+    "solver_calls": 4,
+    "nfev": 6003,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.005951206670458379,
+        "outlet_max_mg_g": 0.3974784075089133,
+        "delivery_max_ey_pp": 0.009633201323468638
+      },
+      {
+        "outlet_rmse_mg_g": 0.0017277786424709377,
+        "outlet_max_mg_g": 0.15941511198369085,
+        "delivery_max_ey_pp": 0.0032247587686680865
+      },
+      {
+        "outlet_rmse_mg_g": 0.00011274141158287927,
+        "outlet_max_mg_g": 0.006214273586373054,
+        "delivery_max_ey_pp": 7.013066149659983e-05
+      }
+    ]
+  },
+  "central/dose_linear_1/1/deep": {
+    "balance_relative": 4.98883420253378e-15,
+    "minimum_mass_kg": -1.9812769395650848e-13,
+    "solver_calls": 4,
+    "nfev": 8444,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025072075182749256,
+        "outlet_max_mg_g": 0.4022009774951414,
+        "delivery_max_ey_pp": 0.009108227233622307
+      },
+      {
+        "outlet_rmse_mg_g": 0.009009900219456355,
+        "outlet_max_mg_g": 0.1521536820564222,
+        "delivery_max_ey_pp": 0.0030363283097338085
+      },
+      {
+        "outlet_rmse_mg_g": 0.0006311088758121343,
+        "outlet_max_mg_g": 0.0066835589755598335,
+        "delivery_max_ey_pp": 8.26163425634204e-06
+      }
+    ]
+  },
+  "central/dose_linear_1/1/shallow": {
+    "balance_relative": 2.1950870491148635e-14,
+    "minimum_mass_kg": -1.7189805626264264e-13,
+    "solver_calls": 4,
+    "nfev": 6003,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0059512085677710805,
+        "outlet_max_mg_g": 0.39747544252838907,
+        "delivery_max_ey_pp": 0.00963319077960656
+      },
+      {
+        "outlet_rmse_mg_g": 0.0017277826340057363,
+        "outlet_max_mg_g": 0.15941392998217907,
+        "delivery_max_ey_pp": 0.0032247551691807117
+      },
+      {
+        "outlet_rmse_mg_g": 0.0001127414455149543,
+        "outlet_max_mg_g": 0.006214247633188563,
+        "delivery_max_ey_pp": 7.013072781392182e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0/0/deep": {
+    "balance_relative": 1.1099971329000531e-11,
+    "minimum_mass_kg": -1.962681700666157e-13,
+    "solver_calls": 4,
+    "nfev": 7926,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.07468081414053632,
+        "outlet_max_mg_g": 0.5877581354805557,
+        "delivery_max_ey_pp": 0.009040705078051783
+      },
+      {
+        "outlet_rmse_mg_g": 0.02887796864679495,
+        "outlet_max_mg_g": 0.23121957794180048,
+        "delivery_max_ey_pp": 0.003018089705924481
+      },
+      {
+        "outlet_rmse_mg_g": 0.0003248397874307936,
+        "outlet_max_mg_g": 0.003481598696879473,
+        "delivery_max_ey_pp": 8.025634724696652e-06
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0/0/shallow": {
+    "balance_relative": 8.610661315783938e-11,
+    "minimum_mass_kg": -4.814056337706878e-14,
+    "solver_calls": 4,
+    "nfev": 5963,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004513201947170607,
+        "outlet_max_mg_g": 0.11832305215453687,
+        "delivery_max_ey_pp": 0.004669405562255738
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012801691646344587,
+        "outlet_max_mg_g": 0.02068898425213206,
+        "delivery_max_ey_pp": 0.0015078365451800155
+      },
+      {
+        "outlet_rmse_mg_g": 9.91550664224894e-05,
+        "outlet_max_mg_g": 0.00898724966813802,
+        "delivery_max_ey_pp": 6.54322931337159e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0/1/deep": {
+    "balance_relative": 1.1704174582418514e-11,
+    "minimum_mass_kg": -3.2769337007791626e-13,
+    "solver_calls": 4,
+    "nfev": 8523,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.07468834614252692,
+        "outlet_max_mg_g": 0.5878308558136212,
+        "delivery_max_ey_pp": 0.009040369463093119
+      },
+      {
+        "outlet_rmse_mg_g": 0.028881415696206968,
+        "outlet_max_mg_g": 0.23124814392065218,
+        "delivery_max_ey_pp": 0.0030179768988891635
+      },
+      {
+        "outlet_rmse_mg_g": 0.0003274241954766644,
+        "outlet_max_mg_g": 0.0034807735900130865,
+        "delivery_max_ey_pp": 7.698268245093233e-06
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0/1/shallow": {
+    "balance_relative": 6.068661822523104e-11,
+    "minimum_mass_kg": -9.881432325960411e-14,
+    "solver_calls": 4,
+    "nfev": 6015,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004512381750450961,
+        "outlet_max_mg_g": 0.11831498813087649,
+        "delivery_max_ey_pp": 0.004669002420134202
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012800786962302107,
+        "outlet_max_mg_g": 0.020687519195533355,
+        "delivery_max_ey_pp": 0.0015077027844997057
+      },
+      {
+        "outlet_rmse_mg_g": 0.00010195045344568618,
+        "outlet_max_mg_g": 0.008987492103159411,
+        "delivery_max_ey_pp": 6.543820004386211e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0.5/0/deep": {
+    "balance_relative": 7.982134724054048e-14,
+    "minimum_mass_kg": -1.323037279655491e-13,
+    "solver_calls": 4,
+    "nfev": 9663,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.051512651574667966,
+        "outlet_max_mg_g": 2.3615268534363736,
+        "delivery_max_ey_pp": 0.009291134886173997
+      },
+      {
+        "outlet_rmse_mg_g": 0.042725681776861646,
+        "outlet_max_mg_g": 1.1019703380131034,
+        "delivery_max_ey_pp": 0.0030989680674140298
+      },
+      {
+        "outlet_rmse_mg_g": 0.002307329401639344,
+        "outlet_max_mg_g": 0.018760657208531484,
+        "delivery_max_ey_pp": 1.041324832535335e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0.5/0/shallow": {
+    "balance_relative": 6.962195287091586e-14,
+    "minimum_mass_kg": -3.4420824114826514e-14,
+    "solver_calls": 4,
+    "nfev": 6791,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.003853439385998892,
+        "outlet_max_mg_g": 5.127907490228495,
+        "delivery_max_ey_pp": 0.006031878819772371
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012515884663836852,
+        "outlet_max_mg_g": 1.2552898519811038,
+        "delivery_max_ey_pp": 0.0016137785953551642
+      },
+      {
+        "outlet_rmse_mg_g": 6.07129274763979e-05,
+        "outlet_max_mg_g": 0.012872549320945836,
+        "delivery_max_ey_pp": 4.0153674507603654e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0.5/1/deep": {
+    "balance_relative": 5.820306569622745e-14,
+    "minimum_mass_kg": -1.7038516864449326e-12,
+    "solver_calls": 4,
+    "nfev": 9725,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.05150042082333084,
+        "outlet_max_mg_g": 2.3612338122508447,
+        "delivery_max_ey_pp": 0.009291225240441275
+      },
+      {
+        "outlet_rmse_mg_g": 0.04277534807632614,
+        "outlet_max_mg_g": 1.102135153385575,
+        "delivery_max_ey_pp": 0.003098339999664986
+      },
+      {
+        "outlet_rmse_mg_g": 0.0023066198911608515,
+        "outlet_max_mg_g": 0.018754273573762248,
+        "delivery_max_ey_pp": 1.0495519138971806e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_0.5/1/shallow": {
+    "balance_relative": 9.578561668864859e-14,
+    "minimum_mass_kg": -3.4410164821018906e-14,
+    "solver_calls": 4,
+    "nfev": 6803,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0038535810570885422,
+        "outlet_max_mg_g": 5.127754545957657,
+        "delivery_max_ey_pp": 0.0060319660580177015
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012516234178884791,
+        "outlet_max_mg_g": 1.255251703853503,
+        "delivery_max_ey_pp": 0.001613848269443885
+      },
+      {
+        "outlet_rmse_mg_g": 5.873179757415033e-05,
+        "outlet_max_mg_g": 0.012879954306981745,
+        "delivery_max_ey_pp": 4.014700601221814e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_1/0/deep": {
+    "balance_relative": 4.804062565402901e-14,
+    "minimum_mass_kg": -1.8926927444350634e-13,
+    "solver_calls": 4,
+    "nfev": 10028,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.20620061153278593,
+        "outlet_max_mg_g": 4.943044092816564,
+        "delivery_max_ey_pp": 0.010454290712160383
+      },
+      {
+        "outlet_rmse_mg_g": 0.1352058406858681,
+        "outlet_max_mg_g": 2.3803924707780197,
+        "delivery_max_ey_pp": 0.00409801922394056
+      },
+      {
+        "outlet_rmse_mg_g": 0.0025147003323848574,
+        "outlet_max_mg_g": 0.020320930129997805,
+        "delivery_max_ey_pp": 9.612073131264826e-06
+      }
+    ]
+  },
+  "central/hydraulic_uniform_1/0/shallow": {
+    "balance_relative": 6.629606340256001e-14,
+    "minimum_mass_kg": -2.569181345269337e-13,
+    "solver_calls": 4,
+    "nfev": 7281,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037747261155846997,
+        "outlet_max_mg_g": 11.217804260277518,
+        "delivery_max_ey_pp": 0.011642884924606411
+      },
+      {
+        "outlet_rmse_mg_g": 0.001253849121573306,
+        "outlet_max_mg_g": 2.769078877177634,
+        "delivery_max_ey_pp": 0.0018845317073098073
+      },
+      {
+        "outlet_rmse_mg_g": 5.055060874033432e-05,
+        "outlet_max_mg_g": 0.013793038700981697,
+        "delivery_max_ey_pp": 1.5004861534754591e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_1/1/deep": {
+    "balance_relative": 8.813607091143014e-14,
+    "minimum_mass_kg": -1.857228236355883e-13,
+    "solver_calls": 4,
+    "nfev": 9851,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.2061800792437809,
+        "outlet_max_mg_g": 4.9431978255554725,
+        "delivery_max_ey_pp": 0.010454976878083846
+      },
+      {
+        "outlet_rmse_mg_g": 0.1351542625504545,
+        "outlet_max_mg_g": 2.3804857603078062,
+        "delivery_max_ey_pp": 0.004098126796599674
+      },
+      {
+        "outlet_rmse_mg_g": 0.0024770309573840426,
+        "outlet_max_mg_g": 0.020269188466187416,
+        "delivery_max_ey_pp": 1.1688505820635816e-05
+      }
+    ]
+  },
+  "central/hydraulic_uniform_1/1/shallow": {
+    "balance_relative": 7.272611637471467e-14,
+    "minimum_mass_kg": -2.5675357388404125e-13,
+    "solver_calls": 4,
+    "nfev": 7295,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037746335421617937,
+        "outlet_max_mg_g": 11.217940134169936,
+        "delivery_max_ey_pp": 0.011643023803705372
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012537869273495695,
+        "outlet_max_mg_g": 2.7691122016270526,
+        "delivery_max_ey_pp": 0.0018845056717490631
+      },
+      {
+        "outlet_rmse_mg_g": 5.0111316236300454e-05,
+        "outlet_max_mg_g": 0.013787018279316499,
+        "delivery_max_ey_pp": 1.4897701150484721e-05
+      }
+    ]
+  },
+  "central/hydraulic_linear_0.5/0/deep": {
+    "balance_relative": 9.42335349367492e-15,
+    "minimum_mass_kg": -2.7205771737062564e-13,
+    "solver_calls": 4,
+    "nfev": 8425,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06923543685848273,
+        "outlet_max_mg_g": 0.5404200237429393,
+        "delivery_max_ey_pp": 0.009407668889389723
+      },
+      {
+        "outlet_rmse_mg_g": 0.02651093906233473,
+        "outlet_max_mg_g": 0.2110687930564552,
+        "delivery_max_ey_pp": 0.003140067158519728
+      },
+      {
+        "outlet_rmse_mg_g": 0.0001905572421716053,
+        "outlet_max_mg_g": 0.0035848677422904984,
+        "delivery_max_ey_pp": 8.743700140466537e-06
+      }
+    ]
+  },
+  "central/hydraulic_linear_0.5/0/shallow": {
+    "balance_relative": 9.53421647595345e-15,
+    "minimum_mass_kg": -4.082794267449741e-14,
+    "solver_calls": 4,
+    "nfev": 6556,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.003937612588036544,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.004798333061439841
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020462625076189114,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.001599671284067498
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014808509309101666,
+        "outlet_max_mg_g": 0.008773312723377558,
+        "delivery_max_ey_pp": 7.01414330783745e-05
+      }
+    ]
+  },
+  "central/hydraulic_linear_0.5/1/deep": {
+    "balance_relative": 6.2822356624499465e-15,
+    "minimum_mass_kg": -2.710371491345466e-13,
+    "solver_calls": 4,
+    "nfev": 8484,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06923610757895288,
+        "outlet_max_mg_g": 0.5404259179928488,
+        "delivery_max_ey_pp": 0.009407652041129281
+      },
+      {
+        "outlet_rmse_mg_g": 0.026511034792220108,
+        "outlet_max_mg_g": 0.2110710837044394,
+        "delivery_max_ey_pp": 0.0031400580518814447
+      },
+      {
+        "outlet_rmse_mg_g": 0.00019062072418247138,
+        "outlet_max_mg_g": 0.003585368100402775,
+        "delivery_max_ey_pp": 8.742435334305497e-06
+      }
+    ]
+  },
+  "central/hydraulic_linear_0.5/1/shallow": {
+    "balance_relative": 1.1973202086081076e-14,
+    "minimum_mass_kg": -4.0833436769233334e-14,
+    "solver_calls": 4,
+    "nfev": 6556,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0039375893044915665,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.004798293596095885
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020462267790659072,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.0015996580069344013
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014808021216230443,
+        "outlet_max_mg_g": 0.008770454997090837,
+        "delivery_max_ey_pp": 7.014207659694627e-05
+      }
+    ]
+  },
+  "central/hydraulic_linear_1/0/deep": {
+    "balance_relative": 1.4042644421946938e-14,
+    "minimum_mass_kg": -2.9151565223472916e-13,
+    "solver_calls": 4,
+    "nfev": 8328,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06310544769890958,
+        "outlet_max_mg_g": 0.4860081353670296,
+        "delivery_max_ey_pp": 0.009833876193382498
+      },
+      {
+        "outlet_rmse_mg_g": 0.023889752034523006,
+        "outlet_max_mg_g": 0.18821877375424378,
+        "delivery_max_ey_pp": 0.003281966506800559
+      },
+      {
+        "outlet_rmse_mg_g": 0.00019889250137191856,
+        "outlet_max_mg_g": 0.0030824959806921015,
+        "delivery_max_ey_pp": 9.923690557572191e-06
+      }
+    ]
+  },
+  "central/hydraulic_linear_1/0/shallow": {
+    "balance_relative": 1.3747009802537529e-14,
+    "minimum_mass_kg": -4.517278809172332e-14,
+    "solver_calls": 4,
+    "nfev": 5564,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004594018588046117,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.005931479268240595
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020355880766305843,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.00199316287476566
+      },
+      {
+        "outlet_rmse_mg_g": 0.0013770751825359904,
+        "outlet_max_mg_g": 0.008649359690252822,
+        "delivery_max_ey_pp": 6.032897318560456e-05
+      }
+    ]
+  },
+  "central/hydraulic_linear_1/1/deep": {
+    "balance_relative": 2.494417101266891e-14,
+    "minimum_mass_kg": -2.915526726629029e-13,
+    "solver_calls": 4,
+    "nfev": 8369,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0631054870875388,
+        "outlet_max_mg_g": 0.4860084826999298,
+        "delivery_max_ey_pp": 0.009833874841744559
+      },
+      {
+        "outlet_rmse_mg_g": 0.023889761561565834,
+        "outlet_max_mg_g": 0.188218905397747,
+        "delivery_max_ey_pp": 0.003281965900313476
+      },
+      {
+        "outlet_rmse_mg_g": 0.00020245927859817022,
+        "outlet_max_mg_g": 0.003082611621863407,
+        "delivery_max_ey_pp": 9.957177378912737e-06
+      }
+    ]
+  },
+  "central/hydraulic_linear_1/1/shallow": {
+    "balance_relative": 1.1308024192409903e-14,
+    "minimum_mass_kg": -4.517362901932748e-14,
+    "solver_calls": 4,
+    "nfev": 5564,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004594020482554143,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.005931481380251161
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020355944688850414,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.0019931636181312147
+      },
+      {
+        "outlet_rmse_mg_g": 0.0013770850856580788,
+        "outlet_max_mg_g": 0.008649296091846281,
+        "delivery_max_ey_pp": 6.032895429145905e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0/0/deep": {
+    "balance_relative": 1.984040885183972e-11,
+    "minimum_mass_kg": -9.168636487855172e-14,
+    "solver_calls": 4,
+    "nfev": 8443,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0249587823689021,
+        "outlet_max_mg_g": 0.5417871485570629,
+        "delivery_max_ey_pp": 0.008305621159276912
+      },
+      {
+        "outlet_rmse_mg_g": 0.008395312645858511,
+        "outlet_max_mg_g": 0.21128174680245593,
+        "delivery_max_ey_pp": 0.0027682983067483452
+      },
+      {
+        "outlet_rmse_mg_g": 0.000422838839956875,
+        "outlet_max_mg_g": 0.004462473795825872,
+        "delivery_max_ey_pp": 1.0665595511710142e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0/0/shallow": {
+    "balance_relative": 1.7927076376752988e-10,
+    "minimum_mass_kg": -1.1196369685361339e-13,
+    "solver_calls": 4,
+    "nfev": 6061,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.009866039826394312,
+        "outlet_max_mg_g": 0.7197121758163689,
+        "delivery_max_ey_pp": 0.0063829771220991205
+      },
+      {
+        "outlet_rmse_mg_g": 0.002275305320960582,
+        "outlet_max_mg_g": 0.28394843564714733,
+        "delivery_max_ey_pp": 0.002131926851406396
+      },
+      {
+        "outlet_rmse_mg_g": 9.003305380399588e-05,
+        "outlet_max_mg_g": 0.006106974175828839,
+        "delivery_max_ey_pp": 2.5141717019394605e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0/1/deep": {
+    "balance_relative": 5.765928276815127e-11,
+    "minimum_mass_kg": -1.1483319459237514e-13,
+    "solver_calls": 4,
+    "nfev": 8035,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024974772165799065,
+        "outlet_max_mg_g": 0.541524024341129,
+        "delivery_max_ey_pp": 0.008306548631844794
+      },
+      {
+        "outlet_rmse_mg_g": 0.008406225739668314,
+        "outlet_max_mg_g": 0.21117818256982446,
+        "delivery_max_ey_pp": 0.002768677775911228
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004368543452440806,
+        "outlet_max_mg_g": 0.0044605946315527945,
+        "delivery_max_ey_pp": 1.065376089509012e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0/1/shallow": {
+    "balance_relative": 1.2820550032232326e-10,
+    "minimum_mass_kg": -7.254661139209279e-14,
+    "solver_calls": 4,
+    "nfev": 6130,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.009871643922384744,
+        "outlet_max_mg_g": 0.7199459342567991,
+        "delivery_max_ey_pp": 0.006385215225244527
+      },
+      {
+        "outlet_rmse_mg_g": 0.0022769319083155073,
+        "outlet_max_mg_g": 0.28403920009562,
+        "delivery_max_ey_pp": 0.0021326779917026544
+      },
+      {
+        "outlet_rmse_mg_g": 9.316323923798964e-05,
+        "outlet_max_mg_g": 0.006106069657121793,
+        "delivery_max_ey_pp": 2.483945334234387e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0.5/0/deep": {
+    "balance_relative": 5.3399003130824555e-14,
+    "minimum_mass_kg": -1.9664711637072375e-13,
+    "solver_calls": 4,
+    "nfev": 8980,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024804469499090126,
+        "outlet_max_mg_g": 1.5407472626033325,
+        "delivery_max_ey_pp": 0.008593193114312763
+      },
+      {
+        "outlet_rmse_mg_g": 0.008295228713915095,
+        "outlet_max_mg_g": 0.5483817075980255,
+        "delivery_max_ey_pp": 0.0028666617595109038
+      },
+      {
+        "outlet_rmse_mg_g": 0.00022240440716124024,
+        "outlet_max_mg_g": 0.01944156897064886,
+        "delivery_max_ey_pp": 8.40584336704432e-06
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0.5/0/shallow": {
+    "balance_relative": 8.979901564560807e-14,
+    "minimum_mass_kg": -9.287480642223575e-14,
+    "solver_calls": 4,
+    "nfev": 7411,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.2615730118026083,
+        "outlet_max_mg_g": 6.807190460073102,
+        "delivery_max_ey_pp": 0.06402581637697433
+      },
+      {
+        "outlet_rmse_mg_g": 0.026097856693399896,
+        "outlet_max_mg_g": 3.50407966539035,
+        "delivery_max_ey_pp": 0.025761028965922323
+      },
+      {
+        "outlet_rmse_mg_g": 0.00015892782103800134,
+        "outlet_max_mg_g": 0.05518931625113055,
+        "delivery_max_ey_pp": 5.4401263636464727e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0.5/1/deep": {
+    "balance_relative": 7.889748905488608e-14,
+    "minimum_mass_kg": -1.9738699133541358e-13,
+    "solver_calls": 4,
+    "nfev": 8919,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024806284863873387,
+        "outlet_max_mg_g": 1.541823868727647,
+        "delivery_max_ey_pp": 0.00859273329055653
+      },
+      {
+        "outlet_rmse_mg_g": 0.008307921508081031,
+        "outlet_max_mg_g": 0.5487758605196404,
+        "delivery_max_ey_pp": 0.0028665267971147066
+      },
+      {
+        "outlet_rmse_mg_g": 0.0002198645470268923,
+        "outlet_max_mg_g": 0.019438928745529438,
+        "delivery_max_ey_pp": 9.108526840181005e-06
+      }
+    ]
+  },
+  "readout_low/dose_uniform_0.5/1/shallow": {
+    "balance_relative": 8.602967424813809e-14,
+    "minimum_mass_kg": -9.282927895025278e-14,
+    "solver_calls": 4,
+    "nfev": 7292,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.2616021400970842,
+        "outlet_max_mg_g": 6.807954605308197,
+        "delivery_max_ey_pp": 0.06403104115634459
+      },
+      {
+        "outlet_rmse_mg_g": 0.026100647519083572,
+        "outlet_max_mg_g": 3.5045181925631823,
+        "delivery_max_ey_pp": 0.025763200764502187
+      },
+      {
+        "outlet_rmse_mg_g": 0.00016100038539129148,
+        "outlet_max_mg_g": 0.05519418879703153,
+        "delivery_max_ey_pp": 5.426132070514752e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_1/0/deep": {
+    "balance_relative": 7.575637122366111e-14,
+    "minimum_mass_kg": -2.430884765948274e-13,
+    "solver_calls": 4,
+    "nfev": 9513,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025306981286331222,
+        "outlet_max_mg_g": 2.903185566904085,
+        "delivery_max_ey_pp": 0.008919352362039988
+      },
+      {
+        "outlet_rmse_mg_g": 0.00876105676423771,
+        "outlet_max_mg_g": 1.0640058178399556,
+        "delivery_max_ey_pp": 0.00297463186207319
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004734105075777102,
+        "outlet_max_mg_g": 0.02288910646086606,
+        "delivery_max_ey_pp": 8.679607804090101e-06
+      }
+    ]
+  },
+  "readout_low/dose_uniform_1/0/shallow": {
+    "balance_relative": 8.203860688611105e-14,
+    "minimum_mass_kg": -1.851225122671979e-13,
+    "solver_calls": 4,
+    "nfev": 7690,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.6480021382087569,
+        "outlet_max_mg_g": 16.827954259107536,
+        "delivery_max_ey_pp": 0.1474690073119696
+      },
+      {
+        "outlet_rmse_mg_g": 0.06400513051510463,
+        "outlet_max_mg_g": 8.82420731317535,
+        "delivery_max_ey_pp": 0.05965719086814536
+      },
+      {
+        "outlet_rmse_mg_g": 8.0080537018959e-05,
+        "outlet_max_mg_g": 0.054216173944354296,
+        "delivery_max_ey_pp": 4.025588418166137e-05
+      }
+    ]
+  },
+  "readout_low/dose_uniform_1/1/deep": {
+    "balance_relative": 8.037566215193313e-14,
+    "minimum_mass_kg": -5.726527223635436e-13,
+    "solver_calls": 4,
+    "nfev": 9783,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025307240957059846,
+        "outlet_max_mg_g": 2.9038658073066017,
+        "delivery_max_ey_pp": 0.008919201151141249
+      },
+      {
+        "outlet_rmse_mg_g": 0.008437617966242192,
+        "outlet_max_mg_g": 1.06414787580934,
+        "delivery_max_ey_pp": 0.0029747856576081396
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004599520165729702,
+        "outlet_max_mg_g": 0.022890642947203332,
+        "delivery_max_ey_pp": 8.765130491787215e-06
+      }
+    ]
+  },
+  "readout_low/dose_uniform_1/1/shallow": {
+    "balance_relative": 1.1662785735701194e-13,
+    "minimum_mass_kg": -1.8692715594627367e-13,
+    "solver_calls": 4,
+    "nfev": 7712,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.6480092211147239,
+        "outlet_max_mg_g": 16.828148616459494,
+        "delivery_max_ey_pp": 0.14747042594358178
+      },
+      {
+        "outlet_rmse_mg_g": 0.06398875465552327,
+        "outlet_max_mg_g": 8.824501445270585,
+        "delivery_max_ey_pp": 0.05965762501462709
+      },
+      {
+        "outlet_rmse_mg_g": 8.086194996007302e-05,
+        "outlet_max_mg_g": 0.05422112655566025,
+        "delivery_max_ey_pp": 4.025410959747806e-05
+      }
+    ]
+  },
+  "readout_low/dose_linear_0.5/0/deep": {
+    "balance_relative": 3.510661105486734e-15,
+    "minimum_mass_kg": -2.296443974796919e-13,
+    "solver_calls": 4,
+    "nfev": 8138,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024571322724415756,
+        "outlet_max_mg_g": 0.48762329681670735,
+        "delivery_max_ey_pp": 0.008603172361269323
+      },
+      {
+        "outlet_rmse_mg_g": 0.00795755812406271,
+        "outlet_max_mg_g": 0.1882537814780676,
+        "delivery_max_ey_pp": 0.002867756077680935
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004095735663788501,
+        "outlet_max_mg_g": 0.005818790271341356,
+        "delivery_max_ey_pp": 8.791537476410877e-06
+      }
+    ]
+  },
+  "readout_low/dose_linear_0.5/0/shallow": {
+    "balance_relative": 2.106396663292041e-14,
+    "minimum_mass_kg": -7.250267798452823e-14,
+    "solver_calls": 4,
+    "nfev": 6533,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006113779227862891,
+        "outlet_max_mg_g": 0.17509167746916887,
+        "delivery_max_ey_pp": 0.006481973793818578
+      },
+      {
+        "outlet_rmse_mg_g": 0.0018861604942056723,
+        "outlet_max_mg_g": 0.0698687881425144,
+        "delivery_max_ey_pp": 0.0021612584053957535
+      },
+      {
+        "outlet_rmse_mg_g": 8.26593899567269e-05,
+        "outlet_max_mg_g": 0.006288232854068099,
+        "delivery_max_ey_pp": 5.233840340753323e-05
+      }
+    ]
+  },
+  "readout_low/dose_linear_0.5/1/deep": {
+    "balance_relative": 8.314723670889634e-15,
+    "minimum_mass_kg": -2.293816255211884e-13,
+    "solver_calls": 4,
+    "nfev": 8129,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024573068297752233,
+        "outlet_max_mg_g": 0.4875910493374249,
+        "delivery_max_ey_pp": 0.008603271124442887
+      },
+      {
+        "outlet_rmse_mg_g": 0.007957996082695437,
+        "outlet_max_mg_g": 0.18824119291090824,
+        "delivery_max_ey_pp": 0.002867787093337028
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004031451736467443,
+        "outlet_max_mg_g": 0.005863703658157249,
+        "delivery_max_ey_pp": 8.672336080743175e-06
+      }
+    ]
+  },
+  "readout_low/dose_linear_0.5/1/shallow": {
+    "balance_relative": 6.208327007597594e-15,
+    "minimum_mass_kg": -7.245019841711157e-14,
+    "solver_calls": 4,
+    "nfev": 6534,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006114280463084654,
+        "outlet_max_mg_g": 0.17513955600426812,
+        "delivery_max_ey_pp": 0.00648225905071446
+      },
+      {
+        "outlet_rmse_mg_g": 0.0018862995779797848,
+        "outlet_max_mg_g": 0.06988809951553776,
+        "delivery_max_ey_pp": 0.0021613536977808474
+      },
+      {
+        "outlet_rmse_mg_g": 8.274089373247646e-05,
+        "outlet_max_mg_g": 0.0062828593819688194,
+        "delivery_max_ey_pp": 5.235028132470158e-05
+      }
+    ]
+  },
+  "readout_low/dose_linear_1/0/deep": {
+    "balance_relative": 1.6259904067517507e-14,
+    "minimum_mass_kg": -1.787978623181821e-13,
+    "solver_calls": 4,
+    "nfev": 8468,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024727799099532655,
+        "outlet_max_mg_g": 0.42759016938620675,
+        "delivery_max_ey_pp": 0.008936030094022466
+      },
+      {
+        "outlet_rmse_mg_g": 0.008100032550412821,
+        "outlet_max_mg_g": 0.16309499879147893,
+        "delivery_max_ey_pp": 0.0029782714009225007
+      },
+      {
+        "outlet_rmse_mg_g": 0.00041886895128202004,
+        "outlet_max_mg_g": 0.005847217317665354,
+        "delivery_max_ey_pp": 5.900996052909947e-06
+      }
+    ]
+  },
+  "readout_low/dose_linear_1/0/shallow": {
+    "balance_relative": 3.059818310887385e-14,
+    "minimum_mass_kg": -1.7716366418170672e-13,
+    "solver_calls": 4,
+    "nfev": 6078,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006315773882430841,
+        "outlet_max_mg_g": 0.45320845047936587,
+        "delivery_max_ey_pp": 0.009806917053837665
+      },
+      {
+        "outlet_rmse_mg_g": 0.0017967528028735983,
+        "outlet_max_mg_g": 0.18145816225481326,
+        "delivery_max_ey_pp": 0.0032840397525120877
+      },
+      {
+        "outlet_rmse_mg_g": 9.274485831556769e-05,
+        "outlet_max_mg_g": 0.006013842602619945,
+        "delivery_max_ey_pp": 3.8966894340871264e-05
+      }
+    ]
+  },
+  "readout_low/dose_linear_1/1/deep": {
+    "balance_relative": 1.6998990616041028e-14,
+    "minimum_mass_kg": -1.7874377110084155e-13,
+    "solver_calls": 4,
+    "nfev": 8383,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024727496801249155,
+        "outlet_max_mg_g": 0.42759293865998416,
+        "delivery_max_ey_pp": 0.008936015651384023
+      },
+      {
+        "outlet_rmse_mg_g": 0.008099756062082077,
+        "outlet_max_mg_g": 0.16309597249349395,
+        "delivery_max_ey_pp": 0.0029782668002908967
+      },
+      {
+        "outlet_rmse_mg_g": 0.0004276752680748623,
+        "outlet_max_mg_g": 0.0058840490171974125,
+        "delivery_max_ey_pp": 5.891176737795848e-06
+      }
+    ]
+  },
+  "readout_low/dose_linear_1/1/shallow": {
+    "balance_relative": 5.099697184812309e-14,
+    "minimum_mass_kg": -1.7715283576651128e-13,
+    "solver_calls": 4,
+    "nfev": 6078,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006315762244785284,
+        "outlet_max_mg_g": 0.4532180410501354,
+        "delivery_max_ey_pp": 0.009806948568954105
+      },
+      {
+        "outlet_rmse_mg_g": 0.0017967346486138936,
+        "outlet_max_mg_g": 0.1814619802279367,
+        "delivery_max_ey_pp": 0.0032840505296246234
+      },
+      {
+        "outlet_rmse_mg_g": 9.274938493766676e-05,
+        "outlet_max_mg_g": 0.006013677359284486,
+        "delivery_max_ey_pp": 3.896696042504644e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0/0/deep": {
+    "balance_relative": 7.691673710484304e-12,
+    "minimum_mass_kg": -1.041887073216221e-13,
+    "solver_calls": 4,
+    "nfev": 7937,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.08090561926862372,
+        "outlet_max_mg_g": 0.6313241614034553,
+        "delivery_max_ey_pp": 0.008859680464184951
+      },
+      {
+        "outlet_rmse_mg_g": 0.03169786119497495,
+        "outlet_max_mg_g": 0.24932774602083896,
+        "delivery_max_ey_pp": 0.0029587320061320714
+      },
+      {
+        "outlet_rmse_mg_g": 0.0002497551278514915,
+        "outlet_max_mg_g": 0.0031463598757284217,
+        "delivery_max_ey_pp": 1.0033250261473923e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0/0/shallow": {
+    "balance_relative": 5.602283428673791e-11,
+    "minimum_mass_kg": -1.036793288305232e-13,
+    "solver_calls": 4,
+    "nfev": 5865,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.003756262511768207,
+        "outlet_max_mg_g": 0.11528227334093799,
+        "delivery_max_ey_pp": 0.004459725325319427
+      },
+      {
+        "outlet_rmse_mg_g": 0.001820060300877245,
+        "outlet_max_mg_g": 0.020201273607398207,
+        "delivery_max_ey_pp": 0.0014417373614128426
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014720098598580199,
+        "outlet_max_mg_g": 0.008961162476495588,
+        "delivery_max_ey_pp": 6.40583582807904e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0/1/deep": {
+    "balance_relative": 2.154954649530036e-11,
+    "minimum_mass_kg": -1.0419650776415192e-13,
+    "solver_calls": 4,
+    "nfev": 8151,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.08089427333129844,
+        "outlet_max_mg_g": 0.6312214514268817,
+        "delivery_max_ey_pp": 0.008860028568597529
+      },
+      {
+        "outlet_rmse_mg_g": 0.031693856943603715,
+        "outlet_max_mg_g": 0.24928627240751666,
+        "delivery_max_ey_pp": 0.0029588484482441966
+      },
+      {
+        "outlet_rmse_mg_g": 0.00025365139558164267,
+        "outlet_max_mg_g": 0.0031469322027248836,
+        "delivery_max_ey_pp": 1.0102790607177979e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0/1/shallow": {
+    "balance_relative": 2.0692132190358227e-10,
+    "minimum_mass_kg": -1.1767356075058013e-13,
+    "solver_calls": 4,
+    "nfev": 5831,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037568943871068494,
+        "outlet_max_mg_g": 0.11529188517150146,
+        "delivery_max_ey_pp": 0.004460238833549809
+      },
+      {
+        "outlet_rmse_mg_g": 0.0018200649683552065,
+        "outlet_max_mg_g": 0.0202029947012079,
+        "delivery_max_ey_pp": 0.001441912105063873
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014721430970018705,
+        "outlet_max_mg_g": 0.008961357930274971,
+        "delivery_max_ey_pp": 6.414517090269634e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0.5/0/deep": {
+    "balance_relative": 8.905992909708455e-14,
+    "minimum_mass_kg": -1.4090443661762775e-13,
+    "solver_calls": 4,
+    "nfev": 9295,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.043089103489804964,
+        "outlet_max_mg_g": 2.6681265426554432,
+        "delivery_max_ey_pp": 0.009104343098278704
+      },
+      {
+        "outlet_rmse_mg_g": 0.03884213492213391,
+        "outlet_max_mg_g": 1.2496791808460728,
+        "delivery_max_ey_pp": 0.003036631825754767
+      },
+      {
+        "outlet_rmse_mg_g": 0.002256737188359118,
+        "outlet_max_mg_g": 0.019043027154509673,
+        "delivery_max_ey_pp": 6.464804105623915e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0.5/0/shallow": {
+    "balance_relative": 8.49210444253528e-14,
+    "minimum_mass_kg": -2.6294073097884905e-13,
+    "solver_calls": 4,
+    "nfev": 6820,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.00374246465612056,
+        "outlet_max_mg_g": 5.278974454815142,
+        "delivery_max_ey_pp": 0.0059478319473560415
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012334911700042325,
+        "outlet_max_mg_g": 1.293269661843084,
+        "delivery_max_ey_pp": 0.0015412511681152836
+      },
+      {
+        "outlet_rmse_mg_g": 5.377816790835024e-05,
+        "outlet_max_mg_g": 0.01320131391941004,
+        "delivery_max_ey_pp": 3.0448209290915667e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0.5/1/deep": {
+    "balance_relative": 5.5616262776395134e-14,
+    "minimum_mass_kg": -2.0729874260022964e-13,
+    "solver_calls": 4,
+    "nfev": 9277,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.04307974432629086,
+        "outlet_max_mg_g": 2.667718551907967,
+        "delivery_max_ey_pp": 0.00910445857973335
+      },
+      {
+        "outlet_rmse_mg_g": 0.03887280030933878,
+        "outlet_max_mg_g": 1.2497459213861646,
+        "delivery_max_ey_pp": 0.0030365123676786196
+      },
+      {
+        "outlet_rmse_mg_g": 0.002256655309360437,
+        "outlet_max_mg_g": 0.01903849903882815,
+        "delivery_max_ey_pp": 6.474773677859573e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_0.5/1/shallow": {
+    "balance_relative": 5.25490536000225e-14,
+    "minimum_mass_kg": -2.628425439596358e-13,
+    "solver_calls": 4,
+    "nfev": 6748,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037427137109524904,
+        "outlet_max_mg_g": 5.278791340177776,
+        "delivery_max_ey_pp": 0.005947969537296408
+      },
+      {
+        "outlet_rmse_mg_g": 0.0012335155591258664,
+        "outlet_max_mg_g": 1.2932239037803583,
+        "delivery_max_ey_pp": 0.001541347881804193
+      },
+      {
+        "outlet_rmse_mg_g": 5.594217972390047e-05,
+        "outlet_max_mg_g": 0.013196923895236523,
+        "delivery_max_ey_pp": 3.07042300769685e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_1/0/deep": {
+    "balance_relative": 5.968123879327448e-14,
+    "minimum_mass_kg": -1.429243319118351e-13,
+    "solver_calls": 4,
+    "nfev": 9728,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.18099279292739126,
+        "outlet_max_mg_g": 5.354105137811558,
+        "delivery_max_ey_pp": 0.011294634596458372
+      },
+      {
+        "outlet_rmse_mg_g": 0.12251907320623481,
+        "outlet_max_mg_g": 2.581905171185184,
+        "delivery_max_ey_pp": 0.004433921506720914
+      },
+      {
+        "outlet_rmse_mg_g": 0.0024759405396585503,
+        "outlet_max_mg_g": 0.02051798601024757,
+        "delivery_max_ey_pp": 1.2822732422164881e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_1/0/shallow": {
+    "balance_relative": 5.232732763546544e-14,
+    "minimum_mass_kg": -1.470446786333317e-13,
+    "solver_calls": 4,
+    "nfev": 7256,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037468457031416646,
+        "outlet_max_mg_g": 11.409805302854522,
+        "delivery_max_ey_pp": 0.0118390265511914
+      },
+      {
+        "outlet_rmse_mg_g": 0.001261733251783131,
+        "outlet_max_mg_g": 2.816522302337802,
+        "delivery_max_ey_pp": 0.0018428553935763887
+      },
+      {
+        "outlet_rmse_mg_g": 5.129674412947986e-05,
+        "outlet_max_mg_g": 0.013979038851715586,
+        "delivery_max_ey_pp": 5.016794072572791e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_1/1/deep": {
+    "balance_relative": 1.0439597497894765e-13,
+    "minimum_mass_kg": -3.445140267261717e-13,
+    "solver_calls": 4,
+    "nfev": 9686,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.18089397770154628,
+        "outlet_max_mg_g": 5.352268013679662,
+        "delivery_max_ey_pp": 0.011291053126559944
+      },
+      {
+        "outlet_rmse_mg_g": 0.12239580549398109,
+        "outlet_max_mg_g": 2.5809624656630774,
+        "delivery_max_ey_pp": 0.004431767398370886
+      },
+      {
+        "outlet_rmse_mg_g": 0.002459282138260724,
+        "outlet_max_mg_g": 0.020335231051291203,
+        "delivery_max_ey_pp": 1.3766729953543531e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_uniform_1/1/shallow": {
+    "balance_relative": 1.148540496405555e-13,
+    "minimum_mass_kg": -1.4710055302620633e-13,
+    "solver_calls": 4,
+    "nfev": 7264,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0037476466486324514,
+        "outlet_max_mg_g": 11.409242503935303,
+        "delivery_max_ey_pp": 0.01183845111858058
+      },
+      {
+        "outlet_rmse_mg_g": 0.001262056146465345,
+        "outlet_max_mg_g": 2.8163819695732855,
+        "delivery_max_ey_pp": 0.0018430138642167027
+      },
+      {
+        "outlet_rmse_mg_g": 5.2001405453875314e-05,
+        "outlet_max_mg_g": 0.013978558352789605,
+        "delivery_max_ey_pp": 5.040370725795107e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_0.5/0/deep": {
+    "balance_relative": 1.2010156413507248e-14,
+    "minimum_mass_kg": -1.6086682979996457e-13,
+    "solver_calls": 4,
+    "nfev": 7902,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0741654709842663,
+        "outlet_max_mg_g": 0.5744409575957832,
+        "delivery_max_ey_pp": 0.009232656116609568
+      },
+      {
+        "outlet_rmse_mg_g": 0.02873922049198068,
+        "outlet_max_mg_g": 0.22524394562037742,
+        "delivery_max_ey_pp": 0.0030821276431891587
+      },
+      {
+        "outlet_rmse_mg_g": 0.0002914208359475928,
+        "outlet_max_mg_g": 0.003598137124384948,
+        "delivery_max_ey_pp": 9.542684568468001e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_0.5/0/shallow": {
+    "balance_relative": 4.877971220255253e-15,
+    "minimum_mass_kg": -5.736729846015336e-14,
+    "solver_calls": 4,
+    "nfev": 6533,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004942768247132969,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.004592920203168779
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020684222249254276,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.0015305560671382186
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014751790268116593,
+        "outlet_max_mg_g": 0.009075515967879255,
+        "delivery_max_ey_pp": 5.073654516888718e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_0.5/1/deep": {
+    "balance_relative": 8.314723670889633e-15,
+    "minimum_mass_kg": -1.6118141193465172e-13,
+    "solver_calls": 4,
+    "nfev": 8368,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.07416108727371337,
+        "outlet_max_mg_g": 0.5744014299718856,
+        "delivery_max_ey_pp": 0.009232769812501776
+      },
+      {
+        "outlet_rmse_mg_g": 0.02870905025250069,
+        "outlet_max_mg_g": 0.22522880650524257,
+        "delivery_max_ey_pp": 0.003081655439468589
+      },
+      {
+        "outlet_rmse_mg_g": 0.00028633068811058203,
+        "outlet_max_mg_g": 0.0035980772057939703,
+        "delivery_max_ey_pp": 9.619987322172385e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_0.5/1/shallow": {
+    "balance_relative": 5.7648750784834796e-15,
+    "minimum_mass_kg": -5.719483068740386e-14,
+    "solver_calls": 4,
+    "nfev": 6533,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004941752615375713,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.00459323363137624
+      },
+      {
+        "outlet_rmse_mg_g": 0.0020659469230555373,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.0015306594852086224
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014727339020652477,
+        "outlet_max_mg_g": 0.008992434148694883,
+        "delivery_max_ey_pp": 5.071915403960977e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_1/0/deep": {
+    "balance_relative": 1.367310114768518e-14,
+    "minimum_mass_kg": -1.8026061922190965e-13,
+    "solver_calls": 4,
+    "nfev": 7811,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06670207715954721,
+        "outlet_max_mg_g": 0.5104574756090585,
+        "delivery_max_ey_pp": 0.009667784928125825
+      },
+      {
+        "outlet_rmse_mg_g": 0.025484457785769788,
+        "outlet_max_mg_g": 0.19780164309847237,
+        "delivery_max_ey_pp": 0.0032274625058090513
+      },
+      {
+        "outlet_rmse_mg_g": 0.00025907083027414075,
+        "outlet_max_mg_g": 0.003621323491927342,
+        "delivery_max_ey_pp": 6.829506808846297e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_1/0/shallow": {
+    "balance_relative": 3.104163503798797e-14,
+    "minimum_mass_kg": -6.54271075385471e-14,
+    "solver_calls": 4,
+    "nfev": 5662,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004019916929740272,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.006035658130450669
+      },
+      {
+        "outlet_rmse_mg_g": 0.0015072494751749287,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.0020297751733825793
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014368103222165467,
+        "outlet_max_mg_g": 0.01065567559118108,
+        "delivery_max_ey_pp": 4.941865129337586e-05
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_1/1/deep": {
+    "balance_relative": 1.2564471324899895e-14,
+    "minimum_mass_kg": -1.7986854313074612e-13,
+    "solver_calls": 4,
+    "nfev": 7817,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06670259073147468,
+        "outlet_max_mg_g": 0.510461978893062,
+        "delivery_max_ey_pp": 0.00966776397229616
+      },
+      {
+        "outlet_rmse_mg_g": 0.025484636439243657,
+        "outlet_max_mg_g": 0.19780351580834576,
+        "delivery_max_ey_pp": 0.003227454377067544
+      },
+      {
+        "outlet_rmse_mg_g": 0.00025878469722918565,
+        "outlet_max_mg_g": 0.003621237369344499,
+        "delivery_max_ey_pp": 6.832211565018417e-06
+      }
+    ]
+  },
+  "readout_low/hydraulic_linear_1/1/shallow": {
+    "balance_relative": 1.3747009802537529e-14,
+    "minimum_mass_kg": -6.546317789369063e-14,
+    "solver_calls": 4,
+    "nfev": 5662,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004019903553780321,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.006035696665680304
+      },
+      {
+        "outlet_rmse_mg_g": 0.0015073691217433642,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.002029788744066045
+      },
+      {
+        "outlet_rmse_mg_g": 0.0001438907086532727,
+        "outlet_max_mg_g": 0.010655765873210044,
+        "delivery_max_ey_pp": 4.941750540443657e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0/0/deep": {
+    "balance_relative": 4.104628010207664e-11,
+    "minimum_mass_kg": -3.584968491757463e-13,
+    "solver_calls": 4,
+    "nfev": 8745,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024713638580264236,
+        "outlet_max_mg_g": 0.3811368086297193,
+        "delivery_max_ey_pp": 0.008881428949321216
+      },
+      {
+        "outlet_rmse_mg_g": 0.008240245240676316,
+        "outlet_max_mg_g": 0.14662263510410867,
+        "delivery_max_ey_pp": 0.0029625680502625646
+      },
+      {
+        "outlet_rmse_mg_g": 0.00020058098891553288,
+        "outlet_max_mg_g": 0.004295985351063791,
+        "delivery_max_ey_pp": 1.3153107168243732e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0/0/shallow": {
+    "balance_relative": 6.202375882708884e-10,
+    "minimum_mass_kg": -4.441262466737867e-14,
+    "solver_calls": 4,
+    "nfev": 6555,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.011027657166446731,
+        "outlet_max_mg_g": 0.8007179121906489,
+        "delivery_max_ey_pp": 0.00733696638405279
+      },
+      {
+        "outlet_rmse_mg_g": 0.002783101010822031,
+        "outlet_max_mg_g": 0.3146016156347713,
+        "delivery_max_ey_pp": 0.002450127443761237
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014559908797889926,
+        "outlet_max_mg_g": 0.006265203153120069,
+        "delivery_max_ey_pp": 5.90574941579843e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0/1/deep": {
+    "balance_relative": 1.465497762739868e-11,
+    "minimum_mass_kg": -3.867699215039582e-13,
+    "solver_calls": 4,
+    "nfev": 8297,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024846106547548857,
+        "outlet_max_mg_g": 0.3836092082451046,
+        "delivery_max_ey_pp": 0.008871688061286761
+      },
+      {
+        "outlet_rmse_mg_g": 0.008179420817363416,
+        "outlet_max_mg_g": 0.14774653226047008,
+        "delivery_max_ey_pp": 0.0029580957410081502
+      },
+      {
+        "outlet_rmse_mg_g": 0.0005019813421917148,
+        "outlet_max_mg_g": 0.0057038419762918124,
+        "delivery_max_ey_pp": 7.42947013786398e-06
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0/1/shallow": {
+    "balance_relative": 3.4868359115085307e-10,
+    "minimum_mass_kg": -4.44777748299117e-14,
+    "solver_calls": 4,
+    "nfev": 6765,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.010988637717022225,
+        "outlet_max_mg_g": 0.7993800194350484,
+        "delivery_max_ey_pp": 0.007321266815568661
+      },
+      {
+        "outlet_rmse_mg_g": 0.0027727012263394865,
+        "outlet_max_mg_g": 0.31408037265468636,
+        "delivery_max_ey_pp": 0.0024448596834036884
+      },
+      {
+        "outlet_rmse_mg_g": 0.00013792454251784834,
+        "outlet_max_mg_g": 0.006270856143530068,
+        "delivery_max_ey_pp": 5.8942367327693056e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0.5/0/deep": {
+    "balance_relative": 6.61482460928553e-14,
+    "minimum_mass_kg": -2.4935444286091027e-13,
+    "solver_calls": 4,
+    "nfev": 9648,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024549600725134874,
+        "outlet_max_mg_g": 0.7241843151614944,
+        "delivery_max_ey_pp": 0.00929954157533978
+      },
+      {
+        "outlet_rmse_mg_g": 0.008037289444898833,
+        "outlet_max_mg_g": 0.2519544577495765,
+        "delivery_max_ey_pp": 0.003101746444942075
+      },
+      {
+        "outlet_rmse_mg_g": 0.0005705086471185771,
+        "outlet_max_mg_g": 0.016476832310758027,
+        "delivery_max_ey_pp": 7.843090035455605e-06
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0.5/0/shallow": {
+    "balance_relative": 6.940022690635883e-14,
+    "minimum_mass_kg": -2.764242418141282e-13,
+    "solver_calls": 4,
+    "nfev": 7588,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.18244093307714868,
+        "outlet_max_mg_g": 5.940929450561001,
+        "delivery_max_ey_pp": 0.05784817705433154
+      },
+      {
+        "outlet_rmse_mg_g": 0.01512161355735776,
+        "outlet_max_mg_g": 3.02131177523745,
+        "delivery_max_ey_pp": 0.023206406738481476
+      },
+      {
+        "outlet_rmse_mg_g": 0.00016385959860680017,
+        "outlet_max_mg_g": 0.05190171258512066,
+        "delivery_max_ey_pp": 4.375398456879509e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0.5/1/deep": {
+    "balance_relative": 7.464774140087581e-14,
+    "minimum_mass_kg": -3.7345295554611724e-13,
+    "solver_calls": 4,
+    "nfev": 9412,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024955457646879575,
+        "outlet_max_mg_g": 0.7355214608766403,
+        "delivery_max_ey_pp": 0.009287965157802244
+      },
+      {
+        "outlet_rmse_mg_g": 0.008361997754675317,
+        "outlet_max_mg_g": 0.25609711975141636,
+        "delivery_max_ey_pp": 0.003097326226766025
+      },
+      {
+        "outlet_rmse_mg_g": 0.0001551489303595042,
+        "outlet_max_mg_g": 0.017531926358714145,
+        "delivery_max_ey_pp": 1.1391180560544397e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_0.5/1/shallow": {
+    "balance_relative": 1.0421120334181677e-13,
+    "minimum_mass_kg": -2.653057838578726e-13,
+    "solver_calls": 4,
+    "nfev": 7597,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.18292216567396877,
+        "outlet_max_mg_g": 5.955745894374331,
+        "delivery_max_ey_pp": 0.057961480026245495
+      },
+      {
+        "outlet_rmse_mg_g": 0.0151453096582996,
+        "outlet_max_mg_g": 3.0302003150960246,
+        "delivery_max_ey_pp": 0.023253475460804918
+      },
+      {
+        "outlet_rmse_mg_g": 0.00017844722675991175,
+        "outlet_max_mg_g": 0.05204627328973288,
+        "delivery_max_ey_pp": 4.421265476136267e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_1/0/deep": {
+    "balance_relative": 4.841016892829077e-14,
+    "minimum_mass_kg": -1.3161996935961664e-13,
+    "solver_calls": 4,
+    "nfev": 10213,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.02569812917428787,
+        "outlet_max_mg_g": 0.7865788928097857,
+        "delivery_max_ey_pp": 0.009937104163418618
+      },
+      {
+        "outlet_rmse_mg_g": 0.008604818229234161,
+        "outlet_max_mg_g": 0.28108209939458106,
+        "delivery_max_ey_pp": 0.003317409682278437
+      },
+      {
+        "outlet_rmse_mg_g": 0.0006503950655468718,
+        "outlet_max_mg_g": 0.015748091229511374,
+        "delivery_max_ey_pp": 5.480696285697918e-06
+      }
+    ]
+  },
+  "readout_high/dose_uniform_1/0/shallow": {
+    "balance_relative": 8.137342899243989e-14,
+    "minimum_mass_kg": -1.7701995180000712e-13,
+    "solver_calls": 4,
+    "nfev": 7971,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.4576529046403168,
+        "outlet_max_mg_g": 14.804198245516872,
+        "delivery_max_ey_pp": 0.13234119217771328
+      },
+      {
+        "outlet_rmse_mg_g": 0.038011199082891,
+        "outlet_max_mg_g": 7.751745385355278,
+        "delivery_max_ey_pp": 0.05344708404152095
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014551619623751787,
+        "outlet_max_mg_g": 0.051825088678896236,
+        "delivery_max_ey_pp": 3.829257048855912e-05
+      }
+    ]
+  },
+  "readout_high/dose_uniform_1/1/deep": {
+    "balance_relative": 9.090764546839336e-14,
+    "minimum_mass_kg": -1.6428408452129017e-13,
+    "solver_calls": 4,
+    "nfev": 10072,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.025687990270173315,
+        "outlet_max_mg_g": 0.7868903616290766,
+        "delivery_max_ey_pp": 0.009936771043214358
+      },
+      {
+        "outlet_rmse_mg_g": 0.008295177513391058,
+        "outlet_max_mg_g": 0.2812685307322056,
+        "delivery_max_ey_pp": 0.0033154728575839837
+      },
+      {
+        "outlet_rmse_mg_g": 0.0006478894513439294,
+        "outlet_max_mg_g": 0.01573073310268569,
+        "delivery_max_ey_pp": 5.475393811189062e-06
+      }
+    ]
+  },
+  "readout_high/dose_uniform_1/1/shallow": {
+    "balance_relative": 1.565385309772822e-13,
+    "minimum_mass_kg": -2.4923264399828187e-13,
+    "solver_calls": 4,
+    "nfev": 7938,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.4576739492601729,
+        "outlet_max_mg_g": 14.804899625031865,
+        "delivery_max_ey_pp": 0.13234639933483355
+      },
+      {
+        "outlet_rmse_mg_g": 0.038013339655179654,
+        "outlet_max_mg_g": 7.752111631313241,
+        "delivery_max_ey_pp": 0.05344923429761265
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014456911192899292,
+        "outlet_max_mg_g": 0.051817655719688105,
+        "delivery_max_ey_pp": 3.8303731238661e-05
+      }
+    ]
+  },
+  "readout_high/dose_linear_0.5/0/deep": {
+    "balance_relative": 4.2497476540102585e-15,
+    "minimum_mass_kg": -1.566451330453768e-13,
+    "solver_calls": 4,
+    "nfev": 8541,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024476992690836398,
+        "outlet_max_mg_g": 0.33649313855505625,
+        "delivery_max_ey_pp": 0.009213164605124485
+      },
+      {
+        "outlet_rmse_mg_g": 0.00812572057121229,
+        "outlet_max_mg_g": 0.12888672090249997,
+        "delivery_max_ey_pp": 0.003073497073047888
+      },
+      {
+        "outlet_rmse_mg_g": 9.272128620973231e-05,
+        "outlet_max_mg_g": 0.004319052629426778,
+        "delivery_max_ey_pp": 9.875100727881522e-06
+      }
+    ]
+  },
+  "readout_high/dose_linear_0.5/0/shallow": {
+    "balance_relative": 2.2837774349376862e-14,
+    "minimum_mass_kg": -7.063050736901395e-14,
+    "solver_calls": 4,
+    "nfev": 6299,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.00801134153784304,
+        "outlet_max_mg_g": 0.34769028926598367,
+        "delivery_max_ey_pp": 0.007564154249904235
+      },
+      {
+        "outlet_rmse_mg_g": 0.0023888769907253523,
+        "outlet_max_mg_g": 0.13723214408470596,
+        "delivery_max_ey_pp": 0.002523734891289135
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014723360066765795,
+        "outlet_max_mg_g": 0.006148113568045233,
+        "delivery_max_ey_pp": 4.782884639083681e-05
+      }
+    ]
+  },
+  "readout_high/dose_linear_0.5/1/deep": {
+    "balance_relative": 1.644467570464839e-14,
+    "minimum_mass_kg": -1.70879248264002e-13,
+    "solver_calls": 4,
+    "nfev": 8643,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024471059784863282,
+        "outlet_max_mg_g": 0.33887208634010335,
+        "delivery_max_ey_pp": 0.009203635651445899
+      },
+      {
+        "outlet_rmse_mg_g": 0.008258856699015585,
+        "outlet_max_mg_g": 0.13005625201088833,
+        "delivery_max_ey_pp": 0.003070393096271662
+      },
+      {
+        "outlet_rmse_mg_g": 8.376145901745245e-05,
+        "outlet_max_mg_g": 0.004133299792101752,
+        "delivery_max_ey_pp": 9.055467542484765e-06
+      }
+    ]
+  },
+  "readout_high/dose_linear_0.5/1/shallow": {
+    "balance_relative": 9.534216475953448e-15,
+    "minimum_mass_kg": -1.0250713574552562e-13,
+    "solver_calls": 4,
+    "nfev": 6335,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.007965026629985612,
+        "outlet_max_mg_g": 0.3442377175329341,
+        "delivery_max_ey_pp": 0.007542269398423211
+      },
+      {
+        "outlet_rmse_mg_g": 0.002376414699999786,
+        "outlet_max_mg_g": 0.1358734896712548,
+        "delivery_max_ey_pp": 0.0025164444675392543
+      },
+      {
+        "outlet_rmse_mg_g": 0.00014698298383501168,
+        "outlet_max_mg_g": 0.006086398475780186,
+        "delivery_max_ey_pp": 4.766336709390491e-05
+      }
+    ]
+  },
+  "readout_high/dose_linear_1/0/deep": {
+    "balance_relative": 4.064976016879377e-15,
+    "minimum_mass_kg": -2.6754453964348804e-13,
+    "solver_calls": 4,
+    "nfev": 8242,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024230248050384273,
+        "outlet_max_mg_g": 0.2616444826348072,
+        "delivery_max_ey_pp": 0.009690297997870677
+      },
+      {
+        "outlet_rmse_mg_g": 0.008047372280176688,
+        "outlet_max_mg_g": 0.09892566451736684,
+        "delivery_max_ey_pp": 0.0032322628981025967
+      },
+      {
+        "outlet_rmse_mg_g": 0.0001823250237033242,
+        "outlet_max_mg_g": 0.0044975097065957925,
+        "delivery_max_ey_pp": 7.580913878128352e-06
+      }
+    ]
+  },
+  "readout_high/dose_linear_1/0/shallow": {
+    "balance_relative": 3.436752450634382e-14,
+    "minimum_mass_kg": -1.8446723831190283e-13,
+    "solver_calls": 4,
+    "nfev": 6487,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0066857398580139425,
+        "outlet_max_mg_g": 0.17190251735217998,
+        "delivery_max_ey_pp": 0.008622660484974842
+      },
+      {
+        "outlet_rmse_mg_g": 0.0022698202006554468,
+        "outlet_max_mg_g": 0.0573008391174028,
+        "delivery_max_ey_pp": 0.0028802637036362544
+      },
+      {
+        "outlet_rmse_mg_g": 9.123757434539131e-05,
+        "outlet_max_mg_g": 0.006509176801621663,
+        "delivery_max_ey_pp": 3.995584538785124e-05
+      }
+    ]
+  },
+  "readout_high/dose_linear_1/1/deep": {
+    "balance_relative": 1.3857872784816056e-14,
+    "minimum_mass_kg": -2.812258139049527e-13,
+    "solver_calls": 4,
+    "nfev": 8621,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.024335067326325725,
+        "outlet_max_mg_g": 0.2650100027142912,
+        "delivery_max_ey_pp": 0.009675418468999306
+      },
+      {
+        "outlet_rmse_mg_g": 0.008184429722551166,
+        "outlet_max_mg_g": 0.10045576535773648,
+        "delivery_max_ey_pp": 0.003225920684058532
+      },
+      {
+        "outlet_rmse_mg_g": 0.00012422944173613333,
+        "outlet_max_mg_g": 0.00444945010963238,
+        "delivery_max_ey_pp": 7.643260216097206e-06
+      }
+    ]
+  },
+  "readout_high/dose_linear_1/1/shallow": {
+    "balance_relative": 1.3081831908866357e-14,
+    "minimum_mass_kg": -1.9287131802139933e-13,
+    "solver_calls": 4,
+    "nfev": 6454,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006645105136386751,
+        "outlet_max_mg_g": 0.17190251735217998,
+        "delivery_max_ey_pp": 0.008648709287623069
+      },
+      {
+        "outlet_rmse_mg_g": 0.002256312994897935,
+        "outlet_max_mg_g": 0.0573008391174028,
+        "delivery_max_ey_pp": 0.002889244666108108
+      },
+      {
+        "outlet_rmse_mg_g": 9.879495696409946e-05,
+        "outlet_max_mg_g": 0.006285440342843174,
+        "delivery_max_ey_pp": 3.9134755173512545e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0/0/deep": {
+    "balance_relative": 2.4083135183639e-11,
+    "minimum_mass_kg": -3.0967911929856746e-13,
+    "solver_calls": 4,
+    "nfev": 8719,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.06172712234664262,
+        "outlet_max_mg_g": 0.4817417515058082,
+        "delivery_max_ey_pp": 0.009399344362041411
+      },
+      {
+        "outlet_rmse_mg_g": 0.023313813434476898,
+        "outlet_max_mg_g": 0.18776373551170877,
+        "delivery_max_ey_pp": 0.0031374918161883626
+      },
+      {
+        "outlet_rmse_mg_g": 0.00016273581345482073,
+        "outlet_max_mg_g": 0.002900152265539191,
+        "delivery_max_ey_pp": 7.5300037871706155e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0/0/shallow": {
+    "balance_relative": 3.881978187464953e-11,
+    "minimum_mass_kg": -1.3658727844405046e-13,
+    "solver_calls": 4,
+    "nfev": 5925,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006112181484287723,
+        "outlet_max_mg_g": 0.12448026366257636,
+        "delivery_max_ey_pp": 0.005188352747899824
+      },
+      {
+        "outlet_rmse_mg_g": 0.0024691488668617846,
+        "outlet_max_mg_g": 0.021962369739483734,
+        "delivery_max_ey_pp": 0.0016931455823987474
+      },
+      {
+        "outlet_rmse_mg_g": 0.0015213856897430657,
+        "outlet_max_mg_g": 0.008941542646738299,
+        "delivery_max_ey_pp": 6.015844163561231e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0/1/deep": {
+    "balance_relative": 2.1190535204355063e-11,
+    "minimum_mass_kg": -5.402540380070872e-13,
+    "solver_calls": 4,
+    "nfev": 8352,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.062195267245722066,
+        "outlet_max_mg_g": 0.4860460600836234,
+        "delivery_max_ey_pp": 0.00938724076109892
+      },
+      {
+        "outlet_rmse_mg_g": 0.02362524736828252,
+        "outlet_max_mg_g": 0.19044062958298014,
+        "delivery_max_ey_pp": 0.003132619046004099
+      },
+      {
+        "outlet_rmse_mg_g": 0.00010399140521093012,
+        "outlet_max_mg_g": 0.003375319171254887,
+        "delivery_max_ey_pp": 7.482469970781441e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0/1/shallow": {
+    "balance_relative": 1.2370978466496436e-11,
+    "minimum_mass_kg": -9.348167455128514e-14,
+    "solver_calls": 4,
+    "nfev": 6067,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.006081848838534197,
+        "outlet_max_mg_g": 0.12419210129718294,
+        "delivery_max_ey_pp": 0.005166788611639847
+      },
+      {
+        "outlet_rmse_mg_g": 0.002481679487458883,
+        "outlet_max_mg_g": 0.021908660582468542,
+        "delivery_max_ey_pp": 0.0016861951334305274
+      },
+      {
+        "outlet_rmse_mg_g": 0.0015175926985011561,
+        "outlet_max_mg_g": 0.008919978159113384,
+        "delivery_max_ey_pp": 6.000414443652069e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0.5/0/deep": {
+    "balance_relative": 7.815840250636256e-14,
+    "minimum_mass_kg": -2.432651472199931e-13,
+    "solver_calls": 4,
+    "nfev": 9190,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.037656336298839944,
+        "outlet_max_mg_g": 1.6306323706628518,
+        "delivery_max_ey_pp": 0.009690331918847815
+      },
+      {
+        "outlet_rmse_mg_g": 0.030498116120756195,
+        "outlet_max_mg_g": 0.7517853013522995,
+        "delivery_max_ey_pp": 0.0032319616326394033
+      },
+      {
+        "outlet_rmse_mg_g": 0.0022212098517022934,
+        "outlet_max_mg_g": 0.017385313397568325,
+        "delivery_max_ey_pp": 6.566732164209949e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0.5/0/shallow": {
+    "balance_relative": 7.339129426838584e-14,
+    "minimum_mass_kg": -2.0935351021658586e-13,
+    "solver_calls": 4,
+    "nfev": 6932,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004315953009751142,
+        "outlet_max_mg_g": 4.687234481991283,
+        "delivery_max_ey_pp": 0.006237270572512221
+      },
+      {
+        "outlet_rmse_mg_g": 0.001467013096292059,
+        "outlet_max_mg_g": 1.1451387341207635,
+        "delivery_max_ey_pp": 0.0018042414950329249
+      },
+      {
+        "outlet_rmse_mg_g": 7.235249607475914e-05,
+        "outlet_max_mg_g": 0.012421537342902411,
+        "delivery_max_ey_pp": 3.397506129950341e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0.5/1/deep": {
+    "balance_relative": 9.201627529117862e-14,
+    "minimum_mass_kg": -1.251583298497916e-13,
+    "solver_calls": 4,
+    "nfev": 9776,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.03859427691672646,
+        "outlet_max_mg_g": 1.6519117139393131,
+        "delivery_max_ey_pp": 0.00967933644328382
+      },
+      {
+        "outlet_rmse_mg_g": 0.031168031513364065,
+        "outlet_max_mg_g": 0.7617677614873628,
+        "delivery_max_ey_pp": 0.0032285776121496502
+      },
+      {
+        "outlet_rmse_mg_g": 0.0021970601909675523,
+        "outlet_max_mg_g": 0.017288265819104254,
+        "delivery_max_ey_pp": 5.746861835946119e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_0.5/1/shallow": {
+    "balance_relative": 7.56085539139564e-14,
+    "minimum_mass_kg": -2.39002858388019e-13,
+    "solver_calls": 4,
+    "nfev": 6927,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004300881664282226,
+        "outlet_max_mg_g": 4.701976225260694,
+        "delivery_max_ey_pp": 0.006230829854645774
+      },
+      {
+        "outlet_rmse_mg_g": 0.001476323015573273,
+        "outlet_max_mg_g": 1.148819548307813,
+        "delivery_max_ey_pp": 0.0017975273499097149
+      },
+      {
+        "outlet_rmse_mg_g": 9.078392130848271e-05,
+        "outlet_max_mg_g": 0.012432334956599789,
+        "delivery_max_ey_pp": 3.3728077571589424e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_1/0/deep": {
+    "balance_relative": 7.39086548523523e-14,
+    "minimum_mass_kg": -1.3396705625621521e-13,
+    "solver_calls": 4,
+    "nfev": 10257,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.07420920364110943,
+        "outlet_max_mg_g": 1.9872134622095814,
+        "delivery_max_ey_pp": 0.01041970709396588
+      },
+      {
+        "outlet_rmse_mg_g": 0.050955158291050635,
+        "outlet_max_mg_g": 0.9408288494721546,
+        "delivery_max_ey_pp": 0.0034745124436587186
+      },
+      {
+        "outlet_rmse_mg_g": 0.002137843606842602,
+        "outlet_max_mg_g": 0.017086239996586983,
+        "delivery_max_ey_pp": 7.849557800051107e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_1/0/shallow": {
+    "balance_relative": 5.6318394997492456e-14,
+    "minimum_mass_kg": -9.71481342638256e-14,
+    "solver_calls": 4,
+    "nfev": 7492,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004399365036287982,
+        "outlet_max_mg_g": 9.286954650215279,
+        "delivery_max_ey_pp": 0.009667269521409134
+      },
+      {
+        "outlet_rmse_mg_g": 0.001416531038336549,
+        "outlet_max_mg_g": 2.2880053419442845,
+        "delivery_max_ey_pp": 0.0022246958572095616
+      },
+      {
+        "outlet_rmse_mg_g": 7.057840500066067e-05,
+        "outlet_max_mg_g": 0.012769075192494483,
+        "delivery_max_ey_pp": 2.1960151504648216e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_1/1/deep": {
+    "balance_relative": 4.841016892829075e-14,
+    "minimum_mass_kg": -1.1623322596242847e-13,
+    "solver_calls": 4,
+    "nfev": 10103,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.07870598460529898,
+        "outlet_max_mg_g": 2.0864039483069803,
+        "delivery_max_ey_pp": 0.010386348677936409
+      },
+      {
+        "outlet_rmse_mg_g": 0.05388212021788219,
+        "outlet_max_mg_g": 0.9891522070942074,
+        "delivery_max_ey_pp": 0.0034638892774663263
+      },
+      {
+        "outlet_rmse_mg_g": 0.0021850030411879485,
+        "outlet_max_mg_g": 0.015903853057864126,
+        "delivery_max_ey_pp": 6.373167684950135e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_uniform_1/1/shallow": {
+    "balance_relative": 9.822460229877624e-14,
+    "minimum_mass_kg": -1.5722175315029269e-13,
+    "solver_calls": 4,
+    "nfev": 7465,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004356135528301174,
+        "outlet_max_mg_g": 9.380996047228138,
+        "delivery_max_ey_pp": 0.009763664024881047
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014102415423055095,
+        "outlet_max_mg_g": 2.3114246312825912,
+        "delivery_max_ey_pp": 0.002211875718712471
+      },
+      {
+        "outlet_rmse_mg_g": 6.983479816334043e-05,
+        "outlet_max_mg_g": 0.012827483187379585,
+        "delivery_max_ey_pp": 1.9364211641577832e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_0.5/0/deep": {
+    "balance_relative": 1.1640613139245489e-14,
+    "minimum_mass_kg": -5.205329611787721e-13,
+    "solver_calls": 4,
+    "nfev": 8812,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.05668221293037878,
+        "outlet_max_mg_g": 0.435072139211087,
+        "delivery_max_ey_pp": 0.009802431050670581
+      },
+      {
+        "outlet_rmse_mg_g": 0.021329323858386234,
+        "outlet_max_mg_g": 0.16904523763551538,
+        "delivery_max_ey_pp": 0.0032716177861022745
+      },
+      {
+        "outlet_rmse_mg_g": 0.0009011974098164997,
+        "outlet_max_mg_g": 0.005617930407865401,
+        "delivery_max_ey_pp": 7.836889427527262e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_0.5/0/shallow": {
+    "balance_relative": 3.5476154329129106e-15,
+    "minimum_mass_kg": -5.2794578582927205e-14,
+    "solver_calls": 4,
+    "nfev": 5877,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004306188976254913,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.0054302310763254535
+      },
+      {
+        "outlet_rmse_mg_g": 0.0016652089038034876,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.0018026882121287742
+      },
+      {
+        "outlet_rmse_mg_g": 0.0014502606174788236,
+        "outlet_max_mg_g": 0.00853004600804752,
+        "delivery_max_ey_pp": 6.310600133748365e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_0.5/1/deep": {
+    "balance_relative": 1.3857872784816057e-14,
+    "minimum_mass_kg": -3.73254006886108e-13,
+    "solver_calls": 4,
+    "nfev": 9021,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.057208450680614295,
+        "outlet_max_mg_g": 0.44012598394937186,
+        "delivery_max_ey_pp": 0.009782880203041473
+      },
+      {
+        "outlet_rmse_mg_g": 0.021578403589384978,
+        "outlet_max_mg_g": 0.17080461507421774,
+        "delivery_max_ey_pp": 0.003261439357277185
+      },
+      {
+        "outlet_rmse_mg_g": 0.001047171193190362,
+        "outlet_max_mg_g": 0.006817210510966731,
+        "delivery_max_ey_pp": 9.959680293455028e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_0.5/1/shallow": {
+    "balance_relative": 2.1285692597477465e-14,
+    "minimum_mass_kg": -5.2980973155393595e-14,
+    "solver_calls": 4,
+    "nfev": 5847,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.004290985121328031,
+        "outlet_max_mg_g": 0.08595125867607578,
+        "delivery_max_ey_pp": 0.0054041885467444786
+      },
+      {
+        "outlet_rmse_mg_g": 0.0016293982898524543,
+        "outlet_max_mg_g": 0.028650419558715612,
+        "delivery_max_ey_pp": 0.001793572509004952
+      },
+      {
+        "outlet_rmse_mg_g": 0.0013992876891023491,
+        "outlet_max_mg_g": 0.008229980725445785,
+        "delivery_max_ey_pp": 6.316325194359132e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_1/0/deep": {
+    "balance_relative": 1.8661935350218953e-14,
+    "minimum_mass_kg": -2.374278492727494e-13,
+    "solver_calls": 4,
+    "nfev": 8620,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.04835697283723563,
+        "outlet_max_mg_g": 0.35640298400292636,
+        "delivery_max_ey_pp": 0.010363675527832092
+      },
+      {
+        "outlet_rmse_mg_g": 0.017893497434478642,
+        "outlet_max_mg_g": 0.13712693417861033,
+        "delivery_max_ey_pp": 0.003458805413728931
+      },
+      {
+        "outlet_rmse_mg_g": 0.000125357512156827,
+        "outlet_max_mg_g": 0.0032831883842163734,
+        "delivery_max_ey_pp": 7.599234864831396e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_1/0/shallow": {
+    "balance_relative": 1.6851173306336325e-14,
+    "minimum_mass_kg": -6.43578147001557e-14,
+    "solver_calls": 4,
+    "nfev": 6556,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.0048620306883829685,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.005969483226775374
+      },
+      {
+        "outlet_rmse_mg_g": 0.0015458221713811392,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.0019913833468091875
+      },
+      {
+        "outlet_rmse_mg_g": 0.00015488922363699926,
+        "outlet_max_mg_g": 0.008682381432663533,
+        "delivery_max_ey_pp": 6.495958547921474e-05
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_1/1/deep": {
+    "balance_relative": 1.884670698734984e-14,
+    "minimum_mass_kg": -2.210013020687862e-13,
+    "solver_calls": 4,
+    "nfev": 8795,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.049200066809195774,
+        "outlet_max_mg_g": 0.36499234456363183,
+        "delivery_max_ey_pp": 0.010332115445590059
+      },
+      {
+        "outlet_rmse_mg_g": 0.018129047536575005,
+        "outlet_max_mg_g": 0.1397835566374681,
+        "delivery_max_ey_pp": 0.0034467060456134916
+      },
+      {
+        "outlet_rmse_mg_g": 0.0008968785530704338,
+        "outlet_max_mg_g": 0.0047555032693651356,
+        "delivery_max_ey_pp": 7.96131284354197e-06
+      }
+    ]
+  },
+  "readout_high/hydraulic_linear_1/1/shallow": {
+    "balance_relative": 1.8403255058235725e-14,
+    "minimum_mass_kg": -7.351263785434467e-14,
+    "solver_calls": 4,
+    "nfev": 6666,
+    "refinement": [
+      {
+        "outlet_rmse_mg_g": 0.005230785410698336,
+        "outlet_max_mg_g": 0.17190251735215156,
+        "delivery_max_ey_pp": 0.005911653472760273
+      },
+      {
+        "outlet_rmse_mg_g": 0.0021430009528094164,
+        "outlet_max_mg_g": 0.057300839117431224,
+        "delivery_max_ey_pp": 0.0019718809783279374
+      },
+      {
+        "outlet_rmse_mg_g": 0.0010864465025739742,
+        "outlet_max_mg_g": 0.010762169528618415,
+        "delivery_max_ey_pp": 5.53458696206377e-05
+      }
+    ]
+  }
+}

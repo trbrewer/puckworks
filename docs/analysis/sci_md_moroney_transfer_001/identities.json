@@ -21,5 +21,17 @@
     "puckworks/data/moroney2015/table2_cylindrical_simulation_parameters.csv": "31108fa4d047be0499522412f1665fe2ffe0f3d2f9dbeaee4ad9e694ea6bee63",
     "puckworks/data/moroney2015/fig07_cylindrical_model_vs_experiment.csv": "60237af0206202c2af750c9e7a957291ce5620e728c7474c9e72314ecd996603",
     "puckworks/data/moroney2015/table1_batch_simulation_parameters.csv": "3354740f0efa45a171cfa44d96add20388543a55ffc26d6565cdd187e39454bc"
+  },
+  "original_pdf": {
+    "sha256": "896672a997e585a50d97f988caa66259a9a8ed0067300ea7d19725a13c01c4a8",
+    "pages": 19,
+    "doi": "10.1016/j.ces.2015.06.003",
+    "redistributed": false
+  },
+  "resumed_preparation": {
+    "puckworks_commit": "60a161680abaf9f597f081d249299e6c807c8ad2",
+    "puckworks_tree": "d0208ab9b54d9f642a84d0f95b3567e723c5223d",
+    "ewp_commit": "1888152dda691313e0d8b575aed716cac18c6059",
+    "ewp_tree": "8fe3174b3b5157c5f3a1d7a8bc894274574a9436"
   }
 }

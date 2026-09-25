@@ -1,7 +1,8 @@
 # SCI-MD-MORONEY-TRANSFER-001 — pre-scoring protocol
 
-Status: PREPARATION; no calibration, transfer prediction freeze or target scoring
-has executed. Original Figure 11 object confirmation remains pending. The owner
+Status: SOURCE_QUALIFIED / PRE_SCORING; no real calibration, transfer prediction
+freeze or target scoring has executed at this freeze. The owner supplied the
+original PDF and the selected figure-object audit is now complete. The owner
 has explicitly authorized this research solver and bounded comparison, subject
 to independent pre-scoring review. This document and `protocol.json` together
 are the contract; `freeze.json` binds their exact bytes and dependencies.
@@ -44,14 +45,24 @@ inventory was queried for Moroney 2015 only. It holds the CSV family but no PDF.
 Other external families are CATALOG_ONLY and outside scope. Public author text
 of DOI 10.1016/j.ces.2015.06.003 was inspected; author/publisher PDF requests
 returned HTTP 403/400. A local similarly named PDF proved to be Moroney 2017
-and was rejected. Original page/object verification is still required.
+and was rejected. The owner subsequently supplied the original 2015 PDF, SHA256
+896672a997e585a50d97f988caa66259a9a8ed0067300ea7d19725a13c01c4a8.
+Its pages 219 and 233 were inspected visually and as PDF objects by the
+implementation author and independent reviewer. Table1/page224, Table2 and
+equations/page225, Fig7/page226 and AppendixG.3/page232 were also inspected for
+task inputs. No original PDF or raster page is redistributed.
 
 `qualified_rows.csv` is a view over immutable source hashes with one-based data
 row identities (comments/header excluded). Primary deep: Fig3 panels a/b only,
 22 pot and 22 outlet points. Primary shallow: Fig11 panels a/b, 14 pot and 14
-outlet candidate points. Four proposed legend exclusions are data rows 7, 33,
-45, 71 (coordinates specified in owner request). These are pending until original
-page 233 visual and coordinate evidence is recorded. Never exclude by residual.
+outlet points. Four confirmed legend exclusions are data rows 7, 33, 45, 71.
+Each is inside the page-233 legend box beside its series label; source_objects.json
+records original PDF identity, major-tick coordinates, drawing/subpath identities
+and all selected row matches. Fig3 has exactly 22 markers per selected panel and
+no legend contamination. Fig11 has 22 deep, 14 shallow and two legend markers
+per panel. Object-to-CSV discrepancies are <=0.030 g and <=0.003 mg/g,
+well inside the declared readout probes. Counts were recovered from the objects,
+not imposed on the adapter. No point was excluded by residual.
 Fig11's other 44 blue points are duplicates of deep Fig3. Fig7's model lines are
 reproduction references and its observations duplicate Fig3. Cimbali, Fig8,
 Fig12 duplicate curves and later papers are not additional folds. Tables retain
@@ -76,8 +87,9 @@ of 969.286 kg/m³ and maximum disagreement 0.5842 kg/m³ under Table1's 965.3.
 This is an audit of duplicate plotted representations, not a new measured
 density. The README's approximate 1.033 factor is not an exact Table1 identity.
 Primary Fig3 native units are retained; rho is not fitted to shallow data.
-Original axes must be confirmed and the discrepancy treated as source readout
-sensitivity, not silently corrected. Source concentrations were refractometric
+Original axes were visually confirmed: Fig3 uses g and mg/g; Fig7 uses kg and
+kg/m3. The duplicate-representation discrepancy remains source readout
+sensitivity; it is not silently corrected. Source concentrations were refractometric
 with evaporative calibration (1 Brix = 8.25 g/L); no replicate errors recovered.
 
 Dose is as received with approximately 4% moisture; m_dry=0.96 dose, i.e.
@@ -96,6 +108,11 @@ kinetics, filling, swelling, channeling or capillary law. Source pressure is use
 only for the explicitly conditional hydraulic volume branch. Existing batch
 solver supplies conservative exchange sign and grain/mobile volume factors.
 Moroney-2019 LDF equations and zero-liquid initial states are not substituted.
+The original page225 Eq59 prints the same exchange sign as mobile Eq57.
+This task explicitly corrects the internal balance to +alpha*(Ch-Cv),
+consistent with the existing conservative batch implementation and with total
+solute conservation. Literal same-sign exchange would create or destroy solute.
+This is a disclosed conservative correction, not an author-confirmed erratum.
 
 In a cell: Vg=grain envelope volume; Vh=mobile volume; Mh,V,S are respectively
 mobile, internal-pore dissolved and remaining surface-soluble masses [kg].
@@ -257,3 +274,13 @@ prediction-artifact/score/decision/figure test and analytic closed-exchange
 exponential test verify affected paths. None of these fixtures uses real target
 concentrations or authorizes scoring. The revised freeze supersedes the initial
 rejected freeze; the independent report preserves its exact reviewed identity.
+
+## Original-PDF qualification continuation
+
+The prior unscored preparation and its two review reports remain historical
+evidence. This source-qualified freeze supersedes its source_ready=false freeze
+(SHA256 51a9ad37d4fe3526b207654ff5069d1d0bda48b0b802b57b71a9918bdbd60938).
+No domains, starts, initialization families, thresholds or source perturbations
+were changed. The CLI now prints progress and checkpoints completed deep fits;
+only the final prediction_freeze.json authorizes later score attachment.
+Independent approval must bind this revised freeze before any real fit.
