@@ -1,0 +1,41 @@
+{
+  "puckworks": {
+    "base_commit": "3ed109d60ffcaaca502345ab56e19b116198934e",
+    "base_tree": "3e71edf861c3b9ec13504319000b0aab1251ae05",
+    "starting_status": "clean isolated worktree from freshly fetched origin/main"
+  },
+  "ewp": {
+    "base_commit": "51ac2a0bc0d4f083dcbd6f6285c7f32f27d2c6be",
+    "base_tree": "5908e3a00bd098d5938d9e3cd54a763d945d6893",
+    "starting_status": "clean isolated worktree from freshly fetched origin/main"
+  },
+  "owner_checkouts": {
+    "puckworks": {
+      "commit": "2058d0e947ee9eb92c52d64f6165b810f1fb4732",
+      "tree": "a6ffb312473b15be43c1571a893b19873ea47c5a",
+      "status": "clean; unchanged"
+    },
+    "ewp": {
+      "commit": "78cbd59c751393cddfe539e4c69e43a224329bca",
+      "tree": "b23347e33c67576b786922762eae168bf06b28fa",
+      "status": "clean; unchanged"
+    }
+  },
+  "sources": {
+    "puckworks/data/mo2023_2/figs7_9_simulation_lines.csv": "79cbc3d2a2bd5cb52ca450e59bf51a50f0f24b90465d951392980c3f6cceba26",
+    "puckworks/data/mo2023_2/fig3a_qdecay.csv": "af09bfdf5ce26f492e9d8c6d7034e1d7607affa4bc221e5132c40eb4afd24ecc",
+    "puckworks/data/mo2023_2/table2_k0.csv": "c36c129d66b9b53dc1f9a44d374c6d54d7b36a453e2e34d18362d1d25b357cf9",
+    "puckworks/data/mo2023_2/figs6_9_yield_strength.csv": "4413a5c7bdfd42b1e86f7770c682e04848e7e861c3e318dba4cfe97ad36633d3",
+    "puckworks/data/mo2023_2/fig6_Ksweep_typeM.csv": "a80e8700804caa7a17f106b55d0838004b8d10dea6ca04aeeae703f231ea73f3",
+    "puckworks/data/mo2023_2/table1_granulometry.csv": "781299488ad480fd121bcea7a9c592c2a7f12af539f3df9b7fd61e9fd45d6521"
+  },
+  "original_manuscript": {
+    "sha256": "9e3f99a97530ec4b0936b8295f5b3e4485614dcbd25ef3f3c2dbbae0c8afdd82",
+    "pages": 30,
+    "printed_pages": "1-28 (prefatory pages; footer says of 24)",
+    "url": "https://bird.bcamath.org/handle/20.500.11824/2062",
+    "doi": "10.1016/j.jfoodeng.2023.111843",
+    "rights": "institutional item CC BY-NC-SA 3.0 ES; source not relicensed as software; PDF not redistributed"
+  },
+  "private_manifest_sha256": "ef487730d603c3303d9af1d329388cc9fa8259c62edb7c5028f6a5387088f842"
+}

@@ -1,0 +1,13 @@
+{
+  "scope": "historical implementation diagnostic only; gates unchanged",
+  "trajectories_launched": 4,
+  "trajectories_completed": 4,
+  "solver_calls": 4,
+  "prebreakthrough_eluted_fraction": 0.031284721000303106,
+  "max_balance_deviation": 0.1796875,
+  "dose_argument_changes_output": false,
+  "inventory_scale_ratio_ey": 2.0,
+  "inventory_scale_ratio_strength": 1.0,
+  "support_policy": "np.interp endpoint clamps in legacy; new observer rejects out-of-support requests",
+  "reduced_implementation": "Inspected extraction.py: separate fine/coarse lumped calls share Q but not one axial liquid field; historical swelling contrast preserved"
+}

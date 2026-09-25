@@ -1,0 +1,382 @@
+{
+  "scope": "synthetic assumed observer; not fitted resolution qualification",
+  "hypothetical_bed": {
+    "dose_kg": 0.015,
+    "radius_m": 0.029,
+    "height_m": 0.0135,
+    "porosity": 0.17,
+    "density_kg_m3": 1000,
+    "collection_fraction": 0.5
+  },
+  "trajectories_launched": 36,
+  "trajectories_completed": 32,
+  "failed_trajectories": [
+    {
+      "candidate": "S0",
+      "case": "fast",
+      "powder": "F",
+      "flow_mL_s": 4,
+      "inventory_fraction": 1,
+      "kinetic": 1000.0,
+      "partition": 2.0,
+      "nz": 24,
+      "nr": 12,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        31.0,
+        51.0,
+        83.0
+      ],
+      "status": "NUMERICAL_FAILURE",
+      "reason": "negative mass or delivered-solute regression",
+      "solver_calls": 25,
+      "solver_calls_provenance": "reconstructed from post-loop rejection after all nz+1 phase solves; not a new execution",
+      "failure_extrema_status": "not retained by original exception; no retry"
+    },
+    {
+      "candidate": "S0",
+      "case": "fast",
+      "powder": "F",
+      "flow_mL_s": 4,
+      "inventory_fraction": 1,
+      "kinetic": 1000.0,
+      "partition": 2.0,
+      "nz": 48,
+      "nr": 24,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        31.0,
+        51.0,
+        83.0
+      ],
+      "status": "NUMERICAL_FAILURE",
+      "reason": "negative mass or delivered-solute regression",
+      "solver_calls": 49,
+      "solver_calls_provenance": "reconstructed from post-loop rejection after all nz+1 phase solves; not a new execution",
+      "failure_extrema_status": "not retained by original exception; no retry"
+    },
+    {
+      "candidate": "S2",
+      "case": "fast",
+      "powder": "F",
+      "flow_mL_s": 4,
+      "inventory_fraction": 1,
+      "kinetic": 1000.0,
+      "partition": 2.0,
+      "nz": 96,
+      "nr": 48,
+      "rtol": 1e-07,
+      "atol": 1e-10,
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        31.0,
+        51.0,
+        83.0
+      ],
+      "status": "NUMERICAL_FAILURE",
+      "reason": "negative mass or delivered-solute regression",
+      "solver_calls": 97,
+      "solver_calls_provenance": "reconstructed from post-loop rejection after all nz+1 phase solves; not a new execution",
+      "failure_extrema_status": "not retained by original exception; no retry"
+    },
+    {
+      "candidate": "S2",
+      "case": "fast",
+      "powder": "F",
+      "flow_mL_s": 4,
+      "inventory_fraction": 1,
+      "kinetic": 1000.0,
+      "partition": 2.0,
+      "nz": 96,
+      "nr": 48,
+      "rtol": 1e-09,
+      "atol": 1e-12,
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        31.0,
+        51.0,
+        83.0
+      ],
+      "status": "NUMERICAL_FAILURE",
+      "reason": "negative mass or delivered-solute regression",
+      "solver_calls": 97,
+      "solver_calls_provenance": "reconstructed from post-loop rejection after all nz+1 phase solves; not a new execution",
+      "failure_extrema_status": "not retained by original exception; no retry"
+    }
+  ],
+  "solver_calls_completed_trajectories": 2144,
+  "radial_reference_trajectories": [
+    {
+      "nr": 24,
+      "max_remaining_fraction_error": 0.002616431202608016,
+      "solver_calls": 1,
+      "nfev": 864,
+      "completed": true
+    },
+    {
+      "nr": 48,
+      "max_remaining_fraction_error": 0.0006430333398775856,
+      "solver_calls": 1,
+      "nfev": 986,
+      "completed": true
+    },
+    {
+      "nr": 96,
+      "max_remaining_fraction_error": 0.00016010521475895434,
+      "solver_calls": 1,
+      "nfev": 1104,
+      "completed": true
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "S0",
+      "case": "slow",
+      "mass_g": [
+        6.0,
+        12.0,
+        22.0,
+        33.0,
+        51.0,
+        83.0
+      ],
+      "coarse_medium_max_ey_pp": 6.428947923511896e-05,
+      "medium_fine_max_ey_pp": 3.214426188685726e-05,
+      "tolerance_max_ey_pp": 5.85078839109715e-09,
+      "allowance_by_mass_ey_pp": [
+        3.1577244459910295e-05,
+        3.162529004870074e-05,
+        3.169571300695728e-05,
+        3.177676331459628e-05,
+        3.190937733095478e-05,
+        3.21450414923069e-05
+      ],
+      "max_allowance_ey_pp": 3.21450414923069e-05,
+      "derived_strength_allowance_pct": [
+        3.947155557488787e-05,
+        1.9765806280437958e-05,
+        1.0805356706917255e-05,
+        7.2219916624082446e-06,
+        4.692555489846291e-06,
+        2.9046724240036357e-06
+      ],
+      "ceiling_pass": true
+    },
+    {
+      "candidate": "S0",
+      "case": "middle",
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        30.0,
+        51.0,
+        80.0
+      ],
+      "coarse_medium_max_ey_pp": 0.2414839348907165,
+      "medium_fine_max_ey_pp": 0.1214880062790229,
+      "tolerance_max_ey_pp": 1.2009987770511543e-05,
+      "allowance_by_mass_ey_pp": [
+        0.07917733961683382,
+        0.09546325470072148,
+        0.11485410168339172,
+        0.12149040126313082,
+        0.11208834739831275,
+        0.08088950450979837
+      ],
+      "max_allowance_ey_pp": 0.12149040126313082,
+      "derived_strength_allowance_pct": [
+        0.11876600942525072,
+        0.07159744102554111,
+        0.04307028813127189,
+        0.030372600315782705,
+        0.016483580499751873,
+        0.007583391047793596
+      ],
+      "ceiling_pass": false
+    },
+    {
+      "candidate": "S2",
+      "case": "slow",
+      "mass_g": [
+        6.0,
+        12.0,
+        22.0,
+        33.0,
+        51.0,
+        83.0
+      ],
+      "coarse_medium_max_ey_pp": 0.0012268788257381313,
+      "medium_fine_max_ey_pp": 0.0006146272833109645,
+      "tolerance_max_ey_pp": 9.69482238599717e-07,
+      "allowance_by_mass_ey_pp": [
+        0.00049519046044387,
+        0.0005049917747895483,
+        0.0005214570475089997,
+        0.0005392810244166935,
+        0.0005674940324656985,
+        0.0006155129243945456
+      ],
+      "max_allowance_ey_pp": 0.0006155129243945456,
+      "derived_strength_allowance_pct": [
+        0.0006189880755548376,
+        0.00031561985924346767,
+        0.0001777694480144317,
+        0.00012256386918561214,
+        8.345500477436743e-05,
+        5.561863774649508e-05
+      ],
+      "ceiling_pass": true
+    },
+    {
+      "candidate": "S2",
+      "case": "middle",
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        30.0,
+        51.0,
+        80.0
+      ],
+      "coarse_medium_max_ey_pp": 0.353376732528325,
+      "medium_fine_max_ey_pp": 0.1844625193849332,
+      "tolerance_max_ey_pp": 8.749917029149401e-06,
+      "allowance_by_mass_ey_pp": [
+        0.1844627089096953,
+        0.0735484395153101,
+        0.052842248978514306,
+        0.05269880648231151,
+        0.05117848010609549,
+        0.047215488515860216
+      ],
+      "max_allowance_ey_pp": 0.1844627089096953,
+      "derived_strength_allowance_pct": [
+        0.27669406336454294,
+        0.05516132963648256,
+        0.019815843366942865,
+        0.013174701620577876,
+        0.007526247074425808,
+        0.004426452048361894
+      ],
+      "ceiling_pass": false
+    },
+    {
+      "candidate": "D2",
+      "case": "slow",
+      "mass_g": [
+        6.0,
+        12.0,
+        22.0,
+        33.0,
+        51.0,
+        83.0
+      ],
+      "coarse_medium_max_ey_pp": 0.9910888049171653,
+      "medium_fine_max_ey_pp": 0.8823148715536568,
+      "tolerance_max_ey_pp": 9.73538025661469e-06,
+      "allowance_by_mass_ey_pp": [
+        0.15207874969592616,
+        0.2346480055613389,
+        0.38154796785164713,
+        0.5287468646437627,
+        0.7109972589627382,
+        0.8823246069339135
+      ],
+      "max_allowance_ey_pp": 0.8823246069339135,
+      "derived_strength_allowance_pct": [
+        0.1900984371199077,
+        0.1466550034758368,
+        0.13007317085851608,
+        0.12016974196449151,
+        0.1045584204356968,
+        0.07972812713258252
+      ],
+      "ceiling_pass": false
+    },
+    {
+      "candidate": "D2",
+      "case": "middle",
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        30.0,
+        51.0,
+        80.0
+      ],
+      "coarse_medium_max_ey_pp": 1.0341284015073526,
+      "medium_fine_max_ey_pp": 0.38881754879317043,
+      "tolerance_max_ey_pp": 0.00019208117135960379,
+      "allowance_by_mass_ey_pp": [
+        0.38900962996453003,
+        0.3883024554683203,
+        0.2336869772579746,
+        0.1747525096101299,
+        0.11553328583475775,
+        0.07478805881058292
+      ],
+      "max_allowance_ey_pp": 0.38900962996453003,
+      "derived_strength_allowance_pct": [
+        0.583514444946795,
+        0.29122684160124024,
+        0.08763261647174048,
+        0.04368812740253247,
+        0.01699018909334673,
+        0.007011380513492148
+      ],
+      "ceiling_pass": false
+    },
+    {
+      "candidate": "D2",
+      "case": "fast",
+      "mass_g": [
+        5.0,
+        10.0,
+        20.0,
+        31.0,
+        51.0,
+        83.0
+      ],
+      "coarse_medium_max_ey_pp": 1.0860378966379187,
+      "medium_fine_max_ey_pp": 0.5042689699644143,
+      "tolerance_max_ey_pp": 7.026692657774447e-05,
+      "allowance_by_mass_ey_pp": [
+        0.504339236890992,
+        0.35134021286835093,
+        0.16601512893186054,
+        0.0647483310134902,
+        0.009406232168259976,
+        0.00031870628876617957
+      ],
+      "max_allowance_ey_pp": 0.504339236890992,
+      "derived_strength_allowance_pct": [
+        0.756508855336488,
+        0.2635051596512632,
+        0.0622556733494477,
+        0.01566491879358634,
+        0.0013832694365088199,
+        2.879876103308851e-05
+      ],
+      "ceiling_pass": false
+    }
+  ],
+  "no_response_values_used": true,
+  "fitting_resolution_selected": false,
+  "total_bed_solver_calls": 2412,
+  "rejected_trajectory_solver_calls_reconstructed": 268,
+  "status": "NUMERICALLY_UNRESOLVED",
+  "reason": "four post-solve positivity/monotonicity rejections and empirical refinement allowances over0.10 EY pp"
+}

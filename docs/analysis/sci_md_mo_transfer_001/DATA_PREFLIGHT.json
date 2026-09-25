@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "task_id": "SCI-MD-MO-TRANSFER-001",
+  "scientific_question": "Does PSD-informed fixed-flow extraction earn grouped transfer gain?",
+  "decision_to_change": "Retain simpler adequate kinetics or prioritize earned PSD/diffusion; no production integration",
+  "governance_class": "G1",
+  "model_stage": [
+    "extraction"
+  ],
+  "required_observables": [
+    "fixed-flow cumulative EY and strength with dose/cup clock"
+  ],
+  "required_independence": "retrospective grouped out-of-fit source-internal; no external-validation claim",
+  "puckworks_authority": {
+    "base_commit": "3ed109d60ffcaaca502345ab56e19b116198934e",
+    "base_tree": "3e71edf861c3b9ec13504319000b0aab1251ae05",
+    "starting_status": "clean isolated worktree from freshly fetched origin/main",
+    "commit": "3ed109d60ffcaaca502345ab56e19b116198934e",
+    "tree": "3e71edf861c3b9ec13504319000b0aab1251ae05",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5"
+  },
+  "external_data_check": {
+    "performed": true,
+    "mounted_corpora": [
+      "mo2023_2 six matching CSVs"
+    ],
+    "known_but_unmounted_corpora": [],
+    "source_manifest_hashes": {
+      "configured_private_manifest": "ef487730d603c3303d9af1d329388cc9fa8259c62edb7c5028f6a5387088f842"
+    },
+    "original_article": "institutional PDF recovered and inspected"
+  },
+  "datasets_reviewed": [
+    "mo2023_2/granulometry_table1",
+    "mo2023_2/yield_strength_figs6_9"
+  ],
+  "prior_tasks_reviewed": [
+    "historical Fig8 coupled_bed reconstruction",
+    "fixed-flow swelling-insensitivity gate",
+    "I-072 structural retirement"
+  ],
+  "existing_data_routes_considered": {
+    "direct_observation_comparison": "operator blocked",
+    "source_reconstruction": "historical fit preserved; not transfer",
+    "source_internal_transfer": "authorized but source mapping blocked",
+    "normalized_comparison": "not a substitute for authorized absolute EY question",
+    "cross_source_join": "not authorized or required",
+    "adapter_or_observation_operator": "implemented source register and dimensional audit; unresolved mapping retained",
+    "parameter_sensitivity": "predictor-only numerical checks; no response fitting",
+    "identifiability_or_discrimination": "not adjudicated before qualification",
+    "simple_baseline_comparison": "S0/S2/D2 share transport and observer in verified reference",
+    "bounded_public_data_search": "original institutional manuscript and cited apparatus patent inspected"
+  },
+  "usable_existing_evidence": [
+    "51 tabulated source rows for auditing",
+    "four PSD rows; E/M/F for candidate inputs",
+    "source extraction-only exchange convention"
+  ],
+  "remaining_scoped_gaps": [
+    "campaign cup split and mass/time mapping",
+    "startup inlet history/storage",
+    "experimental yield denominator and averaging operator",
+    "common material for powder axis"
+  ],
+  "data_sufficiency_status": "SPECIFIC_DATA_GAP_REMAINS",
+  "data_starvation_scope": [
+    "only named absolute flow/powder transfer operator"
+  ],
+  "home_lab_recommendation": {
+    "status": "NONE",
+    "operational_authorization": false
+  },
+  "next_action": "Retain unscored implementation; no automatic successor",
+  "prepared_by": "implementation agent with separate independent scientific review",
+  "evidence": [
+    "SOURCE_CONTRACT.md",
+    "review/SOURCE_REVIEW.md",
+    "observation_register.csv"
+  ]
+}
