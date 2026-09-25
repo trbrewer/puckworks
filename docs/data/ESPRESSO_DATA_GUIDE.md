@@ -285,6 +285,10 @@ inspection state are separate: an unresolved role does not mean unreadable data.
 | DCG-E07 / `schulman2011/basket_geometry` | Initial strict-reader problem with quoted comments/header retained as history. Final comment-filtered receipt: 14 rows, six columns, consistent widths; not a physical PARSE_FAILED entry. Check geometry conventions against the source card before scientific use. |
 | DCG-E08 / archive members | 303 member parse failures, all in Pannusch archives: 128 UnicodeDecodeError, 92 ValueError, 70 XLRDError, 12 BadZipFile, 1 TypeError. Resource-fork/opaque or encoding-incompatible members remain explicit exceptions. They are not 303 additional physical failures or absent experiments. Use the private member diagnostic to select one relevant member; retain depth/size/traversal limits and never execute archive code. |
 
+## Curated task outcomes
+
+[SCI-MD-MO-TRANSFER-001](../analysis/sci_md_mo_transfer_001/RESULT.md) implemented an analysis-only conservative S0/S2/D2 reference and audited all 51 supplied rows. Both absolute transfer axes remain `BLOCKED_SOURCE_CONTRACT`; numerical application is separately `NUMERICALLY_UNRESOLVED`. Original institutional manuscript inspected; no real fit/score or production integration. Historical reconstruction remains unchanged.
+
 ## Publication and storage
 
 No raw data, screenshots, real sample records, permission correspondence or large
@@ -618,8 +622,6 @@ Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-
 Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### mo2023_2
-
-[SCI-MD-MO-TRANSFER-001](../analysis/sci_md_mo_transfer_001/RESULT.md) implemented an analysis-only conservative S0/S2/D2 reference and audited all 51 supplied rows. Both absolute transfer axes remain `BLOCKED_SOURCE_CONTRACT`; numerical application is separately `NUMERICALLY_UNRESOLVED`. Original institutional manuscript inspected; no real fit/score or production integration. Historical reconstruction remains unchanged.
 
 **Access:** FOUND on 2026-09-23; 7 files / 49,822 bytes; 6 structured files, 6 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 

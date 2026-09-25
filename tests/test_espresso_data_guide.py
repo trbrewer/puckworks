@@ -28,6 +28,27 @@ def test_local_links_and_every_family_discoverable():
         assert 'ESPRESSO_DATA_GUIDE.md' in (ROOT/path).read_text()
 
 
+def test_mo_task_note_is_curated_and_survives_rendering():
+    text = guide.GUIDE.read_text()
+    link = '[SCI-MD-MO-TRANSFER-001](../analysis/sci_md_mo_transfer_001/RESULT.md)'
+    note = (
+        f'{link} implemented an analysis-only conservative S0/S2/D2 reference '
+        'and audited all 51 supplied rows. Both absolute transfer axes remain '
+        '`BLOCKED_SOURCE_CONTRACT`; numerical application is separately '
+        '`NUMERICALLY_UNRESOLVED`. Original institutional manuscript inspected; '
+        'no real fit/score or production integration. Historical reconstruction '
+        'remains unchanged.'
+    )
+    assert text.count(link) == 1
+    assert text.count(note) == 1
+    for block in re.finditer(r'<!-- (\w+):start -->.*?<!-- \1:end -->', text, re.S):
+        assert link not in block.group()
+    rendered = guide.render(text)
+    assert rendered.count(note) == 1
+    assert rendered == text
+    assert guide.render(rendered) == rendered
+
+
 def test_no_private_payload_in_committed_projection():
     snapshot=json.loads((ROOT/'puckworks/data/LOCAL_CORPUS_SNAPSHOT.json').read_text())
     text=json.dumps(snapshot)
