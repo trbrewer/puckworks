@@ -1,0 +1,75 @@
+{
+  "data_starvation_scope": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "datasets_reviewed": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "decision_to_change": "Retain or reject this specific early-assay-conditioned research predictor",
+  "evidence": [
+    "PROTOCOL.md",
+    "MODEL_CARD.md",
+    "BASES.json",
+    "INFORMATION_CONTRACT.json"
+  ],
+  "existing_data_routes_considered": {
+    "adapter_or_observation_operator": "existing full measured mass prefixes; nominal DoE settings; mass integral kernel",
+    "bounded_public_data_search": "not necessary: recovered qualified corpus supplies this named decision",
+    "cross_source_join": "Pannusch/Schmieder share lineage; no independent double cohort",
+    "direct_observation_comparison": "use fraction one as observation input; later five assays reserved for scorer",
+    "identifiability_or_discrimination": "empirical predictive fitness only",
+    "normalized_comparison": "predecessor answers different observable",
+    "parameter_sensitivity": "analytical anchor-error amplification only; no search",
+    "simple_baseline_comparison": "anchored empirical, anchored setting empirical, anchor persistence and identical unanchored suffixes",
+    "source_internal_transfer": "designated later campaign",
+    "source_reconstruction": "reuse qualified mE_cum and assay indices; workbook mass check"
+  },
+  "external_data_check": {
+    "inspected": "Six original source files rehashed against accepted source register and predecessor identities; configured external corpus accessible. Anchor values not yet extracted. Existing qualified reconstruction and documented mass/TDS basis inspected.",
+    "known_but_unmounted_corpora": [],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "performed": true
+  },
+  "governance_class": "G1",
+  "home_lab_recommendation": {
+    "operational_authorization": false,
+    "status": "NONE"
+  },
+  "model_stage": [
+    "extraction"
+  ],
+  "next_action": "Implement and test; extract permitted anchors; freeze predictions and independently audit before once-only scoring",
+  "prepared_by": "implementation agent; source files verified before anchor extraction",
+  "prior_tasks_reviewed": [
+    "SCI-MD-MASS-DELIVERY-001 merged #278/#184",
+    "SCI-MD-MASS-DELIVERY-002 merged #280/#186",
+    "OBS-PANNUSCH-FRACTION-WINDOW-001"
+  ],
+  "puckworks_authority": {
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
+    "commit": "afe8205ab1f5a39842b14fe302e2979f7faf3d43",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "tree": "3b98650a1284eb4bf2c13ad4cc80313e670c9de5"
+  },
+  "remaining_scoped_gaps": [
+    "physical flow conversion unresolved and not needed for dimensionless source code",
+    "variable-setting inputs not adjudicated",
+    "coffee/roast campaign causes unresolved",
+    "joint recipe/mass coverage not complete"
+  ],
+  "required_independence": "SOURCE_INTERNAL;TARGET_EXPOSED;RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON",
+  "required_observables": [
+    "TDS",
+    "fraction_mass"
+  ],
+  "schema_version": 1,
+  "scientific_question": "Does a frozen fraction-1 amplitude update adequately predict the later five assayed fractions and earn value beyond unanchored and equally anchored alternatives?",
+  "task_id": "SCI-MD-MASS-DELIVERY-003",
+  "usable_existing_evidence": [
+    "Three frozen predecessor artifacts and exact integration kernels",
+    "12 intended primary shot anchors and 60 suffix assays subject to identity and validity checks",
+    "complete measured collection prefixes and qualified nominal settings"
+  ]
+}

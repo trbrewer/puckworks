@@ -1,0 +1,28 @@
+{
+  "anchor_fraction_id": 1,
+  "conditions": [
+    "PRED-C01",
+    "PRED-C02",
+    "PRED-C05",
+    "PRED-C06"
+  ],
+  "contract_commit": "2f2ba19aa4341c667f47a290ed2e831dee0fc3ae",
+  "expected_anchors": 12,
+  "expected_later_assays": 60,
+  "files": {
+    "docs/analysis/sci_md_mass_delivery_003/BASES.json": "31d8e4d248a5313470203510d1c517913b037415b14d4b2ab09e3c023242b280",
+    "docs/analysis/sci_md_mass_delivery_003/MODEL_CARD.md": "cb8413068c9f9eeef76d969f70dd3f91a2d989d6f9f19ac437d4e704c306317c",
+    "docs/analysis/sci_md_mass_delivery_003/PROTOCOL.md": "5d1e3f0cb2c11969e5cbee5c549f5d3521329d6e69cba997511f0d63441ca85e"
+  },
+  "new_fits": 0,
+  "outcome_fraction_ids": [
+    2,
+    3,
+    5,
+    7,
+    10
+  ],
+  "status": "FROZEN_BEFORE_ANCHOR_EXTRACTION",
+  "task": "SCI-MD-MASS-DELIVERY-003",
+  "timestamp_utc": "2026-09-26T21:38:40.779017+00:00"
+}

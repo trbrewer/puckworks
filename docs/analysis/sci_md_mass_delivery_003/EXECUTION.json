@@ -1,0 +1,12 @@
+{
+  "later_TDS_used": false,
+  "native_ewp_runs": 0,
+  "new_curve_fits": 0,
+  "numpy": "2.5.3",
+  "optimizer_calls": 0,
+  "predictions": 420,
+  "python": "3.12.3",
+  "scipy": "1.18.1",
+  "supported_predictions": 420,
+  "task": "SCI-MD-MASS-DELIVERY-003"
+}
