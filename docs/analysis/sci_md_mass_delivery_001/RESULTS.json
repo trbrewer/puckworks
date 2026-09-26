@@ -1,0 +1,1312 @@
+{
+  "bootstrap": {
+    "method": "paired conditions then shots; intact fraction vectors; PCG64 20260926",
+    "models": {
+      "BOUNDARY_AWARE_EMPIRICAL": [
+        [
+          0.797858180977997,
+          1.3316131936828615
+        ],
+        [
+          0.12672197868568247,
+          0.5199595438467797
+        ]
+      ],
+      "MASS": [
+        [
+          0.7954129103569919,
+          1.333683488024124
+        ],
+        [
+          0.13213081005372604,
+          0.5057265608490402
+        ]
+      ],
+      "TIME": [
+        [
+          0.6045006115270447,
+          1.6708050424334697
+        ],
+        [
+          0.4467234435315063,
+          1.4545790369766363
+        ]
+      ],
+      "TIME_sqrt": [
+        [
+          0.7062331507256586,
+          1.871208664319978
+        ],
+        [
+          0.5006291428617209,
+          1.6242224962640741
+        ]
+      ],
+      "TIME_u2": [
+        [
+          0.6013458990084004,
+          1.5184289853859723
+        ],
+        [
+          0.3877663720881649,
+          1.3109999293238435
+        ]
+      ]
+    },
+    "paired_MASS_minus": {
+      "BOUNDARY_AWARE_EMPIRICAL": [
+        [
+          -0.030793388907610738,
+          0.015696523922557652
+        ],
+        [
+          -0.02630853336795054,
+          0.015622963690645414
+        ]
+      ],
+      "TIME": [
+        [
+          -0.5702738187584383,
+          0.2245679139807076
+        ],
+        [
+          -1.2349017728456726,
+          -0.25425843053814173
+        ]
+      ],
+      "TIME_sqrt": [
+        [
+          -0.7474772552311244,
+          0.11973010476176035
+        ],
+        [
+          -1.3973683030684276,
+          -0.3138473014073381
+        ]
+      ],
+      "TIME_u2": [
+        [
+          -0.43305954914451517,
+          0.2668870941375612
+        ],
+        [
+          -1.0891791836510498,
+          -0.17920016526657503
+        ]
+      ]
+    },
+    "replicates": 2000,
+    "status": "DESCRIPTIVE_ONLY_FOUR_PRIMARY_CONDITIONS"
+  },
+  "comparisons": {
+    "BOUNDARY_AWARE_EMPIRICAL": {
+      "MASS_adequate": false,
+      "R_delta_allowance_pp": 3.334967402028801e-11,
+      "R_reduction_pp": 0.006941488060078882,
+      "abs_B_delta_allowance_pp": 1.4821976542830718e-11,
+      "abs_B_deterioration_pp": -0.0053857688628043965,
+      "competitive": false,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 1,
+      "conditions_improved_possible": 1,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "FAIL",
+        "FAIL",
+        "PASS",
+        "FAIL"
+      ],
+      "relative_R_reduction": 0.006720511591173983,
+      "status": "QUALIFIED"
+    },
+    "TIME": {
+      "MASS_adequate": false,
+      "R_delta_allowance_pp": 4.277146887952443e-10,
+      "R_reduction_pp": 0.09379549020678146,
+      "abs_B_delta_allowance_pp": 1.7811532403343383e-10,
+      "abs_B_deterioration_pp": -0.6471297565520545,
+      "competitive": false,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 1,
+      "conditions_improved_possible": 1,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "FAIL",
+        "FAIL",
+        "PASS",
+        "FAIL"
+      ],
+      "relative_R_reduction": 0.08376580031162177,
+      "status": "QUALIFIED"
+    },
+    "TIME_sqrt": {
+      "MASS_adequate": false,
+      "R_delta_allowance_pp": 2.2475004399239482e-10,
+      "R_reduction_pp": 0.24427436311592965,
+      "abs_B_delta_allowance_pp": 1.1588346676821144e-10,
+      "abs_B_deterioration_pp": -0.76485969068309,
+      "competitive": false,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 2,
+      "conditions_improved_possible": 2,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "PASS",
+        "FAIL",
+        "PASS",
+        "FAIL"
+      ],
+      "relative_R_reduction": 0.192309647346138,
+      "status": "QUALIFIED"
+    },
+    "TIME_u2": {
+      "MASS_adequate": false,
+      "R_delta_allowance_pp": 3.3354206840860724e-11,
+      "R_reduction_pp": 0.006688302522237732,
+      "abs_B_delta_allowance_pp": 1.4826679660313624e-11,
+      "abs_B_deterioration_pp": -0.5369935330833862,
+      "competitive": false,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 1,
+      "conditions_improved_possible": 1,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "FAIL",
+        "FAIL",
+        "PASS",
+        "FAIL"
+      ],
+      "relative_R_reduction": 0.006476973675232268,
+      "status": "QUALIFIED"
+    }
+  },
+  "conditions": {
+    "BOUNDARY_AWARE_EMPIRICAL": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "metrics": {
+          "B_allowance_pp": 1.9014106655008695e-13,
+          "B_pp": 0.5404947908106236,
+          "R_allowance_pp": 1.920513249712354e-13,
+          "R_pp": 1.3529193002477233,
+          "abs_B_pp": 0.5594489023704678,
+          "absolute_assayed_total_error_g": 0.18441480231527071,
+          "interval_RMSE_allowance_g": 1.0714071970403213e-14,
+          "interval_solute_RMSE_g": 0.07497718912834649,
+          "max_interval_allowance_kg": 1.310062015472049e-17,
+          "max_running_assayed_residual_g": 0.2760806135519242,
+          "signed_assayed_total_error_g": 0.17780057554534745,
+          "source_rounding_total_allowance_kg": 4.5133329963333335e-12,
+          "total_and_running_allowance_g": 6.38244071474366e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "metrics": {
+          "B_allowance_pp": 1.8949024681728878e-13,
+          "B_pp": 0.16600356534490382,
+          "R_allowance_pp": 1.913226115866062e-13,
+          "R_pp": 0.8888847022916003,
+          "abs_B_pp": 0.16600356534490382,
+          "absolute_assayed_total_error_g": 0.05748697028344215,
+          "interval_RMSE_allowance_g": 1.1129495344090752e-14,
+          "interval_solute_RMSE_g": 0.05208290531219902,
+          "max_interval_allowance_kg": 1.5409893304476094e-17,
+          "max_running_assayed_residual_g": 0.1685178008800412,
+          "signed_assayed_total_error_g": 0.05748697028344215,
+          "source_rounding_total_allowance_kg": 4.533913773333333e-12,
+          "total_and_running_allowance_g": 6.56481540127642e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C03",
+        "metrics": {
+          "B_allowance_pp": 1.8810276644089703e-13,
+          "B_pp": 0.2858618631989232,
+          "R_allowance_pp": 1.9000020606692898e-13,
+          "R_pp": 1.0148794154534235,
+          "abs_B_pp": 0.2858618631989232,
+          "absolute_assayed_total_error_g": 0.098680405254659,
+          "interval_RMSE_allowance_g": 1.0871996887129874e-14,
+          "interval_solute_RMSE_g": 0.059602079190724876,
+          "max_interval_allowance_kg": 1.3782245706980567e-17,
+          "max_running_assayed_residual_g": 0.20117723025279208,
+          "signed_assayed_total_error_g": 0.098680405254659,
+          "source_rounding_total_allowance_kg": 4.5624067825000005e-12,
+          "total_and_running_allowance_g": 6.455374045894826e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C04",
+        "metrics": {
+          "B_allowance_pp": 1.7813008427473254e-13,
+          "B_pp": 0.15324108611010243,
+          "R_allowance_pp": 1.804560929100145e-13,
+          "R_pp": 0.6962795966194296,
+          "abs_B_pp": 0.16016818056128093,
+          "absolute_assayed_total_error_g": 0.06106275764030414,
+          "interval_RMSE_allowance_g": 1.154666704030754e-14,
+          "interval_solute_RMSE_g": 0.045580084301462785,
+          "max_interval_allowance_kg": 1.6988995569918402e-17,
+          "max_running_assayed_residual_g": 0.12784847428262425,
+          "signed_assayed_total_error_g": 0.058517743138941154,
+          "source_rounding_total_allowance_kg": 4.521393993166667e-12,
+          "total_and_running_allowance_g": 6.740316477862191e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "metrics": {
+          "B_allowance_pp": 1.9124616585758285e-13,
+          "B_pp": 0.1878201485176925,
+          "R_allowance_pp": 1.9278641606765548e-13,
+          "R_pp": 0.7701557823767451,
+          "abs_B_pp": 0.1878201485176925,
+          "absolute_assayed_total_error_g": 0.06389291433382945,
+          "interval_RMSE_allowance_g": 1.129095395648918e-14,
+          "interval_solute_RMSE_g": 0.04641086770525762,
+          "max_interval_allowance_kg": 1.5408768109423138e-17,
+          "max_running_assayed_residual_g": 0.14517329761026607,
+          "signed_assayed_total_error_g": 0.06389291433382945,
+          "source_rounding_total_allowance_kg": 4.533992387e-12,
+          "total_and_running_allowance_g": 6.615712365287973e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "metrics": {
+          "B_allowance_pp": 1.8160597897879857e-13,
+          "B_pp": 0.19451391827798326,
+          "R_allowance_pp": 1.8385072898510765e-13,
+          "R_pp": 1.1195638146831677,
+          "abs_B_pp": 0.19451391827798326,
+          "absolute_assayed_total_error_g": 0.07254456682470367,
+          "interval_RMSE_allowance_g": 1.1414259361762614e-14,
+          "interval_solute_RMSE_g": 0.07023916960737749,
+          "max_interval_allowance_kg": 1.6551138167982945e-17,
+          "max_running_assayed_residual_g": 0.21045492816372005,
+          "signed_assayed_total_error_g": 0.07254456682470367,
+          "source_rounding_total_allowance_kg": 4.524903701e-12,
+          "total_and_running_allowance_g": 6.683985165450559e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "UNSUPPORTED_OR_UNQUALIFIED",
+        "condition": "PRED-C07",
+        "metrics": null,
+        "qualified_shots": 2,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C08",
+        "metrics": {
+          "B_allowance_pp": 1.7521595662992435e-13,
+          "B_pp": 0.6232596199030574,
+          "R_allowance_pp": 1.7852487915489532e-13,
+          "R_pp": 1.4617200965703352,
+          "abs_B_pp": 0.6232596199030574,
+          "absolute_assayed_total_error_g": 0.2397300565355133,
+          "interval_RMSE_allowance_g": 1.1523958828510427e-14,
+          "interval_solute_RMSE_g": 0.09856726472364996,
+          "max_interval_allowance_kg": 1.6342089752037445e-17,
+          "max_running_assayed_residual_g": 0.28721230794358504,
+          "signed_assayed_total_error_g": 0.2397300565355133,
+          "source_rounding_total_allowance_kg": 4.399715516166667e-12,
+          "total_and_running_allowance_g": 6.761735064696272e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "MASS": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "metrics": {
+          "B_allowance_pp": 9.31719651015964e-12,
+          "B_pp": 0.5336660682070119,
+          "R_allowance_pp": 2.279471449045909e-11,
+          "R_pp": 1.3564306751208512,
+          "abs_B_pp": 0.5342786168379632,
+          "absolute_assayed_total_error_g": 0.17595144605716415,
+          "interval_RMSE_allowance_g": 1.266510899999881e-12,
+          "interval_solute_RMSE_g": 0.07431333159059562,
+          "max_interval_allowance_kg": 3.1021915360603578e-15,
+          "max_running_assayed_residual_g": 0.2811450380475468,
+          "signed_assayed_total_error_g": 0.17573769108690737,
+          "source_rounding_total_allowance_kg": 4.5133329963333335e-12,
+          "total_and_running_allowance_g": 3.1567677594941335e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "metrics": {
+          "B_allowance_pp": 1.4381756579496946e-11,
+          "B_pp": 0.18938300039917735,
+          "R_allowance_pp": 3.300544089616671e-11,
+          "R_pp": 0.8940858158595252,
+          "abs_B_pp": 0.18938300039917735,
+          "absolute_assayed_total_error_g": 0.06558811896060147,
+          "interval_RMSE_allowance_g": 2.0120747757001016e-12,
+          "interval_solute_RMSE_g": 0.052218945031839444,
+          "max_interval_allowance_kg": 4.928493955539774e-15,
+          "max_running_assayed_residual_g": 0.17163284744993643,
+          "signed_assayed_total_error_g": 0.06558811896060147,
+          "source_rounding_total_allowance_kg": 4.533913773333333e-12,
+          "total_and_running_allowance_g": 4.981986896270693e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C03",
+        "metrics": {
+          "B_allowance_pp": 1.0983516557160023e-11,
+          "B_pp": 0.3055237422649811,
+          "R_allowance_pp": 2.6157433618862263e-11,
+          "R_pp": 0.9802972785074155,
+          "abs_B_pp": 0.3055237422649811,
+          "absolute_assayed_total_error_g": 0.10543205941455636,
+          "interval_RMSE_allowance_g": 1.526766901205592e-12,
+          "interval_solute_RMSE_g": 0.05709881747656453,
+          "max_interval_allowance_kg": 3.739702413481834e-15,
+          "max_running_assayed_residual_g": 0.20212847829708022,
+          "signed_assayed_total_error_g": 0.10543205941455636,
+          "source_rounding_total_allowance_kg": 4.5624067825000005e-12,
+          "total_and_running_allowance_g": 3.79393252874224e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C04",
+        "metrics": {
+          "B_allowance_pp": 1.8784128777878105e-11,
+          "B_pp": 0.11536437418677288,
+          "R_allowance_pp": 4.218497071599215e-11,
+          "R_pp": 0.701579093145288,
+          "abs_B_pp": 0.13183133462662214,
+          "absolute_assayed_total_error_g": 0.05008528945803322,
+          "interval_RMSE_allowance_g": 2.8981722350911867e-12,
+          "interval_solute_RMSE_g": 0.04544278258213328,
+          "max_interval_allowance_kg": 7.098994424710921e-15,
+          "max_running_assayed_residual_g": 0.1367474209009646,
+          "signed_assayed_total_error_g": 0.0440353281924326,
+          "source_rounding_total_allowance_kg": 4.521393993166667e-12,
+          "total_and_running_allowance_g": 7.153110878779959e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "metrics": {
+          "B_allowance_pp": 1.776063290890374e-11,
+          "B_pp": 0.17181356498962108,
+          "R_allowance_pp": 3.813761141667497e-11,
+          "R_pp": 0.7723497727937486,
+          "abs_B_pp": 0.17181356498962108,
+          "absolute_assayed_total_error_g": 0.05862210483411679,
+          "interval_RMSE_allowance_g": 2.6155008326826786e-12,
+          "interval_solute_RMSE_g": 0.04548320934193331,
+          "max_interval_allowance_kg": 6.406550637216846e-15,
+          "max_running_assayed_residual_g": 0.14839650386542746,
+          "signed_assayed_total_error_g": 0.05862210483411679,
+          "source_rounding_total_allowance_kg": 4.533992387e-12,
+          "total_and_running_allowance_g": 6.460122037434522e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "metrics": {
+          "B_allowance_pp": 1.7075836714558803e-11,
+          "B_pp": 0.19076827683306827,
+          "R_allowance_pp": 3.8700918196240664e-11,
+          "R_pp": 1.0808913835847958,
+          "abs_B_pp": 0.19076827683306827,
+          "absolute_assayed_total_error_g": 0.07094511278688147,
+          "interval_RMSE_allowance_g": 2.5560845493461387e-12,
+          "interval_solute_RMSE_g": 0.06765684682713734,
+          "max_interval_allowance_kg": 6.261050705669291e-15,
+          "max_running_assayed_residual_g": 0.2177899358680515,
+          "signed_assayed_total_error_g": 0.07094511278688147,
+          "source_rounding_total_allowance_kg": 4.524903701e-12,
+          "total_and_running_allowance_g": 6.314567776598871e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "UNSUPPORTED_OR_UNQUALIFIED",
+        "condition": "PRED-C07",
+        "metrics": null,
+        "qualified_shots": 2,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C08",
+        "metrics": {
+          "B_allowance_pp": 1.5941989515154902e-11,
+          "B_pp": 0.5248673239772382,
+          "R_allowance_pp": 3.7069465507506424e-11,
+          "R_pp": 1.506323794473721,
+          "abs_B_pp": 0.584842759667682,
+          "absolute_assayed_total_error_g": 0.2248609190784255,
+          "interval_RMSE_allowance_g": 2.4997563208116394e-12,
+          "interval_solute_RMSE_g": 0.10154228424932125,
+          "max_interval_allowance_kg": 6.123067909184303e-15,
+          "max_running_assayed_residual_g": 0.28763327251872317,
+          "signed_assayed_total_error_g": 0.20166511944796794,
+          "source_rounding_total_allowance_kg": 4.399715516166667e-12,
+          "total_and_running_allowance_g": 6.178975101553589e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "TIME": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "metrics": {
+          "B_allowance_pp": 1.702967364914667e-10,
+          "B_pp": 1.0277468710273163,
+          "R_allowance_pp": 4.2520530021147635e-10,
+          "R_pp": 1.3323621737373073,
+          "abs_B_pp": 1.0277468710273163,
+          "absolute_assayed_total_error_g": 0.3425016286562798,
+          "interval_RMSE_allowance_g": 2.3496090388527242e-11,
+          "interval_solute_RMSE_g": 0.07366694857673896,
+          "max_interval_allowance_kg": 5.755342672349635e-14,
+          "max_running_assayed_residual_g": 0.3516397351733182,
+          "signed_assayed_total_error_g": 0.3425016286562798,
+          "source_rounding_total_allowance_kg": 4.5133329963333335e-12,
+          "total_and_running_allowance_g": 5.760741005162626e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C02",
+        "metrics": {
+          "B_allowance_pp": 1.5718163717522764e-10,
+          "B_pp": 0.5164894284296316,
+          "R_allowance_pp": 3.7723187166283564e-10,
+          "R_pp": 0.7066314201433115,
+          "abs_B_pp": 0.5164894284296316,
+          "absolute_assayed_total_error_g": 0.17886342760248355,
+          "interval_RMSE_allowance_g": 2.2229209393726833e-11,
+          "interval_solute_RMSE_g": 0.04147935333425649,
+          "max_interval_allowance_kg": 5.444575050514584e-14,
+          "max_running_assayed_residual_g": 0.1842514920740718,
+          "signed_assayed_total_error_g": 0.17886342760248355,
+          "source_rounding_total_allowance_kg": 4.533913773333333e-12,
+          "total_and_running_allowance_g": 5.449801025773649e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C03",
+        "metrics": {
+          "B_allowance_pp": 1.184892511124862e-10,
+          "B_pp": 0.690245530686899,
+          "R_allowance_pp": 3.024428765856416e-10,
+          "R_pp": 0.847476523649698,
+          "abs_B_pp": 0.690245530686899,
+          "absolute_assayed_total_error_g": 0.2380158714411297,
+          "interval_RMSE_allowance_g": 1.645973265020912e-11,
+          "interval_solute_RMSE_g": 0.0496001914039293,
+          "max_interval_allowance_kg": 4.031793706763912e-14,
+          "max_running_assayed_residual_g": 0.2380158714411297,
+          "signed_assayed_total_error_g": 0.2380158714411297,
+          "source_rounding_total_allowance_kg": 4.5624067825000005e-12,
+          "total_and_running_allowance_g": 4.0371569530999114e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C04",
+        "metrics": {
+          "B_allowance_pp": 9.925703403091491e-11,
+          "B_pp": 0.957093181749659,
+          "R_allowance_pp": 2.3561136463497864e-10,
+          "R_pp": 1.0896409487577985,
+          "abs_B_pp": 0.957093181749659,
+          "absolute_assayed_total_error_g": 0.3619308849472273,
+          "interval_RMSE_allowance_g": 1.5130475134875686e-11,
+          "interval_solute_RMSE_g": 0.0700745455344096,
+          "max_interval_allowance_kg": 3.706193338337549e-14,
+          "max_running_assayed_residual_g": 0.3619308849472273,
+          "signed_assayed_total_error_g": 0.3619308849472273,
+          "source_rounding_total_allowance_kg": 4.521393993166667e-12,
+          "total_and_running_allowance_g": 3.711590796903815e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "metrics": {
+          "B_allowance_pp": 1.7258648182156796e-10,
+          "B_pp": -0.4153783609594582,
+          "R_allowance_pp": 4.1754727701137075e-10,
+          "R_pp": 0.5524926300294267,
+          "abs_B_pp": 0.4153783609594582,
+          "absolute_assayed_total_error_g": 0.14445479955048054,
+          "interval_RMSE_allowance_g": 2.4178851891940053e-11,
+          "interval_solute_RMSE_g": 0.03126347131185653,
+          "max_interval_allowance_kg": 5.922584471462766e-14,
+          "max_running_assayed_residual_g": 0.14445479955048054,
+          "signed_assayed_total_error_g": -0.14445479955048054,
+          "source_rounding_total_allowance_kg": 4.533992387e-12,
+          "total_and_running_allowance_g": 5.927831384779573e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "metrics": {
+          "B_allowance_pp": 1.538610179323539e-10,
+          "B_pp": 1.7151478248516419,
+          "R_allowance_pp": 3.582356212957529e-10,
+          "R_pp": 1.8874533842760008,
+          "abs_B_pp": 1.7151478248516419,
+          "absolute_assayed_total_error_g": 0.6323932905625401,
+          "interval_RMSE_allowance_g": 2.2849418215685336e-11,
+          "interval_solute_RMSE_g": 0.11810330712485662,
+          "max_interval_allowance_kg": 5.5969407349495036e-14,
+          "max_running_assayed_residual_g": 0.6323932905625401,
+          "signed_assayed_total_error_g": 0.6323932905625401,
+          "source_rounding_total_allowance_kg": 4.524903701e-12,
+          "total_and_running_allowance_g": 5.602343427635488e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "UNSUPPORTED_OR_UNQUALIFIED",
+        "condition": "PRED-C07",
+        "metrics": null,
+        "qualified_shots": 2,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C08",
+        "metrics": {
+          "B_allowance_pp": 1.3861202388288222e-10,
+          "B_pp": 1.726325122104976,
+          "R_allowance_pp": 3.3799425460047845e-10,
+          "R_pp": 2.2018976442567126,
+          "abs_B_pp": 1.726325122104976,
+          "absolute_assayed_total_error_g": 0.6652044739555935,
+          "interval_RMSE_allowance_g": 2.1690422974870525e-11,
+          "interval_solute_RMSE_g": 0.14622977747888502,
+          "max_interval_allowance_kg": 5.3130460100914156e-14,
+          "max_running_assayed_residual_g": 0.6652044739555935,
+          "signed_assayed_total_error_g": 0.6652044739555935,
+          "source_rounding_total_allowance_kg": 4.399715516166667e-12,
+          "total_and_running_allowance_g": 5.318720144747633e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "TIME_sqrt": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "metrics": {
+          "B_allowance_pp": 1.2347665341283754e-10,
+          "B_pp": 1.1921118822182126,
+          "R_allowance_pp": 2.4042769337294353e-10,
+          "R_pp": 1.5398809113009353,
+          "abs_B_pp": 1.1921118822182126,
+          "absolute_assayed_total_error_g": 0.39737489758664263,
+          "interval_RMSE_allowance_g": 1.4026413226446251e-11,
+          "interval_solute_RMSE_g": 0.08475017185368096,
+          "max_interval_allowance_kg": 3.3934046255827223e-14,
+          "max_running_assayed_residual_g": 0.40271294883317416,
+          "signed_assayed_total_error_g": 0.39737489758664263,
+          "source_rounding_total_allowance_kg": 4.5133329963333335e-12,
+          "total_and_running_allowance_g": 4.121040712093867e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C02",
+        "metrics": {
+          "B_allowance_pp": 8.258206611590045e-11,
+          "B_pp": 0.5971744303776155,
+          "R_allowance_pp": 1.533098711873658e-10,
+          "R_pp": 0.7805260319054677,
+          "abs_B_pp": 0.5971744303776155,
+          "absolute_assayed_total_error_g": 0.20681372435749668,
+          "interval_RMSE_allowance_g": 9.152179590780175e-12,
+          "interval_solute_RMSE_g": 0.0456348553481147,
+          "max_interval_allowance_kg": 2.1980283623305546e-14,
+          "max_running_assayed_residual_g": 0.2093450834200955,
+          "signed_assayed_total_error_g": 0.20681372435749668,
+          "source_rounding_total_allowance_kg": 4.533913773333333e-12,
+          "total_and_running_allowance_g": 2.8613170499046842e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C03",
+        "metrics": {
+          "B_allowance_pp": 1.1523032007940031e-10,
+          "B_pp": 0.8143072428605908,
+          "R_allowance_pp": 2.2323857781290233e-10,
+          "R_pp": 0.9981291799209052,
+          "abs_B_pp": 0.8143072428605908,
+          "absolute_assayed_total_error_g": 0.28040964308972094,
+          "interval_RMSE_allowance_g": 1.3280537668338244e-11,
+          "interval_solute_RMSE_g": 0.057723881657021366,
+          "max_interval_allowance_kg": 3.209495025071248e-14,
+          "max_running_assayed_residual_g": 0.28040964308972094,
+          "signed_assayed_total_error_g": 0.28040964308972094,
+          "source_rounding_total_allowance_kg": 4.5624067825000005e-12,
+          "total_and_running_allowance_g": 3.935711710238247e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C04",
+        "metrics": {
+          "B_allowance_pp": 8.533139147724048e-11,
+          "B_pp": 1.016948526251661,
+          "R_allowance_pp": 1.5610218346474598e-10,
+          "R_pp": 1.1467637135151876,
+          "abs_B_pp": 1.016948526251661,
+          "absolute_assayed_total_error_g": 0.3840795912932676,
+          "interval_RMSE_allowance_g": 1.0196130592981015e-11,
+          "interval_solute_RMSE_g": 0.07342390232651695,
+          "max_interval_allowance_kg": 2.4408245968369584e-14,
+          "max_running_assayed_residual_g": 0.3840795912932676,
+          "signed_assayed_total_error_g": 0.3840795912932676,
+          "source_rounding_total_allowance_kg": 4.521393993166667e-12,
+          "total_and_running_allowance_g": 3.20815874589366e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "metrics": {
+          "B_allowance_pp": 1.2904693515689316e-10,
+          "B_pp": -0.4621075228878624,
+          "R_allowance_pp": 2.4469766805225824e-10,
+          "R_pp": 0.6732084150079755,
+          "abs_B_pp": 0.4621075228878624,
+          "absolute_assayed_total_error_g": 0.1638425433835926,
+          "interval_RMSE_allowance_g": 1.465351435319953e-11,
+          "interval_solute_RMSE_g": 0.04104044612942436,
+          "max_interval_allowance_kg": 3.476534020154428e-14,
+          "max_running_assayed_residual_g": 0.1638425433835926,
+          "signed_assayed_total_error_g": -0.1638425433835926,
+          "source_rounding_total_allowance_kg": 4.533992387e-12,
+          "total_and_running_allowance_g": 4.3402117295109066e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "metrics": {
+          "B_allowance_pp": 6.989278967409552e-11,
+          "B_pp": 1.8942883863084996,
+          "R_allowance_pp": 1.2792625835747038e-10,
+          "R_pp": 2.0872397416082613,
+          "abs_B_pp": 1.8942883863084996,
+          "absolute_assayed_total_error_g": 0.6980837057892727,
+          "interval_RMSE_allowance_g": 8.014626457702076e-12,
+          "interval_solute_RMSE_g": 0.13037419390781352,
+          "max_interval_allowance_kg": 1.9124242120471813e-14,
+          "max_running_assayed_residual_g": 0.6980837057892727,
+          "signed_assayed_total_error_g": 0.6980837057892727,
+          "source_rounding_total_allowance_kg": 4.524903701e-12,
+          "total_and_running_allowance_g": 2.562951840051157e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "UNSUPPORTED_OR_UNQUALIFIED",
+        "condition": "PRED-C07",
+        "metrics": null,
+        "qualified_shots": 2,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C08",
+        "metrics": {
+          "B_allowance_pp": 1.2044577163433863e-10,
+          "B_pp": 1.8280141606220723,
+          "R_allowance_pp": 2.2565493362069083e-10,
+          "R_pp": 2.314058975493778,
+          "abs_B_pp": 1.8280141606220723,
+          "absolute_assayed_total_error_g": 0.7041884560964737,
+          "interval_RMSE_allowance_g": 1.5550269801118585e-11,
+          "interval_solute_RMSE_g": 0.15322130984316226,
+          "max_interval_allowance_kg": 3.755495625127706e-14,
+          "max_running_assayed_residual_g": 0.7041884560964737,
+          "signed_assayed_total_error_g": 0.7041884560964737,
+          "source_rounding_total_allowance_kg": 4.399715516166667e-12,
+          "total_and_running_allowance_g": 4.637969786147842e-11
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "TIME_u2": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "metrics": {
+          "B_allowance_pp": 1.9512579444283928e-13,
+          "B_pp": 0.872537448324004,
+          "R_allowance_pp": 1.9666612643544525e-13,
+          "R_pp": 1.1589827239433925,
+          "abs_B_pp": 0.872537448324004,
+          "absolute_assayed_total_error_g": 0.290661795603456,
+          "interval_RMSE_allowance_g": 1.1053170176368153e-14,
+          "interval_solute_RMSE_g": 0.0647036124781854,
+          "max_interval_allowance_kg": 1.4760302109646044e-17,
+          "max_running_assayed_residual_g": 0.30609791410928855,
+          "signed_assayed_total_error_g": 0.290661795603456,
+          "source_rounding_total_allowance_kg": 4.5133329963333335e-12,
+          "total_and_running_allowance_g": 6.547587446077484e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "metrics": {
+          "B_allowance_pp": 1.9183277211743274e-13,
+          "B_pp": 0.43416914100815873,
+          "R_allowance_pp": 1.927975044478777e-13,
+          "R_pp": 0.6537318198229664,
+          "abs_B_pp": 0.43416914100815873,
+          "absolute_assayed_total_error_g": 0.1503462822424397,
+          "interval_RMSE_allowance_g": 1.1224525189666442e-14,
+          "interval_solute_RMSE_g": 0.038444904635069055,
+          "max_interval_allowance_kg": 1.4717727584783456e-17,
+          "max_running_assayed_residual_g": 0.16336044575086553,
+          "signed_assayed_total_error_g": 0.1503462822424397,
+          "source_rounding_total_allowance_kg": 4.533913773333333e-12,
+          "total_and_running_allowance_g": 6.645978148712962e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C03",
+        "metrics": {
+          "B_allowance_pp": 1.9209825978362418e-13,
+          "B_pp": 0.5698427264669342,
+          "R_allowance_pp": 1.9352146232848768e-13,
+          "R_pp": 0.7387608553576777,
+          "abs_B_pp": 0.5698427264669342,
+          "absolute_assayed_total_error_g": 0.19685364866712116,
+          "interval_RMSE_allowance_g": 1.1138270129514951e-14,
+          "interval_solute_RMSE_g": 0.04382850355864291,
+          "max_interval_allowance_kg": 1.4748990923523202e-17,
+          "max_running_assayed_residual_g": 0.1996938463506853,
+          "signed_assayed_total_error_g": 0.19685364866712116,
+          "source_rounding_total_allowance_kg": 4.5624067825000005e-12,
+          "total_and_running_allowance_g": 6.591336567793462e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C04",
+        "metrics": {
+          "B_allowance_pp": 1.8375749712067644e-13,
+          "B_pp": 0.893850841588128,
+          "R_allowance_pp": 1.853512653723924e-13,
+          "R_pp": 1.069379120770858,
+          "abs_B_pp": 0.893850841588128,
+          "absolute_assayed_total_error_g": 0.3384468699314483,
+          "interval_RMSE_allowance_g": 1.1881450861582691e-14,
+          "interval_solute_RMSE_g": 0.06897190988209882,
+          "max_interval_allowance_kg": 1.6799308195992596e-17,
+          "max_running_assayed_residual_g": 0.3384468699314483,
+          "signed_assayed_total_error_g": 0.3384468699314483,
+          "source_rounding_total_allowance_kg": 4.521393993166667e-12,
+          "total_and_running_allowance_g": 6.954356303583579e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "metrics": {
+          "B_allowance_pp": 2.0171769965131223e-13,
+          "B_pp": -0.3799023506420209,
+          "R_allowance_pp": 2.047814707779931e-13,
+          "R_pp": 0.5916394221959806,
+          "abs_B_pp": 0.3799023506420209,
+          "absolute_assayed_total_error_g": 0.1291492808542374,
+          "interval_RMSE_allowance_g": 1.230230953055416e-14,
+          "interval_solute_RMSE_g": 0.03497457040849944,
+          "max_interval_allowance_kg": 1.9290981389875393e-17,
+          "max_running_assayed_residual_g": 0.13012552833872879,
+          "signed_assayed_total_error_g": -0.1291492808542374,
+          "source_rounding_total_allowance_kg": 4.533992387e-12,
+          "total_and_running_allowance_g": 6.991288123580371e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "metrics": {
+          "B_allowance_pp": 1.8261966192378577e-13,
+          "B_pp": 1.5476086514191907,
+          "R_allowance_pp": 1.838972622401399e-13,
+          "R_pp": 1.7261568914855328,
+          "abs_B_pp": 1.5476086514191907,
+          "absolute_assayed_total_error_g": 0.5709382997038354,
+          "interval_RMSE_allowance_g": 1.1359298707616242e-14,
+          "interval_solute_RMSE_g": 0.10806199839762588,
+          "max_interval_allowance_kg": 1.4588706938029027e-17,
+          "max_running_assayed_residual_g": 0.5709382997038354,
+          "signed_assayed_total_error_g": 0.5709382997038354,
+          "source_rounding_total_allowance_kg": 4.524903701e-12,
+          "total_and_running_allowance_g": 6.720803229611989e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "UNSUPPORTED_OR_UNQUALIFIED",
+        "condition": "PRED-C07",
+        "metrics": null,
+        "qualified_shots": 2,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C08",
+        "metrics": {
+          "B_allowance_pp": 1.8177471487286214e-13,
+          "B_pp": 1.6265067143490608,
+          "R_allowance_pp": 1.8423552516894598e-13,
+          "R_pp": 2.093910009711346,
+          "abs_B_pp": 1.6265067143490608,
+          "absolute_assayed_total_error_g": 0.6269112805857494,
+          "interval_RMSE_allowance_g": 1.2021950912748176e-14,
+          "interval_solute_RMSE_g": 0.1395665185017404,
+          "max_interval_allowance_kg": 1.7293650837585317e-17,
+          "max_running_assayed_residual_g": 0.6269112805857494,
+          "signed_assayed_total_error_g": 0.6269112805857494,
+          "source_rounding_total_allowance_kg": 4.399715516166667e-12,
+          "total_and_running_allowance_g": 7.014642012698795e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ]
+  },
+  "disposition": "PRIMARY_ADEQUACY_LIMITED_TO_C02_C05_NO_DECLARED_COMPETITIVENESS_OR_MATERIAL_GAIN",
+  "groups": {
+    "flow_ramp": {
+      "BOUNDARY_AWARE_EMPIRICAL": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C07",
+          "PRED-C08"
+        ],
+        "metrics": null,
+        "passing_conditions": 0
+      },
+      "MASS": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C07",
+          "PRED-C08"
+        ],
+        "metrics": null,
+        "passing_conditions": 0
+      },
+      "TIME": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C07",
+          "PRED-C08"
+        ],
+        "metrics": null,
+        "passing_conditions": 0
+      },
+      "TIME_sqrt": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C07",
+          "PRED-C08"
+        ],
+        "metrics": null,
+        "passing_conditions": 0
+      },
+      "TIME_u2": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C07",
+          "PRED-C08"
+        ],
+        "metrics": null,
+        "passing_conditions": 0
+      }
+    },
+    "primary": {
+      "BOUNDARY_AWARE_EMPIRICAL": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 4,
+        "expected_conditions": [
+          "PRED-C01",
+          "PRED-C02",
+          "PRED-C05",
+          "PRED-C06"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.881208645509393e-13,
+          "B_pp": 0.27220810573780074,
+          "R_allowance_pp": 1.900027704026512e-13,
+          "R_pp": 1.0328808998998091,
+          "abs_B_pp": 0.27694663362776184,
+          "absolute_assayed_total_error_g": 0.0945848134393115,
+          "interval_RMSE_allowance_g": 1.113719515818644e-14,
+          "interval_solute_RMSE_g": 0.060927532938295156,
+          "max_interval_allowance_kg": 1.5117604934150667e-17,
+          "max_running_assayed_residual_g": 0.20005666005148787,
+          "signed_assayed_total_error_g": 0.09293125674683068,
+          "source_rounding_total_allowance_kg": 4.526535714416667e-12,
+          "total_and_running_allowance_g": 6.561738411689653e-14
+        },
+        "passing_conditions": 2
+      },
+      "MASS": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 4,
+        "expected_conditions": [
+          "PRED-C01",
+          "PRED-C02",
+          "PRED-C05",
+          "PRED-C06"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.463385567827978e-11,
+          "B_pp": 0.27140772760721965,
+          "R_allowance_pp": 3.315967124988536e-11,
+          "R_pp": 1.0259394118397303,
+          "abs_B_pp": 0.27156086476495744,
+          "absolute_assayed_total_error_g": 0.09277669565969097,
+          "interval_RMSE_allowance_g": 2.1125427644322e-12,
+          "interval_solute_RMSE_g": 0.059918083197876434,
+          "max_interval_allowance_kg": 5.174571708621567e-15,
+          "max_running_assayed_residual_g": 0.20474108130774055,
+          "signed_assayed_total_error_g": 0.09272325691712678,
+          "source_rounding_total_allowance_kg": 4.526535714416667e-12,
+          "total_and_running_allowance_g": 5.228361117449555e-12
+        },
+        "passing_conditions": 2
+      },
+      "TIME": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 4,
+        "expected_conditions": [
+          "PRED-C01",
+          "PRED-C02",
+          "PRED-C05",
+          "PRED-C06"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.6348146835515406e-10,
+          "B_pp": 0.7110014408372829,
+          "R_allowance_pp": 3.9455501754535893e-10,
+          "R_pp": 1.1197349020465117,
+          "abs_B_pp": 0.918690621317012,
+          "absolute_assayed_total_error_g": 0.324553286592946,
+          "interval_RMSE_allowance_g": 2.3188392472469864e-11,
+          "interval_solute_RMSE_g": 0.06612827008692715,
+          "max_interval_allowance_kg": 5.6798607323191226e-14,
+          "max_running_assayed_residual_g": 0.3281848293401027,
+          "signed_assayed_total_error_g": 0.25232588681770574,
+          "source_rounding_total_allowance_kg": 4.526535714416667e-12,
+          "total_and_running_allowance_g": 5.685179210837834e-11
+        },
+        "passing_conditions": 1
+      },
+      "TIME_sqrt": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 4,
+        "expected_conditions": [
+          "PRED-C01",
+          "PRED-C02",
+          "PRED-C05",
+          "PRED-C06"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.0124961108993166e-10,
+          "B_pp": 0.8053667940041163,
+          "R_allowance_pp": 1.9159037274250946e-10,
+          "R_pp": 1.27021377495566,
+          "abs_B_pp": 1.0364205554480475,
+          "absolute_assayed_total_error_g": 0.3665287177792511,
+          "interval_RMSE_allowance_g": 1.1461683407032009e-11,
+          "interval_solute_RMSE_g": 0.07544991680975838,
+          "max_interval_allowance_kg": 2.7450978050287213e-14,
+          "max_running_assayed_residual_g": 0.36849607035653376,
+          "signed_assayed_total_error_g": 0.2846074460874548,
+          "source_rounding_total_allowance_kg": 4.526535714416667e-12,
+          "total_and_running_allowance_g": 3.471380332890154e-11
+        },
+        "passing_conditions": 1
+      },
+      "TIME_u2": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 4,
+        "expected_conditions": [
+          "PRED-C01",
+          "PRED-C02",
+          "PRED-C05",
+          "PRED-C06"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.9282398203384252e-13,
+          "B_pp": 0.6186032225273331,
+          "R_allowance_pp": 1.9453559097536398e-13,
+          "R_pp": 1.032627714361968,
+          "abs_B_pp": 0.8085543978483436,
+          "absolute_assayed_total_error_g": 0.2852739146009921,
+          "interval_RMSE_allowance_g": 1.148482590105125e-14,
+          "interval_solute_RMSE_g": 0.06154627147984494,
+          "max_interval_allowance_kg": 1.583942950558348e-17,
+          "max_running_assayed_residual_g": 0.2926305469756796,
+          "signed_assayed_total_error_g": 0.22069927417387342,
+          "source_rounding_total_allowance_kg": 4.526535714416667e-12,
+          "total_and_running_allowance_g": 6.726414236995702e-14
+        },
+        "passing_conditions": 2
+      }
+    },
+    "temperature_ramp": {
+      "BOUNDARY_AWARE_EMPIRICAL": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C03",
+          "PRED-C04"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.8311642535781477e-13,
+          "B_pp": 0.2195514746545128,
+          "R_allowance_pp": 1.8522814948847174e-13,
+          "R_pp": 0.8555795060364266,
+          "abs_B_pp": 0.22301502188010208,
+          "absolute_assayed_total_error_g": 0.07987158144748158,
+          "interval_RMSE_allowance_g": 1.1209331963718707e-14,
+          "interval_solute_RMSE_g": 0.05259108174609383,
+          "max_interval_allowance_kg": 1.5385620638449485e-17,
+          "max_running_assayed_residual_g": 0.16451285226770818,
+          "signed_assayed_total_error_g": 0.07859907419680008,
+          "source_rounding_total_allowance_kg": 4.541900387833334e-12,
+          "total_and_running_allowance_g": 6.597845261878508e-14
+        },
+        "passing_conditions": 1
+      },
+      "MASS": {
+        "adequacy_status": "PASS",
+        "adequate": true,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C03",
+          "PRED-C04"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.4883822667519064e-11,
+          "B_pp": 0.21044405822587697,
+          "R_allowance_pp": 3.4171202167427204e-11,
+          "R_pp": 0.8409381858263518,
+          "abs_B_pp": 0.21867753844580162,
+          "absolute_assayed_total_error_g": 0.07775867443629479,
+          "interval_RMSE_allowance_g": 2.2124695681483894e-12,
+          "interval_solute_RMSE_g": 0.051270800029348904,
+          "max_interval_allowance_kg": 5.4193484190963775e-15,
+          "max_running_assayed_residual_g": 0.16943794959902242,
+          "signed_assayed_total_error_g": 0.07473369380349448,
+          "source_rounding_total_allowance_kg": 4.541900387833334e-12,
+          "total_and_running_allowance_g": 5.4735217037610994e-12
+        },
+        "passing_conditions": 2
+      },
+      "TIME": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C03",
+          "PRED-C04"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.0887314257170055e-10,
+          "B_pp": 0.823669356218279,
+          "R_allowance_pp": 2.6902712061031013e-10,
+          "R_pp": 0.9685587362037482,
+          "abs_B_pp": 0.823669356218279,
+          "absolute_assayed_total_error_g": 0.2999733781941785,
+          "interval_RMSE_allowance_g": 1.5795103892542405e-11,
+          "interval_solute_RMSE_g": 0.059837368469169455,
+          "max_interval_allowance_kg": 3.86899352255073e-14,
+          "max_running_assayed_residual_g": 0.2999733781941785,
+          "signed_assayed_total_error_g": 0.2999733781941785,
+          "source_rounding_total_allowance_kg": 4.541900387833334e-12,
+          "total_and_running_allowance_g": 3.874373875001863e-11
+        },
+        "passing_conditions": 0
+      },
+      "TIME_sqrt": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C03",
+          "PRED-C04"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.002808557783204e-10,
+          "B_pp": 0.9156278845561259,
+          "R_allowance_pp": 1.8967038063882416e-10,
+          "R_pp": 1.0724464467180463,
+          "abs_B_pp": 0.9156278845561259,
+          "absolute_assayed_total_error_g": 0.33224461719149423,
+          "interval_RMSE_allowance_g": 1.173833413065963e-11,
+          "interval_solute_RMSE_g": 0.06557389199176916,
+          "max_interval_allowance_kg": 2.8251598109541032e-14,
+          "max_running_assayed_residual_g": 0.33224461719149423,
+          "signed_assayed_total_error_g": 0.33224461719149423,
+          "source_rounding_total_allowance_kg": 4.541900387833334e-12,
+          "total_and_running_allowance_g": 3.571935228065953e-11
+        },
+        "passing_conditions": 0
+      },
+      "TIME_u2": {
+        "adequacy_status": "FAIL",
+        "adequate": false,
+        "conditions": 2,
+        "expected_conditions": [
+          "PRED-C03",
+          "PRED-C04"
+        ],
+        "metrics": {
+          "B_allowance_pp": 1.879278784521503e-13,
+          "B_pp": 0.7318467840275311,
+          "R_allowance_pp": 1.8943636385044005e-13,
+          "R_pp": 0.9040699880642679,
+          "abs_B_pp": 0.7318467840275311,
+          "absolute_assayed_total_error_g": 0.2676502592992847,
+          "interval_RMSE_allowance_g": 1.150986049554882e-14,
+          "interval_solute_RMSE_g": 0.05640020672037087,
+          "max_interval_allowance_kg": 1.57741495597579e-17,
+          "max_running_assayed_residual_g": 0.2690703581410668,
+          "signed_assayed_total_error_g": 0.2676502592992847,
+          "source_rounding_total_allowance_kg": 4.541900387833334e-12,
+          "total_and_running_allowance_g": 6.77284643568852e-14
+        },
+        "passing_conditions": 0
+      }
+    }
+  },
+  "numerical_qualification": "QUALIFIED_FOR_SUPPORTED_INTERVALS_DECISIONS_STABLE",
+  "physical_validation": "NOT_ESTABLISHED",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "score_sha256": "befbc5cf3c4f3727ab981244864f37fe9e4b71540681a16aeee81402b7017934",
+  "scoring_passes": 1,
+  "source_contract": "QUALIFIED_WITH_DECLARED_TRAINING_DOMAIN_LIMIT",
+  "task": "SCI-MD-MASS-DELIVERY-001"
+}

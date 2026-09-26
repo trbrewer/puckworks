@@ -834,6 +834,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+SCI-MD-MASS-DELIVERY-001 (2026-09-26): [research delivery result](analysis/sci_md_mass_delivery_001/RESULT.md). Absolute-TDS MASS and empirical adequacy limited to C02/C05; no declared broad competitiveness or material gain. Reusable SI kernel and exact EWP research consumer; no production change or successor.
+
 | 2026-09-01 | **EWP-RWB-001 C1 Visualizer pressure-interface route closed.** A frozen offline gate recovered explicit `brewdata.parser` provenance for 1,004 Beanconqueror records / 41 linked contributors, but zero valid commanded- or achieved-pressure records; unchanged structural signatures recovered no family among 22,165 unresolved records. Attempt-1 Bronze replay losses (`profile_present`: 23,168; `n_tags`: 82) were correctly rejected, so schema remains v6 and no normalized field changed. No EWP lane reopens; next selected task is `OBS-PANNUSCH-FRACTION-WINDOW-001`. | `puckworks/data/visualizer/reconciliation/ewp_rwb_001/` | Final authorized Visualizer reconciliation pass; transfer route closed absent new explicit pressure authority or rights-cleared export |
 | date | change | evidence (dataset + gate script) | affected RCs / items |
 |---|---|---|---|

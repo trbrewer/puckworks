@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] SCI-MD-MASS-DELIVERY-001: implemented/executed research mass delivery; [condition-limited result](analysis/sci_md_mass_delivery_001/RESULT.md). Owner PR disposition pending; no successor.
+
 ## PANNUSCH-PRIOR-IMPACT-001 available-data control (2026-08-30)
 
 - [x] Preserve MANIFEST as row-level authority and generate a complete capability register.

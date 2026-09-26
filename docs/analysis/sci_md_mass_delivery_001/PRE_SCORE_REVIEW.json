@@ -1,0 +1,16 @@
+{
+  "checks": "38 synthetic tests;420 independent analytical/near-zero cases;720 frozen prediction records;6 raw source hashes;10 register hashes;no reviewer target scoring",
+  "findings_resolved": [
+    "frozen register hash recheck before targets",
+    "numerically unresolved adequacy propagated into competitiveness",
+    "constant and near-zero integration summation bound"
+  ],
+  "freeze_sha256": "4ac2a06e8a047c2a0218d83dcf9709c8d707220e52e46384b45e5483b2095d4e",
+  "independent": true,
+  "private_receipt_sha256": "f19c1ee47c78980576d81a564c7714f5323341d44bde5b02af625a9f95b9037e",
+  "reviewed_base": "85442cbc6341a872a90769ba5217ca3f375b4c2a",
+  "reviewed_base_tree": "3fddf9dca7543a1229ef71192cf2d71defde4b83",
+  "reviewed_head": "d59cec8ab8314e2697837c6752d296d20f4dc370",
+  "reviewed_tree": "1645ad55cf08d18938088d19ec8d7efcffa15ef1",
+  "status": "APPROVED"
+}
