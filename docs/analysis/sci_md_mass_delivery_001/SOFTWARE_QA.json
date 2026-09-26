@@ -1,0 +1,66 @@
+{
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "focused_synthetic_tests": {
+    "passed": 38
+  },
+  "hosted_ci": "NOT_YET_RUN",
+  "independent_pre_score_review": "APPROVED_EXACT_FREEZE",
+  "json_shell_boundary_checks": {
+    "base": "85442cbc6341a872a90769ba5217ca3f375b4c2a",
+    "changed_paths": [
+      "docs/ROADMAP.md",
+      "docs/SPRINTS.md",
+      "docs/analysis/sci_md_mass_delivery_001/DATA_AVAILABILITY_PREFLIGHT.json",
+      "docs/analysis/sci_md_mass_delivery_001/EXECUTION.json",
+      "docs/analysis/sci_md_mass_delivery_001/FREEZE.json",
+      "docs/analysis/sci_md_mass_delivery_001/PRE_SCORE_REVIEW.json",
+      "docs/analysis/sci_md_mass_delivery_001/PRIVATE_EVIDENCE_MANIFEST.json",
+      "docs/analysis/sci_md_mass_delivery_001/PROTOCOL.md",
+      "docs/analysis/sci_md_mass_delivery_001/README.md",
+      "docs/analysis/sci_md_mass_delivery_001/RESULT.md",
+      "docs/analysis/sci_md_mass_delivery_001/RESULTS.json",
+      "docs/analysis/sci_md_mass_delivery_001/SCORE_COMPLETION.json",
+      "docs/analysis/sci_md_mass_delivery_001/SCORE_RECEIPT.json",
+      "docs/analysis/sci_md_mass_delivery_001/SOURCE.json",
+      "docs/analysis/sci_md_mass_delivery_001/TRAINING_SELECTION.json",
+      "docs/analysis/sci_md_mass_delivery_001/models/BOUNDARY_AWARE_EMPIRICAL.json",
+      "docs/analysis/sci_md_mass_delivery_001/models/MASS.json",
+      "docs/analysis/sci_md_mass_delivery_001/models/TIME.json",
+      "docs/analysis/sci_md_mass_delivery_001/models/TIME_sqrt.json",
+      "docs/analysis/sci_md_mass_delivery_001/models/TIME_u2.json",
+      "puckworks/analysis/mass_delivery.py",
+      "puckworks/analysis/pannusch_mass_delivery.py",
+      "tests/test_mass_delivery.py"
+    ],
+    "json_files_parsed": 393,
+    "native_runs": 0,
+    "problems": [],
+    "shell_files_syntax_checked": 0,
+    "status": "PASS"
+  },
+  "native_builds": 0,
+  "native_runs": 0,
+  "offline_quick_suite": {
+    "affected_rerun_passed": 39,
+    "affected_rerun_scope": "README generator check plus 38 mass-delivery tests",
+    "correction": "PYTHONPATH=. for affected test; no repository or scientific change",
+    "deselected": 60,
+    "failure_class": "ENVIRONMENT_SETUP",
+    "initial_failures": 1,
+    "passed": 4563,
+    "reason": "README generator subprocess lacked explicit checkout import path",
+    "skipped": 64
+  },
+  "ordinary_final_review": "PENDING_ACTUAL_CANDIDATE_HEAD",
+  "post_score_retuning": false,
+  "production_defaults_changed": false,
+  "production_registration_changed": false,
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "passed": 65
+  },
+  "ruff": "PASS_WHOLE_REPOSITORY",
+  "scientific_score_passes": 1,
+  "source_exports_and_historical_grudeva_unchanged": true,
+  "task": "SCI-MD-MASS-DELIVERY-001"
+}

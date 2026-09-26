@@ -1,0 +1,72 @@
+{
+  "claims": [
+    "RESEARCH_ONLY",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "NO_TIME_FLOW_PRESSURE_PREDICTION",
+    "NOT_INVENTORY_CLOSURE",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "PANNUSCH_SOURCE_SPECIFIC_COEFFICIENTS"
+  ],
+  "coefficients": [
+    0.3014396252836525,
+    0.14212473183131633,
+    0.6747062803120698
+  ],
+  "domain_kg": [
+    0.0,
+    0.06350639999999999
+  ],
+  "family": "TIME",
+  "fit_identity": {
+    "campaign": "FIT_2021_12",
+    "conditions": [
+      "FIT-C09",
+      "FIT-C10",
+      "FIT-C11",
+      "FIT-C14",
+      "FIT-C15"
+    ],
+    "grind": 1.7,
+    "shots": [
+      "FIT-E09-R1",
+      "FIT-E09-R2",
+      "FIT-E09-R3",
+      "FIT-E10-R1",
+      "FIT-E10-R2",
+      "FIT-E10-R3",
+      "FIT-E11-R1",
+      "FIT-E11-R2",
+      "FIT-E11-R3",
+      "FIT-E14-R1",
+      "FIT-E14-R2",
+      "FIT-E14-R3",
+      "FIT-E15-R1",
+      "FIT-E15-R2",
+      "FIT-E15-R3"
+    ],
+    "source_scope": "SOURCE_INTERNAL",
+    "target_exposure": "TARGET_EXPOSED",
+    "task": "SCI-MD-MASS-DELIVERY-001",
+    "training_sha256": "696522e28c0de764984bc52e0c334789c04f4bccdd2f23e8ebf57eab53737642"
+  },
+  "knots_kg": [],
+  "model_id": "SCI-MD-MASS-DELIVERY-001/TIME/v1",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "time_domain_s": [
+    0.0,
+    58.31531651059772
+  ],
+  "timing": "linear",
+  "units": {
+    "basis": "MASS",
+    "beverage": "kg",
+    "concentration": "kg/kg",
+    "mass_rate": "kg^-1",
+    "solute": "kg",
+    "time": "s",
+    "time_rate": "s^-1"
+  },
+  "version": "mass-delivery/1"
+}
