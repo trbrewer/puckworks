@@ -1,0 +1,60 @@
+{
+  "LOCO_unsupported_assays_by_condition": {
+    "FIT-C09": 0,
+    "FIT-C10": 0,
+    "FIT-C11": 3,
+    "FIT-C14": 0,
+    "FIT-C15": 0
+  },
+  "candidate_LOCO_R_pp": [
+    {
+      "knots": 5,
+      "lambda": 0.0,
+      "mean_LOCO_R_pp": 0.8155729550134033
+    },
+    {
+      "knots": 5,
+      "lambda": 0.001,
+      "mean_LOCO_R_pp": 1.6169624166998287
+    },
+    {
+      "knots": 5,
+      "lambda": 0.1,
+      "mean_LOCO_R_pp": 3.4658722810522606
+    },
+    {
+      "knots": 5,
+      "lambda": 10.0,
+      "mean_LOCO_R_pp": 3.546121654496241
+    },
+    {
+      "knots": 9,
+      "lambda": 0.0,
+      "mean_LOCO_R_pp": 0.7872454198193429
+    },
+    {
+      "knots": 9,
+      "lambda": 0.001,
+      "mean_LOCO_R_pp": 1.5861248692415644
+    },
+    {
+      "knots": 9,
+      "lambda": 0.1,
+      "mean_LOCO_R_pp": 3.45362395077922
+    },
+    {
+      "knots": 9,
+      "lambda": 10.0,
+      "mean_LOCO_R_pp": 3.5459899978188822
+    }
+  ],
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "selected": {
+    "cost": 0.4768290311529503,
+    "iterations": 0,
+    "knots": 9,
+    "lambda": 0.0,
+    "status": 3
+  },
+  "selection_is_not_unbiased_test": true
+}

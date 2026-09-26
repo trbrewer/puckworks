@@ -1,0 +1,72 @@
+{
+  "TDS_spill_exclusions": 0,
+  "collection_prefix_authority": "Each exact source run.mE_cum; complete mE and workbook measured net mass checked",
+  "coordinate_chemistry_access": false,
+  "excluded_other_grind_shots": 30,
+  "experiment_46_used": false,
+  "flow_ramp": {
+    "assays": 36,
+    "conditions": [
+      "PRED-C07",
+      "PRED-C08"
+    ],
+    "shots": 6
+  },
+  "missing_mass_prefixes": 0,
+  "prediction_coordinates_sha256": "5c475a99b7f3cad5f810abfd186348c816026c40d21ba8f52e8b82d6de1e5925",
+  "primary": {
+    "assays": 72,
+    "conditions": [
+      "PRED-C01",
+      "PRED-C02",
+      "PRED-C05",
+      "PRED-C06"
+    ],
+    "shots": 12
+  },
+  "registers": {
+    "DATA_DICTIONARY.md": "a135bb7f674938c322741dfee03aefeac4978a118237a883633fd2f4a6480599",
+    "PROVENANCE.md": "8376d3c1ca01e6179ff99f5ff3c9edfdcb5cd0d9dd8b3cb35b2800fad6249812",
+    "exclusion_register.csv": "e1118592b397fd46facff162d6f275e22e7b41cb703d2aa73cc468b000c6d7d8",
+    "experiment_grind_assignments.csv": "b7a98c4cc3c020fa1213f90a8c1cfa17603a90b057b0000aeaa1ef145b2252b0",
+    "experiment_register.csv": "6d72ac3a32dc05e6ae5b204ebb6d269a6e31ff87d4ef122f17a39d729d33208e",
+    "fit_fraction_replicates.csv": "55b16b9897956e2dab5a39c1c8b54e97dca6f7355e33c6513e7933316df5b1f2",
+    "prediction_conditions.csv": "a1efcf9ce876101be373a3b5955193dbf5a2075aef2e3b65dc0c83e80bbb3ee5",
+    "prediction_fraction_replicates.csv": "e29344bcdd87d31ba1c1bcb1fe0ba73286befd82066394ad164fdb2384e0b665",
+    "source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "source_files": {
+    "P24-DOE-FIT": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+    "P24-DOE-PRED": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+    "P24-M-PREP-FIT": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+    "P24-M-PREP-PRED": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+    "P24-MAT-FIT": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+    "P24-MAT-PRED": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64"
+  },
+  "source_scope": "SOURCE_INTERNAL",
+  "target_exposure": "TARGET_EXPOSED",
+  "task": "SCI-MD-MASS-DELIVERY-001",
+  "temperature_ramp": {
+    "assays": 36,
+    "conditions": [
+      "PRED-C03",
+      "PRED-C04"
+    ],
+    "shots": 6
+  },
+  "training": {
+    "assays": 90,
+    "conditions": 5,
+    "grind": 1.7,
+    "shots": 15,
+    "source_experiments": [
+      9,
+      10,
+      11,
+      14,
+      15
+    ]
+  },
+  "training_coordinates_sha256": "3ee9da76c9f431eb7f8da46c7473f9429d4c896c5c370c1584fe0f8072d401b4"
+}

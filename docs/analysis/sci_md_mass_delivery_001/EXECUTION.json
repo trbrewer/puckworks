@@ -1,0 +1,13 @@
+{
+  "actual_call_cap_per_start": 2000,
+  "actual_nonlinear_starts": 192,
+  "actual_residual_evaluations": 8089,
+  "expected_nonlinear_starts": 192,
+  "failed_starts": 0,
+  "later_campaign_chemistry_read": false,
+  "max_calls_per_start": 109,
+  "native_runs": 0,
+  "nonlinear_start_cap": 500,
+  "numpy": "2.5.3",
+  "scipy": "1.18.1"
+}

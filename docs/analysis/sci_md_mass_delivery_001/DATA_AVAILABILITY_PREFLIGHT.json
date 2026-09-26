@@ -1,0 +1,75 @@
+{
+  "data_starvation_scope": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "datasets_reviewed": [
+    "pannusch2024/experimental_kinetics",
+    "pannusch2024/table2_params"
+  ],
+  "decision_to_change": "Research-only conditional delivery component usefulness and comparator adequacy",
+  "evidence": [
+    "PROTOCOL.md",
+    "puckworks/data/pannusch2024/source_inputs.csv"
+  ],
+  "existing_data_routes_considered": {
+    "adapter_or_observation_operator": "use qualified complete prefixes/source tE",
+    "bounded_public_data_search": "not necessary: recovered qualified corpus supplies this named decision",
+    "cross_source_join": "no numerical coefficient transfer or inventory join",
+    "direct_observation_comparison": "absolute TDS and measured fraction mass available",
+    "identifiability_or_discrimination": "empirical predictive fitness only",
+    "normalized_comparison": "predecessor answers different observable",
+    "parameter_sensitivity": "three fixed TIME conventions",
+    "simple_baseline_comparison": "absolute integrated bounded linear profile",
+    "source_internal_transfer": "designated later campaign",
+    "source_reconstruction": "reuse qualified mE_cum and assay indices; workbook mass check"
+  },
+  "external_data_check": {
+    "inspected": "Hash-verified fit/prediction MAT, preprocessing MATLAB mass/time blocks and declared-shot SampleWeights; qualified registers; no later chemistry values inspected",
+    "known_but_unmounted_corpora": [],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "performed": true
+  },
+  "governance_class": "G1",
+  "home_lab_recommendation": {
+    "operational_authorization": false,
+    "status": "NONE"
+  },
+  "model_stage": [
+    "extraction"
+  ],
+  "next_action": "Execute bounded training then independent pre-score audit; retain all unsupported cases; no successor",
+  "prepared_by": "implementation agent; independent review pending",
+  "prior_tasks_reviewed": [
+    "SCI-MD-GRUDEVA-CLOCK-001 merged #276/#182",
+    "PANNUSCH-RAW-REPRO-001",
+    "OBS-PANNUSCH-FRACTION-WINDOW-001",
+    "XSV-PANNUSCH-MULTIMODEL-001",
+    "SCI-MD-PANNUSCH-FLOW-HISTORY-001",
+    "XSV-PANNUSCH-EWP-INPUT-MAPPING-001"
+  ],
+  "puckworks_authority": {
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
+    "commit": "85442cbc6341a872a90769ba5217ca3f375b4c2a",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "tree": "3fddf9dca7543a1229ef71192cf2d71defde4b83"
+  },
+  "remaining_scoped_gaps": [
+    "some later intervals beyond training-defined mass support",
+    "coffee/roast identities do not disentangle campaign causes",
+    "initial/residual inventory and inlet histories remain unidentified"
+  ],
+  "required_independence": "SOURCE_INTERNAL;TARGET_EXPOSED;campaign-separated fixed-coefficient comparison",
+  "required_observables": [
+    "TDS",
+    "fraction_mass"
+  ],
+  "schema_version": 1,
+  "scientific_question": "Can a shared absolute TDS mass-coordinate law transfer across Pannusch campaigns?",
+  "task_id": "SCI-MD-MASS-DELIVERY-001",
+  "usable_existing_evidence": [
+    "15 training shots/90 TDS fractions",
+    "24 later shots/144 TDS fractions",
+    "complete measured mass prefixes for all declared shots"
+  ]
+}
