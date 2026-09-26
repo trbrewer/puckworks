@@ -1,0 +1,32 @@
+{
+  "bases": {
+    "ewp": {
+      "commit": "0900e9ac065159502efeeb4776b288bba0b302d2",
+      "tree": "086d4208aae25065bfe84794e89d8baad0ccda09"
+    },
+    "puckworks": {
+      "commit": "afe8205ab1f5a39842b14fe302e2979f7faf3d43",
+      "tree": "3b98650a1284eb4bf2c13ad4cc80313e670c9de5"
+    }
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "governance": "G1",
+  "predecessor_runtime": {
+    "001": {
+      "producer_commit": "d59cec8ab8314e2697837c6752d296d20f4dc370",
+      "producer_tree": "1645ad55cf08d18938088d19ec8d7efcffa15ef1"
+    },
+    "002": {
+      "producer_commit": "cec97741e72b126f04f05b73691d9223bbdb148f",
+      "producer_tree": "1b30d6d6152baedc28fab42419a2c33d61b8694b"
+    }
+  },
+  "reused_files": {
+    "docs/analysis/sci_md_mass_delivery_001/models/BOUNDARY_AWARE_EMPIRICAL.json": "659fdb4eec504190e68ece2cfea449db003bce85ea4279ed68feb59b09772c8d",
+    "docs/analysis/sci_md_mass_delivery_001/models/MASS.json": "75aa34648f73883e975b16c2267594a247142e247713f14642641789f5e2182d",
+    "docs/analysis/sci_md_mass_delivery_002/models/SETTING_AWARE_EMPIRICAL.json": "4c52e977f4a37ec3f323476d100f8f7d240ce6b8ac34025777db0aa16f318808",
+    "puckworks/analysis/conditioned_mass_delivery.py": "be122722900cbb8294b26f24e832a958b558617c0df2e2c8d6707df3e3980c2e",
+    "puckworks/analysis/mass_delivery.py": "301cd4bc8a469559faa3a776fcb60d3082ffb3f4a12bee373b8f44e9b21d3b4f"
+  },
+  "task": "SCI-MD-MASS-DELIVERY-003"
+}

@@ -1,0 +1,30 @@
+{
+  "checks": [
+    "Controlling G1/NO_GOVERNING_PHYSICS_CHANGE protocol, source rights and task information roles independently reviewed; predecessor PRs 278/280 and 184/186 confirmed merged live.",
+    "Exact producer commit/tree, frozen code/protocol files and all eight private bundle artifacts verified by SHA256; exact reused artifacts verified against task bases and predecessor runtime commits.",
+    "Information contract committed before anchor-file creation; source roles, fraction-one identity, equations, seven arms and decisions fixed before anchor extraction.",
+    "Six original-source files and nine relevant register identities verified; measured mass-coordinate qualification replayed with zero collection origin, eleven measured intervening vials and workbook/mE_cum agreement.",
+    "Permitted source anchor-only projection independently reproduced all twelve minimal anchor inputs and support records. Later TDS values were not exposed to reviewer judgment or used for scoring.",
+    "Exact physical-shot matrix verified: PRED-C01/C02/C05/C06 times R1/R2/R3; twelve fraction-one anchors and sixty suffix queries at fractions 2,3,5,7,10; no ramps, other grinds or experiment 46 scored.",
+    "All 420 predictions and 36 states independently reproduced from frozen bases, minimal permitted anchors and coordinate-only queries; all supported and numerically qualified; every state deserialization round-trip passed.",
+    "Independent compact incomplete-gamma integrals and 60-digit Decimal piecewise-linear integration checked 180 anchored predictions and analytical sensitivities within recorded allowances; no outcomes accessed.",
+    "Analytical monotone maxima and nonmonotone knot/endpoint boundedness, unresolved denominators, zero anchors, exact interval integration and ratio/product propagation independently inspected and exercised by focused tests.",
+    "Immutable state, artifact preservation, strict serialization, domain errors, shared-anchor parity, query chemistry rejection and later-TDS/cross-shot/final-endpoint leakage tests independently run.",
+    "Synthetic independent metric-formula checks verified shot mass weighting and condition balancing, A/B/C/D passing example with E separately failing, unresolved threshold crossings and missing-anchor denominator retention.",
+    "Synthetic and inherited producer tests: 116 passed. EWP isolated-loader and actual pinned-producer parity tests: 8 passed.",
+    "EWP exact pin binds all three transitively used first-party numerical modules and all three artifacts, schema, units, nominal-setting support, claims and rights; no installed fallback. Latest EWP packaging delta changes launcher mode and generated manifest only.",
+    "Production solver paths and dependency lock unchanged. Zero new fits/optimizer calls in task execution path. No native EWP execution. Source-internal/target-exposed retrospective labels and conditional future-mass-window privilege preserved.",
+    "Approval applies to exact-freeze pre-scoring scientific readiness only; scientific result, broader local QA, hosted CI and merge readiness remain separate. No real outcome scoring performed by reviewer."
+  ],
+  "ewp_reviewed_head": "a04b700ee20d6bfe4cc17cf9e0db6791b7469edd",
+  "ewp_reviewed_tree": "42b63873a88fb04f2dcbcb57e088ce40b38a137f",
+  "freeze_sha256": "4240f508781ded6c1a7df57bd30bf10d51428b6b323ea53ef203cff84765cea9",
+  "independent": true,
+  "reviewed_head": "2a5439f185d11b5cb730b9106435d373b282aeae",
+  "reviewed_tree": "3851cc491980a85ab0eb6e8e6e8719a91c4973c0",
+  "reviewer": "/root/independent_review (independent Codex audit agent; no implementation authorship)",
+  "status": "APPROVED",
+  "task": "SCI-MD-MASS-DELIVERY-003",
+  "timestamp_utc": "2026-09-26T22:00:15.904499+00:00",
+  "unresolved_blocking_findings": []
+}

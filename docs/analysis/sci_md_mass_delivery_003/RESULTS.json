@@ -1,0 +1,2779 @@
+{
+  "axes": {
+    "A": "FAIL",
+    "B": "FAIL",
+    "C": "PASS",
+    "D": "FAIL",
+    "E": {
+      "ANCHORED_EMPIRICAL": "FAIL",
+      "ANCHORED_SETTING_EMPIRICAL": "FAIL"
+    }
+  },
+  "balanced": {
+    "ANCHORED_EMPIRICAL": {
+      "adequacy_status": "PASS",
+      "adequate": true,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 3.237530278965798e-13,
+        "B_pp": -0.3811078758883694,
+        "R_allowance_pp": 3.385958245068972e-13,
+        "R_pp": 0.7769369991966488,
+        "abs_B_pp": 0.3811078758883694,
+        "absolute_assayed_total_error_g": 0.10923205241711516,
+        "interval_RMSE_allowance_g": 1.972046229498836e-14,
+        "interval_solute_RMSE_g": 0.044273030812935966,
+        "max_interval_allowance_kg": 2.9481815306247415e-17,
+        "max_running_assayed_residual_g": 0.1105012377424216,
+        "signed_assayed_total_error_g": -0.10923205241711516,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 9.270567313733578e-14
+      },
+      "passing_conditions": 4
+    },
+    "ANCHORED_MASS": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 2.3356319319034032e-11,
+        "B_pp": -0.4418737024644253,
+        "R_allowance_pp": 2.807231212888892e-11,
+        "R_pp": 0.7704560493351489,
+        "abs_B_pp": 0.4418737024644253,
+        "absolute_assayed_total_error_g": 0.12646177301703226,
+        "interval_RMSE_allowance_g": 1.6554516603034194e-12,
+        "interval_solute_RMSE_g": 0.04353723410205249,
+        "max_interval_allowance_kg": 2.9071640042057005e-15,
+        "max_running_assayed_residual_g": 0.12646177301703226,
+        "signed_assayed_total_error_g": -0.12646177301703226,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 6.704728347860874e-12
+      },
+      "passing_conditions": 3
+    },
+    "ANCHORED_SETTING_EMPIRICAL": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 3.3541066594147445e-13,
+        "B_pp": -0.1660976409911387,
+        "R_allowance_pp": 3.521444967682134e-13,
+        "R_pp": 0.9028268248491661,
+        "abs_B_pp": 0.19059110834019674,
+        "absolute_assayed_total_error_g": 0.054520927893505544,
+        "interval_RMSE_allowance_g": 2.0529105281709934e-14,
+        "interval_solute_RMSE_g": 0.052371010176654624,
+        "max_interval_allowance_kg": 3.135495121611764e-17,
+        "max_running_assayed_residual_g": 0.10164683452277341,
+        "signed_assayed_total_error_g": -0.04749579406166887,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 9.60559656898564e-14
+      },
+      "passing_conditions": 3
+    },
+    "ANCHOR_PERSISTENCE": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 6.00654304630279e-14,
+        "B_pp": 13.335288240390724,
+        "R_allowance_pp": 6.02157488365804e-14,
+        "R_pp": 13.919597858438578,
+        "abs_B_pp": 13.335288240390724,
+        "absolute_assayed_total_error_g": 3.8231220265614336,
+        "interval_RMSE_allowance_g": 3.446882376088777e-15,
+        "interval_solute_RMSE_g": 0.7888942072230481,
+        "max_interval_allowance_kg": 3.469446951953614e-18,
+        "max_running_assayed_residual_g": 3.8231220265614336,
+        "signed_assayed_total_error_g": 3.8231220265614336,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 1.7202674470103336e-14
+      },
+      "passing_conditions": 0
+    },
+    "UNANCHORED_EMPIRICAL": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 1.950687161454037e-13,
+        "B_pp": 0.05302768983118111,
+        "R_allowance_pp": 1.9535049898356535e-13,
+        "R_pp": 0.9535552667976135,
+        "abs_B_pp": 0.15814847696817377,
+        "absolute_assayed_total_error_g": 0.04469372755935449,
+        "interval_RMSE_allowance_g": 1.1216752010974935e-14,
+        "interval_solute_RMSE_g": 0.05563326443271414,
+        "max_interval_allowance_kg": 1.2675149438666066e-17,
+        "max_running_assayed_residual_g": 0.12167770946420958,
+        "signed_assayed_total_error_g": 0.014552306159552338,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 5.585547581129022e-14
+      },
+      "passing_conditions": 2
+    },
+    "UNANCHORED_MASS": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 2.0630685252732354e-13,
+        "B_pp": 0.02991912574115478,
+        "R_allowance_pp": 2.0818031849938377e-13,
+        "R_pp": 0.9118827170627417,
+        "abs_B_pp": 0.13692672210015622,
+        "absolute_assayed_total_error_g": 0.03875771404422627,
+        "interval_RMSE_allowance_g": 1.200958513257283e-14,
+        "interval_solute_RMSE_g": 0.05281109093143049,
+        "max_interval_allowance_kg": 1.5805838766361017e-17,
+        "max_running_assayed_residual_g": 0.12089563233354766,
+        "signed_assayed_total_error_g": 0.008003871552818386,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 5.906585940075074e-14
+      },
+      "passing_conditions": 2
+    },
+    "UNANCHORED_SETTING_EMPIRICAL": {
+      "adequacy_status": "FAIL",
+      "adequate": false,
+      "conditions": 4,
+      "expected_conditions": [
+        "PRED-C01",
+        "PRED-C02",
+        "PRED-C05",
+        "PRED-C06"
+      ],
+      "metrics": {
+        "B_allowance_pp": 1.9623293382476375e-13,
+        "B_pp": 0.11522077935842139,
+        "R_allowance_pp": 1.9660851863806486e-13,
+        "R_pp": 1.0636326261898583,
+        "abs_B_pp": 0.16778911339184815,
+        "absolute_assayed_total_error_g": 0.0472402907888164,
+        "interval_RMSE_allowance_g": 1.1296164214609809e-14,
+        "interval_solute_RMSE_g": 0.06233187651553227,
+        "max_interval_allowance_kg": 1.3042025820326199e-17,
+        "max_running_assayed_residual_g": 0.13818014027519576,
+        "signed_assayed_total_error_g": 0.03226352372667932,
+        "source_rounding_total_allowance_kg": 3.186204554958333e-12,
+        "total_and_running_allowance_g": 5.6186212120534165e-14
+      },
+      "passing_conditions": 1
+    }
+  },
+  "comparisons": {
+    "ANCHORED_EMPIRICAL": {
+      "R_delta_allowance_pp": 2.841090795339582e-11,
+      "R_reduction_pp": 0.006480949861499941,
+      "abs_B_delta_allowance_pp": 2.368007234693061e-11,
+      "abs_B_deterioration_pp": 0.06076582657605589,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 1,
+      "conditions_improved_possible": 1,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "FAIL",
+        "FAIL",
+        "PASS",
+        "FAIL"
+      ],
+      "relative_R_reduction": 0.008341667172758188,
+      "status": "QUALIFIED"
+    },
+    "ANCHORED_SETTING_EMPIRICAL": {
+      "R_delta_allowance_pp": 2.8424456625657134e-11,
+      "R_reduction_pp": 0.1323707755140172,
+      "abs_B_delta_allowance_pp": 2.3691729984975506e-11,
+      "abs_B_deterioration_pp": 0.2512825941242286,
+      "competitive_gates": [
+        "PASS",
+        "FAIL"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 4,
+      "conditions_improved_possible": 4,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "PASS",
+        "FAIL",
+        "FAIL",
+        "PASS"
+      ],
+      "relative_R_reduction": 0.1466181241747355,
+      "status": "QUALIFIED"
+    },
+    "ANCHOR_PERSISTENCE": {
+      "R_delta_allowance_pp": 2.8132527877725502e-11,
+      "R_reduction_pp": 13.14914180910343,
+      "abs_B_delta_allowance_pp": 2.341638474949706e-11,
+      "abs_B_deterioration_pp": -12.893414537926299,
+      "competitive_gates": [
+        "PASS",
+        "PASS"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 4,
+      "conditions_improved_possible": 4,
+      "material_gain": "PASS",
+      "material_gain_gates": [
+        "PASS",
+        "PASS",
+        "PASS",
+        "PASS"
+      ],
+      "relative_R_reduction": 0.9446495468352867,
+      "status": "QUALIFIED"
+    },
+    "UNANCHORED_MASS": {
+      "R_delta_allowance_pp": 2.8280492447388306e-11,
+      "R_reduction_pp": 0.14142666772759283,
+      "abs_B_delta_allowance_pp": 2.3562626171561357e-11,
+      "abs_B_deterioration_pp": 0.3049469803642691,
+      "competitive_gates": [
+        "PASS",
+        "FAIL"
+      ],
+      "competitive_status": "FAIL",
+      "conditions_improved_definite": 4,
+      "conditions_improved_possible": 4,
+      "material_gain": "FAIL",
+      "material_gain_gates": [
+        "PASS",
+        "FAIL",
+        "FAIL",
+        "PASS"
+      ],
+      "relative_R_reduction": 0.15509304549947076,
+      "status": "QUALIFIED"
+    }
+  },
+  "conditions": {
+    "ANCHORED_EMPIRICAL": [
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.2868231140367836e-13,
+          "B_pp": -0.42076810629592404,
+          "R_allowance_pp": 3.443988001525616e-13,
+          "R_pp": 0.7928113459628685,
+          "abs_B_pp": 0.42076810629592404,
+          "absolute_assayed_total_error_g": 0.11880742237999735,
+          "interval_RMSE_allowance_g": 1.9875194850926074e-14,
+          "interval_solute_RMSE_g": 0.04383871882704055,
+          "max_interval_allowance_kg": 2.9919637598283575e-17,
+          "max_running_assayed_residual_g": 0.11880742237999735,
+          "signed_assayed_total_error_g": -0.11880742237999735,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 9.301672887397353e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.2632522807526077e-13,
+          "B_pp": -0.4000386436919096,
+          "R_allowance_pp": 3.4046232499497454e-13,
+          "R_pp": 0.7444102833611398,
+          "abs_B_pp": 0.4000386436919096,
+          "absolute_assayed_total_error_g": 0.11322648168252297,
+          "interval_RMSE_allowance_g": 1.955674759435187e-14,
+          "interval_solute_RMSE_g": 0.04156319829852851,
+          "max_interval_allowance_kg": 2.87329374516876e-17,
+          "max_running_assayed_residual_g": 0.11426554451279279,
+          "signed_assayed_total_error_g": -0.11322648168252297,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 9.236787489827573e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.321984077369858e-13,
+          "B_pp": -0.3440282066022504,
+          "R_allowance_pp": 3.474396076316875e-13,
+          "R_pp": 0.6015060072332687,
+          "abs_B_pp": 0.3440282066022504,
+          "absolute_assayed_total_error_g": 0.09724767626326507,
+          "interval_RMSE_allowance_g": 1.9923604505595065e-14,
+          "interval_solute_RMSE_g": 0.03353294453956362,
+          "max_interval_allowance_kg": 3.0274024071359154e-17,
+          "max_running_assayed_residual_g": 0.10128535473422103,
+          "signed_assayed_total_error_g": -0.09724767626326507,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 9.341908983635812e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.0780616437039414e-13,
+          "B_pp": -0.35959654696339377,
+          "R_allowance_pp": 3.220825652483652e-13,
+          "R_pp": 0.9690203602293183,
+          "abs_B_pp": 0.35959654696339377,
+          "absolute_assayed_total_error_g": 0.10764662934267522,
+          "interval_RMSE_allowance_g": 1.9526302229080423e-14,
+          "interval_solute_RMSE_g": 0.058157261586611185,
+          "max_interval_allowance_kg": 2.900066210365932e-17,
+          "max_running_assayed_residual_g": 0.10764662934267522,
+          "signed_assayed_total_error_g": -0.10764662934267522,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 9.201899894073571e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "ANCHORED_MASS": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.7687825722057186e-11,
+          "B_pp": -0.5292510170046092,
+          "R_allowance_pp": 2.1186716289092048e-11,
+          "R_pp": 0.8045267541391299,
+          "abs_B_pp": 0.5292510170046092,
+          "absolute_assayed_total_error_g": 0.14937308915554023,
+          "interval_RMSE_allowance_g": 1.2416383054342393e-12,
+          "interval_solute_RMSE_g": 0.04407075315475525,
+          "max_interval_allowance_kg": 2.1792101013352498e-15,
+          "max_running_assayed_residual_g": 0.14937308915554023,
+          "signed_assayed_total_error_g": -0.14937308915554023,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 5.014417633400246e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.3927863632137117e-11,
+          "B_pp": -0.4160911770724495,
+          "R_allowance_pp": 2.8716393755949955e-11,
+          "R_pp": 0.7485001536130432,
+          "abs_B_pp": 0.4160911770724495,
+          "absolute_assayed_total_error_g": 0.11790192547866159,
+          "interval_RMSE_allowance_g": 1.6654878682156968e-12,
+          "interval_solute_RMSE_g": 0.04171927469889211,
+          "max_interval_allowance_kg": 2.9400648723289692e-15,
+          "max_running_assayed_residual_g": 0.11790192547866159,
+          "signed_assayed_total_error_g": -0.11790192547866159,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 6.753802357535876e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.5471124280770073e-11,
+          "B_pp": -0.4357549265507164,
+          "R_allowance_pp": 3.049960931572392e-11,
+          "R_pp": 0.6103736680497168,
+          "abs_B_pp": 0.4357549265507164,
+          "absolute_assayed_total_error_g": 0.12277215074277543,
+          "interval_RMSE_allowance_g": 1.7678476614686286e-12,
+          "interval_solute_RMSE_g": 0.03354076870459683,
+          "max_interval_allowance_kg": 3.0861429774758068e-15,
+          "max_running_assayed_residual_g": 0.12277215074277543,
+          "signed_assayed_total_error_g": -0.12277215074277543,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 7.186846886115461e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.633846364117175e-11,
+          "B_pp": -0.3863976892299262,
+          "R_allowance_pp": 3.188652915478977e-11,
+          "R_pp": 0.9184236215387057,
+          "abs_B_pp": 0.3863976892299262,
+          "absolute_assayed_total_error_g": 0.11579992669115184,
+          "interval_RMSE_allowance_g": 1.9468328060951128e-12,
+          "interval_solute_RMSE_g": 0.05481813984996577,
+          "max_interval_allowance_kg": 3.4232380656827756e-15,
+          "max_running_assayed_residual_g": 0.11579992669115184,
+          "signed_assayed_total_error_g": -0.11579992669115184,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 7.863846514391912e-12
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "ANCHORED_SETTING_EMPIRICAL": [
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.477761712202469e-13,
+          "B_pp": -0.11390584981859801,
+          "R_allowance_pp": 3.6503660668528026e-13,
+          "R_pp": 0.8652854704039555,
+          "abs_B_pp": 0.12940680376914174,
+          "absolute_assayed_total_error_g": 0.03639077519247002,
+          "interval_RMSE_allowance_g": 2.1072453234755024e-14,
+          "interval_solute_RMSE_g": 0.04929412535005836,
+          "max_interval_allowance_kg": 3.214388790164461e-17,
+          "max_running_assayed_residual_g": 0.08075944019753628,
+          "signed_assayed_total_error_g": -0.031948496308369254,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 9.843266557099769e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.3718239407276377e-13,
+          "B_pp": -0.11072333116217763,
+          "R_allowance_pp": 3.5236875353307033e-13,
+          "R_pp": 0.8285860860861899,
+          "abs_B_pp": 0.18035890773598254,
+          "absolute_assayed_total_error_g": 0.05095665402491759,
+          "interval_RMSE_allowance_g": 2.0253941246178607e-14,
+          "interval_solute_RMSE_g": 0.0471950323542946,
+          "max_interval_allowance_kg": 3.018622354161391e-17,
+          "max_running_assayed_residual_g": 0.08725976738495957,
+          "signed_assayed_total_error_g": -0.031123118740743055,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 9.545602074747353e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.3802506921800985e-13,
+          "B_pp": -0.30046512504411976,
+          "R_allowance_pp": 3.576052762626127e-13,
+          "R_pp": 0.9019785450143937,
+          "abs_B_pp": 0.30336116752677195,
+          "absolute_assayed_total_error_g": 0.08594880340054985,
+          "interval_RMSE_allowance_g": 2.056023108669305e-14,
+          "interval_solute_RMSE_g": 0.05113218141951703,
+          "max_interval_allowance_kg": 3.260447601459887e-17,
+          "max_running_assayed_residual_g": 0.12432843599735534,
+          "signed_assayed_total_error_g": -0.0851466141130676,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 9.50604895818869e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 3.186590292548774e-13,
+          "B_pp": -0.13929625793965936,
+          "R_allowance_pp": 3.3356735059189044e-13,
+          "R_pp": 1.0154571978921254,
+          "abs_B_pp": 0.14923755432889071,
+          "absolute_assayed_total_error_g": 0.0447874789560847,
+          "interval_RMSE_allowance_g": 2.0229795559213053e-14,
+          "interval_solute_RMSE_g": 0.06186270158274851,
+          "max_interval_allowance_kg": 3.048521740661317e-17,
+          "max_running_assayed_residual_g": 0.11423969451124251,
+          "signed_assayed_total_error_g": -0.041764947084495574,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 9.52746868590675e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "ANCHOR_PERSISTENCE": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 5.924223404539805e-14,
+          "B_pp": 12.957895337443711,
+          "R_allowance_pp": 5.957896484814524e-14,
+          "R_pp": 13.57881370940141,
+          "abs_B_pp": 12.957895337443711,
+          "absolute_assayed_total_error_g": 3.668665165568283,
+          "interval_RMSE_allowance_g": 3.3791886484942643e-15,
+          "interval_solute_RMSE_g": 0.7586232970906459,
+          "max_interval_allowance_kg": 3.469446951953614e-18,
+          "max_running_assayed_residual_g": 3.668665165568283,
+          "signed_assayed_total_error_g": 3.668665165568283,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 1.6768993601109134e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 6.132551455753657e-14,
+          "B_pp": 13.45756232814089,
+          "R_allowance_pp": 6.141172985201409e-14,
+          "R_pp": 14.060469305021257,
+          "abs_B_pp": 13.45756232814089,
+          "absolute_assayed_total_error_g": 3.8099003582622504,
+          "interval_RMSE_allowance_g": 3.469446951953614e-15,
+          "interval_solute_RMSE_g": 0.7882659879299392,
+          "max_interval_allowance_kg": 3.469446951953614e-18,
+          "max_running_assayed_residual_g": 3.8099003582622504,
+          "signed_assayed_total_error_g": 3.8099003582622504,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 1.734723475976807e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 6.16538360006719e-14,
+          "B_pp": 13.402037590226207,
+          "R_allowance_pp": 6.176740694641376e-14,
+          "R_pp": 14.042580554622118,
+          "abs_B_pp": 13.402037590226207,
+          "absolute_assayed_total_error_g": 3.7707116013084843,
+          "interval_RMSE_allowance_g": 3.469446951953614e-15,
+          "interval_solute_RMSE_g": 0.7795930066598977,
+          "max_interval_allowance_kg": 3.469446951953614e-18,
+          "max_running_assayed_residual_g": 3.7707116013084843,
+          "signed_assayed_total_error_g": 3.7707116013084843,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 1.734723475976807e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 5.804013724850501e-14,
+          "B_pp": 13.523657705752086,
+          "R_allowance_pp": 5.810489369974856e-14,
+          "R_pp": 13.99652786470953,
+          "abs_B_pp": 13.523657705752086,
+          "absolute_assayed_total_error_g": 4.043210981106719,
+          "interval_RMSE_allowance_g": 3.469446951953614e-15,
+          "interval_solute_RMSE_g": 0.8290945372117098,
+          "max_interval_allowance_kg": 3.469446951953614e-18,
+          "max_running_assayed_residual_g": 4.043210981106719,
+          "signed_assayed_total_error_g": 4.043210981106719,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 1.734723475976807e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "UNANCHORED_EMPIRICAL": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9905585950910688e-13,
+          "B_pp": 0.2800752380179698,
+          "R_allowance_pp": 1.9951938236422904e-13,
+          "R_pp": 1.1872513568606677,
+          "abs_B_pp": 0.369434275348229,
+          "absolute_assayed_total_error_g": 0.1040600589698536,
+          "interval_RMSE_allowance_g": 1.1321893913159341e-14,
+          "interval_solute_RMSE_g": 0.06844809445600444,
+          "max_interval_allowance_kg": 1.3064615271148635e-17,
+          "max_running_assayed_residual_g": 0.17673149469928737,
+          "signed_assayed_total_error_g": 0.07845145669271059,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 5.631722178860515e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9521960076675846e-13,
+          "B_pp": -0.04320577154057139,
+          "R_allowance_pp": 1.9535755641803176e-13,
+          "R_pp": 0.8250325736463117,
+          "abs_B_pp": 0.05189333069551311,
+          "absolute_assayed_total_error_g": 0.014929979017211423,
+          "interval_RMSE_allowance_g": 1.1067294733898427e-14,
+          "interval_solute_RMSE_g": 0.046943781546690044,
+          "max_interval_allowance_kg": 1.1972984184264914e-17,
+          "max_running_assayed_residual_g": 0.09849771047366511,
+          "signed_assayed_total_error_g": -0.012533120122934,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 5.522559070172144e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9917209087924678e-13,
+          "B_pp": -0.006452172606500726,
+          "R_allowance_pp": 1.9942393132917114e-13,
+          "R_pp": 0.6880580947253726,
+          "abs_B_pp": 0.17608434420715055,
+          "absolute_assayed_total_error_g": 0.04939133754145445,
+          "interval_RMSE_allowance_g": 1.1262157508492366e-14,
+          "interval_solute_RMSE_g": 0.039411888343964176,
+          "max_interval_allowance_kg": 1.3061320178092327e-17,
+          "max_running_assayed_residual_g": 0.07887630910750418,
+          "signed_assayed_total_error_g": -0.002404074168932462,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 5.6024806116219384e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.8682731342650268e-13,
+          "B_pp": -0.018306534546173217,
+          "R_allowance_pp": 1.8710112582282948e-13,
+          "R_pp": 1.1138790419581017,
+          "abs_B_pp": 0.03518195762180241,
+          "absolute_assayed_total_error_g": 0.010393534708898472,
+          "interval_RMSE_allowance_g": 1.1215661888349608e-14,
+          "interval_solute_RMSE_g": 0.06772929338419789,
+          "max_interval_allowance_kg": 1.2601678121158387e-17,
+          "max_running_assayed_residual_g": 0.13260532357638163,
+          "signed_assayed_total_error_g": -0.005305037762634774,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 5.585428463861491e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "UNANCHORED_MASS": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.1257614805252882e-13,
+          "B_pp": 0.23338773508755759,
+          "R_allowance_pp": 2.1539452760359159e-13,
+          "R_pp": 1.121141141418898,
+          "abs_B_pp": 0.31312913116255686,
+          "absolute_assayed_total_error_g": 0.0881894060432238,
+          "interval_RMSE_allowance_g": 1.229061256749452e-14,
+          "interval_solute_RMSE_g": 0.06418014605511552,
+          "max_interval_allowance_kg": 1.6859531600678704e-17,
+          "max_running_assayed_residual_g": 0.17074438397529382,
+          "signed_assayed_total_error_g": 0.06533703701465444,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 6.014179458586808e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.066913302395631e-13,
+          "B_pp": -0.03236525546909872,
+          "R_allowance_pp": 2.0797253389346067e-13,
+          "R_pp": 0.8077824993807248,
+          "abs_B_pp": 0.0642935763491016,
+          "absolute_assayed_total_error_g": 0.01839899276798931,
+          "interval_RMSE_allowance_g": 1.1842689800645855e-14,
+          "interval_solute_RMSE_g": 0.04567779835670449,
+          "max_interval_allowance_kg": 1.5227664206896195e-17,
+          "max_running_assayed_residual_g": 0.09653019716953708,
+          "signed_assayed_total_error_g": -0.00951453131979785,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 5.848027072435272e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.102521000759069e-13,
+          "B_pp": -0.04905223421316304,
+          "R_allowance_pp": 2.1220750128109977e-13,
+          "R_pp": 0.658370284187994,
+          "abs_B_pp": 0.13799043844828965,
+          "absolute_assayed_total_error_g": 0.0388570686280117,
+          "interval_RMSE_allowance_g": 1.2052936490704552e-14,
+          "interval_solute_RMSE_g": 0.03716408364549451,
+          "max_interval_allowance_kg": 1.588436485231134e-17,
+          "max_running_assayed_residual_g": 0.07904851384587006,
+          "signed_assayed_total_error_g": -0.014221630745902802,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 5.913697136976786e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9570783174129534e-13,
+          "B_pp": -0.032293742440676704,
+          "R_allowance_pp": 1.9714671121938312e-13,
+          "R_pp": 1.0602369432633498,
+          "abs_B_pp": 0.032293742440676704,
+          "absolute_assayed_total_error_g": 0.009585388737680249,
+          "interval_RMSE_allowance_g": 1.1852101671446394e-14,
+          "interval_solute_RMSE_g": 0.06422233566840747,
+          "max_interval_allowance_kg": 1.525179440555783e-17,
+          "max_running_assayed_residual_g": 0.13725943434348978,
+          "signed_assayed_total_error_g": -0.009585388737680249,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 5.850440092301434e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ],
+    "UNANCHORED_SETTING_EMPIRICAL": [
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C01",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848875,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848875,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848875,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9969233385173924e-13,
+          "B_pp": 0.3280255293982305,
+          "R_allowance_pp": 2.0015217819051073e-13,
+          "R_pp": 1.210155172146908,
+          "abs_B_pp": 0.36506148660333065,
+          "absolute_assayed_total_error_g": 0.10269038930148654,
+          "interval_RMSE_allowance_g": 1.1360767079691146e-14,
+          "interval_solute_RMSE_g": 0.07010039854065851,
+          "max_interval_allowance_kg": 1.3244054668563122e-17,
+          "max_running_assayed_residual_g": 0.18372816252964894,
+          "signed_assayed_total_error_g": 0.09207658764969172,
+          "source_rounding_total_allowance_kg": 3.227111471833333e-12,
+          "total_and_running_allowance_g": 5.649666118601964e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "PASS",
+        "condition": "PRED-C02",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0848954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0848954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0848954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.9611896109680917e-13,
+          "B_pp": 0.08465506157660412,
+          "R_allowance_pp": 1.9627197958938046e-13,
+          "R_pp": 0.9359382140258025,
+          "abs_B_pp": 0.08661115481352567,
+          "absolute_assayed_total_error_g": 0.024292023605294172,
+          "interval_RMSE_allowance_g": 1.1124134484137231e-14,
+          "interval_solute_RMSE_g": 0.05385096986995854,
+          "max_interval_allowance_kg": 1.2230668412554843e-17,
+          "max_running_assayed_residual_g": 0.1185356548765431,
+          "signed_assayed_total_error_g": 0.023727135175963015,
+          "source_rounding_total_allowance_kg": 3.1814209888333333e-12,
+          "total_and_running_allowance_g": 5.548327493001136e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C05",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.08442030000000002,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.08442030000000002,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.08442030000000002,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 2.0215963523619204e-13,
+          "B_pp": 0.03798304330149124,
+          "R_allowance_pp": 2.0275539752841077e-13,
+          "R_pp": 1.0290232081738802,
+          "abs_B_pp": 0.18971716335359315,
+          "absolute_assayed_total_error_g": 0.05300944191951725,
+          "interval_RMSE_allowance_g": 1.147404539230144e-14,
+          "interval_solute_RMSE_g": 0.059318929974898627,
+          "max_interval_allowance_kg": 1.40511155332495e-17,
+          "max_running_assayed_residual_g": 0.12048573640168975,
+          "signed_assayed_total_error_g": 0.01006237682290787,
+          "source_rounding_total_allowance_kg": 3.1743470233333333e-12,
+          "total_and_running_allowance_g": 5.687004118171181e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      },
+      {
+        "adequacy": "FAIL",
+        "condition": "PRED-C06",
+        "coverage": {
+          "eligible_assays": 15,
+          "eligible_mass_kg": 0.0896954,
+          "intended_assays": 15,
+          "intended_mass_kg": 0.0896954,
+          "intended_shots": 3,
+          "supported_assays": 15,
+          "supported_mass_kg": 0.0896954,
+          "supported_shots": 3
+        },
+        "metrics": {
+          "B_allowance_pp": 1.8696080511431455e-13,
+          "B_pp": 0.010219483157359686,
+          "R_allowance_pp": 1.872545192439575e-13,
+          "R_pp": 1.0794139104128424,
+          "abs_B_pp": 0.029766648796943126,
+          "absolute_assayed_total_error_g": 0.008969308328967633,
+          "interval_RMSE_allowance_g": 1.1225709902309418e-14,
+          "interval_solute_RMSE_g": 0.06605720767661341,
+          "max_interval_allowance_kg": 1.2642264666937328e-17,
+          "max_running_assayed_residual_g": 0.12997100729290126,
+          "signed_assayed_total_error_g": 0.003187995258154684,
+          "source_rounding_total_allowance_kg": 3.161938735833333e-12,
+          "total_and_running_allowance_g": 5.589487118439385e-14
+        },
+        "qualified_shots": 3,
+        "shots": 3
+      }
+    ]
+  },
+  "diagnostics": {
+    "ANCHORED_EMPIRICAL": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.7272566905374626,
+          "balanced_signed_mean_error_pp": -0.7272566905374626,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.8545132759533187,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 2.0361607192944062e-13,
+              "signed_mean_error_pp": -0.8545132759533187
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.8255502747161311,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 2.0304258810459725e-13,
+              "signed_mean_error_pp": -0.8255502747161311
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.48171098615337793,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 2.1184931698982921e-13,
+              "signed_mean_error_pp": -0.48171098615337793
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.747252225327023,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 1.985669081277742e-13,
+              "signed_mean_error_pp": -0.747252225327023
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 0.7034037445314496,
+          "balanced_signed_mean_error_pp": 0.6489317549567946,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.5798570683795464,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 4.867918772090538e-13,
+              "signed_mean_error_pp": 0.5798570683795464
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.5881627699863996,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 4.666098943650494e-13,
+              "signed_mean_error_pp": 0.3702748116877797
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.4138138075530661,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 4.898571662505173e-13,
+              "signed_mean_error_pp": 0.4138138075530661
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.231781332206786,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 4.5453771347217364e-13,
+              "signed_mean_error_pp": 1.231781332206786
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.20275128354396055,
+          "balanced_signed_mean_error_pp": -0.15918334619586447,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.0705423890655248,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 3.831045896872262e-13,
+              "signed_mean_error_pp": -0.05623573019099293
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.1176427585414604,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 3.9184481570530465e-13,
+              "signed_mean_error_pp": 0.042322331976392034
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.2940794781795177,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 3.810520182353035e-13,
+              "signed_mean_error_pp": -0.2940794781795177
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.32874050838933927,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 3.614385771199866e-13,
+              "signed_mean_error_pp": -0.32874050838933927
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.6229297458262142,
+          "balanced_signed_mean_error_pp": -0.6229297458262142,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.6647231292750991,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 2.8928933368552097e-13,
+              "signed_mean_error_pp": -0.6647231292750991
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.5065321284509924,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 2.991273369345774e-13,
+              "signed_mean_error_pp": -0.5065321284509924
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.5680869082329388,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 2.949413305319789e-13,
+              "signed_mean_error_pp": -0.5680869082329388
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.7523768173458265,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 2.782488510635783e-13,
+              "signed_mean_error_pp": -0.7523768173458265
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 1.2052814980843574,
+          "balanced_signed_mean_error_pp": -1.2052814980843574,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.3152597858952448,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 2.5169815050729075e-13,
+              "signed_mean_error_pp": -1.3152597858952448
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.222656581445711,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 2.500911375752904e-13,
+              "signed_mean_error_pp": -1.222656581445711
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.9208269261600645,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 2.54411381024286e-13,
+              "signed_mean_error_pp": -0.9208269261600645
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.3623826988364092,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 2.2615030874093625e-13,
+              "signed_mean_error_pp": -1.3623826988364092
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 3.865500809473213e-13,
+      "maximum_shot_R_pp": 1.0537502807383723,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 1.1124680776480292e-15,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.02313717490551194,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "ANCHORED_MASS": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.7822227932405299,
+          "balanced_signed_mean_error_pp": -0.7822227932405299,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.966491966348536,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 3.738675274942853e-12,
+              "signed_mean_error_pp": -0.966491966348536
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.7969118321962282,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 5.089444086288123e-12,
+              "signed_mean_error_pp": -0.7969118321962282
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.6057139917561596,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 5.426137574167852e-12,
+              "signed_mean_error_pp": -0.6057139917561596
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.7597733826611962,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 5.235252603756446e-12,
+              "signed_mean_error_pp": -0.7597733826611962
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 0.4674112258988321,
+          "balanced_signed_mean_error_pp": 0.277330650119963,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.22701580316459982,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 3.529184926650964e-11,
+              "signed_mean_error_pp": 0.10702041475094742
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.5173393106092598,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 4.783961972023429e-11,
+              "signed_mean_error_pp": 0.01940001663815155
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.18009489977916204,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 5.0781411379933256e-11,
+              "signed_mean_error_pp": 0.03770727904844623
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.9451948900423067,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 5.3884985235706234e-11,
+              "signed_mean_error_pp": 0.9451948900423067
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.19065577174436513,
+          "balanced_signed_mean_error_pp": 0.042680453048665815,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.10860900195503805,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 2.4557743129447222e-11,
+              "signed_mean_error_pp": 0.02090974791996446
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.2897346644312711,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 3.373757443232898e-11,
+              "signed_mean_error_pp": 0.2897346644312711
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.19904091202794139,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 3.594606154573455e-11,
+              "signed_mean_error_pp": -0.1295472856149934
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.16523850856321,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 3.752425846117984e-11,
+              "signed_mean_error_pp": -0.010375314541578926
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.5837293229689732,
+          "balanced_signed_mean_error_pp": -0.5837293229689732,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.5314159112264866,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 1.3423150983438326e-11,
+              "signed_mean_error_pp": -0.5314159112264866
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.4256366762623213,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 1.856207438032263e-11,
+              "signed_mean_error_pp": -0.4256366762623213
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.5334110516676719,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 1.9574215469232446e-11,
+              "signed_mean_error_pp": -0.5334110516676719
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.844453652719413,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 1.9982219425360618e-11,
+              "signed_mean_error_pp": -0.844453652719413
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 1.3032212442119158,
+          "balanced_signed_mean_error_pp": -1.3032212442119158,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.4598228418950143,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 7.851781773169584e-12,
+              "signed_mean_error_pp": -1.4598228418950143
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.2849993258450316,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 1.0815958183416172e-11,
+              "signed_mean_error_pp": -1.2849993258450316
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.0538621855733832,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 1.1511205261983647e-11,
+              "signed_mean_error_pp": -1.0538621855733832
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.4142006235342344,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 1.1391502403355864e-11,
+              "signed_mean_error_pp": -1.4142006235342344
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 5.088431605632726e-11,
+      "maximum_shot_R_pp": 1.0627905686297834,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 8.045674017433048e-14,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.02293041825831293,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "ANCHORED_SETTING_EMPIRICAL": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.6601499043646488,
+          "balanced_signed_mean_error_pp": -0.6601499043646488,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.8253255072855845,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 2.1179319041618675e-13,
+              "signed_mean_error_pp": -0.8253255072855845
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.6863427475307428,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 2.0986199547311773e-13,
+              "signed_mean_error_pp": -0.6863427475307428
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.6343288215004248,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 2.0902138729734102e-13,
+              "signed_mean_error_pp": -0.6343288215004248
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.4946025411418431,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 2.082069733252767e-13,
+              "signed_mean_error_pp": -0.4946025411418431
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 1.308169287194909,
+          "balanced_signed_mean_error_pp": 1.308169287194909,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.3103281354352336,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 5.227913229273806e-13,
+              "signed_mean_error_pp": 1.3103281354352336
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.1651586457106884,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 4.900900225265005e-13,
+              "signed_mean_error_pp": 1.1651586457106884
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.0334903748135875,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 5.268532590326656e-13,
+              "signed_mean_error_pp": 1.0334903748135875
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.7236999928201264,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 4.774821854057356e-13,
+              "signed_mean_error_pp": 1.7236999928201264
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.30930755434678725,
+          "balanced_signed_mean_error_pp": -0.2165094937976883,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.12019158963959209,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 3.963614343464161e-13,
+              "signed_mean_error_pp": -0.11077232540099861
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.1751704755085539,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 3.980036468853927e-13,
+              "signed_mean_error_pp": 0.11067669105126526
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.3571857480322341,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 3.821636618570308e-13,
+              "signed_mean_error_pp": -0.2812599366342508
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.584682404206769,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 3.616056870200412e-13,
+              "signed_mean_error_pp": -0.584682404206769
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.3797604294131488,
+          "balanced_signed_mean_error_pp": -0.3575583537204585,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.1974450188372878,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 3.110329248309328e-13,
+              "signed_mean_error_pp": -0.10863671606652643
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.184691199067218,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 3.097356634955441e-13,
+              "signed_mean_error_pp": -0.184691199067218
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.6587216972399793,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 2.8890755664325676e-13,
+              "signed_mean_error_pp": -0.6587216972399793
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.4781838025081102,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 2.8809174020306436e-13,
+              "signed_mean_error_pp": -0.4781838025081102
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 1.105057086711024,
+          "balanced_signed_mean_error_pp": -1.105057086711024,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.0603553222233655,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 2.661075192643043e-13,
+              "signed_mean_error_pp": -1.0603553222233655
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.153530811404929,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 2.5593226395114313e-13,
+              "signed_mean_error_pp": -1.153530811404929
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.185333183728558,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 2.4967787444106934e-13,
+              "signed_mean_error_pp": -1.185333183728558
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.021009029487244,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 2.371357140222042e-13,
+              "signed_mean_error_pp": -1.021009029487244
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 3.983120658605319e-13,
+      "maximum_shot_R_pp": 1.0711237095085515,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 1.152671588278277e-15,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.023878010005777293,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "ANCHOR_PERSISTENCE": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 18.3164178825,
+          "balanced_signed_mean_error_pp": 18.3164178825,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 17.978323233333324,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 6.38523950898013e-14,
+              "signed_mean_error_pp": 17.978323233333324
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 18.418622510000002,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 6.23325491340047e-14,
+              "signed_mean_error_pp": 18.418622510000002
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 18.60504657666667,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 6.432609749027927e-14,
+              "signed_mean_error_pp": 18.60504657666667
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 18.263679210000003,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 6.171018110950829e-14,
+              "signed_mean_error_pp": 18.263679210000003
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 7.2751137550000005,
+          "balanced_signed_mean_error_pp": 7.2751137550000005,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 6.695985496666668,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 5.6455989608958446e-14,
+              "signed_mean_error_pp": 6.695985496666668
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 7.1010179299999985,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 5.638431845598707e-14,
+              "signed_mean_error_pp": 7.1010179299999985
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 7.11574819666667,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 5.636561392425719e-14,
+              "signed_mean_error_pp": 7.11574819666667
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 8.187703396666667,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 5.448460356281424e-14,
+              "signed_mean_error_pp": 8.187703396666667
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 11.090427219999999,
+          "balanced_signed_mean_error_pp": 11.090427219999999,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 10.799141673333333,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 5.757252793681902e-14,
+              "signed_mean_error_pp": 10.799141673333333
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 11.379137219999999,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 5.99200778721802e-14,
+              "signed_mean_error_pp": 11.379137219999999
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 10.978600183333333,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 5.970522358432508e-14,
+              "signed_mean_error_pp": 10.978600183333333
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 11.204829803333332,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 5.638648733200011e-14,
+              "signed_mean_error_pp": 11.204829803333332
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 14.785347324166665,
+          "balanced_signed_mean_error_pp": 14.785347324166665,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 14.620661683333331,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 6.285768850644218e-14,
+              "signed_mean_error_pp": 14.620661683333331
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 14.977104829999996,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 6.377500967385384e-14,
+              "signed_mean_error_pp": 14.977104829999996
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 14.926648859999998,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 6.277208874857963e-14,
+              "signed_mean_error_pp": 14.926648859999998
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 14.616973923333333,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 5.906604343742592e-14,
+              "signed_mean_error_pp": 14.616973923333333
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 16.215935331666664,
+          "balanced_signed_mean_error_pp": 16.215935331666664,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 15.875977593333333,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 5.5330172636453474e-14,
+              "signed_mean_error_pp": 15.875977593333333
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 16.311109516666665,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 6.507842430697178e-14,
+              "signed_mean_error_pp": 16.311109516666665
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 16.556318750000006,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 6.62370529094543e-14,
+              "signed_mean_error_pp": 16.556318750000006
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 16.120335466666653,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 5.920136988997154e-14,
+              "signed_mean_error_pp": 16.120335466666653
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 6.310991353222709e-14,
+      "maximum_shot_R_pp": 14.627798838883331,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 2.0643209364124004e-16,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.07032542385325453,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "UNANCHORED_EMPIRICAL": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.6336614372255647,
+          "balanced_signed_mean_error_pp": -0.6336614372255647,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.6963317555704668,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 1.8803277324232397e-13,
+              "signed_mean_error_pp": -0.6963317555704668
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.7530600612353887,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 1.8355712515476755e-13,
+              "signed_mean_error_pp": -0.7530600612353887
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.40630784006119697,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 1.8942773385309118e-13,
+              "signed_mean_error_pp": -0.40630784006119697
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.678946092035206,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 1.8172437345518258e-13,
+              "signed_mean_error_pp": -0.678946092035206
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 1.539257984027479,
+          "balanced_signed_mean_error_pp": 1.539257984027479,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 2.011821636072058,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 2.1274323214082604e-13,
+              "signed_mean_error_pp": 2.011821636072058
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.1036252314919057,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 1.945404836960496e-13,
+              "signed_mean_error_pp": 1.1036252314919057
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.097047517334986,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 2.1179000545465226e-13,
+              "signed_mean_error_pp": 1.097047517334986
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.944537551210966,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 1.9745207751226315e-13,
+              "signed_mean_error_pp": 1.944537551210966
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.4478743281782496,
+          "balanced_signed_mean_error_pp": 0.4351486047625938,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.90386748902324,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 1.9472777780075232e-13,
+              "signed_mean_error_pp": 0.90386748902324
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.5328566733963164,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 2.026679047774737e-13,
+              "signed_mean_error_pp": 0.5328566733963164
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.21578615694796408,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 1.970823595558791e-13,
+              "signed_mean_error_pp": 0.16488326328534067
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.13898699334547807,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 1.9071622820176128e-13,
+              "signed_mean_error_pp": 0.13898699334547807
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.3000235908825983,
+          "balanced_signed_mean_error_pp": -0.3000235908825983,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.16088848195076874,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 1.9688937414900018e-13,
+              "signed_mean_error_pp": -0.16088848195076874
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.23494387667321934,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 1.997627026922029e-13,
+              "signed_mean_error_pp": -0.23494387667321934
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.31550274155806646,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 1.9662124970546232e-13,
+              "signed_mean_error_pp": -0.31550274155806646
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.4887592633483387,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 1.8501279003698268e-13,
+              "signed_mean_error_pp": -0.4887592633483387
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 1.008524822459835,
+          "balanced_signed_mean_error_pp": -1.008524822459835,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.9945052081176193,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 2.0274841836421727e-13,
+              "signed_mean_error_pp": -0.9945052081176193
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.0597270683673246,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 1.9571059021196325e-13,
+              "signed_mean_error_pp": -1.0597270683673246
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.7663504990631488,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 1.9919493836641028e-13,
+              "signed_mean_error_pp": -0.7663504990631488
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.2135165142912474,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 1.7803650235707765e-13,
+              "signed_mean_error_pp": -1.2135165142912474
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 2.1045497349128044e-13,
+      "maximum_shot_R_pp": 1.5762494181471265,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 6.702657097354825e-16,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.024622587208431947,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "UNANCHORED_MASS": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.6863108157082971,
+          "balanced_signed_mean_error_pp": -0.6863108157082971,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.8103946406395552,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 1.8803277324232397e-13,
+              "signed_mean_error_pp": -0.8103946406395552
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.7174379845437725,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 1.8355712515476755e-13,
+              "signed_mean_error_pp": -0.7174379845437725
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.5258154496020596,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 1.8942773385309118e-13,
+              "signed_mean_error_pp": -0.5258154496020596
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.6915951880478008,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 1.8172437345518258e-13,
+              "signed_mean_error_pp": -0.6915951880478008
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 1.2286878504102838,
+          "balanced_signed_mean_error_pp": 1.2286878504102838,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.6407930085863498,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 2.7453340637124183e-13,
+              "signed_mean_error_pp": 1.6407930085863498
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.7903616908356689,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 2.472962035161825e-13,
+              "signed_mean_error_pp": 0.7903616908356689
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.8099636432334472,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 2.5688350265743077e-13,
+              "signed_mean_error_pp": 0.8099636432334472
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.6736330589856692,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 2.391675114144038e-13,
+              "signed_mean_error_pp": 1.6736330589856692
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.7074749040584744,
+          "balanced_signed_mean_error_pp": 0.7074749040584744,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.0884398127891861,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 1.9521838091631835e-13,
+              "signed_mean_error_pp": 1.0884398127891861
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.8328707491193557,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 2.026679047774737e-13,
+              "signed_mean_error_pp": 0.8328707491193557
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.4122898512100528,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 2.0194120231148325e-13,
+              "signed_mean_error_pp": 0.4122898512100528
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.4962992031153027,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 1.9071622820176128e-13,
+              "signed_mean_error_pp": 0.4962992031153027
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.2904368303003638,
+          "balanced_signed_mean_error_pp": -0.22430018757730433,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.15841889325451042,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 1.9688937414900018e-13,
+              "signed_mean_error_pp": 0.047156093569200364
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.12868843587633969,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 1.997627026922029e-13,
+              "signed_mean_error_pp": -0.12868843587633969
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.2985477367470534,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 1.9662124970546232e-13,
+              "signed_mean_error_pp": -0.2395761526785263
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.5760922553235517,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 1.8501279003698268e-13,
+              "signed_mean_error_pp": -0.5760922553235517
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 1.0955769525241297,
+          "balanced_signed_mean_error_pp": -1.0955769525241297,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 1.12397278108532,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 2.0274841836421727e-13,
+              "signed_mean_error_pp": -1.12397278108532
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.1130770401920416,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 1.9571059021196325e-13,
+              "signed_mean_error_pp": -1.1130770401920416
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.8826573338985985,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 1.9919493836641028e-13,
+              "signed_mean_error_pp": -0.8826573338985985
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 1.2626006549205588,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 1.7803650235707765e-13,
+              "signed_mean_error_pp": -1.2626006549205588
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 2.284459153912875e-13,
+      "maximum_shot_R_pp": 1.5100933605370894,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 7.087903128090089e-16,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.024544005993151142,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    },
+    "UNANCHORED_SETTING_EMPIRICAL": {
+      "by_forecast_fraction": {
+        "10": {
+          "balanced_mean_absolute_error_pp": 0.6013873777985549,
+          "balanced_signed_mean_error_pp": -0.6013873777985549,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.7344098563183575,
+              "mean_end_kg": 0.05561196666666667,
+              "mean_start_kg": 0.050172933333333336,
+              "numerical_allowance_pp": 1.8803277324232397e-13,
+              "signed_mean_error_pp": -0.7344098563183575
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.6442012320078224,
+              "mean_end_kg": 0.0569191,
+              "mean_start_kg": 0.05135286666666666,
+              "numerical_allowance_pp": 1.8355712515476755e-13,
+              "signed_mean_error_pp": -0.6442012320078224
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.5666419605132919,
+              "mean_end_kg": 0.056878566666666665,
+              "mean_start_kg": 0.05148253333333334,
+              "numerical_allowance_pp": 1.8942773385309118e-13,
+              "signed_mean_error_pp": -0.5666419605132919
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.460296462354748,
+              "mean_end_kg": 0.0597878,
+              "mean_start_kg": 0.05416076666666666,
+              "numerical_allowance_pp": 1.8172437345518258e-13,
+              "signed_mean_error_pp": -0.460296462354748
+            }
+          ]
+        },
+        "2": {
+          "balanced_mean_absolute_error_pp": 1.8940190666244257,
+          "balanced_signed_mean_error_pp": 1.8940190666244257,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 2.221915451349641,
+              "mean_end_kg": 0.011428833333333338,
+              "mean_start_kg": 0.005281133333333334,
+              "numerical_allowance_pp": 2.1566190786367923e-13,
+              "signed_mean_error_pp": 2.221915451349641
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.5718295005663467,
+              "mean_end_kg": 0.012501366666666666,
+              "mean_start_kg": 0.0063464666666666674,
+              "numerical_allowance_pp": 1.986777178469786e-13,
+              "signed_mean_error_pp": 1.5718295005663467
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.7452024997963862,
+              "mean_end_kg": 0.012647666666666668,
+              "mean_start_kg": 0.006487066666666667,
+              "numerical_allowance_pp": 2.2749899837915864e-13,
+              "signed_mean_error_pp": 1.7452024997963862
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 2.0371288147853295,
+              "mean_end_kg": 0.013284699999999998,
+              "mean_start_kg": 0.0069125333333333325,
+              "numerical_allowance_pp": 1.9806856639779428e-13,
+              "signed_mean_error_pp": 2.0371288147853295
+            }
+          ]
+        },
+        "3": {
+          "balanced_mean_absolute_error_pp": 0.4410986472292861,
+          "balanced_signed_mean_error_pp": 0.15740482394656874,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.7600468349067807,
+              "mean_end_kg": 0.017456333333333334,
+              "mean_start_kg": 0.011428833333333338,
+              "numerical_allowance_pp": 1.9472777780075232e-13,
+              "signed_mean_error_pp": 0.47213378954401763
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.37018766147016086,
+              "mean_end_kg": 0.01829303333333333,
+              "mean_start_kg": 0.012501366666666666,
+              "numerical_allowance_pp": 2.026679047774737e-13,
+              "signed_mean_error_pp": 0.37018766147016086
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.24329122559281346,
+              "mean_end_kg": 0.018460300000000002,
+              "mean_start_kg": 0.012647666666666668,
+              "numerical_allowance_pp": 1.970823595558791e-13,
+              "signed_mean_error_pp": 0.17816671171948575
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.3908688669473895,
+              "mean_end_kg": 0.019439333333333333,
+              "mean_start_kg": 0.013284699999999998,
+              "numerical_allowance_pp": 1.9071622820176128e-13,
+              "signed_mean_error_pp": -0.3908688669473895
+            }
+          ]
+        },
+        "5": {
+          "balanced_mean_absolute_error_pp": 0.2655150352715699,
+          "balanced_signed_mean_error_pp": -0.14324324743772388,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.2308331623049357,
+              "mean_end_kg": 0.028497033333333338,
+              "mean_start_kg": 0.022976633333333333,
+              "numerical_allowance_pp": 1.9688937414900018e-13,
+              "signed_mean_error_pp": 0.2308331623049357
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 0.054252612905092555,
+              "mean_end_kg": 0.0293783,
+              "mean_start_kg": 0.023927233333333336,
+              "numerical_allowance_pp": 1.997627026922029e-13,
+              "signed_mean_error_pp": -0.032672580472906776
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 0.4178932325134708,
+              "mean_end_kg": 0.02976053333333334,
+              "mean_start_kg": 0.024228166666666672,
+              "numerical_allowance_pp": 1.9405907800228915e-13,
+              "signed_mean_error_pp": -0.41205243822014387
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.3590811333627805,
+              "mean_end_kg": 0.031262066666666664,
+              "mean_start_kg": 0.025384,
+              "numerical_allowance_pp": 1.8501279003698268e-13,
+              "signed_mean_error_pp": -0.3590811333627805
+            }
+          ]
+        },
+        "7": {
+          "balanced_mean_absolute_error_pp": 0.9775836311284425,
+          "balanced_signed_mean_error_pp": -0.9775836311284425,
+          "conditions": [
+            {
+              "condition": "PRED-C01",
+              "mean_absolute_error_pp": 0.8522004503928922,
+              "mean_end_kg": 0.039212300000000005,
+              "mean_start_kg": 0.0340511,
+              "numerical_allowance_pp": 2.0274841836421727e-13,
+              "signed_mean_error_pp": -0.8522004503928922
+            },
+            {
+              "condition": "PRED-C02",
+              "mean_absolute_error_pp": 1.0655496224525292,
+              "mean_end_kg": 0.040314800000000005,
+              "mean_start_kg": 0.034980199999999996,
+              "numerical_allowance_pp": 1.9571059021196325e-13,
+              "signed_mean_error_pp": -1.0655496224525292
+            },
+            {
+              "condition": "PRED-C05",
+              "mean_absolute_error_pp": 1.0425529288879638,
+              "mean_end_kg": 0.040473600000000005,
+              "mean_start_kg": 0.035235133333333335,
+              "numerical_allowance_pp": 1.9919493836641028e-13,
+              "signed_mean_error_pp": -1.0425529288879638
+            },
+            {
+              "condition": "PRED-C06",
+              "mean_absolute_error_pp": 0.9500315227803848,
+              "mean_end_kg": 0.04277743333333333,
+              "mean_start_kg": 0.03691086666666667,
+              "numerical_allowance_pp": 1.7803650235707765e-13,
+              "signed_mean_error_pp": -0.9500315227803848
+            }
+          ]
+        }
+      },
+      "maximum_shot_R_allowance_pp": 2.1275622713960455e-13,
+      "maximum_shot_R_pp": 1.6084890086717443,
+      "supported_assayed_suffix_solute": {
+        "intended_assays": 60,
+        "numerical_allowance_kg": 6.7423454544641e-16,
+        "observed_kg": 0.02444795953451732,
+        "predicted_kg": 0.02483512181923747,
+        "source_rounding_allowance_kg": 3.82344546595e-11,
+        "supported_assays": 60
+      },
+      "unsupported_reasons": []
+    }
+  },
+  "disposition": "SINGLE_ANCHOR_MASS_DELIVERY_INADEQUATE",
+  "numerics": {
+    "anchor_sensitivity": {
+      "ANCHORED_EMPIRICAL": {
+        "10": {
+          "count": 12,
+          "max": 0.08902301342441991,
+          "maximum_numerical_allowance": 1.049160758270773e-14,
+          "mean": 0.06874631928526423,
+          "min": 0.05769688648252211
+        },
+        "2": {
+          "count": 12,
+          "max": 0.7221449761268361,
+          "maximum_numerical_allowance": 2.298161660974074e-14,
+          "mean": 0.6751377255770189,
+          "min": 0.6077703619262048
+        },
+        "3": {
+          "count": 12,
+          "max": 0.4840564554236641,
+          "maximum_numerical_allowance": 1.687538997430238e-14,
+          "mean": 0.44939706634403676,
+          "min": 0.410254014521895
+        },
+        "5": {
+          "count": 12,
+          "max": 0.25177850666566104,
+          "maximum_numerical_allowance": 1.432187701766452e-14,
+          "mean": 0.24653478970880507,
+          "min": 0.23859762840976784
+        },
+        "7": {
+          "count": 12,
+          "max": 0.1647175819545597,
+          "maximum_numerical_allowance": 1.2406742300186124e-14,
+          "mean": 0.1480040532416147,
+          "min": 0.13481972792324406
+        }
+      },
+      "ANCHORED_MASS": {
+        "10": {
+          "count": 12,
+          "max": 0.07257268755037712,
+          "maximum_numerical_allowance": 4.861250291199326e-13,
+          "mean": 0.0660254132387579,
+          "min": 0.05822406116269745
+        },
+        "2": {
+          "count": 12,
+          "max": 0.6932664927544563,
+          "maximum_numerical_allowance": 4.526490293699226e-12,
+          "mean": 0.6571598084995651,
+          "min": 0.6048775757454781
+        },
+        "3": {
+          "count": 12,
+          "max": 0.4802413548163669,
+          "maximum_numerical_allowance": 3.2404634531246757e-12,
+          "mean": 0.45944679676360595,
+          "min": 0.4327569470085131
+        },
+        "5": {
+          "count": 12,
+          "max": 0.2615611262674333,
+          "maximum_numerical_allowance": 1.7663093210273928e-12,
+          "mean": 0.24828659139796164,
+          "min": 0.23254032778699565
+        },
+        "7": {
+          "count": 12,
+          "max": 0.15296607320152866,
+          "maximum_numerical_allowance": 1.0430822872109502e-12,
+          "mean": 0.14322488968407454,
+          "min": 0.1303124638358237
+        }
+      },
+      "ANCHORED_SETTING_EMPIRICAL": {
+        "10": {
+          "count": 12,
+          "max": 0.07655333766093093,
+          "maximum_numerical_allowance": 1.0366707492437399e-14,
+          "mean": 0.07199048069349251,
+          "min": 0.06076266661150531
+        },
+        "2": {
+          "count": 12,
+          "max": 0.7609494394600658,
+          "maximum_numerical_allowance": 2.4091839634365897e-14,
+          "mean": 0.7070357218348292,
+          "min": 0.6141470194874016
+        },
+        "3": {
+          "count": 12,
+          "max": 0.49267892022708326,
+          "maximum_numerical_allowance": 1.7208456881689926e-14,
+          "mean": 0.4464368982342147,
+          "min": 0.4006114981866952
+        },
+        "5": {
+          "count": 12,
+          "max": 0.2804887622273657,
+          "maximum_numerical_allowance": 1.459943277382081e-14,
+          "mean": 0.2592292872806142,
+          "min": 0.21471526038582198
+        },
+        "7": {
+          "count": 12,
+          "max": 0.17152469396356024,
+          "maximum_numerical_allowance": 1.2961853812498703e-14,
+          "mean": 0.15298700712582516,
+          "min": 0.13206914609137396
+        }
+      },
+      "ANCHOR_PERSISTENCE": {
+        "10": {
+          "count": 12,
+          "max": 1.0,
+          "maximum_numerical_allowance": 0.0,
+          "mean": 1.0,
+          "min": 1.0
+        },
+        "2": {
+          "count": 12,
+          "max": 1.0,
+          "maximum_numerical_allowance": 0.0,
+          "mean": 1.0,
+          "min": 1.0
+        },
+        "3": {
+          "count": 12,
+          "max": 1.0,
+          "maximum_numerical_allowance": 0.0,
+          "mean": 1.0,
+          "min": 1.0
+        },
+        "5": {
+          "count": 12,
+          "max": 1.0,
+          "maximum_numerical_allowance": 0.0,
+          "mean": 1.0,
+          "min": 1.0
+        },
+        "7": {
+          "count": 12,
+          "max": 1.0,
+          "maximum_numerical_allowance": 0.0,
+          "mean": 1.0,
+          "min": 1.0
+        }
+      }
+    },
+    "interpretation": "Analytical sensitivity, not a confidence interval or sensor specification",
+    "maximum_anchor_relative_allowance": 7.46303794601694e-12,
+    "maximum_solute_allowance_kg": 5.015552694191653e-15
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "score_passes": 1,
+  "source_labels": [
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON"
+  ],
+  "task": "SCI-MD-MASS-DELIVERY-003"
+}
