@@ -1,0 +1,16 @@
+{
+  "actual_residual_evaluations": 13207,
+  "bounded_linear_solves": 124,
+  "budget_ledger_sha256": "972e9eea2ce0ef587cab29f205d610e22b2ba52edea9c2cb8449242104d96bf7",
+  "call_cap_per_start": 2000,
+  "failed_starts": 0,
+  "later_campaign_chemistry_read": false,
+  "max_calls_per_start": 131,
+  "native_ewp_runs": 0,
+  "new_nonlinear_starts": 192,
+  "nonlinear_start_cap": 500,
+  "numpy": "2.5.3",
+  "planned_nonlinear_starts": 192,
+  "scipy": "1.18.1",
+  "total_nonlinear_starts": 192
+}

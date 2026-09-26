@@ -1,0 +1,62 @@
+{
+  "artifacts": {
+    "FINAL_MF_attempts.json": "94a767ec49dac44fd1764870bc3e6a8dc75e10517c108c7dfd2e7fcaaad5f8f7",
+    "FINAL_MTF_attempts.json": "22978d24da56f9fd67f2475cdde1b65bc6be8ca40e2357419a29c199615d2199",
+    "FINAL_MT_attempts.json": "ed32a5d5bbbb66707686433a827a5bc4abc736c66fb536f9583d89a1ba55aec5",
+    "M0.json": "97a1afd6295498bc8f929d3b5197032c8682dcd8fd1e28bb3179e00f599ef462",
+    "MF.json": "67f982d58aaf83c48daae57e124c14be174a552c8004e14b26a1d449b284142c",
+    "MT.json": "ae7e9fc2a859aef46d8e852a39f0bf531c90a05b89a7ed027a9f42c1ad3d9461",
+    "MTF.json": "5b4ef7c75dddc92c3877aa785f91ef168ae183450c165f696017b62617762fe9",
+    "R1_MF_attempts.json": "c8c3ab29f48d613426719780cf64ec5bdda2a8a66dd506b23fb9420983915c78",
+    "R1_MTF_attempts.json": "03ab22bcc6e289217103797106e82e2a6e811f3de50152977e644f898769c478",
+    "R1_MT_attempts.json": "5efd8c645452f3d7662b8e2a7b39e651b5b853b3b407394f0e539ef168373b78",
+    "R2_MF_attempts.json": "b0c70e91ea35a6a244e3e2ea301ae885013fc004d67f861c75ebb895140e26d4",
+    "R2_MTF_attempts.json": "0bc1a697daf94049390834ec30885ebc18a865fceaa0164f1e2d8d53eb5e95c4",
+    "R2_MT_attempts.json": "01e713d6701276cc6145000d5ff064cea7498703e2f3eaf1e24c49b20853c943",
+    "R3_MF_attempts.json": "f93d9a961a854e0474a3b618a7edad1ef21a067c6cc7dbb199dae531ad3674fb",
+    "R3_MTF_attempts.json": "376d243f252d70435b84f4b79bb07b12ec004b68448da8c4e211a420bca9ca21",
+    "R3_MT_attempts.json": "a8ee2d2713f4ec3801fa2a5437b5cc7228b9793e44085067e5f713d0a614d3f3",
+    "SETTING_AWARE_EMPIRICAL.json": "4c52e977f4a37ec3f323476d100f8f7d240ce6b8ac34025777db0aa16f318808",
+    "coordinates.json": "dd2d68c8e96ea001ff4425fbad9fdd8874664a47f86fa84793e961ef76fea9eb",
+    "development.json": "6c95dfb9827b850a52d80098644661b4ab0a3949297fe9628308af17945ef393",
+    "empirical_selection.json": "9dd92784caed577bcbdb27f6e48c6945257c3ad2c3094e0a220377282e6df358",
+    "execution.json": "81500f6d63019e7c66950e6b6897956558c633d459793449427c785fdf031d45",
+    "predictions.json": "1f8641ccc7e91d4fa3ea913f15073097b13736743100b0fb2a04723222ba0012",
+    "source.json": "c95e7f08a49725e949bc5d080246d4c8a19a692a9437dfd83a5d4b274b6581b6",
+    "starts.json": "f4b2ddc209328118b68830be981933ec4098a712f21c39d19a212e447cebbc59",
+    "training.json": "4e3a87dab708aa798bed3d76b746eccd781eeb2716b0306809dda6aa33c143b5"
+  },
+  "code_and_protocol": {
+    "docs/analysis/sci_md_mass_delivery_001/RESULTS.json": "38a3f358e1c28855cda076dd7f5fbf24be2bf430a6dc727a50e96b43558862ef",
+    "docs/analysis/sci_md_mass_delivery_001/models/MASS.json": "75aa34648f73883e975b16c2267594a247142e247713f14642641789f5e2182d",
+    "docs/analysis/sci_md_mass_delivery_002/MODEL_CARD.md": "200677b57813a93d1f652d82dd66826247e29f5ebbbdc5868d0628b954ae0464",
+    "docs/analysis/sci_md_mass_delivery_002/PROTOCOL.md": "ad02f7c936bc85fa524ba49b9d485cf63fbebc3c689b92cf336f072bbfff4dae",
+    "docs/analysis/sci_md_mass_delivery_002/STARTS.json": "b4a9374c96ecca97dda62ec69d1bbb54f399dcdaab611726d23d65ff2dec5f8b",
+    "puckworks/analysis/conditioned_mass_delivery.py": "be122722900cbb8294b26f24e832a958b558617c0df2e2c8d6707df3e3980c2e",
+    "puckworks/analysis/mass_delivery.py": "301cd4bc8a469559faa3a776fcb60d3082ffb3f4a12bee373b8f44e9b21d3b4f",
+    "puckworks/analysis/pannusch_conditioned_mass_delivery.py": "8cedf26245b8fef0e0e7c40c82200abac6eaeabe08be1ee5b97ede19d851dce3",
+    "puckworks/analysis/pannusch_mass_delivery.py": "445e0662aa9af257fea1c8d0c664f8dab6b6bd80fc23706ef5f96c6c4e5721d9",
+    "tests/test_conditioned_mass_delivery.py": "0e4e14c2de42d9936d04751506294d1bf2bf97a2fa0d42398a0323ebbaebb439",
+    "tools/data_availability_preflight.py": "b84ff1f401be3ba68b64e4e0a5b1bae7a8f1b6159b03a090591e8d2976648804",
+    "tools/pannusch2024_reconstruct.py": "011e495de95114144d6599cde4b8747356ab25af06d13a2dba0c7783ab685464"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "primary_candidates": [
+    "M0",
+    "MT",
+    "MF",
+    "MTF",
+    "SETTING_AWARE_EMPIRICAL"
+  ],
+  "primary_conditions": [
+    "PRED-C01",
+    "PRED-C02",
+    "PRED-C05",
+    "PRED-C06"
+  ],
+  "producer_commit": "cec97741e72b126f04f05b73691d9223bbdb148f",
+  "producer_tree": "1b30d6d6152baedc28fab42419a2c33d61b8694b",
+  "review_status": "INDEPENDENT_PRE_SCORE_AUDIT_REQUIRED",
+  "scoring_policy": "ONE_PASS_NO_POST_SCORE_TUNING",
+  "task": "SCI-MD-MASS-DELIVERY-002"
+}
