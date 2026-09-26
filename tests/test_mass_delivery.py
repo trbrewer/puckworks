@@ -57,6 +57,7 @@ def test_constant_and_zero_rate(c0):
     m = model(coefficients=(c0, 0., .25))
     np.testing.assert_allclose(m.predict([0, .01], [.01, .03]).solute_kg, c0*np.array([.01,.02]), atol=1e-15)
     assert m.cumulative_solute(.04) == pytest.approx(c0*.04)
+    assert float(m.cumulative_solute(.06)) == c0*.06
 
 
 def test_bounded_additive_delivery_and_disjoint_support():

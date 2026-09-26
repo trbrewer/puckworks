@@ -74,6 +74,9 @@ def compact_delivery(starts, ends, theta, *, time_bounds=None, timing='linear', 
             raise ValueError('time/mass shape mismatch')
         f = {'linear': u, 'u2': u*u, 'sqrt': np.sqrt(u)}[timing]
         x = t0[..., None] + (t1-t0)[..., None] * f
+    # Exact constant limit avoids quadrature-weight summation roundoff at q=1.
+    if rate == 0 or c0 == 0:
+        return c0*(b-a)
     y = (b-a) * np.sum(w * c0 * np.exp(-(rate*x)**p), axis=-1)
     if np.any(y < 0) or np.any(y > b-a+1e-15) or not np.isfinite(y).all():
         raise FloatingPointError('nonphysical delivery bound')
