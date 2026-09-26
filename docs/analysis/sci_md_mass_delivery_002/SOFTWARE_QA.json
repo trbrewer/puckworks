@@ -1,0 +1,53 @@
+{
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "ewp": {
+    "affected_reruns": {
+      "all_passed": true,
+      "prior_authority": 20,
+      "reference_case": 58,
+      "sci_md_012": 7
+    },
+    "consumer_tests_including_all_family_parity": 7,
+    "initial_full_suite": {
+      "details": "Two manifest tests ran before regeneration; historical prior and SCI-MD-012 authority environment paths absent.",
+      "errors": 1,
+      "failure_class": "QA_ENVIRONMENT_AND_MANIFEST",
+      "failures": 3,
+      "skipped": 10,
+      "tests": 1584
+    },
+    "shell_files": 20,
+    "source_static_baseline_change_release_boundary_shell_json_secret_path": "PASS"
+  },
+  "hosted_ci": "LIVE_PR_STATUS_SEPARATE_NOT_ASSERTED_BY_THIS_RECORD",
+  "independent_pre_score_review": "APPROVED_EXACT_FREEZE",
+  "native_ewp_runs": 0,
+  "no_successor_authorized": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "preparation_deviations": [
+    "Protocol/card-only commits were made while baseline test process was running; one baseline environment-only failure was then corrected and affected tests passed before implementation commit. No scientific decision surface or source exposure changed.",
+    "Added source-input manifest hash to final model metadata before freeze; original artifact metadata preserved externally; coefficients and predictions unchanged; no additional real fits."
+  ],
+  "production_defaults_changed": false,
+  "production_dependency_lock_changed": false,
+  "puckworks": {
+    "affected_rerun_with_readme_test": 78,
+    "baseline_suite": {
+      "deselected": 60,
+      "failed": 1,
+      "failure": "subprocess missing explicit checkout import path",
+      "passed": 4601,
+      "resolution": "PYTHONPATH=. affected rerun passed; no product change",
+      "skipped": 64
+    },
+    "boundary": "PASS",
+    "focused_producer_tests": 77,
+    "registry": {
+      "ACKNOWLEDGED_EXCEPTION": 1,
+      "PASS": 65
+    },
+    "ruff": "PASS"
+  },
+  "target_scoring": "ONE_COMPLETED_PASS",
+  "task": "SCI-MD-MASS-DELIVERY-002"
+}

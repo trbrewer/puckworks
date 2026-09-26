@@ -1,0 +1,15 @@
+{
+  "checks": "77 producer tests;7 consumer tests;6 source hashes;9 registers;25 frozen artifacts;12 code/protocol files;720 predictions exactly reproduced;480 independent compact gamma-integral cases;120 empirical split-integral cases;72 M0 primary predictions exactly match predecessor;no reviewer target chemistry or scoring",
+  "ewp_reviewed_head": "db02beaf12976497d9f9714d36d38142f7a37ad1",
+  "ewp_reviewed_tree": "5f701e8fa8dd75b2118e7d0aeb366566f3cc438d",
+  "freeze_sha256": "e8333b85943bc3ab54db88adb8b631cd863911a9e626a9ba20c006b5c7dbc7c6",
+  "independent": true,
+  "private_receipt_sha256": "2483b4547734d3bd847ec903ce7d2a93f9a6844b3f5d954bf058df5356339907",
+  "reviewed_head": "cec97741e72b126f04f05b73691d9223bbdb148f",
+  "reviewed_tree": "1b30d6d6152baedc28fab42419a2c33d61b8694b",
+  "reviewer": "independent_review agent /root/independent_review; not implementation author",
+  "status": "APPROVED",
+  "task": "SCI-MD-MASS-DELIVERY-002",
+  "timestamp_utc": "2026-09-26T18:54:30.699434+00:00",
+  "unresolved_blocking_findings": []
+}

@@ -1,5 +1,7 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+SCI-MD-MASS-DELIVERY-002 is implemented and executed: [recipe-conditioned result](analysis/sci_md_mass_delivery_002/RESULT.md). MTF conditioning complexity is not earned; all-four-condition adequacy and material gain fail. The setting-aware empirical comparator is also inadequate. G1 / NO_GOVERNING_PHYSICS_CHANGE; research only, no production adoption, physical validation or successor. PR #280 remains open/unmerged for owner disposition. SCI-MD-MASS-DELIVERY-001/#278 is merged; its artifacts remain unchanged.
+
 > **Available-data authority (2026-08-30):** `puckworks/data/MANIFEST.csv`
 > remains canonical provenance. `puckworks/data/AVAILABLE_DATA_REGISTER.json`
 > is its deterministic decision-use view, including logical external corpora.
