@@ -231,3 +231,11 @@ def test_competitive_decision_keeps_numerical_uncertainty_explicit():
     result = study.comparison(conditions,b='TIME')
     assert result['competitive_status'] == 'NUMERICALLY_UNRESOLVED'
     assert not result['competitive']
+
+
+def test_near_zero_positive_rate_at_unit_concentration():
+    for k in (1e-20,1e-16,1e-12,1e-9):
+        m = model(coefficients=(1.,k,1.))
+        value = float(m.cumulative_solute(.06))
+        assert 0 <= value <= .06
+        assert value == pytest.approx(.06,abs=1e-11)

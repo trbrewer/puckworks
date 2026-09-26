@@ -103,7 +103,9 @@ case denominator. This is a development diagnostic, not final validation.
 
 ## Numerics, freeze and decisions
 
-128-point transformed Gauss-Legendre u=v^8; refinement 256. Independent adaptive
+128-point transformed Gauss-Legendre u=v^8; refinement 256. Positive quadrature
+weights are divided by their numerical sum to preserve constant and near-zero
+rate delivery bounds; exact zero-rate delivery is analytic. Independent adaptive
 quadrature directly on u, epsabs=1e-13 kg, epsrel=1e-11, limit=200. Allowance is
 max(refinement difference, independent difference + reported error), target
 <=1e-9 kg/interval. Piecewise-linear integration is analytic, independently

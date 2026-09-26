@@ -77,7 +77,8 @@ def compact_delivery(starts, ends, theta, *, time_bounds=None, timing='linear', 
     # Exact constant limit avoids quadrature-weight summation roundoff at q=1.
     if rate == 0 or c0 == 0:
         return c0*(b-a)
-    y = (b-a) * np.sum(w * c0 * np.exp(-(rate*x)**p), axis=-1)
+    # Normalize the positive weights to preserve the q<=1 bound at tiny rates.
+    y = (b-a) * (np.sum(w * c0 * np.exp(-(rate*x)**p), axis=-1) / np.sum(w))
     if np.any(y < 0) or np.any(y > b-a+1e-15) or not np.isfinite(y).all():
         raise FloatingPointError('nonphysical delivery bound')
     return y
