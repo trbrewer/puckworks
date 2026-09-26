@@ -1,0 +1,61 @@
+{
+  "artifacts": {
+    "anchor_support.json": {
+      "bytes": 1723,
+      "sha256": "638de2513ea7a9f60de6976bb1364dce09347d317acdd1dee05aab0ada177d16"
+    },
+    "anchors.json": {
+      "bytes": 5526,
+      "sha256": "1c7006602658f4122d229c5453860c28d479c5493b74dda73527c19a9643d407"
+    },
+    "coordinates.json": {
+      "bytes": 55948,
+      "sha256": "a8f1015c6e6f045493972342a6f86f7b1cd7ad807b138a8a2b7e0cb8fb307da4"
+    },
+    "execution.json": {
+      "bytes": 256,
+      "sha256": "0c847a6c3960716e5c7a374d54783e0b329c6e9ac4e1eb7cc71eca2402cc1016"
+    },
+    "freeze.json": {
+      "bytes": 3591,
+      "sha256": "4240f508781ded6c1a7df57bd30bf10d51428b6b323ea53ef203cff84765cea9"
+    },
+    "information_contract.json": {
+      "bytes": 859,
+      "sha256": "e4beae2be6ac2f82df0d83f7920083d4e96c7765a5c3e9056e408ec4e0d7ce15"
+    },
+    "predictions.json": {
+      "bytes": 234647,
+      "sha256": "d45e54f92a361d45a845acf6087f6bfcdde73a36d1ec8bd7614eba551ffc31a5"
+    },
+    "score_completion.json": {
+      "bytes": 301,
+      "sha256": "d6e97efacb37123e4ef036cdc1b2b0bad39303a4e8850cd26cd35a6007e62c74"
+    },
+    "score_receipt.json": {
+      "bytes": 292,
+      "sha256": "a114724ac4a01d0ff4ed97bdc9c59d765c6d7139152e15ed9c667121e36f577c"
+    },
+    "scores.json": {
+      "bytes": 108748,
+      "sha256": "11e37d0aed6f9ecbe462b5b5e4e8fe6f132b522f19d74c9e997a76cee1ef8e26"
+    },
+    "shot_results.json": {
+      "bytes": 106624,
+      "sha256": "579357ad2934ed9dbe4e81dea8bfa2c2067a1a7de943923fb66464d4e7a99e2e"
+    },
+    "source.json": {
+      "bytes": 4593,
+      "sha256": "b38d1b9d2890d701f5f9534271df3381240a704e9f6819177b99eb11e5bcf343"
+    },
+    "states.json": {
+      "bytes": 169022,
+      "sha256": "fb22171eeee0a36e4a0ffc5812c94ab7bebbc44ac75a5969d6ea9cac5dbcc7f4"
+    }
+  },
+  "public_projection": "Only source metadata and condition/balanced aggregate metrics; no real states, row predictions or per-shot source results",
+  "review_receipt_sha256": "6ff2e4b464260adabe0c900f0b72832ff8f5e0bf9a18393f596b8d06dc347f38",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "storage": "OWNER_LOCAL_OUTSIDE_GIT",
+  "task": "SCI-MD-MASS-DELIVERY-003"
+}

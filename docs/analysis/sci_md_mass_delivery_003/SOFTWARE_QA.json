@@ -1,0 +1,75 @@
+{
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "ewp": {
+    "affected_rechecks": {
+      "all_passed": true,
+      "package_qa": 17,
+      "prior_authority": 20,
+      "programme": 6,
+      "reference_case": 58,
+      "sci_md_012": 7,
+      "static_nonmutating": 3
+    },
+    "consumer_tests_including_three_base_parity": 8,
+    "historical_baseline_governing_change_contract_release": "PASS",
+    "initial_ordinary_suite": {
+      "causes": [
+        "Missing historical external-authority environment variables",
+        "Two manifest tests ran before generated manifest update",
+        "Current PACKAGE_QA_STATUS manifest count/hash stale",
+        "New launcher lacked executable bit; static check correctly failed"
+      ],
+      "errors": 2,
+      "failure_class": "QA_ENVIRONMENT_AND_PACKAGING",
+      "failures": 4,
+      "skipped": 9,
+      "tests": 1592
+    },
+    "json_boundary_secret_path": "PASS; repeat final changed-file scan before commit",
+    "shell_files": 20,
+    "source_manifest": "PASS; regenerate and verify final documentation manifest before commit",
+    "static": "PASS_39_GATES_AFTER_MODE_FIX"
+  },
+  "final_review_and_merge_readiness": "OWNER_DISPOSITION_PENDING_OPEN_UNMERGED",
+  "hosted_ci": "LIVE_PR_STATUS_SEPARATE_NOT_ASSERTED_BY_THIS_RECORD",
+  "independent_pre_score_review": "APPROVED_EXACT_FREEZE",
+  "native_ewp_runs": 0,
+  "new_curve_fits": 0,
+  "no_successor_authorized": true,
+  "optimizer_calls": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "preparation_deviations": [
+    "Protocol-only commits were made while baseline tests were running; the import-path environment failure was then corrected before implementation commit. No scientific decision surface changed.",
+    "Broader EWP checks began before final generated metadata; stale-manifest and current-QA metadata failures were retained and corrected without scientific rerun.",
+    "New EWP launcher executable mode was corrected during the ongoing independent audit; runtime bytes and frozen predictions unchanged."
+  ],
+  "production_defaults_changed": false,
+  "production_dependency_lock_changed": false,
+  "puckworks": {
+    "boundary_secret_path_json": "PASS",
+    "focused_model_tests": 116,
+    "new_task_tests": 39,
+    "ordinary_suite": {
+      "affected_recheck": "PASS: 1 test with PYTHONPATH=.",
+      "deselected": 60,
+      "failed": 1,
+      "failure": "subprocess lacked explicit worktree PYTHONPATH",
+      "failure_class": "QA_ENVIRONMENT",
+      "passed": 4640,
+      "skipped": 64,
+      "unresolved_failures": 0
+    },
+    "registry": {
+      "ACKNOWLEDGED_EXCEPTION": 1,
+      "PASS": 65
+    },
+    "ruff": "PASS",
+    "scientific_baseline": {
+      "deselected": 4792,
+      "passed": 5,
+      "skipped": 7
+    }
+  },
+  "target_scoring": "ONE_COMPLETED_PASS",
+  "task": "SCI-MD-MASS-DELIVERY-003"
+}

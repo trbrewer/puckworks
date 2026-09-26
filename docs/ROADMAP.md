@@ -1,5 +1,7 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+SCI-MD-MASS-DELIVERY-003 is implemented and executed: `SINGLE_ANCHOR_MASS_DELIVERY_INADEQUATE`. Axes A/B/C/D are FAIL/FAIL/PASS/FAIL. Seven fixed arms on 12 fraction-1 anchors and 60 later assays; zero new fits and native EWP runs. SOURCE_INTERNAL; TARGET_EXPOSED; RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON. Research only; production defaults and lock unchanged; physical validation NOT_ESTABLISHED. Both task PRs remain open/unmerged; NO_SUCCESSOR_AUTHORIZED. [Result](analysis/sci_md_mass_delivery_003/RESULT.md).
+
 SCI-MD-MASS-DELIVERY-002 is implemented and executed: [recipe-conditioned result](analysis/sci_md_mass_delivery_002/RESULT.md). MTF conditioning complexity is not earned; all-four-condition adequacy and material gain fail. The setting-aware empirical comparator is also inadequate. G1 / NO_GOVERNING_PHYSICS_CHANGE; research only, no production adoption, physical validation or successor. PR #280 remains open/unmerged for owner disposition. SCI-MD-MASS-DELIVERY-001/#278 is merged; its artifacts remain unchanged.
 
 > **Available-data authority (2026-08-30):** `puckworks/data/MANIFEST.csv`
@@ -835,6 +837,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 `gated + data`) require a §7.1 entry citing the dataset and the gate script.**
 
 ### 7.1 Change log
+
+SCI-MD-MASS-DELIVERY-003 (2026-09-26): frozen fraction-1 research update and audited suffix result; see [result](analysis/sci_md_mass_delivery_003/RESULT.md). No production component registration or successor.
 
 SCI-MD-MASS-DELIVERY-001 (2026-09-26): [research delivery result](analysis/sci_md_mass_delivery_001/RESULT.md). Absolute-TDS MASS and empirical adequacy limited to C02/C05; no declared broad competitiveness or material gain. Reusable SI kernel and exact EWP research consumer; no production change or successor.
 
