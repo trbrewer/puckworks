@@ -1,0 +1,124 @@
+{
+  "data_starvation_scope": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "datasets_reviewed": [
+    "pannusch2024/experimental_kinetics",
+    "pannusch2024/table2_params"
+  ],
+  "decision_to_change": "Research-only conditional delivery component usefulness and comparator adequacy",
+  "evidence": [
+    "PROTOCOL.md",
+    "puckworks/data/pannusch2024/source_inputs.csv"
+  ],
+  "existing_data_routes_considered": {
+    "adapter_or_observation_operator": "existing full measured mass prefixes; nominal DoE settings; mass integral kernel",
+    "bounded_public_data_search": "not necessary: recovered qualified corpus supplies this named decision",
+    "cross_source_join": "no numerical coefficient transfer or inventory join",
+    "direct_observation_comparison": "absolute TDS and measured fraction mass available",
+    "identifiability_or_discrimination": "empirical predictive fitness only",
+    "normalized_comparison": "predecessor answers different observable",
+    "parameter_sensitivity": "MT/MF diagnostic ablations; MTF fixed primary",
+    "simple_baseline_comparison": "five-setting exact integrated piecewise-linear profiles with training-only replicate CV",
+    "source_internal_transfer": "designated later campaign",
+    "source_reconstruction": "reuse qualified mE_cum and assay indices; workbook mass check"
+  },
+  "external_data_check": {
+    "inspected": "Hash-verified source MAT mass arrays, both DoE designs/nominal headers and measured SampleWeights, source preprocessing separation, current program/experiment registers; no March chemistry attached",
+    "known_but_unmounted_corpora": [],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "performed": true
+  },
+  "governance_class": "G1",
+  "home_lab_recommendation": {
+    "operational_authorization": false,
+    "status": "NONE"
+  },
+  "model_stage": [
+    "extraction"
+  ],
+  "next_action": "FIT-only training and frozen predictions followed by independent pre-score audit; no successor",
+  "prepared_by": "implementation agent; independent pre-score audit pending",
+  "prior_tasks_reviewed": [
+    "SCI-MD-GRUDEVA-CLOCK-001 merged #276/#182",
+    "PANNUSCH-RAW-REPRO-001",
+    "OBS-PANNUSCH-FRACTION-WINDOW-001",
+    "XSV-PANNUSCH-MULTIMODEL-001",
+    "SCI-MD-PANNUSCH-FLOW-HISTORY-001",
+    "XSV-PANNUSCH-EWP-INPUT-MAPPING-001",
+    "SCI-MD-MASS-DELIVERY-001 merged #278/#184"
+  ],
+  "puckworks_authority": {
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
+    "commit": "69f9ef3453294709ef575d63b156d9d78c49d2db",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "tree": "24ebe16623b350f8e4f3fd04b7ecbf241c9a03a8"
+  },
+  "remaining_scoped_gaps": [
+    "physical flow conversion unresolved and not needed for dimensionless source code",
+    "variable-setting inputs not adjudicated",
+    "coffee/roast campaign causes unresolved",
+    "joint recipe/mass coverage not complete"
+  ],
+  "required_independence": "SOURCE_INTERNAL;TARGET_EXPOSED;RETROSPECTIVE_MODEL_DEVELOPMENT_COMPARISON",
+  "required_observables": [
+    "TDS",
+    "fraction_mass"
+  ],
+  "schema_version": 1,
+  "scientific_question": "Do nominal recipe settings earn additional mass-delivery complexity against M0 and a setting-aware empirical comparator?",
+  "setting_qualification": {
+    "basis": "Same DE1 source experiment design; labelled programmed flow axis and temperature axis; March start/end extension; common 60/code nominal collection convention; qualified program/register joins. Not number matching alone.",
+    "chemistry_used": false,
+    "design_evidence": {
+      "FIT": {
+        "headers": [
+          "No.",
+          "Exp.",
+          "Shot",
+          "Flow (ml/s)",
+          "Grind (-)",
+          "Temp (\u00b0C)",
+          "~ p_max (bar)",
+          "Time (s)",
+          "Sampler speed (pps)",
+          "Mass (g)",
+          "Date",
+          "Time"
+        ],
+        "sha256": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+        "source_id": "P24-DOE-FIT"
+      },
+      "PRED": {
+        "headers": [
+          "No.",
+          "Exp.",
+          "Shot",
+          "Flow_0  (ml/s)",
+          "Flow_E  (ml/s)",
+          "T_0  (\u00b0C)",
+          "T_E  (\u00b0C)",
+          "Time (s)",
+          "Speed  (pps)",
+          "Mass (g)",
+          "Date",
+          "Time"
+        ],
+        "sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+        "source_id": "P24-DOE-PRED"
+      }
+    },
+    "physical_flow_conversion": "UNRESOLVED_NOT_REQUIRED_NOT_PERFORMED",
+    "run_flow_or_density_used": false,
+    "semantics": "DIMENSIONLESS_SOURCE_SPECIFIC_NOMINAL_DESIGN_CODE_NOT_MEASURED_FLOW",
+    "status": "QUALIFIED_NOMINAL_SOURCE_DESIGN_CODE_ONLY"
+  },
+  "task_id": "SCI-MD-MASS-DELIVERY-002",
+  "usable_existing_evidence": [
+    "15 FIT shots/90 assays",
+    "12 constant primary shots/72 assays",
+    "complete measured mass prefixes",
+    "qualified nominal source recipe design"
+  ]
+}

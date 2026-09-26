@@ -1,0 +1,375 @@
+{
+  "TDS_spill_exclusions": 0,
+  "collection_prefix_authority": "Each exact source run.mE_cum; complete mE and workbook measured net mass checked",
+  "condition_mass_extents_kg": {
+    "FIT-C09": [
+      0.0,
+      0.05644340000000001
+    ],
+    "FIT-C10": [
+      0.0,
+      0.056432200000000016
+    ],
+    "FIT-C11": [
+      0.0,
+      0.06350639999999999
+    ],
+    "FIT-C14": [
+      0.0,
+      0.0571946
+    ],
+    "FIT-C15": [
+      0.0,
+      0.05692109999999999
+    ]
+  },
+  "coordinate_chemistry_access": false,
+  "excluded_other_grind_shots": 30,
+  "experiment_46_used": false,
+  "final_mass_domain_kg": [
+    0.0,
+    0.06350639999999999
+  ],
+  "flow_ramp": {
+    "assays": 36,
+    "conditions": [
+      "PRED-C07",
+      "PRED-C08"
+    ],
+    "shots": 6
+  },
+  "metadata_summary": {
+    "FIT": {
+      "coffee_lot_id": [
+        "UNKNOWN"
+      ],
+      "coffee_product": [
+        "SOURCE_COMMERCIAL_PRODUCT"
+      ],
+      "collection_date": [
+        "2021-12-07",
+        "2021-12-08",
+        "2022-01-04"
+      ],
+      "roast_batch_id": [
+        "UNKNOWN"
+      ],
+      "source_design_date": [
+        "2021-12-07",
+        "2021-12-08",
+        "2022-01-04"
+      ]
+    },
+    "PRED": {
+      "coffee_lot_id": [
+        "UNKNOWN"
+      ],
+      "coffee_product": [
+        "SOURCE_COMMERCIAL_PRODUCT"
+      ],
+      "collection_date": [
+        "2022-03"
+      ],
+      "roast_batch_id": [
+        "UNRESOLVED_POTENTIALLY_DIFFERENT"
+      ],
+      "source_design_date": [
+        "UNKNOWN"
+      ]
+    }
+  },
+  "missing_mass_prefixes": 0,
+  "prediction_coordinates_sha256": "6e7cc80b733f1716b88c10f8edd20955fe53a75eb35dc8147c1fa4f8ab6042e8",
+  "primary": {
+    "assays": 72,
+    "conditions": [
+      "PRED-C01",
+      "PRED-C02",
+      "PRED-C05",
+      "PRED-C06"
+    ],
+    "shots": 12
+  },
+  "primary_coordinates_sha256": "5b127230a0e35b770ef39ff54b1d4f8dedaa49b324def0b472ceb2f9c793a46d",
+  "recipe_mass_product_domain": "MODELING_ASSUMPTION_NOT_COMPLETE_JOINT_COVERAGE",
+  "registers": {
+    "DATA_DICTIONARY.md": "a135bb7f674938c322741dfee03aefeac4978a118237a883633fd2f4a6480599",
+    "PROVENANCE.md": "8376d3c1ca01e6179ff99f5ff3c9edfdcb5cd0d9dd8b3cb35b2800fad6249812",
+    "exclusion_register.csv": "e1118592b397fd46facff162d6f275e22e7b41cb703d2aa73cc468b000c6d7d8",
+    "experiment_grind_assignments.csv": "b7a98c4cc3c020fa1213f90a8c1cfa17603a90b057b0000aeaa1ef145b2252b0",
+    "experiment_register.csv": "6d72ac3a32dc05e6ae5b204ebb6d269a6e31ff87d4ef122f17a39d729d33208e",
+    "fit_fraction_replicates.csv": "55b16b9897956e2dab5a39c1c8b54e97dca6f7355e33c6513e7933316df5b1f2",
+    "prediction_conditions.csv": "a1efcf9ce876101be373a3b5955193dbf5a2075aef2e3b65dc0c83e80bbb3ee5",
+    "prediction_fraction_replicates.csv": "e29344bcdd87d31ba1c1bcb1fe0ba73286befd82066394ad164fdb2384e0b665",
+    "source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "setting_qualification": {
+    "basis": "Same DE1 source experiment design; labelled programmed flow axis and temperature axis; March start/end extension; common 60/code nominal collection convention; qualified program/register joins. Not number matching alone.",
+    "chemistry_used": false,
+    "design_evidence": {
+      "FIT": {
+        "headers": [
+          "No.",
+          "Exp.",
+          "Shot",
+          "Flow (ml/s)",
+          "Grind (-)",
+          "Temp (\u00b0C)",
+          "~ p_max (bar)",
+          "Time (s)",
+          "Sampler speed (pps)",
+          "Mass (g)",
+          "Date",
+          "Time"
+        ],
+        "sha256": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+        "source_id": "P24-DOE-FIT"
+      },
+      "PRED": {
+        "headers": [
+          "No.",
+          "Exp.",
+          "Shot",
+          "Flow_0  (ml/s)",
+          "Flow_E  (ml/s)",
+          "T_0  (\u00b0C)",
+          "T_E  (\u00b0C)",
+          "Time (s)",
+          "Speed  (pps)",
+          "Mass (g)",
+          "Date",
+          "Time"
+        ],
+        "sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+        "source_id": "P24-DOE-PRED"
+      }
+    },
+    "physical_flow_conversion": "UNRESOLVED_NOT_REQUIRED_NOT_PERFORMED",
+    "run_flow_or_density_used": false,
+    "semantics": "DIMENSIONLESS_SOURCE_SPECIFIC_NOMINAL_DESIGN_CODE_NOT_MEASURED_FLOW",
+    "status": "QUALIFIED_NOMINAL_SOURCE_DESIGN_CODE_ONLY"
+  },
+  "shape_borrowing_intervals_kg": {
+    "FIT-C09": [
+      0.05644340000000001,
+      0.06350639999999999
+    ],
+    "FIT-C10": [
+      0.056432200000000016,
+      0.06350639999999999
+    ],
+    "FIT-C14": [
+      0.0571946,
+      0.06350639999999999
+    ],
+    "FIT-C15": [
+      0.05692109999999999,
+      0.06350639999999999
+    ]
+  },
+  "source_designs": {
+    "FIT-C09": {
+      "date": "2022-01-04",
+      "dose": 20.0,
+      "exp": 9,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.0,
+      "temp0": 89.0,
+      "temp1": 89.0,
+      "temperature_K": 362.15
+    },
+    "FIT-C10": {
+      "date": "2021-12-07",
+      "dose": 20.0,
+      "exp": 10,
+      "flow0": 1.0,
+      "flow1": 1.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 1.0,
+      "temp0": 89.0,
+      "temp1": 89.0,
+      "temperature_K": 362.15
+    },
+    "FIT-C11": {
+      "date": "2021-12-07",
+      "dose": 20.0,
+      "exp": 11,
+      "flow0": 3.0,
+      "flow1": 3.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 3.0,
+      "temp0": 89.0,
+      "temp1": 89.0,
+      "temperature_K": 362.15
+    },
+    "FIT-C14": {
+      "date": "2021-12-07",
+      "dose": 20.0,
+      "exp": 14,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.0,
+      "temp0": 80.0,
+      "temp1": 80.0,
+      "temperature_K": 353.15
+    },
+    "FIT-C15": {
+      "date": "2021-12-08",
+      "dose": 20.0,
+      "exp": 15,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.0,
+      "temp0": 98.0,
+      "temp1": 98.0,
+      "temperature_K": 371.15
+    },
+    "PRED-C01": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 1,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.0,
+      "temp0": 86.0,
+      "temp1": 86.0,
+      "temperature_K": 359.15
+    },
+    "PRED-C02": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 2,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.0,
+      "temp0": 92.0,
+      "temp1": 92.0,
+      "temperature_K": 365.15
+    },
+    "PRED-C03": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 3,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "VARIABLE",
+      "source_flow_setting_code": 2.0,
+      "temp0": 88.0,
+      "temp1": 93.0,
+      "temperature_K": 361.15
+    },
+    "PRED-C04": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 4,
+      "flow0": 2.0,
+      "flow1": 2.0,
+      "grind": 1.7,
+      "setting_kind": "VARIABLE",
+      "source_flow_setting_code": 2.0,
+      "temp0": 93.0,
+      "temp1": 88.0,
+      "temperature_K": 366.15
+    },
+    "PRED-C05": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 5,
+      "flow0": 1.7,
+      "flow1": 1.7,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 1.7,
+      "temp0": 90.0,
+      "temp1": 90.0,
+      "temperature_K": 363.15
+    },
+    "PRED-C06": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 6,
+      "flow0": 2.3,
+      "flow1": 2.3,
+      "grind": 1.7,
+      "setting_kind": "CONSTANT",
+      "source_flow_setting_code": 2.3,
+      "temp0": 90.0,
+      "temp1": 90.0,
+      "temperature_K": 363.15
+    },
+    "PRED-C07": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 7,
+      "flow0": 1.7,
+      "flow1": 2.3,
+      "grind": 1.7,
+      "setting_kind": "VARIABLE",
+      "source_flow_setting_code": 1.7,
+      "temp0": 90.0,
+      "temp1": 90.0,
+      "temperature_K": 363.15
+    },
+    "PRED-C08": {
+      "date": "UNKNOWN",
+      "dose": 20.0,
+      "exp": 8,
+      "flow0": 2.3,
+      "flow1": 1.7,
+      "grind": 1.7,
+      "setting_kind": "VARIABLE",
+      "source_flow_setting_code": 2.3,
+      "temp0": 90.0,
+      "temp1": 90.0,
+      "temperature_K": 363.15
+    }
+  },
+  "source_files": {
+    "P24-DOE-FIT": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+    "P24-DOE-PRED": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+    "P24-M-PREP-FIT": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+    "P24-M-PREP-PRED": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+    "P24-MAT-FIT": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+    "P24-MAT-PRED": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64"
+  },
+  "source_scope": "SOURCE_INTERNAL",
+  "target_exposure": "TARGET_EXPOSED",
+  "task": "SCI-MD-MASS-DELIVERY-002",
+  "temperature_ramp": {
+    "assays": 36,
+    "conditions": [
+      "PRED-C03",
+      "PRED-C04"
+    ],
+    "shots": 6
+  },
+  "training": {
+    "assays": 90,
+    "conditions": 5,
+    "grind": 1.7,
+    "shots": 15,
+    "source_experiments": [
+      9,
+      10,
+      11,
+      14,
+      15
+    ]
+  },
+  "training_coordinates_sha256": "af907e5af978be7fb0f89aced8e25466a03557338a871437f9530dde20a6b81e"
+}
