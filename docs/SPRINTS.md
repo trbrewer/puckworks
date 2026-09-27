@@ -1,6 +1,6 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
-- [x] SCI-MD-MASS-DELIVERY-004 completed one audited score: all-ten transfer is limited by source coordinates and the frozen mass domain (143/150 supported suffix slots per arm). All axes remain NOT_ADJUDICATED_INCOMPLETE_SUPPORT; both anchored curves pass seven complete conditions. No production change, physical validation or successor. [Result](analysis/sci_md_mass_delivery_004/RESULT.md). PR #284 open/unmerged.
+- [x] SCI-MD-MASS-DELIVERY-004 completed one audited score: FROZEN_EMPIRICAL_TRANSFER_INADEQUATE. A/D FAIL by C01 complete-shot lower bounds; B/C/E remain incomplete-support (143/150 suffix slots per arm). Both anchored curves pass seven complete conditions but fail C01. Material interpretation correction preserves the original score and prior report. No production change, physical validation or successor. [Result](analysis/sci_md_mass_delivery_004/RESULT.md). PR #284 open/unmerged.
 
 SCI-MD-MASS-DELIVERY-003 is implemented and executed: `SINGLE_ANCHOR_MASS_DELIVERY_INADEQUATE`. Axes A/B/C/D are FAIL/FAIL/PASS/FAIL. Seven fixed arms on 12 fraction-1 anchors and 60 later assays; zero new fits and native EWP runs. SOURCE_INTERNAL; TARGET_EXPOSED; RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON. Research only; production defaults and lock unchanged; physical validation NOT_ESTABLISHED. Both task PRs remain open/unmerged; NO_SUCCESSOR_AUTHORIZED. [Result](analysis/sci_md_mass_delivery_003/RESULT.md).
 

@@ -29,6 +29,17 @@ preserves attempted execution and blocks a second score, including failed attemp
 Report only reads aggregates; it never reattaches chemistry or scores again.
 The implementation author must not fill in their own independent approval.
 
+The executed frozen scorer has a known classification defect: it suppresses
+condition failure when support is incomplete, even when complete-shot error
+contributions already prove failure with the original three-shot denominator.
+Its `report` command faithfully returns the original raw aggregates. Read
+[ADJUDICATION.json](ADJUDICATION.json) and [RESULT.md](RESULT.md) for the separately
+reviewed material correction: A/D FAIL; B/C/E incomplete-support. No predictions,
+scores, metric values or thresholds were changed and no score was repeated.
+The unchanged frozen protocol's complete-condition restriction is an explicit
+erratum, not authority to hide a definite failure. Prior result/review versions
+are retained in commit 135bdc87d3e57f32743194d39c3f85940c5157d2.
+
 ```bash
 PYTHONPATH=. python3 -m pytest -q tests/test_pannusch_empirical_transfer.py \
   tests/test_anchored_mass_delivery.py tests/test_mass_delivery.py \

@@ -34,7 +34,7 @@
   "no_successor_authorized": true,
   "optimizer_calls": 0,
   "physical_validation": "NOT_ESTABLISHED",
-  "post_score_correction": "G0 reporting attribution only; exact raw scores and frozen code retained, zero reexecution; independent reporting addendum PASS",
+  "post_score_correction": "Material interpretation correction: frozen scorer and first report missed definite failure implied by complete-shot condition lower bounds. Original protocol/code/predictions/scores remain immutable; final ADJUDICATION.json is authoritative for axes. No rescore. Prior label-only review retained as superseded; independent bounded result review ACCEPTED (FAILURE_BOUND_REVIEW.json).",
   "process_notes": [
     "Initial unfiltered Puckworks pytest run interrupted at 250 pass/1 skip to use established ordinary offline markers; no task scoring or source-curve refit occurred.",
     "Protocol and implementation commits were made while broader ordinary suite was running. Focused tests passed before implementation freeze; broad suite completed before scientific score.",

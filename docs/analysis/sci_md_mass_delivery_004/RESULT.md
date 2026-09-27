@@ -1,12 +1,13 @@
 # SCI-MD-MASS-DELIVERY-004 result
 
-**TRANSFER_CLAIM_LIMITED_BY_SOURCE_COORDINATES_AND_FROZEN_MASS_DOMAIN.**
+**FROZEN_EMPIRICAL_TRANSFER_INADEQUATE.**
 One independently audited scoring pass is complete. ANCHORED_EMPIRICAL remains
-primary. All five axes are **NOT_ADJUDICATED_INCOMPLETE_SUPPORT** for the
-all-ten-condition claim. The empirical and compact anchored curves pass the
-absolute budgets in all seven completely supported conditions, but no all-cohort
-adequacy, early-assay value, shape value, competitiveness or material advantage
-is established. The source-grind-2.0 and common-setting summaries are descriptive;
+primary. **A=FAIL and D=FAIL**; B/C/E are **NOT_ADJUDICATED_INCOMPLETE_SUPPORT**.
+Complete-shot contributions prove that C01 exceeds both absolute error budgets,
+despite its incomplete support. The empirical and compact anchored curves pass
+the budgets in all seven completely supported conditions, but both fail C01.
+No all-cohort adequacy, early-assay value, shape value, competitiveness or material
+advantage is established. The source-grind-2.0 and common-setting summaries are descriptive;
 they cannot rescue the primary claim. No curve was refitted or selected afterward.
 
 G1 / NO_GOVERNING_PHYSICS_CHANGE. [Puckworks #284](https://github.com/trbrewer/puckworks/pull/284)
@@ -60,48 +61,72 @@ condition support, not an omitted row. All arms have the same interval coverage.
 
 | Condition | Coverage | Anchored empirical | Unanchored empirical | Anchored MASS | Unanchored MASS | Persistence |
 |---|---:|---:|---:|---:|---:|---:|
-| FIT-C01 | 13/15 | — | — | — | — | — |
+| FIT-C01 | 13/15 | FAIL by lower bound | — | FAIL by lower bound | — | FAIL by lower bound |
 | FIT-C02 | 15/15 | 0.701150 / 0.197203 (PASS) | 1.013210 / 0.456917 (FAIL) | 0.836371 / 0.209864 (PASS) | 1.107349 / 0.476608 (FAIL) | 16.243880 / 15.141462 (FAIL) |
 | FIT-C03 | 15/15 | 0.800402 / 0.378828 (PASS) | 0.785705 / 0.447108 (PASS) | 0.859407 / 0.357258 (PASS) | 0.843223 / 0.441634 (PASS) | 15.223251 / 14.435397 (FAIL) |
 | FIT-C04 | 15/15 | 0.850671 / 0.285423 (PASS) | 1.011644 / 0.253893 (FAIL) | 0.927087 / 0.222623 (PASS) | 1.093474 / 0.315533 (FAIL) | 16.125652 / 15.074826 (FAIL) |
-| FIT-C05 | 13/15 | — | — | — | — | — |
+| FIT-C05 | 13/15 | — | — | — | — | FAIL by lower bound |
 | FIT-C06 | 12/15 | — | — | — | — | — |
 | FIT-C07 | 15/15 | 0.578578 / 0.249798 (PASS) | 0.894218 / 0.315245 (PASS) | 0.547920 / 0.256444 (PASS) | 0.871370 / 0.306696 (PASS) | 13.343736 / 12.849061 (FAIL) |
 | FIT-C08 | 15/15 | 0.455353 / 0.114137 (PASS) | 0.546101 / 0.156456 (PASS) | 0.512562 / 0.191845 (PASS) | 0.564075 / 0.067891 (PASS) | 14.248087 / 13.652312 (FAIL) |
 | FIT-C12 | 15/15 | 0.908263 / 0.283301 (PASS) | 1.110263 / 0.499537 (FAIL) | 0.864346 / 0.299635 (PASS) | 1.077919 / 0.521163 (FAIL) | 14.607071 / 14.147712 (FAIL) |
 | FIT-C13 | 15/15 | 0.247320 / 0.038981 (PASS) | 0.291587 / 0.053719 (PASS) | 0.289235 / 0.097434 (PASS) | 0.312813 / 0.020910 (PASS) | 15.215037 / 14.579247 (FAIL) |
 
-Budgets are R<=1.00 pp and mean abs B<=0.50 pp in every complete condition,
+Budgets are R<=1.00 pp and mean abs B<=0.50 pp in every declared condition,
 plus complete declared support. They are working research budgets, not assay
 precision or universal standards. Both anchored models pass C02/C03/C04/C07/C08/
-C12/C13. Neither has all-ten adequacy. Both unanchored models definitively fail
+C12/C13. Both fail C01 by a conservative lower bound. Both unanchored models definitively fail
 C02/C04/C12 while passing C03/C07/C08/C13. Persistence fails all seven complete
 conditions. These comparator failures are preserved despite other support gaps.
+
+For a condition with incomplete shots, each missing shot's R and abs B remains
+nonnegative. Therefore the sum of the **complete** shot metrics, reduced by their
+numerical allowances and divided by the original **three** intended replicates,
+is a lower bound on the declared condition metric. This does not impute missing
+errors, change denominators, or supply a full condition estimate.
+
+| C01 arm | Complete shots / intended | Condition R lower bound | Mean abs B lower bound |
+|---|---:|---:|---:|
+| ANCHORED_EMPIRICAL | 2/3 | 1.603166844423 | 1.410845175887 |
+| ANCHORED_MASS | 2/3 | 1.418684365816 | 1.214673187451 |
+
+Both bounds exceed 1.00/0.50 pp by much more than numerical allowance. Thus all
+five arms have an established all-cohort adequacy failure, alongside the support
+limitations. ADJUDICATION.json retains the same bound for every incomplete
+condition and all five arms; persistence also definitely fails incomplete C05.
 
 ## Separate scientific axes
 
 | Axis | Reporting disposition | Limitation |
 |---|---|---|
-| A: absolute transfer adequacy | NOT_ADJUDICATED_INCOMPLETE_SUPPORT | C01/C05/C06 incomplete; seven complete conditions pass |
+| A: absolute transfer adequacy | FAIL | C01 lower bounds exceed both budgets; coverage gaps remain |
 | B: early-assay value | NOT_ADJUDICATED_INCOMPLETE_SUPPORT | Balanced ten-condition R/bias unavailable; definite/possible wins 6/9 |
 | C: curve-shape value | NOT_ADJUDICATED_INCOMPLETE_SUPPORT | Balanced ten-condition R/bias unavailable; definite/possible wins 7/10 |
-| D: competitiveness against anchored MASS | NOT_ADJUDICATED_INCOMPLETE_SUPPORT | Requires A and complete balanced metrics |
+| D: competitiveness against anchored MASS | FAIL | Requires A, which fails; comparative balanced metrics remain unavailable |
 | E: material advantage over anchored MASS | NOT_ADJUDICATED_INCOMPLETE_SUPPORT | Balanced ten-condition R/bias unavailable; definite/possible wins 5/8 |
 
 No superiority follows from competitiveness, and empirical complexity is not
 earned by narrower absolute adequacy. E is not adjudicated, not a demonstrated
 absence of every possible advantage. No automatic preference or production use.
 
-**Reporting correction:** the frozen scorer labeled B/C/E NUMERICALLY_UNRESOLVED
-because missing conditions widened its possible-win counts. Those ranges arise
-from incomplete support; zero evaluated condition comparisons overlap numerical
-allowances. ADJUDICATION.json preserves the original axes and clarifies the cause.
-RESULTS.json remains byte-identical to the original raw scores. The bounded
-REPORTING_REVIEW_ADDENDUM.json binds this label-only correction. No code, model,
-prediction, metric, threshold, candidate, PASS/FAIL decision or score was changed.
-The frozen `report` command returns the original raw aggregates; use the linked
-adjudication when interpreting its coarse raw status labels. This is one scoring
-pass, not a second scientific attempt.
+**Material interpretation correction:** the frozen protocol mistakenly restricted
+failure to complete conditions, and the scorer and first report consequently
+missed C01's definite failure. This conflicts with the owner's controlling
+instruction to preserve definite failures and the predeclared nonnegative
+three-shot metric. The protocol and code are retained unchanged as evidence;
+ADJUDICATION.json applies that original metric's conservative lower bound.
+This changes A/D and the scientific conclusion; it is not a G0 label-only fix.
+The earlier all-axes-support-only report, adjudication and review are preserved
+at commit `135bdc87d3e57f32743194d39c3f85940c5157d2` and are superseded on A/D.
+FAILURE_BOUND_REVIEW.json independently reviews this material correction.
+
+Separately, the raw B/C/E NUMERICALLY_UNRESOLVED labels arise from missing-condition
+win ranges, not numerical overlap; zero evaluated comparisons overlap allowances.
+They remain incomplete-support. RESULTS.json is byte-identical to the original
+raw scores. No source, code, model, prediction, metric value, threshold, candidate
+or scoring execution changed. The frozen `report` command returns the raw
+aggregates with the known classification defect; use ADJUDICATION.json for the
+corrected scientific disposition. One scoring pass was performed, with no retuning.
 
 ## Predeclared descriptive summaries
 
@@ -178,10 +203,12 @@ local tests, hosted CI, source/numerical qualification and PR/merge status.
 Initial full-suite selection was interrupted in favor of the ordinary offline lane;
 the log remains external. Protocol/implementation commits preceded completion
 of broad ordinary QA; focused tests passed before implementation freeze. No
-scientific decision changed. EWP initial manifest-related QA failures were repaired
+scientific decision changed because of those QA sequencing issues. The material
+A/D interpretation correction is separately recorded above. EWP initial manifest-related QA failures were repaired
 by generated metadata refresh and affected rechecks, without scientific reexecution.
 
-No all-ten research applicability envelope was earned. Narrow supported-source
+The declared all-ten transfer claim fails; no research applicability envelope
+was earned. Narrow supported-source
 diagnostics remain conditional on measured fraction-1 TDS/mass and supplied
 future mass windows. No universal grinder mapping, recipe-only prediction,
 mass/time attainment, real-time controller, identified inventory, independently
