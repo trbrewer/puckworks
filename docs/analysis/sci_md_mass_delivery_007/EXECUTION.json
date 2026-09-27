@@ -1,0 +1,32 @@
+{
+  "execution_commit": "6190aa1c58851bcf2258d548f45e880439da8f96",
+  "execution_tree": "f97685c8a613a36a15b52c9881e87f9178861755",
+  "files": {
+    "prediction_start.json": "11d4a278b25883875b1145fb0c02ce888e52f5dc4a0da943c49a3c71c6b68c7f",
+    "predictions.json": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+    "states.json": "d59d1a39ed436c997be556fb9fa26f0121fcf7161657a260906ff5680a08a656"
+  },
+  "max_allowance_kg": 1.30476294028642e-16,
+  "native_runs": 0,
+  "optimizer_calls": 0,
+  "prediction_sets": 1,
+  "predictions_are_immutable": true,
+  "python": "3.12.3",
+  "real_fits": 0,
+  "scientific_score_passes": 0,
+  "scientific_score_passes_at_closeout": 1,
+  "status": "COMPLETE",
+  "status_counts": {
+    "C0": {
+      "QUALIFIED": 55
+    },
+    "C1": {
+      "QUALIFIED": 55
+    },
+    "C2": {
+      "QUALIFIED": 55
+    }
+  },
+  "task": "SCI-MD-MASS-DELIVERY-007",
+  "wall_seconds": 0.07083860412240028
+}

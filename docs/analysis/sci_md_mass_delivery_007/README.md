@@ -1,5 +1,7 @@
 # SCI-MD-MASS-DELIVERY-007
 
+Completed: [saved result](RESULT.md), [aggregate](RESULTS.json), and [identity binding](RESULT_BINDING.json). C0/C1/C2 adequacy fails; C2 passes both increments. Coverage and numerics pass. The authorized prediction/scoring budget is spent; the commands below document the completed workflow and do not authorize a replay.
+
 [Puckworks issue #291](https://github.com/trbrewer/puckworks/issues/291),
 [EWP issue #197](https://github.com/trbrewer/espresso-whole-pull/issues/197).
 G1 / NO_GOVERNING_PHYSICS_CHANGE; fixed C2 primary, zero fits or native runs.
