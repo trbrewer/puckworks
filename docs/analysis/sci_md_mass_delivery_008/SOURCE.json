@@ -1,0 +1,11 @@
+{
+  "files": {
+    "PlotData.ipynb": "bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff",
+    "exp13.csv": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+    "thesis.pdf": "bbe73a303ab0b6838fe727f05d970438c7ba42576a9959f032aa63b88aff84e6"
+  },
+  "local_source_discovery": "configured inventory root inspected; historical three files only; authorized pinned retrieval",
+  "notebook_executed": false,
+  "rights": "PERMISSION_DOCUMENTED; upstream raw data not redistributed; thesis separately attributed",
+  "upstream_commit": "567ad8f3808eb74fbe3e470eaa333161bf2eac1c"
+}
