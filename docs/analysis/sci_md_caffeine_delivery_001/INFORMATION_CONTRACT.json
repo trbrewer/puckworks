@@ -1,0 +1,34 @@
+{
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001",
+  "contract_commit": "2d5d3b987119cd80147b3571a78cc5840714dc2a",
+  "files": {
+    "docs/analysis/sci_md_caffeine_delivery_001/DEPENDENCIES.json": "74a3d73cf7a9a0c4dc79301f1535a5d39cd9edb717a81aca5f9aeb890bd0c93e",
+    "docs/analysis/sci_md_caffeine_delivery_001/DATA_AVAILABILITY_PREFLIGHT.json": "c84e1abcf9ce137491c5524003d39867f0cb1187f92b038915210609448b9466",
+    "docs/analysis/sci_md_caffeine_delivery_001/MODEL_CARD.md": "d1ec9f4d825eb893ab152cd712022c14353cd4117643295562f43d76d1e0781e",
+    "docs/analysis/sci_md_caffeine_delivery_001/SOURCE_IDENTITIES.json": "3c477d7adeb7fb064aaf33270e6f9c13c8909c0ac16a096e20ffddbddae1f193",
+    "docs/analysis/sci_md_caffeine_delivery_001/PROTOCOL.md": "edcdd59f60d58b0b30a23aa0a77c77d98a3a4a2363eb490e6690a2cdfcffcc0d"
+  },
+  "arms": [
+    "D0",
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "primary": "S2",
+  "early_inputs": [
+    "m1_kg",
+    "m2_kg",
+    "q1",
+    "q2"
+  ],
+  "caffeine_responses": [
+    3,
+    5,
+    7,
+    10
+  ],
+  "early_caffeine_role": "NEVER_INPUT_INITIALIZATION_CALIBRATION_SELECTION_OR_SCORE",
+  "PRED_outcomes": "SCORER_ONLY_AFTER_GENUINE_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "later_TDS_role": "OBSERVED_ORDERING_REPORT_ONLY_NEVER_INFERENCE",
+  "classification": "SOURCE_INTERNAL_TARGET_EXPOSED_RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION"
+}

@@ -1,0 +1,1567 @@
+{
+  "D0_predicted_TDS_ordering": {
+    "clipping_applied": false,
+    "compared_slots": 95,
+    "interval_mass_violation_slots": 0,
+    "pointwise_violation_slots": 0
+  },
+  "PRED_observed_chemical_ordering": {
+    "compared_slots": 96,
+    "exclusions_or_clipping_applied": false,
+    "inconsistent_slots": 0
+  },
+  "PRED_original_caffeine_checks": 96,
+  "adequacy_by_arm": {
+    "D0": "PASS",
+    "S0": "PASS",
+    "S1": "PASS",
+    "S2": "PASS"
+  },
+  "adequate_simpler_arms": [
+    "D0",
+    "S0",
+    "S1"
+  ],
+  "claims": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "CAFFEINE_IS_COMPONENT_OF_TDS",
+    "MODEL_SHARE_CONSTRAINT_NOT_MEASURED_CHEMICAL_CLOSURE",
+    "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+    "NOT_INVENTORY_CLOSURE",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "NO_QUERY_TIME_CAFFEINE_ASSAY"
+  ],
+  "decision_vector": {
+    "A": "PASS",
+    "B": "FAIL",
+    "C": "FAIL",
+    "D": "FAIL"
+  },
+  "disposition": "SIMPLER_CAFFEINE_PREDICTOR_ADEQUATE_NO_EARNED_COMPLEXITY",
+  "feature_extrapolation": {
+    "D0": {
+      "flow_stress": {
+        "feature_counts_by_shot": {
+          "m2_kg": 3
+        },
+        "shots": 3
+      },
+      "primary": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      },
+      "temperature_stress": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      }
+    },
+    "S0": {
+      "flow_stress": {
+        "feature_counts_by_shot": {
+          "m2_kg": 3
+        },
+        "shots": 3
+      },
+      "primary": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      },
+      "temperature_stress": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      }
+    },
+    "S1": {
+      "flow_stress": {
+        "feature_counts_by_shot": {
+          "m2_kg": 3
+        },
+        "shots": 3
+      },
+      "primary": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      },
+      "temperature_stress": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      }
+    },
+    "S2": {
+      "flow_stress": {
+        "feature_counts_by_shot": {
+          "m2_kg": 3
+        },
+        "shots": 3
+      },
+      "primary": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      },
+      "temperature_stress": {
+        "feature_counts_by_shot": {},
+        "shots": 0
+      }
+    }
+  },
+  "increments": {
+    "B": {
+      "R_improvement_allowance_mg_g": 5.718746341146949e-11,
+      "R_improvement_mg_g": 0.027020843144462403,
+      "components": {
+        "abs_bias_deterioration": "PASS",
+        "absolute_gain": "FAIL",
+        "condition_wins": "FAIL",
+        "relative_gain": "PASS"
+      },
+      "definite_condition_wins": 2,
+      "mean_absB_allowance_mg_g": 5.718608621627022e-11,
+      "mean_absB_deterioration_mg_g": 0.009842250621699675,
+      "possible_condition_wins": 2,
+      "relative_improvement": 0.17754801064168252,
+      "relative_improvement_lower_bound": 0.17754801029927558,
+      "status": "FAIL"
+    },
+    "C": {
+      "R_improvement_allowance_mg_g": 5.7186648460266275e-11,
+      "R_improvement_mg_g": 0.06709005809020771,
+      "components": {
+        "abs_bias_deterioration": "PASS",
+        "absolute_gain": "FAIL",
+        "condition_wins": "PASS",
+        "relative_gain": "PASS"
+      },
+      "definite_condition_wins": 3,
+      "mean_absB_allowance_mg_g": 5.7185230782141686e-11,
+      "mean_absB_deterioration_mg_g": 0.009580326559639016,
+      "possible_condition_wins": 3,
+      "relative_improvement": 0.3489581957338594,
+      "relative_improvement_lower_bound": 0.3489581954883113,
+      "status": "FAIL"
+    },
+    "D": {
+      "R_improvement_allowance_mg_g": 5.7182501627361596e-11,
+      "R_improvement_mg_g": 0.09039709410321847,
+      "components": {
+        "abs_bias_deterioration": "PASS",
+        "absolute_gain": "FAIL",
+        "condition_wins": "PASS",
+        "relative_gain": "PASS"
+      },
+      "definite_condition_wins": 4,
+      "mean_absB_allowance_mg_g": 5.718108573605295e-11,
+      "mean_absB_deterioration_mg_g": -0.05161224513757616,
+      "possible_condition_wins": 4,
+      "relative_improvement": 0.41934922160777477,
+      "relative_improvement_lower_bound": 0.4193492213981237,
+      "status": "FAIL"
+    }
+  },
+  "merge_authorized": false,
+  "native_ewp_runs": 0,
+  "panels": {
+    "flow_stress": {
+      "D0": {
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.11635479918499293,
+              "absB_mg_g": 0.03541892445886848
+            },
+            "complete_shots": 2,
+            "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8621251496342584e-11,
+              "B_mg_g": -0.13204676862440307,
+              "R_allowance_mg_g": 2.8622367042834336e-11,
+              "R_mg_g": 0.28755547758138095,
+              "absB_allowance_mg_g": 2.8621251496342584e-11,
+              "absB_mg_g": 0.13204676862440307,
+              "assayed_interval_mass_MAE_mg": 1.532935230239165,
+              "assayed_interval_mass_RMSE_mg": 1.7915086206116124,
+              "assayed_mass_signed_error_mg": -2.73176272739164
+            }
+          },
+          "PRED-C08": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1134892737319409,
+              "absB_mg_g": 0.0333042470074803
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8522444339601182e-11,
+              "B_mg_g": 0.026811106054353332,
+              "R_allowance_mg_g": 2.852248615959173e-11,
+              "R_mg_g": 0.11348927376046336,
+              "absB_allowance_mg_g": 2.8522444339601182e-11,
+              "absB_mg_g": 0.033304247036002745,
+              "assayed_interval_mass_MAE_mg": 0.5963111179163954,
+              "assayed_interval_mass_RMSE_mg": 0.7244325442050937,
+              "assayed_mass_signed_error_mg": 0.6474317268469736
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8522444339601182e-11,
+              "B_mg_g": 0.026811106054353332,
+              "R_allowance_mg_g": 2.852248615959173e-11,
+              "R_mg_g": 0.11348927376046336,
+              "absB_allowance_mg_g": 2.8522444339601182e-11,
+              "absB_mg_g": 0.033304247036002745,
+              "assayed_interval_mass_MAE_mg": 0.5963111179163954,
+              "assayed_interval_mass_RMSE_mg": 0.7244325442050937,
+              "assayed_mass_signed_error_mg": 0.6474317268469736
+            }
+          }
+        },
+        "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8571847917971883e-11,
+          "B_mg_g": -0.05261783128502487,
+          "R_allowance_mg_g": 2.857242660121303e-11,
+          "R_mg_g": 0.20052237567092215,
+          "absB_allowance_mg_g": 2.8571847917971883e-11,
+          "absB_mg_g": 0.0826755078302029,
+          "assayed_interval_mass_MAE_mg": 1.0646231740777803,
+          "assayed_interval_mass_RMSE_mg": 1.2579705824083531,
+          "assayed_mass_signed_error_mg": -1.0421655002723331
+        }
+      },
+      "S0": {
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.13366073186211716,
+              "absB_mg_g": 0.10916155338069523
+            },
+            "complete_shots": 2,
+            "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8615775247271564e-11,
+              "B_mg_g": -0.2645292552243227,
+              "R_allowance_mg_g": 2.861684846944839e-11,
+              "R_mg_g": 0.29185063112481247,
+              "absB_allowance_mg_g": 2.8615775247271564e-11,
+              "absB_mg_g": 0.2645292552243227,
+              "assayed_interval_mass_MAE_mg": 1.712818118527595,
+              "assayed_interval_mass_RMSE_mg": 1.8272806922623086,
+              "assayed_mass_signed_error_mg": -5.6835631020659045
+            }
+          },
+          "PRED-C08": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.35316182925172623,
+              "absB_mg_g": 0.05376079230155653
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8519889888475833e-11,
+              "B_mg_g": -0.03474897895679106,
+              "R_allowance_mg_g": 2.8519954060742982e-11,
+              "R_mg_g": 0.35316182928024625,
+              "absB_allowance_mg_g": 2.8519889888475833e-11,
+              "absB_mg_g": 0.05376079233007641,
+              "assayed_interval_mass_MAE_mg": 2.01891260212679,
+              "assayed_interval_mass_RMSE_mg": 2.206987453313571,
+              "assayed_mass_signed_error_mg": -0.8630781887051749
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8519889888475833e-11,
+              "B_mg_g": -0.03474897895679106,
+              "R_allowance_mg_g": 2.8519954060742982e-11,
+              "R_mg_g": 0.35316182928024625,
+              "absB_allowance_mg_g": 2.8519889888475833e-11,
+              "absB_mg_g": 0.05376079233007641,
+              "assayed_interval_mass_MAE_mg": 2.01891260212679,
+              "assayed_interval_mass_RMSE_mg": 2.206987453313571,
+              "assayed_mass_signed_error_mg": -0.8630781887051749
+            }
+          }
+        },
+        "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8567832567873698e-11,
+          "B_mg_g": -0.14963911709055688,
+          "R_allowance_mg_g": 2.8568401265095688e-11,
+          "R_mg_g": 0.32250623020252933,
+          "absB_allowance_mg_g": 2.8567832567873698e-11,
+          "absB_mg_g": 0.15914502377719955,
+          "assayed_interval_mass_MAE_mg": 1.8658653603271924,
+          "assayed_interval_mass_RMSE_mg": 2.0171340727879397,
+          "assayed_mass_signed_error_mg": -3.2733206453855397
+        }
+      },
+      "S1": {
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1705007106356676,
+              "absB_mg_g": 0.007767780935567559
+            },
+            "complete_shots": 2,
+            "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8620717981044718e-11,
+              "B_mg_g": -0.14870615422045447,
+              "R_allowance_mg_g": 2.8621736222141067e-11,
+              "R_mg_g": 0.321128397432632,
+              "absB_allowance_mg_g": 2.8620717981044718e-11,
+              "absB_mg_g": 0.14870615422045447,
+              "assayed_interval_mass_MAE_mg": 1.7445905360704268,
+              "assayed_interval_mass_RMSE_mg": 2.0156898380066015,
+              "assayed_mass_signed_error_mg": -2.892320699695165
+            }
+          },
+          "PRED-C08": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.31456396215875837,
+              "absB_mg_g": 0.10329132881445723
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8523626183656428e-11,
+              "B_mg_g": 0.057091115621593275,
+              "R_allowance_mg_g": 2.8523677520710692e-11,
+              "R_mg_g": 0.314563962187282,
+              "absB_allowance_mg_g": 2.8523626183656428e-11,
+              "absB_mg_g": 0.10329132884298085,
+              "assayed_interval_mass_MAE_mg": 1.7408471221409814,
+              "assayed_interval_mass_RMSE_mg": 1.95236837942064,
+              "assayed_mass_signed_error_mg": 1.3676150512372622
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8523626183656428e-11,
+              "B_mg_g": 0.057091115621593275,
+              "R_allowance_mg_g": 2.8523677520710692e-11,
+              "R_mg_g": 0.314563962187282,
+              "absB_allowance_mg_g": 2.8523626183656428e-11,
+              "absB_mg_g": 0.10329132884298085,
+              "assayed_interval_mass_MAE_mg": 1.7408471221409814,
+              "assayed_interval_mass_RMSE_mg": 1.95236837942064,
+              "assayed_mass_signed_error_mg": 1.3676150512372622
+            }
+          }
+        },
+        "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.857217208235057e-11,
+          "B_mg_g": -0.045807519299430596,
+          "R_allowance_mg_g": 2.857270687142588e-11,
+          "R_mg_g": 0.317846179809957,
+          "absB_allowance_mg_g": 2.857217208235057e-11,
+          "absB_mg_g": 0.12599874153171767,
+          "assayed_interval_mass_MAE_mg": 1.742718829105704,
+          "assayed_interval_mass_RMSE_mg": 1.9840291087136208,
+          "assayed_mass_signed_error_mg": -0.7623528242289515
+        }
+      },
+      "S2": {
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.13616743614849214,
+              "absB_mg_g": 0.053603563827942985
+            },
+            "complete_shots": 2,
+            "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.862024555932229e-11,
+              "B_mg_g": -0.1558622485067398,
+              "R_allowance_mg_g": 2.8621285039275255e-11,
+              "R_mg_g": 0.2555380850584382,
+              "absB_allowance_mg_g": 2.862024555932229e-11,
+              "absB_mg_g": 0.1558622485067398,
+              "assayed_interval_mass_MAE_mg": 1.3894529029302223,
+              "assayed_interval_mass_RMSE_mg": 1.5825468795400919,
+              "assayed_mass_signed_error_mg": -3.299168748453354
+            }
+          },
+          "PRED-C08": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.23139519758234617,
+              "absB_mg_g": 0.04347514152782337
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8523091057286147e-11,
+              "B_mg_g": 0.04347514155634646,
+              "R_allowance_mg_g": 2.8523138455597744e-11,
+              "R_mg_g": 0.23139519761086932,
+              "absB_allowance_mg_g": 2.8523091057286147e-11,
+              "absB_mg_g": 0.04347514155634646,
+              "assayed_interval_mass_MAE_mg": 1.2385559383496028,
+              "assayed_interval_mass_RMSE_mg": 1.4464165928132766,
+              "assayed_mass_signed_error_mg": 1.052698198137932
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8523091057286147e-11,
+              "B_mg_g": 0.04347514155634646,
+              "R_allowance_mg_g": 2.8523138455597744e-11,
+              "R_mg_g": 0.23139519761086932,
+              "absB_allowance_mg_g": 2.8523091057286147e-11,
+              "absB_mg_g": 0.04347514155634646,
+              "assayed_interval_mass_MAE_mg": 1.2385559383496028,
+              "assayed_interval_mass_RMSE_mg": 1.4464165928132766,
+              "assayed_mass_signed_error_mg": 1.052698198137932
+            }
+          }
+        },
+        "full_scope_adequacy": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.857166830830422e-11,
+          "B_mg_g": -0.05619355347519667,
+          "R_allowance_mg_g": 2.85722117474365e-11,
+          "R_mg_g": 0.2434666413346538,
+          "absB_allowance_mg_g": 2.857166830830422e-11,
+          "absB_mg_g": 0.09966869503154313,
+          "assayed_interval_mass_MAE_mg": 1.3140044206399124,
+          "assayed_interval_mass_RMSE_mg": 1.5144817361766842,
+          "assayed_mass_signed_error_mg": -1.123235275157711
+        }
+      }
+    },
+    "primary": {
+      "D0": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2580901628887986,
+              "absB_mg_g": 0.05255430035849234
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8532473252548645e-11,
+              "B_mg_g": -0.02151615643852406,
+              "R_allowance_mg_g": 2.8532535710815083e-11,
+              "R_mg_g": 0.2580901629173311,
+              "absB_allowance_mg_g": 2.8532473252548645e-11,
+              "absB_mg_g": 0.052554300387024806,
+              "assayed_interval_mass_MAE_mg": 1.2488370340369175,
+              "assayed_interval_mass_RMSE_mg": 1.4497789170176292,
+              "assayed_mass_signed_error_mg": -0.48570923170773456
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8532473252548645e-11,
+              "B_mg_g": -0.02151615643852406,
+              "R_allowance_mg_g": 2.8532535710815083e-11,
+              "R_mg_g": 0.2580901629173311,
+              "absB_allowance_mg_g": 2.8532473252548645e-11,
+              "absB_mg_g": 0.052554300387024806,
+              "assayed_interval_mass_MAE_mg": 1.2488370340369175,
+              "assayed_interval_mass_RMSE_mg": 1.4497789170176292,
+              "assayed_mass_signed_error_mg": -0.48570923170773456
+            }
+          },
+          "PRED-C02": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1865479445875401,
+              "absB_mg_g": 0.07506899003402374
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8632472933442626e-11,
+              "B_mg_g": -0.07182081752184154,
+              "R_allowance_mg_g": 2.8633629676094122e-11,
+              "R_mg_g": 0.18654794461617372,
+              "absB_allowance_mg_g": 2.8632472933442626e-11,
+              "absB_mg_g": 0.07506899006265622,
+              "assayed_interval_mass_MAE_mg": 0.9746026421121038,
+              "assayed_interval_mass_RMSE_mg": 1.0382465686175733,
+              "assayed_mass_signed_error_mg": -1.6143217689390816
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8632472933442626e-11,
+              "B_mg_g": -0.07182081752184154,
+              "R_allowance_mg_g": 2.8633629676094122e-11,
+              "R_mg_g": 0.18654794461617372,
+              "absB_allowance_mg_g": 2.8632472933442626e-11,
+              "absB_mg_g": 0.07506899006265622,
+              "assayed_interval_mass_MAE_mg": 0.9746026421121038,
+              "assayed_interval_mass_RMSE_mg": 1.0382465686175733,
+              "assayed_mass_signed_error_mg": -1.6143217689390816
+            }
+          },
+          "PRED-C05": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1854460883305542,
+              "absB_mg_g": 0.1517732548797123
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8634723974987078e-11,
+              "B_mg_g": -0.03717221135813655,
+              "R_allowance_mg_g": 2.8635867302424602e-11,
+              "R_mg_g": 0.18544608835919008,
+              "absB_allowance_mg_g": 2.8634723974987078e-11,
+              "absB_mg_g": 0.151773254908347,
+              "assayed_interval_mass_MAE_mg": 0.9582681962132075,
+              "assayed_interval_mass_RMSE_mg": 1.0097876606807166,
+              "assayed_mass_signed_error_mg": -0.7708205581677298
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8634723974987078e-11,
+              "B_mg_g": -0.03717221135813655,
+              "R_allowance_mg_g": 2.8635867302424602e-11,
+              "R_mg_g": 0.18544608835919008,
+              "absB_allowance_mg_g": 2.8634723974987078e-11,
+              "absB_mg_g": 0.151773254908347,
+              "assayed_interval_mass_MAE_mg": 0.9582681962132075,
+              "assayed_interval_mass_RMSE_mg": 1.0097876606807166,
+              "assayed_mass_signed_error_mg": -0.7708205581677298
+            }
+          },
+          "PRED-C06": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.13894841498064545,
+              "absB_mg_g": 0.03593374546396174
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8572487609127656e-11,
+              "B_mg_g": -0.023763166268337053,
+              "R_allowance_mg_g": 2.8573027713333532e-11,
+              "R_mg_g": 0.13894841500921845,
+              "absB_allowance_mg_g": 2.8572487609127656e-11,
+              "absB_mg_g": 0.03593374549253423,
+              "assayed_interval_mass_MAE_mg": 0.7287587461148449,
+              "assayed_interval_mass_RMSE_mg": 0.8232407045884971,
+              "assayed_mass_signed_error_mg": -0.5637249970527974
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8572487609127656e-11,
+              "B_mg_g": -0.023763166268337053,
+              "R_allowance_mg_g": 2.8573027713333532e-11,
+              "R_mg_g": 0.13894841500921845,
+              "absB_allowance_mg_g": 2.8572487609127656e-11,
+              "absB_mg_g": 0.03593374549253423,
+              "assayed_interval_mass_MAE_mg": 0.7287587461148449,
+              "assayed_interval_mass_RMSE_mg": 0.8232407045884971,
+              "assayed_mass_signed_error_mg": -0.5637249970527974
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.85930394425265e-11,
+          "B_mg_g": -0.0385680878967098,
+          "R_allowance_mg_g": 2.8593765100666834e-11,
+          "R_mg_g": 0.19225815272547836,
+          "absB_allowance_mg_g": 2.85930394425265e-11,
+          "absB_mg_g": 0.07883257271264058,
+          "assayed_interval_mass_MAE_mg": 0.9776166546192684,
+          "assayed_interval_mass_RMSE_mg": 1.080263462726104,
+          "assayed_mass_signed_error_mg": -0.8586441389668359
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.85930394425265e-11,
+          "B_mg_g": -0.0385680878967098,
+          "R_allowance_mg_g": 2.8593765100666834e-11,
+          "R_mg_g": 0.19225815272547836,
+          "absB_allowance_mg_g": 2.85930394425265e-11,
+          "absB_mg_g": 0.07883257271264058,
+          "assayed_interval_mass_MAE_mg": 0.9776166546192684,
+          "assayed_interval_mass_RMSE_mg": 1.080263462726104,
+          "assayed_mass_signed_error_mg": -0.8586441389668359
+        }
+      },
+      "S0": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.17761617882646652,
+              "absB_mg_g": 0.1220053779942727
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.852820843411558e-11,
+              "B_mg_g": -0.12200537802280091,
+              "R_allowance_mg_g": 2.8528257799487028e-11,
+              "R_mg_g": 0.1776161788549948,
+              "absB_allowance_mg_g": 2.852820843411558e-11,
+              "absB_mg_g": 0.12200537802280091,
+              "assayed_interval_mass_MAE_mg": 0.8272936819359756,
+              "assayed_interval_mass_RMSE_mg": 0.9788907104852541,
+              "assayed_mass_signed_error_mg": -2.7129802437791457
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.852820843411558e-11,
+              "B_mg_g": -0.12200537802280091,
+              "R_allowance_mg_g": 2.8528257799487028e-11,
+              "R_mg_g": 0.1776161788549948,
+              "absB_allowance_mg_g": 2.852820843411558e-11,
+              "absB_mg_g": 0.12200537802280091,
+              "assayed_interval_mass_MAE_mg": 0.8272936819359756,
+              "assayed_interval_mass_RMSE_mg": 0.9788907104852541,
+              "assayed_mass_signed_error_mg": -2.7129802437791457
+            }
+          },
+          "PRED-C02": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2740380691324904,
+              "absB_mg_g": 0.1669963338161483
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8628824166218208e-11,
+              "B_mg_g": -0.1669963338447771,
+              "R_allowance_mg_g": 2.862999798072342e-11,
+              "R_mg_g": 0.2740380691611204,
+              "absB_allowance_mg_g": 2.8628824166218208e-11,
+              "absB_mg_g": 0.1669963338447771,
+              "assayed_interval_mass_MAE_mg": 1.3976862793107685,
+              "assayed_interval_mass_RMSE_mg": 1.5228427467424204,
+              "assayed_mass_signed_error_mg": -3.7256445379428356
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8628824166218208e-11,
+              "B_mg_g": -0.1669963338447771,
+              "R_allowance_mg_g": 2.862999798072342e-11,
+              "R_mg_g": 0.2740380691611204,
+              "absB_allowance_mg_g": 2.8628824166218208e-11,
+              "absB_mg_g": 0.1669963338447771,
+              "assayed_interval_mass_MAE_mg": 1.3976862793107685,
+              "assayed_interval_mass_RMSE_mg": 1.5228427467424204,
+              "assayed_mass_signed_error_mg": -3.7256445379428356
+            }
+          },
+          "PRED-C05": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2593150439774104,
+              "absB_mg_g": 0.1734880565304641
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8629132328017737e-11,
+              "B_mg_g": -0.17348805655909327,
+              "R_allowance_mg_g": 2.863028111580321e-11,
+              "R_mg_g": 0.2593150440060407,
+              "absB_allowance_mg_g": 2.8629132328017737e-11,
+              "absB_mg_g": 0.17348805655909327,
+              "assayed_interval_mass_MAE_mg": 1.2943996755873242,
+              "assayed_interval_mass_RMSE_mg": 1.425740472064346,
+              "assayed_mass_signed_error_mg": -3.7730166069902222
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8629132328017737e-11,
+              "B_mg_g": -0.17348805655909327,
+              "R_allowance_mg_g": 2.863028111580321e-11,
+              "R_mg_g": 0.2593150440060407,
+              "absB_allowance_mg_g": 2.8629132328017737e-11,
+              "absB_mg_g": 0.17348805655909327,
+              "assayed_interval_mass_MAE_mg": 1.2943996755873242,
+              "assayed_interval_mass_RMSE_mg": 1.425740472064346,
+              "assayed_mass_signed_error_mg": -3.7730166069902222
+            }
+          },
+          "PRED-C06": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.15129146290323056,
+              "absB_mg_g": 0.09761080918418237
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8569412657399554e-11,
+              "B_mg_g": -0.09761080921275178,
+              "R_allowance_mg_g": 2.8569936175034956e-11,
+              "R_mg_g": 0.1512914629318005,
+              "absB_allowance_mg_g": 2.8569412657399554e-11,
+              "absB_mg_g": 0.09761080921275178,
+              "assayed_interval_mass_MAE_mg": 0.7744208264139928,
+              "assayed_interval_mass_RMSE_mg": 0.8792964198622267,
+              "assayed_mass_signed_error_mg": -2.2967550660338527
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8569412657399554e-11,
+              "B_mg_g": -0.09761080921275178,
+              "R_allowance_mg_g": 2.8569936175034956e-11,
+              "R_mg_g": 0.1512914629318005,
+              "absB_allowance_mg_g": 2.8569412657399554e-11,
+              "absB_mg_g": 0.09761080921275178,
+              "assayed_interval_mass_MAE_mg": 0.7744208264139928,
+              "assayed_interval_mass_RMSE_mg": 0.8792964198622267,
+              "assayed_mass_signed_error_mg": -2.2967550660338527
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.858889439643777e-11,
+          "B_mg_g": -0.14002514440985575,
+          "R_allowance_mg_g": 2.8589618267762155e-11,
+          "R_mg_g": 0.21556518873848912,
+          "absB_allowance_mg_g": 2.858889439643777e-11,
+          "absB_mg_g": 0.14002514440985575,
+          "assayed_interval_mass_MAE_mg": 1.0734501158120153,
+          "assayed_interval_mass_RMSE_mg": 1.2016925872885618,
+          "assayed_mass_signed_error_mg": -3.1270991136865143
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.858889439643777e-11,
+          "B_mg_g": -0.14002514440985575,
+          "R_allowance_mg_g": 2.8589618267762155e-11,
+          "R_mg_g": 0.21556518873848912,
+          "absB_allowance_mg_g": 2.858889439643777e-11,
+          "absB_mg_g": 0.14002514440985575,
+          "assayed_interval_mass_MAE_mg": 1.0734501158120153,
+          "assayed_interval_mass_RMSE_mg": 1.2016925872885618,
+          "assayed_mass_signed_error_mg": -3.1270991136865143
+        }
+      },
+      "S1": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.17672996738620197,
+              "absB_mg_g": 0.0629478722244059
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.853360261312079e-11,
+              "B_mg_g": 0.013823119465926239,
+              "R_allowance_mg_g": 2.8533637400213145e-11,
+              "R_mg_g": 0.17672996741473565,
+              "absB_allowance_mg_g": 2.853360261312079e-11,
+              "absB_mg_g": 0.0629478722529395,
+              "assayed_interval_mass_MAE_mg": 0.8493981906469807,
+              "assayed_interval_mass_RMSE_mg": 0.984798273231505,
+              "assayed_mass_signed_error_mg": 0.29237027346136113
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.853360261312079e-11,
+              "B_mg_g": 0.013823119465926239,
+              "R_allowance_mg_g": 2.8533637400213145e-11,
+              "R_mg_g": 0.17672996741473565,
+              "absB_allowance_mg_g": 2.853360261312079e-11,
+              "absB_mg_g": 0.0629478722529395,
+              "assayed_interval_mass_MAE_mg": 0.8493981906469807,
+              "assayed_interval_mass_RMSE_mg": 0.984798273231505,
+              "assayed_mass_signed_error_mg": 0.29237027346136113
+            }
+          },
+          "PRED-C02": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.10616848717266975,
+              "absB_mg_g": 0.07958714274953449
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8633500426269457e-11,
+              "B_mg_g": -0.04483470973402313,
+              "R_allowance_mg_g": 2.863462115734456e-11,
+              "R_mg_g": 0.10616848720130435,
+              "absB_allowance_mg_g": 2.8633500426269457e-11,
+              "absB_mg_g": 0.07958714277816799,
+              "assayed_interval_mass_MAE_mg": 0.5425525476949463,
+              "assayed_interval_mass_RMSE_mg": 0.5910669881637552,
+              "assayed_mass_signed_error_mg": -1.02421322525701
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8633500426269457e-11,
+              "B_mg_g": -0.04483470973402313,
+              "R_allowance_mg_g": 2.863462115734456e-11,
+              "R_mg_g": 0.10616848720130435,
+              "absB_allowance_mg_g": 2.8633500426269457e-11,
+              "absB_mg_g": 0.07958714277816799,
+              "assayed_interval_mass_MAE_mg": 0.5425525476949463,
+              "assayed_interval_mass_RMSE_mg": 0.5910669881637552,
+              "assayed_mass_signed_error_mg": -1.02421322525701
+            }
+          },
+          "PRED-C05": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.19674970729219388,
+              "absB_mg_g": 0.12010338720298053
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8633738428952865e-11,
+              "B_mg_g": -0.06055445195671256,
+              "R_allowance_mg_g": 2.8634833480197394e-11,
+              "R_mg_g": 0.19674970732082872,
+              "absB_allowance_mg_g": 2.8633738428952865e-11,
+              "absB_mg_g": 0.12010338723161425,
+              "assayed_interval_mass_MAE_mg": 0.8177458625677204,
+              "assayed_interval_mass_RMSE_mg": 1.101034187347823,
+              "assayed_mass_signed_error_mg": -1.2951396321156434
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8633738428952865e-11,
+              "B_mg_g": -0.06055445195671256,
+              "R_allowance_mg_g": 2.8634833480197394e-11,
+              "R_mg_g": 0.19674970732082872,
+              "absB_allowance_mg_g": 2.8633738428952865e-11,
+              "absB_mg_g": 0.12010338723161425,
+              "assayed_interval_mass_MAE_mg": 0.8177458625677204,
+              "assayed_interval_mass_RMSE_mg": 1.101034187347823,
+              "assayed_mass_signed_error_mg": -1.2951396321156434
+            }
+          },
+          "PRED-C06": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1291075891534882,
+              "absB_mg_g": 0.05164419231102319
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8574738038277026e-11,
+              "B_mg_g": 0.03916266712269163,
+              "R_allowance_mg_g": 2.8575228169725094e-11,
+              "R_mg_g": 0.12910758918206341,
+              "absB_allowance_mg_g": 2.8574738038277026e-11,
+              "absB_mg_g": 0.05164419233959794,
+              "assayed_interval_mass_MAE_mg": 0.632384066655189,
+              "assayed_interval_mass_RMSE_mg": 0.7694392666836016,
+              "assayed_mass_signed_error_mg": 0.922722321268267
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8574738038277026e-11,
+              "B_mg_g": 0.03916266712269163,
+              "R_allowance_mg_g": 2.8575228169725094e-11,
+              "R_mg_g": 0.12910758918206341,
+              "absB_allowance_mg_g": 2.8574738038277026e-11,
+              "absB_mg_g": 0.05164419233959794,
+              "assayed_interval_mass_MAE_mg": 0.632384066655189,
+              "assayed_interval_mass_RMSE_mg": 0.7694392666836016,
+              "assayed_mass_signed_error_mg": 0.922722321268267
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8593894876655035e-11,
+          "B_mg_g": -0.013100843775529454,
+          "R_allowance_mg_g": 2.859458005187005e-11,
+          "R_mg_g": 0.15218893777973305,
+          "absB_allowance_mg_g": 2.8593894876655035e-11,
+          "absB_mg_g": 0.07857064865057992,
+          "assayed_interval_mass_MAE_mg": 0.7105201668912091,
+          "assayed_interval_mass_RMSE_mg": 0.8615846788566712,
+          "assayed_mass_signed_error_mg": -0.2760650656607563
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8593894876655035e-11,
+          "B_mg_g": -0.013100843775529454,
+          "R_allowance_mg_g": 2.859458005187005e-11,
+          "R_mg_g": 0.15218893777973305,
+          "absB_allowance_mg_g": 2.8593894876655035e-11,
+          "absB_mg_g": 0.07857064865057992,
+          "assayed_interval_mass_MAE_mg": 0.7105201668912091,
+          "assayed_interval_mass_RMSE_mg": 0.8615846788566712,
+          "assayed_mass_signed_error_mg": -0.2760650656607563
+        }
+      },
+      "S2": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.11055920038910853,
+              "absB_mg_g": 0.06360021213278205
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.853061879372144e-11,
+              "B_mg_g": -0.06360021216131267,
+              "R_allowance_mg_g": 2.8530658251157275e-11,
+              "R_mg_g": 0.11055920041763918,
+              "absB_allowance_mg_g": 2.853061879372144e-11,
+              "absB_mg_g": 0.06360021216131267,
+              "assayed_interval_mass_MAE_mg": 0.49614962450883193,
+              "assayed_interval_mass_RMSE_mg": 0.624000049260556,
+              "assayed_mass_signed_error_mg": -1.4153546108661421
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.853061879372144e-11,
+              "B_mg_g": -0.06360021216131267,
+              "R_allowance_mg_g": 2.8530658251157275e-11,
+              "R_mg_g": 0.11055920041763918,
+              "absB_allowance_mg_g": 2.853061879372144e-11,
+              "absB_mg_g": 0.06360021216131267,
+              "assayed_interval_mass_MAE_mg": 0.49614962450883193,
+              "assayed_interval_mass_RMSE_mg": 0.624000049260556,
+              "assayed_mass_signed_error_mg": -1.4153546108661421
+            }
+          },
+          "PRED-C02": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.10723005126718732,
+              "absB_mg_g": 0.07960516429023164
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8632537969927083e-11,
+              "B_mg_g": -0.07106471808774355,
+              "R_allowance_mg_g": 2.863366405230204e-11,
+              "R_mg_g": 0.10723005129582097,
+              "absB_allowance_mg_g": 2.8632537969927083e-11,
+              "absB_mg_g": 0.07960516431886418,
+              "assayed_interval_mass_MAE_mg": 0.5586529974704378,
+              "assayed_interval_mass_RMSE_mg": 0.6003325647312389,
+              "assayed_mass_signed_error_mg": -1.5996456647784267
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8632537969927083e-11,
+              "B_mg_g": -0.07106471808774355,
+              "R_allowance_mg_g": 2.863366405230204e-11,
+              "R_mg_g": 0.10723005129582097,
+              "absB_allowance_mg_g": 2.8632537969927083e-11,
+              "absB_mg_g": 0.07960516431886418,
+              "assayed_interval_mass_MAE_mg": 0.5586529974704378,
+              "assayed_interval_mass_RMSE_mg": 0.6003325647312389,
+              "assayed_mass_signed_error_mg": -1.5996456647784267
+            }
+          },
+          "PRED-C05": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2010081575685938,
+              "absB_mg_g": 0.1665597617523765
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.863308951108392e-11,
+              "B_mg_g": -0.07400979749285154,
+              "R_allowance_mg_g": 2.863419267353569e-11,
+              "R_mg_g": 0.201008157597228,
+              "absB_allowance_mg_g": 2.863308951108392e-11,
+              "absB_mg_g": 0.1665597617810096,
+              "assayed_interval_mass_MAE_mg": 0.9111766551487565,
+              "assayed_interval_mass_RMSE_mg": 1.1184412188598982,
+              "assayed_mass_signed_error_mg": -1.573336614865329
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.863308951108392e-11,
+              "B_mg_g": -0.07400979749285154,
+              "R_allowance_mg_g": 2.863419267353569e-11,
+              "R_mg_g": 0.201008157597228,
+              "absB_allowance_mg_g": 2.863308951108392e-11,
+              "absB_mg_g": 0.1665597617810096,
+              "assayed_interval_mass_MAE_mg": 0.9111766551487565,
+              "assayed_interval_mass_RMSE_mg": 1.1184412188598982,
+              "assayed_mass_signed_error_mg": -1.573336614865329
+            }
+          },
+          "PRED-C06": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.08187496920182138,
+              "absB_mg_g": 0.043886458799359374
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8572519083728276e-11,
+              "B_mg_g": -0.01672310544452177,
+              "R_allowance_mg_g": 2.8573018461402747e-11,
+              "R_mg_g": 0.0818749692303944,
+              "absB_allowance_mg_g": 2.8572519083728276e-11,
+              "absB_mg_g": 0.043886458827931886,
+              "assayed_interval_mass_MAE_mg": 0.3753397722816918,
+              "assayed_interval_mass_RMSE_mg": 0.4910717879733493,
+              "assayed_mass_signed_error_mg": -0.39697095955024225
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8572519083728276e-11,
+              "B_mg_g": -0.01672310544452177,
+              "R_allowance_mg_g": 2.8573018461402747e-11,
+              "R_mg_g": 0.0818749692303944,
+              "absB_allowance_mg_g": 2.8572519083728276e-11,
+              "absB_mg_g": 0.043886458827931886,
+              "assayed_interval_mass_MAE_mg": 0.3753397722816918,
+              "assayed_interval_mass_RMSE_mg": 0.4910717879733493,
+              "assayed_mass_signed_error_mg": -0.39697095955024225
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8592191339615182e-11,
+          "B_mg_g": -0.05634945829660738,
+          "R_allowance_mg_g": 2.8592883359599438e-11,
+          "R_mg_g": 0.12516809463527065,
+          "absB_allowance_mg_g": 2.8592191339615182e-11,
+          "absB_mg_g": 0.08841289927227959,
+          "assayed_interval_mass_MAE_mg": 0.5853297623524295,
+          "assayed_interval_mass_RMSE_mg": 0.7084614052062606,
+          "assayed_mass_signed_error_mg": -1.246326962515035
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8592191339615182e-11,
+          "B_mg_g": -0.05634945829660738,
+          "R_allowance_mg_g": 2.8592883359599438e-11,
+          "R_mg_g": 0.12516809463527065,
+          "absB_allowance_mg_g": 2.8592191339615182e-11,
+          "absB_mg_g": 0.08841289927227959,
+          "assayed_interval_mass_MAE_mg": 0.5853297623524295,
+          "assayed_interval_mass_RMSE_mg": 0.7084614052062606,
+          "assayed_mass_signed_error_mg": -1.246326962515035
+        }
+      }
+    },
+    "temperature_stress": {
+      "D0": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.1547906855855374,
+              "absB_mg_g": 0.08992916963551521
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.852962061936051e-11,
+              "B_mg_g": -0.08992916966404484,
+              "R_allowance_mg_g": 2.852967824083283e-11,
+              "R_mg_g": 0.1547906856140671,
+              "absB_allowance_mg_g": 2.852962061936051e-11,
+              "absB_mg_g": 0.08992916966404484,
+              "assayed_interval_mass_MAE_mg": 0.8357775129236198,
+              "assayed_interval_mass_RMSE_mg": 0.8653639960886633,
+              "assayed_mass_signed_error_mg": -2.032136240426048
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.852962061936051e-11,
+              "B_mg_g": -0.08992916966404484,
+              "R_allowance_mg_g": 2.852967824083283e-11,
+              "R_mg_g": 0.1547906856140671,
+              "absB_allowance_mg_g": 2.852962061936051e-11,
+              "absB_mg_g": 0.08992916966404484,
+              "assayed_interval_mass_MAE_mg": 0.8357775129236198,
+              "assayed_interval_mass_RMSE_mg": 0.8653639960886633,
+              "assayed_mass_signed_error_mg": -2.032136240426048
+            }
+          },
+          "PRED-C04": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.0860053881884636,
+              "absB_mg_g": 0.05119501050294558
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8570124928904136e-11,
+              "B_mg_g": 0.051195010531515706,
+              "R_allowance_mg_g": 2.8570620089241922e-11,
+              "R_mg_g": 0.0860053882170342,
+              "absB_allowance_mg_g": 2.8570124928904136e-11,
+              "absB_mg_g": 0.051195010531515706,
+              "assayed_interval_mass_MAE_mg": 0.44463050819596545,
+              "assayed_interval_mass_RMSE_mg": 0.517401833259017,
+              "assayed_mass_signed_error_mg": 1.219143805283529
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8570124928904136e-11,
+              "B_mg_g": 0.051195010531515706,
+              "R_allowance_mg_g": 2.8570620089241922e-11,
+              "R_mg_g": 0.0860053882170342,
+              "absB_allowance_mg_g": 2.8570124928904136e-11,
+              "absB_mg_g": 0.051195010531515706,
+              "assayed_interval_mass_MAE_mg": 0.44463050819596545,
+              "assayed_interval_mass_RMSE_mg": 0.517401833259017,
+              "assayed_mass_signed_error_mg": 1.219143805283529
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8549872774132322e-11,
+          "B_mg_g": -0.019367079566264565,
+          "R_allowance_mg_g": 2.8550149165037376e-11,
+          "R_mg_g": 0.12039803691555065,
+          "absB_allowance_mg_g": 2.8549872774132322e-11,
+          "absB_mg_g": 0.07056209009778028,
+          "assayed_interval_mass_MAE_mg": 0.6402040105597926,
+          "assayed_interval_mass_RMSE_mg": 0.6913829146738402,
+          "assayed_mass_signed_error_mg": -0.4064962175712594
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8549872774132322e-11,
+          "B_mg_g": -0.019367079566264565,
+          "R_allowance_mg_g": 2.8550149165037376e-11,
+          "R_mg_g": 0.12039803691555065,
+          "absB_allowance_mg_g": 2.8549872774132322e-11,
+          "absB_mg_g": 0.07056209009778028,
+          "assayed_interval_mass_MAE_mg": 0.6402040105597926,
+          "assayed_interval_mass_RMSE_mg": 0.6913829146738402,
+          "assayed_mass_signed_error_mg": -0.4064962175712594
+        }
+      },
+      "S0": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.19821445609979974,
+              "absB_mg_g": 0.1869027749417155
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8526101121425663e-11,
+              "B_mg_g": -0.18690277497024158,
+              "R_allowance_mg_g": 2.8526153051906866e-11,
+              "R_mg_g": 0.1982144561283259,
+              "absB_allowance_mg_g": 2.8526101121425663e-11,
+              "absB_mg_g": 0.18690277497024158,
+              "assayed_interval_mass_MAE_mg": 1.0551286615509967,
+              "assayed_interval_mass_RMSE_mg": 1.1092586449241761,
+              "assayed_mass_signed_error_mg": -4.220514646203996
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8526101121425663e-11,
+              "B_mg_g": -0.18690277497024158,
+              "R_allowance_mg_g": 2.8526153051906866e-11,
+              "R_mg_g": 0.1982144561283259,
+              "absB_allowance_mg_g": 2.8526101121425663e-11,
+              "absB_mg_g": 0.18690277497024158,
+              "assayed_interval_mass_MAE_mg": 1.0551286615509967,
+              "assayed_interval_mass_RMSE_mg": 1.1092586449241761,
+              "assayed_mass_signed_error_mg": -4.220514646203996
+            }
+          },
+          "PRED-C04": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.13518095210804743,
+              "absB_mg_g": 0.05062312043749623
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.856613602411617e-11,
+              "B_mg_g": -0.050623120466062356,
+              "R_allowance_mg_g": 2.8566651390131277e-11,
+              "R_mg_g": 0.13518095213661407,
+              "absB_allowance_mg_g": 2.856613602411617e-11,
+              "absB_mg_g": 0.050623120466062356,
+              "assayed_interval_mass_MAE_mg": 0.7035993295703804,
+              "assayed_interval_mass_RMSE_mg": 0.7972817338758714,
+              "assayed_mass_signed_error_mg": -1.2094710838532385
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.856613602411617e-11,
+              "B_mg_g": -0.050623120466062356,
+              "R_allowance_mg_g": 2.8566651390131277e-11,
+              "R_mg_g": 0.13518095213661407,
+              "absB_allowance_mg_g": 2.856613602411617e-11,
+              "absB_mg_g": 0.050623120466062356,
+              "assayed_interval_mass_MAE_mg": 0.7035993295703804,
+              "assayed_interval_mass_RMSE_mg": 0.7972817338758714,
+              "assayed_mass_signed_error_mg": -1.2094710838532385
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8546118572770917e-11,
+          "B_mg_g": -0.11876294771815196,
+          "R_allowance_mg_g": 2.854640222101907e-11,
+          "R_mg_g": 0.16669770413246998,
+          "absB_allowance_mg_g": 2.8546118572770917e-11,
+          "absB_mg_g": 0.11876294771815196,
+          "assayed_interval_mass_MAE_mg": 0.8793639955606886,
+          "assayed_interval_mass_RMSE_mg": 0.9532701894000237,
+          "assayed_mass_signed_error_mg": -2.7149928650286173
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8546118572770917e-11,
+          "B_mg_g": -0.11876294771815196,
+          "R_allowance_mg_g": 2.854640222101907e-11,
+          "R_mg_g": 0.16669770413246998,
+          "absB_allowance_mg_g": 2.8546118572770917e-11,
+          "absB_mg_g": 0.11876294771815196,
+          "assayed_interval_mass_MAE_mg": 0.8793639955606886,
+          "assayed_interval_mass_RMSE_mg": 0.9532701894000237,
+          "assayed_mass_signed_error_mg": -2.7149928650286173
+        }
+      },
+      "S1": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2004796392012019,
+              "absB_mg_g": 0.0764167608120787
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8531459103724787e-11,
+              "B_mg_g": -0.05395844682101625,
+              "R_allowance_mg_g": 2.8531497007046492e-11,
+              "R_mg_g": 0.20047963922973336,
+              "absB_allowance_mg_g": 2.8531459103724787e-11,
+              "absB_mg_g": 0.07641676084061015,
+              "assayed_interval_mass_MAE_mg": 0.8384692113212364,
+              "assayed_interval_mass_RMSE_mg": 1.1591454823068654,
+              "assayed_mass_signed_error_mg": -1.2310793336303378
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8531459103724787e-11,
+              "B_mg_g": -0.05395844682101625,
+              "R_allowance_mg_g": 2.8531497007046492e-11,
+              "R_mg_g": 0.20047963922973336,
+              "absB_allowance_mg_g": 2.8531459103724787e-11,
+              "absB_mg_g": 0.07641676084061015,
+              "assayed_interval_mass_MAE_mg": 0.8384692113212364,
+              "assayed_interval_mass_RMSE_mg": 1.1591454823068654,
+              "assayed_mass_signed_error_mg": -1.2310793336303378
+            }
+          },
+          "PRED-C04": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.09094607281954915,
+              "absB_mg_g": 0.06454796768577596
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8570593567430996e-11,
+              "B_mg_g": 0.06454796771434655,
+              "R_allowance_mg_g": 2.857108089203137e-11,
+              "R_mg_g": 0.09094607284812023,
+              "absB_allowance_mg_g": 2.8570593567430996e-11,
+              "absB_mg_g": 0.06454796771434655,
+              "assayed_interval_mass_MAE_mg": 0.46836225401002896,
+              "assayed_interval_mass_RMSE_mg": 0.5382687257560127,
+              "assayed_mass_signed_error_mg": 1.5354331293673227
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8570593567430996e-11,
+              "B_mg_g": 0.06454796771434655,
+              "R_allowance_mg_g": 2.857108089203137e-11,
+              "R_mg_g": 0.09094607284812023,
+              "absB_allowance_mg_g": 2.8570593567430996e-11,
+              "absB_mg_g": 0.06454796771434655,
+              "assayed_interval_mass_MAE_mg": 0.46836225401002896,
+              "assayed_interval_mass_RMSE_mg": 0.5382687257560127,
+              "assayed_mass_signed_error_mg": 1.5354331293673227
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8551026335577893e-11,
+          "B_mg_g": 0.005294760446665152,
+          "R_allowance_mg_g": 2.855128894953893e-11,
+          "R_mg_g": 0.1457128560389268,
+          "absB_allowance_mg_g": 2.8551026335577893e-11,
+          "absB_mg_g": 0.07048236427747835,
+          "assayed_interval_mass_MAE_mg": 0.6534157326656327,
+          "assayed_interval_mass_RMSE_mg": 0.8487071040314391,
+          "assayed_mass_signed_error_mg": 0.15217689786849242
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8551026335577893e-11,
+          "B_mg_g": 0.005294760446665152,
+          "R_allowance_mg_g": 2.855128894953893e-11,
+          "R_mg_g": 0.1457128560389268,
+          "absB_allowance_mg_g": 2.8551026335577893e-11,
+          "absB_mg_g": 0.07048236427747835,
+          "assayed_interval_mass_MAE_mg": 0.6534157326656327,
+          "assayed_interval_mass_RMSE_mg": 0.8487071040314391,
+          "assayed_mass_signed_error_mg": 0.15217689786849242
+        }
+      },
+      "S2": {
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.174670940384253,
+              "absB_mg_g": 0.11118402410306895
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.85290306994802e-11,
+              "B_mg_g": -0.111184024131598,
+              "R_allowance_mg_g": 2.852907169904328e-11,
+              "R_mg_g": 0.17467094041278206,
+              "absB_allowance_mg_g": 2.85290306994802e-11,
+              "absB_mg_g": 0.111184024131598,
+              "assayed_interval_mass_MAE_mg": 0.8180288288405713,
+              "assayed_interval_mass_RMSE_mg": 1.0076176673789288,
+              "assayed_mass_signed_error_mg": -2.5175852996797836
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.85290306994802e-11,
+              "B_mg_g": -0.111184024131598,
+              "R_allowance_mg_g": 2.852907169904328e-11,
+              "R_mg_g": 0.17467094041278206,
+              "absB_allowance_mg_g": 2.85290306994802e-11,
+              "absB_mg_g": 0.111184024131598,
+              "assayed_interval_mass_MAE_mg": 0.8180288288405713,
+              "assayed_interval_mass_RMSE_mg": 1.0076176673789288,
+              "assayed_mass_signed_error_mg": -2.5175852996797836
+            }
+          },
+          "PRED-C04": {
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.07564722116608746,
+              "absB_mg_g": 0.051038953055500526
+            },
+            "complete_shots": 3,
+            "full_scope_adequacy": "PASS",
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8569952936559942e-11,
+              "B_mg_g": 0.05103895308407048,
+              "R_allowance_mg_g": 2.8570440156230026e-11,
+              "R_mg_g": 0.0756472211946579,
+              "absB_allowance_mg_g": 2.8569952936559942e-11,
+              "absB_mg_g": 0.05103895308407048,
+              "assayed_interval_mass_MAE_mg": 0.4048366804852443,
+              "assayed_interval_mass_RMSE_mg": 0.44752016953889356,
+              "assayed_mass_signed_error_mg": 1.2146961075132208
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8569952936559942e-11,
+              "B_mg_g": 0.05103895308407048,
+              "R_allowance_mg_g": 2.8570440156230026e-11,
+              "R_mg_g": 0.0756472211946579,
+              "absB_allowance_mg_g": 2.8569952936559942e-11,
+              "absB_mg_g": 0.05103895308407048,
+              "assayed_interval_mass_MAE_mg": 0.4048366804852443,
+              "assayed_interval_mass_RMSE_mg": 0.44752016953889356,
+              "assayed_mass_signed_error_mg": 1.2146961075132208
+            }
+          }
+        },
+        "full_scope_adequacy": "PASS",
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.854949181802007e-11,
+          "B_mg_g": -0.030072535523763762,
+          "R_allowance_mg_g": 2.8549755927636653e-11,
+          "R_mg_g": 0.12515908080371999,
+          "absB_allowance_mg_g": 2.854949181802007e-11,
+          "absB_mg_g": 0.08111148860783424,
+          "assayed_interval_mass_MAE_mg": 0.6114327546629078,
+          "assayed_interval_mass_RMSE_mg": 0.7275689184589111,
+          "assayed_mass_signed_error_mg": -0.6514445960832814
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.854949181802007e-11,
+          "B_mg_g": -0.030072535523763762,
+          "R_allowance_mg_g": 2.8549755927636653e-11,
+          "R_mg_g": 0.12515908080371999,
+          "absB_allowance_mg_g": 2.854949181802007e-11,
+          "absB_mg_g": 0.08111148860783424,
+          "assayed_interval_mass_MAE_mg": 0.6114327546629078,
+          "assayed_interval_mass_RMSE_mg": 0.7275689184589111,
+          "assayed_mass_signed_error_mg": -0.6514445960832814
+        }
+      }
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "prediction_failures": {
+    "D0": {},
+    "S0": {},
+    "S1": {},
+    "S2": {}
+  },
+  "primary_candidate": "S2",
+  "production_adoption_authorized": false,
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "scientific_score_passes": 1,
+  "successor_authorized": false,
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001"
+}

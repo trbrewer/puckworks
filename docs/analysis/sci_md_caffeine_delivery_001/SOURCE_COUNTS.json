@@ -1,0 +1,39 @@
+{
+  "FIT_later_caffeine_original_checks": 180,
+  "FIT_observed_chemical_ordering": {
+    "compared_slots": 180,
+    "exclusions_or_clipping_applied": false,
+    "inconsistent_slots": 0
+  },
+  "caffeine_eligibility_independently_derived": true,
+  "early_TDS_original_checks": 138,
+  "fit_designs": 15,
+  "fit_eligible_slots": 177,
+  "fit_intended_slots": 180,
+  "fit_reasons": {
+    "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+  },
+  "fit_shots": 45,
+  "panels": {
+    "flow_stress": {
+      "intended": 24,
+      "shots": 6,
+      "supported": 23
+    },
+    "primary": {
+      "intended": 48,
+      "shots": 12,
+      "supported": 48
+    },
+    "temperature_stress": {
+      "intended": 24,
+      "shots": 6,
+      "supported": 24
+    }
+  },
+  "pred_intended_slots": 96,
+  "pred_reasons": {
+    "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+  },
+  "pred_supported_slots": 95
+}
