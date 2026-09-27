@@ -1,0 +1,36 @@
+{
+  "PRED_outcomes": "SCORER_ONLY_AFTER_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "arms": [
+    "C0",
+    "C1",
+    "C2"
+  ],
+  "contract_commit": "2330f1d58a88a6023c0fc741b5d03cdeb7bf4a22",
+  "files": {
+    "docs/analysis/sci_md_mass_delivery_006/DATA_AVAILABILITY_PREFLIGHT.json": "59be6b8cc6aaf724386ce746246cd68c073ef8c9ceec2ef2883cb6bb9e938a22",
+    "docs/analysis/sci_md_mass_delivery_006/MODEL_CARD.md": "c3a23599cc9332b860694752e43bf60da1a2b15542bab0add8fcd1ac46a39f95",
+    "docs/analysis/sci_md_mass_delivery_006/PROTOCOL.md": "59e345f753f147ad69f7cb4cf03f91c02f86d0272a5f7c03ad2f4b80999831d0",
+    "docs/analysis/sci_md_mass_delivery_006/SOURCE_IDENTITIES.json": "00b9edd3e09ce4a659c089e640eafa250c7e58aca2b964d36da04469206259a5"
+  },
+  "fit_conditioning_fractions": [
+    1,
+    2
+  ],
+  "fit_conditions": 15,
+  "fit_shots": 45,
+  "lambda_choices": [
+    0.0001,
+    0.01,
+    1.0,
+    100.0
+  ],
+  "primary": "C2",
+  "status": "FROZEN_BEFORE_REAL_FITTING",
+  "supervised_suffix_fractions": [
+    3,
+    5,
+    7,
+    10
+  ],
+  "task": "SCI-MD-MASS-DELIVERY-006"
+}
