@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+[SCI-MD-MASS-DELIVERY-006](../analysis/sci_md_mass_delivery_006/RESULT.md) used the qualified Pannusch/Schmieder lineage and all 45 FIT shots for supervised early-to-late training. C2 earns A/B/C/D on the complete primary panel; flow stress remains 23/24 supported. Existing observations have newly declared roles for 006 only. Original workbooks/arrays inspected; no new acquisition, corpus-exhaustion conclusion, physical validation or successor. Source-derived artifacts retain CC-BY-NC-3.0; generated family metadata below is unchanged.
+
 [SCI-MD-MASS-DELIVERY-005](../analysis/sci_md_mass_delivery_005/RESULT.md) inspected the six accepted Pannusch originals and shared Schmieder lineage using existing source configuration. The first-two-assay family is inadequate on declared observed windows; numerics qualify. No new acquisition, source-authority promotion, corpus-exhaustion conclusion or successor follows. Generated family metadata below is unchanged.
 
 An external espresso research collection exists beyond this checkout. It contains

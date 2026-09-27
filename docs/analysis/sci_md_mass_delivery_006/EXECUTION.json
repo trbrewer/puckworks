@@ -1,0 +1,77 @@
+{
+  "blas_threads": 1,
+  "completed_starts": 549,
+  "converged_starts": 549,
+  "failed_starts": 0,
+  "fit_wall_seconds": 13.415711001493037,
+  "fitting_workers": 1,
+  "imported_first_party_modules": {
+    "puckworks/__init__.py": "073d12ed4db02a710c0cae98520347e7ab8760c5e299154b834026f5438f7e7c",
+    "puckworks/analysis/__init__.py": "129597ef15b21598b893df6c9b0aa40065773457098f8d0b2b8d12636550e211",
+    "puckworks/analysis/anchored_mass_delivery.py": "8abf4e6c8ad90f243ac65ea8ca549423c14a43737a0be790a81710947bfe2d5f",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33",
+    "puckworks/analysis/conditional_tail_training.py": "6ed34780481016f34ff0ca0c49be6ee9602c3ebb4472b6a84b7b181698269b31",
+    "puckworks/analysis/conditioned_mass_delivery.py": "be122722900cbb8294b26f24e832a958b558617c0df2e2c8d6707df3e3980c2e",
+    "puckworks/analysis/mass_delivery.py": "301cd4bc8a469559faa3a776fcb60d3082ffb3f4a12bee373b8f44e9b21d3b4f",
+    "puckworks/analysis/pannusch_anchored_mass_delivery.py": "e5b2b44c1f669387da659f6f452329782d9b5b387c639cbb1042d00975956360",
+    "puckworks/analysis/pannusch_conditional_tail_delivery.py": "5459a6b2d5adace66551ba70c9edd4da80944e650b3ca9455473a9b5f05e08ce",
+    "puckworks/analysis/pannusch_conditioned_mass_delivery.py": "8cedf26245b8fef0e0e7c40c82200abac6eaeabe08be1ee5b97ede19d851dce3",
+    "puckworks/analysis/pannusch_empirical_transfer.py": "6fb759978aea220d19d13b1e5a5188de0e7ec46c8cd865cc156f7efef9ffa778",
+    "puckworks/analysis/pannusch_mass_delivery.py": "445e0662aa9af257fea1c8d0c664f8dab6b6bd80fc23706ef5f96c6c4e5721d9",
+    "puckworks/contracts.py": "d7181425d32930fdca5dfdc56ea801f99da3b07bb092c63fbd28c702cf271afb",
+    "puckworks/gate_runner.py": "f0dd52c43919e4ff91bdac2729c6de09db667e3807af304e83f862be8688dc49",
+    "puckworks/models/__init__.py": "a8e336c00982f05e3312483d2d67f894b7485995069af936b084341b9ce8e114",
+    "puckworks/product/__init__.py": "d7e5a22e9ea54425841f6519052cdd5ad2f8c27923acf90b56bb0db0b92320fa",
+    "puckworks/product/_enums.py": "babc5f796af3752d4f04981d3c0bef2bf5364299485217677a84add66fab0371",
+    "puckworks/product/_normalize.py": "b0254bd6eb8b5b581d01b369fd376348a9d95a14ad209e2e430af6f299a823c7",
+    "puckworks/product/_provenance.py": "f7ecfce2e2ec89f8f61d56cc53a1b98c2669155a4143600929bbe20ff0ce8e1d",
+    "puckworks/product/_pull.py": "317f38c0f2458e684ccde31637a0f1d0afcd767a159a320a253a46a8f0c7cb96",
+    "puckworks/product/_records.py": "fe5dd9d69dca4a10a61217e82bf0b72ea9713470dc8688c33b7b9c8d56cc8dff",
+    "puckworks/product/_serialize.py": "ea9cfc8c4d1139335994669c24255156f9a832a46b82bd4111fe92ee0f18517a",
+    "puckworks/registry.py": "1226e2515d7c3357a90d77d1da95f6bf40c78d137f72f595abff12da930f6d5e",
+    "puckworks/validate.py": "fab73e25831fb2e54542db7018c358f964025105a0d8db92d05ba34cefc53558",
+    "puckworks/validation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "puckworks/validation/gates.py": "1382346f5a304854cad259996d4458262200c134e3be9daa0df536ccef56d675",
+    "tools/__init__.py": "846749cdb732c299ad431b27d4077cada25caf0837c71ddcdee7431e357055bf",
+    "tools/data_availability_preflight.py": "b84ff1f401be3ba68b64e4e0a5b1bae7a8f1b6159b03a090591e8d2976648804",
+    "tools/pannusch2024_reconstruct.py": "011e495de95114144d6599cde4b8747356ab25af06d13a2dba0c7783ab685464"
+  },
+  "legacy_retained_sha256": "8a64db9b8efb57c0501da7b382c0f59bc84f8a58a95a10981c31b1c4418320b9",
+  "max_allowance_kg": 2.3148813779725924e-16,
+  "max_residual_calls_per_start": 261,
+  "native_ewp_runs": 0,
+  "numerical_jacobian_residual_calls": 93340,
+  "numpy": "2.5.3",
+  "peak_fit_rss_kib": 82620,
+  "physical_validation": "NOT_ESTABLISHED",
+  "pre_freeze_prediction_attempts": 2,
+  "prediction_producer_commit": "981321fdcb60a131b1d157fe7f40978614015595",
+  "prediction_status_counts": {
+    "C0": {
+      "OUTSIDE_TRAINING_MASS_DOMAIN": 1,
+      "QUALIFIED": 95
+    },
+    "C1": {
+      "OUTSIDE_TRAINING_MASS_DOMAIN": 1,
+      "QUALIFIED": 95
+    },
+    "C2": {
+      "OUTSIDE_TRAINING_MASS_DOMAIN": 1,
+      "QUALIFIED": 95
+    },
+    "FIRST_ASSAY_EMPIRICAL": {
+      "OUTSIDE_LEGACY_MASS_DOMAIN": 1,
+      "QUALIFIED": 95
+    }
+  },
+  "prediction_wall_seconds": 0.2012171121314168,
+  "python": "3.12.3",
+  "residual_calls": 98012,
+  "scientific_score_passes": 0,
+  "scipy": "1.18.1",
+  "starts": 549,
+  "starts_with_boundary_hits": 0,
+  "superseded_prediction_wall_seconds": 0.19800738710910082,
+  "task": "SCI-MD-MASS-DELIVERY-006",
+  "training_producer_commit": "629e90d"
+}

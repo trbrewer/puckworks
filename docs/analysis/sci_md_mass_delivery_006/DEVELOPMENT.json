@@ -1,0 +1,2084 @@
+{
+  "arms": {
+    "C0": {
+      "candidates": [
+        {
+          "balanced_R_pp": 0.5572239754015152,
+          "folds": [
+            {
+              "balanced_R_pp": 0.969848706170493,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.8468877231828705,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8889580693817899,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.6479452223416396,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.0172571898241454,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8048273055455081,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.2159315763976394,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3362701110497745,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2551280841266019,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.6676034403380235,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22181922413831515,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.48036177851005196,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.17611551595861474,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3360331379075851,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4933725461496765,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.5579354545618707,
+          "folds": [
+            {
+              "balanced_R_pp": 0.9214671036248602,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.8737604553681865,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.855782397572267,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7072751000839735,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.0120983987597196,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7965227228632941,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.21254148244674131,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.31201139501066677,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.23534125343810866,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7278237577877528,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.24483829869245718,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.46368284915506613,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.19270911727885956,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.31935391341997604,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.49382357292613116,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.602532376275666,
+          "folds": [
+            {
+              "balanced_R_pp": 0.7404089145344455,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.9844869885395996,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8064027671608208,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8153150170986635,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.090424393760754,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.875601143850539,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.2949116800085837,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.367093805907319,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.14349179157703326,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9399192061839488,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4694558351813898,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5075990215802056,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22372055791631576,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2896142865265891,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4895402343087814,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.6074504079325505,
+          "folds": [
+            {
+              "balanced_R_pp": 0.6461426054433929,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.9948942145964722,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8001968922329592,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8233091195214675,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.108169191708506,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8823596945235654,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.3190059893802249,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3841700728769775,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.14056178461297938,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9713761365610024,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5123978717795818,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5258032008773977,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22858752862585527,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.29184686259675935,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4829349536511158,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 0.0001
+    },
+    "C1": {
+      "candidates": [
+        {
+          "balanced_R_pp": 0.6288825345388717,
+          "folds": [
+            {
+              "balanced_R_pp": 2.2558156376629137,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.8181068213496205,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9309951915288481,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5878752035720985,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9373452325952408,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8246219891691976,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.2931521540023189,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3026578372784916,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2306739695149386,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.620281396507854,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22349840511278066,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4479149075178108,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.14934268205146228,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3190036769241181,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.49195291329538055,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.6278806628911416,
+          "folds": [
+            {
+              "balanced_R_pp": 2.0932716285672366,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.8568786795346538,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9233231639979677,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.6602602434781529,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9528555704103064,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7898609620021476,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.25745866552957103,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2860461096180971,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22056359431715133,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.6915127896927156,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2639879892317068,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4215303254977918,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.1762261397456111,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3031720785542142,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5212620031898026,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.6011738402460777,
+          "folds": [
+            {
+              "balanced_R_pp": 1.1266220652448076,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.9503465876427168,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8221144665479129,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7799849874258032,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.0387695433778694,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8473348722401502,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.21095669320309315,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3339165814056459,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.15491187183881405,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8762107046877107,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3949494423022659,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4673236148016371,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.21814142459449012,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.28963850461189516,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5063862437663517,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.6077258575744512,
+          "folds": [
+            {
+              "balanced_R_pp": 0.6586688417060587,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.9941236610187039,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8001905948153598,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8225334075498093,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.1071343264637086,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8818288125065056,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.3170295675826602,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3836887215754341,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.14067070539194107,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9700018895014383,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5109496190211873,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5244929906288603,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22855629989054935,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2921069693125113,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4839114566520404,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 1.0
+    },
+    "C2": {
+      "candidates": [
+        {
+          "balanced_R_pp": 0.37456208852543066,
+          "folds": [
+            {
+              "balanced_R_pp": 0.8658895291914415,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.44161787141294967,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7186060395536416,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.21960082091346597,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4222114983845627,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4596233682012048,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.27173006293889973,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3562735086321231,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.19542381006415463,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.26254119667921544,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2285148210837574,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3268323169445831,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.18476222388234106,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.40021293362651233,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.26459132637260646,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.3903224722368233,
+          "folds": [
+            {
+              "balanced_R_pp": 0.8365712026059081,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.47852305997851863,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7574539098319617,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2782146640132219,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.46350707878723285,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.4947631687504228,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.2479032303602691,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3257638494695647,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.1634979363516902,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3578530590917291,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2571005644321675,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.28505573875926654,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.20312003100983697,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.41130086098951796,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2942087291210424,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.49905898435635354,
+          "folds": [
+            {
+              "balanced_R_pp": 0.924367888677878,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.7316443321375075,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8734662137215716,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.5908450497806592,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8319886331689559,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.7110816123809842,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.11197331025001418,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.3020530506090949,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.16585597274343902,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.6754384601882792,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.25047610545488513,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.2968620964553172,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.23230440674919942,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.34701074959386985,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.44051688343364775,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_pp": 0.6054690491823781,
+          "folds": [
+            {
+              "balanced_R_pp": 0.675284648282163,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 10,
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.9857915190566214,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8027488057037546,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8159671097794646,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 1.0991162433768398,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.8776882831946852,
+              "domain_kg": 0.06610329999999999,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 11,
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6",
+              "supported_windows": 10
+            },
+            {
+              "balanced_R_pp": 0.3103269714978073,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.38237979720077725,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.14063559939285145,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.9623767631134742,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.506232826432934,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.515590925228922,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.22937437417206538,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.294519846704072,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65",
+              "supported_windows": 12
+            },
+            {
+              "balanced_R_pp": 0.48400202459923775,
+              "domain_kg": 0.06971540000000001,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "intended_windows": 12,
+              "original_shots": 3,
+              "source_eligible_windows": 12,
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8",
+              "supported_windows": 12
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 0.0001
+    }
+  },
+  "scope": "DEVELOPMENT_DIAGNOSTICS_NOT_UNBIASED_NESTED_VALIDATION"
+}

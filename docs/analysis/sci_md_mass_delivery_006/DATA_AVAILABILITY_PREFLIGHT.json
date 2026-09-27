@@ -1,0 +1,53 @@
+{
+  "actual_chemistry_eligibility": "CONFIRM_DURING_ROLE_PROJECTION",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claim_ceiling": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION"
+  ],
+  "dataset_ids": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "fit_conditioning_slots": 90,
+  "fit_conditions": 15,
+  "fit_known_suffix_coordinates": 177,
+  "fit_shots": 45,
+  "fit_suffix_slots": 180,
+  "fit_valid_coordinate_max_kg": 0.06971540000000001,
+  "former_fit_transfer_shots_reclassified_training_for_this_task_only": 30,
+  "governance": "G1",
+  "inspection": [
+    "Six original source files hash-verified by accepted source-input register",
+    "Original FIT/PRED ExperimentalData.run arrays opened with qualified MATLAB adapter; mE, mE_cum and source collection origin checked",
+    "Original SampleWeights net masses checked for every physical shot and intervening vial",
+    "Workbook DoE/ExpSheet identity mappings checked; 15 distinct canonical FIT designs, no duplicate labels split across folds",
+    "No PRED suffix chemistry projected or printed; permitted original assays checked at role-projection preparation"
+  ],
+  "laboratory_authorized": false,
+  "missing_mass_policy": "KEEP_UNKNOWN_PREFIX; NO_IMPUTATION",
+  "native_ewp_runs": 0,
+  "no_corpus_audit_or_exhaustion_claim": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "pred_conditioning_slots": 48,
+  "pred_known_suffix_coordinates": 96,
+  "pred_shots": 24,
+  "pred_suffix_slots": 96,
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; source-derived artifacts not MIT",
+  "shared_lineage_counted_once": true,
+  "source_hashes": {
+    "P24-DOE-FIT": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+    "P24-DOE-PRED": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+    "P24-M-PREP-FIT": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+    "P24-M-PREP-PRED": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+    "P24-MAT-FIT": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+    "P24-MAT-PRED": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64"
+  },
+  "source_inspection": "FILES_INSPECTED",
+  "source_rounding_is_measurement_uncertainty": false,
+  "status": "AVAILABLE_WITH_DECLARED_COORDINATE_LIMITS",
+  "successor_authorized": false,
+  "task": "SCI-MD-MASS-DELIVERY-006"
+}
