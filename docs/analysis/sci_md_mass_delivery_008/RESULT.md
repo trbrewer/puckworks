@@ -31,6 +31,8 @@ G1 / NO_GOVERNING_PHYSICS_CHANGE. [Producer draft PR #294](https://github.com/tr
 
 The full status vector and numerical bounds in [RESULTS.json](RESULTS.json) are authoritative. Pair R is the beverage-mass-weighted TDS RMSE, and bias is made absolute within each pair before averaging. No predictions are averaged across calibration choices. Rows, columns and overall summaries give each declared pair equal weight. Adequacy uses 1.00/0.50 pp budgets, 8/10 individually adequate targets per calibration choice and 9/11 adequate choices. Each increment needs 0.10 pp and 15% balanced-R reduction, 9/11 definite wins on both row and column means, and at most 0.10 pp absolute-bias deterioration. Threshold bounds are numerical allowances, not confidence intervals, statistical significance or assay uncertainty. A failed increment does not establish equivalence.
 
+G0 metadata clarification: the saved arm summaries retain `required_adequate_pairs=83` from a generic summary routine. This unused field is not an overall adequacy gate. Overall adequacy uses the balanced error/bias budgets and 9/11 adequate calibration choices, each requiring 8/10 adequate targets. A2 has 81/110 individually adequate pairs and 9/11 adequate choices, so its PASS is consistent with the predeclared rules. The independent reviewer confirmed that the unused field enters no final decision. Saved JSON, scoring code and score bytes remain unchanged; this clarification involves no rescore.
+
 | Sensitivity to calibration choice | Row-mean R min / median / max (pp) | Row-mean absolute bias min / median / max (pp) |
 |---|---:|---:|
 | F2 | 0.554430093 / 0.602711143 / 0.634328199 | 0.481705949 / 0.537161195 / 0.573421491 |
