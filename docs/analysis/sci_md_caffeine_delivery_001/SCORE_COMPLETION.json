@@ -1,0 +1,9 @@
+{
+  "observed_suffix_sha256": "cfe9869563278fefcc3c86136d0572d1aef759844d77e2293ba03beeb43ccf44",
+  "scientific_score_passes": 1,
+  "score_receipt_sha256": "123702efd694252ada6527b258fdb0f6086071948e28bf53d17446f0786babe9",
+  "scores_sha256": "f42708bb45acbdd3b637fc6db28c5236ff7e973c02dd5c489ea9f9c2569e7c06",
+  "shot_results_sha256": "01bd61d6af8403219071b80d094967211a06e196a8ed57dc1fb71fda9d2bb756",
+  "status": "COMPLETE",
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001"
+}

@@ -1,0 +1,70 @@
+{
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "physical_validation": "NOT_ESTABLISHED",
+  "native_ewp_runs": 0,
+  "local_checks": {
+    "producer_baseline_quick": {
+      "passed": 4188,
+      "skipped": 32,
+      "deselected": 766,
+      "role": "PREIMPLEMENTATION_BASELINE"
+    },
+    "producer_new_and_006_focused": {
+      "passed": 84
+    },
+    "producer_historical_scientific_baseline": {
+      "passed": 5,
+      "deselected": 5017
+    },
+    "producer_registry": "PASS_65_PLUS_ONE_PREEXISTING_ACKNOWLEDGED_EXCEPTION",
+    "producer_ruff_new_modules_and_tests": "PASS",
+    "producer_readme_governance": "PASS",
+    "producer_statusdoc": "PASS",
+    "producer_data_guide_generator_check": "PASS",
+    "consumer_exact_producer_parity_and_adversaries": {
+      "passed": 5,
+      "explicit_producer_commit": "3389f8f4d41cfcbb965e38e9ceaed0840f9a41ea"
+    },
+    "ewp_initial_full_suite": {
+      "run": 1609,
+      "failures": 2,
+      "errors": 2,
+      "skipped": 15,
+      "retained_not_relabelled_pass": true
+    },
+    "ewp_affected_checks_after_environment_and_bookkeeping_fixes": {
+      "passed": 47,
+      "failures": 0,
+      "errors": 0
+    },
+    "ewp_discovered_test_count": 1635,
+    "ewp_static_gates": {
+      "passed": 39,
+      "total": 39
+    },
+    "ewp_source_history_governing_change_and_existing_boundary_verifiers": {
+      "passed": 11
+    }
+  },
+  "earlier_failures": {
+    "system_python_pytest": "pytest unavailable; existing qualified local test environment used",
+    "EWP_initial_authority_tests": "explicit historical Puckworks authority variables missing; set to verified retained authority and affected tests passed",
+    "EWP_initial_static_and_hosted_CI": "new consumer missing executable bit; corrected Git mode with unchanged code bytes",
+    "EWP_initial_package_QA": "source count/hash stale; existing manifest generator and mechanical aggregate refresh; affected tests passed"
+  },
+  "CI": "LIVE_STATUS_REPORTED_IN_DRAFT_PRS_AND_FINAL_OWNER_REPORT_PENDING_IS_NOT_PASS",
+  "log_sha256": {
+    "baseline-quick.log": "c27f4f4a29e9878d7b3333419a379324c210f1f8b852944c57a071d3934ed598",
+    "focused-pre-fit.log": "e243114c5febfe236e59fa1fd9d3c5771ffe14067325a4785a690aa7354a29d1",
+    "producer-historical.log": "8fdce3e85d8abd605aa7e483d41cf4b43375833e80442fa3ed9be85a8154c853",
+    "registry.log": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+    "readme-governance.log": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+    "statusdoc-final.log": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+    "data-guide-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "consumer-final-parity.log": "5caf68bbc58b9212b23b3abd396b4579723bc5a65b6850dfe4c945271655565c",
+    "ewp-python.log": "c4efe1034211412f961149a2756b3809c23681876ba146262c46fa7fe3ca1072",
+    "ewp-corrected-checks.log": "a6f299ae266c5ddce99cf908b8eaf8539c8671bc66e3371c9d01a5a51c6a34ec",
+    "ewp-static-final.log": "279c46e70fca4a55fde19e1167c96ecb1197cc55292669422f8fa095cc280546"
+  }
+}

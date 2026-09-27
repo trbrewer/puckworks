@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+[SCI-MD-CAFFEINE-DELIVERY-001](../analysis/sci_md_caffeine_delivery_001/RESULT.md) completed the bounded caffeine comparison using the existing qualified Pannusch/Schmieder originals: **SIMPLER_CAFFEINE_PREDICTOR_ADEQUATE_NO_EARNED_COMPLEXITY**. Four fixed arms, immutable 006 C2, no query-time caffeine assay; primary 48/48, temperature 24/24, flow 23/24 supported. No new acquisition, exhaustion conclusion, physical validation or successor. Source-derived artifacts retain CC-BY-NC-3.0; generated family metadata below is unchanged.
+
 [SCI-MD-MASS-DELIVERY-006](../analysis/sci_md_mass_delivery_006/RESULT.md) used the qualified Pannusch/Schmieder lineage and all 45 FIT shots for supervised early-to-late training. C2 earns A/B/C/D on the complete primary panel; flow stress remains 23/24 supported. Existing observations have newly declared roles for 006 only. Original workbooks/arrays inspected; no new acquisition, corpus-exhaustion conclusion, physical validation or successor. Source-derived artifacts retain CC-BY-NC-3.0; generated family metadata below is unchanged.
 
 [SCI-MD-MASS-DELIVERY-005](../analysis/sci_md_mass_delivery_005/RESULT.md) inspected the six accepted Pannusch originals and shared Schmieder lineage using existing source configuration. The first-two-assay family is inadequate on declared observed windows; numerics qualify. No new acquisition, source-authority promotion, corpus-exhaustion conclusion or successor follows. Generated family metadata below is unchanged.

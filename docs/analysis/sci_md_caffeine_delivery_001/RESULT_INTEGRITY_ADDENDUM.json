@@ -1,0 +1,87 @@
+{
+  "adequacy_by_arm": {
+    "D0": "PASS",
+    "S0": "PASS",
+    "S1": "PASS",
+    "S2": "PASS"
+  },
+  "correction_refit_reprediction_or_rescore_requested": false,
+  "decision_vector": {
+    "A": "PASS",
+    "B": "FAIL",
+    "C": "FAIL",
+    "D": "FAIL"
+  },
+  "disposition": "SIMPLER_CAFFEINE_PREDICTOR_ADEQUATE_NO_EARNED_COMPLEXITY",
+  "evidence_sha256": {
+    "RESULT_INTEGRITY_REVIEW.md": "59e082015630fc04966e27af4c451883ea89f08b5b541755975b95fdd3cbc7bd",
+    "result_integrity.log": "0fa60862e738907748c672dbcbdb171bb4816523b0a0202c47b224e2b22ad9bf",
+    "result_integrity.py": "51ab011c2f11b0c57c24aae61bccfb70e5795f6baae39ac37edf9ba1cc349f00",
+    "result_integrity_evidence.json": "23d506a2be585fd432fb7db4ee906ba94e8ef9c42051f2c65552aec4f9d45f1f"
+  },
+  "ewp_reviewed_head": "7dc957a47cc3045134c1e82ba82166de9250b30a",
+  "ewp_reviewed_tree": "e0569761dd08bc1950e32c2045cf9f9c669da43c",
+  "fitting_calls": 0,
+  "freeze_sha256": "de43273e864a6c3f25778d2f08672e943141100aa360650e48ef97d7309e03bc",
+  "independent": true,
+  "merge_authorized": false,
+  "new_outcome_joins": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "pre_score_review_sha256": "236690a327a23ee92f3ba7e621a07ce32bc7b152772cf05836abec5860584078",
+  "prediction_regeneration_calls": 0,
+  "production_adoption_authorized": false,
+  "public_file_sha256": {
+    "consumer": {
+      "PRE_SCORE_REVIEW.json": "236690a327a23ee92f3ba7e621a07ce32bc7b152772cf05836abec5860584078",
+      "RESULT.md": "9f718dc8e2eb4c0fbc160dc801b81e69853588ff777a04b4d572491f83ee78a2",
+      "RESULTS.json": "f42708bb45acbdd3b637fc6db28c5236ff7e973c02dd5c489ea9f9c2569e7c06",
+      "RESULT_BINDING.json": "57fe30e6ac2385a774a1bb8af40d99e2678e1ed199322b66337f4ea420c05146",
+      "SCORE_COMPLETION.json": "ad5485b82c920dd59615a0d22a755f3b838b240c0d0ea41031186de5d116809c",
+      "SCORE_RECEIPT.json": "123702efd694252ada6527b258fdb0f6086071948e28bf53d17446f0786babe9"
+    },
+    "producer": {
+      "PRE_SCORE_REVIEW.json": "236690a327a23ee92f3ba7e621a07ce32bc7b152772cf05836abec5860584078",
+      "RESULT.md": "9f718dc8e2eb4c0fbc160dc801b81e69853588ff777a04b4d572491f83ee78a2",
+      "RESULTS.json": "f42708bb45acbdd3b637fc6db28c5236ff7e973c02dd5c489ea9f9c2569e7c06",
+      "RESULT_BINDING.json": "57fe30e6ac2385a774a1bb8af40d99e2678e1ed199322b66337f4ea420c05146",
+      "SCORE_COMPLETION.json": "ad5485b82c920dd59615a0d22a755f3b838b240c0d0ea41031186de5d116809c",
+      "SCORE_RECEIPT.json": "123702efd694252ada6527b258fdb0f6086071948e28bf53d17446f0786babe9"
+    }
+  },
+  "publication_files_committed_at_review": false,
+  "publication_identity_basis": "EXACT_FILE_HASHES_ON_EVALUATED_RESEARCH_WORKTREES",
+  "retained_artifact_sha256": {
+    "freeze.json": "de43273e864a6c3f25778d2f08672e943141100aa360650e48ef97d7309e03bc",
+    "observed_suffix.json": "cfe9869563278fefcc3c86136d0572d1aef759844d77e2293ba03beeb43ccf44",
+    "predictions.json": "7e561efc9661c1eba07bdde27fe4eacb26dfc8acc4d37240cdd2e5bbeeca154f",
+    "score_completion.json": "ad5485b82c920dd59615a0d22a755f3b838b240c0d0ea41031186de5d116809c",
+    "score_receipt.json": "123702efd694252ada6527b258fdb0f6086071948e28bf53d17446f0786babe9",
+    "scores.json": "f42708bb45acbdd3b637fc6db28c5236ff7e973c02dd5c489ea9f9c2569e7c06",
+    "shot_results.json": "01bd61d6af8403219071b80d094967211a06e196a8ed57dc1fb71fda9d2bb756"
+  },
+  "retained_outcome_rows_inspected": 96,
+  "reviewed_head": "3389f8f4d41cfcbb965e38e9ceaed0840f9a41ea",
+  "reviewed_tree": "10be5a877c75a6476ad32c610a7ac4fc8f71deb3",
+  "reviewer": "Same fresh independent Codex agent session independent_caffeine_review that issued PRE_SCORE_REVIEW.json; not a human reviewer",
+  "scientific_score_passes": 1,
+  "scope": "READ_ONLY_RETAINED_RESULT_INTEGRITY_ADDENDUM",
+  "scoring_function_calls": 0,
+  "source_container_reads": 0,
+  "status": "PASS",
+  "successor_authorized": false,
+  "summary": {
+    "C05_and_C08_adverse_comparisons_preserved": true,
+    "all_shot_condition_panel_full_and_subset_metrics_verified": true,
+    "conservative_allowances_and_increment_decisions_verified": true,
+    "exclusive_score_receipt_completion_hash_chain_verified": true,
+    "flow_23_of_24_subset_full_scope_unresolved_preserved": true,
+    "frozen_artifacts_unchanged": 1567,
+    "frozen_code_protocol_files_unchanged": 52,
+    "maximum_arithmetic_difference": 8.881784197001252e-16,
+    "numeric_values_independently_checked": 4662,
+    "public_files_identical_across_repositories": true,
+    "published_rounded_numeric_cells_checked": 180
+  },
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001",
+  "unresolved_blocking_findings": []
+}
