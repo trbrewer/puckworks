@@ -1,0 +1,233 @@
+{
+  "bases": {
+    "ewp": {
+      "commit": "28451ffcc717056e42f05372422f78ac2a671374",
+      "tree": "221cb9e0cd98df8aebab6280f797488a37125ef9",
+      "working_tree": "CLEAN_AT_CREATION_FROM_FETCHED_MAIN"
+    },
+    "puckworks": {
+      "commit": "5bdedcce8d6c704cadf4f73f2979f1f131b7f067",
+      "tree": "60acf4a4b28f5e63a127ca59d79b60753808ea3b",
+      "working_tree": "CLEAN_AT_CREATION_FROM_FETCHED_MAIN"
+    }
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "governance": "G1",
+  "models": {
+    "EMPIRICAL": {
+      "claims": [
+        "RESEARCH_ONLY",
+        "CONDITIONAL_ON_BEVERAGE_MASS",
+        "NO_TIME_FLOW_PRESSURE_PREDICTION",
+        "NOT_INVENTORY_CLOSURE",
+        "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+        "SOURCE_INTERNAL",
+        "TARGET_EXPOSED",
+        "PANNUSCH_SOURCE_SPECIFIC_COEFFICIENTS"
+      ],
+      "coefficients": [
+        0.2565594665300806,
+        0.1574625205302842,
+        0.0914448558166836,
+        0.05814693843202274,
+        0.04629298615020692,
+        0.027358603486067633,
+        0.027934497879222114,
+        0.010657975101028701,
+        0.019312807607265146
+      ],
+      "domain_kg": [
+        0.0,
+        0.06350639999999999
+      ],
+      "family": "BOUNDARY_AWARE_EMPIRICAL",
+      "fit_identity": {
+        "campaign": "FIT_2021_12",
+        "conditions": [
+          "FIT-C09",
+          "FIT-C10",
+          "FIT-C11",
+          "FIT-C14",
+          "FIT-C15"
+        ],
+        "grind": 1.7,
+        "shots": [
+          "FIT-E09-R1",
+          "FIT-E09-R2",
+          "FIT-E09-R3",
+          "FIT-E10-R1",
+          "FIT-E10-R2",
+          "FIT-E10-R3",
+          "FIT-E11-R1",
+          "FIT-E11-R2",
+          "FIT-E11-R3",
+          "FIT-E14-R1",
+          "FIT-E14-R2",
+          "FIT-E14-R3",
+          "FIT-E15-R1",
+          "FIT-E15-R2",
+          "FIT-E15-R3"
+        ],
+        "source_scope": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "task": "SCI-MD-MASS-DELIVERY-001",
+        "training_sha256": "696522e28c0de764984bc52e0c334789c04f4bccdd2f23e8ebf57eab53737642"
+      },
+      "knots_kg": [
+        0.0,
+        0.007938299999999999,
+        0.015876599999999998,
+        0.023814899999999996,
+        0.031753199999999995,
+        0.03969149999999999,
+        0.04762979999999999,
+        0.055568099999999995,
+        0.06350639999999999
+      ],
+      "model_id": "SCI-MD-MASS-DELIVERY-001/BOUNDARY_AWARE_EMPIRICAL/v1",
+      "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+      "time_domain_s": null,
+      "timing": "linear",
+      "units": {
+        "basis": "MASS",
+        "beverage": "kg",
+        "concentration": "kg/kg",
+        "mass_rate": "kg^-1",
+        "solute": "kg",
+        "time": "s",
+        "time_rate": "s^-1"
+      },
+      "version": "mass-delivery/1"
+    },
+    "MASS": {
+      "claims": [
+        "RESEARCH_ONLY",
+        "CONDITIONAL_ON_BEVERAGE_MASS",
+        "NO_TIME_FLOW_PRESSURE_PREDICTION",
+        "NOT_INVENTORY_CLOSURE",
+        "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+        "SOURCE_INTERNAL",
+        "TARGET_EXPOSED",
+        "PANNUSCH_SOURCE_SPECIFIC_COEFFICIENTS"
+      ],
+      "coefficients": [
+        0.2827944898059652,
+        68.0383392716077,
+        0.8327267294693588
+      ],
+      "domain_kg": [
+        0.0,
+        0.06350639999999999
+      ],
+      "family": "MASS",
+      "fit_identity": {
+        "campaign": "FIT_2021_12",
+        "conditions": [
+          "FIT-C09",
+          "FIT-C10",
+          "FIT-C11",
+          "FIT-C14",
+          "FIT-C15"
+        ],
+        "grind": 1.7,
+        "shots": [
+          "FIT-E09-R1",
+          "FIT-E09-R2",
+          "FIT-E09-R3",
+          "FIT-E10-R1",
+          "FIT-E10-R2",
+          "FIT-E10-R3",
+          "FIT-E11-R1",
+          "FIT-E11-R2",
+          "FIT-E11-R3",
+          "FIT-E14-R1",
+          "FIT-E14-R2",
+          "FIT-E14-R3",
+          "FIT-E15-R1",
+          "FIT-E15-R2",
+          "FIT-E15-R3"
+        ],
+        "source_scope": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "task": "SCI-MD-MASS-DELIVERY-001",
+        "training_sha256": "696522e28c0de764984bc52e0c334789c04f4bccdd2f23e8ebf57eab53737642"
+      },
+      "knots_kg": [],
+      "model_id": "SCI-MD-MASS-DELIVERY-001/MASS/v1",
+      "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+      "time_domain_s": null,
+      "timing": "linear",
+      "units": {
+        "basis": "MASS",
+        "beverage": "kg",
+        "concentration": "kg/kg",
+        "mass_rate": "kg^-1",
+        "solute": "kg",
+        "time": "s",
+        "time_rate": "s^-1"
+      },
+      "version": "mass-delivery/1"
+    }
+  },
+  "predecessor_runtime": {
+    "001": "d59cec8ab8314e2697837c6752d296d20f4dc370",
+    "002": "cec97741e72b126f04f05b73691d9223bbdb148f",
+    "003": "2a5439f185d11b5cb730b9106435d373b282aeae"
+  },
+  "prerequisites": {
+    "ewp": [
+      {
+        "headRefOid": "6b3d056b4be8342b65e7892d8189ae553cefb57d",
+        "mergedAt": "2026-09-26T17:08:41Z",
+        "number": 184,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/184"
+      },
+      {
+        "headRefOid": "da12dd9e1542410c1cc54afe619aa320e958325f",
+        "mergedAt": "2026-09-26T20:40:56Z",
+        "number": 186,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/186"
+      },
+      {
+        "headRefOid": "ae2d92137d8b234970d5f7a4ea5547dbf7244dd2",
+        "mergedAt": "2026-09-26T22:51:10Z",
+        "number": 188,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/188"
+      }
+    ],
+    "puckworks": [
+      {
+        "headRefOid": "8b5d0bb105047cc4a3b5e82a0d6092584a3960d6",
+        "mergedAt": "2026-09-26T17:07:49Z",
+        "number": 278,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/278"
+      },
+      {
+        "headRefOid": "029b57c00a17d298f45728216f0168a6bcfc082f",
+        "mergedAt": "2026-09-26T20:40:12Z",
+        "number": 280,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/280"
+      },
+      {
+        "headRefOid": "0d1c7508682ef04912f9da38497247ceceef1cda",
+        "mergedAt": "2026-09-26T22:49:35Z",
+        "number": 282,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/282"
+      }
+    ]
+  },
+  "reused_files": {
+    "docs/analysis/sci_md_mass_delivery_001/models/BOUNDARY_AWARE_EMPIRICAL.json": "659fdb4eec504190e68ece2cfea449db003bce85ea4279ed68feb59b09772c8d",
+    "docs/analysis/sci_md_mass_delivery_001/models/MASS.json": "75aa34648f73883e975b16c2267594a247142e247713f14642641789f5e2182d",
+    "puckworks/analysis/anchored_mass_delivery.py": "8abf4e6c8ad90f243ac65ea8ca549423c14a43737a0be790a81710947bfe2d5f",
+    "puckworks/analysis/conditioned_mass_delivery.py": "be122722900cbb8294b26f24e832a958b558617c0df2e2c8d6707df3e3980c2e",
+    "puckworks/analysis/mass_delivery.py": "301cd4bc8a469559faa3a776fcb60d3082ffb3f4a12bee373b8f44e9b21d3b4f"
+  },
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}

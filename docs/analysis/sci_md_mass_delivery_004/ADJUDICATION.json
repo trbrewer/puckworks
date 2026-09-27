@@ -1,0 +1,259 @@
+{
+  "adjudicated_comparator_adequacy": {
+    "ANCHORED_EMPIRICAL": "FAIL",
+    "ANCHORED_MASS": "FAIL",
+    "ANCHOR_PERSISTENCE": "FAIL",
+    "UNANCHORED_EMPIRICAL": "FAIL",
+    "UNANCHORED_MASS": "FAIL"
+  },
+  "axis_D_reason": "A is a required conjunct and definitely FAIL; comparison metrics against ANCHORED_MASS remain unavailable, not claimed to fail.",
+  "complete_shot_condition_lower_bounds": {
+    "ANCHORED_EMPIRICAL": {
+      "FIT-C01": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 1.6031668444239087,
+        "R_status": "FAIL",
+        "complete_condition_estimate": false,
+        "complete_shots": 2,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 1.4108451758879923,
+        "mean_absolute_B_status": "FAIL"
+      },
+      "FIT-C05": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.4473560603883891,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 1,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.10091030223801713,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C06": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.0,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 0,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.0,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      }
+    },
+    "ANCHORED_MASS": {
+      "FIT-C01": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 1.4186843658166366,
+        "R_status": "FAIL",
+        "complete_condition_estimate": false,
+        "complete_shots": 2,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 1.214673187451261,
+        "mean_absolute_B_status": "FAIL"
+      },
+      "FIT-C05": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.42757654240754656,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 1,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.08479741996806943,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C06": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.0,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 0,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.0,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      }
+    },
+    "ANCHOR_PERSISTENCE": {
+      "FIT-C01": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 14.106693725496697,
+        "R_status": "FAIL",
+        "complete_condition_estimate": false,
+        "complete_shots": 2,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 13.528378514249473,
+        "mean_absolute_B_status": "FAIL"
+      },
+      "FIT-C05": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 5.189656043114968,
+        "R_status": "FAIL",
+        "complete_condition_estimate": false,
+        "complete_shots": 1,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 5.029307195049081,
+        "mean_absolute_B_status": "FAIL"
+      },
+      "FIT-C06": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.0,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 0,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.0,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      }
+    },
+    "UNANCHORED_EMPIRICAL": {
+      "FIT-C01": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.4586945677151586,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 2,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.28640966557169717,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C05": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.48993204199244406,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 1,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.14790721278983385,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C06": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.0,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 0,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.0,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      }
+    },
+    "UNANCHORED_MASS": {
+      "FIT-C01": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.5291084306184363,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 2,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.23645389527955407,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C05": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.47949397373015973,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 1,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.1449314221122219,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      },
+      "FIT-C06": {
+        "R_budget_pp": 1.0,
+        "R_lower_bound_pp": 0.0,
+        "R_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND",
+        "complete_condition_estimate": false,
+        "complete_shots": 0,
+        "intended_shots": 3,
+        "mean_absolute_B_budget_pp": 0.5,
+        "mean_absolute_B_lower_bound_pp": 0.0,
+        "mean_absolute_B_status": "NO_FAILURE_ESTABLISHED_BY_THIS_BOUND"
+      }
+    }
+  },
+  "complete_shot_lower_bound_formula": "For each nonnegative metric M in {R, abs(B)}, lower_bound = sum_complete_shots max(0, M_s - numerical_allowance_s) / 3. Incomplete shots contribute an unknown nonnegative amount, not imputed zero. Denominator remains all three intended replicates; no supported-subset estimate substitutes for the declared metric.",
+  "complete_shot_results_sha256": "39b7b5db62e611d41ab2d74ff804621d7c47e9ba88c3d0d3972f04bdf442a41e",
+  "condition_win_ranges": {
+    "ANCHORED_MASS": {
+      "definite": 5,
+      "possible_including_missing": 8
+    },
+    "ANCHOR_PERSISTENCE": {
+      "definite": 7,
+      "possible_including_missing": 10
+    },
+    "UNANCHORED_EMPIRICAL": {
+      "definite": 6,
+      "possible_including_missing": 9
+    }
+  },
+  "correction_class": "MATERIAL_RESULT_INTERPRETATION_CORRECTION_NO_SCIENTIFIC_REEXECUTION",
+  "disposition": "FROZEN_EMPIRICAL_TRANSFER_INADEQUATE",
+  "freeze_sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec",
+  "frozen_code_predictions_and_raw_scores_unchanged": true,
+  "independent_result_review": "FAILURE_BOUND_REVIEW.json",
+  "missing_complete_conditions": [
+    "FIT-C01",
+    "FIT-C05",
+    "FIT-C06"
+  ],
+  "new_scores": 0,
+  "numerically_qualified_slots": 143,
+  "physical_validation": "NOT_ESTABLISHED",
+  "policy": "Owner task requires preservation of definite failure; minimum-necessary governance truthfulness and sections 6.4, 6.5, 7. Material interpretation error is explicitly corrected and independently reviewed; no G0 label-only claim.",
+  "post_score_metric_or_threshold_changes": false,
+  "protocol_erratum": {
+    "correction": "This accidental restriction conflicts with the controlling owner instruction to preserve definite failures. A lower bound using complete shots and the original three-shot denominator proves condition failure without a complete condition estimate. The frozen protocol remains unchanged as evidence.",
+    "erroneous_text": "A failure establishes inadequacy only when a complete condition demonstrably fails",
+    "immutable_protocol_sha256": "ec13356bdd2a92887472dfe26df32dd85db04a740b11046c10fcdf8a13078a0d"
+  },
+  "raw_axes": {
+    "A": "UNSUPPORTED_OR_UNQUALIFIED",
+    "B": "NUMERICALLY_UNRESOLVED",
+    "C": "NUMERICALLY_UNRESOLVED",
+    "D": "NOT_ADJUDICATED_SUPPORT_OR_NUMERICS",
+    "E": "NUMERICALLY_UNRESOLVED"
+  },
+  "raw_comparator_adequacy": {
+    "ANCHORED_EMPIRICAL": "UNSUPPORTED_OR_UNQUALIFIED",
+    "ANCHORED_MASS": "UNSUPPORTED_OR_UNQUALIFIED",
+    "ANCHOR_PERSISTENCE": "FAIL",
+    "UNANCHORED_EMPIRICAL": "FAIL",
+    "UNANCHORED_MASS": "FAIL"
+  },
+  "raw_scores_sha256": "a9c93a84e9f8de90864052c4befff59d917e19e76b4bae972e82447683fc663f",
+  "reason": "C01 complete-shot contributions alone exceed the fixed three-shot condition R and mean absolute B budgets. Missing nonnegative contributions cannot undo either failure. A and its required dependent D fail; B/C/E remain incomplete-support, not numerically unresolved.",
+  "remaining_support_limitation": "Three unavailable cumulative prefixes and four out-of-domain intervals per arm remain; no whole-cohort completed score, extrapolation, or reconstructed missing errors.",
+  "reporting_axes": {
+    "A": "FAIL",
+    "B": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "C": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "D": "FAIL",
+    "E": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT"
+  },
+  "scientific_score_passes": 1,
+  "source_eligible_slots": 150,
+  "superseded_adjudication": {
+    "commit": "135bdc87d3e57f32743194d39c3f85940c5157d2",
+    "path": "docs/analysis/sci_md_mass_delivery_004/ADJUDICATION.json",
+    "reason": "Materially incomplete: preserved comparator failures but overlooked definite C01 failure implied by fully supported shots. Prior review is retained, not approval of this correction.",
+    "review": "REPORTING_REVIEW_ADDENDUM.json",
+    "sha256": "b47467dda82c9d86e13d8ed93bfc89670a258c31433e32802912281d8dcb7cc4"
+  },
+  "supported_condition_comparisons_overlapping_numerical_allowances": 0,
+  "supported_slots": 143,
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}

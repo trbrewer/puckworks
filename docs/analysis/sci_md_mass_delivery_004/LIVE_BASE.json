@@ -1,0 +1,86 @@
+{
+  "existing_task_search": "No prior 004 branch or package found; current task owns issue 283/189 and PR 284/190",
+  "historical_handoffs": "Unchanged; historical OPEN prose does not control live prerequisite status",
+  "initial_verification_date": "2026-09-26",
+  "original_checkouts": {
+    "ewp": {
+      "action": "Preserved; task uses separate clean worktree from fetched main",
+      "branch": "research/sci-md-011-high-pressure-poroelastic-closure",
+      "commit": "78cbd59c751393cddfe539e4c69e43a224329bca",
+      "tree": "b23347e33c67576b786922762eae168bf06b28fa",
+      "working_tree": "CLEAN"
+    },
+    "puckworks": {
+      "action": "Preserved; task uses separate clean worktree from fetched main",
+      "branch": "main",
+      "commit": "5bdedcce8d6c704cadf4f73f2979f1f131b7f067",
+      "tree": "60acf4a4b28f5e63a127ca59d79b60753808ea3b",
+      "working_tree": "CLEAN"
+    }
+  },
+  "prerequisites": {
+    "ewp": [
+      {
+        "headRefOid": "6b3d056b4be8342b65e7892d8189ae553cefb57d",
+        "mergedAt": "2026-09-26T17:08:41Z",
+        "number": 184,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/184"
+      },
+      {
+        "headRefOid": "da12dd9e1542410c1cc54afe619aa320e958325f",
+        "mergedAt": "2026-09-26T20:40:56Z",
+        "number": 186,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/186"
+      },
+      {
+        "headRefOid": "ae2d92137d8b234970d5f7a4ea5547dbf7244dd2",
+        "mergedAt": "2026-09-26T22:51:10Z",
+        "number": 188,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/espresso-whole-pull/pull/188"
+      }
+    ],
+    "puckworks": [
+      {
+        "headRefOid": "8b5d0bb105047cc4a3b5e82a0d6092584a3960d6",
+        "mergedAt": "2026-09-26T17:07:49Z",
+        "number": 278,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/278"
+      },
+      {
+        "headRefOid": "029b57c00a17d298f45728216f0168a6bcfc082f",
+        "mergedAt": "2026-09-26T20:40:12Z",
+        "number": 280,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/280"
+      },
+      {
+        "headRefOid": "0d1c7508682ef04912f9da38497247ceceef1cda",
+        "mergedAt": "2026-09-26T22:49:35Z",
+        "number": 282,
+        "state": "MERGED",
+        "url": "https://github.com/trbrewer/puckworks/pull/282"
+      }
+    ]
+  },
+  "preserved_ewp_tag_v0_1_4_public_1": "26359865621510510e381bc69bb280d2d8dae412",
+  "production_lock_path": "dependencies/puckworks.lock.json",
+  "production_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+  "recorded_utc": "2026-09-26T23:53:45.858060+00:00",
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "task_worktree_bases": {
+    "ewp": {
+      "commit": "28451ffcc717056e42f05372422f78ac2a671374",
+      "tree": "221cb9e0cd98df8aebab6280f797488a37125ef9",
+      "working_tree": "CLEAN_AT_CREATION_FROM_FETCHED_MAIN"
+    },
+    "puckworks": {
+      "commit": "5bdedcce8d6c704cadf4f73f2979f1f131b7f067",
+      "tree": "60acf4a4b28f5e63a127ca59d79b60753808ea3b",
+      "working_tree": "CLEAN_AT_CREATION_FROM_FETCHED_MAIN"
+    }
+  }
+}

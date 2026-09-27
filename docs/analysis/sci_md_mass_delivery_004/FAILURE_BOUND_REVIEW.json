@@ -1,0 +1,53 @@
+{
+  "corrected_axes": {
+    "A": "FAIL",
+    "B": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "C": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "D": "FAIL",
+    "E": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT"
+  },
+  "corrected_disposition": "FROZEN_EMPIRICAL_TRANSFER_INADEQUATE",
+  "findings": [
+    "The original task metric is a fixed three-shot mean of nonnegative shot R and abs(B). Complete-shot metric lower bounds, after subtracting existing numerical allowances and retaining denominator three, can establish failure without complete condition support.",
+    "Independent 80-digit arithmetic with downward decimal truncation establishes primary C01 R >=1.603166844423 pp and mean abs(B) >=1.410845175887 pp. Both exceed the unchanged 1.00/0.50 budgets; even zero error from the missing shot cannot restore adequacy.",
+    "Anchored MASS C01 likewise has conservative bounds 1.418684365816/1.214673187451 pp. All fifteen incomplete-condition arm bounds agree with the independent proof to publication precision; no absence of failure is mislabeled PASS.",
+    "A definitely FAILS. D necessarily FAILS because A is required; no unavailable balanced comparative metric is claimed to fail. B/C/E remain not adjudicated because three complete-condition comparisons and balanced metrics are unavailable.",
+    "All five arms have an established failure of the all-ten-condition adequacy claim; complete-condition unanchored/persistence failures are retained. Seven fully covered conditions passing for both anchored models remains a narrower diagnostic and cannot rescue the primary claim.",
+    "Frozen protocol and scorer wrongly suppressed failures for incomplete conditions. This is explicitly disclosed as an accidental restriction inconsistent with the controlling task fixed metrics and preservation of definite failures. Their exact bytes remain unchanged as evidence.",
+    "My earlier independent pre-score and reporting-only audits missed this definite-failure implication. Their records are retained; the previous support-only scientific conclusion and label-only review are explicitly superseded on A/D and overall disposition.",
+    "The correction changes the primary scientific interpretation and falls within the material-result exception of governance section 6.2. It is not a G0 relabeling. Sections 2.4 and 7 support preserved historical evidence and reuse of unchanged execution without another scoring call.",
+    "Exact original freeze, code, protocol, input/prediction bundles, raw scores, raw shot metrics and receipts remain unchanged. No later-data refit, new curve, model/threshold choice, new scorer invocation or scientific execution occurred in this review.",
+    "Review accepts these exact corrected artifacts only. Broad software/CI status, EWP downstream updates, PR merge readiness, production adoption and physical validation are separate; no new authorization is granted."
+  ],
+  "independent_nonnegative_bound_proof_sha256": "061e7121a992dcdf22ac30b84c343f400fb9ba86a37529e3cdcaea7d92fcbbec",
+  "independent_verification_script_sha256": "e0f4e50ea42ff896e37ba9a57bec5d350f00e8b24b73b8e645b503c523f5e405",
+  "merge_authorized": false,
+  "new_fits": 0,
+  "new_scoring_calls": 0,
+  "original_freeze_sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec",
+  "original_pre_score_review_sha256": "7f3dd2f0d5a719ede134154180d91857cfc19605c9e9ff0c70fba00a7bdda3aa",
+  "original_score_completion_sha256": "de828fefdfd7a1abd11eebbf4e3e59b5ce037e61abfa79d0dfd7fe58fb894cab",
+  "original_score_receipt_sha256": "8e62af0a9d5aec8e7eef467aa3f5c279dc857fc93ad29d2a74b1140e96624f3a",
+  "physical_validation": "NOT_ESTABLISHED",
+  "raw_scores_sha256": "a9c93a84e9f8de90864052c4befff59d917e19e76b4bae972e82447683fc663f",
+  "raw_shot_results_sha256": "39b7b5db62e611d41ab2d74ff804621d7c47e9ba88c3d0d3972f04bdf442a41e",
+  "reviewed_files": {
+    "docs/analysis/sci_md_mass_delivery_004/ADJUDICATION.json": "d067f1e4096a3a5dc1e7b6ba78c3d03f5e1e4e99b71c4a7a26ad97988c0227f5",
+    "docs/analysis/sci_md_mass_delivery_004/README.md": "60c74249bfa05fb2a770971a9e78ab3e67949f48f021da45875bd8f5fac5724b",
+    "docs/analysis/sci_md_mass_delivery_004/RESULT.md": "f8014ffb3d6ba3d379fceebba8dae0b74bd4894cdbfd3b730b6196c34567a84d"
+  },
+  "reviewer": "/root/independent_review (independent Codex audit agent; no implementation authorship)",
+  "scientific_score_passes": 1,
+  "scope": "Independent material interpretation review of exact revised adjudication, result and reproduction warning, using unchanged once-scored evidence; not G0, another pre-scoring approval, or a new scientific attempt",
+  "status": "ACCEPTED_CORRECTED_MATERIAL_RESULT_INTERPRETATION",
+  "successor_authorized": false,
+  "superseded_interpretation": {
+    "adjudication_sha256": "b47467dda82c9d86e13d8ed93bfc89670a258c31433e32802912281d8dcb7cc4",
+    "commit": "135bdc87d3e57f32743194d39c3f85940c5157d2",
+    "reporting_review_addendum_sha256": "599ec7855b8c66190a7ccb73e7c3592c44c5c082ded0c097f7f1aaa265fb83a1",
+    "scope": "Former support-only A/D interpretation and overall disposition are materially incomplete and superseded; all historical bytes retained. Original pre-score permission remains a historical receipt, not an endorsement of the erroneous final interpretation."
+  },
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "timestamp_utc": "2026-09-27T00:18:05.303755+00:00",
+  "unresolved_blocking_findings": []
+}

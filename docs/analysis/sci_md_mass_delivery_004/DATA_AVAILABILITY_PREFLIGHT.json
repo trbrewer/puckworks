@@ -1,0 +1,73 @@
+{
+  "data_starvation_scope": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "datasets_reviewed": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "decision_to_change": "Qualify or reject this bounded empirical transfer claim",
+  "evidence": [
+    "PROTOCOL.md",
+    "QUALIFICATION_CARD.md",
+    "BASES.json"
+  ],
+  "existing_data_routes_considered": {
+    "adapter_or_observation_operator": "existing full measured mass prefixes; nominal DoE settings; mass integral kernel",
+    "bounded_public_data_search": "not necessary: recovered qualified corpus supplies this named decision",
+    "cross_source_join": "Pannusch/Schmieder share lineage; no independent double cohort",
+    "direct_observation_comparison": "use fraction one as observation input; later five assays reserved for scorer",
+    "identifiability_or_discrimination": "empirical predictive fitness only",
+    "normalized_comparison": "predecessor answers different observable",
+    "parameter_sensitivity": "analytical anchor-error amplification only; no search",
+    "simple_baseline_comparison": "five fixed arms; empirical primary, compact and persistence comparators",
+    "source_internal_transfer": "new physical identities at source grinds 1.4 and 2.0",
+    "source_reconstruction": "reuse qualified mE_cum and assay indices; workbook mass check"
+  },
+  "external_data_check": {
+    "inspected": "Six original source files rehashed against accepted source register and predecessor identities; configured external corpus accessible. Anchor values not yet extracted. Existing qualified reconstruction and documented mass/TDS basis inspected.",
+    "known_but_unmounted_corpora": [],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "performed": true
+  },
+  "governance_class": "G1",
+  "home_lab_recommendation": {
+    "operational_authorization": false,
+    "status": "NONE"
+  },
+  "model_stage": [
+    "extraction"
+  ],
+  "next_action": "Implement and test; extract permitted anchors; freeze predictions and independently audit before once-only scoring",
+  "prepared_by": "implementation agent; source files verified before anchor extraction",
+  "prior_tasks_reviewed": [
+    "001 merged #278/#184",
+    "002 merged #280/#186",
+    "003 merged #282/#188"
+  ],
+  "puckworks_authority": {
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
+    "commit": "5bdedcce8d6c704cadf4f73f2979f1f131b7f067",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "tree": "60acf4a4b28f5e63a127ca59d79b60753808ea3b",
+    "working_tree": "CLEAN_AT_CREATION_FROM_FETCHED_MAIN"
+  },
+  "remaining_scoped_gaps": [
+    "source-qualified coordinates and numerical support to be checked before scoring",
+    "unknown coffee lot and roast; no independent-source claim"
+  ],
+  "required_independence": "SOURCE_INTERNAL;TARGET_EXPOSED;RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON",
+  "required_observables": [
+    "TDS",
+    "fraction_mass"
+  ],
+  "schema_version": 1,
+  "scientific_question": "Can frozen ANCHORED_EMPIRICAL transfer across the ten other FIT grind-and-recipe regimes?",
+  "task_id": "SCI-MD-MASS-DELIVERY-004",
+  "usable_existing_evidence": [
+    "30 intended physical shots disjoint from frozen calibration",
+    "fraction 1 anchor; five later assays each",
+    "original complete measured mass prefixes"
+  ]
+}

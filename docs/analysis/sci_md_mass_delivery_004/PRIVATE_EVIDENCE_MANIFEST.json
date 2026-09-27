@@ -1,0 +1,74 @@
+{
+  "external_location": "OWNER_LOCAL_TASK_EVIDENCE/sci-md-mass-delivery-004/run-01",
+  "file_count": 16,
+  "files": {
+    "anchor_support.json": {
+      "bytes": 3939,
+      "sha256": "8f7651fae79ab61dfaf085e6c4953bde0b3135be172ba9de3ffd5e1af07249e0"
+    },
+    "anchors.json": {
+      "bytes": 13676,
+      "sha256": "394cb7323e93bd7ceb6d188bcd27fef3287691082713f4f7bbe9d73d82c59a77"
+    },
+    "coordinate_coverage.json": {
+      "bytes": 33634,
+      "sha256": "8b26aa42243ab5fba53946638ca3359d3174d39efd58ea8176df440a0661aa14"
+    },
+    "coordinates.json": {
+      "bytes": 153075,
+      "sha256": "fdb4e294d2379b102a19fde0c4143a92d3de628f9f078ed77dce0b4d134d7faa"
+    },
+    "execution.json": {
+      "bytes": 402,
+      "sha256": "4c9c2b803dfeb9407502149aa3ab86fbf2b9d4db3c2564e8be9f74007fc6abfd"
+    },
+    "freeze.json": {
+      "bytes": 3627,
+      "sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec"
+    },
+    "information_contract.json": {
+      "bytes": 1833,
+      "sha256": "471805356a30c4ba54609f87166ae8bef7f87547306daa7356fe52676560c8a4"
+    },
+    "observed_suffix.json": {
+      "bytes": 159360,
+      "sha256": "bf8a3a1c115e465905d44b4fb1e1c616df7eb7187e39f7d29bf7f7a219adadde"
+    },
+    "predictions.json": {
+      "bytes": 387990,
+      "sha256": "f06a3ffae2a72392e37b9baa34ec6d5444c376bd0bea9d30d43a93c05235602f"
+    },
+    "queries.json": {
+      "bytes": 30734,
+      "sha256": "2f934a518361ddd78d0914e46640b8d3d4d8057b7c7f706bf3e1939c84984f4a"
+    },
+    "score_completion.json": {
+      "bytes": 339,
+      "sha256": "de828fefdfd7a1abd11eebbf4e3e59b5ce037e61abfa79d0dfd7fe58fb894cab"
+    },
+    "score_receipt.json": {
+      "bytes": 330,
+      "sha256": "8e62af0a9d5aec8e7eef467aa3f5c279dc857fc93ad29d2a74b1140e96624f3a"
+    },
+    "scores.json": {
+      "bytes": 231429,
+      "sha256": "a9c93a84e9f8de90864052c4befff59d917e19e76b4bae972e82447683fc663f"
+    },
+    "shot_results.json": {
+      "bytes": 209175,
+      "sha256": "39b7b5db62e611d41ab2d74ff804621d7c47e9ba88c3d0d3972f04bdf442a41e"
+    },
+    "source.json": {
+      "bytes": 6791,
+      "sha256": "d6037448d2334841ea38a5eb6cb3c9e4e5a3445dc6780cac04b6c8ba0e5cc8c2"
+    },
+    "states.json": {
+      "bytes": 233290,
+      "sha256": "a213dd33f42fb5375bdb09072e33d141571d665c67c11a39b6347b19f046cd39"
+    }
+  },
+  "raw_source_policy": "Configured external source; exact hashes in SOURCE.json. No source files, real anchors/states, row predictions or per-shot outcomes published.",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "total_bytes": 1469624
+}

@@ -838,6 +838,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- SCI-MD-MASS-DELIVERY-004 (2026-09-26): SCI-MD-MASS-DELIVERY-004 completed one audited score: FROZEN_EMPIRICAL_TRANSFER_INADEQUATE. A/D FAIL by C01 complete-shot lower bounds; B/C/E remain incomplete-support (143/150 suffix slots per arm). Both anchored curves pass seven complete conditions but fail C01. Material interpretation correction preserves the original score and prior report. No production change, physical validation or successor. [Bounded source transfer](analysis/sci_md_mass_delivery_004/RESULT.md); no evidence-strength promotion.
+
 SCI-MD-MASS-DELIVERY-003 (2026-09-26): frozen fraction-1 research update and audited suffix result; see [result](analysis/sci_md_mass_delivery_003/RESULT.md). No production component registration or successor.
 
 SCI-MD-MASS-DELIVERY-001 (2026-09-26): [research delivery result](analysis/sci_md_mass_delivery_001/RESULT.md). Absolute-TDS MASS and empirical adequacy limited to C02/C05; no declared broad competitiveness or material gain. Reusable SI kernel and exact EWP research consumer; no production change or successor.

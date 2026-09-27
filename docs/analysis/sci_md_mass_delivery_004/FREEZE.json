@@ -1,0 +1,57 @@
+{
+  "arms": [
+    "ANCHORED_EMPIRICAL",
+    "UNANCHORED_EMPIRICAL",
+    "ANCHORED_MASS",
+    "UNANCHORED_MASS",
+    "ANCHOR_PERSISTENCE"
+  ],
+  "artifacts": {
+    "anchor_support.json": "8f7651fae79ab61dfaf085e6c4953bde0b3135be172ba9de3ffd5e1af07249e0",
+    "anchors.json": "394cb7323e93bd7ceb6d188bcd27fef3287691082713f4f7bbe9d73d82c59a77",
+    "coordinate_coverage.json": "8b26aa42243ab5fba53946638ca3359d3174d39efd58ea8176df440a0661aa14",
+    "coordinates.json": "fdb4e294d2379b102a19fde0c4143a92d3de628f9f078ed77dce0b4d134d7faa",
+    "execution.json": "4c9c2b803dfeb9407502149aa3ab86fbf2b9d4db3c2564e8be9f74007fc6abfd",
+    "information_contract.json": "471805356a30c4ba54609f87166ae8bef7f87547306daa7356fe52676560c8a4",
+    "predictions.json": "f06a3ffae2a72392e37b9baa34ec6d5444c376bd0bea9d30d43a93c05235602f",
+    "queries.json": "2f934a518361ddd78d0914e46640b8d3d4d8057b7c7f706bf3e1939c84984f4a",
+    "source.json": "d6037448d2334841ea38a5eb6cb3c9e4e5a3445dc6780cac04b6c8ba0e5cc8c2",
+    "states.json": "a213dd33f42fb5375bdb09072e33d141571d665c67c11a39b6347b19f046cd39"
+  },
+  "code_and_protocol": {
+    "docs/analysis/sci_md_mass_delivery_001/models/BOUNDARY_AWARE_EMPIRICAL.json": "659fdb4eec504190e68ece2cfea449db003bce85ea4279ed68feb59b09772c8d",
+    "docs/analysis/sci_md_mass_delivery_001/models/MASS.json": "75aa34648f73883e975b16c2267594a247142e247713f14642641789f5e2182d",
+    "docs/analysis/sci_md_mass_delivery_004/BASES.json": "7d05a8a71de3d81490d53db7bb8e221a0167e707f41a55ab8f0b7e3315f9d417",
+    "docs/analysis/sci_md_mass_delivery_004/DATA_AVAILABILITY_PREFLIGHT.json": "8edaae94534deb5500335cfef3203ec553f8fd7a956031341f9a4aaa33cc93b2",
+    "docs/analysis/sci_md_mass_delivery_004/INFORMATION_CONTRACT.json": "471805356a30c4ba54609f87166ae8bef7f87547306daa7356fe52676560c8a4",
+    "docs/analysis/sci_md_mass_delivery_004/PROTOCOL.md": "ec13356bdd2a92887472dfe26df32dd85db04a740b11046c10fcdf8a13078a0d",
+    "docs/analysis/sci_md_mass_delivery_004/QUALIFICATION_CARD.md": "aa1deb5490c22faa59b3fde3b080e7c2de09ceca6e7c7ddbf44934375957ee79",
+    "puckworks/analysis/anchored_mass_delivery.py": "8abf4e6c8ad90f243ac65ea8ca549423c14a43737a0be790a81710947bfe2d5f",
+    "puckworks/analysis/conditioned_mass_delivery.py": "be122722900cbb8294b26f24e832a958b558617c0df2e2c8d6707df3e3980c2e",
+    "puckworks/analysis/mass_delivery.py": "301cd4bc8a469559faa3a776fcb60d3082ffb3f4a12bee373b8f44e9b21d3b4f",
+    "puckworks/analysis/pannusch_conditioned_mass_delivery.py": "8cedf26245b8fef0e0e7c40c82200abac6eaeabe08be1ee5b97ede19d851dce3",
+    "puckworks/analysis/pannusch_empirical_transfer.py": "6fb759978aea220d19d13b1e5a5188de0e7ec46c8cd865cc156f7efef9ffa778",
+    "puckworks/analysis/pannusch_mass_delivery.py": "445e0662aa9af257fea1c8d0c664f8dab6b6bd80fc23706ef5f96c6c4e5721d9",
+    "tests/test_pannusch_empirical_transfer.py": "c888cc3f21d87bdb31987677a8e17f271f19e52620a94acf6f1bf49b2efe71a8",
+    "tools/data_availability_preflight.py": "b84ff1f401be3ba68b64e4e0a5b1bae7a8f1b6159b03a090591e8d2976648804",
+    "tools/pannusch2024_reconstruct.py": "011e495de95114144d6599cde4b8747356ab25af06d13a2dba0c7783ab685464"
+  },
+  "conditions": [
+    "FIT-C01",
+    "FIT-C02",
+    "FIT-C03",
+    "FIT-C04",
+    "FIT-C05",
+    "FIT-C06",
+    "FIT-C07",
+    "FIT-C08",
+    "FIT-C12",
+    "FIT-C13"
+  ],
+  "primary_candidate": "ANCHORED_EMPIRICAL",
+  "producer_commit": "135df5c3b03769c422231672cc12411e84f89d82",
+  "producer_tree": "fa7e0b7b8d35efaff5f17a545eb212dd02a3bbea",
+  "review_status": "INDEPENDENT_EXACT_FREEZE_AUDIT_REQUIRED",
+  "scoring_policy": "ONE_PASS_NO_RETUNING",
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}

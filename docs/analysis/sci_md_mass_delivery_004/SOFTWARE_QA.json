@@ -1,0 +1,80 @@
+{
+  "boundary_secret_local_path_json": "PASS; final changed-file scan repeated before public commit",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "ewp": {
+    "active_governing_boundary": "PASS",
+    "change_contract": "PASS",
+    "consumer_regressions": {
+      "pinned_003_parity": "PASS",
+      "skipped": 1,
+      "status": "PASS",
+      "tests": 20
+    },
+    "historical_baseline_integrity": "PASS",
+    "json_syntax": "PASS",
+    "new_handoff_synthetic_empirical": "PASS",
+    "ordinary_python_suite": {
+      "failure_class": "STALE_GENERATED_SOURCE_MANIFEST_IN_TEST_COPY",
+      "failures": 2,
+      "resolution": "Manifest refreshed; affected reference-case and package QA recheck: 75 tests PASS",
+      "skipped": 8,
+      "tests": 1612
+    },
+    "release_integrity": "PASS",
+    "shell_syntax_files": 20,
+    "source_manifest": "PASS_AFTER_GENERATION",
+    "static": "PASS_39_GATES"
+  },
+  "historical_001_002_003_evidence": "UNCHANGED",
+  "hosted_ci": "Check live PR #284/#190; local tests and pre-score review do not assert hosted CI or merge readiness",
+  "independent_pre_score_review": "APPROVED_EXACT_FREEZE",
+  "merge_authorized": false,
+  "native_ewp_runs": 0,
+  "new_base_curve_fits": 0,
+  "no_successor_authorized": true,
+  "optimizer_calls": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "post_score_correction": "Material interpretation correction: frozen scorer and first report missed definite failure implied by complete-shot condition lower bounds. Original protocol/code/predictions/scores remain immutable; final ADJUDICATION.json is authoritative for axes. No rescore. Prior label-only review retained as superseded; independent bounded result review ACCEPTED (FAILURE_BOUND_REVIEW.json).",
+  "process_notes": [
+    "Initial unfiltered Puckworks pytest run interrupted at 250 pass/1 skip to use established ordinary offline markers; no task scoring or source-curve refit occurred.",
+    "Protocol and implementation commits were made while broader ordinary suite was running. Focused tests passed before implementation freeze; broad suite completed before scientific score.",
+    "EWP source manifest initially stale; generated metadata updated and affected tests rerun.",
+    "One affected-test invocation used the wrong repository working directory; import failure retained, corrected command passed 75 tests.",
+    "Standalone python lacked pytest; existing configured research environment was then used."
+  ],
+  "production_defaults_changed": false,
+  "production_dependency_lock_changed": false,
+  "puckworks": {
+    "data_preflight": "VALID",
+    "focused_tests": {
+      "new_transfer_cases": 17,
+      "passed": 133
+    },
+    "ordinary_offline_suite": {
+      "collection": "Before new transfer tests were added; those are separately in focused suite",
+      "deselected": 69,
+      "passed": 4766,
+      "skipped": 32,
+      "warnings": 8
+    },
+    "readme_governance": "PASS",
+    "registry": {
+      "ACKNOWLEDGED_EXCEPTION": 1,
+      "PASS": 65
+    },
+    "ruff": "PASS",
+    "scientific_baseline": {
+      "deselected": 4879,
+      "passed": 5
+    }
+  },
+  "score_passes": 1,
+  "source_qualification": {
+    "anchors": 30,
+    "eligible_later_assays": 150,
+    "out_of_domain_per_arm": 4,
+    "supported_and_numerically_qualified_per_arm": 143,
+    "unavailable_measured_prefix_per_arm": 3
+  },
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}
