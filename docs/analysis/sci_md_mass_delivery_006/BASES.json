@@ -1,0 +1,12 @@
+{
+  "contract_commit": "2330f1d58a88a6023c0fc741b5d03cdeb7bf4a22",
+  "ewp_base": "3f5326443fd1b0c334d1b67208718a0a85e89e27",
+  "ewp_base_tree": "75a62869519dabfaa58899e05cc3b3dd743e4403",
+  "legacy_evaluated_producer_commit": "2fd6cc46b53cf52e7f0b2798d5ce43d7bfe0869e",
+  "legacy_evaluated_producer_tree": "8798d84d007674ceb5434744f183a4200eb6feda",
+  "new_task_duplicates_at_intake": false,
+  "predecessor_containment": "VERIFIED",
+  "puckworks_base": "08027c10f25b126b4cfdf8947a699d5058cac2ed",
+  "puckworks_base_tree": "487ecdea88ceed5fb88ee09d92170900bccb4d52",
+  "task": "SCI-MD-MASS-DELIVERY-006"
+}
