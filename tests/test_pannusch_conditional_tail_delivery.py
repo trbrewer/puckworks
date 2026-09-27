@@ -151,3 +151,16 @@ def test_report_only_retained_artifacts_and_duplicate_receipt(tmp_path,monkeypat
     s.write(tmp_path/'scores.json',{'retained':True})
     s.write(tmp_path/'score_completion.json',{'status':'COMPLETE','scores_sha256':s.digest(tmp_path/'scores.json')})
     assert score.report(tmp_path)=={'retained':True}
+
+
+def test_source_boundary_conversion_preserves_strict_runtime():
+    model=s.md.synthetic_model()
+    state=model.condition(s.md.EarlyInput('C2',(.006123,.009222200000000003,.15,.1)))
+    before=float(np.nextafter(state.b_anchor,0))
+    with pytest.raises(ValueError,match='BEFORE_FORECAST_ANCHOR'):
+        state.predict_intervals([before],[.03])
+    start,allowance=s.source_query_start({'fraction':3,'b0':before},state)
+    assert start==state.b_anchor and allowance==2*(state.b_anchor-before)
+    with pytest.raises(ValueError,match='ANCHOR_MISMATCH'):
+        s.source_query_start({'fraction':3,'b0':before-.0001},state)
+    assert s.source_query_start({'fraction':5,'b0':.03},state)==(.03,0.)

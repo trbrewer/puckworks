@@ -320,6 +320,24 @@ def prediction_record(q):
                 feature_extrapolation=[])
 
 
+def source_query_start(query, state):
+    """Reconcile ONLY the measured fraction-3 shared boundary in kg arithmetic.
+
+    The accepted source multiplies a cumulative gram sum by .001, whereas the
+    forecast anchor sums two separately converted vial masses. Their identical
+    physical boundary can differ by ulps. Retain the original coordinate and
+    explicitly account for this conversion roundoff; generic runtime queries
+    before the anchor still fail, without a tolerance or hidden clipping.
+    """
+    a = query['b0']
+    if query['fraction'] == 3 and a != state.b_anchor:
+        delta = abs(a-state.b_anchor)
+        if delta > 4*abs(np.spacing(state.b_anchor)):
+            raise ValueError('MEASURED_FRACTION_THREE_ANCHOR_MISMATCH')
+        return state.b_anchor, 2*delta
+    return a, 0.
+
+
 def predict(out, retained_legacy):
     out = verify_prepared(out)
     started = time.monotonic()
@@ -340,10 +358,13 @@ def predict(out, retained_legacy):
                     states[key] = model.condition(md.EarlyInput(arm,
                         tuple(early[q['shot']]['values'][:len(model.means)]), 'SOURCE_EARLY_INPUT'))
                 state = states[key]
-                p = state.predict_intervals([q['b0']], [q['b1']])[0]
+                start, coordinate_allowance = source_query_start(q, state)
+                p = state.predict_intervals([start], [q['b1']])[0]
+                allowance = p.allowance_kg+coordinate_allowance
                 record.update(predicted_solute_kg=p.solute_kg, predicted_tds_percent=p.tds_percent,
-                    numerical_allowance_kg=p.allowance_kg, numerical_qualified=p.numerical_qualified,
-                    prediction_status='QUALIFIED' if p.numerical_qualified else 'NUMERICALLY_UNRESOLVED',
+                    numerical_allowance_kg=allowance, numerical_qualified=allowance <= 1e-9,
+                    prediction_status='QUALIFIED' if allowance <= 1e-9 else 'NUMERICALLY_UNRESOLVED',
+                    integration_start_kg=start, coordinate_roundoff_allowance_kg=coordinate_allowance,
                     feature_extrapolation=list(state.feature_extrapolation))
             except ValueError as exc:
                 record['prediction_status'] = str(exc)
