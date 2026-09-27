@@ -1,0 +1,22 @@
+{
+  "all_slot_counts": 2200,
+  "arms": [
+    "F2",
+    "A2",
+    "A0",
+    "M"
+  ],
+  "calibration_manifest_sha256": "b2ff7cb3ece115e357e3e92493c44b5e34a3b721be68193848aab839d1629e61",
+  "calibration_wrapper_identities_sha256": "227742b9b83470eb9dab6237bc83e74916d33e46a09b9e3dd2a339e88d669594",
+  "consumer_equivalence_sha256": "8fb0c0a93eb06ec35113f8f0d355f9c778cf181fc242d50aa2a39d1dbba30100",
+  "eligible_shots": 11,
+  "numerical_allowance_max_kg": 1.0838063424780711e-13,
+  "ordered_pairs": 110,
+  "original_physical_shots": 13,
+  "prediction_slots_per_arm": 550,
+  "predictions_sha256": "62f4ccf2ccbef29b0d592b6b34b598a195fe96f91adfe5a868ae389f6c6d8327",
+  "private_evidence_label": "mass-delivery-008-evidence/run-001",
+  "source_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+  "task": "SCI-MD-MASS-DELIVERY-008",
+  "unique_suffix_windows": 55
+}

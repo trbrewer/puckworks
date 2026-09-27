@@ -1,0 +1,73 @@
+{
+  "actual_residual_calls": 16204,
+  "blas_threads": 1,
+  "failed_starts": 0,
+  "files": {
+    "calibration_manifest.json": "b2ff7cb3ece115e357e3e92493c44b5e34a3b721be68193848aab839d1629e61",
+    "calibration_start.json": "2cccaad89913525fba5c7a563a4755ba48e47769b229846a7871cfac868c9e06"
+  },
+  "limits": {
+    "actual_residual_calls_per_start": 2000,
+    "blas_threads": 1,
+    "mass_fits": 11,
+    "mass_starts": 88,
+    "new_private_artifact_bytes": 2147483648,
+    "ram_bytes": 8589934592,
+    "scalar_calibrations": 22,
+    "scientific_wall_seconds": 3600,
+    "workers": 1
+  },
+  "mass_fits": 11,
+  "maximum_calls_per_start": 535,
+  "native_ewp_runs": 0,
+  "nonlinear_starts": 88,
+  "numpy": "2.5.3",
+  "peak_rss_kib": 79504,
+  "prediction_completion": {
+    "files": {
+      "prediction_start.json": "5fc1f5513a6ecaf40fd36e93f7db1887ec380776b1d12adfe37529274013cc18",
+      "predictions.json": "62f4ccf2ccbef29b0d592b6b34b598a195fe96f91adfe5a868ae389f6c6d8327"
+    },
+    "maximum_allowance_kg": 1.0838063424780711e-13,
+    "peak_rss_kib": 90712,
+    "planned_prediction_matrices": 1,
+    "scientific_score_passes": 0,
+    "scientific_wall_seconds": 3.2445038435980678,
+    "status": "COMPLETE",
+    "status_counts": {
+      "A0": {
+        "QUALIFIED": 550
+      },
+      "A2": {
+        "QUALIFIED": 550
+      },
+      "F2": {
+        "QUALIFIED": 550
+      },
+      "M": {
+        "QUALIFIED": 550
+      }
+    },
+    "task": "SCI-MD-MASS-DELIVERY-008",
+    "wall_seconds": 0.8077310500666499
+  },
+  "private_artifact_bytes": 4761112,
+  "python": "3.12.3",
+  "scalar_calibrations": 22,
+  "scipy": "1.18.1",
+  "score_completion": {
+    "details_sha256": "49edbe13ffa0c9210163fc049c5f2f4244079ff3ce14a5b25843221a8a6abf8f",
+    "outcomes_sha256": "18d9057f724c097ec5b29e226396be3967462009d6e937eef81b24a7b4c5f944",
+    "scientific_score_passes": 1,
+    "scientific_wall_seconds": 3.346027704887092,
+    "score_receipt_sha256": "ffb6087f54d553ea0c192f24b4cc2ffe9f08688281e784cb7fb9ffad7714e8f4",
+    "scores_sha256": "ab5fda152dd06954516cfd04d44c3657217a7ba7475f285035188fdda5f5c8b3",
+    "status": "COMPLETE",
+    "task": "SCI-MD-MASS-DELIVERY-008",
+    "wall_seconds": 0.10152340121567249
+  },
+  "status": "COMPLETE",
+  "task": "SCI-MD-MASS-DELIVERY-008",
+  "wall_seconds": 2.436771733686328,
+  "workers": 1
+}

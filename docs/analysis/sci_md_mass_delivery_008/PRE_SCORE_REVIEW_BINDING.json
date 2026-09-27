@@ -1,0 +1,19 @@
+{
+  "ewp_reviewed_base": "3f5ad6121f37fbad33348e92c65263b13378ef30",
+  "ewp_reviewed_head": "f794000f1b5c4a1575509af89861e89f37d7f9dc",
+  "ewp_reviewed_tree": "aa6eeedba2a046961c37400f09675a3366276306",
+  "final_publication_review": "SEPARATE_EXACT_HEAD_REVIEW",
+  "freeze_sha256": "fca905dff10e36920dc960f100acfb9a6f88b1bf8e0446943bb57815a95bec1a",
+  "hosted_ci": "SEPARATE_LIVE_STATUS",
+  "independent": true,
+  "new_task_scores_seen": false,
+  "private_review_sha256": "315e393f0ca10a4f2ad1dc53c0550bc8974c5eec307d40b9e8cfbad1d7ff118c",
+  "reviewed_base": "173d4265e17b7e79f1d8792dc9a49b1c5ef90985",
+  "reviewed_head": "5ec47c07cd5da6845c40fc9ea4467fcdd44afbaf",
+  "reviewed_tree": "7e299f207783e6242390c7483bff1a106a111736",
+  "reviewer": "/root/independent_prescore_review (fresh independent Codex sub-agent; no implementation authorship)",
+  "scope": "Compact public binding only; detailed independent receipt and audit evidence remain private.",
+  "status": "APPROVED",
+  "task": "SCI-MD-MASS-DELIVERY-008",
+  "unresolved_blocking_findings": []
+}

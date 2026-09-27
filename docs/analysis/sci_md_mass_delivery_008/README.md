@@ -1,5 +1,7 @@
 # SCI-MD-MASS-DELIVERY-008
 
+[Executed result](RESULT.md): `ADAPTATION_ADEQUATE_INCREMENT_NOT_ESTABLISHED`. One independently approved score; final publication review and CI remain separate PR statuses.
+
 One-calibration-shot source adaptation, fixed primary A2. G1 /
 NO_GOVERNING_PHYSICS_CHANGE. [Model card](MODEL_CARD.md), [protocol](PROTOCOL.md),
 [preflight](DATA_AVAILABILITY_PREFLIGHT.json), [source/cohort](SOURCE_COHORT_CONTRACT.json).
