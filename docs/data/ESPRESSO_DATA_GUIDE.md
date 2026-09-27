@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+[SCI-MD-MASS-DELIVERY-005](../analysis/sci_md_mass_delivery_005/RESULT.md) inspected the six accepted Pannusch originals and shared Schmieder lineage using existing source configuration. The first-two-assay family is inadequate on declared observed windows; numerics qualify. No new acquisition, source-authority promotion, corpus-exhaustion conclusion or successor follows. Generated family metadata below is unchanged.
+
 An external espresso research collection exists beyond this checkout. It contains
 published-source tables and digitizations, Pannusch/Schmieder workbooks and author
 code, permissioned machine histories, and prior private analysis/simulation outputs.

@@ -45,3 +45,5 @@ Source-derived coefficients/states/results retain Pannusch/Schmieder attribution
 Mendeley 10.17632/y2tz67f6ry.1, CC-BY-NC-3.0, separate from first-party software.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. No production default/lock changes, native
 EWP runs, laboratory work, merge or successor is authorized.
+
+Executed disposition: [RESULT.md](RESULT.md); [numerical qualification](QUALIFICATION_CARD.md); [QA/review](QA.md).
