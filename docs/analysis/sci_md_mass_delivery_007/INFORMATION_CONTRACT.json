@@ -1,0 +1,23 @@
+{
+  "task": "SCI-MD-MASS-DELIVERY-007",
+  "status": "PREPARED_NO_PREDICTION_NO_SCORE",
+  "primary": "C2",
+  "role_hashes": {
+    "prepare_manifest.json": "49a560be3dfafe42770693034e775735e53638e1805720226b7875f720acc666",
+    "cohort.json": "3135f6b053353f23b6e8f6a7d758a5df7275dc6eb100951626feebaa48d8417c",
+    "pools.json": "6dcf1e61bfcc955e745b688b3d3f64f59f5d1f868b589ec1cbdcedfd80c02b71",
+    "early_inputs.json": "4bf48e3df8741aefc34a095bd322b00d86ab27f5f346a96e8c71fdae1075fede",
+    "queries.json": "40d7e3ac9c8e60ab52b2e05375ee71c1c5360095c08e8fe8f26a772a56811450",
+    "support.json": "3960793421f5661789f1438d6a883c84014d317d0d5cd3083c42c29649ad4218",
+    "reference.json": "6436659c97045b8542893915a18468ca93c2cc8a11da38cf6d134bcaa8c94f50"
+  },
+  "planning_check": "Independently derived 11 shots/55 positive suffix windows matches planning; no forced exclusions.",
+  "early_roles": "C0=m1,m2; C1=+q_pool1; C2=+q_pool2",
+  "query_roles": "Original cumulative measured-mass coordinates and vial identities only",
+  "later_chemistry": "SCORER_ONLY_AFTER_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "boundary_rule": "Exact decimal distance to stored C2 mass means; earlier original vial wins exact ties.",
+  "retrospective_pooling": true,
+  "exactly_two_physical_assays_demonstrated": false,
+  "nominal_physical_shots": 13,
+  "private_evidence_root_label": "mass-delivery-007-evidence/run-001"
+}

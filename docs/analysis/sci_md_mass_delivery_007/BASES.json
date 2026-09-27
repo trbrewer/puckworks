@@ -1,0 +1,82 @@
+{
+  "task": "SCI-MD-MASS-DELIVERY-007",
+  "repositories": {
+    "puckworks": {
+      "base": "6edc5b827999bd9896f8d8762406a79c97c893ab",
+      "base_tree": "30a63287c8672c4d1ae53b96698c59bd16baeada",
+      "main": "6edc5b827999bd9896f8d8762406a79c97c893ab",
+      "working_tree": "",
+      "parent_prs": [
+        {
+          "number": 276,
+          "state": "MERGED",
+          "mergedAt": "2026-09-25T14:12:11Z",
+          "mergeCommit": {
+            "oid": "85442cbc6341a872a90769ba5217ca3f375b4c2a"
+          },
+          "headRefOid": "f395dc004a34f00d8e4583e62d5c22f066198d9f",
+          "url": "https://github.com/trbrewer/puckworks/pull/276"
+        },
+        {
+          "number": 288,
+          "state": "MERGED",
+          "mergedAt": "2026-09-27T17:03:32Z",
+          "mergeCommit": {
+            "oid": "5bd2bf8916e7619534787ab04e18b3874fa24880"
+          },
+          "headRefOid": "c5f0df7490ab92c2c0868ea2b0d8e05fced68e94",
+          "url": "https://github.com/trbrewer/puckworks/pull/288"
+        },
+        {
+          "number": 290,
+          "state": "MERGED",
+          "mergedAt": "2026-09-27T19:07:35Z",
+          "mergeCommit": {
+            "oid": "6edc5b827999bd9896f8d8762406a79c97c893ab"
+          },
+          "headRefOid": "7931de2d4250ad1eff18a36a02ba86732996e46f",
+          "url": "https://github.com/trbrewer/puckworks/pull/290"
+        }
+      ]
+    },
+    "espresso-whole-pull": {
+      "base": "022107a2d9e4d10effe970f5d5989abc188fae3f",
+      "base_tree": "de805937e9429e954755ba08733f3160b9e713a0",
+      "main": "022107a2d9e4d10effe970f5d5989abc188fae3f",
+      "working_tree": "",
+      "parent_prs": [
+        {
+          "number": 182,
+          "state": "MERGED",
+          "mergedAt": "2026-09-25T14:12:21Z",
+          "mergeCommit": {
+            "oid": "9b11bafddb2e64c1b5af7c64026d8a5910dee0b7"
+          },
+          "headRefOid": "02beee48e9b7c5630aedb0ea34ba421288b1e17a",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/182"
+        },
+        {
+          "number": 194,
+          "state": "MERGED",
+          "mergedAt": "2026-09-27T17:05:01Z",
+          "mergeCommit": {
+            "oid": "ffb6638e18164dc407c30d24d323a5d828c6b532"
+          },
+          "headRefOid": "9ec7267bb297dfb8c1ccec611cc40ca79aae9ff2",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/194"
+        },
+        {
+          "number": 196,
+          "state": "MERGED",
+          "mergedAt": "2026-09-27T19:09:35Z",
+          "mergeCommit": {
+            "oid": "022107a2d9e4d10effe970f5d5989abc188fae3f"
+          },
+          "headRefOid": "628a05b53989fa789fcedcc11d34fcecbad342db",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/196"
+        }
+      ]
+    }
+  },
+  "duplicate_task_search": "No existing 007 issue, PR or branch found before creating these isolated worktrees."
+}
