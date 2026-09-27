@@ -1,0 +1,12 @@
+{
+  "task": "SCI-MD-MASS-DELIVERY-007",
+  "status": "PASS",
+  "predictions_sha256": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+  "consumer_predictions_sha256": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+  "handoff_sha256": "43ac7dfd425faddba8361f3f14a3680bd848e22f6e8e1b9616c5221d58eeadc3",
+  "arms": 3,
+  "matched_status_slots": 165,
+  "scientific_prediction_sets": 1,
+  "equivalence_check": "Exact same frozen inputs/models/queries; no changed scientific prediction set",
+  "outcomes_attached": false
+}

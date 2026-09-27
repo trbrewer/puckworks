@@ -1,0 +1,29 @@
+{
+  "task": "SCI-MD-MASS-DELIVERY-007",
+  "governance": "G1",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "new_information": "Frozen cross-source prediction on Grudeva using mass-conserving prefixes; no new fitting or acquisitions.",
+  "decision_if_positive": "Retain bounded portability and second-summary increment finding for owner disposition only.",
+  "decision_if_negative": "Record failure of this frozen transfer; no universal mass-coordinate rejection or rescue.",
+  "decision_if_null_or_blocked": "Report adequate simpler arm or exact mixed/source/numerical/review limitation; no automatic successor.",
+  "grinder_to_cup_link": "Later delivered solute conditional on collected beverage mass and pooled early chemistry.",
+  "repeated_blocker": "Different cross-source prediction question; does not revisit inventory/closure or fit another surrogate.",
+  "lower_cost_alternative": "Small immutable predictor reuse; no CFD or laboratory.",
+  "three_test_gate": "PASS",
+  "source_access": "FILES_INSPECTED",
+  "datasets": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions",
+    "grudeva2025/exp13_vial_stats source originals under accepted GRUDEVA-CLOCK-001 contract"
+  ],
+  "source_status": "Retained original CSV/notebook/thesis match accepted hashes. Original per-shot CSV, not historical aggregate, is authority.",
+  "private_root_label": "mass-delivery-007-evidence",
+  "notebook_executed": false,
+  "source_permission": "PERMISSION_DOCUMENTED; no raw redistribution; see docs/permissions/grudeva2025.md",
+  "model_rights": "Pannusch/Schmieder Mendeley 10.17632/y2tz67f6ry.1; source-derived CC-BY-NC-3.0 separately from software",
+  "physical_validation": "NOT_ESTABLISHED",
+  "new_fits": 0,
+  "optimizer_calls": 0,
+  "native_runs": 0,
+  "automatic_successor": null
+}

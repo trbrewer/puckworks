@@ -1,0 +1,18 @@
+{
+  "eligible_shots": 11,
+  "excluded_shots_by_reason": {
+    "UNAVAILABLE_POOLED_CHEMISTRY": 2
+  },
+  "intended_suffix_vials": 55,
+  "nominal_physical_shots": 13,
+  "nominal_regular_vials": 208,
+  "original_conditioning_assays": 98,
+  "pooled_conditioning_summaries": 22,
+  "positive_suffix_vials": 55,
+  "prefix_mass_kg": 0.14194,
+  "primary_suffix_missing_chemistry": 0,
+  "raw_blocks": 14,
+  "rectangular_positions": 252,
+  "suffix_mass_kg": 0.17888,
+  "zero_width_suffix_vials": 0
+}

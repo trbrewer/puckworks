@@ -1,0 +1,56 @@
+{
+  "arms": [
+    "C0",
+    "C1",
+    "C2"
+  ],
+  "artifacts": {
+    "cohort.json": "3135f6b053353f23b6e8f6a7d758a5df7275dc6eb100951626feebaa48d8417c",
+    "consumer_equivalence.json": "beaf30afb53cb4fa819a516d66ca9b154441fc7fc856b8dda0039001c27b0e4c",
+    "consumer_predictions.json": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+    "counts.json": "8bac8da5d15260eb700a9ff917935384dd369f824afe56315d9cd0b71c1f33a4",
+    "early_inputs.json": "4bf48e3df8741aefc34a095bd322b00d86ab27f5f346a96e8c71fdae1075fede",
+    "pools.json": "6dcf1e61bfcc955e745b688b3d3f64f59f5d1f868b589ec1cbdcedfd80c02b71",
+    "prediction_completion.json": "b5235da39828f57ee4ee4b667c72567dbaa425bf2c70954344e6f7d77c85e87c",
+    "prediction_start.json": "11d4a278b25883875b1145fb0c02ce888e52f5dc4a0da943c49a3c71c6b68c7f",
+    "predictions.json": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+    "prepare_manifest.json": "49a560be3dfafe42770693034e775735e53638e1805720226b7875f720acc666",
+    "queries.json": "40d7e3ac9c8e60ab52b2e05375ee71c1c5360095c08e8fe8f26a772a56811450",
+    "reference.json": "6436659c97045b8542893915a18468ca93c2cc8a11da38cf6d134bcaa8c94f50",
+    "source_binding.json": "398df8707cbc44cb8c2acd4e96d4afab1defbf95d1d158abf0897bc18e0304bb",
+    "source_inventory.json": "a9fbdf8aafa20891f6cee60a0fa3e7bdd2c9d8e90d7707ff291e00bec88669e8",
+    "states.json": "d59d1a39ed436c997be556fb9fa26f0121fcf7161657a260906ff5680a08a656",
+    "support.json": "3960793421f5661789f1438d6a883c84014d317d0d5cd3083c42c29649ad4218"
+  },
+  "code_and_protocol": {
+    "docs/analysis/sci_md_mass_delivery_007/BASES.json": "3c1fa8df7845c0ee62c4794318c2856e62a5bf4c44d862d4df4c1ede7bed8b51",
+    "docs/analysis/sci_md_mass_delivery_007/DATA_AVAILABILITY_PREFLIGHT.json": "ed46d264e843e6a88a55f5d6814df0f4ccce687f109fa9ff803fe21c283b7687",
+    "docs/analysis/sci_md_mass_delivery_007/INFORMATION_CONTRACT.json": "eed6412d2b4cfa9c102fd0bd003b77d9d31bfabab218b58c26de148555204e9f",
+    "docs/analysis/sci_md_mass_delivery_007/MODEL_CARD.md": "127012b4dd2a2138361a326fde21907250f12c188aceafb486b21ba97c94fba2",
+    "docs/analysis/sci_md_mass_delivery_007/PARENT_006_HANDOFF.json": "b9b55bc137f9a97839e6f3b8aa24725a37de6acb9ed849baf2200dab59450069",
+    "docs/analysis/sci_md_mass_delivery_007/PROTOCOL.md": "327badc3bef399f4ad180da051083f88662b981019f5080273e255357ac5d477",
+    "docs/analysis/sci_md_mass_delivery_007/README.md": "d914c15515093aabd305710e5ba6eab36da8c788201aa688e230fb786993c94a",
+    "docs/analysis/sci_md_mass_delivery_007/SOURCE.json": "660ba40fc9451a8c6601c40ab7350cb3f82264c4260432fabe2e99c161833eb5",
+    "docs/analysis/sci_md_mass_delivery_007/SOURCE_COUNTS.json": "8bac8da5d15260eb700a9ff917935384dd369f824afe56315d9cd0b71c1f33a4",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "puckworks/analysis/grudeva_pooled_tail_delivery.py": "75c84e716f66201cc8623b96ba903c20763299b1f2e511f043517e20fc247910",
+    "puckworks/analysis/grudeva_pooled_tail_scoring.py": "ce0c347920309460d74bde653d0bb3056298f53aaf12af2c3a304feaeac09f01",
+    "tests/test_grudeva_pooled_tail_delivery.py": "3400d8f1d332cb8f60a23ea216b9635b0cf049cc69942a2d062c3d3bc83925b1"
+  },
+  "consumer_base": "022107a2d9e4d10effe970f5d5989abc188fae3f",
+  "consumer_commit": "2ae4e05df4c800c349cb538786e3752a60fcd0b0",
+  "consumer_files": {
+    "docs/analysis/sci_md_mass_delivery_007/HANDOFF.json": "43ac7dfd425faddba8361f3f14a3680bd848e22f6e8e1b9616c5221d58eeadc3",
+    "scripts/research_conditional_tail_delivery.py": "d8a7a88fa781eb123740a72b2af21bc1e1edd2970980c2e1d4f51f3bbb1ff667",
+    "scripts/research_grudeva_pooled_tail_delivery.py": "44c91270c2e3530c4817801b4404989e804010d7913aa67532fcb3c47c8e89bb",
+    "tests/test_research_grudeva_pooled_tail_delivery.py": "a9fe088df8f9e909a9f260860b3187449b7e9b3abac4748b4d50294cb2eca94d"
+  },
+  "consumer_tree": "e1d9762496f7a6ec3951bff1b2f24fa09fd76bc0",
+  "primary_candidate": "C2",
+  "producer_base": "6edc5b827999bd9896f8d8762406a79c97c893ab",
+  "producer_commit": "6190aa1c58851bcf2258d548f45e880439da8f96",
+  "producer_tree": "f97685c8a613a36a15b52c9881e87f9178861755",
+  "scoring_policy": "ONE_INDEPENDENTLY_APPROVED_PASS_NO_RETUNING",
+  "task": "SCI-MD-MASS-DELIVERY-007"
+}

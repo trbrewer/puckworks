@@ -1,0 +1,9 @@
+{
+  "observed_suffix_sha256": "18d9057f724c097ec5b29e226396be3967462009d6e937eef81b24a7b4c5f944",
+  "scientific_score_passes": 1,
+  "score_receipt_sha256": "c86c36d60144c045ee33e9fd501d4f6386fa6743deca32b5a804da21e24973b5",
+  "scores_sha256": "c5dd263b5998a1b560c867640c5408e79974b37ac035ca1665de401fe6c1c4ac",
+  "shot_results_sha256": "586995418c3851cece4bccbbdefa9bdd9a9aabc0a12c2ad83908654d9003d448",
+  "status": "COMPLETE",
+  "task": "SCI-MD-MASS-DELIVERY-007"
+}
