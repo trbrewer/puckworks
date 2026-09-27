@@ -1,0 +1,24 @@
+{
+  "policy": "Raw workbooks, actual observations, states, row predictions, per-shot results, exact coordinate mask and full logs remain outside public Git. These hashes identify retained artifacts.",
+  "pre_score_review_sha256": "9a71bc032dca3f2460796160f9880b0c0e420895104e3ddb5145cba24149fa9c",
+  "private_artifacts": {
+    "conditioning_support.json": "3d9eea21830586dc0c881d9d12e7cb61c8a1ca046d0aa0bc3212fdcc9a6b784d",
+    "coordinates.json": "ba0978c2b87722549e6f84f120e8e06203432feff7b30b5d8d518cd9e0a4b769",
+    "execution.json": "83761fd27a89f6d3fb3fef9b9783f220362cca87a8b47c487fabb3b409046154",
+    "failures.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "freeze.json": "ae82a73d5336a2cacb78faf358a46fb2a066702bf2c2e9b80d4fb825fc1073cc",
+    "information_contract.json": "d4fe335aba596f930a7a625d3d6870d6feb4c7ae9ca6dbe5ab4a792073fda41a",
+    "observations.json": "dc20f271c078e5e3f31ee39441841b8685e884d3f51c6a378a20678b626c03e6",
+    "observed_suffix.json": "3f4503e685a440973e3e3e853f96ad0e47bf4b6fd980b6e158a0a04d857869f7",
+    "predictions.json": "8a64db9b8efb57c0501da7b382c0f59bc84f8a58a95a10981c31b1c4418320b9",
+    "score_completion.json": "42ac4a6c3b5907193751ad634a2b312410a192ae0278a04228d2d613c5a39dc8",
+    "score_receipt.json": "a016d972f38ff8f72681f0654ee768281847baee724b83cd0e11c09294ff85c4",
+    "scores.json": "477622823c90c722e213aa455c710d7a8f8fa0f21fe17e26031b124ec0336f27",
+    "shot_results.json": "101dc4b0f38d773e95cfe263e75aaeef8a9f90b3e43b8a4037cdf1377cfff190",
+    "source.json": "7c0c89c4aca4a3dfc7d45b3e76a4c62ae37dae5526c018a901e3d6c15b3f47ce",
+    "states.json": "58e0ac31c005d078e0fa011b14279eaaee0343b643d5fe6e49e548981f4b5fe6",
+    "support.json": "3799fdd604d39bd786f778cb06a7ec65a5d2126d3534606b7f29ae393b85fcdf"
+  },
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "task": "SCI-MD-MASS-DELIVERY-005"
+}

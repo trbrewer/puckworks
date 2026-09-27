@@ -1,0 +1,46 @@
+{
+  "all_shots_and_conditions_represented": true,
+  "conditioning_observations": 84,
+  "domain_kg": [
+    0.0,
+    0.06350639999999999
+  ],
+  "exact_private_support_sha256": "3799fdd604d39bd786f778cb06a7ec65a5d2126d3534606b7f29ae393b85fcdf",
+  "intended_windows": 168,
+  "outside_domain": 4,
+  "panels": {
+    "FIT-transfer": {
+      "intended": 120,
+      "primary": 113,
+      "shots": 30
+    },
+    "PRED": {
+      "intended": 48,
+      "primary": 48,
+      "shots": 12
+    }
+  },
+  "per_shot_primary_window_count_distribution": {
+    "2": 1,
+    "3": 5,
+    "4": 36
+  },
+  "primary_windows": 161,
+  "private_support_fields": [
+    "b0",
+    "b1",
+    "campaign",
+    "condition",
+    "coordinate_status",
+    "fraction",
+    "mass_kg",
+    "primary_mask",
+    "shot",
+    "support_reason",
+    "tds_validity"
+  ],
+  "selection_chemistry_used": false,
+  "status": "FROZEN_BEFORE_TWO_ASSAY_EXTRACTION",
+  "task": "SCI-MD-MASS-DELIVERY-005",
+  "unavailable_prefix": 3
+}

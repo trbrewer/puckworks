@@ -1,0 +1,72 @@
+{
+  "data_starvation_scope": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "datasets_reviewed": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "decision_to_change": "Retain or reject this declared two-assay family on frozen observed support",
+  "evidence": [
+    "PROTOCOL.md",
+    "QUALIFICATION_CARD.md",
+    "BASES.json"
+  ],
+  "existing_data_routes_considered": {
+    "adapter_or_observation_operator": "existing full measured mass prefixes; nominal DoE settings; mass integral kernel",
+    "bounded_public_data_search": "not necessary: recovered qualified corpus supplies this named decision",
+    "cross_source_join": "Pannusch/Schmieder share lineage; no independent double cohort",
+    "direct_observation_comparison": "first two assays permitted as inputs, later four scorer-only",
+    "identifiability_or_discrimination": "empirical predictive fitness only",
+    "normalized_comparison": "predecessor answers different observable",
+    "parameter_sensitivity": "implicit two-assay sensitivities; no search",
+    "simple_baseline_comparison": "six fixed arms",
+    "source_internal_transfer": "new physical identities at source grinds 1.4 and 2.0",
+    "source_reconstruction": "reuse qualified mE_cum and assay indices; workbook mass check"
+  },
+  "external_data_check": {
+    "inspected": "Six original accepted files and registers rehashed; coordinate-only mass cells and analyte validity flags inspected. No new-task anchor values extracted.",
+    "known_but_unmounted_corpora": [],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "performed": true
+  },
+  "governance_class": "G1",
+  "home_lab_recommendation": {
+    "operational_authorization": false,
+    "status": "NONE"
+  },
+  "model_stage": [
+    "extraction"
+  ],
+  "next_action": "Implement and test; extract permitted anchors; freeze predictions and independently audit before once-only scoring",
+  "prepared_by": "implementation agent; source hashes and coordinate-only support checked before conditioning",
+  "prior_tasks_reviewed": [
+    "001/002/003 merged",
+    "004 merged; ADJUDICATION and FAILURE_BOUND_REVIEW inspected"
+  ],
+  "puckworks_authority": {
+    "available_data_register_sha256": "f86b89969b6a0456467ad37190d78592339c228c36f84a1cc48d3310d087a3a5",
+    "commit": "5cc38629482a1eb40e9b8ee5695d5589b7a65c32",
+    "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+    "tree": "b579a2c60c3e7a087701083014c47e36a5d8d9f6"
+  },
+  "remaining_scoped_gaps": [
+    "7 source/domain unsupported future slots",
+    "unknown coffee lot/roast and no per-assay SD",
+    "independent audit required before scoring"
+  ],
+  "required_independence": "SOURCE_INTERNAL;TARGET_EXPOSED;RETROSPECTIVE_TWO_ASSAY_CONDITIONED_COMPARISON",
+  "required_observables": [
+    "TDS",
+    "fraction_mass"
+  ],
+  "schema_version": 1,
+  "scientific_question": "Can two assays identify local amplitude and decay with predictive value beyond fixed shape alternatives?",
+  "task_id": "SCI-MD-MASS-DELIVERY-005",
+  "usable_existing_evidence": [
+    "42 physical shots",
+    "84 permitted conditioning observations",
+    "168 future slots; 161 source-valid measured-prefix in-domain windows"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "arms": [
+    "TWO_ASSAY_MASS",
+    "TWO_ASSAY_EXPONENTIAL",
+    "TWO_ASSAY_FIXED_MASS",
+    "TWO_ASSAY_FIXED_EMPIRICAL",
+    "SECOND_ASSAY_EMPIRICAL",
+    "FIRST_ASSAY_EMPIRICAL"
+  ],
+  "conditioning_fractions": [
+    1,
+    2
+  ],
+  "contract_commit": "79ad2d09ef9881e0b19cc3ff47c228e165e64d18",
+  "files": {
+    "docs/analysis/sci_md_mass_delivery_005/BASES.json": "32127fd4b0ac3a92e7fe4ecf9866e126473262e3af9d4f0e32f479b4fdc987a3",
+    "docs/analysis/sci_md_mass_delivery_005/DATA_AVAILABILITY_PREFLIGHT.json": "19c5fe8807baf0d3501b04a7b46c47703cb1cb5a679098143aaf91bc2c19de61",
+    "docs/analysis/sci_md_mass_delivery_005/MODEL_CARD.md": "ef3dc1886d53ad4312ae7f7d36a59d4cacd2634ce4efd726dceaffa823cf5645",
+    "docs/analysis/sci_md_mass_delivery_005/PROTOCOL.md": "ad208e7a8c2ab376db066cad9a15e6bd7ecfd53654b43733aff41a6b856b98b9",
+    "docs/analysis/sci_md_mass_delivery_005/SOURCE_IDENTITIES.json": "00b9edd3e09ce4a659c089e640eafa250c7e58aca2b964d36da04469206259a5",
+    "docs/analysis/sci_md_mass_delivery_005/SUPPORT.json": "a5e1cbcf4e1dfc83ef5a66bdd93d2c352246644cbda657af11145d0a7fb4b676"
+  },
+  "historical_fraction_2_reclassification": "INPUT_FOR_005_ONLY_HISTORICAL_RESULTS_UNCHANGED",
+  "outcome_fractions": [
+    3,
+    5,
+    7,
+    10
+  ],
+  "panels": {
+    "FIT-transfer": [
+      "FIT-C01",
+      "FIT-C02",
+      "FIT-C03",
+      "FIT-C04",
+      "FIT-C05",
+      "FIT-C06",
+      "FIT-C07",
+      "FIT-C08",
+      "FIT-C12",
+      "FIT-C13"
+    ],
+    "PRED": [
+      "PRED-C01",
+      "PRED-C02",
+      "PRED-C05",
+      "PRED-C06"
+    ]
+  },
+  "primary": "TWO_ASSAY_MASS",
+  "shots": [
+    "PRED-E01-R1",
+    "PRED-E01-R2",
+    "PRED-E01-R3",
+    "PRED-E02-R1",
+    "PRED-E02-R2",
+    "PRED-E02-R3",
+    "PRED-E05-R1",
+    "PRED-E05-R2",
+    "PRED-E05-R3",
+    "PRED-E06-R1",
+    "PRED-E06-R2",
+    "PRED-E06-R3",
+    "FIT-E01-R1",
+    "FIT-E01-R2",
+    "FIT-E01-R3",
+    "FIT-E02-R1",
+    "FIT-E02-R2",
+    "FIT-E02-R3",
+    "FIT-E03-R1",
+    "FIT-E03-R2",
+    "FIT-E03-R3",
+    "FIT-E04-R1",
+    "FIT-E04-R2",
+    "FIT-E04-R3",
+    "FIT-E05-R1",
+    "FIT-E05-R2",
+    "FIT-E05-R3",
+    "FIT-E06-R1",
+    "FIT-E06-R2",
+    "FIT-E06-R3",
+    "FIT-E07-R1",
+    "FIT-E07-R2",
+    "FIT-E07-R3",
+    "FIT-E08-R1",
+    "FIT-E08-R2",
+    "FIT-E08-R3",
+    "FIT-E12-R1",
+    "FIT-E12-R2",
+    "FIT-E12-R3",
+    "FIT-E13-R1",
+    "FIT-E13-R2",
+    "FIT-E13-R3"
+  ],
+  "status": "FROZEN_BEFORE_TWO_ASSAY_EXTRACTION",
+  "task": "SCI-MD-MASS-DELIVERY-005"
+}
