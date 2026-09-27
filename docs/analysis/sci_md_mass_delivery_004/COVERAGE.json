@@ -1,0 +1,416 @@
+{
+  "analytical_amplitude_updates": 60,
+  "applies_identically_to_arms": [
+    "ANCHORED_EMPIRICAL",
+    "ANCHORED_MASS",
+    "ANCHOR_PERSISTENCE",
+    "UNANCHORED_EMPIRICAL",
+    "UNANCHORED_MASS"
+  ],
+  "available_anchors": 30,
+  "conditions": {
+    "FIT-C01": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "d49fcf55ee10662366286d8eb6d36a09b6b59c5e5c11cb14f312768b9d3b9e18",
+        "known_mass_kg": 0.0869024,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 13,
+        "identity_sha256": "ca458233a989d3a2d73ad8daf8918b93993c54a331453ec3447c990c9b29c90d",
+        "known_mass_kg": 0.0765625,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 13,
+        "identity_sha256": "ca458233a989d3a2d73ad8daf8918b93993c54a331453ec3447c990c9b29c90d",
+        "known_mass_kg": 0.0765625,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "d49fcf55ee10662366286d8eb6d36a09b6b59c5e5c11cb14f312768b9d3b9e18",
+        "known_mass_kg": 0.0869024,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C02": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "13b52305fde399e1dd5bf067744aed125432a2cb0428e008a81e736a1df1cab4",
+        "known_mass_kg": 0.0819957,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "13b52305fde399e1dd5bf067744aed125432a2cb0428e008a81e736a1df1cab4",
+        "known_mass_kg": 0.0819957,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "13b52305fde399e1dd5bf067744aed125432a2cb0428e008a81e736a1df1cab4",
+        "known_mass_kg": 0.0819957,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "13b52305fde399e1dd5bf067744aed125432a2cb0428e008a81e736a1df1cab4",
+        "known_mass_kg": 0.0819957,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C03": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "d6eb4103741317be8da5f42e23558782f1ebff0ba1e9cca8c16f5de09cd3dd7f",
+        "known_mass_kg": 0.084944,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "d6eb4103741317be8da5f42e23558782f1ebff0ba1e9cca8c16f5de09cd3dd7f",
+        "known_mass_kg": 0.084944,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "d6eb4103741317be8da5f42e23558782f1ebff0ba1e9cca8c16f5de09cd3dd7f",
+        "known_mass_kg": 0.084944,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "d6eb4103741317be8da5f42e23558782f1ebff0ba1e9cca8c16f5de09cd3dd7f",
+        "known_mass_kg": 0.084944,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C04": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "d708b916d6021026f9512046286113cfc5acd26d27f29e8a4f5201a114f37dc8",
+        "known_mass_kg": 0.0825028,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "d708b916d6021026f9512046286113cfc5acd26d27f29e8a4f5201a114f37dc8",
+        "known_mass_kg": 0.0825028,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "d708b916d6021026f9512046286113cfc5acd26d27f29e8a4f5201a114f37dc8",
+        "known_mass_kg": 0.0825028,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "d708b916d6021026f9512046286113cfc5acd26d27f29e8a4f5201a114f37dc8",
+        "known_mass_kg": 0.0825028,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C05": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "ad106d8b6d43b02a38e3da6765fd6176a10ffe7df74d6d7c162a0e183b4ec619",
+        "known_mass_kg": 0.09621210000000001,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 13,
+        "identity_sha256": "7061efa015566d6390981f71f7dea1b155789c40b92d84a6dcc1ed2f3f0a2144",
+        "known_mass_kg": 0.0829994,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 13,
+        "identity_sha256": "7061efa015566d6390981f71f7dea1b155789c40b92d84a6dcc1ed2f3f0a2144",
+        "known_mass_kg": 0.0829994,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "ad106d8b6d43b02a38e3da6765fd6176a10ffe7df74d6d7c162a0e183b4ec619",
+        "known_mass_kg": 0.09621210000000001,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C06": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "4b6e8f823c08cb52433b64a6867c0228aec1038468104e065c94d1ad02ab9e75",
+        "known_mass_kg": 0.0993342,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 12,
+        "identity_sha256": "bcab7f360073d05aadced8cae14a53fe548d52106e1ac703723a9318a4c1dd43",
+        "known_mass_kg": 0.078891,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 12,
+        "identity_sha256": "bcab7f360073d05aadced8cae14a53fe548d52106e1ac703723a9318a4c1dd43",
+        "known_mass_kg": 0.078891,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "4b6e8f823c08cb52433b64a6867c0228aec1038468104e065c94d1ad02ab9e75",
+        "known_mass_kg": 0.0993342,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C07": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "aa713d16efd804782858b7ec302e3732ca444545333fe5868ebdc6b341c45d9f",
+        "known_mass_kg": 0.0884163,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "aa713d16efd804782858b7ec302e3732ca444545333fe5868ebdc6b341c45d9f",
+        "known_mass_kg": 0.0884163,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "aa713d16efd804782858b7ec302e3732ca444545333fe5868ebdc6b341c45d9f",
+        "known_mass_kg": 0.0884163,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "aa713d16efd804782858b7ec302e3732ca444545333fe5868ebdc6b341c45d9f",
+        "known_mass_kg": 0.0884163,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C08": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "0dbfb0835bdf0695d9d118a75026da0e182e28ad695cf6230c0e3440bbaa2b66",
+        "known_mass_kg": 0.08286510000000001,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "0dbfb0835bdf0695d9d118a75026da0e182e28ad695cf6230c0e3440bbaa2b66",
+        "known_mass_kg": 0.08286510000000001,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "0dbfb0835bdf0695d9d118a75026da0e182e28ad695cf6230c0e3440bbaa2b66",
+        "known_mass_kg": 0.08286510000000001,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "0dbfb0835bdf0695d9d118a75026da0e182e28ad695cf6230c0e3440bbaa2b66",
+        "known_mass_kg": 0.08286510000000001,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C12": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "575027c83dd73f7918cf4b1a725a5e0a0cfbb80ca49b163a9ccf58aa7ffb5eec",
+        "known_mass_kg": 0.08401070000000001,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "575027c83dd73f7918cf4b1a725a5e0a0cfbb80ca49b163a9ccf58aa7ffb5eec",
+        "known_mass_kg": 0.08401070000000001,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "575027c83dd73f7918cf4b1a725a5e0a0cfbb80ca49b163a9ccf58aa7ffb5eec",
+        "known_mass_kg": 0.08401070000000001,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "575027c83dd73f7918cf4b1a725a5e0a0cfbb80ca49b163a9ccf58aa7ffb5eec",
+        "known_mass_kg": 0.08401070000000001,
+        "unknown_mass_slots": 0
+      }
+    },
+    "FIT-C13": {
+      "intended": {
+        "count": 15,
+        "identity_sha256": "5da4f38407deaefaaffe4e26f0c9f602fd6a2202cacdc780ca1bf15ce8cc914b",
+        "known_mass_kg": 0.09284273999999999,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 15,
+        "identity_sha256": "5da4f38407deaefaaffe4e26f0c9f602fd6a2202cacdc780ca1bf15ce8cc914b",
+        "known_mass_kg": 0.09284273999999999,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 15,
+        "identity_sha256": "5da4f38407deaefaaffe4e26f0c9f602fd6a2202cacdc780ca1bf15ce8cc914b",
+        "known_mass_kg": 0.09284273999999999,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 15,
+        "identity_sha256": "5da4f38407deaefaaffe4e26f0c9f602fd6a2202cacdc780ca1bf15ce8cc914b",
+        "known_mass_kg": 0.09284273999999999,
+        "unknown_mass_slots": 0
+      }
+    }
+  },
+  "coordinate_gap_policy": "Do not use source-imputed mass; preserve earlier complete measured prefixes and later measured assay widths.",
+  "groups": {
+    "all_ten": {
+      "intended": {
+        "count": 150,
+        "identity_sha256": "ee565ab602695258056dbc07cd22b6b181db9a2e9f0cc551f12b185d33bd3508",
+        "known_mass_kg": 0.8800260400000001,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 143,
+        "identity_sha256": "4427d99b80dec6f2a66a1919ae43b2520590e372bbf69152f6e7b05ca36c656a",
+        "known_mass_kg": 0.83603024,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 143,
+        "identity_sha256": "4427d99b80dec6f2a66a1919ae43b2520590e372bbf69152f6e7b05ca36c656a",
+        "known_mass_kg": 0.83603024,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 150,
+        "identity_sha256": "ee565ab602695258056dbc07cd22b6b181db9a2e9f0cc551f12b185d33bd3508",
+        "known_mass_kg": 0.8800260400000001,
+        "unknown_mass_slots": 0
+      }
+    },
+    "common_89C_code2": {
+      "intended": {
+        "count": 30,
+        "identity_sha256": "f1ffe0ba1c3b4781e42b53048b59c87b44ef85c50ec3243a525c4b663ca9a0cb",
+        "known_mass_kg": 0.17685344,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 30,
+        "identity_sha256": "f1ffe0ba1c3b4781e42b53048b59c87b44ef85c50ec3243a525c4b663ca9a0cb",
+        "known_mass_kg": 0.17685344,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 30,
+        "identity_sha256": "f1ffe0ba1c3b4781e42b53048b59c87b44ef85c50ec3243a525c4b663ca9a0cb",
+        "known_mass_kg": 0.17685344,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 30,
+        "identity_sha256": "f1ffe0ba1c3b4781e42b53048b59c87b44ef85c50ec3243a525c4b663ca9a0cb",
+        "known_mass_kg": 0.17685344,
+        "unknown_mass_slots": 0
+      }
+    },
+    "corners": {
+      "intended": {
+        "count": 120,
+        "identity_sha256": "5b4086e6fa4eb954e6343cea074e9feaf332048cd0a33ed12b93d9a9da68fffe",
+        "known_mass_kg": 0.7031726,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 113,
+        "identity_sha256": "0e6a2d4a553e212e7d98c03a608f3b947d61145cc687c59634b29a08fe778ce6",
+        "known_mass_kg": 0.6591768,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 113,
+        "identity_sha256": "0e6a2d4a553e212e7d98c03a608f3b947d61145cc687c59634b29a08fe778ce6",
+        "known_mass_kg": 0.6591768,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 120,
+        "identity_sha256": "5b4086e6fa4eb954e6343cea074e9feaf332048cd0a33ed12b93d9a9da68fffe",
+        "known_mass_kg": 0.7031726,
+        "unknown_mass_slots": 0
+      }
+    },
+    "grind_1.4": {
+      "intended": {
+        "count": 75,
+        "identity_sha256": "d23afbe09def49bf06658536fd4d7df530ee341fab2825df4afa3c3a4fe37d50",
+        "known_mass_kg": 0.4484551,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 68,
+        "identity_sha256": "b21327b4b3677af91d4d5c1b1210113d9e9bdce61153769bfa9729214b6e01a3",
+        "known_mass_kg": 0.4044593,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 68,
+        "identity_sha256": "b21327b4b3677af91d4d5c1b1210113d9e9bdce61153769bfa9729214b6e01a3",
+        "known_mass_kg": 0.4044593,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 75,
+        "identity_sha256": "d23afbe09def49bf06658536fd4d7df530ee341fab2825df4afa3c3a4fe37d50",
+        "known_mass_kg": 0.4484551,
+        "unknown_mass_slots": 0
+      }
+    },
+    "grind_2.0": {
+      "intended": {
+        "count": 75,
+        "identity_sha256": "095ac629a9f444963f83bf34bb8790e62576bbf0a02d26b407fdbdb9353ca99e",
+        "known_mass_kg": 0.43157094,
+        "unknown_mass_slots": 0
+      },
+      "model_supported": {
+        "count": 75,
+        "identity_sha256": "095ac629a9f444963f83bf34bb8790e62576bbf0a02d26b407fdbdb9353ca99e",
+        "known_mass_kg": 0.43157094,
+        "unknown_mass_slots": 0
+      },
+      "numerically_qualified": {
+        "count": 75,
+        "identity_sha256": "095ac629a9f444963f83bf34bb8790e62576bbf0a02d26b407fdbdb9353ca99e",
+        "known_mass_kg": 0.43157094,
+        "unknown_mass_slots": 0
+      },
+      "source_eligible": {
+        "count": 75,
+        "identity_sha256": "095ac629a9f444963f83bf34bb8790e62576bbf0a02d26b407fdbdb9353ca99e",
+        "known_mass_kg": 0.43157094,
+        "unknown_mass_slots": 0
+      }
+    }
+  },
+  "intended_prediction_status_records": 750,
+  "intended_shots": 30,
+  "numerically_qualified_prediction_records": 715,
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "source_eligible_meaning": "Measured assay mass and mass-basis TDS valid; cumulative coordinates separately require all preceding vial masses.",
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "unsupported_reason_counts_per_arm": {
+    "OUTSIDE_FROZEN_MASS_DOMAIN": 4,
+    "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+  }
+}

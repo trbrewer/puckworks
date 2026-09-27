@@ -1,0 +1,39 @@
+{
+  "audit_evidence_sha256": {
+    "audit.log": "fadec6e4dee67c06f732273b4a006c4cff631e5826a8262ec210d0ee1ad0afff",
+    "audit.py": "415a93893f9cc89ea196d093ad100f3ad37fd278bdf6678ddabfe7e908b5fe7a",
+    "audit_summary.json": "eb85e8b1a4d432ee6f1153508b08768d21bdcb76e26e9dd39509a0a20cda7af9",
+    "ewp_synthetic_empirical.json": "e4e7abdc74e0a6883906514655d2972e0f69f00db1cc53ab92b4e80b6022ef07",
+    "ewp_synthetic_mass.json": "2b744f8531d50ec6519cbb4cd269933381bd0759f71efb08f6d0d6c8ab6bd4cc",
+    "ewp_tests.log": "1fd37014ac408ea193b47b1d8190e05f132e1bd00501d4a7eb4383c3817b13ba",
+    "tests.log": "e85c234034e297982d87482efd767f2c8786de0e48127f10f5adf7741db4ab12"
+  },
+  "checks": [
+    "Independently reviewed the G1 / NO_GOVERNING_PHYSICS_CHANGE contract, unchanged empirical primary, all ten conditions, five arms, source rights, supplied-mass-window privilege and separate A-through-E decisions.",
+    "Exact producer commit/tree, all frozen implementation/protocol files and ten private bundle artifacts verified by SHA256. Protocol/card/bases/preflight are byte-identical to before-anchor contract commit 7decc7ba5baf3e64f2822e21a240f7a1f16ae6e3; the contract predates anchor artifact creation.",
+    "Thirty exact FIT physical shot identities and experiment/grind/recipe/date/register joins verified, disjoint from all fifteen grind-1.7 calibration identities. SOURCE_FIT_DATA grants no fitting permission. Fraction 1 cannot enter suffix scoring; only fractions 2,3,5,7,10 are future outcomes.",
+    "Six source hashes and nine qualified register hashes verified against accepted predecessor evidence. Independent workbook net-weight reconstruction checked every one of ten collected vials and gram-to-kilogram cumulative prefixes; unassayed vials advance mass.",
+    "Two missing unassayed measured vial masses create three unavailable later prefixes; four other future windows exceed the unchanged 0.0635064 kg domain. All 150 intended queries remain; no clipping, extrapolation, imputation or omitted tail.",
+    "Only fraction-one source rows were projected into audit anchor construction. All thirty anchors/support records, sixty states and 750 prediction/status rows independently reproduced exactly from coordinate-only queries. Later TDS values were not exposed to reviewer judgment and no real scoring occurred.",
+    "715 supported prediction records independently checked against incomplete-gamma compact integration and 60-digit Decimal piecewise-linear empirical integration, preserving nonmonotone knots. Maximum independent solute difference 1.474514954580286e-17 kg. Mathematical amplitude and sensitivity use each model own anchor integral.",
+    "Frozen artifacts unchanged; strict state deserialization reproduced all sixty states. Existing denominator, concentration-bound, integration and floating allowance logic inspected; numerical allowance propagation to per-shot/condition/balanced metrics and gates verified.",
+    "Focused kernel, conditioned, anchoring and transfer synthetic tests: 133 passed. Tests exercise information separation, cumulative gaps, five-arm suffix identity, missing anchors/assays, unsupported intervals, immutability, zero-optimizer guard, balancing, eight-of-ten wins, bias/numerical boundaries, freeze drift, stale receipt and duplicate scoring rejection.",
+    "Complete-condition failures survive unrelated support gaps; missing support cannot produce all-cohort adequacy or reduced-denominator comparison PASS. Common-setting and supported-subset diagnostics cannot rescue the all-ten-condition claim.",
+    "Independent execution observed zero optimizer calls and zero base fits, sixty explicit analytical amplitude updates, 715 qualified predictions and 35 unsupported statuses. Preparation and audit are not experimental confidence intervals or physical validation.",
+    "EWP HANDOFF.json binds exact accepted 003 runtime commit/tree, all three transitive first-party runtime files and complete unchanged artifact matrix; evaluation commit/tree/files/freeze are separately bound. Setting-aware compatibility binding does not add an evaluated arm.",
+    "EWP inherited research consumer tests: 20 run, 18 passed and 2 environment-dependent parity tests skipped. Direct task-004 handoff SYNTHETIC_ANCHOR_INPUT runs passed for EMPIRICAL and MASS using the exact pinned 003 producer.",
+    "EWP packaging followup e9303852e95cad86684566dd79258171cfb0b8b4 to a1cbafa1ecf941e23f5153c8a7a5bcf8c764368d changes only generated source manifest and package QA count/hash; handoff/runtime bytes unchanged. Production solver, defaults and dependency lock unchanged.",
+    "Approval is exact-freeze pre-scoring scientific readiness only. Seven unsupported future identities preclude all-cohort adequacy; scoring may preserve complete-condition failures and narrower diagnostics. Broader software QA, hosted CI, eventual scientific result and merge readiness remain separate."
+  ],
+  "ewp_reviewed_head": "a1cbafa1ecf941e23f5153c8a7a5bcf8c764368d",
+  "ewp_reviewed_tree": "99c8677312f46feef86e7fedd08c544c86d87741",
+  "freeze_sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec",
+  "independent": true,
+  "reviewed_head": "135df5c3b03769c422231672cc12411e84f89d82",
+  "reviewed_tree": "fa7e0b7b8d35efaff5f17a545eb212dd02a3bbea",
+  "reviewer": "/root/independent_review (independent Codex audit agent; no implementation authorship)",
+  "status": "APPROVED",
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "timestamp_utc": "2026-09-26T23:53:26.851297+00:00",
+  "unresolved_blocking_findings": []
+}

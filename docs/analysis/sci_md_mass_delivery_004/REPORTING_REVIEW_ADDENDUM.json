@@ -1,0 +1,28 @@
+{
+  "adjudication_path": "docs/analysis/sci_md_mass_delivery_004/ADJUDICATION.json",
+  "adjudication_sha256": "b47467dda82c9d86e13d8ed93bfc89670a258c31433e32802912281d8dcb7cc4",
+  "findings": [
+    "Raw axis enums, comparator adequacy decisions and original win ranges are reproduced unchanged.",
+    "All three comparator ranges contain exactly the missing conditions FIT-C01/FIT-C05/FIT-C06; no evaluated condition-R comparison overlaps numerical allowance.",
+    "All arms have 150 source-eligible, 143 model-supported and 143 numerically qualified slots. Support gaps, not unresolved numerical integration, prevent the all-ten-condition claim.",
+    "The five clarified reporting labels change no PASS or FAIL, thresholds, metrics, primary candidate, model, source identities or disposition substance.",
+    "Every frozen code/protocol and private input/prediction artifact hash is unchanged. Original scores, original review and completed score receipts retain their exact hashes.",
+    "No scoring entry point was invoked. This addendum reviews only the reporting delta and grants no new scientific attempt, production adoption, physical validation or merge authority."
+  ],
+  "new_scoring_calls": 0,
+  "original_freeze_sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec",
+  "original_pre_score_review_sha256": "7f3dd2f0d5a719ede134154180d91857cfc19605c9e9ff0c70fba00a7bdda3aa",
+  "original_pre_scoring_approval_preserved": true,
+  "policy_basis": "MINIMUM_NECESSARY_GOVERNANCE_STANDARD sections 6.3, 6.5-6.6 and 7",
+  "raw_scores_sha256": "a9c93a84e9f8de90864052c4befff59d917e19e76b4bae972e82447683fc663f",
+  "reviewer": "/root/independent_review (independent Codex audit agent; no implementation authorship)",
+  "scientific_attempt_count_unchanged": true,
+  "scope": "Exact ADJUDICATION.json attribution-only interpretation of existing once-scored aggregate evidence; not another scientific review or scoring approval",
+  "score_completion_sha256": "de828fefdfd7a1abd11eebbf4e3e59b5ce037e61abfa79d0dfd7fe58fb894cab",
+  "score_receipt_sha256": "8e62af0a9d5aec8e7eef467aa3f5c279dc857fc93ad29d2a74b1140e96624f3a",
+  "status": "PASS_BOUNDED_REPORTING_ATTRIBUTION_REVIEW",
+  "task": "SCI-MD-MASS-DELIVERY-004",
+  "timestamp_utc": "2026-09-26T23:57:42.080448+00:00",
+  "unresolved_blocking_findings": [],
+  "verification_script_sha256": "b74a7b597a562cf6239ead46744282a57c2dd204b787026609b07c048be2d228"
+}

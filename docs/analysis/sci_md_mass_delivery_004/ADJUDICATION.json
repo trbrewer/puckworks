@@ -1,0 +1,58 @@
+{
+  "condition_win_ranges": {
+    "ANCHORED_MASS": {
+      "definite": 5,
+      "possible_including_missing": 8
+    },
+    "ANCHOR_PERSISTENCE": {
+      "definite": 7,
+      "possible_including_missing": 10
+    },
+    "UNANCHORED_EMPIRICAL": {
+      "definite": 6,
+      "possible_including_missing": 9
+    }
+  },
+  "correction_class": "G0_REPORTING_ATTRIBUTION_ONLY_NO_SCIENTIFIC_REEXECUTION",
+  "disposition": "TRANSFER_CLAIM_LIMITED_BY_SOURCE_COORDINATES_AND_FROZEN_MASS_DOMAIN",
+  "freeze_sha256": "ff62fd2ba11ba6203a28ede3a380e7b5a51659198484c629fb97013da8c40dec",
+  "frozen_code_predictions_and_raw_scores_unchanged": true,
+  "missing_complete_conditions": [
+    "FIT-C01",
+    "FIT-C05",
+    "FIT-C06"
+  ],
+  "new_scores": 0,
+  "numerically_qualified_slots": 143,
+  "physical_validation": "NOT_ESTABLISHED",
+  "policy": "Minimum Necessary Governance Standard sections 6.3, 6.5-6.6 and 7; bounded reporting correction, no second scientific attempt",
+  "post_score_metric_or_threshold_changes": false,
+  "preserved_comparator_adequacy": {
+    "ANCHORED_EMPIRICAL": "UNSUPPORTED_OR_UNQUALIFIED",
+    "ANCHORED_MASS": "UNSUPPORTED_OR_UNQUALIFIED",
+    "ANCHOR_PERSISTENCE": "FAIL",
+    "UNANCHORED_EMPIRICAL": "FAIL",
+    "UNANCHORED_MASS": "FAIL"
+  },
+  "raw_axes": {
+    "A": "UNSUPPORTED_OR_UNQUALIFIED",
+    "B": "NUMERICALLY_UNRESOLVED",
+    "C": "NUMERICALLY_UNRESOLVED",
+    "D": "NOT_ADJUDICATED_SUPPORT_OR_NUMERICS",
+    "E": "NUMERICALLY_UNRESOLVED"
+  },
+  "raw_scores_sha256": "a9c93a84e9f8de90864052c4befff59d917e19e76b4bae972e82447683fc663f",
+  "reason": "B/C/E raw NUMERICALLY_UNRESOLVED labels arise from missing-condition win ranges, not from overlapping numerical allowances. A/D unresolved labels likewise reflect incomplete source/domain support. No PASS or FAIL has been changed.",
+  "reporting_axes": {
+    "A": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "B": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "C": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "D": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT",
+    "E": "NOT_ADJUDICATED_INCOMPLETE_SUPPORT"
+  },
+  "scientific_score_passes": 1,
+  "source_eligible_slots": 150,
+  "supported_condition_comparisons_overlapping_numerical_allowances": 0,
+  "supported_slots": 143,
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}

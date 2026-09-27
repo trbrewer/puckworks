@@ -1,0 +1,15 @@
+{
+  "analytical_amplitude_update_attempts": 60,
+  "native_ewp_runs": 0,
+  "new_base_curve_fits": 0,
+  "numerically_qualified_predictions": 715,
+  "numpy": "2.5.3",
+  "optimizer_calls": 0,
+  "prediction_status_records": 750,
+  "python": "3.12.3",
+  "qualified_anchored_states": 60,
+  "scipy": "1.18.1",
+  "scoring": "NOT_EXECUTED",
+  "supported_predictions": 715,
+  "task": "SCI-MD-MASS-DELIVERY-004"
+}
