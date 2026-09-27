@@ -1,0 +1,43 @@
+{
+  "adverse_definite_A2_R_comparisons": {
+    "I_CAL": {
+      "calibration_rows": 2,
+      "target_columns": 3
+    },
+    "I_CHEM": {
+      "calibration_rows": 2,
+      "target_columns": 4
+    },
+    "I_LOCAL": {
+      "calibration_rows": 4,
+      "target_columns": 3
+    }
+  },
+  "all_mass_start_boundary_hits": {
+    "c0": 28
+  },
+  "no_favourable_calibrator_selected": true,
+  "no_prediction_ensemble": true,
+  "offset_distributions": {
+    "A0": {
+      "max": 0.0005863242973269838,
+      "mean": -0.1264889325632486,
+      "median": -0.12125068209440269,
+      "min": -0.2201849586575279,
+      "n": 11,
+      "q25": -0.17591822234577079,
+      "q75": -0.09962221245573574
+    },
+    "A2": {
+      "max": 0.020288620015873622,
+      "mean": -0.08053879181722588,
+      "median": -0.07955679208183183,
+      "min": -0.1712184986864525,
+      "n": 11,
+      "q25": -0.1003459649975901,
+      "q75": -0.061753783959543604
+    }
+  },
+  "source": "single saved pair/row/column results; no rescore",
+  "task": "SCI-MD-MASS-DELIVERY-008"
+}

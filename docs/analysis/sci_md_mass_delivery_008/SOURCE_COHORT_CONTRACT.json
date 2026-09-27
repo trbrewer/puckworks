@@ -1,0 +1,42 @@
+{
+  "accepted_007_projections_exact": true,
+  "counts": {
+    "eligible_shots": 11,
+    "excluded_shots_by_reason": {
+      "UNAVAILABLE_POOLED_CHEMISTRY": 2
+    },
+    "intended_suffix_vials": 55,
+    "nominal_physical_shots": 13,
+    "nominal_regular_vials": 208,
+    "original_conditioning_assays": 98,
+    "pooled_conditioning_summaries": 22,
+    "positive_suffix_vials": 55,
+    "prefix_mass_kg": 0.14194,
+    "primary_suffix_missing_chemistry": 0,
+    "raw_blocks": 14,
+    "rectangular_positions": 252,
+    "suffix_mass_kg": 0.17888,
+    "zero_width_suffix_vials": 0
+  },
+  "independent_decimal_cohort_pool_reconstruction": true,
+  "notebook_executed": false,
+  "parent_artifact_files": {
+    "docs/analysis/sci_md_mass_delivery_006/models/C0.json": "4af994f532d65cc9989e426c802ba4069838eb3564155781ce591330cb2318a5",
+    "docs/analysis/sci_md_mass_delivery_006/models/C1.json": "3abb77e22cd24f75afd8958178045badbb28cc98327690d31fd16608141cf034",
+    "docs/analysis/sci_md_mass_delivery_006/models/C2.json": "c0e38da25edf5441b88f444e3270b5b83f2ea94773fc09048009a691ac7c230e",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33"
+  },
+  "parent_models": {
+    "C0": "d486067fc8e8c381860f2473bfe0d14176f0a5abc3f8fed7cd75525923d82d86",
+    "C1": "43b08545dd7adc0a63d2dba696b4e29864385d3e25cb9676989d1c2374ff1145",
+    "C2": "960e0c7dd37d3ba876f95a44c00c69f222e53c022a641e4b092a2af686fb9516"
+  },
+  "prior_007_prediction_sha256": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+  "source_files": {
+    "PlotData.ipynb": "bccaa696080166f8b31587c17a7268a7c13ce9dd5d19d4beec349f64e2c70dff",
+    "exp13.csv": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+    "thesis.pdf": "bbe73a303ab0b6838fe727f05d970438c7ba42576a9959f032aa63b88aff84e6"
+  },
+  "status": "PASS",
+  "task": "SCI-MD-MASS-DELIVERY-008"
+}

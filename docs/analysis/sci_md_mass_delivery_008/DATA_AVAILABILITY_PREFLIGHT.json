@@ -1,0 +1,29 @@
+{
+  "BLOCKED": "Retain precise source/access/numerical limitation without corpus-exhaustion claim.",
+  "GRINDER_TO_CUP_LINK": "Reusable remaining-solute/fraction-TDS prediction conditional on measured early chemistry and beverage mass.",
+  "LOWER_COST_ALTERNATIVE": "Small algebraic calibration and compact Python fits, not CFD or new measurements.",
+  "NEGATIVE": "Reject this one-offset adaptation; no automatic family expansion.",
+  "NEW_INFORMATION": "One other physical shot's observed suffix delivery becomes task-local calibration information; 007 allowed no Grudeva fitting.",
+  "NULL": "An adequate simpler source model or mass-only adapted parent suffices; conditional complexity not earned.",
+  "POSITIVE": "Retain a sample-efficient source-calibrated research predictor.",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "datasets": [
+    "grudeva2025/exp13_vial_stats (raw per-shot originals; not mean tables)",
+    "pannusch2024/experimental_kinetics (accepted immutable models)",
+    "schmieder2023/raw_fractions (shared parent lineage)"
+  ],
+  "external_files_checked": [
+    "exp13.csv",
+    "PlotData.ipynb",
+    "thesis.pdf"
+  ],
+  "governance": "G1",
+  "no_laboratory_recommendation": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "repeated_blocker": "CHANGED_INFORMATION_BUDGET_EXPLICIT_OWNER_AUTHORITY; not a repeated zero-shot transfer attempt or inventory-closure rescue.",
+  "source_contract": "SOURCE_COHORT_CONTRACT.json",
+  "source_status": "FILES_INSPECTED",
+  "successor_authorized": false,
+  "task": "SCI-MD-MASS-DELIVERY-008",
+  "three_test_gate": "PASS_NEW_INFORMATION_DECISION_CONSEQUENCE_AND_GRINDER_TO_CUP_LINK"
+}

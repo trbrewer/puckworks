@@ -1,0 +1,46 @@
+{
+  "arms": [
+    "F2",
+    "A2",
+    "A0",
+    "M"
+  ],
+  "code_and_protocol": {
+    "docs/analysis/sci_md_mass_delivery_008/BASES.json": "6a39122fab60398985bcda2c7ad9e0a13f9d5c772790b69af28980eabed1ffe7",
+    "docs/analysis/sci_md_mass_delivery_008/DATA_AVAILABILITY_PREFLIGHT.json": "236cd0b260741bf44660811cf766fd9787cdd60b149047ded347cf7cef84576d",
+    "docs/analysis/sci_md_mass_delivery_008/MODEL_CARD.md": "01670f9c870e0bdb30438f3172cc633264bc19e89fbf90961a6abd1bad3c8519",
+    "docs/analysis/sci_md_mass_delivery_008/PARENT_006_HANDOFF.json": "b9b55bc137f9a97839e6f3b8aa24725a37de6acb9ed849baf2200dab59450069",
+    "docs/analysis/sci_md_mass_delivery_008/PARENT_007_MANIFEST.json": "312f637ee4de8eae6547f88faa2e6527d7e73d0c3a5d53aad19b34fc00dc8102",
+    "docs/analysis/sci_md_mass_delivery_008/PARENT_007_OUTCOMES.json": "6acc3c233092793e4c0cf1b79fc0e4ae0a5363a7e7bf8f12bf4c4c1927d679a8",
+    "docs/analysis/sci_md_mass_delivery_008/PROTOCOL.md": "4263e060736b572505b39b42754e87351148fefda141797f7047b7e75ef3923d",
+    "docs/analysis/sci_md_mass_delivery_008/README.md": "42956a95678723d6cb94afc04e2134cf316d76eb361a7d816defe0537bd8748a",
+    "docs/analysis/sci_md_mass_delivery_008/SOURCE.json": "660ba40fc9451a8c6601c40ab7350cb3f82264c4260432fabe2e99c161833eb5",
+    "docs/analysis/sci_md_mass_delivery_008/SOURCE_COHORT_CONTRACT.json": "c56382d807040c97ec702e1289e02b2a3422d291a1cae1c94bd65e7b32787142",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "puckworks/analysis/grudeva_one_shot_calibration.py": "cfebe1b00ebc4f951b87733a3146c7b46c978e59b7156c897c0bd85becbf9e7b",
+    "puckworks/analysis/grudeva_one_shot_scoring.py": "b106ab0d332381c3d2070ee20b0b8a607503d1cabd74b4872ac147a36ff9611b",
+    "puckworks/analysis/grudeva_pooled_tail_delivery.py": "75c84e716f66201cc8623b96ba903c20763299b1f2e511f043517e20fc247910",
+    "puckworks/analysis/source_calibrated_tail_delivery.py": "764a83b825ffac0662aefbb8f5d7d4ba794dac7249cf66441eb8b7f453a5052b",
+    "tests/test_grudeva_one_shot_calibration.py": "73d8cddaa80e5cdb0bc93d6c9860c49d9078c53e6fdd6e95575568b60865acd1",
+    "tests/test_source_calibrated_tail_delivery.py": "1261c3b7cf9ac08e6abd9e2c12a0f32935ce297371f7b72a875bb3f9cc91fa3d"
+  },
+  "consumer_base": "3f5ad6121f37fbad33348e92c65263b13378ef30",
+  "consumer_commit": "f794000f1b5c4a1575509af89861e89f37d7f9dc",
+  "consumer_files": {
+    "docs/analysis/sci_md_mass_delivery_008/HANDOFF.json": "9dad4894a0233f7b18e99769d064008d66cba682b316abc26b8e6968703a2a17",
+    "scripts/research_conditional_tail_delivery.py": "d8a7a88fa781eb123740a72b2af21bc1e1edd2970980c2e1d4f51f3bbb1ff667",
+    "scripts/research_grudeva_one_shot_calibration.py": "608859e39e680cfc94b78f68647c897d13af692eaa1a3c3d794bf895ac8f31f5",
+    "tests/test_research_grudeva_one_shot_calibration.py": "08cb9292e127cdb4bb6acb89f4384fd07dfdd124b71124f44801b8bee08b7102"
+  },
+  "consumer_tree": "aa6eeedba2a046961c37400f09675a3366276306",
+  "primary": "A2",
+  "private_artifacts_published": false,
+  "private_evidence_label": "mass-delivery-008-evidence/run-001",
+  "private_freeze_sha256": "fca905dff10e36920dc960f100acfb9a6f88b1bf8e0446943bb57815a95bec1a",
+  "producer_base": "173d4265e17b7e79f1d8792dc9a49b1c5ef90985",
+  "producer_commit": "5ec47c07cd5da6845c40fc9ea4467fcdd44afbaf",
+  "producer_tree": "7e299f207783e6242390c7483bff1a106a111736",
+  "scoring_policy": "ONE_FRESH_INDEPENDENT_APPROVAL_ONE_OUTCOME_JOIN_NO_RETUNING",
+  "task": "SCI-MD-MASS-DELIVERY-008"
+}

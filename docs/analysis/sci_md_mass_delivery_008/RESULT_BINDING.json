@@ -1,0 +1,21 @@
+{
+  "evaluated_consumer_commit": "f794000f1b5c4a1575509af89861e89f37d7f9dc",
+  "evaluated_consumer_tree": "aa6eeedba2a046961c37400f09675a3366276306",
+  "evaluated_producer_commit": "5ec47c07cd5da6845c40fc9ea4467fcdd44afbaf",
+  "evaluated_producer_tree": "7e299f207783e6242390c7483bff1a106a111736",
+  "freeze_sha256": "fca905dff10e36920dc960f100acfb9a6f88b1bf8e0446943bb57815a95bec1a",
+  "merge_authorized": false,
+  "native_ewp_runs": 0,
+  "no_post_score_scientific_change": true,
+  "pre_score_review_sha256": "315e393f0ca10a4f2ad1dc53c0550bc8974c5eec307d40b9e8cfbad1d7ff118c",
+  "predictions_sha256": "62f4ccf2ccbef29b0d592b6b34b598a195fe96f91adfe5a868ae389f6c6d8327",
+  "private_pair_row_column_results_sha256": "49edbe13ffa0c9210163fc049c5f2f4244079ff3ce14a5b25843221a8a6abf8f",
+  "private_score_completion_sha256": "88b6163c054e2edcaf3b175f5e515ac58e8ea1fd8b7b7b5dd4d93da9e6d1bb36",
+  "private_score_receipt_sha256": "ffb6087f54d553ea0c192f24b4cc2ffe9f08688281e784cb7fb9ffad7714e8f4",
+  "production_adoption_authorized": false,
+  "production_dependency_lock_changed": false,
+  "results_sha256": "ab5fda152dd06954516cfd04d44c3657217a7ba7475f285035188fdda5f5c8b3",
+  "scientific_score_passes": 1,
+  "successor_authorized": false,
+  "task": "SCI-MD-MASS-DELIVERY-008"
+}
