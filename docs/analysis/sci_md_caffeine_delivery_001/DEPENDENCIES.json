@@ -1,0 +1,130 @@
+{
+  "puckworks": {
+    "main_head": "5bd2bf8916e7619534787ab04e18b3874fa24880",
+    "main_tree": "3a3f39dfe2ddf20c1fc91a91769b2e5eaae19e1e",
+    "initial_tracked_clean": true
+  },
+  "ewp": {
+    "main_head": "ffb6638e18164dc407c30d24d323a5d828c6b532",
+    "main_tree": "41b417cff2b87184456335a2d7ca9a68c58a468a",
+    "initial_tracked_clean": true
+  },
+  "task": "SCI-MD-CAFFEINE-DELIVERY-001",
+  "dependency_publications": {
+    "puckworks": "c5f0df7490ab92c2c0868ea2b0d8e05fced68e94",
+    "ewp": "9ec7267bb297dfb8c1ccec611cc40ca79aae9ff2"
+  },
+  "parent": {
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "claims": [
+      "RESEARCH_ONLY",
+      "SOURCE_INTERNAL",
+      "TARGET_EXPOSED",
+      "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+      "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+      "CONDITIONAL_ON_BEVERAGE_MASS",
+      "NO_TIME_FLOW_PRESSURE_PREDICTION",
+      "NOT_INVENTORY_CLOSURE",
+      "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+      "NO_REAL_TIME_ASSAY_CLAIM"
+    ],
+    "domain_kg": [
+      0,
+      0.06971540000000001
+    ],
+    "evaluation_freeze_sha256": "54d5afb2a5dc938f9d9efce88bc6a511f8984837ebd583eae9eea9c4db96a7b3",
+    "ewp_issue": "https://github.com/trbrewer/espresso-whole-pull/issues/193",
+    "governance": "G1",
+    "merge_authorized": false,
+    "models": {
+      "C0": {
+        "family": "MASS_CONTEXT_TAIL_SPLINE",
+        "lambda": 0.0001,
+        "model_sha256": "d486067fc8e8c381860f2473bfe0d14176f0a5abc3f8fed7cd75525923d82d86",
+        "path": "docs/analysis/sci_md_mass_delivery_006/models/C0.json"
+      },
+      "C1": {
+        "family": "FIRST_ASSAY_TAIL_SPLINE",
+        "lambda": 1.0,
+        "model_sha256": "43b08545dd7adc0a63d2dba696b4e29864385d3e25cb9676989d1c2374ff1145",
+        "path": "docs/analysis/sci_md_mass_delivery_006/models/C1.json"
+      },
+      "C2": {
+        "family": "CONDITIONAL_TAIL_SPLINE",
+        "lambda": 0.0001,
+        "model_sha256": "960e0c7dd37d3ba876f95a44c00c69f222e53c022a641e4b092a2af686fb9516",
+        "path": "docs/analysis/sci_md_mass_delivery_006/models/C2.json"
+      }
+    },
+    "native_ewp_runs": 0,
+    "physical_validation": "NOT_ESTABLISHED",
+    "producer_commit": "0f130d4f2dfca552e56cd7d7e96bb73b8c50f421",
+    "producer_files": {
+      "docs/analysis/sci_md_mass_delivery_006/models/C0.json": "4af994f532d65cc9989e426c802ba4069838eb3564155781ce591330cb2318a5",
+      "docs/analysis/sci_md_mass_delivery_006/models/C1.json": "3abb77e22cd24f75afd8958178045badbb28cc98327690d31fd16608141cf034",
+      "docs/analysis/sci_md_mass_delivery_006/models/C2.json": "c0e38da25edf5441b88f444e3270b5b83f2ea94773fc09048009a691ac7c230e",
+      "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33"
+    },
+    "producer_tree": "9f6b5346ea7cfceef4d014c80b235818eee0a23f",
+    "production_adoption_authorized": false,
+    "production_defaults_changed": false,
+    "production_dependency_lock_changed": false,
+    "puckworks_issue": "https://github.com/trbrewer/puckworks/issues/287",
+    "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+    "runtime_modules": [
+      "puckworks/analysis/conditional_tail_delivery.py"
+    ],
+    "schema": "conditional-tail-delivery/1",
+    "source_counts": {
+      "fit_conditioning_assays": 90,
+      "fit_conditions": 15,
+      "fit_eligible_suffix": 177,
+      "fit_intended_suffix": 180,
+      "fit_shots": 45,
+      "fit_support_reasons": {
+        "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+      },
+      "legacy_supported_suffix": 95,
+      "panels": {
+        "flow_stress": {
+          "intended_slots": 24,
+          "learned_supported": 23,
+          "legacy_supported": 23,
+          "shots": 6
+        },
+        "primary": {
+          "intended_slots": 48,
+          "learned_supported": 48,
+          "legacy_supported": 48,
+          "shots": 12
+        },
+        "temperature_stress": {
+          "intended_slots": 24,
+          "learned_supported": 24,
+          "legacy_supported": 24,
+          "shots": 6
+        }
+      },
+      "permitted_original_assays_crosschecked": 318,
+      "pred_early_assays": 48,
+      "pred_intended_suffix": 96,
+      "pred_shots": 24,
+      "pred_supported_suffix": 95
+    },
+    "successor_authorized": false,
+    "task": "SCI-MD-MASS-DELIVERY-006",
+    "units": {
+      "TDS": "percent",
+      "basis": "MASS",
+      "beverage": "kg",
+      "concentration": "kg/kg",
+      "solute": "kg"
+    }
+  },
+  "live_dependency_pr_states": {
+    "puckworks_288": "MERGED",
+    "ewp_194": "MERGED"
+  },
+  "duplicate_task_search": "NO_EQUIVALENT_ISSUE_PR_OR_LOCAL_TASK_FOUND",
+  "main_trees_equal_publication_trees": true
+}
