@@ -1,0 +1,11 @@
+{
+  "files": {
+    "docs/analysis/sci_val_tamped_k_001/GATES.json": "7097ffc02ef0001ffdc3194deee8e947b98dddea2f801bf966e7673046078a59",
+    "docs/analysis/sci_val_tamped_k_001/PROTOCOL.md": "ff32a8ad74968179e67706e5f078432b7d94bf0e77016431f788eefaf3cf2eec",
+    "docs/analysis/sci_val_tamped_k_001/SOURCE_CONSISTENCY.json": "2775531811aed7f8d11ae784edd144fef2da50f6e258062e14edf22977ccbb2f",
+    "puckworks/data/romancorrochano2015/sci_val_tamped_k_001_inputs.json": "a3a0384394cae7bf17ab15ee8e528c63dc876a83a76b9397f7df250940411a99"
+  },
+  "status": "FROZEN_BEFORE_IMPLEMENTATION",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "utc": "2026-09-28T16:33:45.594624+00:00"
+}

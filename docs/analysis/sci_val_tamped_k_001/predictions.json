@@ -1,0 +1,442 @@
+{
+  "alpha_per_m": 4808.0,
+  "cases": [
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "central": 1.1134488484348993e-13,
+        "high": 1.2291028722913315e-13,
+        "low": 1.0066131795377529e-13
+      },
+      "consolidated_porosity": [
+        0.16386138613861387,
+        0.1674917491749175,
+        0.17112211221122114
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "central": 9.948958705993743e-12,
+        "high": 1.0722751377181147e-11,
+        "low": 9.208337217729117e-12
+      },
+      "initial_porosity": [
+        0.4207306035263024,
+        0.42710736962714235,
+        0.43334972946384653
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        3.98625e-05,
+        3.9865e-05,
+        3.98675e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "central": 6.3810131509068e-14,
+        "high": 7.128343820521751e-14,
+        "low": 5.697099771399975e-14
+      },
+      "consolidated_porosity": [
+        0.14471947194719473,
+        0.14834983498349835,
+        0.151980198019802
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "central": 4.4017711145339135e-12,
+        "high": 4.836738904492443e-12,
+        "low": 3.991686222524105e-12
+      },
+      "initial_porosity": [
+        0.3563673372514471,
+        0.36345263291904706,
+        0.3703885882931628
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        3.98625e-05,
+        3.9865e-05,
+        3.98675e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "central": 2.1376127561589204e-14,
+        "high": 2.456503151851543e-14,
+        "low": 1.852238338478241e-14
+      },
+      "consolidated_porosity": [
+        0.11303630363036304,
+        0.11666666666666668,
+        0.1202970297029703
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "central": 5.501073295864495e-13,
+        "high": 6.478009986037646e-13,
+        "low": 4.629402240073816e-13
+      },
+      "initial_porosity": [
+        0.22764080470173653,
+        0.23614315950285647,
+        0.24446630595179542
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        3.98625e-05,
+        3.9865e-05,
+        3.98675e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "central": 4.890040242427919e-13,
+        "high": 5.293464191507803e-13,
+        "low": 4.51165264599782e-13
+      },
+      "consolidated_porosity": [
+        0.20874587458745875,
+        0.2123762376237624,
+        0.21600660066006605
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "central": 1.4543034497410727e-11,
+        "high": 1.5673714000133668e-11,
+        "low": 1.3460783740276778e-11
+      },
+      "initial_porosity": [
+        0.4207306035263024,
+        0.42710736962714235,
+        0.43334972946384653
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.0797499999999996e-05,
+        5.0799999999999995e-05,
+        5.0802499999999993e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "central": 2.157426833205917e-13,
+        "high": 2.3684305827816545e-13,
+        "low": 1.961667496940532e-13
+      },
+      "consolidated_porosity": [
+        0.17442244224422443,
+        0.17805280528052808,
+        0.18168316831683168
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "central": 6.434352685553607e-12,
+        "high": 7.0699822849257956e-12,
+        "low": 5.83506269698603e-12
+      },
+      "initial_porosity": [
+        0.3563673372514471,
+        0.36345263291904706,
+        0.3703885882931628
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.0797499999999996e-05,
+        5.0799999999999995e-05,
+        5.0802499999999993e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "central": 5.2024341276522685e-14,
+        "high": 5.89491980894241e-14,
+        "low": 4.575768967205866e-14
+      },
+      "consolidated_porosity": [
+        0.12689768976897692,
+        0.13052805280528054,
+        0.13415841584158417
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "central": 8.041273572313146e-13,
+        "high": 9.469069293841622e-13,
+        "low": 6.767278491974494e-13
+      },
+      "initial_porosity": [
+        0.22764080470173653,
+        0.23614315950285647,
+        0.24446630595179542
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.0797499999999996e-05,
+        5.0799999999999995e-05,
+        5.0802499999999993e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "central": 2.0292363410828503e-12,
+        "high": 2.159564772607938e-12,
+        "low": 1.9053880945551187e-12
+      },
+      "consolidated_porosity": [
+        0.2740924092409241,
+        0.27772277227722775,
+        0.2813531353135314
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "central": 1.699948798517053e-11,
+        "high": 1.8320969847190814e-11,
+        "low": 1.573458954943474e-11
+      },
+      "initial_porosity": [
+        0.4207306035263024,
+        0.42710736962714235,
+        0.43334972946384653
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.64275e-05,
+        5.643e-05,
+        5.643249999999999e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "central": 1.126434978321693e-12,
+        "high": 1.207516090982692e-12,
+        "low": 1.0498108558438612e-12
+      },
+      "consolidated_porosity": [
+        0.24174917491749176,
+        0.2453795379537954,
+        0.249009900990099
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "central": 7.521174565727162e-12,
+        "high": 8.264086754498269e-12,
+        "low": 6.820725917880698e-12
+      },
+      "initial_porosity": [
+        0.3563673372514471,
+        0.36345263291904706,
+        0.3703885882931628
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.64275e-05,
+        5.643e-05,
+        5.643249999999999e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "central": 2.653988114134379e-13,
+        "high": 2.91074339028583e-13,
+        "low": 2.415601883296404e-13
+      },
+      "consolidated_porosity": [
+        0.1764026402640264,
+        0.18003300330033006,
+        0.18366336633663366
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "central": 9.399519302683672e-13,
+        "high": 1.1068374286525409e-12,
+        "low": 7.910412312719241e-13
+      },
+      "initial_porosity": [
+        0.22764080470173653,
+        0.23614315950285647,
+        0.24446630595179542
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        5.64275e-05,
+        5.643e-05,
+        5.643249999999999e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "central": 5.132766099533062e-12,
+        "high": 5.421666350045017e-12,
+        "low": 4.856681403867369e-12
+      },
+      "consolidated_porosity": [
+        0.3183168316831683,
+        0.321947194719472,
+        0.32557755775577557
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "central": 2.106941138813514e-11,
+        "high": 2.2706991786196375e-11,
+        "low": 1.950192133072845e-11
+      },
+      "initial_porosity": [
+        0.4207306035263024,
+        0.42710736962714235,
+        0.43334972946384653
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        6.567750000000001e-05,
+        6.568000000000001e-05,
+        6.568250000000001e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "central": 4.7356575332941346e-12,
+        "high": 5.006091853036375e-12,
+        "low": 4.477368641655895e-12
+      },
+      "consolidated_porosity": [
+        0.31303630363036306,
+        0.3166666666666667,
+        0.3202970297029703
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "central": 9.32185258670863e-12,
+        "high": 1.0242500894873725e-11,
+        "low": 8.453811893285042e-12
+      },
+      "initial_porosity": [
+        0.3563673372514471,
+        0.36345263291904706,
+        0.3703885882931628
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        6.567750000000001e-05,
+        6.568000000000001e-05,
+        6.568250000000001e-05
+      ]
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "central": 1.164884422234474e-12,
+        "high": 1.2517821108887585e-12,
+        "low": 1.0829166681802037e-12
+      },
+      "consolidated_porosity": [
+        0.23250825082508253,
+        0.23613861386138618,
+        0.23976897689768978
+      ],
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "central": 1.1649900232978853e-12,
+        "high": 1.3718132069805047e-12,
+        "low": 9.804401832764575e-13
+      },
+      "initial_porosity": [
+        0.22764080470173653,
+        0.23614315950285647,
+        0.24446630595179542
+      ],
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT",
+      "radius_m": [
+        6.567750000000001e-05,
+        6.568000000000001e-05,
+        6.568250000000001e-05
+      ]
+    }
+  ],
+  "exponent": 4.4,
+  "original_denominator": 12,
+  "scope": "DECLARED_ADAPTER_COMPARISON",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "units": "SI"
+}

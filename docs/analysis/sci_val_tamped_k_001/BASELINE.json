@@ -1,0 +1,525 @@
+{
+  "commands": [
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_change_contract.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-change-contract-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.07463649101555347,
+      "label": "change-contract",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-change-contract.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.214934+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "-c",
+        "import sys, platform, importlib.metadata as m; print(sys.version); print(platform.system(), platform.release(), platform.machine()); print(\"\\n\".join(sorted(f\"{d.metadata[\"Name\"]}=={d.version}\" for d in m.distributions())))"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.06081574596464634,
+      "label": "environment",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-environment.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:06.294957+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_governing_physics_change.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-governing-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.0440291129052639,
+      "label": "governing",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-governing.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.170706+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_v0_1_4_baseline_integrity.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-historical-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.029940640553832054,
+      "label": "historical",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-historical.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.140556+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-input",
+        "--only-binary=:all:",
+        "numpy==1.26.4",
+        "scipy==1.11.4",
+        "jsonschema==4.23.0"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 5.649061462841928,
+      "label": "install",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-install.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:00.341425+00:00"
+    },
+    {
+      "command": [
+        "git",
+        "-C",
+        "${EVIDENCE_ROOT}/checkouts/puckworks",
+        "worktree",
+        "add",
+        "--detach",
+        "${EVIDENCE_ROOT}/checkouts/puckworks-ewp-authority",
+        "a3428a4d4ad571ef3168a70e8a04620fca5d3520"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.23901642952114344,
+      "label": "pinned-checkout",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-pinned-checkout.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:06.356016+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.3040208388119936,
+      "label": "pip-check",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-pip-check.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:05.990728+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 536.1992893153802,
+      "label": "python",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-python.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:57.941032+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_release_finalization.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-release-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.04747964255511761,
+      "label": "release",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-release.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.289889+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/validate_sci_md_rheology_005.py",
+        "--root",
+        "."
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 1.021844950504601,
+      "label": "rheology005",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-rheology005.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.724023+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/validate_sci_md_rheology_006.py",
+        "--root",
+        "."
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.5133345788344741,
+      "label": "rheology006",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-rheology006.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:55.746218+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_source_manifest.py",
+        "--root",
+        "."
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.30936398822814226,
+      "label": "source",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-source.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:06.595508+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/static_validate.py",
+        "--root",
+        "."
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 40.18385249655694,
+      "label": "static",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-static.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:17.756831+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "-c",
+        "import json, pathlib, subprocess; paths=list(pathlib.Path(\".\").rglob(\"*\")); [json.loads(p.read_text()) for p in paths if p.is_file() and p.suffix==\".json\"]; [subprocess.run([\"bash\",\"-n\",str(p)],check=True) for p in paths if p.is_file() and (p.suffix==\".sh\" or p.name in (\"Allrun\",\"Allverify\",\"Allclean\",\"Allwmake\"))]; print(\"JSON and shell syntax PASS\")"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.34147104248404503,
+      "label": "syntax",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-syntax.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:56.454520+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_val001_administrative_closure.py",
+        "--root",
+        ".",
+        "--expected-head",
+        "f15a417cbf3c7528ac734537bb844cab6dc98287",
+        "--expected-tree",
+        "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 10.851504817605019,
+      "label": "val001",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-val001.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:06.905069+00:00"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "venv",
+        "${EVIDENCE_ROOT}/venv-ewp"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 2.2777555119246244,
+      "label": "venv",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-venv.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:11:58.063246+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_wp03_evidence_review.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-wp03-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.03886358626186848,
+      "label": "wp03",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-wp03.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.337546+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_wp03b_nonprotected_verification.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-wp03b-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.07719643414020538,
+      "label": "wp03b",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-wp03b.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.376585+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_wp03c_stage0_scaffold.py",
+        "--root",
+        ".",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-wp03c-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.2698713093996048,
+      "label": "wp03c",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-wp03c.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:54.453964+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-ewp/bin/python",
+        "scripts/verify_change_contract.py",
+        "--root",
+        ".",
+        "--declaration",
+        "validation/xsv_pressure_001/MATHEMATICAL_AND_COMPATIBILITY_CONTRACT.json",
+        "--output",
+        "${EVIDENCE_ROOT}/logs/ewp-xsv-report.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/ewp",
+      "elapsed_seconds": 0.19439772982150316,
+      "label": "xsv-pressure",
+      "log": "${EVIDENCE_ROOT}/logs/ewp-xsv-pressure.log",
+      "repository": "ewp",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:21:56.259876+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-c",
+        "import sys, platform, importlib.metadata as m; print(sys.version); print(platform.system(), platform.release(), platform.machine()); print(\"\\n\".join(sorted(f\"{d.metadata[\"Name\"]}=={d.version}\" for d in m.distributions())))"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.06477644201368093,
+      "label": "environment",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-environment.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:13.319474+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--disable-pip-version-check",
+        "--no-input",
+        "-e",
+        ".[dev]"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 12.75228026509285,
+      "label": "install",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-install.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:00.235247+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "--output-format=github",
+        "puckworks/",
+        "tests/"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.06532767973840237,
+      "label": "lint",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-lint.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:13.384435+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.3314027627930045,
+      "label": "pip-check",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-pip-check.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:12.987844+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data",
+        "--junitxml=${EVIDENCE_ROOT}/logs/puckworks-quick.xml",
+        "--durations=15"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 1012.0850262129679,
+      "label": "quick",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-quick.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:12:13.449916+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-c",
+        "from puckworks.registry import run_all_gates, components; print(len(components()), \"components\"); run_all_gates()"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 38.91297135129571,
+      "label": "registry",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-registry.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:29:05.535227+00:00"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "venv",
+        "${EVIDENCE_ROOT}/venv-puckworks"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 2.277797973714769,
+      "label": "venv",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-venv.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:11:57.956853+00:00"
+    }
+  ],
+  "dependency_install_outcome": "PASS_SEPARATE_VIRTUAL_ENVIRONMENTS",
+  "environments": {
+    "ewp": {
+      "attrs": "26.1.0",
+      "jsonschema": "4.23.0",
+      "jsonschema-specifications": "2025.9.1",
+      "numpy": "1.26.4",
+      "pip": "24.0",
+      "referencing": "0.37.0",
+      "rpds-py": "2026.6.3",
+      "scipy": "1.11.4",
+      "typing_extensions": "4.16.0"
+    },
+    "puckworks": {
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "ast_serialize": "0.11.2",
+      "coverage": "7.16.2",
+      "iniconfig": "2.3.0",
+      "librt": "0.15.0",
+      "markdown-it-py": "4.2.0",
+      "mdurl": "0.1.2",
+      "mypy": "2.3.1",
+      "mypy_extensions": "1.1.0",
+      "numpy": "2.5.3",
+      "packaging": "26.3",
+      "pathspec": "1.1.1",
+      "pip": "24.0",
+      "pluggy": "1.6.0",
+      "puckworks": "0.4.0.dev0",
+      "pytest": "9.1.1",
+      "pytest-cov": "7.1.0",
+      "ruff": "0.16.9",
+      "scipy": "1.18.1",
+      "typing_extensions": "4.16.0"
+    }
+  },
+  "ewp_python_summary": "1635 tests;21 skipped;OK",
+  "ewp_test_authority": {
+    "commit": "a3428a4d4ad571ef3168a70e8a04620fca5d3520",
+    "source_discovery_commit": "2058d0e947ee9eb92c52d64f6165b810f1fb4732",
+    "source_discovery_tree": "a6ffb312473b15be43c1571a893b19873ea47c5a",
+    "tree": "6175b4ad39f45ebcdec32a176e5611bf3b03655b"
+  },
+  "platform": "Linux x86_64",
+  "python_version": "3.12.3",
+  "quick_summary": "4904 passed;65 skipped;60 deselected;1 warning",
+  "registry_summary": "27 components;65 PASS;1 ACKNOWLEDGED_EXCEPTION;suite PASSED",
+  "repositories": {
+    "ewp": {
+      "branch": "main",
+      "clean": true,
+      "commit": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+      "default_branch": "refs/remotes/origin/main",
+      "fetched_default_commit": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+      "fetched_default_tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8",
+      "recorded_utc": "2026-09-28T16:11:58.062917+00:00",
+      "tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8",
+      "url": "https://github.com/trbrewer/espresso-whole-pull.git"
+    },
+    "puckworks": {
+      "branch": "main",
+      "clean": true,
+      "commit": "baa707d65a01e28999771a237939964ef85bb1d8",
+      "default_branch": "refs/remotes/origin/main",
+      "fetched_default_commit": "baa707d65a01e28999771a237939964ef85bb1d8",
+      "fetched_default_tree": "f1eabe508345e9a92bc727a2b020a17b8b76a543",
+      "recorded_utc": "2026-09-28T16:11:57.956560+00:00",
+      "tree": "f1eabe508345e9a92bc727a2b020a17b8b76a543",
+      "url": "https://github.com/trbrewer/puckworks.git"
+    }
+  },
+  "status": "PASS"
+}
