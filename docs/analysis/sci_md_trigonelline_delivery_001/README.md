@@ -1,19 +1,33 @@
 # SCI-MD-TRIGONELLINE-DELIVERY-001
 
-Status: FIT_COMPLETE_PRED_NOT_SCORED. Scientific disposition:
-NOT_ADJUDICATED. RESEARCH_ONLY; NO_GOVERNING_PHYSICS_CHANGE.
+Scientific comparison complete: **TRIGONELLINE_MASS_SHAPE_EARNED**.
+Task outcome: SUCCESS. RESEARCH_ONLY; NO_GOVERNING_PHYSICS_CHANGE.
 
-The task compares a training-only constant concentration and the fixed D0
-mass-coordinate architecture for later trigonelline fractions without
-query-time TDS or trigonelline. Read [PLAN.md](PLAN.md), the immutable
-[PROTOCOL.md](PROTOCOL.md), [MODEL_CARD.md](MODEL_CARD.md), BASELINE.json and
-DATA_AVAILABILITY_PREFLIGHT.json. Fixed development selected TR-D0 lambda
-0.0001; all 183 iterative starts converged, with 16 analytic TR-K0 fits.
-The final models passed FIT-only numerical qualification. DEVELOPMENT.json
-and EXECUTION.json retain the aggregate development and execution record.
-PRED prediction, independent review and the sole scientific score remain pending.
+The fixed mass-only TR-D0 predictor passes both adequacy limits in all four
+primary conditions. Balanced RMSE is 0.134550 mg/g versus 0.729503 for the
+training-only constant TR-K0 (81.56% improvement), with four definite condition
+wins and improved mean absolute shot bias. All 48 primary windows are retained.
+Temperature D0 adequacy passes; flow adequacy remains incomplete at 23/24
+supported windows. No query-time chemical measurement is an inference input.
 
-No EWP consumer, production adoption, merge or successor is authorized.
-Source-derived artifacts retain CC-BY-NC-3.0 restrictions. Original source and
-row-level evidence remain outside Git. Numerical qualification is not physical
-validation; analytical uncertainty remains unclaimed.
+Read [RESULT.md](RESULT.md) and [RESULTS.json](RESULTS.json) for all condition
+metrics, numerical bounds, support and extrapolation. [QUALIFICATION.md](QUALIFICATION.md)
+and [QUALIFICATION.json](QUALIFICATION.json) separate the measured software,
+reproduction and CI evidence from the scientific disposition.
+[COMMANDS.md](COMMANDS.md) documents execution and read-only reproduction.
+
+The pre-fit [PLAN.md](PLAN.md), immutable [PROTOCOL.md](PROTOCOL.md),
+[MODEL_CARD.md](MODEL_CARD.md), source preflight and BASELINE.json retain the
+original decision contract. DEVELOPMENT.json and EXECUTION.json are immutable
+FIT-stage snapshots; final score/execution accounting is in QUALIFICATION.json
+and SCORE_COMPLETION.json. The [independent review](INDEPENDENT_REVIEW.md)
+and [approval](review.json) bind the exact [freeze](FREEZE.json). Exactly one
+approved outcome join and scientific score completed.
+
+SOURCE_INTERNAL / TARGET_EXPOSED / RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION.
+Physical validation and analytical uncertainty remain NOT_ESTABLISHED.
+This does not establish universal transfer, kinetics, equilibrium, whole-cup
+closure, inventory closure, H1 or solver physics. Trigonelline is part of TDS.
+Source-derived artifacts retain CC-BY-NC-3.0 restrictions; originals and
+row-level observations/predictions remain outside Git. No EWP consumer,
+production adoption, merge or successor is authorized.

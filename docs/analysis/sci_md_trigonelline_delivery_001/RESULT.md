@@ -3,9 +3,8 @@
 **Scientific disposition: TRIGONELLINE_MASS_SHAPE_EARNED.** TR-D0 passes both
 preregistered adequacy budgets in every primary condition and earns its
 complexity over TR-K0. The constant control fails primary adequacy. This is
-a completed scientific comparison; final software/publication qualification
-is reported separately in QUALIFICATION.md. Task outcome: SUCCESS once those
-completion checks and the draft PR are retained.
+a completed scientific comparison. Software/publication qualification
+is reported separately in QUALIFICATION.md. Task outcome: SUCCESS.
 
 RESEARCH_ONLY; NO_GOVERNING_PHYSICS_CHANGE. SOURCE_INTERNAL / TARGET_EXPOSED /
 RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION. The result qualifies
