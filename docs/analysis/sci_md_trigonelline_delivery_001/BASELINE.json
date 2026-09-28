@@ -1,0 +1,435 @@
+{
+  "baseline_note": "The explicitly required full routine suite includes existing historical result-reproduction tests. No standalone historical scientific fit/predict/score CLI was invoked.",
+  "environment_changes": false,
+  "environments": {
+    "ewp": {
+      "numpy": "1.26.4",
+      "python": "3.12.3",
+      "scipy": "1.11.4"
+    },
+    "puckworks_routine": {
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.3",
+      "openpyxl": "UNAVAILABLE_EXISTING_ENVIRONMENT",
+      "pytest": "9.1.1",
+      "python": "3.12.3",
+      "scipy": "1.18.1"
+    },
+    "source_and_task_execution": {
+      "numpy": "2.5.3",
+      "openpyxl": "3.1.5",
+      "pytest": "9.1.1",
+      "python": "3.12.3",
+      "scipy": "1.18.1"
+    }
+  },
+  "ewp_skips": {
+    "basis": "12 decorators; 7 runtime missing prerequisites; 1 class setup skip; reconciled to exact baseline runner count 20",
+    "expected_failures": 0,
+    "skips": [
+      {
+        "id": "test_research_anchored_mass_delivery.ProducerParity.test_all_bases_with_shared_synthetic_anchor",
+        "reason": "explicit producer checkout unavailable"
+      },
+      {
+        "id": "test_research_conditional_caffeine_delivery.ProducerParity.test_all_arms_condition_interval_remaining_and_extra_chemistry_rejection",
+        "reason": "explicit producer unavailable"
+      },
+      {
+        "id": "test_research_conditional_caffeine_delivery.ProducerParity.test_cli_supplied_files_exclusive_output",
+        "reason": "explicit producer unavailable"
+      },
+      {
+        "id": "test_research_conditional_tail_delivery.ProducerParity.test_all_arms_condition_interval_remaining_and_extra_chemistry_rejection",
+        "reason": "explicit producer unavailable"
+      },
+      {
+        "id": "test_research_conditional_tail_delivery.ProducerParity.test_cli_supplied_files_exclusive_output",
+        "reason": "explicit producer unavailable"
+      },
+      {
+        "id": "test_research_conditioned_mass_delivery.ProducerParity.test_all_families_direct_kernel_and_consumer_parity",
+        "reason": "explicit producer parity checkout not configured"
+      },
+      {
+        "id": "test_research_grudeva_one_shot_calibration.Synthetic.test_offset_and_mass_serialization_wrong_parent_calibrator_units",
+        "reason": "explicit exact producer unavailable"
+      },
+      {
+        "id": "test_research_grudeva_one_shot_calibration.Synthetic.test_wrong_runtime_parent_and_source_rejected",
+        "reason": "explicit exact producer unavailable"
+      },
+      {
+        "id": "test_research_grudeva_pooled_tail_delivery.Parity.test_all_arms_synthetic_serialized_equivalence_and_firewall",
+        "reason": "explicit exact producers unavailable"
+      },
+      {
+        "id": "test_research_grudeva_pooled_tail_delivery.Parity.test_wrong_runtime_model_source_and_producer_bindings",
+        "reason": "explicit exact producers unavailable"
+      },
+      {
+        "id": "test_research_two_assay_mass_delivery.ProducerParity.test_all_six_arms_supplied_json_and_direct_producer_parity",
+        "reason": "explicit producer checkout unavailable"
+      },
+      {
+        "id": "test_research_two_assay_mass_delivery.ProducerParity.test_cli_accepts_actual_observation_files_and_writes_exclusively",
+        "reason": "explicit producer checkout unavailable"
+      },
+      {
+        "id": "test_sci_data_fusion_001.AuthorityTests.test_puckworks_exact",
+        "reason": "exact optional SCI-DATA-FUSION-001 Puckworks authority not configured"
+      },
+      {
+        "id": "test_sci_md_007_handoff.TestSciMd007Handoff.test_cross_repository_manifest_member_tamper_fails",
+        "reason": "optional cross-repository checkout is unavailable"
+      },
+      {
+        "id": "test_sci_md_007_handoff.TestSciMd007Handoff.test_fake_commit_and_wrong_tree_fail_cross_repository",
+        "reason": "optional cross-repository checkout is unavailable"
+      },
+      {
+        "id": "test_sci_md_010.TestSciMd010.test_41_real_binding_uses_index_ids",
+        "reason": "SCI_MD_010_PUCKWORKS_ROOT not set"
+      },
+      {
+        "id": "test_sci_md_rheology_010.ReversalTests.test_actual_generated_short_mesh_if_retained",
+        "reason": "external native artifacts not configured"
+      },
+      {
+        "id": "test_sci_md_rheology_010_sections.VirtualSectionTests.test_actual_mesh_volumes_if_retained",
+        "reason": "external native artifacts not configured"
+      },
+      {
+        "id": "test_val_corpus_002_b0_tooling.ReferenceArtifactAndIntervalTests.test_reference_binding_and_full_1500_parity",
+        "reason": "retained artifact absent in portable CI"
+      },
+      {
+        "id": "setUpClass (test_sci_data_fusion_001.CensusTests)",
+        "reason": "exact optional SCI-DATA-FUSION-001 Puckworks authority not configured"
+      }
+    ]
+  },
+  "ewp_static": [
+    {
+      "command": [
+        "python3",
+        "scripts/verify_source_manifest.py",
+        "--root",
+        "."
+      ],
+      "exit": 0,
+      "seconds": 0.3071873504668474
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/static_validate.py",
+        "--root",
+        "."
+      ],
+      "exit": 0,
+      "seconds": 41.28081346396357
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/verify_v0_1_4_baseline_integrity.py",
+        "--root",
+        ".",
+        "--output",
+        "PRIVATE_EVIDENCE/preflight/ewp-historical.json"
+      ],
+      "exit": 0,
+      "seconds": 0.02810379769653082
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/verify_governing_physics_change.py",
+        "--root",
+        ".",
+        "--output",
+        "PRIVATE_EVIDENCE/preflight/ewp-change.json"
+      ],
+      "exit": 0,
+      "seconds": 0.04368486814200878
+    }
+  ],
+  "native_ewp_runs": 0,
+  "new_task_fits_predictions_scores": 0,
+  "protected_tracked_manifests": {
+    "ewp": "44fd2304fc110a52b12b993ea9d5252376efc0dbfccb3fea7d69b48d536ff212",
+    "puckworks": "a6b2e720f976267ea4bbf90f7bc3650df4e85b395d5d42c5217b594cb6bcef38"
+  },
+  "puckworks_skips": [
+    {
+      "count": 1,
+      "line": 172,
+      "path": "tests/test_analysis.py",
+      "reason": "slow N-tube robustness study (set PUCKWORKS_SLOW=1)"
+    },
+    {
+      "count": 1,
+      "line": 178,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 343,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 358,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 374,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 390,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 410,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 429,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 449,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 465,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 493,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 526,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 776,
+      "path": "tests/test_deep_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 64,
+      "path": "tests/test_lab_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 76,
+      "path": "tests/test_lab_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 86,
+      "path": "tests/test_lab_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 193,
+      "path": "tests/test_lab_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 77,
+      "path": "tests/test_lab_public_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 104,
+      "path": "tests/test_lab_public_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 140,
+      "path": "tests/test_lab_public_app.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 80,
+      "path": "tests/test_lab_selection_panels.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 90,
+      "path": "tests/test_lab_selection_panels.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 101,
+      "path": "tests/test_lab_selection_panels.py",
+      "reason": "could not import 'streamlit': No module named 'streamlit'"
+    },
+    {
+      "count": 1,
+      "line": 84,
+      "path": "tests/test_pannusch_raw_repro_001.py",
+      "reason": "external Pannusch source root not configured"
+    },
+    {
+      "count": 1,
+      "line": 77,
+      "path": "tests/test_pocketscience2024_assay.py",
+      "reason": "could not import 'openpyxl': No module named 'openpyxl'"
+    },
+    {
+      "count": 1,
+      "line": 55,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 225,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical finding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py."
+    },
+    {
+      "count": 1,
+      "line": 313,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 348,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 360,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 372,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 470,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 502,
+      "path": "tests/test_screen_i045.py",
+      "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION repository. The historical finding is protected by the pinned snapshot hashes."
+    },
+    {
+      "count": 1,
+      "line": 911,
+      "path": "tests/test_screen_wp6_lateral_identifiability.py",
+      "reason": "later SCI-MD-007-R1 intake expands the Foundry corpus"
+    }
+  ],
+  "puckworks_static": [
+    {
+      "argv": [
+        "ruff",
+        "check",
+        "--output-format=github",
+        "puckworks/",
+        "tests/"
+      ],
+      "exit_code": 0,
+      "name": "ruff",
+      "seconds": 0.06918001174926758
+    },
+    {
+      "argv": [
+        "mypy"
+      ],
+      "exit_code": 0,
+      "name": "mypy",
+      "seconds": 5.172902822494507
+    }
+  ],
+  "puckworks_warnings": [
+    "matplotlib: more than 20 open figures in existing figure test",
+    "existing visualizer test uses committed development salt because PUCKWORKS_VIS_SALT is unset"
+  ],
+  "repositories": {
+    "ewp": {
+      "head": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+      "remotes": "origin\thttps://github.com/trbrewer/espresso-whole-pull.git (fetch)\norigin\thttps://github.com/trbrewer/espresso-whole-pull.git (push)",
+      "tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8"
+    },
+    "puckworks": {
+      "head": "a37e3005a2a694971e8220dedae14ed6d2e7c71f",
+      "remotes": "origin\thttps://github.com/trbrewer/puckworks.git (fetch)\norigin\thttps://github.com/trbrewer/puckworks.git (push)",
+      "tree": "ee9d49a99cfbf5d83da247fcedb804d19c0ff9d7"
+    }
+  },
+  "results": {
+    "ewp": {
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+      "errors": 0,
+      "exit": 0,
+      "expected_failures": 0,
+      "failures": 0,
+      "log_sha256": "a9ec080d104bfaf1874a0973402fbd26b10054456352eec06fc6bc210086fda4",
+      "skipped": 20,
+      "tests_run": 1635,
+      "wall_seconds": 500.63
+    },
+    "puckworks": {
+      "command": "PYTHONPATH=. python -m pytest -q -ra",
+      "errors": 0,
+      "exit": 0,
+      "failed": 0,
+      "log_sha256": "949676d9941d12820d085877c893c7df05f3d919a8c948bd78dd8144d019c2ee",
+      "passed": 5033,
+      "skipped": 34,
+      "wall_seconds": 2820.33,
+      "warnings": 2,
+      "xfailed": 0
+    }
+  },
+  "status": "PASS",
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}

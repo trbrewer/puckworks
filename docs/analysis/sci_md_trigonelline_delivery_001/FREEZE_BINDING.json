@@ -1,0 +1,33 @@
+{
+  "approval_sha256": "0fb261befb2e03093720c85b9133a8751ecca3af4a9fcea2bb153cbc839eb762",
+  "code_protocol_files": 53,
+  "freeze_sha256": "6f1b1afc73615eafb9b463b49089a1069d60179ea96b2a02a2951a9ec22f0b12",
+  "max_prediction_allowance_kg": 2.0388003927031585e-16,
+  "originals_and_rows": "PRIVATE_NOT_DISTRIBUTED",
+  "outcome_joins": 0,
+  "prediction_slots": 192,
+  "predictions_sha256": "8c2cf4e6f65d55dbe7489eb4159906ad1fa9744e610b8901338fd04d49f56bcd",
+  "private_artifacts": 646,
+  "review_report_sha256": "73d005d2bc5e843c27975df817eaa4761ac97a9b383b768510297762c180b44a",
+  "review_role": "INDEPENDENT_CODEX_AGENT_NOT_HUMAN_NOT_IMPLEMENTER",
+  "reviewed_head": "de31200f272711ca6b2e9fc5dc7c4881c406ab56",
+  "reviewed_tree": "dd6fd3c9d835ef9793ba88a47661c6abb37e4613",
+  "scientific_score_passes": 0,
+  "states_sha256": "0e3be77d62f3fe632713bd23bc6177a1235775e1b70a781266228f9986d910f5",
+  "status": "INDEPENDENTLY_APPROVED_PRE_SCORE",
+  "support_per_arm": {
+    "flow": {
+      "original": 24,
+      "qualified": 23
+    },
+    "primary": {
+      "original": 48,
+      "qualified": 48
+    },
+    "temperature": {
+      "original": 24,
+      "qualified": 24
+    }
+  },
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}

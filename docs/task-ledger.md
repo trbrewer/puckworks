@@ -1,0 +1,3 @@
+| ID | Date | Task (one line) | EVU at selection | Outcome | Evidence (path/PR) | Lesson | Follow-up |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SCI-MD-TRIGONELLINE-DELIVERY-001 | 2026-09-27 | Compare fixed mass-only trigonelline D0 with a training-only constant on the frozen campaign. | 0.960 | SUCCESS | [Retained result](analysis/sci_md_trigonelline_delivery_001/RESULT.md) and draft PR on research/sci-md-trigonelline-delivery-001 | D0 earns all four primary conditions; mass-only prediction remains campaign/domain bounded and secondary flow support is incomplete. | None authorized. |

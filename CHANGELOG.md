@@ -5,6 +5,8 @@ tracked in detail in `docs/ROADMAP.md` §7.1.
 
 ## Unreleased
 
+- **SCI-MD-TRIGONELLINE-DELIVERY-001 (2026-09-27):** the fixed mass-only trigonelline D0 predictor earns the frozen primary comparison over a constant control (balanced RMSE 0.729503 → 0.134550 mg/g; all four conditions adequate), with one independently approved score; research-only, source-internal retrospective evidence and incomplete secondary flow support.
+
 - **SCI-MD-007-R2 evidence-package semantic closure (2026-08-26).** Preserved the scientific evidence registers byte-identically while closing search relations, executing every frozen F4 primitive, deriving F7 leakage from folds, separating transportability diagnostics from gates, correcting laboratory audit output, and adding cross-artifact validation. The mechanically recomputed disposition remains prior-only; no real-data predictor ran.
 
 - **SCI-MD-007-R1 corrective inventory evidence atlas (2026-08-25).** Superseding the

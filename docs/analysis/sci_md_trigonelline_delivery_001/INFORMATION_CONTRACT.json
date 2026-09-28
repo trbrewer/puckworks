@@ -1,0 +1,23 @@
+{
+  "PRED_outcomes": "SINGLE_JOIN_AFTER_GENUINE_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "arms": [
+    "TR-K0",
+    "TR-D0"
+  ],
+  "classification": "SOURCE_INTERNAL_TARGET_EXPOSED_RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+  "contract_commit": "5227e143cd327e825383a723965fc17618040639",
+  "files": {
+    "docs/analysis/sci_md_trigonelline_delivery_001/DATA_AVAILABILITY_PREFLIGHT.json": "dd40dd12e7a630f086a83850ef19868bacab4ca2c22d377ce758a1e9b8d9f7ce",
+    "docs/analysis/sci_md_trigonelline_delivery_001/DEPENDENCIES.json": "a0c17a6f611061b40081b265f2e19c523355569a001a8a990e519dd48a7676f1",
+    "docs/analysis/sci_md_trigonelline_delivery_001/MODEL_CARD.md": "bec65f0e9bbd1ec98719f3a65088cc498e8d2386493eb95c01014e6ffddea745",
+    "docs/analysis/sci_md_trigonelline_delivery_001/PLAN.md": "7bf30b41c58b318073d6cb3b26d93cbbdcd0ad2417d17614d36440c247bdc65a",
+    "docs/analysis/sci_md_trigonelline_delivery_001/PROTOCOL.md": "3f8fca1754642501d1059992f630eb1ddc22bb2f8b63174d0754cfbb250a36c3",
+    "docs/analysis/sci_md_trigonelline_delivery_001/SOURCE_IDENTITIES.json": "9b0c451104aec11f8a0efe99e07186f8607d11a7fd589e00f15f5b9c48448004"
+  },
+  "inference_inputs": [
+    "m1_kg",
+    "m2_kg",
+    "requested_measured_mass_coordinates"
+  ],
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}

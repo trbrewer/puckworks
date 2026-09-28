@@ -1,0 +1,867 @@
+{
+  "archive_checks": [
+    {
+      "exit_code": 0,
+      "operation": "create-a",
+      "seconds": 0.2790088653564453
+    },
+    {
+      "exit_code": 0,
+      "operation": "create-b",
+      "seconds": 0.2844564914703369
+    },
+    {
+      "deterministic_archive_sha256": "349f7f561971f789fbe1a17a898d5381becad7efc69e04a0ea7a63528e9f660d",
+      "exit_code": 0,
+      "operation": "verify"
+    }
+  ],
+  "baseline_to_candidate": {
+    "ewp": {
+      "baseline": {
+        "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+        "errors": 0,
+        "exit": 0,
+        "expected_failures": 0,
+        "failures": 0,
+        "log_sha256": "a9ec080d104bfaf1874a0973402fbd26b10054456352eec06fc6bc210086fda4",
+        "skipped": 20,
+        "tests_run": 1635,
+        "wall_seconds": 500.63
+      },
+      "candidate": {
+        "baseline_skip_reasons": "BASELINE.json#/ewp_skips",
+        "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+        "errors": 0,
+        "expected_failures": 0,
+        "failures": 0,
+        "head": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+        "log_sha256": "31c4ec97e7b9ea228623b08dbb5fa9026ac37f4e990219dad7b40d7ccdea349e",
+        "seconds": 502.635,
+        "skip_rules_and_files_unchanged": true,
+        "skipped": 20,
+        "task": "SCI-MD-TRIGONELLINE-DELIVERY-001",
+        "tests_run": 1635
+      }
+    },
+    "puckworks": {
+      "baseline": {
+        "command": "PYTHONPATH=. python -m pytest -q -ra",
+        "errors": 0,
+        "exit": 0,
+        "failed": 0,
+        "log_sha256": "949676d9941d12820d085877c893c7df05f3d919a8c948bd78dd8144d019c2ee",
+        "passed": 5033,
+        "skipped": 34,
+        "wall_seconds": 2820.33,
+        "warnings": 2,
+        "xfailed": 0
+      },
+      "candidate": {
+        "command": "PYTHONPATH=. python -m pytest -q -ra",
+        "errors": 0,
+        "exit_code": 0,
+        "failed": 0,
+        "head": "de31200f272711ca6b2e9fc5dc7c4881c406ab56",
+        "log_sha256": "695f4cdcbf1e6e2e1917f2e6d56a624066938754e1807867c675ee295880bd15",
+        "passed": 5058,
+        "seconds": 2829.95,
+        "skip_reasons_identical_to_baseline": true,
+        "skipped": 34,
+        "warnings": 2,
+        "xfailed": 0,
+        "xpassed": 0
+      }
+    }
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claims": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED",
+    "TRIGONELLINE_IS_COMPONENT_OF_TDS",
+    "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+    "NOT_INVENTORY_CLOSURE",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "NO_QUERY_TIME_CHEMICAL_ASSAY"
+  ],
+  "clean_checkout_reproduction": {
+    "clean_checkout_after": true,
+    "commands": [
+      {
+        "command": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "-ra",
+          "tests/test_conditional_trigonelline_delivery.py",
+          "tests/test_conditional_trigonelline_training.py",
+          "tests/test_pannusch_conditional_trigonelline_delivery.py"
+        ],
+        "exit_code": 0,
+        "log_sha256": "cfec0573d6f263966e3c7ee98d8ef1fcbc2bc932e252f086e9ff3ce1ba423930",
+        "name": "focused",
+        "seconds": 3.4196847518905997
+      },
+      {
+        "command": [
+          "python",
+          "-m",
+          "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+          "verify",
+          "--out",
+          "OUT"
+        ],
+        "exit_code": 0,
+        "log_sha256": "d07e799bedd0ba66c558f1c50b6a633e1de7b0e15f1715229c7c039c4f1ddb6b",
+        "name": "verify",
+        "seconds": 1.4010407216846943
+      },
+      {
+        "command": [
+          "python",
+          "-m",
+          "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+          "report",
+          "--out",
+          "OUT"
+        ],
+        "exit_code": 0,
+        "log_sha256": "6a0458264139ed7d5834eaf5b4d9971fd261fabc6fa510be2ffee4c68b39118a",
+        "name": "report",
+        "seconds": 0.7058510342612863
+      }
+    ],
+    "frozen_evidence_read_only": true,
+    "frozen_files_unchanged": 653,
+    "head": "0e8e4a527fabd0d92199da376490f6a47f123f1a",
+    "outcome_joins": 0,
+    "retained_report_equal": true,
+    "scientific_fit_calls": 0,
+    "scientific_score_calls": 0,
+    "test_values": "SYNTHETIC_ONLY_EXCLUDED_FROM_CAMPAIGN_COUNTS",
+    "tree": "402f1638494a3abdb332427acd5cbb10441e4de5",
+    "verify": {
+      "optimizer_calls": 0,
+      "outcome_joins": 0,
+      "prediction_max_difference": 0.0,
+      "prediction_slots": 192,
+      "reviewed_producer": "de31200f272711ca6b2e9fc5dc7c4881c406ab56",
+      "score_calls": 0,
+      "status": "PASS",
+      "task": "SCI-MD-TRIGONELLINE-DELIVERY-001",
+      "writes": 0
+    }
+  },
+  "coverage": {
+    "actual_percent": 80,
+    "floor_percent": 70,
+    "report_exit_code": 0,
+    "report_log_sha256": "3a76251a316e51748e5026e724ae1184607bd742ca41ac3648e857dedb8ec448",
+    "run_exit_code": 0,
+    "run_log_sha256": "1973327f093eee948836b329bd598911d34b6e563c6ea9e86d7d9992b43ebe82",
+    "run_summary": "4990 passed, 33 skipped, 69 deselected, 9 warnings in 1058.01s (0:17:38)"
+  },
+  "current_local_ci_commands": [
+    {
+      "argv": [
+        "ruff",
+        "check",
+        "--output-format=github",
+        "puckworks/",
+        "tests/"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-00.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 0.02713775634765625
+    },
+    {
+      "argv": [
+        "mypy"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-01.log",
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "seconds": 0.1463789939880371
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-02.log",
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "seconds": 0.1584949493408203
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-03.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.11797785758972168
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-04.log",
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "seconds": 0.1392514705657959
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-05.log",
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "seconds": 0.450359582901001
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-06.log",
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "seconds": 0.11713266372680664
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-07.log",
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "seconds": 0.3244173526763916
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-08.log",
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "seconds": 0.507375955581665
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-09.log",
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "seconds": 11.342408180236816
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-10.log",
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "seconds": 2.6594057083129883
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-11.log",
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "seconds": 0.11711406707763672
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-12.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.12174820899963379
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-13.log",
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "seconds": 0.1159355640411377
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log": "candidate-ci-14.log",
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "seconds": 0.11555290222167969
+    }
+  ],
+  "deviations_and_failed_attempts": [
+    "Private source-preflight helper initially assumed an optional PRED exclusion_reason key; corrected to optional lookup before qualification; failed log retained. No observations or eligibility changed.",
+    "Private HPLC audit helper initially had a syntax error before execution; corrected and retained.",
+    "Step A lint found an unused numpy import, removed before its commit and scientific execution.",
+    "Public-record path sanitizer rejected a private absolute-path string before publication; portable aliases applied before writing.",
+    "Independent reviewer corrected only its own synthetic antiderivative reference precision; candidate unchanged, failed diagnostic logs retained.",
+    "Required full routine suites include existing historical result-reproduction tests; no standalone historical scientific fit/predict/score CLI was executed."
+  ],
+  "environments": {
+    "ewp": {
+      "environment_changed": false,
+      "executable_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+      "packages": [
+        "attrs==26.1.0",
+        "jsonschema==4.23.0",
+        "jsonschema-specifications==2025.9.1",
+        "numpy==1.26.4",
+        "referencing==0.37.0",
+        "rpds-py==2026.6.3",
+        "scipy==1.11.4",
+        "typing_extensions==4.16.0"
+      ],
+      "pip_check": {
+        "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+        "status": "PASS"
+      },
+      "private_environment_record_sha256": "4f6526c28a4d8f5ca19e801ecd784847509af1140881df0b3ce4c7147ce6f645",
+      "python_version": "Python 3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]"
+    },
+    "routine": {
+      "actual_puckworks_import": "TASK_CHECKOUT_CONFIRMED_WITH_PYTHONPATH=.",
+      "environment_changed": false,
+      "executable_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+      "packages": [
+        "ast_serialize==0.11.2",
+        "contourpy==1.4.0",
+        "coverage==7.16.1",
+        "cycler==0.12.1",
+        "fonttools==4.66.0",
+        "iniconfig==2.3.0",
+        "kiwisolver==1.5.1",
+        "librt==0.15.0",
+        "markdown-it-py==4.2.0",
+        "matplotlib==3.11.2",
+        "mdurl==0.1.2",
+        "mypy==2.3.1",
+        "mypy_extensions==1.1.0",
+        "numpy==2.5.3",
+        "packaging==26.3",
+        "pathspec==1.1.1",
+        "pillow==12.3.0",
+        "pluggy==1.6.0",
+        "Pygments==2.21.0",
+        "pymupdf==1.28.2",
+        "pyparsing==3.3.3",
+        "pytest==9.1.1",
+        "pytest-cov==7.1.0",
+        "python-dateutil==2.9.0.post0",
+        "PyYAML==6.0.3",
+        "ruff==0.16.9",
+        "scipy==1.18.1",
+        "six==1.17.0",
+        "typing_extensions==4.16.0"
+      ],
+      "pip_check": {
+        "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+        "status": "PASS"
+      },
+      "private_environment_record_sha256": "2f8de3e97cbd2e411fa08bac2e73acffcc613b2cb621af436d60466dfd3a1474",
+      "python_version": "Python 3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+      "unrelated_preexisting_editable_install": "Superseded by verified task checkout via PYTHONPATH=.; no installation changed."
+    },
+    "source_and_task": {
+      "actual_puckworks_import": "TASK_CHECKOUT_CONFIRMED_WITH_PYTHONPATH=.",
+      "environment_changed": false,
+      "executable_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+      "packages": [
+        "attrs==26.1.0",
+        "et_xmlfile==2.0.0",
+        "iniconfig==2.3.0",
+        "jsonschema==4.26.0",
+        "jsonschema-specifications==2025.9.1",
+        "markdown-it-py==4.2.0",
+        "mdurl==0.1.2",
+        "numpy==2.5.3",
+        "openpyxl==3.1.5",
+        "packaging==26.3",
+        "pluggy==1.6.0",
+        "Pygments==2.21.0",
+        "pytest==9.1.1",
+        "PyYAML==6.0.3",
+        "referencing==0.37.0",
+        "rpds-py==2026.6.3",
+        "ruff==0.16.9",
+        "scipy==1.18.1",
+        "typing_extensions==4.16.0"
+      ],
+      "pip_check": {
+        "log_sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09",
+        "status": "PASS"
+      },
+      "private_environment_record_sha256": "5559e881708a7af3e2abd78c6eb436534c128cd382102e9c41f8b4824c99d47f",
+      "python_version": "Python 3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]"
+    }
+  },
+  "ewp_checks": {
+    "commands": [
+      {
+        "command": [
+          "python3",
+          "scripts/verify_source_manifest.py",
+          "--root",
+          "."
+        ],
+        "exit_code": 0,
+        "log_sha256": "be4fd1c4008579dea2bc150f02dca8002a41fe59ac5aca2a593b6098e5a2a542"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_val001_administrative_closure.py",
+          "--root",
+          ".",
+          "--expected-head",
+          "f15a417cbf3c7528ac734537bb844cab6dc98287",
+          "--expected-tree",
+          "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8"
+        ],
+        "exit_code": 0,
+        "log_sha256": "b7f6ad33a8e07025b7a28205ca4c55bf859da81609c63cbc9d97c36f3279b905"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/static_validate.py",
+          "--root",
+          "."
+        ],
+        "exit_code": 0,
+        "log_sha256": "1d1a692f68e175e425bee4a98f0b69995bf08b52062cad1af3ed52c15da1aedf"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_v0_1_4_baseline_integrity.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-historical.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "982d4fa488835ff6c0ccfe7930db958f6f80f05e74143dcb326c01b028a927fe"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_governing_physics_change.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-governing.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "07d82a998a116bfe25463d4484025b0c4a5b3906bd703a2d11949dd65e34f13d"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_change_contract.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-change.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "0c0f40bc9098c54bd733519b0237fc1023fb232283b986087721a44da4fdb92f"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_release_finalization.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-release.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "0c0f40bc9098c54bd733519b0237fc1023fb232283b986087721a44da4fdb92f"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_wp03_evidence_review.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-wp03.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "19a3e8f85e874333bab33a1474754f7188689fa02edf4d8939f9621d7c031acc"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_wp03b_nonprotected_verification.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-wp03b.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "dd065c09fdd7c4f3ae6ba0c5e2c9db0c2dca95c8f708a2f2f7c2e295636ae0d4"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_wp03c_stage0_scaffold.py",
+          "--root",
+          ".",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-wp03c.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "c414c9c5fa3b15fbc27cfee5fe90dd5fd7257c35ec415ee68c1c389d4690e525"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/validate_sci_md_rheology_005.py",
+          "--root",
+          "."
+        ],
+        "exit_code": 0,
+        "log_sha256": "c41aada8494222b6e8f413946136fd0d76e866962b0353b203d7a8fdf5a86662"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/validate_sci_md_rheology_006.py",
+          "--root",
+          "."
+        ],
+        "exit_code": 0,
+        "log_sha256": "f71d08733779a484c53ee78bba4de225b524f0003505a9dfd14148fd518a0683"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/verify_change_contract.py",
+          "--root",
+          ".",
+          "--declaration",
+          "validation/xsv_pressure_001/MATHEMATICAL_AND_COMPATIBILITY_CONTRACT.json",
+          "--output",
+          "PRIVATE_EVIDENCE/preflight/final-ewp-xsv.json"
+        ],
+        "exit_code": 0,
+        "log_sha256": "8196faa1b7339e5588ca0efda337da9fe84c1abf41e5b8196d47cb3c70bae93e"
+      }
+    ],
+    "json_shell_boundary_secret_checks": "PASS",
+    "protected_files_equal": 2438
+  },
+  "ewp_user_checkout": {
+    "git_diff_exit_code": 0,
+    "head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "modified": false
+  },
+  "execution": {
+    "actual_residual_calls": 25875,
+    "analytic_fits": 16,
+    "blas_threads": 1,
+    "boundary_starts": 0,
+    "completed_starts": 183,
+    "failed_starts": 0,
+    "iterative_starts": 183,
+    "max_allowance_kg": 2.0388003927031585e-16,
+    "max_calls_per_start": 178,
+    "native_ewp_runs": 0,
+    "numerical_jacobian_residual_calls": 24240,
+    "numpy": "2.5.3",
+    "optimizer_wall_seconds": 5.2541000079363585,
+    "outcome_joins": 1,
+    "peak_rss_kib": 84592,
+    "prediction_wall_seconds": 0.7578341225162148,
+    "python": "3.12.3",
+    "scientific_score_passes": 1,
+    "scipy": "1.18.1",
+    "scope": "FINAL_RETAINED_SCIENTIFIC_ACCOUNTING_NO_RECOMPUTATION",
+    "task": "SCI-MD-TRIGONELLINE-DELIVERY-001",
+    "workers": 1
+  },
+  "failed_real_starts": 0,
+  "focused_and_parent_regression": {
+    "mypy": "PASS",
+    "preexisting_tracked_files_unchanged": 2242,
+    "protocol_modified": false,
+    "required_named_tests": 10,
+    "ruff": "PASS",
+    "scientific_fits": 0,
+    "skips": 0,
+    "synthetic_optimizer_tests": "Explicitly SYNTHETIC; excluded from experimental counts and scores.",
+    "task_and_unchanged_caffeine_passed": 61,
+    "task_focused_passed": 25,
+    "xfails": 0
+  },
+  "freeze_sha256": "6f1b1afc73615eafb9b463b49089a1069d60179ea96b2a02a2951a9ec22f0b12",
+  "governance": "G1_FREEZE_G3_SINGLE_SCORE_G0_PUBLICATION",
+  "hard_private_evidence_limit_bytes": 5368709120,
+  "hosted_ci_at_record": "UNVERIFIED_PENDING_DRAFT_PR_PUBLICATION; final exact-publication-head workflow outcomes are retained on the PR Checks tab and in the final PR report. No local environment was upgraded.",
+  "hosted_only_checks": [
+    "Python 3.10/3.11/3.13 quick matrix and declared-minimum dependencies",
+    "wheel/sdist build, inventory, clean installation, license and rebuild checks",
+    "hermetic/current and canonical-release notebook smoke",
+    "same-wheel Ubuntu/Windows/macOS platform smoke",
+    "dependency review and pip-audit"
+  ],
+  "local_qualification": "PASS",
+  "measurement_uncertainty": "NOT_ESTABLISHED",
+  "merge_authorized": false,
+  "native_ewp_runs": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "postscore_scientific_changes": false,
+  "private_evidence_bytes_at_record": 510786232,
+  "production_adoption_authorized": false,
+  "protected_hash_equality": {
+    "complete_private_run_files_unchanged_during_reproduction": 653,
+    "ewp_original_files_unchanged": 2438,
+    "frozen_code_protocol_files_unchanged": 53,
+    "frozen_prescore_artifacts_unchanged": 646,
+    "proof_basis": "exact retained SHA-256 manifests and current files",
+    "puckworks_original_files": 2242,
+    "puckworks_scientific_tests_interfaces_workflows_and_all_other_original_files_unchanged": 2241,
+    "sole_permitted_original_file_delta": "one CHANGELOG.md line"
+  },
+  "publication_boundary_checks": {
+    "changed_or_added_paths": 34,
+    "complete_run_files_unchanged": 653,
+    "frozen_code_protocol_files_unchanged": 53,
+    "permitted_original_delta": "one CHANGELOG.md line",
+    "prescore_artifacts_unchanged": 646,
+    "protected_puckworks_files_unchanged": 2241,
+    "required_named_tests": 10,
+    "review_and_result_bytes_unchanged": true,
+    "scope_path_json_python_secret_hostname_checks": "PASS",
+    "status": "PASS",
+    "task_ledger_rows": 1
+  },
+  "recorded_at_utc": "2026-09-28T01:47:28.494235+00:00",
+  "registry_gates": {
+    "exit_code": 0,
+    "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c"
+  },
+  "reporting_helper_correction": "Initial private reporting attempts parsed incomplete wrapped skip reasons; before any public write this was replaced with exact complete raw skip-section comparison against the baseline log. Sections are byte-identical, and the unchanged canonical baseline reasons are reused. Failed helper attempts retained.",
+  "rescue_fits": 0,
+  "retained_result_sha256": "98654466f771f5928b4e6c05dd77598910993312346a2fa39a90bd4c5a10b20c",
+  "review_sha256": "0fb261befb2e03093720c85b9133a8751ecca3af4a9fcea2bb153cbc839eb762",
+  "reviewed_head": "de31200f272711ca6b2e9fc5dc7c4881c406ab56",
+  "reviewed_tree": "dd6fd3c9d835ef9793ba88a47661c6abb37e4613",
+  "scientific_baseline": {
+    "deselected": 5087,
+    "exit_code": 0,
+    "log_sha256": "2ac8de7ca3fee802362c5a2c836e31ae404b8872174373e51bd5aa0a5443e88d",
+    "passed": 5,
+    "seconds": 176.58,
+    "selected": 5
+  },
+  "scientific_disposition": "TRIGONELLINE_MASS_SHAPE_EARNED",
+  "scientific_protocol_or_threshold_changes": false,
+  "scope": "RESEARCH_ONLY",
+  "score_completion_sha256": "0b1db9134f8c8f7dd9cfb096f24bf962956d0d89dd20aa6f02a9311548c6ff08",
+  "single_scoring_publication": {
+    "completion_sha256": "0b1db9134f8c8f7dd9cfb096f24bf962956d0d89dd20aa6f02a9311548c6ff08",
+    "outcome_joins": 1,
+    "report_log_sha256": "6a0458264139ed7d5834eaf5b4d9971fd261fabc6fa510be2ffee4c68b39118a",
+    "result_sha256": "98654466f771f5928b4e6c05dd77598910993312346a2fa39a90bd4c5a10b20c",
+    "score_command": [
+      "python",
+      "-m",
+      "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+      "score",
+      "--out",
+      "OUT",
+      "--review",
+      "REVIEW"
+    ],
+    "score_completion.json_observed_mtime_utc": "2026-09-28T01:09:45.831795+00:00",
+    "score_exit": 0,
+    "score_log_sha256": "460b1e6e48a6c9ebe35f49910f624272fd37992f092f2cbfc527e748c5ae7525",
+    "score_passes": 1,
+    "score_receipt.json_observed_mtime_utc": "2026-09-28T01:09:45.463520+00:00",
+    "score_receipt_sha256": "b9789d524987c169a4cbeb62284d8fe7eae23a6991ea57ef6853fef3b6262d5b",
+    "score_tool_wall_seconds": 0.887356052,
+    "scoring_checkout_head": "cfa9a19f6652cf987469c46b5d112523b4a183c2"
+  },
+  "source_and_task_commands": {
+    "develop": {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+        "develop",
+        "--out",
+        "OUT"
+      ],
+      "cwd": "PW",
+      "environment": "source-and-task-existing-supported-environment",
+      "exit": 0,
+      "log_sha256": "04ec516078ff67ce9af0d6b70982352b61da5037073d9134dad4f6ddb01c77a1"
+    },
+    "fit": {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+        "fit",
+        "--out",
+        "OUT"
+      ],
+      "cwd": "PW",
+      "environment": "source-and-task-existing-supported-environment",
+      "exit": 0,
+      "log_sha256": "a702e71e671258fca88fcb42b52c871d9a7ccb633bf3a9e022211340f2e55f06"
+    },
+    "freeze": {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+        "freeze",
+        "--out",
+        "OUT"
+      ],
+      "cwd": "PW",
+      "environment": "source-and-task-existing-supported-environment",
+      "exit": 0,
+      "log_sha256": "3bf2c0faab8671414d7593f91415ce4259f20039c028bbd8b60b9135c196589e"
+    },
+    "predict": {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+        "predict",
+        "--out",
+        "OUT"
+      ],
+      "cwd": "PW",
+      "environment": "source-and-task-existing-supported-environment",
+      "exit": 0,
+      "log_sha256": "b94583ab42d1ecce192bfe8f4d83b45feb6901cb1ac9d9de06521e7220468c5b"
+    },
+    "prepare": {
+      "argv": [
+        "python",
+        "-m",
+        "puckworks.analysis.pannusch_conditional_trigonelline_delivery",
+        "prepare",
+        "--out",
+        "OUT"
+      ],
+      "cwd": "PW",
+      "environment": "source-and-task-existing-supported-environment",
+      "exit": 0,
+      "log_sha256": "cc5f1185b75f6402e14c4ae32dd3289a345a51864ee0bc02a8c21169045ab5cf"
+    }
+  },
+  "source_counts": {
+    "HPLC_formula_check": {
+      "FIT": {
+        "qualified_target_cells": 180,
+        "status": "PASS"
+      },
+      "PRED": {
+        "qualified_target_cells": 96,
+        "status": "PASS"
+      }
+    },
+    "PRED_values_projected": 0,
+    "common_domain_kg": [
+      0.0,
+      0.06971540000000001
+    ],
+    "fit_intended_slots": 180,
+    "fit_original_designs": 15,
+    "fit_physical_shots": 45,
+    "fit_reasons": {
+      "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+    },
+    "fit_supported_slots": 177,
+    "original_reconciliations": 276,
+    "panels": {
+      "flow_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 23
+      },
+      "primary": {
+        "intended_slots": 48,
+        "original_shots": 12,
+        "supported_slots": 48
+      },
+      "temperature_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 24
+      }
+    },
+    "projection_identity_sha256": "58766702caa144e7641e87dca4d2d13e541459f276bb59c7cf4891261a91015e",
+    "rows_published": false
+  },
+  "source_rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "successor_authorized": false,
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}

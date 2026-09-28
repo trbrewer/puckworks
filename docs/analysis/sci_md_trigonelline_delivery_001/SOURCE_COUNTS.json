@@ -1,0 +1,44 @@
+{
+  "HPLC_formula_check": {
+    "FIT": {
+      "qualified_target_cells": 180,
+      "status": "PASS"
+    },
+    "PRED": {
+      "qualified_target_cells": 96,
+      "status": "PASS"
+    }
+  },
+  "PRED_values_projected": 0,
+  "common_domain_kg": [
+    0.0,
+    0.06971540000000001
+  ],
+  "fit_intended_slots": 180,
+  "fit_original_designs": 15,
+  "fit_physical_shots": 45,
+  "fit_reasons": {
+    "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+  },
+  "fit_supported_slots": 177,
+  "original_reconciliations": 276,
+  "panels": {
+    "flow_stress": {
+      "intended_slots": 24,
+      "original_shots": 6,
+      "supported_slots": 23
+    },
+    "primary": {
+      "intended_slots": 48,
+      "original_shots": 12,
+      "supported_slots": 48
+    },
+    "temperature_stress": {
+      "intended_slots": 24,
+      "original_shots": 6,
+      "supported_slots": 24
+    }
+  },
+  "projection_identity_sha256": "58766702caa144e7641e87dca4d2d13e541459f276bb59c7cf4891261a91015e",
+  "rows_published": false
+}
