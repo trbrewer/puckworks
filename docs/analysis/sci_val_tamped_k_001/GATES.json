@@ -1,0 +1,74 @@
+{
+  "baseline": "PASS",
+  "baseline_completed_utc": "2026-09-28T16:29:44.448199+00:00",
+  "case_transcription": "All 12 existing Table 2 means/SDs, grind keys A-D and nominal densities 360/400/480 visually agree with original printed p.113. No competing targets created.",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "existing_task_contract": "NONE_FOUND_IN_FETCHED_REFS_TRACKED_CONTENT_LIVE_ISSUES_OR_RELEVANT_LOCAL_REF_NAMES",
+  "external_resolver": "tools.inventory_local_corpus config_path/resolve_roots and family query; registered family contained table transcriptions, no original figures. No blanket absence conclusion.",
+  "gate_decision_utc": "2026-09-28T16:32:19.150931+00:00",
+  "governance_class": "G1",
+  "independence": "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON; one campaign, twelve triplicate summaries, not 36 available raw beds.",
+  "input_contract": "PASS_DECLARED_ADAPTER_ONLY",
+  "native_input_comparison": "NOT_QUALIFIED_SAUTER_RADIUS_AND_BULK_POROSITY_ARE_PROXIES",
+  "novelty": "PASS_NEW_CONSOLIDATED_INPUT_COMPARISON",
+  "novelty_search": {
+    "decisive_distinctions": [
+      "Puckworks 1b16a940ba582136391e5d4672887b4ef85bf136 and PR #125: Table 2 transcription, not predictions.",
+      "Puckworks 417bfec2cd58c9f345bc0edb90aebd36c84cbfc4, analysis/vacaguerra2023a.py:wadsworth_cross_eval and PRs #167-169: Vaca C.1 initial dry porosity, not Roman consolidated cases.",
+      "Puckworks I-093 branch c76500ed6e77e434c05063bd97c1182c25663174: synthetic voxel-geometry trend, not Roman measured beds.",
+      "EWP docs/analysis/ewp_porosity_permeability_prior_001/RESULT.md and PR #127: separate Wadsworth/Vaca supports and EWP sensitivity; no Roman comparison.",
+      "gate_roman_tamped_kappa tests measured data range/order, does not call Wadsworth."
+    ],
+    "ewp_fetched_refs": 82,
+    "ewp_live_issue_and_pr_objects": 200,
+    "methods": [
+      "all fetched branch content",
+      "current code/tests/cards/output",
+      "all-ref content-changing Git history",
+      "live paginated GitHub issue/PR bodies, open and closed",
+      "retired candidates",
+      "relevant local ref names"
+    ],
+    "puckworks_fetched_refs": 87,
+    "puckworks_live_issue_and_pr_objects": 295,
+    "reusable_receipt": "No receipt found with this task scope and exact repository/source identities.",
+    "terms": [
+      "Wadsworth",
+      "Roman-Corrochano",
+      "romancorrochano2015",
+      "2017 thesis",
+      "10.1016/j.jfoodeng.2014.11.006",
+      "consolidated porosity",
+      "steady-state porosity",
+      "tamped",
+      "Table 2",
+      "k_percolation",
+      "Vaca Guerra",
+      "porosity permeability prior"
+    ]
+  },
+  "original_material_location": "External evidence package sources/; original PDF and source rasters not committed.",
+  "source_input_sha256": "a3a0384394cae7bf17ab15ee8e528c63dc876a83a76b9397f7df250940411a99",
+  "source_pdf_sha256": "fc5a41225359993da86a7ef3504ea6bbdf2be99811f266e20e55e4156d914d5e",
+  "source_rights_resolution": "Downloaded journal p.106 states CC BY 3.0. Existing manifest 4.0 is a version-label error; correction limited to this journal row and the new derivative.",
+  "source_url": "https://pure-oai.bham.ac.uk/ws/files/18167003/Corrochano_et_al_New_methodology_estimate_Journal_Food_Engineering_2015.pdf",
+  "sources_inspected": [
+    "Original 2015 journal version of record: Tables 1/2; Figure 13 and caption; Figure 6b and caption; equations 6a/6b/8/9 and methods; license on printed p.106.",
+    "Existing journal Table 2 CSV and supplementary thesis table transcription; original thesis NOT inspected; source cards and registries inspected."
+  ],
+  "task": "SCI-VAL-TAMPED-K-001",
+  "task_selection": {
+    "DECISION_IF_NEGATIVE": "Reject all-case adequacy of this fixed model-plus-adapter, without retuning or isolating native-law failure.",
+    "DECISION_IF_NULL_OR_BLOCKED": "Retain named source/precision/coverage blocker; no prior qualification.",
+    "DECISION_IF_POSITIVE": "Retain tested composite predictor as a coarse offline source-domain prior only.",
+    "EVU": "No controlling EVU threshold found in current checkout AGENTS/CLAUDE/onboarding or referenced governance; explicit conditional task authorization applies.",
+    "GRINDER_TO_CUP_LINK": "Tests a possible offline mapping from grind/packing descriptors to hydraulic permeability, with no EWP adoption.",
+    "LOWER_COST_ALTERNATIVE": "Existing tables/cards alone do not supply case-specific consolidated inputs; direct fixed formula needs no CFD, fitting, or new measurements.",
+    "NEW_INFORMATION": "Twelve source-specific consolidated porosity readings enter a previously unexecuted fixed-predictor comparison.",
+    "REPEATED_BLOCKER": "Different question and consolidated inputs from Vaca initial-packing comparison and EWP transfer constraints; no closed screen-resistance or chemistry question reopened."
+  },
+  "timing": "Required reading and read-only searches overlapped baseline; no implementation or predictions before baseline pass. Final gate decision within 20 minutes after baseline.",
+  "unavailable_routes": [
+    "Publisher, research portal PDF and CORE returned HTTP 403; university OAI supplied the original."
+  ]
+}

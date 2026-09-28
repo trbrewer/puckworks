@@ -1,0 +1,557 @@
+{
+  "cases": [
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "classification": "PASS",
+        "prediction_high_m2": 1.2291028722913315e-13,
+        "prediction_low_m2": 1.0066131795377529e-13,
+        "prediction_m2": 1.1134488484348993e-13,
+        "q_high": 1.6077212194785238,
+        "q_low": 1.3149747609898796,
+        "ratio": 1.455488690764574,
+        "signed_log_ratio": 0.3753417141730616
+      },
+      "consolidated_over_initial_prediction": 0.011191611919789181,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.0722751377181147e-11,
+        "prediction_low_m2": 9.208337217729117e-12,
+        "prediction_m2": 9.948958705993743e-12,
+        "q_high": 140.2583567976605,
+        "q_low": 120.29179905589963,
+        "ratio": 130.05174779076788,
+        "signed_log_ratio": 4.867932431179731
+      },
+      "observed": {
+        "mean_m2": 7.65e-14,
+        "rounding_high_m2": 7.655e-14,
+        "rounding_low_m2": 7.645e-14,
+        "sd_m2": 8.2e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "classification": "PASS",
+        "prediction_high_m2": 7.128343820521751e-14,
+        "prediction_low_m2": 5.697099771399975e-14,
+        "prediction_m2": 6.3810131509068e-14,
+        "q_high": 1.4444465695079536,
+        "q_low": 1.1520929770272952,
+        "ratio": 1.2917030669851821,
+        "signed_log_ratio": 0.25596155463188064
+      },
+      "consolidated_over_initial_prediction": 0.01449646741021531,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 4.836738904492443e-12,
+        "prediction_low_m2": 3.991686222524105e-12,
+        "prediction_m2": 4.4017711145339135e-12,
+        "q_high": 98.00889370805356,
+        "q_low": 80.72166274062903,
+        "ratio": 89.10467843186059,
+        "signed_log_ratio": 4.489811840751042
+      },
+      "observed": {
+        "mean_m2": 4.94e-14,
+        "rounding_high_m2": 4.945e-14,
+        "rounding_low_m2": 4.935e-14,
+        "sd_m2": 3.2e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "classification": "PASS",
+        "prediction_high_m2": 2.456503151851543e-14,
+        "prediction_low_m2": 1.852238338478241e-14,
+        "prediction_m2": 2.1376127561589204e-14,
+        "q_high": 0.950291354681448,
+        "q_low": 0.7137719994135803,
+        "ratio": 0.8253331104860697,
+        "signed_log_ratio": -0.19196820385459729
+      },
+      "consolidated_over_initial_prediction": 0.03885810352255985,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "A",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 6.478009986037646e-13,
+        "prediction_low_m2": 4.629402240073816e-13,
+        "prediction_m2": 5.501073295864495e-13,
+        "q_high": 25.059999945987023,
+        "q_low": 17.839700347105264,
+        "ratio": 21.23966523499805,
+        "signed_log_ratio": 3.055870435185409
+      },
+      "observed": {
+        "mean_m2": 2.59e-14,
+        "rounding_high_m2": 2.595e-14,
+        "rounding_low_m2": 2.585e-14,
+        "sd_m2": 2.5e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 5.293464191507803e-13,
+        "prediction_low_m2": 4.51165264599782e-13,
+        "prediction_m2": 4.890040242427919e-13,
+        "q_high": 3.8779957446943616,
+        "q_low": 3.281201924362051,
+        "ratio": 3.5693724397284083,
+        "signed_log_ratio": 1.2723897931482464
+      },
+      "consolidated_over_initial_prediction": 0.03362462107408569,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.5673714000133668e-11,
+        "prediction_low_m2": 1.3460783740276778e-11,
+        "prediction_m2": 1.4543034497410727e-11,
+        "q_high": 114.82574359072285,
+        "q_low": 97.89660902019475,
+        "ratio": 106.15353647745056,
+        "signed_log_ratio": 4.664886503444051
+      },
+      "observed": {
+        "mean_m2": 1.37e-13,
+        "rounding_high_m2": 1.375e-13,
+        "rounding_low_m2": 1.365e-13,
+        "sd_m2": 8e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "classification": "UNRESOLVED_AT_DECLARED_INPUT_PRECISION",
+        "prediction_high_m2": 2.3684305827816545e-13,
+        "prediction_low_m2": 1.961667496940532e-13,
+        "prediction_m2": 2.157426833205917e-13,
+        "q_high": 2.0156856023673653,
+        "q_low": 1.6554156092325163,
+        "ratio": 1.8283278247507773,
+        "signed_log_ratio": 0.6034017921561553
+      },
+      "consolidated_over_initial_prediction": 0.033529819371725875,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 7.0699822849257956e-12,
+        "prediction_low_m2": 5.83506269698603e-12,
+        "prediction_m2": 6.434352685553607e-12,
+        "q_high": 60.17006199936847,
+        "q_low": 49.24103541760363,
+        "ratio": 54.528412589437345,
+        "signed_log_ratio": 3.9987218977392085
+      },
+      "observed": {
+        "mean_m2": 1.18e-13,
+        "rounding_high_m2": 1.185e-13,
+        "rounding_low_m2": 1.175e-13,
+        "sd_m2": 9e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "classification": "PASS",
+        "prediction_high_m2": 5.89491980894241e-14,
+        "prediction_low_m2": 4.575768967205866e-14,
+        "prediction_m2": 5.2024341276522685e-14,
+        "q_high": 1.2116998579532188,
+        "q_low": 0.9386192753242802,
+        "ratio": 1.0682616278546753,
+        "signed_log_ratio": 0.06603268043915747
+      },
+      "consolidated_over_initial_prediction": 0.06469664389437929,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "B",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 9.469069293841622e-13,
+        "prediction_low_m2": 6.767278491974494e-13,
+        "prediction_m2": 8.041273572313146e-13,
+        "q_high": 19.46365733574845,
+        "q_low": 13.881596906614346,
+        "ratio": 16.511855384626585,
+        "signed_log_ratio": 2.8040786310623123
+      },
+      "observed": {
+        "mean_m2": 4.87e-14,
+        "rounding_high_m2": 4.875e-14,
+        "rounding_low_m2": 4.865e-14,
+        "sd_m2": 9e-16
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 2.159564772607938e-12,
+        "prediction_low_m2": 1.9053880945551187e-12,
+        "prediction_m2": 2.0292363410828503e-12,
+        "q_high": 9.054778920788,
+        "q_low": 7.955691417766675,
+        "ratio": 8.490528623777617,
+        "signed_log_ratio": 2.1389512626696763
+      },
+      "consolidated_over_initial_prediction": 0.11937043885398493,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.8320969847190814e-11,
+        "prediction_low_m2": 1.573458954943474e-11,
+        "prediction_m2": 1.699948798517053e-11,
+        "q_high": 76.81748363602019,
+        "q_low": 65.69765991413253,
+        "ratio": 71.12756479150849,
+        "signed_log_ratio": 4.26447495213389
+      },
+      "observed": {
+        "mean_m2": 2.39e-13,
+        "rounding_high_m2": 2.395e-13,
+        "rounding_low_m2": 2.385e-13,
+        "sd_m2": 4.9e-14
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.207516090982692e-12,
+        "prediction_low_m2": 1.0498108558438612e-12,
+        "prediction_m2": 1.126434978321693e-12,
+        "q_high": 6.272810862247751,
+        "q_low": 5.425379099968275,
+        "ratio": 5.836450664879237,
+        "signed_log_ratio": 1.7641228492142773
+      },
+      "consolidated_over_initial_prediction": 0.14976849273711637,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 8.264086754498269e-12,
+        "prediction_low_m2": 6.820725917880698e-12,
+        "prediction_m2": 7.521174565727162e-12,
+        "q_high": 42.93032080258841,
+        "q_low": 35.24922954977105,
+        "ratio": 38.96981640273141,
+        "signed_log_ratio": 3.662787408093213
+      },
+      "observed": {
+        "mean_m2": 1.93e-13,
+        "rounding_high_m2": 1.935e-13,
+        "rounding_low_m2": 1.925e-13,
+        "sd_m2": 1e-14
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 2.91074339028583e-13,
+        "prediction_low_m2": 2.415601883296404e-13,
+        "prediction_m2": 2.653988114134379e-13,
+        "q_high": 4.523299751803932,
+        "q_low": 3.7480246443699046,
+        "ratio": 4.121099556109285,
+        "signed_log_ratio": 1.4161200103054195
+      },
+      "consolidated_over_initial_prediction": 0.28235360008002053,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "C",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.1068374286525409e-12,
+        "prediction_low_m2": 7.910412312719241e-13,
+        "prediction_m2": 9.399519302683672e-13,
+        "q_high": 17.200270841531328,
+        "q_low": 12.273719647353358,
+        "ratio": 14.595526867521231,
+        "signed_log_ratio": 2.6807151028337737
+      },
+      "observed": {
+        "mean_m2": 6.44e-14,
+        "rounding_high_m2": 6.445e-14,
+        "rounding_low_m2": 6.435e-14,
+        "sd_m2": 3.5e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 360,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 5.421666350045017e-12,
+        "prediction_low_m2": 4.856681403867369e-12,
+        "prediction_m2": 5.132766099533062e-12,
+        "q_high": 16.159959314590218,
+        "q_low": 14.432931363647459,
+        "ratio": 15.276089581943639,
+        "signed_log_ratio": 2.72628883357386
+      },
+      "consolidated_over_initial_prediction": 0.24361222081521874,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 2.2706991786196375e-11,
+        "prediction_low_m2": 1.950192133072845e-11,
+        "prediction_m2": 2.106941138813514e-11,
+        "q_high": 67.68104854305925,
+        "q_low": 57.955189690129124,
+        "ratio": 62.70658151230696,
+        "signed_log_ratio": 4.138466410428445
+      },
+      "observed": {
+        "mean_m2": 3.36e-13,
+        "rounding_high_m2": 3.365e-13,
+        "rounding_low_m2": 3.355e-13,
+        "sd_m2": 5.8e-14
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 400,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 5.006091853036375e-12,
+        "prediction_low_m2": 4.477368641655895e-12,
+        "prediction_m2": 4.7356575332941346e-12,
+        "q_high": 11.442495664083143,
+        "q_low": 10.210646845281401,
+        "ratio": 10.81200350067154,
+        "signed_log_ratio": 2.380656952190651
+      },
+      "consolidated_over_initial_prediction": 0.508016779845497,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.0242500894873725e-11,
+        "prediction_low_m2": 8.453811893285042e-12,
+        "prediction_m2": 9.32185258670863e-12,
+        "q_high": 23.41143061685423,
+        "q_low": 19.2789324818359,
+        "ratio": 21.28276846280509,
+        "signed_log_ratio": 3.0578977529479006
+      },
+      "observed": {
+        "mean_m2": 4.38e-13,
+        "rounding_high_m2": 4.385e-13,
+        "rounding_low_m2": 4.375e-13,
+        "sd_m2": 4e-14
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    },
+    {
+      "bulk_density_kgm3": 480,
+      "consolidated": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.2517821108887585e-12,
+        "prediction_low_m2": 1.0829166681802037e-12,
+        "prediction_m2": 1.164884422234474e-12,
+        "q_high": 13.994210295011275,
+        "q_low": 12.092871783140188,
+        "ratio": 13.015468404854458,
+        "signed_log_ratio": 2.5661385274150885
+      },
+      "consolidated_over_initial_prediction": 0.9999093545341167,
+      "flags": [
+        "SAUTER_RADIUS_PROXY",
+        "BULK_POROSITY_PROXY",
+        "READING_BOUNDS_ONLY",
+        "SHARED_INPUT_DEPENDENCE"
+      ],
+      "grind": "D",
+      "initial": {
+        "classification": "FAIL",
+        "prediction_high_m2": 1.3718132069805047e-12,
+        "prediction_low_m2": 9.804401832764575e-13,
+        "prediction_m2": 1.1649900232978853e-12,
+        "q_high": 15.336089513476855,
+        "q_low": 10.948522426314435,
+        "ratio": 13.016648305004306,
+        "signed_log_ratio": 2.5662291769895202
+      },
+      "observed": {
+        "mean_m2": 8.95e-14,
+        "rounding_high_m2": 8.955e-14,
+        "rounding_low_m2": 8.945e-14,
+        "sd_m2": 7.5e-15
+      },
+      "qualification": "QUALIFIED_DECLARED_ADAPTER_INPUT"
+    }
+  ],
+  "consolidated_over_initial_geometric_mean": 0.09012693338072528,
+  "counts": {
+    "FAIL": 7,
+    "PASS": 4,
+    "UNRESOLVED_AT_DECLARED_INPUT_PRECISION": 1
+  },
+  "coverage": {
+    "intended": 12,
+    "qualified": 12,
+    "scored": 12
+  },
+  "criterion": {
+    "all_cases_required": 12,
+    "new_engineering_screen": true,
+    "ratio_high": 2.0,
+    "ratio_low": 0.5
+  },
+  "exposure": "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON",
+  "freeze_sha256": "ca85de8bdf773ead3a2d0a95fd11a95e36844e8068970f5a5486ab65d501e1d2",
+  "per_grind": {
+    "A": {
+      "consolidated": {
+        "geometric_mean_ratio": 1.1577112800129459,
+        "geometric_rms_error_factor": 1.3294310481865912,
+        "maximum_multiplicative_error": 1.455488690764574,
+        "n": 3
+      },
+      "initial": {
+        "geometric_mean_ratio": 62.66929213394804,
+        "geometric_rms_error_factor": 67.41314339304076,
+        "maximum_multiplicative_error": 130.05174779076788,
+        "n": 3
+      }
+    },
+    "B": {
+      "consolidated": {
+        "geometric_mean_ratio": 1.9103276182862163,
+        "geometric_rms_error_factor": 2.2567521095248053,
+        "maximum_multiplicative_error": 3.569372439728408,
+        "n": 3
+      },
+      "initial": {
+        "geometric_mean_ratio": 45.721211831757735,
+        "geometric_rms_error_factor": 49.36825594772468,
+        "maximum_multiplicative_error": 106.15353647745059,
+        "n": 3
+      }
+    },
+    "C": {
+      "consolidated": {
+        "geometric_mean_ratio": 5.888873408083618,
+        "geometric_rms_error_factor": 6.034329091749119,
+        "maximum_multiplicative_error": 8.490528623777616,
+        "n": 3
+      },
+      "initial": {
+        "geometric_mean_ratio": 34.329068990486356,
+        "geometric_rms_error_factor": 36.442578583846384,
+        "maximum_multiplicative_error": 71.12756479150848,
+        "n": 3
+      }
+    },
+    "D": {
+      "consolidated": {
+        "geometric_mean_ratio": 12.906031639694277,
+        "geometric_rms_error_factor": 12.956414510965901,
+        "maximum_multiplicative_error": 15.276089581943639,
+        "n": 3
+      },
+      "initial": {
+        "geometric_mean_ratio": 25.89882964213001,
+        "geometric_rms_error_factor": 27.654762071701306,
+        "maximum_multiplicative_error": 62.706581512306954,
+        "n": 3
+      }
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "review_sha256": "af7319fa56831266fec906ff4d6cf15239b40c43e9882b3157d56bb82e34d1a6",
+  "scientific_adequacy": "CONSOLIDATED_INPUT_PRIOR_FAILS_DECLARED_SCREEN",
+  "scope": "DECLARED_ADAPTER_COMPARISON",
+  "successor": "NONE_AUTHORIZED",
+  "summary": {
+    "consolidated": {
+      "geometric_mean_ratio": 3.6006695484109175,
+      "geometric_rms_error_factor": 5.068144110129188,
+      "maximum_multiplicative_error": 15.276089581943639,
+      "n": 12
+    },
+    "initial": {
+      "geometric_mean_ratio": 39.95109356711969,
+      "geometric_rms_error_factor": 43.429797978423345,
+      "maximum_multiplicative_error": 130.05174779076788,
+      "n": 12
+    }
+  },
+  "task": "SCI-VAL-TAMPED-K-001"
+}

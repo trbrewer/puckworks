@@ -173,7 +173,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 115 dataset rows; 108 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 116 dataset rows; 109 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -778,7 +778,8 @@ Separate source permeability priors and uncertainty context. Bulk density is not
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `romancorrochano2015/table2` — [romancorrochano2015](../cards/romancorrochano2015.md); Roman-Corrochano et al. 2015 Table 2 — tamped-bed K (m^2), mean+/-SD triplicate, grind A-D x bulk density 360/400/480 kg m^-3, Tukey groups | card transcription (fully printed Table 2 with SDs and ANOVA letters); published: m^2 (K); kg m^-3 (bulk density); registry: m^2 ; kg/m^3 | Roman-Corrochano et al. 2015 (CC BY 4.0; DOI'd version of record); K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV |
+| `romancorrochano2015/table2` — [romancorrochano2015](../cards/romancorrochano2015.md); Roman-Corrochano et al. 2015 Table 2 — tamped-bed K (m^2), mean+/-SD triplicate, grind A-D x bulk density 360/400/480 kg m^-3, Tukey groups | card transcription (fully printed Table 2 with SDs and ANOVA letters); published: m^2 (K); kg m^-3 (bulk density); registry: m^2 ; kg/m^3 | Roman-Corrochano et al. 2015 (CC BY 3.0; original journal p.106; prior 4.0 manifest label corrected under SCI-VAL-TAMPED-K-001); K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV |
+| `romancorrochano2015/sci_val_tamped_k_001_inputs` — [romancorrochano2015](../cards/romancorrochano2015.md); DOI 10.1016/j.jfoodeng.2014.11.006 Table 1; Fig.13 p.115; Eqs.6a/6b/9; source PDF SHA-256 in task protocol | Original PDF inspection; retained raster marker coordinates and bounded readings; dry Sauter diameter transcription; published: d[3,2] m (table mantissas x1e-6); kg/m3; porosity 1; registry: um (explicit conversion to m/2 at model boundary); kg/m3; porosity 1; pixels | Roman-Corrochano et al. 2015 (CC BY 3.0; original journal p.106; prior 4.0 manifest label corrected under SCI-VAL-TAMPED-K-001); 12 case summaries; same 2015/thesis campaign; R<-d32/2 and phi_p<-consolidated bulk porosity are proxies; no target-derived inputs or production adoption |
 
 Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 

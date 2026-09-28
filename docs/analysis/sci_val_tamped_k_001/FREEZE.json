@@ -1,0 +1,23 @@
+{
+  "base_commit": "baa707d65a01e28999771a237939964ef85bb1d8",
+  "files": {
+    "docs/analysis/sci_val_tamped_k_001/BASELINE.json": "1a4dba7ef8e5053510073ddb98b058d6de7aee141b8e8229d05ec8602c659b40",
+    "docs/analysis/sci_val_tamped_k_001/GATES.json": "7097ffc02ef0001ffdc3194deee8e947b98dddea2f801bf966e7673046078a59",
+    "docs/analysis/sci_val_tamped_k_001/PRE_IMPLEMENTATION_FREEZE.json": "174b25b71194dc3154ff639a37a10779491701e530df0b017c7289041a6f16b2",
+    "docs/analysis/sci_val_tamped_k_001/PROTOCOL.md": "ff32a8ad74968179e67706e5f078432b7d94bf0e77016431f788eefaf3cf2eec",
+    "docs/analysis/sci_val_tamped_k_001/SOURCE_CONSISTENCY.json": "2775531811aed7f8d11ae784edd144fef2da50f6e258062e14edf22977ccbb2f",
+    "docs/analysis/sci_val_tamped_k_001/predictions.json": "d5f25043afbb9dac897a7f0188e7306f7c8d2413fef41ae0807381907211d041",
+    "puckworks/analysis/sci_val_tamped_k_001.py": "c09bd9cfb7d7b6390f3f7cb2e6c420089c9c29473d69434ab35793ad9a65567a",
+    "puckworks/data/__init__.py": "7adb18f36784058bbf8ea596cf54d9ca0a8d8ac20ed57037bffdb2243957c805",
+    "puckworks/data/romancorrochano2015/sci_val_tamped_k_001_inputs.json": "a3a0384394cae7bf17ab15ee8e528c63dc876a83a76b9397f7df250940411a99",
+    "puckworks/data/romancorrochano2015/table2.csv": "cd81b18db8bc799b1b67a2c765f96e70ae41db1f0b88be0f1566a1327278737e",
+    "puckworks/models/wadsworth2026/permeability.py": "8b4ecd5195d5c35ccb7d5c879cf984a7ff4389ccd61e67f38a667cb2997f9758",
+    "tests/test_sci_val_tamped_k_001.py": "d2d8d9e62d705c26ed76ebcdb61990b9c4dce1697761dfd03f09854de5469926"
+  },
+  "scientific_scores": 0,
+  "scope": "DECLARED_ADAPTER_COMPARISON",
+  "source_pdf_sha256": "fc5a41225359993da86a7ef3504ea6bbdf2be99811f266e20e55e4156d914d5e",
+  "status": "FROZEN_BEFORE_SCIENTIFIC_SCORE",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "utc": "2026-09-28T16:41:12.385770+00:00"
+}

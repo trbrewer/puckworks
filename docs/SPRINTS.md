@@ -570,3 +570,9 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
   CALIBRATION_INADEQUATE across the frozen family; do not prioritize the tested
   formulation for integration. Qualified numerics; no independent transfer-failure
   inference, default promotion or successor.
+
+### SCI-VAL-TAMPED-K-001 — consolidated-bed screen (2026-09-28)
+
+- [x] Novelty/source gates, declared-adapter protocol, twelve source-qualified inputs, unchanged imported Wadsworth law, synthetic tests and independent pre-scoring review.
+- [x] Frozen predictions and one retained comparison: **CONSOLIDATED_INPUT_PRIOR_FAILS_DECLARED_SCREEN**; twelve intended/qualified/scored cases.
+- [Result](analysis/sci_val_tamped_k_001/RESULT.md): The fixed Wadsworth plus Sauter-radius/bulk-porosity adapter fails the twelve-case factor-two screen; reject all-case offline adequacy without isolating native-law failure. EWP and production defaults unchanged. Local-only handoff; no successor authorized.

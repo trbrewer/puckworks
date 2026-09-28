@@ -1,0 +1,346 @@
+{
+  "baseline_software_status": "PASS_CLEAN_BOTH_REPOSITORIES",
+  "candidate_software_status": "PASS_AFFECTED_FAILURES_RESOLVED_UNAFFECTED_PASSING_EVIDENCE_REUSED",
+  "case_counts": {
+    "FAIL": 7,
+    "PASS": 4,
+    "UNRESOLVED_AT_DECLARED_INPUT_PRECISION": 1
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "closed_utc": "2026-09-28T17:02:37.271911+00:00",
+  "commands": [
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data",
+        "--junitxml=${EVIDENCE_ROOT}/logs/puckworks-affected-quick.xml",
+        "--durations=15"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 993.3009512294084,
+      "label": "affected-quick",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-affected-quick.log",
+      "repository": "puckworks",
+      "returncode": 1,
+      "start_utc": "2026-09-28T16:40:06.381580+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data",
+        "tests/insights",
+        "tests/test_correction_i045.py",
+        "tests/test_cross_paper_number_audit.py",
+        "tests/test_manuscript_structure.py",
+        "tests/test_paper_a_model_contract.py",
+        "tests/test_sci_val_tamped_k_001.py",
+        "tests/test_paper3_archive.py",
+        "tests/test_paper3_availability.py",
+        "tests/test_paper3_build.py",
+        "tests/test_paper3_corpus.py",
+        "tests/test_paper3_manuscript_consistency.py",
+        "tests/test_paper3_release.py",
+        "--junitxml=${EVIDENCE_ROOT}/logs/puckworks-metadata-affected-tests.xml"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 108.04054096341133,
+      "label": "metadata-affected-tests",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-metadata-affected-tests.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:57:16.477336+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "--output-format=github",
+        "puckworks/",
+        "tests/"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.04713460523635149,
+      "label": "final-lint",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-final-lint.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:57:16.477850+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_available_data_register.py",
+        "tests/test_local_corpus_family_index.py",
+        "tests/test_espresso_data_guide.py",
+        "tests/test_data_loaders.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 5.087376642972231,
+      "label": "task-data-tests",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-task-data-tests.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:39:21.954599+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "tools/validate_local_corpus_coverage.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.024449756368994713,
+      "label": "task-data-coverage",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-task-data-coverage.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:39:27.042138+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/analysis/sci_val_tamped_k_001.py",
+        "tests/test_sci_val_tamped_k_001.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.04535363055765629,
+      "label": "task-lint",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-task-lint.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:39:21.909027+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.analysis.sci_val_tamped_k_001",
+        "predict",
+        "--output",
+        "docs/analysis/sci_val_tamped_k_001/predictions.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.143990864045918,
+      "label": "task-predict",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-task-predict.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:39:27.066720+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.insights",
+        "write"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.3314006021246314,
+      "label": "refresh-insights",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-refresh-insights.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:56:44.575176+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--splice"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.146510386839509,
+      "label": "refresh-corpus",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-refresh-corpus.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:56:44.906723+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.analysis.correction_i045_lineage"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.5066295936703682,
+      "label": "refresh-current-correction",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-refresh-current-correction.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:56:45.053347+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "tools/claim_binding_audit.py",
+        "--write"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 12.186913008801639,
+      "label": "refresh-claim-audit",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-refresh-claim-audit.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T16:56:45.563900+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.analysis.sci_val_tamped_k_001",
+        "score",
+        "--output",
+        "docs/analysis/sci_val_tamped_k_001/result.json"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.14581961371004581,
+      "label": "scientific-score-once",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-scientific-score-once.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T17:02:30.754946+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-m",
+        "puckworks.analysis.sci_val_tamped_k_001",
+        "report",
+        "--input",
+        "docs/analysis/sci_val_tamped_k_001/result.json",
+        "--output",
+        "docs/analysis/sci_val_tamped_k_001/RESULT.md"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.14302747137844563,
+      "label": "result-report",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-result-report.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T17:02:30.900948+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "-c",
+        "import json\nfrom puckworks.analysis import sci_val_tamped_k_001 as m\ndef forbidden(*args,**kwargs): raise AssertionError(\"report attempted scientific recomputation\")\nm.predict=m.score=m.load_targets=m.load_inputs=forbidden\nresult=json.loads((m.DOC/\"result.json\").read_text())\nassert m.render_report(result).encode()==(m.DOC/\"RESULT.md\").read_bytes()\nprint(\"Retained-result-only report regeneration: byte-identical; no prediction/scoring/input load\")\n"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.14336092490702868,
+      "label": "retained-report-regeneration",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-retained-report-regeneration.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T17:03:10.936319+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "${EVIDENCE_ROOT}/acceptance_checks.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.13889941573143005,
+      "label": "acceptance-boundary",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-acceptance-boundary.log",
+      "repository": "puckworks",
+      "returncode": 1,
+      "start_utc": "2026-09-28T17:03:11.080039+00:00"
+    },
+    {
+      "command": [
+        "${EVIDENCE_ROOT}/venv-puckworks/bin/python",
+        "${EVIDENCE_ROOT}/acceptance_checks.py"
+      ],
+      "cwd": "${EVIDENCE_ROOT}/checkouts/puckworks",
+      "elapsed_seconds": 0.14346289541572332,
+      "label": "acceptance-boundary-crlf",
+      "log": "${EVIDENCE_ROOT}/logs/puckworks-acceptance-boundary-crlf.log",
+      "repository": "puckworks",
+      "returncode": 0,
+      "start_utc": "2026-09-28T17:03:39.737731+00:00"
+    }
+  ],
+  "commit_identity": "Resolved by the enclosing local Git commit; final handoff records its full commit/tree externally to avoid a self-reference.",
+  "consumer_consequence": "EWP unchanged; no production permeability transfer or adoption established.",
+  "coverage": {
+    "intended": 12,
+    "qualified": 12,
+    "scored": 12
+  },
+  "decision_consequence": "The fixed Wadsworth plus Sauter-radius/bulk-porosity adapter fails the twelve-case factor-two screen; reject all-case offline adequacy without isolating native-law failure.",
+  "final_acceptance_checks": {
+    "EWP_unchanged": true,
+    "Python_AST_and_lint": "PASS",
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "frozen_scientific_files": 12,
+    "json_files_checked": 20,
+    "model_and_targets_unchanged": true,
+    "native_OpenFOAM_runs": 0,
+    "remote_mutations": 0,
+    "secret_hostname_local_absolute_path_scan": "PASS",
+    "shell_syntax_files_checked": 0,
+    "status": "PASS"
+  },
+  "freeze_sha256": "ca85de8bdf773ead3a2d0a95fd11a95e36844e8068970f5a5486ab65d501e1d2",
+  "governance_class": "G1",
+  "independent_review": "APPROVED_ORIGINAL_SCIENTIFIC_FREEZE_WITH_METADATA_QA_CONDITION_DISCHARGED",
+  "input_contract_status": "PASS_DECLARED_ADAPTER_ONLY",
+  "invalidated_scientific_attempts": 0,
+  "native_input_semantics": "NOT_ESTABLISHED",
+  "novelty_status": "PASS_NEW_CONSOLIDATED_INPUT_COMPARISON",
+  "physical_validation": "NOT_ESTABLISHED",
+  "publication_merge_state": "LOCAL_ONLY_NOT_PUSHED_NO_HOSTED_PR_NO_MERGE_NO_AUTO_MERGE",
+  "qa_history": {
+    "boundary_format_check": "Initial generic whitespace check flagged the modified manifest row's existing CRLF. Baseline and candidate each retain 108 CRLF lines; rerun with Git core.whitespace=cr-at-eol passed. No repository or scientific artifact changed for this checker correction; failed log retained.",
+    "first_full_candidate_suite": "16 metadata freshness failures;4920 passed;65 skipped;60 deselected",
+    "resolution": "Existing generated metadata, inventory-count prose and current-state pointer refreshed; all affected modules rerun; all frozen scientific files unchanged. No second full-suite PASS is claimed.",
+    "resolved_quick_coverage": {
+      "affected_rerun_passed": 302,
+      "combined_passed": 4936,
+      "deselected": 60,
+      "second_full_suite_claimed": false,
+      "skipped": 65,
+      "unaffected_passing_tests_reused": 4634
+    },
+    "reused_evidence": "Unchanged passing checks from completed full candidate suite and clean baselines; exact-delta independent review under governance sections 2.6-7."
+  },
+  "result_sha256": "d339b6e037b1ea1e6f39a4c0090d3256004b6ef1da442580598cf3f52a5605c7",
+  "review_references": [
+    "PRE_SCORE_REVIEW.json",
+    "INDEPENDENT_REVIEW.md",
+    "METADATA_QA_REVIEW.json"
+  ],
+  "scientific_adequacy": "CONSOLIDATED_INPUT_PRIOR_FAILS_DECLARED_SCREEN",
+  "scientific_scoring_executions": 1,
+  "source_originals": "Original journal PDF and raster figures external; attributed derived input only in Git; thesis original not inspected.",
+  "successor": "NONE_AUTHORIZED",
+  "supporting_review_evidence": "Receipt-named scripts, logs and verification evidence are retained in ${EVIDENCE_ROOT}/review, not copied into Git.",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "unresolved_case": {
+    "case": "B-400",
+    "cause": "Declared source-input reading/rounding interval straddles ratio 2.0.",
+    "global_consequence": "The seven definite failures already decide failure of the all-case screen.",
+    "minimum_evidence": "More precise recovery of the existing Figure 13 B-400 input, preserving the fixed adapter and criterion, would be needed to classify this case; no new measurement is requested.",
+    "ratio_bounds": [
+      1.6554,
+      2.0157
+    ]
+  }
+}

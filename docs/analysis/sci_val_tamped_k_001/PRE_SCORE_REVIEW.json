@@ -1,0 +1,126 @@
+{
+  "approval_scope": "One retained comparison using exactly the frozen implementation, targets, Figure13 inputs, fixed declared adapter, unchanged Wadsworth defaults, twelve cases, predictions and decision rule. Conditional on affected quick suite PASS and unchanged scientific hashes. Does not authorize any new fitting, input/model/threshold change, native run, EWP adoption, publication, push, merge or successor.",
+  "base_commit": "baa707d65a01e28999771a237939964ef85bb1d8",
+  "base_commit_role": "BASE_ONLY_NOT_THE_REVIEWED_CANDIDATE",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "checks": {
+    "adapter_semantics": {
+      "finding": "R=d32/2 and phi_p=source constructed consolidated bulk porosity are explicit proxies. No sphericity, connectivity correction or residual-selected mapping. Initial-packing arm is diagnostic only. Native constitutive law cannot be isolated by this comparison.",
+      "status": "PASS_DECLARED_ADAPTER_ONLY"
+    },
+    "affected_quick_suite": {
+      "condition": "Must finish PASS on unchanged scientific artifacts before the one real comparison is executed.",
+      "status": "PENDING_AT_REVIEW"
+    },
+    "baseline_software": {
+      "ewp": "1635 tests;21 skipped;OK; source/static/historical/change/boundary checks pass",
+      "finding": "BASELINE.json and retained command exits/log summaries reviewed; no full baseline rerun by reviewer.",
+      "puckworks": "4904 passed;65 skipped;60 deselected; registry65 PASS/1 ACKNOWLEDGED_EXCEPTION",
+      "status": "PASS_REUSED_RETAINED_EVIDENCE"
+    },
+    "exact_archived_tree": {
+      "base_commit_only": "baa707d65a01e28999771a237939964ef85bb1d8",
+      "reviewed_tree": "832f10ef9fe3ebf42ffc705a0340315804506701",
+      "status": "PASS",
+      "verified_git_blobs": 2287
+    },
+    "figure13_rectangular_reading_bounds": {
+      "cases": 12,
+      "corners_per_case": 8,
+      "status": "PASS"
+    },
+    "figure6_equations_consistency_only": {
+      "cases": 12,
+      "status": "PASS"
+    },
+    "focused_synthetic_suite": {
+      "evidence": "focused-synthetic-tests.log",
+      "passed": 32,
+      "status": "PASS"
+    },
+    "forbidden_target_informed_choices": {
+      "finding": "Protocol/source hashes unchanged from preimplementation receipt. Model/defaults unchanged, prediction API consumes structure only, no fitting or optimization, Figure6 never replaces Figure13, all 12 cases retained, no threshold or model choice from real residuals. Reviewer did not compute or inspect real model-to-target ratios.",
+      "status": "PASS_NO_EVIDENCE_OF_FORBIDDEN_SELECTION"
+    },
+    "freeze_and_preimplementation_hashes": {
+      "freeze_files": 12,
+      "preimplementation_files": 4,
+      "status": "PASS"
+    },
+    "independent_decimal_numerics": {
+      "maximum_relative_error": 6.661338147750939e-16,
+      "required_relative_tolerance": 1e-12,
+      "status": "PASS",
+      "synthetic_rectangles": 9
+    },
+    "independent_synthetic_decision_and_denominator": {
+      "all_twelve_pass": true,
+      "failure_precedence": true,
+      "missing_and_duplicate_rejected": true,
+      "single_unresolved_prevents_pass": true,
+      "status": "PASS"
+    },
+    "novelty": {
+      "evidence": [
+        "novelty-crosscheck.json",
+        "../logs/puckworks-novelty-history.log",
+        "../logs/ewp-novelty-history.log",
+        "../logs/puckworks-all-branch-unique.log",
+        "../logs/ewp-all-branch-unique.log",
+        "../logs/puckworks-live-issues.json",
+        "../logs/ewp-live-issues.json"
+      ],
+      "finding": "No exact prior task contract found across 87 Puckworks / 82 EWP fetched remote refs and 295 / 200 live issue/PR objects. Read relevant prior artifacts: Roman table transcription and measured-data gate do not score this model; Vaca cross-eval uses Vaca initial dry porosity; I-093 is synthetic voxel geometry; EWP prior work uses Wadsworth/Vaca separate supports.",
+      "status": "PASS_NEW_CONSOLIDATED_INPUT_COMPARISON"
+    },
+    "real_target_scoring": {
+      "real_model_target_joins": 0,
+      "status": "NOT_PERFORMED"
+    },
+    "source_case_mapping": {
+      "finding": "Original journal PDF, Tables 1/2, Figure 13 raster/caption, Figure 6b raster/caption, equations 6a/6b/9, source methods and p.106 license inspected independently. Four grinds by three nominal densities, twelve triplicate mean/SD summaries. Journal and thesis describe one campaign. Figure13 marker assignments visually agree within declared reading bounds, including overlapping D360/D400.",
+      "status": "PASS"
+    },
+    "source_rights": {
+      "finding": "Original p.106 prints CC BY 3.0. Existing journal manifest version correction and new attributed derivative are bounded to this source; no rights inference for the thesis.",
+      "status": "PASS"
+    },
+    "unchanged_model_target_free_prediction_replay": {
+      "arms": 2,
+      "byte_identical": true,
+      "cases": 12,
+      "status": "PASS"
+    }
+  },
+  "evidence_files": [
+    "INDEPENDENT_REVIEW.md",
+    "verification.json",
+    "verify_frozen_candidate.py",
+    "focused-synthetic-tests.log",
+    "novelty-crosscheck.json"
+  ],
+  "freeze_sha256": "ca85de8bdf773ead3a2d0a95fd11a95e36844e8068970f5a5486ab65d501e1d2",
+  "governance_class": "G1",
+  "independent": true,
+  "limitations": [
+    "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON, not an unseen holdout or independent validation.",
+    "One Roman-Corrochano campaign, twelve triplicate summaries; not 36 available raw observations or an independent thesis cohort.",
+    "Sauter diameter and source constructed bulk porosity are declared proxies for native Wadsworth inputs; neither outcome isolates the native law.",
+    "Figure13 bounds and printed rounding bounds quantify recovery precision only; SDs are descriptive, not confidence intervals; adapter error and experimental variability remain outside this conditional mean-level screen.",
+    "Shared radii, density and particle assumptions do not define independent case uncertainty distributions. Figure6 is source consistency only.",
+    "Factor-two all-case acceptance is a new permissive engineering screen with no demonstrated espresso performance tolerance.",
+    "Fully extracted steady consolidated beds after 600 seconds; no fresh-shot hydraulics, H1, equilibrium, extraction kinetics, EWP or physical validation.",
+    "Novelty conclusion is bounded to fetched repositories, retained live issue/PR bodies and inspected local evidence; no universal literature-novelty claim."
+  ],
+  "real_scientific_scores_performed_by_reviewer": 0,
+  "review_completed_utc": "2026-09-28T16:49:04.507397+00:00",
+  "review_context": "Separate reviewer agent and archive snapshot; no candidate writes, model fitting, real target scoring or native cases",
+  "reviewed_tree": "832f10ef9fe3ebf42ffc705a0340315804506701",
+  "reviewed_tree_kind": "EXACT_STAGED_TREE_ARCHIVED_AND_ALL_BLOBS_VERIFIED",
+  "reviewer_agent_identity": "/root/independent_tamped_review",
+  "reviewer_role": "Independent pre-scoring scientific and software reviewer; not the implementer",
+  "source_pdf_sha256": "fc5a41225359993da86a7ef3504ea6bbdf2be99811f266e20e55e4156d914d5e",
+  "status": "APPROVED",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "unresolved_blocking_findings": []
+}

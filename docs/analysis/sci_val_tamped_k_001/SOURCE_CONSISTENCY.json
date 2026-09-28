@@ -1,0 +1,111 @@
+{
+  "cases": [
+    {
+      "absolute_difference": 0.0012707986765009283,
+      "case": "A-360",
+      "epsilon_figure13": 0.1674917491749175,
+      "epsilon_via_equations_6_and_9": 0.16876254785141842,
+      "figure6b_pixel_y": 846,
+      "lambda_average_read": 0.31079545454545454
+    },
+    {
+      "absolute_difference": 0.0003406163368077364,
+      "case": "A-400",
+      "epsilon_figure13": 0.14834983498349835,
+      "epsilon_via_equations_6_and_9": 0.1486904513203061,
+      "figure6b_pixel_y": 949,
+      "lambda_average_read": 0.25227272727272726
+    },
+    {
+      "absolute_difference": 0.0017674059399086645,
+      "case": "A-480",
+      "epsilon_figure13": 0.11666666666666668,
+      "epsilon_via_equations_6_and_9": 0.11843407260657535,
+      "figure6b_pixel_y": 1158,
+      "lambda_average_read": 0.13352272727272727
+    },
+    {
+      "absolute_difference": 0.0005113272035370819,
+      "case": "B-360",
+      "epsilon_figure13": 0.2123762376237624,
+      "epsilon_via_equations_6_and_9": 0.21288756482729948,
+      "figure6b_pixel_y": 914,
+      "lambda_average_read": 0.27215909090909085
+    },
+    {
+      "absolute_difference": 0.0011974759923824019,
+      "case": "B-400",
+      "epsilon_figure13": 0.17805280528052808,
+      "epsilon_via_equations_6_and_9": 0.17925028127291048,
+      "figure6b_pixel_y": 998,
+      "lambda_average_read": 0.22443181818181818
+    },
+    {
+      "absolute_difference": 0.001004221564892216,
+      "case": "B-480",
+      "epsilon_figure13": 0.13052805280528054,
+      "epsilon_via_equations_6_and_9": 0.13153227437017276,
+      "figure6b_pixel_y": 1181,
+      "lambda_average_read": 0.12045454545454544
+    },
+    {
+      "absolute_difference": 5.7166509746520155e-06,
+      "case": "C-360",
+      "epsilon_figure13": 0.27772277227722775,
+      "epsilon_via_equations_6_and_9": 0.2777284889282024,
+      "figure6b_pixel_y": 1029,
+      "lambda_average_read": 0.20681818181818182
+    },
+    {
+      "absolute_difference": 0.0007016423540934236,
+      "case": "C-400",
+      "epsilon_figure13": 0.2453795379537954,
+      "epsilon_via_equations_6_and_9": 0.24608118030788884,
+      "figure6b_pixel_y": 1119,
+      "lambda_average_read": 0.15568181818181817
+    },
+    {
+      "absolute_difference": 0.00021819226371103118,
+      "case": "C-480",
+      "epsilon_figure13": 0.18003300330033006,
+      "epsilon_via_equations_6_and_9": 0.1802511955640411,
+      "figure6b_pixel_y": 1273,
+      "lambda_average_read": 0.06818181818181818
+    },
+    {
+      "absolute_difference": 0.0004378661298362063,
+      "case": "D-360",
+      "epsilon_figure13": 0.321947194719472,
+      "epsilon_via_equations_6_and_9": 0.3223850608493082,
+      "figure6b_pixel_y": 1121,
+      "lambda_average_read": 0.1545454545454545
+    },
+    {
+      "absolute_difference": 0.0010413929785969,
+      "case": "D-400",
+      "epsilon_figure13": 0.3166666666666667,
+      "epsilon_via_equations_6_and_9": 0.3177080596452636,
+      "figure6b_pixel_y": 1275,
+      "lambda_average_read": 0.06704545454545455
+    },
+    {
+      "absolute_difference": 4.545641470288242e-06,
+      "case": "D-480",
+      "epsilon_figure13": 0.23613861386138618,
+      "epsilon_via_equations_6_and_9": 0.23614315950285647,
+      "figure6b_pixel_y": 1393,
+      "lambda_average_read": 0.0
+    }
+  ],
+  "figure6b": {
+    "image_sha256": "f710937b1a1f905d2c72b2a6561e8f8dc31ff490778d975459a9ee2fbd02c890",
+    "image_xref": 264,
+    "pdf_page": 7,
+    "printed_page": 111,
+    "purpose": "CONSISTENCY_ONLY_NOT_EXTRA_OBSERVATIONS",
+    "y_035_px": 777,
+    "y_zero_px": 1393
+  },
+  "max_absolute_difference": 0.0017674059399086645,
+  "source_pdf_sha256": "fc5a41225359993da86a7ef3504ea6bbdf2be99811f266e20e55e4156d914d5e"
+}

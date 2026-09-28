@@ -1,0 +1,80 @@
+{
+  "affected_quick_condition": "DISCHARGED_BY_AFFECTED_RERUN_AND_EXACT_HASH_UNAFFECTED_REUSE",
+  "approval_scope": "The original one-comparison approval survives this metadata-only delta. Its software condition is satisfied by resolved affected failures plus reused unaffected evidence. All original scientific, source, adapter, claim, no-retuning and no-successor limits remain in force. No new scientific audit or second full-suite pass is claimed.",
+  "candidate_mutations_performed_by_reviewer": 0,
+  "completed_utc": "2026-09-28T17:01:36.781354+00:00",
+  "delta": {
+    "all_changes_documentation_or_generated_metadata": true,
+    "changed_files": 18,
+    "changes": [
+      "Existing Insight Foundry regeneration and append-only stable ID entries",
+      "Paper 3 provenance-manifest count 115 to 116: four prose instances and one generated table",
+      "Current I-045 metadata row count and companion hash pointer",
+      "Claim audit source commit and Paper 3 input fingerprint"
+    ],
+    "exact_archived_snapshot_git_blobs_verified": 2287,
+    "frozen_scientific_files_verified_unchanged": 12,
+    "implementation_model_inputs_predictions_thresholds_targets_tests_and_generators_changed": false,
+    "model_evidence_counts_unchanged": true,
+    "new_candidates": {
+      "I-094": "SEED_UNSCORED_NO_HISTORY",
+      "I-095": "SEED_UNSCORED_NO_HISTORY"
+    },
+    "new_tensions": [
+      "T-0176",
+      "T-0177"
+    ],
+    "scientific_selection_or_successor_added": false,
+    "stable_ids_preserved": true
+  },
+  "evidence": {
+    "${EVIDENCE_ROOT}/logs/puckworks-affected-quick.log": "f758035b15957980eee1d2be7fb025badb6f577fd78952a7094896246d207130",
+    "${EVIDENCE_ROOT}/logs/puckworks-affected-quick.xml": "17fb01f56f2dba5393494478af43bc08227bfc9e40835250d233526a646ef3fa",
+    "${EVIDENCE_ROOT}/logs/puckworks-final-lint.json": "0cc27ea5ed387988e43887850b289a9f730a519e71375accd54103ef6e062b50",
+    "${EVIDENCE_ROOT}/logs/puckworks-metadata-affected-tests.log": "071f564e7daf571ba48da71835f3d16a8fbac28141730c2cfae72c0a175fc33a",
+    "${EVIDENCE_ROOT}/logs/puckworks-metadata-affected-tests.xml": "547bf0876220d397f7fdbb57e46e35915ff06c7bc3675deba4b58217a9c57b01",
+    "${EVIDENCE_ROOT}/review/metadata-delta-verification.json": "f530728c77e74c9767537153610ecd807dd09991f13f3702d487ce4ab63136c8",
+    "${EVIDENCE_ROOT}/review/metadata-test-reconciliation.json": "05a8c5dca37803b17035eb7bac92a309bd6ca978094882ea70e84ea4622ca3f7"
+  },
+  "failure_classification": "QA_METADATA_FRESHNESS_NOT_SCIENTIFIC_FAILURE",
+  "freeze_sha256": "ca85de8bdf773ead3a2d0a95fd11a95e36844e8068970f5a5486ab65d501e1d2",
+  "independent": true,
+  "original_pre_score_review_sha256": "af7319fa56831266fec906ff4d6cf15239b40c43e9882b3157d56bb82e34d1a6",
+  "original_scientific_approval": "REMAINS_VALID_FOR_UNCHANGED_FROZEN_ARTIFACTS",
+  "policy": "docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md; section 2 rules 6-7, section 7 and section 9 permit exact-hash reuse and affected-only checks for G0 changes",
+  "prior_reviewed_tree": "832f10ef9fe3ebf42ffc705a0340315804506701",
+  "qa": {
+    "affected_rerun": {
+      "elapsed_seconds": 107.73,
+      "failed": 0,
+      "passed": 302,
+      "returncode": 0,
+      "status": "PASS"
+    },
+    "combined_evidence": {
+      "deselected": 60,
+      "passed": 4936,
+      "skipped": 65,
+      "status": "PASS"
+    },
+    "failed_test_identity_reconciliation": "All 16 failures are present and passing in the affected rerun JUnit; each original failure was inspected and attributable to stale generated metadata/counts.",
+    "final_lint": "PASS_RETURN_CODE_0",
+    "first_full_candidate_run": {
+      "deselected": 60,
+      "failed": 16,
+      "passed": 4920,
+      "skipped": 65,
+      "status": "FAIL_RETAINED"
+    },
+    "second_full_suite_run_claimed": false,
+    "test_or_generator_code_modified": false,
+    "unaffected_passed_tests_reused": 4634
+  },
+  "real_target_scores_performed_by_reviewer": 0,
+  "review_kind": "BOUNDED_G0_METADATA_QA_ADDENDUM_REUSING_ORIGINAL_G1_SCIENTIFIC_AUDIT",
+  "reviewed_tree": "ff2f9782ab537b0f7f2577629d9ddf18a6a23aa6",
+  "reviewer_agent_identity": "/root/independent_tamped_review",
+  "status": "APPROVED",
+  "task": "SCI-VAL-TAMPED-K-001",
+  "unresolved_blocking_findings": []
+}

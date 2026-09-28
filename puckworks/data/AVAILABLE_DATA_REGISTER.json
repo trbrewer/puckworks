@@ -1,5 +1,5 @@
 {
-  "dataset_count": 115,
+  "dataset_count": 116,
   "families": [
     {
       "analytes": [
@@ -2313,7 +2313,8 @@
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
       "directness": [
-        "card transcription (fully printed Table 2 with SDs and ANOVA letters)"
+        "card transcription (fully printed Table 2 with SDs and ANOVA letters)",
+        "Original PDF inspection; retained raster marker coordinates and bounded readings; dry Sauter diameter transcription"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -2322,18 +2323,21 @@
       "fraction_resolution": "UNKNOWN",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
-        "tamped-permeability data for wadsworth2026.permeability tamped-reconciliation (G9/P4); supersedes the thesis Table 6.1 transcription target"
+        "tamped-permeability data for wadsworth2026.permeability tamped-reconciliation (G9/P4); supersedes the thesis Table 6.1 transcription target",
+        "SCI-VAL-TAMPED-K-001 fixed model-plus-adapter comparison; research only"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
       "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
       "manifest_dataset_ids": [
-        "romancorrochano2015/table2"
+        "romancorrochano2015/table2",
+        "romancorrochano2015/sci_val_tamped_k_001_inputs"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV"
+        "K-C equations non-predictive (take the table, skip the models); tamped/consolidated regime; d[3,2] per grind and consolidation constants live in the card, not this CSV",
+        "12 case summaries; same 2015/thesis campaign; R<-d32/2 and phi_p<-consolidated bulk porosity are proxies; no target-derived inputs or production adoption"
       ],
       "observables": [
         "UNKNOWN"
@@ -2343,7 +2347,7 @@
       "publication_or_repository": "Roman-Corrochano et al. 2015 Table 2 \u2014 tamped-bed K (m^2), mean+/-SD triplicate, grind A-D x bulk density 360/400/480 kg m^-3, Tukey groups",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "Roman-Corrochano et al. 2015 (CC BY 4.0; DOI'd version of record)"
+        "Roman-Corrochano et al. 2015 (CC BY 3.0; original journal p.106; prior 4.0 manifest label corrected under SCI-VAL-TAMPED-K-001)"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
@@ -2359,10 +2363,12 @@
       "time_resolution": "UNKNOWN",
       "title": "romancorrochano2015",
       "uncertainty_status": [
-        "y (SD of triplicate beds; Tukey groups alpha=0.05)"
+        "y (SD of triplicate beds; Tukey groups alpha=0.05)",
+        "Reading/rounding bounds only; shared inputs; source SDs not confidence intervals"
       ],
       "validation_strength": [
-        "reference (measured tamped K); the source's K-C equations are poor blind predictors (per-grind n fit) so this is not a K-C validation"
+        "reference (measured tamped K); the source's K-C equations are poor blind predictors (per-grind n fit) so this is not a K-C validation",
+        "TARGET_EXPOSED_RETROSPECTIVE_COMPARISON; declared adapter only; not native-law or EWP validation"
       ]
     },
     {
@@ -3260,6 +3266,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "e46c0c0868473e988dd26928263d51c7d5df571e500c8ed3d19b14e64c72d23d",
+  "manifest_sha256": "be8f60dd5101d474625c13386ec372d36496af9dae0eeb9d5b3f37d3274652e1",
   "schema_version": 1
 }

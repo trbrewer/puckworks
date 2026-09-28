@@ -1,0 +1,15 @@
+# Bounded metadata QA review — SCI-VAL-TAMPED-K-001
+
+**APPROVED. The original scientific approval remains valid, and its affected-quick condition is discharged by passing affected reruns plus unchanged-evidence reuse.** No unresolved blocking findings.
+
+Independent reviewer: `/root/independent_tamped_review`. Reviewed exact tree `ff2f9782ab537b0f7f2577629d9ddf18a6a23aa6` against the original reviewed tree `832f10ef9fe3ebf42ffc705a0340315804506701`, using a separate archive snapshot. Verified all 2,287 snapshot Git blobs and all twelve frozen scientific hashes. FREEZE.json remains `ca85de8bdf773ead3a2d0a95fd11a95e36844e8068970f5a5486ab65d501e1d2`. Original approval SHA-256 remains `af7319fa56831266fec906ff4d6cf15239b40c43e9882b3157d56bb82e34d1a6`.
+
+The eighteen changed files are generated documentation or metadata. Existing generators refresh the Insight Foundry outputs, current I-045 correction row count, Paper 3 corpus table, and claim audit fingerprints. Manual changes are four Paper 3 provenance-manifest counts from 115 to 116 and the current I-045 companion hash pointer. No implementation, model, parameter, structural input, target, prediction, numerical bound, threshold, test or generator code changed.
+
+The stable-ID registry is append-only. All old assignments remain intact. New I-094/I-095 records are unscored SEED output with empty history, associated with T-0176/T-0177; they select no scientific work or successor. Existing common candidate records change only their source commit. Model evidence-strength counts and all I-045 scientific/historical conclusions are unchanged.
+
+The completed first full candidate run is retained as **16 failed, 4,920 passed, 65 skipped, 60 deselected**. Each failure was inspected in JUnit and is attributable to stale generated artifacts, stable-ID registration, manifest counts or claim-audit fingerprints. The affected rerun passed **302 tests**, including all sixteen formerly failing test identities. Final lint returned zero. JUnit reconciliation establishes 4,634 unchanged passing tests eligible for reuse; combined evidence is therefore **4,936 passed, 65 skipped, 60 deselected**. This is combined evidence, not a claim that a second full-suite command ran or passed.
+
+The existing minimum-necessary-governance standard, section 2 rules 6–7 and sections 7/9, permits exact-hash reuse and affected-only reruns for this G0 correction. This addendum clarifies and satisfies the original software condition without repeating the scientific audit. Original source, declared-adapter, retrospective exposure, all-twelve decision, no-retuning, claim-ceiling and no-successor restrictions remain in force.
+
+Evidence is retained outside Git under `${EVIDENCE_ROOT}/review/metadata-delta-verification.json`, `${EVIDENCE_ROOT}/review/metadata-test-reconciliation.json`, and the original/affected test logs and JUnit files named and hashed in `METADATA_QA_REVIEW.json`. The original failed run remains preserved. The reviewer performed zero real target scores and made no candidate changes.
