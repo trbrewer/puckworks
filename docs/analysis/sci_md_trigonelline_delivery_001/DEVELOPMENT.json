@@ -1,0 +1,876 @@
+{
+  "arms": {
+    "TR-D0": {
+      "candidates": [
+        {
+          "balanced_R_mg_g": 0.157496492600071,
+          "folds": [
+            {
+              "R_mg_g": 0.2503660059800159,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C01",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 1.7570594633956385e-16,
+              "model_sha256": "b6c7fc57cc35f5fed75e1782a658faa83af207076c291e6e134f486d3cec9509",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.20747652250048776,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C02",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.762380220033744e-16,
+              "model_sha256": "a6e67efc608ccb3fa3fceb65264ba793c3409a59770ef0181d4e0b8735111ff3",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.26084278055712146,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C03",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7946880887462928e-16,
+              "model_sha256": "8bd6883b9b1f3d9b55d43d08707fe03c8d566966c012e482e7b7d1948a426a57",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.21541048387969863,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C04",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6633376449915492e-16,
+              "model_sha256": "1fd25e3a4fa952608271cb6f9f31118db1712cd87bc7e190008e75d3b2219e2f",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2518471704294294,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C05",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 2.687992102719791e-16,
+              "model_sha256": "9b69ffd9edd0f8057db97152ae393b2770f34115ef1d72a04a9642264d812262",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.244585168515431,
+              "domain_kg": 0.06610329999999999,
+              "group": "FIT-C06",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 2.1209737920129232e-16,
+              "model_sha256": "ee540625bf8d2d1cce4a02f99b584e26c69d4b79f3004cfc5abe367817ce461f",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.07783139531882317,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C07",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.8076968327467946e-16,
+              "model_sha256": "2c2aa71a487a3f33c68177f9eeb70104c3e628c7b6b180e4bd503874ccae3d6b",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.10832814421811875,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C08",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7576663782152633e-16,
+              "model_sha256": "39572c8ae4a9c6f2746a48d2cae38166a082de4b209126d06d9ea762576cf351",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.06093587439560385,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C09",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6036255967879533e-16,
+              "model_sha256": "e8a2a35937bccae926b47f52e72679d4dfae26960ed1164a85459f0acaa467e4",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.17676540814160394,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C10",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7193980641329413e-16,
+              "model_sha256": "62f4694236b494d94e54077e55001128d5c24b50a75bbd596f2d4412528b9525",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.07042642324536984,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C11",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7937053524404807e-16,
+              "model_sha256": "aa820b62e1a3c206db77bb3a3af3ed349f3a6293e20e85e432129312f56f5222",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.14918237736097872,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C12",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.696945023593297e-16,
+              "model_sha256": "c26873d10981a59c5baaff934a2db2c98d28a9424e1530f7c4d77850450e9e6f",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.06436511132266699,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C13",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.920484951912986e-16,
+              "model_sha256": "bebe29c7ecaeb077ed6587830f99031101c58e2c0f5b5f43d4f5d7df80d55e5a",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.10448178979969076,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C14",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6854529896375395e-16,
+              "model_sha256": "100ec8c8d5c6534b71d56ccc983a1734e65b4b9fe46bd1343dcef1ec08efdded",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.11960273333602499,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C15",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6746243211063884e-16,
+              "model_sha256": "54f58255c332c8ce5215ef3e36de84d0c12c523d04477f79320fe81bb4a41971",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_mg_g": 0.1601896065582485,
+          "folds": [
+            {
+              "R_mg_g": 0.25364082088575673,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C01",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 1.7569221835045215e-16,
+              "model_sha256": "5858d8bed7aa41a16c620361b74db07fe25aae2e6db757491dbc1f6fcf25e377",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.21587644094407224,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C02",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7623289530551794e-16,
+              "model_sha256": "35cf40a5640332b17ec9f1a0d717be5ea13c7716543ca7f9327801574fb2fe1d",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2552434746833196,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C03",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7944071084386705e-16,
+              "model_sha256": "3e7f182372f1fe7fab32528611d696956bd5461ac27fc3cfc5ad53a397608be5",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.23710392039984443,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C04",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.663460171083735e-16,
+              "model_sha256": "29250fe0ef1c79d3fe56ee7dc752a1db7cec7fa4fca26d7f0a74f54e22d209b3",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2557529289620229,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C05",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 2.6879040472947524e-16,
+              "model_sha256": "3bb17c2159ea975396abc54510fa094e2a25a52438240876b5fa589df9e3b30c",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.24330149771061219,
+              "domain_kg": 0.06610329999999999,
+              "group": "FIT-C06",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 2.1209009397745174e-16,
+              "model_sha256": "78bec532792b9588b7661713c253ff07fc2cb8d41baa75c0c517f3bbb54d8be8",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.08067640366224449,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C07",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.8077024155966472e-16,
+              "model_sha256": "a3f3f8d2c4ad8c40789843533256146363c922047eac92d3de412ec8c54d5224",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.10046638072265342,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C08",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.757697633706582e-16,
+              "model_sha256": "64a87e7cfc62c71e080a89f8b79e1a20d0b15e0f3986df95fbab9a001588b302",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.05157632615296117,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C09",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.603638873833918e-16,
+              "model_sha256": "28177b51623919d17b88c56111040781d6be66a981344c40faba57ba9c31682f",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.1959449639567321,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C10",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.719497680882456e-16,
+              "model_sha256": "bec3a75fb7293e45944530e6b808b4aaa9baf2324a28a47ca25fbcd3eef9c5be",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.0769074043817473,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C11",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7936728201668574e-16,
+              "model_sha256": "ef164dc09ca91b81fcc32c5369662f655d2ee7a9f493fcd96ae590a1a5d7728e",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.14391392195489308,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C12",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6969260015152576e-16,
+              "model_sha256": "c3d55e1ee2df7a91c80f57dc1ad4904718bdca8c47f58b2f5643ba9fa8d86ed9",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.06921864278064499,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C13",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.9204958700674264e-16,
+              "model_sha256": "802a4ed69db78828e36539028b1711a8e04b03ae13db73d9302926d089d36efa",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.10287745166262234,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C14",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6853737843539663e-16,
+              "model_sha256": "337e2e9e346737c49c78e86c1ba450f969f99a3a6b5e44547ca00bbdcf1ed119",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.12034351951360017,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C15",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6746304463111324e-16,
+              "model_sha256": "9e9bf0bea8fafd81b9543a417a2d0e34622aa4ab065b72a439e97021735a45c0",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_mg_g": 0.17447298804612743,
+          "folds": [
+            {
+              "R_mg_g": 0.21753463269740717,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C01",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 1.7565338396847065e-16,
+              "model_sha256": "c0a2c04b55a3a4165f00359459c0ddf43c0a74d9eb47d7e33c47c6633866d8ff",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2538469782358701,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C02",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.762181164425924e-16,
+              "model_sha256": "58e5d81b31581deecd03fd64e46a533acdf193e4cb4876d4984452d3041eec7f",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2193070315849304,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C03",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7936321379405293e-16,
+              "model_sha256": "152b8624f53d091ac405b31d49fe105e57d94047d4eaacbc108b02338c33d2cb",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2619653455817225,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C04",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6635345376053573e-16,
+              "model_sha256": "d3ab502da153324d674a429a83eea7095f78bb3c3efa29bdc880b8cba8b8ff29",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.28213681319519046,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C05",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 2.68734815601744e-16,
+              "model_sha256": "9a5282df6c468646e1602d38a22941f185f151cb748510343deab0ddddced46e",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2528758269357419,
+              "domain_kg": 0.06610329999999999,
+              "group": "FIT-C06",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 2.120386993056796e-16,
+              "model_sha256": "66663be5e3b53e77a4636df37454e1d46a9bff771fabf9f938e9b6b0e19790af",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.12399310063104312,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C07",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.807759883968025e-16,
+              "model_sha256": "c23a373026abf5409c6974f15304dc7e66a88f6ef0360f869fccfafa25a1c1cc",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.12211550449509238,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C08",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7577322816875292e-16,
+              "model_sha256": "ef2d9d0334171d8f43bddbdd7bc05dfbf68f23d70fce5aa4e6e533e275b2e77e",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.031034830841519766,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C09",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6037655395540802e-16,
+              "model_sha256": "4b04ef0742545410685e013e47b4bc1a1ca96f310d85e64b97595a55120e9c4a",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2560614471199591,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C10",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7196515882534329e-16,
+              "model_sha256": "ea8bd87125b3d8801aabf3f1925655e216a0f5b96696f20228cd3c88f23e5a19",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.14405623332760809,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C11",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7933098746963264e-16,
+              "model_sha256": "8e81d88a862b0b4699b28842f91592204ea51ea858a24aac33c526fbe8475e68",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.16412799551543159,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C12",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.696929147697307e-16,
+              "model_sha256": "a9f43c2ae215b6a74995b61fc7ee29a1751f1d7c71ba9a6885890b8fc594aef9",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.07833209831027961,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C13",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.9204956751023004e-16,
+              "model_sha256": "b3d60ac4b5a1fa5aa9a1e668c1833e40ebe0cb6035deca02ce5149ee8ada9f16",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.09412708006597544,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C14",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6854281830058548e-16,
+              "model_sha256": "f05a643982868122e90e5273a1a5bc472b19977071d5961448c85cf8e366fb32",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.1155799021541402,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C15",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6746880688452003e-16,
+              "model_sha256": "d9bbf223df6591318223ac6e4b51881438173f2930f7973f8299a5b832475c70",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "balanced_R_mg_g": 0.17532355670635533,
+          "folds": [
+            {
+              "R_mg_g": 0.19370613087237976,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C01",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 1.7563426506189637e-16,
+              "model_sha256": "f192c49ce6efe955e1b9e6754cfbe7893fc1e07a224952ea5c95b11061063b19",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.25698483092036944,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C02",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7621484632635996e-16,
+              "model_sha256": "7e060a670b8db14945a32509749500535581fccb95ed89fa9145f7a3292ac4e6",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.21423134031249927,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C03",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7935703171754998e-16,
+              "model_sha256": "495b00c315e62c03a4b9f3ad3971a978e3c7e2c33ca52ca96a08e4ecd7f948d6",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.26296386196764054,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C04",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6635544536388902e-16,
+              "model_sha256": "00d71ae26a02b85c0b20df0213ea57becce040a774735f9c6abf6152083ccb81",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.2867892787944689,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C05",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 2.687284005759016e-16,
+              "model_sha256": "9b582be945049ba1a38390fa930372cc9f80fcd69f60a09cc18b1b2af4c3620c",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.25234181348226437,
+              "domain_kg": 0.06610329999999999,
+              "group": "FIT-C06",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 2.120325701212934e-16,
+              "model_sha256": "9d2c1936117ac0cc45df51e64b1d362324717d806a4260a2b2d0a56098c34cbe",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.12928203453447265,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C07",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.807772591174228e-16,
+              "model_sha256": "f54f80092cf1ea1c1d41ed4b667efbea4ef81c575402268c1b105f1415068937",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.12596624927366956,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C08",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7577231615274935e-16,
+              "model_sha256": "c1bcc6f6e794223a3b6f8f5bf3107dba8434649f571caaa284e147b3e126f2e6",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.032625788857193284,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C09",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6037964845365838e-16,
+              "model_sha256": "bf3ef92508d1abbcbc2e2dcc7964c4833cd6b179d32db2b87bf4f3b5f10d9825",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.26384019828118027,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C10",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.719691213830232e-16,
+              "model_sha256": "fdb27cfa017dac2d0bdaf0ca52ccdfcb9c39f317c1b9d0ee52c51c45e4242342",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.15409382578589914,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C11",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7932783318684062e-16,
+              "model_sha256": "012f03ddf2c1d840223d949e6044d9e578c675fc78c8bc1d50695da10969d97b",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.16888701179158863,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C12",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6969093912649134e-16,
+              "model_sha256": "e959d56d500058c5e491f6b8b1ca86a6b290e9a54110e40ea0cb3b556ae97f23",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.08036969382967975,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C13",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.92053207324058e-16,
+              "model_sha256": "f0a42a50b7462cffc2f4a5c0d76b878ec5064ce36e4938635d2616bd75e13f24",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.09452296326031111,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C14",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6854132679643545e-16,
+              "model_sha256": "20d6c33328ad026bebe0a43b23d2936aea375c391e03622e11765eeb4cc6b45b",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.11324832863171312,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C15",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6747539704585103e-16,
+              "model_sha256": "076140ff3bac648a5c8c133fea414b25497432259bad9996b46ef831b10687f2",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 0.0001
+    },
+    "TR-K0": {
+      "candidates": [
+        {
+          "balanced_R_mg_g": 0.7931349509560043,
+          "folds": [
+            {
+              "R_mg_g": 0.9224975557946656,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C01",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 1.7528702804673452e-16,
+              "model_sha256": "b932dd31809fb0a54593f8f03ca7aaf6973b3c7f4b478269868e028d1963ba86",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 1.065100073038135,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C02",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7588537337438559e-16,
+              "model_sha256": "9ccc40a6d269eeb292ec73af9b9e2568f94358994344387b2da1b4da48d7ada9",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.8423555937037919,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C03",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.789675242804787e-16,
+              "model_sha256": "df9b350bae8f302087d19eb6079a7478425b88d80ab0afaea61f74d1ed408df6",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 1.026994573372279,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C04",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6632075365717449e-16,
+              "model_sha256": "ede4584e80d0f67028228baf030f242023fdd700c4b4b7bed98ec83e8769a6cb",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.5688027035641116,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C05",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 2.6897619180896414e-16,
+              "model_sha256": "f3a42a7633b2215fd4b21223febded4e22c7c63ccbe4594f1292c7b3e8c8b2d5",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.5191503382263578,
+              "domain_kg": 0.06610329999999999,
+              "group": "FIT-C06",
+              "held_shot_count": 3,
+              "held_supported_slots": 10,
+              "max_allowance_kg": 2.1213722794212085e-16,
+              "model_sha256": "03c38b9970765e66ada408077597c7036946f2837247ac69ebc0a65b9477ca45",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.6983634153579672,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C07",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.805272203267941e-16,
+              "model_sha256": "e523943c12554b6d599372673d8b08e94f3614bb51f0f69850fdb8d247458295",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.7521147692704981,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C08",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.755384548924532e-16,
+              "model_sha256": "9d700ff11ceb5b8fcac4c73577c42a98fc083f010188f23f308c593407fc84ad",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.7567899410242246,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C09",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6014122665529595e-16,
+              "model_sha256": "ba8b311401732e2e573eae36d3ceb5d240e263f58f40cca5d1116083bec197f3",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 1.036598428580194,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C10",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.7194114595715055e-16,
+              "model_sha256": "70bb858f9b064d5e82f42195a1be012f79eb5998eee14aa888dc1fe3e1839249",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.6184296679770306,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C11",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.793746123616107e-16,
+              "model_sha256": "c96e96b308f4beee58e7d3b7d6ed92bff036104b5a7f1008e32bb3c43a816b6c",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.6449976376919347,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C12",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6940410639245726e-16,
+              "model_sha256": "d0a701123e403c054e8a0d0ba73da82924e1c8e211b0f6beddb34279538f4d68",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.7841829874162686,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C13",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.9175988722343715e-16,
+              "model_sha256": "755cb9f52f2736af6670084644cbd87e8b83e645ad246d69de71e75b631c40c9",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.7989767318168237,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C14",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6827182721568103e-16,
+              "model_sha256": "440a6dac1792bb2d10f250981e22b3320e4b7f3a5c2c2992f0837b62f5687b38",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            },
+            {
+              "R_mg_g": 0.8616698475057819,
+              "domain_kg": 0.06971540000000001,
+              "group": "FIT-C15",
+              "held_shot_count": 3,
+              "held_supported_slots": 12,
+              "max_allowance_kg": 1.6723386195399074e-16,
+              "model_sha256": "b793e6e1bd60478dd635a15f8dad15666c5c961e7f1ea75012ddc7c89733fd7d",
+              "status": "CONVERGED",
+              "training_shot_count": 42
+            }
+          ],
+          "lambda": null,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": null
+    }
+  },
+  "scope": "DEVELOPMENT_NOT_UNBIASED_NESTED_VALIDATION",
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}
