@@ -32,6 +32,10 @@ from puckworks.analysis import screen_wp6_lateral_identifiability as S
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 BUNDLE = REPO / "docs/insights/screens/WP6-LC-IDENT"
+SCREEN_BASE = "f77d0e328496dc1e85bf00fdb06ccdc52d8b2108"
+# PR #233's final reviewed branch commit contains the current result.json. These
+# endpoints describe what that completed screen changed, independent of later work.
+SCREEN_COMPLETION = "13c398e038c94ae8f95c8106e327e47d3d5f5345"
 
 
 @pytest.fixture(scope="module")
@@ -44,6 +48,24 @@ def result():
 
 def _git(*args):
     return subprocess.run(("git",) + args, cwd=REPO, capture_output=True, text=True)
+
+
+def _assert_wp6_foundry_unchanged(base, completion):
+    for ref in (base, completion):
+        checked = _git("cat-file", "-e", ref + "^{commit}")
+        assert checked.returncode == 0, checked.stderr
+    ancestry = _git("merge-base", "--is-ancestor", base, completion)
+    assert ancestry.returncode == 0, ancestry.stderr
+    for path in (
+        "docs/insights/ID_REGISTRY.json",
+        "docs/insights/candidates",
+        "puckworks/insights",
+    ):
+        diff = _git("diff", "--numstat", base, completion, "--", path)
+        assert diff.returncode == 0, diff.stderr
+        assert diff.stdout.strip() == "", (
+            "%s must be byte-unchanged by this screen, got:\n%s" % (path, diff.stdout.strip())
+        )
 
 
 # ------------------------------------------------------------------------------------------
@@ -842,15 +864,53 @@ def test_no_foundry_infrastructure_was_added_or_modified(result):
         "the regeneration must be declared, not hidden behind an unchanged flag"
     )
     base = result["source_commit"]
+    assert base == SCREEN_BASE
     if _git("cat-file", "-e", base + "^{commit}").returncode != 0:
         pytest.skip("base commit unavailable")
-    for path in (
-        "docs/insights/ID_REGISTRY.json",
-        "docs/insights/candidates",
-        "puckworks/insights",
-    ):
-        out = _git("diff", "--numstat", base, "HEAD", "--", path).stdout.strip()
-        assert out == "", "%s must be byte-unchanged by this screen, got:\n%s" % (path, out)
+    _assert_wp6_foundry_unchanged(base, SCREEN_COMPLETION)
+
+
+def test_wp6_historical_range_ignores_later_changes_and_detects_internal_changes(tmp_path, monkeypatch):
+    """Use disposable history; never mutate the real append-only registry."""
+    monkeypatch.setattr(__import__(__name__, fromlist=["REPO"]), "REPO", tmp_path)
+
+    def git(*args):
+        result = _git(*args)
+        assert result.returncode == 0, result.stderr
+        return result.stdout.strip()
+
+    git("init", "-q")
+    git("config", "user.name", "Synthetic test")
+    git("config", "user.email", "test@example.invalid")
+    protected = tmp_path / "docs/insights/ID_REGISTRY.json"
+    protected.parent.mkdir(parents=True)
+    protected.write_text("original\n")
+    git("add", ".")
+    git("commit", "-qm", "base")
+    base = git("rev-parse", "HEAD")
+    (tmp_path / "screen-result.txt").write_text("completed\n")
+    git("add", ".")
+    git("commit", "-qm", "screen completion")
+    completion = git("rev-parse", "HEAD")
+    _assert_wp6_foundry_unchanged(base, completion)
+    protected.write_text("later change\n")
+    git("add", ".")
+    git("commit", "-qm", "later unrelated work")
+    later = git("rev-parse", "HEAD")
+    _assert_wp6_foundry_unchanged(base, completion)
+    with pytest.raises(AssertionError, match="byte-unchanged"):
+        _assert_wp6_foundry_unchanged(base, later)
+
+
+@pytest.mark.parametrize("failed_command", ["cat-file", "merge-base", "diff"])
+def test_wp6_failed_git_command_cannot_pass_as_empty_diff(monkeypatch, failed_command):
+    def failed_git(*args):
+        failed = args[0] == failed_command
+        return subprocess.CompletedProcess(args, 128 if failed else 0, "", "synthetic failure" if failed else "")
+
+    monkeypatch.setattr(__import__(__name__, fromlist=["_git"]), "_git", failed_git)
+    with pytest.raises(AssertionError, match="synthetic failure"):
+        _assert_wp6_foundry_unchanged(SCREEN_BASE, SCREEN_COMPLETION)
 
 
 # Provenance fields the sanctioned regeneration is ALLOWED to move. Everything else in the
