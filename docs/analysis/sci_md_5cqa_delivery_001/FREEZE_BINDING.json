@@ -1,0 +1,33 @@
+{
+  "approval_sha256": "7dba328289d9facffe7de36a01b098245c248f6a8dacdea8b387ec370d3cf5eb",
+  "code_protocol_files": 57,
+  "freeze_sha256": "da6023c0e0077f5f89d2a7ed877b1a3ff26c8c4bc6935b9263ecdf798184b7a1",
+  "max_prediction_allowance_kg": 2.0385947088335044e-16,
+  "originals_and_rows": "PRIVATE_NOT_DISTRIBUTED",
+  "outcome_joins": 0,
+  "prediction_slots": 192,
+  "predictions_sha256": "f843795c3f0eb2f9d2dff56be37377085473470392c34bd50fe62da225e1fa1f",
+  "private_artifacts": 710,
+  "review_report_sha256": "690b954f9137346f885e34046153c06e39a19ca279b87f94224f71adab1ca725",
+  "review_role": "INDEPENDENT_CODEX_AGENT_NOT_HUMAN_NOT_IMPLEMENTER",
+  "reviewed_head": "cadb7aeaa00630ad311970610ec5763ad4ffc9a3",
+  "reviewed_tree": "f570fab32f9105cc77e9cc3eb89b5a952448e9f6",
+  "scientific_score_passes": 0,
+  "states_sha256": "bd587ec422a585a211e662008e1a9695c3f5d1f653b770bb18a60c4c83be652c",
+  "status": "INDEPENDENTLY_APPROVED_PRE_SCORE",
+  "support_per_arm": {
+    "flow": {
+      "original": 24,
+      "qualified": 23
+    },
+    "primary": {
+      "original": 48,
+      "qualified": 48
+    },
+    "temperature": {
+      "original": 24,
+      "qualified": 24
+    }
+  },
+  "task": "SCI-MD-5CQA-DELIVERY-001"
+}

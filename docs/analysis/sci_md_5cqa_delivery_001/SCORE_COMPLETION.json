@@ -1,0 +1,13 @@
+{
+  "files": {
+    "observed_suffix.json": "11e06caa366505fafc0f15bf58bf291f5128df1b0232363b534e605495134936",
+    "score_receipt.json": "809141c32de802845a69f468da79ab40535dc16cd83ab2625fca44bb9caeaa75",
+    "scores.json": "4e0a27e3cc88194a09023a399894e370341131b833926f2f2276ad473d9207e8",
+    "shot_results.json": "f3c0c05e3c0f9fcfa6ef1a610addb31ad9769b4e2896b6824b9f259234b0cc16"
+  },
+  "freeze_sha256": "da6023c0e0077f5f89d2a7ed877b1a3ff26c8c4bc6935b9263ecdf798184b7a1",
+  "review_sha256": "7dba328289d9facffe7de36a01b098245c248f6a8dacdea8b387ec370d3cf5eb",
+  "scientific_score_passes": 1,
+  "status": "COMPLETE",
+  "task": "SCI-MD-5CQA-DELIVERY-001"
+}
