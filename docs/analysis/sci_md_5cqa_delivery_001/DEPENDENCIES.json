@@ -1,0 +1,31 @@
+{
+  "accepted_main": {
+    "head": "14c6b0992fc558594d2c8617c79264c066000e47",
+    "tree": "e317f50e32cc5eee73914e5854d9186bdff06a51"
+  },
+  "caffeine_evaluated_producer": "3389f8f4d41cfcbb965e38e9ceaed0840f9a41ea",
+  "caffeine_publication": "7931de2d4250ad1eff18a36a02ba86732996e46f",
+  "files": {
+    "puckworks/analysis/conditional_caffeine_delivery.py": "4ce97309a213f017b6ada7f1ac595e4b59670a988f40de38191d642b54590e5a",
+    "puckworks/analysis/conditional_caffeine_scoring.py": "9e660b7c2ff6d65d2770a0caa2195ee084e768c5195fc42ffa01f081b851f989",
+    "puckworks/analysis/conditional_caffeine_training.py": "a282ce642f148e5eea98d79b0008e0dd6d31b6e76d49ecedf3632f32e95d650c",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33",
+    "puckworks/analysis/conditional_tail_training.py": "6ed34780481016f34ff0ca0c49be6ee9602c3ebb4472b6a84b7b181698269b31",
+    "puckworks/analysis/conditional_trigonelline_delivery.py": "1f856378337b9fb7255bbb54071bcc3c0922ea706926c195d799a8479977110a",
+    "puckworks/analysis/conditional_trigonelline_training.py": "f1a823c32653e0b19e5b329971b616d1c170cd799b17f9bb5399e5fdc8783d1e",
+    "puckworks/analysis/pannusch_anchored_mass_delivery.py": "e5b2b44c1f669387da659f6f452329782d9b5b387c639cbb1042d00975956360",
+    "puckworks/analysis/pannusch_conditional_caffeine_delivery.py": "45b3abe59d6e117ada13420971297dabf8b38f8310b8db2afae590b6c768c7ff",
+    "puckworks/analysis/pannusch_conditional_tail_delivery.py": "5459a6b2d5adace66551ba70c9edd4da80944e650b3ca9455473a9b5f05e08ce",
+    "puckworks/analysis/pannusch_conditional_trigonelline_delivery.py": "f23e53851a71e135cfdf02a575b966a805c7f72774f59fe654b6d467aa41b93a",
+    "puckworks/analysis/pannusch_conditioned_mass_delivery.py": "8cedf26245b8fef0e0e7c40c82200abac6eaeabe08be1ee5b97ede19d851dce3",
+    "puckworks/analysis/pannusch_empirical_transfer.py": "6fb759978aea220d19d13b1e5a5188de0e7ec46c8cd865cc156f7efef9ffa778",
+    "puckworks/analysis/pannusch_mass_delivery.py": "445e0662aa9af257fea1c8d0c664f8dab6b6bd80fc23706ef5f96c6c4e5721d9",
+    "tools/data_availability_preflight.py": "b84ff1f401be3ba68b64e4e0a5b1bae7a8f1b6159b03a090591e8d2976648804",
+    "tools/pannusch2024_reconstruct.py": "011e495de95114144d6599cde4b8747356ab25af06d13a2dba0c7783ab685464"
+  },
+  "reference_runtime_files_byte_identical": true,
+  "task": "SCI-MD-5CQA-DELIVERY-001",
+  "trigonelline_publication": "53ca4afbf00f833e9a440e7f278befb881778899",
+  "trigonelline_scientific": "de31200f272711ca6b2e9fc5dc7c4881c406ab56",
+  "use": "Pure strict runtime/geometry helpers, original measured-vial adapter, configured source resolver, durable fit receipts and independent freeze/score receipt validation. No predecessor coefficients or private execution directory; no legacy fitting or scoring."
+}

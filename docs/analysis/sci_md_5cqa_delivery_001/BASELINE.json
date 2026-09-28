@@ -1,0 +1,280 @@
+{
+  "continuation_deadline_utc": "2026-09-29T04:48:20Z",
+  "continuation_start_utc": "2026-09-28T22:48:20Z",
+  "environment": {
+    "PYTHONPATH": "repository root; current checkout imported ahead of existing editable installation",
+    "packages": [
+      "ast_serialize==0.11.2",
+      "coverage==7.16.2",
+      "iniconfig==2.3.0",
+      "librt==0.15.0",
+      "markdown-it-py==4.2.0",
+      "mdurl==0.1.2",
+      "mypy==2.3.1",
+      "mypy_extensions==1.1.0",
+      "numpy==2.5.3",
+      "packaging==26.3",
+      "pathspec==1.1.1",
+      "pluggy==1.6.0",
+      "Pygments==2.21.0",
+      "pytest==9.1.1",
+      "pytest-cov==7.1.0",
+      "PyYAML==6.0.3",
+      "ruff==0.16.9",
+      "scipy==1.18.1",
+      "typing_extensions==4.16.0"
+    ],
+    "python": "Python 3.12.3",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "ewp_unchanged_reuse": {
+    "current_source_static_historical_checks": "Retained original task checks PASS; exact same EWP tree",
+    "head": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+    "log_sha256": "9bedc31a63926d4006eb94b315d9791c076f760745728cca515fbb4e2bc1ab65",
+    "native_runs": 0,
+    "producer_record": "docs/analysis/sci_val_tamped_k_001/BASELINE.json",
+    "skipped": 21,
+    "status": "UNCHANGED_EXACT_EWP_BASELINE_REUSED",
+    "tests": 1635,
+    "tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8"
+  },
+  "experimental_counters_carried_forward": {
+    "fitting_seconds": 0,
+    "residual_calls": 0,
+    "scores": 0,
+    "starts": 0
+  },
+  "original_blocked_reason": "PREEXISTING_CLEAN_BASELINE_FAILURE; ONBOARDING forbids building on a red tree; unrelated repair forbidden by owner task",
+  "original_blocked_record_sha256": "59f75c822040455cde4f518a1cb5201e51ae360fd2da7788ebdf3ce91ad66675",
+  "original_blocked_summary": {
+    "deselected": 60,
+    "failed": 1,
+    "passed": 4935,
+    "returncode": 1,
+    "seconds": 977.45,
+    "skipped": 65,
+    "targeted_recheck_returncode": 1,
+    "warnings": 1
+  },
+  "original_elapsed_seconds": 1418.985946,
+  "qa": [
+    {
+      "check": "registry",
+      "command": [
+        "-c",
+        "from puckworks.registry import run_all_gates; run_all_gates()"
+      ],
+      "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+      "returncode": 0,
+      "seconds": 38.42964238487184
+    },
+    {
+      "check": "ruff",
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "returncode": 0,
+      "seconds": 0.05211817007511854
+    },
+    {
+      "check": "mypy",
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "returncode": 0,
+      "seconds": 0.1388723449781537
+    },
+    {
+      "check": "registry-generated",
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.1215218910947442
+    },
+    {
+      "check": "paper3-build",
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "returncode": 0,
+      "seconds": 0.14038138929754496
+    },
+    {
+      "check": "availability",
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "returncode": 0,
+      "seconds": 0.44996453542262316
+    },
+    {
+      "check": "corpus",
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "returncode": 0,
+      "seconds": 0.11681378912180662
+    },
+    {
+      "check": "paper-a-coverage",
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "returncode": 0,
+      "seconds": 0.32582935970276594
+    },
+    {
+      "check": "paper-b-coverage",
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "returncode": 0,
+      "seconds": 0.5081864912062883
+    },
+    {
+      "check": "paper3-coverage",
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "returncode": 0,
+      "seconds": 11.308329339139163
+    },
+    {
+      "check": "lateral-generated",
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "returncode": 0,
+      "seconds": 2.579503412358463
+    },
+    {
+      "check": "evidence-reconcile",
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "returncode": 0,
+      "seconds": 0.11609230749309063
+    },
+    {
+      "check": "evidence-generated",
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.12185839656740427
+    },
+    {
+      "check": "status-generated",
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "returncode": 0,
+      "seconds": 0.16264248732477427
+    },
+    {
+      "check": "data-guide",
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_available_data_register.py",
+        "tests/test_local_corpus_family_index.py",
+        "tests/test_espresso_data_guide.py",
+        "tests/test_pannusch_raw_repro_001.py"
+      ],
+      "log_sha256": "6532500638a0b62c8293cbaf613f87186f02bd89a5bf891834d244274c82fc47",
+      "returncode": 0,
+      "seconds": 0.770108257420361
+    },
+    {
+      "check": "diff",
+      "command": [
+        "diff",
+        "--check"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0,
+      "seconds": 0.01388504821807146
+    }
+  ],
+  "quick_selector": "not slow and not live and not gpu and not external_data",
+  "registry": "65 PASS; 1 ACKNOWLEDGED_EXCEPTION: brewer2026.lb_taichi, notebook-only optional Taichi verification; no new exception",
+  "repair_commit": {
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "commit": "99a9eef4dbe63063033842fe0837aa109dbaeaf8",
+    "completed_utc": "2026-09-28T23:08:35.921880+00:00",
+    "governance_class": "G0",
+    "status": "PASS_REPAIR_ONLY_BASELINE",
+    "tree": "d936196454f88edee9fa538fb13282e48b0e1d72"
+  },
+  "repair_focused_summary": "119 passed, 1 skipped in 11.77s",
+  "repair_quick_summary": "4940 passed, 65 skipped, 60 deselected, 1 warning in 970.00s (0:16:10)",
+  "repair_scope": "G0 only; no scientific draft present during full passing baseline",
+  "repair_validation": [
+    {
+      "exit": 0,
+      "log_sha256": "4a27114c77fcdde1c1a9ffa2bb56d65404fb596f289c5994f6c3c4e7356c4bb0",
+      "name": "repair-focused",
+      "seconds": 12.037870551459491
+    },
+    {
+      "exit": 0,
+      "log_sha256": "b4146d684ac6bb140de3d4b0ca53a2aef67df41d951f750d485ba36e2830985e",
+      "name": "repair-full",
+      "seconds": 971.0668018916622
+    }
+  ],
+  "source_reuse": {
+    "new_acquisition": false,
+    "new_chemistry_values_read": 0,
+    "original_preflight_sha256": "f268ddf2822a50ad2f5624b2ffa8fa6b0ac4fc59be894762a4e14ff385bb7504",
+    "registers_verified": 10,
+    "scope": "5CQA_MASS_ONLY_INTERVAL_DELIVERY",
+    "source_files_verified": 8,
+    "status": "EXACT_SOURCE_PREFLIGHT_REUSE_QUALIFIED"
+  },
+  "status": "PASS_REPAIR_ONLY_CANDIDATE_NOT_UNCHANGED_REMOTE_MAIN",
+  "task": "SCI-MD-5CQA-DELIVERY-001"
+}
