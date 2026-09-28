@@ -1,0 +1,13 @@
+{
+  "files": {
+    "observed_suffix.json": "efa140225c32f9610ae4d94dc91a7b5217543210b52454f5db50bc3cf97f62d6",
+    "score_receipt.json": "b9789d524987c169a4cbeb62284d8fe7eae23a6991ea57ef6853fef3b6262d5b",
+    "scores.json": "98654466f771f5928b4e6c05dd77598910993312346a2fa39a90bd4c5a10b20c",
+    "shot_results.json": "5ed4dcc48b3aaa9ad047583d608b3a9573852af55b414a83f9bd29d9aba2663c"
+  },
+  "freeze_sha256": "6f1b1afc73615eafb9b463b49089a1069d60179ea96b2a02a2951a9ec22f0b12",
+  "review_sha256": "0fb261befb2e03093720c85b9133a8751ecca3af4a9fcea2bb153cbc839eb762",
+  "scientific_score_passes": 1,
+  "status": "COMPLETE",
+  "task": "SCI-MD-TRIGONELLINE-DELIVERY-001"
+}
