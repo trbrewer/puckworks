@@ -1,0 +1,3352 @@
+{
+  "adequacy_by_arm": {
+    "L12": "FAIL",
+    "L1M": "FAIL",
+    "L2M": "FAIL"
+  },
+  "adequate_arms": [],
+  "adequate_single_assay_contracts": [],
+  "analytical_uncertainty": "NOT_ESTABLISHED",
+  "blocker": null,
+  "claims": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED",
+    "FIVE_CQA_IS_COMPONENT_OF_TDS",
+    "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+    "NOT_INVENTORY_CLOSURE",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "ARM_SPECIFIC_EARLY_FIVE_CQA_ASSAY_REQUIRED",
+    "NO_JOINT_TDS_COMPOSITION_CLOSURE",
+    "NO_REAL_TIME_HPLC_CONTROL"
+  ],
+  "disposition": "TESTED_EARLY_ASSAY_FAMILIES_INADEQUATE",
+  "feature_extrapolation": {
+    "L12": {
+      "flow_stress": {
+        "features": [
+          "m2_kg",
+          "q1_kg_kg"
+        ],
+        "shots": 6
+      },
+      "primary": {
+        "features": [
+          "q1_kg_kg",
+          "q2_kg_kg"
+        ],
+        "shots": 9
+      },
+      "temperature_stress": {
+        "features": [
+          "q1_kg_kg",
+          "q2_kg_kg"
+        ],
+        "shots": 5
+      }
+    },
+    "L1M": {
+      "flow_stress": {
+        "features": [
+          "m2_kg",
+          "q1_kg_kg"
+        ],
+        "shots": 6
+      },
+      "primary": {
+        "features": [
+          "q1_kg_kg"
+        ],
+        "shots": 9
+      },
+      "temperature_stress": {
+        "features": [
+          "q1_kg_kg"
+        ],
+        "shots": 5
+      }
+    },
+    "L2M": {
+      "flow_stress": {
+        "features": [
+          "m2_kg"
+        ],
+        "shots": 3
+      },
+      "primary": {
+        "features": [
+          "q2_kg_kg"
+        ],
+        "shots": 3
+      },
+      "temperature_stress": {
+        "features": [
+          "q2_kg_kg"
+        ],
+        "shots": 3
+      }
+    }
+  },
+  "historical_reference": {
+    "fit_calls": 0,
+    "freeze_sha256": "401b3a58fe6ca275b1482c1eb4a8146bdad8952bcbabf8bf4a1c7e96f3ed5b68",
+    "prediction_generation_calls": 0,
+    "predictions_sha256": "2245ac2b8c9a57a4e3062bc91dcfd34e4253a13dcc7c55fff42f8509ab0384dd",
+    "producer_commit": "35fe284b386f0bec468956c4be9508dcb06ddf43",
+    "producer_tree": "ab3fe4a05e1d0d290fa8f4d73b3a944edd9bfa40",
+    "publication_head": "c2bea543f21d9d43ad71dc23a44ea5f8216e8c9b",
+    "results": {
+      "adequacy_by_arm": {
+        "A1": "FAIL",
+        "D0": "FAIL",
+        "E0": "FAIL",
+        "L1": "FAIL"
+      },
+      "adequate_new_arms": [],
+      "analytical_uncertainty": "NOT_ESTABLISHED",
+      "blocker": null,
+      "claims": [
+        "RESEARCH_ONLY",
+        "SOURCE_INTERNAL",
+        "TARGET_EXPOSED",
+        "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+        "NO_GOVERNING_PHYSICS_CHANGE",
+        "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+        "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED",
+        "FIVE_CQA_IS_COMPONENT_OF_TDS",
+        "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+        "NOT_INVENTORY_CLOSURE",
+        "CONDITIONAL_ON_BEVERAGE_MASS",
+        "FIRST_FRACTION_FIVE_CQA_ASSAY_REQUIRED",
+        "NO_JOINT_TDS_COMPOSITION_CLOSURE",
+        "NO_REAL_TIME_HPLC_CONTROL"
+      ],
+      "disposition": "TESTED_FIRST_ASSAY_FIVE_CQA_FAMILIES_INADEQUATE",
+      "earned_replacement_arm": null,
+      "feature_extrapolation": {
+        "A1": {
+          "flow_stress": {
+            "features": [
+              "m2_kg",
+              "q1_kg_kg"
+            ],
+            "shots": 6
+          },
+          "primary": {
+            "features": [
+              "q1_kg_kg"
+            ],
+            "shots": 9
+          },
+          "temperature_stress": {
+            "features": [
+              "q1_kg_kg"
+            ],
+            "shots": 5
+          }
+        },
+        "D0": {
+          "flow_stress": {
+            "features": [
+              "m2_kg"
+            ],
+            "shots": 3
+          },
+          "primary": {
+            "features": [],
+            "shots": 0
+          },
+          "temperature_stress": {
+            "features": [],
+            "shots": 0
+          }
+        },
+        "E0": {
+          "flow_stress": {
+            "features": [
+              "m2_kg"
+            ],
+            "shots": 3
+          },
+          "primary": {
+            "features": [],
+            "shots": 0
+          },
+          "temperature_stress": {
+            "features": [],
+            "shots": 0
+          }
+        },
+        "L1": {
+          "flow_stress": {
+            "features": [
+              "m2_kg",
+              "q1_kg_kg"
+            ],
+            "shots": 6
+          },
+          "primary": {
+            "features": [
+              "q1_kg_kg"
+            ],
+            "shots": 9
+          },
+          "temperature_stress": {
+            "features": [
+              "q1_kg_kg"
+            ],
+            "shots": 5
+          }
+        }
+      },
+      "historical_control_agreement": {
+        "allowance": "COMBINED_RETAINED_NUMERICAL_BOUNDS_PLUS_1e-12_mg_g",
+        "maximum_difference_mg_g": 0.0,
+        "predecessor_scoring_calls": 0,
+        "status": "PASS"
+      },
+      "learned_route_earned": false,
+      "least_complex_adequate_new_arm": null,
+      "merge_authorized": false,
+      "native_ewp_runs": 0,
+      "outcome_joins": 1,
+      "pairwise_complexity": {
+        "A1_vs_D0": {
+          "R_improvement_bounds": [
+            -0.0017483135023052196,
+            -0.0017483133880472415
+          ],
+          "R_improvement_mg_g": -0.0017483134451762306,
+          "candidate_adequacy": "FAIL",
+          "components": {
+            "abs_bias_deterioration": "PASS",
+            "absolute_gain": "FAIL",
+            "condition_wins": "FAIL",
+            "relative_gain": "FAIL"
+          },
+          "definite_condition_wins": 2,
+          "gain_status": "FAIL",
+          "mean_absB_deterioration_bounds": [
+            -0.11987214678974527,
+            -0.11987214667548997
+          ],
+          "mean_absB_deterioration_mg_g": -0.11987214673261762,
+          "possible_condition_wins": 2,
+          "relative_improvement": -0.004809388579803912,
+          "relative_improvement_lower_bound": -0.004809388737336162,
+          "status": "FAIL"
+        },
+        "A1_vs_E0": {
+          "R_improvement_bounds": [
+            -0.0007587881221357494,
+            -0.0007587880078788258
+          ],
+          "R_improvement_mg_g": -0.0007587880650072876,
+          "candidate_adequacy": "FAIL",
+          "components": {
+            "abs_bias_deterioration": "PASS",
+            "absolute_gain": "FAIL",
+            "condition_wins": "FAIL",
+            "relative_gain": "FAIL"
+          },
+          "definite_condition_wins": 2,
+          "gain_status": "FAIL",
+          "mean_absB_deterioration_bounds": [
+            -0.12970854446867816,
+            -0.1297085443544239
+          ],
+          "mean_absB_deterioration_mg_g": -0.12970854441155102,
+          "possible_condition_wins": 2,
+          "relative_improvement": -0.0020816633330061804,
+          "relative_improvement_lower_bound": -0.002081663489895691,
+          "status": "FAIL"
+        },
+        "L1_vs_A1": {
+          "R_improvement_bounds": [
+            0.010927811289289928,
+            0.01092781140355898
+          ],
+          "R_improvement_mg_g": 0.010927811346424454,
+          "candidate_adequacy": "FAIL",
+          "components": {
+            "abs_bias_deterioration": "PASS",
+            "absolute_gain": "FAIL",
+            "condition_wins": "FAIL",
+            "relative_gain": "FAIL"
+          },
+          "definite_condition_wins": 2,
+          "gain_status": "FAIL",
+          "mean_absB_deterioration_bounds": [
+            -0.016987052203687177,
+            -0.01698705208942092
+          ],
+          "mean_absB_deterioration_mg_g": -0.01698705214655405,
+          "possible_condition_wins": 2,
+          "relative_improvement": 0.029917140079864794,
+          "relative_improvement_lower_bound": 0.029917139925787706,
+          "status": "FAIL"
+        },
+        "L1_vs_D0": {
+          "R_improvement_bounds": [
+            0.009179497844135456,
+            0.009179497958360991
+          ],
+          "R_improvement_mg_g": 0.009179497901248224,
+          "candidate_adequacy": "FAIL",
+          "components": {
+            "abs_bias_deterioration": "PASS",
+            "absolute_gain": "FAIL",
+            "condition_wins": "FAIL",
+            "relative_gain": "FAIL"
+          },
+          "definite_condition_wins": 1,
+          "gain_status": "FAIL",
+          "mean_absB_deterioration_bounds": [
+            -0.1368591989362831,
+            -0.13685919882206024
+          ],
+          "mean_absB_deterioration_mg_g": -0.13685919887917167,
+          "possible_condition_wins": 1,
+          "relative_improvement": 0.02525163465190138,
+          "relative_improvement_lower_bound": 0.025251634496774922,
+          "status": "FAIL"
+        }
+      },
+      "panels": {
+        "flow_stress": {
+          "A1": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_scope": false,
+            "conditions": {
+              "PRED-C07": {
+                "adequacy": "FAIL",
+                "bounds": null,
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.266619183678982,
+                  "absB_mg_g": 0.19269410301560871
+                },
+                "complete_shots": 2,
+                "full_scope_metrics": null,
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 11,
+                "supported_slots": 11,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.860696861726885e-11,
+                  "B_mg_g": 0.23979137062695624,
+                  "R_allowance_mg_g": 2.8608030679001922e-11,
+                  "R_mg_g": 0.31573572649216314,
+                  "absB_allowance_mg_g": 2.860696861726885e-11,
+                  "absB_mg_g": 0.23979137062695624
+                }
+              },
+              "PRED-C08": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.1621168392146225,
+                    "upper": 0.16211683927162335
+                  },
+                  "R_mg_g": {
+                    "lower": 0.31964937526085285,
+                    "upper": 0.3196493753178537
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.1621168392146225,
+                    "upper": 0.16211683927162335
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.31964937526085285,
+                  "absB_mg_g": 0.1621168392146225
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8500413347723453e-11,
+                  "B_mg_g": 0.16211683924312292,
+                  "R_allowance_mg_g": 2.8500448949165993e-11,
+                  "R_mg_g": 0.3196493752893533,
+                  "absB_allowance_mg_g": 2.8500413347723453e-11,
+                  "absB_mg_g": 0.16211683924312292
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8500413347723453e-11,
+                  "B_mg_g": 0.16211683924312292,
+                  "R_allowance_mg_g": 2.8500448949165993e-11,
+                  "R_mg_g": 0.3196493752893533,
+                  "absB_allowance_mg_g": 2.8500413347723453e-11,
+                  "absB_mg_g": 0.16211683924312292
+                }
+              }
+            },
+            "full_scope_metrics": null,
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8553690982496153e-11,
+              "B_mg_g": 0.20095410493503957,
+              "R_allowance_mg_g": 2.8554239814083958e-11,
+              "R_mg_g": 0.3176925508907582,
+              "absB_allowance_mg_g": 2.8553690982496153e-11,
+              "absB_mg_g": 0.20095410493503957
+            }
+          },
+          "D0": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_scope": false,
+            "conditions": {
+              "PRED-C07": {
+                "adequacy": "FAIL",
+                "bounds": null,
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.2134886711926003,
+                  "absB_mg_g": 0.19617007113081578
+                },
+                "complete_shots": 2,
+                "full_scope_metrics": null,
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 11,
+                "supported_slots": 11,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8581142930328064e-11,
+                  "B_mg_g": -0.41559373034019825,
+                  "R_allowance_mg_g": 2.8582137716042554e-11,
+                  "R_mg_g": 0.4925173451330956,
+                  "absB_allowance_mg_g": 2.8581142930328064e-11,
+                  "absB_mg_g": 0.41559373034019825
+                }
+              },
+              "PRED-C08": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.2656032320215121,
+                    "upper": -0.265603231964545
+                  },
+                  "R_mg_g": {
+                    "lower": 0.2832701331388384,
+                    "upper": 0.2832701331958055
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.265603231964545,
+                    "upper": 0.2656032320215121
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.2832701331388385,
+                  "absB_mg_g": 0.26560323196454494
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8483542167539346e-11,
+                  "B_mg_g": -0.26560323199302854,
+                  "R_allowance_mg_g": 2.8483559980456735e-11,
+                  "R_mg_g": 0.28327013316732197,
+                  "absB_allowance_mg_g": 2.8483542167539346e-11,
+                  "absB_mg_g": 0.26560323199302854
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8483542167539346e-11,
+                  "B_mg_g": -0.26560323199302854,
+                  "R_allowance_mg_g": 2.8483559980456735e-11,
+                  "R_mg_g": 0.28327013316732197,
+                  "absB_allowance_mg_g": 2.8483542167539346e-11,
+                  "absB_mg_g": 0.26560323199302854
+                }
+              }
+            },
+            "full_scope_metrics": null,
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8532342548933707e-11,
+              "B_mg_g": -0.3405984811666134,
+              "R_allowance_mg_g": 2.8532848848249646e-11,
+              "R_mg_g": 0.38789373915020875,
+              "absB_allowance_mg_g": 2.8532342548933707e-11,
+              "absB_mg_g": 0.3405984811666134
+            }
+          },
+          "E0": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_scope": false,
+            "conditions": {
+              "PRED-C07": {
+                "adequacy": "FAIL",
+                "bounds": null,
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.20754468498493953,
+                  "absB_mg_g": 0.19470417481430782
+                },
+                "complete_shots": 2,
+                "full_scope_metrics": null,
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 11,
+                "supported_slots": 11,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8580682368692557e-11,
+                  "B_mg_g": -0.425357085793224,
+                  "R_allowance_mg_g": 2.858165538114399e-11,
+                  "R_mg_g": 0.47322485553501403,
+                  "absB_allowance_mg_g": 2.8580682368692557e-11,
+                  "absB_mg_g": 0.425357085793224
+                }
+              },
+              "PRED-C08": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.32010285210157946,
+                    "upper": -0.3201028520446166
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3225185351278235,
+                    "upper": 0.3225185351847864
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.3201028520446166,
+                    "upper": 0.32010285210157946
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3225185351278235,
+                  "absB_mg_g": 0.3201028520446166
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.848143411642941e-11,
+                  "B_mg_g": -0.320102852073098,
+                  "R_allowance_mg_g": 2.8481454665879654e-11,
+                  "R_mg_g": 0.32251853515630496,
+                  "absB_allowance_mg_g": 2.848143411642941e-11,
+                  "absB_mg_g": 0.320102852073098
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.848143411642941e-11,
+                  "B_mg_g": -0.320102852073098,
+                  "R_allowance_mg_g": 2.8481454665879654e-11,
+                  "R_mg_g": 0.32251853515630496,
+                  "absB_allowance_mg_g": 2.848143411642941e-11,
+                  "absB_mg_g": 0.320102852073098
+                }
+              }
+            },
+            "full_scope_metrics": null,
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8531058242560983e-11,
+              "B_mg_g": -0.372729968933161,
+              "R_allowance_mg_g": 2.8531555023511824e-11,
+              "R_mg_g": 0.39787169534565947,
+              "absB_allowance_mg_g": 2.8531058242560983e-11,
+              "absB_mg_g": 0.372729968933161
+            }
+          },
+          "L1": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_scope": false,
+            "conditions": {
+              "PRED-C07": {
+                "adequacy": "INCOMPLETE_SUPPORT",
+                "bounds": null,
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.2209634551567442,
+                  "absB_mg_g": 0.09953768214953541
+                },
+                "complete_shots": 2,
+                "full_scope_metrics": null,
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 11,
+                "supported_slots": 11,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.858854283781384e-11,
+                  "B_mg_g": -0.22597276628876503,
+                  "R_allowance_mg_g": 2.8589620456988026e-11,
+                  "R_mg_g": 0.34970868118991305,
+                  "absB_allowance_mg_g": 2.858854283781384e-11,
+                  "absB_mg_g": 0.22597276628876503
+                }
+              },
+              "PRED-C08": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.1774820938146786,
+                    "upper": -0.17748209375770446
+                  },
+                  "R_mg_g": {
+                    "lower": 0.25908118179714995,
+                    "upper": 0.25908118185412415
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.17748209375770446,
+                    "upper": 0.1774820938146786
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.25908118179714995,
+                  "absB_mg_g": 0.1774820937577045
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8487069970072142e-11,
+                  "B_mg_g": -0.17748209378619154,
+                  "R_allowance_mg_g": 2.848709903982421e-11,
+                  "R_mg_g": 0.25908118182563705,
+                  "absB_allowance_mg_g": 2.8487069970072142e-11,
+                  "absB_mg_g": 0.17748209378619154
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8487069970072142e-11,
+                  "B_mg_g": -0.17748209378619154,
+                  "R_allowance_mg_g": 2.848709903982421e-11,
+                  "R_mg_g": 0.25908118182563705,
+                  "absB_allowance_mg_g": 2.8487069970072142e-11,
+                  "absB_mg_g": 0.17748209378619154
+                }
+              }
+            },
+            "full_scope_metrics": null,
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.853780640394299e-11,
+              "B_mg_g": -0.20172743003747828,
+              "R_allowance_mg_g": 2.8538359748406117e-11,
+              "R_mg_g": 0.3043949315077751,
+              "absB_allowance_mg_g": 2.853780640394299e-11,
+              "absB_mg_g": 0.20172743003747828
+            }
+          }
+        },
+        "primary": {
+          "A1": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": 0.21086204726855384,
+                "upper": 0.21086204732570318
+              },
+              "R_mg_g": {
+                "lower": 0.36526925088418905,
+                "upper": 0.3652692509413398
+              },
+              "absB_mg_g": {
+                "lower": 0.2204215037927456,
+                "upper": 0.22042150384989495
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C01": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.29875883956838956,
+                    "upper": 0.2987588396254187
+                  },
+                  "R_mg_g": {
+                    "lower": 0.44708995763689,
+                    "upper": 0.4470899576939192
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.29875883956838956,
+                    "upper": 0.2987588396254187
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.44708995763689,
+                  "absB_mg_g": 0.2987588395683896
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.851455434224737e-11,
+                  "B_mg_g": 0.29875883959690414,
+                  "R_allowance_mg_g": 2.85145993726915e-11,
+                  "R_mg_g": 0.4470899576654046,
+                  "absB_allowance_mg_g": 2.851455434224737e-11,
+                  "absB_mg_g": 0.29875883959690414
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.851455434224737e-11,
+                  "B_mg_g": 0.29875883959690414,
+                  "R_allowance_mg_g": 2.85145993726915e-11,
+                  "R_mg_g": 0.4470899576654046,
+                  "absB_allowance_mg_g": 2.851455434224737e-11,
+                  "absB_mg_g": 0.29875883959690414
+                }
+              },
+              "PRED-C02": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.2454147604973943,
+                    "upper": 0.2454147605546243
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3935175583234677,
+                    "upper": 0.3935175583806999
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.2454147604973943,
+                    "upper": 0.2454147605546243
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.39351755832346774,
+                  "absB_mg_g": 0.24541476049739427
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8614997314687242e-11,
+                  "B_mg_g": 0.2454147605260093,
+                  "R_allowance_mg_g": 2.8616109855608985e-11,
+                  "R_mg_g": 0.3935175583520838,
+                  "absB_allowance_mg_g": 2.8614997314687242e-11,
+                  "absB_mg_g": 0.2454147605260093
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8614997314687242e-11,
+                  "B_mg_g": 0.2454147605260093,
+                  "R_allowance_mg_g": 2.8616109855608985e-11,
+                  "R_mg_g": 0.3935175583520838,
+                  "absB_allowance_mg_g": 2.8614997314687242e-11,
+                  "absB_mg_g": 0.2454147605260093
+                }
+              },
+              "PRED-C05": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.1312127725389794,
+                    "upper": 0.13121277259620923
+                  },
+                  "R_mg_g": {
+                    "lower": 0.2634973402474929,
+                    "upper": 0.2634973403047249
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.16945059863574646,
+                    "upper": 0.1694505986929763
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.2634973402474929,
+                  "absB_mg_g": 0.16945059863574644
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8614920257354428e-11,
+                  "B_mg_g": 0.1312127725675943,
+                  "R_allowance_mg_g": 2.8616020087454498e-11,
+                  "R_mg_g": 0.2634973402761089,
+                  "absB_allowance_mg_g": 2.8614920257354428e-11,
+                  "absB_mg_g": 0.16945059866436138
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8614920257354428e-11,
+                  "B_mg_g": 0.1312127725675943,
+                  "R_allowance_mg_g": 2.8616020087454498e-11,
+                  "R_mg_g": 0.2634973402761089,
+                  "absB_allowance_mg_g": 2.8614920257354428e-11,
+                  "absB_mg_g": 0.16945059866436138
+                }
+              },
+              "PRED-C06": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.1680618164694521,
+                    "upper": 0.16806181652656058
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3569721473289055,
+                    "upper": 0.356972147386015
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.1680618164694521,
+                    "upper": 0.16806181652656058
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.35697214732890553,
+                  "absB_mg_g": 0.1680618164694521
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8554239088573733e-11,
+                  "B_mg_g": 0.16806181649800633,
+                  "R_allowance_mg_g": 2.85547651486886e-11,
+                  "R_mg_g": 0.35697214735746025,
+                  "absB_allowance_mg_g": 2.8554239088573733e-11,
+                  "absB_mg_g": 0.16806181649800633
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8554239088573733e-11,
+                  "B_mg_g": 0.16806181649800633,
+                  "R_allowance_mg_g": 2.85547651486886e-11,
+                  "R_mg_g": 0.35697214735746025,
+                  "absB_allowance_mg_g": 2.8554239088573733e-11,
+                  "absB_mg_g": 0.16806181649800633
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.857467775071569e-11,
+              "B_mg_g": 0.2108620472971285,
+              "R_allowance_mg_g": 2.8575373616110895e-11,
+              "R_mg_g": 0.3652692509127644,
+              "absB_allowance_mg_g": 2.857467775071569e-11,
+              "absB_mg_g": 0.22042150382132028
+            },
+            "original_conditions": 4,
+            "original_shots": 12,
+            "original_slots": 48,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.857467775071569e-11,
+              "B_mg_g": 0.2108620472971285,
+              "R_allowance_mg_g": 2.8575373616110895e-11,
+              "R_mg_g": 0.3652692509127644,
+              "absB_allowance_mg_g": 2.857467775071569e-11,
+              "absB_mg_g": 0.22042150382132028
+            }
+          },
+          "D0": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.3402936505824909,
+                "upper": -0.3402936505253849
+              },
+              "R_mg_g": {
+                "lower": 0.3635209374390346,
+                "upper": 0.3635209374961418
+              },
+              "absB_mg_g": {
+                "lower": 0.3402936505253849,
+                "upper": 0.3402936505824909
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C01": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.285638030072262,
+                    "upper": -0.2856380300152788
+                  },
+                  "R_mg_g": {
+                    "lower": 0.31757525434048145,
+                    "upper": 0.31757525439746465
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.2856380300152788,
+                    "upper": 0.285638030072262
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.31757525434048145,
+                  "absB_mg_g": 0.2856380300152788
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8491571907757858e-11,
+                  "B_mg_g": -0.2856380300437704,
+                  "R_allowance_mg_g": 2.8491600818317698e-11,
+                  "R_mg_g": 0.31757525436897305,
+                  "absB_allowance_mg_g": 2.8491571907757858e-11,
+                  "absB_mg_g": 0.2856380300437704
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8491571907757858e-11,
+                  "B_mg_g": -0.2856380300437704,
+                  "R_allowance_mg_g": 2.8491600818317698e-11,
+                  "R_mg_g": 0.31757525436897305,
+                  "absB_allowance_mg_g": 2.8491571907757858e-11,
+                  "absB_mg_g": 0.2856380300437704
+                }
+              },
+              "PRED-C02": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.3200307648528748,
+                    "upper": -0.3200307647956891
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3297190548114555,
+                    "upper": 0.32971905486864334
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.3200307647956891,
+                    "upper": 0.3200307648528748
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3297190548114555,
+                  "absB_mg_g": 0.32003076479568904
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8592859213828425e-11,
+                  "B_mg_g": -0.32003076482428194,
+                  "R_allowance_mg_g": 2.859389935592266e-11,
+                  "R_mg_g": 0.32971905484004943,
+                  "absB_allowance_mg_g": 2.8592859213828425e-11,
+                  "absB_mg_g": 0.32003076482428194
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8592859213828425e-11,
+                  "B_mg_g": -0.32003076482428194,
+                  "R_allowance_mg_g": 2.859389935592266e-11,
+                  "R_mg_g": 0.32971905484004943,
+                  "absB_allowance_mg_g": 2.8592859213828425e-11,
+                  "absB_mg_g": 0.32003076482428194
+                }
+              },
+              "PRED-C05": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.3951585904760402,
+                    "upper": -0.39515859041885204
+                  },
+                  "R_mg_g": {
+                    "lower": 0.4356086025911612,
+                    "upper": 0.43560860264835133
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.39515859041885204,
+                    "upper": 0.3951585904760402
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.43560860259116113,
+                  "absB_mg_g": 0.3951585904188521
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8594067180948254e-11,
+                  "B_mg_g": -0.3951585904474461,
+                  "R_allowance_mg_g": 2.8595090807629504e-11,
+                  "R_mg_g": 0.43560860261975626,
+                  "absB_allowance_mg_g": 2.8594067180948254e-11,
+                  "absB_mg_g": 0.3951585904474461
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8594067180948254e-11,
+                  "B_mg_g": -0.3951585904474461,
+                  "R_allowance_mg_g": 2.8595090807629504e-11,
+                  "R_mg_g": 0.43560860261975626,
+                  "absB_allowance_mg_g": 2.8594067180948254e-11,
+                  "absB_mg_g": 0.3951585904474461
+                }
+              },
+              "PRED-C06": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.3603472169287865,
+                    "upper": -0.3603472168717197
+                  },
+                  "R_mg_g": {
+                    "lower": 0.37118083801304,
+                    "upper": 0.3711808380701078
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.3603472168717197,
+                    "upper": 0.3603472169287865
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.37118083801303997,
+                  "absB_mg_g": 0.3603472168717197
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8533403085416215e-11,
+                  "B_mg_g": -0.3603472169002531,
+                  "R_allowance_mg_g": 2.8533870675513194e-11,
+                  "R_mg_g": 0.3711808380415739,
+                  "absB_allowance_mg_g": 2.8533403085416215e-11,
+                  "absB_mg_g": 0.3603472169002531
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8533403085416215e-11,
+                  "B_mg_g": -0.3603472169002531,
+                  "R_allowance_mg_g": 2.8533870675513194e-11,
+                  "R_mg_g": 0.3711808380415739,
+                  "absB_allowance_mg_g": 2.8533403085416215e-11,
+                  "absB_mg_g": 0.3603472169002531
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.855297534698769e-11,
+              "B_mg_g": -0.3402936505539379,
+              "R_allowance_mg_g": 2.8553615414345765e-11,
+              "R_mg_g": 0.3635209374675882,
+              "absB_allowance_mg_g": 2.855297534698769e-11,
+              "absB_mg_g": 0.3402936505539379
+            },
+            "original_conditions": 4,
+            "original_shots": 12,
+            "original_slots": 48,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.855297534698769e-11,
+              "B_mg_g": -0.3402936505539379,
+              "R_allowance_mg_g": 2.8553615414345765e-11,
+              "R_mg_g": 0.3635209374675882,
+              "absB_allowance_mg_g": 2.855297534698769e-11,
+              "absB_mg_g": 0.3402936505539379
+            }
+          },
+          "E0": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.35013004826142374,
+                "upper": -0.35013004820431887
+              },
+              "R_mg_g": {
+                "lower": 0.364510462819204,
+                "upper": 0.3645104628763102
+              },
+              "absB_mg_g": {
+                "lower": 0.35013004820431887,
+                "upper": 0.35013004826142374
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C01": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.2817229819984432,
+                    "upper": -0.2817229819414601
+                  },
+                  "R_mg_g": {
+                    "lower": 0.2957238708666053,
+                    "upper": 0.29572387092358837
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.2817229819414601,
+                    "upper": 0.2817229819984432
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.29572387086660523,
+                  "absB_mg_g": 0.2817229819414601
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.849152896668912e-11,
+                  "B_mg_g": -0.28172298196995166,
+                  "R_allowance_mg_g": 2.849155448417027e-11,
+                  "R_mg_g": 0.29572387089509683,
+                  "absB_allowance_mg_g": 2.849152896668912e-11,
+                  "absB_mg_g": 0.28172298196995166
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.849152896668912e-11,
+                  "B_mg_g": -0.28172298196995166,
+                  "R_allowance_mg_g": 2.849155448417027e-11,
+                  "R_mg_g": 0.29572387089509683,
+                  "absB_allowance_mg_g": 2.849152896668912e-11,
+                  "absB_mg_g": 0.28172298196995166
+                }
+              },
+              "PRED-C02": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.32714751484705845,
+                    "upper": -0.32714751478987375
+                  },
+                  "R_mg_g": {
+                    "lower": 0.328281478788006,
+                    "upper": 0.3282814788451927
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.32714751478987375,
+                    "upper": 0.32714751484705845
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.328281478788006,
+                  "absB_mg_g": 0.32714751478987375
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8592344709739487e-11,
+                  "B_mg_g": -0.3271475148184661,
+                  "R_allowance_mg_g": 2.8593374903110284e-11,
+                  "R_mg_g": 0.32828147881659936,
+                  "absB_allowance_mg_g": 2.8592344709739487e-11,
+                  "absB_mg_g": 0.3271475148184661
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8592344709739487e-11,
+                  "B_mg_g": -0.3271475148184661,
+                  "R_allowance_mg_g": 2.8593374903110284e-11,
+                  "R_mg_g": 0.32828147881659936,
+                  "absB_allowance_mg_g": 2.8592344709739487e-11,
+                  "absB_mg_g": 0.3271475148184661
+                }
+              },
+              "PRED-C05": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.4103577870396754,
+                    "upper": -0.4103577869824885
+                  },
+                  "R_mg_g": {
+                    "lower": 0.4474229250919642,
+                    "upper": 0.4474229251491531
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.4103577869824885,
+                    "upper": 0.4103577870396754
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.4474229250919642,
+                  "absB_mg_g": 0.41035778698248854
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.859343736049264e-11,
+                  "B_mg_g": -0.41035778701108194,
+                  "R_allowance_mg_g": 2.8594455611336657e-11,
+                  "R_mg_g": 0.44742292512055865,
+                  "absB_allowance_mg_g": 2.859343736049264e-11,
+                  "absB_mg_g": 0.41035778701108194
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.859343736049264e-11,
+                  "B_mg_g": -0.41035778701108194,
+                  "R_allowance_mg_g": 2.8594455611336657e-11,
+                  "R_mg_g": 0.44742292512055865,
+                  "absB_allowance_mg_g": 2.859343736049264e-11,
+                  "absB_mg_g": 0.41035778701108194
+                }
+              },
+              "PRED-C06": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.38129190916051797,
+                    "upper": -0.38129190910345295
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3866135765302407,
+                    "upper": 0.3866135765873066
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.38129190910345295,
+                    "upper": 0.38129190916051797
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3866135765302407,
+                  "absB_mg_g": 0.38129190910345295
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.85325014554037e-11,
+                  "B_mg_g": -0.38129190913198546,
+                  "R_allowance_mg_g": 2.8532967723571828e-11,
+                  "R_mg_g": 0.38661357655877365,
+                  "absB_allowance_mg_g": 2.85325014554037e-11,
+                  "absB_mg_g": 0.38129190913198546
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.85325014554037e-11,
+                  "B_mg_g": -0.38129190913198546,
+                  "R_allowance_mg_g": 2.8532967723571828e-11,
+                  "R_mg_g": 0.38661357655877365,
+                  "absB_allowance_mg_g": 2.85325014554037e-11,
+                  "absB_mg_g": 0.38129190913198546
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8552453123081236e-11,
+              "B_mg_g": -0.3501300482328713,
+              "R_allowance_mg_g": 2.8553088180547258e-11,
+              "R_mg_g": 0.3645104628477571,
+              "absB_allowance_mg_g": 2.8552453123081236e-11,
+              "absB_mg_g": 0.3501300482328713
+            },
+            "original_conditions": 4,
+            "original_shots": 12,
+            "original_slots": 48,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8552453123081236e-11,
+              "B_mg_g": -0.3501300482328713,
+              "R_allowance_mg_g": 2.8553088180547258e-11,
+              "R_mg_g": 0.3645104628477571,
+              "absB_allowance_mg_g": 2.8552453123081236e-11,
+              "absB_mg_g": 0.3501300482328713
+            }
+          },
+          "L1": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.2034344517033247,
+                "upper": -0.20343445164620777
+              },
+              "R_mg_g": {
+                "lower": 0.3543414395377808,
+                "upper": 0.3543414395948991
+              },
+              "absB_mg_g": {
+                "lower": 0.20343445164620777,
+                "upper": 0.2034344517033247
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C01": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.1467024271169556,
+                    "upper": -0.14670242705996175
+                  },
+                  "R_mg_g": {
+                    "lower": 0.34808389431917375,
+                    "upper": 0.3480838943761677
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.14670242705996175,
+                    "upper": 0.1467024271169556
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.34808389431917375,
+                  "absB_mg_g": 0.14670242705996175
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8496924071268017e-11,
+                  "B_mg_g": -0.14670242708845868,
+                  "R_allowance_mg_g": 2.849696748788624e-11,
+                  "R_mg_g": 0.34808389434767073,
+                  "absB_allowance_mg_g": 2.8496924071268017e-11,
+                  "absB_mg_g": 0.14670242708845868
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8496924071268017e-11,
+                  "B_mg_g": -0.14670242708845868,
+                  "R_allowance_mg_g": 2.849696748788624e-11,
+                  "R_mg_g": 0.34808389434767073,
+                  "absB_allowance_mg_g": 2.8496924071268017e-11,
+                  "absB_mg_g": 0.14670242708845868
+                }
+              },
+              "PRED-C02": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.17623700016403973,
+                    "upper": -0.17623700010684248
+                  },
+                  "R_mg_g": {
+                    "lower": 0.33536776290033826,
+                    "upper": 0.33536776295753773
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.17623700010684248,
+                    "upper": 0.17623700016403973
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3353677629003382,
+                  "absB_mg_g": 0.17623700010684248
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.859861977408048e-11,
+                  "B_mg_g": -0.1762370001354411,
+                  "R_allowance_mg_g": 2.859973521541809e-11,
+                  "R_mg_g": 0.335367762928938,
+                  "absB_allowance_mg_g": 2.859861977408048e-11,
+                  "absB_mg_g": 0.1762370001354411
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.859861977408048e-11,
+                  "B_mg_g": -0.1762370001354411,
+                  "R_allowance_mg_g": 2.859973521541809e-11,
+                  "R_mg_g": 0.335367762928938,
+                  "absB_allowance_mg_g": 2.859861977408048e-11,
+                  "absB_mg_g": 0.1762370001354411
+                }
+              },
+              "PRED-C05": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.2679641680125695,
+                    "upper": -0.26796416795537104
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3470004761486479,
+                    "upper": 0.34700047620584856
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.26796416795537104,
+                    "upper": 0.2679641680125695
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3470004761486478,
+                  "absB_mg_g": 0.26796416795537104
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.859923291164274e-11,
+                  "B_mg_g": -0.26796416798397027,
+                  "R_allowance_mg_g": 2.86003344505553e-11,
+                  "R_mg_g": 0.3470004761772482,
+                  "absB_allowance_mg_g": 2.859923291164274e-11,
+                  "absB_mg_g": 0.26796416798397027
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.859923291164274e-11,
+                  "B_mg_g": -0.26796416798397027,
+                  "R_allowance_mg_g": 2.86003344505553e-11,
+                  "R_mg_g": 0.3470004761772482,
+                  "absB_allowance_mg_g": 2.859923291164274e-11,
+                  "absB_mg_g": 0.26796416798397027
+                }
+              },
+              "PRED-C06": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.22283421151973387,
+                    "upper": -0.2228342114626558
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3869136247829633,
+                    "upper": 0.38691362484004244
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.2228342114626558,
+                    "upper": 0.22283421151973387
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3869136247829634,
+                  "absB_mg_g": 0.22283421146265578
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8539026487227575e-11,
+                  "B_mg_g": -0.22283421149119484,
+                  "R_allowance_mg_g": 2.8539570315555244e-11,
+                  "R_mg_g": 0.3869136248115029,
+                  "absB_allowance_mg_g": 2.8539026487227575e-11,
+                  "absB_mg_g": 0.22283421149119484
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8539026487227575e-11,
+                  "B_mg_g": -0.22283421149119484,
+                  "R_allowance_mg_g": 2.8539570315555244e-11,
+                  "R_mg_g": 0.3869136248115029,
+                  "absB_allowance_mg_g": 2.8539026487227575e-11,
+                  "absB_mg_g": 0.22283421149119484
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8558450811054704e-11,
+              "B_mg_g": -0.20343445167476623,
+              "R_allowance_mg_g": 2.855915186735372e-11,
+              "R_mg_g": 0.35434143956633996,
+              "absB_allowance_mg_g": 2.8558450811054704e-11,
+              "absB_mg_g": 0.20343445167476623
+            },
+            "original_conditions": 4,
+            "original_shots": 12,
+            "original_slots": 48,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8558450811054704e-11,
+              "B_mg_g": -0.20343445167476623,
+              "R_allowance_mg_g": 2.855915186735372e-11,
+              "R_mg_g": 0.35434143956633996,
+              "absB_allowance_mg_g": 2.8558450811054704e-11,
+              "absB_mg_g": 0.20343445167476623
+            }
+          }
+        },
+        "temperature_stress": {
+          "A1": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": 0.1991384233697569,
+                "upper": 0.19913842342682136
+              },
+              "R_mg_g": {
+                "lower": 0.32388134514321565,
+                "upper": 0.32388134520028067
+              },
+              "absB_mg_g": {
+                "lower": 0.207469603414104,
+                "upper": 0.20746960347116847
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C03": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.12784200478761212,
+                    "upper": 0.12784200484463573
+                  },
+                  "R_mg_g": {
+                    "lower": 0.2623507387253417,
+                    "upper": 0.2623507387823654
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.1445043648763063,
+                    "upper": 0.1445043649333299
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.26235073872534176,
+                  "absB_mg_g": 0.1445043648763063
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8511806496743137e-11,
+                  "B_mg_g": 0.12784200481612393,
+                  "R_allowance_mg_g": 2.8511850252762144e-11,
+                  "R_mg_g": 0.26235073875385356,
+                  "absB_allowance_mg_g": 2.8511806496743137e-11,
+                  "absB_mg_g": 0.1445043649048181
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8511806496743137e-11,
+                  "B_mg_g": 0.12784200481612393,
+                  "R_allowance_mg_g": 2.8511850252762144e-11,
+                  "R_mg_g": 0.26235073875385356,
+                  "absB_allowance_mg_g": 2.8511806496743137e-11,
+                  "absB_mg_g": 0.1445043649048181
+                }
+              },
+              "PRED-C04": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": 0.2704348419519017,
+                    "upper": 0.270434842009007
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3854119515610896,
+                    "upper": 0.3854119516181959
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.2704348419519017,
+                    "upper": 0.270434842009007
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3854119515610896,
+                  "absB_mg_g": 0.2704348419519017
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.855264904043126e-11,
+                  "B_mg_g": 0.27043484198045437,
+                  "R_allowance_mg_g": 2.8553147614922505e-11,
+                  "R_mg_g": 0.38541195158964275,
+                  "absB_allowance_mg_g": 2.855264904043126e-11,
+                  "absB_mg_g": 0.27043484198045437
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.855264904043126e-11,
+                  "B_mg_g": 0.27043484198045437,
+                  "R_allowance_mg_g": 2.8553147614922505e-11,
+                  "R_mg_g": 0.38541195158964275,
+                  "absB_allowance_mg_g": 2.855264904043126e-11,
+                  "absB_mg_g": 0.27043484198045437
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.85322277685872e-11,
+              "B_mg_g": 0.19913842339828913,
+              "R_allowance_mg_g": 2.8532498933842326e-11,
+              "R_mg_g": 0.32388134517174816,
+              "absB_allowance_mg_g": 2.85322277685872e-11,
+              "absB_mg_g": 0.20746960344263624
+            },
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.85322277685872e-11,
+              "B_mg_g": 0.19913842339828913,
+              "R_allowance_mg_g": 2.8532498933842326e-11,
+              "R_mg_g": 0.32388134517174816,
+              "absB_allowance_mg_g": 2.85322277685872e-11,
+              "absB_mg_g": 0.20746960344263624
+            }
+          },
+          "D0": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.35212263433508084,
+                "upper": -0.3521226342780598
+              },
+              "R_mg_g": {
+                "lower": 0.3815751873844787,
+                "upper": 0.3815751874415002
+              },
+              "absB_mg_g": {
+                "lower": 0.3521226342780598,
+                "upper": 0.35212263433508084
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C03": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.4336021563134409,
+                    "upper": -0.4336021562564616
+                  },
+                  "R_mg_g": {
+                    "lower": 0.45917689707219034,
+                    "upper": 0.45917689712916965
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.4336021562564616,
+                    "upper": 0.4336021563134409
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.45917689707219034,
+                  "absB_mg_g": 0.4336021562564616
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8489653417420602e-11,
+                  "B_mg_g": -0.43360215628495125,
+                  "R_allowance_mg_g": 2.8489680107148187e-11,
+                  "R_mg_g": 0.45917689710068,
+                  "absB_allowance_mg_g": 2.8489653417420602e-11,
+                  "absB_mg_g": 0.43360215628495125
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8489653417420602e-11,
+                  "B_mg_g": -0.43360215628495125,
+                  "R_allowance_mg_g": 2.8489680107148187e-11,
+                  "R_mg_g": 0.45917689710068,
+                  "absB_allowance_mg_g": 2.8489653417420602e-11,
+                  "absB_mg_g": 0.43360215628495125
+                }
+              },
+              "PRED-C04": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.27064311235672084,
+                    "upper": -0.27064311229965793
+                  },
+                  "R_mg_g": {
+                    "lower": 0.30397347769676714,
+                    "upper": 0.3039734777538308
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.27064311229965793,
+                    "upper": 0.27064311235672084
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.30397347769676714,
+                  "absB_mg_g": 0.27064311229965793
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8531427812949116e-11,
+                  "B_mg_g": -0.2706431123281894,
+                  "R_allowance_mg_g": 2.8531862210348947e-11,
+                  "R_mg_g": 0.303973477725299,
+                  "absB_allowance_mg_g": 2.8531427812949116e-11,
+                  "absB_mg_g": 0.2706431123281894
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8531427812949116e-11,
+                  "B_mg_g": -0.2706431123281894,
+                  "R_allowance_mg_g": 2.8531862210348947e-11,
+                  "R_mg_g": 0.303973477725299,
+                  "absB_allowance_mg_g": 2.8531427812949116e-11,
+                  "absB_mg_g": 0.2706431123281894
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.851054061518486e-11,
+              "B_mg_g": -0.3521226343065703,
+              "R_allowance_mg_g": 2.8510771158748567e-11,
+              "R_mg_g": 0.38157518741298946,
+              "absB_allowance_mg_g": 2.851054061518486e-11,
+              "absB_mg_g": 0.3521226343065703
+            },
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.851054061518486e-11,
+              "B_mg_g": -0.3521226343065703,
+              "R_allowance_mg_g": 2.8510771158748567e-11,
+              "R_mg_g": 0.38157518741298946,
+              "absB_allowance_mg_g": 2.851054061518486e-11,
+              "absB_mg_g": 0.3521226343065703
+            }
+          },
+          "E0": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.37373096994126576,
+                "upper": -0.3737309698842467
+              },
+              "R_mg_g": {
+                "lower": 0.3979649341725357,
+                "upper": 0.3979649342295552
+              },
+              "absB_mg_g": {
+                "lower": 0.3737309698842467,
+                "upper": 0.37373096994126576
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C03": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.43566598618103997,
+                    "upper": -0.4356659861240613
+                  },
+                  "R_mg_g": {
+                    "lower": 0.47714883717784273,
+                    "upper": 0.4771488372348215
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.4356659861240613,
+                    "upper": 0.43566598618103997
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.47714883717784273,
+                  "absB_mg_g": 0.43566598612406127
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.8489334829605955e-11,
+                  "B_mg_g": -0.43566598615255064,
+                  "R_allowance_mg_g": 2.848935932474009e-11,
+                  "R_mg_g": 0.4771488372063321,
+                  "absB_allowance_mg_g": 2.8489334829605955e-11,
+                  "absB_mg_g": 0.43566598615255064
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.8489334829605955e-11,
+                  "B_mg_g": -0.43566598615255064,
+                  "R_allowance_mg_g": 2.848935932474009e-11,
+                  "R_mg_g": 0.4771488372063321,
+                  "absB_allowance_mg_g": 2.8489334829605955e-11,
+                  "absB_mg_g": 0.43566598615255064
+                }
+              },
+              "PRED-C04": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.3117959537014915,
+                    "upper": -0.31179595364443213
+                  },
+                  "R_mg_g": {
+                    "lower": 0.31878103116722867,
+                    "upper": 0.3187810312242889
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.31179595364443213,
+                    "upper": 0.3117959537014915
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3187810311672287,
+                  "absB_mg_g": 0.31179595364443213
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.852967140154697e-11,
+                  "B_mg_g": -0.3117959536729618,
+                  "R_allowance_mg_g": 2.8530117364919387e-11,
+                  "R_mg_g": 0.3187810311957588,
+                  "absB_allowance_mg_g": 2.852967140154697e-11,
+                  "absB_mg_g": 0.3117959536729618
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.852967140154697e-11,
+                  "B_mg_g": -0.3117959536729618,
+                  "R_allowance_mg_g": 2.8530117364919387e-11,
+                  "R_mg_g": 0.3187810311957588,
+                  "absB_allowance_mg_g": 2.852967140154697e-11,
+                  "absB_mg_g": 0.3117959536729618
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8509503115576465e-11,
+              "B_mg_g": -0.37373096991275623,
+              "R_allowance_mg_g": 2.850973834482974e-11,
+              "R_mg_g": 0.39796493420104545,
+              "absB_allowance_mg_g": 2.8509503115576465e-11,
+              "absB_mg_g": 0.37373096991275623
+            },
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8509503115576465e-11,
+              "B_mg_g": -0.37373096991275623,
+              "R_allowance_mg_g": 2.850973834482974e-11,
+              "R_mg_g": 0.39796493420104545,
+              "absB_allowance_mg_g": 2.8509503115576465e-11,
+              "absB_mg_g": 0.37373096991275623
+            }
+          },
+          "L1": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.21277035357782617,
+                "upper": -0.21277035352079407
+              },
+              "R_mg_g": {
+                "lower": 0.3261642838079285,
+                "upper": 0.3261642838649611
+              },
+              "absB_mg_g": {
+                "lower": 0.21277035352079407,
+                "upper": 0.21277035357782617
+              }
+            },
+            "complete_scope": true,
+            "conditions": {
+              "PRED-C03": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.29864348980700617,
+                    "upper": -0.298643489750016
+                  },
+                  "R_mg_g": {
+                    "lower": 0.3680344331701784,
+                    "upper": 0.3680344332271686
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.298643489750016,
+                    "upper": 0.29864348980700617
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.3680344331701784,
+                  "absB_mg_g": 0.298643489750016
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.849507021007471e-11,
+                  "B_mg_g": -0.2986434897785111,
+                  "R_allowance_mg_g": 2.8495112037688744e-11,
+                  "R_mg_g": 0.3680344331986735,
+                  "absB_allowance_mg_g": 2.849507021007471e-11,
+                  "absB_mg_g": 0.2986434897785111
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.849507021007471e-11,
+                  "B_mg_g": -0.2986434897785111,
+                  "R_allowance_mg_g": 2.8495112037688744e-11,
+                  "R_mg_g": 0.3680344331986735,
+                  "absB_allowance_mg_g": 2.849507021007471e-11,
+                  "absB_mg_g": 0.2986434897785111
+                }
+              },
+              "PRED-C04": {
+                "adequacy": "FAIL",
+                "bounds": {
+                  "B_mg_g": {
+                    "lower": -0.1268972173486462,
+                    "upper": -0.12689721729157213
+                  },
+                  "R_mg_g": {
+                    "lower": 0.28429413444567864,
+                    "upper": 0.28429413450275365
+                  },
+                  "absB_mg_g": {
+                    "lower": 0.12689721729157213,
+                    "upper": 0.1268972173486462
+                  }
+                },
+                "complete_shot_full_condition_lower_bounds": {
+                  "R_mg_g": 0.28429413444567864,
+                  "absB_mg_g": 0.12689721729157213
+                },
+                "complete_shots": 3,
+                "full_scope_metrics": {
+                  "B_allowance_mg_g": 2.853703282719664e-11,
+                  "B_mg_g": -0.12689721732010917,
+                  "R_allowance_mg_g": 2.8537526032289437e-11,
+                  "R_mg_g": 0.28429413447421614,
+                  "absB_allowance_mg_g": 2.853703282719664e-11,
+                  "absB_mg_g": 0.12689721732010917
+                },
+                "original_shots": 3,
+                "original_slots": 12,
+                "qualified_slots": 12,
+                "supported_slots": 12,
+                "supported_subset_diagnostic": {
+                  "B_allowance_mg_g": 2.853703282719664e-11,
+                  "B_mg_g": -0.12689721732010917,
+                  "R_allowance_mg_g": 2.8537526032289437e-11,
+                  "R_mg_g": 0.28429413447421614,
+                  "absB_allowance_mg_g": 2.853703282719664e-11,
+                  "absB_mg_g": 0.12689721732010917
+                }
+              }
+            },
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8516051518635676e-11,
+              "B_mg_g": -0.21277035354931012,
+              "R_allowance_mg_g": 2.851631903498909e-11,
+              "R_mg_g": 0.3261642838364448,
+              "absB_allowance_mg_g": 2.8516051518635676e-11,
+              "absB_mg_g": 0.21277035354931012
+            },
+            "original_conditions": 2,
+            "original_shots": 6,
+            "original_slots": 24,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8516051518635676e-11,
+              "B_mg_g": -0.21277035354931012,
+              "R_allowance_mg_g": 2.851631903498909e-11,
+              "R_mg_g": 0.3261642838364448,
+              "absB_allowance_mg_g": 2.8516051518635676e-11,
+              "absB_mg_g": 0.21277035354931012
+            }
+          }
+        }
+      },
+      "physical_validation": "NOT_ESTABLISHED",
+      "prediction_failures_and_unsupported": {
+        "A1": {
+          "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+        },
+        "D0": {
+          "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+        },
+        "E0": {
+          "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+        },
+        "L1": {
+          "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+        }
+      },
+      "production_adoption_authorized": false,
+      "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+      "scientific_score_passes": 1,
+      "successor_authorized": false,
+      "task": "SCI-MD-5CQA-ASSAY-001"
+    },
+    "results_sha256": "eb30c4e2e570e64f66f43b64b4211c375bc7a20c2a50e4e7af2e3b7cc3196d64",
+    "score_calls": 0,
+    "status": "EXACT_RETAINED_REFERENCE_ONLY_NO_NEW_HISTORICAL_SCORE"
+  },
+  "merge_authorized": false,
+  "minimum_tested_assay_count": null,
+  "native_ewp_runs": 0,
+  "outcome_joins": 1,
+  "pairwise_complexity": {
+    "L12_vs_L1M": {
+      "R_improvement_bounds": [
+        0.046212975044577186,
+        0.046212975158808546
+      ],
+      "R_improvement_mg_g": 0.046212975101692866,
+      "candidate_adequacy": "FAIL",
+      "components": {
+        "abs_bias_deterioration": "FAIL",
+        "absolute_gain": "FAIL",
+        "condition_wins": "PASS",
+        "relative_gain": "FAIL"
+      },
+      "definite_condition_wins": 4,
+      "gain_status": "FAIL",
+      "mean_absB_deterioration_bounds": [
+        0.03868497168959812,
+        0.03868497180382673
+      ],
+      "mean_absB_deterioration_mg_g": 0.03868497174671243,
+      "possible_condition_wins": 4,
+      "relative_improvement": 0.13445411831332676,
+      "relative_improvement_lower_bound": 0.13445411815832353,
+      "status": "FAIL"
+    },
+    "L12_vs_L2M": {
+      "R_improvement_bounds": [
+        0.05197258350133808,
+        0.05197258361556486
+      ],
+      "R_improvement_mg_g": 0.05197258355845147,
+      "candidate_adequacy": "FAIL",
+      "components": {
+        "abs_bias_deterioration": "PASS",
+        "absolute_gain": "PASS",
+        "condition_wins": "PASS",
+        "relative_gain": "FAIL"
+      },
+      "definite_condition_wins": 4,
+      "gain_status": "FAIL",
+      "mean_absB_deterioration_bounds": [
+        -0.015276169160138341,
+        -0.01527616904591429
+      ],
+      "mean_absB_deterioration_mg_g": -0.015276169103026316,
+      "possible_condition_wins": 4,
+      "relative_improvement": 0.14871925546174458,
+      "relative_improvement_lower_bound": 0.14871925531046726,
+      "status": "FAIL"
+    },
+    "L2M_vs_L1M": {
+      "R_improvement_bounds": [
+        -0.0057596085138736175,
+        -0.005759608399643588
+      ],
+      "R_improvement_mg_g": -0.0057596084567586026,
+      "candidate_adequacy": "FAIL",
+      "components": {
+        "abs_bias_deterioration": "FAIL",
+        "absolute_gain": "FAIL",
+        "condition_wins": "FAIL",
+        "relative_gain": "FAIL"
+      },
+      "definite_condition_wins": 1,
+      "gain_status": "FAIL",
+      "mean_absB_deterioration_bounds": [
+        0.053961140792625116,
+        0.05396114090685237
+      ],
+      "mean_absB_deterioration_mg_g": 0.05396114084973874,
+      "possible_condition_wins": 1,
+      "relative_improvement": -0.01675726514424497,
+      "relative_improvement_lower_bound": -0.016757265311810432,
+      "status": "FAIL"
+    }
+  },
+  "panels": {
+    "flow_stress": {
+      "L12": {
+        "adequacy": "FAIL",
+        "bounds": null,
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.16607449245158504,
+              "absB_mg_g": 0.15403149456723195
+            },
+            "complete_shots": 2,
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8585610759746355e-11,
+              "B_mg_g": -0.3011158173061255,
+              "R_allowance_mg_g": 2.8586619599534464e-11,
+              "R_mg_g": 0.31964931590739193,
+              "absB_allowance_mg_g": 2.8585610759746355e-11,
+              "absB_mg_g": 0.3011158173061255
+            }
+          },
+          "PRED-C08": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.2540669511837823,
+                "upper": -0.2540669511268141
+              },
+              "R_mg_g": {
+                "lower": 0.26673203243063215,
+                "upper": 0.26673203248760036
+              },
+              "absB_mg_g": {
+                "lower": 0.2540669511268141,
+                "upper": 0.2540669511837823
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2667320324306321,
+              "absB_mg_g": 0.25406695112681416
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8484089442376515e-11,
+              "B_mg_g": -0.2540669511552982,
+              "R_allowance_mg_g": 2.8484109407566872e-11,
+              "R_mg_g": 0.26673203245911625,
+              "absB_allowance_mg_g": 2.8484089442376515e-11,
+              "absB_mg_g": 0.2540669511552982
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8484089442376515e-11,
+              "B_mg_g": -0.2540669511552982,
+              "R_allowance_mg_g": 2.8484109407566872e-11,
+              "R_mg_g": 0.26673203245911625,
+              "absB_allowance_mg_g": 2.8484089442376515e-11,
+              "absB_mg_g": 0.2540669511552982
+            }
+          }
+        },
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8534850101061436e-11,
+          "B_mg_g": -0.27759138423071184,
+          "R_allowance_mg_g": 2.8535364503550668e-11,
+          "R_mg_g": 0.29319067418325406,
+          "absB_allowance_mg_g": 2.8534850101061436e-11,
+          "absB_mg_g": 0.27759138423071184
+        }
+      },
+      "L1M": {
+        "adequacy": "FAIL",
+        "bounds": null,
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "adequacy": "INCOMPLETE_SUPPORT",
+            "bounds": null,
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.20905357012954437,
+              "absB_mg_g": 0.09632855865278318
+            },
+            "complete_shots": 2,
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8588027849943363e-11,
+              "B_mg_g": -0.2417685381888867,
+              "R_allowance_mg_g": 2.8589101616172108e-11,
+              "R_mg_g": 0.3596501836896271,
+              "absB_allowance_mg_g": 2.8588027849943363e-11,
+              "absB_mg_g": 0.2417685381888867
+            }
+          },
+          "PRED-C08": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.25099951178095287,
+                "upper": -0.25099951172398466
+              },
+              "R_mg_g": {
+                "lower": 0.2828096192689534,
+                "upper": 0.28280961932592175
+              },
+              "absB_mg_g": {
+                "lower": 0.25099951172398466,
+                "upper": 0.25099951178095287
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2828096192689534,
+              "absB_mg_g": 0.2509995117239846
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8484130523569052e-11,
+              "B_mg_g": -0.25099951175246876,
+              "R_allowance_mg_g": 2.848415586219508e-11,
+              "R_mg_g": 0.2828096192974376,
+              "absB_allowance_mg_g": 2.8484130523569052e-11,
+              "absB_mg_g": 0.25099951175246876
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8484130523569052e-11,
+              "B_mg_g": -0.25099951175246876,
+              "R_allowance_mg_g": 2.848415586219508e-11,
+              "R_mg_g": 0.2828096192974376,
+              "absB_allowance_mg_g": 2.8484130523569052e-11,
+              "absB_mg_g": 0.25099951175246876
+            }
+          }
+        },
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.853607918675621e-11,
+          "B_mg_g": -0.24638402497067774,
+          "R_allowance_mg_g": 2.8536628739183592e-11,
+          "R_mg_g": 0.32122990149353237,
+          "absB_allowance_mg_g": 2.853607918675621e-11,
+          "absB_mg_g": 0.24638402497067774
+        }
+      },
+      "L2M": {
+        "adequacy": "FAIL",
+        "bounds": null,
+        "complete_scope": false,
+        "conditions": {
+          "PRED-C07": {
+            "adequacy": "FAIL",
+            "bounds": null,
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.19384992548715066,
+              "absB_mg_g": 0.16616461080161396
+            },
+            "complete_shots": 2,
+            "full_scope_metrics": null,
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 11,
+            "supported_slots": 11,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8584478753623043e-11,
+              "B_mg_g": -0.3292059444641545,
+              "R_allowance_mg_g": 2.8585516059808956e-11,
+              "R_mg_g": 0.3601265731455164,
+              "absB_allowance_mg_g": 2.8584478753623043e-11,
+              "absB_mg_g": 0.3292059444641545
+            }
+          },
+          "PRED-C08": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.29250290766964593,
+                "upper": -0.2925029076126807
+              },
+              "R_mg_g": {
+                "lower": 0.3094724232386784,
+                "upper": 0.3094724232956436
+              },
+              "absB_mg_g": {
+                "lower": 0.2925029076126807,
+                "upper": 0.29250290766964593
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.30947242323867835,
+              "absB_mg_g": 0.29250290761268066
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.848260663754357e-11,
+              "B_mg_g": -0.2925029076411633,
+              "R_allowance_mg_g": 2.8482629777897596e-11,
+              "R_mg_g": 0.309472423267161,
+              "absB_allowance_mg_g": 2.848260663754357e-11,
+              "absB_mg_g": 0.2925029076411633
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.848260663754357e-11,
+              "B_mg_g": -0.2925029076411633,
+              "R_allowance_mg_g": 2.8482629777897596e-11,
+              "R_mg_g": 0.309472423267161,
+              "absB_allowance_mg_g": 2.848260663754357e-11,
+              "absB_mg_g": 0.2925029076411633
+            }
+          }
+        },
+        "full_scope_metrics": null,
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8533542695583305e-11,
+          "B_mg_g": -0.3108544260526589,
+          "R_allowance_mg_g": 2.8534072918853274e-11,
+          "R_mg_g": 0.3347994982063387,
+          "absB_allowance_mg_g": 2.8533542695583305e-11,
+          "absB_mg_g": 0.3108544260526589
+        }
+      }
+    },
+    "primary": {
+      "L12": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.2543723617772286,
+            "upper": -0.25437236172011585
+          },
+          "R_mg_g": {
+            "lower": 0.29749516621503713,
+            "upper": 0.2974951662721512
+          },
+          "absB_mg_g": {
+            "lower": 0.25437236172011585,
+            "upper": 0.2543723617772286
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.224808122567671,
+                "upper": -0.22480812251068313
+              },
+              "R_mg_g": {
+                "lower": 0.25316123358526416,
+                "upper": 0.2531612336422521
+              },
+              "absB_mg_g": {
+                "lower": 0.22480812251068313,
+                "upper": 0.224808122567671
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2531612335852642,
+              "absB_mg_g": 0.22480812251068316
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.849393143162005e-11,
+              "B_mg_g": -0.22480812253917706,
+              "R_allowance_mg_g": 2.8493962159382246e-11,
+              "R_mg_g": 0.25316123361375814,
+              "absB_allowance_mg_g": 2.849393143162005e-11,
+              "absB_mg_g": 0.22480812253917706
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.849393143162005e-11,
+              "B_mg_g": -0.22480812253917706,
+              "R_allowance_mg_g": 2.8493962159382246e-11,
+              "R_mg_g": 0.25316123361375814,
+              "absB_allowance_mg_g": 2.849393143162005e-11,
+              "absB_mg_g": 0.22480812253917706
+            }
+          },
+          "PRED-C02": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.2307554563906529,
+                "upper": -0.2307554563334603
+              },
+              "R_mg_g": {
+                "lower": 0.27243994508449826,
+                "upper": 0.27243994514169295
+              },
+              "absB_mg_g": {
+                "lower": 0.2307554563334603,
+                "upper": 0.2307554563906529
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.27243994508449826,
+              "absB_mg_g": 0.2307554563334603
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8596280906075928e-11,
+              "B_mg_g": -0.2307554563620566,
+              "R_allowance_mg_g": 2.8597365872462916e-11,
+              "R_mg_g": 0.2724399451130956,
+              "absB_allowance_mg_g": 2.8596280906075928e-11,
+              "absB_mg_g": 0.2307554563620566
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8596280906075928e-11,
+              "B_mg_g": -0.2307554563620566,
+              "R_allowance_mg_g": 2.8597365872462916e-11,
+              "R_mg_g": 0.2724399451130956,
+              "absB_allowance_mg_g": 2.8596280906075928e-11,
+              "absB_mg_g": 0.2307554563620566
+            }
+          },
+          "PRED-C05": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.30105851837861897,
+                "upper": -0.3010585183214233
+              },
+              "R_mg_g": {
+                "lower": 0.32089216295498263,
+                "upper": 0.32089216301218043
+              },
+              "absB_mg_g": {
+                "lower": 0.3010585183214233,
+                "upper": 0.30105851837861897
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3208921629549826,
+              "absB_mg_g": 0.3010585183214233
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8597849110851817e-11,
+              "B_mg_g": -0.3010585183500211,
+              "R_allowance_mg_g": 2.859891881981478e-11,
+              "R_mg_g": 0.32089216298358153,
+              "absB_allowance_mg_g": 2.8597849110851817e-11,
+              "absB_mg_g": 0.3010585183500211
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8597849110851817e-11,
+              "B_mg_g": -0.3010585183500211,
+              "R_allowance_mg_g": 2.859891881981478e-11,
+              "R_mg_g": 0.32089216298358153,
+              "absB_allowance_mg_g": 2.8597849110851817e-11,
+              "absB_mg_g": 0.3010585183500211
+            }
+          },
+          "PRED-C06": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.26086734977197146,
+                "upper": -0.2608673497148968
+              },
+              "R_mg_g": {
+                "lower": 0.34348732323540365,
+                "upper": 0.34348732329247933
+              },
+              "absB_mg_g": {
+                "lower": 0.2608673497148968,
+                "upper": 0.26086734977197146
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3434873232354037,
+              "absB_mg_g": 0.2608673497148967
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8537351183996716e-11,
+              "B_mg_g": -0.2608673497434341,
+              "R_allowance_mg_g": 2.853786294778438e-11,
+              "R_mg_g": 0.3434873232639415,
+              "absB_allowance_mg_g": 2.8537351183996716e-11,
+              "absB_mg_g": 0.2608673497434341
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8537351183996716e-11,
+              "B_mg_g": -0.2608673497434341,
+              "R_allowance_mg_g": 2.853786294778438e-11,
+              "R_mg_g": 0.3434873232639415,
+              "absB_allowance_mg_g": 2.8537351183996716e-11,
+              "absB_mg_g": 0.2608673497434341
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.855635315813613e-11,
+          "B_mg_g": -0.2543723617486722,
+          "R_allowance_mg_g": 2.855702744986108e-11,
+          "R_mg_g": 0.2974951662435942,
+          "absB_allowance_mg_g": 2.855635315813613e-11,
+          "absB_mg_g": 0.2543723617486722
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.855635315813613e-11,
+          "B_mg_g": -0.2543723617486722,
+          "R_allowance_mg_g": 2.855702744986108e-11,
+          "R_mg_g": 0.2974951662435942,
+          "absB_allowance_mg_g": 2.855635315813613e-11,
+          "absB_mg_g": 0.2543723617486722
+        }
+      },
+      "L1M": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.21568739003051776,
+            "upper": -0.21568738997340184
+          },
+          "R_mg_g": {
+            "lower": 0.3437081413167284,
+            "upper": 0.3437081413738457
+          },
+          "absB_mg_g": {
+            "lower": 0.21568738997340184,
+            "upper": 0.21568739003051776
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.14890615758237752,
+                "upper": -0.1489061575253834
+              },
+              "R_mg_g": {
+                "lower": 0.3394257063729354,
+                "upper": 0.3394257064299296
+              },
+              "absB_mg_g": {
+                "lower": 0.1489061575253834,
+                "upper": 0.14890615758237752
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3394257063729353,
+              "absB_mg_g": 0.14890615752538336
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8497072160843223e-11,
+              "B_mg_g": -0.14890615755388045,
+              "R_allowance_mg_g": 2.8497115345015987e-11,
+              "R_mg_g": 0.3394257064014325,
+              "absB_allowance_mg_g": 2.8497072160843223e-11,
+              "absB_mg_g": 0.14890615755388045
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8497072160843223e-11,
+              "B_mg_g": -0.14890615755388045,
+              "R_allowance_mg_g": 2.8497115345015987e-11,
+              "R_mg_g": 0.3394257064014325,
+              "absB_allowance_mg_g": 2.8497072160843223e-11,
+              "absB_mg_g": 0.14890615755388045
+            }
+          },
+          "PRED-C02": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.18732286948851345,
+                "upper": -0.18732286943131737
+              },
+              "R_mg_g": {
+                "lower": 0.31951231469128577,
+                "upper": 0.319512314748484
+              },
+              "absB_mg_g": {
+                "lower": 0.18732286943131737,
+                "upper": 0.18732286948851345
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3195123146912857,
+              "absB_mg_g": 0.18732286943131737
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8598035662182592e-11,
+              "B_mg_g": -0.18732286945991541,
+              "R_allowance_mg_g": 2.859914277660882e-11,
+              "R_mg_g": 0.3195123147198849,
+              "absB_allowance_mg_g": 2.8598035662182592e-11,
+              "absB_mg_g": 0.18732286945991541
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8598035662182592e-11,
+              "B_mg_g": -0.18732286945991541,
+              "R_allowance_mg_g": 2.859914277660882e-11,
+              "R_mg_g": 0.3195123147198849,
+              "absB_allowance_mg_g": 2.8598035662182592e-11,
+              "absB_mg_g": 0.18732286945991541
+            }
+          },
+          "PRED-C05": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.2770202964385691,
+                "upper": -0.2770202963813711
+              },
+              "R_mg_g": {
+                "lower": 0.3454919207235249,
+                "upper": 0.34549192078072505
+              },
+              "absB_mg_g": {
+                "lower": 0.2770202963813711,
+                "upper": 0.2770202964385691
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3454919207235249,
+              "absB_mg_g": 0.2770202963813711
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.85989855822295e-11,
+              "B_mg_g": -0.2770202964099701,
+              "R_allowance_mg_g": 2.86000815887793e-11,
+              "R_mg_g": 0.345491920752125,
+              "absB_allowance_mg_g": 2.85989855822295e-11,
+              "absB_mg_g": 0.2770202964099701
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.85989855822295e-11,
+              "B_mg_g": -0.2770202964099701,
+              "R_allowance_mg_g": 2.86000815887793e-11,
+              "R_mg_g": 0.345491920752125,
+              "absB_allowance_mg_g": 2.85989855822295e-11,
+              "absB_mg_g": 0.2770202964099701
+            }
+          },
+          "PRED-C06": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.249500236612611,
+                "upper": -0.24950023655553555
+              },
+              "R_mg_g": {
+                "lower": 0.37040262347916747,
+                "upper": 0.37040262353624404
+              },
+              "absB_mg_g": {
+                "lower": 0.24950023655553555,
+                "upper": 0.249500236612611
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.37040262347916747,
+              "absB_mg_g": 0.24950023655553552
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8537731908522263e-11,
+              "B_mg_g": -0.24950023658407328,
+              "R_allowance_mg_g": 2.853826324255781e-11,
+              "R_mg_g": 0.37040262350770575,
+              "absB_allowance_mg_g": 2.8537731908522263e-11,
+              "absB_mg_g": 0.24950023658407328
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8537731908522263e-11,
+              "B_mg_g": -0.24950023658407328,
+              "R_allowance_mg_g": 2.853826324255781e-11,
+              "R_mg_g": 0.37040262350770575,
+              "absB_allowance_mg_g": 2.8537731908522263e-11,
+              "absB_mg_g": 0.24950023658407328
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8557956328444395e-11,
+          "B_mg_g": -0.2156873900019598,
+          "R_allowance_mg_g": 2.855865073824048e-11,
+          "R_mg_g": 0.34370814134528704,
+          "absB_allowance_mg_g": 2.8557956328444395e-11,
+          "absB_mg_g": 0.2156873900019598
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8557956328444395e-11,
+          "B_mg_g": -0.2156873900019598,
+          "R_allowance_mg_g": 2.855865073824048e-11,
+          "R_mg_g": 0.34370814134528704,
+          "absB_allowance_mg_g": 2.8557956328444395e-11,
+          "absB_mg_g": 0.2156873900019598
+        }
+      },
+      "L2M": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.2696485308802542,
+            "upper": -0.2696485308231429
+          },
+          "R_mg_g": {
+            "lower": 0.34946774977348927,
+            "upper": 0.349467749830602
+          },
+          "absB_mg_g": {
+            "lower": 0.2696485308231429,
+            "upper": 0.2696485308802542
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C01": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.23412866165116442,
+                "upper": -0.23412866159417728
+              },
+              "R_mg_g": {
+                "lower": 0.3038230780553535,
+                "upper": 0.3038230781123407
+              },
+              "absB_mg_g": {
+                "lower": 0.23412866159417728,
+                "upper": 0.23412866165116442
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3038230780553535,
+              "absB_mg_g": 0.2341286615941773
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8493576567937326e-11,
+              "B_mg_g": -0.23412866162267085,
+              "R_allowance_mg_g": 2.849361230075969e-11,
+              "R_mg_g": 0.3038230780838471,
+              "absB_allowance_mg_g": 2.8493576567937326e-11,
+              "absB_mg_g": 0.23412866162267085
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8493576567937326e-11,
+              "B_mg_g": -0.23412866162267085,
+              "R_allowance_mg_g": 2.849361230075969e-11,
+              "R_mg_g": 0.3038230780838471,
+              "absB_allowance_mg_g": 2.8493576567937326e-11,
+              "absB_mg_g": 0.23412866162267085
+            }
+          },
+          "PRED-C02": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.2500700870335911,
+                "upper": -0.25007008697640043
+              },
+              "R_mg_g": {
+                "lower": 0.33131874123621924,
+                "upper": 0.33131874129341216
+              },
+              "absB_mg_g": {
+                "lower": 0.25007008697640043,
+                "upper": 0.2500700870335911
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.33131874123621924,
+              "absB_mg_g": 0.2500700869764004
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8595374518905648e-11,
+              "B_mg_g": -0.2500700870049958,
+              "R_allowance_mg_g": 2.8596479513029652e-11,
+              "R_mg_g": 0.3313187412648157,
+              "absB_allowance_mg_g": 2.8595374518905648e-11,
+              "absB_mg_g": 0.2500700870049958
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8595374518905648e-11,
+              "B_mg_g": -0.2500700870049958,
+              "R_allowance_mg_g": 2.8596479513029652e-11,
+              "R_mg_g": 0.3313187412648157,
+              "absB_allowance_mg_g": 2.8595374518905648e-11,
+              "absB_mg_g": 0.2500700870049958
+            }
+          },
+          "PRED-C05": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.31206433468498684,
+                "upper": -0.31206433462779204
+              },
+              "R_mg_g": {
+                "lower": 0.3552675981839862,
+                "upper": 0.3552675982411831
+              },
+              "absB_mg_g": {
+                "lower": 0.31206433462779204,
+                "upper": 0.31206433468498684
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3552675981839862,
+              "absB_mg_g": 0.3120643346277921
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8597382669255986e-11,
+              "B_mg_g": -0.31206433465638944,
+              "R_allowance_mg_g": 2.859847586416395e-11,
+              "R_mg_g": 0.35526759821258463,
+              "absB_allowance_mg_g": 2.8597382669255986e-11,
+              "absB_mg_g": 0.31206433465638944
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8597382669255986e-11,
+              "B_mg_g": -0.31206433465638944,
+              "R_allowance_mg_g": 2.859847586416395e-11,
+              "R_mg_g": 0.35526759821258463,
+              "absB_allowance_mg_g": 2.8597382669255986e-11,
+              "absB_mg_g": 0.31206433465638944
+            }
+          },
+          "PRED-C06": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.28233104015127447,
+                "upper": -0.2823310400942018
+              },
+              "R_mg_g": {
+                "lower": 0.4074615816183983,
+                "upper": 0.4074615816754721
+              },
+              "absB_mg_g": {
+                "lower": 0.2823310400942018,
+                "upper": 0.28233104015127447
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.40746158161839824,
+              "absB_mg_g": 0.2823310400942018
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8536356558337413e-11,
+              "B_mg_g": -0.28233104012273813,
+              "R_allowance_mg_g": 2.8536889188831278e-11,
+              "R_mg_g": 0.4074615816469352,
+              "absB_allowance_mg_g": 2.8536356558337413e-11,
+              "absB_mg_g": 0.28233104012273813
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8536356558337413e-11,
+              "B_mg_g": -0.28233104012273813,
+              "R_allowance_mg_g": 2.8536889188831278e-11,
+              "R_mg_g": 0.4074615816469352,
+              "absB_allowance_mg_g": 2.8536356558337413e-11,
+              "absB_mg_g": 0.28233104012273813
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8555672578609092e-11,
+          "B_mg_g": -0.26964853085169854,
+          "R_allowance_mg_g": 2.8556364216696144e-11,
+          "R_mg_g": 0.34946774980204565,
+          "absB_allowance_mg_g": 2.8555672578609092e-11,
+          "absB_mg_g": 0.26964853085169854
+        },
+        "original_conditions": 4,
+        "original_shots": 12,
+        "original_slots": 48,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8555672578609092e-11,
+          "B_mg_g": -0.26964853085169854,
+          "R_allowance_mg_g": 2.8556364216696144e-11,
+          "R_mg_g": 0.34946774980204565,
+          "absB_allowance_mg_g": 2.8555672578609092e-11,
+          "absB_mg_g": 0.26964853085169854
+        }
+      }
+    },
+    "temperature_stress": {
+      "L12": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.25518746535474124,
+            "upper": -0.2551874652977122
+          },
+          "R_mg_g": {
+            "lower": 0.31835205710726616,
+            "upper": 0.31835205716429565
+          },
+          "absB_mg_g": {
+            "lower": 0.2551874652977122,
+            "upper": 0.25518746535474124
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.3364394724406313,
+                "upper": -0.3364394723836439
+              },
+              "R_mg_g": {
+                "lower": 0.34762403060297803,
+                "upper": 0.34762403065996555
+              },
+              "absB_mg_g": {
+                "lower": 0.3364394723836439,
+                "upper": 0.3364394724406313
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.34762403060297803,
+              "absB_mg_g": 0.3364394723836439
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.849373309647591e-11,
+              "B_mg_g": -0.3364394724121376,
+              "R_allowance_mg_g": 2.849376926757582e-11,
+              "R_mg_g": 0.3476240306314718,
+              "absB_allowance_mg_g": 2.849373309647591e-11,
+              "absB_mg_g": 0.3364394724121376
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.849373309647591e-11,
+              "B_mg_g": -0.3364394724121376,
+              "R_allowance_mg_g": 2.849376926757582e-11,
+              "R_mg_g": 0.3476240306314718,
+              "absB_allowance_mg_g": 2.849373309647591e-11,
+              "absB_mg_g": 0.3364394724121376
+            }
+          },
+          "PRED-C04": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.17393545826885115,
+                "upper": -0.17393545821178058
+              },
+              "R_mg_g": {
+                "lower": 0.2890800836115543,
+                "upper": 0.28908008366862575
+              },
+              "absB_mg_g": {
+                "lower": 0.17393545821178058,
+                "upper": 0.17393545826885115
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2890800836115543,
+              "absB_mg_g": 0.17393545821178058
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8535292377938934e-11,
+              "B_mg_g": -0.17393545824031587,
+              "R_allowance_mg_g": 2.853575448737465e-11,
+              "R_mg_g": 0.28908008364009,
+              "absB_allowance_mg_g": 2.8535292377938934e-11,
+              "absB_mg_g": 0.17393545824031587
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8535292377938934e-11,
+              "B_mg_g": -0.17393545824031587,
+              "R_allowance_mg_g": 2.853575448737465e-11,
+              "R_mg_g": 0.28908008364009,
+              "absB_allowance_mg_g": 2.8535292377938934e-11,
+              "absB_mg_g": 0.17393545824031587
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8514512737207422e-11,
+          "B_mg_g": -0.2551874653262267,
+          "R_allowance_mg_g": 2.8514761877475235e-11,
+          "R_mg_g": 0.3183520571357809,
+          "absB_allowance_mg_g": 2.8514512737207422e-11,
+          "absB_mg_g": 0.2551874653262267
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8514512737207422e-11,
+          "B_mg_g": -0.2551874653262267,
+          "R_allowance_mg_g": 2.8514761877475235e-11,
+          "R_mg_g": 0.3183520571357809,
+          "absB_allowance_mg_g": 2.8514512737207422e-11,
+          "absB_mg_g": 0.2551874653262267
+        }
+      },
+      "L1M": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.2420964107947215,
+            "upper": -0.24209641073769167
+          },
+          "R_mg_g": {
+            "lower": 0.31723723566706885,
+            "upper": 0.31723723572409923
+          },
+          "absB_mg_g": {
+            "lower": 0.24209641073769167,
+            "upper": 0.2420964107947215
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.30660386964720066,
+                "upper": -0.306603869590211
+              },
+              "R_mg_g": {
+                "lower": 0.36437724478374023,
+                "upper": 0.36437724484073
+              },
+              "absB_mg_g": {
+                "lower": 0.306603869590211,
+                "upper": 0.30660386964720066
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3643772447837403,
+              "absB_mg_g": 0.3066038695902111
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.849480594315147e-11,
+              "B_mg_g": -0.30660386961870584,
+              "R_allowance_mg_g": 2.8494846618874122e-11,
+              "R_mg_g": 0.3643772448122351,
+              "absB_allowance_mg_g": 2.849480594315147e-11,
+              "absB_mg_g": 0.30660386961870584
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.849480594315147e-11,
+              "B_mg_g": -0.30660386961870584,
+              "R_allowance_mg_g": 2.8494846618874122e-11,
+              "R_mg_g": 0.3643772448122351,
+              "absB_allowance_mg_g": 2.849480594315147e-11,
+              "absB_mg_g": 0.30660386961870584
+            }
+          },
+          "PRED-C04": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.17758895194224236,
+                "upper": -0.17758895188517235
+              },
+              "R_mg_g": {
+                "lower": 0.2700972265503974,
+                "upper": 0.27009722660746843
+              },
+              "absB_mg_g": {
+                "lower": 0.17758895188517235,
+                "upper": 0.17758895194224236
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.2700972265503974,
+              "absB_mg_g": 0.17758895188517232
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8535017524993284e-11,
+              "B_mg_g": -0.17758895191370735,
+              "R_allowance_mg_g": 2.8535499951392653e-11,
+              "R_mg_g": 0.2700972265789329,
+              "absB_allowance_mg_g": 2.8535017524993284e-11,
+              "absB_mg_g": 0.17758895191370735
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8535017524993284e-11,
+              "B_mg_g": -0.17758895191370735,
+              "R_allowance_mg_g": 2.8535499951392653e-11,
+              "R_mg_g": 0.2700972265789329,
+              "absB_allowance_mg_g": 2.8535017524993284e-11,
+              "absB_mg_g": 0.17758895191370735
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.851491173407238e-11,
+          "B_mg_g": -0.24209641076620658,
+          "R_allowance_mg_g": 2.8515173285133388e-11,
+          "R_mg_g": 0.31723723569558404,
+          "absB_allowance_mg_g": 2.851491173407238e-11,
+          "absB_mg_g": 0.24209641076620658
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.851491173407238e-11,
+          "B_mg_g": -0.24209641076620658,
+          "R_allowance_mg_g": 2.8515173285133388e-11,
+          "R_mg_g": 0.31723723569558404,
+          "absB_allowance_mg_g": 2.851491173407238e-11,
+          "absB_mg_g": 0.24209641076620658
+        }
+      },
+      "L2M": {
+        "adequacy": "FAIL",
+        "bounds": {
+          "B_mg_g": {
+            "lower": -0.2763505133651609,
+            "upper": -0.27635051330813387
+          },
+          "R_mg_g": {
+            "lower": 0.36711506741674205,
+            "upper": 0.36711506747376965
+          },
+          "absB_mg_g": {
+            "lower": 0.27635051330813387,
+            "upper": 0.2763505133651609
+          }
+        },
+        "complete_scope": true,
+        "conditions": {
+          "PRED-C03": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.3449294606575389,
+                "upper": -0.34492946060055224
+              },
+              "R_mg_g": {
+                "lower": 0.3745018149073601,
+                "upper": 0.37450181496434687
+              },
+              "absB_mg_g": {
+                "lower": 0.34492946060055224,
+                "upper": 0.3449294606575389
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.3745018149073602,
+              "absB_mg_g": 0.34492946060055224
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.8493314226704273e-11,
+              "B_mg_g": -0.34492946062904556,
+              "R_allowance_mg_g": 2.8493354775684193e-11,
+              "R_mg_g": 0.3745018149358535,
+              "absB_allowance_mg_g": 2.8493314226704273e-11,
+              "absB_mg_g": 0.34492946062904556
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.8493314226704273e-11,
+              "B_mg_g": -0.34492946062904556,
+              "R_allowance_mg_g": 2.8493354775684193e-11,
+              "R_mg_g": 0.3745018149358535,
+              "absB_allowance_mg_g": 2.8493314226704273e-11,
+              "absB_mg_g": 0.34492946062904556
+            }
+          },
+          "PRED-C04": {
+            "adequacy": "FAIL",
+            "bounds": {
+              "B_mg_g": {
+                "lower": -0.20777156607278294,
+                "upper": -0.20777156601571542
+              },
+              "R_mg_g": {
+                "lower": 0.359728319926124,
+                "upper": 0.35972831998319243
+              },
+              "absB_mg_g": {
+                "lower": 0.20777156601571542,
+                "upper": 0.20777156607278294
+              }
+            },
+            "complete_shot_full_condition_lower_bounds": {
+              "R_mg_g": 0.35972831992612403,
+              "absB_mg_g": 0.20777156601571542
+            },
+            "complete_shots": 3,
+            "full_scope_metrics": {
+              "B_allowance_mg_g": 2.853375061517446e-11,
+              "B_mg_g": -0.20777156604424918,
+              "R_allowance_mg_g": 2.8534230018232123e-11,
+              "R_mg_g": 0.3597283199546582,
+              "absB_allowance_mg_g": 2.853375061517446e-11,
+              "absB_mg_g": 0.20777156604424918
+            },
+            "original_shots": 3,
+            "original_slots": 12,
+            "qualified_slots": 12,
+            "supported_slots": 12,
+            "supported_subset_diagnostic": {
+              "B_allowance_mg_g": 2.853375061517446e-11,
+              "B_mg_g": -0.20777156604424918,
+              "R_allowance_mg_g": 2.8534230018232123e-11,
+              "R_mg_g": 0.3597283199546582,
+              "absB_allowance_mg_g": 2.853375061517446e-11,
+              "absB_mg_g": 0.20777156604424918
+            }
+          }
+        },
+        "full_scope_metrics": {
+          "B_allowance_mg_g": 2.8513532420939367e-11,
+          "B_mg_g": -0.2763505133366474,
+          "R_allowance_mg_g": 2.851379239695816e-11,
+          "R_mg_g": 0.36711506744525585,
+          "absB_allowance_mg_g": 2.8513532420939367e-11,
+          "absB_mg_g": 0.2763505133366474
+        },
+        "original_conditions": 2,
+        "original_shots": 6,
+        "original_slots": 24,
+        "supported_subset_diagnostic": {
+          "B_allowance_mg_g": 2.8513532420939367e-11,
+          "B_mg_g": -0.2763505133366474,
+          "R_allowance_mg_g": 2.851379239695816e-11,
+          "R_mg_g": 0.36711506744525585,
+          "absB_allowance_mg_g": 2.8513532420939367e-11,
+          "absB_mg_g": 0.2763505133366474
+        }
+      }
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "prediction_failures_and_unsupported": {
+    "L12": {
+      "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+    },
+    "L1M": {
+      "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+    },
+    "L2M": {
+      "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN": 1
+    }
+  },
+  "primary_complete_qualified_support": true,
+  "production_adoption_authorized": false,
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "scientific_score_passes": 1,
+  "single_assay_placement_earned": false,
+  "successor_authorized": false,
+  "task": "SCI-MD-5CQA-ASSAY-002",
+  "two_assay_route_earned": false
+}

@@ -1,0 +1,352 @@
+{
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data"
+      ],
+      "log_sha256": "67191d6e91392a92e8a7e4a5e2e8907f76b2c1f311b70a15c9c7de119f2eccd5",
+      "returncode": 0,
+      "seconds": 1008.5672840438783
+    },
+    {
+      "command": [
+        "-c",
+        "from puckworks.registry import run_all_gates; run_all_gates()"
+      ],
+      "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+      "returncode": 0,
+      "seconds": 38.50355250202119
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "returncode": 0,
+      "seconds": 0.048832268454134464
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "returncode": 0,
+      "seconds": 0.13309843465685844
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.1192323537543416
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "returncode": 0,
+      "seconds": 0.13799358624964952
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "returncode": 0,
+      "seconds": 0.47363926749676466
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "returncode": 0,
+      "seconds": 0.12148607335984707
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "returncode": 0,
+      "seconds": 0.3310253545641899
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "returncode": 0,
+      "seconds": 0.5118794301524758
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "returncode": 0,
+      "seconds": 11.347230767831206
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "returncode": 0,
+      "seconds": 2.5777104068547487
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "returncode": 0,
+      "seconds": 0.12091250997036695
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.1229678550735116
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "returncode": 0,
+      "seconds": 0.15858805552124977
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline"
+      ],
+      "log_sha256": "fec378f516472410580ed863f0d6a6fe10ae1a59c6c8ecb9979ca81a7c8bb71f",
+      "returncode": 0,
+      "seconds": 180.50921802036464
+    },
+    {
+      "command": [
+        "tools/build_espresso_data_guide.py",
+        "--check"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0,
+      "seconds": 0.03176244627684355
+    },
+    {
+      "command": [
+        "tools/readme_governance.py",
+        "verify"
+      ],
+      "log_sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+      "returncode": 0,
+      "seconds": 0.1301442002877593
+    },
+    {
+      "command": [
+        "tools/update_readme_pulse.py",
+        "--verify"
+      ],
+      "log_sha256": "91817c264b76bda771172c14f855ab57388f7050ff4bd7262d804ce3d7f799ad",
+      "returncode": 0,
+      "seconds": 38.368391044437885
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "returncode": 0,
+      "seconds": 0.11784350778907537
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "returncode": 0,
+      "seconds": 0.11780754756182432
+    },
+    {
+      "command": [
+        "-m",
+        "mypy",
+        "puckworks/analysis/early_assay_5cqa_delivery.py",
+        "puckworks/analysis/early_assay_5cqa_training.py",
+        "puckworks/analysis/pannusch_early_assay_5cqa_delivery.py"
+      ],
+      "log_sha256": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+      "returncode": 0,
+      "seconds": 0.13357503432780504
+    },
+    {
+      "command": [
+        "docs/analysis/sci_md_5cqa_assay_002/synthetic_saved_model_example.py"
+      ],
+      "log_sha256": "4023cdb6a1ad90f4e9911e01f01920ef8775b322072be0503e4e68014b6b7923",
+      "returncode": 0,
+      "seconds": 0.3995814798399806
+    }
+  ],
+  "environment": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONPATH": "."
+  },
+  "focused_and_predecessor": {
+    "passed": 154
+  },
+  "head": "fbac5634d0c90bf36ac557297ddacf4d7142f916",
+  "historical_baseline": {
+    "passed": 5,
+    "skipped": 7
+  },
+  "hosted_ci": "NOT_YET_RUN_AT_PUBLICATION_PREPARATION",
+  "native_ewp_runs": 0,
+  "normal": {
+    "deselected": 60,
+    "passed": 5108,
+    "skipped": 65,
+    "warning": "EXISTING_DEV_SALT_WARNING",
+    "warnings": 1
+  },
+  "packaging": {
+    "archive_bytes": 1537110,
+    "archive_sha256": "95f7bdcb52c64565cf5dcea899ca07fccb363c9e53ac100e5e7860543da8fad0",
+    "byte_identical_archives": true,
+    "checks": [
+      {
+        "log_sha256": "00c3f4b910d6625c67b1d71f38ef68932c4355d39a85f02349cfe35fd20bc474",
+        "name": "archive-a",
+        "returncode": 0,
+        "seconds": 0.3043341636657715
+      },
+      {
+        "log_sha256": "1d35d524d7dc65b5ca960035f3d1ef7311593d4541a25860f885af9e3d0bbb27",
+        "name": "archive-b",
+        "returncode": 0,
+        "seconds": 0.28255128860473633
+      },
+      {
+        "log_sha256": "e8671d0203bb8dcd99c766dfb746421dd0cf5da873e9001e4befbac31f46aca2",
+        "name": "verify",
+        "returncode": 0,
+        "seconds": 0.17707157135009766
+      }
+    ],
+    "head": "fbac5634d0c90bf36ac557297ddacf4d7142f916",
+    "status": "PASS"
+  },
+  "protected_historical_score_calls": 0,
+  "publication_checks": {
+    "AST_JSON_documented_shell_local_links": "PASS",
+    "EWP_tracked_worktree_unchanged": true,
+    "base": "e6567a392e6d0c340cad71cbe744100b515e0e31",
+    "changed_files": [
+      "docs/ROADMAP.md",
+      "docs/SPRINTS.md",
+      "docs/analysis/sci_md_5cqa_assay_002/BASELINE.json",
+      "docs/analysis/sci_md_5cqa_assay_002/COMMANDS.md",
+      "docs/analysis/sci_md_5cqa_assay_002/DATA_AVAILABILITY_PREFLIGHT.json",
+      "docs/analysis/sci_md_5cqa_assay_002/DEPENDENCIES.json",
+      "docs/analysis/sci_md_5cqa_assay_002/DEVELOPMENT.json",
+      "docs/analysis/sci_md_5cqa_assay_002/DRIFT_CHECK.json",
+      "docs/analysis/sci_md_5cqa_assay_002/EXECUTION.json",
+      "docs/analysis/sci_md_5cqa_assay_002/EXECUTION_CONTRACT.json",
+      "docs/analysis/sci_md_5cqa_assay_002/EXECUTION_PRE_SCORE.json",
+      "docs/analysis/sci_md_5cqa_assay_002/FREEZE.json",
+      "docs/analysis/sci_md_5cqa_assay_002/HANDOFF.md",
+      "docs/analysis/sci_md_5cqa_assay_002/INDEPENDENT_APPROVAL.json",
+      "docs/analysis/sci_md_5cqa_assay_002/INDEPENDENT_REVIEW.md",
+      "docs/analysis/sci_md_5cqa_assay_002/INFORMATION_CONTRACT.json",
+      "docs/analysis/sci_md_5cqa_assay_002/MODEL_CARD.md",
+      "docs/analysis/sci_md_5cqa_assay_002/PROTOCOL.md",
+      "docs/analysis/sci_md_5cqa_assay_002/QA.json",
+      "docs/analysis/sci_md_5cqa_assay_002/QUALIFICATION.md",
+      "docs/analysis/sci_md_5cqa_assay_002/README.md",
+      "docs/analysis/sci_md_5cqa_assay_002/REPRODUCE.md",
+      "docs/analysis/sci_md_5cqa_assay_002/RESULTS.json",
+      "docs/analysis/sci_md_5cqa_assay_002/RESULTS.md",
+      "docs/analysis/sci_md_5cqa_assay_002/SCORE_COMPLETION.json",
+      "docs/analysis/sci_md_5cqa_assay_002/SCORE_RECEIPT.json",
+      "docs/analysis/sci_md_5cqa_assay_002/SOURCE_COUNTS.json",
+      "docs/analysis/sci_md_5cqa_assay_002/SOURCE_IDENTITIES.json",
+      "docs/analysis/sci_md_5cqa_assay_002/models/L12.json",
+      "docs/analysis/sci_md_5cqa_assay_002/models/L1M.json",
+      "docs/analysis/sci_md_5cqa_assay_002/models/L2M.json",
+      "docs/analysis/sci_md_5cqa_assay_002/models/README.md",
+      "docs/analysis/sci_md_5cqa_assay_002/synthetic_saved_model_example.py",
+      "docs/task-ledger.md",
+      "puckworks/analysis/early_assay_5cqa_delivery.py",
+      "puckworks/analysis/early_assay_5cqa_training.py",
+      "puckworks/analysis/pannusch_early_assay_5cqa_delivery.py",
+      "tests/test_early_assay_5cqa_delivery.py",
+      "tests/test_early_assay_5cqa_training.py",
+      "tests/test_pannusch_early_assay_5cqa_delivery.py"
+    ],
+    "frozen_artifacts": 1681,
+    "frozen_code_and_protocol_files": 166,
+    "head": "fbac5634d0c90bf36ac557297ddacf4d7142f916",
+    "permitted_changes_only": true,
+    "private_evidence_bytes": 10808970,
+    "retained_public_bytes_exact": true,
+    "secret_private_path_hostname_scan": "PASS",
+    "status": "PASS"
+  },
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "exception": "OPTIONAL_TAICHI_UNAVAILABLE",
+    "passed": 65
+  },
+  "status": "PASS",
+  "task": "SCI-MD-5CQA-ASSAY-002"
+}

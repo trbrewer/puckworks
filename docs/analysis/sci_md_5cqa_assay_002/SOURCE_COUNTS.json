@@ -1,0 +1,59 @@
+{
+  "FIT_suffix_formulas": {
+    "qualified_suffix_formula_cells": 180,
+    "status": "PASS"
+  },
+  "FIT_suffix_original_checks": 180,
+  "PRED_first_assay_values_projected": 24,
+  "PRED_second_assay_values_projected": 24,
+  "PRED_suffix_values_projected": 0,
+  "common_domain_kg": [
+    0.0,
+    0.06971540000000001
+  ],
+  "first_fraction_HPLC_formulas": {
+    "FIT": 45,
+    "PRED": 24
+  },
+  "first_fraction_reconciliations": {
+    "FIT": 45,
+    "PRED": 24
+  },
+  "fit_eligible_intended_slots": 168,
+  "fit_eligible_physical_shots": 42,
+  "fit_original_designs": 15,
+  "fit_original_physical_shots": 45,
+  "fit_original_suffix_slots": 180,
+  "fit_reasons": {
+    "MATCHED_COHORT_INVALID_Q2_SPILL": 12,
+    "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+  },
+  "fit_supported_slots": 165,
+  "fraction_2_invalid_spills": 3,
+  "panels": {
+    "flow_stress": {
+      "intended_slots": 24,
+      "original_shots": 6,
+      "supported_slots": 23
+    },
+    "primary": {
+      "intended_slots": 48,
+      "original_shots": 12,
+      "supported_slots": 48
+    },
+    "temperature_stress": {
+      "intended_slots": 24,
+      "original_shots": 6,
+      "supported_slots": 24
+    }
+  },
+  "public_rounding_is_analytical_uncertainty": false,
+  "second_fraction_HPLC_formulas": {
+    "FIT": 42,
+    "PRED": 24
+  },
+  "second_fraction_reconciliations": {
+    "FIT": 42,
+    "PRED": 24
+  }
+}
