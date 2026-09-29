@@ -583,4 +583,4 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 
 ### SCI-MD-5CQA-TDS-001 — bounded research comparison (2026-09-29)
 
-- [ ] Owner-authorized G1 / NO_GOVERNING_PHYSICS_CHANGE: [protocol](analysis/sci_md_5cqa_tds_001/PROTOCOL.md), verified sources and 15 retained C2 fold parents; baseline passed before scientific edits. Independent exact-freeze review and one score remain required. No EWP change, production adoption, merge or successor.
+- [x] Owner-authorized G1 / NO_GOVERNING_PHYSICS_CHANGE: [single-score result](analysis/sci_md_5cqa_tds_001/RESULTS.md), `TESTED_TDS_CONDITIONED_FIVE_CQA_FAMILIES_INADEQUATE`. Independent exact-freeze review approved; all five arms fail every primary condition; S0/S1/S2 earn no replacement. Scientific comparison complete; publication/CI status is separate in HANDOFF. No EWP change, production adoption, merge or successor.

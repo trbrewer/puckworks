@@ -1,0 +1,42 @@
+{
+  "EWP": "UNCHANGED",
+  "blockers": [],
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claims": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "FIVE_CQA_IS_COMPONENT_OF_TDS",
+    "MODEL_SHARE_CONSTRAINT_NOT_MEASURED_CHEMICAL_CLOSURE",
+    "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+    "NOT_INVENTORY_CLOSURE",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "NO_QUERY_TIME_FIVE_CQA_ASSAY",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED"
+  ],
+  "evaluated_producer": "5fb08749315ff145f7f68d57b055dd5a79c95f5d",
+  "freeze_sha256": "f7495e5c75f56698507126be89be1dd4c9a464227c8d7461f0d8655dec1859da",
+  "models": {
+    "D0": "f1fd06b8229aaf700823529fa9896a0cef8cf640e4017b7c241dd795b0cc1b3f",
+    "E0": "f1c27d0c942234761a274ee52e38a9912fe0e5a47ae72269d43103c646a9106d",
+    "S0": "5db8f222aa5cda322a5f25d272c1da1e07326a67d0a5fcaed43310d9634bcadb",
+    "S1": "32f1c06c74e6fc21dc1ce24a31d742ebc20aa518d2849a674fd3d7fe110e484f",
+    "S2": "dca28b7ec72ba4dc2d448b603f85990ffbf1f999bac4478d57f9811a43e15d14"
+  },
+  "outcome_joins": 1,
+  "post_score_retuning": false,
+  "predictions_sha256": "8e819b424a9a96f5871d00a2e96b02f4c1e7684a20521bfaeab2812ed357b83f",
+  "publication_and_CI": "SEPARATE_FROM_SCIENTIFIC_DISPOSITION",
+  "review_sha256": "f11c4d5a4ed7f25d0004fc16bbcbdd2207c166a38e25afd3471c172bb177bcc0",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "scientific_score_passes": 1,
+  "scientific_tree": "e9c1ce191c787d31d09429716b2121f47732a1cf",
+  "score_completion_sha256": "8144c2a2f109718e94f3825475c76eaf0bb4c94edad9b4b7f54c2df23fbb0d38",
+  "score_receipt_sha256": "d6faedcab3c48d77d2868feddefea62268fca68f4e429b4a21ee74b940521246",
+  "scores_sha256": "93348e7ade587f6515d4e30a8c0502eca0ab1e53bfda47c26559ad8e1e947d90",
+  "status": "ONE_APPROVED_SCORE_COMPLETE",
+  "task": "SCI-MD-5CQA-TDS-001"
+}

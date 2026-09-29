@@ -1,0 +1,157 @@
+{
+  "approval_scope": "ONE_PREDECLARED_FROZEN_PRED_SCORE_ONLY_NO_RETUNING",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "checks": {
+    "FIT_original_reconstruction": {
+      "PRED_originals_deserialized": false,
+      "campaign": "FIT_2021_12",
+      "max_export_rounding_difference_mg_g": 4.930429620131349e-09,
+      "original_formula_cells": 180,
+      "preserved_missing_prefix_slots": 3,
+      "unrounded_training_targets": 177
+    },
+    "exact_freeze": {
+      "artifacts": 1082,
+      "code_files": 131,
+      "contract_commit": "c769074e88a68483878a677f47d016efab5da8c2",
+      "freeze_sha256": "f7495e5c75f56698507126be89be1dd4c9a464227c8d7461f0d8655dec1859da",
+      "head": "5fb08749315ff145f7f68d57b055dd5a79c95f5d",
+      "tree": "e9c1ce191c787d31d09429716b2121f47732a1cf",
+      "unscored": true
+    },
+    "execution_budget": {
+      "actual_calls": 50186,
+      "fitting_span_seconds": 19.458406925201416,
+      "max_calls_per_start": 235,
+      "parent_and_control_refits": 0,
+      "peak_rss_kib": 85724,
+      "private_evidence_bytes_at_audit": 6325961,
+      "scalar_results": 16,
+      "starts": 366,
+      "starts_per_arm": {
+        "S1": 183,
+        "S2": 183
+      }
+    },
+    "independent_all_start_and_fold_audit": {
+      "analytical_results_reconstructed": 16,
+      "independent_integration_points": 128,
+      "iterative_starts": 366,
+      "max_held_R_difference_mg_g": 4.718447854656915e-16,
+      "max_initial_parameter_difference": 8.881784197001252e-16,
+      "max_objective_absolute_difference": 5.828670879282072e-16,
+      "models": 138
+    },
+    "lambda_selection": {
+      "all_required_folds_selectable": true,
+      "allowances_prove_selection": true,
+      "selected": {
+        "S1": 0.0001,
+        "S2": 0.0001
+      }
+    },
+    "predictions_and_control_replay": {
+      "coverage": {
+        "D0": {
+          "flow_stress": 23,
+          "primary": 48,
+          "temperature_stress": 24
+        },
+        "E0": {
+          "flow_stress": 23,
+          "primary": 48,
+          "temperature_stress": 24
+        },
+        "S0": {
+          "flow_stress": 23,
+          "primary": 48,
+          "temperature_stress": 24
+        },
+        "S1": {
+          "flow_stress": 23,
+          "primary": 48,
+          "temperature_stress": 24
+        },
+        "S2": {
+          "flow_stress": 23,
+          "primary": 48,
+          "temperature_stress": 24
+        }
+      },
+      "legacy_replay_exact": true,
+      "saved_inference_max_difference": 0.0,
+      "slots": 480
+    },
+    "retained_parents": {
+      "complete_excluded_design_parents": 15,
+      "parent_refits": 0,
+      "serialized_transforms_reused": true,
+      "training_and_held_inference_parent_exclusion": true
+    },
+    "source_hashes": {
+      "originals": 8,
+      "registers": 10
+    }
+  },
+  "claim_ceiling": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED"
+  ],
+  "code_or_frozen_artifact_changes": false,
+  "evidence_sha256": {
+    "INDEPENDENT_REVIEW.md": "dffd205728ae0fd3f65b6b4ee9db098ccd58fdbce3f1a9624329a30306482118",
+    "independent_audit/audit.log": "d68d2442d19facf1bfe79b4f59e9bf816b224199d0dc0456387affaa2db67d88",
+    "independent_audit/audit.py": "477101d0412d50fee58d309222dbdb352de26d7f41f5654392e5d4feda512c46",
+    "independent_audit/audit_results.json": "069cb167dc9e802466ae7f74440caaf7f69ac7dc24d3b87c324d9792583f8bdd",
+    "independent_audit/chronology.json": "fbee166e70b82e31862bc1d2876ee1dc21eef5f66e55669cadf881be6af000c7",
+    "independent_audit/interval_metric_results.json": "3c5389a77c8e92fe1c5857215920dbaaa441839d9c3fd5713dfe03a28957ddf0",
+    "independent_audit/interval_metrics.log": "b88819c91b26922f7675df7ebae2ca5af1f6c44534f1abeb88aa3114f130a0e1",
+    "independent_audit/interval_metrics.py": "3ca1afe0dc125aee2547ef0f3ded963c788cfd4bec24dd4b09ba53a06c856b8a",
+    "independent_audit/safe_focused_tests.log": "8ab205b1f97e2009fa772bf5dd3cb56727ade2afb4ccccc2cf8b41e766bf8f27"
+  },
+  "focused_tests": {
+    "deselected": 8,
+    "optimizer_and_fit_tests_excluded": true,
+    "passed": 38
+  },
+  "freeze_sha256": "f7495e5c75f56698507126be89be1dd4c9a464227c8d7461f0d8655dec1859da",
+  "future_chemistry_attached": false,
+  "future_chemistry_deserializations": 0,
+  "future_chemistry_reads": 0,
+  "governance_class": "G1",
+  "independent": true,
+  "independent_interval_and_metric_checks": {
+    "fits": 0,
+    "future_chemistry_reads": 0,
+    "hierarchical_R_and_mean_absolute_bias": "PASS",
+    "max_fraction_of_saved_allowance": 0.00141339239029215,
+    "max_integral_difference_kg": 6.776263578034403e-21,
+    "optimizer_calls": 0,
+    "original_denominator_and_incomplete_support_checks": "PASS",
+    "physical_score_calls": 0,
+    "pointwise_product_units_and_bound": "PASS",
+    "saved_new_arm_intervals_independently_integrated": 285,
+    "status": "PASS",
+    "synthetic_metric_slots": 480,
+    "synthetic_metrics_only": true,
+    "three_pairwise_complexity_allowances": "PASS",
+    "threshold_overlap": "PASS"
+  },
+  "material_correction_requested": false,
+  "new_fit_calls": 0,
+  "new_optimizer_calls": 0,
+  "physical_outcome_joins": 0,
+  "qa_scope": "SCIENTIFIC_PRE_SCORE_REVIEW; GENERAL_REPOSITORY_QA_AND_HOSTED_CI_SEPARATE",
+  "reviewed_at_utc": "2026-09-29T02:02:24.442734+00:00",
+  "reviewed_head": "5fb08749315ff145f7f68d57b055dd5a79c95f5d",
+  "reviewed_tree": "e9c1ce191c787d31d09429716b2121f47732a1cf",
+  "reviewer": "Codex agent independent_5cqa_tds_review (nonhuman; separate from implementing and fitting agent)",
+  "reviewer_type": "NONHUMAN_INDEPENDENT_AGENT",
+  "scientific_score_calls": 0,
+  "status": "APPROVED",
+  "task": "SCI-MD-5CQA-TDS-001",
+  "unresolved_blocking_findings": []
+}

@@ -1,0 +1,264 @@
+{
+  "affected_tests": {
+    "log_sha256": "2f507f9c5464a4feae1bf5a89e1290763b436ecafea41ac70d74e445f28c0d88",
+    "passed": 166
+  },
+  "baseline_repairs": 0,
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data"
+      ],
+      "log_sha256": "601632d5c4f1edf68938faa05c3fc98cce2a8cc949d1920e47fc9ca49b0c8aef",
+      "returncode": 0,
+      "seconds": 984.969166630879
+    },
+    {
+      "command": [
+        "-c",
+        "from puckworks.registry import run_all_gates; run_all_gates()"
+      ],
+      "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+      "returncode": 0,
+      "seconds": 38.58389187697321
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "returncode": 0,
+      "seconds": 0.047538951970636845
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "returncode": 0,
+      "seconds": 0.13342859596014023
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.11979185696691275
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "returncode": 0,
+      "seconds": 0.1372326873242855
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "returncode": 0,
+      "seconds": 0.4506129454821348
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "returncode": 0,
+      "seconds": 0.11942099314182997
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "returncode": 0,
+      "seconds": 0.3251110212877393
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "returncode": 0,
+      "seconds": 0.5092958863824606
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "returncode": 0,
+      "seconds": 11.536483019590378
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "returncode": 0,
+      "seconds": 2.6335508339107037
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "returncode": 0,
+      "seconds": 0.1185167608782649
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.12370970752090216
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "returncode": 0,
+      "seconds": 0.16157811135053635
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline"
+      ],
+      "log_sha256": "127be49a81879c29abe82a545a92778ddaca22a306275399de8d730fbb3f254c",
+      "returncode": 0,
+      "seconds": 176.50372828356922
+    },
+    {
+      "command": [
+        "tools/build_espresso_data_guide.py",
+        "--check"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0,
+      "seconds": 0.03198110871016979
+    },
+    {
+      "command": [
+        "tools/readme_governance.py",
+        "verify"
+      ],
+      "log_sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+      "returncode": 0,
+      "seconds": 0.1286366367712617
+    },
+    {
+      "command": [
+        "-m",
+        "mypy",
+        "puckworks/analysis/conditional_5cqa_tds_delivery.py",
+        "puckworks/analysis/conditional_5cqa_tds_training.py",
+        "puckworks/analysis/pannusch_conditional_5cqa_tds_delivery.py"
+      ],
+      "log_sha256": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+      "returncode": 0,
+      "seconds": 0.21718661859631538
+    }
+  ],
+  "evaluated_producer": "5fb08749315ff145f7f68d57b055dd5a79c95f5d",
+  "focused_tests": {
+    "log_sha256": "e1d464353a82fd00bd0cbeb948faadb7eab74722472ae1126847e7403ac5c780",
+    "passed": 46
+  },
+  "full_logs": "RETAINED_OUTSIDE_GIT",
+  "historical_suite": {
+    "deselected": 5135,
+    "passed": 5,
+    "skipped": 7
+  },
+  "hosted_CI": "PENDING_AT_PUBLICATION_COMMIT; SEE_FINAL_EXACT_HEAD_PR_RECEIPT",
+  "independent_review_safe_tests": {
+    "deselected": 8,
+    "passed": 38
+  },
+  "native_CFD_runs": 0,
+  "normal_suite": {
+    "deselected": 60,
+    "passed": 5022,
+    "skipped": 65,
+    "warnings": 1
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "preservation": {
+    "EWP": "UNCHANGED",
+    "archival_tag": "PRESERVED",
+    "base_files": 2328,
+    "changed_base_files": [
+      "docs/ROADMAP.md",
+      "docs/SPRINTS.md",
+      "docs/task-ledger.md"
+    ],
+    "checks": [
+      "source/preservation",
+      "static/Python AST",
+      "JSON",
+      "scope boundary",
+      "secret/local path"
+    ],
+    "declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "new_task_files": 22,
+    "shell": "PASS: public examples and resolved private transcript parse with bash -n; no changed shell files",
+    "sources": "DEPENDENCIES_AND_EIGHT_TEN_BINDINGS_VERIFIED",
+    "status": "PASS",
+    "unchanged_base_files": 2325
+  },
+  "registry": {
+    "ACKNOWLEDGED_EXCEPTION": 1,
+    "PASS": 65
+  },
+  "saved_inference_verification": {
+    "optimizer_calls": 0,
+    "outcome_joins": 0,
+    "prediction_max_difference": 0.0,
+    "prediction_slots": 480,
+    "reviewed_producer": "5fb08749315ff145f7f68d57b055dd5a79c95f5d",
+    "score_calls": 0,
+    "status": "PASS",
+    "task": "SCI-MD-5CQA-TDS-001",
+    "writes": 0
+  },
+  "status": "PASS_WITH_EXPLICIT_EXISTING_SKIPS_AND_ACKNOWLEDGED_EXCEPTION",
+  "task": "SCI-MD-5CQA-TDS-001"
+}
