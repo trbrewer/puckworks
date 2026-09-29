@@ -1,0 +1,157 @@
+{
+  "A1_development_CV": "NOT_PERFORMED_DECAY_USES_ALL_FIT",
+  "candidates": [
+    {
+      "R_allowance_mg_g": 2.8523671966626386e-11,
+      "balanced_R_mg_g": 0.17842819498571882,
+      "lambda": 0.0001,
+      "status": "SELECTABLE"
+    },
+    {
+      "R_allowance_mg_g": 2.8523488678934892e-11,
+      "balanced_R_mg_g": 0.18155471829606026,
+      "lambda": 0.01,
+      "status": "SELECTABLE"
+    },
+    {
+      "R_allowance_mg_g": 2.8522903024454038e-11,
+      "balanced_R_mg_g": 0.19745654863798903,
+      "lambda": 1.0,
+      "status": "SELECTABLE"
+    },
+    {
+      "R_allowance_mg_g": 2.8522648283808705e-11,
+      "balanced_R_mg_g": 0.20118979137433837,
+      "lambda": 100.0,
+      "status": "SELECTABLE"
+    }
+  ],
+  "final_fit_qualification": {
+    "A1": {
+      "R_allowance_mg_g": 2.8531302167528152e-11,
+      "R_mg_g": 0.3618970578283906,
+      "max_allowance_kg": 2.6890244961453287e-16
+    },
+    "L1": {
+      "R_allowance_mg_g": 2.8520829092588057e-11,
+      "R_mg_g": 0.13943680182704427,
+      "max_allowance_kg": 2.689584051550064e-16
+    }
+  },
+  "fold_support": [
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C01",
+      "original_slots": 12,
+      "supported_slots": 10,
+      "unsupported_reasons": [
+        "UNAVAILABLE_MEASURED_MASS_PREFIX",
+        "UNAVAILABLE_MEASURED_MASS_PREFIX"
+      ]
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C02",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C03",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C04",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C05",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06610329999999999,
+      "group": "FIT-C06",
+      "original_slots": 12,
+      "supported_slots": 10,
+      "unsupported_reasons": [
+        "OUTSIDE_FOLD_DOMAIN",
+        "UNAVAILABLE_MEASURED_MASS_PREFIX"
+      ]
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C07",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C08",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C09",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C10",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C11",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C12",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C13",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C14",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    },
+    {
+      "domain_kg": 0.06971540000000001,
+      "group": "FIT-C15",
+      "original_slots": 12,
+      "supported_slots": 12,
+      "unsupported_reasons": []
+    }
+  ],
+  "scope": "FIT_ONLY_MODEL_SELECTION_NOT_EXTERNAL_VALIDATION",
+  "selected_lambda": 0.0001,
+  "task": "SCI-MD-5CQA-ASSAY-001"
+}
