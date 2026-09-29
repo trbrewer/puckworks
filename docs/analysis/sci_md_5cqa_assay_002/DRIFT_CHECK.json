@@ -1,0 +1,76 @@
+{
+  "applicability": {
+    "288/EWP194": "Two-assay TDS, different species.",
+    "296": "Consolidated permeability scalar rescaling analytically closed; excluded.",
+    "297": "Mass-only 5CQA, no chemical inputs.",
+    "298": "Early TDS covariate, not fraction-2 5CQA.",
+    "299": "Principal completed first-assay-only control; no fraction-2 5CQA input.",
+    "EWP105": "Active shared/species-specific production parameters; excluded. Head 8e0e6ffca7a1268ae0508a72dfdced9735182917.",
+    "other_open_prs": "CI/deployment or publication/workflow/laboratory audit; no second-5CQA-assay or assay-placement comparison."
+  },
+  "repositories": {
+    "espresso-whole-pull": {
+      "fetched_main": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+      "fetched_tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8",
+      "later_commits": [],
+      "open_prs": [
+        {
+          "headRefOid": "4a7d779225c1228d55f9601157a2af38e7dcd9fe",
+          "number": 130,
+          "title": "Bump actions/upload-artifact from 6 to 7",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/130"
+        },
+        {
+          "headRefOid": "480d3e467ef178aedb92627043f3036da87ed870",
+          "number": 117,
+          "title": "Audit existing evidence before home-laboratory purchases",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/117"
+        },
+        {
+          "headRefOid": "8e0e6ffca7a1268ae0508a72dfdced9735182917",
+          "number": 105,
+          "title": "SCI-MD-006: test shared versus species-specific production parameters",
+          "url": "https://github.com/trbrewer/espresso-whole-pull/pull/105"
+        }
+      ],
+      "reviewed_main": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+      "reviewed_tree": "a36a006be6d9bb3fb4516ec78ed4299d2e2529b8"
+    },
+    "puckworks": {
+      "fetched_main": "e6567a392e6d0c340cad71cbe744100b515e0e31",
+      "fetched_tree": "98268c5e1dc3fe584eeafb6d09ccf4d6af6cfbcd",
+      "later_commits": [],
+      "open_prs": [
+        {
+          "headRefOid": "3d2e868a1589447deba8dafc95e27561a01fd70a",
+          "number": 264,
+          "title": "ci: bump actions/deploy-pages from 5.0.0 to 5.0.1",
+          "url": "https://github.com/trbrewer/puckworks/pull/264"
+        },
+        {
+          "headRefOid": "9c800f9f7e452e95024aecd5a5beee20fe5e9f42",
+          "number": 257,
+          "title": "PW-PUB-002-R1: reader-first launch article and editorial reset",
+          "url": "https://github.com/trbrewer/puckworks/pull/257"
+        },
+        {
+          "headRefOid": "40cd2033bb34e63fee9f81829fbe10dbdf77f0a1",
+          "number": 129,
+          "title": "ci: bump actions/setup-python from 6.3.0 to 7.0.0",
+          "url": "https://github.com/trbrewer/puckworks/pull/129"
+        },
+        {
+          "headRefOid": "777feae2445baa49244372b3e8a7ca041b0d223c",
+          "number": 128,
+          "title": "ci: bump actions/checkout from 7.0.0 to 7.0.1",
+          "url": "https://github.com/trbrewer/puckworks/pull/128"
+        }
+      ],
+      "reviewed_main": "e6567a392e6d0c340cad71cbe744100b515e0e31",
+      "reviewed_tree": "98268c5e1dc3fe584eeafb6d09ccf4d6af6cfbcd"
+    }
+  },
+  "source": "git fetch origin main and GitHub open/recent PR inspection before changes",
+  "status": "NO_LATER_OVERLAP",
+  "task": "SCI-MD-5CQA-ASSAY-002"
+}
