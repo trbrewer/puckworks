@@ -1,0 +1,238 @@
+{
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data"
+      ],
+      "log_sha256": "08cc261f08dbc95fb29c9fb8b3b473691e009a8409dbd13f45bc37cdb696192a",
+      "returncode": 0,
+      "seconds": 1000.0623335475102
+    },
+    {
+      "command": [
+        "-c",
+        "from puckworks.registry import run_all_gates; run_all_gates()"
+      ],
+      "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+      "returncode": 0,
+      "seconds": 38.34656559024006
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "returncode": 0,
+      "seconds": 0.08800339233130217
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "returncode": 0,
+      "seconds": 3.717077528126538
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.13665962126106024
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "returncode": 0,
+      "seconds": 0.1567205898463726
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "returncode": 0,
+      "seconds": 0.48783779237419367
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "returncode": 0,
+      "seconds": 0.11950881406664848
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "returncode": 0,
+      "seconds": 0.3293926306068897
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "returncode": 0,
+      "seconds": 0.5100564807653427
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "returncode": 0,
+      "seconds": 11.283512644469738
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "returncode": 0,
+      "seconds": 2.5859081130474806
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "returncode": 0,
+      "seconds": 0.1213058726862073
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.12803772278130054
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "returncode": 0,
+      "seconds": 0.15786922257393599
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline"
+      ],
+      "log_sha256": "b9942973769af68fd963663c98e6027cec10798cda44db58219c1d29d319e089",
+      "returncode": 0,
+      "seconds": 179.42851271107793
+    },
+    {
+      "command": [
+        "tools/build_espresso_data_guide.py",
+        "--check"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0,
+      "seconds": 0.031733110547065735
+    },
+    {
+      "command": [
+        "tools/readme_governance.py",
+        "verify"
+      ],
+      "log_sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+      "returncode": 0,
+      "seconds": 0.12651518359780312
+    },
+    {
+      "command": [
+        "tools/update_readme_pulse.py",
+        "--verify"
+      ],
+      "log_sha256": "91817c264b76bda771172c14f855ab57388f7050ff4bd7262d804ce3d7f799ad",
+      "returncode": 0,
+      "seconds": 38.214354956522584
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "returncode": 0,
+      "seconds": 0.1252015857025981
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "returncode": 0,
+      "seconds": 0.12554109003394842
+    }
+  ],
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "diff_check": "PASS",
+  "head": "db6f509d20ea089b6649d9eb9c3270cef8edc7a2",
+  "historical_baseline": {
+    "deselected": 5135,
+    "passed": 5,
+    "skipped": 7
+  },
+  "normal_selector": {
+    "deselected": 60,
+    "passed": 5022,
+    "skipped": 65,
+    "warnings": 1
+  },
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "exception": "Existing optional Taichi zero-gate exception",
+    "passes": 65
+  }
+}
