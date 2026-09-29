@@ -1,0 +1,116 @@
+{
+  "adequacy_by_arm": {
+    "D0": "FAIL",
+    "E0": "FAIL"
+  },
+  "claims": [
+    "RESEARCH_ONLY",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED",
+    "FIVE_CQA_IS_COMPONENT_OF_TDS",
+    "MODELED_GAPS_NOT_MEASURED_WHOLE_CUP",
+    "NOT_INVENTORY_CLOSURE",
+    "CONDITIONAL_ON_BEVERAGE_MASS",
+    "NO_QUERY_TIME_CHEMICAL_ASSAY"
+  ],
+  "disposition": "TESTED_FIVE_CQA_FAMILIES_INADEQUATE",
+  "feature_extrapolation": {
+    "D0": {
+      "flow_stress": {
+        "features": [
+          "m2_kg"
+        ],
+        "shots": 3
+      },
+      "primary": {
+        "features": [],
+        "shots": 0
+      },
+      "temperature_stress": {
+        "features": [],
+        "shots": 0
+      }
+    },
+    "E0": {
+      "flow_stress": {
+        "features": [
+          "m2_kg"
+        ],
+        "shots": 3
+      },
+      "primary": {
+        "features": [],
+        "shots": 0
+      },
+      "temperature_stress": {
+        "features": [],
+        "shots": 0
+      }
+    }
+  },
+  "freeze_sha256": "da6023c0e0077f5f89d2a7ed877b1a3ff26c8c4bc6935b9263ecdf798184b7a1",
+  "implementation_status": "IMPLEMENTED_TESTED_INDEPENDENTLY_REVIEWED_SCORED_ONCE",
+  "increment": {
+    "R_improvement_bounds": [
+      0.0009895253230622393,
+      0.0009895254372756467
+    ],
+    "R_improvement_mg_g": 0.000989525380168943,
+    "components": {
+      "abs_bias_deterioration": "PASS",
+      "absolute_gain": "FAIL",
+      "condition_wins": "FAIL",
+      "relative_gain": "FAIL"
+    },
+    "definite_condition_wins": 2,
+    "mean_absB_deterioration_bounds": [
+      -0.009836397736038834,
+      -0.009836397621827978
+    ],
+    "mean_absB_deterioration_mg_g": -0.009836397678933406,
+    "possible_condition_wins": 2,
+    "relative_improvement": 0.002714669347042123,
+    "relative_improvement_lower_bound": 0.002714669190587937,
+    "status": "FAIL"
+  },
+  "mass_upper_kg": 0.06971540000000001,
+  "merge_authorized": false,
+  "model_identities": {
+    "D0": "f1fd06b8229aaf700823529fa9896a0cef8cf640e4017b7c241dd795b0cc1b3f",
+    "E0": "f1c27d0c942234761a274ee52e38a9912fe0e5a47ae72269d43103c646a9106d"
+  },
+  "next_action": "END_TASK_NO_SUCCESSOR_AUTHORIZED",
+  "production_adoption_authorized": false,
+  "remaining_scientific_blockers": [],
+  "research_only": true,
+  "review_sha256": "7dba328289d9facffe7de36a01b098245c248f6a8dacdea8b387ec370d3cf5eb",
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "scientific_commit": "cadb7aeaa00630ad311970610ec5763ad4ffc9a3",
+  "scientific_tree": "f570fab32f9105cc77e9cc3eb89b5a952448e9f6",
+  "score_completion_sha256": "48017bc9413e0384bcfd3085f466975698b5d04e85b9618c6eed05e66cf45df7",
+  "score_sha256": "4e0a27e3cc88194a09023a399894e370341131b833926f2f2276ad473d9207e8",
+  "source_identity_manifest_sha256": "f6c9cbfc9efbf6537d5f95127947ce4dbd6bca972061141fcb7dd9c96824e7b6",
+  "support_original_windows": {
+    "FIT": [
+      177,
+      180
+    ],
+    "flow": [
+      23,
+      24
+    ],
+    "primary": [
+      48,
+      48
+    ],
+    "temperature": [
+      24,
+      24
+    ]
+  },
+  "task": "SCI-MD-5CQA-DELIVERY-001"
+}

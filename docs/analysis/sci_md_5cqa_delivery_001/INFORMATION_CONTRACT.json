@@ -1,0 +1,23 @@
+{
+  "PRED_outcomes": "SINGLE_JOIN_AFTER_GENUINE_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "arms": [
+    "E0",
+    "D0"
+  ],
+  "classification": "SOURCE_INTERNAL_TARGET_EXPOSED_RETROSPECTIVE",
+  "contract_commit": "850c9b4085057f3bfa782c9c1440e26643f2b7c7",
+  "files": {
+    "docs/analysis/sci_md_5cqa_delivery_001/DATA_AVAILABILITY_PREFLIGHT.json": "f268ddf2822a50ad2f5624b2ffa8fa6b0ac4fc59be894762a4e14ff385bb7504",
+    "docs/analysis/sci_md_5cqa_delivery_001/DEPENDENCIES.json": "ce6a12782270fd3e5e1bb2ac15d06580679384f60a8c0f41669955e544dbe463",
+    "docs/analysis/sci_md_5cqa_delivery_001/MODEL_CARD.md": "4b8a8f8639623e432a883d0e5dd49d4f2e26f5de9e50048089c317bbe275992d",
+    "docs/analysis/sci_md_5cqa_delivery_001/PLAN.md": "ac72cc84b491ccfe0e2c902f4f2b42338bebf524e87f64e38d1e5c1b0573790f",
+    "docs/analysis/sci_md_5cqa_delivery_001/PROTOCOL.md": "004caca5b78541bee9fa0be339ab5835ab0058ca786b3113f148169988698381",
+    "docs/analysis/sci_md_5cqa_delivery_001/SOURCE_IDENTITIES.json": "f6c9cbfc9efbf6537d5f95127947ce4dbd6bca972061141fcb7dd9c96824e7b6"
+  },
+  "inference_inputs": [
+    "m1_kg",
+    "m2_kg",
+    "requested_measured_mass_coordinates"
+  ],
+  "task": "SCI-MD-5CQA-DELIVERY-001"
+}

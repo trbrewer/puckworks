@@ -1,0 +1,27 @@
+{
+  "PR": 233,
+  "base": "f77d0e328496dc1e85bf00fdb06ccdc52d8b2108",
+  "base_is_ancestor": true,
+  "changed_paths": [
+    "tests/test_screen_wp6_lateral_identifiability.py",
+    "docs/analysis/sci_md_5cqa_delivery_001/REPAIR.md"
+  ],
+  "completion": "13c398e038c94ae8f95c8106e327e47d3d5f5345",
+  "later_registry_old_assignments_preserved": true,
+  "merge": "bbbc2b5f44be3bc5f0ee5951985e5f8594bbc6e1",
+  "original_failure": "tests/test_screen_wp6_lateral_identifiability.py::test_no_foundry_infrastructure_was_added_or_modified",
+  "original_run_preserved": true,
+  "protected_diff": "",
+  "puckworks_current": "14c6b0992fc558594d2c8617c79264c066000e47",
+  "regressions": "Fixed genuine endpoint; later unrelated change harmless; change inside checked range rejected; failed object/ancestry/diff commands rejected; live I-045 registry checks pass",
+  "repair_commit": {
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "commit": "99a9eef4dbe63063033842fe0837aa109dbaeaf8",
+    "completed_utc": "2026-09-28T23:08:35.921880+00:00",
+    "governance_class": "G0",
+    "status": "PASS_REPAIR_ONLY_BASELINE",
+    "tree": "d936196454f88edee9fa538fb13282e48b0e1d72"
+  },
+  "result_blob": "c3c751247307382e98295eab2ce8fd05e979c6bb",
+  "validation": "BASELINE.json"
+}
