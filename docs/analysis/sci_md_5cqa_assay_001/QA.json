@@ -1,0 +1,373 @@
+{
+  "base_files_changed_allowed_planning_only": [
+    "docs/ROADMAP.md",
+    "docs/SPRINTS.md",
+    "docs/task-ledger.md"
+  ],
+  "changed_files": [
+    "docs/ROADMAP.md",
+    "docs/SPRINTS.md",
+    "docs/analysis/sci_md_5cqa_assay_001/BASELINE.json",
+    "docs/analysis/sci_md_5cqa_assay_001/COMMANDS.md",
+    "docs/analysis/sci_md_5cqa_assay_001/DATA_AVAILABILITY_PREFLIGHT.json",
+    "docs/analysis/sci_md_5cqa_assay_001/DEPENDENCIES.json",
+    "docs/analysis/sci_md_5cqa_assay_001/DEVELOPMENT.json",
+    "docs/analysis/sci_md_5cqa_assay_001/DRIFT_CHECK.json",
+    "docs/analysis/sci_md_5cqa_assay_001/EXECUTION.json",
+    "docs/analysis/sci_md_5cqa_assay_001/EXECUTION_CONTRACT.json",
+    "docs/analysis/sci_md_5cqa_assay_001/EXECUTION_PRE_SCORE.json",
+    "docs/analysis/sci_md_5cqa_assay_001/FREEZE.json",
+    "docs/analysis/sci_md_5cqa_assay_001/HANDOFF.md",
+    "docs/analysis/sci_md_5cqa_assay_001/INDEPENDENT_APPROVAL.json",
+    "docs/analysis/sci_md_5cqa_assay_001/INDEPENDENT_REVIEW.md",
+    "docs/analysis/sci_md_5cqa_assay_001/INFORMATION_CONTRACT.json",
+    "docs/analysis/sci_md_5cqa_assay_001/MODEL_CARD.md",
+    "docs/analysis/sci_md_5cqa_assay_001/PROTOCOL.md",
+    "docs/analysis/sci_md_5cqa_assay_001/QA.json",
+    "docs/analysis/sci_md_5cqa_assay_001/QUALIFICATION.md",
+    "docs/analysis/sci_md_5cqa_assay_001/README.md",
+    "docs/analysis/sci_md_5cqa_assay_001/REPRODUCE.md",
+    "docs/analysis/sci_md_5cqa_assay_001/RESULTS.json",
+    "docs/analysis/sci_md_5cqa_assay_001/RESULTS.md",
+    "docs/analysis/sci_md_5cqa_assay_001/SCORE_COMPLETION.json",
+    "docs/analysis/sci_md_5cqa_assay_001/SCORE_RECEIPT.json",
+    "docs/analysis/sci_md_5cqa_assay_001/SOURCE_COUNTS.json",
+    "docs/analysis/sci_md_5cqa_assay_001/SOURCE_IDENTITIES.json",
+    "docs/analysis/sci_md_5cqa_assay_001/models/A1.json",
+    "docs/analysis/sci_md_5cqa_assay_001/models/L1.json",
+    "docs/analysis/sci_md_5cqa_assay_001/synthetic_saved_model_example.py",
+    "docs/task-ledger.md",
+    "puckworks/analysis/assay_conditioned_5cqa_delivery.py",
+    "puckworks/analysis/assay_conditioned_5cqa_training.py",
+    "puckworks/analysis/pannusch_assay_conditioned_5cqa_delivery.py",
+    "tests/test_assay_conditioned_5cqa_delivery.py",
+    "tests/test_assay_conditioned_5cqa_training.py",
+    "tests/test_pannusch_assay_conditioned_5cqa_delivery.py"
+  ],
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data"
+      ],
+      "log_sha256": "344ca77f52e5c21e332445b773328385a00a9dc796939983b3fceb3e020dace1",
+      "returncode": 0,
+      "seconds": 1004.2125198226422
+    },
+    {
+      "command": [
+        "-c",
+        "from puckworks.registry import run_all_gates; run_all_gates()"
+      ],
+      "log_sha256": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+      "returncode": 0,
+      "seconds": 38.21822071727365
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "returncode": 0,
+      "seconds": 0.04821658879518509
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "returncode": 0,
+      "seconds": 0.13489209115505219
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.1177506260573864
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "log_sha256": "3ba52a042cd6faef97bedddb59cd18860abb36eff70a98b3eaf5b32f7428d2ec",
+      "returncode": 0,
+      "seconds": 0.14064757991582155
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "returncode": 0,
+      "seconds": 0.4792000539600849
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "returncode": 0,
+      "seconds": 0.12212331779301167
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "returncode": 0,
+      "seconds": 0.3289534468203783
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "returncode": 0,
+      "seconds": 0.5116932084783912
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "log_sha256": "a32f520240bbb41558575e76bc09a0e45641b44b9ce73eda8a4abe05a909d539",
+      "returncode": 0,
+      "seconds": 11.31991236563772
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "returncode": 0,
+      "seconds": 2.5679649468511343
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912",
+      "returncode": 0,
+      "seconds": 0.11839377880096436
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "returncode": 0,
+      "seconds": 0.12156622484326363
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "returncode": 0,
+      "seconds": 0.16126064583659172
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline"
+      ],
+      "log_sha256": "c1b9be8f6e2c0aa1779c4b53b61d07380ccd5b8f78d5de132c27ab0c8ee97b72",
+      "returncode": 0,
+      "seconds": 179.8126870598644
+    },
+    {
+      "command": [
+        "tools/build_espresso_data_guide.py",
+        "--check"
+      ],
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "returncode": 0,
+      "seconds": 0.03211663942784071
+    },
+    {
+      "command": [
+        "tools/readme_governance.py",
+        "verify"
+      ],
+      "log_sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+      "returncode": 0,
+      "seconds": 0.12695094849914312
+    },
+    {
+      "command": [
+        "-m",
+        "mypy",
+        "puckworks/analysis/assay_conditioned_5cqa_delivery.py",
+        "puckworks/analysis/assay_conditioned_5cqa_training.py",
+        "puckworks/analysis/pannusch_assay_conditioned_5cqa_delivery.py"
+      ],
+      "log_sha256": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+      "returncode": 0,
+      "seconds": 0.22522012889385223
+    },
+    {
+      "command": [
+        "tools/update_readme_pulse.py",
+        "--verify"
+      ],
+      "log_sha256": "91817c264b76bda771172c14f855ab57388f7050ff4bd7262d804ce3d7f799ad",
+      "returncode": 0,
+      "seconds": 38.297713028267026
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "returncode": 0,
+      "seconds": 0.11897270940244198
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "returncode": 0,
+      "seconds": 0.11823042389005423
+    }
+  ],
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "environment": {
+    "qa": {
+      "blas_threads": 1,
+      "machine": "x86_64",
+      "packages": {
+        "mypy": "2.3.1",
+        "numpy": "2.5.3",
+        "pytest": "9.1.1",
+        "ruff": "0.16.9",
+        "scipy": "1.18.1"
+      },
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "science": {
+      "blas_threads": 1,
+      "machine": "x86_64",
+      "packages": {
+        "numpy": "2.5.3",
+        "openpyxl": "3.1.5",
+        "pytest": "9.1.1",
+        "scipy": "1.18.1"
+      },
+      "python": "3.12.3",
+      "system": "Linux"
+    }
+  },
+  "focused_predecessor_tests": {
+    "log_sha256": "bbb96a4676692a972a398a6aa583584815dd5ece2faa045b4ad2e97cc7f09852",
+    "passed": 108
+  },
+  "head": "35fe284b386f0bec468956c4be9508dcb06ddf43",
+  "historical_baseline": {
+    "deselected": 5175,
+    "passed": 5,
+    "skipped": 7
+  },
+  "hosted_ci": "OBSERVE_ON_DRAFT_PR_SEPARATE_FROM_LOCAL_QA",
+  "independent_review_tests": {
+    "deselected": 5,
+    "passed": 35,
+    "scope": "Fitter and score-entrypoint tests excluded from reviewer activity"
+  },
+  "normal_selector": {
+    "deselected": 60,
+    "passed": 5062,
+    "skipped": 65,
+    "warning": "Existing DEV salt warning in synthetic visualizer test",
+    "warnings": 1
+  },
+  "post_score_verify": {
+    "optimizer_calls": 0,
+    "outcome_joins": 0,
+    "prediction_max_difference": 0.0,
+    "prediction_slots": 384,
+    "reviewed_producer": "35fe284b386f0bec468956c4be9508dcb06ddf43",
+    "score_calls": 0,
+    "status": "PASS",
+    "task": "SCI-MD-5CQA-ASSAY-001",
+    "writes": 0
+  },
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "exception": "Existing optional Taichi zero-gate exception",
+    "passes": 65
+  },
+  "scientific_files_unchanged_since_review": true,
+  "status": "PASS",
+  "supplemental": {
+    "archive_deterministic": "PASS",
+    "archive_sha256": "5a9eab21206af912f443cb34cdcdff4a51833b9d6db990440375bd27e306f2cf",
+    "ast": "PASS",
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "diff_check": "PASS",
+    "ewp": "READ_ONLY_UNCHANGED",
+    "frozen_replay": {
+      "optimizer_calls": 0,
+      "outcome_joins": 0,
+      "prediction_max_difference": 0.0,
+      "prediction_slots": 384,
+      "reviewed_producer": "35fe284b386f0bec468956c4be9508dcb06ddf43",
+      "score_calls": 0,
+      "status": "PASS",
+      "task": "SCI-MD-5CQA-ASSAY-001",
+      "writes": 0
+    },
+    "head": "35fe284b386f0bec468956c4be9508dcb06ddf43",
+    "json": "PASS",
+    "new_files": 22,
+    "predecessor_preservation": "PASS_ALL_BASE_TRACKED_FILE_HASHES_UNCHANGED",
+    "private_path_and_credential_pattern_scan": "PASS",
+    "shell_examples": "PASS_BASH_N",
+    "source_scope": "PASS_ONLY_AUTHORIZED_NEW_MODULES_TESTS_TASK_DOCS",
+    "task": "SCI-MD-5CQA-ASSAY-001"
+  },
+  "task": "SCI-MD-5CQA-ASSAY-001"
+}

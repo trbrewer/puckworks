@@ -1,0 +1,30 @@
+{
+  "checked_during_task_intake_utc": "2026-09-29T12:22:32Z to 2026-09-29T12:30:00Z",
+  "closest_reviewed_pr_heads": {
+    "EWP105": "8e0e6ffca7a1268ae0508a72dfdced9735182917",
+    "PW296": "7e7b75eb7c14d706a20a70ee2d7fe2aac48505d7",
+    "PW297": "6e6010b06b0c920d2af946a1eb7bd4fb853218cf",
+    "PW298": "7db538feea2fbe176551b2f7d274fbb98b9c2d20"
+  },
+  "commits_since_reviewed_main": {
+    "EWP": 0,
+    "puckworks": 0
+  },
+  "ewp_main": "f15a417cbf3c7528ac734537bb844cab6dc98287",
+  "new_dependency_cherry_picks": 0,
+  "novelty": "PW297 mass-only; PW298 early TDS only; EWP105 caffeine/trigonelline production parameters, not first-assay 5CQA forecasting",
+  "open_EWP_Prs": [
+    130,
+    117,
+    105
+  ],
+  "open_PW_Prs": [
+    264,
+    257,
+    129,
+    128
+  ],
+  "overlap": "NONE_FOUND_IN_FETCHED_MAIN_RECENT_PRS_ISSUES_OR_ALL_OPEN_PRS",
+  "puckworks_main": "db6f509d20ea089b6649d9eb9c3270cef8edc7a2",
+  "task": "SCI-MD-5CQA-ASSAY-001"
+}

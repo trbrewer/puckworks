@@ -584,3 +584,7 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 ### SCI-MD-5CQA-TDS-001 — bounded research comparison (2026-09-29)
 
 - [x] Owner-authorized G1 / NO_GOVERNING_PHYSICS_CHANGE: [single-score result](analysis/sci_md_5cqa_tds_001/RESULTS.md), `TESTED_TDS_CONDITIONED_FIVE_CQA_FAMILIES_INADEQUATE`. Independent exact-freeze review approved; all five arms fail every primary condition; S0/S1/S2 earn no replacement. Scientific comparison complete; publication/CI status is separate in HANDOFF. No EWP change, production adoption, merge or successor.
+
+### SCI-MD-5CQA-ASSAY-001 — completed scientific evaluation (2026-09-29)
+
+- [x] One independent nonhuman exact-freeze approval and one outcome join: **TESTED_FIRST_ASSAY_FIVE_CQA_FAMILIES_INADEQUATE**: A1/L1 fail every primary condition on complete qualified 48/48 support; no adequate arm or earned replacement. L1 versus A1 improves balanced R by 0.010927811 mg/g (2.9917%), below both margins. E0/D0 reproduce retained results exactly. Nine primary shots extrapolate the first-assay range; flow remains 23/24. [Result and bounds](analysis/sci_md_5cqa_assay_001/RESULTS.md), [handoff](analysis/sci_md_5cqa_assay_001/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; source-internal, target-exposed retrospective evidence. No EWP change, production adoption, physical validation, merge or successor.
