@@ -1,0 +1,13 @@
+{
+  "files": {
+    "observed_suffix.json": "11e06caa366505fafc0f15bf58bf291f5128df1b0232363b534e605495134936",
+    "score_receipt.json": "d6faedcab3c48d77d2868feddefea62268fca68f4e429b4a21ee74b940521246",
+    "scores.json": "93348e7ade587f6515d4e30a8c0502eca0ab1e53bfda47c26559ad8e1e947d90",
+    "shot_results.json": "1fdcbfd18a4a34d596df30f29d9ddd6b160b220da0a54a5f4c5934b4b7750c2a"
+  },
+  "freeze_sha256": "f7495e5c75f56698507126be89be1dd4c9a464227c8d7461f0d8655dec1859da",
+  "review_sha256": "f11c4d5a4ed7f25d0004fc16bbcbdd2207c166a38e25afd3471c172bb177bcc0",
+  "scientific_score_passes": 1,
+  "status": "COMPLETE",
+  "task": "SCI-MD-5CQA-TDS-001"
+}

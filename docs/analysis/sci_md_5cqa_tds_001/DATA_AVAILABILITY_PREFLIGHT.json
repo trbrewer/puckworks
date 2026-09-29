@@ -1,0 +1,78 @@
+{
+  "HPLC_formula_check": {
+    "FIT": {
+      "qualified_target_cells": 180,
+      "status": "PASS"
+    },
+    "PRED": {
+      "qualified_target_cells": 96,
+      "status": "PASS"
+    }
+  },
+  "PRED_values_emitted": false,
+  "analytical_uncertainty": "NOT_ESTABLISHED",
+  "coffee_lot": "UNKNOWN",
+  "counts": {
+    "PRED_values_projected": 0,
+    "common_domain_kg": [
+      0.0,
+      0.06971540000000001
+    ],
+    "fit_intended_slots": 180,
+    "fit_original_designs": 15,
+    "fit_physical_shots": 45,
+    "fit_reasons": {
+      "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+    },
+    "fit_supported_slots": 177,
+    "panels": {
+      "flow_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 23
+      },
+      "primary": {
+        "intended_slots": 48,
+        "original_shots": 12,
+        "supported_slots": 48
+      },
+      "temperature_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 24
+      }
+    }
+  },
+  "early_original_TDS_checks": 138,
+  "new_acquisition": false,
+  "original_5CQA_checks": 276,
+  "registers": {
+    "DATA_DICTIONARY.md": "a135bb7f674938c322741dfee03aefeac4978a118237a883633fd2f4a6480599",
+    "PROVENANCE.md": "8376d3c1ca01e6179ff99f5ff3c9edfdcb5cd0d9dd8b3cb35b2800fad6249812",
+    "analytical_method_register.csv": "78d4d01f9bd8485efae02bf1e4b25a48c34353ffc700126a59f8af3026e3cc56",
+    "exclusion_register.csv": "e1118592b397fd46facff162d6f275e22e7b41cb703d2aa73cc468b000c6d7d8",
+    "experiment_grind_assignments.csv": "b7a98c4cc3c020fa1213f90a8c1cfa17603a90b057b0000aeaa1ef145b2252b0",
+    "experiment_register.csv": "6d72ac3a32dc05e6ae5b204ebb6d269a6e31ff87d4ef122f17a39d729d33208e",
+    "fit_fraction_replicates.csv": "55b16b9897956e2dab5a39c1c8b54e97dca6f7355e33c6513e7933316df5b1f2",
+    "prediction_conditions.csv": "a1efcf9ce876101be373a3b5955193dbf5a2075aef2e3b65dc0c83e80bbb3ee5",
+    "prediction_fraction_replicates.csv": "e29344bcdd87d31ba1c1bcb1fe0ba73286befd82066394ad164fdb2384e0b665",
+    "source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1; derived artifact, not MIT",
+  "roast_batch": "UNKNOWN",
+  "scope": "EARLY_TDS_CONDITIONED_FIVE_CQA_DELIVERY",
+  "shared_lineage": "Pannusch and Schmieder counted once",
+  "source_files": {
+    "P24-DOE-FIT": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+    "P24-DOE-PRED": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+    "P24-HPLC-FIT": "4be402a49a5ddac7f9ad08c1223a1427f110b3b58a77d0a525aef25a5528592d",
+    "P24-HPLC-PRED": "42257832ba03c19bc067121af6eaacdcf378d64060cce1a302c8f555ddeafc06",
+    "P24-M-PREP-FIT": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+    "P24-M-PREP-PRED": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+    "P24-MAT-FIT": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+    "P24-MAT-PRED": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64"
+  },
+  "source_objects_inspected": true,
+  "status": "PASS",
+  "task": "SCI-MD-5CQA-TDS-001"
+}

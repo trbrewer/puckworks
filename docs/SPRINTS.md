@@ -580,3 +580,7 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 ### SCI-MD-5CQA-DELIVERY-001 — completed frozen comparison (2026-09-28)
 
 - [x] **2026-09-28 — SCI-MD-5CQA-DELIVERY-001 complete (G1; NO_GOVERNING_PHYSICS_CHANGE).** One independently approved frozen score returns **TESTED_FIVE_CQA_FAMILIES_INADEQUATE**: E0 and D0 fail every primary condition; balanced RMSE 0.364510463 / 0.363520937 mg/g. D0 gains 0.000989525 mg/g (0.2715%), wins 2/4 conditions, and passes only the bias-deterioration increment. FIT/primary/temperature/flow support is 177/180, 48/48, 24/24, 23/24; C08 feature extrapolation remains visible. Strict mass-only 5CQA saved-model API is research-only. [Result](analysis/sci_md_5cqa_delivery_001/RESULT.md). A separate G0 commit repairs the WP6 historical endpoint and passes the repair-only baseline. Source-internal, target-exposed retrospective evidence; no physical validation, production adoption, EWP change, merge or successor.
+
+### SCI-MD-5CQA-TDS-001 — bounded research comparison (2026-09-29)
+
+- [x] Owner-authorized G1 / NO_GOVERNING_PHYSICS_CHANGE: [single-score result](analysis/sci_md_5cqa_tds_001/RESULTS.md), `TESTED_TDS_CONDITIONED_FIVE_CQA_FAMILIES_INADEQUATE`. Independent exact-freeze review approved; all five arms fail every primary condition; S0/S1/S2 earn no replacement. Scientific comparison complete; publication/CI status is separate in HANDOFF. No EWP change, production adoption, merge or successor.
