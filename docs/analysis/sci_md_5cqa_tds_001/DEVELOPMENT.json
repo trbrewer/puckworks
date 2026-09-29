@@ -1,0 +1,1307 @@
+{
+  "arms": {
+    "S0": {
+      "candidates": [
+        {
+          "R_allowance_mg_g": 2.8522253016579437e-11,
+          "balanced_R_mg_g": 0.1442089113425797,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.8607576054423798e-11,
+              "R_mg_g": 0.2666145346362709,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7575161390569164e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.848944354790195e-11,
+              "R_mg_g": 0.2096739237722011,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7648811675125977e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.8486278213852733e-11,
+              "R_mg_g": 0.19374902586736165,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7955853292519992e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.8488930446556985e-11,
+              "R_mg_g": 0.17672277935570893,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6644347233053105e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.848123985332117e-11,
+              "R_mg_g": 0.1794585860100526,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.6896497022444723e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.860495421986109e-11,
+              "R_mg_g": 0.20174901322135494,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.122084479775587e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8585118593594318e-11,
+              "R_mg_g": 0.03639176120739377,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8089661251751257e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.848616448368675e-11,
+              "R_mg_g": 0.1707727575645975,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7590376330280367e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8485050183532875e-11,
+              "R_mg_g": 0.08529785132243926,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6052789135117874e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8543096672804428e-11,
+              "R_mg_g": 0.10937636255238876,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.7204878361701484e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8480236503952947e-11,
+              "R_mg_g": 0.12282514463778116,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.7948379267468232e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.854095594839822e-11,
+              "R_mg_g": 0.09212828727661691,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6976590720083399e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8528840966718825e-11,
+              "R_mg_g": 0.13872407489510374,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9221507285784623e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8539819004159563e-11,
+              "R_mg_g": 0.07441361701388645,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6867259056828683e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8486090555925948e-11,
+              "R_mg_g": 0.10523595080553812,
+              "fit_status": "CLOSED_FORM",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6765620786174155e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": null,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": null
+    },
+    "S1": {
+      "candidates": [
+        {
+          "R_allowance_mg_g": 2.8523661104061766e-11,
+          "balanced_R_mg_g": 0.12939172075965413,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.861000664611835e-11,
+              "R_mg_g": 0.32217446253891574,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7574468093348878e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.8491342815627154e-11,
+              "R_mg_g": 0.1664526863819188,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7648569979936621e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.848855027342312e-11,
+              "R_mg_g": 0.21924028494899103,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7961783848604013e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.849028597042305e-11,
+              "R_mg_g": 0.129764348058279,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6643988890714054e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8483527291413677e-11,
+              "R_mg_g": 0.16335271718061747,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.6899757815021966e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8605951512328233e-11,
+              "R_mg_g": 0.1228251787960936,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.121889742489513e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8585847759256468e-11,
+              "R_mg_g": 0.06574413215618775,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8088153281764173e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.848717410687729e-11,
+              "R_mg_g": 0.13211397467773442,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.758921752418706e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8486207100931516e-11,
+              "R_mg_g": 0.05670138767686401,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6052277792455755e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8544673680598174e-11,
+              "R_mg_g": 0.06671561197221644,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.7205431773163766e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.847968977154422e-11,
+              "R_mg_g": 0.07551116248801727,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.794640510733724e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8542921005876936e-11,
+              "R_mg_g": 0.1392908206126323,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6975777074544923e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8529953294623665e-11,
+              "R_mg_g": 0.11236005677111234,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9220041089418828e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8541670267764368e-11,
+              "R_mg_g": 0.07344314686040603,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866666932691e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8487115064120225e-11,
+              "R_mg_g": 0.09518584027482589,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6764238314828558e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.852355650446218e-11,
+          "balanced_R_mg_g": 0.13213582744513339,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.86101400515348e-11,
+              "R_mg_g": 0.3305895887853448,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7574032831211668e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.8491108043988886e-11,
+              "R_mg_g": 0.16768534875866928,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7648079915745466e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.8488418686968537e-11,
+              "R_mg_g": 0.227224978473633,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7961974068368893e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.849023153690606e-11,
+              "R_mg_g": 0.13612481410934332,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6644623426794838e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.848376574155647e-11,
+              "R_mg_g": 0.17156329044462373,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.6899239616014127e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8605880629030846e-11,
+              "R_mg_g": 0.1376773493352502,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1220040330619556e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8585869293789148e-11,
+              "R_mg_g": 0.0641581580854232,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8088201223155813e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8487019351584707e-11,
+              "R_mg_g": 0.12735723612405295,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7588597553292792e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8485762507863e-11,
+              "R_mg_g": 0.051543766973454454,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6051519391864507e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.854457814631224e-11,
+              "R_mg_g": 0.07682830876823518,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.720549873983036e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8479897173128246e-11,
+              "R_mg_g": 0.08080814292009864,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.7947396980443688e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8542571791458566e-11,
+              "R_mg_g": 0.13383240231936314,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6975433437465404e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.852986680266168e-11,
+              "R_mg_g": 0.11008905574835738,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.921971256128978e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8541308615364184e-11,
+              "R_mg_g": 0.07018587180093956,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866349497181757e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8486929194785277e-11,
+              "R_mg_g": 0.09636909903021224,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6764316541491078e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.8523406178536858e-11,
+          "balanced_R_mg_g": 0.13183637098657036,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.8609478765730784e-11,
+              "R_mg_g": 0.3135741988329426,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.757435201537222e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.8490263076041625e-11,
+              "R_mg_g": 0.18386090745638797,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7647497626284362e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.848740067463187e-11,
+              "R_mg_g": 0.19016095520014586,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7955113878717102e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.8489543922484173e-11,
+              "R_mg_g": 0.1486494903908584,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.664494296068903e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8483291859024828e-11,
+              "R_mg_g": 0.17679737085193817,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.689998207033955e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8606126760505634e-11,
+              "R_mg_g": 0.15464547588560595,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1221722625247299e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8586367725109748e-11,
+              "R_mg_g": 0.06679347521642609,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.808845400320706e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8487310164649882e-11,
+              "R_mg_g": 0.12593728518762803,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7589162738674587e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8485815054309184e-11,
+              "R_mg_g": 0.045023105423614894,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6051525736636606e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8544238016083018e-11,
+              "R_mg_g": 0.08532678471380911,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.7205904867576822e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8481000270567105e-11,
+              "R_mg_g": 0.0856835411127153,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.7948818896754046e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.854242618890984e-11,
+              "R_mg_g": 0.12918280619321376,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6975123205463588e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8529841530557777e-11,
+              "R_mg_g": 0.11106773091555038,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9219788797951564e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8541145799881553e-11,
+              "R_mg_g": 0.06575050723530447,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866655863760518e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8486842869565863e-11,
+              "R_mg_g": 0.0950919301824149,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6764251181036677e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.8523299310932077e-11,
+          "balanced_R_mg_g": 0.13277954699876265,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.860783640746279e-11,
+              "R_mg_g": 0.2743954934120166,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7573221628381139e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.8489613914945835e-11,
+              "R_mg_g": 0.20144976444195362,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.764665200117752e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.8487158629645896e-11,
+              "R_mg_g": 0.18393581971182485,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7954052183717078e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.848935913876871e-11,
+              "R_mg_g": 0.15882754508287242,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.664472827239696e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.848343993769006e-11,
+              "R_mg_g": 0.1842540064980822,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.690045635012192e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8606482503735445e-11,
+              "R_mg_g": 0.1680923634357371,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1222771572561146e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8586650515169785e-11,
+              "R_mg_g": 0.0631253117883679,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8088956344068059e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.848728076053535e-11,
+              "R_mg_g": 0.13580241728787287,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7589696301192329e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8486091016668512e-11,
+              "R_mg_g": 0.04152486510653917,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.605194090349528e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8543315306345316e-11,
+              "R_mg_g": 0.08653192900637939,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.720547035300165e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8482033449967185e-11,
+              "R_mg_g": 0.11040865102721455,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.794984884843763e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8542374336395643e-11,
+              "R_mg_g": 0.1267658281993079,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6975205529909096e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8529999053260318e-11,
+              "R_mg_g": 0.10739788917113575,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9220153507423582e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8540969261046514e-11,
+              "R_mg_g": 0.06177378137958233,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866596727476239e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.848688543234376e-11,
+              "R_mg_g": 0.0874075394325536,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6764760968802066e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 0.0001
+    },
+    "S2": {
+      "candidates": [
+        {
+          "R_allowance_mg_g": 2.8523618267593264e-11,
+          "balanced_R_mg_g": 0.11456431115268664,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.860665392941713e-11,
+              "R_mg_g": 0.24626862640890776,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7571465015487216e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.849403907287555e-11,
+              "R_mg_g": 0.11541337203649941,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7649835162848135e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.8489800648193385e-11,
+              "R_mg_g": 0.22631719629740074,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.796041355472639e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.8492947387763293e-11,
+              "R_mg_g": 0.0795113350848602,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.664578958297887e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8480315873012738e-11,
+              "R_mg_g": 0.11759570206115656,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.68982601559352e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8604356430978332e-11,
+              "R_mg_g": 0.1269453184223405,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1219969779875995e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.858453684458787e-11,
+              "R_mg_g": 0.07741793550372673,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8086812681136369e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8486964112851736e-11,
+              "R_mg_g": 0.1359502566337782,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.758843066054106e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.848701478617186e-11,
+              "R_mg_g": 0.046046552597361484,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.605232576880092e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8547374021831455e-11,
+              "R_mg_g": 0.10475437901888825,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.720739714709697e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8479966537695217e-11,
+              "R_mg_g": 0.07556931840562693,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.7946785985938022e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8540300424955023e-11,
+              "R_mg_g": 0.08656379763343791,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.697453246789498e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8530211544686623e-11,
+              "R_mg_g": 0.10964435077023431,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9219446761778485e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8540784043249897e-11,
+              "R_mg_g": 0.08476581700125435,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866413047989163e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.84890083556289e-11,
+              "R_mg_g": 0.08570070941482631,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6766023300193134e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 0.0001,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.8523631333615523e-11,
+          "balanced_R_mg_g": 0.11737375336021047,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.8607447438193787e-11,
+              "R_mg_g": 0.2654845139649088,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7571852525887934e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.849390267107343e-11,
+              "R_mg_g": 0.11338239768487444,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.764982789447548e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.848960507471718e-11,
+              "R_mg_g": 0.23088786539542347,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.7960353780878146e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.849280473507414e-11,
+              "R_mg_g": 0.08486601816468904,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6646469628278485e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8480723993182134e-11,
+              "R_mg_g": 0.12690280858678557,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.6897528464404037e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.860418868488218e-11,
+              "R_mg_g": 0.13736028998890837,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.12204621598429e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8584627007314146e-11,
+              "R_mg_g": 0.07160539295725417,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8087400033194428e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8487109724059907e-11,
+              "R_mg_g": 0.12984346043127137,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7588949472748204e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8486832802818166e-11,
+              "R_mg_g": 0.03892949002723639,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.605218429660178e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8547490436685825e-11,
+              "R_mg_g": 0.1129903585084004,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.7207642037945347e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8480170850815408e-11,
+              "R_mg_g": 0.08345650447009063,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.7947463937493247e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8540188492206115e-11,
+              "R_mg_g": 0.08318426235733041,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.697384708005443e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8530146770399236e-11,
+              "R_mg_g": 0.1102983798014036,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.9219806962790641e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8540475942688577e-11,
+              "R_mg_g": 0.08522816774649122,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6865971654743622e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8488755380122587e-11,
+              "R_mg_g": 0.08618639031808933,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.6765752984530208e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 0.01,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.85235305034461e-11,
+          "balanced_R_mg_g": 0.12560898602646858,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.860992455838756e-11,
+              "R_mg_g": 0.3310399011689547,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7572404702379402e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.849270547465009e-11,
+              "R_mg_g": 0.1284571952395234,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7649680137864763e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.8488349724651585e-11,
+              "R_mg_g": 0.2078836218424652,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.795657154569933e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.849162994834242e-11,
+              "R_mg_g": 0.11230571324027472,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6645880290447888e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8481719843077258e-11,
+              "R_mg_g": 0.1438616290059799,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.68985287247984e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8604919142816846e-11,
+              "R_mg_g": 0.13666549442870085,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1221169822844216e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8584919146114847e-11,
+              "R_mg_g": 0.07589021767251063,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8086958993039618e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8487071746182934e-11,
+              "R_mg_g": 0.12845858876576025,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.7588385080682742e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8486146952661848e-11,
+              "R_mg_g": 0.039166914969206906,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6051306860279925e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8546234376353377e-11,
+              "R_mg_g": 0.10762083403673338,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.720756035784341e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.8480049004924527e-11,
+              "R_mg_g": 0.07718528533788284,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.794815155517222e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8540965472891224e-11,
+              "R_mg_g": 0.10943278639553522,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6973785654862935e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8529952003415285e-11,
+              "R_mg_g": 0.11521751525799313,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.922000741166461e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8540558751027866e-11,
+              "R_mg_g": 0.08173969565319127,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6865717993332006e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8487811406193867e-11,
+              "R_mg_g": 0.08920939738231658,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.676496401471561e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 1.0,
+          "status": "SELECTABLE"
+        },
+        {
+          "R_allowance_mg_g": 2.852336470759367e-11,
+          "balanced_R_mg_g": 0.13152602878673758,
+          "folds": [
+            {
+              "R_allowance_mg_g": 2.860856263366322e-11,
+              "R_mg_g": 0.2894103850854906,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C01",
+              "max_allowance_kg": 1.7574223280112222e-16,
+              "parent_sha256": "b1a8d1b65d6db7dc09f5a16df072c0754080fa9a44d2c40151d466bb80e61fdc",
+              "support_sha256": "d13767e5e2b55ab64898549ed62f343d21cf7b690546003a3d98ca655c8e64bf"
+            },
+            {
+              "R_allowance_mg_g": 2.848993545844652e-11,
+              "R_mg_g": 0.19213639650952194,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C02",
+              "max_allowance_kg": 1.7647212865962218e-16,
+              "parent_sha256": "f6ff84639659bac2af3008003441b5b525dfbe42905e23e48313c94c15137ce5",
+              "support_sha256": "14f9944104c643d20911cd092deb6ba26569a977f14923d7d599103f8ec8e699"
+            },
+            {
+              "R_allowance_mg_g": 2.848708156951734e-11,
+              "R_mg_g": 0.18395299589913602,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C03",
+              "max_allowance_kg": 1.795403344535889e-16,
+              "parent_sha256": "c5e80a192143ae56d9f105ec47bde5f5e7b20ebe4f79cee75530e4d4b85be4ad",
+              "support_sha256": "6bc471854661ad6a774554f6f558040bb0486b1b6c442127dde716110dda0ca8"
+            },
+            {
+              "R_allowance_mg_g": 2.8489604532891568e-11,
+              "R_mg_g": 0.15291233360116233,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C04",
+              "max_allowance_kg": 1.6645009599502756e-16,
+              "parent_sha256": "98e7c28d321c3370ebae7315c7b0f290b3bf5f8773b55b4e9636eada6ea33599",
+              "support_sha256": "e4e7c0a7d20f0a62031482208382d534a757e6ff1592d85a0fec368921cb844b"
+            },
+            {
+              "R_allowance_mg_g": 2.8483147448657648e-11,
+              "R_mg_g": 0.17735611950720284,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C05",
+              "max_allowance_kg": 2.6900266781586804e-16,
+              "parent_sha256": "9a4c64dfddeb5716cb5ee3e286b8a8e319abb9fc709bf33353fc28db2a43deda",
+              "support_sha256": "0c98d4a860e9c6a27358d0ac119c02e6171472b2c8168df0a21b72fd560490db"
+            },
+            {
+              "R_allowance_mg_g": 2.8606404028637607e-11,
+              "R_mg_g": 0.16247259678988749,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C06",
+              "max_allowance_kg": 2.1222734847000063e-16,
+              "parent_sha256": "464efd05e0a11ffc4295d8a54c1adbbafd4cc8f0652370be4d976f27ee969546",
+              "support_sha256": "eecca2b151774c0a3a44f44c83a81818aa3e663334eb75b78969a63e635c58d6"
+            },
+            {
+              "R_allowance_mg_g": 2.8586512325013533e-11,
+              "R_mg_g": 0.0651326918987465,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C07",
+              "max_allowance_kg": 1.8088842557124335e-16,
+              "parent_sha256": "d9e761cb31670be1c9e060d36f1348304c2ef279f5906f8f70995824a0934e37",
+              "support_sha256": "74597809d3df8e366dbc9a5bec2dfc2ddd44e36cfe85d63b24388a6c1ce18568"
+            },
+            {
+              "R_allowance_mg_g": 2.8487305185308583e-11,
+              "R_mg_g": 0.1326594835900899,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C08",
+              "max_allowance_kg": 1.758968720359535e-16,
+              "parent_sha256": "dcd2b6071fc4019c0ccc3c74a79e517f1a9cb91faa5bb04f34ad0dce7b5f130d",
+              "support_sha256": "a5d50e6317e5af0d986817da8fc35569d7581717a9677dec13f775395516ae88"
+            },
+            {
+              "R_allowance_mg_g": 2.8485987219063247e-11,
+              "R_mg_g": 0.04162306831493353,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C09",
+              "max_allowance_kg": 1.6051727017126936e-16,
+              "parent_sha256": "922d352c51c8c816df3c9ae9819ed6c5c610dd475c4efe0e5b1c9be2f3b1581d",
+              "support_sha256": "d1cd8538cf33aec2abf4110dc837a16acdadd046d44942a6c825fa9aec5e14e9"
+            },
+            {
+              "R_allowance_mg_g": 2.8543844172713304e-11,
+              "R_mg_g": 0.08696612922284058,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C10",
+              "max_allowance_kg": 1.7205848142031236e-16,
+              "parent_sha256": "7bc9af826220e461c9b884e0c73fe7ac32cf0bf9e229b84a4dbeeac80a79bc60",
+              "support_sha256": "15b7f29f44074cbed1b56c430fd056efff80af22b14d57988c7c97cd81fcc3f5"
+            },
+            {
+              "R_allowance_mg_g": 2.848169999589743e-11,
+              "R_mg_g": 0.10187609843987343,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C11",
+              "max_allowance_kg": 1.794960787828119e-16,
+              "parent_sha256": "b6a5cc9e942986c62cda8edbb22e6a70001bb0490885a27036f1dc3c3186725b",
+              "support_sha256": "58498f3c587bfd7243c07a9a76dbd46c4fb98857154682b034ac472d7975b6e5"
+            },
+            {
+              "R_allowance_mg_g": 2.8542237585567997e-11,
+              "R_mg_g": 0.12451369027246888,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C12",
+              "max_allowance_kg": 1.6975281731234528e-16,
+              "parent_sha256": "52320204e5a8ff59ac195f36f21859472a2c85c82a21da15d22379dccf648053",
+              "support_sha256": "c552282668e38a06a4e3c240bbacc67441842d1f121e04fa737de9985a42bb0e"
+            },
+            {
+              "R_allowance_mg_g": 2.8530110531154914e-11,
+              "R_mg_g": 0.10875279784344265,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C13",
+              "max_allowance_kg": 1.922065798476429e-16,
+              "parent_sha256": "ca7ba48538b26b24be32e52bb0de7f725181a7130d62a497c7d387aaddddccc2",
+              "support_sha256": "4bf0ea8eab961db09fe1d72bac9774591da134fbb866752898598e431c149eab"
+            },
+            {
+              "R_allowance_mg_g": 2.8541028447630586e-11,
+              "R_mg_g": 0.06528195050851587,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C14",
+              "max_allowance_kg": 1.6866398981963182e-16,
+              "parent_sha256": "9e8df804223f6e003d14daa8fbc2caf9a9566cb8e97b8d11058400164744e4f9",
+              "support_sha256": "c25c1fa38f905d73dac2741408a315b40c1018a991a069a35d927bd0d9dadd65"
+            },
+            {
+              "R_allowance_mg_g": 2.8487009479741554e-11,
+              "R_mg_g": 0.08784369431775141,
+              "fit_status": "CONVERGED",
+              "group": "FIT-C15",
+              "max_allowance_kg": 1.676497268293616e-16,
+              "parent_sha256": "5cdc6c3313abbb27a39bb0c70affb48409ed2515b2dd85476e3c6ee1f3bfab2b",
+              "support_sha256": "53d0c6342e0d361400e5dc4e4f5146919bf215d6f1d7d7a0616580fd41a1b1c8"
+            }
+          ],
+          "lambda": 100.0,
+          "status": "SELECTABLE"
+        }
+      ],
+      "selected_lambda": 0.0001
+    }
+  },
+  "scope": "DEVELOPMENT_NOT_UNBIASED_NESTED_VALIDATION"
+}

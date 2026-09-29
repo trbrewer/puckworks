@@ -1,0 +1,29 @@
+{
+  "E0_D0_fits": 0,
+  "actual_residual_calls": 50186,
+  "blas_threads": 1,
+  "boundary_starts": 0,
+  "completed_scalar_fits": 16,
+  "completed_starts": 366,
+  "failed_starts": 0,
+  "fitting_stage_wall_seconds": 19.458406925201416,
+  "iterative_starts": 366,
+  "max_calls_per_start": 235,
+  "native_ewp_runs": 0,
+  "numerical_jacobian_residual_calls": 47800,
+  "numpy": "2.5.3",
+  "optimizer_wall_seconds": 10.326772503554821,
+  "parent_fits": 0,
+  "peak_rss_kib": 85724,
+  "python": "3.12.3",
+  "scalar_fits": 16,
+  "scientific_score_passes": 0,
+  "scipy": "1.18.1",
+  "starts_by_arm": {
+    "S1": 183,
+    "S2": 183
+  },
+  "status": "FIT_COMPLETE_PRED_NOT_SCORED",
+  "task": "SCI-MD-5CQA-TDS-001",
+  "workers": 1
+}
