@@ -1,0 +1,52 @@
+{
+  "PRED_outcomes": "ONE_JOIN_AFTER_GENUINE_INDEPENDENT_EXACT_FREEZE_REVIEW",
+  "arms": [
+    "L1M",
+    "L2M",
+    "L12"
+  ],
+  "contract_commit": "c0d294670923ab4d8805e0837002cd304470f974",
+  "files": {
+    "docs/analysis/sci_md_5cqa_assay_002/BASELINE.json": "6372f047a77bffaf049155ae4991e2b8bbfddb81378c71bdb24b63ec06966ccb",
+    "docs/analysis/sci_md_5cqa_assay_002/DATA_AVAILABILITY_PREFLIGHT.json": "27f60be3de27a0f4ce18efe4de0dc11d2a5f5cd33a8ab63355355866b503a6db",
+    "docs/analysis/sci_md_5cqa_assay_002/DEPENDENCIES.json": "e1acc8a32e337fcf099324df3d69694506d7370b2722e91e3984758b24847e70",
+    "docs/analysis/sci_md_5cqa_assay_002/DRIFT_CHECK.json": "0c4ae9d6d08d4429e77977c7bb18e5429cb6621a684064ce4f5d76ea69c167cc",
+    "docs/analysis/sci_md_5cqa_assay_002/EXECUTION_CONTRACT.json": "ba366888d0d2ffe1ddbd10b2a562a464e22aab5cdc304c7c088bffd64fe99101",
+    "docs/analysis/sci_md_5cqa_assay_002/MODEL_CARD.md": "4ed54ca3041f6890957391d153ae8bc2f20c41acd3c13c84fa39e271e37798aa",
+    "docs/analysis/sci_md_5cqa_assay_002/PROTOCOL.md": "1d3e01e77b93b1caa0455696936ea27a1383e230e2ee647609250f39adc1c4ef",
+    "docs/analysis/sci_md_5cqa_assay_002/SOURCE_IDENTITIES.json": "f6c9cbfc9efbf6537d5f95127947ce4dbd6bca972061141fcb7dd9c96824e7b6"
+  },
+  "inputs": {
+    "L12": [
+      "m1_kg",
+      "m2_kg",
+      "q1_kg_kg",
+      "q2_kg_kg"
+    ],
+    "L1M": [
+      "m1_kg",
+      "m2_kg",
+      "q1_kg_kg"
+    ],
+    "L2M": [
+      "m1_kg",
+      "m2_kg",
+      "q2_kg_kg"
+    ]
+  },
+  "new_heads": [
+    "L1M",
+    "L2M",
+    "L12"
+  ],
+  "species": "5CQA",
+  "supervised_fractions": [
+    3,
+    5,
+    7,
+    10
+  ],
+  "task": "SCI-MD-5CQA-ASSAY-002",
+  "task_deadline_utc": "2026-09-29T22:34:51Z",
+  "task_start_utc": "2026-09-29T16:34:51Z"
+}

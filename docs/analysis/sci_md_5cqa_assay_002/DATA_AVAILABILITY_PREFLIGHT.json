@@ -1,0 +1,79 @@
+{
+  "authority": "pannusch2024/experimental_kinetics",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "counts": {
+    "PRED_first_assay_values_projected": 24,
+    "PRED_second_assay_values_projected": 24,
+    "PRED_suffix_values_projected": 0,
+    "common_domain_kg": [
+      0.0,
+      0.06971540000000001
+    ],
+    "fit_eligible_intended_slots": 168,
+    "fit_eligible_physical_shots": 42,
+    "fit_original_designs": 15,
+    "fit_original_physical_shots": 45,
+    "fit_original_suffix_slots": 180,
+    "fit_reasons": {
+      "MATCHED_COHORT_INVALID_Q2_SPILL": 12,
+      "UNAVAILABLE_MEASURED_MASS_PREFIX": 3
+    },
+    "fit_supported_slots": 165,
+    "panels": {
+      "flow_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 23
+      },
+      "primary": {
+        "intended_slots": 48,
+        "original_shots": 12,
+        "supported_slots": 48
+      },
+      "temperature_stress": {
+        "intended_slots": 24,
+        "original_shots": 6,
+        "supported_slots": 24
+      }
+    }
+  },
+  "dataset_id": "PANNUSCH2024_MENDELEY_FULL_REPOSITORY",
+  "decision": "MATCHED_EARLY_ASSAY_ADEQUACY_PLACEMENT_AND_TWO_ASSAY_INCREMENT",
+  "excluded_shots": [
+    "FIT-E03-R1",
+    "FIT-E11-R3",
+    "FIT-E14-R3"
+  ],
+  "exhaustion_claim": "NONE",
+  "expected_first_assays": {
+    "FIT": 45,
+    "PRED": 24
+  },
+  "expected_second_assays": {
+    "FIT": 42,
+    "PRED": 24
+  },
+  "first_assay_role": "PERMITTED_INPUT_L1M_L12",
+  "gate": {
+    "decision": "ADEQUACY_PLACEMENT_AND_VALUE_OF_RETAINING_BOTH_ASSAYS",
+    "grinder_to_cup_link": "SPECIES_INTERVAL_DELIVERY_CONDITIONAL_ON_EARLY_CHEMISTRY_AND_BEVERAGE_MASS",
+    "new_information": "ORIGINAL_FRACTION_2_5CQA_COVARIATE_WITH_MATCHED_SINGLE_ASSAY_CONTROLS",
+    "repeated_blocker": "NEW_PERMITTED_CHEMICAL_INPUT_CHANGES_INFORMATION_CONTRACT; PREDECESSOR_CONCLUSIONS_IMMUTABLE"
+  },
+  "governance_class": "G1",
+  "independent_validation": false,
+  "inspected": "Eight original files and ten registers verified. Unrounded original MAT/HPLC first assays reconciled for 69 shots, and valid second assays for 66 shots; three invalid FIT spills excluded. No later PRED concentration projected.",
+  "laboratory_escalation": "NOT_PROPOSED_OR_AUTHORIZED",
+  "later_PRED_role": "OUTCOME_ONLY_AFTER_INDEPENDENT_FREEZE_REVIEW",
+  "no_new_acquisition": true,
+  "rights": "CC-BY-NC-3.0; Pannusch/Schmieder; Mendeley 10.17632/y2tz67f6ry.1",
+  "second_assay_role": "PERMITTED_INPUT_L2M_L12",
+  "source_internal": true,
+  "status": "KNOWN_EXTERNAL_CORPUS_MOUNTED_AND_HASH_QUALIFIED",
+  "target_exposed": true,
+  "task": "SCI-MD-5CQA-ASSAY-002",
+  "unknown_joins": [
+    "coffee_lot",
+    "roast_batch"
+  ]
+}

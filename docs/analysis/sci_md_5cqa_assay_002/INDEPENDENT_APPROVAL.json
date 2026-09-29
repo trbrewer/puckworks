@@ -1,0 +1,95 @@
+{
+  "approval_scope": "ONE_PREDECLARED_FROZEN_PRED_SCORE_ONLY_NO_RETUNING",
+  "audit_summary": {
+    "artifact_bindings": 1681,
+    "code_bindings": 166,
+    "exact_saved_inference": true,
+    "frozen_predictions": 288,
+    "held_fold_metrics": 180,
+    "historical_reference_exact": true,
+    "independent_adaptive_intervals": 285,
+    "lambda_bounds_invariant": true,
+    "max_adaptive_difference_kg": 1.0164395367051604e-20,
+    "max_held_R_difference_mg_g": 2.7755575615628914e-16,
+    "max_objective_difference": 1.7763568394002505e-15,
+    "original_assays": {
+      "FIT_fraction_1": 45,
+      "FIT_fraction_10": 45,
+      "FIT_fraction_2": 42,
+      "FIT_fraction_3": 45,
+      "FIT_fraction_5": 45,
+      "FIT_fraction_7": 45,
+      "PRED_fraction_1": 24,
+      "PRED_fraction_2": 24
+    },
+    "original_assays_total": 315,
+    "registers": 10,
+    "selected_lambdas": {
+      "L12": 0.0001,
+      "L1M": 0.0001,
+      "L2M": 0.0001
+    },
+    "source_files": 8,
+    "start_objectives": 549
+  },
+  "evidence_files": {
+    "INDEPENDENT_REVIEW.md": "d09814c388b3c63be6e65f6c21d30089bf6437a72ee147a3ffebe57c6c7c645e",
+    "audit.log": "ea144c19d30172b4450bfe773dcbf00551aea4ae9b0d33cf12cb89f95501da12",
+    "audit.py": "dfea26cf41f7bf3e7a7cf04c0968178ac6c25e2c972d3f2fcfc9c096b627e6ff",
+    "audit_attempt01.log": "637310ac749673b053f1cba7c7354f7b43b7134c0c373a610fe2decf537f800d",
+    "audit_results.json": "73bcec3085f7bb92af463dbc85138920183dc15473d05b8734c77d51d472bab3",
+    "chronology_and_projection.json": "6866cd967e7c8f8ecd21921056f398da3dc8d7b45aefd0dd10cfba98025be0b3",
+    "metric_audit.log": "9f4b62b09e0729bcab9123a544f7b2e0df65668bca2c7dc31ad71406c5c49701",
+    "metric_audit.py": "428798256dff14409a9895fd36215e201e9eadb7b56cdb2f8bf4138a27bffd39",
+    "metric_audit_results.json": "9f4b62b09e0729bcab9123a544f7b2e0df65668bca2c7dc31ad71406c5c49701",
+    "safe_tests.log": "933b2dd6fb1e4d4a3f1e496fcc7370412d52ae97c6ea725ce48138566cc2d986",
+    "safe_tests.py": "ce4cae750988ab99d4571e4adad5bcf56a412e1d8e7af7d70fd27f3b2cb7cc80"
+  },
+  "freeze_sha256": "90b1156e06f8c5a51b8027846a01b630302733bed6941ad20e45c49eeefab73e",
+  "future_chemistry_attached": false,
+  "independent": true,
+  "limitations": [
+    "NONHUMAN_REVIEW_NOT_HUMAN_REVIEW",
+    "SOURCE_INTERNAL",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_CAMPAIGN_SEPARATED_CONDITIONAL_PREDICTION",
+    "PRIMARY_FEATURE_EXTRAPOLATION_RETAINED",
+    "FLOW_SUPPORT_23_OF_24_PER_ARM",
+    "PHYSICAL_VALIDATION_NOT_ESTABLISHED",
+    "ANALYTICAL_UNCERTAINTY_NOT_ESTABLISHED",
+    "NO_PRED_RESULT_ADJUDICATION_BY_THIS_REVIEW",
+    "GENERAL_QA_CI_AND_MERGE_DISPOSITIONS_SEPARATE",
+    "NO_PRODUCTION_OR_SUCCESSOR_AUTHORIZATION"
+  ],
+  "nonblocking_observations": [
+    {
+      "code": "DUAL_BLOCKER_DISPLAY_PRIORITY",
+      "correction_required_for_this_freeze": false,
+      "detail": "If both incomplete primary support and supported-slot numerical unqualification occur, decide() reports numerical unqualification before incomplete support; the protocol lists support first. All actual frozen primary records have complete support and numerical qualification, so no frozen decision is affected. Both hypothetical outputs prohibit a scientific success claim."
+    }
+  ],
+  "review_activity": {
+    "PRED_suffix_chemical_scalar_accesses": 0,
+    "fit_calls": 0,
+    "frozen_artifact_writes": 0,
+    "optimizer_calls": 0,
+    "outcome_joins": 0,
+    "repository_writes": 0,
+    "score_calls": 0
+  },
+  "reviewed_at_utc": "2026-09-29T17:20:11.884380+00:00",
+  "reviewed_head": "fbac5634d0c90bf36ac557297ddacf4d7142f916",
+  "reviewed_tree": "beae94a6430de645695e4db8fbf5f7b92731feb8",
+  "reviewer": "/root/independent_5cqa_assay002_review",
+  "reviewer_kind": "NONHUMAN_INDEPENDENT_AGENT",
+  "reviewer_type": "NONHUMAN_INDEPENDENT_AGENT",
+  "safe_focused_tests": {
+    "deselected": 6,
+    "excluded": "FITTER_BEARING_AND_SCORING_ENTRYPOINT_TESTS",
+    "passed": 40
+  },
+  "scientific_classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "status": "APPROVED",
+  "task": "SCI-MD-5CQA-ASSAY-002",
+  "unresolved_blocking_findings": []
+}
