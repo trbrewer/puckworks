@@ -1,0 +1,40 @@
+{
+  "PRED_outcomes": "ONE_JOIN_AFTER_GENUINE_INDEPENDENT_EXACT_FREEZE_REVIEW",
+  "arms": [
+    "E0",
+    "D0",
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "contract_commit": "c769074e88a68483878a677f47d016efab5da8c2",
+  "files": {
+    "docs/analysis/sci_md_5cqa_tds_001/DATA_AVAILABILITY_PREFLIGHT.json": "e9cfcf0de7a501d35f32085c1548d54cf2e64232206ac83fa7f8edf484d3deac",
+    "docs/analysis/sci_md_5cqa_tds_001/DEPENDENCIES.json": "bf5e34abb6e8afd066b218cfdf09d1fd1ed08339ef3f25c66f73f5af07d03c11",
+    "docs/analysis/sci_md_5cqa_tds_001/MODEL_CARD.md": "b74f362491c7d14b574bc9086d4f77e4f9aa126a88d06edf571d4689c128521f",
+    "docs/analysis/sci_md_5cqa_tds_001/PARENT_FOLDS.json": "24591c829fadde43554ce4e09102471bbe9488ee6a9ad8a57adb03f420234362",
+    "docs/analysis/sci_md_5cqa_tds_001/PROTOCOL.md": "6dc52d753bfad86eac715f3bc37041bd2981b248854e8d7d7f71f84929572bef",
+    "docs/analysis/sci_md_5cqa_tds_001/SOURCE_IDENTITIES.json": "f6c9cbfc9efbf6537d5f95127947ce4dbd6bca972061141fcb7dd9c96824e7b6"
+  },
+  "inputs": [
+    "m1_kg",
+    "m2_kg",
+    "q1",
+    "q2"
+  ],
+  "new_heads": [
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "species": "5CQA",
+  "supervised_fractions": [
+    3,
+    5,
+    7,
+    10
+  ],
+  "task": "SCI-MD-5CQA-TDS-001",
+  "task_deadline_utc": "2026-09-29T07:09:49Z",
+  "task_start_utc": "2026-09-29T01:09:49Z"
+}
