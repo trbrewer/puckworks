@@ -1618,7 +1618,8 @@ def gate_g10_foursource_spread():
     sob_median = sob_off[n // 2] if n % 2 else 0.5 * (sob_off[n // 2 - 1] + sob_off[n // 2])
     sob_above = bool(sob_off) and all(o > 0 for o in sob_off)
     kho_above = all(
-        (d.telisromero_density_kgm3(float(r["temperature_C"]), float(r["dry_solids_mass_fraction"]))
+        (d.telisromero_density_kgm3(float(r["temperature_C"]),
+                                  1.0 - float(r["dry_solids_mass_fraction"]))
          * float(r["kinematic_viscosity_mm2_s"]) * 1e-6)
         > d.telisromero_viscosity_pas(float(r["temperature_C"]) + 273.15,
                                       100.0 * (1.0 - float(r["dry_solids_mass_fraction"])))

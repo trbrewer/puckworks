@@ -1,5 +1,9 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] Local audit F15: correct dry-solids versus water fraction in the four-source
+  viscosity gate's density conversion; source-basis regression and ten related
+  tests pass. NO_GOVERNING_PHYSICS_CHANGE; no threshold or live metric change.
+
 - [x] Local audit F14: separate the best-constant and flexible-cubic P2 predicates;
   retain the honest negative cubic result and unchanged model outputs. Actual-trace
   regression and focused callers pass. G0 / NO_GOVERNING_PHYSICS_CHANGE; local patch only.

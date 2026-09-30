@@ -838,6 +838,15 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-09-30 — local audit F15 density-basis correction.**
+  G0 / NO_GOVERNING_PHYSICS_CHANGE. The four-source viscosity gate now converts
+  measured Khomyakov kinematic viscosity using water fraction `1 - dry_fraction`,
+  as required by the Telis-Romero density API and already done in the two-source
+  gate. The previous conversion inflated dynamic viscosity by 25.715–30.849%
+  over the ten overlap cells. Both conversions preserve the tested ordering;
+  reported gate metrics and thresholds are unchanged. A source-basis regression
+  fails before the repair and passes after it.
+
 - **2026-09-30 — local audit F14 comparator correction.** G0 / NO_GOVERNING_PHYSICS_CHANGE.
   Separate the P2 best-constant predicate from the actual flexible-cubic predicate;
   update the QUICK gate and callers without changing predictions or tolerances.
