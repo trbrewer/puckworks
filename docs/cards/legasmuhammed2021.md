@@ -151,8 +151,8 @@ Low value, and only with the caveats above attached. Nothing is published as raw
 - **Open backlog "extraction: multi-class solute chemistry"** — this paper gestures at the gap
   (caffeine + a lumped antioxidant proxy) but cannot close any part of it: no acids, no sugars, no
   time dependence, no espresso conditions.
-- **cameron2020.extraction_bdf** — no interaction. Its lumped per-bed-volume inventory
-  (EY ceiling 29.6 %) is untouched by a green/roasted caffeine assay with no dry-mass basis.
+- **cameron2020.extraction_bdf** — no interaction. Its lumped grain-volume concentration and phase-weighted inventory
+  (EY ceiling 24.47 %) is untouched by a green/roasted caffeine assay with no dry-mass basis.
 - Competes with nothing registered; complements nothing; adds no data the registry can use.
 
 ## Implementation estimate

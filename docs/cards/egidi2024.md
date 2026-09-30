@@ -123,7 +123,7 @@ discretisation is an implementation choice, not a contract concern.
 ## Overlaps and conflicts
 - **cameron2020.extraction_bdf (competes):** same stage, same model family.
   Differences: per-grain-volume inventory c_0 = 200 kg/m³ with c_sat cap
-  (vs Cameron's per-bed-volume 118/φ_s, EY ceiling 29.6%); quadratic-in-surface
+  (vs Cameron's grain-volume 118 kg/m³, EY ceiling 24.47%); quadratic-in-surface
   dissolution kinetics (3) vs Cameron's law; prescribed constant q vs Cameron's
   flux table. Lower coupling fidelity than our registered component; no reason
   to swap runtimes. The kinetic form is worth remembering as a competing

@@ -1,5 +1,5 @@
 {
-  "commit": "baa707d65a01e28999771a237939964ef85bb1d8",
+  "commit": "039af76dd8d3d95415e37d95af066d79ecdcfae0",
   "counts": {
     "candidates": 90,
     "entities": 280,
@@ -15,7 +15,7 @@
     },
     {
       "path": "puckworks/data/MANIFEST.csv",
-      "sha256": "be8f60dd5101d474625c13386ec372d36496af9dae0eeb9d5b3f37d3274652e1"
+      "sha256": "b84ef212ee091c820bcda2b8ca4d543dd9e11c84afed624616f1a8f4563307f8"
     },
     {
       "path": "docs/public/generated/claims.json",
@@ -55,11 +55,11 @@
     },
     {
       "path": "docs/cards/andueza2007.md",
-      "sha256": "38123571a4c2388ac5717c6c088a967c0f7baf2013ce0c59af5e9758dee8ea02"
+      "sha256": "47ebcd320c96d36d943fca06698757ddde396f46f6940dc4742a19fcef701951"
     },
     {
       "path": "docs/cards/angeloni2023.md",
-      "sha256": "a5234e6d18d1db295f64163e3646199c604b5682ae587909a3961f3d84bd50b2"
+      "sha256": "f110bc7f98a05877e4ea3d11b9555ee8b2b33a9926a40f81ca5c711b829d9e71"
     },
     {
       "path": "docs/cards/apiletti2020.md",
@@ -103,7 +103,7 @@
     },
     {
       "path": "docs/cards/cameron2020.md",
-      "sha256": "3d0eb1f7e6b18a5aebf2c17eab75b990f5d167aef1a5fb6129ab402f21f3f22b"
+      "sha256": "a637f76f941e794c76117863752dc6cc1fc23acde38c445b1360231919cef1ee"
     },
     {
       "path": "docs/cards/cameron2020_si.md",
@@ -139,7 +139,7 @@
     },
     {
       "path": "docs/cards/egidi2024.md",
-      "sha256": "df43ed5a10b4d16a10d73431552f2cff948216e8a0efef9fa48b61549fe0b670"
+      "sha256": "04c2deac02785be18350d1436de081eecc829837b1ff1165516c568c9a379874"
     },
     {
       "path": "docs/cards/ellero2019.md",
@@ -195,11 +195,11 @@
     },
     {
       "path": "docs/cards/gagne2021.md",
-      "sha256": "03828c9254351a4bb6a04aa52a3aca0e9d2c01934ef635481a1a87b8f617fcad"
+      "sha256": "6860060ac378fd7c11ab41940b4af605a6ab773154add2a9b1ffa39017e73e2d"
     },
     {
       "path": "docs/cards/gloess2013.md",
-      "sha256": "78f4dbbb6b4345932224dcbcec593c408efaac7062f7a37b67ba7f9fec21cf99"
+      "sha256": "581e2c365307da4fcf3fa4c7d1a0521943c5cba5e52728215805ae72a66fd7cb"
     },
     {
       "path": "docs/cards/grudeva2025.md",
@@ -263,7 +263,7 @@
     },
     {
       "path": "docs/cards/legasmuhammed2021.md",
-      "sha256": "ececba08d181fde2388d85340dabe25a9e64213cfc7f4fffdf46e2c1de2e1613"
+      "sha256": "34e82bd2f1bfbedb9d1ad94563be577122689b57abc6c93c4d709ae8a21d4802"
     },
     {
       "path": "docs/cards/li2026.md",
@@ -271,7 +271,7 @@
     },
     {
       "path": "docs/cards/liang2021.md",
-      "sha256": "ce01610925432352981a8b2bb1873b83f946de9ba29208b48d59c3bc139bc19d"
+      "sha256": "f6ae923e089b15c9eaed8b5dd97dca5a74529a46bbeb2de18250fb03eed032f7"
     },
     {
       "path": "docs/cards/liang2021_AUDIT.md",
@@ -287,7 +287,7 @@
     },
     {
       "path": "docs/cards/maille2024.md",
-      "sha256": "7c3a0041201bdcc306c4e5e839048f782f96ce7d91caa9b2d2134d9e2db6bc93"
+      "sha256": "73ef76c4a25aabfd5737728f286c042320b4054ea46f2a3c0c7810e3646d0d94"
     },
     {
       "path": "docs/cards/matias2023.md",
@@ -327,7 +327,7 @@
     },
     {
       "path": "docs/cards/moroney2015.md",
-      "sha256": "09eb6043b8cfffeb41f09a66258c774868a4ef5eb38f5918608a3e4df8470e24"
+      "sha256": "280fc47d9329ff17f1a596c43ae70ed82ec6f6490639c5ea3fe1377373d87223"
     },
     {
       "path": "docs/cards/moroney2016.md",
@@ -355,11 +355,11 @@
     },
     {
       "path": "docs/cards/pannusch2024.md",
-      "sha256": "e53d7bbfe682e799e04436b2ba91389dd2982c65ce0e04e2063ac15482c9c220"
+      "sha256": "8c9989edc633333196289bf93e9e998d674f9e047a9ed1afc5b5aac44ae2cf5e"
     },
     {
       "path": "docs/cards/perticarini2024.md",
-      "sha256": "237b6951825261c208bce2527973c44fa6b8cf8df623b616569c36195f51a954"
+      "sha256": "1feb6b77d324e50ef86005814ff0c8b090ee21ce12acb0c9c87bc0bd8e8da450"
     },
     {
       "path": "docs/cards/perticarini2024_3d.md",
@@ -391,7 +391,7 @@
     },
     {
       "path": "docs/cards/romancorrochano2017_extraction.md",
-      "sha256": "0ff2a8ba7de4b581eec6af0be3d06a985c62de2d6cd4484e9c7e62bf05591bc3"
+      "sha256": "fef31dcf1910351df226a25264bc7ea8eca787d2402e87ed655fb0d59af602b9"
     },
     {
       "path": "docs/cards/romancorrochano2017_permeability.md",
@@ -487,7 +487,7 @@
     },
     {
       "path": "docs/cards/yu2021.md",
-      "sha256": "ee28deb4f17ebde6b882fede26c3ff7484028cada0da320ffc020c269e3e83b3"
+      "sha256": "9d3e19fbfe3a167b818c4d3f319e6f89124a8709dd92dadd8d1de7bd4197c686"
     },
     {
       "path": "docs/cards/zhai2022.md",
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "f8754d138bd3f784b2fd0a1a291715a1b325f683230f61053dca2e4e19998b6f"
+      "sha256": "1222ab18181f5b23cc19b1b2e26bc681b112b87c2af3d5fd473f864b8684cdff"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "6921b0b51c80509d964523bf8504fbc289255c2d25c8e6878aa4b84917e0a904"
+      "sha256": "69282085f01847b88131f947ca34ef42ec57c04cf9a7a5c5ff2d80d490945300"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "36b7ef53a3f49d4bebc9a2ea23e141b999f13f8461df831b51167b9d7efb4912"
+      "sha256": "812408d7d29241f97e30cd51f60eb2c59f3905ea2e9853aff47fc804fb6c82e8"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "4a64fcfaebfadb630a5b693284608bdf9ddebdb37e9cf5c984544ba6980ff532"
+      "sha256": "1e96159ba12e10105ef070e0ca4679b14936a635cd9e4b64c83bbc2db93c8880"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "4faf6216affa792898ca65056eeee8b0627e7c8d6150995897055d2d331d6a4e"
+      "sha256": "3d92fc4e443510f68ef3144830798e7b9cbbecb6e61b52faca9db82a2e8e0e92"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "1ccbd13973186df524574a6f57d21f8c996fd9ad7ab3e4cd5a56cc75a44b336e"
+      "sha256": "97463c7e35751ec4bc847bf666503b4a267ce91316a7326134463550fd60ef0a"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "c4093e241704776ea1144b5f1a6af686bd27d38ce8cf49e4499ab54717ffa81a"
+      "sha256": "e2499f928e4ec85c6a9ce263e3cd51bd337ddf34dd49e968328ad2f78b2df656"
     }
   ],
   "pack": [

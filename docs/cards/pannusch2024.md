@@ -162,7 +162,7 @@ refit. Per-component outputs exceed the current ShotResultState schema (see back
 
 ## Overlaps and conflicts
 - **cameron2020.extraction_bdf (extraction, runtime)** — direct competitor and complement.
-  Cameron: two-population saturated, per-bed-volume inventory (EY ceiling 29.6 %), TDS only,
+  Cameron: two-population saturated, grain-volume concentration and phase-weighted inventory (EY ceiling 24.47 %), TDS only,
   40 g, pressure/flux-driven. Pannusch: bidisperse two-grain, four analytes incl. named
   taste solutes, full kinetics, explicit temperature+flow constitutive relations, but
   flow-driven and constant-porosity. The dissertation explicitly faults Cameron for

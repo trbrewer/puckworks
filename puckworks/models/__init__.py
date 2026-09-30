@@ -8,7 +8,7 @@ register(Component(
     module="puckworks.models.cameron2020.extraction_bdf",
     gates=[G.gate_cameron_conservation, G.gate_smrke2024_fast_extraction_shape],
     assumptions="saturated bed from t=0; homogeneous 1D flow; single solute pool; "
-                "per-bed-volume soluble inventory (EY ceiling 29.6%)",
+                "grain-volume soluble concentration; inventory from phase volume and printed Eq. 25",
     valid_range="EK43 dial 1.1-2.3; 20 g in / 40 g out class recipes",
     notes="mass-conservative FV + scipy BDF; ~0.15-pt default-grid bias (per the paper's SI convergence); gated on the built-in EY==EY_solid mass budget"))
 

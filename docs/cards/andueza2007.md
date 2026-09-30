@@ -58,7 +58,7 @@ Assessed and **not recommended** for `puckworks/data/`:
 - **angeloni2023 / egidi2024 (dominate, per-species):** richer 8-species and EY/TDS campaigns across T × p × grind; non-overlapping design, but far more solute detail than Andueza's 3 named compounds.
 - **liang2021 (covers EY-vs-ratio):** characterizes extraction yield's brew-ratio dependence (flat in immersion, with a retention/measurement kernel) more rigorously than Andueza's ~1-pt EY dip across three pooled doses.
 - **telisromero2001 / telisromero2000 / khomyakov2020 (dominate, G10 rheology):** the coffee-liquor viscosity/density stack — μ(T, X_w) and ρ/C_p/k/α closures plus an independent viscosity dataset across concentration and temperature. Andueza's single 20 °C finished-cup Ostwald point adds nothing to G10.
-- **cameron2020.extraction_bdf (no competition):** Andueza has no model; its EY values (~19.8–22.3 %) sit well below cameron2020's 29.6 % ceiling and merely confirm plausibility.
+- **cameron2020.extraction_bdf (no competition):** Andueza has no model; its EY values (~19.8–22.3 %) sit well below cameron2020's 24.47 % ceiling and merely confirm plausibility.
 - No conflict with any registered component; nothing here models anything, and every transcribable series is either superseded or has no registry consumer.
 
 ## Implementation estimate

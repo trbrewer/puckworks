@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "506348c82923bc180919e9245471b8fdc962596d6eb5cc42f563ee400fd9a9ed",
+  "available_data_register_sha256": "f856084b9b5227a2de65ac737b4e4f162668c4ff2cd63478ce88814e2a1650cb",
   "families": [
     {
       "aliases": [
@@ -105,7 +105,7 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "paper (DOI 10.1016/j.matt.2020.06.019)",
+        "paper (DOI 10.1016/j.matt.2019.12.019)",
         "Cameron et al., Matter 2 (2020) 631-648; Fig 2 PSD digitized 2026-07-25"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:CAMERON2020",
@@ -442,7 +442,7 @@
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:GLOESS2013",
       "strongest_current_uses": [
-        "no gate -- low-priority cross-check anchor only (EY ~20% at TDS ~5.5% sits below cameron2020's 29.6% inventory ceiling)"
+        "no gate -- low-priority cross-check anchor only (EY ~20% at TDS ~5.5% sits below Cameron's operative inventory ceiling (see model card))"
       ]
     },
     {

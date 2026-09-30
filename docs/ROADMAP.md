@@ -133,7 +133,7 @@ C-obs = observables/measurement kernel.
 | flow | wadsworth2026_inertial (Forchheimer) | R | closed-form wrapper on Darcy; γ from ceramics fit, never coffee-calibrated; strict-SI k input |
 | flow | mo2023 Forchheimer (k, k₁) pairs | C-prior | 24 real-geometry pairs; k₁ units internally inconsistent (§5.3) |
 | flow | fasano2000_partI flux quadrature (8.25) | R | inside the fines-migration model, not standalone |
-| extraction | **cameron2020.extraction_bdf** | R | gated workhorse; saturated bed, single lumped solute, EY ceiling 29.6% |
+| extraction | **cameron2020.extraction_bdf** | R | gated code verification; saturated bed, single lumped solute; inventory ceiling from operative geometry |
 | extraction | grudeva2023/2026 reduced model | R | adds dry-bed start + saturated plateau; ~100× cheaper; verification only (2026) / post-fit vial reconstruction (2023) |
 | extraction | pannusch2024 two-grain multi-solute | R | 4 named solutes, T & flow constitutive laws; consumes Q(t)+T(t), not pressure; constant porosity |
 | extraction | romancorrochano2017_extraction | R | MW-resolved Deff, parameter-free grind→Deff chain; lumped bed |
@@ -703,14 +703,14 @@ experiments) vs 224 (grudeva2026) vs 170 (grudeva2023).
 Config field per P1 hazards table; surface in harness reports; no silent merge.
 Partially subsumed by 1.7a(ii).
 
-**5.5 Extraction ceiling disagreement.** Cameron per-bed inventory ceiling
-29.6% vs liang2021 immersion equilibrium K·E_max ≈ 21.5–24% vs lee2023 fitted
+**5.5 Extraction ceiling disagreement.** Cameron operative inventory ceiling
+24.467473% (grain C_S0=118; phase-weighted printed Eq. 25 geometry) vs liang2021 immersion equilibrium K·E_max ≈ 21.5–24% vs lee2023 fitted
 EY_max=33.8% (its own card: "perhaps a little high") vs romancorrochano y₀
 31.7–32.15 falling with coarseness (entrapment). At least two distinct physical
 quantities are conflated (soluble inventory vs equilibrium partition endpoint);
 the liang-vs-cameron long-time gate (1.3) is the designed probe. `moroney2015`'s
 measured max-extractable solubles 28% (very fine)–32% (very coarse) at 90 °C
-independently bracket Cameron's 29.6% inventory ceiling (consistent).
+exceed the operative Cameron ceiling; source parameter ancestry and different materials prevent an independent validation claim. Historical 29.6% descriptions apply only to the alternate 118/phi_s input, not the current default.
 
 **5.6 Dissolution-speed tension.** waszkiewicz2025: solubles dissolve "almost
 instantaneously," TDS timescale set by flow; cameron2020: diffusion-limited
@@ -846,6 +846,7 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
   claim PV-01 now distinguish the measured ratio from an equilibrium test. Numeric
   claim snapshots are unchanged; public prose is regenerated with the existing exporter.
   No evidence-strength promotion or historical artifact rewrite.
+2026-09-30 local audit: repaired off-knot Cameron geometric-area interpolation (NUMERICAL_METHOD_CHANGE, original equations retained); 24 formerly failing accounting regressions now pass. Corrected operative inventory/basis descriptions and source DOI; no C_S0, geometry, calibration, historical receipt or evidence-strength change. [Audit](analysis/cameron_local_audit_20260930.md).
 
 - **2026-09-30 — MODEL-ENG-ROBUST-MASS-STOP-001 continuous robust stopping.** G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. Add whole-box continuous feasible/excluded/unresolved mass enclosures with global budgets and inherited point-inverse semantics. ENGINEERING_CAPABILITY_VERIFIED: 239 focused and 5,300 normal tests pass; required local QA and author review pass, hosted CI reported separately. [Capability](analysis/model_eng_robust_mass_stop_001/README.md); [verification](analysis/model_eng_robust_mass_stop_001/VERIFICATION.md). Frozen parents/EWP unchanged; no empirical evaluation, adoption, merge or successor.
 

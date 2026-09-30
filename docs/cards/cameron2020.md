@@ -2,7 +2,7 @@
 
 **Paper:** Cameron et al., "Systematically improving espresso," Matter 2, 631-648 (2020). DOI 10.1016/j.matt.2019.12.019
 **Stages:** grind (microstructure tables), packing (flux table), extraction · **Kind:** runtime
-**Status:** gated (reimplementation validated; three reproducibility findings documented)
+**Status:** gated (code verification; source reproduction remains unresolved)
 
 ## Scope
 Two-population (fines/boulders) 1D saturated extraction: liquid advection + intragrain
@@ -10,10 +10,22 @@ diffusion + nonlinear surface dissolution. Grind enters via measured microstruct
 and Darcy-flux tables (EK43 dial 1.1-2.3).
 
 ## Key implementation notes
-Per-BED-volume soluble inventory c_s0 = 118/phi_s (EY ceiling 29.6%); paper value
-k = 6e-7 (released code differs: 1e-9); fines a1 = 12 um (SI surface-area table
-self-inconsistent). paper_mode replication is import-order sensitive - kept in the
+The operative grain field starts at c_s0 = 118 kg/m³ of grain. Initial soluble
+mass is V*phi_s*c_s0; with the retained printed Eq. 25 geometry, the ceiling is
+`inventory_ceiling_percent()` = 24.467473% of dose. The streamtube caller explicitly
+uses 118/phi_s and has a different inventory; it does not change Cameron defaults.
+The paper value k = 6e-7 differs from released code (1e-9); fines a1 = 12 um
+(SI surface-area table self-inconsistent). paper_mode replication is import-order sensitive - kept in the
 paper repo only, NOT in this package.
+
+Measured Table S2 phase fractions and boulder radius are interpolated first;
+geometric areas are derived with b_i=3*phi_i/a_i afterward. This preserves one
+particle population off the knots and repairs the former inventory gap. The source
+labels 330 kg/m³ as bulk density, but Eq. 25 uses V=M_in*phi_s/rho; that conflicts
+with the bulk-density identity V=M_in/rho. The released MATLAB EY normalization
+also differs by phi_s^-2 relative to the printed geometry. Neither author intent
+nor the Fig. 5 generating configuration is established. Physical EY remains
+100*cup_solute_mass/actual_dose. See [local audit](../analysis/cameron_local_audit_20260930.md).
 
 ## Interface mapping
 grind.setting -> GrindState; flux table + kappa -> BedState.k; extraction consumes

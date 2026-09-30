@@ -115,7 +115,7 @@ _OPTIONAL_DEPENDENCY = {"brewer2026.lb_taichi": "taichi"}
 # registry (defined below). Disposition/adapter capability come from the explicit lab_catalog.
 # concentration reference basis where known (honest; 'unspecified' otherwise)
 _REFERENCE_BASIS = {
-    "cameron2020.extraction_bdf": "bed-volume (Cameron c_s0 = 118 / phi_s)",
+    "cameron2020.extraction_bdf": "grain-volume concentration; aggregate inventory is bed volume times phi_s times c_s0",
     "grudeva2025.reduced": "grain-volume incl. internal pores (Grudeva) — not comparable to bed-volume",
     "mo2023_2.coupled_bed": "per bed-depth cell (Mo) — reference basis differs from Cameron",
 }

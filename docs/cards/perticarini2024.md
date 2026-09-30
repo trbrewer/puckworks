@@ -189,7 +189,7 @@ ad-hoc relaxation, not proved.
 - φ fixed at 0.8272 across grinds while L varies 12.60–14.20 mm at a fixed 20 g dose — the
   implied grain density then swings 633–714 kg/m³ (computed here), and the implied EY ceiling
   M₀/M_in swings 28.0–31.6 % with grind. Internally inconsistent; comparable to but not the
-  same as cameron2020's 29.6 % ceiling.
+  a different quantity from cameron2020's operative 24.47 % inventory ceiling.
 - **Porosity conflict inside the thesis:** 1 − φ = 0.173 (I = 1), 0.30 (I = 2), and ε = 0.305
   in the 3D model of the same document. Three values, no reconciliation.
 - Validated only at: 20 g VST basket, 1:2 ratio, 20 kgF, τ = 14–81 s, EY 18–23 %, two Arabica
@@ -248,7 +248,7 @@ fitted q as a flow-stage value** (see the mass-balance failure above).
   confirms it is 25–40 % below the physical superficial velocity; (iii) the "simulated EY
   falls in the measured range" claim is discretisation-dependent (FD misses two of three).
 - **cameron2020.extraction_bdf (competes; does not supersede).** Same stage. Cameron: lumped
-  species, per-bed-volume inventory, 29.6 % ceiling, mechanistic deficit law, flux table.
+  species, grain-volume concentration and phase-weighted inventory, 24.47 % ceiling, mechanistic deficit law, flux table.
   This: per-grain-volume inventory with a grind-dependent 28.0–31.6 % ceiling, quadratic-in-
   surface kinetics, prescribed fitted q, and now an optional multi-species interaction term.
   Lower coupling fidelity — no reason to swap runtimes. Note c_sat = 212.4 and c_0 = 200 here

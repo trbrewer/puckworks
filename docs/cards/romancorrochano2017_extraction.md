@@ -127,8 +127,8 @@ from plots). Tables above are directly transcribable from the PDF.
 ## Overlaps and conflicts
 - COMPETES with cameron2020.extraction_bdf (registry #1): both are runtime saturated
   diffusion+dissolution extraction with a fines/coarse two-population grind. Differences:
-  Cameron adds nonlinear surface dissolution and a per-bed-volume inventory (EY ceiling
-  29.6 %); Roman-Corrochano is pure Fickian diffusion + partition BC, adds an explicit
+  Cameron adds nonlinear surface dissolution and a grain-volume concentration and phase-weighted inventory (EY ceiling
+  24.47 %); Roman-Corrochano is pure Fickian diffusion + partition BC, adds an explicit
   MW-resolved Deff spectrum and a parameter-free microstructural Deff route, but uses a
   LUMPED bed (linear axial profile) vs Cameron's resolved column. Complementary on the
   "EY ceiling / entrapment" question: y₀ decreasing with coarser grind (size-exclusion
