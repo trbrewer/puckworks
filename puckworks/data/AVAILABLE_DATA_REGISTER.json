@@ -256,7 +256,7 @@
       "publication_or_repository": "Matter 2, 631-648 (2020) Fig 5 (measured EY deviation below the homogeneous-flow model vs grind)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "paper (DOI 10.1016/j.matt.2020.06.019)",
+        "paper (DOI 10.1016/j.matt.2019.12.019)",
         "Cameron et al., Matter 2 (2020) 631-648; Fig 2 PSD digitized 2026-07-25"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
@@ -1010,7 +1010,7 @@
       "fraction_resolution": "UNKNOWN",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
-        "no gate -- low-priority cross-check anchor only (EY ~20% at TDS ~5.5% sits below cameron2020's 29.6% inventory ceiling)"
+        "no gate -- low-priority cross-check anchor only (EY ~20% at TDS ~5.5% sits below Cameron's operative inventory ceiling (see model card))"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -3266,6 +3266,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "be8f60dd5101d474625c13386ec372d36496af9dae0eeb9d5b3f37d3274652e1",
+  "manifest_sha256": "b84ef212ee091c820bcda2b8ca4d543dd9e11c84afed624616f1a8f4563307f8",
   "schema_version": 1
 }

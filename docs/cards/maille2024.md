@@ -378,7 +378,7 @@ PSD→SSA→porosity→λ_slow chain that is currently broken at two links.
   currently lacks.** Same two-population architecture (fast surface/fines, slow interior), but
   Cameron *fits* the split while Maille *predicts* it geometrically from PSD. The discriminating
   computation is named below. Conflict to record: Cameron's EY ceiling derives from a
-  per-bed-volume soluble inventory (29.6 %); Maille has no inventory concept at all, so the two
+  grain-volume soluble concentration and phase-weighted inventory (24.47 %); Maille has no inventory concept at all, so the two
   cannot be merged without an explicit convention decision — no silent merge.
 - **romancorrochano2017_extraction** (extraction/grind/bed_dynamics, runtime) — **competes
   directly, at the same experimental scale**, and wins on transferability. Corrochano's stirred

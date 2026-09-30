@@ -44,7 +44,7 @@ Retrieving the ESM would upgrade every `figure_read` row; that is the only outst
 ## Registry role
 
 A low-priority **cross-check anchor**: an independent Dalla Corte espresso endpoint whose ~20 % EY at
-~5.5 % TDS sits comfortably below cameron2020's 29.6 % per-bed-volume inventory ceiling. It is **not**
+~5.5 % TDS sits comfortably below Cameron's operative phase-weighted inventory ceiling (see model card). It is **not**
 wired to a gate -- one pooled composite on one coffee is too weak to gate anything, and the headline
 EY/TDS values are figure-reads. angeloni2023 dominates this slot for per-species espresso chemistry
 (66 shots x 8 species); gloess adds breadth of brew *method*, not depth on espresso.

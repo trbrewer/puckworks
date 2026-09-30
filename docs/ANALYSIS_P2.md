@@ -28,22 +28,22 @@ conditional on this table and none of it is averaged away.
 solver lands 3.7 EY points below the egidi bracket floor while its own
 inventory ceiling (24.5%) sits above the bracket — so the model is not
 ceiling-limited here; it is kinetics- or convention-limited. Candidate
-explanations, deliberately unadjudicated: (a) the per-bed-volume inventory
-convention vs egidi's per-grain c₀ = 200 kg m⁻³; (b) diffusion-limited boulder
-kinetics that §5.6 independently disfavors; (c) configuration mismatch in the
+explanations, deliberately unadjudicated: (a) the distinct initial grain inventories
+(Cameron c_s0 = 118 vs egidi c₀ = 200 kg m⁻³) and dose/volume conventions; (b) diffusion-limited boulder
+kinetics, which the §5.6 early/peak statistic does not identify; (c) configuration mismatch in the
 mapping (egidi's brew geometry vs Cameron's espresso tables). House rule
-applies: this is reported as a discrepancy, not "fixed". The §5.6 result makes
-(b) the leading suspect but does not convict it.
+applies: this is reported as a discrepancy, not "fixed". The §5.6 statistic
+does not rank those explanations.
 
-**§5.6 dissolution-speed discriminator.** Waszkiewicz TDS fractions give
-early/peak = 0.968 (24.4% vs 25.2% TDS): the first liquid out is already at
-~97% of peak concentration. Boulder-diffusion timescale at Cameron parameters
-is ~23 s — if extraction were boulder-diffusion-limited, early TDS would sit
-well below peak. Verdict: **near-instant dissolution favored** in this
-dataset, consistent with Grudeva's saturated-plateau mechanism (fast fines
-saturate the liquid) and in tension with Cameron's rate picture. Strength:
-independent, single dataset, one brewing configuration — a discriminator, not
-a universal law.
+**§5.6 early-fraction shape (interpretation corrected by the local audit).**
+Waszkiewicz TDS fractions give early/peak = 0.968 (24.4% vs 25.2% TDS).
+This does not discriminate equilibrium from finite-rate release: a depleting
+finite-rate reservoir can start at its maximum, as can diffusion into a sink.
+Fast surface exchange, rapid access to intragrain inventory, and predictive
+sufficiency of collected mass are separate hypotheses. The approximately 23 s
+reference diffusion scale does not supply the missing matched observation map.
+The historical `dissolution_speed_test` API retains its numeric outputs; its
+`favors` field now explicitly says the mechanism is not identified by the ratio.
 
 **Grudeva G1/convergence (closes RECONCILIATION LOG Issue 1).** Resolution
 study: s_d⁻¹(1) = 2.80/2.83/2.82 and totals 2.92–2.98 g across N = 150→400 —
@@ -89,14 +89,31 @@ observationally identical to a constant, so the rising flow is *time* structure
 that no flat model can source. Rung 4 (zero free parameters) beats the **best** of
 the three constant nulls ~4.9× (and the static κ(P) null ~5.6×).
 
+**Local audit correction (F14; NO_GOVERNING_PHYSICS_CHANGE).**
+`rung4_beats_best_constant` names the constant comparison. The existing
+`rung4_beats_flexible_benchmark` key now actually compares with the cubic and is
+false for this trace. It is not an alias for the constant comparison. The QUICK
+ladder gate uses the constant comparison and reports both results; it is not a
+registered component gate. Predictions, support, fitting rules and thresholds
+are unchanged. The numerical local replay reproduced 0.573/0.116/0.096 g/s for
+the best constant, empirical Phi and cubic, respectively.
+
 **What the flexible null establishes — and bounds.** A degree-3 polynomial in *t*
 (4 parameters, *no* mechanism) reaches RMSE 0.096, i.e. it does at least as well as
 the mechanistic Φ(t). So the ladder rigorously establishes that **time variation is
 needed** (every constant fails), *not* that a specific bed mechanism is validated —
 a purely phenomenological time curve matches. The mechanistic content is narrower
-and honest: a **zero-free-parameter** poroelastic Φ(t) nearly reaches the 4-param
-flexible floor, which is the non-trivial part (a constant with a free level cannot,
-a flexible curve needs four).
+and honest: the poroelastic Φ(t) carries campaign-derived hydraulic constants
+and a target-informed dissolved-mass sigmoid. It approaches a same-trace
+four-coefficient descriptive benchmark; no coefficient fitted during this
+comparison does not mean no upstream target information.
+
+The Cameron-coupled alternative maps cup-delivered solute into pore opening,
+not total solid loss. In the audit's 18.5 g, GS 1.9, 9 bar reconstruction, retained
+solute is 0.127832 g at 15 s and 0.002520 g at 95 s (4.62% and 0.0563% of total
+solid loss). Its worse hydraulic residual therefore mixes release kinetics with
+an observation-to-structure mapping and donor geometry. This ladder is not a
+matched equilibrium-versus-intragrain-diffusion experiment.
 
 **What this does and does not settle — Phase-3 discrimination (partial, sign-decisive).**
 Sufficient is not unique, so we ran the challengers that *can* be evaluated on this
@@ -156,9 +173,8 @@ Two design notes for that remaining protocol so it is decisive rather than anoth
 
 Scoreboard against `docs/P3_hypotheses.md`, folding in the harness evidence:
 
-- **Disfavored as a primary cause:** pure boulder-diffusion kinetics
-  (hypothesis-adjacent, via §5.6 — the liquid saturates too fast for slow
-  boulder kinetics to carry a grind-direction reversal by themselves).
+- **Not adjudicated by §5.6:** pure boulder-diffusion kinetics. The high early
+  TDS fraction does not measure local equilibration or whole-grain access.
 - **Alive and now instrumented:** #1 static channeling (grindmap supplies the
   ⟨R⟩/S chain; the σ(φ₁) per-grind sweep is runnable) and #2 incomplete
   wetting (foster components gated; but its sharp-front model *declines the
@@ -340,9 +356,10 @@ configuration would measure regime mismatch, not model agreement.
 **Design: meet in the surrogate's valid domain, sweep toward its edge.**
 
 1. *Common configuration.* Moroney's own drip-filter parameter set, mapped
-   through the adapter: shared c_sat lineage already holds (both 212.4,
-   per-bed-volume — the one cross-lineage pairing the hazards table
-   permits), same φ fields, grain radii, bed depth; impose the same q
+   through the adapter: shared liquid c_sat lineage already holds (both 212.4 kg/m³).
+   Initial inventory separately needs a mass-preserving conversion between the
+   bed-volume aggregate and Cameron's grain-volume field; matching c_sat alone
+   does not supply that conversion. Use the same φ fields, grain radii, bed depth; impose the same q
    directly (bypass Cameron's flux table entirely — MachineState fixed-q
    path).
 2. *Two solver switches on the Cameron side (small, flagged):* pre-saturated

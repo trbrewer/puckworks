@@ -88,7 +88,7 @@ All data and analysis code public (GitHub + Zenodo) — top rank per registry va
 - Competes with brewer2026.streamtube's channeling closure as the explanation for non-Darcy behaviour; simultaneously supports channeling as a *separate* pathology (Fig. 10 delamination experiment). Not mutually exclusive; the equilibrium saturation curve is evidence streamtube's lognormal alone doesn't capture.
 - Complements wadsworth2026.permeability: opposite closure choice (CK vs percolation), and their glass-bead control + ~6 µm effective pore estimate is independent support that tamped-bed resistance is not set by grain size — consistent with Wadsworth's tamped-regime gap and the phi_c ≈ 0.11 reconciliation. A percolation-form k(φ) inside this poroelastic framework (they suggest exactly this) would merge the two.
 - Complements foster2025.infiltration cleanly by regime: Foster owns t < ~10 s dry-bed wetting; this model owns the saturated remainder. Together they nearly span the shot.
-- Touches cameron2020.extraction: their claim that most solubles dissolve "almost instantaneously" (sigmoidal TDS, ~20 s timescale set by flow, not kinetics) tensions Cameron's diffusion-limited boulder population; the TDS(t) fractions are a discriminating dataset.
+- Touches cameron2020.extraction: the authors' rapid-dissolution interpretation and Cameron's diffusion-limited boulder population require a matched comparison. The TDS(t) fractions are a candidate observation set; the early/peak ratio alone does not distinguish surface equilibrium from finite intragrain release (local audit F14).
 - Provides machine-stage calibration data (brewer quadratic) for the "machine mode" backlog.
 
 ## Implementation estimate

@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `baa707d65a` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `5aae2cce70` · 170 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -525,7 +525,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 
 ## negative_result (J)
 
-- **T-0159** [standing_negative_verdict] docs/ANALYSIS_P2.md carries 3 negative-verdict marker lines (downgraded, fails). First: L95 'needed** (every constant fails), *not* that a specific bed mechanism is validated —'
+- **T-0159** [standing_negative_verdict] docs/ANALYSIS_P2.md carries 3 negative-verdict marker lines (downgraded, fails). First: L104 'needed** (every constant fails), *not* that a specific bed mechanism is validated —'
   - discriminator: whether the negative result generalises beyond its tested configuration · data: YES · cheap test: YES · candidate: I-078
   - sources: `docs/ANALYSIS_P2.md`
 - **T-0160** [standing_negative_verdict] docs/ANALYSIS_transfer.md carries 3 negative-verdict marker lines (non-identifiable, retired). First: L20 'endpoint leaves them practically non-identifiable, because the objective has a flat valley along'

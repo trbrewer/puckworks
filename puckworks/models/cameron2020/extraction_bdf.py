@@ -59,7 +59,7 @@ MU = 3.15e-4          # viscosity of water at ~90 C, Pa s   (unused directly;
 RHO_OUT = 997.0       # beverage (~water) density, kg/m^3
 RHO_GROUNDS = 330.0   # roasted-coffee bulk density, kg/m^3
 C_SAT = 212.4         # saturation concentration, kg/m^3
-C_S0 = 118.0          # initial soluble concentration in grounds, kg/m^3
+C_S0 = 118.0          # initial soluble concentration per grain volume, kg/m^3
 PHI_S = 0.8272        # solid volume fraction of the packed bed
 
 # --- Eq. 28: kinetic parameters fitted by the authors ------------------------
@@ -68,7 +68,7 @@ K_RATE = 6.0e-7       # dissolution rate constant, m^7 kg^-2 s^-1
 
 # --- Table S2: grind-dependent microstructure (measured at GS = 1.0..2.5) ----
 # NOTE on an internal inconsistency in the paper's Table S2: the boulder BET
-# values satisfy Supplemental Eq. 3 (bet_i = 3 phi_i / a_i) exactly, but the
+# values satisfy Supplemental Eq. 3 (bet_i = 3 phi_i / a_i) to source rounding, but the
 # tabulated fines BET values imply a fines radius of 49.7 um rather than the
 # stated a1 = 12 um (constant ratio 0.241 across all grind settings). Taking
 # the tabulated bet1 together with a1 = 12 um under-represents the fines'
@@ -98,12 +98,18 @@ P_REF = 5.0           # bar overpressure at which Q5_GRID was measured
 # ----------------------------------------------------------------------------
 
 def grind_microstructure(gs: float):
-    """Linearly interpolate Table S2 quantities to an arbitrary grind setting."""
+    """Interpolate measured phase fractions/radius, then derive geometric areas.
+
+    Table S2 places phase fractions and radius above its score (measured),
+    and areas below it (inferred using Supplemental Eq. 3). Interpolating
+    area and radius independently violates b_i*a_i/3 = phi_i off the knots,
+    making release and inventory refer to different particle populations.
+    """
     phi1 = np.interp(gs, GS_GRID, PHI_S1_GRID)
     phi2 = np.interp(gs, GS_GRID, PHI_S2_GRID)
     a2 = np.interp(gs, GS_GRID, A2_GRID)
-    bet1 = np.interp(gs, GS_GRID, BET1_GRID)
-    bet2 = np.interp(gs, GS_GRID, BET2_GRID)
+    bet1 = 3.0 * phi1 / A1
+    bet2 = 3.0 * phi2 / a2
     return phi1, phi2, a2, bet1, bet2
 
 
@@ -127,6 +133,18 @@ def bed_depth(m_in: float) -> float:
     (Reproduces Table S4: 20 g -> 18.7 mm.)
     """
     return (m_in / RHO_GROUNDS) * PHI_S / (np.pi * R0**2)
+
+
+def inventory_ceiling_percent(m_in: float = 0.020,
+                              c_s0: float | None = None) -> float:
+    """Initial soluble mass / actual dose, in percent, for the operative model.
+
+    The grain field has concentration c_s0; its volume is PHI_S times bed
+    volume. This preserves the printed Eq. 25 geometry, whose density basis
+    remains a source inconsistency; it does not rescale EY to match Fig. 5.
+    """
+    concentration = C_S0 if c_s0 is None else c_s0
+    return 100.0 * np.pi * R0**2 * bed_depth(m_in) * PHI_S * concentration / m_in
 
 
 # ----------------------------------------------------------------------------
@@ -314,11 +332,7 @@ def simulate_shot(gs: float,
 
     n1 = bet1 / (4 * np.pi * A1**2)      # number density of fines, 1/m^3 bed
     n2 = bet2 / (4 * np.pi * a2**2)
-    solid_mass = lambda cs1_, cs2_: bed_vol * hz / L * 0  # placeholder
     m_solid_0 = bed_vol * (phi1 + phi2) * c_s0
-    m_solid_f = (bed_vol / N) * (
-        n1 * (4 / 3 * np.pi * A1**3) * 0 +  # kept explicit below
-        0)
     # explicit: per-cell solid soluble mass
     m1_f = (bed_vol / N) * n1 * (mean_conc(cs1_f, g1) * (4 / 3 * np.pi * A1**3)).sum()
     m2_f = (bed_vol / N) * n2 * (mean_conc(cs2_f, g2) * (4 / 3 * np.pi * a2**3)).sum()

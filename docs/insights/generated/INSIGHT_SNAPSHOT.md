@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `baa707d65a01e28999771a237939964ef85bb1d8` · **schema** v1 · **generator** v1
+**Commit** `5aae2cce70601501c19cb8ef7282ec84957fdc70` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -104,7 +104,7 @@ The repository has already published these; a candidate restating one is a dupli
 
 ## Standing negative results
 
-- docs/ANALYSIS_P2.md carries 3 negative-verdict marker lines (downgraded, fails). First: L95 'needed** (every constant fails), *not* that a specific bed mechanism is validated —'
+- docs/ANALYSIS_P2.md carries 3 negative-verdict marker lines (downgraded, fails). First: L104 'needed** (every constant fails), *not* that a specific bed mechanism is validated —'
 - docs/ANALYSIS_transfer.md carries 3 negative-verdict marker lines (non-identifiable, retired). First: L20 'endpoint leaves them practically non-identifiable, because the objective has a flat valley along'
 - docs/P3_hypotheses.md carries 3 negative-verdict marker lines (downgraded, negative result). First: L27 '> **Downgraded verdict (`gate_p3_schmieder_peak_discrimination`):** MODEL'
 

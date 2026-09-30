@@ -1,5 +1,14 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] Local audit F15: correct dry-solids versus water fraction in the four-source
+  viscosity gate's density conversion; source-basis regression and ten related
+  tests pass. NO_GOVERNING_PHYSICS_CHANGE; no threshold or live metric change.
+
+- [x] Local audit F14: separate the best-constant and flexible-cubic P2 predicates;
+  retain the honest negative cubic result and unchanged model outputs. Actual-trace
+  regression and focused callers pass. G0 / NO_GOVERNING_PHYSICS_CHANGE; local patch only.
+- [x] 2026-09-30 authorized local Cameron audit: off-knot inventory conservation repaired;48 focused accounting tests pass; source normalization remains unresolved. Local correction only; no merge or physical-validation claim. [Audit](analysis/cameron_local_audit_20260930.md).
+
 - [x] MODEL-ENG-ROBUST-MASS-STOP-001: ENGINEERING_CAPABILITY_VERIFIED; continuous assay-robust stopping enclosures, 239 focused and 5,300 normal tests plus required local QA/author review pass; hosted CI reported separately. G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. [Capability](analysis/model_eng_robust_mass_stop_001/README.md), [verification](analysis/model_eng_robust_mass_stop_001/VERIFICATION.md). No parent/EWP/model change, adoption, merge or successor.
 
 - [x] MODEL-ENG-ASSAY-ENVELOPE-001: **ENGINEERING_CAPABILITY_VERIFIED**; 192 focused and 5252 normal tests pass; ordinary author review complete; publication-head CI recorded in the draft PR. finite-assay-set delivery extrema and feasible witnesses over frozen C0/C1/C2; both-extremum qualification and explicit numerical/resource limits. G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. [Capability](analysis/model_eng_assay_envelope_001/README.md), [actual verification/QA](analysis/model_eng_assay_envelope_001/VERIFICATION.md). No empirical/model/physics change, EWP write/run, adoption, merge or successor.

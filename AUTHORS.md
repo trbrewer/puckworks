@@ -16,4 +16,12 @@ Puckworks is co-developed by:
   (see `.mailmap`) that are **not** the software-author list. In particular, an erroneous historical
   commit identity has been canonicalized to Tim Brewer via `.mailmap` (Git history is not rewritten).
 
+The accepted local audit also records automated Git authors
+`Codex <codex@openai.com>`, `Codex local audit <codex-audit@invalid>`, and
+`Local audit agent <local-audit@localhost>`. These are tool identities, not
+additional human software authors or aliases for Tim or Peter. They remain
+unchanged in Git history and are not mapped to a human in `.mailmap`.
+The identity check inspects candidate `HEAD`, including in checkouts that have
+a local `main`, and still rejects an unrecognized human commit identity.
+
 To cite the software, use the metadata in [`CITATION.cff`](CITATION.cff).

@@ -17,7 +17,7 @@ import numpy as np
 # saturation concentration. These are CONFIG, reported per-model in any harness
 # output; merging them would be the mega-model failure mode (rule 6, §5.4).
 P1_HAZARDS = {
-    "cameron2020": dict(c_sat_kg_m3=212.4, inventory="per-bed-volume (c_s0=118/phi_s)",
+    "cameron2020": dict(c_sat_kg_m3=212.4, inventory="per-grain (c_s0=118 kg/m^3); ceiling derived from operative geometry",
                         dissolution="nonlinear surface", flow="pressure/flux table"),
     "grudeva_thesis": dict(c_sat_kg_m3=170.0, inventory="per-grain (incl. internal pores)",
                            dissolution="linear capped transfer", flow="fixed q / P-derived"),
@@ -83,11 +83,12 @@ def extraction_comparison():
 
 # --- §5.6 dissolution-speed discriminator --------------------------------
 def dissolution_speed_test():
-    """§5.6: near-instant dissolution (Waszkiewicz, TDS timescale set by flow)
-    vs diffusion-limited boulders (Cameron). Discriminator on the Waszkiewicz
-    5-s TDS fractions: instant dissolution => solubles present from t=0 => TDS is
-    HIGH in the first fraction (early/peak ~ 1); a diffusion-limited population
-    would release slowly => low-then-rising TDS (early/peak << 1)."""
+    """Historical API for the observed early/peak TDS ratio and a reference timescale.
+
+    This statistic cannot identify equilibrium or exclude finite-rate release:
+    finite-rate depletion and diffusion into a sink can both peak at the start.
+    The reference boulder timescale is context, not a matched kinetic comparator.
+    """
     from puckworks import data as d
     f = d.waszkiewicz_tds_fractions()
     tds = f["tds_pct"]
@@ -97,7 +98,7 @@ def dissolution_speed_test():
     tau_diff = (2.29e-4) ** 2 / (np.pi ** 2 * 2.3e-10)
     return dict(early_to_peak=round(ratio, 3), early_tds_pct=round(early, 2),
                 peak_tds_pct=round(peak, 2), tau_boulder_diffusion_s=round(tau_diff, 1),
-                favors="near-instant dissolution" if ratio > 0.8 else "diffusion-limited")
+                favors="not identified by early-to-peak ratio")
 
 
 # --- P2 kappa(t) null-first discrimination ladder (item 2.2) --------------
@@ -211,7 +212,11 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
                 flexible_cubic_null=round(rmse_cubic, 3),
                 free_params=dict(rung1=1, rung1b=1, rung3=0, rung4=0, rung5=0,
                                  rung5b_swelling=1, flexible_cubic=4),
-                rung4_beats_flexible_benchmark=rmse4 < best_null,
+                rung4_beats_best_constant=rmse4 < best_null,
+                # F14: the flexible benchmark is the fitted cubic, not a constant.
+                # Retain this public key with its correctly named meaning; callers
+                # testing the historical constant comparison use the explicit key above.
+                rung4_beats_flexible_benchmark=rmse4 < rmse_cubic,
                 improvement_factor=round(best_null / rmse4, 1),      # vs BEST null
                 improvement_vs_static=round(rmse_static / rmse4, 1),
                 cubic_beats_dynamic=rmse_cubic < rmse4,
@@ -223,7 +228,8 @@ def kappa_t_ladder(window=_KAPPA_LADDER_WINDOW):
                     "coefficient fitted to the scored trace (though target-informed upstream) "
                     "approaching the same-trace descriptive benchmark"
                     % (best_null, rmse4, rmse_cubic)),
-                rc3b_vs_rung4="worse (near-instant favored, §5.6)" if rmse5 > rmse4 else "better")
+                rc3b_vs_rung4="worse; kinetics not identified by this coupling" if rmse5 > rmse4
+                else "better; kinetics not identified by this coupling")
 
 
 def result2_residual_diagnostics(windows=((10.0, 90.0), (15.0, 95.0), (20.0, 90.0)),

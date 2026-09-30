@@ -78,6 +78,8 @@ def test_the_ladder_result_key_no_longer_says_floor():
     from puckworks import harness as h
     L = h.kappa_t_ladder()
     assert "rung4_beats_flexible_benchmark" in L
+    assert "rung4_beats_best_constant" in L
+    assert not L["rung4_beats_flexible_benchmark"]
     assert "rung4_beats_floor" not in L
 
 

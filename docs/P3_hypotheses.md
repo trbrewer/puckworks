@@ -43,9 +43,9 @@ CORRECTION below before treating it as a clean "cup mass peaks at GL 1.7" target
 | 5 | flow inhomogeneity + pressure | `pannusch2024.solver` | flow + pressure at fixed grind | qualitative only | **solver gated** (RC-4a/b). But pannusch is a *no-channeling, constant-porosity* model — this is a **pointer, not a mechanism** (card). The fine-grind dip is attributed to flow inhomogeneity + higher pressure, i.e. *outside* the model. |
 
 ## Cross-cutting evidence from the harnesses
-- **§5.6 dissolution speed** (P1 harness): Waszkiewicz TDS fractions favor
-  **near-instant dissolution** (early/peak 0.968) over Cameron's diffusion-limited
-  boulders — so a fine-grind dip is unlikely to be pure boulder-diffusion.
+- **§5.6 early-fraction shape** (P1 harness): Waszkiewicz early/peak TDS is
+  0.968. Finite-rate depletion can also start at its maximum, so this statistic
+  does not adjudicate surface equilibrium, intragrain diffusion or the grind dip.
 - **P2 κ(t) ladder** (rung 4 beats the flat nulls 5.4× on the 9-bar rising flow):
   a **time-dependent bed mechanism** is real in the saturated regime — relevant to
   hypotheses 1/5 (compaction/channeling) but tested on rising flow, not the dip.

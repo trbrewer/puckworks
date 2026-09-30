@@ -22,7 +22,7 @@ import dataclasses
 
 # ── finite quantity-basis vocabulary (the reference volume / inventory a quantity is expressed on) ──
 QUANTITY_BASES = (
-    "bed_volume",            # per unit packed-bed volume (Cameron single-pool EY/TDS)
+    "bed_volume",            # aggregate inventory per packed-bed volume; not the grain field
     "grain_volume",          # per unit grain volume incl. internal pores (Grudeva)
     "per_bed_cell",          # per discretized bed-depth cell (Mo)
     "per_species",           # per chemical species, not a single pool (Pannusch)
@@ -32,7 +32,8 @@ QUANTITY_BASES = (
     "not_applicable",
 )
 
-# Cameron is the current common-scenario lens; a second EY/TDS lens must reconcile TO this basis.
+# Legacy adapter inventory basis: Cameron aggregate c_bed = phi_s*c_s.
+# Its stored grain field is per grain volume; EY itself is per dry coffee mass.
 COMMON_LENS_BASIS = "bed_volume"
 
 
@@ -53,7 +54,8 @@ class BasisSpec:
 _BASES: dict[str, BasisSpec] = {
     "cameron2020.extraction_bdf": BasisSpec(
         "cameron2020.extraction_bdf", "bed_volume", "single-pool EY/TDS",
-        "Cameron c_s0 = 118 / phi_s on a bed-volume basis"),
+        "Aggregate bed inventory is phi_s*c_s0; the stored grain concentration defaults to 118 kg/m^3. "
+        "EY is cup solute / dry dose, not a volume-basis concentration."),
     "grudeva2025.reduced": BasisSpec(
         "grudeva2025.reduced", "grain_volume", "grain-volume concentration",
         "grain volume incl. internal pores — not comparable to bed-volume"),

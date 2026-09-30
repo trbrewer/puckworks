@@ -408,12 +408,19 @@ class PullRun:
 # ─────────────────────────────── coffee profiles ─────────────────────────────────
 # The reference profile is model-backed by cameron2020's built-in microstructure/inventory; it does
 # not invent parameters and is not selected by a bean name.
+def _cameron_inventory_note() -> str:
+    """Describe the operative inventory, independent of a cached display literal."""
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    return (f"grain-volume concentration {cam.C_S0:g} kg/m^3; "
+            f"soluble inventory ceiling {cam.inventory_ceiling_percent():.3f}% of dose")
+
+
 _PROFILES: dict[str, CoffeeProfile] = {
     "reference": CoffeeProfile(
         profile_id="reference",
         source="cameron2020.extraction_bdf built-in microstructure + single soluble pool",
         supported_components=(_PRIMARY,),
-        parameters={"soluble_inventory": {"value": "per-bed-volume (EY ceiling ~29.6%)", "unit": "-"},
+        parameters={"soluble_inventory": {"value": _cameron_inventory_note(), "unit": "-"},
                     "solute_pool": {"value": "single", "unit": "-"}},
         context="medium roast, EK43-class grind, 20 g in / 40 g out espresso",
         evidence_strength="code_verification",
@@ -694,7 +701,7 @@ def _build_traces(cam_model, cam, recipe, gs, q, shot) -> tuple[PullTrace, ...]:
                  "single soluble pool; no per-species composition in this model"),
          _series("extraction_yield_pct", "Cumulative extraction yield", ey_pct, "%", "derived",
                  "100 * (cumulative dissolved mass) / dose, from the simulated solute arrival",
-                 "derived from simulated dissolved mass; EY ceiling ~29.6% (per-bed-volume inventory)"),
+                 "derived from simulated dissolved mass; " + _cameron_inventory_note()),
          _series("outlet_concentration", "Outlet liquid concentration", cl_out, "kg/m^3", "simulated",
                  "modeled outlet liquid concentration shot.cl_out",
                  "concentration of the single soluble pool leaving the bed")],
@@ -847,7 +854,7 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
                  "first_modeled_solute_arrival": {"value": float(first_arrival), "unit": "s",
                      "note": "numerical diagnostic, NOT physical first drip (saturated-bed model)"}},
                 find("brew_temperature_c") + find("dose_g") + find("target_beverage_g"),
-                solve_s, "EY ceiling ~29.6% (per-bed-volume inventory); temperature enters only "
+                solve_s, _cameron_inventory_note() + "; temperature enters only "
                          "through the recorded recipe, not a resolved thermal transient")
     stages.append(ex)
     _emit(progress, PullEvent.STAGE_COMPLETED, {"stage": "extraction"})

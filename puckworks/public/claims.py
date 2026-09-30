@@ -62,16 +62,16 @@ PUBLIC_CLAIMS = [
                  "as concentrated as the peak.",
         plain_language_finding="In one pressure-controlled, fraction-resolved dataset, "
             "the earliest measured fraction was already ~97% of the peak TDS. This "
-            "separates WETTING time (water crossing the puck) from DISSOLUTION speed "
-            "(coffee going into solution) — the liquid can take time to appear while "
-            "becoming chemically concentrated almost immediately.",
+            "shows that the first collected liquid need not be weak. An early maximum "
+            "alone does not identify local equilibrium or distinguish surface exchange "
+            "from finite intragrain release.",
         numeric_result={"early_over_peak": 0.968, "early_tds_pct": 24.36,
                         "peak_tds_pct": 25.16, "boulder_diffusion_timescale_s": 23.1},
         units={"early_over_peak": "ratio", "early_tds_pct": "% TDS",
                "peak_tds_pct": "% TDS", "boulder_diffusion_timescale_s": "s"},
-        uncertainty_or_sensitivity="The first fraction has only ONE replicate; the "
-            "23 s boulder-diffusion timescale is the comparator that near-instant "
-            "dissolution beats — favouring rapid dissolution in this configuration.",
+        uncertainty_or_sensitivity="The first fraction has only ONE replicate. The "
+            "23 s boulder-diffusion timescale is reference context, not a matched "
+            "comparator: finite-rate depletion can also have an early maximum.",
         evidence_strength="independent",
         badge="OBSERVED",
         components=["waszkiewicz2025 TDS fractions", "cameron2020 (boulder timescale)"],

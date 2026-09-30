@@ -100,7 +100,7 @@ informs priors/consistency checks.
 Couplings: offline calibration only. Two uses: (1) an equilibrium-ceiling
 consistency check for extraction — K < 1 formalizes that even at infinite time
 not all soluble mass (E_max) dissolves, bounding long-time EY at ~21–24% under
-immersion conditions, below cameron2020's saturated-inventory ceiling of 29.6%;
+immersion conditions, below cameron2020's saturated-inventory ceiling of 24.47%;
 (2) the oven-drying/retention kernel (Eqs. 18–24) is a measurement-kernel
 prototype for the observables stage — any component comparing predicted EY to
 practitioner oven-dry or retained-liquid measurements needs exactly this
@@ -120,10 +120,10 @@ correction. Adapter: trivial (scalar algebra); no state contracts touched.
 
 ## Overlaps and conflicts
 - cameron2020.extraction_bdf: complements. Cameron models rate-limited flow
-  extraction with per-bed-volume inventory (ceiling 29.6% ≈ E_max here); Liang
+  extraction with grain-volume concentration and phase-weighted inventory (ceiling 24.47%; distinct from E_max here); Liang
   gives the equilibrium endpoint of the desorption isotherm (K·E_max ≈ 0.215).
   The K < 1 equilibrium partition is an atom Cameron's dissolution kinetics
-  do not carry — worth a gate: does cameron2020 run to ~30% or ~21% EY in the
+  do not carry — worth a gate: does cameron2020 approach its operative inventory ceiling or ~21% EY in the
   long-time immersion limit?
 - Open backlog "observables: scale/measurement kernels": the E_oven/R_ret/R_vol
   analysis is a ready-made measurement kernel, and R_ret (liquid retained per

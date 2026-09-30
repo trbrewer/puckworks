@@ -1,6 +1,8 @@
 """Synthetic verification, source identity QA, and information-flow contracts."""
 from dataclasses import replace
 import inspect
+import hashlib
+import subprocess
 import json
 from pathlib import Path
 
@@ -160,12 +162,91 @@ def test_convergence_failure_is_explicit(monkeypatch):
 
 
 def test_exclusive_output_and_existing_source_unchanged(tmp_path):
-    path=tmp_path/'test.json'; s.write_json(path,{'a':1})
+    # Non-mutation is relative to the actual current inputs, not a historical
+    # assertion that shared gate/model files may never change again.
+    root = Path(s.__file__).resolve().parents[2]
+    source = json.loads((s.DOC / 'SOURCE.json').read_text())
+    before = {name: s.digest(root / name) for name in source['source_files']}
+    path = tmp_path / 'test.json'
+    s.write_json(path, {'a': 1})
+    written = path.read_bytes()
     with pytest.raises(FileExistsError):
-        s.write_json(path,{'a':2})
-    root=Path(s.__file__).resolve().parents[2]
-    source=json.loads((s.DOC/'SOURCE.json').read_text())
-    assert all(s.digest(root/name)==value for name,value in source['source_files'].items())
+        s.write_json(path, {'a': 2})
+    assert path.read_bytes() == written
+    assert {name: s.digest(root / name) for name in before} == before
+
+
+def _smrke_git(*args):
+    root = Path(s.__file__).resolve().parents[2]
+    run = subprocess.run(['git', *args], cwd=root, capture_output=True)
+    if run.returncode:
+        pytest.fail('Smrke requires local SOURCE/AUDIT Git objects; no current-file fallback: '
+                    + run.stderr.decode())
+    return run.stdout
+
+
+def _assert_source_history(source):
+    assert _smrke_git('rev-parse', source['base_commit'] + '^{tree}').decode().strip() == source['base_tree']
+    for name, expected in source['source_files'].items():
+        assert hashlib.sha256(_smrke_git('show', source['base_commit'] + ':' + name)).hexdigest() == expected
+
+
+def test_inherited_source_identity_at_declared_base():
+    _assert_source_history(json.loads((s.DOC / 'SOURCE.json').read_text()))
+
+
+def test_inherited_source_identity_rejects_tampered_hash():
+    source = json.loads((s.DOC / 'SOURCE.json').read_text())
+    source['source_files']['puckworks/validation/gates.py'] = '0' * 64
+    with pytest.raises(AssertionError):
+        _assert_source_history(source)
+
+
+@pytest.fixture
+def smrke_frozen_dependency_root(tmp_path, monkeypatch):
+    # Test CURRENT verify_audit against the exact root its receipt covers.
+    # The current-root rejection is tested separately below; this is no scoring
+    # replay and is never a substitute dependency for fit_predict/score.
+    original_doc = s.DOC
+    freeze = json.loads((original_doc / 'FREEZE.json').read_text())
+    audit = json.loads((original_doc / 'AUDIT.json').read_text())
+    root = tmp_path / 'frozen'
+    subprocess.run(['git', 'clone', '--quiet', '--shared', '--no-checkout', '--',
+                    str(original_doc.parents[2]), str(root)], check=True)
+    for name in freeze['files']:
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(_smrke_git('show', audit['reviewed_head'] + ':' + name))
+    doc = root / original_doc.relative_to(original_doc.parents[2])
+    for name in ('FREEZE.json', 'AUDIT.json'):
+        (doc / name).write_bytes((original_doc / name).read_bytes())
+    monkeypatch.setattr(s, 'DOC', doc)
+    assert s.verify_audit() == audit
+    return root
+
+
+@pytest.mark.parametrize('target', ['puckworks/validation/gates.py',
+    'docs/analysis/sci_md_smrke_transfer_001/SOURCE.json',
+    'docs/analysis/sci_md_smrke_transfer_001/FREEZE.json'])
+def test_current_verifier_rejects_actual_dependency_tampering(smrke_frozen_dependency_root, target):
+    path = smrke_frozen_dependency_root / target
+    path.write_bytes(path.read_bytes() + b' ')
+    with pytest.raises(RuntimeError, match='Frozen scientific file changed|Independent pre-scoring PASS required'):
+        s.verify_audit()
+
+
+def test_current_scoring_retains_frozen_dependency_requirement(tmp_path):
+    freeze = json.loads((s.DOC / 'FREEZE.json').read_text())
+    root = s.DOC.parents[2]
+    changed = [name for name, expected in freeze['files'].items() if s.digest(root / name) != expected]
+    if not changed:
+        assert s.verify_audit()['disposition'] == 'PASS'
+    else:
+        # A historical-copy PASS must never authorize current modified dependencies.
+        for operation in (s.verify_audit, lambda: s.fit_predict(tmp_path), lambda: s.score(tmp_path)):
+            with pytest.raises(RuntimeError, match='Frozen scientific file changed: ' + changed[0]):
+                operation()
+        assert list(tmp_path.iterdir()) == []
 
 
 def test_gain_cannot_be_earned_by_endpoint_only_or_bad_arm():
@@ -198,3 +279,10 @@ def test_noisy_synthetic_precision(model):
     a=s.fit(model,rows); b=s.fit(model,rows,tight=True)
     aa=a.predict([r.covariate for r in rows]); bb=b.predict([r.covariate for r in rows])
     assert max(abs(x['prediction_pp']-y['prediction_pp']) for x,y in zip(aa,bb))<=.01
+
+
+def test_missing_historical_source_is_explicit():
+    source = json.loads((s.DOC / 'SOURCE.json').read_text())
+    source['base_commit'] = '0' * 40
+    with pytest.raises(pytest.fail.Exception, match='requires local SOURCE/AUDIT Git objects'):
+        _assert_source_history(source)

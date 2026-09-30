@@ -9,8 +9,8 @@ the project's own history is the canonical one, and that no version/tag fact cha
 Commit-identity scope (2026-07-25): the mailmap mapping is verified FUNCTIONALLY with
 `git check-mailmap` rather than by inspecting mailmapped log output — the erroneous address appears
 nowhere in the raw history, so an absence assertion would pass against an empty .mailmap. The
-authorship sweep is scoped to `main` (else HEAD), never `--all`, and excludes bots; see
-`_project_history_ref` for why.
+authorship sweep checks candidate `HEAD`, never `--all`, and excludes GitHub bots and
+the exact automated audit identities recorded below. A local `main` must not mask a PR defect.
 """
 import re
 from pathlib import Path
@@ -80,21 +80,27 @@ def _git(*args):
     return subprocess.run(["git", "-C", str(_ROOT), *args], capture_output=True, text=True)
 
 
+AUTOMATED_AUDIT_IDENTITIES = (
+    "Codex <codex@openai.com>",
+    "Codex local audit <codex-audit@invalid>",
+    "Local audit agent <local-audit@localhost>",
+)
+
+
 def _is_bot(identity):
-    """GitHub bots author as `name[bot] <...>` (dependabot, renovate, github-actions)."""
-    return identity.split(" <", 1)[0].endswith("[bot]")
+    """Recognize GitHub bots and exact recorded automation identities, not human aliases."""
+    return (identity.split(" <", 1)[0].endswith("[bot]")
+            or identity in AUTOMATED_AUDIT_IDENTITIES)
 
 
-def _project_history_ref():
-    """The project's OWN history: `main` when resolvable, else HEAD.
-
-    Deliberately NOT `--all`. `--all` scopes the check to whatever refs the local clone happens
-    to hold, which is a property of fetch configuration, not of the project: a shallow CI checkout
-    (`actions/checkout` defaults to fetch-depth 1) sees one ref, a developer's full clone sees every
-    `origin/*` branch, and a pruned clone sees a third set. That made this guard pass in CI for the
-    wrong reason while failing locally on unmerged `origin/dependabot/*` branches -- green exactly
-    where it runs, red where it gates nothing. Do not reintroduce `--all`."""
-    return "main" if _git("rev-parse", "--verify", "--quiet", "main").returncode == 0 else "HEAD"
+def _assert_canonical_human_history():
+    # Check the candidate in both a developer worktree and a detached CI checkout.
+    # Never --all: unrelated fetched branches are not part of candidate history.
+    out = _git("log", "HEAD", "--use-mailmap", "--format=%aN <%aE>")
+    if out.returncode != 0 or not out.stdout.strip():
+        pytest.skip("no git history available")
+    humans = {i for i in out.stdout.strip().splitlines() if not _is_bot(i)}
+    assert humans == {CANONICAL_IDENTITY}, humans
 
 
 def test_mailmap_actually_canonicalizes_every_stale_identity():
@@ -119,18 +125,60 @@ def test_mailmap_actually_canonicalizes_every_stale_identity():
 
 
 def test_project_history_authors_are_the_canonical_identity():
-    """Every HUMAN author on the project's own history resolves to the canonical identity.
+    """Every HUMAN author on candidate history resolves to the canonical identity.
 
-    Scope is `main` (else HEAD), not `--all` -- see `_project_history_ref`. Bots are excluded by
-    GitHub's `name[bot]` convention: a Dependabot or Actions commit is a CORRECT state of the world,
-    not an authorship defect, so the old `== {Tim Brewer}` assertion was a stronger claim than the
-    invariant being protected and broke on the first bot branch. Committers are not asserted here:
-    GitHub web merges commit as `GitHub <noreply@github.com>` by design."""
-    out = _git("log", _project_history_ref(), "--use-mailmap", "--format=%aN <%aE>")
-    if out.returncode != 0 or not out.stdout.strip():
-        pytest.skip("no git history available")
-    humans = {i for i in out.stdout.strip().splitlines() if not _is_bot(i)}
-    assert humans == {CANONICAL_IDENTITY}, humans
+    Scope is candidate HEAD, not a local main or all fetched refs. Known automated
+    audit commits remain attributed to their tools, not mailmapped to a human.
+    Committers are not asserted: GitHub web merges commit as GitHub by design.
+    """
+    _assert_canonical_human_history()
+
+
+@pytest.mark.parametrize("identity", AUTOMATED_AUDIT_IDENTITIES)
+def test_recorded_audit_automation_is_not_a_human_author(identity):
+    assert _is_bot(identity)
+
+
+@pytest.mark.parametrize("identity", [
+    "Someone Else <codex@openai.com>",
+    "Codex <someone@example.com>",
+    "Codex local audit <someone@example.com>",
+    "Local audit agent <someone@example.com>",
+    "Unrecorded audit agent <local-audit@localhost>",
+])
+def test_automation_identity_does_not_exempt_unrecorded_people(identity):
+    assert not _is_bot(identity)
+
+
+def test_candidate_history_guard_with_local_main_and_unrelated_refs(tmp_path, monkeypatch):
+    """An unexpected candidate author fails even with a clean local main; use real Git."""
+    import subprocess
+    import sys
+
+    def git(*args):
+        return subprocess.run(["git", "-C", str(tmp_path), *args], check=True,
+                              capture_output=True, text=True)
+
+    def commit(name, email):
+        git("-c", f"user.name={name}", "-c", f"user.email={email}",
+            "-c", "commit.gpgsign=false", "commit", "--allow-empty", "-m", "identity fixture")
+
+    git("init", "-b", "main")
+    commit("Tim Brewer", TIM_EMAIL)
+    git("checkout", "-b", "candidate")
+    commit("Codex", "codex@openai.com")
+    monkeypatch.setattr(sys.modules[__name__], "_ROOT", tmp_path)
+    _assert_canonical_human_history()
+    # A detached CI checkout and a developer branch must exercise the same history.
+    git("checkout", "--detach")
+    _assert_canonical_human_history()
+    git("checkout", "-b", "unrelated", "main")
+    commit("Someone Else", "someone@example.com")
+    git("checkout", "candidate")
+    _assert_canonical_human_history()  # unrelated refs must not contaminate this check
+    commit("Someone Else", "someone@example.com")
+    with pytest.raises(AssertionError, match="Someone Else"):
+        _assert_canonical_human_history()
 
 
 def test_erroneous_identity_is_only_in_mailmap_and_this_fixture():
