@@ -188,8 +188,7 @@ ad-hoc relaxation, not proved.
   swelling, no consolidation, no bed evolution.
 - φ fixed at 0.8272 across grinds while L varies 12.60–14.20 mm at a fixed 20 g dose — the
   implied grain density then swings 633–714 kg/m³ (computed here), and the implied EY ceiling
-  M₀/M_in swings 28.0–31.6 % with grind. Internally inconsistent; comparable to but not the
-  a different quantity from cameron2020's operative 24.47 % inventory ceiling.
+  M₀/M_in swings 28.0–31.6 % with grind. Internally inconsistent; a different inventory from cameron2020's operative 24.47 % inventory ceiling.
 - **Porosity conflict inside the thesis:** 1 − φ = 0.173 (I = 1), 0.30 (I = 2), and ε = 0.305
   in the 3D model of the same document. Three values, no reconciliation.
 - Validated only at: 20 g VST basket, 1:2 ratio, 20 kgF, τ = 14–81 s, EY 18–23 %, two Arabica

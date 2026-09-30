@@ -89,8 +89,8 @@ Paper A/B/3 surfaces were searched; no literal inventory substitution was needed
 Their broader scientific claims require their own retained comparisons.
 
 Focused after-change tests: 248 passed (accounting, basis, quantity semantics,
-product report, product execution, I-076 and discovery staleness), with the separate
-slow import-order run and integrated normal lane recorded in the private audit.
+product report, product execution, I-076 and discovery staleness), plus all 8 slow import-order cases (148.71 s). The integrated normal lane is
+recorded separately in the private audit.
 A pre-change run preserved five matplotlib/NumPy ABI failures before the isolated
 audit environment was corrected; these were environment failures, not F13 failures.
 The complete private audit retains source hashes, rendered pages, independent pixel

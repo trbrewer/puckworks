@@ -123,7 +123,7 @@ correction. Adapter: trivial (scalar algebra); no state contracts touched.
   extraction with grain-volume concentration and phase-weighted inventory (ceiling 24.47%; distinct from E_max here); Liang
   gives the equilibrium endpoint of the desorption isotherm (K·E_max ≈ 0.215).
   The K < 1 equilibrium partition is an atom Cameron's dissolution kinetics
-  do not carry — worth a gate: does cameron2020 run to ~30% or ~21% EY in the
+  do not carry — worth a gate: does cameron2020 approach its operative inventory ceiling or ~21% EY in the
   long-time immersion limit?
 - Open backlog "observables: scale/measurement kernels": the E_oven/R_ret/R_vol
   analysis is a ready-made measurement kernel, and R_ret (liquid retained per
