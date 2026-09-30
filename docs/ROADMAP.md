@@ -838,6 +838,15 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-09-30 — local audit F14 comparator correction.** G0 / NO_GOVERNING_PHYSICS_CHANGE.
+  Separate the P2 best-constant predicate from the actual flexible-cubic predicate;
+  update the QUICK gate and callers without changing predictions or tolerances.
+  The actual-trace regression fails before the correction and passes after it.
+  [Analysis and scope](ANALYSIS_P2.md), the historical early-peak API and public
+  claim PV-01 now distinguish the measured ratio from an equilibrium test. Numeric
+  claim snapshots are unchanged; public prose is regenerated with the existing exporter.
+  No evidence-strength promotion or historical artifact rewrite.
+
 - **2026-09-30 — MODEL-ENG-ROBUST-MASS-STOP-001 continuous robust stopping.** G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. Add whole-box continuous feasible/excluded/unresolved mass enclosures with global budgets and inherited point-inverse semantics. ENGINEERING_CAPABILITY_VERIFIED: 239 focused and 5,300 normal tests pass; required local QA and author review pass, hosted CI reported separately. [Capability](analysis/model_eng_robust_mass_stop_001/README.md); [verification](analysis/model_eng_robust_mass_stop_001/VERIFICATION.md). Frozen parents/EWP unchanged; no empirical evaluation, adoption, merge or successor.
 
 - **2026-09-29 — MODEL-ENG-ASSAY-ENVELOPE-001 bounded-assay query.** G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. Add finite-assay-set extrema over unchanged C0/C1/C2, with common-input witnesses, global outer bounds, both numerical gaps and explicit unresolved limits. [Capability](analysis/model_eng_assay_envelope_001/README.md); [verification](analysis/model_eng_assay_envelope_001/VERIFICATION.md). **ENGINEERING_CAPABILITY_VERIFIED**: 192 focused and 5252 normal tests pass, including the frozen-C2 interior minimum and a two-dimensional box; ordinary author review is complete. Publication-head CI is recorded in the draft PR. No new fits, empirical scores, EWP writes/runs, model/evidence changes, adoption, merge or successor.

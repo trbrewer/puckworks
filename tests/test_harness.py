@@ -11,23 +11,24 @@ def test_csat_not_silently_merged():
 
 
 def test_dissolution_speed_discriminator():
-    """§5.6: Waszkiewicz TDS fractions favor near-instant dissolution."""
+    """An early maximum is a measured shape, not a kinetic discriminator."""
     r = h.dissolution_speed_test()
     assert r["early_to_peak"] > 0.8
-    assert r["favors"] == "near-instant dissolution"
+    assert r["favors"] == "not identified by early-to-peak ratio"
 
 
 def test_p2_kappa_ladder():
     """P2: time-dependent Phi(t) (rung 4) beats the constant-kappa null."""
     L = h.kappa_t_ladder()
-    assert L["rung4_beats_flexible_benchmark"]
+    assert L["rung4_beats_best_constant"]
+    assert not L["rung4_beats_flexible_benchmark"]
     assert L["rung4_phi_of_t"] < L["rung1_const_kappa"]
     assert L["improvement_factor"] > 2.0
 
 
 def test_p2_rung5_rc3b():
     """P2 rung 5: RC-3b (Cameron-coupled Phi) beats the flat null but loses to
-    the empirical near-instant rung 4 -> near-instant dissolution favored."""
+    the empirical rung 4; the different structural mapping prevents kinetic inference."""
     L = h.kappa_t_ladder()
     assert L["rung5_rc3b_cameron_coupled"] < L["rung1_const_kappa"]
     assert L["rung5_rc3b_cameron_coupled"] > L["rung4_phi_of_t"]

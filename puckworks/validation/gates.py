@@ -387,7 +387,8 @@ def gate_p2_kappa_ladder():
     poroelastic Phi(t) -- no coefficient fitted to the scored trace, but target-informed
     upstream -- approaches that same-trace descriptive benchmark. Rung 5
     RC-3b (Cameron-coupled, diffusion-limited Phi) beats the constant nulls too but
-    is ~3x WORSE than rung 4 -> near-instant dissolution favored (§5.6). Rung 5b, the
+    is ~3x WORSE than rung 4; its cup-to-structure map also differs, so this does not
+    identify a release mechanism. Rung 5b, the
     mo2023_2 SWELLING competitor (Phase-3 discrimination), predicts the WRONG SIGN: its
     Carman-Kozeny flow ratio is monotone non-increasing (throttles to ~4% over the shot),
     so its best-anchored RMSE (~1.08) is WORSE than a constant and it is strongly
@@ -395,7 +396,7 @@ def gate_p2_kappa_ladder():
     as the driver of the rising-flow residual (card: 'enters with the wrong sign')."""
     from puckworks import harness as h
     L = h.kappa_t_ladder()
-    passed = (L["rung4_beats_flexible_benchmark"] and L["improvement_factor"] > 2.0
+    passed = (L["rung4_beats_best_constant"] and L["improvement_factor"] > 2.0
               and L["rung4_phi_of_t"] < 0.2
               # the three constant nulls are DISTINCT (not one RMSE copied twice)
               and L["rung1_const_kappa"] < L["rung3_static_kappaP"]
@@ -409,6 +410,8 @@ def gate_p2_kappa_ladder():
                 rung3_static=L["rung3_static_kappaP"],
                 rung4_rmse=L["rung4_phi_of_t"],
                 flexible_cubic=L["flexible_cubic_null"],
+                rung4_beats_best_constant=L["rung4_beats_best_constant"],
+                rung4_beats_flexible_benchmark=L["rung4_beats_flexible_benchmark"],
                 cubic_beats_dynamic=L["cubic_beats_dynamic"],
                 rung5_rc3b_rmse=L["rung5_rc3b_cameron_coupled"],
                 rung5b_swelling_rmse=L["rung5b_swelling_mo2"],
@@ -1150,8 +1153,8 @@ def gate_foster_ct_trajectory():
 
 def gate_extraction_harness():
     """P1 extraction harness (item 2.1): the c_sat config values stay distinct
-    (no silent merge, §5.4), the §5.6 dissolution-speed discriminator favors
-    near-instant dissolution on the Waszkiewicz TDS fractions, and the grudeva
+    (no silent merge, §5.4), the §5.6 ratio records a high early TDS fraction
+    without identifying an equilibrium or finite-rate mechanism, and the grudeva
     vial reconstruction reproduces the C1 total."""
     from puckworks import harness as h
     from puckworks.models.grudeva2025 import reduced as gr
@@ -1161,7 +1164,7 @@ def gate_extraction_harness():
     stats = gates_data().grudeva_vial_stats()
     exp_total = sum(s["solubles_mean_g"] for s in stats[3:])
     passed = (csat == [170.0, 212.4, 224.0]                 # 3 distinct, surfaced
-              and d56["early_to_peak"] > 0.8                 # near-instant dissolution
+              and d56["early_to_peak"] > 0.8                 # observed early-fraction shape
               and abs(r["total_solubles_g"] - exp_total) / exp_total < 0.10)
     return dict(passed=passed, csat_distinct=csat,
                 s56_favors=d56["favors"], s56_early_to_peak=d56["early_to_peak"],
