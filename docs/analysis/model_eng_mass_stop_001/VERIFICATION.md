@@ -1,7 +1,9 @@
 # Numerical verification and repository QA
 
 MODEL-ENG-MASS-STOP-001 — G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY.
-Candidate QA and ordinary review are in progress. No merge or production adoption
+**ENGINEERING_CAPABILITY_VERIFIED.** Local numerical/software QA and author
+review pass. Hosted CI and external review are reported separately in the draft
+PR; no external reviewer approval is claimed here. No merge or production adoption
 is authorized. Numerical qualification does not establish physical validation.
 
 ## Baselines and short drift check
@@ -30,6 +32,16 @@ Their publication heads are respectively
 Frozen historical OPEN/UNMERGED prose was not edited or used as live lifecycle authority.
 
 Implementation uses an isolated `engineering/model-eng-mass-stop-001` worktree.
+The implementation commit is `4dfb1c865f00f45dba2c62804791d9f270d33f5b`, tree
+`659e95c450816a5fe51c1b921ea16aac1502cd77`. The full normal suite ran against
+that exact tree before committing it. The subsequent closeout changes only
+planning and this verification report; the publication head/tree and hosted CI
+are recorded in the draft PR body, without pretending a document can contain
+its own final commit hash. Implementation/test content identities are:
+
+- API SHA256: `6c8d25a062fd8175d8697cc9dd5e04b32840f90dce116a3c708a5f3d4a85f96a`.
+- Tests SHA256: `c590fae7670995303a0e0905ebf46f7e06449b6589641e48c20fc7d19531116d`.
+
 The owner's existing checkouts and EWP files are unchanged. Parent runtime SHA256
 is `4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33`.
 The C0/C1/C2 canonical model identities remain:
@@ -149,10 +161,46 @@ The superseded candidate normal-suite run was interrupted for this correction
 after 1240 passes and 32 skips, with no test failure; its full log is retained.
 This is not the accepted candidate normal-suite result.
 
-Full candidate QA, exact implementation commit/tree, publication head and hosted
-CI status will be recorded in the same task's closeout. Ordinary code review
-focuses on enumeration, anchor/units, ambiguity, and unchanged predecessor
-behavior. No separate scientific stage or independent-evidence framework applies.
+Accepted local candidate QA:
+
+| Check | Result |
+|---|---|
+| Required focused reproduction | 119 passed; 13.54 s |
+| Maintained normal suite | 5179 passed, 65 skipped, 60 deselected; 1003.70 s |
+| Registry | PASS=65, ACKNOWLEDGED_EXCEPTION=1 |
+| Ruff / maintained mypy / direct module typing | PASS / 19 files pass / 1 file passes |
+| Frozen scientific-baseline selection | 5 passed, 7 skipped |
+| Generated artifacts, claim coverage, status truth | PASS |
+| Strict evidence graphs, both scopes | PASS |
+| Deterministic archives and member hashes | PASS |
+| Source syntax, Markdown links, changed-path and secret/private-path checks | PASS |
+| Frozen predecessor preservation | 25 checked runtime/test/evidence files byte-identical |
+| EWP | Clean original checkout/head preserved; no file edits or native runs |
+
+The normal suite has the same single development-salt warning as baseline.
+Registry and scientific-baseline evidence is reused after the isolated inverse
+correction because their protected producers and artifacts are unchanged. The
+new inverse's focused tests, full normal suite, lint and typing were rerun after
+that correction. No failures were suppressed and no unrelated repair was made.
+There are no shell or JSON source-file changes; strict runtime JSON behavior is
+covered by the focused tests. All full logs and routine archive products remain
+outside Git; new public capability/test/documentation files total under 100 KiB.
+
+Author review covered enumeration, anchor/units, allowance propagation, clipping,
+equality/tangency/flat/adjacent-float behavior, source privacy, and preservation.
+This is ordinary G0 code review, not independent scientific review. The current
+repository rules require `quick (3.10)`, `quick (3.12)`, `verify-generated`,
+`paper3-scope-strict`, and `all-scope-strict`; the draft PR's live checks and
+closeout body record their actual publication-head results. Human review remains
+available through the ordinary draft PR. No separate scientific stage or
+independent-evidence framework applies.
+
+Handoff: retain the reusable inverse API with all resolved components and explicit
+unresolved regions. Ordinary analytical/reference topology, including the frozen
+C2 two-component case, qualifies. Near tangencies, overlapping boundaries, flat
+threshold equalities without an algebraic identity, very small concentrations,
+and unrepresentable interiors can remain unresolved. These numerical limits do
+not change historical predictive adequacy or authorize physical control.
 
 PHYSICAL_VALIDATION=NOT_ESTABLISHED; RESEARCH_ONLY; SOURCE_INTERNAL;
 TARGET_EXPOSED. First-party tests/code and source-derived CC-BY-NC-3.0 rights
