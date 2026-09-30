@@ -30,10 +30,10 @@ inventory ceiling (24.5%) sits above the bracket — so the model is not
 ceiling-limited here; it is kinetics- or convention-limited. Candidate
 explanations, deliberately unadjudicated: (a) the per-bed-volume inventory
 convention vs egidi's per-grain c₀ = 200 kg m⁻³; (b) diffusion-limited boulder
-kinetics that §5.6 independently disfavors; (c) configuration mismatch in the
+kinetics, which the §5.6 early/peak statistic does not identify; (c) configuration mismatch in the
 mapping (egidi's brew geometry vs Cameron's espresso tables). House rule
-applies: this is reported as a discrepancy, not "fixed". The §5.6 result makes
-(b) the leading suspect but does not convict it.
+applies: this is reported as a discrepancy, not "fixed". The §5.6 statistic
+does not rank those explanations.
 
 **§5.6 early-fraction shape (interpretation corrected by the local audit).**
 Waszkiewicz TDS fractions give early/peak = 0.968 (24.4% vs 25.2% TDS).
@@ -173,9 +173,8 @@ Two design notes for that remaining protocol so it is decisive rather than anoth
 
 Scoreboard against `docs/P3_hypotheses.md`, folding in the harness evidence:
 
-- **Disfavored as a primary cause:** pure boulder-diffusion kinetics
-  (hypothesis-adjacent, via §5.6 — the liquid saturates too fast for slow
-  boulder kinetics to carry a grind-direction reversal by themselves).
+- **Not adjudicated by §5.6:** pure boulder-diffusion kinetics. The high early
+  TDS fraction does not measure local equilibration or whole-grain access.
 - **Alive and now instrumented:** #1 static channeling (grindmap supplies the
   ⟨R⟩/S chain; the σ(φ₁) per-grind sweep is runnable) and #2 incomplete
   wetting (foster components gated; but its sharp-front model *declines the

@@ -714,8 +714,10 @@ exceed the operative Cameron ceiling; source parameter ancestry and different ma
 
 **5.6 Dissolution-speed tension.** waszkiewicz2025: solubles dissolve "almost
 instantaneously," TDS timescale set by flow; cameron2020: diffusion-limited
-boulder population. Waszkiewicz 5-s TDS fractions are the discriminating
-dataset (harness 2.1).
+boulder population. The 5-s TDS fractions are a candidate observation set, but
+the historical early/peak statistic alone does not discriminate these mechanisms
+(local audit F14; harness 2.1). Surface equilibrium and intragrain access require
+separate, matched claims and observation maps.
 
 **5.7 Known typos/errata to carry (into manifests).** Grudeva P_app printed
 9.2×10⁻⁶ Pa (both cards: evident typo for ~9.2×10⁵ Pa);
