@@ -238,8 +238,8 @@ def test_synthetic_pass_path_runs_all_models_without_group_leakage():
     assert result == r2.run_simple_models(records)
 
 
-def test_generated_artifacts_are_byte_identical():
-    result = r2.build(check=True)
+def test_generated_artifacts_are_byte_identical(sci_md_007_current_generation):
+    result, _ = sci_md_007_current_generation
     assert result["operational_status"] == "COMPLETE"
     assert result["model_stage"] == "NOT_RUN_FEASIBILITY_FAILED"
 

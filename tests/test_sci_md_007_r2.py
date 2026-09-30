@@ -3,6 +3,7 @@ import copy
 import hashlib
 import json
 import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -496,12 +497,12 @@ def test_f7_current_primitive_regression_is_individually_bound(field, expected):
     assert gates["trigonelline"]["F7"][field] == expected
 
 
-def test_generated_artifact_semantic_closure_and_evidence_hashes():
-    result = r2.build(check=True)
+def test_generated_artifact_semantic_closure_and_evidence_hashes(sci_md_007_current_generation):
+    result, generated = sci_md_007_current_generation
     assert result["schema_version"] == "1.2.0-R2"
-    audit = json.loads((r2.OUT / "r2/R2_CROSS_ARTIFACT_AUDIT.json").read_text())
+    audit = json.loads((generated / "r2/R2_CROSS_ARTIFACT_AUDIT.json").read_text())
     assert audit["status"] == "PASS" and all(audit["comparisons"].values())
-    independence = rows(r2.OUT / "independence_audit.csv")
+    independence = rows(generated / "independence_audit.csv")
     assert {row["laboratories"] for row in independence} == {"1"}
     assert {
         name: hashlib.sha256((r2.DATA / name).read_bytes()).hexdigest()
@@ -512,3 +513,83 @@ def test_generated_artifact_semantic_closure_and_evidence_hashes():
         "observations.csv": "acc14b22cc03f75fb6b1a800d234438bd23ac2f807d99084c47de79cfd5b144f",
     }
     assert result["model_stage"] == "NOT_RUN_FEASIBILITY_FAILED"
+
+
+# Retained manifest/closure version from its last historical refresh commit.
+# P3 (31741303...) predates that refresh; its Pannusch card hash differs.
+# All 22 declared input hashes, producer bytes, outputs and receipts must match.
+# No fetch and no substitution of current files if these local Git objects are absent.
+_SCI_MD_007_PRODUCER = "ee12a88ebaa012cd284f66e199d3a1d3cc07953a"
+_SCI_MD_007_TREE = "15ce9b9066467c393ea1f7f4ff3f3eb445dd994c"
+
+
+def _producer_git(*args):
+    run = subprocess.run(["git", *args], cwd=r2.ROOT, capture_output=True)
+    if run.returncode:
+        pytest.fail("SCI-MD-007 requires local producer Git objects "
+                    + _SCI_MD_007_PRODUCER + ": " + run.stderr.decode())
+    return run.stdout
+
+
+def _assert_historical_package(out):
+    assert _producer_git("rev-parse", _SCI_MD_007_PRODUCER + "^{tree}").decode().strip() == _SCI_MD_007_TREE
+    prefix = "docs/analysis/sci_md_007/"
+    for name in ("source_package_manifest.json", "r2/R2_PACKAGE_AUTHORITY_CLOSURE.json"):
+        assert (out / name).read_bytes() == _producer_git("show", _SCI_MD_007_PRODUCER + ":" + prefix + name)
+    manifest = json.loads((out / "source_package_manifest.json").read_text())
+    for name, expected in (manifest["inputs"] | manifest["outputs"]).items():
+        assert hashlib.sha256(_producer_git("show", _SCI_MD_007_PRODUCER + ":" + name)).hexdigest() == expected
+    for name, expected in manifest["outputs"].items():
+        assert hashlib.sha256((out / Path(name).relative_to(prefix)).read_bytes()).hexdigest() == expected
+
+
+def test_historical_package_exact_producer_identity():
+    _assert_historical_package(r2.OUT)
+
+
+@pytest.mark.parametrize("name", ["source_package_manifest.json", "r2/R2_PACKAGE_AUTHORITY_CLOSURE.json", "result.json"])
+def test_historical_package_rejects_tampering(tmp_path, name):
+    out = tmp_path / "receipt"
+    shutil.copytree(r2.OUT, out)
+    path = out / name
+    path.write_bytes(path.read_bytes() + b" ")
+    with pytest.raises(AssertionError):
+        _assert_historical_package(out)
+
+
+@pytest.mark.parametrize("target", ["puckworks/data/sci_md_007/sources.csv", "docs/analysis/sci_md_007/result.json"])
+def test_current_closure_rejects_source_or_output_tampering(tmp_path, monkeypatch, target):
+    manifest = r2._manifest_for(r2.OUT)
+    encoded = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
+    for name in manifest["inputs"] | manifest["outputs"]:
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes((r2.ROOT / name).read_bytes())
+    monkeypatch.setattr(r2, "ROOT", tmp_path)
+    monkeypatch.setattr(r2, "OUT", tmp_path / "docs/analysis/sci_md_007")
+    monkeypatch.setattr(r2, "DATA", tmp_path / "puckworks/data/sci_md_007")
+    monkeypatch.setattr(r2, "__file__", str(tmp_path / "puckworks/analysis/sci_md_007_r2.py"))
+    assert r2._closure_for(manifest, encoded, r2.OUT, True)["final_package_status"] == "PASS"
+    path = tmp_path / target
+    path.write_bytes(path.read_bytes() + b" ")
+    closure = r2._closure_for(manifest, encoded, r2.OUT, True)
+    assert closure["final_package_status"] == "FAIL"
+    assert target in closure["wrong_hash_members"]
+
+
+def test_strict_build_keeps_frozen_dependency_requirement():
+    # Current output regeneration can succeed while the historical package binding
+    # correctly refuses a changed source-card byte. Do not refresh its receipt.
+    frozen = (r2.OUT / "source_package_manifest.json").read_bytes()
+    current = (json.dumps(r2._manifest_for(r2.OUT), indent=2, sort_keys=True) + "\n").encode()
+    if current == frozen:
+        assert r2.build(check=True)["operational_status"] == "COMPLETE"
+    else:
+        with pytest.raises(ValueError, match="source package manifest drift"):
+            r2.build(check=True)
+
+
+def test_missing_historical_producer_is_explicit(monkeypatch):
+    monkeypatch.setitem(_producer_git.__globals__, "_SCI_MD_007_PRODUCER", "0" * 40)
+    with pytest.raises(pytest.fail.Exception, match="requires local producer Git objects"):
+        _assert_historical_package(r2.OUT)

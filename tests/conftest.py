@@ -57,3 +57,30 @@ def pytest_collection_modifyitems(config, items):
     for it in items:
         if any(it.nodeid.endswith(s) for s in SLOW):
             it.add_marker(pytest.mark.slow)
+
+
+@pytest.fixture
+def sci_md_007_current_generation(tmp_path):
+    """Current reducer/output contract; the frozen package has a separate identity test."""
+    import json
+    from puckworks.analysis import sci_md_007_r2 as r2
+
+    first, second = tmp_path / "first", tmp_path / "second"
+    frozen = json.loads((r2.OUT / "source_package_manifest.json").read_text())
+    paths = set(frozen["inputs"]) | set(frozen["outputs"]) | {
+        "docs/analysis/sci_md_007/source_package_manifest.json",
+        "docs/analysis/sci_md_007/r2/R2_PACKAGE_AUTHORITY_CLOSURE.json",
+    }
+    before = {name: (r2.ROOT / name).read_bytes() for name in paths}
+    result = r2.generate(first)
+    r2.generate(second)
+    for name in r2.EXPECTED:
+        assert (first / name).read_bytes() == (second / name).read_bytes()
+        assert (first / name).read_bytes() == (r2.OUT / name).read_bytes()
+    manifest = r2._manifest_for(first)
+    encoded = (json.dumps(manifest, indent=2, sort_keys=True) + "\n").encode()
+    closure = r2._closure_for(manifest, encoded, first, deterministic=True)
+    assert closure["final_package_status"] == "PASS"
+    assert manifest["outputs"] == frozen["outputs"]
+    assert {name: (r2.ROOT / name).read_bytes() for name in paths} == before
+    return result, first
