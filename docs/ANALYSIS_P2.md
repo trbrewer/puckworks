@@ -28,8 +28,8 @@ conditional on this table and none of it is averaged away.
 solver lands 3.7 EY points below the egidi bracket floor while its own
 inventory ceiling (24.5%) sits above the bracket — so the model is not
 ceiling-limited here; it is kinetics- or convention-limited. Candidate
-explanations, deliberately unadjudicated: (a) the per-bed-volume inventory
-convention vs egidi's per-grain c₀ = 200 kg m⁻³; (b) diffusion-limited boulder
+explanations, deliberately unadjudicated: (a) the distinct initial grain inventories
+(Cameron c_s0 = 118 vs egidi c₀ = 200 kg m⁻³) and dose/volume conventions; (b) diffusion-limited boulder
 kinetics, which the §5.6 early/peak statistic does not identify; (c) configuration mismatch in the
 mapping (egidi's brew geometry vs Cameron's espresso tables). House rule
 applies: this is reported as a discrepancy, not "fixed". The §5.6 statistic
@@ -356,9 +356,10 @@ configuration would measure regime mismatch, not model agreement.
 **Design: meet in the surrogate's valid domain, sweep toward its edge.**
 
 1. *Common configuration.* Moroney's own drip-filter parameter set, mapped
-   through the adapter: shared c_sat lineage already holds (both 212.4,
-   per-bed-volume — the one cross-lineage pairing the hazards table
-   permits), same φ fields, grain radii, bed depth; impose the same q
+   through the adapter: shared liquid c_sat lineage already holds (both 212.4 kg/m³).
+   Initial inventory separately needs a mass-preserving conversion between the
+   bed-volume aggregate and Cameron's grain-volume field; matching c_sat alone
+   does not supply that conversion. Use the same φ fields, grain radii, bed depth; impose the same q
    directly (bypass Cameron's flux table entirely — MachineState fixed-q
    path).
 2. *Two solver switches on the Cameron side (small, flagged):* pre-saturated

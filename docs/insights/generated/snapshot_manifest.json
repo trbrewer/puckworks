@@ -1,5 +1,5 @@
 {
-  "commit": "326ef811f97081195e6ab661ce4534be7d0974ee",
+  "commit": "d4e131fa064c3394ac1dc32aaa55e6c483e14e14",
   "counts": {
     "candidates": 90,
     "entities": 280,
@@ -19,11 +19,11 @@
     },
     {
       "path": "docs/public/generated/claims.json",
-      "sha256": "f7030b454963a91c9e2fd8ebb9c0ef64429f05f7b9fe08a57982a8923a4f64a9"
+      "sha256": "5297163f2253a2b423366a87648fb06a4554beda3752ac0d323cef9177781a1c"
     },
     {
       "path": "docs/ANALYSIS_P2.md",
-      "sha256": "cc4c5ea192f58f2f54349dcff9384bd2a37f67f131834cf9332f3314d13601bd"
+      "sha256": "f08e987a37d225de4da102845611c9717b65320d83d7361cb81b45375fc6c452"
     },
     {
       "path": "docs/ANALYSIS_transfer.md",
@@ -35,7 +35,7 @@
     },
     {
       "path": "docs/P3_hypotheses.md",
-      "sha256": "08e98851acb9c4724980e1e3c80bdfec272c0575762f81f135725feff5dcb38c"
+      "sha256": "0f1fd1e71940114a3b34e7643d89db880f49223c1bebba6056d96445819bc8c6"
     },
     {
       "path": "docs/analysis/COMPONENT_RESPONSE_ATLAS_SPEC.md",
@@ -483,7 +483,7 @@
     },
     {
       "path": "docs/cards/waszkiewicz2025.md",
-      "sha256": "fa5708aeedc3d069fdf22d50aabf02d44db430399fb21be1ec37c5ebd1279698"
+      "sha256": "7f4b6f8644fe96ec742cbfd3d3effbc77b6f3699cc3d9203468254f69dab4577"
     },
     {
       "path": "docs/cards/yu2021.md",
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "adce72b8af0bc3b4085cc69fbbfaebb011d0364172515e2a5a06c782673dab1f"
+      "sha256": "4912c81afdec572084dc887904b292a5b549afa5e89371d433609feed1427ded"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "7d7b5610c9608ff55af64858365211172fc50a05d75bcfe5648af680c75b524d"
+      "sha256": "922159f69f8439f825310520249c3fbcc27143237018c3cbf51d39481014990a"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "81f3138b4210674ac853e4c1a82459bf37f896207903cda0e015ee89ca15afca"
+      "sha256": "914ed17774606b6b484a1dfc362ca67453cb0a41ab1abdb71ec9c0d06618acf5"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "fa3f8d5179fe5a43af9de4c03265c16a12049ee2a498e78debe56df2e4137b76"
+      "sha256": "6ea289ec7eceed438e62027668170310e107a7ee9dd600d5ba5d23de6a31c631"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "361af16bf779586ae6d473112b10c831f421eabd79a88ccedb8bb562e582fd91"
+      "sha256": "b80a24409240c9bd40b2ec2318bf3a8c5caaeebdb364b96e69d564f75f8a7caf"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "7897902610432316c474a24bfcf7133d6b5681c311a7ac111d156ffb27e7e5b7"
+      "sha256": "03b9c30bf0a436806dffaa3e3e639fc6b6b3c5ba3297f06089208abf492df5a1"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "777b7f8f3776a19bb52c1a27b133c4873d0ba45f6f67378a8504c3853a62c341"
+      "sha256": "7efeafb3e23b8073216de2584243146a0c15d0307cb68afb9bb1b8831d3682e5"
     }
   ],
   "pack": [

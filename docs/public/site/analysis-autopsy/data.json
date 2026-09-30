@@ -142,13 +142,13 @@
       "strength": "qualitative",
       "unit": "EY-points",
       "values": [
-        0.19,
-        0.029,
+        0.154,
+        0.0,
         0.218
       ]
     }
   ],
-  "source_commit": "08213fe86e7fb0304df8ccfcd71a83bcc7ed353e",
+  "source_commit": "d4e131fa064c3394ac1dc32aaa55e6c483e14e14",
   "source_data_sha256": {
     "cup_masses.csv": "39b7c16f9d9da614f151f46cb0db1440d43f150fbf49d3d2119f3f2fa1622f43",
     "rsm_coefficients.csv": "9de2503130ad6689f6f0ad08ef0c781b2bcc099687b5db31443edb0a60d08adc"
@@ -182,8 +182,8 @@
     "mean_within_cell_std_EYpt": 0.218,
     "mid_vs_coarse_contrast_EYpt": -0.241,
     "model_bump_lt_within_cell_var": true,
-    "model_prominence_5bar_EYpt": 0.19,
-    "model_prominence_9bar_EYpt": 0.029,
+    "model_prominence_5bar_EYpt": 0.154,
+    "model_prominence_9bar_EYpt": 0.0,
     "rsm_printed_central_g": 6.723,
     "rsm_printed_is_rounding_artifact": true,
     "rsm_raw_central_g": 3.876,

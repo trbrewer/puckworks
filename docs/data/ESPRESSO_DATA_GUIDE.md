@@ -374,7 +374,7 @@ The PSD file is a provisional subset without its own MANIFEST row; fig5_grind_de
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `cameron2020/fig5_grind_deviation` — [cameron2020](../cards/cameron2020.md); Matter 2, 631-648 (2020) Fig 5 (measured EY deviation below the homogeneous-flow model vs grind) | transcription (values stated in the streamtube module docstring, from Cameron Fig 5); published: percent; registry: fraction | paper (DOI 10.1016/j.matt.2020.06.019); 3 in-campaign grinds GS 1.1/1.3/1.5 (rel deviation 0.131/0.061/0.026); LOO over only 3 points |
+| `cameron2020/fig5_grind_deviation` — [cameron2020](../cards/cameron2020.md); Matter 2, 631-648 (2020) Fig 5 (measured EY deviation below the homogeneous-flow model vs grind) | transcription (values stated in the streamtube module docstring, from Cameron Fig 5); published: percent; registry: fraction | paper (DOI 10.1016/j.matt.2019.12.019); 3 in-campaign grinds GS 1.1/1.3/1.5 (rel deviation 0.131/0.061/0.026); LOO over only 3 points |
 | `cameron2020/psd_figure2` — [cameron2020](../cards/cameron2020.md); Figure 2 (measured PSD) | figure digitization (volume% vs diameter, 4 grind settings); published: um ; volume percent; registry: um ; volume percent | Cameron et al., Matter 2 (2020) 631-648; Fig 2 PSD digitized 2026-07-25; Gs 1.0/1.5/2.0/2.5, ~1-1900 um; enables maille's phi closure to be applied to Cameron's grind (an extrapolation above maille's own coarse-grind range) |
 
 Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).

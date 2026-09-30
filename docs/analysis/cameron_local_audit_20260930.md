@@ -96,3 +96,18 @@ audit environment was corrected; these were environment failures, not F13 failur
 The complete private audit retains source hashes, rendered pages, independent pixel
 coordinates, CSVs, commands and before/after failures; rights-restricted source
 pages and local source paths are not copied into this repository.
+
+## Integrated live-output propagation
+
+The normal test lane exposed the live PV-04 producer snapshot affected by the
+interpolation repair. Its model interior prominence changes from 0.190 to 0.154
+EY percentage points at 5 bar and from 0.029 to 0.000 at 9 bar; both remain below
+the source descriptive spread. The existing analysis-autopsy exporter regenerated
+that live snapshot and site summary. The original frozen Paper B records and
+their hashes remain unchanged. The existing data-guide and insights generators
+propagated the corrected DOI and live prose; no tolerance was widened.
+
+Three current-tree historical integrity tests still bind earlier whole-file hashes
+(the SCI-MD-007 Pannusch card and the Smrke gate/registry source files). They pass
+unchanged in the historical review checkout. Those receipts and checks are retained
+unchanged; the integrated audit does not claim a clean full-suite pass.

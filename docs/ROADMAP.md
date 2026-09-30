@@ -168,7 +168,7 @@ gates, not competitors. **Normalization hazards — never merged silently:**
 
 | Quantity | cameron2020 | grudeva | egidi2024 | pannusch2024 | required adapter |
 |---|---|---|---|---|---|
-| soluble inventory reference | per bed volume, c_s0=118/φ_s | per grain volume incl. internal pores | c₀=200 kg/m³ per grain | per-solute c_s0 | inventory normalization (ledger A5) |
+| soluble inventory reference | grain field c_s0=118; bed aggregate φ_s·c_s0 | per grain volume incl. internal pores | c₀=200 kg/m³ per grain | per-solute c_s0 | inventory normalization (ledger A5) |
 | dissolution kinetics | nonlinear surface dissolution | linear capped transfer | quadratic-in-surface | Sherwood-correlated linear | none — report per-law, do not map |
 | flow input | pressure / flux table | fixed q or P-derived q | prescribed constant q | measured Q(t)+T(t) | flow provider (ledger A2) |
 | c_sat | 212.4 kg m⁻³ | 170 (2023) / 224 (2026) | 212.4 | per-solute K(T) | config field, no silent merge (§5.4) |
