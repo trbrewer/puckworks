@@ -251,12 +251,11 @@ number carries an origin label — **measured · derived · fitted · predicted 
 
 ## The science, in depth
 
-Two longer reads go beyond this landing page:
+Research records and longer reads:
 
-- **The public-value work** — [`docs/PUBLIC_VALUE.md`](docs/PUBLIC_VALUE.md) is the roadmap for turning
-  Puckworks' data, model disagreements, and negative results into things a non-specialist coffee
-  drinker can understand, check, and share. Its first interactive piece, *The Cup Hides the Clock*
-  (linked under "What you can run today"), is already live; the generated, evidence-labelled claim
+- [Completed espresso review and source execution](docs/research/ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md).
+- **The public-value work** — [`docs/PUBLIC_VALUE.md`](docs/PUBLIC_VALUE.md) maps how readers can understand, check and share
+  Puckworks' data, model disagreements and negative results. Its first interactive, *The Cup Hides the Clock*, is live (linked above); the generated, evidence-labelled claim
   cards that back these stories live in [`docs/public/README.md`](docs/public/README.md).
 - **The paper behind the flat-valley result** — [`docs/submission/PAPER_A_JFE_MANUSCRIPT.md`](docs/submission/PAPER_A_JFE_MANUSCRIPT.md)
   is a **draft manuscript** (with a full abstract), *"Whole-cup measurements can obscure kinetic
@@ -359,7 +358,7 @@ Published sources and cards are listed below.
 
 1. Angeloni, S.; Giacomini, J.; Maponi, P.; Perticarini, A.; Vittori, S.; Cognigni, L.; Fioretti, L. "Computer percolation models for espresso coffee: state of the art, results and future perspectives." *Applied Sciences* 13 (2023): 2688. [https://doi.org/10.3390/app13042688](https://doi.org/10.3390/app13042688). Related cards: [angeloni2023](docs/cards/angeloni2023.md).
 2. Bruno, R.; Egidi, N.; Fatone, L.; Giacomini, J.; Maponi, P.; Sagratini, G.; Santanatoglia, A.; Trebović, S. "A preliminary model to establish a digital twin for coffee roasting." *Scientific Reports* 16 (2026): 15857. [https://doi.org/10.1038/s41598-026-43923-9](https://doi.org/10.1038/s41598-026-43923-9). Related cards: [bruno2026](docs/cards/bruno2026.md).
-3. Cameron et al. "Systematically improving espresso." *Matter* 2 (2020): 631–648. [https://doi.org/10.1016/j.matt.2019.12.019](https://doi.org/10.1016/j.matt.2019.12.019). Related cards: [cameron2020](docs/cards/cameron2020.md).
+3. Cameron et al. "Systematically improving espresso." *Matter* 2 (2020): 631–648. [https://doi.org/10.1016/j.matt.2019.12.019](https://doi.org/10.1016/j.matt.2019.12.019). Related cards: [cameron2020](docs/cards/cameron2020.md). [Source execution](docs/research/ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md#f-released-cameron-source-execution).
 4. Egidi, N.; Giacomini, J.; Larsson, E.; Perticarini, A. "An improved numerical scheme for coffee extraction yield evaluation." *Chaos, Solitons & Fractals* 188 (2024): 115625. [https://doi.org/10.1016/j.chaos.2024.115625](https://doi.org/10.1016/j.chaos.2024.115625). Related cards: [egidi2024](docs/cards/egidi2024.md).
 5. Ellero, M.; Navarini, L. "Simulation of espresso coffee extraction using smoothed particle hydrodynamics." *Proc. PARTICLES 2019* (2019): 68–79. No stable external link is recorded in the model card. Related cards: [ellero2019](docs/cards/ellero2019.md).
 6. Fasano, A.; Talamucci, F.; Petracco, M. "The espresso coffee problem." In *Complex Flows in Industrial Processes* (A. Fasano, ed.), 241–280. Springer, 2000. No DOI is recorded in the model card. Related cards: [fasano2000_partI](docs/cards/fasano2000_partI.md).

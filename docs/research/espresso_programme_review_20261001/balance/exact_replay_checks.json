@@ -1,0 +1,14 @@
+[
+  {
+    "run": "reference_replay",
+    "prior": "reference_sparse",
+    "history_byte_identical": true,
+    "all_retained_values_and_endpoint_states_exact": true
+  },
+  {
+    "run": "tight_replay",
+    "prior": "tight_sparse",
+    "history_byte_identical": true,
+    "all_retained_values_and_endpoint_states_exact": true
+  }
+]

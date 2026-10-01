@@ -1,0 +1,52 @@
+--- make_an_espresso.m
++++ tight_sparse/instrumented_run.m
+@@ -1,12 +1,12 @@
+ clear all
+-clf
++% clf suppressed for headless execution
+ close all
+ clc
+ 
+ tic
+ 
+-plot_flag=1; % Uses figures 1-4
+-checkmass_flag=1; % Uses figure 5
++plot_flag=0; % Uses figures 1-4
++checkmass_flag=0; % Uses figure 5
+ 
+ N=40;
+ 
+@@ -32,7 +32,7 @@
+ x=linspace(0,1,N);
+ 
+ T_end=10;
+-tout=linspace(0,T_end,1e4);
++tout=linspace(0,T_end,20001);
+ 
+ cl0=zeros(N,1);
+ u10=ones(N,1);
+@@ -62,9 +62,17 @@
+ M=build_mass(N,dx,x);
+ 
+ % Solve the problem
+-options=odeset('Mass',M);
++p=[N dx Deff Ds1 Ds2 bet1 bet2 K Q1 Q2 beta phis q];
++monitor_init(p,x);
++M_original=M; M_sparse=sparse(M_original);
++assert(isequal(full(M_sparse),M_original));
++assert(nnz(M_sparse(1,:))==0 && nnz(M_sparse(N,:))==0);
++fid=fopen('mass_check.json','w'); fprintf(fid,'%s\n',jsonencode(struct('exact_equality',true,'n',size(M,1),'nnz',nnz(M_sparse),'algebraic_rows',[1 N]))); fclose(fid);
++M=M_sparse; clear M_original M_sparse;
++options=odeset('Mass',M,'Stats','on','OutputFcn',@progress_output,'MStateDependence','none','Jacobian',@counted_jacobian,'RelTol',1e-07,'AbsTol',1e-09);
+ params=[N dx Deff Ds1 Ds2 bet1 bet2 K Q1 Q2 beta phis q];
+-[t,u]=ode15s(@(t,u) RHS(t,u,params,x),tout,u0,options);
++[t,u]=ode15s(@counted_rhs,tout,u0,options);
++finish_monitor();
+ 
+ % Pull out the concentration at the exit
+ c_exit=zeros(length(tout),1);
+@@ -86,4 +94,4 @@
+ end
+ if checkmass_flag==1
+     checkmass(tout,u,x,params)
+-end+end
