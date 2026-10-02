@@ -1,0 +1,20 @@
+[
+  {
+    "t_hat": 1.0,
+    "remainder_mg": 5.926058165739434e-05,
+    "max_coarse_vs_simpson_term_difference_mg": 0.004110260137986987,
+    "target_mg": 0.01,
+    "diagnostic_target_met": true,
+    "wrong_unit_remainder_mg": 2.2052979909992656,
+    "wrong_sign_remainder_mg": 4.414951613770063
+  },
+  {
+    "t_hat": 10.0,
+    "remainder_mg": -7.770082664304567e-05,
+    "max_coarse_vs_simpson_term_difference_mg": 0.003976918291296094,
+    "target_mg": 0.01,
+    "diagnostic_target_met": true,
+    "wrong_unit_remainder_mg": 5.360881420074095,
+    "wrong_sign_remainder_mg": 10.732573191867527
+  }
+]

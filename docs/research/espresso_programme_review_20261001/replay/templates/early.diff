@@ -1,0 +1,11 @@
+--- tight_sparse/instrumented_run.m
++++ tight_early/instrumented_run.m
+@@ -32,7 +32,7 @@
+ x=linspace(0,1,N);
+ 
+ T_end=10;
+-tout=linspace(0,T_end,20001);
++main_times=linspace(0,T_end,20001); early_log=logspace(-9,log10(5e-6),401); extra_times=[early_log(1:end-1),linspace(5e-6,0.02,4000)]; near_indices=round(extra_times/0.0005)+1; extra_times=extra_times(abs(extra_times-main_times(near_indices))>1e-13); tout=sort([main_times,extra_times]); assert(all(diff(tout)>1e-13));
+ 
+ cl0=zeros(N,1);
+ u10=ones(N,1);

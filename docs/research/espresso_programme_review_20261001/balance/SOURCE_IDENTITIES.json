@@ -1,0 +1,47 @@
+{
+  "author_repository": "https://github.com/jamiemfoster/Espresso",
+  "author_commit": "79ebefb72446eb706084e2392cab64bf0fad93a2",
+  "author_tree": "cb6f42ce893da256d1d6974e724166044e77af94",
+  "source_sha256": {
+    "RHS.m": "f0dd81cc1f2c833a8c26758460d18ca38a4c1a58829e5a324a72053801bd4227",
+    "build_mass.m": "6b3b3e67c438b1252c09d7778d0940c13c3d02db560aca184236415c6d27a566",
+    "checkmass.m": "62d79e1a2c894825e2f79c15f798050d59ab8ef6d0639ac5ea4acb10ec373dfb",
+    "define_parameters.m": "d6ddc945eb146485a008e9ba36c8d58d8ca9b627d8ed92648fd817a195027d99",
+    "make_an_espresso.m": "b0b5cfcb7a7170171fc8a0f2baa42e405b79198b3cc084bedf5dc999af843ffa",
+    "plotresults.m": "df67821b451733b4c22a10eae92609d68bf818e674abc37f84c3b7422ffebcd2"
+  },
+  "backend": "/usr/bin/octave-cli",
+  "backend_version": "8.4.0",
+  "backend_sha256": "9f09bcbadf9fd0a540437a364449e7b23246cfa97c9eeeb0b6539161bc00205f",
+  "owner_repo_commit": "78cbd59c751393cddfe539e4c69e43a224329bca",
+  "owner_repo_tree": "b23347e33c67576b786922762eae168bf06b28fa",
+  "code_rights": "Author source MIT, Copyright (c) 2018 Jamie Foster; see source/LICENSE. No PDFs/corpus included.",
+  "raw_inputs": {
+    "prior_sparse/reference_sparse/history.csv": "e6689e5acd056d0b9a6facf6b1fa16fa53d7aca3a494981c5987674f3e1c9652",
+    "prior_sparse/reference_sparse/snapshots.mat": "d872da007064e8e7b12c106908ca279968876c5c579185cc676ce78c520eb9e7",
+    "prior_sparse/reference_sparse/instrumented_run.m": "599702d3ef38f5ff5d2d2ef935ff61c2b26364a56dfe6a47cdbf9faa5bc9b85c",
+    "prior_sparse/reference_sparse/reduction.json": "0884dc6a30ade14d6314d857d4016b8c51f8bc7bc9d1fbe4da72b3cffc73ca47",
+    "prior_sparse/tight_sparse/history.csv": "e1b2a89779044b4278f6160ff05a08f639f9bb3b641753dc573299bb97abc49f",
+    "prior_sparse/tight_sparse/snapshots.mat": "8798d47650c2e0cde1add7a9854d7009e12449aeeba71aeb55db40478c533463",
+    "prior_sparse/tight_sparse/instrumented_run.m": "3071bd3b757128b30330dbd7f22a502c1a7dd32109cbb64af45ffdb0de1932b4",
+    "prior_sparse/tight_sparse/reduction.json": "9b4defd77a83a658bc46b6f8d843a99b5f7604d449deca436014b00188b80dfb"
+  },
+  "new_raw_outputs": {
+    "reference_replay/history.csv": "e6689e5acd056d0b9a6facf6b1fa16fa53d7aca3a494981c5987674f3e1c9652",
+    "reference_replay/boundary_history.csv": "2ac5275045ba24b2581b79e9c9992cfa3d038731682fa87d15f4243308026c2e",
+    "reference_replay/snapshots.mat": "f8751066362b6dad2f49eeb9a2877f044da2cc6879bc3263f44b3050dce8d049",
+    "reference_replay/instrumented_run.m": "599702d3ef38f5ff5d2d2ef935ff61c2b26364a56dfe6a47cdbf9faa5bc9b85c",
+    "tight_replay/history.csv": "e1b2a89779044b4278f6160ff05a08f639f9bb3b641753dc573299bb97abc49f",
+    "tight_replay/boundary_history.csv": "1a5d46ecf84f631dc0349f62db935c773082ee8c4562ad8851f14e41b7fd3505",
+    "tight_replay/snapshots.mat": "e938298a9a3d950f5c64a27b24a5f51b0871f070072faea625b0bbefd7cd2074",
+    "tight_replay/instrumented_run.m": "3071bd3b757128b30330dbd7f22a502c1a7dd32109cbb64af45ffdb0de1932b4",
+    "tight_early/history.csv": "7d2fa252b3d7ec9c51774b992adaa54f2b447e4d7702a49aa92253954a8af23f",
+    "tight_early/boundary_history.csv": "7ce18ecfdc549c4cb79f58434a05f368b6a9f3d62c965052d7e376f7d9c3fca5",
+    "tight_early/snapshots.mat": "62c0f9d7932f80636354218a5025b9b434ec4d72a44908b3b46ac6a2c078df2e",
+    "tight_early/instrumented_run.m": "2583e535e811f99fadf8e31b79d605a39b93221fe4a30f677d37f605a4877946"
+  },
+  "new_source_integrations": 3,
+  "reused_source_integrations": 2,
+  "reused_qualification": "Prior sparse DAE/Jacobian/N=6 checks not rerun",
+  "not_a_complete_trajectory_replay_package": true
+}
