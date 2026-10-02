@@ -144,6 +144,10 @@ COMPONENT_DISPOSITIONS: dict = {d.component_id: d for d in (
     # scenario (it prescribes its own flow and needs a fines radius the recipe lacks) and its
     # grain-volume concentration basis has no tested inventory-conserving conversion to the
     # bed-volume basis this chain carries. Wiring one is coupling work, not part of #73.
+    # Catalog exclusion only: the standalone EJAM task authorizes no Relay adapter or edges.
+    _d("grudeva2026.reduced", "other_lenses", _K.ALTERNATIVE_BRANCH, _X.NOT_SELECTED,
+       _R.NOT_EXECUTED, "Native fixed-flow publication case only; no shared-scenario adapter. "
+                        "ZERO Relay execution, adapter calls and edges; outside this component's scope."),
     _d("grudeva2025.reduced", "other_lenses", _K.ALTERNATIVE_BRANCH, _X.NOT_SELECTED,
        _R.NOT_EXECUTED, "Not selected: no compatible relay edge or tested basis conversion exists yet "
                         "(ZERO execution and adapter calls). Rights are documented (#73), so this is a "

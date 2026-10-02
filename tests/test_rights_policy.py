@@ -158,7 +158,7 @@ def test_review_backlog_surfaces_the_priority_reviews_without_asserting_clear():
     # nothing that STILL NEEDS review is asserted CLEAR (no manufactured clearance for an unreviewed one)
     assert all(i["governing_state"] != "CLEAR" for i in bl if i["needs_review"])
     assert {i["component_id"] for i in bl if i["governing_state"] == "CLEAR"} == {
-        "brewer2026.lb_reference"}
+        "brewer2026.lb_reference", "grudeva2026.reduced"}
     assert all(i["needs_review"] is False for i in bl if i["governing_state"] == "CLEAR")
     # the data fixture is present as a review item
     assert any(i["component_id"] == "de1_fixtureA.json" for i in bl)

@@ -16,6 +16,7 @@ foster2025.machine_mode,source_curve_reproduction,"Normalized bed flow Q/Qm = mi
 foster2025.machine_mode,source_curve_reproduction,"Two scalar times (s): ponding time t_p and saturation time t_s, model-computed vs the authors' reported values.",gate_foster_machine_tp_ts,supported
 grudeva2025.reduced,code_verification,"The algebraic form of the capacitance coefficient B, and kappa from Eq 6.14 at nominal card inputs.",gate_grudeva_no_eps_kappa,supported
 grudeva2025.reduced,post_fit_reconstruction,"Per-vial solubles mass (g) for vials 3-15, total solubles mass, and existence of the saturated exit plateau.",gate_grudeva_reduced_solver,supported
+grudeva2026.reduced,code_verification,"Dimensionless grain flux/inventory, front speed and normalized mass balance",gate_grudeva2026_reduced,supported
 lee2023.feedback,qualitative_capacity,"Sign of pathway EY divergence, qualitative shape of EY vs grind (peak+decline vs plateau) at two rho_c, and two nondimensional tau_shot values.",gate_lee_feedback_negative_result,negative
 liang2021.desorption,source_curve_reproduction,"E_oven (%) and equilibrium E (%) vs brew ratio R_brew (>=3) from Fig 4, plus the inequality K*E_max < cameron_inventory_ceiling.",gate_liang_eoven_ceiling,supported
 liang2021.desorption,post_fit_reconstruction,The dimensionless equilibrium desorption product K*E_max from equilibrium TDS vs brew ratio R_brew for full-immersion brewing.,gate_liang_kemax_refit,supported

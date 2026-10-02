@@ -19,7 +19,7 @@ This is neither physical validation nor rejection of the model's physics.
 | Figure 5 | INCOMPLETE: full-model spatial arrays, exact diffusivity coefficient and author observation grid unqualified |
 | Native Laboratory | Implemented: dedicated reference case, source/use preflight, canonical card, no common-scenario adapter; full integration tests recorded in HANDOFF |
 | Regression / hosted QA | See HANDOFF; separate from numerical/reference dispositions |
-| Independent review | Pending exact candidate review; receipt will identify the reviewed PR head |
+| Independent review | See the draft PR final review receipt for exact head and disposition; no self-hash embedded here |
 
 The numerical budgets remain 1e-3 for outlet/event refinement and 1e-6 for
 normalized conservation. The initial uniform-mesh 512/1024-cell trial failed

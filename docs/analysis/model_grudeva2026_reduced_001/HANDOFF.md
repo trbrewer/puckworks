@@ -57,3 +57,22 @@ Required hosted contexts are read from the active repository ruleset:
 Current metadata-only generators were updated for the added registry component and
 fixtures. The new numerical component creates no experimental campaign or measurement
 agenda entry. No shared-scenario adapter or cross-model overlay is enabled.
+
+## Integration closeout
+
+The first complete candidate quick run reported 5507 passes, 33 skips and ten
+integration failures. These concerned explicit catalog exclusion, rights sets,
+README size/count/card references, current Paper 3 registry-figure metadata and
+the current generated claim-binding audit. The owning generators update only
+those current metadata/audit surfaces; earlier numerical bundles remain untouched.
+The Relay catalog now explicitly excludes the new component (`NOT_SELECTED`,
+`NOT_EXECUTED`, zero edges); all twenty existing executions and ten handoffs stay
+unchanged. This supplies no Relay integration or adapter.
+
+All 34 model/Laboratory tests passed. The single independent reviewer accepted
+the numerical implementation at the initial candidate head, independently
+checking a radial finite-volume reference, fixed-position grain memory, the
+small-diffusivity limit and all archived scientific hashes. The same review
+checks the final integration delta and records the final exact head in the PR
+receipt. Scientific source/input hashes are unchanged by these integration fixes;
+those numerical results are reused rather than rerun or restamped.

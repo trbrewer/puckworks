@@ -402,7 +402,7 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Exact-head independent review and draft PR owner disposition; Figure 3/4 reproduction failed, Figure 5 reference incomplete; no successor",
+      "next_gate": "Draft PR owner disposition; exact-head review receipt in PR; Figure 3/4 reproduction failed, Figure 5 reference incomplete; no successor",
       "acceptance_evidence": "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json; standalone numerical verification only; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
       "issue_or_pr": "#67",
       "verified_commit": null,

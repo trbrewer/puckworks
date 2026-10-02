@@ -85,16 +85,15 @@ throughout.
 | Puck change | How do swelling, compaction, fines movement, and dissolution change resistance mid-shot? |
 | Extraction | How do soluble compounds leave the particles and travel out with the liquid? |
 
-**Library versus Guided Pull.** Puckworks contains many models that examine different stages or offer
-competing explanations. It does **not** fuse them into one consensus simulation. The runnable *Guided
-Pull* executes one coherent primary model chain (currently the `cameron2020.extraction_bdf` extraction
-model, which internally spans grind → flow → extraction → cup); every other model is available
-separately — as an alternative model, a calibration or comparison relationship, a pore-scale reference
-solver, an exploratory synthesis, or a source-data constraint. The roles below say which is which.
+**Library versus Guided Pull.** The library contains separate models of brewing stages.
+Guided Pull runs the Cameron extraction chain from grind to cup. Other components provide
+alternative models, calibration relationships, reference solvers or exploratory mechanisms;
+they are not fused into a consensus simulation.
 
 <!-- puckworks-model-map:start -->
 
-**27 registered models**, in one table so the columns line up, ordered by the stage they address. Names are the exact identifiers used in the code; each links to its model card (the source of truth for that model's physics, assumptions, and limits). "Runs in Guided Pull" marks the one model chain the public product executes.
+**28 registered models**, ordered by process stage. Identifiers link to cards with assumptions
+and limits. "Runs in Guided Pull" identifies the public model chain.
 
 | Stage | Model module | Role | What physics it represents |
 |---|---|---|---|
@@ -364,7 +363,7 @@ Published sources and cards are listed below.
 5. Ellero, M.; Navarini, L. "Simulation of espresso coffee extraction using smoothed particle hydrodynamics." *Proc. PARTICLES 2019* (2019): 68–79. No stable external link is recorded in the model card. Related cards: [ellero2019](docs/cards/ellero2019.md).
 6. Fasano, A.; Talamucci, F.; Petracco, M. "The espresso coffee problem." In *Complex Flows in Industrial Processes* (A. Fasano, ed.), 241–280. Springer, 2000. No DOI is recorded in the model card. Related cards: [fasano2000_partI](docs/cards/fasano2000_partI.md).
 7. Foster, J.; Lee, W.; Moroney, K.; Prjamkov, D.; Salamon, M.; Smith, A.; Petrassem-de-Sousa, J.; Vynnycky, M. "Dynamics of liquid infiltration into an espresso bed using time-resolved micro-computed tomography: insights from experiment and modeling." *Physics of Fluids* 37 (2025): 013383. [https://doi.org/10.1063/5.0245167](https://doi.org/10.1063/5.0245167). Related cards: [foster2025](docs/cards/foster2025.md), [foster2025_2](docs/cards/foster2025_2.md).
-8. Grudeva, Y. "Espresso brewing: mathematical modelling and experiment." PhD thesis, University of Portsmouth, 2023 (no DOI). And: Grudeva, Y.; Moroney, K.; Foster, J. "A multiscale model for espresso brewing: asymptotic analysis and numerical simulation." *European Journal of Applied Mathematics* 37 (2026): 496–519. [https://doi.org/10.1017/S095679252500018X](https://doi.org/10.1017/S095679252500018X). Related cards: [grudeva2025](docs/cards/grudeva2025.md).
+8. Grudeva, Y. "Espresso brewing: mathematical modelling and experiment." PhD thesis, University of Portsmouth, 2023 (no DOI). And: Grudeva, Y.; Moroney, K.; Foster, J. "A multiscale model for espresso brewing: asymptotic analysis and numerical simulation." *European Journal of Applied Mathematics* 37 (2026): 496–519. [https://doi.org/10.1017/S095679252500018X](https://doi.org/10.1017/S095679252500018X). Related cards: [grudeva2025](docs/cards/grudeva2025.md), [grudeva2026_2](docs/cards/grudeva2026_2.md).
 9. Hargarten, V. B.; Kuhn, M.; Briesen, H. "Swelling properties of roasted coffee particles." *Journal of the Science of Food and Agriculture* 100(11) (2020). [https://doi.org/10.1002/jsfa.10440](https://doi.org/10.1002/jsfa.10440). Related cards: [hargarten2020](docs/cards/hargarten2020.md).
 10. Khomyakov, A. P.; Mordanov, S. V.; Khomyakova, T. V. "The experimental data on the density, viscosity, and boiling temperature of the coffee extract." *IOP Conf. Series: Earth and Environmental Science* 548 (2020): 022040. [https://doi.org/10.1088/1755-1315/548/2/022040](https://doi.org/10.1088/1755-1315/548/2/022040). Related cards: [khomyakov2020](docs/cards/khomyakov2020.md).
 11. Lee, W.; Smith, A.; Arshad, S. "Uneven extraction in coffee brewing." *Physics of Fluids* (2023). The model card records the DOI as [https://doi.org/10.1063/5.0138998](https://doi.org/10.1063/5.0138998) but flags the volume and DOI as unverified. Related cards: [lee2023](docs/cards/lee2023.md).
