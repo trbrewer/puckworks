@@ -55,14 +55,26 @@ def dimensional_outputs(result: Result, scaling: Scaling) -> dict:
     Explicit beverage mass refers to the final observation time. Constant density
     approximates beverage mass from prescribed post-drip liquid volume. A finite
     liquid concentration is kg/m^3, never silently a mass percent.
+    Only COMPLETED results qualify, including right-censored observation windows.
+    Failed-result arrays remain available on Result for diagnostics, not predictions.
     """
     names = ("time_s", "outlet_concentration_kg_m3", "outlet_volume_flow_m3_s",
              "solute_mass_kg", "beverage_volume_m3", "beverage_mass_kg", "ey_percent",
              "tds_mass_percent")
     out = dict.fromkeys(names)
     reasons = {}
-    if not result.time:
-        return {**out, "unavailable_reasons": {key: "No supported numerical solution" for key in names}}
+    qualification = {"numerical_status": result.status,
+                     "numerical_unavailable_reasons": dict(result.unavailable_reasons),
+                     "convergence_status": result.convergence_status,
+                     "first_drip_role": "model-derived under prescribed flow",
+                     "physical_validation": "NOT_ESTABLISHED"}
+    if result.status != "COMPLETED" or not result.time:
+        detail = "; ".join(f"{key}: {value}" for key, value in result.unavailable_reasons.items())
+        reason = f"Unqualified numerical result ({result.status}): " + (
+            detail or "No supported numerical observation samples")
+        return {**out, **qualification,
+                "beverage_mass_semantics": "Unavailable: numerical result did not qualify",
+                "unavailable_reasons": {key: reason for key in names}}
     s = scaling
     p = Parameters(**result.parameters)
     tw = None
@@ -102,5 +114,4 @@ def dimensional_outputs(result: Result, scaling: Scaling) -> dict:
             reasons[key] = ("Positive dry dose and solute mass required" if key == "ey_percent" else
                             "Positive beverage mass with explicit semantics and solute mass required"
                             if key == "tds_mass_percent" else "Missing or zero required dimensional scale")
-    return {**out, "beverage_mass_semantics": semantics, "unavailable_reasons": reasons,
-            "first_drip_role": "model-derived under prescribed flow", "physical_validation": "NOT_ESTABLISHED"}
+    return {**out, **qualification, "beverage_mass_semantics": semantics, "unavailable_reasons": reasons}

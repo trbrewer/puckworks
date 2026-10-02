@@ -1,0 +1,81 @@
+{
+  "all_prior_run_fields_and_numerical_reference_metrics_unchanged": true,
+  "case_parameters_and_controls_unchanged": true,
+  "changed_historical_hashes_are_not_restamped": true,
+  "completed_dimensional_report_exact_value_comparisons": 18,
+  "figure_statuses": {
+    "figure3": "FAIL",
+    "figure4": "FAIL",
+    "figure5": "FIG5_REFERENCE_INCOMPLETE"
+  },
+  "historical_head": "401ef26fede33b9949562884fe8686b75d6c0548",
+  "historical_report": "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json",
+  "historical_report_sha256": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+  "historical_result_sha256": {
+    "modes_fine": "face4c8940db92c3d7a1465a5a02bb915e46fa43215313895e0fc59218c13cec",
+    "normal": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec",
+    "pore_refill": "02f331a155db17df4ab069be484576f3607a7c868957d8a73a9c893ee2f6e69b",
+    "space_coarse": "35946950d2cbccc51cca609bba26266b64ea9700f569e16bbb834c24f17f2097",
+    "space_fine": "d708b6ede2f41273ff839ad138edbd386a1aca144137eb1f9199b5a8dbf8fff4",
+    "time_fine": "f1a82ec12f90aba508425390e4383e6c80b6ad02ac302fd25442905bb0f5b41e"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "replay_kind": "Reporting-only replay from hash-verified archived scientific_result arrays; no numerical rerun",
+  "source_bindings": {
+    "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": {
+      "current_sha256": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+      "historical_sha256": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+      "unchanged": true
+    },
+    "puckworks/data/grudeva2026/analytic_reference.json": {
+      "current_sha256": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+      "historical_sha256": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+      "unchanged": true
+    },
+    "puckworks/data/grudeva2026/publication_reference.json": {
+      "current_sha256": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+      "historical_sha256": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+      "unchanged": true
+    },
+    "puckworks/models/grudeva2026/__init__.py": {
+      "current_sha256": "495af0bc7b514968a5f4e2d1901225ceb991cbb30c203a08edbbf0f5147f4d9d",
+      "historical_sha256": "495af0bc7b514968a5f4e2d1901225ceb991cbb30c203a08edbbf0f5147f4d9d",
+      "unchanged": true
+    },
+    "puckworks/models/grudeva2026/__main__.py": {
+      "current_sha256": "d2e58662371c7bd840b2cb768e152c11542c7934548fb6be9c3f62a2489705ab",
+      "historical_sha256": "20b6108489e67631d7851fddd161b5fd694745503974c70c5ba32b4a3322a6c8",
+      "unchanged": false
+    },
+    "puckworks/models/grudeva2026/kernel.py": {
+      "current_sha256": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+      "historical_sha256": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+      "unchanged": true
+    },
+    "puckworks/models/grudeva2026/quantities.py": {
+      "current_sha256": "0ce6ab676afe0840b156d6924d19967ceb1a1937d1a35cf9e5076e40e7e20218",
+      "historical_sha256": "3ca4428adb1c8cd5c27a8a53722e788ceb779f2169442d2f3c84f6eba87ab4f8",
+      "unchanged": false
+    },
+    "puckworks/models/grudeva2026/reduced.py": {
+      "current_sha256": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+      "historical_sha256": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+      "unchanged": true
+    },
+    "puckworks/models/grudeva2026/verification.py": {
+      "current_sha256": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86",
+      "historical_sha256": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86",
+      "unchanged": true
+    },
+    "puckworks/product/lab_reference_producers.py": {
+      "current_sha256": "e55513d307122a949f2fbe4a9991c510ca16f897ee6ad1dc230fdc43e3474496",
+      "historical_sha256": "e55513d307122a949f2fbe4a9991c510ca16f897ee6ad1dc230fdc43e3474496",
+      "unchanged": true
+    },
+    "puckworks/validation/gates.py": {
+      "current_sha256": "474d7e5734f8b8315f46efbc080a08d19a886d7ca6caa37a9d9271b72312234a",
+      "historical_sha256": "474d7e5734f8b8315f46efbc080a08d19a886d7ca6caa37a9d9271b72312234a",
+      "unchanged": true
+    }
+  }
+}

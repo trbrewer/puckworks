@@ -142,6 +142,56 @@ def test_dimensionless_no_invented_geometry_and_mass_semantics(early):
     assert zero['ey_percent'] is None and zero['tds_mass_percent'] is None
 
 
+@pytest.mark.parametrize('status,empty', [('NUMERICAL_VERIFICATION_FAILED', False),
+                                        ('UNSUPPORTED_REGIME', True), ('NUMERICAL_FAILURE', True)])
+def test_dimensional_outputs_reject_unqualified_results(early, status, empty):
+    """Synthetic negative-path replacement, not a new solver observation."""
+    from puckworks.models.grudeva2026.reduced import Result
+    reasons = {'simulation': 'Synthetic failure for output-qualification testing'}
+    result = (Result(status, early.parameters, early.controls, unavailable_reasons=reasons) if empty
+              else dataclasses.replace(early, status=status, unavailable_reasons=reasons))
+    original = result.canonical_json()
+    scale = Scaling(bed_depth_m=.01, bed_area_m2=.002, darcy_flux_m_s=.001,
+                    c_sat_kg_m3=224, dry_coffee_mass_kg=.02, beverage_mass_kg=.04)
+    report = dimensional_outputs(result, scale)
+    for key in ('time_s', 'outlet_concentration_kg_m3', 'outlet_volume_flow_m3_s', 'solute_mass_kg',
+                'beverage_volume_m3', 'beverage_mass_kg', 'ey_percent', 'tds_mass_percent'):
+        assert report[key] is None
+        assert status in report['unavailable_reasons'][key]
+        assert reasons['simulation'] in report['unavailable_reasons'][key]
+    assert report['numerical_status'] == status
+    assert report['numerical_unavailable_reasons'] == reasons
+    assert report['physical_validation'] == 'NOT_ESTABLISHED'
+    assert result.canonical_json() == original  # diagnostic arrays are untouched
+    json.dumps(report, allow_nan=False)
+
+
+def test_dimensional_outputs_completed_censored_and_zero_discharge(early):
+    assert early.status == 'COMPLETED' and early.events['desaturation_exit'] is None
+    assert early.convergence_status == 'NOT_ASSESSED_SINGLE_RUN'
+    scale = Scaling(bed_depth_m=.01, bed_area_m2=.002, darcy_flux_m_s=.001,
+                    c_sat_kg_m3=224, dry_coffee_mass_kg=.02, beverage_density_kg_m3=1000)
+    report = dimensional_outputs(early, scale)
+    assert report['numerical_status'] == 'COMPLETED'
+    assert report['numerical_unavailable_reasons'] == early.unavailable_reasons
+    assert report['convergence_status'] == early.convergence_status
+    assert report['solute_mass_kg'] > 0 and report['ey_percent'] > 0
+    # A completed observation window ending before drip has zero discharge.
+    predrip = simulate(controls=Controls(cells=8, modes=2), times=[0., .1, .4], profile_z=[0., 1.])
+    assert predrip.status == 'COMPLETED'
+    zero = dimensional_outputs(predrip, scale)
+    assert zero['outlet_concentration_kg_m3'] == [0.] * 3
+    assert zero['outlet_volume_flow_m3_s'] == [0.] * 3
+    assert zero['solute_mass_kg'] == zero['beverage_mass_kg'] == zero['ey_percent'] == 0
+    assert zero['tds_mass_percent'] is None  # zero beverage denominator, not zero TDS
+    missing = dimensional_outputs(predrip, Scaling())
+    assert missing['solute_mass_kg'] is None and missing['beverage_mass_kg'] is None
+    assert missing['ey_percent'] is None and missing['tds_mass_percent'] is None
+    measured = dimensional_outputs(predrip, dataclasses.replace(
+        scale, beverage_density_kg_m3=None, beverage_mass_kg=.02))
+    assert measured['tds_mass_percent'] == 0
+
+
 def test_invalid_and_unsupported_inputs():
     for kwargs in [{'phi_f':.6},{'d_sb':0},{'varphi_lb':1},{'c_b_init':math.nan}]:
         with pytest.raises(ValueError):Parameters(**kwargs)
