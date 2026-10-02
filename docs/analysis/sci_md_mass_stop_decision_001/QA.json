@@ -1,0 +1,156 @@
+{
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE",
+  "deterministic_archives": "TWO_BYTE_IDENTICAL_AND_VERIFY_PASS",
+  "external_log_sha256": {
+    "focused": "1ab2287297c27d699a3400750402c8468f5dace6c5c9cf1ac81dcf743b451cc1",
+    "normal": "6028622085ad1be43c0cb0f0fe749d4a129b0cbb736a71b52ccd19209368cd38",
+    "registry": "a1e9d4a4f6480047d86e8b0427e465a411c86562620ae5436e9a2c9eb63a3d2c",
+    "scientific": "602f5a3d1d88e8b7d275d0802f09da816e8b210ed75628c0e1ce561ce33e96b4"
+  },
+  "focused": {
+    "files": [
+      "tests/test_grudeva_stopping_decision.py",
+      "tests/test_conditional_tail_stopping.py",
+      "tests/test_conditional_tail_delivery.py",
+      "tests/test_grudeva_pooled_tail_delivery.py",
+      "tests/test_pannusch_conditional_tail_delivery.py",
+      "tests/test_conditional_tail_training.py"
+    ],
+    "passed": 175,
+    "seconds": 15.8
+  },
+  "generated_claim_evidence_status_commands": [
+    {
+      "command": [
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "historical_baseline_integrity": "PASS; all existing tracked files unchanged from live base. Only inherited MASS-007 pre-score/publication README completion notice differs from historical freeze; runtime/model/source identities exact.",
+  "hosted_ci": "SEPARATE_FROM_LOCAL_QA; report exact publication-head state in draft PR.",
+  "mypy": "PASS_19_MAINTAINED_AND_2_NEW_SOURCE_FILES",
+  "new_tests": 35,
+  "normal": {
+    "deselected": 60,
+    "passed": 5415,
+    "seconds": 1103.22,
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": 65,
+    "warnings": 1
+  },
+  "normal_warning": "Existing development-salt warning in synthetic Visualizer fixture.",
+  "python": "3.12.3",
+  "registry": {
+    "ACKNOWLEDGED_EXCEPTION": 1,
+    "PASS": 65
+  },
+  "ruff": "PASS",
+  "scientific_baseline": {
+    "deselected": 5528,
+    "passed": 5,
+    "seconds": 175.1,
+    "selector": "scientific_baseline and not live and not gpu and not external_data",
+    "skipped": 7
+  },
+  "scientific_outcome_joins_at_this_stage": 0,
+  "source_static_json_path_secret_checks": "PASS",
+  "stage": "COMPLETE_CANDIDATE_ENGINEERING_QA_BEFORE_FREEZE",
+  "versions": {
+    "PyYAML": "6.0.3",
+    "markdown-it-py": "4.2.0",
+    "mypy": "2.4.0",
+    "numpy": "2.5.3",
+    "pytest": "9.1.1",
+    "ruff": "0.16.10",
+    "scipy": "1.18.1"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "clean_candidate": "PASS",
+    "comparators": "PASS",
+    "contracts_acceptance": "PASS",
+    "frozen_models": "PASS",
+    "information_separation": "PASS",
+    "numerical_allowances": "PASS",
+    "observed_endpoints": "PASS",
+    "rights": "PASS",
+    "source_cohort": "PASS",
+    "stopping_intersection": "PASS",
+    "zero_fits": "PASS"
+  },
+  "freeze_sha256": "1bff1647fe9c3590aeb64d752cd09b1737592a83e99e9f0e0ec46e5f22242bc2",
+  "future_chemistry_attached": false,
+  "independent": true,
+  "reviewed_base": "54edb7683154bec005c586279b87606aa0427530",
+  "reviewed_head": "2e1e01acf26916424972956b7a78260ecd9a3c60",
+  "reviewed_tree": "b709c5bb5114e0978bf38d707a24ca633fc94add",
+  "reviewer": "Codex independent scientific reviewer (independent_freeze_review)",
+  "status": "APPROVED",
+  "task": "SCI-MD-MASS-STOP-DECISION-001",
+  "unresolved_blocking_findings": []
+}

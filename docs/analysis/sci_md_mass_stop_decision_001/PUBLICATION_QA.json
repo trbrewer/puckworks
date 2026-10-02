@@ -1,0 +1,112 @@
+{
+  "additional_outcome_joins": 0,
+  "exact_freeze_review_receipts_and_result_bindings": "PASS",
+  "generated_claim_evidence_status_commands": [
+    {
+      "command": [
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "hosted_ci": "Reported separately at the draft PR publication head.",
+  "json_static_links_secret_path_checks": "PASS",
+  "normal_and_scientific_tests": "See frozen QA.json; no scientific code changed after those passing runs.",
+  "planning_only_updates": [
+    "docs/ROADMAP.md",
+    "docs/SPRINTS.md",
+    "docs/data/ESPRESSO_DATA_GUIDE.md",
+    "docs/task-ledger.md"
+  ],
+  "scientific_code_changes_after_freeze": 0,
+  "source_runtime_models_and_tests": "UNCHANGED_FROM_TESTED_AND_REVIEWED_FREEZE",
+  "stage": "POST_SCORE_AGGREGATE_PUBLICATION_QA"
+}

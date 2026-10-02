@@ -1,0 +1,55 @@
+{
+  "actions": "Recorded positive-mass regular-vial endpoints after the accepted anchor only.",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "claim_qualifiers": [
+    "RESEARCH_ONLY",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_OFFLINE_ASSAY_CONDITIONED_DECISION_REPLAY",
+    "CONDITIONAL_ON_MEASURED_BEVERAGE_MASS",
+    "OBSERVED_BOUNDARY_ACTIONS_ONLY",
+    "NO_REAL_TIME_ASSAY_CLAIM",
+    "NO_CONTINUOUS_PHYSICAL_STOPPING_CLAIM",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+  ],
+  "contracts": [
+    {
+      "name": "PRIMARY",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S1",
+      "solute_min_kg": 5e-05,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S2",
+      "solute_min_kg": 0.00015,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S3",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 1.5
+    },
+    {
+      "name": "S4",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 2.5
+    }
+  ],
+  "early_inputs": "Exact MASS-007 saved states: C0=m1,m2; C2=m1,m2,q1,q2. 98 original assays pooled into 22 summaries.",
+  "fixed_prediction_margins": "NOT_APPLICABLE_NO_CHEMISTRY_PREDICTOR",
+  "future_chemistry": "ONE_SCORER_ONLY_AFTER_INDEPENDENT_EXACT_FREEZE_APPROVAL",
+  "governance": "G1",
+  "policies": [
+    "C2",
+    "C0",
+    "FIXED"
+  ],
+  "primary": "C2",
+  "private": "Originals, local locators, states, decisions, per-shot margins/outcomes, reviewer scratch.",
+  "public": "Protocol, hashes, aggregate metrics and numerical/chronology status only.",
+  "source_qa": "Silent parser/role reconstruction may read source bytes and emit only identity, early, coordinate and availability information.",
+  "task": "SCI-MD-MASS-STOP-DECISION-001"
+}
