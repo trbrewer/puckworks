@@ -64,6 +64,8 @@ class TourExecutionStatus(str, Enum):
 # ── the FROZEN route decision for tour v1 (a reviewable change; verified against the live registry) ──
 _K = TourExecutionKind
 _TOUR_V1_ROUTES: dict[str, TourExecutionKind] = {
+    # Intentional manifest addition: #67 native EJAM case, no common scenario.
+    "grudeva2026.reduced": _K.NATIVE_REFERENCE,
     # common-scenario lens (the entered recipe via an adapter)
     "cameron2020.extraction_bdf": _K.COMMON_SCENARIO,
     # native reference runners (the component's own provenance-bound case)

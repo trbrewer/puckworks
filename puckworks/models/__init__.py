@@ -468,6 +468,19 @@ register(Component(
           "gives <=5.3% shot-integrated, no runtime hook."))
 
 
+# MODEL-GRUDEVA2026-REDUCED-001: independent mathematics, preserved older port.
+register(Component(
+    name="grudeva2026.reduced", stage="extraction", kind="runtime",
+    paper="Grudeva, Moroney & Foster (EJAM 2026)", doi="10.1017/S095679252500018X",
+    module="puckworks.models.grudeva2026.reduced",
+    assumptions="Prescribed fixed flow q=1; saturated-layer leading order; spherical boulders; fast fines",
+    valid_range="Dimensionless fixed-flow saturated layer only; unsupported if s_d > s_w; no scenario adapter",
+    gates=[G.gate_grudeva2026_reduced],
+    notes="Independent equation-based reimplementation from CC-BY article; no upstream/old-port source used. "
+          "published_port denotes published-model lineage, not copied code. Code verification only; "
+          "publication-reference qualification is reported separately, including FIG5_REFERENCE_INCOMPLETE. "
+          "PHYSICAL_VALIDATION=NOT_ESTABLISHED; canonical card docs/cards/grudeva2026_2.md."))
+
 # --- evidence_strength (schema v2, WP2) -----------------------------------
 # Assigned card-driven from each component's model-card "Calibration and validation offered
 # by the source" section, at the WEAKEST DEFENSIBLE tier (never upgrade a claim). Kept in ONE
@@ -477,6 +490,7 @@ register(Component(
 from puckworks import registry as _R
 
 _EVIDENCE_STRENGTH = {
+    "grudeva2026.reduced": "code_verification",
     "cameron2020.extraction_bdf": "code_verification",
     "brewer2026.streamtube": "within_campaign_held_out",
     "brewer2026.pack_generator": "qualitative_capacity",
@@ -538,6 +552,7 @@ _PROVENANCE_CLASS = {
     "fasano2000_partI.fines_migration": "published_port",
     "foster2025.infiltration": "published_port",
     "foster2025.machine_mode": "published_port",
+    "grudeva2026.reduced": "published_port",
     "grudeva2025.reduced": "published_port",
     "lee2023.feedback": "published_port",
     "liang2021.desorption": "published_port",

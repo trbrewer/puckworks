@@ -9,6 +9,7 @@ fasano2000_partI.fines_migration,bed_dynamics,qualitative_capacity,-,predicts,-,
 foster2025.infiltration,infiltration,sign_or_compatibility,-,-,predicts,predicts,-,-,-,-,-,-,-,-,-,-,-
 foster2025.machine_mode,machine,source_curve_reproduction,-,-,predicts,predicts,-,-,-,-,-,-,-,-,-,-,-
 grudeva2025.reduced,extraction,post_fit_reconstruction,-,-,-,-,-,-,predicts,predicts,-,-,-,-,-,-,-
+grudeva2026.reduced,extraction,code_verification,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-
 lee2023.feedback,flow,qualitative_capacity,-,-,-,-,predicts,-,predicts,-,-,-,-,-,-,-,-
 liang2021.desorption,extraction,post_fit_reconstruction,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-
 maille2024.phi_closure,grind,code_verification,-,-,-,-,-,-,predicts,predicts,predicts,-,-,-,-,-,-

@@ -52,6 +52,9 @@ class BasisSpec:
 
 # authoritative typed basis per component (sourced from the cards / registry; prose lives in the audit)
 _BASES: dict[str, BasisSpec] = {
+    "grudeva2026.reduced": BasisSpec("grudeva2026.reduced", "grain_volume",
+        "native grain inventory and external-liquid concentration",
+        "Explicit phase-volume conversion does not establish a common scenario or Cameron adapter."),
     "cameron2020.extraction_bdf": BasisSpec(
         "cameron2020.extraction_bdf", "bed_volume", "single-pool EY/TDS",
         "Aggregate bed inventory is phi_s*c_s0; the stored grain concentration defaults to 118 kg/m^3. "

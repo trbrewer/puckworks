@@ -1,5 +1,5 @@
 {
-  "dataset_count": 116,
+  "dataset_count": 118,
   "families": [
     {
       "analytes": [
@@ -1121,6 +1121,86 @@
       "validation_strength": [
         "reference set",
         "post-fit reconstruction"
+      ]
+    },
+    {
+      "analytes": [
+        "UNKNOWN"
+      ],
+      "apparatus_count_if_known": "UNKNOWN",
+      "blocked_uses": [
+        "PHYSICAL_VALIDATION",
+        "EXACT_FIGURE5_REPRODUCTION_WITHOUT_FULL_PROFILES"
+      ],
+      "coffee_count_if_known": "UNKNOWN",
+      "coffee_lot_count_if_known": "UNKNOWN",
+      "conditionally_eligible_uses": [],
+      "consumed_comparison_status": "UNKNOWN",
+      "directness": [
+        "Independent scalar analytic-series evaluation (10000 terms); not production helper",
+        "PDF embedded raster grayscale centerlines; manual linear-axis calibration; declared pixel uncertainty"
+      ],
+      "eligible_uses": [
+        "CODE_VERIFICATION",
+        "QUALIFIED_RASTER_COMPARISON"
+      ],
+      "external_corpus_id": null,
+      "external_source_manifest_hash": null,
+      "family_id": "GRUDEVA2026",
+      "fraction_resolution": "UNKNOWN",
+      "grinder_count_if_known": "UNKNOWN",
+      "historical_task_uses": [
+        "MODEL-GRUDEVA2026-REDUCED-001; gate_grudeva2026_reduced",
+        "MODEL-GRUDEVA2026-REDUCED-001 Figures 3/4 comparison"
+      ],
+      "laboratory_count_if_known": "UNKNOWN",
+      "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+      "last_qualified_task": "MODEL-GRUDEVA2026-REDUCED-001",
+      "manifest_dataset_ids": [
+        "grudeva2026/analytic_reference",
+        "grudeva2026/publication_reference"
+      ],
+      "measurement_resolution": "UNKNOWN",
+      "missing_joins": [],
+      "notes": [
+        "Synthetic spherical diffusion and constant-front references; no measurements",
+        "Selected Figures 3/4 asymptotic samples; not author arrays; Figure 5 full-profile grid/settings incomplete"
+      ],
+      "observables": [
+        "dimensionless outlet concentration",
+        "spatial liquid profiles",
+        "front positions"
+      ],
+      "physical_replicate_structure": "UNKNOWN",
+      "physical_shot_count_if_known": 0,
+      "publication_or_repository": "Grudeva Moroney Foster EJAM 37(2) 496-519; DOI 10.1017/S095679252500018X",
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "rights": [
+        "CC-BY-4.0 article; attributed derived fixture"
+      ],
+      "roast_batch_count_if_known": "UNKNOWN",
+      "source_cards": [
+        "grudeva2026_2"
+      ],
+      "source_identifiers": [
+        "10.1017/S095679252500018X"
+      ],
+      "source_internal_or_external": "PUBLISHED_NUMERICAL_REFERENCE",
+      "spatial_resolution": "UNKNOWN",
+      "stages": [
+        "extraction",
+        "infiltration"
+      ],
+      "target_exposure": "PUBLIC_COMPARISON_NOT_CALIBRATION",
+      "time_resolution": "UNKNOWN",
+      "title": "grudeva2026_2",
+      "uncertainty_status": [
+        "analytic truncation negligible at selected ages",
+        "y (per-coordinate pixel uncertainty)"
+      ],
+      "validation_strength": [
+        "code_verification",
+        "published numerical comparison reference"
       ]
     },
     {
@@ -3266,6 +3346,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "b84ef212ee091c820bcda2b8ca4d543dd9e11c84afed624616f1a8f4563307f8",
+  "manifest_sha256": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
   "schema_version": 1
 }

@@ -1,6 +1,6 @@
 {
   "components_by_evidence_relation": {
-    "code_verification": 5,
+    "code_verification": 6,
     "exploratory_synthesis": 1,
     "post_fit_reconstruction": 5,
     "qualitative_capacity": 5,
@@ -10,30 +10,31 @@
   },
   "components_by_execution_role": {
     "calibration": 15,
-    "runtime": 12
+    "runtime": 13
   },
   "components_by_provenance_class": {
     "project_model": 4,
     "project_synthesis": 1,
-    "published_port": 19,
+    "published_port": 20,
     "reference_only": 3
   },
   "components_by_stage": {
     "bed_dynamics": 5,
-    "extraction": 9,
+    "extraction": 10,
     "flow": 5,
     "grind": 2,
     "infiltration": 2,
     "machine": 2,
     "packing": 2
   },
-  "components_per_publication": 1.42,
+  "components_per_publication": 1.4,
   "components_with_independent_evidence": [
     "brewer2026.lb_reference",
     "brewer2026.lb_taichi",
     "brewer2026.streamtube",
     "cameron2020.extraction_bdf",
     "foster2025.infiltration",
+    "grudeva2026.reduced",
     "maille2024.phi_closure",
     "pannusch2024.closures",
     "romancorrochano2017.extraction",
@@ -41,13 +42,13 @@
   ],
   "n_calibration_only": 15,
   "n_cards": 113,
-  "n_components": 27,
-  "n_components_with_independent_evidence": 9,
-  "n_manifest_records": 116,
+  "n_components": 28,
+  "n_components_with_independent_evidence": 10,
+  "n_manifest_records": 118,
   "n_reference_only": 3,
   "n_rights_or_data_blocked": 0,
-  "n_unique_dataset_sources": 45,
+  "n_unique_dataset_sources": 46,
   "n_unique_dois": 11,
-  "n_unique_source_publications": 19,
+  "n_unique_source_publications": 20,
   "rights_or_data_blocked": []
 }

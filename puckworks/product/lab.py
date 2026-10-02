@@ -1219,6 +1219,8 @@ def render_markdown(report: dict) -> str:
     if report["executed_reference_results"]:
         for r in report["executed_reference_results"]:
             lines.append(f"- `{r['component_id']}` — {r['status']} ({r['label']})")
+            if r.get("reference_qualification"):
+                lines.append(f"  [Canonical model card]({r['evidence']['card']}) — {r['fidelity_ceiling']}")
     else:
         lines.append("_None executed._")
     lines += ["", "## Reference-runner coverage", ""]

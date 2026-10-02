@@ -1,0 +1,304 @@
+{
+  "source": {
+    "doi": "10.1017/S095679252500018X",
+    "authors": "Grudeva, Moroney and Foster",
+    "license": "CC-BY-4.0",
+    "article_sha256": "5b9e41e85591dce8a32b923663ee3ccf9e00c0ac34dc17659864ff7417326a29",
+    "figure3_sha256": "089302c08c61eaaa19af4a3bf38ac45107f458cea53cc16208b468c46338e9a8",
+    "figure4_sha256": "55c978287c1168353f35bff414dcf3ecb6ac7e1cf78198d6ab24a09f4e96429a",
+    "method": "PDF embedded raster extraction; grayscale isolation in declared unoccluded columns; median centerline, pixel-width uncertainty; manual axis calibration",
+    "curve_identity": "epsilon -> 0, asymptotic, gray",
+    "axes": "dimensionless z,t,c_l; linear",
+    "calibration": {
+      "figure3": {
+        "z0_x": 88,
+        "z1_x": 765,
+        "c0_y": 641,
+        "c1_y": 115
+      },
+      "figure4": {
+        "t4_x": 95,
+        "t8_x": 893,
+        "c0_y": 571,
+        "c1_y": 95
+      }
+    },
+    "limitations": "Raster resolution, JPEG artifacts and curve occlusion; selected supported samples only; not author arrays or original MSE grid"
+  },
+  "figure3": [
+    {
+      "t": 0.4,
+      "z": 0.059084194977843424,
+      "c": 0.28422053231939165,
+      "pixel_x": 128,
+      "pixel_y": 491.5,
+      "c_uncertainty": 0.004752851711026616,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 0.4,
+      "z": 0.060561299852289516,
+      "c": 0.2965779467680608,
+      "pixel_x": 129,
+      "pixel_y": 485.0,
+      "c_uncertainty": 0.005703422053231939,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 0.4,
+      "z": 0.0620384047267356,
+      "c": 0.31844106463878324,
+      "pixel_x": 130,
+      "pixel_y": 473.5,
+      "c_uncertainty": 0.011406844106463879,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.46824224519940916,
+      "c": 0.06844106463878327,
+      "pixel_x": 405,
+      "pixel_y": 605.0,
+      "c_uncertainty": 0.008555133079847909,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.4756277695716396,
+      "c": 0.09505703422053231,
+      "pixel_x": 410,
+      "pixel_y": 591.0,
+      "c_uncertainty": 0.011406844106463879,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.48301329394387,
+      "c": 0.13688212927756654,
+      "pixel_x": 415,
+      "pixel_y": 569.0,
+      "c_uncertainty": 0.015209125475285171,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.49039881831610044,
+      "c": 0.19486692015209126,
+      "pixel_x": 420,
+      "pixel_y": 538.5,
+      "c_uncertainty": 0.021863117870722433,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.4948301329394387,
+      "c": 0.24429657794676807,
+      "pixel_x": 423,
+      "pixel_y": 512.5,
+      "c_uncertainty": 0.02376425855513308,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.7119645494830132,
+      "c": 0.05228136882129278,
+      "pixel_x": 570,
+      "pixel_y": 613.5,
+      "c_uncertainty": 0.006653992395437262,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.7193500738552437,
+      "c": 0.07604562737642585,
+      "pixel_x": 575,
+      "pixel_y": 601.0,
+      "c_uncertainty": 0.006653992395437262,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.7267355982274741,
+      "c": 0.11026615969581749,
+      "pixel_x": 580,
+      "pixel_y": 583.0,
+      "c_uncertainty": 0.010456273764258554,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.7341211225997046,
+      "c": 0.14923954372623574,
+      "pixel_x": 585,
+      "pixel_y": 562.5,
+      "c_uncertainty": 0.016159695817490494,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.741506646971935,
+      "c": 0.21482889733840305,
+      "pixel_x": 590,
+      "pixel_y": 528.0,
+      "c_uncertainty": 0.02091254752851711,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9556868537666174,
+      "c": 0.0408745247148289,
+      "pixel_x": 735,
+      "pixel_y": 619.5,
+      "c_uncertainty": 0.006653992395437262,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9630723781388478,
+      "c": 0.057034220532319393,
+      "pixel_x": 740,
+      "pixel_y": 611.0,
+      "c_uncertainty": 0.0076045627376425855,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9704579025110783,
+      "c": 0.08079847908745247,
+      "pixel_x": 745,
+      "pixel_y": 598.5,
+      "c_uncertainty": 0.010456273764258554,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9778434268833087,
+      "c": 0.1150190114068441,
+      "pixel_x": 750,
+      "pixel_y": 580.5,
+      "c_uncertainty": 0.012357414448669201,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9852289512555391,
+      "c": 0.1634980988593156,
+      "pixel_x": 755,
+      "pixel_y": 555.0,
+      "c_uncertainty": 0.015209125475285171,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 6.4,
+      "z": 0.9926144756277696,
+      "c": 0.23288973384030418,
+      "pixel_x": 760,
+      "pixel_y": 518.5,
+      "c_uncertainty": 0.03231939163498099,
+      "z_uncertainty": 0.0029542097488921715
+    }
+  ],
+  "figure3_fronts": [
+    {
+      "t": 0.4,
+      "z": 0.06646971935007386,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 3.2,
+      "z": 0.5036927621861153,
+      "z_uncertainty": 0.0029542097488921715
+    },
+    {
+      "t": 4.8,
+      "z": 0.7533234859675036,
+      "z_uncertainty": 0.0029542097488921715
+    }
+  ],
+  "figure4": [
+    {
+      "t": 6.421052631578947,
+      "c": 0.2867647058823529,
+      "pixel_x": 578,
+      "pixel_y": 434.5,
+      "c_uncertainty": 0.015756302521008403,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.451127819548873,
+      "c": 0.226890756302521,
+      "pixel_x": 584,
+      "pixel_y": 463.0,
+      "c_uncertainty": 0.01050420168067227,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.50125313283208,
+      "c": 0.15546218487394958,
+      "pixel_x": 594,
+      "pixel_y": 497.0,
+      "c_uncertainty": 0.008403361344537815,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.551378446115288,
+      "c": 0.1092436974789916,
+      "pixel_x": 604,
+      "pixel_y": 519.0,
+      "c_uncertainty": 0.0063025210084033615,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.601503759398496,
+      "c": 0.07563025210084033,
+      "pixel_x": 614,
+      "pixel_y": 535.0,
+      "c_uncertainty": 0.004201680672268907,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.651629072681704,
+      "c": 0.052521008403361345,
+      "pixel_x": 624,
+      "pixel_y": 546.0,
+      "c_uncertainty": 0.004201680672268907,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.701754385964913,
+      "c": 0.03676470588235294,
+      "pixel_x": 634,
+      "pixel_y": 553.5,
+      "c_uncertainty": 0.0031512605042016808,
+      "t_uncertainty": 0.010025062656641603
+    },
+    {
+      "t": 6.802005012531328,
+      "c": 0.017857142857142856,
+      "pixel_x": 654,
+      "pixel_y": 562.5,
+      "c_uncertainty": 0.0031512605042016808,
+      "t_uncertainty": 0.010025062656641603
+    }
+  ],
+  "figure4_event": {
+    "t": 6.383458646616541,
+    "t_uncertainty": 0.010025062656641603
+  },
+  "figure5": {
+    "status": "FIG5_REFERENCE_INCOMPLETE",
+    "times": [
+      0.4,
+      3.2,
+      4.8,
+      6.4
+    ],
+    "epsilon_labels": [
+      0.01,
+      0.0075,
+      0.005,
+      0.0025
+    ],
+    "reason": "No qualified full-model spatial arrays, exact diffusivity coefficient or author observation grid. Raster Figure 5 errors alone cannot verify the implementation."
+  }
+}

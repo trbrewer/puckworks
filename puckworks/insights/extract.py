@@ -148,6 +148,9 @@ def _resolve_card(component_name: str, card_stems) -> tuple:
     citing the component, not its authority, and following them would attribute a model's physics
     to a card that never claimed it.
     """
+    from puckworks.registry import canonical_card_path
+    if component_name == "grudeva2026.reduced":
+        return canonical_card_path(component_name), "EXPLICIT_CANONICAL"
     full = component_name.replace(".", "_")
     if full in card_stems:
         return "docs/cards/%s.md" % full, "EXACT"

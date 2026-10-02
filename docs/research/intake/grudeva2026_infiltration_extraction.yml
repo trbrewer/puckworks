@@ -23,8 +23,8 @@ likely_variables:
   - first-drip-time
   - saturation-plateau
 relevance: >-
-  The exact infiltration-extraction coupling backlog item; card-no-implementation (card exists,
-  no registered component yet). Implementation is scoped in issue #67, verification-only evidence.
+  Standalone grudeva2026.reduced is implemented under MODEL-GRUDEVA2026-REDUCED-001;
+  code verification only. Publication reproduction remains incomplete; issue #67 stays open.
 notes: >-
   Article is CC-BY-4.0 (re-implement equations with attribution). The published reduced-solver repo
   github.com/YoanaGrudeva/espresso-model declares NO SPDX license, but as of 2026-08-14 the upstream

@@ -279,6 +279,17 @@ _RECORDS: dict[str, RightsRecord] = {
                 "dataset); issue #70"),
         decision_issue="#70",
         review_date="2026-07-19"),
+    "grudeva2026.reduced": RightsRecord(
+        component_id="grudeva2026.reduced",
+        code_rights_state="INDEPENDENT_REIMPLEMENTATION", data_rights_state="CLEAR",
+        output_redistribution_state="CLEAR", decision_issue="#67", review_date="2026-10-02",
+        rights_note="Independent equation-based implementation from the CC-BY-4.0 EJAM article. "
+                    "New attributed figure-coordinate fixtures have their own MANIFEST records. "
+                    "No upstream code, private supplement, source workbook or correspondence is shipped. "
+                    "Existing Grudeva permission is separate and unchanged; this clears only the named component.",
+        source="Grudeva, Moroney and Foster, DOI 10.1017/S095679252500018X, CC-BY-4.0; "
+               "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md; "
+               "puckworks/data/grudeva2026/PROVENANCE.md"),
     "grudeva2025.reduced": RightsRecord(
         component_id="grudeva2025.reduced",
         code_rights_state="PERMISSION_DOCUMENTED",

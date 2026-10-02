@@ -49,11 +49,12 @@ class RunnerSpec:
 
 def _evidence(component_id: str) -> dict:
     import puckworks
+    from puckworks.registry import canonical_card_path
     for c in puckworks.components():
         if c.name == component_id:
             return {"evidence_strength": c.evidence_strength, "provenance_class": c.provenance_class,
                     "n_gates": len(c.gates), "validity_range": c.valid_range,
-                    "card": f"docs/cards/{component_id.split('.')[0]}.md"}
+                    "card": canonical_card_path(component_id)}
     return {}
 
 
@@ -200,7 +201,29 @@ def _run_lb_reference_channel() -> dict:
     }
 
 
+def _run_grudeva2026_reference() -> dict:
+    from puckworks.product.lab_reference_producers import grudeva2026_reference_summary
+    s = grudeva2026_reference_summary()
+    return {
+        "native_inputs": s["native_inputs"],
+        "outputs": [_out(name, value, "dimensionless", "simulated" if name == "desaturation_exit" else "derived")
+                    for name, value in s["values"].items()],
+        "gate_authority": {"gate": s["gate"], "verdict": s["gate_verdict"]},
+        "reference_qualification": s["reference_qualification"],
+        "scientific_result": s["scientific_result"],
+        "method": s["method"],
+        "fidelity_ceiling": "code verification / model capacity; PHYSICAL_VALIDATION=NOT_ESTABLISHED; "
+                            + "; ".join(f"{key}: {s['reference_qualification'][key]['status']}"
+                                        for key in ("figure3", "figure4", "figure5"))
+                            + "; NOT A COMMON-SCENARIO PREDICTION / NOT EXPERIMENTAL VALIDATION",
+        "assumptions": ["native publication case", "prescribed fixed flow q=1", "saturated-layer regime"],
+        "caveat": "NOT A COMMON-SCENARIO PREDICTION / NOT EXPERIMENTAL VALIDATION",
+    }
+
+
 RUNNERS: dict[str, tuple] = {
+    "grudeva2026.reduced": (RunnerSpec("grudeva2026_ejam_reference", "1",
+        "grudeva2026.reduced", "batch-only"), _run_grudeva2026_reference),
     "brewer2026.lb_reference": (
         RunnerSpec("lb_reference_channel", "1", "brewer2026.lb_reference", "batch-only"),
         _run_lb_reference_channel),

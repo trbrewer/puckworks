@@ -104,6 +104,12 @@ CAMERON_EY = QuantityDefinition(
 
 # native output definitions per second-lens candidate (typed; used for the comparability re-audit)
 _CANDIDATE_OUTPUT: dict[str, QuantityDefinition] = {
+    "grudeva2026.reduced": QuantityDefinition(
+        quantity_id="grudeva2026.native_outlet", numerator="solute_concentration_over_c_sat",
+        reference_basis="dimensionless", phase="cup_outlet", species_scope="single_soluble_pool",
+        spatial_support="outlet", temporal_support="instantaneous", aggregation="normalized_ratio",
+        unit="-", semantic_role="simulated", observable_definition="native fixed-flow c_exit/c_sat",
+        evidence_note="Before first drip zero means no outflow; no common-scenario or Cameron adapter"),
     "mo2023_2.coupled_bed": QuantityDefinition(
         quantity_id="mo.cell_concentration", numerator="solute_concentration",
         reference_basis="local_cell_volume", phase="pore_liquid", species_scope="total_solute",
@@ -132,6 +138,13 @@ def candidate_output(component_id: str) -> QuantityDefinition | None:
 # ── shared-scenario execution readiness (distinct from comparability) ──────────────
 # per-candidate execution assessment against the ONE bounded scenario (facts from cards/registry)
 _EXECUTION: dict[str, dict] = {
+    "grudeva2026.reduced": {
+        "measurement_agenda_authorized": False,  # native-only task; no acquisition or adapter work
+        "state": "INPUT_ADAPTER_REQUIRED",
+        "missing_inputs": ["matching material populations, inventory and c_sat", "explicit fixed Darcy flow and geometry",
+                           "compatible observation operators; phase-volume conversion alone is insufficient"],
+        "grinder": "native publication fractions; no grinder-dial mapping",
+        "reason": "Bounded native fixed-flow component only; shared-scenario execution and overlay unavailable"},
     "mo2023_2.coupled_bed": {
         "state": "INPUT_ADAPTER_REQUIRED",
         "missing_inputs": ["cell measures + cup/outlet boundary must be defined before integrating "
@@ -195,7 +208,8 @@ def measurement_agenda() -> list:
     and the test it would enable. Nothing here authorizes execution."""
     agenda = []
     for cid, a in sorted(_EXECUTION.items()):
-        if a["state"] in ("READY_FOR_SHARED_SCENARIO", "RIGHTS_BLOCKED"):
+        if (a["state"] in ("READY_FOR_SHARED_SCENARIO", "RIGHTS_BLOCKED")
+                or not a.get("measurement_agenda_authorized", True)):
             continue
         for i, miss in enumerate(a["missing_inputs"]):
             agenda.append({

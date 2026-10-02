@@ -117,6 +117,7 @@ Which registered component each campaign would advance (generated; do not hand-e
 | `foster2025.infiltration` | runtime | sign_or_compatibility (1 gates) | gate_g9_series_resistance, gate_infiltration_triangle | `EXP-002`, `EXP-009` | — |
 | `foster2025.machine_mode` | runtime | source_curve_reproduction (3 gates) | — | — (no current campaign) | — |
 | `grudeva2025.reduced` | runtime | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
+| `grudeva2026.reduced` | runtime | code_verification (1 gates) | — | — (no current campaign) | — |
 | `lee2023.feedback` | calibration | qualitative_capacity (1 gates) | — | — (no current campaign) | — |
 | `liang2021.desorption` | calibration | post_fit_reconstruction (2 gates) | — | — (no current campaign) | — |
 | `maille2024.phi_closure` | calibration | code_verification (3 gates) | — | — (no current campaign) | — |

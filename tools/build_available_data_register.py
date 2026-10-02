@@ -131,6 +131,19 @@ def build() -> dict:
         "last_qualified_task": "SCI-MD-RADIAL-OBS-001",
         "last_qualified_commit": "TASK_BRANCH_CONTRACT_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
     })
+    if "GRUDEVA2026" in families:
+        families["GRUDEVA2026"].update({
+            "source_identifiers": ["10.1017/S095679252500018X"],
+            "stages": ["extraction", "infiltration"],
+            "observables": ["dimensionless outlet concentration", "spatial liquid profiles", "front positions"],
+            "source_internal_or_external": "PUBLISHED_NUMERICAL_REFERENCE",
+            "target_exposure": "PUBLIC_COMPARISON_NOT_CALIBRATION",
+            "eligible_uses": ["CODE_VERIFICATION", "QUALIFIED_RASTER_COMPARISON"],
+            "blocked_uses": ["PHYSICAL_VALIDATION", "EXACT_FIGURE5_REPRODUCTION_WITHOUT_FULL_PROFILES"],
+            "last_qualified_task": "MODEL-GRUDEVA2026-REDUCED-001",
+            "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+            "physical_shot_count_if_known": 0,
+        })
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

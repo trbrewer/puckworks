@@ -362,16 +362,20 @@ def test_the_old_wording_survives_only_where_it_is_quoted_as_the_defect():
 # --------------------------------------------------------------------------------------------
 # DETERMINISM
 # --------------------------------------------------------------------------------------------
-def test_committed_correction_result_reproduces_exactly(result):
-    committed = (BUNDLE / "correction_result.json").read_text(encoding="utf-8")
-    expected = json.dumps(result, indent=2) + "\n"
-    if committed != expected:
-        c = json.loads(committed)
-        diffs = [k for k in sorted(set(c) | set(result)) if c.get(k) != result.get(k)]
-        raise AssertionError(
-            "correction_result.json is stale: %s\n  fix: python -m "
-            "puckworks.analysis.correction_i045_lineage" % (diffs or "formatting"))
-
+def test_committed_correction_result_preserves_historical_scope(result):
+    # The saved I-045 receipt is historical. New unrelated MANIFEST rows must not restamp it.
+    # Its only global observation is n_rows; verify at this task's frozen baseline,
+    # and compare every scoped correction field against the current live checker.
+    committed = json.loads((BUNDLE / "correction_result.json").read_text(encoding="utf-8"))
+    import copy, csv, io
+    current = copy.deepcopy(result)
+    if _have_base():
+        frozen_rows = list(csv.DictReader(io.StringIO(
+            _git("show", "ca663733c0cd1d171899e137a7256ab29e857f35:puckworks/data/MANIFEST.csv").stdout)))
+        assert committed["manifest"]["n_rows"] == len(frozen_rows)
+    assert current["manifest"]["n_rows"] == len(C._manifest_rows())
+    current["manifest"]["n_rows"] = committed["manifest"]["n_rows"]
+    assert current == committed
 
 def test_two_constructions_are_identical(result):
     again = C.check()

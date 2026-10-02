@@ -121,10 +121,10 @@ def test_waszkiewicz_card_no_longer_drifts(report):
     assert "waszkiewicz2025.poroelastic" not in stale
 
 
-def test_grudeva_is_card_no_implementation(report):
+def test_grudeva_has_an_implementation_without_reference_promotion(report):
     cats = {(f["subject"], f["category"]) for f in report["findings"]}
-    assert ("grudeva2026_2", "card_no_implementation") in cats
-    assert ("grudeva2026_infiltration_extraction", "card_no_implementation_intake") in cats
+    assert ("grudeva2026_2", "card_no_implementation") not in cats
+    assert ("grudeva2026_infiltration_extraction", "card_no_implementation_intake") not in cats
 
 
 def test_wbc_rights_are_unresolved(report):

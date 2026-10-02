@@ -175,3 +175,10 @@ def run_all_gates(verbose=True) -> bool:
     if verbose:
         print(suite.summary_text())
     return suite.passed
+
+
+def canonical_card_path(component_id: str) -> str:
+    """Canonical card binding for the new EJAM component; preserve legacy defaults."""
+    if component_id == "grudeva2026.reduced":
+        return "docs/cards/grudeva2026_2.md"
+    return f"docs/cards/{component_id.split('.')[0]}.md"

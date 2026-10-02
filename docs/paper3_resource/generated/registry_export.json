@@ -85,6 +85,18 @@
       "stage": "extraction"
     },
     {
+      "doi": "10.1017/S095679252500018X",
+      "evidence_strength": "code_verification",
+      "execution_role": "runtime",
+      "id": "grudeva2026.reduced",
+      "kind_legacy": "runtime",
+      "module": "puckworks.models.grudeva2026.reduced",
+      "n_gates": 1,
+      "paper": "Grudeva, Moroney & Foster (EJAM 2026)",
+      "provenance_class": "published_port",
+      "stage": "extraction"
+    },
+    {
       "doi": "10.1038/s41598-021-85787-1",
       "evidence_strength": "post_fit_reconstruction",
       "execution_role": "calibration",
@@ -325,7 +337,7 @@
       "stage": "packing"
     }
   ],
-  "content_sha256": "e9eb4f618b21ea424b6c4ca8e08d287548e50afcef07b57d73d7cbd423408988",
-  "n_components": 27,
+  "content_sha256": "505f31392a7ee2b8ebdd1d9e44e762fb91074df2ea300a72c1a1ca0ee4772884",
+  "n_components": 28,
   "schema_version": 1
 }

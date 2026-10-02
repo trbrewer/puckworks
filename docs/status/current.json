@@ -392,6 +392,21 @@
       "issue_or_pr": "#258",
       "verified_commit": "c4b21a9",
       "verified_date": "2026-08-30"
+    },
+    {
+      "id": "model-grudeva2026-reduced-001",
+      "title": "Independent fixed-flow Grudeva EJAM reduced solver and native reference runner",
+      "area": "model-component",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Exact-head independent review and draft PR owner disposition; Figure 3/4 reproduction failed, Figure 5 reference incomplete; no successor",
+      "acceptance_evidence": "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json; standalone numerical verification only; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "issue_or_pr": "#67",
+      "verified_commit": null,
+      "verified_date": "2026-10-02"
     }
   ]
 }

@@ -57,7 +57,7 @@ def test_public_app_only_uses_the_service_and_no_forbidden_constructs():
 def test_only_publicly_cleared_components_are_offered_and_runnable():
     from apps import lab_ui_common as C
     live = C.public_live_ids()
-    assert live == ["brewer2026.lb_reference", "grudeva2025.reduced"]
+    assert live == ["brewer2026.lb_reference", "grudeva2025.reduced", "grudeva2026.reduced"]
     # an uncleared selection is refused before the service is called
     with pytest.raises(ValueError):
         C.build_public_selfcheck_request(["cameron2020.extraction_bdf"])

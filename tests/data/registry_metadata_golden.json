@@ -59,6 +59,12 @@
     "provenance_class": "published_port",
     "stage": "extraction"
   },
+  "grudeva2026.reduced": {
+    "evidence_strength": "code_verification",
+    "execution_role": "runtime",
+    "provenance_class": "published_port",
+    "stage": "extraction"
+  },
   "lee2023.feedback": {
     "evidence_strength": "qualitative_capacity",
     "execution_role": "calibration",
