@@ -1,0 +1,65 @@
+{
+  "artifacts": {
+    "cohort.json": "3135f6b053353f23b6e8f6a7d758a5df7275dc6eb100951626feebaa48d8417c",
+    "counts.json": "71d590a20f71b3052815d34bd0cae55ff23816ec4084043471d5ad5430d8dab2",
+    "decision_manifest.json": "3251e56bbc6f9a0d6dc2675a841f6505a8ecdd4cd762856180ceb8a54ddadc79",
+    "decisions.json": "eb8b1295bcf24690ea322b31ce5d534866a617b5d24b509642a5f8c0177a3e43",
+    "queries.json": "40d7e3ac9c8e60ab52b2e05375ee71c1c5360095c08e8fe8f26a772a56811450",
+    "states.json": "c30cd6a169317dc85aaab559db5cbb2b3fdee8cf2908037cda9a2205d9441bff"
+  },
+  "bases": {
+    "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE",
+    "espresso-whole-pull": {
+      "base": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+      "tree": "8ced37ad5b294616b8935d92a57e3845321d5eed"
+    },
+    "nonredundancy": "NO_EQUIVALENT_TASK_FOUND",
+    "private_search": "Configured inventory metadata and live top-level evidence directories; mean-frozen C2 diagnostic concerns Pannusch transfer and is not this observed Grudeva decision question.",
+    "puckworks": {
+      "base": "54edb7683154bec005c586279b87606aa0427530",
+      "tree": "822bace678749a8adddff1c9d17ad8d8432bbba2"
+    },
+    "selection_anchor_drift": "NONE",
+    "sources": "Accepted permission record and MASS-007 local source locator verified without publishing paths."
+  },
+  "claims": [
+    "RESEARCH_ONLY",
+    "TARGET_EXPOSED",
+    "RETROSPECTIVE_OFFLINE_ASSAY_CONDITIONED_DECISION_REPLAY",
+    "CONDITIONAL_ON_MEASURED_BEVERAGE_MASS",
+    "OBSERVED_BOUNDARY_ACTIONS_ONLY",
+    "NO_REAL_TIME_ASSAY_CLAIM",
+    "NO_CONTINUOUS_PHYSICAL_STOPPING_CLAIM",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+  ],
+  "code_and_protocol": {
+    "docs/analysis/sci_md_mass_delivery_006/models/C0.json": "4af994f532d65cc9989e426c802ba4069838eb3564155781ce591330cb2318a5",
+    "docs/analysis/sci_md_mass_delivery_006/models/C2.json": "c0e38da25edf5441b88f444e3270b5b83f2ea94773fc09048009a691ac7c230e",
+    "docs/analysis/sci_md_mass_delivery_007/FREEZE.json": "2b3c39c942bc25ed9450d8ee14ac6dcaaa029ccc8d0a4540e14007ae17913966",
+    "docs/analysis/sci_md_mass_delivery_007/PARENT_006_HANDOFF.json": "b9b55bc137f9a97839e6f3b8aa24725a37de6acb9ed849baf2200dab59450069",
+    "docs/analysis/sci_md_mass_stop_decision_001/BASELINE.json": "4d974670d356f7f2a8055cfdc2990cbfac6935b75fa295486215edc768d92278",
+    "docs/analysis/sci_md_mass_stop_decision_001/BASES.json": "84f3c473c9acf73944b23ce090a3d9eb7c3f65a968eb2191fe9d4ecdcd8f7d29",
+    "docs/analysis/sci_md_mass_stop_decision_001/DATA_AVAILABILITY_PREFLIGHT.json": "e3619bbe4748ff9bbdb2b7b28e4d43b94019126bd30ce5498561fa1cfeca4792",
+    "docs/analysis/sci_md_mass_stop_decision_001/INFORMATION_CONTRACT.json": "8538c40b8256813678bf32622d27caa2fe814d50a3ff1ebd5c9714723583c8f3",
+    "docs/analysis/sci_md_mass_stop_decision_001/PROTOCOL.md": "2325143442df0d8c096b43495f480e986b3764074a64ebef9794ec8619f4450a",
+    "docs/analysis/sci_md_mass_stop_decision_001/QA.json": "3b8ff90f45bb0c23ac11cd383b23250d20c7068f1cbdadda7de4f6eb780c9f6b",
+    "docs/analysis/sci_md_mass_stop_decision_001/README.md": "ca33cb3af518e9f8fec172e3f67d480108ca06e572c749e0140691abd068b5e4",
+    "docs/analysis/sci_md_mass_stop_decision_001/SOURCE.json": "660ba40fc9451a8c6601c40ab7350cb3f82264c4260432fabe2e99c161833eb5",
+    "puckworks/analysis/conditional_tail_delivery.py": "4fb20dd42e0ed7d5a758f549d616131988a1dab05ddc49b9253441606f155e33",
+    "puckworks/analysis/conditional_tail_stopping.py": "6c8d25a062fd8175d8697cc9dd5e04b32840f90dce116a3c708a5f3d4a85f96a",
+    "puckworks/analysis/grudeva_clock.py": "4d8d5ef6d47bd40e0522b3d091e306f2126ee3ed78194f90cfa9a58f4519d57d",
+    "puckworks/analysis/grudeva_pooled_tail_delivery.py": "75c84e716f66201cc8623b96ba903c20763299b1f2e511f043517e20fc247910",
+    "puckworks/analysis/grudeva_stopping_decision.py": "9426c8a7c7501dfabe4090fe6385a00e2b4933a45e8f205d8ddce14859a75b77",
+    "puckworks/analysis/grudeva_stopping_decision_scoring.py": "cf4360d98d6cf409dd4526ccb9a901d94e714ee0305cb057e74ae5ad1198e134",
+    "tests/test_grudeva_stopping_decision.py": "01bac4b90024b241b1faabc084e01bc14cb72f8a1509ddfcb8aeac6e74b97dc7"
+  },
+  "head": "2e1e01acf26916424972956b7a78260ecd9a3c60",
+  "maximum_false_feasible": 1,
+  "minimum_decisions": 9,
+  "minimum_successes": 9,
+  "outcome_joins_allowed": 1,
+  "primary": "C2",
+  "required_shots": 11,
+  "task": "SCI-MD-MASS-STOP-DECISION-001",
+  "tree": "b709c5bb5114e0978bf38d707a24ca633fc94add"
+}

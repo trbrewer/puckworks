@@ -1,0 +1,12 @@
+{
+  "files": {
+    "decisions.json": "eb8b1295bcf24690ea322b31ce5d534866a617b5d24b509642a5f8c0177a3e43",
+    "observed_suffix.json": "22ba71554f2ae7f50de6f8c0d422d3b38dd93cf33d61e370a1f52f6c3a447270",
+    "score_receipt.json": "87b300e9556ced633e26ec341cecf4576f00f71825b8e73bbee3b29e289d4da9",
+    "scores.json": "ac566004778cb8f6c1fb9de26053a6a6071c9bcea1934fafff948589f4835627",
+    "shot_results.json": "76a8ca2ac919d144f9c8c27bb38cd70c377dd538bacba7b07fdfb404f2f5db22"
+  },
+  "scientific_outcome_joins": 1,
+  "status": "COMPLETE",
+  "task": "SCI-MD-MASS-STOP-DECISION-001"
+}

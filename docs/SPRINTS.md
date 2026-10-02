@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] SCI-MD-MASS-STOP-DECISION-001: **FROZEN_C2_STOPPING_DECISION_ADEQUATE_ON_DECLARED_OFFLINE_CONTRACT**. C2/C0/fixed each succeed on 11/11 primary shots; C0 matches C2's zero observed endpoint regret, so no incremental C2 complexity value is established. All four sensitivities, false-feasible severity and abstention reported from exactly one independently approved score. G1 / NO_GOVERNING_PHYSICS_CHANGE; RESEARCH_ONLY / TARGET_EXPOSED / retrospective offline assay-conditioned decision replay on recorded boundaries. [Result](analysis/sci_md_mass_stop_decision_001/RESULT.md). Zero new fits/optimizers/EWP runs; no adoption or automatic successor. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 - [x] Local audit F15: correct dry-solids versus water fraction in the four-source
   viscosity gate's density conversion; source-basis regression and ten related
   tests pass. NO_GOVERNING_PHYSICS_CHANGE; no threshold or live metric change.

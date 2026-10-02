@@ -1,0 +1,69 @@
+{
+  "contracts": [
+    {
+      "name": "PRIMARY",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S1",
+      "solute_min_kg": 5e-05,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S2",
+      "solute_min_kg": 0.00015,
+      "tds_min_percent": 2.0
+    },
+    {
+      "name": "S3",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 1.5
+    },
+    {
+      "name": "S4",
+      "solute_min_kg": 0.0001,
+      "tds_min_percent": 2.5
+    }
+  ],
+  "files": {
+    "cohort.json": "3135f6b053353f23b6e8f6a7d758a5df7275dc6eb100951626feebaa48d8417c",
+    "counts.json": "71d590a20f71b3052815d34bd0cae55ff23816ec4084043471d5ad5430d8dab2",
+    "decisions.json": "eb8b1295bcf24690ea322b31ce5d534866a617b5d24b509642a5f8c0177a3e43",
+    "queries.json": "40d7e3ac9c8e60ab52b2e05375ee71c1c5360095c08e8fe8f26a772a56811450",
+    "states.json": "c30cd6a169317dc85aaab559db5cbb2b3fdee8cf2908037cda9a2205d9441bff"
+  },
+  "models": {
+    "C0": "d486067fc8e8c381860f2473bfe0d14176f0a5abc3f8fed7cd75525923d82d86",
+    "C2": "960e0c7dd37d3ba876f95a44c00c69f222e53c022a641e4b092a2af686fb9516"
+  },
+  "new_fits": 0,
+  "optimizer_calls": 0,
+  "outcome_joins": 0,
+  "parent_artifacts": {
+    "cohort.json": "3135f6b053353f23b6e8f6a7d758a5df7275dc6eb100951626feebaa48d8417c",
+    "consumer_equivalence.json": "beaf30afb53cb4fa819a516d66ca9b154441fc7fc856b8dda0039001c27b0e4c",
+    "consumer_predictions.json": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+    "counts.json": "8bac8da5d15260eb700a9ff917935384dd369f824afe56315d9cd0b71c1f33a4",
+    "early_inputs.json": "4bf48e3df8741aefc34a095bd322b00d86ab27f5f346a96e8c71fdae1075fede",
+    "pools.json": "6dcf1e61bfcc955e745b688b3d3f64f59f5d1f868b589ec1cbdcedfd80c02b71",
+    "prediction_completion.json": "b5235da39828f57ee4ee4b667c72567dbaa425bf2c70954344e6f7d77c85e87c",
+    "prediction_start.json": "11d4a278b25883875b1145fb0c02ce888e52f5dc4a0da943c49a3c71c6b68c7f",
+    "predictions.json": "0cb2085a2bce1212198efbd10c88c848b1c6e608a26f04115b38899e5116707d",
+    "prepare_manifest.json": "49a560be3dfafe42770693034e775735e53638e1805720226b7875f720acc666",
+    "queries.json": "40d7e3ac9c8e60ab52b2e05375ee71c1c5360095c08e8fe8f26a772a56811450",
+    "reference.json": "6436659c97045b8542893915a18468ca93c2cc8a11da38cf6d134bcaa8c94f50",
+    "source_binding.json": "398df8707cbc44cb8c2acd4e96d4afab1defbf95d1d158abf0897bc18e0304bb",
+    "source_inventory.json": "a9fbdf8aafa20891f6cee60a0fa3e7bdd2c9d8e90d7707ff291e00bec88669e8",
+    "states.json": "d59d1a39ed436c997be556fb9fa26f0121fcf7161657a260906ff5680a08a656",
+    "support.json": "3960793421f5661789f1438d6a883c84014d317d0d5cd3083c42c29649ad4218"
+  },
+  "parent_freeze_sha256": "2b3c39c942bc25ed9450d8ee14ac6dcaaa029ccc8d0a4540e14007ae17913966",
+  "policies": [
+    "C2",
+    "C0",
+    "FIXED"
+  ],
+  "source_sha256": "291cadb1d06a009f758c158c95b020db551c127333e9dec6f6c581eac320130c",
+  "task": "SCI-MD-MASS-STOP-DECISION-001"
+}
