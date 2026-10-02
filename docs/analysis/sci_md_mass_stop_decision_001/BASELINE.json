@@ -1,0 +1,36 @@
+{
+  "base": "54edb7683154bec005c586279b87606aa0427530",
+  "generated_evidence_status_archive": "PASS",
+  "logs": "Retained outside Git; no task outcomes scored.",
+  "mypy": "PASS_19_SOURCE_FILES",
+  "normal": {
+    "deselected": 60,
+    "passed": 5380,
+    "seconds": 1107.4,
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": 65,
+    "warnings": 1
+  },
+  "normal_warning": "Existing development-salt warning in synthetic Visualizer fixture.",
+  "python": "3.12.3",
+  "registry": {
+    "ACKNOWLEDGED_EXCEPTION": 1,
+    "PASS": 65
+  },
+  "ruff": "PASS",
+  "scientific_baseline": {
+    "deselected": 5493,
+    "passed": 5,
+    "seconds": 179.2,
+    "skipped": 7
+  },
+  "versions": {
+    "PyYAML": "6.0.3",
+    "markdown-it-py": "4.2.0",
+    "mypy": "2.4.0",
+    "numpy": "2.5.3",
+    "pytest": "9.1.1",
+    "ruff": "0.16.10",
+    "scipy": "1.18.1"
+  }
+}

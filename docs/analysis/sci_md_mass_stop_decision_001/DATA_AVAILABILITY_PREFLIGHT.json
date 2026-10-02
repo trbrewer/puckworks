@@ -1,0 +1,24 @@
+{
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "datasets": [
+    "grudeva2025/exp13_vial_stats source originals under accepted MASS-007 contract",
+    "pannusch2024/experimental_kinetics frozen model lineage",
+    "schmieder2023/raw_fractions shared lineage"
+  ],
+  "decision_if_negative": "Reject support for this declared decision contract on this cohort; no fitting rescue.",
+  "decision_if_null_or_blocked": "Preserve precise source, identity, numerical, review or QA limitation without scientific adequacy adjudication.",
+  "decision_if_positive": "Retain bounded offline decision adequacy, with incremental value not established when a simpler policy performs similarly or better.",
+  "governance": "G1",
+  "grinder_to_cup_link": "Connect conditional suffix prediction to a predeclared collected-mass endpoint decision.",
+  "lower_cost_alternative": "Reuse exact saved states, accepted source projection, and existing point-input inverse API.",
+  "native_ewp_runs": 0,
+  "new_fits": 0,
+  "new_information": "Measured success/failure of frozen stopping choices at observed complete-vial boundaries; no empirical decision evaluation found in live repositories or configured private evidence metadata.",
+  "optimizer_calls": 0,
+  "outcome_joins": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "repeated_blocker": "Different decision observable with existing measured complete-vial support; no inventory, physical mechanism, or laboratory blocker revisited.",
+  "source_access": "HASH_VERIFIED_PRIVATE_FILES_AVAILABLE",
+  "task": "SCI-MD-MASS-STOP-DECISION-001",
+  "three_test_gate": "PASS"
+}
