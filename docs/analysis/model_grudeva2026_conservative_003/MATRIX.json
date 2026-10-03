@@ -1,0 +1,56 @@
+{
+  "limit": "limit-compat-final.json",
+  "local": "local-compat-final.json",
+  "runs": {
+    "bed_fine": {
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "bed_fine-compat-final.json"
+    },
+    "combined": {
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "file": "combined-compat-final.json"
+    },
+    "normal": {
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "normal-compat-final.json"
+    },
+    "radial_fine": {
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "file": "radial_fine-compat-final.json"
+    },
+    "time_fine": {
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "time_fine-compat-final.json"
+    }
+  }
+}
