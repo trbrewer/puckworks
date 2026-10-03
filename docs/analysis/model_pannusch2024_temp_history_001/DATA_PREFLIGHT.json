@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "task_id": "MODEL-PANNUSCH2024-TEMP-HISTORY-001",
+  "scientific_question": "Can unchanged saturated source equations be integrated along prescribed uniform temperature histories with continuous physical state?",
+  "decision_to_change": "Bounded numerical capability VERIFIED or INCOMPLETE; no empirical prediction decision",
+  "governance_class": "G2",
+  "model_stage": [
+    "extraction"
+  ],
+  "required_observables": [
+    "synthetic physical concentrations",
+    "outlet solute and hydraulic volume"
+  ],
+  "required_independence": "independent numerical assembly/integration; no independent experimental data required",
+  "puckworks_authority": {
+    "commit": "95f6b54f1f00fda100fad9c994ac99037e50f801",
+    "tree": "0707da676659377d95a486ff1020ef5bf4774a95",
+    "manifest_sha256": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "available_data_register_sha256": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759"
+  },
+  "external_data_check": {
+    "performed": true,
+    "known_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "mounted_corpora": [
+      "PANNUSCH2024_MENDELEY_FULL_REPOSITORY"
+    ],
+    "actually_read": "Eight MATLAB source files listed with hashes in SOURCE_IDENTITIES.json; not executed",
+    "catalog_only": "Experimental source metadata, prediction conditions and telemetry inventory; no target assays used"
+  },
+  "datasets_reviewed": [
+    "pannusch2024/table2_params",
+    "pannusch2024/experimental_kinetics"
+  ],
+  "legacy_manifest_identity": "pannusch2024 (Mendeley repo)",
+  "prior_tasks_reviewed": [
+    "PANNUSCH-RAW-REPRO-001",
+    "SCI-MD-PANNUSCH-FLOW-HISTORY-001",
+    "XSV-PANNUSCH-EWP-INPUT-MAPPING-001"
+  ],
+  "existing_data_routes_considered": {
+    "source_reconstruction": "Equation/source code inspection only; do not rescore historical results",
+    "direct_observation_comparison": "Not needed or authorized for this numerical capability",
+    "adapter_or_observation_operator": "Physical fraction mass/volume, synthetic clocks",
+    "bounded_public_data_search": "Targeted duplicate checks and primary source license metadata only"
+  },
+  "usable_existing_evidence": [
+    "unchanged parameter table",
+    "source geometry/grinds",
+    "source PDE/closures/stencil/initialization"
+  ],
+  "remaining_scoped_gaps": [],
+  "data_sufficiency_status": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_DECISION",
+  "data_starvation_scope": [],
+  "home_lab_recommendation": {
+    "status": "NONE",
+    "operational_authorization": false
+  },
+  "next_action": "Frozen synthetic numerical qualification within authorized limits",
+  "prepared_by": "Codex (nonhuman implementer)",
+  "evidence": [
+    "CONTRACT.md",
+    "SOURCE_IDENTITIES.json"
+  ],
+  "rights": "Source-derived numerical reports: CC-BY-NC-3.0, Pannusch et al., DOI 10.17632/y2tz67f6ry.1; first-party software licensing separate",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}
