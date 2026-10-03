@@ -21,9 +21,9 @@ from puckworks.analysis.foster2025_postsat import ExecutionLog, require_scalar_s
 ])
 def test_cached_replay_requires_receipt_and_result_success(tmp_path, receipt, result, accepted):
     log = ExecutionLog(tmp_path/"execution.jsonl", tmp_path/"cache", reuse=True)
-    log.append(dict(event="START", execution=1, name="synthetic", source_sha256=log.source_hash))
+    log.record_execution(dict(event="START", execution=1, name="synthetic", source_sha256=log.source_hash))
     if receipt is not None:
-        log.append(dict(event="END", execution=1, name="synthetic", success=receipt))
+        log.record_execution(dict(event="END", execution=1, name="synthetic", success=receipt))
     (log.cache/"01-synthetic.pickle").write_bytes(pickle.dumps(result))
 
     def forbidden_solve():

@@ -199,7 +199,7 @@ class ExecutionLog:
         self.rows = [json.loads(x) for x in self.path.read_text().splitlines()] if self.path.exists() else []
         self.source_hash = digest((ROOT/SOURCE).read_bytes())
 
-    def append(self, row):
+    def record_execution(self, row):
         self.rows.append(row)
         with self.path.open("a") as f:
             f.write(json.dumps(row, allow_nan=False, sort_keys=True)+"\n")
@@ -234,7 +234,7 @@ class ExecutionLog:
         seconds = sum(r.get("numerical_seconds", 0) for r in self.rows)
         if n >= 12 or seconds >= 600:
             raise RuntimeError("qualification resource ceiling reached")
-        self.append(dict(event="START", execution=n+1, name=name, source_sha256=self.source_hash,
+        self.record_execution(dict(event="START", execution=n+1, name=name, source_sha256=self.source_hash,
                          utc=datetime.now(timezone.utc).isoformat()))
         tic = time.perf_counter()
         try:
@@ -243,10 +243,10 @@ class ExecutionLog:
             with (self.cache/f"{n+1:02d}-{name}.pickle").open("wb") as f:
                 pickle.dump(result, f)
         except Exception:
-            self.append(dict(event="END", execution=n+1, name=name, success=False,
+            self.record_execution(dict(event="END", execution=n+1, name=name, success=False,
                              numerical_seconds=time.perf_counter()-tic))
             raise
-        self.append(dict(event="END", execution=n+1, name=name, success=bool(good),
+        self.record_execution(dict(event="END", execution=n+1, name=name, success=bool(good),
                          numerical_seconds=time.perf_counter()-tic))
         if not good:
             raise RuntimeError(f"{name}: unsuccessful numerical solve")
@@ -430,7 +430,7 @@ def run(log):
         qualification_executions_this_bundle=8,
         retained_initial_report_disposition="DIAGNOSTIC_DRAFT_QUALIFICATION_INCOMPLETE: finite-difference derivative check; no failed source-reference comparison",
         verification_correction="Actual solver RHS entry is compared with independent Eq. 29. The initial dense-output derivative diagnostic remains explicitly unqualified; no thresholds/parameters/source observers/support masks changed.", resource_ceiling=dict(executions=12,numerical_seconds=600))
-    log.append(dict(event="ANALYSIS", numerical_seconds=time.perf_counter()-tic, source_sha256=log.source_hash))
+    log.record_execution(dict(event="ANALYSIS", numerical_seconds=time.perf_counter()-tic, source_sha256=log.source_hash))
     # Arrays and complete result caches remain private; make independent review replay possible.
     np.savez(log.cache/"comparison-arrays.npz",model_time_s=grid,**arrays,independent=np.array(independent_array))
     return result

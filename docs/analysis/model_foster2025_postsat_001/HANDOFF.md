@@ -39,6 +39,14 @@ the unchanged successful caches; the reporter hash is updated in RESULTS.json.
 The initial REQUEST_CHANGES receipt and corrected-head addendum belong to the
 same independent nonhuman review and are retained in the PR closeout receipt.
 
+Broad QA also exposed a compatibility problem in the historical I-040 static
+call scanner: the new logger's generic `append` method was treated as a target
+of list appends, creating false reachability and invalid gate dispatch. Naming
+the helper `record_execution` removes that accidental edge without changing
+the scanner, historical conclusions, solver or numerical payload. The affected
+generated-document, I-040, I-090 and cache-replay suite passes all 152 tests after
+this reporting-only correction. The report was replayed with its new source hash.
+
 ## Reproduction and resource use
 
 Run from a repository checkout containing the pinned baseline history:
@@ -68,7 +76,7 @@ python -m puckworks.analysis.foster2025_postsat \
 ```
 
 Actual task use at handoff freeze: **12/12 trajectory executions**,
-**73.603635/600 numerical seconds** including report reduction, its failed
+**81.836945/600 numerical seconds** including report reduction, its failed
 attempt, corrected report replay and 0.842758 seconds of independent review.
 Four final-source
 executions were retained after the observational entry-RHS correction. The
@@ -93,11 +101,17 @@ DOI: [10.1063/5.0245167](https://doi.org/10.1063/5.0245167). No PDF is redistrib
 - Focused current-dependency QA: 130 tests pass, plus 17 cache-replay tests
   (including live consumers and
   historical I-045/I-090 scope). The frozen historical receipts are not rewritten.
-- Initial broad baseline QA: 5475 passed, 65 skipped, one failure in I-040's
-  dynamic Waszkiewicz trace. An isolated pristine-baseline I-040 audit passes.
+- Initial broad QA while the task was evolving: 5475 passed, 65 skipped, one
+  I-040 trace failure. This was not a pristine baseline result: the new logger
+  was already present. An isolated pristine-baseline I-040 audit passes.
   The attempted full archive-only baseline run is not an accepted baseline:
   missing Git history caused 67 failures / 3 errors (5348 passed / 123 skipped).
   No unrelated code is repaired by this task.
+- The later broad run (5502 passed / 65 skipped / 5 failed) began before final
+  generated-file and historical-fixture corrections were loaded. Four failures
+  are resolved by those corrections; the fifth is the logger-name collision
+  above. The committed-tree affected rerun passes all 152 tests. Full hosted
+  regression at the final head is reported separately in the PR receipt.
 - Minimum dependency QA: 128 focused tests passed on NumPy 2.0 / SciPy 1.13;
   all 34 final interface tests and 17 replay tests also pass in that environment.
 - Ruff and mypy pass. Scientific-baseline QA: 5 passed / 7 skipped. All registry
