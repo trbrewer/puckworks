@@ -840,6 +840,15 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-10-03 — MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313.** G2 /
+  NUMERICAL_METHOD_CHANGE: additive prescribed uniform T(t), fixed SI Q path
+  for unchanged saturated two-grain equations. Continuous physical phase states,
+  segmented BDF/analytic Jacobian, outlet mass and explicit supported observers.
+  [Frozen numerical contract](analysis/model_pannusch2024_temp_history_001/CONTRACT.md);
+  qualification pending; no thermal-field or experimental ramp authority,
+  registry promotion, coupling, adoption or successor. Both legacy APIs and all
+  historical source/scientific artifacts remain unchanged.
+
 - **2026-10-03 — MODEL-FOSTER2025-POSTSAT-001 / #311.** G2 /
   GOVERNING_PHYSICS_CHANGE: the existing Foster machine component now continues
   published Eq. 29/38 from its actual saturation event, with finite support,

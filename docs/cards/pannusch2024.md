@@ -19,6 +19,45 @@ The model is parameterized per solute against the Schmieder et al. (2023) kineti
 yield-vs-(temperature, flow) control chart per component. Wetting/swelling is assumed
 complete at t=0 and porosity constant.
 
+## Additive prescribed-temperature capability (MODEL-PANNUSCH2024-TEMP-HISTORY-001)
+
+`puckworks.models.pannusch2024.temperature_history.simulate_temperature_history`
+accepts explicit piecewise-linear Kelvin knots or piecewise-constant Kelvin
+intervals (explicit Celsius constructors), a fixed SI volumetric flow, model
+start/end, observations and fraction boundaries. Temperature is prescribed
+spatially uniformly; this is not a solved thermal field or an experimental ramp
+reconstruction. The input flow envelope 1e-6..3e-6 m³/s is numerical and does not
+resolve the source's disputed experimental flow convention. Reynolds uses
+superficial Q/A; density does not convert the prescribed throughput.
+
+The source saturated equations and fitted parameters are retained. Geometry:
+alpha_l=0.17, bed diameter 0.058 m, L=0.015 m, d1=24e-6 m, phi_v2=0.4;
+psi/d2 are the declared source grind entries and d32 is recomputed from them.
+Physical liquid/fine/coarse concentrations (kg/m³) and accumulated outlet solute
+(kg) carry continuously through coefficient jumps; only the initial model time
+uses source pre-equilibration. Hydraulic volume (m³) is Q*(t-t0). Source c_s0
+mg/mL is numerically kg/m³ and remains fitted, not measured recoverable inventory.
+The coarse inventory capacity includes phi_v2; the fine capacity does not.
+The redundant drifting legacy inlet-liquid coordinate is omitted, with physical
+inlet concentration reconstructed as exactly zero. Source grain and nodal
+interior/outlet equations remain; the new analytic Jacobian includes all boundary
+stencil dependencies. The inherited nodal accounting defect is reported, not
+corrected by a fictitious flux.
+
+Both legacy APIs retain their old behavior: `simulate_fractions` has fixed T/Q;
+`simulate_fractions_qt` varies Q with fixed T. The new API varies T at fixed Q.
+The legacy arithmetic remains `flow_mL_s/1000.0/980.0`; Q=2e-6 corresponds to
+legacy argument 1.96, not 2.0. No new registry component, evidence-strength
+promotion, default redirection or coupling is introduced. Failed/partial solves
+have explicit actual support and absent unsupported observers.
+
+G2 / NUMERICAL_METHOD_CHANGE. Numerical qualification is pending the frozen
+[contract](../analysis/model_pannusch2024_temp_history_001/CONTRACT.md);
+[offline example](../../examples/pannusch_temperature_history.py) uses a small
+illustrative mesh. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Source-internal exposed
+prediction targets and historical results retain their limits. Source-derived
+reports retain CC-BY-NC-3.0 separately from first-party software licensing.
+
 ## Governing equations
 Liquid-phase balance for solute i (Eq. 1); fine- and coarse-particle solid balances
 (Eqs. 2–3). Subscript 1 = fine, 2 = coarse; k indexes grind level.

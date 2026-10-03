@@ -205,3 +205,12 @@ selector: five passed, seven optional plotting-module collection skips, 5,643
 deselected. Ruff, core mypy, generated status and scoped preflight pass. Skips
 are unrun, not PASS. Full logs/XML stay outside Git. No unrelated red-tree debt
 was found in these baseline checks; optional/live/protected lanes were not run.
+
+Pre-execution implementation clarification (no numerical outcomes inspected):
+malformed scalar settings/flow/grind arrays are rejected. Diagnostic allocation
+is bounded to 100,000 subdivisions per maximum step and one million uniform
+subdivisions per model span. Requested knot-neighborhood samples are included
+in the checked physical trajectory, alongside accepted steps and quarter points.
+Worker entry points require a reserved launch and a single-use claim, preventing
+unaccounted direct worker invocation. These are input/execution safeguards,
+not changed scientific allowances or additional approval gates.
