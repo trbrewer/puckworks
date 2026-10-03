@@ -268,3 +268,10 @@ neither its analytical qualification nor 3200-shell qualification is inferred
 from the other setting. Reporter-only JSON serialization and support-mask
 corrections are replayed against retained arrays; they do not restamp an earlier
 scientific source or require a different coupled trajectory.
+
+The same independent review clarified the endpoint convention: after front
+exit, the z=1 liquid-profile trace shares the outlet's temporal event mask.
+The vanished spatial jump no longer excludes z=1 for the rest of the horizon;
+interior liquid and continuous grain/inventory support keep their own masks.
+Only this reporter support and affected reductions/tests changed; executed core,
+observer, matrix and raw artifacts remain byte-identical.

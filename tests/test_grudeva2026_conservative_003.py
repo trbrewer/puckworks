@@ -162,3 +162,26 @@ def test_report_norm_missing_and_empty_support_cannot_pass():
     assert missing['included'] == missing['unavailable'] == 1
     empty = norm(np.zeros(2), np.zeros(2, bool), np.ones(2, bool), .001)
     assert not empty['passed'] and empty['max_absolute'] is None
+
+
+def test_endpoint_profile_obeys_outlet_event_margin_without_hiding_interior():
+    from copy import deepcopy
+    from puckworks.analysis.grudeva2026_conservative_003_report import refinement
+    times, z = ref.observation_support(8.)
+    run = {'arrival': 6.503, 'z': z.tolist(), 'activation': np.zeros(len(z)).tolist(),
+           'grain_history_activation': np.zeros(7).tolist(),
+           'records': [[t, min(t/6.503, 1.), 0., 0., 0., 0., 0., 0.] for t in times],
+           'observations': [{'t': t, 'liquid_profile': np.zeros(len(z)).tolist(),
+                             'grain_profile': np.zeros(len(z)).tolist(), 'grain_history': [0.]*7}
+                            for t in times]}
+    changed = deepcopy(run)
+    near = int(np.argmin(abs(times-6.515)))
+    changed['observations'][near]['liquid_profile'][-1] = 99.
+    endpoint = refinement(run, changed)['liquid_profiles']
+    assert endpoint['passed'] and endpoint['max_absolute'] == 0.
+    interior = int(np.argmin(abs(z-.9)))
+    changed['observations'][near]['liquid_profile'][interior] = .002
+    assert refinement(run, changed)['liquid_profiles']['max_absolute'] == .002
+    changed['observations'][-1]['liquid_profile'][-1] = .003
+    final = refinement(run, changed)['liquid_profiles']
+    assert not final['passed'] and final['max_absolute'] == .003

@@ -1285,9 +1285,9 @@
       },
       "liquid_profiles": {
         "budget": 0.001,
-        "excluded": 1228,
-        "included": 85672,
-        "max_absolute": 0.00870824489269073,
+        "excluded": 1236,
+        "included": 85664,
+        "max_absolute": 0.0051391298948876285,
         "passed": false,
         "unavailable": 0
       },
@@ -1377,9 +1377,9 @@
       },
       "liquid_profiles": {
         "budget": 0.001,
-        "excluded": 1228,
-        "included": 85672,
-        "max_absolute": 0.008525353207409325,
+        "excluded": 1236,
+        "included": 85664,
+        "max_absolute": 0.005111015117256756,
         "passed": false,
         "unavailable": 0
       },
@@ -1469,9 +1469,9 @@
       },
       "liquid_profiles": {
         "budget": 0.001,
-        "excluded": 1218,
-        "included": 85682,
-        "max_absolute": 1.3171965462799307e-08,
+        "excluded": 1226,
+        "included": 85674,
+        "max_absolute": 1.2032226548441827e-08,
         "passed": true,
         "unavailable": 0
       },
@@ -1561,9 +1561,9 @@
       },
       "liquid_profiles": {
         "budget": 0.001,
-        "excluded": 1218,
-        "included": 85682,
-        "max_absolute": 9.094183509233966e-05,
+        "excluded": 1226,
+        "included": 85674,
+        "max_absolute": 5.265919448305123e-05,
         "passed": true,
         "unavailable": 0
       },
@@ -1811,7 +1811,7 @@
   "source_hashes": {
     "puckworks/analysis/grudeva2026_conservative_003.py": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
     "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
-    "puckworks/analysis/grudeva2026_conservative_003_report.py": "8349e02843fe99a9cfb2ac0870564062a858616dbbe4fba04020f6c51a8d5f9a"
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
   },
   "task": "MODEL-GRUDEVA2026-CONSERVATIVE-003",
   "transfer_consistency": "PASS",

@@ -137,7 +137,11 @@ def refinement(a, b):
     spatial &= ((requested >= 1.)[:, None]
                 | (abs(z[None, :]-np.minimum(requested, 1.)[:, None]) > .008))
     available_grid = np.broadcast_to(available[:, None], spatial.shape)
-    out['liquid_profiles'] = norm(cp_a-cp_b, spatial, available_grid, .001)
+    liquid_support = spatial.copy()
+    # The endpoint liquid sample is the outlet trace: removing the vanished
+    # spatial front mask must not bypass its temporal event exclusion.
+    liquid_support[:, z == 1.] &= smooth[:, None]
+    out['liquid_profiles'] = norm(cp_a-cp_b, liquid_support, available_grid, .001)
     activation_a = np.array([np.nan if x is None else x for x in a['activation']])
     activation_b = np.array([np.nan if x is None else x for x in b['activation']])
     activation_available = np.isfinite(activation_a) & np.isfinite(activation_b)

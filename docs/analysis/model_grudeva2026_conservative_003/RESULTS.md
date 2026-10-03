@@ -88,7 +88,7 @@ and measured pilot costs were frozen before spending the final-source reserve.
 | Front position | .001 | .00011945 | 8.18e-10 | 5.45e-7 | .00011873 |
 | Exit time | .001 | .00078041 | 5.24e-9 | 2.83e-6 | .00077632 |
 | Activation time | .001 | .00078200 | 5.61e-9 | 4.07e-6 | .00077806 |
-| Liquid profile | .001 | .00870824 | 1.32e-8 | 9.09e-5 | .00852535 |
+| Liquid profile | .001 | .00513913 | 1.20e-8 | 5.27e-5 | .00511102 |
 | Grain spatial mean | .00023 | .00351323 | 4.59e-8 | 1.30e-5 | .00350577 |
 | Fixed-z grain history | .00023 | .00351323 | 6.21e-8 | 1.49e-5 | .00350577 |
 | Cup | .00005 | .00042562 | 2.82e-9 | 2.00e-6 | .00042329 |
@@ -107,13 +107,17 @@ waive the observation gates or turn this into an unbounded refinement campaign.
 All 395 requested times, 220 physical-z coordinates and seven grain histories
 are present through t=8. Front crossing and one-sided outlet events are retained
 in addition. Bed/combined norms include/exclude respectively: outlet 381/14,
-liquid profiles 85672/1228, grain profiles 56544/30356, grain histories 1794/971;
+liquid profiles 85664/1236, grain profiles 56544/30356, grain histories 1794/971;
 each has zero unavailable samples. Front and inventories include 395; activation
 includes 220; exit includes one. Radial/time spatial counts differ slightly with
 the displaced-front masks and are listed separately in JSON. Grain masks also
 require positive age >=.02. No empty support passes and no missing endpoint is
-extended. After both fronts exit, z=1 is retained rather than hidden by a
-nonexistent spatial front mask. Inter-method included/excluded counts are zero,
+extended. After both fronts exit, z=1 is retained outside the outlet's temporal
+event margin, rather than hidden by a nonexistent spatial front mask. The same
+review identified that this endpoint trace must share the outlet event mask;
+that reporter-only correction was replayed on unchanged coupled artifacts.
+Interior profiles and continuous grain/inventory support were not excluded by
+that correction. Inter-method included/excluded counts are zero,
 with the entire support explicitly unavailable because qualification is absent.
 
 ## Baseline and publication preservation
@@ -147,9 +151,11 @@ At final allocation 19 full slots and 3368.27 seconds remained, exceeding the
 required reserve of eight slots/1800 seconds. Scientific core versions for old
 attempts are retained externally under their verified execution hashes.
 
-The baseline quick suite passed 5463 tests; the candidate quick suite passed
-5475, with 65 skipped and 63 deselected in each. The same existing development
-salt warning occurred. Final focused tests: 59 passed, three deselected.
+The baseline quick suite passed 5463 tests; the candidate quick suite before
+the endpoint reporter correction passed 5475, with 65 skipped and 63 deselected
+in each. The same existing development salt warning occurred. Affected evidence
+was replayed after that bounded correction; final focused tests: 60 passed,
+three deselected. Final-head hosted regression is recorded separately in the PR.
 Registry gates: 66 PASS plus one existing ACKNOWLEDGED_EXCEPTION. Ruff, configured
 mypy, generated-artifact checks, wheel/sdist build and packaging inventory pass.
 Source/AST, JSON, rights/provenance, changed-file secret/path and unchanged
