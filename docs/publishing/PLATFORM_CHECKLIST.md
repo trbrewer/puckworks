@@ -1,5 +1,24 @@
 # Platform and human-publication checklist
 
+## Review sequence
+
+- [ ] Automated evidence closure: trigger, ledger, claims, numbers, figures, and exact sources close.
+- [ ] Human scientific review: Tim checks every claim, number, citation, figure, and boundary.
+- [ ] Human editorial review: Tim reads the article as prose and approves its voice and usefulness.
+- [ ] Platform preparation: a reviewed master is adapted without changing its scientific meaning.
+- [ ] Publication: Tim alone approves, publishes, and records the resulting URL.
+
+Automated validation does not prove that the title, voice, pacing, framing, or usefulness is right. `style_gate_passed` records Tim Brewer's human editorial decision.
+
+## Pre-publication cold read
+
+- [ ] The public body contains no frontmatter or internal audit material.
+- [ ] The title accurately promises the article's value, and the answer appears early.
+- [ ] Every practical takeaway is supported and bounded by its conditions.
+- [ ] The article has been read as ordinary prose, not merely validated.
+- [ ] Tim has rewritten wording that does not sound like him.
+- [ ] Sources and technical notes are present without overwhelming the article.
+
 ## Substack (source of record)
 
 - [ ] Free and non-commercial; payments, pledges, sponsorships, affiliates, and paid tiers disabled.
@@ -11,32 +30,13 @@
 
 ## Medium (selective evergreen syndication)
 
-- [ ] Corresponding Substack article is already published and is canonical.
-- [ ] Publication is at least seven days after Substack.
-- [ ] Article remains outside the paywall.
-- [ ] AI disclosure appears within the first two paragraphs.
+- [ ] The Substack article is published, canonical, and at least seven days old.
+- [ ] The article remains outside the paywall and its AI disclosure is near the opening.
 - [ ] Tim has substantively rewritten the draft with first-hand reasoning.
-- [ ] Newsletter housekeeping is removed and the article stands alone.
-- [ ] Scientific result, numbers, evidence level, applicability, uncertainty, verdict, and claim
-      ceiling are unchanged.
-- [ ] Canonical tag resolves to the exact Substack URL and has been independently checked.
-- [ ] Any host publication permits previously published and AI-assisted work without conflicting
-      exclusivity, paywall, disclosure, or evidence requirements.
+- [ ] Scientific meaning and applicability are unchanged.
+- [ ] The exact Substack canonical has been independently checked.
+- [ ] Any host publication permits the work without conflicting requirements.
 
 ## Absolute boundary
 
-Automation may assemble evidence, draft, validate, build variants, schedule, and remind. Only an
-authorized human may approve scientific claims, mark content ready or published, send email, submit
-to a publication, record public URLs, or press Publish. No credentials for publishing platforms may
-be stored in this repository or its workflows.
-
-## Editorial reminders and provenance metadata
-
-- [ ] The default reminder command is a credential-free dry run; only explicit `--apply` may mutate
-      GitHub issues, and live scheduled application remains owner-enabled.
-- [ ] Reminder and digest identity markers and the unkeyed managed-region markers are exact; human
-      issue text is preserved and unchanged governed issue state produces no PATCH.
-- [ ] Overdue nonterminal schedule items remain visible until published, cancelled, or withdrawn.
-- [ ] Draft evidence, claim, and figure IDs and ledger evidence and claim IDs are unique.
-- [ ] Figure scripts are checked-out repository files; figure data are checked-out files or cited,
-      exact-commit evidence artifacts. Output existence and SHA-256 checks pass.
+Automation may assemble evidence, draft, mechanically validate, build variants, schedule, and remind. Only an authorized human may approve science or style, mark content ready or published, send email, submit to a publication, record public URLs, or press Publish. Platform credentials do not belong in this repository or its workflows.
