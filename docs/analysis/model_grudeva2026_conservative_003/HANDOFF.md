@@ -25,13 +25,13 @@ controller's identity and complete timing ledger are in RESULTS.json.
 ```bash
 export OPENBLAS_NUM_THREADS=1
 export OMP_NUM_THREADS=1
-python -m puckworks.analysis.grudeva2026_conservative_003_report --local --output "$GRUDEVA_EVIDENCE/local-final-all-shells.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 32 --shells 16 --dt .01 --horizon 8 --diffusivity 0 --output "$GRUDEVA_EVIDENCE/limit-final.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 3200 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/normal-final.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 1024 --shells 3200 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/bed_fine-final.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 6400 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/radial_fine-final.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 3200 --dt .001 --horizon 8 --output "$GRUDEVA_EVIDENCE/time_fine-final.json"
-python -m puckworks.analysis.grudeva2026_conservative_003 --bed 1024 --shells 6400 --dt .001 --horizon 8 --output "$GRUDEVA_EVIDENCE/combined-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003_report --local --output "$GRUDEVA_EVIDENCE/local-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 32 --shells 16 --dt .01 --horizon 8 --diffusivity 0 --output "$GRUDEVA_EVIDENCE/limit-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 3200 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/normal-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 1024 --shells 3200 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/bed_fine-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 6400 --dt .002 --horizon 8 --output "$GRUDEVA_EVIDENCE/radial_fine-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 512 --shells 3200 --dt .001 --horizon 8 --output "$GRUDEVA_EVIDENCE/time_fine-compat-final.json"
+python -m puckworks.analysis.grudeva2026_conservative_003 --bed 1024 --shells 6400 --dt .001 --horizon 8 --output "$GRUDEVA_EVIDENCE/combined-compat-final.json"
 python -m puckworks.analysis.grudeva2026_conservative_003_report --runs-directory "$GRUDEVA_EVIDENCE" --matrix docs/analysis/model_grudeva2026_conservative_003/MATRIX.json --baseline-directory "$GRUDEVA_308_ARCHIVE" --output "$GRUDEVA_EVIDENCE/replayed-report.json"
 ```
 

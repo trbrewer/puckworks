@@ -140,10 +140,10 @@ final scheduler change are historical facts, not overwritten by 003.
 
 ## Resources and acceptance evidence
 
-The complete timestamped invocation ledger in JSON records **11 full-horizon
-attempts, five short invocations, 1436.999 aggregate numerical seconds**.
+The complete timestamped invocation ledger in JSON records **17 full-horizon
+attempts, six short invocations, 2644.684 aggregate numerical seconds**.
 One full attempt failed early on a D=0 front-root bracket and remains counted.
-The largest invocation was 537.980 seconds. No unresolved starts, resource
+The largest invocation was 539.766 seconds. No unresolved starts, resource
 terminations or baseline coupled executions occurred. Limits were 24 full,
 3600 aggregate seconds, 900 per run and 2 GiB per process. The external
 controller enforced timeout and address-space limits; peak RSS was not measured.
@@ -151,11 +151,25 @@ At final allocation 19 full slots and 3368.27 seconds remained, exceeding the
 required reserve of eight slots/1800 seconds. Scientific core versions for old
 attempts are retained externally under their verified execution hashes.
 
+Hosted minimum-dependency QA subsequently exposed a SciPy 1.13 one-cell
+banded-solve shortcut using the wrong diagonal row. The initial empty-domain
+D=0 regression failed in that environment; the other hosted jobs passed.
+The scalar equation is now solved directly as rhs/diagonal, preserving the
+same equations and all larger banded solves without changing dependency locks.
+The corrected core is `bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a`.
+Local qualification and all six full final-source invocations were reexecuted;
+no old PASS was transferred. All six reexecuted numerical payloads are identical
+to their predecessors after excluding only timing and core-identity metadata.
+The old artifacts remain retained. Before this requalification, 13 slots and
+2163.001 seconds remained; the predeclared reserve and final matrix were feasible.
+
 The baseline quick suite passed 5463 tests; the candidate quick suite before
 the endpoint reporter correction passed 5475, with 65 skipped and 63 deselected
 in each. The same existing development salt warning occurred. Affected evidence
 was replayed after that bounded correction; final focused tests: 60 passed,
-three deselected. Final-head hosted regression is recorded separately in the PR.
+three deselected. The same 60 focused tests also pass on the corrected core
+with NumPy 2.0 / SciPy 1.13 and with the current numerical environment.
+Final-head hosted regression is recorded separately in the PR.
 Registry gates: 66 PASS plus one existing ACKNOWLEDGED_EXCEPTION. Ruff, configured
 mypy, generated-artifact checks, wheel/sdist build and packaging inventory pass.
 Source/AST, JSON, rights/provenance, changed-file secret/path and unchanged

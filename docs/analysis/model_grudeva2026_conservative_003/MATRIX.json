@@ -1,6 +1,6 @@
 {
-  "limit": "limit-final.json",
-  "local": "local-final-all-shells.json",
+  "limit": "limit-compat-final.json",
+  "local": "local-compat-final.json",
   "runs": {
     "bed_fine": {
       "controls": {
@@ -10,7 +10,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "file": "bed_fine-final.json"
+      "file": "bed_fine-compat-final.json"
     },
     "combined": {
       "controls": {
@@ -20,7 +20,7 @@
         "horizon": 8.0,
         "shells": 6400
       },
-      "file": "combined-final.json"
+      "file": "combined-compat-final.json"
     },
     "normal": {
       "controls": {
@@ -30,7 +30,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "file": "normal-final.json"
+      "file": "normal-compat-final.json"
     },
     "radial_fine": {
       "controls": {
@@ -40,7 +40,7 @@
         "horizon": 8.0,
         "shells": 6400
       },
-      "file": "radial_fine-final.json"
+      "file": "radial_fine-compat-final.json"
     },
     "time_fine": {
       "controls": {
@@ -50,7 +50,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "file": "time_fine-final.json"
+      "file": "time_fine-compat-final.json"
     }
   }
 }

@@ -222,7 +222,9 @@ def transport_solve(c0, old_faces, new_faces, h, loss0, response, *, inlet=0.):
     boundary_part = np.zeros(len(c0)+1)
     boundary_part[0], boundary_part[1] = inlet, b[0]*inlet
     rhs -= .5*np.diff(factor*boundary_part)
-    c1 = solve_banded((2, 0), band, rhs, check_finite=False)
+    # Solve the same scalar equation directly: SciPy 1.13's one-cell shortcut
+    # selects band row 1 even when the declared upper bandwidth is zero.
+    c1 = rhs/diagonal if len(c0) == 1 else solve_banded((2, 0), band, rhs, check_finite=False)
     new_trace = face_values(c1, new_faces, inlet)
     face_amount = factor*(old_trace+new_trace)/2
     solve_error = CAPACITY*(v1*c1-v0*c0)+np.diff(face_amount)-loss0+response*c1

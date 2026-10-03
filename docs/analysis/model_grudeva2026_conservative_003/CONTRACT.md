@@ -275,3 +275,24 @@ The vanished spatial jump no longer excludes z=1 for the rest of the horizon;
 interior liquid and continuous grain/inventory support keep their own masks.
 Only this reporter support and affected reductions/tests changed; executed core,
 observer, matrix and raw artifacts remain byte-identical.
+
+### Minimum-dependency compatibility requalification
+
+Hosted minimum-dependency QA found a one-cell `solve_banded` shortcut defect in
+SciPy 1.13: with bandwidth (2,0), it divides by band row 1 instead of the actual
+diagonal in row 0. The initially empty-domain D=0 regression exposed NaN.
+The compatibility correction solves that scalar equation directly as rhs/diagonal;
+larger banded systems, equations, controls and observers are unchanged. No
+production or dependency-lock correction is made.
+
+Corrected core SHA256
+`bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a`.
+No old PASS is transferred to this source. Before requalification: 11 full
+attempts and 1436.999 numerical seconds used, leaving 13 slots and 2163.001
+seconds, still above the eight-slot/1800-second reserve. Reexecute local
+qualification, the full D=0 limit and the same five canonical rows, using new
+`*-compat-final.json` artifacts in MATRIX.json. Previous measured total for
+these invocations is 1205.273 seconds; largest 537.980, so the affected matrix
+fits the remaining aggregate/per-run ceilings. This is final-source
+requalification of a demonstrated compatibility correction, not a new
+candidate sweep. All earlier evidence and failed attempts remain retained.

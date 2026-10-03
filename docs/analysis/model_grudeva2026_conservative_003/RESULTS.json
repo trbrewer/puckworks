@@ -644,6 +644,299 @@
         "puckworks/analysis/grudeva2026_conservative_003_report.py": "feb7c6e408ccaa0f78fe609d035ce6cd8d3c7ede8b3d87cd45b0200c66d0e867"
       },
       "start_utc": "2026-10-03T15:37:59.926936+00:00"
+    },
+    {
+      "artifact_file": "local-compat-final.json",
+      "artifact_sha256": "f4e0695d2a0c7bcb369d307be995c818ba1e6ce88d92e6ee3d5911a3fc829f7e",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003_report",
+        "--local",
+        "--output",
+        "$GRUDEVA_EVIDENCE/local-compat-final.json"
+      ],
+      "controls": null,
+      "end_utc": "2026-10-03T16:24:35.445934+00:00",
+      "exit_code": 0,
+      "kind": "short",
+      "last_observed_time": null,
+      "log_sha256": "ebb47a6dd273db3c282283bf037fe1cf7b29c20a334d2ef3636822e8cc89f8a2",
+      "name": "local-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "LOCAL_PASS",
+      "seconds": 9.134342865087092,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:24:26.308168+00:00"
+    },
+    {
+      "artifact_file": "limit-compat-final.json",
+      "artifact_sha256": "7d2037bf9019466d4986d4cb9f66d876d6372b8c2039b0aee2ff5663b9e7cc6a",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/limit-compat-final.json",
+        "--bed",
+        "32",
+        "--shells",
+        "16",
+        "--dt",
+        "0.01",
+        "--horizon",
+        "8.0",
+        "--diffusivity",
+        "0.0"
+      ],
+      "controls": {
+        "bed": 32,
+        "diffusivity": 0.0,
+        "dt": 0.01,
+        "horizon": 8.0,
+        "shells": 16
+      },
+      "end_utc": "2026-10-03T16:25:39.511194+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "45ce67d5381fa55943d69f180b5ac661bfb5050f1f592814d0f37e2cfe0b40bd",
+      "name": "limit-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 3.221112904138863,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:25:36.284338+00:00"
+    },
+    {
+      "artifact_file": "normal-compat-final.json",
+      "artifact_sha256": "f5569133c883b666c0bc909f165b29102c469f7b95a3037cf5944253cacb6251",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/normal-compat-final.json",
+        "--bed",
+        "512",
+        "--diffusivity",
+        "1.0",
+        "--dt",
+        "0.002",
+        "--horizon",
+        "8.0",
+        "--shells",
+        "3200"
+      ],
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "end_utc": "2026-10-03T16:27:19.355523+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "bdc8aec9c85d52d1217584a97da3a666b5a41715156fc0b8d48e3030b77f5163",
+      "name": "normal-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 99.75513643026352,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:25:39.597573+00:00"
+    },
+    {
+      "artifact_file": "bed_fine-compat-final.json",
+      "artifact_sha256": "988d829fe44c0bdb712a25b2d5da14ec6eac93c3305feb29e88589f01694a110",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/bed_fine-compat-final.json",
+        "--bed",
+        "1024",
+        "--diffusivity",
+        "1.0",
+        "--dt",
+        "0.002",
+        "--horizon",
+        "8.0",
+        "--shells",
+        "3200"
+      ],
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "end_utc": "2026-10-03T16:31:01.244486+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "26fdb0cb4049f3e798fb25d688c844c02257e13cf366e4c5d08e5d98bd8244ad",
+      "name": "bed_fine-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 221.50399725791067,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:27:19.735475+00:00"
+    },
+    {
+      "artifact_file": "radial_fine-compat-final.json",
+      "artifact_sha256": "39185587fcca5cbb3f6178f4f6ec41d71d09d9897d89478bd454406988afffee",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/radial_fine-compat-final.json",
+        "--bed",
+        "512",
+        "--diffusivity",
+        "1.0",
+        "--dt",
+        "0.002",
+        "--horizon",
+        "8.0",
+        "--shells",
+        "6400"
+      ],
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "end_utc": "2026-10-03T16:33:46.441587+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "3e1307bfc09fdef6255c295ee99ea3a848ecab1019ebeacb79f342af2f2dad3b",
+      "name": "radial_fine-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 164.33050566352904,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:31:02.105765+00:00"
+    },
+    {
+      "artifact_file": "time_fine-compat-final.json",
+      "artifact_sha256": "6541ae533d58f2b9e6f760781094739475a1282d6731d8a2c5c07e30090c32d7",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/time_fine-compat-final.json",
+        "--bed",
+        "512",
+        "--diffusivity",
+        "1.0",
+        "--dt",
+        "0.001",
+        "--horizon",
+        "8.0",
+        "--shells",
+        "3200"
+      ],
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "end_utc": "2026-10-03T16:36:36.822374+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "abf2a8671c8f90b026c6113ad3547bd741118c9554435ee72029846cdb136f6a",
+      "name": "time_fine-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 169.97426732908934,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:33:46.842978+00:00"
+    },
+    {
+      "artifact_file": "combined-compat-final.json",
+      "artifact_sha256": "b8806e6d7487b5e339910c545eb7a2eb288c8de65f1fa428936c3923bd37382e",
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.grudeva2026_conservative_003",
+        "--output",
+        "$GRUDEVA_EVIDENCE/combined-compat-final.json",
+        "--bed",
+        "1024",
+        "--diffusivity",
+        "1.0",
+        "--dt",
+        "0.001",
+        "--horizon",
+        "8.0",
+        "--shells",
+        "6400"
+      ],
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "end_utc": "2026-10-03T16:45:36.993097+00:00",
+      "exit_code": 2,
+      "kind": "full",
+      "last_observed_time": 8.0,
+      "log_sha256": "b3cd8821fe9857411e9250103ba09cd742aef3a670f240f861467f50bca5803b",
+      "name": "combined-compat-final",
+      "phase": "final",
+      "reason": null,
+      "result_status": "EXECUTED_UNQUALIFIED",
+      "seconds": 539.7656756760553,
+      "source_hashes": {
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
+      },
+      "start_utc": "2026-10-03T16:36:37.222392+00:00"
     }
   ],
   "automatic_successor": "NONE",
@@ -999,7 +1292,7 @@
         "scale": 0.5880000000000001
       }
     ],
-    "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+    "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
     "first_passing_shell_count": 3200,
     "front_relative_error": 1.1102230246251565e-16,
     "kind": "LOCAL_NUMERICAL_QUALIFICATION",
@@ -1203,11 +1496,11 @@
         "weight_defect": 1.1102230246251565e-15
       }
     ],
-    "reporter_sha256": "feb7c6e408ccaa0f78fe609d035ce6cd8d3c7ede8b3d87cd45b0200c66d0e867",
+    "reporter_sha256": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
     "shifted_activation_error": 8.185452315956354e-12
   },
   "physical_validation": "NOT_ESTABLISHED",
-  "plan_sha256": "59f7bf97444598e06d38f070387c5dcc60c8b01448f9748d681818cccf7e316b",
+  "plan_sha256": "de86561b14f8773640aa2f846c7975b238f00d72f89a7865adc787da4fa65b46",
   "refinements": {
     "bed_fine": {
       "activation": {
@@ -1585,13 +1878,13 @@
   },
   "resources": {
     "aggregate_limit_seconds": 3600,
-    "aggregate_numerical_seconds": 1436.9989915415645,
+    "aggregate_numerical_seconds": 2644.6840296676382,
     "failed_full_invocations": 1,
-    "full_horizon_invocations": 11,
+    "full_horizon_invocations": 17,
     "full_limit": 24,
     "memory_limit_bytes": 2147483648,
     "per_run_limit_seconds": 900,
-    "short_invocations": 5,
+    "short_invocations": 6,
     "unresolved_starts": 0,
     "within_total_limits": true
   },
@@ -1602,7 +1895,7 @@
       "aqueous_max": 0.4753485979428357,
       "aqueous_min": 0.0,
       "arrival": 6.503878785275323,
-      "artifact_sha256": "01775ad3e8277ad0e72f93ec8cb447c0f7aa53d421fd119d3cb4ebb05a77dc9f",
+      "artifact_sha256": "988d829fe44c0bdb712a25b2d5da14ec6eac93c3305feb29e88589f01694a110",
       "bounds_passed": true,
       "controls": {
         "bed": 1024,
@@ -1611,7 +1904,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+      "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
       "current_core_matches": true,
       "grain_mean_min": 5.380840516788936e-35,
       "independent_cell_quadrature_error": 0.0,
@@ -1644,7 +1937,7 @@
       "aqueous_max": 0.47462108189284136,
       "aqueous_min": 0.0,
       "arrival": 6.503874694060178,
-      "artifact_sha256": "fbaa5be761db912ac8d0bf379ddbe7cf941bafb0002199af74d977d1d55859bb",
+      "artifact_sha256": "b8806e6d7487b5e339910c545eb7a2eb288c8de65f1fa428936c3923bd37382e",
       "bounds_passed": true,
       "controls": {
         "bed": 1024,
@@ -1653,7 +1946,7 @@
         "horizon": 8.0,
         "shells": 6400
       },
-      "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+      "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
       "current_core_matches": true,
       "grain_mean_min": 5.380823156062106e-35,
       "independent_cell_quadrature_error": 0.0,
@@ -1686,7 +1979,7 @@
       "aqueous_max": 0.4756797300801149,
       "aqueous_min": 0.0,
       "arrival": 6.503098377078418,
-      "artifact_sha256": "981d490d7092ddb1b81f0c3093ffb05f032877d7aa53bcd495b090250f3e05fc",
+      "artifact_sha256": "f5569133c883b666c0bc909f165b29102c469f7b95a3037cf5944253cacb6251",
       "bounds_passed": true,
       "controls": {
         "bed": 512,
@@ -1695,7 +1988,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+      "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
       "current_core_matches": true,
       "grain_mean_min": 6.753377293197553e-35,
       "independent_cell_quadrature_error": 0.0,
@@ -1728,7 +2021,7 @@
       "aqueous_max": 0.47567979041659486,
       "aqueous_min": 0.0,
       "arrival": 6.5030983823184885,
-      "artifact_sha256": "5cd36c7168ddba6846ed53ff4932826c3baf9b8ece04472df0eb0412fc755cf5",
+      "artifact_sha256": "39185587fcca5cbb3f6178f4f6ec41d71d09d9897d89478bd454406988afffee",
       "bounds_passed": true,
       "controls": {
         "bed": 512,
@@ -1737,7 +2030,7 @@
         "horizon": 8.0,
         "shells": 6400
       },
-      "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+      "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
       "current_core_matches": true,
       "grain_mean_min": 6.753358005178544e-35,
       "independent_cell_quadrature_error": 0.0,
@@ -1770,7 +2063,7 @@
       "aqueous_max": 0.475121847717513,
       "aqueous_min": 0.0,
       "arrival": 6.503095542548764,
-      "artifact_sha256": "75ae2d5d85cb9c1fa9ad706497f56376afcaec79dcc09851cee59a5edd7751cc",
+      "artifact_sha256": "6541ae533d58f2b9e6f760781094739475a1282d6731d8a2c5c07e30090c32d7",
       "bounds_passed": true,
       "controls": {
         "bed": 512,
@@ -1779,7 +2072,7 @@
         "horizon": 8.0,
         "shells": 3200
       },
-      "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+      "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
       "current_core_matches": true,
       "grain_mean_min": 6.753373141013768e-35,
       "independent_cell_quadrature_error": 0.0,
@@ -1809,7 +2102,7 @@
   },
   "software_qa": "REPORTED_SEPARATELY",
   "source_hashes": {
-    "puckworks/analysis/grudeva2026_conservative_003.py": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
     "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
     "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97"
   },
@@ -1821,7 +2114,7 @@
     "aqueous_max": 0.0,
     "aqueous_min": 0.0,
     "arrival": 5.441599999999974,
-    "artifact_sha256": "13da45e70153adeb4e5db0c67b5d81cb0b34045a120c60cca3e453025d034dbb",
+    "artifact_sha256": "7d2037bf9019466d4986d4cb9f66d876d6372b8c2039b0aee2ff5663b9e7cc6a",
     "bounds_passed": true,
     "controls": {
       "bed": 32,
@@ -1830,7 +2123,7 @@
       "horizon": 8.0,
       "shells": 16
     },
-    "core_sha256": "e2f39c4faaca47effac7ff55179e00d7a788a03a7d0d6f17b26f71354a67a57f",
+    "core_sha256": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
     "current_core_matches": true,
     "front_relative_error": 4.884981308350689e-15,
     "grain_mean_error": 7.638334409421077e-14,
