@@ -2767,6 +2767,38 @@
    "claim_not_supported": "Does NOT validate against Roman's experimental time curves (none exist publicly), does NOT support any absolute-timescale conclusion for the untested coarse class, and does NOT claim the spherical-diffusion solution is a single mathematical mode -- it is many eigenmodes of one physical process.",
    "conflict_note": "Same word 'two-regime', different construct: one physical diffusion process's early/late-time signature versus maille's modelled two-POOL (fines + coarse shells) decomposition. Surfaced, not merged.",
    "adjudication_status": "ADJUDICATED"
+  },
+  {
+   "adjudication_status": "ADJUDICATED",
+   "card": "grudeva2026_2",
+   "caveat": "Quick verification is bounded; full refinement is explicit and outside quick CI. Figures 3/4 reproduction is not qualified; Figure 5 reference incomplete.",
+   "claim": "Independent spherical diffusion and constant-front analytical fixtures plus bounded conservative coupled execution pass code verification.",
+   "claim_id": "grudeva2026.reduced::gate_grudeva2026_reduced",
+   "claim_not_supported": "No experimental or physical validation, common-scenario prediction or superiority claim.",
+   "claim_owner": "project_only",
+   "component": "grudeva2026.reduced",
+   "component_evidence_strength": "code_verification",
+   "conflict_note": null,
+   "evidence_strength": "code_verification",
+   "gate": "gate_grudeva2026_reduced",
+   "link_id": "grudeva2026.reduced::gate_grudeva2026_reduced",
+   "observable": "Dimensionless grain flux/inventory, front speed and normalized mass balance",
+   "paper3_use": "not_in_scope",
+   "reality_facing": false,
+   "relationship": "code_verification",
+   "sources": [
+    {
+     "dataset_manifest_ids": [
+      "grudeva2026/analytic_reference"
+     ],
+     "dataset_status": "resolved_manifest",
+     "evidence_role": "reference",
+     "independence": "not_applicable",
+     "note": "Independent scalar analytical evaluation, no production helper or old port",
+     "source_card": "grudeva2026_2"
+    }
+   ],
+   "support_status": "admissible"
   }
  ],
  "schema_version": 2

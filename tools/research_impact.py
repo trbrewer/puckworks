@@ -220,7 +220,11 @@ def cards_for_component(name: str, card_keys: set) -> set:
     prefix = name.split(".")[0].lower()
     suffix = name.split(".", 1)[1].lower() if "." in name else ""
     full_us = name.lower().replace(".", "_")
+    from puckworks.registry import canonical_card_path
     out = set()
+    canonical = Path(canonical_card_path(name)).stem
+    if canonical in card_keys:
+        out.add(canonical)
     for k in card_keys:
         kl = k.lower()
         if kl == prefix or (suffix and kl == suffix) or kl == full_us:

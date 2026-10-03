@@ -15,6 +15,8 @@ schema_version: 1
 #   foster2025.machine_mode — the pump/headspace "machine mode" backlog; no campaign is defined yet.
 #   wadsworth2026.inertial  — the inertial-flow supporting lens; no campaign is defined yet.
 component_campaign_exemptions:
+  - grudeva2026.reduced       # MODEL-GRUDEVA2026-REDUCED-001: standalone numerical verification
+                              # and publication references only; no new measurement authorized.
   - grudeva2025.reduced       # RC-2 backlog: its independent gate is the authors' forthcoming
                               # companion outlet-concentration dataset, an EXTERNAL dataset rather than
                               # a Puckworks campaign, so none applies yet. (Until 2026-08-14 this

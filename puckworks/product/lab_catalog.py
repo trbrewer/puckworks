@@ -16,6 +16,7 @@ import dataclasses
 # explicit common-scenario disposition + adapter capability per component (the anti-heuristic core).
 # disposition ∈ lab.DISPOSITIONS; adapter capability ∈ lab.ADAPTER_CAPABILITIES.
 _CAPABILITY: dict[str, dict] = {
+    "grudeva2026.reduced": {"disposition": "NATIVE_REFERENCE_ONLY", "adapter_capability": "ADAPTER_REQUIRED"},
     # the one executable common-scenario lens
     "cameron2020.extraction_bdf": {"disposition": "COMMON_SCENARIO_READY",
                                    "adapter_capability": "COMMON_SCENARIO_READY"},
@@ -127,6 +128,7 @@ def catalog_entry(component) -> CatalogEntry:
     the explicit disposition/adapter decision. Raises if the component has no explicit capability entry
     (no silent heuristic fallback)."""
     from puckworks import rights
+    from puckworks.registry import canonical_card_path
     from puckworks.product import lab, lab_runners
     from puckworks.product import reference_basis as rb
     name = component.name
@@ -137,7 +139,7 @@ def catalog_entry(component) -> CatalogEntry:
     rec = rights.rights_record(name)
     return CatalogEntry(
         component_id=name, module=getattr(component, "module", ""),
-        card_path=f"docs/cards/{name.split('.')[0]}.md", doi=getattr(component, "doi", "") or "",
+        card_path=canonical_card_path(name), doi=getattr(component, "doi", "") or "",
         stage=getattr(component, "stage", ""), execution_role=role, kind=getattr(component, "kind", ""),
         is_runtime_stage=(role == "runtime"), is_calibration_or_closure=(role == "calibration"),
         has_callable_code=(role in ("runtime", "calibration")),

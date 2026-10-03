@@ -96,3 +96,15 @@ for “Model-Based Kinetic Espresso Brewing Control Chart for Representative Tas
 Components.” They are third-party data, not relicensed under Puckworks' MIT license.
 Raw workbooks, MAT files, source MATLAB, telemetry, applications, and binaries are not
 distributed. `source_inputs.csv` records exact external source identities and hashes.
+
+## Grudeva EJAM 2026 equation-based component and reference coordinates
+
+`puckworks/models/grudeva2026/` is an independent equation-based implementation,
+not a copy or translation of the existing port or upstream solver. Governing
+mathematics: Grudeva, Moroney & Foster, EJAM 37(2), 496–519 (2026),
+DOI https://doi.org/10.1017/S095679252500018X (CC-BY-4.0).
+New article-derived coordinates under `puckworks/data/grudeva2026/` retain
+CC-BY-4.0 attribution, source identities and extraction changes in PROVENANCE.md.
+These fixtures are not placed solely under the package MIT license. Existing
+upstream permissions/notices remain separate and unchanged; no supplement or
+private correspondence is redistributed.

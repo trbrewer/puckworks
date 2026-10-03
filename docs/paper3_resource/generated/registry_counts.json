@@ -1,6 +1,6 @@
 {
   "by_evidence_strength": {
-    "code_verification": 5,
+    "code_verification": 6,
     "exploratory_synthesis": 1,
     "post_fit_reconstruction": 5,
     "qualitative_capacity": 5,
@@ -10,24 +10,24 @@
   },
   "by_execution_role": {
     "calibration": 15,
-    "runtime": 12
+    "runtime": 13
   },
   "by_provenance_class": {
     "project_model": 4,
     "project_synthesis": 1,
-    "published_port": 19,
+    "published_port": 20,
     "reference_only": 3
   },
   "by_stage": {
     "bed_dynamics": 5,
-    "extraction": 9,
+    "extraction": 10,
     "flow": 5,
     "grind": 2,
     "infiltration": 2,
     "machine": 2,
     "packing": 2
   },
-  "content_sha256": "2cc8321540dd1dc1725fd713b1cf5f3fbc02615697e339b8933197592ebc7c1d",
-  "n_components": 27,
+  "content_sha256": "8bd08a8b24added47cbb5dc23fdf5797dacc81183a1b4691980207f832e294d6",
+  "n_components": 28,
   "schema_version": 1
 }

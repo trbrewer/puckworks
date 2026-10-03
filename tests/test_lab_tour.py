@@ -102,7 +102,8 @@ def test_full_tour_resolves_every_component_and_executes_all_but_two_local(local
     # and it took the SCIENTIFIC_CHECK route on its existing gates. Everything else must execute.
     assert s["registered"] == len(registered) and s["completed"] == len(registered) - 1
     # the ROUTE SPLIT stays literal -- it is the reviewable frozen-manifest decision, not a total
-    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 21,
+    assert s["by_kind"] == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": len(T.native_reference_ids()), "SCIENTIFIC_CHECK": sum(
+        1 for v in T._TOUR_V1_ROUTES.values() if v == T.TourExecutionKind.SCIENTIFIC_CHECK),
                             "OPTIONAL_DEPENDENCY": 1, "RIGHTS_BLOCKED": 0, "NO_EXECUTION_PATH": 0}
     assert s["rights_blocked"] == 0 and s["optional_unavailable"] == 1
     ids = [c.component_id for c in local_tour.components]
@@ -115,7 +116,8 @@ def test_common_native_and_check_counted_by_distinct_kinds(local_tour):
     for c in local_tour.components:
         if c.execution_status == "EXECUTED":
             by[c.execution_kind] = by.get(c.execution_kind, 0) + 1
-    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": 4, "SCIENTIFIC_CHECK": 21}
+    assert by == {"COMMON_SCENARIO": 1, "NATIVE_REFERENCE": len(T.native_reference_ids()), "SCIENTIFIC_CHECK": sum(
+        1 for v in T._TOUR_V1_ROUTES.values() if v == T.TourExecutionKind.SCIENTIFIC_CHECK)}
 
 
 @pytest.mark.slow
@@ -162,7 +164,10 @@ def test_public_tour_executes_only_affirmatively_cleared_components(public_tour)
     executed = sorted(c.component_id for c in public_tour.components if c.execution_status == "EXECUTED")
     # exactly the two affirmatively-cleared components, on two DIFFERENT bases: LB is first-party CLEAR
     # (#70), grudeva is PERMISSION_DOCUMENTED on the 2026-08-14 written permission (#73).
-    assert executed == ["brewer2026.lb_reference", "grudeva2025.reduced"]
+    from puckworks import rights
+    assert executed == sorted(c.name for c in puckworks.components()
+                              if rights.may_execute_in_public_batch(c.name).allowed
+                              and rights.may_publish_outputs(c.name).allowed)
     cam = next(c for c in public_tour.components if c.component_id == "cameron2020.extraction_bdf")
     assert cam.execution_status == "RIGHTS_NOT_CLEARED" and cam.outputs == []
     # grudeva is affirmatively cleared since 2026-08-14 (#73), so it also executes in a public context

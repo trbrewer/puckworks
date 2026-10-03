@@ -840,6 +840,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-10-02 — MODEL-GRUDEVA2026-REDUCED-001 / #67.** G2 / NUMERICAL_METHOD_CHANGE. Independent equation-based fixed-flow reduced solver, corrected source card and conservative Eulerian grain memory on a moving mesh. Analytical, inventory, spatial/time/modal verification passes; Figures 3/4 do not reproduce at the unchanged published parameters/budgets, and Figure 5 lacks qualified full profiles/settings/grid. Native Laboratory reference only; existing Grudeva/Cameron components and defaults preserved. [Evidence](analysis/model_grudeva2026_reduced_001/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED. Draft PR only; #67 remains incomplete; no successor.
+
 - **2026-10-02 — SCI-MD-MASS-STOP-DECISION-001 observed-boundary replay.** G1 / NO_GOVERNING_PHYSICS_CHANGE. **FROZEN_C2_STOPPING_DECISION_ADEQUATE_ON_DECLARED_OFFLINE_CONTRACT**: C2/C0/fixed each select and succeed on 11/11 primary shots, with zero false-feasible selections. C0 matches C2's zero endpoint regret; C2 complexity earns no incremental decision value. All four sensitivities reported from one independently approved score. Exact MASS-007 offline 98-assay/22-pool contract; target-exposed, retrospective, measured-mass-conditioned and observed-boundary-only. [Result](analysis/sci_md_mass_stop_decision_001/RESULT.md). Zero new fits/optimizers/EWP runs; no production adoption, continuous stopping claim or automatic successor. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 - **2026-09-30 — local audit F15 density-basis correction.**

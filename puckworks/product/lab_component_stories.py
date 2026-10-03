@@ -41,6 +41,7 @@ class ComponentStory:
 # exact snapshot of the README model map (role / physics / stage). verify_component_stories() checks it
 # still matches the live README, so the two can never silently drift.
 _README_MODEL_MAP = {
+    "grudeva2026.reduced": {'stage': 'Extraction', 'role': 'Native publication reference', 'physics': 'Independent equation-based fixed-flow extraction with separate wetting and desaturation fronts and spherical grain diffusion. Code verification only; Figures 3/4 fail reference tolerances and Figure 5 references are incomplete.'},
     'brewer2026.coupled_kappa_t': {"stage": 'Puck change', "role": 'Exploratory synthesis', "physics": 'Explores how swelling, compaction, fines movement, and extraction-driven porosity change might combine into a time-varying puck resistance. A framework only — as sound as its shakiest donor branch.'},
     'brewer2026.lb_reference': {"stage": 'Flow', "role": 'Pore-scale reference solver', "physics": 'Resolves low-Reynolds pore flow with a D3Q19 two-relaxation-time lattice-Boltzmann solver (verification twin; a Puckworks model).'},
     'brewer2026.lb_taichi': {"stage": 'Flow', "role": 'Pore-scale reference solver', "physics": 'Accelerated (CPU/GPU) build of the same pore-scale flow physics; the `taichi` dependency is optional, so it is not run by default.'},
@@ -72,6 +73,9 @@ _README_MODEL_MAP = {
 
 # authored plain-language content per component: (what_it_computes, espresso_implications)
 _CONTENT = {
+    'grudeva2026.reduced': (
+        'dimensionless wetting, desaturation, outlet concentration and conserved solute under prescribed fixed flow.',
+        'The reference case explores the capacity of a published reduced model. First drip is fixed by prescribed flow; this is not a prediction of your recipe or experimental validation. Publication reproduction remains unqualified.'),
     'brewer2026.coupled_kappa_t': (
         'how several puck-changing effects might combine into a resistance that drifts during the shot.',
         "Real pucks are not static: swelling, settling, and migrating fines make resistance (and therefore flow) drift, which is why late-shot flow often differs from early-shot flow. This is an exploratory synthesis — a framework for that drift, explicitly not a validated law, so read it as 'here is why the shot can change', not a forecast."),

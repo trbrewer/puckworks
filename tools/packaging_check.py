@@ -17,7 +17,10 @@ PRIVATE_SUBSTRINGS = ("visualizer/raw", "visualizer/normalized", "visualizer/cra
 # package-data that MUST be present for the installed package to work
 REQUIRED_SUFFIXES = ("puckworks/data/MANIFEST.csv",
                      "puckworks/data/cameron2020/fig5_grind_deviation.csv",
-                     "puckworks/data/visualizer/PROVENANCE.md")
+                     "puckworks/data/visualizer/PROVENANCE.md",
+                     "puckworks/data/grudeva2026/analytic_reference.json",
+                     "puckworks/data/grudeva2026/publication_reference.json",
+                     "puckworks/data/grudeva2026/PROVENANCE.md")
 
 # Licence/notice files every distribution MUST carry. LICENSE alone is not enough: some shipped
 # material is redistributed on a NON-MIT basis (today the Grudeva code + derived data, used under

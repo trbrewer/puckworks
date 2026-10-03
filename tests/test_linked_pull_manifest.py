@@ -66,3 +66,10 @@ def test_at_least_six_cross_component_handoffs_declared():
         LinkKind.DIRECT_MODEL_OUTPUT, LinkKind.DOCUMENTED_ADAPTER, LinkKind.ILLUSTRATIVE_ASSUMPTION,
         LinkKind.OPTIONAL_SLOW_PATH) and e.source_component_id is not None]
     assert len(handoffs) >= 6
+
+
+def test_standalone_ejam_component_is_excluded_from_relay_execution():
+    from puckworks.product.linked_pull_records import StageStatus
+    cid = "grudeva2026.reduced"
+    assert M.COMPONENT_DISPOSITIONS[cid].intended_status == StageStatus.NOT_SELECTED
+    assert all(e.source_component_id != cid and e.target_component_id != cid for e in M.LINK_EDGES)

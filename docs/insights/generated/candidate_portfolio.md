@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `5aae2cce70` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `ca663733c0` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -118,22 +118,6 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0005
 - **Status.** SEED
 
-### I-006 — Does anything consume liang2021.desorption, and does it survive outside its declared range?
-
-- **Question.** Which registered component, if any, actually consumes liang2021.desorption's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
-- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
-- **Decision rule.**
-    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
-    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
-- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
-- **Entities.** `model:liang2021.desorption`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
-- **Tension rows.** T-0006
-- **Status.** SEED
-
 ### I-007 — Does anything consume maille2024.phi_closure, and does it survive outside its declared range?
 
 - **Question.** Which registered component, if any, actually consumes maille2024.phi_closure's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
@@ -148,54 +132,6 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:maille2024.phi_closure`
 - **Tension rows.** T-0007
-- **Status.** SEED
-
-### I-008 — Does anything consume maille2024.two_regime, and does it survive outside its declared range?
-
-- **Question.** Which registered component, if any, actually consumes maille2024.two_regime's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
-- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
-- **Decision rule.**
-    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
-    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
-- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
-- **Entities.** `model:maille2024.two_regime`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
-- **Tension rows.** T-0008
-- **Status.** SEED
-
-### I-009 — Does anything consume moroney2016.surrogate, and does it survive outside its declared range?
-
-- **Question.** Which registered component, if any, actually consumes moroney2016.surrogate's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
-- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
-- **Decision rule.**
-    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
-    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
-- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
-- **Entities.** `model:moroney2016.surrogate`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
-- **Tension rows.** T-0009
-- **Status.** SEED
-
-### I-010 — Does anything consume pannusch2024.closures, and does it survive outside its declared range?
-
-- **Question.** Which registered component, if any, actually consumes pannusch2024.closures's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
-- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
-- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
-- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
-- **Decision rule.**
-    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
-    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
-    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
-- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
-- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
-- **Entities.** `model:pannusch2024.closures`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
-- **Tension rows.** T-0010
 - **Status.** SEED
 
 ### I-011 — Does anything consume sourcing2026.g10_liquor_rheology, and does it survive outside its declared range?
@@ -276,6 +212,70 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
 - **Entities.** `model:wadsworth2026.permeability`
 - **Tension rows.** T-0015
+- **Status.** SEED
+
+### I-096 — Does anything consume liang2021.desorption, and does it survive outside its declared range?
+
+- **Question.** Which registered component, if any, actually consumes liang2021.desorption's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
+- **Decision rule.**
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
+- **Entities.** `model:liang2021.desorption`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:grudeva2026.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
+- **Tension rows.** T-0178
+- **Status.** SEED
+
+### I-097 — Does anything consume maille2024.two_regime, and does it survive outside its declared range?
+
+- **Question.** Which registered component, if any, actually consumes maille2024.two_regime's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
+- **Decision rule.**
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
+- **Entities.** `model:maille2024.two_regime`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:grudeva2026.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
+- **Tension rows.** T-0179
+- **Status.** SEED
+
+### I-098 — Does anything consume moroney2016.surrogate, and does it survive outside its declared range?
+
+- **Question.** Which registered component, if any, actually consumes moroney2016.surrogate's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
+- **Decision rule.**
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
+- **Entities.** `model:moroney2016.surrogate`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:grudeva2026.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
+- **Tension rows.** T-0180
+- **Status.** SEED
+
+### I-099 — Does anything consume pannusch2024.closures, and does it survive outside its declared range?
+
+- **Question.** Which registered component, if any, actually consumes pannusch2024.closures's output — and does that consuming result change materially when the artifact is swapped for another source's or driven outside its declared validity?
+- **Lens.** calibration_artifact_portability · tracks: technical_note, methods_paper
+- **Cheap screen.** Step 1 — establish the path: trace the artifact's produced output to a named component's consumed input, via the cards' Interface mapping sections and the registry module. If no path exists, STOP and record that. Step 2, only if a path exists — source-swap sensitivity: hold the consuming configuration fixed, swap the artifact, record the change in the consuming observable, then sweep to the edge of the declared range.
+- **Minimum figure.** Consuming observable versus the artifact's driving variable, one curve per source, with the declared range shaded — or, where step 1 fails, the producer/consumer path diagram showing the missing edge.
+- **Decision rule.**
+    - SURVIVE if A consuming path exists AND the consuming result moves by more than its own stated uncertainty under the swap, or the artifact is already consumed outside its declared range.
+    - RETIRE if A consuming path exists and the consuming result is insensitive to the swap across the used range.
+    - INCONCLUSIVE if No consuming path can be established from the cards and registry — in which case the finding is the missing path, not a portability result.
+- **Stop condition.** Either no consuming path is found, or the swap changes the consuming result by less than its uncertainty.
+- **Strongest alternative.** Nothing consumes this artifact at all, or the named same-stage component is insensitive to it, so portability is moot for it.
+- **Entities.** `model:pannusch2024.closures`, `model:cameron2020.extraction_bdf`, `model:grudeva2025.reduced`, `model:grudeva2026.reduced`, `model:mo2023_2.coupled_bed`, `model:pannusch2024.solver`, `model:romancorrochano2017.extraction`
+- **Tension rows.** T-0181
 - **Status.** SEED
 
 ### I-016 — Does the published composition failure generalise?
@@ -470,9 +470,9 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0043
 - **Status.** SEED
 
-### I-028 — The model/observable matrix has 1 blind spots from card template deviations
+### I-028 — The model/observable matrix has 2 blind spots from card template deviations
 
-- **Question.** Which observables do the 1 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?
+- **Question.** Which observables do the 2 registered components without an Interface mapping section actually produce, and what does the matrix currently hide?
 - **Lens.** hidden_discriminator · tracks: data_note
 - **Cheap screen.** Read each affected card and write its Interface mapping section from the card's own content; re-run the corpus map and diff the matrix.
 - **Minimum figure.** The model/observable matrix before and after, with the recovered cells marked.
@@ -482,8 +482,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if The card's content does not state what the component outputs.
 - **Stop condition.** Every affected card carries the section and the matrix is stable.
 - **Strongest alternative.** The deviating cards are deliberately non-template (audits, search targets) and have no interface to declare.
-- **Entities.** `model:wadsworth2026.permeability`
-- **Tension rows.** T-0054
+- **Entities.** `model:grudeva2026.reduced`, `model:wadsworth2026.permeability`
+- **Tension rows.** T-0182, T-0054
 - **Status.** SEED
 
 ### I-029 — Can permeability discriminate between the models that predict it?

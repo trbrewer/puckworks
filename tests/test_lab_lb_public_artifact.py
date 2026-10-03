@@ -188,13 +188,13 @@ def test_no_context_env_or_flag_can_turn_the_lb_record_into_a_generic_bypass():
     assert gate.preflight(req, "PUBLIC_ARTIFACT")["blocked"] is True
 
 
-def test_exactly_two_components_are_affirmatively_public_live_today():
+def test_affirmatively_public_live_components_have_scoped_rights():
     # the set that passes BOTH public-execution and output-publication clearance, on two DIFFERENT
     # bases: LB is first-party CLEAR (#70); grudeva is PERMISSION_DOCUMENTED (#73, 2026-08-14).
     from puckworks import rights
     live = sorted(c.name for c in puckworks.components()
                   if rights.may_execute_in_public_batch(c.name).allowed
                   and rights.may_publish_outputs(c.name).allowed)
-    assert live == [LB, "grudeva2025.reduced"]
+    assert live == [LB, "grudeva2025.reduced", "grudeva2026.reduced"]
     assert rights.rights_record(LB).code_rights_state == "CLEAR"
     assert rights.rights_record("grudeva2025.reduced").code_rights_state == "PERMISSION_DOCUMENTED"

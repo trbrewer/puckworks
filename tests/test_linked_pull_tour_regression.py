@@ -44,14 +44,17 @@ import pytest
 # reproduces 58492fe8… bit-for-bit, so NO other component's route, status or gate count moved. The 2
 # outputs are its two pre-existing registered gates (gate_grudeva_no_eps_kappa,
 # gate_grudeva_reduced_solver) — no gate was added and no runner was invented. Row count stays 27.
-_BASELINE_TOUR_STRUCTURE = "ad10b26f3662dcbcd68f36d88e150ecca58c01f71facd6fad98b54dcabc303cd"
+# 2026-10-02: exactly-additive grudeva2026 native reference route (28 rows).
+# Removing its row reproduces the previous 27-component fingerprint, asserted below.
+_PRIOR_TOUR_STRUCTURE = "ad10b26f3662dcbcd68f36d88e150ecca58c01f71facd6fad98b54dcabc303cd"
+_BASELINE_TOUR_STRUCTURE = "1e934f9c2272274b2e07e31df98f0c52ac5b9c96c3f0c2e47114ddc8983bb5c0"
 
 
-def _tour_structure_hash(tour) -> str:
+def _tour_structure_hash(tour, *, omit=()) -> str:
     """A float-free fingerprint of the tour's routing/structure — portable across environments."""
     rows = sorted((r.component_id, r.stage, str(r.execution_kind), str(r.execution_status),
                    len(r.outputs or []), tuple(sorted(r.output_roles or [])))
-                  for r in tour.components)
+                  for r in tour.components if r.component_id not in omit)
     return hashlib.sha256(json.dumps(rows, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
@@ -69,6 +72,7 @@ def test_frozen_reference_request_reproduces_the_baseline_structure():
                                             execution_context="LOCAL_PRIVATE")
     # (1) the portable structural fingerprint is frozen (catches membership/route/status/gate changes)
     assert _tour_structure_hash(tour) == _BASELINE_TOUR_STRUCTURE
+    assert _tour_structure_hash(tour, omit=("grudeva2026.reduced",)) == _PRIOR_TOUR_STRUCTURE
     # (2) the full float hash is a well-formed sha256, but is NOT pinned to a cross-environment literal
     #     (it is platform/numpy dependent). Its within-environment determinism is guarded portably by
     #     test_full_tour_hash_is_import_order_invariant (three import orders must agree).

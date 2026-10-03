@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `5aae2cce70601501c19cb8ef7282ec84957fdc70` · **schema** v1 · **generator** v1
+**Commit** `ca663733c0cd1d171899e137a7256ab29e857f35` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -12,18 +12,18 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 |---|---|
 | card | 112 |
 | claim | 5 |
-| dataset | 116 |
-| model | 27 |
+| dataset | 118 |
+| model | 28 |
 | observable | 15 |
 | result | 5 |
 
 | relation type | count |
 |---|---|
-| CALIBRATED_FROM | 84 |
+| CALIBRATED_FROM | 86 |
 | CARD_NAMES_IN_OVERLAPS | 17 |
 | COMPETES_WITH | 13 |
 | COMPLEMENTS | 20 |
-| DERIVED_FROM | 105 |
+| DERIVED_FROM | 107 |
 | MEASURES | 130 |
 | PREDICTS | 49 |
 | SHARES_OBSERVABLE_WITH | 119 |
@@ -35,7 +35,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | stage | models |
 |---|---|
 | bed_dynamics | 5 |
-| extraction | 9 |
+| extraction | 10 |
 | flow | 5 |
 | grind | 2 |
 | infiltration | 2 |
@@ -46,7 +46,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 
 | evidence_strength | models |
 |---|---|
-| `code_verification` | 5 |
+| `code_verification` | 6 |
 | `exploratory_synthesis` | 1 |
 | `post_fit_reconstruction` | 5 |
 | `qualitative_capacity` | 5 |
@@ -56,7 +56,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 
 ## Tension atlas
 
-170 rows across 11 lenses.
+171 rows across 11 lenses.
 
 | lens | rows |
 |---|---|
@@ -64,7 +64,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | composition_failure | 21 |
 | cross_species_inconsistency | 4 |
 | evidence_asymmetry | 3 |
-| hidden_discriminator | 11 |
+| hidden_discriminator | 12 |
 | lineage_circularity | 64 |
 | missing_experiment | 1 |
 | model_disagreement | 38 |
@@ -110,7 +110,7 @@ The repository has already published these; a candidate restating one is a dupli
 
 ## Build warnings
 
-36 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
+38 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
 
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 31 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 37 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
@@ -123,6 +123,7 @@ The repository has already published these; a candidate restating one is a dupli
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 44 (dataset romancorrochano2017/fig5_13_mpe) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 45 (dataset romancorrochano2017/fig7_4_espresso) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 52 (dataset romancorrochano2017/y0_extractable) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
+- NO_INTERFACE_MAPPING: docs/cards/grudeva2026_2.md (component grudeva2026.reduced) — no observable edges inferred
 - NO_INTERFACE_MAPPING: docs/cards/wadsworth2026.md (component wadsworth2026.permeability) — no observable edges inferred
 - TEMPLATE_DEVIATION: docs/cards/acre2024.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/cameron2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
@@ -132,6 +133,7 @@ The repository has already published these; a candidate restating one is a dupli
 - TEMPLATE_DEVIATION: docs/cards/g1_glassbead_analog.md is missing Scope and mechanism, Governing equations
 - TEMPLATE_DEVIATION: docs/cards/g1_retention_search_target.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/g3_pump_characteristic.md is missing Governing equations
+- TEMPLATE_DEVIATION: docs/cards/grudeva2026_2.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/khomyakov2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/lateral_coupling_feasibility.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/liang2021_AUDIT.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate

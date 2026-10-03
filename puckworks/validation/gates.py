@@ -2020,3 +2020,9 @@ def gate_maille_timescale_portability_roman():
                 none_in_maille_bands_fine_class=r["none_in_maille_bands_fine_class"],
                 coarse_class_status=r["coarse_class_status"],
                 portability_verdict=r["portability_verdict"])
+
+
+def gate_grudeva2026_reduced():
+    """Bounded independent analytical fixtures plus real coupled conservation check."""
+    from puckworks.models.grudeva2026.verification import quick_verification
+    return quick_verification()

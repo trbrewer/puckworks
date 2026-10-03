@@ -30,9 +30,9 @@ overrides everything):
 | `RIGHTS_BLOCKED` | shown but receives **zero** execution calls | — |
 | `NO_EXECUTION_PATH` | catalogued; no defensible runner/check today | — |
 
-Today the frozen tour v1 resolves all **27** components and exercises **26** eligible code paths — **1**
-common-scenario run (Cameron), **4** native reference runs (including the batch-only LB reference —
-`interactive_fast` would omit it), and **21** registered scientific checks — with **0** rights-blocked
+Today the frozen tour v1 resolves all **28** components and exercises **27** eligible code paths — **1**
+common-scenario run (Cameron), **5** native reference runs (including the batch-only LB and Grudeva EJAM references —
+`interactive_fast` omits both), and **21** registered scientific checks — with **0** rights-blocked
 components and **1** optional-dependency component (`brewer2026.lb_taichi`, no enabled quick
 demonstration yet). `grudeva2025.reduced` joined the scientific-check route on **2026-08-14**, when the
 upstream author's direct written permission was documented (#73): it runs its **existing** registered

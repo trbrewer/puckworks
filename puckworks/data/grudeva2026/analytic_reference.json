@@ -1,0 +1,67 @@
+{
+  "source": {
+    "derivation": "Spherical Dirichlet diffusion separation of variables; independently evaluated scalar math.fsum analytic series, 10000 terms",
+    "equations": "EJAM Eqs.68-70 (not printed Eq.71)",
+    "doi": "10.1017/S095679252500018X",
+    "license": "CC-BY-4.0 for equation provenance; original numerical evaluation"
+  },
+  "constant_front": [
+    {
+      "c_front": 0,
+      "speed": 0.18376947956483386,
+      "arrival": 5.4416
+    },
+    {
+      "c_front": 0.2,
+      "speed": 0.17385257301808069,
+      "arrival": 5.752
+    },
+    {
+      "c_front": 0.6,
+      "speed": 0.13691128148959475,
+      "arrival": 7.303999999999999
+    },
+    {
+      "c_front": 0.95,
+      "speed": 0.03444475062000554,
+      "arrival": 29.031999999999975
+    }
+  ],
+  "sphere": {
+    "times": [
+      4.3,
+      4.302,
+      4.319999999999999,
+      4.3999999999999995,
+      4.6,
+      5.0
+    ],
+    "boundary": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ],
+    "initial": 1.6,
+    "diffusivity": 0.7,
+    "q_b": 0.4,
+    "flux": [
+      null,
+      34.49257214939158,
+      9.232267061717954,
+      2.774475185540805,
+      0.6179238089785274,
+      0.03889574368245527
+    ],
+    "mean": [
+      1.6,
+      1.4285556536829207,
+      1.0980511810375384,
+      0.640127472592305,
+      0.30716916346724044,
+      0.20675593367461756
+    ]
+  }
+}

@@ -63,7 +63,7 @@ def test_unrelated_records_are_unchanged():
     reviewed = {r.component_id for r in rights.all_rights()
                 if any(s != "NOT_REVIEWED" for s in
                        (r.code_rights_state, r.data_rights_state, r.output_redistribution_state))}
-    assert reviewed == {LB, "grudeva2025.reduced", "cameron2020.extraction_bdf",
+    assert reviewed == {LB, "grudeva2025.reduced", "grudeva2026.reduced", "cameron2020.extraction_bdf",
                         "wadsworth2026.permeability", "foster2025.infiltration"}
 
 

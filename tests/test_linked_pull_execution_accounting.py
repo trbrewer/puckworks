@@ -28,6 +28,8 @@ EXPECTED_FAST_NOT_SELECTED = frozenset({
     # grudeva2025.reduced moved here on 2026-08-14 when its rights block was resolved by documented
     # permission (#73). Its ZERO-call accounting is unchanged; only the recorded reason is.
     "grudeva2025.reduced",
+    # New standalone component is explicitly excluded; executions and handoffs above stay frozen.
+    "grudeva2026.reduced",
 })
 EXPECTED_FAST_REFERENCE_ONLY = frozenset({
     "sourcing2026.g3_pump_characteristic", "sourcing2026.g1_glassbead_analog", "lee2023.feedback",

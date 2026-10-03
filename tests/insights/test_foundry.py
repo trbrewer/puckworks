@@ -581,8 +581,16 @@ def test_the_seeded_ids_from_the_previous_head_survived(state):
     seeded to guarantee, and renaming a family must not have quietly reshuffled the numbering."""
     live_t = {t.tension_id for t in state["tensions"]}
     seeded_t = {i for i in live_t if int(i.split("-")[1]) <= SEED_HIGH_WATER["T"]}
-    # the foster2025 card repair legitimately retired a handful of rows; the rest must survive
-    assert len(seeded_t) >= SEED_HIGH_WATER["T"] - 10, len(seeded_t)
+    # Four calibration-neighbour identities now include the authorized new runtime component.
+    # Old IDs remain reserved; do not silently reassign them or relax the prior survival budget.
+    replaced = {"T-0006", "T-0008", "T-0009", "T-0010"}
+    assert not replaced & live_t
+    for producer in ("liang2021.desorption", "maille2024.two_regime",
+                     "moroney2016.surrogate", "pannusch2024.closures"):
+        rows = [t for t in state["tensions"] if t.difference_type == "calibration_artifact_producer"
+                and "model:"+producer in t.entity_ids]
+        assert len(rows) == 1 and "model:grudeva2026.reduced" in rows[0].entity_ids
+    assert len(seeded_t | replaced) >= SEED_HIGH_WATER["T"] - 10, len(seeded_t)
 
     live_i = {c.id for c in state["candidates"]}
     seeded_i = {i for i in live_i if int(i.split("-")[1]) <= SEED_HIGH_WATER["I"]}

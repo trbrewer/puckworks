@@ -123,3 +123,43 @@ SUMMARIES: dict = {
     "foster2025.infiltration": foster_first_drip_summary,
     "brewer2026.lb_reference": lb_reference_channel_summary,
 }
+
+
+def grudeva2026_reference_summary(*, controls=None, parameters=None) -> dict:
+    """One native EJAM producer, guarded before any calculation or fixture access."""
+    from puckworks import rights
+    cid = "grudeva2026.reduced"
+    decisions = [rights.may_execute_locally(cid), rights.may_publish_outputs(cid),
+                 rights.may_include_data_in_release(cid)]
+    if any(not decision.allowed for decision in decisions):
+        raise PermissionError("Grudeva EJAM source/use preflight did not clear this producer")
+    from puckworks.models.grudeva2026 import Controls, Parameters, simulate
+    from puckworks.models.grudeva2026.verification import (
+        publication_comparison, quick_verification, reference_fixture, reference_times)
+    p = Parameters() if parameters is None else parameters
+    c = Controls() if controls is None else controls
+    fixture = reference_fixture("publication_reference.json")
+    z = sorted(set([i/100 for i in range(101)]+[row['z'] for row in fixture['figure3']]))
+    result = simulate(p, c, times=reference_times(), profile_z=z)
+    comparisons = publication_comparison(result) if p == Parameters() else {
+        "status": "NOT_APPLICABLE_SYNTHETIC_PARAMETERS", "physical_validation": "NOT_ESTABLISHED"}
+    return {
+        "native_inputs": [
+            {"name": "publication_case", "value": result.parameters, "unit": "dimensionless",
+             "provenance": "EJAM Eqs.21,29,67-77; Eq.76 fractions; Table 2 initial concentrations "
+                           "1.388 (not 310/224); Q_i recomputed from fractions; DOI 10.1017/S095679252500018X"},
+            {"name": "prescribed_flow", "value": 1., "unit": "dimensionless Darcy flux",
+             "provenance": "Eq.29, fixed flow; no hydraulic prediction"},
+            {"name": "numerical_controls", "value": result.controls, "unit": "dimensionless",
+             "provenance": "MODEL-GRUDEVA2026-REDUCED-001 explicit numerical controls"}],
+        "values": {"first_drip": result.events.get("first_drip"),
+                   "desaturation_exit": result.events.get("desaturation_exit"),
+                   "saturation_plateau_duration": result.events.get("saturation_plateau_duration"),
+                   "final_discharged_solute": result.cumulative_discharged_solute[-1]
+                   if result.cumulative_discharged_solute else None},
+        "scientific_result": result.to_dict(), "reference_qualification": comparisons,
+        "gate": "gate_grudeva2026_reduced", "gate_verdict": quick_verification(),
+        "source_preflight": [decision.to_dict() for decision in decisions],
+        "method": "Independent equation-based conservative fixed-flow reduced model; native publication case. "
+                  "NOT A COMMON-SCENARIO PREDICTION / NOT EXPERIMENTAL VALIDATION",
+    }
