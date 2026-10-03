@@ -1,7 +1,8 @@
 # MODEL-FOSTER2025-POSTSAT-001 owner handoff
 
 G2 / GOVERNING_PHYSICS_CHANGE. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
-Issue [#311](https://github.com/trbrewer/puckworks/issues/311). Draft PR only;
+Issue [#311](https://github.com/trbrewer/puckworks/issues/311), draft
+[PR #312](https://github.com/trbrewer/puckworks/pull/312). Draft PR only;
 no merge/auto-merge, release, public publication, branch deletion, production
 adoption, EWP changes, laboratory work or automatic successor is authorized.
 
@@ -26,6 +27,18 @@ entry and compares it independently with Eq. 29 at roundoff. No finite-differenc
 derivative API is supplied, and the failed estimate is retained in RESULTS.json.
 No source-reference threshold, parameter, observer, support or mask changed.
 
+Independent review of `7edb4b40f1fdabb4f58fae095284099dcafadb84` found one
+material reporting defect (R1): replay could accept an unsuccessful cached
+oracle and extrapolate its partial dense output. All twelve retained executions
+were successful; the defect did not invalidate their numerical evidence.
+The correction requires a successful END receipt and cached result, and verifies
+each independent scalar trajectory's complete support and initial state before
+evaluation. Seventeen synthetic tests cover failed/unfinished caches and partial
+or mismatched support without running trajectories. Reports were replayed from
+the unchanged successful caches; the reporter hash is updated in RESULTS.json.
+The initial REQUEST_CHANGES receipt and corrected-head addendum belong to the
+same independent nonhuman review and are retained in the PR closeout receipt.
+
 ## Reproduction and resource use
 
 Run from a repository checkout containing the pinned baseline history:
@@ -44,8 +57,20 @@ independent baseline/scalar/equilibrium/rate checks were reused with exact initi
 state matching. All final production trajectories bind solver source
 `3964b8c6afd63d953d30360b2768b7bfab0c73e3ed173ff03d08f597604d2e72`.
 
-Actual task use: **12/12 trajectory executions**, **56.082319/600 numerical
-seconds** including report reduction and its failed attempt. Four final-source
+For report-only replay of this task's mixed-source retained cache, use both flags:
+
+```sh
+python -m puckworks.analysis.foster2025_postsat \
+  --output-dir OUTPUT_DIRECTORY \
+  --execution-log EXTERNAL_EXECUTION_LOG \
+  --cache-dir EXTERNAL_ARRAY_DIRECTORY \
+  --reuse-trajectories --final-source
+```
+
+Actual task use at handoff freeze: **12/12 trajectory executions**,
+**73.603635/600 numerical seconds** including report reduction, its failed
+attempt, corrected report replay and 0.842758 seconds of independent review.
+Four final-source
 executions were retained after the observational entry-RHS correction. The
 ordinary unit/regression tests are separate QA, not qualification sweeps. No
 qualification execution remains available; a numerically material review defect
@@ -65,21 +90,28 @@ DOI: [10.1063/5.0245167](https://doi.org/10.1063/5.0245167). No PDF is redistrib
 
 ## Software, CI and review status
 
-- Focused current-dependency QA: 130 tests pass (including live consumers and
+- Focused current-dependency QA: 130 tests pass, plus 17 cache-replay tests
+  (including live consumers and
   historical I-045/I-090 scope). The frozen historical receipts are not rewritten.
 - Initial broad baseline QA: 5475 passed, 65 skipped, one failure in I-040's
-  dynamic Waszkiewicz trace. An isolated pristine-baseline audit passes; full
-  pristine-baseline and final-source regression are being compared. No unrelated
-  code is repaired by this task.
+  dynamic Waszkiewicz trace. An isolated pristine-baseline I-040 audit passes.
+  The attempted full archive-only baseline run is not an accepted baseline:
+  missing Git history caused 67 failures / 3 errors (5348 passed / 123 skipped).
+  No unrelated code is repaired by this task.
 - Minimum dependency QA: 128 focused tests passed on NumPy 2.0 / SciPy 1.13;
-  two subsequent interface assertions are rerun in the same environment.
+  all 34 final interface tests and 17 replay tests also pass in that environment.
 - Ruff and mypy pass. Scientific-baseline QA: 5 passed / 7 skipped. All registry
   gates pass. Generated registry, insights, evidence-graph and status checks pass.
-- Packaging/rights/path and full final broad QA: pending; full logs remain external.
-- Hosted CI: pending draft PR.
-- Independent exact-head review: pending; requested review is nonhuman and must
-  bind the final commit, numerical evidence and actual resource log. Review and
-  CI receipts will be linked from the PR at the reviewed head.
+- Packaging/rights/generated checks: 126 tests pass. Wheel/sdist build, installed
+  wheel smoke and registry gates pass. JSON finite-value, secret/path and diff
+  checks pass; full logs remain external.
+- An extra all-module mypy invocation (outside the configured 19-module target)
+  reports 140 errors in 32 files, identical by file/message to the pinned baseline.
+  This unrelated baseline debt is preserved; configured mypy passes.
+- Full broad QA, final hosted CI and the independent review addendum are recorded
+  separately in the head-bound closeout receipt on PR #312. They are not inferred
+  from the numerical PASS. The first reviewed head had 22 successful hosted jobs,
+  six still running and two scheduled-main-only skips at handoff freeze.
 
 ## Owner decision
 

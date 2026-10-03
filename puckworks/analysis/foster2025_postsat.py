@@ -123,6 +123,17 @@ def differences(left, right, grid, ts_left, ts_right, p):
                 event_time_error_normalized=abs(ts_left-ts_right)/(p.A*p.L/p.Q_m))
 
 
+def require_scalar_support(result, start, end, initial, name):
+    """Reject failed/partial oracle solves before any dense-output evaluation."""
+    t, y = np.asarray(result.t), np.asarray(result.y)
+    if (not result.success or t.ndim != 1 or len(t) < 2
+            or y.shape != (1, len(t)) or not np.all(np.isfinite(t))
+            or not np.all(np.isfinite(y)) or not np.all(np.diff(t) > 0)
+            or t[0] != start or t[-1] != end or y[0, 0] != initial
+            or not callable(result.sol)):
+        raise ValueError(f"{name}: unsuccessful or mismatched scalar support/initial state")
+
+
 def independent_integrals(r, grid, *, scalar_post=None):
     """QUADPACK integration of independently coded flows, split at each event.
 
@@ -130,6 +141,12 @@ def independent_integrals(r, grid, *, scalar_post=None):
     series, as well as independent headspace increments. Not a complement.
     """
     p, tp, ts = r["p"], r["t_p"], r["t_s"]
+    fm.require_success(r)
+    if grid[0] < 0 or grid[-1] > r["actual_support_s"][1]:
+        raise ValueError("independent quadrature exceeds integrated support")
+    if scalar_post is not None:
+        require_scalar_support(scalar_post, ts, r["actual_support_s"][1],
+                               r["sol"].y_events[0][0][1], "independent-post")
     _, qp0, _ = independent_flows(0, r["s_p"], p)
 
     def state(t):
@@ -187,6 +204,15 @@ class ExecutionLog:
         with self.path.open("a") as f:
             f.write(json.dumps(row, allow_nan=False, sort_keys=True)+"\n")
 
+    @staticmethod
+    def successful(result):
+        if isinstance(result, dict):
+            # The pinned historical result predates the top-level success field.
+            if "success" in result:
+                return bool(result["success"])
+            return bool(getattr(result.get("sol"), "success", False))
+        return bool(getattr(result, "success", False))
+
     def trajectory(self, name, fn):
         reuse_oracle = self.final_source and name in ("baseline", "independent-post", "equilibrium", "perturbation")
         if self.reuse or reuse_oracle:
@@ -195,8 +221,15 @@ class ExecutionLog:
             if not matches:
                 raise ValueError("no unchanged-source cache for " + name)
             row = matches[-1]
+            receipts = [r for r in self.rows if r["event"] == "END"
+                        and r["execution"] == row["execution"] and r["name"] == name]
+            if len(receipts) != 1 or receipts[0].get("success") is not True:
+                raise ValueError(f"{name}: cache lacks a successful END receipt")
             with (self.cache/f"{row['execution']:02d}-{name}.pickle").open("rb") as f:
-                return pickle.load(f)
+                result = pickle.load(f)
+            if not self.successful(result):
+                raise ValueError(f"{name}: cached numerical solve was unsuccessful")
+            return result
         n = sum(r["event"] == "START" for r in self.rows)
         seconds = sum(r.get("numerical_seconds", 0) for r in self.rows)
         if n >= 12 or seconds >= 600:
@@ -206,7 +239,7 @@ class ExecutionLog:
         tic = time.perf_counter()
         try:
             result = fn()
-            good = result.get("success", True) if isinstance(result, dict) else result.success
+            good = self.successful(result)
             with (self.cache/f"{n+1:02d}-{name}.pickle").open("wb") as f:
                 pickle.dump(result, f)
         except Exception:
@@ -232,8 +265,7 @@ def run(log):
     independent = log.trajectory("independent-post", lambda: solve_ivp(
         lambda t,y: [independent_F(y[0],p)], [ts,30], [hs], method="DOP853",
         rtol=2e-12, atol=1e-14*p.H0, max_step=0.01, dense_output=True))
-    if independent.t[0] != ts or independent.y[0, 0] != hs:
-        raise ValueError("cached independent trajectory initial state no longer matches final source")
+    require_scalar_support(independent, ts, 30, hs, "independent-post")
     hstop = p.H0*(1-p.beta*p.p_a/p.p_m)
     heq = brentq(lambda H: independent_F(H,p), 0, np.nextafter(hstop, 0), xtol=1e-16)
     rate = independent_derivative(heq,p)
@@ -245,6 +277,8 @@ def run(log):
     pert = log.trajectory("perturbation", lambda: solve_ivp(
         lambda t,y: [independent_F(y[0],p)], [0,tau], [heq+perturbation], method="DOP853",
         rtol=2e-12, atol=1e-14*p.H0, max_step=tau/100, dense_output=True))
+    require_scalar_support(eq, 0, tau, heq, "equilibrium")
+    require_scalar_support(pert, 0, tau, heq+perturbation, "perturbation")
 
     tic = time.perf_counter()
     grid = comparison_grid(list(runs.values()))
