@@ -82,3 +82,21 @@ def test_terminal_scheduler_records_horizon_even_with_sub_ulp_remainder():
                 break
             t += step
         assert recorded and t == 8.
+
+
+def test_refinement_does_not_extend_missing_endpoint_or_pass_empty_support():
+    from puckworks.analysis.grudeva2026_reference_002_report import refinement
+    # Saved synthetic arrays only; a huge value at unsupported t=8 must not
+    # enter any local/phase metric via np.interp's endpoint extension.
+    a = np.zeros((3, 10))
+    a[:, 0] = [0., 7.975, 8.]
+    a[-1, 1:8] = 100.
+    b = a[:2].copy()
+    report = refinement({'records': a, 'arrival': 6.5}, {'records': b, 'arrival': 6.5})
+    assert report['unavailable_outlet'] == 1
+    assert report['included_outlet'] == 2
+    assert report['outlet_max_absolute'] == report['phase_or_cup_max_absolute_diagnostic'] == 0
+    a[:, 0] = [6.49, 6.5, 6.51]
+    b = a.copy()
+    empty = refinement({'records': a, 'arrival': 6.5}, {'records': b, 'arrival': 6.5})
+    assert not empty['passed'] and empty['included_outlet'] == 0

@@ -31,7 +31,9 @@ Conservative radial finite volumes with implicit time integration solve the
 independent grain fixtures: at 3200 shells the worst flux/mean errors are
 1.60048e-4 / 6.75608e-7, against 2e-4 / 2e-5. The 800/1600/3200 shell
 sequence shows decreasing errors; time translation, uptake and equilibrium
-pass. A manufactured moving-liquid profile tests the coordinate transform and
+pass. The sphere fixtures use BDF at rtol=2e-11; the coupled algorithm uses
+backward Euler with 64/128 shells. This operator check does not certify those
+coarser coupled controls. A manufactured moving-liquid profile tests the coordinate transform and
 upwind transport algebra. Shell transfer balance in canonical runs is near
 1e-15. Those checks do **not** qualify the coupled interpolation/transport route.
 
@@ -121,3 +123,11 @@ grain-history comparison and earliest inter-method divergence remain unavailable
 
 No production default, solver, registry, fixture, historical report, EWP file,
 lock or tag changes. Issue #67 remains open/incomplete. No next task is selected.
+
+During the one independent review, the report's refinement interpolation was
+found to extend a missing endpoint using NumPy's default constant endpoint.
+The report now restricts every norm to common observed time support and reports
+unavailable observations separately. The time/combined comparisons each have
+one unavailable outlet sample at t=8. This is an observer correction only;
+all coupled arrays, run counts, thresholds and the incomplete disposition remain
+unchanged. No additional coupled execution was performed.

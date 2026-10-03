@@ -60,7 +60,8 @@ Baseline focused QA: 34 passed, 3 deselected. Baseline full offline QA:
 5450 passed, 65 skipped, 63 deselected, one warning, 1118.94 seconds. This
 minimal dev environment has optional dependency skips; totals differ from
 #308's fuller environment and are not concealed as identical coverage.
-Candidate focused QA: 46 passed, 3 deselected. Analytical/source/observer tests
+Candidate focused QA: 47 passed, 3 deselected (including the independent-review
+observer-support regression). Analytical/source/observer tests
 are software evidence separate from the comparator's failed numerical gates.
 
 ```bash

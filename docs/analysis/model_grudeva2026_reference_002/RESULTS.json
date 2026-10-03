@@ -588,17 +588,19 @@
       "outlet_max_absolute": 0.0688873692639172,
       "passed": false,
       "phase_or_cup_max_absolute_diagnostic": 0.017383562257731633,
-      "scope": "outlet/event refinement gate only; no global or local accuracy inference"
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 0
     },
     "combined": {
       "arrival_absolute": 0.012679282403842862,
       "excluded_outlet": 15,
       "front_max_absolute": 0.001955544198795567,
-      "included_outlet": 381,
+      "included_outlet": 380,
       "outlet_max_absolute": 0.13152703146629124,
       "passed": false,
-      "phase_or_cup_max_absolute_diagnostic": 0.03220332904589007,
-      "scope": "outlet/event refinement gate only; no global or local accuracy inference"
+      "phase_or_cup_max_absolute_diagnostic": 0.032202369911729534,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 1
     },
     "radial_fine": {
       "arrival_absolute": 8.89944010982191e-05,
@@ -608,17 +610,19 @@
       "outlet_max_absolute": 0.00026851211035044953,
       "passed": true,
       "phase_or_cup_max_absolute_diagnostic": 9.166257773696174e-05,
-      "scope": "outlet/event refinement gate only; no global or local accuracy inference"
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 0
     },
     "time_fine": {
       "arrival_absolute": 0.0015141938662779353,
       "excluded_outlet": 13,
       "front_max_absolute": 0.0002285753352512243,
-      "included_outlet": 383,
+      "included_outlet": 382,
       "outlet_max_absolute": 0.0061476994762375,
       "passed": false,
-      "phase_or_cup_max_absolute_diagnostic": 0.001949346535655927,
-      "scope": "outlet/event refinement gate only; no global or local accuracy inference"
+      "phase_or_cup_max_absolute_diagnostic": 0.0019483874014953884,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 1
     }
   },
   "resource_use": {
@@ -1276,8 +1280,8 @@
   "source_hashes": {
     "docs/analysis/model_grudeva2026_reference_002/CONTRACT.md": "f0c3b93571ca72f173d2837c37c5e50c6fb20e37b14d758346924fd76966ef4b",
     "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
-    "puckworks/analysis/grudeva2026_reference_002_report.py": "804c77827f8048cf6aac0cd004eed339b1e742f5e970daa1f73afe86658dda8d",
-    "tests/test_grudeva2026_reference_002.py": "b2e92c4b39a0d080d36a8ffb63855aa97452f2e2f00cbfd3ffebbc326164fd65"
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "tests/test_grudeva2026_reference_002.py": "513f792482d88723096bd25025baf6e62a9841db6b35ba2d704ea68d3873a621"
   },
   "specified_equation_contract": "DEFINED_AND_SOURCE_AUDITED",
   "task": "MODEL-GRUDEVA2026-REFERENCE-002"

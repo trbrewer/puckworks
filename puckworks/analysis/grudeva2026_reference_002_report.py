@@ -68,14 +68,22 @@ def refinement(a, b):
     if a['arrival'] is None or b['arrival'] is None:
         return {'passed': False, 'reason': 'arrival unavailable'}
     lo, hi = sorted([a['arrival'], b['arrival']])
-    smooth = (x[:, 0] < lo-.025) | (x[:, 0] > hi+.025)
+    available = (x[:, 0] >= y[0, 0]) & (x[:, 0] <= y[-1, 0])
+    outside_jump = (x[:, 0] < lo-.025) | (x[:, 0] > hi+.025)
+    smooth = available & outside_jump
+    if not np.any(smooth):
+        return {'passed': False, 'reason': 'no common smooth observation support',
+                'included_outlet': 0, 'excluded_outlet': int(sum(available & ~outside_jump)),
+                'unavailable_outlet': int(sum(~available))}
     outlet = abs(x[:, 2]-np.interp(x[:, 0], y[:, 0], y[:, 2]))[smooth]
-    front = abs(x[:, 1]-np.interp(x[:, 0], y[:, 0], y[:, 1]))
-    inv = max(float(np.max(abs(x[:, k]-np.interp(x[:, 0], y[:, 0], y[:, k])))) for k in range(3, 8))
+    front = abs(x[:, 1]-np.interp(x[:, 0], y[:, 0], y[:, 1]))[available]
+    inv = max(float(np.max(abs(x[:, k]-np.interp(x[:, 0], y[:, 0], y[:, k]))[available]))
+              for k in range(3, 8))
     event = abs(a['arrival']-b['arrival'])
     return {'outlet_max_absolute': float(max(outlet)), 'arrival_absolute': event,
             'front_max_absolute': float(max(front)), 'phase_or_cup_max_absolute_diagnostic': inv,
-            'included_outlet': int(sum(smooth)), 'excluded_outlet': int(sum(~smooth)),
+            'included_outlet': int(sum(smooth)), 'excluded_outlet': int(sum(available & ~outside_jump)),
+            'unavailable_outlet': int(sum(~available)),
             'passed': bool(max(outlet) <= .001 and event <= .001),
             'scope': 'outlet/event refinement gate only; no global or local accuracy inference'}
 
@@ -129,6 +137,13 @@ def main(argv=None):
     names = ['normal', 'bed_fine', 'radial_fine', 'time_fine', 'combined']
     audits = {n: audit_run(args.runs_directory/(n+'.json')) for n in names}
     raw = {n: json.loads((args.runs_directory/(n+'.json')).read_text()) for n in names}
+    controls = {'normal': (128, 64, .001), 'bed_fine': (256, 64, .001),
+                'radial_fine': (128, 128, .001), 'time_fine': (128, 64, .0005),
+                'combined': (512, 128, .0005)}
+    for name, (bed, shells, dt) in controls.items():
+        expected = dict(bed=bed, shells=shells, dt=dt, horizon=8., diffusivity=1.)
+        if raw[name]['controls'] != expected:
+            raise ValueError('canonical qualification controls differ: '+name)
     refined = {n: refinement(raw['normal'], raw[n]) for n in names[1:]}
     limit = json.loads((args.runs_directory/'limit.json').read_text())
     d = np.array(limit['records'])
@@ -154,7 +169,7 @@ def main(argv=None):
               'earliest_interbackend_divergence': 'NOT_ADJUDICATED_UNQUALIFIED_COMPARATOR',
               'baseline': reuse_baseline(root, args.baseline_directory),
               'figure5': 'FIG5_REFERENCE_INCOMPLETE', 'physical_validation': 'NOT_ESTABLISHED',
-              'scientific_coupled_attempts': 14, 'automatic_successor': 'NONE',
+              'scientific_coupled_attempts': None, 'automatic_successor': 'NONE',
               'numerical_requalification_after_final_scheduler_fix': 'NOT_EXECUTED_CAP_EXHAUSTED',
               'current_core_sha256': sha(root/'puckworks/analysis/grudeva2026_reference_002.py'),
               'source_hashes': {str(p.relative_to(root)): sha(p) for p in [
@@ -164,6 +179,7 @@ def main(argv=None):
     if args.attempt_manifest:
         attempts = json.loads(args.attempt_manifest.read_text())
         report['attempts'] = attempts
+        report['scientific_coupled_attempts'] = len(attempts)
         report['resource_use'] = {
             'successful_coupled_seconds': sum(r['seconds'] or 0 for r in attempts),
             'peak_rss_kib': max(r.get('rss_kib', 0) for r in attempts),
