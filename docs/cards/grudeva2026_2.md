@@ -14,6 +14,13 @@ returns COMPARATOR_QUALIFICATION_INCOMPLETE: the adapted reference route fails
 coupled numerical qualification. No baseline or publication fixture correction
 is established; the original numerical/reference dispositions remain unchanged.
 
+The bounded [CONSERVATIVE-003 successor](../analysis/model_grudeva2026_conservative_003/RESULTS.md)
+repairs paired exchange and moving-volume accounting on the radial/fixed-position
+route. Local and global conservation pass, but bed refinement still fails on the
+declared observation support. Coupled qualification is incomplete; raw-baseline
+observation and inter-method agreement remain unavailable. This establishes no
+baseline defect, publication correction, adoption or physical validation.
+
 The controlling [source/math/verification contract](../analysis/model_grudeva2026_reduced_001/CONTRACT.md)
 records derivations, parameters, numerical method, budgets and source limits.
 It corrects this card's previous algebra, clock, provenance and adapter statements.

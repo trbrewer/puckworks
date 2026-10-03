@@ -119,3 +119,15 @@ result. Changes and independent additions are enumerated in
 `docs/analysis/model_grudeva2026_reference_002/CONTRACT.md`. No additional
 upstream file, supplementary text, raw dataset or private correspondence is
 redistributed. The shipped grudeva2025 implementation remains unchanged.
+
+### MODEL-GRUDEVA2026-CONSERVATIVE-003 analysis adaptation
+
+`puckworks/analysis/grudeva2026_conservative_003.py` reuses REFERENCE-002's
+permission-covered radial shell operator. This successor replaces its exchange,
+activation accounting and liquid transport as documented in
+`docs/analysis/model_grudeva2026_conservative_003/CONTRACT.md`. The reused
+Grudeva reference lineage retains the direct-written-permission basis above;
+it is not relicensed under MIT, CC-BY or an OSI licence. Neither adaptation is
+an untouched author computation. The task-local baseline observer is separate
+from the alternative core. No additional upstream file, private source text,
+raw data or correspondence is redistributed.
