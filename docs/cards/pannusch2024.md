@@ -51,7 +51,11 @@ legacy argument 1.96, not 2.0. No new registry component, evidence-strength
 promotion, default redirection or coupling is introduced. Failed/partial solves
 have explicit actual support and absent unsupported observers.
 
-G2 / NUMERICAL_METHOD_CHANGE. Numerical qualification is pending the frozen
+G2 / NUMERICAL_METHOD_CHANGE. Full numerical qualification is **INCOMPLETE**: three step-state agreement
+checks, sampled liquid positivity, and the fixed discrete-budget quadrature
+fail; constant compatibility, ramp temporal comparisons, continuum inventory
+and finest-grid fractions pass. See the
+[result](../analysis/model_pannusch2024_temp_history_001/RESULTS.md) and frozen
 [contract](../analysis/model_pannusch2024_temp_history_001/CONTRACT.md);
 [offline example](../../examples/pannusch_temperature_history.py) uses a small
 illustrative mesh. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Source-internal exposed

@@ -845,7 +845,9 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
   for unchanged saturated two-grain equations. Continuous physical phase states,
   segmented BDF/analytic Jacobian, outlet mass and explicit supported observers.
   [Frozen numerical contract](analysis/model_pannusch2024_temp_history_001/CONTRACT.md);
-  qualification pending; no thermal-field or experimental ramp authority,
+  full qualification INCOMPLETE (step-state agreement, positivity and budget
+  quadrature fail); [result](analysis/model_pannusch2024_temp_history_001/RESULTS.md).
+  No thermal-field or experimental ramp authority,
   registry promotion, coupling, adoption or successor. Both legacy APIs and all
   historical source/scientific artifacts remain unchanged.
 

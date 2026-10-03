@@ -1,8 +1,9 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
-- [ ] MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313: additive prescribed uniform T(t)
-  at fixed SI Q; implementation and small-mesh checks complete, bounded numerical
-  qualification/QA/CI/independent review pending. G2 / NUMERICAL_METHOD_CHANGE;
+- [x] MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313: additive prescribed uniform T(t)
+  at fixed SI Q; implementation and 27-case numerical campaign complete. Full
+  qualification INCOMPLETE: step-state agreement, positivity and budget quadrature
+  fail; QA/CI/independent review remain separate receipts. G2 / NUMERICAL_METHOD_CHANGE;
   [contract](analysis/model_pannusch2024_temp_history_001/CONTRACT.md).
   No empirical scoring, thermal field, coupling or successor;
   PHYSICAL_VALIDATION=NOT_ESTABLISHED.

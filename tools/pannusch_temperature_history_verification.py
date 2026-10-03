@@ -461,9 +461,13 @@ def report(directory, output):
     account_pass = complete and all(r.get("accounting", {"passed": True})["passed"] for r in out["cases"].values())
     comparison_pass = len(comparisons) == expected_comparisons and all(
         v["passed"] for v in comparisons.values() if v.get("gated", True))
-    out["numerical_disposition"] = "VERIFIED" if complete and account_pass and comparison_pass and all(
+    out["resource_ceiling_passed"] = len(ledger) <= 32 and used_resources(ledger)[1] <= 1800
+    out["units_and_bases"] = dict(th.BASES)
+    out["numerical_disposition"] = "VERIFIED" if out["resource_ceiling_passed"] and complete and account_pass and comparison_pass and all(
         v["passed"] for v in delayed.values()) else "INCOMPLETE"
-    out["capability_qualification"] = "INCOMPLETE_PENDING_SOFTWARE_QA_HOSTED_CI_AND_INDEPENDENT_REVIEW"
+    out["capability_qualification"] = ("INCOMPLETE_NUMERICAL_GATES_FAILED_OR_UNRUN"
+                                        if out["numerical_disposition"] == "INCOMPLETE"
+                                        else "INCOMPLETE_PENDING_SOFTWARE_QA_HOSTED_CI_AND_INDEPENDENT_REVIEW")
     out["separate_dispositions"] = {
         "constant_compatibility": "PASS" if all(comparisons.get(f"A.{s}.legacy", {}).get("passed", False) for s in contract["species"]) else "INCOMPLETE",
         "temporal_and_independent": "PASS" if all(comparisons.get(k, {}).get("passed", False) for k in (
