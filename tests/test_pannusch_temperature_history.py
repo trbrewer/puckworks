@@ -260,3 +260,34 @@ def test_history_lists_are_copied_and_model_end_at_jump_is_left_sided():
     np.testing.assert_allclose(reduced(r.observations)[-1], expected, rtol=1e-7, atol=1e-9)
     assert r.observations.temperature_K[-1] == 371.15
     assert r.segments[-1].endpoint_temperature_K[-1] == 361.15
+
+
+@pytest.mark.parametrize("wrap", [np.asarray, lambda x: np.array(x, dtype=object)])
+def test_complex_inputs_rejected_without_integration(wrap):
+    complex_clock = wrap([0+1j, 2+1j])
+    complex_temperature = wrap([361.15+3j, 366.15+3j])
+    h = th.TemperatureHistory.linear_celsius((0, 2), (88, 93))
+    with patch.object(th, "BDF", side_effect=AssertionError("must not integrate")) as integrator:
+        for args in ((complex_clock, (361.15, 366.15), "linear"),
+                     ((0, 2), complex_temperature, "linear")):
+            with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+                th.TemperatureHistory(*args)
+        with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+            th.TemperatureHistory.linear_celsius((0, 2), wrap([88+1j, 93+1j]))
+        for key in ("t_span_s", "observation_times_s", "fraction_bounds_s"):
+            with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+                run(**{key: complex_clock})
+        # Even zero-imaginary complex-typed quantities are malformed real inputs.
+        for key, value in (("flow_m3_s", 2e-6), ("grind", 1.7)):
+            for imaginary in (0, 1):
+                with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+                    run(**{key: wrap(np.complex128(value+imaginary*1j))})
+        for key in ("rtol", "normalized_atol", "max_step_s", "diagnostic_step_s", "wall_time_limit_s"):
+            with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+                th.TemperatureHistorySettings(**{key: wrap(np.complex128(.01+1j))})
+        with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+            h.value_K(wrap(np.complex128(1+1j)))
+        for interval in ((wrap(np.complex128(0+1j)), 2), (0, wrap(np.complex128(2+1j)))):
+            with pytest.raises(th.InvalidTemperatureHistoryInput, match="real numeric"):
+                h.integration_segments(*interval)
+        integrator.assert_not_called()

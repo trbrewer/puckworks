@@ -144,3 +144,30 @@ def test_no_untracked_or_external_source_dependencies_in_example():
     value = json.loads(result.stdout)
     assert value["settings"]["nz"] == 12 and value["status"] == "COMPLETE"
     assert value["qualification_status"] == "NOT_ASSESSED_FOR_THIS_CALL"
+
+
+def test_bounded_input_guard_equivalence_rejects_other_source_changes():
+    proof = v.read_json(v.BUNDLE/"VALIDATION_CORRECTION.json")
+    case = next(c for c in v.read_json(v.BUNDLE/"CASES.json")["cases"] if c["method"] == "BDF")
+    current = v.numerical_identities(case)
+    assert current[proof["module"]] == proof["corrected_sha256"]
+    original = dict(current, **{proof["module"]: proof["original_sha256"]})
+    assert v.compatible_numerical_identities(original, current)
+    assert not v.compatible_numerical_identities({}, current)
+    for name in current:
+        changed = dict(current, **{name: "0"*64})
+        assert not v.compatible_numerical_identities(original, changed)
+        changed = dict(original, **{name: "0"*64})
+        assert not v.compatible_numerical_identities(changed, current)
+
+
+
+def test_input_guard_removal_recovers_exact_original_numerical_module_bytes():
+    proof = v.read_json(v.BUNDLE/"VALIDATION_CORRECTION.json")
+    source = (v.ROOT/proof["module"]).read_text()
+    start = source.index("def _reject_complex(")
+    end = source.index("def _vector(", start)
+    without_helper = source[:start]+source[end:]
+    original = "".join(line for line in without_helper.splitlines(keepends=True)
+                       if not line.lstrip().startswith("_reject_complex("))
+    assert v.hashlib.sha256(original.encode()).hexdigest() == proof["original_sha256"]

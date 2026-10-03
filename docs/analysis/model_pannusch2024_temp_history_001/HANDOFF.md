@@ -60,9 +60,9 @@ only for explicitly identified affected correction evidence within the absolute
 All 27 planned executions completed, comprising **43 segment integrations**,
 with **184.456388 charged numerical execution seconds**. Five execution slots
 remain; four are still reserved for source corrections. No full-bed correction
-or review replay has been performed. Three measured saved-evidence reductions/replays took 32.55 s in total;
-including about 2 s of private diagnostic arithmetic, numerical work remained
-below 220 s of the 1800 s ceiling. Reductions do not launch full-bed solves. Raw arrays, logs, XML and local locators remain
+or review replay has been performed. Four measured saved-evidence reductions/replays took 42.84 s in total;
+including about 5 s of implementer/reviewer diagnostic arithmetic, numerical
+work remained below 240 s of the 1800 s ceiling. Reductions do not launch full-bed solves. Raw arrays, logs, XML and local locators remain
 outside Git. The committed JSON binds those arrays by SHA-256.
 
 The frozen contract is commit `db83f8f`; pre-execution implementation/input
@@ -70,8 +70,22 @@ clarification and numerical source are `a8c94caf35bff300519af9bcffb7d4771c5e9553
 Every numerical receipt retains that source commit and its exact file hashes.
 A reporting-only clarification labels failed numerical qualification explicitly
 and gates the resource ceiling. All original/final case metrics, comparisons
-and derived observers are identical; no solver/reference/contract/case bytes or
-numerical arrays changed. The original report is retained outside Git.
+and derived observers are identical; that reporting clarification did not change
+solver/reference/contract/case bytes or numerical arrays. Original reports are
+retained outside Git.
+
+The independent nonhuman review found one P2 input-contract defect: NumPy
+complex values could lose their imaginary component during real conversion.
+The bounded correction rejects complex scalar/vector/object-backed inputs
+before integration. [VALIDATION_CORRECTION.json](VALIDATION_CORRECTION.json)
+binds the original/corrected module hashes. Removing only the new rejection
+helper and its standalone calls recovers the entire original module byte for
+byte; equations, operator, integrator, observer, settings and references are
+unchanged. The reporter accepts exactly that hash-bound correction, rejects
+other source drift, and reproduces every saved report value unchanged except
+its own updated reporter hash. No full-bed rerun or correction slot was needed.
+The final focused capability/runner suite has 73 passing tests; the reviewer
+checks this delta at the final head in a bounded addendum.
 
 ## Software QA and disclosure
 

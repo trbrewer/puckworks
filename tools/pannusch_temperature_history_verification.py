@@ -221,6 +221,19 @@ def execute(directory, case_id=None, correction=False):
                 print(eid, case["id"], entry["status"], round(entry["charged_wall_s"], 3), "s", flush=True)
 
 
+def compatible_numerical_identities(saved, current):
+    """One hash-bound input-rejection correction; never a general stale-source waiver."""
+    if saved == current:
+        return True
+    proof = read_json(BUNDLE/"VALIDATION_CORRECTION.json")
+    name = proof["module"]
+    if saved.get(name) != proof["original_sha256"] or current.get(name) != proof["corrected_sha256"]:
+        return False
+    corrected = dict(saved)
+    corrected[name] = proof["corrected_sha256"]
+    return corrected == current
+
+
 def load_evidence(directory, case, ledger):
     entries = [e for e in ledger if e["case_id"] == case["id"]]
     if not entries:
@@ -235,7 +248,8 @@ def load_evidence(directory, case, ledger):
     meta = read_json(path)
     if meta["status"] != "COMPLETE" or meta["case"] != case or meta["case_sha256"] != canonical_hash(case):
         raise ValueError("FAILED_OR_MISMATCHED_RECEIPT")
-    if meta["numerical_identities"] != numerical_identities(case) or entry["numerical_identities"] != numerical_identities(case):
+    if not all(compatible_numerical_identities(saved, numerical_identities(case))
+               for saved in (meta["numerical_identities"], entry["numerical_identities"])):
         raise ValueError("NUMERICAL_SOURCE_CHANGED")
     archive = Path(str(base)+".npz")
     if digest(archive) != meta["arrays_sha256"]:

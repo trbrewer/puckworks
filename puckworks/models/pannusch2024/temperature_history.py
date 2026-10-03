@@ -52,7 +52,19 @@ def _reject(reason):
     raise InvalidTemperatureHistoryInput(reason)
 
 
+def _reject_complex(value, name):
+    """Reject complex values before NumPy can silently discard imaginary parts."""
+    try:
+        a = np.asarray(value)
+    except (TypeError, ValueError, OverflowError):
+        _reject(f"{name} must contain real numeric values")
+    if np.iscomplexobj(a) or (a.dtype.kind == "O" and any(
+            np.iscomplexobj(x) or isinstance(x, (np.ndarray, list, tuple)) for x in a.flat)):
+        _reject(f"{name} must contain real numeric values, not complex values")
+
+
 def _vector(value, name, minimum=1):
+    _reject_complex(value, name)
     try:
         a = np.asarray(value, dtype=float)
     except (TypeError, ValueError, OverflowError):
@@ -70,6 +82,7 @@ def _clock(value, name, minimum=2):
 
 
 def _positive(value, name):
+    _reject_complex(value, name)
     if isinstance(value, (bool, np.bool_, str)) or np.ndim(value) != 0:
         _reject(f"{name} must be finite and positive")
     try:
@@ -117,6 +130,7 @@ class TemperatureHistory:
                    "constant")
 
     def value_K(self, t_s):
+        _reject_complex(t_s, "temperature query time")
         t = float(t_s)
         if not math.isfinite(t) or not self.times_s[0] <= t <= self.times_s[-1]:
             _reject("temperature query outside supplied history support")
@@ -129,6 +143,8 @@ class TemperatureHistory:
 
     def integration_segments(self, start_s, end_s):
         """Each segment owns both endpoint coefficients, including its left limit."""
+        _reject_complex(start_s, "segment start time")
+        _reject_complex(end_s, "segment end time")
         if not self.times_s[0] <= start_s < end_s <= self.times_s[-1]:
             _reject("history must cover the complete model interval")
         out = []
@@ -390,6 +406,7 @@ def simulate_temperature_history(
         _reject("flow_m3_s outside caller-prescribed 1e-6..3e-6 SI domain")
     if not isinstance(solute, str) or solute not in SPECIES:
         _reject("unknown solute identity")
+    _reject_complex(grind, "grind")
     if isinstance(grind, (bool, np.bool_, str)) or np.ndim(grind) != 0:
         _reject("grind must be a declared source setting: 1.4, 1.7 or 2.0")
     try:
