@@ -12,8 +12,9 @@ pipe resistance, and trapped-air headspace; validated by time-resolved micro-CT
 
 ## Implemented here
 Recorded-pressure closed form s(t) = sqrt(2k Int P dt / (mu phi_T)) with capillary
-p_c option. Full pump/headspace model (their Eqs. 2-7) = PUCK LAB "machine mode"
-backlog. Coupling extraction start to front passage per depth cell = solver backlog.
+p_c option. Dated scope correction (2026-10-03): the existing pump/headspace machine
+mode is documented in foster2025_2.md; MODEL-FOSTER2025-POSTSAT-001 completes
+its post-saturation headspace dynamics. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Coupling extraction start to front passage per depth cell = solver backlog.
 
 ## Interface mapping
 Inputs consumed: `MachineState.P_of_t` — the recorded or prescribed basket pressure history

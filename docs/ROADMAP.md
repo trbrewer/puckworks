@@ -840,6 +840,22 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-10-03 — MODEL-FOSTER2025-POSTSAT-001 / #311.** G2 /
+  GOVERNING_PHYSICS_CHANGE: the existing Foster machine component now continues
+  published Eq. 29/38 from its actual saturation event, with finite support,
+  distinct hydraulic flows and independently accumulated water inventories.
+  Numerical/source reconstruction passes for dimensional defaults and the
+  separately frozen rounded fixture; the initial dense-output entry-derivative
+  diagnostic remains explicitly unqualified. Earlier-stage/event compatibility,
+  independent water balance and independent integration pass the frozen budgets.
+  The old Figure 15 gate scored ponding through saturation only; this dated
+  scope correction does not rewrite earlier entries. I-045/I-090 and all Grudeva
+  outcomes remain unchanged. [Contract/results](analysis/model_foster2025_postsat_001/RESULTS.md).
+  Draft only: QA, CI and exact-head review have separate dispositions in the
+  [handoff](analysis/model_foster2025_postsat_001/HANDOFF.md). No merge, coupling,
+  EWP adoption or successor. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
 - **2026-10-03 — MODEL-GRUDEVA2026-CONSERVATIVE-003 / #67.** G2 / NUMERICAL_METHOD_CHANGE. Analysis-only radial/fixed-position successor repairs paired exchange and moving-control-volume accounting; local/global conservation passes but bed/profile/inventory refinement remains outside the inherited budgets. Coupled qualification is incomplete, so no raw-baseline run or matched independent agreement is claimed. Original 001/002 results, Figures 3/4 FAIL/FAIL, Figure 5 incomplete, production and EWP remain unchanged. [Evidence](analysis/model_grudeva2026_conservative_003/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED; draft PR only, no merge or automatic successor.
 
 - **2026-10-02 — MODEL-GRUDEVA2026-REDUCED-001 / #67.** G2 / NUMERICAL_METHOD_CHANGE. Independent equation-based fixed-flow reduced solver, corrected source card and conservative Eulerian grain memory on a moving mesh. Analytical, inventory, spatial/time/modal verification passes; Figures 3/4 do not reproduce at the unchanged published parameters/budgets, and Figure 5 lacks qualified full profiles/settings/grid. Native Laboratory reference only; existing Grudeva/Cameron components and defaults preserved. [Evidence](analysis/model_grudeva2026_reduced_001/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED. Draft PR only; #67 remains incomplete; no successor.

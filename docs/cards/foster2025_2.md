@@ -6,11 +6,15 @@ espresso bed using time-resolved micro-computed tomography: Insights from
 experiment and modeling," Phys. Fluids 37, 013383 (2025).
 DOI 10.1063/5.0245167.
 **Stage(s):** infiltration, machine · **Kind:** runtime
-**Status:** gated — recorded-pressure closed form implemented and gated
-parameter-free (predicted first-drip 6.4–7.8 s brackets observed 7.0 s on
-DE1 fixture A; bed capacity 7.5–14.0 g brackets fitted W_dead 8.8 g). Full
-pump/headspace model (their Eqs. 2–7) and infiltration↔extraction coupling
-remain backlog. This card supersedes the earlier abbreviated foster2025.md.
+**Status (scope correction, 2026-10-03):** the existing machine component
+already implements pump/headspace/front dynamics through saturation. Its old
+post-saturation observer held H constant, and its Figure 15 flow gate covered
+only ponding through saturation. MODEL-FOSTER2025-POSTSAT-001 completes source
+Eq. 29/38 under the [frozen contract](../analysis/model_foster2025_postsat_001/CONTRACT.md).
+The recorded-pressure path remains separate. Source-curve reproduction and
+post-fit same-campaign CT evidence are not independent physical validation.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. Historical chronology is retained in ROADMAP
+and PROVENANCE; this dated correction supersedes their broader scope wording.
 
 ## Scope and mechanism
 One-dimensional sharp-front infiltration of hot water into an initially dry
@@ -20,7 +24,7 @@ is binary (fully wet behind the front at z = s(t), dry ahead); water may pond
 to height H(t) above the bed, compressing the trapped air and raising
 headspace pressure. Three stages: pre-ponding (pump-limited, front moves
 linearly), post-ponding (coupled ODEs for s and H), post-saturation (s = L
-fixed, H relaxes to equilibrium). Validated against time-resolved micro-CT
+fixed, H relaxes to equilibrium). Fitted against time-resolved micro-CT
 (ROXS, 1 s reconstructions) tracking the wetting front in a 59 mm portafilter.
 Notably reproduces a mid-shot flow-rate minimum with no extraction, degassing,
 swelling, or particle-rearrangement mechanism — pump + headspace dynamics
@@ -71,9 +75,9 @@ I(s) − I(s_p) = t_p − t exists (Eqs. A8–A19).
 Implemented in PUCK LAB: the recorded-pressure closed form
 s(t) = sqrt(2k ∫P dt / (μ φ_T)) with p_c option — a simplification of the
 above that replaces the pump/headspace subsystem (Eqs. 2–7) with a measured
-P(t) trace. The full pump/headspace ODE system is NOT yet implemented
-(= "machine mode" backlog); this card transcribes it faithfully for that
-purpose.
+P(t) trace. The existing machine mode implements Eqs. 23–27; this task adds Eq. 29
+with s=L and the localized H(t_s) as initial condition. Its finite-time
+observations distinguish pump flow, bed inflow, outlet flow and water storage.
 
 ## Parameters
 | symbol | value | units | source |
@@ -85,7 +89,7 @@ purpose.
 | ρ | 965 | kg m⁻³ | nominal (water 90 °C) |
 | p_a | 1.01325 | bar | nominal |
 | Q_m | 317 | ml min⁻¹ | measured (no-portafilter steady flow) |
-| R_f | 3.83e6 | Pa m³ kg⁻¹ | nominal (R = 2e-4; output insensitive, App. A) |
+| R_f | 3.83e6 | Pa s m⁻³ | nominal (R = 2e-4; output insensitive, App. A) |
 | g | 9.81 | m s⁻² | nominal |
 | p_c | 0.1 | bar | nominal (no literature data for coffee; authors flag) |
 | p_m | 15 | bar | nominal (manufacturer spec, Delonghi EC685) |
@@ -146,8 +150,7 @@ the 1D model to it. Our own gate (registry): parameter-free first-drip window
 ## Interface mapping
 Inputs consumed: BedState (k, depth_m → L, area_m2 → A, porosity → φ_T);
 MachineState — either recorded P(t) (implemented path) or pump/headspace
-parameters (p_m, Q_m, R_f, H0, β, p_c), which are NOT yet fields on
-MachineState; an adapter/contract extension is needed for machine mode.
+parameters (p_m, Q_m, R_f, H0, β, p_c), supplied through FosterParams. No coupling adapter is authorized here.
 Outputs produced: front trajectory s(t), ponding time t_p, saturation time
 t_s, early-shot flow transient Q(t) — feeds ShotResultState.traces and gates
 extraction start.
@@ -164,7 +167,7 @@ machine-stage component emitting P(t)/Q(t) that infiltration consumes.
   t = 0–8 s — the key validation series; transcribable from plots.
 - Figs. 12–14: fitted s, w = H + φ_T s, H curves vs data (mean of 5 vertical
   lines + center line).
-- Fig. 15: normalized headspace pressure and pump flow rate vs time — the
+- Fig. 15: normalized absolute headspace pressure and bed-inlet flow rate vs time — the
   flow-minimum signature; useful qualitative gate for machine mode.
 - Raw CT data: available from corresponding author on reasonable request; no
   code or data repository published.
@@ -172,7 +175,7 @@ machine-stage component emitting P(t)/Q(t) that infiltration consumes.
 ## Overlaps and conflicts
 - foster2025.infiltration (registered): this card IS that component's full
   documentation; supersedes the abbreviated card.
-- Machine backlog: Eqs. 2–7 here are the named source for "machine mode"
+- Machine implementation: Eqs. 2–7 here are the named source for "machine mode"
   (pump characteristic + headspace). Their flow-minimum result competes with
   the bed_dynamics backlog item kappa(t) = kappa0·f(P,eps,E) as an
   explanation for early-shot flow transients — a pump/headspace-only model
@@ -191,15 +194,15 @@ machine-stage component emitting P(t)/Q(t) that infiltration consumes.
   cross-check point).
 
 ## Implementation estimate
-Recorded-pressure closed form: done and gated. Remaining: (1) machine-mode
-component — three-stage ODE system Eqs. 32–38 plus Appendix A reduced/
-analytic path, ode-solver on 2 states, contract extension for pump/headspace
-fields; effort S–M, no new dependencies. (2) Infiltration↔extraction
-coupling (delay per depth cell): touches the extraction solver's time loop;
-effort M. Gate design: reproduce their t_p = 0.823 s, t_s = 6.669 s and the
-Fig. 15 flow-minimum shape from Table I/II inputs; re-run the parameter-free
-first-drip triangle on DE1 fixture A.
 
-VERDICT: implement-now — the pump/headspace subsystem (Eqs. 2–7) is the
-named, transcribable source for the machine-mode backlog and the coupling
-that makes early-shot flow/TDS transients predictable — effort M
+The pre-saturation implementation and recorded-pressure path already exist.
+Post-saturation completion follows Eq. 29/38: s=L and
+`dH/dt=Q_pump(H)/A-f(H,L)`, preserving capillary suction and actual event H.
+The source Eq. 18 observer uses fixed `Q_p=Q_pump(0)` in its minimum, not
+`Q_pump(H)`. Supported source trajectories must keep `A*f<=Q_p` after ponding.
+The admissible pump branch ends at `H_stop=H0*(1-beta*p_a/p_m)`, below H0.
+Results and qualification limits are recorded in the task bundle; no new
+constitutive physics or machine–extraction coupling is authorized.
+
+VERDICT: existing component completion; evidence strength remains
+`source_curve_reproduction`; PHYSICAL_VALIDATION=NOT_ESTABLISHED.

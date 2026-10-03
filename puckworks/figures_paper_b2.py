@@ -245,16 +245,16 @@ def fig1_machine_nonuniqueness(outdir=OUTDIR):
     pt = np.array([row["t_s"] for row in published])
     pq = np.array([row["Q_norm"] for row in published])
     ax.plot(pt, pq, "o", color=NULL, ms=2.2, alpha=0.55, label="published Fig 15")
-    # Draw the reconstruction only over the interval the model covers -- [t_p, t_s] shifted -- which
-    # is also the interval the gate scores. Extending it past t_s draws an extrapolation beside
-    # published data and invites reading the divergence as disagreement.
+    # Retain the historical panel's ponding-to-saturation comparison window.
+    # MODEL-FOSTER2025-POSTSAT-001 completes the finite tail separately; this
+    # generator does not regenerate or expand the published figure's scope.
     r = fm.solve()
     lo_t, hi_t = r["t_p"] + r["p"].t_shift, r["t_s"] + r["p"].t_shift
     tt = np.linspace(lo_t, hi_t, 400)
     qq = np.array([fm.bed_flow_norm(float(x), r) for x in tt])
     ax.plot(tt, qq, color=ACCENT, lw=1.8, label="repository reconstruction")
     ax.axvspan(hi_t, pt.max(), color=GRID, alpha=0.5, zorder=0)
-    ax.text(hi_t + 0.15, 0.13, "outside the\nmodelled interval", fontsize=5.8, va="bottom",
+    ax.text(hi_t + 0.15, 0.13, "outside this panel’s\ncomparison window", fontsize=5.8, va="bottom",
             color=NULL, style="italic")
     ax.plot([t_min], [q_min], "o", color=BAD, ms=6, zorder=5)
     ax.annotate("minimum %.3f at %.2f s\n(no extraction-driven\nbed change)" % (q_min, t_min),

@@ -1,5 +1,5 @@
 {
-  "commit": "73b55cf807051b3ce2a0740bdb768f821f002668",
+  "commit": "5745f615637dbfe95065b48339c3fe566fa58d66",
   "counts": {
     "candidates": 90,
     "entities": 283,
@@ -167,11 +167,11 @@
     },
     {
       "path": "docs/cards/foster2025.md",
-      "sha256": "3e8ba677ed35f8f7020ad7c817553fa81dbac1446d85e1814990ae739e601382"
+      "sha256": "b6e86b9799dd370d5da3a502fd658ebb07c7eccd65626c6085f956d806eb4670"
     },
     {
       "path": "docs/cards/foster2025_2.md",
-      "sha256": "b907b002ddb81560dd6e3d514b8cfa31bb1b2820a397195d27aa865036976b4b"
+      "sha256": "38f9d675ea1122a3e5fca12130ba18aa227ef6f64c17c520594d0aa0da71763c"
     },
     {
       "path": "docs/cards/g10_liquor_rheology.md",
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "0e84b31d75a290c405844d237cb4da876db76b63531931211c8f62eda8eea30a"
+      "sha256": "4ddca735b79b5065d202c7072860d06cf9c051524184991ed77be84ddd88f23c"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "7bb442ca437f23cec8482f0cb29730f98ea704d1fef7d08b32b89b2eb9ab99d1"
+      "sha256": "6e3b37af9604218db10cb4682292ba4dac328890203765e6aab1fc40a5fe10c6"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "1cab81c0700ff948ad6a41f421833b61fdd9e677fc974e78d52ae31b8e7414cd"
+      "sha256": "01a66a983fe2e078e510ff6bf1aeb436ab97bbb8854588cbc9cc64bb95dd152a"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "c609dfb723e4110b529c06f08a8ae251b5b31d4e32faa1e2261f83d3b83db54a"
+      "sha256": "0aa02005f0cfc87415f093eed3a734951920dbf14f25edeeec477dc6464e4692"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "ec18f92cc991dae7fc70d75828d3f9648780220c357ac60807ab17ec640063df"
+      "sha256": "76ae05901ab1aadd3392b921a7513d391c771464b6cc992aced0e9aede865ca4"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "be441a14f030040ff3b36be8c424933f2c20e69d5224ef94bfd41563430a5690"
+      "sha256": "92dd8a4158e934a4aac7be0f81c9d406140d3d9305598ce7a3c8d2fe0925e21e"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "e7da62557ea8c25694b554a64f32a362c757aae05f363d7dd73bf88016997a39"
+      "sha256": "23c88b809d19b2b6e1aa8f68425e87716c6615947054ef182a07af98be15db9e"
     }
   ],
   "pack": [
