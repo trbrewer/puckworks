@@ -9,6 +9,11 @@ Task: MODEL-GRUDEVA2026-REDUCED-001 / #67.
 Evidence ceiling: code verification / published numerical reference / capacity.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
+The bounded [REFERENCE-002 reconciliation](../analysis/model_grudeva2026_reference_002/RESULTS.md)
+returns COMPARATOR_QUALIFICATION_INCOMPLETE: the adapted reference route fails
+coupled numerical qualification. No baseline or publication fixture correction
+is established; the original numerical/reference dispositions remain unchanged.
+
 The controlling [source/math/verification contract](../analysis/model_grudeva2026_reduced_001/CONTRACT.md)
 records derivations, parameters, numerical method, budgets and source limits.
 It corrects this card's previous algebra, clock, provenance and adapter statements.

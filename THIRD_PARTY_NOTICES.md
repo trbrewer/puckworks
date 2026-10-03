@@ -108,3 +108,14 @@ CC-BY-4.0 attribution, source identities and extraction changes in PROVENANCE.md
 These fixtures are not placed solely under the package MIT license. Existing
 upstream permissions/notices remain separate and unchanged; no supplement or
 private correspondence is redistributed.
+
+### MODEL-GRUDEVA2026-REFERENCE-002 analysis adaptation
+
+`puckworks/analysis/grudeva2026_reference_002.py` adapts the already covered
+`grudeva2025/reduced.py` algorithm (Yoana Grudeva's `espresso-model` lineage).
+It retains the direct-written-permission basis above, not MIT/CC-BY/OSI for
+that derived algorithm. It is a modified reference copy, not an untouched author
+result. Changes and independent additions are enumerated in
+`docs/analysis/model_grudeva2026_reference_002/CONTRACT.md`. No additional
+upstream file, supplementary text, raw dataset or private correspondence is
+redistributed. The shipped grudeva2025 implementation remains unchanged.

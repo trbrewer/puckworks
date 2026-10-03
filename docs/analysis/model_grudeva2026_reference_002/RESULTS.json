@@ -1,0 +1,1288 @@
+{
+  "analytical_radial_qualification": {
+    "equilibrium_mean_error": 7.105427357601002e-15,
+    "front_relative_error": 1.1102230246251565e-16,
+    "history_solve_count": 9,
+    "passed": true,
+    "radial_refinement": [
+      {
+        "flux_error": 0.002561074177137357,
+        "initial": 1.6,
+        "mean_error": 1.0810730685317793e-05,
+        "seconds": 0.270364411175251,
+        "shells": 800,
+        "slope": 0.3
+      },
+      {
+        "flux_error": 3.2226429097295672e-06,
+        "initial": 0.2,
+        "mean_error": 1.2225491141659717e-07,
+        "seconds": 0.10013140272349119,
+        "shells": 800,
+        "slope": 0.5
+      },
+      {
+        "flux_error": 0.0006401399272064623,
+        "initial": 1.6,
+        "mean_error": 2.70245265743263e-06,
+        "seconds": 0.4237365173175931,
+        "shells": 1600,
+        "slope": 0.3
+      },
+      {
+        "flux_error": 8.071555793881524e-07,
+        "initial": 0.2,
+        "mean_error": 3.0549221263775905e-08,
+        "seconds": 0.11708290316164494,
+        "shells": 1600,
+        "slope": 0.5
+      },
+      {
+        "flux_error": 0.0001600483268617836,
+        "initial": 1.6,
+        "mean_error": 6.756079033998219e-07,
+        "seconds": 0.6447505131363869,
+        "shells": 3200,
+        "slope": 0.3
+      },
+      {
+        "flux_error": 2.0329641671479326e-07,
+        "initial": 0.2,
+        "mean_error": 7.626412612538047e-09,
+        "seconds": 0.262716319411993,
+        "shells": 3200,
+        "slope": 0.5
+      }
+    ],
+    "source_sha256": "e92f3502e4ef9ba27f222f9cd4390c0355a84aa1037d21fd6ce9fae1c013deec",
+    "time_translation_flux_error": 8.078870905592339e-12
+  },
+  "attempts": [
+    {
+      "artifact": "pilot1.json",
+      "attempt": 1,
+      "controls": {
+        "bed": 64,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 0.4,
+        "shells": 32
+      },
+      "horizon_observed": 0.4,
+      "rss_kib": 580124,
+      "seconds": 0.02930652443319559,
+      "sha256": "f3b71b13887ce08bdfd4f6bb04b5e7d3536ea26ca3cee3694e4534548b8d6510",
+      "source_sha256": "e92f3502e4ef9ba27f222f9cd4390c0355a84aa1037d21fd6ce9fae1c013deec",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "pilot2.json",
+      "attempt": 2,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 0.4,
+        "shells": 64
+      },
+      "horizon_observed": 0.4,
+      "rss_kib": 580124,
+      "seconds": 0.0596902584657073,
+      "sha256": "557cd484e13ec46adf0b3914e970af3ce7b2ad03776d4bab7a986c5e0d07ad4b",
+      "source_sha256": "e92f3502e4ef9ba27f222f9cd4390c0355a84aa1037d21fd6ce9fae1c013deec",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "limit.json",
+      "attempt": 3,
+      "controls": {
+        "bed": 32,
+        "diffusivity": 0.0,
+        "dt": 0.01,
+        "horizon": 8.0,
+        "shells": 16
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 79580,
+      "seconds": 0.16373428888618946,
+      "sha256": "ed836b6162d567a30b90e999cddca9775ac0ae27e6a1b15538f0ba6b5b105e9f",
+      "source_sha256": "744b00b1b7f7b7b7e427f562f77df67372e4efe2edfe5b169db1cdf57391e1e1",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "pre-scheduler-fix/normal.json",
+      "attempt": 4,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 84700,
+      "seconds": 1.6148691633716226,
+      "sha256": "81195084ae8ce6f6fa203e62001c2f45d55d00f47594764035cdd96f979fadd9",
+      "source_sha256": "744b00b1b7f7b7b7e427f562f77df67372e4efe2edfe5b169db1cdf57391e1e1",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "pre-scheduler-fix/bed_fine.json",
+      "attempt": 5,
+      "controls": {
+        "bed": 256,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 93968,
+      "seconds": 2.1890235021710396,
+      "sha256": "dc9c44c24ef2d7cb707e8a181b71f96c0a42a662e8ea1ef2f0ed1b4ae3cd58ad",
+      "source_sha256": "744b00b1b7f7b7b7e427f562f77df67372e4efe2edfe5b169db1cdf57391e1e1",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "pre-scheduler-fix/bed_finer.json",
+      "attempt": 6,
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 110216,
+      "seconds": 3.3342697536572814,
+      "sha256": "d6caf2904dda1f493423073da82d1d7def2a64e5cae919b1f20e41b06a7b5ce1",
+      "source_sha256": "744b00b1b7f7b7b7e427f562f77df67372e4efe2edfe5b169db1cdf57391e1e1",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "pre-scheduler-fix/radial_fine.json",
+      "attempt": 7,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 128
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 128660,
+      "seconds": 2.1904859328642488,
+      "sha256": "4a467020218a1783a7100bb879ec595fa8ddbf66caf063e90d5c4096098948f8",
+      "source_sha256": "744b00b1b7f7b7b7e427f562f77df67372e4efe2edfe5b169db1cdf57391e1e1",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "attempt": 8,
+      "reason": "sample index exhausted",
+      "seconds": null,
+      "stage": "time_fine",
+      "status": "FAILED"
+    },
+    {
+      "attempt": 9,
+      "reason": "zero-step nonfinite output",
+      "seconds": null,
+      "stage": "normal",
+      "status": "FAILED"
+    },
+    {
+      "artifact": "normal.json",
+      "attempt": 10,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 82732,
+      "seconds": 1.6043195566162467,
+      "sha256": "e92557a27c97010d2e16e9eefaad9eea903d71e3336f7c22e9d171893ceb6c22",
+      "source_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "bed_fine.json",
+      "attempt": 11,
+      "controls": {
+        "bed": 256,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 93044,
+      "seconds": 2.156244303099811,
+      "sha256": "2139cf6853d514d8072a9b32028aa8dfc82d2d08a48f2fc9e21d24ce5bd413dd",
+      "source_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "radial_fine.json",
+      "attempt": 12,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 128
+      },
+      "horizon_observed": 8.0,
+      "rss_kib": 100936,
+      "seconds": 2.150064416229725,
+      "sha256": "7f208f77c451d721890c4cd18377c32d8806b2657a685a4368fb3382d140b504",
+      "source_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "time_fine.json",
+      "attempt": 13,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.0005,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "horizon_observed": 7.975,
+      "rss_kib": 100936,
+      "seconds": 3.2187910564243793,
+      "sha256": "02f0a4d74fb49a60ede9b787583837175554ad1a9da377ef7038d550bd967f79",
+      "source_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    {
+      "artifact": "combined.json",
+      "attempt": 14,
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.0005,
+        "horizon": 8.0,
+        "shells": 128
+      },
+      "horizon_observed": 7.975,
+      "rss_kib": 106168,
+      "seconds": 11.158932672813535,
+      "sha256": "20cfa789a425099effb1df7e2e17f5d8ea5f6105f6e2079bbd64529eee0dd940",
+      "source_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "status": "EXECUTED_UNQUALIFIED"
+    }
+  ],
+  "automatic_successor": "NONE",
+  "backend_to_backend": {
+    "reason": "Alternate coupled numerical qualification failed; no main comparison or oracle claim",
+    "status": "UNAVAILABLE"
+  },
+  "baseline": {
+    "audit_limit": "Archived phase inventories checked; raw cell states were not archived. No new independent cell-volume audit or instrumentation was executed.",
+    "evidence_class": "HASH_VERIFIED_UNCHANGED_308_EVIDENCE_REUSE_NOT_NEW_BACKEND_QUALIFICATION",
+    "original_events": {
+      "desaturation_exit": 6.5043092876388835,
+      "first_drip": 1.0,
+      "first_drip_role": "model-derived under prescribed fixed flow",
+      "prescribed_first_drip": 1.0,
+      "saturation_plateau_duration": 5.5043092876388835,
+      "saturation_plateau_end": 6.5043092876388835
+    },
+    "original_raw_hashes_verified": {
+      "modes_fine": "face4c8940db92c3d7a1465a5a02bb915e46fa43215313895e0fc59218c13cec",
+      "normal": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec",
+      "pore_refill": "02f331a155db17df4ab069be484576f3607a7c868957d8a73a9c893ee2f6e69b",
+      "space_coarse": "35946950d2cbccc51cca609bba26266b64ea9700f569e16bbb834c24f17f2097",
+      "space_fine": "d708b6ede2f41273ff839ad138edbd386a1aca144137eb1f9199b5a8dbf8fff4",
+      "time_fine": "f1a82ec12f90aba508425390e4383e6c80b6ad02ac302fd25442905bb0f5b41e"
+    },
+    "original_report_sha256": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+    "phase_inventory_arithmetic_residuals": {
+      "modes_fine": 1.395266707166695e-09,
+      "normal": 1.3101290785513658e-09,
+      "pore_refill": 1.4752506613047745e-09,
+      "space_coarse": 4.0277067624109513e-10,
+      "space_fine": 1.7760858425985626e-09,
+      "time_fine": 1.1381353752500265e-10
+    },
+    "publication_counts": {
+      "figure3": {
+        "excluded": 10,
+        "included": 9,
+        "unavailable": 0
+      },
+      "figure4": {
+        "excluded": 3,
+        "included": 5,
+        "unavailable": 0
+      }
+    },
+    "publication_replay": {
+      "figure3": {
+        "concentration_max_absolute_error": 0.09752727305292366,
+        "front_max_absolute_error": 0.01344744675689169,
+        "fronts": [
+          {
+            "absolute_error": 0.0006160778216165175,
+            "computed": 0.06585364152845734,
+            "t": 0.4,
+            "z": 0.06646971935007386,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.008047311290062198,
+            "computed": 0.49564545089605305,
+            "t": 3.2,
+            "z": 0.5036927621861153,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.01344744675689169,
+            "computed": 0.739876039210612,
+            "t": 4.8,
+            "z": 0.7533234859675036,
+            "z_uncertainty": 0.0029542097488921715
+          }
+        ],
+        "samples": [
+          {
+            "absolute_error": 0.020846333820145585,
+            "c": 0.06844106463878327,
+            "c_uncertainty": 0.008555133079847909,
+            "computed": 0.08928739845892886,
+            "pixel_x": 405,
+            "pixel_y": 605.0,
+            "t": 3.2,
+            "z": 0.46824224519940916,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.03356581450129732,
+            "c": 0.09505703422053231,
+            "c_uncertainty": 0.011406844106463879,
+            "computed": 0.12862284872182964,
+            "pixel_x": 410,
+            "pixel_y": 591.0,
+            "t": 3.2,
+            "z": 0.4756277695716396,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.04975589010564416,
+            "c": 0.13688212927756654,
+            "c_uncertainty": 0.015209125475285171,
+            "computed": 0.1866380193832107,
+            "pixel_x": 415,
+            "pixel_y": 569.0,
+            "t": 3.2,
+            "z": 0.48301329394387,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.035404837273089185,
+            "c": 0.05228136882129278,
+            "c_uncertainty": 0.006653992395437262,
+            "computed": 0.08768620609438196,
+            "pixel_x": 570,
+            "pixel_y": 613.5,
+            "t": 4.8,
+            "z": 0.7119645494830132,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.05000884710290633,
+            "c": 0.07604562737642585,
+            "c_uncertainty": 0.006653992395437262,
+            "computed": 0.12605447447933218,
+            "pixel_x": 575,
+            "pixel_y": 601.0,
+            "t": 4.8,
+            "z": 0.7193500738552437,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.07230332736303502,
+            "c": 0.11026615969581749,
+            "c_uncertainty": 0.010456273764258554,
+            "computed": 0.1825694870588525,
+            "pixel_x": 580,
+            "pixel_y": 583.0,
+            "t": 4.8,
+            "z": 0.7267355982274741,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.0448900484243185,
+            "c": 0.0408745247148289,
+            "c_uncertainty": 0.006653992395437262,
+            "computed": 0.0857645731391474,
+            "pixel_x": 735,
+            "pixel_y": 619.5,
+            "t": 6.4,
+            "z": 0.9556868537666174,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.06622657395138218,
+            "c": 0.057034220532319393,
+            "c_uncertainty": 0.0076045627376425855,
+            "computed": 0.12326079448370157,
+            "pixel_x": 740,
+            "pixel_y": 611.0,
+            "t": 6.4,
+            "z": 0.9630723781388478,
+            "z_uncertainty": 0.0029542097488921715
+          },
+          {
+            "absolute_error": 0.09752727305292366,
+            "c": 0.08079847908745247,
+            "c_uncertainty": 0.010456273764258554,
+            "computed": 0.17832575214037613,
+            "pixel_x": 745,
+            "pixel_y": 598.5,
+            "t": 6.4,
+            "z": 0.9704579025110783,
+            "z_uncertainty": 0.0029542097488921715
+          }
+        ],
+        "status": "FAIL"
+      },
+      "figure4": {
+        "concentration_max_absolute_error": 0.14133025223742052,
+        "event_absolute_error": 0.12085064102234266,
+        "reference_event": {
+          "t": 6.383458646616541,
+          "t_uncertainty": 0.010025062656641603
+        },
+        "samples": [
+          {
+            "absolute_error": 0.14133025223742052,
+            "c": 0.1092436974789916,
+            "c_uncertainty": 0.0063025210084033615,
+            "computed": 0.2505739497164121,
+            "pixel_x": 604,
+            "pixel_y": 519.0,
+            "t": 6.551378446115288,
+            "t_uncertainty": 0.010025062656641603
+          },
+          {
+            "absolute_error": 0.09159478960612889,
+            "c": 0.07563025210084033,
+            "c_uncertainty": 0.004201680672268907,
+            "computed": 0.16722504170696922,
+            "pixel_x": 614,
+            "pixel_y": 535.0,
+            "t": 6.601503759398496,
+            "t_uncertainty": 0.010025062656641603
+          },
+          {
+            "absolute_error": 0.06174586283509723,
+            "c": 0.052521008403361345,
+            "c_uncertainty": 0.004201680672268907,
+            "computed": 0.11426687123845858,
+            "pixel_x": 624,
+            "pixel_y": 546.0,
+            "t": 6.651629072681704,
+            "t_uncertainty": 0.010025062656641603
+          },
+          {
+            "absolute_error": 0.04170717650805899,
+            "c": 0.03676470588235294,
+            "c_uncertainty": 0.0031512605042016808,
+            "computed": 0.07847188239041193,
+            "pixel_x": 634,
+            "pixel_y": 553.5,
+            "t": 6.701754385964913,
+            "t_uncertainty": 0.010025062656641603
+          },
+          {
+            "absolute_error": 0.019238185248131603,
+            "c": 0.017857142857142856,
+            "c_uncertainty": 0.0031512605042016808,
+            "computed": 0.03709532810527446,
+            "pixel_x": 654,
+            "pixel_y": 562.5,
+            "t": 6.802005012531328,
+            "t_uncertainty": 0.010025062656641603
+          }
+        ],
+        "status": "FAIL"
+      },
+      "figure5": {
+        "epsilon_labels": [
+          0.01,
+          0.0075,
+          0.005,
+          0.0025
+        ],
+        "reason": "No qualified full-model spatial arrays, exact diffusivity coefficient or author observation grid. Raster Figure 5 errors alone cannot verify the implementation.",
+        "status": "FIG5_REFERENCE_INCOMPLETE",
+        "times": [
+          0.4,
+          3.2,
+          4.8,
+          6.4
+        ]
+      },
+      "physical_validation": "NOT_ESTABLISHED",
+      "reference_strength": "qualified selected raster samples; not author arrays"
+    },
+    "refinement": {
+      "modes_fine": {
+        "event_change": 1.133661520213991e-08,
+        "max_outlet_change": 6.0179827232609284e-09,
+        "passed": true
+      },
+      "space_fine": {
+        "event_change": 3.1561209574704208e-06,
+        "max_outlet_change": 0.00011550140220850658,
+        "passed": true
+      },
+      "time_fine": {
+        "event_change": 4.854862289960238e-09,
+        "max_outlet_change": 1.410998473616587e-08,
+        "passed": true
+      }
+    },
+    "source_bindings_verified": {
+      "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": true,
+      "puckworks/data/grudeva2026/analytic_reference.json": true,
+      "puckworks/data/grudeva2026/publication_reference.json": true,
+      "puckworks/models/grudeva2026/__init__.py": true,
+      "puckworks/models/grudeva2026/__main__.py": true,
+      "puckworks/models/grudeva2026/kernel.py": true,
+      "puckworks/models/grudeva2026/quantities.py": true,
+      "puckworks/models/grudeva2026/reduced.py": true,
+      "puckworks/models/grudeva2026/verification.py": true,
+      "puckworks/product/lab_reference_producers.py": true,
+      "puckworks/validation/gates.py": true
+    }
+  },
+  "change_declaration": "NUMERICAL_METHOD_CHANGE",
+  "comparator_qualified": false,
+  "coupled_limit": {
+    "conservation": 3.039515485285011e-15,
+    "front_relative": 4.773959005888173e-15,
+    "grain_max_error": 0.0,
+    "liquid_max": 0.0,
+    "passed": true
+  },
+  "current_core_sha256": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+  "disposition": "COMPARATOR_QUALIFICATION_INCOMPLETE",
+  "earliest_interbackend_divergence": "NOT_ADJUDICATED_UNQUALIFIED_COMPARATOR",
+  "figure5": "FIG5_REFERENCE_INCOMPLETE",
+  "governance": "G2",
+  "numerical_requalification_after_final_scheduler_fix": "NOT_EXECUTED_CAP_EXHAUSTED",
+  "physical_validation": "NOT_ESTABLISHED",
+  "refinement": {
+    "bed_fine": {
+      "arrival_absolute": 0.004365626462655037,
+      "excluded_outlet": 13,
+      "front_max_absolute": 0.0013452633764947652,
+      "included_outlet": 383,
+      "outlet_max_absolute": 0.0688873692639172,
+      "passed": false,
+      "phase_or_cup_max_absolute_diagnostic": 0.017383562257731633,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 0
+    },
+    "combined": {
+      "arrival_absolute": 0.012679282403842862,
+      "excluded_outlet": 15,
+      "front_max_absolute": 0.001955544198795567,
+      "included_outlet": 380,
+      "outlet_max_absolute": 0.13152703146629124,
+      "passed": false,
+      "phase_or_cup_max_absolute_diagnostic": 0.032202369911729534,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 1
+    },
+    "radial_fine": {
+      "arrival_absolute": 8.89944010982191e-05,
+      "excluded_outlet": 12,
+      "front_max_absolute": 1.57691123814363e-05,
+      "included_outlet": 384,
+      "outlet_max_absolute": 0.00026851211035044953,
+      "passed": true,
+      "phase_or_cup_max_absolute_diagnostic": 9.166257773696174e-05,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 0
+    },
+    "time_fine": {
+      "arrival_absolute": 0.0015141938662779353,
+      "excluded_outlet": 13,
+      "front_max_absolute": 0.0002285753352512243,
+      "included_outlet": 382,
+      "outlet_max_absolute": 0.0061476994762375,
+      "passed": false,
+      "phase_or_cup_max_absolute_diagnostic": 0.0019483874014953884,
+      "scope": "outlet/event refinement gate only; no global or local accuracy inference",
+      "unavailable_outlet": 1
+    }
+  },
+  "resource_use": {
+    "coupled_count": 14,
+    "failed_attempt_seconds": "NOT_INDIVIDUALLY_RECORDED",
+    "failed_coupled_count": 2,
+    "memory_limit_bytes": 2147483648,
+    "peak_rss_kib": 580124,
+    "per_run_limit": 900,
+    "successful_coupled_seconds": 29.86973142903298,
+    "wall_time_limit": 3600
+  },
+  "runs": {
+    "bed_fine": {
+      "arrival": 6.5410504715265745,
+      "conservation_passed": false,
+      "controls": {
+        "bed": 256,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "core_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "cup_quadrature_difference": 0.00024116666483564586,
+      "first_sample_exceeding_conservation_budget": {
+        "bed": 5.551906673398011,
+        "boulders": 1.1100921121487284,
+        "cup": 0.0,
+        "fines": 4.433605037379453,
+        "front": 0.0018246125998695323,
+        "liquid": 0.008209523869828875,
+        "mapped_source_minus_boulder_loss": -6.899568647846405e-05,
+        "normalized_residual": -1.6809546467702775e-05,
+        "time": 0.01
+      },
+      "grain_integrated_loss_check": 2.042810365310288e-14,
+      "grain_transfer_balance_max": 5.412337245047638e-16,
+      "horizon_observation_available": true,
+      "last_observed_time": 8.0,
+      "ledger_samples": [
+        {
+          "bed": 5.5520000000000005,
+          "boulders": 1.1104,
+          "cup": 0.0,
+          "fines": 4.4416,
+          "front": 0.0,
+          "liquid": 0.0,
+          "mapped_source_minus_boulder_loss": 0.0,
+          "normalized_residual": 1.599744992255269e-16,
+          "time": 0.0
+        },
+        {
+          "bed": 5.551906673398011,
+          "boulders": 1.1100921121487284,
+          "cup": 0.0,
+          "fines": 4.433605037379453,
+          "front": 0.0018246125998695323,
+          "liquid": 0.008209523869828875,
+          "mapped_source_minus_boulder_loss": -6.899568647846405e-05,
+          "normalized_residual": -1.6809546467702775e-05,
+          "time": 0.01
+        },
+        {
+          "bed": 5.5481198676434005,
+          "boulders": 1.0514095462556765,
+          "cup": 0.0,
+          "fines": 4.159091242451119,
+          "front": 0.06676047853255081,
+          "liquid": 0.3376190789366047,
+          "mapped_source_minus_boulder_loss": -0.004259006463204859,
+          "normalized_residual": -0.000698871101692925,
+          "time": 0.4
+        },
+        {
+          "bed": 5.545109147405919,
+          "boulders": 0.9492166910166079,
+          "cup": 0.0,
+          "fines": 3.7497578794184996,
+          "front": 0.16065783415600401,
+          "liquid": 0.8461345769708107,
+          "mapped_source_minus_boulder_loss": -0.009591947367985049,
+          "normalized_residual": -0.0012411478015275494,
+          "time": 1.0
+        },
+        {
+          "bed": 3.348464953386293,
+          "boulders": 0.5767004376475698,
+          "cup": 2.200000000000111,
+          "fines": 2.2605802533177353,
+          "front": 0.49678591046184367,
+          "liquid": 0.5111842624209875,
+          "mapped_source_minus_boulder_loss": -0.027980448218814513,
+          "normalized_residual": -0.0006367158886159831,
+          "time": 3.2
+        },
+        {
+          "bed": 1.7641574186226614,
+          "boulders": 0.30806629959408516,
+          "cup": 3.79999999999977,
+          "fines": 1.1866544569913908,
+          "front": 0.7386782067715866,
+          "liquid": 0.2694366620371852,
+          "mapped_source_minus_boulder_loss": -0.040695697482751925,
+          "normalized_residual": 0.0021897367835790956,
+          "time": 4.8
+        },
+        {
+          "bed": 0.1907301817970774,
+          "boulders": 0.04139383641975541,
+          "cup": 5.399999999999685,
+          "fines": 0.12002219755596576,
+          "front": 0.9788845646523631,
+          "liquid": 0.029314147821356218,
+          "mapped_source_minus_boulder_loss": -0.0526905386773846,
+          "normalized_residual": 0.006975897297687804,
+          "time": 6.4
+        },
+        {
+          "bed": 1.8686636851590051e-06,
+          "boulders": 6.116514770403354e-07,
+          "cup": 5.599653891177797,
+          "fines": 9.577235871212965e-07,
+          "front": 1.0,
+          "liquid": 2.992886209973733e-07,
+          "mapped_source_minus_boulder_loss": -0.053833795296924114,
+          "normalized_residual": 0.008583530230814634,
+          "time": 8.0
+        }
+      ],
+      "max_normalized_conservation_residual": 0.008583530230814634,
+      "max_rss_kib": 93044,
+      "observation_quadrature": "Exact integral of piecewise-linear nodal representation; continuum error UNQUALIFIED",
+      "phase_observer_recomputed_max_error": 0.0,
+      "raw_sha256": "2139cf6853d514d8072a9b32028aa8dfc82d2d08a48f2fc9e21d24ce5bd413dd",
+      "reason": null,
+      "seconds": 2.156244303099811,
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    "combined": {
+      "arrival": 6.532736815585387,
+      "conservation_passed": false,
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.0005,
+        "horizon": 8.0,
+        "shells": 128
+      },
+      "core_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "cup_quadrature_difference": 0.00012020029392090237,
+      "first_sample_exceeding_conservation_budget": {
+        "bed": 5.551896682026067,
+        "boulders": 1.1100896365487287,
+        "cup": 0.0,
+        "fines": 4.433599204418425,
+        "front": 0.0018249733973061942,
+        "liquid": 0.00820784105891281,
+        "mapped_source_minus_boulder_loss": -9.169663893357193e-05,
+        "normalized_residual": -1.8609145160789612e-05,
+        "time": 0.01
+      },
+      "grain_integrated_loss_check": 3.1308289294429414e-14,
+      "grain_transfer_balance_max": 8.465450562766819e-16,
+      "horizon_observation_available": false,
+      "last_observed_time": 7.975,
+      "ledger_samples": [
+        {
+          "bed": 5.5520000000000005,
+          "boulders": 1.1104,
+          "cup": 0.0,
+          "fines": 4.4416,
+          "front": 0.0,
+          "liquid": 0.0,
+          "mapped_source_minus_boulder_loss": 0.0,
+          "normalized_residual": 1.599744992255269e-16,
+          "time": 0.0
+        },
+        {
+          "bed": 5.551896682026067,
+          "boulders": 1.1100896365487287,
+          "cup": 0.0,
+          "fines": 4.433599204418425,
+          "front": 0.0018249733973061942,
+          "liquid": 0.00820784105891281,
+          "mapped_source_minus_boulder_loss": -9.169663893357193e-05,
+          "normalized_residual": -1.8609145160789612e-05,
+          "time": 0.01
+        },
+        {
+          "bed": 5.549350856422791,
+          "boulders": 1.05145124360475,
+          "cup": 0.0,
+          "fines": 4.1600971617902935,
+          "front": 0.06642290713474379,
+          "liquid": 0.33780245102774736,
+          "mapped_source_minus_boulder_loss": -0.002941086290080233,
+          "normalized_residual": -0.0004771512206787987,
+          "time": 0.4
+        },
+        {
+          "bed": 5.547182871137789,
+          "boulders": 0.9493371464959388,
+          "cup": 2.7755575615628914e-15,
+          "fines": 3.7514039475097256,
+          "front": 0.16012382354467747,
+          "liquid": 0.8464417771321241,
+          "mapped_source_minus_boulder_loss": -0.006710334527002537,
+          "normalized_residual": -0.000867638483827105,
+          "time": 1.0
+        },
+        {
+          "bed": 3.349399558492667,
+          "boulders": 0.5767284387110346,
+          "cup": 2.199999999999623,
+          "fines": 2.2614142101164982,
+          "front": 0.49630146650445395,
+          "liquid": 0.5112569096651337,
+          "mapped_source_minus_boulder_loss": -0.019887682531281814,
+          "normalized_residual": -0.0004683792340975614,
+          "time": 3.2
+        },
+        {
+          "bed": 1.760540498457822,
+          "boulders": 0.3074000776151418,
+          "cup": 3.8000000000003333,
+          "fines": 1.1843659908352142,
+          "front": 0.7388145821429423,
+          "liquid": 0.26877443000746604,
+          "mapped_source_minus_boulder_loss": -0.029105812324120017,
+          "normalized_residual": 0.001538274217967513,
+          "time": 4.8
+        },
+        {
+          "bed": 0.17999466611304554,
+          "boulders": 0.03951674122400051,
+          "cup": 5.400000000000511,
+          "fines": 0.1129346988548599,
+          "front": 0.9800286923763951,
+          "liquid": 0.02754322603418513,
+          "mapped_source_minus_boulder_loss": -0.037634765950966154,
+          "normalized_residual": 0.0050422669512890555,
+          "time": 6.4
+        },
+        {
+          "bed": 1.3322990827188017e-06,
+          "boulders": 4.5894161281771965e-07,
+          "cup": 5.584955090760554,
+          "fines": 6.654152151525655e-07,
+          "front": 1.0,
+          "liquid": 2.0794225474851658e-07,
+          "mapped_source_minus_boulder_loss": -0.03840016396935053,
+          "normalized_residual": 0.0059359551620383,
+          "time": 7.975
+        }
+      ],
+      "max_normalized_conservation_residual": 0.0059359551620383,
+      "max_rss_kib": 106168,
+      "observation_quadrature": "Exact integral of piecewise-linear nodal representation; continuum error UNQUALIFIED",
+      "phase_observer_recomputed_max_error": 0.0,
+      "raw_sha256": "20cfa789a425099effb1df7e2e17f5d8ea5f6105f6e2079bbd64529eee0dd940",
+      "reason": null,
+      "seconds": 11.158932672813535,
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    "normal": {
+      "arrival": 6.5454160979892295,
+      "conservation_passed": false,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "core_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "cup_quadrature_difference": 0.00024285672365831346,
+      "first_sample_exceeding_conservation_budget": {
+        "bed": 5.551906951183524,
+        "boulders": 1.1100921145274045,
+        "cup": 0.0,
+        "fines": 4.433605251380448,
+        "front": 0.0018245985033010792,
+        "liquid": 0.008209585275671132,
+        "mapped_source_minus_boulder_loss": -6.899417572056165e-05,
+        "normalized_residual": -1.6759513054011415e-05,
+        "time": 0.01
+      },
+      "grain_integrated_loss_check": 2.4202861936828413e-14,
+      "grain_transfer_balance_max": 5.828670879282072e-16,
+      "horizon_observation_available": true,
+      "last_observed_time": 8.0,
+      "ledger_samples": [
+        {
+          "bed": 5.5520000000000005,
+          "boulders": 1.1104,
+          "cup": 0.0,
+          "fines": 4.4416,
+          "front": 0.0,
+          "liquid": 0.0,
+          "mapped_source_minus_boulder_loss": 0.0,
+          "normalized_residual": 1.599744992255269e-16,
+          "time": 0.0
+        },
+        {
+          "bed": 5.551906951183524,
+          "boulders": 1.1100921145274045,
+          "cup": 0.0,
+          "fines": 4.433605251380448,
+          "front": 0.0018245985033010792,
+          "liquid": 0.008209585275671132,
+          "mapped_source_minus_boulder_loss": -6.899417572056165e-05,
+          "normalized_residual": -1.6759513054011415e-05,
+          "time": 0.01
+        },
+        {
+          "bed": 5.546025147387202,
+          "boulders": 1.0513183149166385,
+          "cup": 0.0,
+          "fines": 4.157389919669744,
+          "front": 0.06735196624748462,
+          "liquid": 0.33731691280081927,
+          "mapped_source_minus_boulder_loss": -0.006582259815149406,
+          "normalized_residual": -0.001076162214120569,
+          "time": 0.4
+        },
+        {
+          "bed": 5.5413189465120185,
+          "boulders": 0.9487193623816582,
+          "cup": 0.0,
+          "fines": 3.746961386535297,
+          "front": 0.1616308358319152,
+          "liquid": 0.8456381975950635,
+          "mapped_source_minus_boulder_loss": -0.01470584321262114,
+          "normalized_residual": -0.0019238208731954425,
+          "time": 1.0
+        },
+        {
+          "bed": 3.3444735634524974,
+          "boulders": 0.5760999631000009,
+          "cup": 2.200000000000111,
+          "fines": 2.257617346078676,
+          "front": 0.4980691588253453,
+          "liquid": 0.5107562542738203,
+          "mapped_source_minus_boulder_loss": -0.04248359588335959,
+          "normalized_residual": -0.001355626179285051,
+          "time": 3.2
+        },
+        {
+          "bed": 1.765054277753879,
+          "boulders": 0.3086754381162822,
+          "cup": 3.79999999999977,
+          "fines": 1.1866645776818883,
+          "front": 0.7393855191497892,
+          "liquid": 0.26971426195570836,
+          "mapped_source_minus_boulder_loss": -0.061532441198931864,
+          "normalized_residual": 0.00235127481153618,
+          "time": 4.8
+        },
+        {
+          "bed": 0.200856393317117,
+          "boulders": 0.04311828030199464,
+          "cup": 5.399999999999685,
+          "fines": 0.12657833282143754,
+          "front": 0.9783609566674886,
+          "liquid": 0.031159780193684816,
+          "mapped_source_minus_boulder_loss": -0.0791065198882368,
+          "normalized_residual": 0.008799782657925437,
+          "time": 6.4
+        },
+        {
+          "bed": 4.607965484565596e-06,
+          "boulders": 1.371913952575846e-06,
+          "cup": 5.617035763376706,
+          "fines": 2.465563072067303e-06,
+          "front": 1.0,
+          "liquid": 7.704884599224471e-07,
+          "mapped_source_minus_boulder_loss": -0.08090378008572041,
+          "normalized_residual": 0.011714764290740531,
+          "time": 8.0
+        }
+      ],
+      "max_normalized_conservation_residual": 0.011714764290740531,
+      "max_rss_kib": 82732,
+      "observation_quadrature": "Exact integral of piecewise-linear nodal representation; continuum error UNQUALIFIED",
+      "phase_observer_recomputed_max_error": 0.0,
+      "raw_sha256": "e92557a27c97010d2e16e9eefaad9eea903d71e3336f7c22e9d171893ceb6c22",
+      "reason": null,
+      "seconds": 1.6043195566162467,
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    "radial_fine": {
+      "arrival": 6.545327103588131,
+      "conservation_passed": false,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 128
+      },
+      "core_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "cup_quadrature_difference": 0.00024294338791364112,
+      "first_sample_exceeding_conservation_budget": {
+        "bed": 5.551906081878183,
+        "boulders": 1.1100918199849663,
+        "cup": 0.0,
+        "fines": 4.433604805307332,
+        "front": 0.0018246261014008725,
+        "liquid": 0.008209456585884926,
+        "mapped_source_minus_boulder_loss": -6.994998666280726e-05,
+        "normalized_residual": -1.6916088223427948e-05,
+        "time": 0.01
+      },
+      "grain_integrated_loss_check": 1.865174681370263e-14,
+      "grain_transfer_balance_max": 1.0269562977782698e-15,
+      "horizon_observation_available": true,
+      "last_observed_time": 8.0,
+      "ledger_samples": [
+        {
+          "bed": 5.5520000000000005,
+          "boulders": 1.1104,
+          "cup": 0.0,
+          "fines": 4.4416,
+          "front": 0.0,
+          "liquid": 0.0,
+          "mapped_source_minus_boulder_loss": 0.0,
+          "normalized_residual": 1.599744992255269e-16,
+          "time": 0.0
+        },
+        {
+          "bed": 5.551906081878183,
+          "boulders": 1.1100918199849663,
+          "cup": 0.0,
+          "fines": 4.433604805307332,
+          "front": 0.0018246261014008725,
+          "liquid": 0.008209456585884926,
+          "mapped_source_minus_boulder_loss": -6.994998666280726e-05,
+          "normalized_residual": -1.6916088223427948e-05,
+          "time": 0.01
+        },
+        {
+          "bed": 5.546009902750691,
+          "boulders": 1.0513141925008804,
+          "cup": 0.0,
+          "fines": 4.157381042150783,
+          "front": 0.06735333099718274,
+          "liquid": 0.3373146680990269,
+          "mapped_source_minus_boulder_loss": -0.006597688864472262,
+          "normalized_residual": -0.001078908005999418,
+          "time": 0.4
+        },
+        {
+          "bed": 5.541291235107379,
+          "boulders": 0.9487129799775496,
+          "cup": 0.0,
+          "fines": 3.7469442168363005,
+          "front": 0.16163394467058162,
+          "liquid": 0.8456340382935297,
+          "mapped_source_minus_boulder_loss": -0.014734747571919699,
+          "normalized_residual": -0.0019288121204287672,
+          "time": 1.0
+        },
+        {
+          "bed": 3.3444137673358707,
+          "boulders": 0.5760875571758567,
+          "cup": 2.200000000000111,
+          "fines": 2.2575791148267457,
+          "front": 0.49807634523172795,
+          "liquid": 0.5107470953332683,
+          "mapped_source_minus_boulder_loss": -0.04255659500048131,
+          "normalized_residual": -0.0013663963732020354,
+          "time": 3.2
+        },
+        {
+          "bed": 1.76499068189139,
+          "boulders": 0.30866359419256106,
+          "cup": 3.79999999999977,
+          "fines": 1.1866228289914338,
+          "front": 0.7393933624937425,
+          "liquid": 0.26970425870739523,
+          "mapped_source_minus_boulder_loss": -0.06162456348802525,
+          "normalized_residual": 0.002339820225353153,
+          "time": 4.8
+        },
+        {
+          "bed": 0.2007562499148435,
+          "boulders": 0.043099110623794346,
+          "cup": 5.399999999999685,
+          "fines": 0.1265122514581609,
+          "front": 0.978375797041786,
+          "liquid": 0.03114488783288827,
+          "mapped_source_minus_boulder_loss": -0.07924009473851978,
+          "normalized_residual": 0.008781745301608267,
+          "time": 6.4
+        },
+        {
+          "bed": 4.601151437007205e-06,
+          "boulders": 1.369826094566355e-06,
+          "cup": 5.616944100798969,
+          "fines": 2.4619621657183574e-06,
+          "front": 1.0,
+          "liquid": 7.693631767224929e-07,
+          "mapped_source_minus_boulder_loss": -0.0810328666429494,
+          "normalized_residual": 0.011698253233142377,
+          "time": 8.0
+        }
+      ],
+      "max_normalized_conservation_residual": 0.011698253233142377,
+      "max_rss_kib": 100936,
+      "observation_quadrature": "Exact integral of piecewise-linear nodal representation; continuum error UNQUALIFIED",
+      "phase_observer_recomputed_max_error": 0.0,
+      "raw_sha256": "7f208f77c451d721890c4cd18377c32d8806b2657a685a4368fb3382d140b504",
+      "reason": null,
+      "seconds": 2.150064416229725,
+      "status": "EXECUTED_UNQUALIFIED"
+    },
+    "time_fine": {
+      "arrival": 6.543901904122952,
+      "conservation_passed": false,
+      "controls": {
+        "bed": 128,
+        "diffusivity": 1.0,
+        "dt": 0.0005,
+        "horizon": 8.0,
+        "shells": 64
+      },
+      "core_sha256": "456534c92292dc846d222b50f71817a7b2fe72d63bf8b4ff73841505136f1c4a",
+      "cup_quadrature_difference": 0.00012214419469280813,
+      "first_sample_exceeding_conservation_budget": {
+        "bed": 5.551898069940718,
+        "boulders": 1.110089934148598,
+        "cup": 0.0,
+        "fines": 4.433600062343393,
+        "front": 0.0018248813567435104,
+        "liquid": 0.008208073448726719,
+        "mapped_source_minus_boulder_loss": -9.068839669635492e-05,
+        "normalized_residual": -1.8359160533490735e-05,
+        "time": 0.01
+      },
+      "grain_integrated_loss_check": 3.26405569239796e-14,
+      "grain_transfer_balance_max": 2.0816681711721685e-16,
+      "horizon_observation_available": false,
+      "last_observed_time": 7.975,
+      "ledger_samples": [
+        {
+          "bed": 5.5520000000000005,
+          "boulders": 1.1104,
+          "cup": 0.0,
+          "fines": 4.4416,
+          "front": 0.0,
+          "liquid": 0.0,
+          "mapped_source_minus_boulder_loss": 0.0,
+          "normalized_residual": 1.599744992255269e-16,
+          "time": 0.0
+        },
+        {
+          "bed": 5.551898069940718,
+          "boulders": 1.110089934148598,
+          "cup": 0.0,
+          "fines": 4.433600062343393,
+          "front": 0.0018248813567435104,
+          "liquid": 0.008208073448726719,
+          "mapped_source_minus_boulder_loss": -9.068839669635492e-05,
+          "normalized_residual": -1.8359160533490735e-05,
+          "time": 0.01
+        },
+        {
+          "bed": 5.545866870716719,
+          "boulders": 1.0512605427467798,
+          "cup": 0.0,
+          "fines": 4.157312442378375,
+          "front": 0.06735501893897514,
+          "liquid": 0.3372938855915646,
+          "mapped_source_minus_boulder_loss": -0.006823297678680833,
+          "normalized_residual": -0.001104670259956817,
+          "time": 0.4
+        },
+        {
+          "bed": 5.540884686963631,
+          "boulders": 0.9486140902122735,
+          "cup": 2.7755575615628914e-15,
+          "fines": 3.7467009307174117,
+          "front": 0.16166398243493463,
+          "liquid": 0.8455696660339458,
+          "mapped_source_minus_boulder_loss": -0.015241919482501753,
+          "normalized_residual": -0.002002037650642278,
+          "time": 1.0
+        },
+        {
+          "bed": 3.343306931095749,
+          "boulders": 0.5758647370741002,
+          "cup": 2.199999999999623,
+          "fines": 2.2568675628446697,
+          "front": 0.49820494275262844,
+          "liquid": 0.5105746311769792,
+          "mapped_source_minus_boulder_loss": -0.043932345581020604,
+          "normalized_residual": -0.0015657544857037024,
+          "time": 3.2
+        },
+        {
+          "bed": 1.7635489388386887,
+          "boulders": 0.3084074952378902,
+          "cup": 3.8000000000003333,
+          "fines": 1.1856666999699663,
+          "front": 0.7395719069335503,
+          "liquid": 0.2694747436308321,
+          "mapped_source_minus_boulder_loss": -0.06355541738055925,
+          "normalized_residual": 0.0020801402808036692,
+          "time": 4.8
+        },
+        {
+          "bed": 0.19909907957204906,
+          "boulders": 0.04278446556440971,
+          "cup": 5.400000000000511,
+          "fines": 0.12542804383513229,
+          "front": 0.9785832641083202,
+          "liquid": 0.030886570172507066,
+          "mapped_source_minus_boulder_loss": -0.08170757467305212,
+          "normalized_residual": 0.008483263611772393,
+          "time": 6.4
+        },
+        {
+          "bed": 5.1319144284892e-06,
+          "boulders": 1.528945425739346e-06,
+          "cup": 5.615207129370016,
+          "fines": 2.7451192401909827e-06,
+          "front": 1.0,
+          "liquid": 8.57849762558871e-07,
+          "mapped_source_minus_boulder_loss": -0.08354110441066398,
+          "normalized_residual": 0.01138549374719827,
+          "time": 7.975
+        }
+      ],
+      "max_normalized_conservation_residual": 0.01138549374719827,
+      "max_rss_kib": 100936,
+      "observation_quadrature": "Exact integral of piecewise-linear nodal representation; continuum error UNQUALIFIED",
+      "phase_observer_recomputed_max_error": 0.0,
+      "raw_sha256": "02f0a4d74fb49a60ede9b787583837175554ad1a9da377ef7038d550bd967f79",
+      "reason": null,
+      "seconds": 3.2187910564243793,
+      "status": "EXECUTED_UNQUALIFIED"
+    }
+  },
+  "scientific_coupled_attempts": 14,
+  "source_audit": {
+    "article_inspected_sha256": "592304014b7be482b5fe2814d730f7d128f9ec2e77d6f7d25f8e0292c5fce5e5",
+    "figure3_figure4_reextracted_coordinates_equal": true,
+    "fixture_changes": "NONE",
+    "pdf_container_difference": "Inspected local PDF has different bytes from original fixture PDF; embedded figure hashes and every extracted coordinate/uncertainty agree",
+    "source_setting_alternatives": 0,
+    "supplement_inspected_sha256": "5437e3310288c2a9506fbd1eb4c4d8854ec8f4293f6edcda5579bbdc9bae5179",
+    "supplement_sections_read": "E.2, E26-E33, pages 13-15"
+  },
+  "source_hashes": {
+    "docs/analysis/model_grudeva2026_reference_002/CONTRACT.md": "f0c3b93571ca72f173d2837c37c5e50c6fb20e37b14d758346924fd76966ef4b",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "tests/test_grudeva2026_reference_002.py": "513f792482d88723096bd25025baf6e62a9841db6b35ba2d704ea68d3873a621"
+  },
+  "specified_equation_contract": "DEFINED_AND_SOURCE_AUDITED",
+  "task": "MODEL-GRUDEVA2026-REFERENCE-002"
+}
