@@ -64,7 +64,7 @@ def _manifest_rows():
 
 def _gate_docstring():
     src = (REPO_ROOT / "puckworks/validation/gates.py").read_text(encoding="utf-8")
-    i = src.index("def gate_foster_ct_trajectory():")
+    i = src.index("def gate_foster_ct_trajectory(")
     body = src[i:]
     m = re.search(r'"""(.*?)"""', body, re.S)
     return " ".join(m.group(1).split())
@@ -223,7 +223,8 @@ def gate_numerics(run=True):
         return dict(run=False)
     from puckworks.validation.gates import gate_foster_ct_trajectory
     r = gate_foster_ct_trajectory()
-    return dict(run=True, passed=r["passed"], s_fit_rmse_mm=r["s_fit_rmse_mm"],
+    return dict(run=True, comparison_scope="I-045 historical numerics; later runtime changes may differ",
+                passed=r["passed"], s_fit_rmse_mm=r["s_fit_rmse_mm"],
                 H_fit_rmse_mm=r["H_fit_rmse_mm"],
                 s_data_within_err=r["s_data_within_err"],
                 H_data_within_err=r["H_data_within_err"],

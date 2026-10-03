@@ -1107,13 +1107,15 @@ def gate_mo2_fixed_flow_trends():
                 yield_E_M_F_q3=[round(y(p, 3, 18, 32), 1) for p in ("E", "M", "F")])
 
 
-def gate_foster_fig15_flowmin():
+def gate_foster_fig15_flowmin(r=None):
     """The machine-mode bed flow reproduces the Fig 15 flow-minimum signature:
     Q/Qm dips to ~0.181 at t~2.0 s and recovers (RMSE vs the digitized trace
     <0.01). This is the P2 null baseline — pump + headspace dynamics alone."""
     import numpy as np
     from puckworks.models.foster2025 import machine_mode as fm
-    r = fm.solve()
+    r = r or fm.solve()
+    if not r["success"] or r["t_s"] is None:
+        return dict(passed=False, **fm.metadata(r))
     q_min, t_min = fm.flow_minimum(r)
     rows = gates_data().foster_fig15_flow()
     t = np.array([x["t_s"] for x in rows]); Q = np.array([x["Q_norm"] for x in rows])
@@ -1121,18 +1123,60 @@ def gate_foster_fig15_flowmin():
     model = np.array([fm.bed_flow_norm(ti, r) for ti in t[sel]])
     rmse = float(np.sqrt(np.mean((model - Q[sel]) ** 2)))
     passed = (abs(q_min - 0.181) < 0.02 and abs(t_min - 2.0) < 0.3 and rmse < 0.01)
-    return dict(passed=passed, Q_min=round(q_min, 3), t_min=round(t_min, 2),
+    tail = foster_fig15_windows(r)
+    passed = passed and tail["passed"]
+    return dict(passed=passed, source_windows=tail, **fm.metadata(r), Q_min=round(q_min, 3), t_min=round(t_min, 2),
                 fig15_rmse=round(rmse, 4))
 
 
-def gate_foster_ct_trajectory():
+def foster_fig15_windows(r):
+    """Equation-generated Fig 15 BOTH channels, fixed source-event windows.
+
+    CSV t_s means reported seconds. Masks use the fixture's 6.667 s rounded
+    source event, independently of candidate event localization. No fitting.
+    """
+    import numpy as np
+    from puckworks.models.foster2025 import machine_mode as fm
+    rows = gates_data().foster_fig15_flow()
+    t = np.array([x["t_s"] for x in rows])
+    info = fm.metadata(r)
+    lo, hi = info["actual_reported_support_s"]
+    supported = (t >= lo) & (t <= hi)
+    if not r["success"] or not np.all(supported) or r["t_s"] is None:
+        return dict(passed=False, supported_count=int(supported.sum()), reference_count=len(t), **info)
+    predicted = np.array([[fm.bed_flow_norm(x, r),
+                           fm.p_h(fm._sH(x-r["p"].t_shift, r)[1], r["p"])/r["p"].p_m]
+                          for x in t])
+    reference = np.array([[x["Q_norm"], x["p_h_norm"]] for x in rows])
+    windows = {}
+    for name, mask in [("pre", t < 6.667), ("post", t >= 6.667), ("overall", np.ones(len(t), bool))]:
+        errors = predicted[mask] - reference[mask]
+        metrics = {key: dict(rmse=float(np.sqrt(np.mean(errors[:, i]**2))),
+                             max_abs=float(np.max(np.abs(errors[:, i]))))
+                   for i, key in enumerate(("Q_norm", "p_h_norm"))} if mask.any() else {}
+        windows[name] = dict(count=int(mask.sum()),
+                             reported_range_s=[float(t[mask].min()), float(t[mask].max())] if mask.any() else None,
+                             channels=metrics)
+    passed = all(windows[w]["count"] > 0 and all(m["rmse"] <= 0.01 and m["max_abs"] <= 0.02
+                 for m in windows[w]["channels"].values()) for w in ("pre", "post"))
+    passed = passed and windows["post"]["reported_range_s"][1] == 10.0
+    candidate_event = r["t_s"] + r["p"].t_shift
+    return dict(passed=bool(passed), supported_count=int(supported.sum()), reference_count=len(t),
+                source_event_reported_s=6.667, candidate_event_reported_s=candidate_event,
+                event_rounding_classification_differences=int(np.sum((t<6.667) != (t<candidate_event))),
+                windows=windows, **info)
+
+
+def gate_foster_ct_trajectory(r=None):
     """Front s(t) and headspace H(t) match the paper's own fitted ODE curves to
     line width (<0.2 mm RMSE, verifying the port) and bracket a majority of the
     CT data points within their error bars (post-fit reconstruction, same
     campaign, not held out; 'qualitative-good')."""
     import numpy as np
     from puckworks.models.foster2025 import machine_mode as fm
-    r = fm.solve()
+    r = r or fm.solve()
+    if not r["success"] or r["t_s"] is None:
+        return dict(passed=False, **fm.metadata(r))
     rows = gates_data().foster_fig12_14_curves()
     sfit, hfit, sdat, hdat = [], [], [], []
     for x in rows:
@@ -1145,7 +1189,7 @@ def gate_foster_ct_trajectory():
     s_rmse = float(np.sqrt(np.mean(sfit))); h_rmse = float(np.sqrt(np.mean(hfit)))
     passed = (s_rmse < 0.2 and h_rmse < 0.2
               and sum(sdat) >= 4 and sum(hdat) >= 4)
-    return dict(passed=passed, s_fit_rmse_mm=round(s_rmse, 3),
+    return dict(passed=passed, **fm.metadata(r), s_fit_rmse_mm=round(s_rmse, 3),
                 H_fit_rmse_mm=round(h_rmse, 3),
                 s_data_within_err=f"{sum(sdat)}/{len(sdat)}",
                 H_data_within_err=f"{sum(hdat)}/{len(hdat)}")

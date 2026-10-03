@@ -1,0 +1,790 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "algebraic_roundoff_pump_equation_normalized": 3.880510727564494e-16,
+  "baseline": {
+    "H_at_saturation_m": 0.006852278983338679,
+    "baseline_commit": "5745f615637dbfe95065b48339c3fe566fa58d66",
+    "legacy_constant_headspace_balance_defect_preserved": true,
+    "parameters": {
+      "A": 0.002734,
+      "H0": 0.0078,
+      "L": 0.009975,
+      "Q_m": 5.283333333333333e-06,
+      "R_f": 3830000.0,
+      "beta": 1.226,
+      "g": 9.81,
+      "k": 2.97e-15,
+      "mu": 0.000315,
+      "p_a": 101325.0,
+      "p_c": 10000.0,
+      "p_m": 1500000.0,
+      "phi_T": 0.322,
+      "rho": 965.0,
+      "t_shift": 0.796
+    },
+    "pump_minus_bed_m3_s": 6.80752586250898e-07,
+    "reported_saturation_s": 6.665255635789558,
+    "source_sha256": "b2e5ceb919d10c410d3a91e4d9671028de31803f880d781c2460c6783aaede54"
+  },
+  "change_declaration": "GOVERNING_PHYSICS_CHANGE",
+  "coarse_to_fine": {
+    "event_time_error_normalized": 5.588624696201493e-10,
+    "normalized_max": {
+      "H_m": 1.1969485131945864e-07,
+      "Q_bed_in_m3_s": 5.004223009046347e-07,
+      "Q_out_m3_s": 5.004223009046347e-07,
+      "Q_pump_m3_s": 6.312088166617519e-07,
+      "V_out_m3": 3.975633514488938e-08,
+      "V_pump_m3": 5.254198768818783e-08,
+      "V_storage_m3": 8.478242647808474e-08,
+      "headspace_pressure_absolute_Pa": 6.820530495606363e-07,
+      "s_m": 1.6719751127497477e-08
+    },
+    "outlet_excluded_event_gap_s": [
+      5.869255635648925,
+      5.8692556385336765
+    ],
+    "outlet_excluded_sample_count": 2,
+    "passed": true
+  },
+  "comparison_grid_count": 621,
+  "compatibility": {
+    "common_model_support_s": [
+      0,
+      5.869255635648925
+    ],
+    "count": 502,
+    "event_error_normalized": {
+      "t_p": 0.0,
+      "t_s": 2.7244696167422743e-11
+    },
+    "normalized_max": {
+      "H_m": 1.2354327849284923e-09,
+      "Q_bed_in_m3_s": 5.0467276471259115e-08,
+      "Q_pump_m3_s": 5.590353323200988e-11,
+      "headspace_pressure_absolute_Pa": 1.033732066086183e-10,
+      "s_m": 3.001168490572341e-09
+    },
+    "passed": true
+  },
+  "configuration_sha256": "103ed939691d46ad90c2c0aeb0ee86ef9992e808f847925f0f93908e61996449",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1"
+  },
+  "dimensionless_default_minus_fixture": {
+    "G": 0.0,
+    "Hratio": -4.511278195495905e-05,
+    "K": 6.100472000190177e-05,
+    "P_c": -7.67332839871071e-06,
+    "P_m": 4.900074019253964e-05,
+    "R": -2.944321079035976e-07,
+    "beta": 0.0,
+    "length_scale_m": 0.0,
+    "phi_T": 0.0,
+    "t_shift_s": 0.0,
+    "time_scale_s": -0.0001735015772874604
+  },
+  "disposition": "BOUNDED_NUMERICAL_AND_SOURCE_RECONSTRUCTION_PASS",
+  "domain": {
+    "H_stop_m": 0.00715403286,
+    "invariant_proof": "CONTRACT.md: source cap and domain invariance",
+    "max_H_m": 0.006946467355183693,
+    "max_Q_pump_m3_s": 5.239866612062477e-06,
+    "max_source_cap_excess_normalized": 0.0,
+    "min_Q_pump_m3_s": 2.6980910761983805e-06,
+    "passed": true,
+    "support": {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "actual_model_support_s": [
+        0.0,
+        30.0
+      ],
+      "actual_reported_support_s": [
+        0.796,
+        30.796
+      ],
+      "event_status": {
+        "ponding": "REACHED",
+        "saturation": "REACHED"
+      },
+      "message": "requested horizon completed",
+      "numerical_status": "SUCCESS",
+      "ponding_model_s": 0.02719363026559373,
+      "post_saturation_status": "INTEGRATED",
+      "requested_model_horizon_s": 30.0,
+      "saturation_model_s": 5.869255635661578,
+      "success": true,
+      "validation_ceiling": "source_curve_reproduction"
+    }
+  },
+  "equilibrium": {
+    "Fprime_per_s": -3.0563383289512505,
+    "H_eq_m": 0.0069464673551838056,
+    "endpoint_H_error_normalized": 1.4456028966473394e-14,
+    "endpoint_flow_imbalance_normalized": 1.789190099310661e-13,
+    "equilibrium_drift_normalized": 0.0,
+    "finite_horizon_equilibrated": true,
+    "initial_perturbation_m": 7.8e-08,
+    "passed": true,
+    "rate_test_budget": 0.001,
+    "rate_test_relative_error": 8.42252492656038e-05,
+    "relaxation_time_s": 0.3271889078926479,
+    "root_residual_normalized": 8.81769314176401e-16,
+    "stable": true
+  },
+  "fine_to_finer": {
+    "event_time_error_normalized": 2.4512621202813246e-12,
+    "normalized_max": {
+      "H_m": 1.1466023999208466e-09,
+      "Q_bed_in_m3_s": 4.793739998771858e-09,
+      "Q_out_m3_s": 4.793739998771858e-09,
+      "Q_pump_m3_s": 6.046598161259601e-09,
+      "V_out_m3": 3.739517842517513e-10,
+      "V_pump_m3": 5.023015641281089e-10,
+      "V_storage_m3": 8.121629741607458e-10,
+      "headspace_pressure_absolute_Pa": 6.533651535088818e-09,
+      "s_m": 1.246057742159285e-10
+    },
+    "outlet_excluded_event_gap_s": [
+      5.869255635648925,
+      5.869255635661578
+    ],
+    "outlet_excluded_sample_count": 1,
+    "passed": true
+  },
+  "governance": "G2",
+  "independent_method": {
+    "event_time_error_normalized": 0.0,
+    "normalized_max": {
+      "H_m": 1.233833192310786e-11,
+      "Q_bed_in_m3_s": 5.078574413253004e-11,
+      "Q_out_m3_s": 5.078574413253004e-11,
+      "Q_pump_m3_s": 6.35194549593982e-11,
+      "V_out_m3": 4.414398929448861e-12,
+      "V_pump_m3": 5.0124236046920994e-12,
+      "V_storage_m3": 8.739555561670044e-12,
+      "headspace_pressure_absolute_Pa": 6.921876532336076e-11,
+      "s_m": 2.7172986779085326e-18
+    },
+    "outlet_excluded_event_gap_s": [
+      5.869255635661578,
+      5.869255635661578
+    ],
+    "outlet_excluded_sample_count": 0,
+    "passed": true,
+    "post_sample_count": 491,
+    "quadrature_error_bound_normalized": [
+      3.493169708150572e-14,
+      2.4355402320696038e-14,
+      9.60068848946936e-15
+    ]
+  },
+  "outcomes": {
+    "domain_boundedness": "PASS",
+    "earlier_stage_compatibility": "PASS",
+    "equation_completion": "PASS",
+    "equilibrium_stability": "PASS",
+    "finite_horizon_equilibrium": "PASS",
+    "hosted_CI": "REPORTED_SEPARATELY_IN_HANDOFF",
+    "independent_exact_head_review": "REPORTED_SEPARATELY_IN_HANDOFF",
+    "independent_method": "PASS",
+    "software_QA": "REPORTED_SEPARATELY_IN_HANDOFF",
+    "source_reference_dimensional_defaults": "PASS",
+    "source_reference_rounded_fixture": "PASS",
+    "temporal_accuracy": "PASS",
+    "water_conservation": "PASS"
+  },
+  "qualification_executions_this_bundle": 8,
+  "references": {
+    "dimensional_defaults": {
+      "dimensionless": {
+        "G": 0.0009319499999999999,
+        "Hratio": 0.7819548872180451,
+        "K": 0.0495610047200019,
+        "P_c": 0.09869232667160129,
+        "P_m": 14.803849000740193,
+        "R": 0.0001997055678920964,
+        "beta": 1.226,
+        "length_scale_m": 0.009975,
+        "phi_T": 0.322,
+        "t_shift_s": 0.796,
+        "time_scale_s": 5.1618264984227125
+      },
+      "existing_fig12_14_gate": {
+        "H_data_within_err": "5/8",
+        "H_fit_rmse_mm": 0.001,
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.02719363026559373,
+        "post_saturation_status": "INTEGRATED",
+        "requested_model_horizon_s": 30.0,
+        "s_data_within_err": "4/8",
+        "s_fit_rmse_mm": 0.002,
+        "saturation_model_s": 5.869255635648925,
+        "success": true,
+        "validation_ceiling": "source_curve_reproduction"
+      },
+      "existing_flow_minimum_gate": {
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "Q_min": 0.181,
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "fig15_rmse": 0.0001,
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.02719363026559373,
+        "post_saturation_status": "INTEGRATED",
+        "requested_model_horizon_s": 30.0,
+        "saturation_model_s": 5.869255635648925,
+        "source_windows": {
+          "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+          "actual_model_support_s": [
+            0.0,
+            30.0
+          ],
+          "actual_reported_support_s": [
+            0.796,
+            30.796
+          ],
+          "candidate_event_reported_s": 6.665255635648926,
+          "event_rounding_classification_differences": 0,
+          "event_status": {
+            "ponding": "REACHED",
+            "saturation": "REACHED"
+          },
+          "message": "requested horizon completed",
+          "numerical_status": "SUCCESS",
+          "passed": true,
+          "ponding_model_s": 0.02719363026559373,
+          "post_saturation_status": "INTEGRATED",
+          "reference_count": 461,
+          "requested_model_horizon_s": 30.0,
+          "saturation_model_s": 5.869255635648925,
+          "source_event_reported_s": 6.667,
+          "success": true,
+          "supported_count": 461,
+          "validation_ceiling": "source_curve_reproduction",
+          "windows": {
+            "overall": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 0.0005735127862441791,
+                  "rmse": 0.0002421204425769028
+                },
+                "p_h_norm": {
+                  "max_abs": 0.0003636801459531158,
+                  "rmse": 0.0002310691615260452
+                }
+              },
+              "count": 461,
+              "reported_range_s": [
+                0.8,
+                10.0
+              ]
+            },
+            "post": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 0.0003760481262816695,
+                  "rmse": 0.0003654068614567287
+                },
+                "p_h_norm": {
+                  "max_abs": 0.0003636801459531158,
+                  "rmse": 0.0003516963053567168
+                }
+              },
+              "count": 167,
+              "reported_range_s": [
+                6.68,
+                10.0
+              ]
+            },
+            "pre": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 0.0005735127862441791,
+                  "rmse": 0.0001267956896443713
+                },
+                "p_h_norm": {
+                  "max_abs": 0.00028893645280880786,
+                  "rmse": 0.00011602654420943079
+                }
+              },
+              "count": 294,
+              "reported_range_s": [
+                0.8,
+                6.66
+              ]
+            }
+          }
+        },
+        "success": true,
+        "t_min": 1.99,
+        "validation_ceiling": "source_curve_reproduction"
+      },
+      "figure15": {
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "candidate_event_reported_s": 6.665255635648926,
+        "event_rounding_classification_differences": 0,
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.02719363026559373,
+        "post_saturation_status": "INTEGRATED",
+        "reference_count": 461,
+        "requested_model_horizon_s": 30.0,
+        "saturation_model_s": 5.869255635648925,
+        "source_event_reported_s": 6.667,
+        "success": true,
+        "supported_count": 461,
+        "validation_ceiling": "source_curve_reproduction",
+        "windows": {
+          "overall": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 0.0005735127862441791,
+                "rmse": 0.0002421204425769028
+              },
+              "p_h_norm": {
+                "max_abs": 0.0003636801459531158,
+                "rmse": 0.0002310691615260452
+              }
+            },
+            "count": 461,
+            "reported_range_s": [
+              0.8,
+              10.0
+            ]
+          },
+          "post": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 0.0003760481262816695,
+                "rmse": 0.0003654068614567287
+              },
+              "p_h_norm": {
+                "max_abs": 0.0003636801459531158,
+                "rmse": 0.0003516963053567168
+              }
+            },
+            "count": 167,
+            "reported_range_s": [
+              6.68,
+              10.0
+            ]
+          },
+          "pre": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 0.0005735127862441791,
+                "rmse": 0.0001267956896443713
+              },
+              "p_h_norm": {
+                "max_abs": 0.00028893645280880786,
+                "rmse": 0.00011602654420943079
+              }
+            },
+            "count": 294,
+            "reported_range_s": [
+              0.8,
+              6.66
+            ]
+          }
+        }
+      },
+      "parameters": {
+        "A": 0.002734,
+        "H0": 0.0078,
+        "L": 0.009975,
+        "Q_m": 5.283333333333333e-06,
+        "R_f": 3830000.0,
+        "beta": 1.226,
+        "g": 9.81,
+        "k": 2.97e-15,
+        "mu": 0.000315,
+        "p_a": 101325.0,
+        "p_c": 10000.0,
+        "p_m": 1500000.0,
+        "phi_T": 0.322,
+        "rho": 965.0,
+        "t_shift": 0.796
+      }
+    },
+    "rounded_fixture": {
+      "dimensionless": {
+        "G": 0.0009319499999999999,
+        "Hratio": 0.782,
+        "K": 0.049499999999999995,
+        "P_c": 0.0987,
+        "P_m": 14.8038,
+        "R": 0.0002,
+        "beta": 1.226,
+        "length_scale_m": 0.009975,
+        "phi_T": 0.322,
+        "t_shift_s": 0.796,
+        "time_scale_s": 5.162
+      },
+      "existing_fig12_14_gate": {
+        "H_data_within_err": "5/8",
+        "H_fit_rmse_mm": 0.0,
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.027161713022193404,
+        "post_saturation_status": "INTEGRATED",
+        "requested_model_horizon_s": 30.0,
+        "s_data_within_err": "4/8",
+        "s_fit_rmse_mm": 0.0,
+        "saturation_model_s": 5.871026149675112,
+        "success": true,
+        "validation_ceiling": "source_curve_reproduction"
+      },
+      "existing_flow_minimum_gate": {
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "Q_min": 0.181,
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "fig15_rmse": 0.0,
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.027161713022193404,
+        "post_saturation_status": "INTEGRATED",
+        "requested_model_horizon_s": 30.0,
+        "saturation_model_s": 5.871026149675112,
+        "source_windows": {
+          "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+          "actual_model_support_s": [
+            0.0,
+            30.0
+          ],
+          "actual_reported_support_s": [
+            0.796,
+            30.796
+          ],
+          "candidate_event_reported_s": 6.667026149675112,
+          "event_rounding_classification_differences": 0,
+          "event_status": {
+            "ponding": "REACHED",
+            "saturation": "REACHED"
+          },
+          "message": "requested horizon completed",
+          "numerical_status": "SUCCESS",
+          "passed": true,
+          "ponding_model_s": 0.027161713022193404,
+          "post_saturation_status": "INTEGRATED",
+          "reference_count": 461,
+          "requested_model_horizon_s": 30.0,
+          "saturation_model_s": 5.871026149675112,
+          "source_event_reported_s": 6.667,
+          "success": true,
+          "supported_count": 461,
+          "validation_ceiling": "source_curve_reproduction",
+          "windows": {
+            "overall": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 2.7414424985716668e-05,
+                  "rmse": 8.715006643089318e-06
+                },
+                "p_h_norm": {
+                  "max_abs": 4.6416004036986536e-05,
+                  "rmse": 1.781700033840601e-05
+                }
+              },
+              "count": 461,
+              "reported_range_s": [
+                0.8,
+                10.0
+              ]
+            },
+            "post": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 2.7414424985716668e-05,
+                  "rmse": 7.31552456631659e-06
+                },
+                "p_h_norm": {
+                  "max_abs": 3.799914076407784e-05,
+                  "rmse": 9.94734312175853e-06
+                }
+              },
+              "count": 167,
+              "reported_range_s": [
+                6.68,
+                10.0
+              ]
+            },
+            "pre": {
+              "channels": {
+                "Q_norm": {
+                  "max_abs": 2.1798803603811923e-05,
+                  "rmse": 9.41778709675582e-06
+                },
+                "p_h_norm": {
+                  "max_abs": 4.6416004036986536e-05,
+                  "rmse": 2.1013260059840772e-05
+                }
+              },
+              "count": 294,
+              "reported_range_s": [
+                0.8,
+                6.66
+              ]
+            }
+          }
+        },
+        "success": true,
+        "t_min": 1.99,
+        "validation_ceiling": "source_curve_reproduction"
+      },
+      "figure15": {
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        "actual_model_support_s": [
+          0.0,
+          30.0
+        ],
+        "actual_reported_support_s": [
+          0.796,
+          30.796
+        ],
+        "candidate_event_reported_s": 6.667026149675112,
+        "event_rounding_classification_differences": 0,
+        "event_status": {
+          "ponding": "REACHED",
+          "saturation": "REACHED"
+        },
+        "message": "requested horizon completed",
+        "numerical_status": "SUCCESS",
+        "passed": true,
+        "ponding_model_s": 0.027161713022193404,
+        "post_saturation_status": "INTEGRATED",
+        "reference_count": 461,
+        "requested_model_horizon_s": 30.0,
+        "saturation_model_s": 5.871026149675112,
+        "source_event_reported_s": 6.667,
+        "success": true,
+        "supported_count": 461,
+        "validation_ceiling": "source_curve_reproduction",
+        "windows": {
+          "overall": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 2.7414424985716668e-05,
+                "rmse": 8.715006643089318e-06
+              },
+              "p_h_norm": {
+                "max_abs": 4.6416004036986536e-05,
+                "rmse": 1.781700033840601e-05
+              }
+            },
+            "count": 461,
+            "reported_range_s": [
+              0.8,
+              10.0
+            ]
+          },
+          "post": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 2.7414424985716668e-05,
+                "rmse": 7.31552456631659e-06
+              },
+              "p_h_norm": {
+                "max_abs": 3.799914076407784e-05,
+                "rmse": 9.94734312175853e-06
+              }
+            },
+            "count": 167,
+            "reported_range_s": [
+              6.68,
+              10.0
+            ]
+          },
+          "pre": {
+            "channels": {
+              "Q_norm": {
+                "max_abs": 2.1798803603811923e-05,
+                "rmse": 9.41778709675582e-06
+              },
+              "p_h_norm": {
+                "max_abs": 4.6416004036986536e-05,
+                "rmse": 2.1013260059840772e-05
+              }
+            },
+            "count": 294,
+            "reported_range_s": [
+              0.8,
+              6.66
+            ]
+          }
+        }
+      },
+      "parameters": {
+        "A": 0.002734,
+        "H0": 0.00780045,
+        "L": 0.009975,
+        "Q_m": 5.283155753583882e-06,
+        "R_f": 3835775.613136719,
+        "beta": 1.226,
+        "g": 9.81,
+        "k": 2.9662445195359473e-15,
+        "mu": 0.000315,
+        "p_a": 101325.0,
+        "p_c": 10000.7775,
+        "p_m": 1499995.0350000001,
+        "phi_T": 0.322,
+        "rho": 965.0,
+        "t_shift": 0.796
+      }
+    }
+  },
+  "resource_ceiling": {
+    "executions": 12,
+    "numerical_seconds": 600
+  },
+  "retained_initial_report_disposition": "DIAGNOSTIC_DRAFT_QUALIFICATION_INCOMPLETE: finite-difference derivative check; no failed source-reference comparison",
+  "scales": {
+    "H_m": 0.0078,
+    "Q_bed_in_m3_s": 5.283333333333333e-06,
+    "Q_out_m3_s": 5.283333333333333e-06,
+    "Q_pump_m3_s": 5.283333333333333e-06,
+    "V_out_m3": 3.0106671299999996e-05,
+    "V_pump_m3": 3.0106671299999996e-05,
+    "V_storage_m3": 3.0106671299999996e-05,
+    "headspace_pressure_absolute_Pa": 1500000.0,
+    "s_m": 0.009975
+  },
+  "settings": {
+    "coarse": {
+      "atol_scale": 1e-09,
+      "max_step": 0.02,
+      "rtol": 1e-07
+    },
+    "fine": {
+      "atol_scale": 1e-11,
+      "max_step": 0.005,
+      "rtol": 1e-09
+    },
+    "finer": {
+      "atol_scale": 1e-13,
+      "max_step": 0.00125,
+      "rtol": 1e-11
+    }
+  },
+  "source_sha256": {
+    "docs/analysis/model_foster2025_postsat_001/CONTRACT.md": "897e93b1335bc1ffa5bff12646773dc165571d212058f970d621bd2386b1993c",
+    "puckworks/analysis/foster2025_postsat.py": "82f0ddb66098ce4f3ffa5607d152c915250dedcf08b3057abb100b08948255c8",
+    "puckworks/data/foster2025_2/fig12_14_fitted_curves.csv": "9d3a8f40fc74eaa8799f2deabadfa3963904a87a30884806aa2ccb56e816a9b1",
+    "puckworks/data/foster2025_2/fig15_flow_pressure.csv": "3383c0c97aaecbb2d7a0e66e0bf417a86531d2f2959e7b2e50edb12cd6960625",
+    "puckworks/data/foster2025_2/foster2025_params.csv": "4d9e79b5dadfc0b49aa95b3d86b4b9e464c1148f34f998817dcf70fb408a2531",
+    "puckworks/models/foster2025/infiltration.py": "bed1e3b9e7546f805f4341578ad4e6258a9d0005f483096bbe57381dd95a5cc9",
+    "puckworks/models/foster2025/machine_mode.py": "3964b8c6afd63d953d30360b2768b7bfab0c73e3ed173ff03d08f597604d2e72",
+    "puckworks/validation/gates.py": "dce6300329b76e783bc122b3f9661b5816f05ee2eb3d3cf38f7c9fc9a9813451"
+  },
+  "task": "MODEL-FOSTER2025-POSTSAT-001",
+  "time_scale_s": 5.1618264984227125,
+  "transition": {
+    "actual_solver_entry_derivative_m_s": 0.0002489950937813411,
+    "algebraic_entry_derivative_error_normalized": 2.152485962916596e-16,
+    "derivative_error_normalized": 4.908335040159066e-06,
+    "eq29_entry_derivative_m_s": 0.0002489950937813408,
+    "finite_difference_diagnostic_note": "Initial forward-difference estimate exceeded 1e-6 (retained). This is not a state-trajectory budget: the actual RHS is checked algebraically; no derivative observation is supplied.",
+    "finite_difference_entry_diagnostic": "NOT_QUALIFIED_AS_DENSE_OUTPUT_DERIVATIVE",
+    "normalized_continuity": {
+      "H": 0.0,
+      "bed": 8.016084674330918e-17,
+      "pressure": 7.761021455128988e-17,
+      "pump": 1.6032169348661835e-16,
+      "s": 0.0
+    },
+    "numerical_entry_derivative_m_s": 0.00024898767683051437,
+    "outlet_left_m3_s": 0.0,
+    "outlet_right_m3_s": 2.4065275050406676e-06,
+    "passed": true,
+    "s_after_exactly_L": true,
+    "volume_continuity_basis": "Both segment quadratures begin at zero; pre-event accumulated volumes carry forward.",
+    "volume_jump_m3": [
+      0.0,
+      0.0
+    ]
+  },
+  "verification_correction": "Actual solver RHS entry is compared with independent Eq. 29. The initial dense-output derivative diagnostic remains explicitly unqualified; no thresholds/parameters/source observers/support masks changed.",
+  "water": {
+    "before_first_drip_samples": 130,
+    "global_residual_normalized": 9.194657516258613e-12,
+    "headspace_subinterval_residual_normalized": 8.672294297661401e-12,
+    "interior_and_boundary_samples": 621,
+    "outlet_accumulation_difference_normalized": 5.300519797507811e-13,
+    "passed": true,
+    "production_residual_normalized": 8.75306007070828e-12,
+    "pump_accumulation_difference_normalized": 9.390135284587084e-13,
+    "quadrature_error_bound_normalized": [
+      3.484428995488329e-14,
+      2.4599692371108786e-14,
+      9.218805689458382e-15
+    ]
+  }
+}

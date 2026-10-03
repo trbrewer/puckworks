@@ -244,6 +244,17 @@ migration were not justified. No EWP lane reopens; successor selected (not imple
       <15% ψ/d_s2 spread → 2nd-order). **RC-4a created.**
 
 ## Sprint 7 — machine mode (CC) [1.6, M; needs A1 + D3-foster]
+- [x] MODEL-FOSTER2025-POSTSAT-001 / #311: implement published post-saturation
+      headspace dynamics in the existing component; finite observations and
+      water accounting; bounded numerical/source-reference verification passes.
+      G2 / GOVERNING_PHYSICS_CHANGE. [Results and limits](analysis/model_foster2025_postsat_001/RESULTS.md).
+- [ ] Owner disposition of the draft after separate QA, CI and exact-head review;
+      no merge, production adoption or successor authorized.
+      PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+- Dated scope correction (2026-10-03): historical Sprint 7/Figure 15 qualification
+  below covered the early window only, not a post-saturation transient. The
+  retained I-045/I-090 evidence-strength decisions control the historical wording.
+
 - [x] A1 pressure-node fields (p_p/p_h/P_basket/ΔP_bed) per RC-3 node table
       → `MachineState` p_p/p_h/P_basket/dP_bed + `PumpHeadspace`; SCHEMA 0.3→0.4.
 - [x] foster2025_2 Eqs. 2–7 — t_p=0.823 s, t_s=6.669 s, Fig. 15 flow-minimum

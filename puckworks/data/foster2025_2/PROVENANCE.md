@@ -36,3 +36,17 @@ by checking against the published values (model t_p = 0.027 s, t_s = 5.87 s).
   validates against Fig 12-14, which is the model's own comparison basis.
 
 See `README_digitization.md` for the full digitization methodology + caveats.
+
+## Dated scope correction — 2026-10-03
+
+MODEL-FOSTER2025-POSTSAT-001 preserves the historical entries above. The old
+machine solver stopped at saturation and held H constant afterwards; the old
+Figure 15 flow gate scored only ponding through saturation. Its early passing
+result did not qualify the tail. The corrected existing component integrates
+source Eq. 29/38 and compares both normalized bed inflow and absolute headspace
+pressure through reported 10 s, with dimensional and rounded-fixture cases
+reported separately in `docs/analysis/model_foster2025_postsat_001/`.
+Canonical dataset IDs are `foster2025_2/params`, `foster2025_2/fig15_flow`, and
+`foster2025_2/fig12_14_curves`. No data bytes, roles, rights or fitting changed.
+Figure 15 is equation-generated verification; Figure 12–14 retains the I-045
+post-fit/same-campaign role. PHYSICAL_VALIDATION=NOT_ESTABLISHED.

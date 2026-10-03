@@ -332,11 +332,13 @@ register(Component(
     assumptions="quadratic pump characteristic + laminar pipe + ideal-gas trapped "
                 "headspace; sharp binary front; 3 stages (pre-/post-ponding, post-"
                 "saturation); fine grind only; reported times = model + t_shift",
-    valid_range="fine grind <300um, DeLonghi EC685 nominal pump; the named A1 "
-                "'machine mode' source; validated vs Figs 12-15 CT data",
-    notes="t_p=0.823/t_s=6.665; **Fig 15 flow-minimum reproduced** (Q/Qm=0.181 @2s, "
-          "RMSE 1e-4) = P2 null baseline; s/H match fitted curves to line width + "
-          "bracket 4-5/8 CT points (qualitative-good). Enables RC-3a machine mode"))
+    valid_range="fine grind <300um, DeLonghi EC685 nominal pump; finite supported "
+                "model-time horizon (default 30 s); source-curve reproduction and "
+                "post-fit same-campaign CT observations; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+    notes="MODEL-FOSTER2025-POSTSAT-001 completes Eq.29/38 from actual saturation H; "
+          "separate pump/bed-inlet/outlet water flows and inventories. Figure 15 "
+          "bed inflow and absolute headspace pressure checked through reported 10 s; "
+          "flow_minimum and response-atlas recovery retain their pre-saturation/event scope"))
 
 register(Component(
     name="foster2025.infiltration", stage="infiltration", kind="runtime",

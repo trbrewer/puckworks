@@ -139,6 +139,7 @@ def _cameron_results(cases):
 
 def _foster_results():
     result = foster.solve()
+    foster.require_success(result)
     qmin, tmin = foster.flow_minimum(result)
     tp = result["t_p"] + result["p"].t_shift
     ts = result["t_s"] + result["p"].t_shift
@@ -154,7 +155,7 @@ def _foster_results():
         _cell("foster2025.machine_mode", "MACHINE_REF", "recovery_ratio", "SUPPORTED", "1", recovery, reference_basis="flow at saturation / minimum flow", evidence_strength=common["evidence_strength"], evidence_domain_status=common["evidence_domain_status"]),
         _cell("foster2025.machine_mode", "MACHINE_REF", "first_drip_timing", "UNSUPPORTED_RELATIONSHIP", "s", reason="NO_SATURATION_TO_SCALE_THRESHOLD_OBSERVATION_ADAPTER", adjudicative=False,
               time_basis="SOURCE_EXPERIMENT_FRAME_WITH_FITTED_T_SHIFT", evidence_strength="source_curve_reproduction", evidence_domain_status="NOT_ESTABLISHED_AS_SAME_OBSERVABLE")]
-    return cells, {"role": "FIXED_BED_MACHINE_AND_APPARATUS_NULL",
+    return cells, {**foster.metadata(result), "role": "FIXED_BED_MACHINE_AND_APPARATUS_NULL",
                    "case_id": "MACHINE_REF", "ponding_time_s": tp, "saturation_time_s": ts,
                    "minimum_normalized_flow": qmin, "time_to_flow_minimum_s": tmin,
                    "recovery_ratio": recovery, "first_drip_timing": "UNSUPPORTED_RELATIONSHIP",

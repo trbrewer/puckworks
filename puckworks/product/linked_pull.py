@@ -301,8 +301,8 @@ def _station_machine(ctx: _Ctx):
         ctx.bus["dP_bed_pa"] = drop["dP_bed_pa"]
         ctx.bus["mean_flow_g_s"] = mean_flow
         outs = [
-            _lv("pump_ponding_time", t_p, "s", "Foster model time", VO.MODEL_OUTPUT, source_field="t_p"),
-            _lv("saturation_time", t_s, "s", "Foster model time", VO.MODEL_OUTPUT, source_field="t_s"),
+            _lv("pump_ponding_time", t_p, "s", "Foster reported time (model + fitted shift)", VO.MODEL_OUTPUT, source_field="t_p"),
+            _lv("saturation_time", t_s, "s", "Foster reported time (model + fitted shift)", VO.MODEL_OUTPUT, source_field="t_s"),
             _lv("bed_top_pressure", top["p_top_bar"], "bar-gauge", "headspace/bed-top node",
                 VO.DOCUMENTED_DERIVATION, assumption_ids=("A04",)),
             _lv("bed_pressure_drop", drop["dP_bed_bar"], "bar-gauge", "across-bed node (applied once)",
