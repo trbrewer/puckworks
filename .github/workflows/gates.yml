@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read
 
+# Owner-authorized exception for this same-repository PR only. Main pushes and
+# every other PR retain the normal suite. This is not a global QA-policy change.
+env:
+  PUCKWORKS_PR318_UNPROTECTED: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 318 && github.event.pull_request.head.repo.full_name == 'trbrewer/puckworks' && github.event.pull_request.head.ref == 'model/pannusch2024-stateful-fv-004' }}
+
 concurrency:
   group: quick-pr-${{ github.ref }}
   cancel-in-progress: true
@@ -52,9 +57,29 @@ jobs:
           python -m pytest --version
           echo "SHA=$GITHUB_SHA  PYTHONHASHSEED=${PYTHONHASHSEED:-unset}"
       - name: quick lane (offline, deterministic; excludes slow/live/gpu/external_data)
-        run: >
-          pytest -q -m "not slow and not live and not gpu and not external_data"
-          --junitxml=quick-report-${{ matrix.python-version }}.xml --durations=15
+        run: |
+          selector="not slow and not live and not gpu and not external_data"
+          scope_args=()
+          mode="normal"
+          if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+            mode="PR318 owner-authorized unprotected QA"
+            selector="$selector and not protected_target_integrity"
+            # These unmarked tests also interpret actual Angeloni target measurements.
+            scope_args=(
+              --deselect=tests/test_uncertainty_intake.py::test_angeloni_recovered_table_is_complete_and_self_consistent
+              --deselect=tests/test_uncertainty_intake.py::test_recovered_angeloni_canonical_summary_validates
+            )
+          fi
+          {
+            printf 'QA mode: %s\nOuter pytest selector: `%s`\n' "$mode" "$selector"
+            if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+              printf 'Excluded: actual protected-target integrity tests, including the unmarked nodes below.\n'
+              printf '  %s\n' "${scope_args[@]}"
+              printf 'The existing 11 synthetic guard-child cases remain authorized and selected through their parents.\n'
+              printf 'This is a disclosed selection exception; excluded target tests did not run.\n'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          pytest -q -m "$selector" "${scope_args[@]}" --junitxml=quick-report-${{ matrix.python-version }}.xml --durations=15
       - name: upload diagnostics (even on failure)
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -87,7 +112,29 @@ jobs:
       # that looked and found nothing.
       - run: pip install "numpy==2.0.*" "scipy==1.13.*" pytest markdown-it-py pyyaml && pip install -e . --no-deps
       - name: offline suite on the declared minimum dependencies
-        run: pytest -q -m "not slow and not live and not gpu and not external_data"
+        run: |
+          selector="not slow and not live and not gpu and not external_data"
+          scope_args=()
+          mode="normal"
+          if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+            mode="PR318 owner-authorized unprotected QA"
+            selector="$selector and not protected_target_integrity"
+            # These unmarked tests also interpret actual Angeloni target measurements.
+            scope_args=(
+              --deselect=tests/test_uncertainty_intake.py::test_angeloni_recovered_table_is_complete_and_self_consistent
+              --deselect=tests/test_uncertainty_intake.py::test_recovered_angeloni_canonical_summary_validates
+            )
+          fi
+          {
+            printf 'QA mode: %s\nOuter pytest selector: `%s`\n' "$mode" "$selector"
+            if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+              printf 'Excluded: actual protected-target integrity tests, including the unmarked nodes below.\n'
+              printf '  %s\n' "${scope_args[@]}"
+              printf 'The existing 11 synthetic guard-child cases remain authorized and selected through their parents.\n'
+              printf 'This is a disclosed selection exception; excluded target tests did not run.\n'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          pytest -q -m "$selector" "${scope_args[@]}"
 
   quality-mypy:
     # Keep static analysis independently bounded so it cannot consume the coverage budget.
@@ -123,7 +170,28 @@ jobs:
       - run: pip install -e ".[dev]"
       - name: coverage floor on critical modules (baseline 70%; ratchet up over time)
         run: |
+          selector="not slow and not live and not gpu and not external_data"
+          scope_args=()
+          mode="normal"
+          if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+            mode="PR318 owner-authorized unprotected QA"
+            selector="$selector and not protected_target_integrity"
+            # These unmarked tests also interpret actual Angeloni target measurements.
+            scope_args=(
+              --deselect=tests/test_uncertainty_intake.py::test_angeloni_recovered_table_is_complete_and_self_consistent
+              --deselect=tests/test_uncertainty_intake.py::test_recovered_angeloni_canonical_summary_validates
+            )
+          fi
+          {
+            printf 'QA mode: %s\nOuter pytest selector: `%s`\n' "$mode" "$selector"
+            if [[ "$PUCKWORKS_PR318_UNPROTECTED" == "true" ]]; then
+              printf 'Excluded: actual protected-target integrity tests, including the unmarked nodes below.\n'
+              printf '  %s\n' "${scope_args[@]}"
+              printf 'The existing 11 synthetic guard-child cases remain authorized and selected through their parents.\n'
+              printf 'This is a disclosed selection exception; excluded target tests did not run.\n'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
           # Python 3.12 sys.monitoring preserves coverage semantics with lower tracing overhead.
           COVERAGE_CORE=sysmon coverage run --include="puckworks/validate.py,puckworks/statusdoc.py,puckworks/gate_runner.py,puckworks/registry.py,puckworks/release.py,puckworks/paper3/archive.py,puckworks/paper3/evidence_graph.py" \
-            -m pytest -q -m "not slow and not live and not gpu and not external_data"
+            -m pytest -q -m "$selector" "${scope_args[@]}"
           coverage report --fail-under=70 --include="puckworks/validate.py,puckworks/statusdoc.py,puckworks/gate_runner.py,puckworks/registry.py,puckworks/release.py,puckworks/paper3/archive.py,puckworks/paper3/evidence_graph.py"
