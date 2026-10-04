@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `a8c94caf35bff300519af9bcffb7d4771c5e9553` · **schema** v1 · **generator** v1
+**Commit** `a7b06cba44f23ef8edabb07663936d889df89cdd` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 

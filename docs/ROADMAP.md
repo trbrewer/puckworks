@@ -1,5 +1,7 @@
 # puckworks — docs/ROADMAP.md (rev. 2, incorporating review)
 
+MODEL-PANNUSCH2024-POSITIVE-FV-002: separate cell-centered upwind FV research backend; G2 / NUMERICAL_METHOD_CHANGE. Frozen numerical verification pending. Stacked on unmerged #314; 001 remains INCOMPLETE with all evidence unchanged. [Contract](analysis/model_pannusch2024_positive_fv_002/CONTRACT.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED; no production adoption or successor.
+
 SCI-MD-MASS-DELIVERY-003 is implemented and executed: `SINGLE_ANCHOR_MASS_DELIVERY_INADEQUATE`. Axes A/B/C/D are FAIL/FAIL/PASS/FAIL. Seven fixed arms on 12 fraction-1 anchors and 60 later assays; zero new fits and native EWP runs. SOURCE_INTERNAL; TARGET_EXPOSED; RETROSPECTIVE_EARLY_ASSAY_CONDITIONED_COMPARISON. Research only; production defaults and lock unchanged; physical validation NOT_ESTABLISHED. Both task PRs remain open/unmerged; NO_SUCCESSOR_AUTHORIZED. [Result](analysis/sci_md_mass_delivery_003/RESULT.md).
 
 SCI-MD-MASS-DELIVERY-002 is implemented and executed: [recipe-conditioned result](analysis/sci_md_mass_delivery_002/RESULT.md). MTF conditioning complexity is not earned; all-four-condition adequacy and material gain fail. The setting-aware empirical comparator is also inadequate. G1 / NO_GOVERNING_PHYSICS_CHANGE; research only, no production adoption, physical validation or successor. PR #280 remains open/unmerged for owner disposition. SCI-MD-MASS-DELIVERY-001/#278 is merged; its artifacts remain unchanged.

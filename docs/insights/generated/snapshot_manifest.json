@@ -1,5 +1,5 @@
 {
-  "commit": "a8c94caf35bff300519af9bcffb7d4771c5e9553",
+  "commit": "a7b06cba44f23ef8edabb07663936d889df89cdd",
   "counts": {
     "candidates": 90,
     "entities": 283,
@@ -355,7 +355,7 @@
     },
     {
       "path": "docs/cards/pannusch2024.md",
-      "sha256": "4ab42964edf87225784ae05bb0b96116203d1fd26b577bd2e4035b36c96a87e3"
+      "sha256": "5dc47fbd410d5ae149a68bea393165d882e3e04293a2e3c6d82df26837745159"
     },
     {
       "path": "docs/cards/perticarini2024.md",
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "f3e5fa66d8fbdbf2c703bd2cb0b1fe12b3edf5e777490923d9f0d638f36c61fd"
+      "sha256": "4be688ac3ef4a4d35487868859416b402288384457383bd5abd5bd4981f4cc4f"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "f710110a2461a18910d8c066882fb597600091a8ac239eb839720cc601e76e4c"
+      "sha256": "9cd86538c95db6e6d9352f2ac1fdb2fdd7b634beaab70a7f91888afd6c09ac52"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "07a4608db91d8498866ed3fdd589aa8b69c147ad9d2807b97491224e6f7355ab"
+      "sha256": "07c338d8c0a32fa7e361a018ee8a3e1bcdf8cdaff66378a60e6060d087b6e8e2"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "39447d1e2b728c56da4a33327fd2b90714920bfa6cba03e350db5909023d725d"
+      "sha256": "93bec99043b5725398eca8f5b684f5a5ebe7eaa5cfbc160daf2f7b1ad5c68400"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "27c9ceb6994111a0b7e76034cbc304e35236fc7731a6afe64a9fe6cd422082d8"
+      "sha256": "636eb4fbcfba8bfbbcf3212e3460d1c0ef67ea2085cca0a8b2045d7722af1512"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "1e5640ad5c3764d02572dd475907ee2be0ab57b32ba76d9166a45d9397c9490d"
+      "sha256": "2139b88f6bc0615c4c021cf2ac5aec8c8ab3e7770c2cd7143aaf0afe1c840749"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "a8a8cf93331d895432c7be41f6e06bfef2cb6ba12e5fbf79d2af951fa06f9c1e"
+      "sha256": "675cde898a8b57f15c958b1aa09edd3177b317d7f970cfaefcfe99bd9ad5bf5c"
     }
   ],
   "pack": [
