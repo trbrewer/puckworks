@@ -1,0 +1,415 @@
+{
+  "Cstar_kg_m3": 9.172575,
+  "Mstar_kg": 9.434668779863144e-05,
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "actual_analytic_volume_m3": 4.361049615572386e-09,
+  "actual_mean_Q_m3_s": 1.4547442878225027e-06,
+  "all_28_original_artifact_hashes_verified": true,
+  "analyzed_head": "4b2fae76365d9cd3231c9a694307e5451321034a",
+  "calculation_script_sha256": "39713a5fc62b96f5cc8234a789b84aac4dc44951b086615b6c822655b217bdf2",
+  "change": "NO_GOVERNING_PHYSICS_CHANGE",
+  "disposition": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+  "duration_s": 0.0029978118161921863,
+  "exact_binary64_input_volume_rounded_m3": 4.361049615572385e-09,
+  "failed_gate": "resolved_temporal_decrease",
+  "governance": "G0 documentation addendum to existing G2 task",
+  "history_L": {
+    "flow": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        17.2,
+        30
+      ],
+      "values": [
+        1.2e-06,
+        2.8e-06,
+        1.6e-06
+      ]
+    },
+    "temperature_C": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        11.3,
+        30
+      ],
+      "values": [
+        80,
+        95,
+        86
+      ]
+    }
+  },
+  "hosted_CI": {
+    "blocker": "Required quick contexts have no manual dispatch and select protected_target_integrity tests; verify-generated also has no manual dispatch. The manual paper3-evidence route cannot supply the missing quick/generated contexts. No complete authorized route exists.",
+    "checked_at_UTC": "2026-10-04T20:44:05Z",
+    "disposition": "HOSTED_CI_BLOCKED_BY_SCOPE",
+    "launched_runs": 0,
+    "old_head_runs": 0,
+    "require_code_owner_review": false,
+    "required_approving_reviews": 0,
+    "required_contexts": [
+      "quick (3.10)",
+      "quick (3.12)",
+      "verify-generated",
+      "paper3-scope-strict",
+      "all-scope-strict"
+    ],
+    "ruleset_id": 19053322,
+    "selectors_changed": false,
+    "skip_CI_preserved": true,
+    "snapshot_sha256": {
+      "main-rules.json": "be0f49bdd1a9b1df1596c965ae3af9c3316948af1b8be730c90925e8ece20bb7",
+      "pr-before.json": "f093f5a169d77739d476d87411374eb95850b5d082149ce22b4365a8e29bfa79",
+      "runs-before.json": "ff4da195d9d58f4d20dd56cff57efe1c20464ba4e025b233e957d20f58a31659"
+    },
+    "strict_up_to_date": true,
+    "workflow_changes": 0,
+    "workflow_sha256": {
+      "gates.yml": "27d9a8d1474f549972f177aacd28f078d54700ea4036002c5921cc4bd490deb7",
+      "generated-artifacts.yml": "9dd26e07dcd881e3ebc8c8a31578e3bd6007a937795cfd22e23d9bb6850ccfaf",
+      "paper3-evidence.yml": "1e6df36fe68ac5424527920d851578dc47bb90ce73d6cc5755e54b74ffd5ab3f",
+      "scientific-baseline.yml": "78182e6a4897c92b22ded810f2b7e56300e969fd0d69af5c188630c1c19ee33b",
+      "slow-science.yml": "1c6b4b5bbb9a758752df5eed9916e87c7dd9c8037ea2483f981df2f422fdc4be"
+    }
+  },
+  "input_sha256": {
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CASES.json": "7ab13d901348cd758ee1f3505ef2498dcc51a34d68a6be3cd1b4e069cf2268e4",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/EVIDENCE_REUSE.json": "e49eceed6f898df9115e2c3681142ca68e3f4b9dd1c026c6964832dd4f3c3608",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/HANDOFF.md": "f61a4652372f51a9bd18d8b99f3a2f6603a82d2a47395a197b20dc2acf1b8601",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/INTAKE.json": "cf20f2ec67b0aedba2fb8b7a4b2e07ce6dc252bd3fbca965f9bfa6fb7da6bcbe",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/QA.json": "07a657fee348c71a408f8809429cd7e21f85ea89cad7f12e124394dd9021d0fd",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/RESOURCES.json": "9bdf1a40374f4a86ba3550635ce364f3cacd145ff0474af35014abb57d5ca862",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.json": "54fc78c5a1f0b602f24e938952470bf0ebd0fc96c1c8c2bb7d7d90065bc4248a",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.md": "c8ed25153373f47b3ee197fd0d0729ecd8c4d9d9c5c14d17a9bd81d96a5e8c0e",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/SOURCE_IDENTITIES.json": "0e9f62e5075ab3bddbd1d41319ee403741558ecf29a80a5cf1bd618c8be8733a"
+  },
+  "kind": "SAVED_EVIDENCE_DIAGNOSTIC_NOT_NEW_QUALIFICATION",
+  "levels": [
+    {
+      "GL8_GL4_actual_on_Cstar": -1.3556169206358904e-15,
+      "GL8_GL4_frozen_on_Cstar": -1.30720203061318e-15,
+      "actual_fraction_kg_m3": 3.4224163094025095,
+      "artifact": {
+        "arrays_sha256": "4bafe1869fa3540679f93b574a9255e9d30e16da20d82d10e6915bc8456fa323",
+        "case_id": "D.coarse",
+        "execution_id": "exec-020",
+        "receipt_sha256": "16e3d7a5b91de2b376302a08bcb3d2876e6729b2853d4fa09d5ad00d3d9af485",
+        "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+      },
+      "case_id": "D.coarse",
+      "common_diagnostic_times_in_window_s": [
+        2.737002188183808,
+        2.74
+      ],
+      "common_observations": 86,
+      "common_primary_endpoints": 752,
+      "constant_C_illustration_with_C_equal_reference_fraction_on_Cstar": -7.975478197051825e-05,
+      "endpoint_outlet_error_on_Cstar": [
+        -1.4905892984275918e-07,
+        -1.5010579445527423e-07
+      ],
+      "endpoint_phase_max_errors_on_Cstar": [
+        [
+          2.2019204302452785e-06,
+          9.912823587405623e-07,
+          9.95085270113384e-08
+        ],
+        [
+          2.074964471084983e-06,
+          9.477973323237748e-07,
+          9.395031259502157e-08
+        ]
+      ],
+      "exact_reference_matches_at_candidate_panel_nodes": 0,
+      "frozen_QT_sample_time_s": 2.735159010600707,
+      "frozen_Q_m3_s": 1.4544333963349495e-06,
+      "frozen_Q_max_difference_m3_s": 8.470329472543003e-22,
+      "frozen_Q_over_actual_mean_minus_one": -0.00021370868416925592,
+      "frozen_T_K": 356.78074204946995,
+      "frozen_T_max_difference_K": 5.684341886080802e-14,
+      "h_max_s": 0.04,
+      "maximum_errors_on_fixed_scales": {
+        "coarse": 2.4906760208240305e-07,
+        "fine": 1.7360796931573532e-06,
+        "fractions": 7.990427627844573e-05,
+        "liquid": 6.726205666939632e-05,
+        "origin_mass": 7.775204834865734e-07,
+        "outlet": 1.121382828164102e-06
+      },
+      "owner_endpoints_hex": [
+        "0x1.5b8b7d03cc9e8p+1",
+        "0x1.60a7e48017286p+1"
+      ],
+      "owner_endpoints_s": [
+        2.7151943462897528,
+        2.755123674911661
+      ],
+      "owner_frozen_Q_matches_archive_exactly": true,
+      "owner_step_zero_based": 68,
+      "primary_endpoints_match_archive_exactly": true,
+      "primary_steps": 751,
+      "retained_quadrature": {
+        "4": {
+          "actual_flow_diagnostic_kg_m3": 3.4231478661923207,
+          "actual_minus_reference_on_Cstar": -1.494866134734655e-07,
+          "frozen_check_minus_public_on_Cstar": 1.4040318106586008e-15,
+          "frozen_flow_fraction_kg_m3": 3.4224163094025224,
+          "frozen_minus_actual_on_Cstar": -7.975478966356824e-05,
+          "prefix_panel_subtraction_condition": [
+            15.548814845141434,
+            15.537276310279417
+          ]
+        },
+        "8": {
+          "actual_flow_diagnostic_kg_m3": 3.4231478661923083,
+          "actual_minus_reference_on_Cstar": -1.494866148290824e-07,
+          "frozen_check_minus_public_on_Cstar": 9.682978004542075e-17,
+          "frozen_flow_fraction_kg_m3": 3.4224163094025104,
+          "frozen_minus_actual_on_Cstar": -7.975478966351982e-05,
+          "prefix_panel_subtraction_condition": [
+            15.54881484514149,
+            15.537276310279472
+          ]
+        }
+      },
+      "segment_step_counts": [
+        283,
+        148,
+        320
+      ],
+      "signed_fraction_error_on_Cstar": -7.990427627844573e-05
+    },
+    {
+      "GL8_GL4_actual_on_Cstar": 0.0,
+      "GL8_GL4_frozen_on_Cstar": -6.778084603179452e-16,
+      "actual_fraction_kg_m3": 3.421288027720164,
+      "artifact": {
+        "arrays_sha256": "eb66fa355a46f1d1d72143c2beeaf7a93554a86cc75a265f2da22ba127172e84",
+        "case_id": "D.default",
+        "execution_id": "exec-019",
+        "receipt_sha256": "4d9847b2670411416a11c63c77afbe81670e33306f4bc63769ea1de5054c47df",
+        "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+      },
+      "case_id": "D.default",
+      "common_diagnostic_times_in_window_s": [
+        2.737002188183808,
+        2.74
+      ],
+      "common_observations": 86,
+      "common_primary_endpoints": 1501,
+      "constant_C_illustration_with_C_equal_reference_fraction_on_Cstar": -0.00020286833276202514,
+      "endpoint_outlet_error_on_Cstar": [
+        -4.0441511841216066e-08,
+        -4.358959241210963e-08
+      ],
+      "endpoint_phase_max_errors_on_Cstar": [
+        [
+          2.571049088823747e-07,
+          1.438428841273909e-07,
+          1.157623249907238e-08
+        ],
+        [
+          1.5242078933806375e-07,
+          5.764328329229859e-08,
+          1.0849008074050725e-08
+        ]
+      ],
+      "exact_reference_matches_at_candidate_panel_nodes": 0,
+      "frozen_QT_sample_time_s": 2.7300000000000004,
+      "frozen_Q_m3_s": 1.453953488372093e-06,
+      "frozen_Q_max_difference_m3_s": 8.470329472543003e-22,
+      "frozen_Q_over_actual_mean_minus_one": -0.0005436003131474854,
+      "frozen_T_K": 356.77389380530974,
+      "frozen_T_max_difference_K": 5.684341886080802e-14,
+      "h_max_s": 0.02,
+      "maximum_errors_on_fixed_scales": {
+        "coarse": 5.318314438683323e-08,
+        "fine": 3.905190171275276e-07,
+        "fractions": 0.00020291026776343948,
+        "liquid": 1.7429744177782462e-05,
+        "origin_mass": 1.9318607595343694e-07,
+        "outlet": 2.9167952666990306e-07
+      },
+      "owner_endpoints_hex": [
+        "0x1.5c28f5c28f5c3p+1",
+        "0x1.5eb851eb851ecp+1"
+      ],
+      "owner_endpoints_s": [
+        2.72,
+        2.74
+      ],
+      "owner_frozen_Q_matches_archive_exactly": true,
+      "owner_step_zero_based": 136,
+      "primary_endpoints_match_archive_exactly": true,
+      "primary_steps": 1500,
+      "retained_quadrature": {
+        "4": {
+          "actual_flow_diagnostic_kg_m3": 3.42314885287171,
+          "actual_minus_reference_on_Cstar": -4.1918194648523623e-08,
+          "frozen_check_minus_public_on_Cstar": 3.389042301589726e-16,
+          "frozen_flow_fraction_kg_m3": 3.421288027720167,
+          "frozen_minus_actual_on_Cstar": -0.00020286834956845208,
+          "prefix_panel_subtraction_condition": [
+            12.342835100259945,
+            12.335581985339127
+          ]
+        },
+        "8": {
+          "actual_flow_diagnostic_kg_m3": 3.42314885287171,
+          "actual_minus_reference_on_Cstar": -4.1918194648523623e-08,
+          "frozen_check_minus_public_on_Cstar": -3.389042301589726e-16,
+          "frozen_flow_fraction_kg_m3": 3.421288027720161,
+          "frozen_minus_actual_on_Cstar": -0.00020286834956912986,
+          "prefix_panel_subtraction_condition": [
+            12.342835100259967,
+            12.335581985339127
+          ]
+        }
+      },
+      "segment_step_counts": [
+        565,
+        295,
+        640
+      ],
+      "signed_fraction_error_on_Cstar": -0.00020291026776343948
+    },
+    {
+      "GL8_GL4_actual_on_Cstar": -1.4524467006813112e-16,
+      "GL8_GL4_frozen_on_Cstar": -1.936595600908415e-16,
+      "actual_fraction_kg_m3": 3.422382781025375,
+      "artifact": {
+        "arrays_sha256": "8df5ffc8337f9fe9576bac96fe2be5069d9bf65f4337e94e515b154a6b098399",
+        "case_id": "D.fine",
+        "execution_id": "exec-021",
+        "receipt_sha256": "b151c84d1313ea70ed951834cae5ef9522474feea1ea97a46e13ac6a2af3306a",
+        "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+      },
+      "case_id": "D.fine",
+      "common_diagnostic_times_in_window_s": [
+        2.737002188183808,
+        2.74
+      ],
+      "common_observations": 86,
+      "common_primary_endpoints": 3001,
+      "constant_C_illustration_with_C_equal_reference_fraction_on_Cstar": -8.354937771411622e-05,
+      "endpoint_outlet_error_on_Cstar": [
+        -9.58677960307744e-09,
+        -1.0897431000945178e-08
+      ],
+      "endpoint_phase_max_errors_on_Cstar": [
+        [
+          1.1473382666356865e-07,
+          5.350421997898601e-08,
+          5.186541439313994e-09
+        ],
+        [
+          3.8105219599313486e-08,
+          1.4410746433596129e-08,
+          2.7122073194654678e-09
+        ]
+      ],
+      "exact_reference_matches_at_candidate_panel_nodes": 0,
+      "frozen_QT_sample_time_s": 2.7350000000000003,
+      "frozen_Q_m3_s": 1.4544186046511627e-06,
+      "frozen_Q_max_difference_m3_s": 4.235164736271502e-22,
+      "frozen_Q_over_actual_mean_minus_one": -0.00022387657684330708,
+      "frozen_T_K": 356.7805309734513,
+      "frozen_T_max_difference_K": 5.684341886080802e-14,
+      "h_max_s": 0.01,
+      "maximum_errors_on_fixed_scales": {
+        "coarse": 9.34534795745872e-09,
+        "fine": 9.030526261894844e-08,
+        "fractions": 8.355956142298384e-05,
+        "liquid": 4.032400803178396e-06,
+        "origin_mass": 4.4579741111395996e-08,
+        "outlet": 6.7297993779152e-08
+      },
+      "owner_endpoints_hex": [
+        "0x1.5d70a3d70a3d7p+1",
+        "0x1.5eb851eb851ecp+1"
+      ],
+      "owner_endpoints_s": [
+        2.73,
+        2.74
+      ],
+      "owner_frozen_Q_matches_archive_exactly": true,
+      "owner_step_zero_based": 273,
+      "primary_endpoints_match_archive_exactly": true,
+      "primary_steps": 3000,
+      "retained_quadrature": {
+        "4": {
+          "actual_flow_diagnostic_kg_m3": 3.4231491443013855,
+          "actual_minus_reference_on_Cstar": -1.014634481322693e-08,
+          "frozen_check_minus_public_on_Cstar": 9.682978004542075e-17,
+          "frozen_flow_fraction_kg_m3": 3.4223827810253757,
+          "frozen_minus_actual_on_Cstar": -8.35494150780738e-05,
+          "prefix_panel_subtraction_condition": [
+            5.671483000317187,
+            5.66998941834814
+          ]
+        },
+        "8": {
+          "actual_flow_diagnostic_kg_m3": 3.423149144301384,
+          "actual_minus_reference_on_Cstar": -1.01463449584716e-08,
+          "frozen_check_minus_public_on_Cstar": -9.682978004542075e-17,
+          "frozen_flow_fraction_kg_m3": 3.422382781025374,
+          "frozen_minus_actual_on_Cstar": -8.35494150781222e-05,
+          "prefix_panel_subtraction_condition": [
+            5.671483000317189,
+            5.669989418348142
+          ]
+        }
+      },
+      "segment_step_counts": [
+        1130,
+        590,
+        1280
+      ],
+      "signed_fraction_error_on_Cstar": -8.355956142298384e-05
+    }
+  ],
+  "method": "Independent ceil/linspace schedule; affine history arithmetic; hash-checked NPZ comparisons; weighted sums of already saved quadrature panels. No candidate/reference execution or report regeneration.",
+  "new_integrations": 0,
+  "original_qualification_producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+  "reference": {
+    "arrays_sha256": "c5473e1c7164b020190adbfec3eb45239678efbf4b14960f668540614c8f0eaa",
+    "case_id": "D.caffeine.Radau",
+    "endpoint_masses_kg": [
+      1.3252985729225271e-05,
+      1.3267914252890948e-05
+    ],
+    "endpoint_one_ulp_sum_bound_on_Cstar": 8.469894399994259e-14,
+    "endpoint_subtraction_absolute_condition": 1776.5252998922897,
+    "execution_id": "exec-022",
+    "fraction_kg_m3": 3.4231492373694943,
+    "receipt_sha256": "178d6490ea123cfc44ea8bcd18341541d20ef131e44bcd14c58dbcb74857842a",
+    "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+    "subtraction_roundoff_vs_exact_stored_inputs_on_Cstar": 0.0,
+    "window_mass_kg": 1.4928523665677136e-08
+  },
+  "retained_charged_qualification_wall_s": 781.1377453766763,
+  "retained_integrations": 28,
+  "runtime_accuracy": "NOT_ASSESSED",
+  "scope": "RESEARCH_ONLY",
+  "task": "MODEL-PANNUSCH2024-STATEFUL-FV-004",
+  "unavailable": [
+    "Radau dense interpolant and evaluations at candidate GL4/GL8 nodes were not retained. No new reference values were interpolated.",
+    "Original direct fraction window_parts were not separately serialized; the public fraction and independently saved flux panels are available.",
+    "A same-node decomposition into pure chemical evolution and reference integration error is unavailable."
+  ],
+  "union_knots_s": [
+    0,
+    11.3,
+    17.2,
+    30
+  ],
+  "unused_correction_slots": 4,
+  "window_midpoint_s": 2.7385010940919043,
+  "window_s": [
+    2.737002188183808,
+    2.74
+  ]
+}
