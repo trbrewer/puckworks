@@ -1,0 +1,32 @@
+{
+  "task": "MODEL-PANNUSCH2024-POSITIVE-FV-002",
+  "governance": "G2",
+  "change": "NUMERICAL_METHOD_CHANGE",
+  "parent_head": "c7310ea1ac6c41ec2cb8f918584ab41cb485fa60",
+  "parent_numerical_producer": "a8c94caf35bff300519af9bcffb7d4771c5e9553",
+  "main": "95f6b54f1f00fda100fad9c994ac99037e50f801",
+  "ewp_main_read_only": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+  "dependency": "OPEN_DRAFT_UNMERGED_PR_314",
+  "overlap_check": "No matching issue/PR/branch or FV-named file in inspected local worktrees",
+  "scope": "Equation/parameter authority only; no new empirical scoring or observation inputs",
+  "canonical_ids": [
+    "pannusch2024/table2_params",
+    "pannusch2024/experimental_kinetics",
+    "pannusch2024 (Mendeley repo)"
+  ],
+  "source_inspection": "Reuse hash-bound original MATLAB text inspections from 001; originals not executed or redistributed. Parameter/provenance records read for 002. No new source acquisition.",
+  "source_receipt_sha256": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+  "preserved_parent_bundle": {
+    "CASES.json": "531d56444a15a197d75b05be27fc107a0792f60893945871135bbb18061b9a5e",
+    "CONTRACT.md": "81e6ec4eabc483068e8c72e505b42d1869f8ff01b09e2d02847f55955ead38fe",
+    "DATA_PREFLIGHT.json": "c71d1b31528401a4db243741ea8ad3ee2d88ba755570721a710380fdf71c019f",
+    "HANDOFF.md": "ba6f62c9a7455ab54969cbd27f4df2d717ddff1315f397dc4579210b665a335f",
+    "RESULTS.json": "8a7aed6a6499e03221255d187f3a5116d2c6d3d4d16be07f1233817b145d6a7c",
+    "RESULTS.md": "1a2f514849aa7ba0e006ddd7fd25fc0b61b1515cb3f0c725b359e1d0a8a5812f",
+    "SOURCE_IDENTITIES.json": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+    "VALIDATION_CORRECTION.json": "2344a2033e760b75dd91ad513eb2ed64be79769de17648d220239e3dbf8f4fc6"
+  },
+  "rights": "Pannusch et al. DOI 10.1016/j.jfoodeng.2023.111887; author code/data DOI 10.17632/y2tz67f6ry.1; source-derived material CC-BY-NC-3.0, separately from first-party software licensing",
+  "flow_authority": "EWP #132 FLOW_AUTHORITY_INELIGIBLE / #134 H_UNRESOLVED unchanged; Q prescribed numerically",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}

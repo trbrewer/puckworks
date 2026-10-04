@@ -1,0 +1,42 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "all_28_numerical_identities_unchanged": true,
+  "corrected_runner_sha256": "0269e512ea69bdb1d513923dd3af849cf734f631e13e7d4c4c4aea085ec19263",
+  "detail": "Reducer drops a case after reduction failure and omits private OSError paths. The corrected reducer text was briefly present during execution; saved whole-file hashes identify those launches. All 28 candidate/reference/worker/resource/forcing/observer hashes match exactly; reducer was not invoked by execution. No full-bed rerun or correction slot consumed.",
+  "original_numerical_producer": "6311be0220d9cf1f62c10be9ad5d2813aabba654",
+  "runner_file_versions": {
+    "0269e512ea69bdb1d513923dd3af849cf734f631e13e7d4c4c4aea085ec19263": [
+      "exec-017",
+      "exec-018"
+    ],
+    "863bb259472a88c7455ab6944e78a94e3508251b2b5e7a47adb6656128785105": [
+      "exec-001",
+      "exec-002",
+      "exec-003",
+      "exec-004",
+      "exec-005",
+      "exec-006",
+      "exec-007",
+      "exec-008",
+      "exec-009",
+      "exec-010",
+      "exec-011",
+      "exec-012",
+      "exec-013",
+      "exec-014",
+      "exec-015",
+      "exec-016",
+      "exec-019",
+      "exec-020",
+      "exec-021",
+      "exec-022",
+      "exec-023",
+      "exec-024",
+      "exec-025",
+      "exec-026",
+      "exec-027",
+      "exec-028"
+    ]
+  },
+  "scope": "G0 saved-report failure handling only; no numerical execution or metric change"
+}

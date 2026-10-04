@@ -422,6 +422,21 @@
       "issue_or_pr": "#313",
       "verified_commit": null,
       "verified_date": null
+    },
+    {
+      "id": "model-pannusch2024-positive-fv-002",
+      "title": "Separate conservative positive FV prescribed-temperature backend (G2 / NUMERICAL_METHOD_CHANGE)",
+      "area": "pannusch2024-research",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Declared-case numerical qualification VERIFIED; finish separate QA/hosted-CI/exact-head review receipts and leave stacked draft unmerged",
+      "acceptance_evidence": "docs/analysis/model_pannusch2024_positive_fv_002/RESULTS.md; 28 cases; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "issue_or_pr": null,
+      "verified_commit": null,
+      "verified_date": null
     }
   ]
 }

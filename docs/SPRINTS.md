@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+MODEL-PANNUSCH2024-POSITIVE-FV-002: separate cell-centered upwind FV research backend; G2 / NUMERICAL_METHOD_CHANGE. Declared-case numerical qualification VERIFIED (28 executions); software QA, hosted CI and independent review are separate receipts. Stacked on unmerged #314; 001 remains INCOMPLETE with all evidence unchanged. [Result](analysis/model_pannusch2024_positive_fv_002/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED; no production adoption or successor.
+
 - [x] MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313: additive prescribed uniform T(t)
   at fixed SI Q; implementation and 27-case numerical campaign complete. Full
   qualification INCOMPLETE: step-state agreement, positivity and budget quadrature

@@ -251,3 +251,20 @@ mapping are not established. Its tail is `EMPIRICALLY_RESOLVED_MEASURED_TAIL`, n
 proof of exhaustion. Lot and roast batch remain unresolved. The March campaign is
 source-designated prediction, campaign-separated, target-exposed, source-internal,
 and not independent validation. See `PANNUSCH_RAW_REPRO_001_REPORT.md`.
+
+
+## Separate research finite-volume backend (002)
+
+MODEL-PANNUSCH2024-POSITIVE-FV-002 is an explicitly authorized G2 /
+NUMERICAL_METHOD_CHANGE, stacked on unmerged #314. It retains the continuum
+model and source parameters but uses cell-centered first-order upwind finite
+volumes and exponential midpoint propagation of phase masses. Prescribed
+spatially uniform T(t) is not a solved/measured thermal field. Numerical qualification
+is VERIFIED only for the 28 declared cases/settings: sampled positivity, inventory,
+temporal and spatial accuracy gates pass. Software QA, CI and review are separate;
+physical validation remains NOT_ESTABLISHED. Conservation/positivity alone are
+not accuracy evidence.
+The 001 INCOMPLETE disposition and all its evidence remain unchanged. No registry
+promotion, production-default change, coupling or successor follows.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. See
+[002 results](../analysis/model_pannusch2024_positive_fv_002/RESULTS.md).
