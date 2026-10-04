@@ -1,6 +1,8 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
-MODEL-PANNUSCH2024-POSITIVE-FV-002: separate cell-centered upwind FV research backend; G2 / NUMERICAL_METHOD_CHANGE. Declared-case numerical qualification VERIFIED (28 executions); software QA, hosted CI and independent review are separate receipts. Stacked on unmerged #314; 001 remains INCOMPLETE with all evidence unchanged. [Result](analysis/model_pannusch2024_positive_fv_002/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED; no production adoption or successor.
+MODEL-PANNUSCH2024-FLOW-TEMP-FV-003 / #316: additive joint prescribed Q(t)/uniform T(t) cell-average FV research API. **VERIFIED_ON_DECLARED_CASES** across the fixed 32 executions; no failed/partial trajectory or correction replay. New joint-linear temporal budget 5e-4 (worst default/Radau 8.20e-5), distinct from unchanged 002 temperature-only 1e-6. G2 / NUMERICAL_METHOD_CHANGE; RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED. [Results](analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.md). Separate QA/CI/exact-head review receipts; draft PR owner disposition, no merge or successor.
+
+MODEL-PANNUSCH2024-POSITIVE-FV-002: separate cell-centered upwind FV research backend; G2 / NUMERICAL_METHOD_CHANGE. Declared-case numerical qualification VERIFIED (28 executions); software QA, hosted CI and independent review are separate receipts. PR #315 merged at 1d780b7fb57df4693e22e564010c891602df119d; 001 PR #314 merged at 1e9f85a5e42d206baf05a0a95aa81847d506c9d5 and remains numerically INCOMPLETE with all evidence unchanged. [Result](analysis/model_pannusch2024_positive_fv_002/RESULTS.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED; no production adoption or successor.
 
 - [x] MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313: additive prescribed uniform T(t)
   at fixed SI Q; implementation and 27-case numerical campaign complete. Full

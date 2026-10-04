@@ -1,0 +1,574 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "allowances": {
+    "GL8_GL4_each_flux_Mstar": 1e-06,
+    "comparison_resolution_floor": 1e-10,
+    "constant_compatibility": 1e-12,
+    "generator_rate": 1e-12,
+    "inventory_Mstar": 1e-08,
+    "joint_linear_temporal": 0.0005,
+    "joint_step": 1e-08,
+    "mass_monotonicity_Mstar": 1e-10,
+    "numerical_flux_Mstar": 1e-06,
+    "passive_L1": 0.05,
+    "passive_postexit_inventory_error": 0.05,
+    "passive_preexit_order_min": 0.8,
+    "prescribed_flux_Mstar": 0.0005,
+    "spatial_fraction_Cstar": 0.005,
+    "spatial_outlet_Mstar": 0.005,
+    "spatial_weighted_field_Mstar": 0.005,
+    "undershoot_Cstar": 1e-10,
+    "volume_Vstar": 1e-12
+  },
+  "cases": [
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.caffeine.FV",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.caffeine.OLD_FV",
+      "method": "OLD_FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.trigonelline.FV",
+      "method": "FV",
+      "solute": "trigonelline",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.trigonelline.OLD_FV",
+      "method": "OLD_FV",
+      "solute": "trigonelline",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.5CQA.FV",
+      "method": "FV",
+      "solute": "5CQA",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.5CQA.OLD_FV",
+      "method": "OLD_FV",
+      "solute": "5CQA",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.tds.FV",
+      "method": "FV",
+      "solute": "tds",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "flow": "Q_constant",
+      "h_max_s": 0.02,
+      "id": "A.tds.OLD_FV",
+      "method": "OLD_FV",
+      "solute": "tds",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.caffeine.FV",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.caffeine.ORDERED",
+      "method": "ORDERED",
+      "solute": "caffeine",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.trigonelline.FV",
+      "method": "FV",
+      "solute": "trigonelline",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.trigonelline.ORDERED",
+      "method": "ORDERED",
+      "solute": "trigonelline",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.5CQA.FV",
+      "method": "FV",
+      "solute": "5CQA",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.5CQA.ORDERED",
+      "method": "ORDERED",
+      "solute": "5CQA",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.tds.FV",
+      "method": "FV",
+      "solute": "tds",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "B.tds.ORDERED",
+      "method": "ORDERED",
+      "solute": "tds",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_up",
+      "h_max_s": 0.04,
+      "id": "C.up.coarse",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "C.up.default",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_up",
+      "h_max_s": 0.01,
+      "id": "C.up.finer",
+      "method": "FV",
+      "resource_overrides": {
+        "max_diagnostic_samples": 100000,
+        "max_exponential_applications": 150000
+      },
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "C.up.Radau",
+      "method": "Radau",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_down",
+      "h_max_s": 0.04,
+      "id": "C.down.coarse",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_down"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_down",
+      "h_max_s": 0.02,
+      "id": "C.down.default",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_down"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_down",
+      "h_max_s": 0.01,
+      "id": "C.down.finer",
+      "method": "FV",
+      "resource_overrides": {
+        "max_diagnostic_samples": 100000,
+        "max_exponential_applications": 150000
+      },
+      "solute": "caffeine",
+      "temperature": "T_down"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "flow": "Q_down",
+      "h_max_s": 0.02,
+      "id": "C.down.Radau",
+      "method": "Radau",
+      "solute": "caffeine",
+      "temperature": "T_down"
+    },
+    {
+      "cells": 200,
+      "family": "D",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "D.up.200",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 200,
+      "family": "D",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "D.trigonelline.200",
+      "method": "FV",
+      "solute": "trigonelline",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 800,
+      "family": "D",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "D.up.800",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 800,
+      "family": "D",
+      "flow": "Q_step",
+      "h_max_s": 0.02,
+      "id": "D.trigonelline.800",
+      "method": "FV",
+      "solute": "trigonelline",
+      "temperature": "T_step"
+    },
+    {
+      "cells": 400,
+      "family": "E",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "E.repeat.up",
+      "method": "FV",
+      "solute": "caffeine",
+      "temperature": "T_up"
+    },
+    {
+      "cells": 32,
+      "family": "F",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "F.passive.32",
+      "method": "PASSIVE",
+      "solute": "PASSIVE_TEST_ONLY",
+      "temperature": "T_passive"
+    },
+    {
+      "cells": 64,
+      "family": "F",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "F.passive.64",
+      "method": "PASSIVE",
+      "solute": "PASSIVE_TEST_ONLY",
+      "temperature": "T_passive"
+    },
+    {
+      "cells": 128,
+      "family": "F",
+      "flow": "Q_up",
+      "h_max_s": 0.02,
+      "id": "F.passive.128",
+      "method": "PASSIVE",
+      "solute": "PASSIVE_TEST_ONLY",
+      "temperature": "T_passive"
+    }
+  ],
+  "change": "NUMERICAL_METHOD_CHANGE",
+  "claim_ceiling": "RESEARCH_ONLY",
+  "derived_windows_s": [
+    [
+      7,
+      19
+    ],
+    [
+      20,
+      30
+    ],
+    [
+      5,
+      25
+    ]
+  ],
+  "diagnostic_step_s": 0.0125,
+  "early_times_s": [
+    1e-06,
+    0.0001,
+    0.001,
+    0.005,
+    0.01
+  ],
+  "fraction_bounds_s": [
+    0,
+    1,
+    5,
+    10,
+    17,
+    20,
+    25,
+    30
+  ],
+  "governance": "G2",
+  "grind": 1.7,
+  "histories": {
+    "Q_constant": {
+      "kind": "constant",
+      "times_s": [
+        0,
+        30
+      ],
+      "values": [
+        2e-06
+      ]
+    },
+    "Q_down": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        5,
+        13,
+        23,
+        30
+      ],
+      "values": [
+        3e-06,
+        2.5e-06,
+        1.8e-06,
+        1.3e-06,
+        1e-06
+      ]
+    },
+    "Q_step": {
+      "kind": "constant",
+      "times_s": [
+        0,
+        5,
+        13,
+        23,
+        30
+      ],
+      "values": [
+        1e-06,
+        3e-06,
+        2e-06,
+        1.5e-06
+      ]
+    },
+    "Q_up": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        5,
+        13,
+        23,
+        30
+      ],
+      "values": [
+        1e-06,
+        1.3e-06,
+        1.8e-06,
+        2.5e-06,
+        3e-06
+      ]
+    },
+    "T_down": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        7,
+        19,
+        30
+      ],
+      "values": [
+        371.15,
+        366.15,
+        357.15,
+        353.15
+      ]
+    },
+    "T_passive": {
+      "kind": "constant",
+      "times_s": [
+        0,
+        30
+      ],
+      "values": [
+        361.15
+      ]
+    },
+    "T_step": {
+      "kind": "constant",
+      "times_s": [
+        0,
+        7,
+        19,
+        30
+      ],
+      "values": [
+        353.15,
+        371.15,
+        362.15
+      ]
+    },
+    "T_up": {
+      "kind": "linear",
+      "times_s": [
+        0,
+        7,
+        19,
+        30
+      ],
+      "values": [
+        353.15,
+        358.15,
+        367.15,
+        371.15
+      ]
+    }
+  },
+  "limits": {
+    "aggregate_numerical_wall_s": 1800,
+    "blas_threads": 1,
+    "correction_reserve": 4,
+    "executions": 36,
+    "max_diagnostic_samples": 60000,
+    "max_exponential_applications": 100000,
+    "max_state_values": 30000000,
+    "max_steps": 10000,
+    "per_execution_wall_s": 120,
+    "planned": 32,
+    "workers": 1
+  },
+  "norms": {
+    "Mout": "max abs/Mstar",
+    "aggregate_temporal": "maximum of phase/outlet/Mout/fraction normalized errors; resolved maxima decrease",
+    "fractions": "each abs/Cstar and maximum",
+    "outlet": "max abs/Cstar",
+    "passive": "mean absolute liquid cell average error / C0",
+    "phase": "max abs/Cstar separately for liquid/fine/coarse",
+    "spatial": "paired fine-cell mean then phase-capacity-weighted absolute L1 / Mstar",
+    "volume": "max abs/Vstar"
+  },
+  "observations": {
+    "grid_end_s": 30,
+    "grid_start_s": 0,
+    "grid_step_s": 0.0125,
+    "interior_knots_s": [
+      5,
+      7,
+      13,
+      19,
+      23
+    ],
+    "knot_probes_s": [
+      -1e-08,
+      0,
+      1e-08
+    ],
+    "rule": "Sorted exact deduplicated union of grid, knot/probes, early times, fraction and derived endpoints"
+  },
+  "passive": {
+    "C0_kg_m3": 1,
+    "displacements_over_L": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1.25
+    ],
+    "initial": "Exact cell averages from clipped sine-squared primitive",
+    "time_rule": "Independent piecewise analytic volume inversion; final time ends run",
+    "zero_exchange": "PRIVATE_MANUFACTURED_SEAM_ONLY"
+  },
+  "radau": {
+    "max_step_s": 0.02,
+    "rtol": 2e-12,
+    "scaled_atol": 2e-14
+  },
+  "reference_endpoint_h_s": [
+    0.04,
+    0.02,
+    0.01
+  ],
+  "t_span_s": [
+    0,
+    30
+  ],
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003"
+}

@@ -1,0 +1,30 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "actually_inspected": "Repository card, equations/closures/parameters, provenance and catalog metadata; original MATLAB inspections reused by hash from 001; no new original/native/assay inspection",
+  "bases": {
+    "ewp_read_only": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+    "puckworks": "1d780b7fb57df4693e22e564010c891602df119d"
+  },
+  "canonical_ids": [
+    "pannusch2024/table2_params",
+    "pannusch2024/experimental_kinetics",
+    "pannusch2024 (Mendeley repo)"
+  ],
+  "change": "NUMERICAL_METHOD_CHANGE",
+  "flow_mapping": "FLOW_AUTHORITY_INELIGIBLE; preserve independently supplied SI histories, no experimental reconstruction",
+  "governance": "G2",
+  "overlap": "No active overlapping work found in open issues/PRs, remote branches or accessible registered Puckworks worktrees; historical review cleanup deletions are unrelated",
+  "preflight": "EXISTING_DATA_SUFFICIENT_FOR_CURRENT_NUMERICAL_DECISION",
+  "rights": "Pannusch et al. DOI 10.1016/j.jfoodeng.2023.111887; Mendeley DOI 10.17632/y2tz67f6ry.1; source-derived outputs CC-BY-NC-3.0 separately from first-party software licensing",
+  "source_hashes": {
+    "docs/analysis/model_pannusch2024_positive_fv_002/INTAKE.json": "8be0a3ec682534aa0b498293ce9ff3d98de2cad277bf0f11aa83cabc873c168b",
+    "docs/analysis/model_pannusch2024_positive_fv_002/SOURCE_IDENTITIES.json": "211b3dbe72fb767c96cad016c74c3f4af1ad7396c48c6976efe5569f0f798c40",
+    "docs/analysis/model_pannusch2024_temp_history_001/DATA_PREFLIGHT.json": "c71d1b31528401a4db243741ea8ad3ee2d88ba755570721a710380fdf71c019f",
+    "docs/analysis/model_pannusch2024_temp_history_001/SOURCE_IDENTITIES.json": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "puckworks/data/MANIFEST.csv": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+  },
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003"
+}
