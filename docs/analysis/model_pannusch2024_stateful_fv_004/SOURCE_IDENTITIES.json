@@ -21,6 +21,12 @@
   },
   "base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
   "freeze_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+  "input_boundary_correction": {
+    "code_commit": "fb7b9d38a75d4050742a6690117b86d7ec62fc3c",
+    "original_numerical_producer_unchanged": true,
+    "reuse_proof": "EVIDENCE_REUSE.json",
+    "runtime_sha256": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed"
+  },
   "preserved_file_sha256": {
     ".github/workflows/codespaces-ci.yml": "37ca6aff4abfda48031e82a728503c97170b18250ee3ee556d4aeb3768413297",
     ".github/workflows/editorial-reminders.yml": "90393b1131dd40bcaf1815638ce0a3d1558c675abdf78d46affcec15a3f5d90c",

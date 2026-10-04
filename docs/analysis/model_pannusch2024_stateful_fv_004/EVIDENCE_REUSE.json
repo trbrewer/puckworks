@@ -1,0 +1,394 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "changed_identity_pairs": {
+    "puckworks/models/pannusch2024/stateful_fv.py": {
+      "corrected": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+      "original": "177bd2782e9fbbfbca0493d8518b890ef9f31636b66b877bad6eb0411817abb6"
+    },
+    "worker_and_reservation_blocks": {
+      "corrected": "6e54524b2691da9cc84006226684e5b0b660170bfe118802180388a5b1007596",
+      "original": "cd2a874e6b22b157ddd74c94a24fc79cf07ecb955c3e12781a31207b2eaf8cea"
+    }
+  },
+  "checkpoints": "Source identities change. Retained frozen checkpoints are evidence at their actual producer head, not migration inputs for the corrected public API. No old checkpoint is relabelled, migrated or decoded by the corrected solver.",
+  "constructor_cases": [
+    {
+      "case_id": "A.caffeine.EQUILIBRIUM",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 0.00025128038356315286,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "A.trigonelline.EQUILIBRIUM",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 0.0001134634861846057,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "A.5CQA.EQUILIBRIUM",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 0.00015053839113524743,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "A.tds.EQUILIBRIUM",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 0.004662312359693948,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "B.caffeine.U",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "B.trigonelline.U",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 3.660302054409868e-05,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "B.5CQA.U",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 5.442406157272906e-05,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "B.tds.U",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 0.0015899164054954556,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "C.caffeine.PREFIX",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959"
+    },
+    {
+      "case_id": "D.default",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "3806f378c4dca18fa0e6e2f6ac225b44f77e465453dbadb5a0439cdfbfefeaf2"
+    },
+    {
+      "case_id": "D.coarse",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "841bb77b417d7d41f8d1e4da046dd962495f63294800480c19191ba55ee29bfe"
+    },
+    {
+      "case_id": "D.fine",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "63d07be6de56468d52528f66e5ebb9811b78886c849dc96894779f9b1c140e33"
+    },
+    {
+      "case_id": "D.N800",
+      "cells": 800,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "e6a9528ff5e9f914a744fba9b2610463143f460afc3bfe7d4a683b0d0496718c"
+    },
+    {
+      "case_id": "D.caffeine.PREFIX",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "3806f378c4dca18fa0e6e2f6ac225b44f77e465453dbadb5a0439cdfbfefeaf2"
+    },
+    {
+      "case_id": "F.repeat",
+      "cells": 400,
+      "fields_and_masses_bitwise_equal": true,
+      "inventory_kg": 9.434668779863142e-05,
+      "plan_sha256": "3806f378c4dca18fa0e6e2f6ac225b44f77e465453dbadb5a0439cdfbfefeaf2"
+    }
+  ],
+  "constructor_proof_script_sha256": "9eb827477a6c996c85efbabdf0aae79ff9c83885f3d6e0bbec18ebcc84769107",
+  "corrected_code_commit": "fb7b9d38a75d4050742a6690117b86d7ec62fc3c",
+  "corrected_producer_identities": {
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CASES.json": "7ab13d901348cd758ee1f3505ef2498dcc51a34d68a6be3cd1b4e069cf2268e4",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+    "pinned_base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+    "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9",
+    "worker_and_reservation_blocks": "6e54524b2691da9cc84006226684e5b0b660170bfe118802180388a5b1007596"
+  },
+  "corrected_runtime_sha256": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+  "integrations": 0,
+  "justification": "Only constructor rejecting guards changed runtime bytes. Every declared fresh binary64 field, phase mass and inventory is bitwise identical. Propagation, schedule, report accounting arithmetic, reference, contract and cases are unchanged. Loader accepts only the exact original/corrected identity pair recorded here; metric native-float conversion and producer-attribution reporting are separate report-only changes.",
+  "original_artifacts": [
+    {
+      "arrays_sha256": "3f97a0136e5f1de013bccebba35b042d22e051c2f40224463601a31389b4a37c",
+      "case_id": "A.caffeine.BASE_003",
+      "execution_id": "exec-001",
+      "receipt_sha256": "7830b86cb36086bcaee8ba7485bc2e6ee75d2bfb4b88099fef00442761076337",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "357d59a106d351d8b2b31fdf53fdcbdcf03695a83c3f4c366ed371f3a7f1387a",
+      "case_id": "A.caffeine.EQUILIBRIUM",
+      "execution_id": "exec-002",
+      "receipt_sha256": "31d9832a2eb9c375e8c09b3f06796e56577126f8dfcd8b732ed06df218eba571",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "05bcb315a0481114f5965962911372e84df32517ab4d787f79ef8b6e4c591ec1",
+      "case_id": "A.trigonelline.BASE_003",
+      "execution_id": "exec-003",
+      "receipt_sha256": "ac7d1712cff18543ab9b8991c1f68cbb393ea33ea086b389fae8f38281a7ff83",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "d4af468e756e5b1108c0b91d4b92258e287fe0a3f497a163f664bf795fdb703a",
+      "case_id": "A.trigonelline.EQUILIBRIUM",
+      "execution_id": "exec-004",
+      "receipt_sha256": "284d7d8b194c72b2c87d6c64f036f3d841f537d1c74b42863ecdfc7cb15fdedd",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "856940d0b986a99e4e9e861502ca03b692c819e3bdc757044ae37a2c8b0da5db",
+      "case_id": "A.5CQA.BASE_003",
+      "execution_id": "exec-005",
+      "receipt_sha256": "b5c530004ebab8bcb94c63371fe92a01ffd5fbfe0775b66b249976f943745fd2",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "bf41ef34970015ebe399160eff9215430e749fb8ba9de6732c245ad03c8a0ca3",
+      "case_id": "A.5CQA.EQUILIBRIUM",
+      "execution_id": "exec-006",
+      "receipt_sha256": "478302f08fd87200849f132859f147b7e071f5544183b7e2d1fa3bb06a72c6d0",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "c80ed69439874ec492c41619e43f992bb7f6aa36308fdfc8c26dcd8c63c27f53",
+      "case_id": "A.tds.BASE_003",
+      "execution_id": "exec-007",
+      "receipt_sha256": "28adbe08cca84bf83c8a603fd53584c1e6dc73500810dce6519351e767416014",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "608feb4899b38a8f8f56a057bb8c4c5820dc265bbb28fd7112c5d347ba3c6986",
+      "case_id": "A.tds.EQUILIBRIUM",
+      "execution_id": "exec-008",
+      "receipt_sha256": "e69ff37c56fa2fadb2404801f4757f06d63592538c415432e34c2aec31d6bca3",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "f5baf8a1d0a4eb7604c213f78076e9cd518890fe48fb16722e4e8b47b2e01dbf",
+      "case_id": "B.caffeine.U",
+      "execution_id": "exec-009",
+      "receipt_sha256": "78eed0e1be91751167c6420a9a47f0d5aa2674f76841fad14ff40974331c3143",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "0d03727dc8784a2e3dfd7814b8bdefde84fceeb279c30a1ca6dcf409699c5ee7",
+      "case_id": "B.caffeine.ORDERED",
+      "execution_id": "exec-010",
+      "receipt_sha256": "7d7df7228eb6bdddfc9d399b5ed4c18b66f332e7628fe69d552a12d8b945618f",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "f7fa1d0c73af545013ee295c28910cb22c72b766a02dc0d5810892c91fad1af8",
+      "case_id": "B.trigonelline.U",
+      "execution_id": "exec-011",
+      "receipt_sha256": "2ca8961d10976d7a29aa4b616ae427a0f8fe9a18bc8a63d00fcfedc6d72bd134",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "8b956f21909589ce2af043379534e4ab86695baa3c1e930a5dbe4ab35cbd3f65",
+      "case_id": "B.trigonelline.ORDERED",
+      "execution_id": "exec-012",
+      "receipt_sha256": "35294695abe6bdc478df3b9491b026df260cfe3b169cdaff3e24f00cc8564e3e",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "95b55ac7a49ca6b3b6aba226bc0cbaa44f50c25fda94f0d3cb83989d2148a51f",
+      "case_id": "B.5CQA.U",
+      "execution_id": "exec-013",
+      "receipt_sha256": "ea42d1647c0475e37e3ff6a4bafe183f8ad43fd9d75e4a05b6c3938dfbc79e34",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "29955e2e88fa4be4f94769c4fa46bfba49add0d6c9d994fe41742782485f94da",
+      "case_id": "B.5CQA.ORDERED",
+      "execution_id": "exec-014",
+      "receipt_sha256": "4c3a952f7f3478d3bef1d09cd8f335377c99e949cb6993991b331f37b0939748",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "ceb490719ce1f2de7cb26a7c00973ab3b7f240051073c7cbc92367a534afc555",
+      "case_id": "B.tds.U",
+      "execution_id": "exec-015",
+      "receipt_sha256": "4020645d0648582452d748653df3bafff76b1d36832476fc88be1d9368074693",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "4b055021beeb4922e38d03d6e8010ca61edac76471675695c2ceef287414e5c3",
+      "case_id": "B.tds.ORDERED",
+      "execution_id": "exec-016",
+      "receipt_sha256": "6bbd653b79f96a51831c322df4740f5da77f25f58abe1747339609e275f47a04",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "806dd4306853ccb699983c101e2e7f81b21e9de7380e3d184d777140eb7e1716",
+      "case_id": "C.caffeine.PREFIX",
+      "execution_id": "exec-017",
+      "receipt_sha256": "3b6e58888da4c5af240a5ab383fbcfd5deb3476b0500cd4bc1c99e2bca1d93cd",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "38445cf0f1d7fb4db201eb15d922e7bc7d1735007b9bbf1d3ef55144965605b8",
+      "case_id": "C.caffeine.RESUME",
+      "execution_id": "exec-018",
+      "receipt_sha256": "0b0aee38cb7c3d57ef64ad81b24ee3bd5e5f19e7995eca3b49a7755389747986",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "eb66fa355a46f1d1d72143c2beeaf7a93554a86cc75a265f2da22ba127172e84",
+      "case_id": "D.default",
+      "execution_id": "exec-019",
+      "receipt_sha256": "4d9847b2670411416a11c63c77afbe81670e33306f4bc63769ea1de5054c47df",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "4bafe1869fa3540679f93b574a9255e9d30e16da20d82d10e6915bc8456fa323",
+      "case_id": "D.coarse",
+      "execution_id": "exec-020",
+      "receipt_sha256": "16e3d7a5b91de2b376302a08bcb3d2876e6729b2853d4fa09d5ad00d3d9af485",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "8df5ffc8337f9fe9576bac96fe2be5069d9bf65f4337e94e515b154a6b098399",
+      "case_id": "D.fine",
+      "execution_id": "exec-021",
+      "receipt_sha256": "b151c84d1313ea70ed951834cae5ef9522474feea1ea97a46e13ac6a2af3306a",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "c5473e1c7164b020190adbfec3eb45239678efbf4b14960f668540614c8f0eaa",
+      "case_id": "D.caffeine.Radau",
+      "execution_id": "exec-022",
+      "receipt_sha256": "178d6490ea123cfc44ea8bcd18341541d20ef131e44bcd14c58dbcb74857842a",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "eed04aae6d81327fe50a16e0ba8ae3e4b4186d8880bc94df3e4165ff30858ea1",
+      "case_id": "D.N800",
+      "execution_id": "exec-023",
+      "receipt_sha256": "b2b3c606864a345a77a9c94e37936a337cfd22abc76076ef7ec447eac0b6e181",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "590ba6e5c9f6c4ef34f30d0e47f7eb04cc06dc75bc48a6b0ba849af062661570",
+      "case_id": "D.caffeine.PREFIX",
+      "execution_id": "exec-024",
+      "receipt_sha256": "4371af26a2279b186ceb4945567336c679148d4d1cd29b8a3d0ee8730999a41e",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "cddec2705f9ec3761da26194b736e30c05d283491e125f2641d9cbfacff79af4",
+      "case_id": "D.caffeine.RESUME",
+      "execution_id": "exec-025",
+      "receipt_sha256": "2b6567d3d138cd037313ddd735a8968039468601eed54619b85cf1cf1a528a19",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "e21964d638ef40a4619bc2df13d3263d465359bd664c0c0876e9d924ee521472",
+      "case_id": "E.caffeine.BRANCH",
+      "execution_id": "exec-026",
+      "receipt_sha256": "df5a89b9303abf20c16e9cc86c6050bf465bff3726bad9574d8f680272a6866a",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "92459503c31e0cf3e4caad7247c30c4cbfb60cd72ec376e9a3f031864e6374ca",
+      "case_id": "E.caffeine.BRANCH_REFERENCE",
+      "execution_id": "exec-027",
+      "receipt_sha256": "1ed9acc9077221c831ae21e53548ee2322fe53d74dd5e2b10b8d2de2dc45f89a",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    },
+    {
+      "arrays_sha256": "eb66fa355a46f1d1d72143c2beeaf7a93554a86cc75a265f2da22ba127172e84",
+      "case_id": "F.repeat",
+      "execution_id": "exec-028",
+      "receipt_sha256": "292cf5058ee72f1fe05e004a29633ac00b404193cc455366030b8a610f14b5b4",
+      "source_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c"
+    }
+  ],
+  "original_producer_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+  "original_producer_identities": {
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CASES.json": "7ab13d901348cd758ee1f3505ef2498dcc51a34d68a6be3cd1b4e069cf2268e4",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+    "pinned_base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/stateful_fv.py": "177bd2782e9fbbfbca0493d8518b890ef9f31636b66b877bad6eb0411817abb6",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+    "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9",
+    "worker_and_reservation_blocks": "cd2a874e6b22b157ddd74c94a24fc79cf07ecb955c3e12781a31207b2eaf8cea"
+  },
+  "original_runtime_sha256": "177bd2782e9fbbfbca0493d8518b890ef9f31636b66b877bad6eb0411817abb6",
+  "proof_script_retained_outside_git": true,
+  "runner_changed_functions": [
+    "load_case",
+    "metric",
+    "reduce_report"
+  ],
+  "runtime_guard_removal_recovers_original_bytes": true,
+  "scope": "RESEARCH_ONLY",
+  "task": "MODEL-PANNUSCH2024-STATEFUL-FV-004",
+  "unchanged_producer_functions": [
+    "authority_path",
+    "used",
+    "locked_authority",
+    "reserve",
+    "identities",
+    "execute",
+    "case_plan",
+    "candidate_state",
+    "baseline_module",
+    "parent_case",
+    "fields_array",
+    "run_case",
+    "worker",
+    "capacities",
+    "inventory",
+    "fixed_scales",
+    "local_mass_at",
+    "accounting",
+    "compare",
+    "spatial",
+    "recombination",
+    "report",
+    "main"
+  ]
+}

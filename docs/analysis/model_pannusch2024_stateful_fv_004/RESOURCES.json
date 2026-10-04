@@ -11,9 +11,21 @@
       "kind": "REPORT_ONLY",
       "reserved_wall_s": 120.0,
       "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 2.2247303118929267,
+      "kind": "INPUT_BOUNDARY_IDENTITY_PROOF_NO_INTEGRATION",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 67.22060730867088,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
     }
   ],
-  "charged_total_wall_s": 711.6924077561125,
+  "charged_total_wall_s": 781.1377453766763,
   "executions": [
     {
       "case_id": "A.caffeine.BASE_003",

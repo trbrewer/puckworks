@@ -8313,6 +8313,7 @@
     "software_QA": "SEPARATE_QA_RECEIPT",
     "temporal": "INCOMPLETE_OR_FAILED"
   },
+  "evidence_reuse_sha256": "e49eceed6f898df9115e2c3681142ca68e3f4b9dd1c026c6964832dd4f3c3608",
   "failed_or_unavailable": {},
   "gates": {
     "L.prefix": true,
@@ -8351,13 +8352,15 @@
     "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
     "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
     "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
-    "puckworks/models/pannusch2024/stateful_fv.py": "177bd2782e9fbbfbca0493d8518b890ef9f31636b66b877bad6eb0411817abb6",
+    "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
     "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
     "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
     "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
     "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9",
-    "worker_and_reservation_blocks": "cd2a874e6b22b157ddd74c94a24fc79cf07ecb955c3e12781a31207b2eaf8cea"
+    "worker_and_reservation_blocks": "6e54524b2691da9cc84006226684e5b0b660170bfe118802180388a5b1007596"
   },
+  "identity_meaning": "Current reporting source; original integration identities are retained_producers, never restamped.",
+  "reporter_sha256": "3eef3fb6c9c31bb0da6a8c3ed61790cfa3af8a2275412a07319a56a8f0206fc0",
   "resources": {
     "auxiliary": "TASK_WIDE_AUTHORITY_RECEIPT",
     "charged_execution_wall_s": 577.09188569244,
@@ -8370,6 +8373,25 @@
       "numerical_workers": 1,
       "per_invocation_wall_s": 120,
       "planned_integrations": 28
+    }
+  },
+  "retained_producers": {
+    "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c": {
+      "docs/analysis/model_pannusch2024_stateful_fv_004/CASES.json": "7ab13d901348cd758ee1f3505ef2498dcc51a34d68a6be3cd1b4e069cf2268e4",
+      "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+      "pinned_base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+      "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+      "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+      "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+      "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+      "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+      "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+      "puckworks/models/pannusch2024/stateful_fv.py": "177bd2782e9fbbfbca0493d8518b890ef9f31636b66b877bad6eb0411817abb6",
+      "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+      "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+      "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+      "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9",
+      "worker_and_reservation_blocks": "cd2a874e6b22b157ddd74c94a24fc79cf07ecb955c3e12781a31207b2eaf8cea"
     }
   },
   "rights": "Pannusch et al., 10.17632/y2tz67f6ry.1; CC-BY-NC-3.0 source-derived output; first-party software licensing separate",

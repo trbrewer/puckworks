@@ -462,9 +462,9 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Independent exact-head review and draft PR owner disposition. Temporal aggregate-decrease gate failed; no replay or successor authorized.",
-      "acceptance_evidence": "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.md: IMPLEMENTED_QUALIFICATION_INCOMPLETE, 28 completed integrations; sole failed mandatory numerical gate is temporal aggregate decrease. Equilibrium, supplied state/reference, continuation, branch, conservation/flux/volume, mesh and repeat gates passed. RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED; runtime accuracy NOT_ASSESSED.",
-      "issue_or_pr": null,
+      "next_gate": "Owner disposition on draft PR #318; no merge or successor authorized. Temporal decrease failed; hosted CI pending; independent nonhuman exact-head addendum is a separate PR receipt.",
+      "acceptance_evidence": "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.md: IMPLEMENTED_QUALIFICATION_INCOMPLETE, 28 completed integrations; sole failed mandatory numerical gate is temporal aggregate decrease. Equilibrium, supplied state/reference, continuation, branch, conservation/flux/volume, mesh and repeat gates passed. RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED; runtime accuracy NOT_ASSESSED. Full unprotected QA passed; review input-conversion guard corrected and covered by 189 affected tests plus exact frozen-input reuse proof.",
+      "issue_or_pr": "#318",
       "verified_commit": null,
       "verified_date": null
     }

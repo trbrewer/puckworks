@@ -12,7 +12,7 @@ no failed trajectory, correction replay or extra prefix. All four correction
 slots remain unused. One failed reporting-only reduction (strict JSON NumPy
 scalar conversion) is retained and charged; only the metric reporter changed.
 Execution wall time 577.091886 s; total with
-both reductions 711.692408 / 1800 s. Every invocation was <=120 s.
+three reductions and the constructor-only identity proof 781.137745 / 1800 s. Every invocation was <=120 s.
 
 | Disposition | Result |
 |---|---|
@@ -22,9 +22,9 @@ both reductions 711.692408 / 1800 s. Every invocation was <=120 s.
 | Branching | PASS; worst fixed-scale reference difference 4.68656135e-14 |
 | Temporal checks | FAIL aggregate decrease; all individual 5e-4 bounds pass |
 | Mesh checks | PASS; bounded N400/N800 sensitivity only |
-| Software QA | See separate QA.json and final PR receipt |
+| Software QA | PASS: full unprotected regression, affected correction tests and packaging; QA.json |
 | Hosted CI | PENDING; excluded protected-target lanes are in current selectors |
-| Independent nonhuman review | Separate exact-head PR receipt; pending until recorded |
+| Independent nonhuman review | Initial review required one input correction; final bounded addendum on draft PR #318 |
 
 The frozen short fraction [2.737002188183808,2.74] s controls the temporal
 aggregate: .04/.02/.01 errors are 7.99042763e-5 / 2.02910268e-4 /
@@ -53,6 +53,34 @@ mass and fraction errors: 0.000581983846,
 All phase-positivity and monotone outlet-increment checks pass without clipping.
 RESULTS.json retains absolute and signed initial/final/min/max residuals, local
 and root scales, every fraction error, and exact schedule/raw-state comparisons.
+
+## Bounded input-validation correction
+
+Independent nonhuman review of `0db72e9d252c926f13ccc6b634a5ab0d6bf77866`
+found that an original `Fraction`/extended-precision concentration could round
+to zero before the inherited real-number conversion checked it. Both a tiny
+positive inventory and a tiny negative input could therefore be hidden.
+Corrected code `fb7b9d38a75d4050742a6690117b86d7ec62fc3c` adds model-local
+rejecting guards. All 189 affected tests pass, including all phases, positive
+and negative underflow, extended precision and representable rational inputs.
+The legacy history conversion and FV propagation are unchanged.
+
+[EVIDENCE_REUSE.json](EVIDENCE_REUSE.json) binds exact old/new runtime and
+loader identities. Removing only the inserted guards recovers the complete
+original runtime file byte-for-byte. All 15 declared fresh constructor uses
+retain bitwise-identical binary64 fields, phase masses and inventories. The
+proof ran zero integrations and rechecked all 28 original receipt/array hashes.
+Original qualification remains attributed to producer
+`d691b055e8900f6547d4a5d4e5ec9f58f093bc8c`, not to the corrected head. The
+updated report separately records current reporting and original producer
+identities; every gate, error, accounting value and disposition is unchanged.
+Only this complete exact identity pair is eligible for saved-evidence reuse.
+
+The correction changes source/checkpoint identities. Retained frozen checkpoint
+payloads remain evidence at their actual producer version; the corrected public
+API deliberately rejects them as migration inputs. New current-version runs
+create compatible current-version checkpoints. No checkpoint is relabelled or
+migrated. No correction trajectory or successor was started.
 
 ## Public operations
 
@@ -169,7 +197,9 @@ Pannusch et al., DOI 10.1016/j.jfoodeng.2023.111887; source code/data DOI
 10.17632/y2tz67f6ry.1. Source-derived artifacts retain CC-BY-NC-3.0 separately
 from first-party code licensing. No rights-restricted original is copied.
 
-The deliverable is one draft PR, unmerged with auto-merge disabled. Hosted
+The deliverable is [draft PR #318](https://github.com/trbrewer/puckworks/pull/318),
+unmerged with auto-merge disabled. The exact final head and independent nonhuman
+review/addendum are recorded on that PR. Hosted
 quick/quality selectors currently include protected-target lanes excluded by
 this authorization; workflow thresholds remain unchanged, and skip-CI commit
 markers prevent that unintended execution. Hosted CI therefore remains pending,

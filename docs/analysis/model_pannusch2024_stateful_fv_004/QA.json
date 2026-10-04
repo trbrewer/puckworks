@@ -2,15 +2,32 @@
   "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
   "checks": {
     "baseline": "PASS before development",
-    "final_unprotected_regression": "PENDING",
+    "final_unprotected_regression": "PASS at reviewed candidate 0db72e9: 5151 passed/64 skipped; corrected input boundary separately covered by 189 affected tests and exact unchanged-domain proof.",
     "focused": "180 passed; old API and new state/runner tests",
+    "generated_documents": "PASS: supported statusdoc and insights generators/verifiers; 91 status/insight/packaging tests.",
+    "historical_scientific_baseline": "PASS: 5 passed/7 skipped; unchanged production/release comparator scope.",
     "hosted_CI": "PENDING: protected-target lanes excluded; workflow selectors unchanged",
-    "independent_review": "PENDING_EXACT_HEAD_NONHUMAN_REVIEW",
+    "independent_review": "Initial nonhuman exact-head review required the now-corrected input guard; final bounded exact-head addendum recorded separately on draft PR #318",
+    "input_boundary_reuse": "PASS: 15 constructor cases bitwise equal; 28 original artifact hashes verified; all numerical report sections unchanged; zero integration",
     "installed_wheel": "PASS: N4 public example (five small calls), implicit/explicit liquid equality, genuine prefix/resume/branch; runtime module hash matches checkout.",
-    "packaging": "PASS: wheel/sdist build and tracked inventory",
+    "mypy": "PASS: 19 repository core files and two affected runtime modules",
+    "packaging": "PASS: corrected wheel/sdist tracked inventory, installed public N4 example and positive/negative underflow rejection; runtime hash matches corrected checkout",
+    "registry": "PASS: metadata and unchanged Pannusch constitutive gate; empirical/refit/protected lanes excluded",
     "reporting_correction": "PASS: six N<=4 runner/strict-JSON tests; numerical producer identity unchanged.",
-    "source_and_historical_integrity": "PASS: SOURCE_IDENTITIES.json"
+    "ruff": "PASS: all puckworks/tests plus affected tools/example",
+    "shell": "NOT_APPLICABLE: no shell source changes",
+    "source_and_historical_integrity": "PASS: 57 byte-identical preserved files; SOURCE_IDENTITIES.json; input correction EVIDENCE_REUSE.json.",
+    "strict_JSON_private_paths_secrets_boundaries": "PASS: final strict JSON, changed-public-file private-path/secret patterns, artifact boundaries, 57 preserved file hashes, unchanged trees, EWP owner HEAD/status/tag, and exact reuse-proof report hash."
   },
+  "classification": {
+    "failed_numerical_gate": "resolved_temporal_decrease",
+    "hosted_CI": "PENDING_PROTECTED_TARGET_LANES_EXCLUDED",
+    "independent_review": "SEE_EXACT_HEAD_ADDENDUM_ON_DRAFT_PR_318",
+    "numerical": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+    "physical_validation": "NOT_ESTABLISHED",
+    "software": "PASS_WITH_BOUNDED_INPUT_CORRECTION"
+  },
+  "corrected_code_commit": "fb7b9d38a75d4050742a6690117b86d7ec62fc3c",
   "governance": "G2 / NUMERICAL_METHOD_CHANGE",
   "notes": [
     "Counts overlap across runs and must not be summed as unique tests.",
@@ -18,6 +35,10 @@
     "Protected-target, live, GPU and external-data lanes excluded; no scoring/refit gate execution."
   ],
   "receipts": {
+    "baseline-build.log": {
+      "retained_outside_git": true,
+      "sha256": "7260b4ea6d33a9fa4427289f5044ec8e4d42ee82839595f3e5129772d793b7b1"
+    },
     "baseline-focused.log": {
       "retained_outside_git": true,
       "sha256": "843b946febaec01f4a5fe69f631c02edaa955dcf5bc85d4dcc702a79b88661b3"
@@ -34,6 +55,102 @@
       "retained_outside_git": true,
       "sha256": "7ff2851d6f163aa230787bd264218113ad09cf42fbd7ec085e8f832657c4250d"
     },
+    "corrected-package-build.log": {
+      "retained_outside_git": true,
+      "sha256": "7f6393e429a9cfb35b12a1bc4d170b9ee32555b3aef7b5d7c790949d8a84eaff"
+    },
+    "corrected-package-check.log": {
+      "retained_outside_git": true,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    },
+    "corrected-wheel-example.log": {
+      "retained_outside_git": true,
+      "sha256": "49f9eb97691c88e3f94b076d9f54619419c6b865eb6a84b199fd2ae8ceb3de37"
+    },
+    "corrected-wheel-guard.log": {
+      "retained_outside_git": true,
+      "sha256": "5ece1acd59b6b16120f46c673b602c99ba670b9185854483717a6190d91d8e96"
+    },
+    "corrected-wheel-install.log": {
+      "retained_outside_git": true,
+      "sha256": "e6d3101f613e51d5f74ca644cf651a22ffeef1e0b4a65b94e4c66a09d41998f9"
+    },
+    "environment.log": {
+      "retained_outside_git": true,
+      "sha256": "77d34f3fbda633e42abf85a5d943a24125127532cd71f155154b4fac2be0d584"
+    },
+    "final-boundaries.log": {
+      "retained_outside_git": true,
+      "sha256": "52a9e0c40e11b026972014a17b539016e2f2b0908258550c52a430e097909af9"
+    },
+    "final-insights-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    "final-insights.log": {
+      "retained_outside_git": true,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    "final-metadata-tests.log": {
+      "retained_outside_git": true,
+      "sha256": "4b41198b17efe88b3efceac1daa521a5be1e03e5b6a86608d82a4b6bb08bcbb3"
+    },
+    "final-mypy-affected.log": {
+      "retained_outside_git": true,
+      "sha256": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8"
+    },
+    "final-mypy-core.log": {
+      "retained_outside_git": true,
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    },
+    "final-qa-console.log": {
+      "retained_outside_git": true,
+      "sha256": "0927f6f839b948894403734564ddb5753d7c5137f53881467c9989d152b814bb"
+    },
+    "final-quick.log": {
+      "retained_outside_git": true,
+      "sha256": "5442bafbce0c5153d26f217df13795b13169c903b51325d0a4b277322f8a55fb"
+    },
+    "final-registry.log": {
+      "retained_outside_git": true,
+      "sha256": "17bb9710d2c9138962b7e32f5386eadf244dd1231269b5f47f7eac4bfb408e88"
+    },
+    "final-ruff.log": {
+      "retained_outside_git": true,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "final-scientific.log": {
+      "retained_outside_git": true,
+      "sha256": "ea0d4092d88932b37d6e92f16ce045cd0dd5ed90743796a9453093c3ce0d3020"
+    },
+    "final-status-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    "final-status.log": {
+      "retained_outside_git": true,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    "input-correction-focused.log": {
+      "retained_outside_git": true,
+      "sha256": "06ae59545998218dfed2c5f2df0dabb3e949fc1050858b6e6b5df2c3b7cf7f00"
+    },
+    "input-correction-mypy.log": {
+      "retained_outside_git": true,
+      "sha256": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8"
+    },
+    "input-correction-ruff.log": {
+      "retained_outside_git": true,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "insights-final-write.log": {
+      "retained_outside_git": true,
+      "sha256": "1e12ea99eb51b2bc641c86e864e3868cb2c11eea1d4a7f2f81eb7389a18b3149"
+    },
+    "insights-write.log": {
+      "retained_outside_git": true,
+      "sha256": "1e12ea99eb51b2bc641c86e864e3868cb2c11eea1d4a7f2f81eb7389a18b3149"
+    },
     "package-build.log": {
       "retained_outside_git": true,
       "sha256": "2706351c9ff4167a21d785eb6cd6db792c1193017694de15812dbb1bdd5ac481"
@@ -45,6 +162,62 @@
     "pre-freeze-final.log": {
       "retained_outside_git": true,
       "sha256": "ac7877c01b587e5bc1a5c8df2f1df72de59121648c53a2743897189f8d041d63"
+    },
+    "pre-freeze-identity.log": {
+      "retained_outside_git": true,
+      "sha256": "1f0c8c5c4abf6c884ef80e269202664a92299faf37ea80b9933979531a1f855c"
+    },
+    "pre-freeze.log": {
+      "retained_outside_git": true,
+      "sha256": "6f288bd057520a7592d72c754685ef0a94180dce516c2d783bdbdcbedb29739d"
+    },
+    "qualification-console.log": {
+      "retained_outside_git": true,
+      "sha256": "b1c6951a9008c06504ea955d02132c800ed15988d495276b89118f0d318fe7c9"
+    },
+    "report-1.log": {
+      "retained_outside_git": true,
+      "sha256": "a09782cfc3b25a9553c36f3d52f9fa6a3c284668717fd6cf25fb7f71039fab04"
+    },
+    "report-2.log": {
+      "retained_outside_git": true,
+      "sha256": "8525c7c6c09e442ada5f077a464f2b6251360b2fec5cb4916c185f3a558615a6"
+    },
+    "report-3.log": {
+      "retained_outside_git": true,
+      "sha256": "8525c7c6c09e442ada5f077a464f2b6251360b2fec5cb4916c185f3a558615a6"
+    },
+    "reporting-correction-test.log": {
+      "retained_outside_git": true,
+      "sha256": "672c6a51378caa4857c15d98df2f4100d9d98bc5d70dc0c3d80604db54aaf296"
+    },
+    "reuse-proof.log": {
+      "retained_outside_git": true,
+      "sha256": "72e731db2749db34a2bd81c9c4d6a3cd7576eaa685a61fdb4f21431ef5cd823b"
+    },
+    "runner-small.log": {
+      "retained_outside_git": true,
+      "sha256": "9ef7cd0e2118ebd99067b1d02268a91968415b65d3676fe705d01b1170002c3c"
+    },
+    "small-1.log": {
+      "retained_outside_git": true,
+      "sha256": "94d7c6e0dcb853c0db37f2ec2882d197ec537dfcfec2d971bfae1e55188e3429"
+    },
+    "small-2.log": {
+      "retained_outside_git": true,
+      "sha256": "b02ee252de9a65b34fd8755cd808907388811d826dc1238bc4286386a1a6cfea"
+    },
+    "small-3.log": {
+      "retained_outside_git": true,
+      "sha256": "0cf702534cb93d6948d13ff6ef988f6b278907ec0eb378f2b45b852117ebf419"
+    },
+    "small-4.log": {
+      "retained_outside_git": true,
+      "sha256": "f2f2f662355d732bba3024afdf6c322e0b830819bdca0dfca32d06af8fe48656"
+    },
+    "wheel-example.log": {
+      "retained_outside_git": true,
+      "sha256": "49f9eb97691c88e3f94b076d9f54619419c6b865eb6a84b199fd2ae8ceb3de37"
     },
     "wheel-install.log": {
       "retained_outside_git": true,
@@ -60,6 +233,10 @@
     {
       "category": "DEVELOPMENT_UNIT_TEST",
       "reason": "Initial array-freeze initialization ordering and test-mocking fixture corrected before full qualification; retained outside-Git development logs."
+    },
+    {
+      "category": "INDEPENDENT_REVIEW_INPUT_BOUNDARY",
+      "reason": "Original positive/negative Real concentrations smaller than binary64 could become signed zero before validation. Narrow rejecting guards now inspect original phase values; no legacy conversion or propagation change. EVIDENCE_REUSE.json records exact retained-input/producer identities. No qualification integration rerun."
     }
   ],
   "runtime_accuracy": "NOT_ASSESSED",
@@ -84,7 +261,31 @@
       "passed": 180,
       "scope": "frozen candidate focused",
       "wall_s": 12.21
+    },
+    {
+      "deselected": 760,
+      "passed": 5151,
+      "scope": "final quick unprotected at reviewed candidate 0db72e9",
+      "skipped": 64,
+      "wall_s": 1197.14
+    },
+    {
+      "deselected": 5963,
+      "passed": 5,
+      "scope": "final scientific baseline integrity",
+      "skipped": 7,
+      "wall_s": 213.2
+    },
+    {
+      "passed": 189,
+      "scope": "corrected affected API/reference/runner tests",
+      "wall_s": 12.21
+    },
+    {
+      "passed": 91,
+      "scope": "final status/insight/packaging metadata",
+      "wall_s": 2.91
     }
   ],
-  "wheel_sha256": "c655c211a4fc82ec03be065ce8f4c80dfa195829c43bdd38ec1cc5d6d8ff8a41"
+  "wheel_sha256": "252a2b43c3d27454d95abdcee6d2c1887859f8477ecb2c9d1d143d7990682414"
 }
