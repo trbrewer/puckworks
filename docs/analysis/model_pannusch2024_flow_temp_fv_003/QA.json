@@ -1,0 +1,165 @@
+{
+  "checks": {
+    "EWP": "PASS: owner checkout clean at original HEAD; archival tag unchanged",
+    "generated_documents": "PASS: statusdoc --verify and insights verify; generators used, no manual generated edits",
+    "mypy": "PASS: existing core 19 files and both new runtime modules",
+    "packaging": "PASS: wheel and sdist build, package inventory, installation and N=8 wheel smoke",
+    "preservation": "BYTE_IDENTICAL: SOURCE_IDENTITIES.json path tree hashes",
+    "report_only": "PASS: two saved-evidence reductions reproduce RESULTS.json and RESULTS.md byte-for-byte without simulation",
+    "ruff": "PASS: puckworks/tests and new tools/example",
+    "shell": "NOT_APPLICABLE: no shell source changes",
+    "strict_JSON_private_path_secret_boundary": "PASS: every added/changed public file; no raw arrays/logs, private absolute paths or credential prefixes"
+  },
+  "classification": {
+    "baseline": "PASS",
+    "hosted_CI": "PENDING_PUBLICATION_EXACT_HEAD_RECEIPTS_ON_PR",
+    "independent_review": "PENDING_EXACT_HEAD_NONHUMAN_REVIEW_RECEIPT_ON_PR",
+    "infrastructure": "NO_LOCAL_BLOCKER",
+    "numerical": "VERIFIED_ON_DECLARED_CASES",
+    "physical_validation": "NOT_ESTABLISHED",
+    "software": "PASS"
+  },
+  "governance": "G2 / NUMERICAL_METHOD_CHANGE",
+  "notes": [
+    "Counts are actual pytest summaries, not estimates; separate test runs overlap and must not be summed as unique tests.",
+    "No workflow, threshold, dependency lock or legacy backend change.",
+    "Exact-head review and hosted CI are separate PR receipts. A pending or missing context is not green."
+  ],
+  "protected_target_integrity": "Excluded from every local scientific-task pytest selector; no protected source reads",
+  "receipts": {
+    "baseline-focused.log": {
+      "retained_outside_git": true,
+      "sha256": "6d945704ba388ff9390229bdbcc40e1bf6099bc646f69abe68ba6b3646ba1c8d"
+    },
+    "baseline-quick.log": {
+      "retained_outside_git": true,
+      "sha256": "eb9da44ab98f3e7b8eab29f2e0efc65d8a6a4bd3166adedad453d242d856b497"
+    },
+    "docs-final.log": {
+      "retained_outside_git": true,
+      "sha256": "d8940d7f0fda7692251db0916afb3ec81ab1a9adc269333143fd853cf96b359f"
+    },
+    "final-affected.log": {
+      "retained_outside_git": true,
+      "sha256": "dcb812bbaf295c0c72cf1048a77a88429f3334550486d26e5339a59010a29b32"
+    },
+    "final-boundaries.log": {
+      "retained_outside_git": true,
+      "sha256": "a3ab11c7dbd864c79a59a6d5babd903f747cd60486cbe42afa87c5c68b14aef1"
+    },
+    "insights-final.log": {
+      "retained_outside_git": true,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    "mypy-core.log": {
+      "retained_outside_git": true,
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    },
+    "mypy-new.log": {
+      "retained_outside_git": true,
+      "sha256": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8"
+    },
+    "package-build.log": {
+      "retained_outside_git": true,
+      "sha256": "c7f15056481ea65965b4a8666f567ad3925575f86d0a4ea1b67b4b0bd4fda54c"
+    },
+    "package-check.log": {
+      "retained_outside_git": true,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    },
+    "prequalification-tests.log": {
+      "retained_outside_git": true,
+      "sha256": "7cdc68dd44acb69e675e83c3763f5e933d587c1632f01e785eec0566392e02b4"
+    },
+    "report-determinism.log": {
+      "retained_outside_git": true,
+      "sha256": "86a9cf54e755f6e7e4480c5042303e746d6325ca035d3d8f2206ecf002654c78"
+    },
+    "ruff.log": {
+      "retained_outside_git": true,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "runner-prelaunch.log": {
+      "retained_outside_git": true,
+      "sha256": "c025d8b8ff3377b9f2ce3141ba09e44e2e7a1d6a9689507ed9ab5051313f228a"
+    },
+    "scientific-baseline.log": {
+      "retained_outside_git": true,
+      "sha256": "b57d9a4c0174478477bf7885d2ef659ea7197cc68564d6c72d8613e05bd46e2c"
+    },
+    "status-final.log": {
+      "retained_outside_git": true,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    "wheel-install.log": {
+      "retained_outside_git": true,
+      "sha256": "6ee323a7b506ba5208f0cfb149d95ae27e5bba9277f866f3667d99a50fee327a"
+    },
+    "wheel-smoke.log": {
+      "retained_outside_git": true,
+      "sha256": "9aeffa0dbf32eed0ae100c8235a4f0834d24080e0582f7d4f9aa8b667dd3cfb7"
+    }
+  },
+  "retained_corrected_failures": [
+    {
+      "classification": "TEST_HARNESS",
+      "log": "focused-1.log",
+      "reason": "Dense scipy.linalg.expm reference given a sparse matrix; test-only conversion fixed before qualification."
+    },
+    {
+      "classification": "REFERENCE_SOFTWARE",
+      "log": "focused-3.log",
+      "reason": "Empty observation selection in segmented Radau reference; guarded empty evaluation before qualification."
+    },
+    {
+      "classification": "REPORTING_SOFTWARE",
+      "log": "report-1.log",
+      "reason": "Markdown renderer quoting syntax failure before reduction; conservative one-second numerical charge."
+    },
+    {
+      "classification": "REPORTING_SOFTWARE",
+      "log": "report-2.log",
+      "reason": "Spatial report ratios are scalars; renderer type handling corrected after successful JSON reduction. Entire attempt charged. No trajectory affected."
+    }
+  ],
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003",
+  "tests": [
+    {
+      "passed": 144,
+      "scope": "reviewed baseline focused",
+      "wall_s": 5.8
+    },
+    {
+      "deselected": 760,
+      "passed": 4970,
+      "scope": "reviewed baseline quick unprotected regression",
+      "selector": "not slow and not live and not gpu and not external_data and not release and not protected_target_integrity",
+      "skipped": 64,
+      "wall_s": 1186.11,
+      "warnings": 1
+    },
+    {
+      "passed": 249,
+      "scope": "prequalification new and unchanged predecessor tests",
+      "wall_s": 11.82
+    },
+    {
+      "passed": 199,
+      "scope": "final affected API/runner/status/insights/packaging tests",
+      "wall_s": 8.92
+    },
+    {
+      "deselected": 5890,
+      "passed": 5,
+      "scope": "scientific baseline unchanged-model hashes and import-order regression",
+      "selector": "scientific_baseline and not live and not gpu and not external_data and not protected_target_integrity",
+      "skipped": 7,
+      "wall_s": 212.6
+    },
+    {
+      "passed": 81,
+      "scope": "final regenerated current-status and insight surfaces",
+      "wall_s": 2.86
+    }
+  ]
+}

@@ -328,7 +328,7 @@ def load_case(directory,case,ledger):
 def metric(values,scale,allowance):
     z=np.asarray(values)/scale
     return dict(max_abs_normalized=float(np.max(np.abs(z),initial=0)),
-        signed_min_normalized=float(np.min(z,initial=0)),signed_max_normalized=float(np.max(z,initial=0)),
+        signed_min_normalized=float(np.min(z)) if z.size else 0.,signed_max_normalized=float(np.max(z)) if z.size else 0.,
         signed_final_normalized=float(z.ravel()[-1]) if z.size else 0.,allowance=allowance,
         passed=bool(np.max(abs(z),initial=0)<=allowance))
 
@@ -468,7 +468,7 @@ def reduce_report(directory,output):
                 errors.append(comparison['aggregate_error'])
                 flux=result['cases'][a]['accounting']['fluxes']['prescribed_flow_diagnostic']['GL8_minus_Mout']['max_abs_normalized']
                 fluxes.append(flux)
-                result['convergence'][direction+'.'+level]=dict(h_max_s=metadata[a]['case']['h_max_s'],reference_errors=comparison,prescribed_flux_discrepancy=flux)
+                result['convergence'][direction+'.'+level]=dict(h_max_s=metadata[a]['case']['h_max_s'],gated=level!='coarse',reference_errors=comparison,prescribed_flux_discrepancy=flux)
         def decreasing(values):
             return len(values)==3 and all(y<x or max(x,y)<=1e-10 for x,y in zip(values,values[1:]))
         result['convergence'][direction+'.trend']=dict(aggregate_errors=errors,prescribed_flux_discrepancies=fluxes,
@@ -517,7 +517,98 @@ def reduce_report(directory,output):
         software_QA='SEPARATE_RECEIPT',hosted_CI='SEPARATE_RECEIPT',independent_review='SEPARATE_EXACT_HEAD_RECEIPT')
     result['scope']='RESEARCH_ONLY; runtime accuracy NOT_ASSESSED; new 5e-4 joint-linear engineering budget does not amend 002 temperature-only 1e-6; 001/002 preserved'
     Path(output).mkdir(parents=True,exist_ok=True); write_json(Path(output)/'RESULTS.json',result)
+    (Path(output)/'RESULTS.md').write_text(render_summary(result))
     return result
+
+def render_summary(r):
+    """Concise deterministic narrative from the same saved-array reduction."""
+    lines=['# MODEL-PANNUSCH2024-FLOW-TEMP-FV-003 results', '',
+        '**'+r['dispositions']['numerical_qualification']+'**. G2 / NUMERICAL_METHOD_CHANGE; RESEARCH_ONLY.',
+        'PHYSICAL_VALIDATION=NOT_ESTABLISHED. Software QA, hosted CI and independent exact-head review are separate receipts.', '',
+        '**The 5e-4 joint-linear temporal target is new**, including frozen-step interior observations.',
+        "It is one-tenth of the .005 spatial allowance and does not amend or inherit 002's tighter",
+        '1e-6 temperature-only qualification. 001 INCOMPLETE and 002 declared-case VERIFIED are preserved.', '',
+        '## Required gates', '', '| Gate | Result |', '|---|---|']
+    lines += [f"| {k} | {'PASS' if v else 'INCOMPLETE / FAIL'} |" for k,v in r['gates'].items()]
+    missing=[k+': '+v.get('reason','') for k,v in r['cases'].items() if v['status']!='COMPLETE']
+    lines += ['', 'Unavailable or failed executions: '+('; '.join(missing) if missing else 'none.')]
+    lines += ['', '## Numerical resources', '', '| Group | Executions | Charged wall seconds |','|---|---:|---:|']
+    lines += [f"| {k} | {v['executions']} | {v['wall_s']:.6f} |" for k,v in r['resources']['per_group'].items()]
+    lines += ['',f"Total: {r['resources']['executions']} trajectories, {r['resources']['execution_wall_s']:.6f} execution seconds.",
+        'Ceilings: 36 executions including four corrections; 1800 aggregate numerical seconds; 120 seconds per launch.',
+        'One numerical worker/BLAS thread. Auxiliary reductions and final totals are in RESOURCES.json; software QA is separate.', '',
+        '## Sampled admissibility and independent accounting', '',
+        'Exact-arithmetic positivity/conservation follows from paired nonnegative donor transitions and zero generator column sums.',
+        'Floating-point checks sample primary endpoints, diagnostic/observer points and GL4/GL8 nodes; no all-time certificate is claimed.',
+        'Inventory is reconstructed from physical fields and independently reconstructed phase capacities. Mout is independently evolved;',
+        'neither Mout nor either flux is repaired by a balance complement. RESULTS.json retains initial offsets and signed residual ranges.']
+    records=[v['accounting'] for v in r['cases'].values() if v['status']=='COMPLETE']
+    def maximum(path):
+        values=[]
+        for a in records:
+            try:
+                for k in path: a=a[k]
+                values.append(a)
+            except KeyError: pass
+        return max(values) if values else None
+    lines += ['', '| Maximum fixed-scale error | Observed | Allowance |','|---|---:|---:|']
+    for label,path,budget in [
+        ('Inventory / M*',['inventory','max_abs_normalized'],1e-8),
+        ('Prescribed volume / V*',['prescribed_volume','max_abs_normalized'],1e-12),
+        ('Numerical GL8 minus Mout / M*',['fluxes','numerical_frozen_step','GL8_minus_Mout','max_abs_normalized'],1e-6),
+        ('Numerical GL8 minus GL4 / M*',['fluxes','numerical_frozen_step','GL8_minus_GL4','max_abs_normalized'],1e-6),
+        ('Prescribed GL8 minus Mout / M*',['fluxes','prescribed_flow_diagnostic','GL8_minus_Mout','max_abs_normalized'],5e-4),
+        ('Prescribed GL8 minus GL4 / M*',['fluxes','prescribed_flow_diagnostic','GL8_minus_GL4','max_abs_normalized'],1e-6)]:
+        value=maximum(path)
+        lines.append(f"| {label} | {value:.9g} | {budget:g} |" if value is not None else f'| {label} | unavailable | {budget:g} |')
+    for title,key,budget in [('Constant-Q compatibility','compatibility',1e-12),('Joint steps versus independent ordered exponentials','joint_steps',1e-8),('Joint-linear default comparisons','temporal',5e-4)]:
+        lines += ['', '## '+title, '', f'Each channel uses its fixed C*, M* or V* scale; allowance {budget:g}. Primary endpoints and common interior observations are included.', '',
+            '| Comparison | Liquid | Fine | Coarse | Outlet | Mout | Volume | Fractions |', '|---|---:|---:|---:|---:|---:|---:|---:|']
+        for name,v in r[key].items():
+            lines.append('| '+name+' | '+' | '.join(f"{v[c]['max_abs_normalized']:.9g}" for c in ('liquid','fine','coarse','outlet','Mout','volume','fractions'))+' |')
+    lines += ['', '## Smooth refinement against actual-time Radau', '',
+        'Radau independently assembles concentration balances and uses actual T/Q with segmented carryover: rtol=2e-12,',
+        'concentration atol=2e-14*C*, Mout atol=2e-14*M*, max_step=.02. Shared source parameters/geometry/closures are disclosed;',
+        'reference history clocks, union segmentation and volume arithmetic are independent. No candidate generator/RHS is used.', '',
+        '| Case | h | Liquid | Fine | Coarse | Outlet | Mout | Fractions | Prescribed flux discrepancy / M* |',
+        '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
+    for name,v in r['convergence'].items():
+        if 'reference_errors' in v:
+            e=v['reference_errors']
+            lines.append('| '+name+f" | {v['h_max_s']:g} | "+' | '.join(f"{e[c]['max_abs_normalized']:.9g}" for c in ('liquid','fine','coarse','outlet','Mout','fractions'))+f" | {v['prescribed_flux_discrepancy']:.9g} |")
+    lines += ['', 'The .04 level is diagnostic for field accuracy; default/finer and default/Radau are gated.',
+        'Resolved aggregate errors and prescribed-flux discrepancies must decrease; comparison floor 1e-10.',
+        'No measured temporal order is claimed. Each fraction error and both trend checks are retained in RESULTS.json.', '',
+        '## Spatial refinement', '',
+        'Fine fields are conservatively restricted by paired cell averages; weights are A*dz*[alpha_l,as1,phi_v2*as2].',
+        'All channels and both mesh pairs are reported. Only N400 to N800 is gated at .005 on each fixed scale.', '',
+        '| Comparison | Fractions / C* | Mout / M* | Weighted field / M* |','|---|---:|---:|---:|']
+    for name,v in r['spatial'].items():
+        if isinstance(v.get('weighted_field'), dict):
+            lines.append('| '+name+' | '+' | '.join(f"{v[c]['max_abs_normalized']:.9g}" for c in ('fractions','Mout','weighted_field'))+' |')
+        else: lines.append('| '+name+' (resolved difference ratios, not order proof) | '+' | '.join(str(v[c]) for c in ('fractions','Mout','weighted_field'))+' |')
+    lines += ['', '## Variable-flow passive benchmark', '',
+        'Private zero-exchange seam; exact translated compact sine-squared cell averages and outlet mass.',
+        'Times come from the independently inverted prescribed volume at s/L=[0,.25,.5,.75,1.25].', '',
+        '| N | Liquid L1/C0 at the five samples | Final remaining + absolute outlet error / M0 |','|---|---|---:|']
+    for n in ('32','64','128'):
+        if n in r['manufactured']:
+            v=r['manufactured'][n]
+            lines.append(f"| {n} | "+', '.join(f'{x:.9g}' for x in v['L1_over_C0'])+f" | {v['postexit_remaining_plus_outlet_error']:.9g} |")
+    lines += ['', 'Mesh-pair orders at the three nonzero pre-exit samples: '+str(r['manufactured'].get('orders','unavailable'))+'.',
+        'Initial-time rounding error is reported, with no order inferred from zero error. N128 pre-exit L1 allowance .05;',
+        'both mesh-pair orders must be >=.8; postexit remaining plus outlet error allowance .05.', '',
+        '## Observers, repeatability and limits', '',
+        'Volume-weighted recombination, crossing-knot [7,19]/[5,25] and delayed [20,30] windows use retained observations, with no additional trajectories.',
+        'Exact-environment repeat arrays: '+('BITWISE IDENTICAL.' if r['repeatability']['passed'] else 'INCOMPLETE / FAIL.'),
+        'Focused tests cover rejection, immutability, strict JSON, finite prefixes, tiny unresolved fractions and deliberate defects; see QA.json.',
+        'Detailed arrays/logs remain outside Git; report mode reproduces these summaries without simulations.',
+        'Source/configuration/producer identities and preservation proofs are in SOURCE_IDENTITIES.json and execution receipts.',
+        'The fixed matrix is numerical evidence only. Arbitrary runtime calls remain accuracy NOT_ASSESSED.',
+        'No empirical/profile-benefit/taste/native-MATLAB/coupling/physical-validation claim or automatic successor follows.', '',
+        r['rights']+'.', '']
+    return '\n'.join(lines)
+
 
 def report(directory, output):
     """Charge saved-evidence numerical reduction without launching any trajectory."""

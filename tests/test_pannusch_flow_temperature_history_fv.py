@@ -226,3 +226,40 @@ def test_knot_reset_and_inventory_complement_defects_are_rejected():
     np.testing.assert_array_equal(r.quadrature.numerical_frozen_step_flux_kg_s,broken.quadrature.numerical_frozen_step_flux_kg_s)
     assert broken.numerical_admissibility=='FAILED'
     assert all(f.concentration_kg_m3 is None for f in broken.fractions)
+
+
+def test_both_flux_quadratures_use_frozen_state_and_actual_prescribed_flow():
+    T=fv.TemperatureHistory.constant_celsius((0,.08),(88,))
+    Q=fv.FlowHistory((0,.08),(1e-6,3e-6),'linear')
+    r=run(T,Q)
+    q=r.quadrature
+    # One full panel plus interior panels; numerical flux integrates evolved mass.
+    full=q.full_interval.astype(bool)
+    for order in (4,8):
+        select=full & (q.order==order)
+        numerical=np.sum(q.weights_s[select]*q.numerical_frozen_step_flux_kg_s[select])
+        assert abs(numerical-r.trace.masses_kg[-1,-1])<1e-12*r.M0_cont_kg
+    i=q.primary_step_index.astype(int)
+    expected=np.array([Q.value_m3_s(t) for t in q.times_s])/r.trace.frozen_flow_m3_s[i]
+    np.testing.assert_allclose(q.prescribed_flow_diagnostic_flux_kg_s,
+        q.numerical_frozen_step_flux_kg_s*expected,rtol=2e-15)
+    assert np.any(abs(q.prescribed_flow_diagnostic_flux_kg_s-q.numerical_frozen_step_flux_kg_s)>1e-10)
+    assert np.any(~full)
+
+
+def test_diagnostic_resource_failure_and_empty_supported_observers_are_explicit():
+    r=run(observation_times_s=(.08,),settings=replace(S,max_diagnostic_samples=7))
+    assert r.actual_span_s==(0,0) and not r.integration_complete
+    assert r.observations.liquid_cell_average_kg_m3.shape==(0,4)
+    j=json.loads(r.to_json())
+    assert j['unsupported_observations']==[dict(time_s=.08,values=None,reason='NOT_EVALUATED_IN_SUPPORTED_PREFIX')]
+    assert all(f['volume_m3'] is None for f in j['fractions'])
+
+
+def test_independent_histories_cover_a_model_start_inside_both_supports():
+    T=fv.TemperatureHistory.linear_celsius((-1,.1),(80,98))
+    Q=fv.FlowHistory((-.5,.03,.2),(1e-6,3e-6),'constant')
+    r=run(T,Q,t_span_s=(.01,.08),observation_times_s=(.01,.03,.08),fraction_bounds_s=(.01,.04,.08))
+    assert r.observations.hydraulic_volume_m3[0]==0 and r.observations.outlet_solute_kg[0]==0
+    assert r.M0_fv_kg==pytest.approx(fv._System('caffeine',1.7,4).M0(T.value_K(.01)),rel=2e-15)
+    assert r.observations.hydraulic_volume_m3[-1]==pytest.approx(1e-6*.02+3e-6*.05,rel=1e-15)

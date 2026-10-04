@@ -256,7 +256,9 @@ and not independent validation. See `PANNUSCH_RAW_REPRO_001_REPORT.md`.
 ## Separate research finite-volume backend (002)
 
 MODEL-PANNUSCH2024-POSITIVE-FV-002 is an explicitly authorized G2 /
-NUMERICAL_METHOD_CHANGE, stacked on unmerged #314. It retains the continuum
+NUMERICAL_METHOD_CHANGE, merged via PR #315 at
+`1d780b7fb57df4693e22e564010c891602df119d`. Parent 001 merged via PR #314 at
+`1e9f85a5e42d206baf05a0a95aa81847d506c9d5`; its numerical result stays INCOMPLETE. It retains the continuum
 model and source parameters but uses cell-centered first-order upwind finite
 volumes and exponential midpoint propagation of phase masses. Prescribed
 spatially uniform T(t) is not a solved/measured thermal field. Numerical qualification
@@ -268,3 +270,38 @@ The 001 INCOMPLETE disposition and all its evidence remain unchanged. No registr
 promotion, production-default change, coupling or successor follows.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. See
 [002 results](../analysis/model_pannusch2024_positive_fv_002/RESULTS.md).
+
+
+## Joint prescribed flow and temperature FV research API (003)
+
+`puckworks.models.pannusch2024.flow_temperature_history_fv.simulate_flow_temperature_history_fv`
+adds independent immutable `FlowHistory` and unchanged `TemperatureHistory` inputs.
+Q is strictly prescribed SI m^3/s in [1e-6,3e-6], T is spatially uniform Kelvin
+in [353.15,371.15]; both histories cover the explicit model interval. Constant
+intervals and linear knots are supported without extrapolation. This API uses
+the source superficial Q/A for Sherwood transfer and interstitial Q/(A*alpha_l)
+for upwind transport. Source equations, coefficients, grinds and fixed geometry
+are preserved. Cell phase masses and evolved outlet solute carry through the
+union of Q/T knots. Collected volume is analytically integrated separately;
+fractions use solute mass divided by prescribed volume.
+
+Interior observations use the same primary-step midpoint-frozen T/Q generator
+from the saved step start. Numerical frozen-step flux and prescribed-flow
+diagnostic flux are separately retained and checked. No inventory complement,
+clipping or state reset is used. Per-call temporal/spatial accuracy remains
+NOT_ASSESSED. G2 / NUMERICAL_METHOD_CHANGE; RESEARCH_ONLY. The new joint-linear
+engineering target is 5e-4 on fixed source scales, covering interior observations;
+this neither inherits nor amends 002's tighter 1e-6 temperature-only result.
+**VERIFIED_ON_DECLARED_CASES** for the fixed 32-execution matrix; worst
+default/Radau fixed-scale error 8.20e-5. This result is bounded to the declared
+histories, grids and settings; software QA, CI and independent review are separate.
+See the [003 results](../analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.md)
+and [003 contract](../analysis/model_pannusch2024_flow_temp_fv_003/CONTRACT.md)
+and [offline example](../../examples/pannusch_flow_temperature_history_fv.py).
+
+These synthetic prescribed histories are not authorized experimental inlet
+histories. The EWP flow-authority and input-mapping restrictions remain. No
+registry promotion, production-default redirection, empirical accuracy, coupling,
+taste or native-MATLAB equivalence follows. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+Source-derived reports retain Pannusch attribution and CC-BY-NC-3.0 separately
+from first-party software licensing.

@@ -1,0 +1,365 @@
+{
+  "aggregate_numerical_wall_s": 978.0865941271186,
+  "authority_ledger_sha256": "14c853c18dbb63bcb0836217163f791f4e35cf190755cf377429f910a19a4393",
+  "auxiliary": [
+    {
+      "charged_wall_s": 1.0,
+      "kind": "REPORT_CLI_SYNTAX_FAILURE_BEFORE_REDUCTION",
+      "reserved_wall_s": 1.0,
+      "status": "FAILED",
+      "timing": "Conservative one-second charge; failure occurred before module initialization/reservation; retained report-1.log"
+    },
+    {
+      "charged_wall_s": 17.601440851576626,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "FAILED_OR_CANCELLED"
+    },
+    {
+      "charged_wall_s": 17.583380363881588,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 17.64868006668985,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    }
+  ],
+  "auxiliary_wall_s": 53.83350128214806,
+  "corrections_used": 0,
+  "execution_receipts": [
+    {
+      "case_id": "A.caffeine.FV",
+      "charged_wall_s": 38.38954573497176,
+      "correction": false,
+      "execution_id": "exec-001",
+      "receipt_sha256": "3ba6037af0e4995552a1cb05734865d1f9328b27e404065ed198019fbb845216",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.caffeine.OLD_FV",
+      "charged_wall_s": 20.452748685143888,
+      "correction": false,
+      "execution_id": "exec-002",
+      "receipt_sha256": "b74e36d38eaeff7a02d208b1abd85c76cb56a862d4dd59276e90279db237aedb",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.trigonelline.FV",
+      "charged_wall_s": 38.23607882298529,
+      "correction": false,
+      "execution_id": "exec-003",
+      "receipt_sha256": "fbc6b69a3c90a247f0a068600dfaf3dfe5ed52a9a14703f4d57937df020d910b",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.trigonelline.OLD_FV",
+      "charged_wall_s": 20.453744750469923,
+      "correction": false,
+      "execution_id": "exec-004",
+      "receipt_sha256": "862520394ee0e476cb7bea9618687a8b937f44600ff7ff59d7c333fb052b541a",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.5CQA.FV",
+      "charged_wall_s": 38.73327827081084,
+      "correction": false,
+      "execution_id": "exec-005",
+      "receipt_sha256": "673015e35f1cb82743cd5f059a15bf0d4015c6658e617e243a0fad3369607c59",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.5CQA.OLD_FV",
+      "charged_wall_s": 20.558671122416854,
+      "correction": false,
+      "execution_id": "exec-006",
+      "receipt_sha256": "40c25df6b108f65d447e4d943ad21b2cbff042d9bf94b34185b5ead4e8df9ee6",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.tds.FV",
+      "charged_wall_s": 38.493251118808985,
+      "correction": false,
+      "execution_id": "exec-007",
+      "receipt_sha256": "49a95cc81dcecf730768fa9058e1f6af88977bd755e73cac058d323c3f7ecd2e",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "A.tds.OLD_FV",
+      "charged_wall_s": 20.49844855442643,
+      "correction": false,
+      "execution_id": "exec-008",
+      "receipt_sha256": "be28fbd1721dadc0511f8446442ae5fba74b85f5ca7b499416486107685dbee0",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.caffeine.FV",
+      "charged_wall_s": 37.5367537997663,
+      "correction": false,
+      "execution_id": "exec-009",
+      "receipt_sha256": "362b29aedc6cfb1ce8ace3e62348c5b1ebc2d6e8c4d04bc75e67448e6e35140f",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.caffeine.ORDERED",
+      "charged_wall_s": 6.677145368419588,
+      "correction": false,
+      "execution_id": "exec-010",
+      "receipt_sha256": "8dee488bc339d0213b768cde88b9438b91f2a2dc918ac34043565ee63cf6bf9f",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.trigonelline.FV",
+      "charged_wall_s": 37.68663262948394,
+      "correction": false,
+      "execution_id": "exec-011",
+      "receipt_sha256": "9443f37d27a351383e308d5faca65055f5e5d7b0e207b68ba3bfa27ee2423bb3",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.trigonelline.ORDERED",
+      "charged_wall_s": 6.77756161801517,
+      "correction": false,
+      "execution_id": "exec-012",
+      "receipt_sha256": "464f765dbf50b3c073318d2f6e81c0f1a9322c7c4dc4f7c37d5184595f57f110",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.5CQA.FV",
+      "charged_wall_s": 37.384456359781325,
+      "correction": false,
+      "execution_id": "exec-013",
+      "receipt_sha256": "c850ddcc85048a769d720d1b6dc27e13fc5001581714953b9f9c3c00fbcb503b",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.5CQA.ORDERED",
+      "charged_wall_s": 6.725693251006305,
+      "correction": false,
+      "execution_id": "exec-014",
+      "receipt_sha256": "da39b35de78f5d42b3ed2e8c5d1796be640aa39a4d77cf3b92ed73a8294ddad4",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.tds.FV",
+      "charged_wall_s": 38.03354780189693,
+      "correction": false,
+      "execution_id": "exec-015",
+      "receipt_sha256": "dda59bbf9d020d68f4ede4d74b901fb439a7bbd0670ee4ae1da0b301c549cb10",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "B.tds.ORDERED",
+      "charged_wall_s": 6.824069954454899,
+      "correction": false,
+      "execution_id": "exec-016",
+      "receipt_sha256": "d012a1a528d416ea92172ebf5b9d62151c3c5355c69237770ba957d98ee0fd41",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.up.coarse",
+      "charged_wall_s": 33.16992876306176,
+      "correction": false,
+      "execution_id": "exec-017",
+      "receipt_sha256": "d99f67c881b541d3acda0706866702bbd7f1564bcdabec36d2cdba426694484a",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.up.default",
+      "charged_wall_s": 38.22711629699916,
+      "correction": false,
+      "execution_id": "exec-018",
+      "receipt_sha256": "13b6834b271a66189ff967b97a982618d390f0474bc2a5be0b45f653e81180cc",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.up.finer",
+      "charged_wall_s": 51.65161953214556,
+      "correction": false,
+      "execution_id": "exec-019",
+      "receipt_sha256": "1ad59eef61705911df7006d6526edaf824ab8f3b68f40e72404f81a67cb85b26",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.up.Radau",
+      "charged_wall_s": 23.55618489254266,
+      "correction": false,
+      "execution_id": "exec-020",
+      "receipt_sha256": "3201b665f741f7cc4c07a5ac65686ac5f3c5999efc1da63cd8c0cf92c8d84ba4",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.down.coarse",
+      "charged_wall_s": 32.97441850230098,
+      "correction": false,
+      "execution_id": "exec-021",
+      "receipt_sha256": "bbd59444ef34322936c0c37eaa3cb91e8daeb1573da34f4efad3fe743a0fc348",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.down.default",
+      "charged_wall_s": 38.5857208520174,
+      "correction": false,
+      "execution_id": "exec-022",
+      "receipt_sha256": "6e2f5143791dc1cffce04bde5479e8f836f81edca38fce581f8316ab4260a8a4",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.down.finer",
+      "charged_wall_s": 51.593296283856034,
+      "correction": false,
+      "execution_id": "exec-023",
+      "receipt_sha256": "76bc25615d1152e3f6060198426d08647759c61db89dc830b2c4c6192e1b78e1",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.down.Radau",
+      "charged_wall_s": 25.453629380092025,
+      "correction": false,
+      "execution_id": "exec-024",
+      "receipt_sha256": "4c41bb9594f84f2321e678c5a00cc168217eab38d9aac83f32e5d61b3d4c6f51",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "D.up.200",
+      "charged_wall_s": 31.509285272099078,
+      "correction": false,
+      "execution_id": "exec-025",
+      "receipt_sha256": "d41c958b4daab65998158c67cee6ea1a526244a479ed2efcc0904ec32d99c18d",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "D.trigonelline.200",
+      "charged_wall_s": 31.165405299514532,
+      "correction": false,
+      "execution_id": "exec-026",
+      "receipt_sha256": "a66c8cb4d54581f233551efc9d506c724104ccdc707c78965f577f21ec877ad5",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "D.up.800",
+      "charged_wall_s": 53.20559887494892,
+      "correction": false,
+      "execution_id": "exec-027",
+      "receipt_sha256": "f5d0bf849b685bdb44e3d11a730699e345b3ddffd3e23ed50e2839b876c37689",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "D.trigonelline.800",
+      "charged_wall_s": 51.262265355326235,
+      "correction": false,
+      "execution_id": "exec-028",
+      "receipt_sha256": "7e29826fd3516393ba283b621ee26405c2859e61c2e091863e28b611e3e7c59f",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "E.repeat.up",
+      "charged_wall_s": 38.37692170124501,
+      "correction": false,
+      "execution_id": "exec-029",
+      "receipt_sha256": "dc280807d84fb487f26e392785e64965db5bcf8cce0dcbfacbf4161354d858bb",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "F.passive.32",
+      "charged_wall_s": 3.11995114851743,
+      "correction": false,
+      "execution_id": "exec-030",
+      "receipt_sha256": "4b13c40f28c54694f2dc220e53dec6a566c86697a50548b7e107a9da601f408d",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "F.passive.64",
+      "charged_wall_s": 3.319413504563272,
+      "correction": false,
+      "execution_id": "exec-031",
+      "receipt_sha256": "90684602f902c996074c0ce3923aeb9fb27d00131dbc708e3ff3ce1ac313bdb3",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "F.passive.128",
+      "charged_wall_s": 3.620709342882037,
+      "correction": false,
+      "execution_id": "exec-032",
+      "receipt_sha256": "4d58ced5feba0fcc424f1a8e2f071f94f709d5df953e994d3254e50c8f882d1c",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    }
+  ],
+  "executions": 32,
+  "failed_or_partial_executions": [],
+  "limits": {
+    "aggregate_numerical_wall_s": 1800,
+    "blas_threads": 1,
+    "correction_slots": 4,
+    "execution_ceiling": 36,
+    "numerical_workers": 1,
+    "per_execution_wall_s": 120,
+    "planned_executions": 32
+  },
+  "per_group": {
+    "A": {
+      "executions": 8,
+      "wall_s": 235.81576706003398
+    },
+    "B": {
+      "executions": 8,
+      "wall_s": 177.64586078282446
+    },
+    "C": {
+      "executions": 8,
+      "wall_s": 295.2119145030156
+    },
+    "D": {
+      "executions": 4,
+      "wall_s": 167.14255480188876
+    },
+    "E": {
+      "executions": 1,
+      "wall_s": 38.37692170124501
+    },
+    "F": {
+      "executions": 3,
+      "wall_s": 10.060073995962739
+    }
+  },
+  "remaining_correction_slots": 4,
+  "remaining_numerical_wall_s": 821.9134058728814,
+  "scope": "Includes old comparators, independent references, repeats, passive runs and report reductions. No hidden launches, correction trajectories or full-trajectory reviewer work. Software unit/regression/build QA is separate. Detailed ledger/logs/arrays retained outside Git.",
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003",
+  "trajectory_wall_s": 924.2530928449705
+}
