@@ -116,3 +116,18 @@ def test_metrics_with_numpy_scales_are_strict_json():
     assert json.loads(json.dumps(result,allow_nan=False)) == result
     assert v.metric([0.],0.,1e-12)["passed"] is True
     assert v.metric([1e-18],0.,1e-12)["maximum_scaled"] is None
+
+
+def test_input_boundary_reuse_requires_the_complete_exact_identity_pair(tmp_path):
+    original = dict(runtime='original',worker='original-worker',contract='frozen')
+    corrected = dict(runtime='corrected',worker='corrected-worker',contract='frozen')
+    with patch.object(v,'BUNDLE',tmp_path):
+        assert v.matching_producer_identities(original,original)
+        assert not v.matching_producer_identities(original,corrected)
+        v.write_json(tmp_path/'EVIDENCE_REUSE.json',dict(
+            original_producer_identities=original,corrected_producer_identities=corrected))
+        assert v.matching_producer_identities(original,corrected)
+        for key in original:
+            assert not v.matching_producer_identities({**original,key:'changed'},corrected)
+            assert not v.matching_producer_identities(original,{**corrected,key:'changed'})
+        assert not v.matching_producer_identities({**original,'extra':'changed'},corrected)

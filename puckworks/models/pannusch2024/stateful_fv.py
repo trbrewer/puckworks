@@ -138,7 +138,14 @@ class FVChemicalState:
             raise ValueError("INCOMPATIBLE_SOURCE_IDENTITY")
         arrays = []
         for name in ("liquid_cell_average_kg_m3", "fine_cell_average_kg_m3", "coarse_cell_average_kg_m3"):
+            original = np.asarray(getattr(self, name), dtype=object)
             a = np.asarray(_reals(getattr(self, name), name, n))
+            # Inspect original real values before a float conversion can hide
+            # a negative input or turn a tiny positive state into exact zero.
+            if any(v < 0 for v in original):
+                raise ValueError("INVALID_PHASE_SHAPE_OR_NEGATIVE_CONCENTRATION")
+            if any(v != 0 and converted == 0 for v, converted in zip(original, a)):
+                raise ValueError("UNREPRESENTABLE_PHASE_CONCENTRATION")
             if a.shape != (n,) or np.any(a < 0):
                 raise ValueError("INVALID_PHASE_SHAPE_OR_NEGATIVE_CONCENTRATION")
             arrays.append(a)

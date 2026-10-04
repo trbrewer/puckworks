@@ -1,5 +1,6 @@
 """004 small N<=12 analytical/API suite; no task qualification integrations."""
 from dataclasses import FrozenInstanceError, replace
+from fractions import Fraction
 import copy
 import json
 from unittest.mock import patch
@@ -10,6 +11,29 @@ from scipy.linalg import expm
 
 from puckworks.models.pannusch2024 import stateful_fv as sf
 from tools import pannusch_flow_temp_fv_reference as ref
+
+
+@pytest.mark.parametrize('phase', range(3))
+@pytest.mark.parametrize('value,reason', [
+    (Fraction(1,10**400), 'UNREPRESENTABLE_PHASE_CONCENTRATION'),
+    (Fraction(-1,10**400), 'NEGATIVE_CONCENTRATION')])
+def test_original_real_phase_values_cannot_silently_round_to_zero(phase,value,reason):
+    phases = np.zeros((3,4),dtype=object)
+    phases[phase,0] = value
+    assert value != 0 and float(value) == 0
+    with pytest.raises(ValueError,match=reason):
+        supplied(phases=phases)
+
+
+def test_extended_precision_underflow_and_representable_rationals():
+    tiny = np.finfo(np.longdouble).tiny
+    if float(tiny) == 0:
+        assert tiny > 0
+        with pytest.raises(ValueError,match='UNREPRESENTABLE_PHASE_CONCENTRATION'):
+            supplied(phases=np.full((3,4),tiny,dtype=np.longdouble))
+    state = supplied(phases=np.full((3,4),Fraction(1,4),dtype=object))
+    np.testing.assert_array_equal(state.liquid_cell_average_kg_m3,np.full(4,.25))
+    assert state.inventory_kg > 0
 
 
 S = sf.FVSettings(cells=4)

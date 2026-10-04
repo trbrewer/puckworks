@@ -321,6 +321,18 @@ def worker(directory, case_id, execution_id):
     return 0 if complete else 2
 
 
+def matching_producer_identities(produced, current):
+    """Only exact reviewed input-boundary reuse; never a general hash waiver."""
+    if produced == current:
+        return True
+    path = BUNDLE/'EVIDENCE_REUSE.json'
+    if not path.exists():
+        return False
+    proof = read_json(path)
+    return (produced == proof.get('original_producer_identities')
+            and current == proof.get('corrected_producer_identities'))
+
+
 def load_case(directory, case):
     directory = Path(directory)
     matches = [e for e in read_json(directory/'executions.json') if e['case_id']==case['id']]
@@ -330,7 +342,7 @@ def load_case(directory, case):
     path = directory/(row['execution_id']+'.json')
     if digest(path) != row.get('receipt_sha256'): raise ValueError('RECEIPT_HASH_MISMATCH')
     m = read_json(path)
-    if m['identities'] != identities() or row['identities'] != identities(): raise ValueError('NUMERICAL_SOURCE_CHANGED')
+    if not matching_producer_identities(m['identities'], identities()) or not matching_producer_identities(row['identities'], identities()): raise ValueError('NUMERICAL_SOURCE_CHANGED')
     if m['case'] != case or not m['coverage_complete']: raise ValueError('CASE_OR_COVERAGE_MISMATCH')
     if digest(path.with_suffix('.npz')) != m['arrays_sha256']: raise ValueError('ARRAY_HASH_MISMATCH')
     with np.load(path.with_suffix('.npz'), allow_pickle=False) as z:
@@ -605,7 +617,12 @@ def reduce_report(directory, output):
                 gates=checks,comparisons=comparisons,accounting=accounts,failed_or_unavailable=failures,
                 resources=dict(executions=len(ledger),charged_execution_wall_s=sum(e.get('charged_wall_s',e['reserved_wall_s']) for e in ledger),
                                auxiliary='TASK_WIDE_AUTHORITY_RECEIPT',limits=c['limits']),
-                identities=identities(),rights=RIGHTS)
+                identities=identities(),
+                identity_meaning='Current reporting source; original integration identities are retained_producers, never restamped.',
+                reporter_sha256=digest(Path(__file__)),
+                retained_producers={m['source_commit']:m['identities'] for m,_ in data.values()},
+                evidence_reuse_sha256=digest(BUNDLE/'EVIDENCE_REUSE.json') if (BUNDLE/'EVIDENCE_REUSE.json').exists() else None,
+                rights=RIGHTS)
     output.mkdir(parents=True,exist_ok=True);write_json(output/'RESULTS.json',record)
     lines=['# MODEL-PANNUSCH2024-STATEFUL-FV-004 results','', '**'+record['dispositions']['numerical_qualification']+'**. G2 / NUMERICAL_METHOD_CHANGE.',
            'RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED; runtime accuracy NOT_ASSESSED.','',
