@@ -1,0 +1,90 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "checks": {
+    "baseline": "PASS before development",
+    "final_unprotected_regression": "PENDING",
+    "focused": "180 passed; old API and new state/runner tests",
+    "hosted_CI": "PENDING: protected-target lanes excluded; workflow selectors unchanged",
+    "independent_review": "PENDING_EXACT_HEAD_NONHUMAN_REVIEW",
+    "installed_wheel": "PASS: N4 public example (five small calls), implicit/explicit liquid equality, genuine prefix/resume/branch; runtime module hash matches checkout.",
+    "packaging": "PASS: wheel/sdist build and tracked inventory",
+    "reporting_correction": "PASS: six N<=4 runner/strict-JSON tests; numerical producer identity unchanged.",
+    "source_and_historical_integrity": "PASS: SOURCE_IDENTITIES.json"
+  },
+  "governance": "G2 / NUMERICAL_METHOD_CHANGE",
+  "notes": [
+    "Counts overlap across runs and must not be summed as unique tests.",
+    "No task qualification integration is hidden in these ordinary QA/small-mesh tests.",
+    "Protected-target, live, GPU and external-data lanes excluded; no scoring/refit gate execution."
+  ],
+  "receipts": {
+    "baseline-focused.log": {
+      "retained_outside_git": true,
+      "sha256": "843b946febaec01f4a5fe69f631c02edaa955dcf5bc85d4dcc702a79b88661b3"
+    },
+    "baseline-quick.log": {
+      "retained_outside_git": true,
+      "sha256": "72f7945d838e24ae02421c5a3fa701a3c728f687eb0b46d2579c95d3d450fca1"
+    },
+    "baseline-registry.log": {
+      "retained_outside_git": true,
+      "sha256": "fe49ef79e8e2a68c9c8394e6c377e0a7ac108f29de2f4ddabc0a667a5bc73fc2"
+    },
+    "baseline-scientific.log": {
+      "retained_outside_git": true,
+      "sha256": "7ff2851d6f163aa230787bd264218113ad09cf42fbd7ec085e8f832657c4250d"
+    },
+    "package-build.log": {
+      "retained_outside_git": true,
+      "sha256": "2706351c9ff4167a21d785eb6cd6db792c1193017694de15812dbb1bdd5ac481"
+    },
+    "package-check.log": {
+      "retained_outside_git": true,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    },
+    "pre-freeze-final.log": {
+      "retained_outside_git": true,
+      "sha256": "ac7877c01b587e5bc1a5c8df2f1df72de59121648c53a2743897189f8d041d63"
+    },
+    "wheel-install.log": {
+      "retained_outside_git": true,
+      "sha256": "df9b6ca5af997f56f03823b5d8fa4a2b3a1edb089e1431e6507f107078eea25f"
+    }
+  },
+  "retained_corrected_failures": [
+    {
+      "category": "REPORTING_SOFTWARE",
+      "log": "report-1.log",
+      "reason": "NumPy boolean from a NumPy normalization scale was not serializable by strict JSON; metric now uses native float scale. Only report metric AST changed; every worker/reservation/loader function identical. No numerical integration rerun; failed reduction charged."
+    },
+    {
+      "category": "DEVELOPMENT_UNIT_TEST",
+      "reason": "Initial array-freeze initialization ordering and test-mocking fixture corrected before full qualification; retained outside-Git development logs."
+    }
+  ],
+  "runtime_accuracy": "NOT_ASSESSED",
+  "scope": "RESEARCH_ONLY",
+  "task": "MODEL-PANNUSCH2024-STATEFUL-FV-004",
+  "tests": [
+    {
+      "deselected": 760,
+      "passed": 5082,
+      "scope": "baseline quick unprotected",
+      "skipped": 64,
+      "wall_s": 1203.46
+    },
+    {
+      "deselected": 5894,
+      "passed": 5,
+      "scope": "baseline scientific integrity",
+      "skipped": 7,
+      "wall_s": 212.9
+    },
+    {
+      "passed": 180,
+      "scope": "frozen candidate focused",
+      "wall_s": 12.21
+    }
+  ],
+  "wheel_sha256": "c655c211a4fc82ec03be065ce8f4c80dfa195829c43bdd38ec1cc5d6d8ff8a41"
+}

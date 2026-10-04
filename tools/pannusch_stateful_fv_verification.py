@@ -363,6 +363,7 @@ def fixed_scales(meta, arrays, contract):
 
 
 def metric(errors, scale, allowance):
+    scale = float(scale)
     e = np.asarray(errors, dtype=float)
     maximum = float(np.max(np.abs(e),initial=0.))
     normalized = maximum/scale if scale > 0 else (0. if maximum == 0 else None)

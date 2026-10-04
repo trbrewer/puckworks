@@ -1,4 +1,5 @@
 """004 runner/reference tests: N4, 0..0.08 s only; never campaign executions."""
+import json
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -107,3 +108,11 @@ def test_reference_does_not_call_candidate_initialization_or_inventory():
         y,*_=v.ref.reference(T,Q,'caffeine',1.7,4,[0,.04,.08],t_span_s=(0,.08),
                              initial_fields=v.ref.stateful_u_fields('caffeine',4),method='ORDERED')
         assert np.isfinite(y).all()
+
+
+def test_metrics_with_numpy_scales_are_strict_json():
+    result=v.metric([np.float64(1e-18)],np.float64(.03),1e-12)
+    assert result["passed"] is True
+    assert json.loads(json.dumps(result,allow_nan=False)) == result
+    assert v.metric([0.],0.,1e-12)["passed"] is True
+    assert v.metric([1e-18],0.,1e-12)["maximum_scaled"] is None
