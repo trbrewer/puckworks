@@ -437,6 +437,9 @@ def simulate_flow_temperature_history_fv(temperature_history, *, flow_history, t
     if any(b-a <= 1024*np.finfo(float).eps*(tf-t0) for a, b in zip(bounds, bounds[1:])):
         th._reject("unresolvable fraction volume interval")
     segments = _segments(history, flow, t0, tf)
+    if any(not all(math.isfinite(value) for value in s.forcing(t))
+           for s in segments for t in (s.start_s, s.end_s)):
+        th._reject("history intervals produce nonfinite forcing coefficients")
     if min(settings.h_max_s, settings.diagnostic_step_s) <= 10*max(abs(np.spacing(t0)), abs(np.spacing(tf))):
         th._reject("clock cannot resolve requested numerical steps")
     steps = sum(math.ceil((s.end_s-s.start_s)/settings.h_max_s) for s in segments)

@@ -3,17 +3,18 @@
     "EWP": "PASS: owner checkout clean at original HEAD; archival tag unchanged",
     "generated_documents": "PASS: statusdoc --verify and insights verify; generators used, no manual generated edits",
     "mypy": "PASS: existing core 19 files and both new runtime modules",
-    "packaging": "PASS: wheel and sdist build, package inventory, installation and N=8 wheel smoke",
+    "packaging": "PASS: corrected wheel/sdist build and inventory; installed corrected wheel hash checked; normal and subnormal-flow N=8 JSON smoke",
     "preservation": "BYTE_IDENTICAL: SOURCE_IDENTITIES.json path tree hashes",
-    "report_only": "PASS: two saved-evidence reductions reproduce RESULTS.json and RESULTS.md byte-for-byte without simulation",
+    "report_only": "PASS: report-5/report-6 reproduce final RESULTS.json/RESULTS.md byte-for-byte, including derived-window gates; no simulation",
     "ruff": "PASS: puckworks/tests and new tools/example",
     "shell": "NOT_APPLICABLE: no shell source changes",
-    "strict_JSON_private_path_secret_boundary": "PASS: every added/changed public file; no raw arrays/logs, private absolute paths or credential prefixes"
+    "strict_JSON_private_path_secret_boundary": "PASS: every added/changed public file; no raw arrays/logs, private absolute paths or credential prefixes",
+    "unaffected_history_reuse": "PASS: HISTORY_REUSE.json, original normal-path AST identical for both corrected modules; 32 case domains, 150059 values, 150349 local volumes, 98 segment records, 312 forcing endpoints checked"
   },
   "classification": {
     "baseline": "PASS",
-    "hosted_CI": "PENDING_PUBLICATION_EXACT_HEAD_RECEIPTS_ON_PR",
-    "independent_review": "PENDING_EXACT_HEAD_NONHUMAN_REVIEW_RECEIPT_ON_PR",
+    "hosted_CI": "PENDING_CORRECTED_EXACT_HEAD_RECEIPT_ON_PR_317",
+    "independent_review": "CORRECTIONS_REVIEWED_FINAL_EXACT_HEAD_NONHUMAN_RECEIPT_PENDING_ON_PR_317",
     "infrastructure": "NO_LOCAL_BLOCKER",
     "numerical": "VERIFIED_ON_DECLARED_CASES",
     "physical_validation": "NOT_ESTABLISHED",
@@ -35,6 +36,10 @@
       "retained_outside_git": true,
       "sha256": "eb9da44ab98f3e7b8eab29f2e0efc65d8a6a4bd3166adedad453d242d856b497"
     },
+    "boundaries-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "1fedb3e2a8d024482c97f9f3883b704b00a62a1ac567a7d33ff5406dc2eec0de"
+    },
     "docs-final.log": {
       "retained_outside_git": true,
       "sha256": "d8940d7f0fda7692251db0916afb3ec81ab1a9adc269333143fd853cf96b359f"
@@ -47,6 +52,14 @@
       "retained_outside_git": true,
       "sha256": "a3ab11c7dbd864c79a59a6d5babd903f747cd60486cbe42afa87c5c68b14aef1"
     },
+    "history-reuse.log": {
+      "retained_outside_git": true,
+      "sha256": "6f1f4b181ed2810f147048e5c2446522f18d2ef1431b41e6641f411170afab6b"
+    },
+    "insights-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
     "insights-final.log": {
       "retained_outside_git": true,
       "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
@@ -55,13 +68,25 @@
       "retained_outside_git": true,
       "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
     },
+    "mypy-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8"
+    },
     "mypy-new.log": {
       "retained_outside_git": true,
       "sha256": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8"
     },
+    "package-build-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "1ed2c5bbb59b0487de98ec90aa43f45b793ed828130a0420ec0fa361d9672df2"
+    },
     "package-build.log": {
       "retained_outside_git": true,
       "sha256": "c7f15056481ea65965b4a8666f567ad3925575f86d0a4ea1b67b4b0bd4fda54c"
+    },
+    "package-check-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
     },
     "package-check.log": {
       "retained_outside_git": true,
@@ -71,9 +96,37 @@
       "retained_outside_git": true,
       "sha256": "7cdc68dd44acb69e675e83c3763f5e933d587c1632f01e785eec0566392e02b4"
     },
+    "report-5.log": {
+      "retained_outside_git": true,
+      "sha256": "83a00defa91e79f29a55d8f28dc70f9a1c6fe220ce7e066fcab87cccd6ce2a70"
+    },
+    "report-6.log": {
+      "retained_outside_git": true,
+      "sha256": "83a00defa91e79f29a55d8f28dc70f9a1c6fe220ce7e066fcab87cccd6ce2a70"
+    },
     "report-determinism.log": {
       "retained_outside_git": true,
       "sha256": "86a9cf54e755f6e7e4480c5042303e746d6325ca035d3d8f2206ecf002654c78"
+    },
+    "report-final-determinism.log": {
+      "retained_outside_git": true,
+      "sha256": "86a9cf54e755f6e7e4480c5042303e746d6325ca035d3d8f2206ecf002654c78"
+    },
+    "review-correction-tests.log": {
+      "retained_outside_git": true,
+      "sha256": "83e5e527ca73727855ebcbbf1311e1b07773e5e49c8167b4a13fb5ae697acc86"
+    },
+    "review-final-tests-2.log": {
+      "retained_outside_git": true,
+      "sha256": "2ff846dbc4aae0c052f533931c92d943b614df8847ffc10ef513a2a0aee5c074"
+    },
+    "review-final-tests.log": {
+      "retained_outside_git": true,
+      "sha256": "00e9333bf1b4d56a44f08f3621c306a63947ac1633568bb19642f3225a3cccc2"
+    },
+    "ruff-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
     },
     "ruff.log": {
       "retained_outside_git": true,
@@ -87,13 +140,25 @@
       "retained_outside_git": true,
       "sha256": "b57d9a4c0174478477bf7885d2ef659ea7197cc68564d6c72d8613e05bd46e2c"
     },
+    "status-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
     "status-final.log": {
       "retained_outside_git": true,
       "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
     },
+    "wheel-install-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "780fb47cfa96820d132cdd29745ae7797abc34d057b42ee920b438fb8a239d44"
+    },
     "wheel-install.log": {
       "retained_outside_git": true,
       "sha256": "6ee323a7b506ba5208f0cfb149d95ae27e5bba9277f866f3667d99a50fee327a"
+    },
+    "wheel-smoke-corrected.log": {
+      "retained_outside_git": true,
+      "sha256": "796a6ce5fa95c69a214043ec7aa1c8d7644fa23f572b5e8f574ab02fd3eeaf5b"
     },
     "wheel-smoke.log": {
       "retained_outside_git": true,
@@ -120,6 +185,19 @@
       "classification": "REPORTING_SOFTWARE",
       "log": "report-2.log",
       "reason": "Spatial report ratios are scalars; renderer type handling corrected after successful JSON reduction. Entire attempt charged. No trajectory affected."
+    },
+    {
+      "classification": "REVIEW_REPORTING_COVERAGE",
+      "reason": "Derived [7,19], [20,30], [5,25] windows were calculated but omitted from comparison gates. Added to all fraction accuracy maxima/gates at frozen thresholds; saved-evidence regeneration passes. No trajectory affected."
+    },
+    {
+      "classification": "REVIEW_API_BOUNDARY",
+      "reason": "Extreme finite flow clocks could overflow intermediate arithmetic or create NaN forcing metadata. Exceptional arithmetic fallbacks and pre-integration finite-forcing rejection fix this; new N<=8 tests and installed-wheel smoke pass. Normal-domain arithmetic preserved by AST/bitwise proof."
+    },
+    {
+      "classification": "RUNNER_SOFTWARE",
+      "log": "review-final-tests.log",
+      "reason": "New identity check eagerly indexed missing receipt identities in a rejection fixture; use get to consistently reject missing identities. Final rerun: 112 passed."
     }
   ],
   "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003",
@@ -160,6 +238,11 @@
       "passed": 81,
       "scope": "final regenerated current-status and insight surfaces",
       "wall_s": 2.86
+    },
+    {
+      "passed": 112,
+      "scope": "final corrected API/runner and exact identity-reuse boundaries",
+      "wall_s": 6.38
     }
   ]
 }

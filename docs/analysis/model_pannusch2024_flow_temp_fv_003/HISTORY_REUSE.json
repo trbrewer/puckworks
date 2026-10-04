@@ -1,0 +1,29 @@
+{
+  "bitwise_and_domain_checks": {
+    "cases": 32,
+    "finite_forcing_endpoint_checks": 312,
+    "flow_values": 150059,
+    "local_volumes": 150349,
+    "segment_records": 98
+  },
+  "cases_sha256": "82d849913df79797ba87fa0cfa2c49f3e81b9bb28ca0ee1e08287c1da8fa2211",
+  "contract_sha256": "b34872e344fbc510672e248faec3f7e9c180b67338f1f62c5412f53497d52d97",
+  "exact_old_current_hashes_and_AST_proofs": {
+    "puckworks/models/pannusch2024/flow_history.py": {
+      "current_sha256": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+      "original_sha256": "82ea18c35c07eddb9c10dab39c85870caa5d4c1a24aace2923e8164f5b477be1",
+      "unchanged_normal_path_AST_sha256": "268bc435b7eaea6394431ef051acf9f4cdb3532f822ab3a298876905f1d84ca4"
+    },
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": {
+      "current_sha256": "1ce6293f98e7e13772e4d2ae6477dee44a4a0e609bbfdc84535fa10bd4cd5469",
+      "original_sha256": "7ed20361db1c24c950c829b71dc4860941eecf282d2440c92ff921484eb87cdb",
+      "unchanged_normal_path_AST_sha256": "55bd68175a338e8fdc42952663853609307aae9a577d8f2042b9dc4161f4aec0"
+    }
+  },
+  "limitation": "This is unaffected-domain evidence reuse, not a rerun under the current whole-file hashes. Original producer identities remain in all 32 execution receipts. New extreme-clock behavior is covered by small API tests; no broader accuracy claim.",
+  "original_numerical_producer": "92580e3d2659035071bf9fa0f1c4ba9da58e1068",
+  "scope": "No simulation or reference trajectory. All frozen flow support durations are >=1e-300 and twice every interval width is finite, so exceptional branches cannot execute at any campaign query. Every new finite-forcing guard passes. Removing only exceptional branches and the rejection guard yields the exact original AST for both complete modules. Original arithmetic, generator, stepping and observers are unchanged throughout this declared domain.",
+  "script_sha256": "ae0686b334c25e886bafc768b542675378890b0da665407e869a59d8a05eb90a",
+  "status": "PASS",
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003"
+}

@@ -41,6 +41,8 @@ class _FlowSegment:
     def value_m3_s(self, t_s):
         if not self.start_s <= t_s <= self.end_s:
             th._reject("segment flow query outside support")
+        if self.end_s-self.start_s < 1e-300:
+            return self.start_m3_s + (self.end_m3_s-self.start_m3_s)*((t_s-self.start_s)/(self.end_s-self.start_s))
         return self.start_m3_s + (self.end_m3_s-self.start_m3_s)*(t_s-self.start_s)/(self.end_s-self.start_s)
 
 
@@ -85,6 +87,8 @@ class FlowHistory:
         if self.kind == "constant":
             return self.flows_m3_s[i]
         a, b = self.times_s[i:i+2]
+        if b-a < 1e-300:
+            return self.flows_m3_s[i]+(self.flows_m3_s[i+1]-self.flows_m3_s[i])*((t-a)/(b-a))
         return self.flows_m3_s[i]+(self.flows_m3_s[i+1]-self.flows_m3_s[i])*(t-a)/(b-a)
 
     def integral(self, a, b):
@@ -102,9 +106,15 @@ class FlowHistory:
                 continue
             q = self.flows_m3_s[i]
             if self.kind == "linear":
-                slope = (self.flows_m3_s[i+1]-q)/(right-left)
-                # Endpoint-local trapezoid, stable even for tiny delayed windows.
-                q += slope*((lo-left)+(hi-left))/2
+                if right-left < 1e-300 or not math.isfinite((lo-left)+(hi-left)):
+                    # Exceptional clock scales: normalize before arithmetic that
+                    # could overflow/underflow. Normal campaign arithmetic stays unchanged.
+                    midpoint_fraction = ((lo-left)/(right-left)+(hi-left)/(right-left))/2
+                    q += (self.flows_m3_s[i+1]-q)*midpoint_fraction
+                else:
+                    slope = (self.flows_m3_s[i+1]-q)/(right-left)
+                    # Endpoint-local trapezoid, stable even for tiny delayed windows.
+                    q += slope*((lo-left)+(hi-left))/2
             parts.append((hi-lo)*q)
         return math.fsum(parts)
 
@@ -119,7 +129,11 @@ class FlowHistory:
                 continue
             qa = qb = self.flows_m3_s[i]
             if self.kind == "linear":
-                slope = (self.flows_m3_s[i+1]-qa)/(right-left)
-                qa, qb = qa+slope*(a-left), qa+slope*(b-left)
+                if right-left < 1e-300:
+                    delta = self.flows_m3_s[i+1]-qa
+                    qa, qb = qa+delta*((a-left)/(right-left)), qa+delta*((b-left)/(right-left))
+                else:
+                    slope = (self.flows_m3_s[i+1]-qa)/(right-left)
+                    qa, qb = qa+slope*(a-left), qa+slope*(b-left)
             segments.append(_FlowSegment(a, b, qa, qb))
         return tuple(segments)

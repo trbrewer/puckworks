@@ -2,9 +2,25 @@
   "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
   "base": "1d780b7fb57df4693e22e564010c891602df119d",
   "contract_commit": "7f97054fb832b79d9c0c3f0f56f7bef171c3f8f9",
-  "evidence_reuse": "All 32 reserved executions match current runtime/source/reference/configuration and numerical-worker/resource-block hashes. Post-campaign changes only add tests, documentation and saved-evidence reporting; no trajectory rerun.",
+  "current_numerical_identities": {
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/CASES.json": "82d849913df79797ba87fa0cfa2c49f3e81b9bb28ca0ee1e08287c1da8fa2211",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/CONTRACT.md": "b34872e344fbc510672e248faec3f7e9c180b67338f1f62c5412f53497d52d97",
+    "numerical_worker_and_resource_blocks": "0c088bdc888cfc24b9ced32a95be17f1fa64410b394ce3b645d57ebf5b4f7ec7",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "1ce6293f98e7e13772e4d2ae6477dee44a4a0e609bbfdc84535fa10bd4cd5469",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_flow_temp_fv_reference.py": "1bfce0a9de880b1f61b34564dc3b0c7b633b1ffecbf4db2b7ff3ff01916826fa",
+    "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9"
+  },
+  "evidence_reuse": "Original execution receipts retain original numerical-producer hashes. Reviewed exceptional-clock fallback/input guards affect two runtime module hashes, with all original normal-domain AST and declared-history values/volumes unchanged; HISTORY_REUSE.json proves no campaign trajectory is affected. Reducer accepts only these exact old/new pairs, with every other identity including frozen CONTRACT/CASES exact. Derived-window gates now cover all declared windows at unchanged thresholds. No trajectory rerun.",
   "ewp_read_only": "73ec476ffe6ac626705ca949e28b32935ddf2992",
-  "numerical_identities": {
+  "numerical_producer": "92580e3d2659035071bf9fa0f1c4ba9da58e1068",
+  "original_numerical_identities": {
     "docs/analysis/model_pannusch2024_flow_temp_fv_003/CASES.json": "82d849913df79797ba87fa0cfa2c49f3e81b9bb28ca0ee1e08287c1da8fa2211",
     "docs/analysis/model_pannusch2024_flow_temp_fv_003/CONTRACT.md": "b34872e344fbc510672e248faec3f7e9c180b67338f1f62c5412f53497d52d97",
     "numerical_worker_and_resource_blocks": "0c088bdc888cfc24b9ced32a95be17f1fa64410b394ce3b645d57ebf5b4f7ec7",
@@ -19,7 +35,6 @@
     "tools/pannusch_flow_temp_fv_reference.py": "1bfce0a9de880b1f61b34564dc3b0c7b633b1ffecbf4db2b7ff3ff01916826fa",
     "tools/pannusch_temperature_history_verification.py": "75ce8a4d3fd12312f88c6a3c67f6dc1413a119696b30f67b654620014737def9"
   },
-  "numerical_producer": "92580e3d2659035071bf9fa0f1c4ba9da58e1068",
   "preservation": {
     ".github/workflows": {
       "status": "BYTE_IDENTICAL",
@@ -77,13 +92,14 @@
       "tree_listing_sha256": "4fd674082a9349e999e619dcfed27932493d405ca50eeea03eddf54566972756"
     }
   },
-  "reporter_sha256": "23407f3d298a81b614faa2ec5219b1671665fd180e075a847445b53d30471334",
+  "reporter_sha256": "28485d2cf504c283fe22d693e412f381933fd2d25851ab7fcacdd49b6b30c66a",
   "results_sha256": {
-    "RESULTS.json": "7ba424814b00238e102e6359ce6f021777da7d6583e8e8f3eef7eccd59c2d785",
-    "RESULTS.md": "013d15109720e2bb9664b496273b8152ee141711d261983d38d1bcb9e7174b6c"
+    "RESULTS.json": "ff11cc4cddbdf226564716be7e03941efe8dd9f00c1337e5a78a99627702c3a7",
+    "RESULTS.md": "a1ae0663776bdd31ec17ecc9c5452dd1fc1ac27e28741f32acc4ad2da31c8797"
   },
   "rights": "Pannusch et al. DOI 10.1016/j.jfoodeng.2023.111887; Mendeley DOI 10.17632/y2tz67f6ry.1; source-derived output CC-BY-NC-3.0 separately from first-party software licensing",
   "scope": "RESEARCH_ONLY",
   "source_authority": "INTAKE.json; 001 original inspection receipts reused by hash, no new original or native inspection",
-  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003"
+  "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003",
+  "unaffected_history_receipt_sha256": "0dec55e3fe0c968cd5c8ff3627e2a8767a42914e2f7a16e960bb17f7fab43f32"
 }

@@ -1,6 +1,6 @@
 {
-  "aggregate_numerical_wall_s": 978.0865941271186,
-  "authority_ledger_sha256": "14c853c18dbb63bcb0836217163f791f4e35cf190755cf377429f910a19a4393",
+  "aggregate_numerical_wall_s": 1016.4647849835455,
+  "authority_ledger_sha256": "ae89274510ff312b214028c07e567fb064f1f29da78bd2808b94368f8b67b792",
   "auxiliary": [
     {
       "charged_wall_s": 1.0,
@@ -26,9 +26,27 @@
       "kind": "REPORT_ONLY",
       "reserved_wall_s": 120.0,
       "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 3.825646685436368,
+      "kind": "UNAFFECTED_HISTORY_AST_AND_BITWISE_CHECK",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 17.272368426434696,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 17.28017574455589,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
     }
   ],
-  "auxiliary_wall_s": 53.83350128214806,
+  "auxiliary_wall_s": 92.21169213857502,
   "corrections_used": 0,
   "execution_receipts": [
     {
@@ -358,7 +376,7 @@
     }
   },
   "remaining_correction_slots": 4,
-  "remaining_numerical_wall_s": 821.9134058728814,
+  "remaining_numerical_wall_s": 783.5352150164545,
   "scope": "Includes old comparators, independent references, repeats, passive runs and report reductions. No hidden launches, correction trajectories or full-trajectory reviewer work. Software unit/regression/build QA is separate. Detailed ledger/logs/arrays retained outside Git.",
   "task": "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003",
   "trajectory_wall_s": 924.2530928449705

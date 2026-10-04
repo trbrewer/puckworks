@@ -106,6 +106,15 @@ def test_failed_or_unbound_saved_evidence_cannot_qualify(tmp_path):
         v.load_case(tmp_path, case, [entry])
 
 
+def test_history_correction_reuse_is_bound_to_exact_hash_pairs_and_all_other_identities():
+    current=v.identities()
+    original={**current,**{p:old for p,(old,_) in v.UNAFFECTED_HISTORY_HASHES.items()}}
+    assert v.matching_producer_identities(original,current)
+    for path in current:
+        assert not v.matching_producer_identities({**original,path:'changed'},current)
+        assert not v.matching_producer_identities(original,{**current,path:'changed'})
+
+
 @pytest.mark.parametrize('method',['FV','OLD_FV','ORDERED','Radau'])
 def test_small_worker_roundtrip_and_independent_flux_inventory_failure(tmp_path,method):
     c=v.read_json(v.BUNDLE/'CASES.json')
@@ -164,3 +173,20 @@ def test_spatial_paired_restriction_and_private_passive():
     f['states'][:,:-1]=np.tile([.5,1.5],(2,12))
     meta=dict(case=dict(cells=4),Cstar=1.,M0_cont_kg=1.,grind=1.7)
     assert v.spatial(c,f,meta)['weighted_field']['max_abs_normalized']==0
+
+
+def test_derived_windows_can_fail_even_when_adjacent_fractions_and_Mout_pass():
+    times=np.array([0.,1.,2.,3.])
+    a=dict(times=times,states=np.zeros((4,4)),trace_times=times,
+           primary_states=np.zeros((4,4)),volume=times*1e-6,fractions=np.zeros(1))
+    b={k:x.copy() for k,x in a.items()}
+    b['states'][2,-1]=b['primary_states'][2,-1]=1e-8
+    meta=dict(case=dict(cells=1),Cstar=1.,M0_cont_kg=1.,grind=1.7,
+              actual_span_s=[0,3],flow_history=dict(times_s=[0,3],values=[1e-6],kind='constant'))
+    assert v.agreement(a,b,meta,5e-4)['passed']
+    checked=v.agreement(a,b,meta,5e-4,[[1,2]])
+    assert checked['Mout']['passed'] and checked['each_fraction_abs_over_Cstar']==[0.]
+    assert not checked['passed'] and not checked['derived_windows']['passed']
+    fine=dict(b,states=np.zeros((4,7))); fine['states'][:,-1]=b['states'][:,-1]
+    assert v.spatial(a,fine,meta)['passed']
+    assert not v.spatial(a,fine,meta,[[1,2]])['passed']

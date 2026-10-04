@@ -16,6 +16,28 @@ from tools import pannusch_flow_temp_fv_reference as ref
 S = fv.FVSettings(cells=4, h_max_s=.02, diagnostic_step_s=.0125)
 
 
+def test_extreme_flow_clocks_keep_representable_values_and_strict_JSON():
+    huge=fv.FlowHistory((0.,1e308),(1e-6,3e-6),'linear')
+    assert huge.integral(9e307,1e308)==pytest.approx(2.9e301,rel=3e-15)
+    tiny=fv.FlowHistory((0.,1e-320,.08),(1e-6,3e-6,3e-6),'linear')
+    assert tiny.value_m3_s(1e-320)==3e-6
+    segment=tiny.integration_segments(0,.08)[0]
+    assert segment.value_m3_s(1e-320)==3e-6
+    assert segment.value_m3_s(5e-321)==pytest.approx(2e-6,rel=1e-15)
+    assert tiny.integral(0,1e-320)==0.  # actual volume rounds below float range
+    result=run(T=fv.TemperatureHistory.constant_celsius((0,.08),(88,)),Q=tiny,
+               settings=replace(S,cells=1))
+    assert result.integration_complete
+    json.loads(result.to_json(),parse_constant=lambda x: pytest.fail(x))
+
+
+def test_nonfinite_legacy_temperature_segment_rejected_before_integration():
+    T=fv.TemperatureHistory.linear_celsius((0,1e-320,.08),(80,98,98))
+    with patch.object(fv._System,'generator',side_effect=AssertionError('integration forbidden')):
+        with pytest.raises(fv.InvalidTemperatureHistoryInput,match='nonfinite forcing'):
+            run(T=T)
+
+
 def run(T=None, Q=None, **kwargs):
     T = T or fv.TemperatureHistory.linear_celsius((0,.08),(80,98))
     Q = Q or fv.FlowHistory((0,.03,.08),(1e-6,3e-6),'constant')

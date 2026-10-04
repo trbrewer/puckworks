@@ -108,6 +108,8 @@ reference history clocks, union segmentation and volume arithmetic are independe
 The .04 level is diagnostic for field accuracy; default/finer and default/Radau are gated.
 Resolved aggregate errors and prescribed-flux discrepancies must decrease; comparison floor 1e-10.
 No measured temporal order is claimed. Each fraction error and both trend checks are retained in RESULTS.json.
+Every fraction maximum/gate includes adjacent fraction bounds and derived [7,19], [20,30], [5,25] windows;
+individual derived-window errors are retained separately, using the same declared comparison allowances.
 
 ## Spatial refinement
 
@@ -145,6 +147,7 @@ Exact-environment repeat arrays: BITWISE IDENTICAL.
 Focused tests cover rejection, immutability, strict JSON, finite prefixes, tiny unresolved fractions and deliberate defects; see QA.json.
 Detailed arrays/logs remain outside Git; report mode reproduces these summaries without simulations.
 Source/configuration/producer identities and preservation proofs are in SOURCE_IDENTITIES.json and execution receipts.
+HISTORY_REUSE.json binds original/current hashes and unchanged campaign arithmetic after the reviewed extreme-clock input correction.
 The fixed matrix is numerical evidence only. Arbitrary runtime calls remain accuracy NOT_ASSESSED.
 No empirical/profile-benefit/taste/native-MATLAB/coupling/physical-validation claim or automatic successor follows.
 

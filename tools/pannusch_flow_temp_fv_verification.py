@@ -34,6 +34,25 @@ BUNDLE = ROOT/"docs/analysis/model_pannusch2024_flow_temp_fv_003"
 TASK = "MODEL-PANNUSCH2024-FLOW-TEMP-FV-003"
 PARENT = "1d780b7fb57df4693e22e564010c891602df119d"
 RIGHTS = "Pannusch et al., DOI 10.17632/y2tz67f6ry.1; CC-BY-NC-3.0 source-derived outputs; first-party software licensing separate"
+# Exact, task-local reuse for the reviewed extreme-clock input correction.
+# HISTORY_REUSE.json proves every frozen history follows byte-equivalent original
+# arithmetic; all other identities (including frozen contract/cases) must match.
+UNAFFECTED_HISTORY_HASHES = {
+    "puckworks/models/pannusch2024/flow_history.py": (
+        "82ea18c35c07eddb9c10dab39c85870caa5d4c1a24aace2923e8164f5b477be1",
+        "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f"),
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": (
+        "7ed20361db1c24c950c829b71dc4860941eecf282d2440c92ff921484eb87cdb",
+        "1ce6293f98e7e13772e4d2ae6477dee44a4a0e609bbfdc84535fa10bd4cd5469"),
+}
+
+
+def matching_producer_identities(recorded, current):
+    if recorded == current:
+        return True
+    if not all(current.get(p) == new for p, (_, new) in UNAFFECTED_HISTORY_HASHES.items()):
+        return False
+    return recorded == {**current, **{p: old for p, (old, _) in UNAFFECTED_HISTORY_HASHES.items()}}
 
 
 def observations(contract):
@@ -292,7 +311,9 @@ def load_case(directory,case,ledger):
     meta=read_json(path)
     if meta['case']!=case or meta['case_sha256']!=canonical_hash(case) or meta['status']!='COMPLETE':
         raise ValueError('INCOMPLETE_OR_WRONG_CASE')
-    if meta['identities']!=identities() or e['identities']!=identities(): raise ValueError('NUMERICAL_SOURCE_CHANGED')
+    current=identities()
+    if not all(matching_producer_identities(row.get('identities'),current) for row in (meta,e)):
+        raise ValueError('NUMERICAL_SOURCE_CHANGED')
     if digest(path.with_suffix('.npz'))!=meta['arrays_sha256']: raise ValueError('ARRAY_HASH_MISMATCH')
     with np.load(path.with_suffix('.npz'),allow_pickle=False) as saved: a={k:saved[k] for k in saved.files}
     contract=read_json(BUNDLE/'CASES.json')
@@ -394,7 +415,14 @@ def accounting(meta,a):
     return result
 
 
-def agreement(a,b,meta,allowance):
+def derived_fractions(a,meta,windows):
+    """Declared windows from retained outlet mass and independent local volume."""
+    return np.array([(a['states'][_indices(a['times'],np.array([r]))[0],-1]
+                      -a['states'][_indices(a['times'],np.array([l]))[0],-1])
+                     /ref.volume(meta['flow_history'],l,r) for l,r in windows])
+
+
+def agreement(a,b,meta,allowance,windows=()):
     n,C,M=meta['case']['cells'],meta['Cstar'],meta['M0_cont_kg']
     V=ref.volume(meta['flow_history'],*meta['actual_span_s'])
     difference=a['states']-b['states']
@@ -403,24 +431,31 @@ def agreement(a,b,meta,allowance):
     endpoint=a['primary_states']-b['primary_states'][ai]
     out={name:metric(np.r_[difference[:,i*n:(i+1)*n].ravel(),endpoint[:,i*n:(i+1)*n].ravel()],C,allowance)
          for i,name in enumerate(('liquid','fine','coarse'))}
+    window_difference=derived_fractions(a,meta,windows)-derived_fractions(b,meta,windows)
     out.update(outlet=metric(np.r_[difference[:,n-1],endpoint[:,n-1]],C,allowance),
         Mout=metric(np.r_[difference[:,-1],endpoint[:,-1]],M,allowance),
-        volume=metric(a['volume']-b['volume'],V,allowance),fractions=metric(a['fractions']-b['fractions'],C,allowance),
+        volume=metric(a['volume']-b['volume'],V,allowance),
+        fractions=metric(np.r_[a['fractions']-b['fractions'],window_difference],C,allowance),
+        derived_windows=metric(window_difference,C,allowance),
+        each_derived_window_abs_over_Cstar={str(list(w)):float(abs(d)/C) for w,d in zip(windows,window_difference)},
         each_fraction_abs_over_Cstar=(abs(a['fractions']-b['fractions'])/C).tolist())
     out['aggregate_error']=max(out[k]['max_abs_normalized'] for k in ('liquid','fine','coarse','outlet','Mout','fractions'))
     out['passed']=all(v['passed'] for v in out.values() if isinstance(v,dict) and 'passed' in v)
     return out
 
 
-def spatial(coarse,fine,meta):
+def spatial(coarse,fine,meta,windows=()):
     n,C,M=meta['case']['cells'],meta['Cstar'],meta['M0_cont_kg']
     c=coarse['states'][:,:-1].reshape(-1,3,n); f=fine['states'][:,:-1].reshape(-1,3,n,2).mean(axis=-1)
     psi=ps.GRINDS[meta['grind']]['psi']
     capacities=np.array([ps.ALPHA_L,psi*(1-ps.ALPHA_L),ps.PHI_V2*(1-psi)*(1-ps.ALPHA_L)])
     weighted=ps.ACS*ps.L/n*np.sum(abs(c-f)*capacities[None,:,None],axis=(1,2))
-    out=dict(fractions=metric(coarse['fractions']-fine['fractions'],C,.005),
+    window_difference=derived_fractions(coarse,meta,windows)-derived_fractions(fine,meta,windows)
+    out=dict(fractions=metric(np.r_[coarse['fractions']-fine['fractions'],window_difference],C,.005),
+        derived_windows=metric(window_difference,C,.005),
         Mout=metric(coarse['states'][:,-1]-fine['states'][:,-1],M,.005),weighted_field=metric(weighted,M,.005))
     out['passed']=all(v['passed'] for v in out.values())
+    out['each_derived_window_abs_over_Cstar']={str(list(w)):float(abs(d)/C) for w,d in zip(windows,window_difference)}
     return out
 
 
@@ -454,17 +489,17 @@ def reduce_report(directory,output):
     for solute in fv.th.SPECIES:
         for group,method,budget,target in [('A','OLD_FV',1e-12,'compatibility'),('B','ORDERED',1e-8,'joint_steps')]:
             a,b=f'{group}.{solute}.FV',f'{group}.{solute}.{method}'
-            if a in data and b in data: result[target][solute]=agreement(data[a],data[b],metadata[a],budget)
+            if a in data and b in data: result[target][solute]=agreement(data[a],data[b],metadata[a],budget,contract['derived_windows_s'])
     for direction in ('up','down'):
         default=f'C.{direction}.default'; reference=f'C.{direction}.Radau'
         for other in ('finer','Radau'):
             b=f'C.{direction}.{other}'
-            if default in data and b in data: result['temporal'][direction+'.'+other]=agreement(data[default],data[b],metadata[default],5e-4)
+            if default in data and b in data: result['temporal'][direction+'.'+other]=agreement(data[default],data[b],metadata[default],5e-4,contract['derived_windows_s'])
         errors=[]; fluxes=[]
         for level in ('coarse','default','finer'):
             a=f'C.{direction}.{level}'
             if a in data and reference in data:
-                comparison=agreement(data[a],data[reference],metadata[a],5e-4)
+                comparison=agreement(data[a],data[reference],metadata[a],5e-4,contract['derived_windows_s'])
                 errors.append(comparison['aggregate_error'])
                 flux=result['cases'][a]['accounting']['fluxes']['prescribed_flow_diagnostic']['GL8_minus_Mout']['max_abs_normalized']
                 fluxes.append(flux)
@@ -478,7 +513,7 @@ def reduce_report(directory,output):
         keys=[f'D.{history}.200',nominal,f'D.{history}.800']; vals=[]
         for a,b,label in zip(keys,keys[1:],('200_to_400','400_to_800')):
             if a in data and b in data:
-                v=spatial(data[a],data[b],metadata[a]); result['spatial'][history+'.'+label]=v; vals.append(v)
+                v=spatial(data[a],data[b],metadata[a],contract['derived_windows_s']); result['spatial'][history+'.'+label]=v; vals.append(v)
         if len(vals)==2:
             result['spatial'][history+'.ratios']={k:(vals[0][k]['max_abs_normalized']/vals[1][k]['max_abs_normalized']
                 if min(v[k]['max_abs_normalized'] for v in vals)>1e-10 else None) for k in ('fractions','Mout','weighted_field')}
@@ -516,6 +551,8 @@ def reduce_report(directory,output):
         'POSITIVITY_AND_CONSERVATION_VERIFIED_ACCURACY_INCOMPLETE' if positivity and conservation else 'NUMERICAL_QUALIFICATION_INCOMPLETE',
         software_QA='SEPARATE_RECEIPT',hosted_CI='SEPARATE_RECEIPT',independent_review='SEPARATE_EXACT_HEAD_RECEIPT')
     result['scope']='RESEARCH_ONLY; runtime accuracy NOT_ASSESSED; new 5e-4 joint-linear engineering budget does not amend 002 temperature-only 1e-6; 001/002 preserved'
+    result['unaffected_history_correction_reuse']=dict(old_new_sha256=UNAFFECTED_HISTORY_HASHES,
+        receipt='HISTORY_REUSE.json',scope='Extreme-clock fallback/input rejection only; frozen campaign histories follow unchanged arithmetic. Original producer hashes remain in every execution receipt.')
     Path(output).mkdir(parents=True,exist_ok=True); write_json(Path(output)/'RESULTS.json',result)
     (Path(output)/'RESULTS.md').write_text(render_summary(result))
     return result
@@ -578,7 +615,9 @@ def render_summary(r):
             lines.append('| '+name+f" | {v['h_max_s']:g} | "+' | '.join(f"{e[c]['max_abs_normalized']:.9g}" for c in ('liquid','fine','coarse','outlet','Mout','fractions'))+f" | {v['prescribed_flux_discrepancy']:.9g} |")
     lines += ['', 'The .04 level is diagnostic for field accuracy; default/finer and default/Radau are gated.',
         'Resolved aggregate errors and prescribed-flux discrepancies must decrease; comparison floor 1e-10.',
-        'No measured temporal order is claimed. Each fraction error and both trend checks are retained in RESULTS.json.', '',
+        'No measured temporal order is claimed. Each fraction error and both trend checks are retained in RESULTS.json.',
+        'Every fraction maximum/gate includes adjacent fraction bounds and derived [7,19], [20,30], [5,25] windows;',
+        'individual derived-window errors are retained separately, using the same declared comparison allowances.', '',
         '## Spatial refinement', '',
         'Fine fields are conservatively restricted by paired cell averages; weights are A*dz*[alpha_l,as1,phi_v2*as2].',
         'All channels and both mesh pairs are reported. Only N400 to N800 is gated at .005 on each fixed scale.', '',
@@ -604,6 +643,7 @@ def render_summary(r):
         'Focused tests cover rejection, immutability, strict JSON, finite prefixes, tiny unresolved fractions and deliberate defects; see QA.json.',
         'Detailed arrays/logs remain outside Git; report mode reproduces these summaries without simulations.',
         'Source/configuration/producer identities and preservation proofs are in SOURCE_IDENTITIES.json and execution receipts.',
+        'HISTORY_REUSE.json binds original/current hashes and unchanged campaign arithmetic after the reviewed extreme-clock input correction.',
         'The fixed matrix is numerical evidence only. Arbitrary runtime calls remain accuracy NOT_ASSESSED.',
         'No empirical/profile-benefit/taste/native-MATLAB/coupling/physical-validation claim or automatic successor follows.', '',
         r['rights']+'.', '']

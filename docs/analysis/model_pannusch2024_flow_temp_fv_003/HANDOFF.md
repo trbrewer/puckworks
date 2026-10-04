@@ -19,18 +19,24 @@ fraction/Mout allowance and **does not amend or inherit 002's tighter 1e-6
 temperature-only qualification**. Runtime calls retain accuracy NOT_ASSESSED;
 COMPLETE means integration/support, not qualified accuracy. Unsupported values
 are null with reasons; inadmissibility or unresolved mass differences suppress
-public fraction concentrations. Neither flux diagnostic is an exact solution.
+public fraction concentrations. Neither flux diagnostic is an exact solution. Exceptional finite flow-clock
+arithmetic is stable where results are representable; volumes below the float
+range round to zero. If an unchanged TemperatureHistory produces nonfinite
+derived forcing, the new API rejects it before integration rather than returning
+non-JSON metadata. No legacy history contract or arithmetic is changed.
 
 ## Outcome
 
 **VERIFIED_ON_DECLARED_CASES**: all 32 planned executions completed and every
-frozen gate passed. No candidate/reference failures, missing coverage, correction
+frozen gate passed. All derived [7,19], [20,30], [5,25] windows are included in the same frozen fraction
+gates; the maximum default/finer or default/Radau derived-window error is
+1.68856542e-9 C*. No candidate/reference failures, missing coverage, correction
 trajectories or incomplete numerical checks remain. Constant-Q comparisons are
 bitwise equal on all compared numerical channels; the worst default/Radau
 fixed-scale difference is 8.1970955e-5. Primary endpoints, requested/diagnostic
 samples and quadrature nodes were checked; this is not an all-time floating-point
 certificate. The full campaign consumed 924.253093 execution wall-seconds plus
-53.833501 auxiliary seconds, **978.086594 of 1800 seconds**, with all four
+92.211692 auxiliary seconds, **1016.464785 of 1800 seconds**, with all four
 correction slots unused. Retained test/reference/reporting defects were corrected
 in this task and are classified separately in QA.json.
 
@@ -40,7 +46,13 @@ in this task and are classified separately in QA.json.
 failed/incomplete check, fixed-scale error and comparison. [CASES.json](CASES.json)
 and [CONTRACT.md](CONTRACT.md) were frozen at
 `7f97054` before numerical producer `92580e3`. [SOURCE_IDENTITIES.json](SOURCE_IDENTITIES.json)
-binds actual producers and unchanged predecessor/source paths. [RESOURCES.json](RESOURCES.json)
+binds original and current producer hashes and unchanged predecessor/source paths.
+[HISTORY_REUSE.json](HISTORY_REUSE.json) proves unchanged campaign arithmetic after
+the review correction for extreme clock inputs: removing only exceptional branches
+and the pre-integration rejection guard reproduces the original AST of both
+runtime modules. All declared history/volume checks are bitwise identical;
+original numerical receipts retain their actual producer hashes. Only these exact
+old/new hashes are eligible for reuse; no trajectory was rerun. [RESOURCES.json](RESOURCES.json)
 records launches and charged numerical/auxiliary work; [QA.json](QA.json) is a
 separate software receipt. Detailed arrays, logs and task authority are outside Git.
 
@@ -95,7 +107,7 @@ No empirical score, fit, profile benefit, taste, MATLAB equivalence, coupling,
 production adoption, physical validation, laboratory operation or successor.
 
 Final draft PR URL/exact head, hosted checks and the explicitly nonhuman
-independent exact-head review are recorded on the task PR linked to issue #316.
+independent exact-head review are recorded on [draft PR #317](https://github.com/trbrewer/puckworks/pull/317), linked to issue #316.
 Pending/unavailable CI or review is not PASS. The PR remains draft and unmerged
 with auto-merge disabled. The owner may assess this bounded result; this task
 does not start a successor.
