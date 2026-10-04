@@ -407,6 +407,21 @@
       "issue_or_pr": "#67",
       "verified_commit": null,
       "verified_date": "2026-10-02"
+    },
+    {
+      "id": "model-pannusch2024-temp-history-001",
+      "title": "Prescribed uniform temperature history for saturated Pannusch extraction",
+      "area": "model-component",
+      "state": "active",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": "Draft PR owner disposition; full qualification INCOMPLETE: step-state agreement, positivity and discrete-budget quadrature fail; CI/review separate; no successor",
+      "acceptance_evidence": "docs/analysis/model_pannusch2024_temp_history_001/RESULTS.json; 27 executions, 43 segments; source-preserving numerical capability; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "issue_or_pr": "#313",
+      "verified_commit": null,
+      "verified_date": null
     }
   ]
 }

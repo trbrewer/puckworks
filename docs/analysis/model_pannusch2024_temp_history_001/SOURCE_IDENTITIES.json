@@ -1,0 +1,80 @@
+[
+  {
+    "source_relative_path": "MATLAB_Code/physical_parameters.m",
+    "sha256": "632de12d04a1a0b7a2fba7a8cfdff26df69c69874386bf281dcf6f9956923c73",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/numerical_parameters.m",
+    "sha256": "1c42759d031f25b6d15c55cd3ae4c44f87658a6721e4e47f62453a3d4c9ed0ed",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/pde_coffee_extraction_fd_Fit3.m",
+    "sha256": "62de5e80e19d72f307a7d75fc3e1bb3a260a1cd41d040ccdf8c2ea80911c9c95",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/simulation_Fit3.m",
+    "sha256": "0b78d2d62ec45d7eb6f093b096d440318e291bc3e4be04cd0f86986b09491d97",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/SherwoodFunction.m",
+    "sha256": "d98e9c491a911bd760f26f62e0be49c153ca8404d622879101f19d736470f81f",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/diffusionCoeff.m",
+    "sha256": "37a70c9c6df5eed0c4e0056f04d6ff77ee7e5fdb0002f99bdb1aa64c0c0e1ae9",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/vantHoff_solubility.m",
+    "sha256": "3509f964e5bf97616a188066e4e685a5455e1c25dace57bd850b2b7d7c1e1bd2",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "source_relative_path": "MATLAB_Code/five_point_biased_upwind.m",
+    "sha256": "995921716ea9d27b51790d210e73ef8b1df858b590b5a7c8923c5d0a486c62cc",
+    "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+    "rights": "CC-BY-NC-3.0"
+  },
+  {
+    "repository_path": "puckworks/models/pannusch2024/solver.py",
+    "sha256": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "inspection": "READ"
+  },
+  {
+    "repository_path": "puckworks/models/pannusch2024/closures.py",
+    "sha256": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "inspection": "READ"
+  },
+  {
+    "repository_path": "puckworks/data/pannusch2024/table2_fitted_params.csv",
+    "sha256": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "inspection": "READ"
+  },
+  {
+    "repository_path": "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv",
+    "sha256": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "inspection": "READ"
+  },
+  {
+    "repository_path": "puckworks/data/MANIFEST.csv",
+    "sha256": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "inspection": "READ"
+  },
+  {
+    "repository_path": "puckworks/data/AVAILABLE_DATA_REGISTER.json",
+    "sha256": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "inspection": "READ"
+  }
+]

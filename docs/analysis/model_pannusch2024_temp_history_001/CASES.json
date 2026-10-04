@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "task": "MODEL-PANNUSCH2024-TEMP-HISTORY-001",
+  "Q_m3_s": 2e-06,
+  "span_s": [
+    0.0,
+    30.0
+  ],
+  "grind": 1.7,
+  "species": [
+    "caffeine",
+    "trigonelline",
+    "5CQA",
+    "tds"
+  ],
+  "fraction_bounds_s": [
+    0.0,
+    1.0,
+    5.0,
+    10.0,
+    17.0,
+    20.0,
+    25.0,
+    30.0
+  ],
+  "observation_rule": "sorted union arange(2401)*0.0125 and 7\u00b11e-8,19\u00b11e-8",
+  "grids": [
+    100,
+    200,
+    400
+  ],
+  "levels": {
+    "coarse": [
+      1e-07,
+      1e-09,
+      0.1
+    ],
+    "fine": [
+      1e-09,
+      1e-11,
+      0.05
+    ],
+    "finer": [
+      1e-11,
+      1e-13,
+      0.025
+    ],
+    "radau": [
+      2e-12,
+      2e-14,
+      0.05
+    ]
+  },
+  "max_executions": 32,
+  "planned_executions": 27,
+  "correction_reserve": 4,
+  "max_wall_s": 1800,
+  "per_execution_timeout_s": 60,
+  "budgets": {
+    "temporal": 1e-06,
+    "legacy_fraction": 0.0001,
+    "continuum_inventory": 0.005,
+    "spatial_fraction": 0.005,
+    "undershoot": 1e-06,
+    "independent_quadrature": 1e-06
+  },
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "cases": [
+    {
+      "id": "A.caffeine.legacy",
+      "family": "A",
+      "solute": "caffeine",
+      "method": "legacy",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.caffeine.BDF",
+      "family": "A",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.trigonelline.legacy",
+      "family": "A",
+      "solute": "trigonelline",
+      "method": "legacy",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.trigonelline.BDF",
+      "family": "A",
+      "solute": "trigonelline",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.5CQA.legacy",
+      "family": "A",
+      "solute": "5CQA",
+      "method": "legacy",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.5CQA.BDF",
+      "family": "A",
+      "solute": "5CQA",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.tds.legacy",
+      "family": "A",
+      "solute": "tds",
+      "method": "legacy",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "A.tds.BDF",
+      "family": "A",
+      "solute": "tds",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0
+      ]
+    },
+    {
+      "id": "B.caffeine.BDF",
+      "family": "B",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.caffeine.expm",
+      "family": "B",
+      "solute": "caffeine",
+      "method": "expm",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.trigonelline.BDF",
+      "family": "B",
+      "solute": "trigonelline",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.trigonelline.expm",
+      "family": "B",
+      "solute": "trigonelline",
+      "method": "expm",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.5CQA.BDF",
+      "family": "B",
+      "solute": "5CQA",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.5CQA.expm",
+      "family": "B",
+      "solute": "5CQA",
+      "method": "expm",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.tds.BDF",
+      "family": "B",
+      "solute": "tds",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "B.tds.expm",
+      "family": "B",
+      "solute": "tds",
+      "method": "expm",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "constant",
+      "times_s": [
+        0.0,
+        7.0,
+        19.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0,
+        86.0
+      ]
+    },
+    {
+      "id": "C.rise.coarse",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "coarse",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "C.rise.fine",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "C.rise.finer",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "finer",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "C.rise.radau",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "Radau",
+      "level": "radau",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "C.fall.coarse",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "coarse",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        93.0,
+        88.0
+      ]
+    },
+    {
+      "id": "C.fall.fine",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        93.0,
+        88.0
+      ]
+    },
+    {
+      "id": "C.fall.finer",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "finer",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        93.0,
+        88.0
+      ]
+    },
+    {
+      "id": "C.fall.radau",
+      "family": "C",
+      "solute": "caffeine",
+      "method": "Radau",
+      "level": "radau",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        93.0,
+        88.0
+      ]
+    },
+    {
+      "id": "D.rise.100",
+      "family": "D",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 100,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "D.rise.400",
+      "family": "D",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 400,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    },
+    {
+      "id": "E.repeat.rise.fine",
+      "family": "E",
+      "solute": "caffeine",
+      "method": "BDF",
+      "level": "fine",
+      "nz": 200,
+      "history_kind": "linear",
+      "times_s": [
+        0.0,
+        30.0
+      ],
+      "temperatures_C": [
+        88.0,
+        93.0
+      ]
+    }
+  ]
+}

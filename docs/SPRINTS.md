@@ -1,5 +1,13 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] MODEL-PANNUSCH2024-TEMP-HISTORY-001 / #313: additive prescribed uniform T(t)
+  at fixed SI Q; implementation and 27-case numerical campaign complete. Full
+  qualification INCOMPLETE: step-state agreement, positivity and budget quadrature
+  fail; QA/CI/independent review remain separate receipts. G2 / NUMERICAL_METHOD_CHANGE;
+  [contract](analysis/model_pannusch2024_temp_history_001/CONTRACT.md).
+  No empirical scoring, thermal field, coupling or successor;
+  PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 - [x] MODEL-GRUDEVA2026-REDUCED-001: standalone fixed-flow implementation, independent analytical and numerical verification, native reference runner. G2 / NUMERICAL_METHOD_CHANGE; no EWP production change. [Evidence](analysis/model_grudeva2026_reduced_001/RESULTS.md).
 - [ ] #67 publication-reference completion: Figures 3/4 mismatch at fixed source parameters; FIG5_REFERENCE_INCOMPLETE. PR #308 is merged at 8f5607799ff08ced4524b58aef653b8760a448d9. MODEL-GRUDEVA2026-REFERENCE-002 returns COMPARATOR_QUALIFICATION_INCOMPLETE ([result](analysis/model_grudeva2026_reference_002/RESULTS.md)); no production correction or successor. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 - [x] MODEL-GRUDEVA2026-CONSERVATIVE-003 bounded repair: conservative exchange/transport and actual phase accounting implemented; coupled/observation qualification remains incomplete because the finite refinement matrix fails. [Evidence](analysis/model_grudeva2026_conservative_003/RESULTS.md). G2 / NUMERICAL_METHOD_CHANGE; no baseline correction, merge, #67 closure or automatic successor. PR #309's historical result remains preserved.

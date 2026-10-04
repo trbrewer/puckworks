@@ -1,0 +1,14 @@
+{
+  "correction": "Reject complex inputs before real conversion; no valid-real numerical arithmetic changed",
+  "original_source_commit": "a8c94caf35bff300519af9bcffb7d4771c5e9553",
+  "original_review_head": "489948fd50dcd2dbdac45f8417aa0e052e11a67f",
+  "module": "puckworks/models/pannusch2024/temperature_history.py",
+  "original_sha256": "0a4f754edbe0eab0b8f44e18d7c025d5109a645dc2d4a22adeddd1268de4a7d5",
+  "corrected_sha256": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+  "original_and_guard_removed_corrected_ast_sha256": "2d9e1b8c131dbcf4931bc8d4a18c99ce58c1095dc0c07e9e35350e54bd612004",
+  "ast_transform": "Remove only the added _reject_complex function and standalone calls to it; otherwise full module AST equality",
+  "full_bed_replays": 0,
+  "unchanged_evidence": "All original execution IDs, source hashes, arrays, failed checks and reports retained; new guards affect malformed inputs only",
+  "original_and_guard_removed_corrected_bytes_sha256": "0a4f754edbe0eab0b8f44e18d7c025d5109a645dc2d4a22adeddd1268de4a7d5",
+  "byte_transform": "Remove _reject_complex definition up to def _vector and standalone _reject_complex call lines; remaining complete module bytes equal original"
+}
