@@ -125,11 +125,25 @@ def time_for_volume(flow, target):
 
 
 def reference(temperature, flow, solute, grind, n, observations, *, t_span_s,
-              method='Radau', rtol=2e-12, scaled_atol=2e-14, max_step_s=.02):
+              method='Radau', rtol=2e-12, scaled_atol=2e-14, max_step_s=.02,
+              initial_fields=None):
     times = np.asarray(observations)
     t0, tf = t_span_s
     y, M0 = initial_and_inventory(value(temperature, t0), solute, grind, n)
     Cstar = ps._solute_params()[solute]['c_s0']
+    if initial_fields is not None:
+        # 004 additive input only. The historical 003 default path is unchanged.
+        c = np.asarray(initial_fields)
+        if c.shape != (3, n) or not np.isrealobj(c) or not np.isfinite(c).all() or np.any(c < 0):
+            raise ValueError('INVALID_REFERENCE_INITIAL_FIELDS')
+        psi = ps.GRINDS[grind]['psi']
+        capacities = ps.ACS*(ps.L/n)*np.array([
+            ps.ALPHA_L, psi*(1-ps.ALPHA_L), ps.PHI_V2*(1-psi)*(1-ps.ALPHA_L)])
+        M0 = math.fsum((c*capacities[:, None]).ravel())
+        Cstar = float(np.max(c))
+        if M0 <= 0 or Cstar <= 0:
+            raise ValueError('REFERENCE_REQUIRES_POSITIVE_INITIAL_INVENTORY')
+        y = np.r_[c.ravel(), 0.]
     atol = np.r_[np.full(3*n, scaled_atol*Cstar), scaled_atol*M0]
     values = np.empty((len(times), len(y)))
     values[times == t0] = y
@@ -167,6 +181,16 @@ def reference(temperature, flow, solute, grind, n, observations, *, t_span_s,
     if not np.isfinite(values).all():
         raise RuntimeError('NONFINITE_REFERENCE_OBSERVATIONS')
     return values, np.asarray(checked_t), np.asarray(checked_y), records
+
+
+def stateful_u_fields(solute, n):
+    """004 U family: independently integrated polynomial cell averages."""
+    edges = np.arange(n+1, dtype=float)/n
+    left, right = edges[:-1], edges[1:]
+    avg_x = (right+left)/2
+    avg_x2 = (right*right+right*left+left*left)/3
+    return ps._solute_params()[solute]['c_s0']*np.array([
+        .15+.25*avg_x, .85-.55*avg_x, .10+.45*avg_x2])
 
 
 def primary_times(temperature, flow, span, h):

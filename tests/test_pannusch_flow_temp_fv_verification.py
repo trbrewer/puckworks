@@ -107,7 +107,9 @@ def test_failed_or_unbound_saved_evidence_cannot_qualify(tmp_path):
 
 
 def test_history_correction_reuse_is_bound_to_exact_hash_pairs_and_all_other_identities():
-    current=v.identities()
+    # The 003 receipt protects its two historical implementations. An additive
+    # later engine is not authorized to restamp that historical campaign.
+    current={**v.identities(), **{p:new for p,(_,new) in v.UNAFFECTED_HISTORY_HASHES.items()}}
     original={**current,**{p:old for p,(old,_) in v.UNAFFECTED_HISTORY_HASHES.items()}}
     assert v.matching_producer_identities(original,current)
     for path in current:

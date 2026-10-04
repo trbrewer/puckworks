@@ -1,0 +1,105 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "baseline": "PASS: 5082 quick, 112 focused, 5 scientific-baseline; protected-target lane excluded; metadata and source-closure registry checks, lint/types/generated/package checks pass",
+  "classification": "G2 / NUMERICAL_METHOD_CHANGE",
+  "data_scope": "Equations, geometry, parameters, source-code provenance only. No assays, targets, new corpus audit, external native execution, exhaustion conclusion or laboratory recommendation.",
+  "original_files_inspected_this_task": [],
+  "prior_original_inspections_reused": [
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "632de12d04a1a0b7a2fba7a8cfdff26df69c69874386bf281dcf6f9956923c73",
+      "source_relative_path": "MATLAB_Code/physical_parameters.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "1c42759d031f25b6d15c55cd3ae4c44f87658a6721e4e47f62453a3d4c9ed0ed",
+      "source_relative_path": "MATLAB_Code/numerical_parameters.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "62de5e80e19d72f307a7d75fc3e1bb3a260a1cd41d040ccdf8c2ea80911c9c95",
+      "source_relative_path": "MATLAB_Code/pde_coffee_extraction_fd_Fit3.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "0b78d2d62ec45d7eb6f093b096d440318e291bc3e4be04cd0f86986b09491d97",
+      "source_relative_path": "MATLAB_Code/simulation_Fit3.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "d98e9c491a911bd760f26f62e0be49c153ca8404d622879101f19d736470f81f",
+      "source_relative_path": "MATLAB_Code/SherwoodFunction.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "37a70c9c6df5eed0c4e0056f04d6ff77ee7e5fdb0002f99bdb1aa64c0c0e1ae9",
+      "source_relative_path": "MATLAB_Code/diffusionCoeff.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "3509f964e5bf97616a188066e4e685a5455e1c25dace57bd850b2b7d7c1e1bd2",
+      "source_relative_path": "MATLAB_Code/vantHoff_solubility.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "995921716ea9d27b51790d210e73ef8b1df858b590b5a7c8923c5d0a486c62cc",
+      "source_relative_path": "MATLAB_Code/five_point_biased_upwind.m"
+    }
+  ],
+  "puckworks_base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+  "qualification_executions": 0,
+  "qualification_wall_s": 0,
+  "read_only_ewp": {
+    "archival_tag": "26359865621510510e381bc69bb280d2d8dae412",
+    "context_hashes": {
+      "AGENTS.md": "d3e80dce5feaae8fbc68305219cd5f2fc7cc74317fd04581c06a5a3b2e341893",
+      "docs/EXTERNAL_ESPRESSO_DATA.md": "1505ec378649b69566bf674ae05f99c846ab6ca4222ef390948b6904b01b606c",
+      "docs/PROJECT_STATE.md": "d0846e517f62cea5f805dc7f32ffa98297fa373c618b9393325743038fefd8fb",
+      "docs/analysis/data_leverage/DATA_LEVERAGE_LEDGER.csv": "dcaa079530af998e815e08bf1fca9a1ecbae1d7f8171dc9d4064ba46b700985e",
+      "docs/analysis/sci_md_pannusch_flow_history_001/RESULT.md": "7a0557f276c5031877393b4f3e23b98a00b651f0c0f2183c2d2e8c895c3626f7",
+      "docs/analysis/xsv_pannusch_ewp_input_mapping_001/RESULT.md": "9dfbfa972fcd04854db0a8d3d57630d96c7f35b52b82dbd1598a0f2cbb267d04"
+    },
+    "owner_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "owner_status": "",
+    "reviewed_main": "73ec476ffe6ac626705ca949e28b32935ddf2992"
+  },
+  "shared_lineage": "Schmieder fractions are shared Pannusch lineage, not independent observations.",
+  "source_reuse_hashes": {
+    "docs/analysis/model_pannusch2024_positive_fv_002/INTAKE.json": "8be0a3ec682534aa0b498293ce9ff3d98de2cad277bf0f11aa83cabc873c168b",
+    "docs/analysis/model_pannusch2024_positive_fv_002/SOURCE_IDENTITIES.json": "211b3dbe72fb767c96cad016c74c3f4af1ad7396c48c6976efe5569f0f798c40",
+    "docs/analysis/model_pannusch2024_temp_history_001/DATA_PREFLIGHT.json": "c71d1b31528401a4db243741ea8ad3ee2d88ba755570721a710380fdf71c019f",
+    "docs/analysis/model_pannusch2024_temp_history_001/SOURCE_IDENTITIES.json": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "puckworks/data/MANIFEST.csv": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+  },
+  "source_reuse_verified": {
+    "docs/analysis/model_pannusch2024_positive_fv_002/INTAKE.json": true,
+    "docs/analysis/model_pannusch2024_positive_fv_002/SOURCE_IDENTITIES.json": true,
+    "docs/analysis/model_pannusch2024_temp_history_001/DATA_PREFLIGHT.json": true,
+    "docs/analysis/model_pannusch2024_temp_history_001/SOURCE_IDENTITIES.json": true,
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": true,
+    "puckworks/data/MANIFEST.csv": true,
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": true,
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": true
+  },
+  "task": "MODEL-PANNUSCH2024-STATEFUL-FV-004",
+  "task_selection": {
+    "DECISION_IF_NEGATIVE": "Keep unsupported operations unavailable and report failed numerical requirements.",
+    "DECISION_IF_NULL_OR_BLOCKED": "Retain partial or blocked disposition; no successor.",
+    "DECISION_IF_POSITIVE": "Expose bounded research capability on verified declared cases.",
+    "GRINDER_TO_CUP_LINK": "Explicit extraction-state boundary needed to study future composition; no whole-shot coupling or state inference authorized.",
+    "LOWER_COST_ALTERNATIVE": "Existing arbitrary-vector generator tests cannot supply supported state/checkpoint APIs or prove preserved numerical scheduling and accounting.",
+    "NEW_INFORMATION": "Supported supplied chemical states, checked primary checkpoint continuation, and explicit branching under unchanged governing balances; absent from 003 public API.",
+    "REPEATED_BLOCKER": "Does not revisit missing measured post-wetting state, source flow mapping or inventory identifiability."
+  }
+}
