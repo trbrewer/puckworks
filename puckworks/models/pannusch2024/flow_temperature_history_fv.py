@@ -271,11 +271,24 @@ def _exception_reason(exc, prefix):
     return str(exc) if isinstance(exc, RuntimeError) and str(exc) in known else prefix+type(exc).__name__
 
 
-def _evolve(system, history, flow, span, obs, bounds, settings):
+def _primary_steps(segments, h_max_s):
+    """The original segment-owned partition, also retained by stateful plans."""
+    for segment in segments:
+        count = int(math.ceil((segment.end_s-segment.start_s)/h_max_s))
+        partition = np.linspace(segment.start_s, segment.end_s, count+1)
+        for a, b in zip(partition[:-1], partition[1:]):
+            T, Q = segment.forcing(float(a+(b-a)/2))
+            yield float(a), float(b), T, Q
+
+
+def _evolve(system, history, flow, span, obs, bounds, settings, *, _stateful=None):
     """Private mass engine; passive initial/exchange seam is used only by tests."""
     t0, tf = span
     segments = _segments(history, flow, t0, tf)
-    M0, y = system.M0(history.value_K(t0)), system.initial(history.value_K(t0))
+    if _stateful is None:
+        M0, y = system.M0(history.value_K(t0)), system.initial(history.value_K(t0))
+    else:
+        M0, y = _stateful["inventory"], _stateful["state"].copy()
     start = time.monotonic()
     calls = diagnostic_calls = 0
 
@@ -286,6 +299,11 @@ def _evolve(system, history, flow, span, obs, bounds, settings):
         if calls >= settings.max_exponential_applications:
             raise RuntimeError("EXPONENTIAL_APPLICATION_LIMIT")
         calls += 1
+        if _stateful is not None:
+            # The outlet column is zero. Integrate each interval's delivery from
+            # zero; retain deliveries separately instead of subtracting offsets.
+            state = state.copy()
+            state[-1] = 0.
         z = np.asarray(expm_multiply(B*dt, state, traceA=float(B.diagonal().sum())*dt))
         if z.shape != state.shape or not np.isfinite(z).all():
             raise RuntimeError("NONFINITE_EXPONENTIAL")
@@ -295,29 +313,29 @@ def _evolve(system, history, flow, span, obs, bounds, settings):
     reason = None
     try:
         last_key, B = None, None
-        for segment in segments:
-            count = int(math.ceil((segment.end_s-segment.start_s)/settings.h_max_s))
-            partition = np.linspace(segment.start_s, segment.end_s, count+1)
-            for a, b in zip(partition[:-1], partition[1:]):
-                if len(frozen_T) >= settings.max_steps:
-                    raise RuntimeError("STEP_LIMIT")
-                T, Q = segment.forcing(float(a+(b-a)/2))
-                key = (T, Q)
-                if key != last_key:
-                    B, last_key = system.generator(T, Q), key
-                y = action(B, y, float(b-a))
-                times.append(float(b)); states.append(y.copy())
-                frozen_T.append(T); frozen_Q.append(Q)
+        steps = (_primary_steps(segments, settings.h_max_s) if _stateful is None
+                 else _stateful["steps"])
+        for a, b, T, Q in steps:
+            if len(frozen_T) >= settings.max_steps:
+                raise RuntimeError("STEP_LIMIT")
+            key = (T, Q)
+            if key != last_key:
+                B, last_key = system.generator(T, Q), key
+            y = action(B, y, float(b-a))
+            times.append(float(b)); states.append(y.copy())
+            frozen_T.append(T); frozen_Q.append(Q)
     except Exception as exc:
         reason = _exception_reason(exc, "EXPONENTIAL_EXCEPTION:")
     # Primary propagation is finished, regardless of success, before any observer.
     propagated = len(frozen_T)
     primary_times, primary_states = np.array(times), np.array(states)
     samples, quadrature = {t0: states[0]}, []
+    window_parts = []
     rules = {order: np.polynomial.legendre.leggauss(order) for order in (4, 8)}
     actual = t0
     queries = np.unique(np.r_[obs, bounds])
-    grids = np.linspace(t0, tf, int(math.ceil((tf-t0)/settings.diagnostic_step_s))+1)
+    grids = (np.linspace(t0, tf, int(math.ceil((tf-t0)/settings.diagnostic_step_s))+1)
+             if _stateful is None else _stateful["diagnostic_times"])
     requested = np.unique(np.r_[queries, grids])
     try:
         last_key, B = None, None
@@ -342,11 +360,23 @@ def _evolve(system, history, flow, span, obs, bounds, settings):
                         value = action(B, states[i], dt)
                         diagnostic_calls += 1
                         c = (value[:-1]/system.capacities).reshape(3, system.n)
-                        total = float(_inventory(c, value[-1], system))
+                        total = float(_inventory(c, value[-1] if _stateful is None else 0., system))
                         qpending.append((a+dt, (end-a)*float(weight)/2, order, i, end, end == b,
                             Q*c[0, -1], flow.value_m3_s(a+dt)*c[0, -1], value[-1], total, *np.min(c, axis=1)))
+            wpending = []
+            if _stateful is not None:
+                for wi, (lo, hi) in enumerate(_stateful["windows"]):
+                    lo, hi = max(a, lo), min(b, hi)
+                    if hi <= lo:
+                        continue
+                    if lo == a:
+                        dm = states[i+1][-1] if hi == b else pending[hi][-1]
+                    else:
+                        dm = action(B, pending[lo], float(hi-lo))[-1]
+                    wpending.append((wi, i, lo, hi, float(dm)))
             # Publish only a wholly checked interval; never fill a failed query.
             samples.update(pending); quadrature.extend(qpending); actual = b
+            window_parts.extend(wpending)
     except Exception as exc:
         observer_reason = _exception_reason(exc, "OBSERVER_EXCEPTION:")
         reason = observer_reason if reason is None else reason+";"+observer_reason
@@ -354,6 +384,17 @@ def _evolve(system, history, flow, span, obs, bounds, settings):
     checked_times = np.array(sorted(samples))
     checked_states = np.array([samples[t] for t in checked_times])
     q = np.asarray(quadrature).reshape(-1, 13)
+    if _stateful is not None:
+        # New model-local reporting owns root/local accounting and zero semantics.
+        # Never expose propagated-but-unchecked states as continuation inputs.
+        keep = primary_times <= actual
+        return dict(actual=actual, samples=samples, quadrature=q, window_parts=window_parts,
+                    times=primary_times[keep], states=primary_states[keep],
+                    frozen_T=np.asarray(frozen_T)[:np.sum(keep)-1],
+                    frozen_Q=np.asarray(frozen_Q)[:np.sum(keep)-1],
+                    reason=reason, propagations=propagated,
+                    exponential_applications=calls, diagnostic_evaluations=diagnostic_calls,
+                    elapsed_wall_s=time.monotonic()-start)
     c = (checked_states[:, :-1]/system.capacities).reshape(-1, 3, system.n)
     minima = np.min(c, axis=(0, 2))/system.Cstar
     totals = _inventory(c, checked_states[:, -1], system)

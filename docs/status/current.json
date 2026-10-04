@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_doc": "docs/planning/STATE_OF_TRUTH.md",
-  "note": "SINGLE machine-readable source of project status. Hand-edit THIS file; regenerate the Markdown with `python -m puckworks.statusdoc --write`. CI (`python -m puckworks.statusdoc --verify`) fails on stale/contradictory state. Active queue is capped at 5; completed history and superseded plans live in their own sections. Format is JSON (stdlib, no extra dependency) — the plan's `.yaml` was illustrative.",
+  "note": "SINGLE machine-readable source of project status. Hand-edit THIS file; regenerate the Markdown with `python -m puckworks.statusdoc --write`. CI (`python -m puckworks.statusdoc --verify`) fails on stale/contradictory state. Active queue is capped at 5; completed history and superseded plans live in their own sections. Format is JSON (stdlib, no extra dependency) \u2014 the plan's `.yaml` was illustrative.",
   "items": [
     {
       "id": "canonical-status-source",
@@ -110,7 +110,7 @@
     },
     {
       "id": "guided-espresso-pull",
-      "title": "Guided Espresso Pull — v0.3.0 published; awaiting signed-out human Colab acceptance",
+      "title": "Guided Espresso Pull \u2014 v0.3.0 published; awaiting signed-out human Colab acceptance",
       "area": "product",
       "state": "active",
       "priority": "P2",
@@ -125,7 +125,7 @@
     },
     {
       "id": "guided-pull-laboratory",
-      "title": "PV-19B: Guided Pull Laboratory — compatible-model lenses + full registry exposure",
+      "title": "PV-19B: Guided Pull Laboratory \u2014 compatible-model lenses + full registry exposure",
       "area": "product",
       "state": "active",
       "priority": "P1",
@@ -133,14 +133,14 @@
       "external_blocker": null,
       "resume_trigger": null,
       "next_gate": "Review another genuinely low-risk first-party synthetic reference (e.g. assess brewer2026.pack_generator under a STRICTER review, since its parameters/fixtures may draw on Cameron/Wadsworth material and are not auto-cleared by first-party source code), OR await an affirmative rights decision for Cameron code+outputs before adding another common-scenario lens. (The Grudeva half of this gate CLOSED 2026-08-14: the upstream author gave direct written permission covering code and data, so grudeva2025.reduced is PERMISSION_DOCUMENTED (#73). That removed a RIGHTS blocker only -- it added no adapter and no comparability, so it does NOT supply a second common-scenario lens.) Do NOT claim all models are comparable; public execution stays per-component and affirmative-only.",
-      "acceptance_evidence": "Core + contract hardening landed (development 0.4.0.dev0). puckworks/product/lab.py: exact scenario identity + override provenance (typed ScenarioRequest/ScenarioExecution; guided_v1 runs no longer mislabelled pv19_named); comparison schema v3; separated scientific-payload vs full-artifact integrity hashes (downloadable artifact carries source_commit/package_version/workflow_run_id/wheel_sha256, supplied explicitly - no git subprocess in the producer); correct observable roles (prescribed/derived/simulated/unsupported/diagnostic); explicit 25-component capability/rights matrix (grudeva2025.reduced RIGHTS_BLOCKED pending #73); honest reference-suite coverage (executed vs runner-not-implemented); real scientific trace plots in Streamlit + Actions batch (required figure) + hash manifest. ONE executed common-scenario lens (cameron2020.extraction_bdf via simulate_pull; no equation duplication). Streamlit app verified booting locally (/_stcore/health 200). Not a validated digital twin; no evidence upgrade. FOUR genuinely-executed native reference runners now ship via puckworks/product/lab_runners.py, each reusing gate callables (no equation duplication), failure-isolated: waszkiewicz static refit, wadsworth permeability collapse, foster infiltration first-drip bracket (interactive-fast), and brewer2026.lb_reference (batch-only) — the LB plane-channel code-verification runner (simulated lattice permeability vs the exact plane-Poiseuille k=h^2/12; gate_lb_channel owns the 0.5% band via a shared channel_verification() helper; err_pct 0.052). The repository's FIRST affirmative outward rights clearance and FIRST bounded public-artifact path: brewer2026.lb_reference is rights code CLEAR / data NOT_APPLICABLE / output CLEAR (first-party in-repo code, synthetic input, analytic reference; docs/rights_review_notes.md), so a selected-references-only PUBLIC_ARTIFACT request for exactly that runner passes preflight and runs one native producer (0 common-scenario producers; artifact carries the cleared preflight record + execution context + deterministic scientific hash). NOT a generic bypass: the default/broad public batch selects the NOT_REVIEWED Cameron lens and still blocks before any producer; a mixed LB+unreviewed request blocks whole; the clearance never propagates; Grudeva stays RIGHTS_BLOCKED in every context (#73). This is numerical code verification, NOT coffee/espresso validation. A demonstrated second common-scenario adapter and affirmative Cameron/Grudeva reviews remain open (#70/#73). ACCESSIBILITY (#43): one rights-safe execution facade (puckworks.product.lab_service.execute_lab_request; explicit context, preflight before any producer, typed blocked result with no science) is consumed by the batch, the Colab notebook, and both Streamlit apps; a producer-free Explorer (puckworks.product.lab_explorer.explorer_catalog) exposes the full registry with zero execution; a form-driven novice Colab (notebooks/guided_pull_laboratory_colab.ipynb, one Run button, LOCAL_PRIVATE, commit-pinned dev preview, hermetic smoke asserts GUIDED_PULL_LAB_COMPLETE); and a public/local Streamlit split (apps/lab_public_app.py fixed to PUBLIC_ARTIFACT in code + apps/lab_app.py LOCAL_PRIVATE) with a producer-free Model library, cleared-only Component self-checks, and a disabled reference-shot pending Cameron's review. Streamlit-Cloud deploy manifest (requirements.txt) + docs/DEPLOYMENT.md; codespaces-ci health-smokes both apps. No public URL advertised until a signed-out human verifies it; no rights widened. FULL LABORATORY TOUR (#43/#70): puckworks.product.lab_tour adds a versioned FROZEN manifest (full_laboratory_tour_v1) that resolves every registered component to exactly one primary route (COMMON_SCENARIO/NATIVE_REFERENCE/SCIENTIFIC_CHECK/OPTIONAL_DEPENDENCY/RIGHTS_BLOCKED/NO_EXECUTION_PATH) with a coverage verifier (verify_tour_manifest); execute_laboratory_tour runs each route through lab_service (preflight before producer) → one stage-grouped TourComponentResult per component with deterministic hashes. Today resolves all 25 and executes 23 (1 common + 4 native + 18 rights-filtered gate checks via gate_runner); grudeva2025.reduced RIGHTS_BLOCKED with ZERO producer/gate calls (#73); brewer2026.lb_taichi optional-unavailable. No averaging/ranking/overlay (each component comparable only to itself); public context runs only affirmatively-cleared components. Colab default is the Full Laboratory Tour (four modes, pre-run coverage preview, stage-grouped plain-language badge cards); hermetic notebook smoke resolves 25 / executes 23. PR2 (rights-aware component-check API) and PR3 (UX polish) follow.",
+      "acceptance_evidence": "Core + contract hardening landed (development 0.4.0.dev0). puckworks/product/lab.py: exact scenario identity + override provenance (typed ScenarioRequest/ScenarioExecution; guided_v1 runs no longer mislabelled pv19_named); comparison schema v3; separated scientific-payload vs full-artifact integrity hashes (downloadable artifact carries source_commit/package_version/workflow_run_id/wheel_sha256, supplied explicitly - no git subprocess in the producer); correct observable roles (prescribed/derived/simulated/unsupported/diagnostic); explicit 25-component capability/rights matrix (grudeva2025.reduced RIGHTS_BLOCKED pending #73); honest reference-suite coverage (executed vs runner-not-implemented); real scientific trace plots in Streamlit + Actions batch (required figure) + hash manifest. ONE executed common-scenario lens (cameron2020.extraction_bdf via simulate_pull; no equation duplication). Streamlit app verified booting locally (/_stcore/health 200). Not a validated digital twin; no evidence upgrade. FOUR genuinely-executed native reference runners now ship via puckworks/product/lab_runners.py, each reusing gate callables (no equation duplication), failure-isolated: waszkiewicz static refit, wadsworth permeability collapse, foster infiltration first-drip bracket (interactive-fast), and brewer2026.lb_reference (batch-only) \u2014 the LB plane-channel code-verification runner (simulated lattice permeability vs the exact plane-Poiseuille k=h^2/12; gate_lb_channel owns the 0.5% band via a shared channel_verification() helper; err_pct 0.052). The repository's FIRST affirmative outward rights clearance and FIRST bounded public-artifact path: brewer2026.lb_reference is rights code CLEAR / data NOT_APPLICABLE / output CLEAR (first-party in-repo code, synthetic input, analytic reference; docs/rights_review_notes.md), so a selected-references-only PUBLIC_ARTIFACT request for exactly that runner passes preflight and runs one native producer (0 common-scenario producers; artifact carries the cleared preflight record + execution context + deterministic scientific hash). NOT a generic bypass: the default/broad public batch selects the NOT_REVIEWED Cameron lens and still blocks before any producer; a mixed LB+unreviewed request blocks whole; the clearance never propagates; Grudeva stays RIGHTS_BLOCKED in every context (#73). This is numerical code verification, NOT coffee/espresso validation. A demonstrated second common-scenario adapter and affirmative Cameron/Grudeva reviews remain open (#70/#73). ACCESSIBILITY (#43): one rights-safe execution facade (puckworks.product.lab_service.execute_lab_request; explicit context, preflight before any producer, typed blocked result with no science) is consumed by the batch, the Colab notebook, and both Streamlit apps; a producer-free Explorer (puckworks.product.lab_explorer.explorer_catalog) exposes the full registry with zero execution; a form-driven novice Colab (notebooks/guided_pull_laboratory_colab.ipynb, one Run button, LOCAL_PRIVATE, commit-pinned dev preview, hermetic smoke asserts GUIDED_PULL_LAB_COMPLETE); and a public/local Streamlit split (apps/lab_public_app.py fixed to PUBLIC_ARTIFACT in code + apps/lab_app.py LOCAL_PRIVATE) with a producer-free Model library, cleared-only Component self-checks, and a disabled reference-shot pending Cameron's review. Streamlit-Cloud deploy manifest (requirements.txt) + docs/DEPLOYMENT.md; codespaces-ci health-smokes both apps. No public URL advertised until a signed-out human verifies it; no rights widened. FULL LABORATORY TOUR (#43/#70): puckworks.product.lab_tour adds a versioned FROZEN manifest (full_laboratory_tour_v1) that resolves every registered component to exactly one primary route (COMMON_SCENARIO/NATIVE_REFERENCE/SCIENTIFIC_CHECK/OPTIONAL_DEPENDENCY/RIGHTS_BLOCKED/NO_EXECUTION_PATH) with a coverage verifier (verify_tour_manifest); execute_laboratory_tour runs each route through lab_service (preflight before producer) \u2192 one stage-grouped TourComponentResult per component with deterministic hashes. Today resolves all 25 and executes 23 (1 common + 4 native + 18 rights-filtered gate checks via gate_runner); grudeva2025.reduced RIGHTS_BLOCKED with ZERO producer/gate calls (#73); brewer2026.lb_taichi optional-unavailable. No averaging/ranking/overlay (each component comparable only to itself); public context runs only affirmatively-cleared components. Colab default is the Full Laboratory Tour (four modes, pre-run coverage preview, stage-grouped plain-language badge cards); hermetic notebook smoke resolves 25 / executes 23. PR2 (rights-aware component-check API) and PR3 (UX polish) follow.",
       "issue_or_pr": "#70",
       "verified_commit": null,
       "verified_date": null
     },
     {
       "id": "pv03-flat-valley-interactive",
-      "title": "PV-03 'The Cup Hides the Clock' — flat-valley practical-identifiability interactive",
+      "title": "PV-03 'The Cup Hides the Clock' \u2014 flat-valley practical-identifiability interactive",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -155,7 +155,7 @@
     },
     {
       "id": "pv05-model-composition",
-      "title": "PV-05 'More Physics Made It Worse' — model-composition interactive",
+      "title": "PV-05 'More Physics Made It Worse' \u2014 model-composition interactive",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -170,7 +170,7 @@
     },
     {
       "id": "pv04-analysis-autopsy",
-      "title": "PV-04 'How We Falsified Our Own Espresso Headline' — analysis autopsy",
+      "title": "PV-04 'How We Falsified Our Own Espresso Headline' \u2014 analysis autopsy",
       "area": "public-value",
       "state": "complete",
       "priority": "P0",
@@ -205,7 +205,7 @@
       "state": "blocked",
       "priority": "P1",
       "owner_type": "principal-investigator",
-      "external_blocker": "human sign-off (venue, authorship, approval) — not an engineering task",
+      "external_blocker": "human sign-off (venue, authorship, approval) \u2014 not an engineering task",
       "resume_trigger": "PI provides venue + author order/contributions/conflicts/funding + explicit approval to build the release",
       "next_gate": "clean-tree release build once the human decisions are recorded (code core already verifies: paper_a.build verify, 27/27 claims match)",
       "acceptance_evidence": "paper_a.build verify green (27/27); awaiting recorded human decisions",
@@ -442,14 +442,29 @@
       "id": "model-pannusch2024-flow-temp-fv-003",
       "title": "Joint prescribed positive flow and uniform temperature FV research API",
       "area": "pannusch2024-research",
+      "state": "complete",
+      "priority": "P1",
+      "owner_type": "maintainer",
+      "external_blocker": null,
+      "resume_trigger": null,
+      "next_gate": null,
+      "acceptance_evidence": "PR #317 merged at the verified 004 base. Historical docs/analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.md retains VERIFIED_ON_DECLARED_CASES (32 executions); all historical contract/result/handoff receipts unchanged. RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+      "issue_or_pr": "#317",
+      "verified_commit": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+      "verified_date": "2026-10-04"
+    },
+    {
+      "id": "model-pannusch2024-stateful-fv-004",
+      "title": "Explicit chemical initial states, checked FV continuation and future-forcing branches",
+      "area": "pannusch2024-research",
       "state": "active",
       "priority": "P1",
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Draft PR exact-head review/hosted-CI receipts and owner disposition; no merge or automatic successor",
-      "acceptance_evidence": "docs/analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.md; VERIFIED_ON_DECLARED_CASES, 32 executions, new joint-linear budget 5e-4; RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED; separate QA receipt",
-      "issue_or_pr": "#316",
+      "next_gate": "Owner disposition on draft PR #318; no merge or successor authorized. Temporal decrease failed; hosted CI pending; independent nonhuman exact-head addendum is a separate PR receipt.",
+      "acceptance_evidence": "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.md: IMPLEMENTED_QUALIFICATION_INCOMPLETE, 28 completed integrations; sole failed mandatory numerical gate is temporal aggregate decrease. Equilibrium, supplied state/reference, continuation, branch, conservation/flux/volume, mesh and repeat gates passed. RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED; runtime accuracy NOT_ASSESSED. Full unprotected QA passed; review input-conversion guard corrected and covered by 189 affected tests plus exact frozen-input reuse proof.",
+      "issue_or_pr": "#318",
       "verified_commit": null,
       "verified_date": null
     }

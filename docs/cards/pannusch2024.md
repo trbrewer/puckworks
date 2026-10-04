@@ -305,3 +305,60 @@ registry promotion, production-default redirection, empirical accuracy, coupling
 taste or native-MATLAB equivalence follows. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 Source-derived reports retain Pannusch attribution and CC-BY-NC-3.0 separately
 from first-party software licensing.
+
+## Explicit chemical states and continuation (004)
+
+The additive model-local `stateful_fv` API exposes `FVChemicalState`, `FVPlan`,
+`simulate_stateful_fv`, checked `FVCheckpoint` export, and `branch_stateful_fv`.
+It reuses the prescribed-Q/T FV engine. G2 / NUMERICAL_METHOD_CHANGE includes
+an explicit initial-condition extension; governing balances, source parameters,
+geometry and constitutive laws are unchanged. RESEARCH_ONLY;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED; runtime accuracy NOT_ASSESSED.
+
+The source-equilibrium constructor preserves the existing initialization.
+Caller-supplied states require separate liquid/fine/coarse cell-average arrays
+in kg/m^3 on their source phase bases, exact mesh edges, species, grind and
+absolute model time. Fine capacity excludes phi_v2; coarse capacity includes it.
+Inventory is computed from these physical fields, not fitted c_s0. Positive
+first-cell liquid is allowed because the clean inlet is a face condition.
+No missing-phase inference, equilibration, c_s0 cap, clipping or remeshing occurs.
+Accepted inputs are structurally/numerically admissible, not established
+post-wetting measurements. Arrays cannot reveal a caller mislabelling a basis.
+
+A planned stop selects an existing endpoint of the original full-horizon plan.
+Checked export retains exact raw masses, physical-field views, root inventory,
+absolute clocks, prior mass/volume terms and remaining primary endpoints/frozen
+forcing. Same-schedule resume preserves that plan; changed forcing requires an
+explicit branch from the immutable checkpoint. Passive observations do not
+alter propagation. A branch changes coefficients without resetting chemistry.
+Only wholly checked primary endpoints export; diagnostic/interpolated times
+and endpoints beyond an admissible supported prefix do not.
+
+Segment and root-origin accounting are separately named. Each numerical step
+uses a local outlet accumulator, avoiding cancellation against a large prior
+total. Fractions use direct local deliveries and analytic prescribed volume;
+adjacent portions recombine by mass and volume. Positive-volume exact-zero
+states return valid numerical zero; zero-duration/zero-volume concentration is
+undefined, and unresolved positive-state delivery is not promoted to zero.
+No solid-phase monotonicity is assumed. Numerical frozen-flow and actual-Q
+diagnostic flux remain distinct. Optional versioned strict-JSON checkpoints
+detect corruption through content hashes, not measurement authenticity.
+
+**IMPLEMENTED_QUALIFICATION_INCOMPLETE** under the fixed 28-integration
+[contract](../analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md) and
+[matrix](../analysis/model_pannusch2024_stateful_fv_004/CASES.json).
+All 28 integrations completed. Equilibrium, supplied-state/reference, continuation,
+branching, inventory/flux/volume, positivity, mesh and repeat gates pass. The
+mandatory temporal aggregate-decrease gate fails: the short
+[2.737002188183808,2.74] s fraction has .04/.02/.01 errors
+7.99e-5 / 2.03e-4 / 8.36e-5 on C*, despite each meeting 5e-4. No monotone
+temporal-refinement claim is earned. [Results](../analysis/model_pannusch2024_stateful_fv_004/RESULTS.md).
+The [offline N4 example](../../examples/pannusch_stateful_fv.py) demonstrates
+equilibrium compatibility, nonequilibrium initial fields, genuine stop/resume,
+and independent checkpoint reuse under a new future forcing plan.
+This capability does not identify wetting chemistry, demonstrate empirical
+predictive improvement, qualify arbitrary initial states, or authorize coupling,
+production adoption, laboratory operation or a successor. No global shot-chain
+contract or registry evidence level changes. The 001/002/003 ceilings remain.
+Pannusch attribution and source-derived CC-BY-NC-3.0 remain separate from
+first-party code licensing.

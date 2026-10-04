@@ -1,0 +1,109 @@
+{
+  "EWP": {
+    "archival_tag": "26359865621510510e381bc69bb280d2d8dae412",
+    "context_hashes": {
+      "AGENTS.md": "d3e80dce5feaae8fbc68305219cd5f2fc7cc74317fd04581c06a5a3b2e341893",
+      "docs/EXTERNAL_ESPRESSO_DATA.md": "1505ec378649b69566bf674ae05f99c846ab6ca4222ef390948b6904b01b606c",
+      "docs/PROJECT_STATE.md": "d0846e517f62cea5f805dc7f32ffa98297fa373c618b9393325743038fefd8fb",
+      "docs/analysis/data_leverage/DATA_LEVERAGE_LEDGER.csv": "dcaa079530af998e815e08bf1fca9a1ecbae1d7f8171dc9d4064ba46b700985e",
+      "docs/analysis/sci_md_pannusch_flow_history_001/RESULT.md": "7a0557f276c5031877393b4f3e23b98a00b651f0c0f2183c2d2e8c895c3626f7",
+      "docs/analysis/xsv_pannusch_ewp_input_mapping_001/RESULT.md": "9dfbfa972fcd04854db0a8d3d57630d96c7f35b52b82dbd1598a0f2cbb267d04"
+    },
+    "owner_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "owner_status": "",
+    "reviewed_main": "73ec476ffe6ac626705ca949e28b32935ddf2992"
+  },
+  "authorized_engine_seam": {
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": {
+      "base_sha256": "1ce6293f98e7e13772e4d2ae6477dee44a4a0e609bbfdc84535fa10bd4cd5469",
+      "current_sha256": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964"
+    }
+  },
+  "base": "58b6cd2f29af3fa4372119ba59f8a6a1446369cc",
+  "freeze_commit": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+  "input_boundary_correction": {
+    "code_commit": "fb7b9d38a75d4050742a6690117b86d7ec62fc3c",
+    "original_numerical_producer_unchanged": true,
+    "reuse_proof": "EVIDENCE_REUSE.json",
+    "runtime_sha256": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed"
+  },
+  "preserved_file_sha256": {
+    ".github/workflows/codespaces-ci.yml": "37ca6aff4abfda48031e82a728503c97170b18250ee3ee556d4aeb3768413297",
+    ".github/workflows/editorial-reminders.yml": "90393b1131dd40bcaf1815638ce0a3d1558c675abdf78d46affcec15a3f5d90c",
+    ".github/workflows/experience.yml": "3867ce98ce4bbc50bad0c005e2d433e69a052f937a348e78f4b36bb09f966dd4",
+    ".github/workflows/gates.yml": "27d9a8d1474f549972f177aacd28f078d54700ea4036002c5921cc4bd490deb7",
+    ".github/workflows/generated-artifacts.yml": "9dd26e07dcd881e3ebc8c8a31578e3bd6007a937795cfd22e23d9bb6850ccfaf",
+    ".github/workflows/guided-pull-batch.yml": "6fdee5ed5f37174757e458ad02424de32f26e239b9e35276083925b2dae54c16",
+    ".github/workflows/live-contract.yml": "d7f4ee24b099b044226a47d7451352a8457c833325b83b905689bc522c0ed164",
+    ".github/workflows/notebook-smoke.yml": "13c4290b8c07f83442e0a36b38bb50b775487b012478db2a1b7aa1156dfc7b81",
+    ".github/workflows/packaging.yml": "3a9522fdd1cc2b4d56424df944055f4e0bac582ac8a44bda7ba25fedce993519",
+    ".github/workflows/pages.yml": "99e0832b8e362604f30cef590730ec4e3cbba0635af32aad3bc272c8984f67c1",
+    ".github/workflows/paper3-evidence.yml": "1e6df36fe68ac5424527920d851578dc47bb90ce73d6cc5755e54b74ffd5ab3f",
+    ".github/workflows/platform-smoke.yml": "eebb4b4c4e0d88ff598a0f07e84f873bcd47b69918ca175cef43e24eaa34419c",
+    ".github/workflows/pocketscience-assay.yml": "dca702e7da8ce11562d358519166b06974092d7306cbfe8f95e5d916de39f400",
+    ".github/workflows/public-experience-review.yml": "a5635a967070e6f01dfbacb6ff587c8513acc810b7f3af7f69ac6a4e4ee26567",
+    ".github/workflows/readme-governance.yml": "b4b86ee5e5708b6c19f989f24d949998d9ac2186a885160f65d0cc6b13c42ee0",
+    ".github/workflows/release.yml": "5dc7f1d3e120d39cf0cef256249f33d06c5b96b6567a8b95995b497ab08e3e56",
+    ".github/workflows/research-impact.yml": "4717e09a84c342731135361d496f1a4389b1b00472f6fad300875ecb9871f72d",
+    ".github/workflows/research-radar.yml": "0fc7398cac3ebb54b6a3fe1a4c3796066774123a26fe97915e867a4b55b6e241",
+    ".github/workflows/scientific-baseline.yml": "78182e6a4897c92b22ded810f2b7e56300e969fd0d69af5c188630c1c19ee33b",
+    ".github/workflows/security.yml": "89c73bbfea541e29c72bc646277714bfbee7998a23d93a998d8bed5fcbac02c3",
+    ".github/workflows/slow-science.yml": "1c6b4b5bbb9a758752df5eed9916e87c7dd9c8037ea2483f981df2f422fdc4be",
+    ".github/workflows/venue-deadline-review.yml": "3c72cb7426859660528f25072a94b9d4c3a09f2f89fc41b489aec902b747df35",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/CASES.json": "82d849913df79797ba87fa0cfa2c49f3e81b9bb28ca0ee1e08287c1da8fa2211",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/CONTRACT.md": "b34872e344fbc510672e248faec3f7e9c180b67338f1f62c5412f53497d52d97",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/HANDOFF.md": "f296fd30c50819fd4310fe837b7dce29661d2d02a6919b3e0e0060a45cc64ec1",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/HISTORY_REUSE.json": "0dec55e3fe0c968cd5c8ff3627e2a8767a42914e2f7a16e960bb17f7fab43f32",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/INTAKE.json": "2cb14666a94878132f28972aea39c161b61cb8fa44a9ead0f5843d4ea0122472",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/QA.json": "423a313fe9fb6860ca52d43cab1ef31863e6690afb2e8a11484a4625c3f04fb5",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/RESOURCES.json": "8ed66a72f6b7bb1d5d3bedf26ceb01167426b1850c0059b7ab84deaed64a1c2e",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.json": "ff11cc4cddbdf226564716be7e03941efe8dd9f00c1337e5a78a99627702c3a7",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/RESULTS.md": "a1ae0663776bdd31ec17ecc9c5452dd1fc1ac27e28741f32acc4ad2da31c8797",
+    "docs/analysis/model_pannusch2024_flow_temp_fv_003/SOURCE_IDENTITIES.json": "dcc3a1f72c4b05c7bf84053a9fa2d596b739cdf906eb8962e0d01626ddfa7c88",
+    "docs/analysis/model_pannusch2024_positive_fv_002/CASES.json": "b28ab8d68447e4fc5d1e92ca8d94fb521ed9e1e2f47540712c324128a3efd62e",
+    "docs/analysis/model_pannusch2024_positive_fv_002/CONTRACT.md": "7b8bd2240754521fab99716dccfba26ef704b4ebe0977fa8d942a096543a158b",
+    "docs/analysis/model_pannusch2024_positive_fv_002/HANDOFF.md": "fd06603cb222c88f3f166116c1e144fac78e4dc22aed8179799294ceac87807e",
+    "docs/analysis/model_pannusch2024_positive_fv_002/INTAKE.json": "8be0a3ec682534aa0b498293ce9ff3d98de2cad277bf0f11aa83cabc873c168b",
+    "docs/analysis/model_pannusch2024_positive_fv_002/QA.json": "fac61de3cbf2c5791fab4e7d4ec810712bf216528f119dbd489ce4761e5d9075",
+    "docs/analysis/model_pannusch2024_positive_fv_002/REPORTING_CORRECTION.json": "2437cc6ae598e8ee84d364a3bf7aac61d702ba80db79fc118aa481178c869576",
+    "docs/analysis/model_pannusch2024_positive_fv_002/RESOURCES.json": "24651942cf228edb2a90a6f3b710e2ca86e88b8cfe49b521c82aea5182d714d7",
+    "docs/analysis/model_pannusch2024_positive_fv_002/RESULTS.json": "5391a5058cc8b281bcbad9b055cc70970a9421c1143bc14a8cf740ba567e377d",
+    "docs/analysis/model_pannusch2024_positive_fv_002/RESULTS.md": "3b0cf09daac3310819710f7d7334c9754342fc4beeb10ede121d6f24f42bc58e",
+    "docs/analysis/model_pannusch2024_positive_fv_002/SOURCE_IDENTITIES.json": "211b3dbe72fb767c96cad016c74c3f4af1ad7396c48c6976efe5569f0f798c40",
+    "docs/analysis/model_pannusch2024_temp_history_001/CASES.json": "531d56444a15a197d75b05be27fc107a0792f60893945871135bbb18061b9a5e",
+    "docs/analysis/model_pannusch2024_temp_history_001/CONTRACT.md": "81e6ec4eabc483068e8c72e505b42d1869f8ff01b09e2d02847f55955ead38fe",
+    "docs/analysis/model_pannusch2024_temp_history_001/DATA_PREFLIGHT.json": "c71d1b31528401a4db243741ea8ad3ee2d88ba755570721a710380fdf71c019f",
+    "docs/analysis/model_pannusch2024_temp_history_001/HANDOFF.md": "ba6f62c9a7455ab54969cbd27f4df2d717ddff1315f397dc4579210b665a335f",
+    "docs/analysis/model_pannusch2024_temp_history_001/RESULTS.json": "8a7aed6a6499e03221255d187f3a5116d2c6d3d4d16be07f1233817b145d6a7c",
+    "docs/analysis/model_pannusch2024_temp_history_001/RESULTS.md": "1a2f514849aa7ba0e006ddd7fd25fc0b61b1515cb3f0c725b359e1d0a8a5812f",
+    "docs/analysis/model_pannusch2024_temp_history_001/SOURCE_IDENTITIES.json": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+    "docs/analysis/model_pannusch2024_temp_history_001/VALIDATION_CORRECTION.json": "2344a2033e760b75dd91ad513eb2ed64be79769de17648d220239e3dbf8f4fc6",
+    "puckworks/models/pannusch2024/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "pyproject.toml": "d61165168cdff735bf24f29e89c94f1a5c7c32a2ead52480f478ab8d95d82617"
+  },
+  "task": "MODEL-PANNUSCH2024-STATEFUL-FV-004",
+  "unchanged_tree_identities": {
+    "puckworks/data": {
+      "git_tree": "9499f7c4d533a3da5d51d59bf95075386040030d",
+      "unchanged": true
+    },
+    "puckworks/models/cameron2020": {
+      "git_tree": "2182244fc0b3e6f0dcc9adaecd594475a2cc034e",
+      "unchanged": true
+    },
+    "puckworks/models/foster2025": {
+      "git_tree": "6f10f83ef9fa8fe13e6c1b303d6c0659e89deae6",
+      "unchanged": true
+    },
+    "puckworks/models/grudeva2026": {
+      "git_tree": "be1ecc01d768ac21c04ccd088e5cbc00dbf659fc",
+      "unchanged": true
+    }
+  },
+  "verification": "Historical files byte-identical; untouched data/model tree identities compared without assay/target reads. New runtime/reference/contract/case hashes are in execution receipts and RESULTS.json."
+}
