@@ -161,3 +161,12 @@ def test_small_worker_saved_evidence_and_accounting_roundtrip(tmp_path):
         result = v.accounting(meta, arrays)
         assert result['positivity_passed'] and result['conservation_passed']
         assert result['quadrature_outlet']['passed']
+
+
+def test_unavailable_report_clears_failed_case_and_omits_private_path(tmp_path):
+    v.write_json(tmp_path/'executions.json', [])
+    with patch.object(v, 'load_case', side_effect=OSError('private/local/location')):
+        result = v.reduce_report(tmp_path, tmp_path/'report')
+    assert result['dispositions']['numerical_qualification'] == 'INCOMPLETE'
+    assert 'private/local/location' not in json.dumps(result)
+    assert all(c['reason'] == 'OSError' for c in result['cases'].values())

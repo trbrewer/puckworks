@@ -417,7 +417,9 @@ def reduce_report(directory, output, parent_evidence=None):
                     cross_knot_7_19_kg_m3=(m(19)-m(7))/(12*contract["Q_m3_s"]),
                     additivity_error_over_Cstar=abs(whole-part)/meta["Cstar"], passed=bool(abs(whole-part)/meta["Cstar"] <= 1e-12))
         except (ValueError, KeyError, OSError) as exc:
-            report["cases"][key] = dict(case=case, status="UNAVAILABLE_OR_FAILED", reason=str(exc))
+            data.pop(key, None); metadata.pop(key, None)
+            report["cases"][key] = dict(case=case, status="UNAVAILABLE_OR_FAILED",
+                                         reason=type(exc).__name__ if isinstance(exc, OSError) else str(exc))
     for solute in fv.th.SPECIES:
         a, b = "B."+solute+".FV", "B."+solute+".Radau"
         if a in data and b in data:
