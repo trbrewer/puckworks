@@ -1,0 +1,113 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "contract_commit": "a7b06cba44f23ef8edabb07663936d889df89cdd",
+  "numerical_identities": {
+    "docs/analysis/model_pannusch2024_positive_fv_002/CASES.json": "b28ab8d68447e4fc5d1e92ca8d94fb521ed9e1e2f47540712c324128a3efd62e",
+    "docs/analysis/model_pannusch2024_positive_fv_002/CONTRACT.md": "7b8bd2240754521fab99716dccfba26ef704b4ebe0977fa8d942a096543a158b",
+    "numerical_worker_and_resource_blocks": "9dc4092cafc4678c3224f253df4bae53e6cd58b199730a33fa15f723921fe168",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_positive_fv_reference.py": "f13c9d8076713f024e5d3eec4e1129b9ddc69d4cee3e838dc7987c86ee83894c"
+  },
+  "numerical_producer": "6311be0220d9cf1f62c10be9ad5d2813aabba654",
+  "parent_head": "c7310ea1ac6c41ec2cb8f918584ab41cb485fa60",
+  "rights": "Source-derived Pannusch material CC-BY-NC-3.0; first-party software license remains separate",
+  "source_authority_receipt": "INTAKE.json + inherited 001/SOURCE_IDENTITIES.json; actual original MATLAB text inspection receipts reused; no native execution",
+  "task": "MODEL-PANNUSCH2024-POSITIVE-FV-002",
+  "unchanged_parent_paths": {
+    "docs/analysis/model_pannusch2024_temp_history_001": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "7eb8bd82c147348dd45b96982bea88c80629cb3f5e1a3c14f8dae2d4e383ccd5",
+      "tracked_entries": 8
+    },
+    "docs/insights/screens/I-010": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "ae4551919753e1d07e67e1316c2500b86a4d45626d14032674cb0d7e854f77e0",
+      "tracked_entries": 4
+    },
+    "docs/insights/screens/I-076": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "c16b0ca9e65e9f39ac27922fc8d513e7d734727e58181732a118ccd4bf53973b",
+      "tracked_entries": 5
+    },
+    "puckworks/data": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "7aec39d128ca7bb82969b51f9bdc9ce067b3395fb2104183eca67cf71466263a",
+      "tracked_entries": 295
+    },
+    "puckworks/models/__init__.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "42889d08f2c5d2907398e39dee6c99059444c86e439fae73895b913d2cbfca47",
+      "tracked_entries": 1
+    },
+    "puckworks/models/cameron2020": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "f940e9763cd3da41c121a60765e3376d9a041f638d938d80df392723ce269d8e",
+      "tracked_entries": 2
+    },
+    "puckworks/models/foster2025": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "7d88c56654e190ce15012e7bfc67e0cfec655a5d83d9f2dba46c812136eff501",
+      "tracked_entries": 3
+    },
+    "puckworks/models/grudeva2026": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "6bc83fcdcc3a1f0ab259888ef69df1963597a4d074ad5c17d5b7b2f79ce76649",
+      "tracked_entries": 6
+    },
+    "puckworks/models/pannusch2024/closures.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "d91192e1b01496fb1717664e0f5519eed663050b64cc3f68783125002b260a03",
+      "tracked_entries": 1
+    },
+    "puckworks/models/pannusch2024/solver.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "a41f6cac80355966cb7fb8e1d018d8717c3168664aaa3deb6f36e3d3da77422f",
+      "tracked_entries": 1
+    },
+    "puckworks/models/pannusch2024/temperature_history.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "58e75704f82bda2f3c508e5b912bb11da5010ae0e85324300949b286dcfccaf3",
+      "tracked_entries": 1
+    },
+    "puckworks/registry.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "b9052fed7a54f1ec1206f79faada084b515742921db6221c0498799168f52d3e",
+      "tracked_entries": 1
+    },
+    "pyproject.toml": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "4fd674082a9349e999e619dcfed27932493d405ca50eeea03eddf54566972756",
+      "tracked_entries": 1
+    },
+    "tests/test_pannusch_solver.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "9e92f46764d5313d4f3a6a7a8653e9d5e3a128132e1ebf85e1bff47498490943",
+      "tracked_entries": 1
+    },
+    "tests/test_pannusch_temperature_history.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "9ac91d46556c9d20a4e3314bbbb38a401e1520a955a49af6003eb317282f70cd",
+      "tracked_entries": 1
+    },
+    "tests/test_pannusch_temperature_history_verification.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "9f431401420d6a02c16ed600b09b187c2c52d6b9d1c56fc551a2b387e2584f03",
+      "tracked_entries": 1
+    },
+    "tools/pannusch_temperature_history_reference.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "908a588e3af2a5f3fff4bcd17659eee952eda8ba96e8c9ff581232b53766fd72",
+      "tracked_entries": 1
+    },
+    "tools/pannusch_temperature_history_verification.py": {
+      "byte_identity": "UNCHANGED",
+      "parent_tree_listing_sha256": "c23cd3c19eafc3340bcf96824184f7dddaebaf25a58297c7280b485ef045b487",
+      "tracked_entries": 1
+    }
+  }
+}

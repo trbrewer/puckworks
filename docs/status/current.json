@@ -432,8 +432,8 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Frozen 28-case numerical verification, affected QA and independent exact-head review; stacked draft only",
-      "acceptance_evidence": "docs/analysis/model_pannusch2024_positive_fv_002/CONTRACT.md; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "next_gate": "Declared-case numerical qualification VERIFIED; finish separate QA/hosted-CI/exact-head review receipts and leave stacked draft unmerged",
+      "acceptance_evidence": "docs/analysis/model_pannusch2024_positive_fv_002/RESULTS.md; 28 cases; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
       "issue_or_pr": null,
       "verified_commit": null,
       "verified_date": null

@@ -1,0 +1,45 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "affected_test_count": 237,
+  "baseline_receipt_reuse": "Unchanged parent HANDOFF; broad tests not redundantly re-executed locally; skipped/unavailable checks remain unrun",
+  "generated_status_and_insights": "PASS",
+  "historical_failures": "Small-mesh test equality initially over-strict about multiplication roundoff; corrected scale-aware assertion before qualification. Status note initially contained prohibited pending) phrase; corrected at source and regenerated. Original logs retained outside Git; no full numerical attempts involved.",
+  "hosted_CI": "SEPARATE_FINAL_HEAD_RECEIPT_ON_DRAFT_PR; inherited coverage timeout is not PASS",
+  "independent_review": "SEPARATE_NONHUMAN_EXACT_HEAD_RECEIPT_ON_DRAFT_PR",
+  "installed_wheel": "PASS: N=8 API, source identities, physical fields and strict JSON; numerical module bytes equal producer 6311be0",
+  "local_checks": {
+    "affected_237": {
+      "external_log_sha256": "0ba27d0c8f8a499ade338622ca0e4325b0fa36facb019a66517aa7fbbcbf0724",
+      "status": "PASS"
+    },
+    "mypy_core_19": {
+      "external_log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "status": "PASS"
+    },
+    "package_build": {
+      "external_log_sha256": "b2c20423d100548c6d26db6e909a6364fe46131e992f9cf10620d41521f362cf",
+      "status": "PASS"
+    },
+    "package_inventory_and_rights": {
+      "external_log_sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+      "status": "PASS"
+    },
+    "report_deterministic_first": {
+      "external_log_sha256": "b1984b6fd5c33733ed0f327db4c1e6e59fa6e5a1472a2b1e98a1faa3e861b43d",
+      "status": "PASS"
+    },
+    "report_deterministic_second": {
+      "external_log_sha256": "b1984b6fd5c33733ed0f327db4c1e6e59fa6e5a1472a2b1e98a1faa3e861b43d",
+      "status": "PASS"
+    },
+    "ruff_core_and_tests": {
+      "external_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "status": "PASS"
+    }
+  },
+  "marker_exclusion": "not protected_target_integrity and not slow and not external_data",
+  "metadata_packaging_generated_tests": 93,
+  "new_module_mypy": "PASS",
+  "new_test_count": 66,
+  "predecessor_test_count": 78
+}

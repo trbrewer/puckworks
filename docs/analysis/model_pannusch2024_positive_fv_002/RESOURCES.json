@@ -1,0 +1,37 @@
+{
+  "BLAS_threads": 1,
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "aggregate_ceiling_s": 1800,
+  "aggregate_wall_s": 587.1209214981645,
+  "auxiliary": [
+    {
+      "charged_wall_s": 15.056049116887152,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 13.554463443346322,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 0.0018584029749035835,
+      "kind": "COMPACT_REPORT_SUMMARY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    }
+  ],
+  "diagnostic_evaluations": 436357,
+  "execution_ceiling": 32,
+  "execution_wall_s": 558.5085505349562,
+  "executions": 28,
+  "exponential_applications": 466990,
+  "failed_or_cancelled_executions": 0,
+  "per_execution_ceiling_s": 120,
+  "propagations": 30633,
+  "reserved_correction_slots_remaining": 4,
+  "segment_count": 48,
+  "workers": 1
+}
