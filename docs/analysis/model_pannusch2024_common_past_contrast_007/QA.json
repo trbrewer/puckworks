@@ -1,0 +1,21 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base_hosted_quick_pr": "SUCCESS, run 37306906012",
+  "baseline_focused": "127 passed in 13.19s",
+  "classification": "G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "final_normal": "PENDING",
+  "generated": "PASS statusdoc and insights write/verify",
+  "hosted": "Observe final PR head; pending/cancelled is not PASS",
+  "initial_normal_baseline": "5982 passed, 65 skipped, 63 deselected; 1301.41s. Started clean; only additive files/docs changed while it ran. Separate untouched checkout rerun retained.",
+  "mypy": "PASS canonical modules and explicit new module/runner",
+  "new_minimum_dependencies": "38 passed in 33.86s; NumPy2.0/SciPy1.13",
+  "normal_selector": "not slow and not live and not gpu and not external_data",
+  "numerical": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+  "packaging": "PENDING",
+  "pre_campaign_focused": "165 passed in 45.46s",
+  "review": "NONHUMAN_AUTHOR_REVIEW; no required approving reviews; human/independent approval not claimed",
+  "ruff": "PASS repository plus new tool/example",
+  "scientific_integrity": "5 passed, 7 skipped, 6136 deselected; 215.39s",
+  "selection_policy": "Unchanged normal selection; no PR318 exclusions; no coverage weakening",
+  "untouched_baseline": "Native Python segmentation fault in existing Waszkiewicz number audit; focused isolation also segfaulted; one same-base full retry pending"
+}

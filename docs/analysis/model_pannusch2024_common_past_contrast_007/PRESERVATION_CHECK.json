@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "source hashes",
+    "AST",
+    "strict JSON",
+    "changed-path boundaries",
+    "secret/local-path scan"
+  ],
+  "ewp_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+  "ewp_status": "",
+  "forward_sources_parameters_defaults": "UNCHANGED",
+  "historical_004_005_006": "UNCHANGED",
+  "protected_count": 74,
+  "shell": "NOT_APPLICABLE_NO_CHANGED_SHELL",
+  "status": "PASS"
+}

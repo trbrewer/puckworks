@@ -426,3 +426,16 @@ endpoint shifts about -7.13e-9 kg: discretization sensitivity remains separate,
 with no continuum certificate. [Results](../analysis/model_pannusch2024_prefix_conditioned_006/RESULTS.md)
 and [handoff](../analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md)
 separate final software QA, author review and hosted checks.
+
+## Common-past paired contrast (007, additive research interface)
+
+The 007 interface composes unchanged FV responses and 006 joint constraints to
+bound later B_MINUS_A for two complete supplied plans whose prescribed and
+compiled pasts agree exactly. It retains original state uncertainty and early
+observation correlations, without a best-fit state or schedule selection.
+[Engineering specification](../analysis/model_pannusch2024_common_past_contrast_007/CONTRACT.md).
+Implemented with mandatory small tests passing; representative qualification is
+**IMPLEMENTED_QUALIFICATION_INCOMPLETE**: maximum reconstruction remains unresolved
+and one unconditioned prefix replay differs. [Results](../analysis/model_pannusch2024_common_past_contrast_007/RESULTS.md). No registry evidence promotion.
+G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. Historical 004–006 findings are unchanged.

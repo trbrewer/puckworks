@@ -1,0 +1,23 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "hard_lp_limit": 160,
+  "hard_propagation_limit": 80,
+  "hard_wall_s": 1800,
+  "planned_propagations": 65,
+  "pre_campaign_test_result": "165 passed in 45.46s",
+  "source_sha256": {
+    "docs/analysis/model_pannusch2024_common_past_contrast_007/CONTRACT.md": "472c2b28736ed239f503aeacd67769712e324aa0200668fcd258aab116f9d2f5",
+    "puckworks/models/pannusch2024/common_past_contrast.py": "5b5d060c16f45dff2dd0a5a2c1f1786ca808918bfb32da49f138e3f9caffe5c3",
+    "tests/test_pannusch_common_past_contrast.py": "ebe2b0a3da6dfeb890fa8e1e1bea23e95c3b610505ab34ef8094cca48a795fda",
+    "tests/test_pannusch_common_past_contrast_verification.py": "a8ce7ddec116536cadd91cbb17d5c0f27647f2c2b48129c5bd9928b87157835c",
+    "tools/pannusch_common_past_contrast_verification.py": "127a26fc0f7076a4eed51b54dc3d9ebcea6764703da299016387fcb7f695d4ba"
+  },
+  "test_log_sha256": "1dd72fc05f63bbd8a20a3c284a1d6e955e22e63f00c722597bef20b59ca6d44c",
+  "tolerances": {
+    "delta_kg": 1e-06,
+    "dense_reference_inventory_relative": 1e-11,
+    "epsilon_kg": 1e-09,
+    "prefix_replay_roundoff_allowance_kg": 0.0,
+    "rational_reference_inventory_relative": 1e-10
+  }
+}

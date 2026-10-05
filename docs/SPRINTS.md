@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [ ] MODEL-PANNUSCH2024-COMMON-PAST-CONTRAST-007: implemented; mandatory small tests pass; representative **IMPLEMENTED_QUALIFICATION_INCOMPLETE** due unresolved maximum reconstruction and one bitwise prefix replay discrepancy. [Results and handoff](analysis/model_pannusch2024_common_past_contrast_007/HANDOFF.md). G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Draft review/QA/CI separate; no successor.
+
 - [x] MODEL-PANNUSCH2024-PREFIX-CONDITIONED-006: ENGINEERING_CAPABILITY_VERIFIED on the declared synthetic query and mandatory small tests; all four fixed operators qualify, with mesh sensitivity separately retained. [Results and handoff](analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md). G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; no real-data scoring, physical validation, merge or successor.
 
 - [x] MODEL-PANNUSCH2024-STATE-ENVELOPE-005: implement explicit state-set delivery bounds and direct shared-state contrasts over unchanged FV operators. Declared numerical checks pass; matched-volume example is uniformly within delta=1e-6 kg, with a smaller opposite-sign reversal. [005 handoff](analysis/model_pannusch2024_state_envelope_005/HANDOFF.md) separates final QA, hosted CI and review. G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Historical 004 failure retained. Draft PR only; no merge or successor.
