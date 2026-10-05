@@ -397,3 +397,32 @@ No universally better profile, measured state recovery, physical validation,
 taste claim, production adoption or successor follows.
 Pannusch attribution and source-derived CC-BY-NC-3.0 remain separate from
 first-party code licensing.
+
+## Early-fraction-conditioned finite delivery (006)
+
+`prefix_conditioned` adds a model-local set-valued inverse query: explicit
+starting-state set U, one immutable prescribed Q/T plan, already specified early
+fraction mass bands in kg, and one finite later fraction. `FVFractionObservation`,
+`FVPrefixConditionedSet`, `condition_on_fractions`, `bound_future_delivery` and
+`replay_conditioned_extrema` retain joint constraints, check outer LP bounds and
+contradictions, and separately reconstruct/replay sufficient compatible witnesses.
+The original forward dynamics, parameters, defaults and `state_envelope.py`
+remain unchanged. No registry component, observation adapter or fitting is added.
+
+G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. Engineering response allowances
+are not rigorous interval arithmetic, statistical confidence, continuum accuracy
+or physical bounds. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Compatibility, complete
+extremum-gap qualification, informativeness and discretization sensitivity are
+separate. No implicit equilibrium or coffee prior; no unique-state recovery.
+Earlier empirical two-assay predictors already exist; no MASS-DELIVERY conclusion
+is reversed. 004's IMPLEMENTED_QUALIFICATION_INCOMPLETE and temporal failure stand.
+See the [006 public contract](../analysis/model_pannusch2024_prefix_conditioned_006/README.md)
+and [pre-execution specification](../analysis/model_pannusch2024_prefix_conditioned_006/CONTRACT.md).
+The synthetic representative and all four fixed operators qualify at epsilon
+1e-9 kg: ENGINEERING_CAPABILITY_VERIFIED. The default finite-target interval is
+[1.5496913443458448e-5, 2.4013808699025333e-5] kg, with complete minimum/maximum
+gaps 1.0982634987804617e-12 and 1.5832919861519332e-12 kg. The N800 minimum
+endpoint shifts about -7.13e-9 kg: discretization sensitivity remains separate,
+with no continuum certificate. [Results](../analysis/model_pannusch2024_prefix_conditioned_006/RESULTS.md)
+and [handoff](../analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md)
+separate final software QA, author review and hosted checks.

@@ -1,0 +1,64 @@
+{
+  "accessible_worktrees": 152,
+  "base_ci": {
+    "conclusion": "cancelled",
+    "head": "4f652dee3a43e9e97dc555173cb469d424cdc69a",
+    "jobs": [
+      {
+        "conclusion": "cancelled",
+        "name": "quality"
+      },
+      {
+        "conclusion": "success",
+        "name": "min-deps"
+      },
+      {
+        "conclusion": "success",
+        "name": "quality-mypy"
+      },
+      {
+        "conclusion": "success",
+        "name": "quick (3.12)"
+      },
+      {
+        "conclusion": "success",
+        "name": "quick (3.11)"
+      },
+      {
+        "conclusion": "success",
+        "name": "quick (3.13)"
+      },
+      {
+        "conclusion": "success",
+        "name": "quick (3.10)"
+      }
+    ],
+    "url": "https://github.com/trbrewer/puckworks/actions/runs/37251064663"
+  },
+  "base_tree": "c17082884871e0a37dced8598560b191c8425da1",
+  "corpus_exhaustion_claim": false,
+  "eventual_sources": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "ewp_read_scope": "Current project state and retained Pannusch input-mapping/flow-history results; no EWP writes or execution",
+  "ewp_remote_main": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+  "ewp_tree": "8ced37ad5b294616b8935d92a57e3845321d5eed",
+  "lineage": "SHARED_LINEAGE_PRIOR_EXPOSURE_RETAINED",
+  "main_delta": "NONE_AT_INTAKE_AND_PREFINAL_FETCH",
+  "original_observation_access": "NOT_NEEDED_FOR_SYNTHETIC_G0",
+  "preservation": "No reset, clean, stash or repurposing of unrelated worktrees",
+  "prior_capability_search": "No matching implemented capability, active branch or open PR found before branch creation",
+  "registered_worktrees": 153,
+  "relevant_prs": {
+    "318": "MERGED; historical 004 qualification incomplete unchanged",
+    "319": "MERGED; current base"
+  },
+  "reviewed_base_and_live_main": "4f652dee3a43e9e97dc555173cb469d424cdc69a",
+  "source_acquisition": false,
+  "task": "MODEL-PANNUSCH2024-PREFIX-CONDITIONED-006",
+  "task_branch": "model/pannusch2024-prefix-conditioned-006",
+  "task_worktree": "NEW_ISOLATED_FROM_CURRENT_MAIN",
+  "task_worktree_initial_status": "CLEAN",
+  "unrelated_dirty_worktrees": 21
+}

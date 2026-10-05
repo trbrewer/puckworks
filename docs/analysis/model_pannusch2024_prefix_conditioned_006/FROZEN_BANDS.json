@@ -1,0 +1,37 @@
+{
+  "bands_kg": [
+    [
+      1.7558437701275476e-05,
+      1.9958437701275473e-05
+    ],
+    [
+      1.17670843253215e-05,
+      1.41670843253215e-05
+    ]
+  ],
+  "centers_kg": [
+    1.8758437701275475e-05,
+    1.29670843253215e-05
+  ],
+  "epsilon_kg": 1e-09,
+  "generating_exponential_actions": 3805,
+  "generating_state_identity": "e0e9279756c195e6dedf820fe95f91e058730efb1d475f8237f241d2a4ec3347",
+  "generation_plan_identity": "4054fb06ded87f32d63cdb185267bc45ef19cb0d1858d585bf214792feb16c6c",
+  "generator_fraction_windows": [
+    [
+      7.0,
+      10.0
+    ],
+    [
+      10.0,
+      12.0
+    ]
+  ],
+  "half_width_kg": 1.2000000000000002e-06,
+  "label": "SYNTHETIC_TEST_ASSUMPTION_NOT_ASSAY_PRECISION",
+  "original_U_identity": "d3df4cd0382bcaa3b9a2a54c448799ae56191040c02eebc8118a201e4d1eb274",
+  "target_window": [
+    12.0,
+    17.0
+  ]
+}

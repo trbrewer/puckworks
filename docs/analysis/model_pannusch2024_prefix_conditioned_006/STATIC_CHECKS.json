@@ -1,0 +1,10 @@
+{
+  "change_declaration": "G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "changed_path_boundary": "Only additive sibling, its tests/tool/example and documentation",
+  "changed_python_ast_files": 5,
+  "changed_strict_json_files": 16,
+  "preserved_source_proof": "PRESERVATION_CHECK.json",
+  "secret_local_path_scan": "PASS",
+  "shell": "NOT_APPLICABLE_NO_SHELL_FILE_CHANGES; documented commands executed",
+  "status": "PASS"
+}

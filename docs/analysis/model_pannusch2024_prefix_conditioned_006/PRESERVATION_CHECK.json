@@ -1,0 +1,11 @@
+{
+  "all_original_forward_parameter_default_and_001_005_bytes_unchanged": true,
+  "ewp_lock_sha256": {
+    "dependencies/puckworks.lock.json": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10"
+  },
+  "ewp_owner_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+  "ewp_worktree_clean": true,
+  "original_manifest_sha256": "3b417e17809d7b347b18f8d844c6ae6685a8ae23394cfffb7f5657369f0d93b9",
+  "puckworks_unchanged_files": 62,
+  "status": "PASS"
+}
