@@ -1,0 +1,8 @@
+{
+  "executed_runner_sha256": "47b3fe8640ee7aba82668c89d403762d8d10fd5809012beb119f0adad23be723",
+  "formatted_runner_sha256": "ef0d1dab1a8513b087f616506d25cba4bdeb3f6ac5f7c3fe4a8fc812b26c08fa",
+  "numerical_module_sha256": "69b033a5b8664875fd44eb7df5669f4b520ab3979f2a3934340a59b849833827",
+  "reason": "Runner trailing-whitespace removal and documentation corrections only; exact Python AST unchanged. Numerical module, cached native responses, forward sources, plan, original U, frozen bands and all test thresholds unchanged.",
+  "runner_ast_identical": true,
+  "status": "REUSED_NO_NUMERICAL_RERUN"
+}

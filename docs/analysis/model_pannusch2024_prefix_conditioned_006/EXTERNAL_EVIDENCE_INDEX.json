@@ -1,0 +1,61 @@
+{
+  "artifacts": {
+    "N400-h0.005-full.json": {
+      "bytes": 10314743,
+      "sha256": "f67f795aad185fc0e3f9bd6421e892f67808aa6f90015a47c98fe36d869cab8c"
+    },
+    "N400-h0.01-full.json": {
+      "bytes": 9553422,
+      "sha256": "746d85b5aacd67ace84c6078b73de5197c5323307b2e688495f9b319f2734086"
+    },
+    "N400-h0.02-full.json": {
+      "bytes": 9177651,
+      "sha256": "2d1a0a98c6f2bf1b948ad304dde2250257411dd7f8f1912421fb97c4df822149"
+    },
+    "N800-h0.02-full.json": {
+      "bytes": 9632247,
+      "sha256": "f0823fbaa3bcfeb77d35cbd89862cd8e3cec8374a75de703cbd91024284827e2"
+    },
+    "corrected-N400-h0.005-full.json": {
+      "bytes": 9734004,
+      "sha256": "8746bd7bf69336f8c469a24a6b63457079c039a05df60ea84e45305571718d51"
+    },
+    "corrected-N400-h0.01-full.json": {
+      "bytes": 8972643,
+      "sha256": "d469c4e6fce5b8d982f64e8e5f2c51512a8e28ed5c353eae5aabf912eef3a8dc"
+    },
+    "corrected-N400-h0.02-full.json": {
+      "bytes": 8596935,
+      "sha256": "a54015da9b2cf5631034ac67756449bee5de0099cdc0eccc3caf8d0a9a500dcc"
+    },
+    "corrected-N800-h0.02-full.json": {
+      "bytes": 9051394,
+      "sha256": "682f827c69b4075fd79fddcabc18f8ca92a4da7fe30e3a7c312613a5e6256945"
+    },
+    "corrected-results.json": {
+      "bytes": 343262,
+      "sha256": "ba3860a0751e873fac52797f2843ca2317865ec5ca9e1346a4deb7dda1b4392e"
+    },
+    "frozen-bands.json": {
+      "bytes": 851,
+      "sha256": "54c6f1e9214aa7e5a0ea9a3b6e614e933e622f3b0eabed5a4581f9cd2341494f"
+    },
+    "generation-status-failure.json": {
+      "bytes": 996,
+      "sha256": "aa3cfc9c2e4ec3c542d949eb5c78b4af237f1fdb5f39777bc6e9b8a777cae3ec"
+    },
+    "resources.json": {
+      "bytes": 32599,
+      "sha256": "174601a82b823be6116426f9bb5d2a8dbbf3fa4153b8adf0581d749f08581e32"
+    },
+    "results.json": {
+      "bytes": 322841,
+      "sha256": "fa029b1e9cffb3b738131e62849da6e0fb855767f2b8de0fd1d98ca6e12e92c4"
+    },
+    "synthetic-inputs-full.json": {
+      "bytes": 220195,
+      "sha256": "412c05e1284c5ce33982df2211d98de2e64695378f8bc8901f90f90880fba27a"
+    }
+  },
+  "location": "Owner-retained external task evidence directory; local path intentionally omitted"
+}

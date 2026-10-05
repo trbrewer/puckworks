@@ -1,0 +1,22 @@
+{
+  "after": {
+    "tests/test_pannusch_prefix_conditioned_verification.py": "1f72ac43b1fbecb242e51aff2f5e332b409371d4d97fe898efd2225014cced76",
+    "tools/pannusch_prefix_conditioned_verification.py": "fa992df4d68aac049b5c7167444071ecbceaecb7d74fde5328ce0e7fb93dbc59"
+  },
+  "before": {
+    "tests/test_pannusch_prefix_conditioned_verification.py": "381376de19f94946f71a241aace80fc43feadfbe4b830f3ea8bcd803c1563ccf",
+    "tools/pannusch_prefix_conditioned_verification.py": "78c7709d2d420e790c70ac42453efdc3e9fc262c0878814474ed5b2743a68b1e"
+  },
+  "class_": "QA_HARNESS_FAILURE_NOT_NUMERICAL_FAILURE",
+  "corrected_planned_total_propagations": 34,
+  "correction": "One replacement generating trajectory charged to same persistent campaign; no state/band/window/resolution/epsilon change",
+  "evidence": "generation-status-failure.json retained by runner before continuing",
+  "focused_tests": "40 passed",
+  "future_responses_before_correction": 0,
+  "hard_propagation_limit": 64,
+  "lp_calls_before_correction": 0,
+  "numerical_module_unchanged_sha256": "485f053152f8f85914920a37a49177fca0bc541460716ee48a592191fc226534",
+  "propagations_already_charged": 1,
+  "reason": "Generating trajectory valid PLANNED_STOP at requested 12 s was rejected by harness COMPLETE-only check",
+  "source_forward_and_parameters_unchanged": true
+}

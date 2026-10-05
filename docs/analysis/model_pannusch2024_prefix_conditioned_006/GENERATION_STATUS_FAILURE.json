@@ -1,0 +1,26 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "allowance_contract": "ENGINEERING_ALLOWANCE_CONDITIONAL_NOT_RIGOROUS_OR_STATISTICAL",
+  "code_sha256": {
+    "pannusch_prefix_conditioned_verification.py": "78c7709d2d420e790c70ac42453efdc3e9fc262c0878814474ed5b2743a68b1e",
+    "prefix_conditioned.py": "485f053152f8f85914920a37a49177fca0bc541460716ee48a592191fc226534"
+  },
+  "disposition": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+  "environment": {
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "fixture_authority": "005 VERIFICATION.md history A and U only",
+  "fixture_authority_sha256": "cf983ca6c155ff15c86853dba8cb20e41c2af99285473e0ffa0320cdb02f7bad",
+  "forward_invocations": 1,
+  "levels": [],
+  "lp_invocations": 0,
+  "task": "MODEL-PANNUSCH2024-PREFIX-CONDITIONED-006",
+  "termination": "RuntimeError:SYNTHETIC_EARLY_GENERATION_FAILED"
+}

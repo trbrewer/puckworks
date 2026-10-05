@@ -1,0 +1,29 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base_commit": "4f652dee3a43e9e97dc555173cb469d424cdc69a",
+  "base_tree": "c17082884871e0a37dced8598560b191c8425da1",
+  "baseline_normal": "5939 passed, 65 skipped, 63 deselected in 1291.59 s; unchanged normal selector",
+  "focused": "40 passed in 6.96 s",
+  "hard_limits": {
+    "aggregate_wall_s": 1800,
+    "lp_calls": 160,
+    "lp_wall_s": 30,
+    "propagation_wall_s": 120,
+    "propagations": 64
+  },
+  "hashes": {
+    "docs/analysis/model_pannusch2024_prefix_conditioned_006/CONTRACT.md": "b24e18b240d6ec4a57eaa419db0b6a77048d3d0b1d184f2bc01b776b1e480a3e",
+    "docs/analysis/model_pannusch2024_prefix_conditioned_006/TEST_PLAN.md": "188f709bc5fce65f198620dc11e076b55f8c4d66647eabc7c5c57a85f76a2c0c",
+    "examples/pannusch_prefix_conditioned.py": "6720796773af954639d3dd59d2f4654c2668bac7a5dc1c6ac197f96b87eed8e4",
+    "puckworks/models/pannusch2024/prefix_conditioned.py": "485f053152f8f85914920a37a49177fca0bc541460716ee48a592191fc226534",
+    "tests/test_pannusch_prefix_conditioned.py": "0d318350257fd0776d81206374512e3ccd2f3564158bbe9b34e629427ec987f5",
+    "tests/test_pannusch_prefix_conditioned_verification.py": "381376de19f94946f71a241aace80fc43feadfbe4b830f3ea8bcd803c1563ccf",
+    "tools/pannusch_prefix_conditioned_verification.py": "78c7709d2d420e790c70ac42453efdc3e9fc262c0878814474ed5b2743a68b1e"
+  },
+  "minimum_dependencies_focused": "40 passed in 6.70 s; NumPy 2.0 / SciPy 1.13 on Python 3.12",
+  "original_observation_access": "NOT_NEEDED_FOR_SYNTHETIC_G0",
+  "planned_max_lp_calls": 36,
+  "planned_propagations": 33,
+  "planned_reference_or_repeat_trajectories": 0,
+  "producer": "UNCOMMITTED_ADDITIVE_WORKING_TREE_IDENTIFIED_BY_SOURCE_HASHES"
+}
