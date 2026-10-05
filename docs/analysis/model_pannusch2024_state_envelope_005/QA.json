@@ -1,27 +1,790 @@
 {
   "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
-  "baseline": "PASS; see INTAKE.json",
-  "disposition": "LOCAL_IMPLEMENTATION_QA_PASSED_DOMAIN_CORRECTION_PENDING",
-  "failed_numerical_checks": [],
-  "final_normal": "PASS; 5938 passed, 65 skipped, 63 deselected, one existing warning; 1282.94 s; original numerical producer before isolated domain correction",
-  "final_scientific_baseline": "PASS; 5 passed, 7 skipped, 6054 deselected; 213.20 s",
-  "focused": "PASS; 83 tests",
-  "generated_status_and_insights": "PASS",
-  "hosted_ci": "NOT_STARTED; draft PR not yet published",
-  "minimum_dependencies_focused": "PASS; 83 tests; NumPy 2.0 / SciPy 1.13 / Python 3.12",
-  "mypy_affected": "PASS; 2 files",
-  "mypy_repository": "PASS; 19 files; existing annotation-unchecked informational note",
-  "packaging": "PASS; inventory, installed-wheel public/service/licence/example smoke, sdist rebuild",
-  "pending_author_review_correction": {
-    "defect": "A positive upper mass bound can underflow to zero during LP normalization when the lower bound is zero and the finite dynamic range is extreme.",
-    "full_mesh_effect": "Declared U has strictly positive representable lower bounds; original responses and primary results retained.",
-    "planned_correction_executions": 4,
-    "probe": "Two liquid cells with upper concentrations [1e-280,1e300] kg/m^3; other phases zero.",
-    "status": "CONFIRMED; explicit unresolved guard and regression test pending"
+  "baseline_focused": "255 passed; 14.11 s",
+  "baseline_normal": {
+    "counts": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "65",
+      "tests": "5920",
+      "time": "1316.980"
+    },
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": [
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figure_exports"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper3"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper_b2"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_insights"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_plots"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_linked_pull_figures"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_tour_layout"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.product.test_pull::test_cli_figures_report"
+      },
+      {
+        "reason": "slow N-tube robustness study (set PUCKWORKS_SLOW=1)",
+        "test": "tests.test_analysis::test_ntube_robustness_is_ofat_not_factorial"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_deep_screen_i045::test_committed_deep_result_does_not_drift_from_a_fresh_run"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_blast_radius_coverage_is_complete_and_classified"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_needle_scan_blind_spot_is_covered_by_path_inspection"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_exactly_the_manifest_and_the_gate_are_current_miswordings"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_deep_screen_i045::test_the_case_insensitive_scan_finds_the_capitalised_readme_wording"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_one_reader_facing_overclaim_the_readme_and_pages_is_clean"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_containment_is_recorded_as_bounded_not_as_zero"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_readme_is_a_named_future_correction_target"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_pages_root_is_still_clean"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_defect_is_present_in_released_source"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_screen_excludes_its_own_output_and_says_so"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_protected_surfaces_are_byte_unchanged_in_this_pr"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_grudeva_clock::test_unresolved_reporting[True-0.0]"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_grudeva_clock::test_unresolved_reporting[False-0.001]"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_format_finding_levels"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_preset_defaults_come_from_the_selected_preset"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_app_module_imports_with_webapp_extra"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_batch_run_matches_package_output_and_writes_manifest"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_batch_scenario_identity_not_pv19_for_guided_v1"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_required_scientific_figure_failure_would_fail_the_batch"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_pw_app_002_public_bundle_serializes_strictly_without_default_str"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_artifact_replay::test_batch_publishes_atomically_and_records_the_full_manifest"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_artifact_replay::test_batch_leaves_no_partial_final_dir_on_failure"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_selfcheck_runs_only_the_cleared_component"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_artifact_bundle_carries_preflight_and_provenance_and_refuses_blocked"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_app_imports_and_main_is_callable"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_rights_gate::test_local_context_still_runs_the_batch"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_rights_gate::test_default_context_is_local_and_permits_execution"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_build_request_and_preview"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_preview_shows_readiness_without_executing"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_selected_reference_preview_resolves_components"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_batch_writes_one_unit_safe_figure_and_csv_per_panel"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_required_figure_gate_fails_when_nothing_plottable"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_panel_figure_refuses_a_mixed_unit_panel"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_moroney_transfer::test_synthetic_pipeline_scores_and_renders_once"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_moroney_transfer_report::test_report_and_three_figures_use_frozen_outputs"
+      },
+      {
+        "reason": "matplotlib not installed ([figures] extra)",
+        "test": "tests.test_paper_a::test_figures_render_from_bundle"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_panel_titles_do_not_overlap"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_suptitle_does_not_overlap_the_panel_titles"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_titles_stay_inside_the_canvas"
+      },
+      {
+        "reason": "could not import 'openpyxl': No module named 'openpyxl'",
+        "test": "tests.test_pocketscience2024_assay::test_synthetic_workbook_replay_grouping"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_render_produces_the_full_file_set"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_renderer_never_resimulates"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_renderer_does_not_mutate_the_run"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_overwrite_policy"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_captions_are_a_static_text_equivalent"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_manifest_wording_is_byte_identical"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_screen_i045::test_the_named_source_surfaces_are_untouched_in_this_pr"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_scan_classifies_every_hit"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_gate_hit_is_an_incorrect_attribution_not_an_ambiguous_sense"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_manifest_independent_hit_is_the_target_incorrect_label"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_manifest_verification_hit_remains_correct"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_committed_result_does_not_drift_from_a_fresh_run"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_committed_result_matches_on_the_decision_bearing_fields"
+      },
+      {
+        "reason": "later SCI-MD-007-R1 intake expands the Foundry corpus",
+        "test": "tests.test_screen_wp6_lateral_identifiability::test_regeneration_moved_only_provenance_deep_payload_comparison"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_viz::test_class1_render_is_stamped"
+      }
+    ],
+    "status": "PASS"
   },
-  "review": "NONHUMAN_AUTHOR_REVIEW_ONLY; no independent or human review",
-  "ruff": "PASS",
-  "skipped_numerical_checks": [],
-  "source_and_historical_integrity": "PASS; 69 existing files byte-identical; pre-execution numerical producer exact",
-  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005"
+  "baseline_scientific": {
+    "counts": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "7",
+      "tests": "12",
+      "time": "213.239"
+    },
+    "selector": "scientific_baseline and not live and not gpu and not external_data",
+    "skipped": [
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figure_exports"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper3"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper_b2"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_insights"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_plots"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_linked_pull_figures"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_tour_layout"
+      }
+    ],
+    "status": "PASS"
+  },
+  "boundary": "No existing Pannusch runtime, tables, global contracts, registry defaults, gates, workflow selectors or EWP changes",
+  "corrected_floor_focused": "........................................................................ [ 85%]\n............                                                             [100%]\n84 passed in 6.45s",
+  "corrected_focused": "........................................................................ [ 85%]\n............                                                             [100%]\n84 passed in 6.47s",
+  "correction": {
+    "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    "continuum_or_physical_promotion": false,
+    "corrected_source_sha256": "d3de7998e6273d1f4bb3494b9d4a7b082e63b24f877801d0c1a7f661bc5423af",
+    "correction_forward_calls": 0,
+    "correction_large_executions": 4,
+    "correction_optimization_calls": 6,
+    "declared_set_new_guard": "FALSE; all canonical lower bounds are strictly positive and normalize representably",
+    "hostile_regression": {
+      "analytical_maximum_kg": 3.3686512626279957e-286,
+      "cells": 2,
+      "lower_liquid_kg_m3": [
+        0.0,
+        0.0
+      ],
+      "new_required_status": "NUMERICALLY_UNRESOLVED",
+      "new_required_termination": "UNREPRESENTABLE_LP_SCALING",
+      "old_maximum_interval_kg": [
+        -5e-324,
+        1e-323
+      ],
+      "old_status": "OPTIMIZATION_QUALIFIED_INCORRECTLY",
+      "other_phases": "EXACT_ZERO",
+      "upper_liquid_kg_m3": [
+        1e-280,
+        1e+300
+      ]
+    },
+    "only_runtime_difference": "Reject positive upper mass bounds that underflow during LP normalization before linprog",
+    "original_producer_commit": "ef413fc6cd7182ef86450ab711e110985be9cb24",
+    "original_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+    "primary_queries": {
+      "A": {
+        "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+        "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+        "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+        "outer_interval_kg": [
+          2.6707216426327628e-05,
+          7.340198633701916e-05
+        ],
+        "witness_state_identities": [
+          "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+          "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc"
+        ]
+      },
+      "A-minus-B": {
+        "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+        "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+        "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+        "outer_interval_kg": [
+          -9.534715186319658e-08,
+          8.574470415411578e-07
+        ],
+        "witness_state_identities": [
+          "027396df7bf0a31aef8797ec513e16881404a4c7af12f227d2b1ec6e21d74a58",
+          "a0d0ee8ad67bdc7e62ce5fd56a813e6f10dbc867e9f81c4d3ace91c233ddf503"
+        ]
+      },
+      "B": {
+        "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+        "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+        "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+        "outer_interval_kg": [
+          2.639956146360549e-05,
+          7.297114397210723e-05
+        ],
+        "witness_state_identities": [
+          "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+          "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc"
+        ]
+      }
+    },
+    "reason": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+    "replay_basis": "Six reported primary states and eight fresh original forward receipts are unchanged. These correction candidates verify equality; they are not new primary witnesses or relabelled replay receipts.",
+    "response_arrays": "BITWISE_IDENTICAL; both ordinary and split-action arithmetic allowances preserved",
+    "status": "CORRECTION_VERIFIED",
+    "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005"
+  },
+  "coverage": "Name                                 Stmts   Miss  Cover\n--------------------------------------------------------\npuckworks/gate_runner.py               182     30    84%\npuckworks/paper3/archive.py            234     56    76%\npuckworks/paper3/evidence_graph.py     423     75    82%\npuckworks/registry.py                   91     15    84%\npuckworks/release.py                   196     37    81%\npuckworks/statusdoc.py                 145     55    62%\npuckworks/validate.py                  117     11    91%\n--------------------------------------------------------\nTOTAL                                 1388    279    80%",
+  "dependencies": {
+    "floor": "NumPy 2.0 / SciPy 1.13",
+    "normal": "NumPy 2.5.3 / SciPy 1.18.1"
+  },
+  "disposition": "LOCAL_QA_COMPLETE_HOSTED_CI_RECORDED_ON_DRAFT_PR",
+  "evidence_sha256": {
+    "baseline-scientific.log": "39193230dc3656c9f0a98758daa3ebedbd44e55f3c131ac683a833b820a5fccf",
+    "baseline.log": "70d86e1d6a58ac6a8cda128dea451be4a91f0300d41f7143c81527fe5cb76722",
+    "baseline.xml": "5dba74ff0f9f133075c3e593b30b86ba397c8f094b92362a1e3413f847077a37",
+    "corrected-build.log": "244bd239ea451c9347bc1d5fc01d8cbb3ebfad4ee9e64bcbecc13053f4d34e77",
+    "corrected-focused.log": "2c4ae91c623575e071946ce9cc5494c5afdf209ad9064853f74bb5c6fc05820b",
+    "corrected-insights.log": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87",
+    "corrected-inventory.log": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+    "corrected-min-focused.log": "dcc1e9ced934a02c95ecfce52f24276038f3b18d51797977f98e965766663f64",
+    "corrected-mypy-affected.log": "f9b031e5c45aa702cd4fef028d465551cb20a2c4698e0913c7b00766b20ac4d8",
+    "corrected-mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "corrected-ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "corrected-sdist-rebuild.log": "1296d455665fa9ae6af72f8f6ecf30bddb04458ddebf53066f8dcbbedf45968e",
+    "corrected-statusdoc.log": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+    "corrected-wheel-domain.log": "7b59d8abd23eda7aaf69be963a613acf42ee6ea4669729a89d45f94bca6b06a4",
+    "corrected-wheel-example.json": "5705f00be93f9e5dbb7dc60b7b34bb279a807ab5f7d47ba88a3db3983dc96cf8",
+    "corrected-wheel-license-smoke.log": "c4555985b22bbf7ca6d3cce9580bb9b729fdc030b8c0eecb1a0460897dd6a4e1",
+    "corrected-wheel-service-smoke.log": "57c151e3259db146ad48deb01a99ec6c2ef240e33233a43574db0a7c731528f8",
+    "corrected-wheel-smoke.log": "83fbaf86c83b22a5ba34d6807e1abfe0af49a3adc7f9b49cf1ed69abb79fc1a0",
+    "correction-check.log": "06038d88907f0df752d71494c661e4975baccb8161549e9e661df07a49412d15",
+    "final-change-audit.json": "297129d75166a6cd70c36b541b98eb969ddb48471792345d6acd504541912b1e",
+    "final-coverage.log": "bb7b32035170673f5ed0c520446ef0b443f1dcdd496a47d4b50421e7a751e20f",
+    "final-normal.log": "3e17db5e7af16dcad326d21e6aa6ee4ffc67e66625718f41b0548d9ea02102e4",
+    "final-normal.xml": "6f1aaa954f02be4382215da7b13c48b526294ffb874a174c96068db19b8dc3e1",
+    "final-scientific.log": "03e7de7ea87bd61c4b890a2983f59dc37cf4e7d49cae926ca276536fabf899c0",
+    "final-scientific.xml": "129fd9e3ba3e8c4c47ad765424f9073d9d85574d8dbfbc390ab1ce0be90d83fc"
+  },
+  "failed_checks": [
+    {
+      "check": "Two-cell hostile finite dynamic-range probe",
+      "initial": "Incorrect qualified narrow upper bound due to upper-bound normalization underflow",
+      "resolution": "Corrected; explicit NUMERICALLY_UNRESOLVED before LP; focused regression added; declared full-case responses/extrema/witnesses unchanged",
+      "status": "RESOLVED"
+    }
+  ],
+  "generated_status_and_insights": "PASS; normal generators and verifiers; source-commit provenance plus appended card section only",
+  "hosted_ci": {
+    "at_local_receipt": "NOT_YET_STARTED",
+    "authoritative_final_status": "Draft PR current-head check runs and final handoff; local pass is not a hosted pass",
+    "branch_protection_query": "Main branch has no required_status_checks protection (HTTP 404); all applicable triggered CI still reported"
+  },
+  "implementation_normal": {
+    "counts": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "65",
+      "tests": "6003",
+      "time": "1282.880"
+    },
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": [
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figure_exports"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper3"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper_b2"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_insights"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_plots"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_linked_pull_figures"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_tour_layout"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.product.test_pull::test_cli_figures_report"
+      },
+      {
+        "reason": "slow N-tube robustness study (set PUCKWORKS_SLOW=1)",
+        "test": "tests.test_analysis::test_ntube_robustness_is_ofat_not_factorial"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_deep_screen_i045::test_committed_deep_result_does_not_drift_from_a_fresh_run"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_blast_radius_coverage_is_complete_and_classified"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_needle_scan_blind_spot_is_covered_by_path_inspection"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_exactly_the_manifest_and_the_gate_are_current_miswordings"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_deep_screen_i045::test_the_case_insensitive_scan_finds_the_capitalised_readme_wording"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_one_reader_facing_overclaim_the_readme_and_pages_is_clean"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_containment_is_recorded_as_bounded_not_as_zero"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_readme_is_a_named_future_correction_target"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_pages_root_is_still_clean"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_defect_is_present_in_released_source"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_the_screen_excludes_its_own_output_and_says_so"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_deep_screen_i045::test_protected_surfaces_are_byte_unchanged_in_this_pr"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_grudeva_clock::test_unresolved_reporting[True-0.0]"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_grudeva_clock::test_unresolved_reporting[False-0.001]"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_format_finding_levels"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_preset_defaults_come_from_the_selected_preset"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_app_module_imports_with_webapp_extra"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_batch_run_matches_package_output_and_writes_manifest"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_batch_scenario_identity_not_pv19_for_guided_v1"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_app::test_required_scientific_figure_failure_would_fail_the_batch"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_app::test_pw_app_002_public_bundle_serializes_strictly_without_default_str"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_artifact_replay::test_batch_publishes_atomically_and_records_the_full_manifest"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_artifact_replay::test_batch_leaves_no_partial_final_dir_on_failure"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_selfcheck_runs_only_the_cleared_component"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_artifact_bundle_carries_preflight_and_provenance_and_refuses_blocked"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_public_app::test_public_app_imports_and_main_is_callable"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_rights_gate::test_local_context_still_runs_the_batch"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_rights_gate::test_default_context_is_local_and_permits_execution"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_build_request_and_preview"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_preview_shows_readiness_without_executing"
+      },
+      {
+        "reason": "could not import 'streamlit': No module named 'streamlit'",
+        "test": "tests.test_lab_selection_panels::test_app_selected_reference_preview_resolves_components"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_batch_writes_one_unit_safe_figure_and_csv_per_panel"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_required_figure_gate_fails_when_nothing_plottable"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_lab_unit_safe_figures::test_panel_figure_refuses_a_mixed_unit_panel"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_moroney_transfer::test_synthetic_pipeline_scores_and_renders_once"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_moroney_transfer_report::test_report_and_three_figures_use_frozen_outputs"
+      },
+      {
+        "reason": "matplotlib not installed ([figures] extra)",
+        "test": "tests.test_paper_a::test_figures_render_from_bundle"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_panel_titles_do_not_overlap"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_suptitle_does_not_overlap_the_panel_titles"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_paper_a_figure_semantics::test_s3_titles_stay_inside_the_canvas"
+      },
+      {
+        "reason": "could not import 'openpyxl': No module named 'openpyxl'",
+        "test": "tests.test_pocketscience2024_assay::test_synthetic_workbook_replay_grouping"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_render_produces_the_full_file_set"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_renderer_never_resimulates"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_renderer_does_not_mutate_the_run"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_overwrite_policy"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_pull_report::test_captions_are_a_static_text_equivalent"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_manifest_wording_is_byte_identical"
+      },
+      {
+        "reason": "live source is corrected; this asserted the PRE-CORRECTION state of surfaces the correction was authorised to change. The historical\nfinding is protected by the pinned snapshot hashes; the CURRENT state is asserted by tests/test_correction_i045.py.",
+        "test": "tests.test_screen_i045::test_the_named_source_surfaces_are_untouched_in_this_pr"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_scan_classifies_every_hit"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_gate_hit_is_an_incorrect_attribution_not_an_ambiguous_sense"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_manifest_independent_hit_is_the_target_incorrect_label"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_the_manifest_verification_hit_remains_correct"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_committed_result_does_not_drift_from_a_fresh_run"
+      },
+      {
+        "reason": "live source is corrected; this asserts a property of the PRE-CORRECTION\n                    repository. The historical finding is protected by the pinned snapshot hashes.",
+        "test": "tests.test_screen_i045::test_committed_result_matches_on_the_decision_bearing_fields"
+      },
+      {
+        "reason": "later SCI-MD-007-R1 intake expands the Foundry corpus",
+        "test": "tests.test_screen_wp6_lateral_identifiability::test_regeneration_moved_only_provenance_deep_payload_comparison"
+      },
+      {
+        "reason": "could not import 'matplotlib': No module named 'matplotlib'",
+        "test": "tests.test_viz::test_class1_render_is_stamped"
+      }
+    ],
+    "status": "PASS"
+  },
+  "implementation_scientific": {
+    "counts": {
+      "errors": "0",
+      "failures": "0",
+      "skipped": "7",
+      "tests": "12",
+      "time": "213.188"
+    },
+    "selector": "scientific_baseline and not live and not gpu and not external_data",
+    "skipped": [
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figure_exports"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper3"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_figures_paper_b2"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_insights"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_lab_tour_plots"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_linked_pull_figures"
+      },
+      {
+        "reason": "collection skipped",
+        "test": "::tests.test_tour_layout"
+      }
+    ],
+    "status": "PASS"
+  },
+  "incomplete_checks": [
+    "Hosted CI before publication; final status on draft PR.",
+    "Ordinary owner review; draft, no review requested or invented."
+  ],
+  "json_secret_path_and_artifact_checks": "PASS; strict finite JSON, changed-path scan, no private absolute paths/secrets/bulky arrays/logs/binaries",
+  "local_interpreter": "Python 3.12.3",
+  "mypy_affected": "PASS; new module and runner (2 files)",
+  "mypy_repository": "PASS; 19 files",
+  "normal_regression_producer": "Original numerical producer commit identified in CORRECTION.json; final guard change has focused/floor/wheel regression and exact selected-query equivalence checks. Hosted normal matrix tests the final PR head.",
+  "numerical_campaign_scope": "Resource receipt covers the full-mesh programme and its four reserved correction response passes plus associated LPs. Small offline unit suites and ordinary repository QA are reported separately. The author-review two-cell defect probe used one additional small LP, zero full-mesh executions.",
+  "outside_selected_qa": [
+    "slow/live/gpu/external_data excluded by unchanged normal selector (63 deselected at original implementation head)",
+    "Python 3.10/3.11/3.13 not installed locally; reported only from hosted matrix",
+    "No 004 programme rerun, EWP/OpenFOAM run, observation acquisition/scoring or lab operation"
+  ],
+  "packaging": "PASS; corrected wheel+sdist build, tracked-file inventory, clean installed-wheel public/service/licence/example/scaling-guard smoke, sdist rebuild",
+  "review": {
+    "human_review": false,
+    "independent_review": false,
+    "kind": "NONHUMAN_AUTHOR_REVIEW",
+    "scope": "Transpose/window reward order, mass capacities/packing, global weak-duality bound, explicit repair, shared-state witnesses, decision precedence, workload accounting, late scaling-underflow defect"
+  },
+  "ruff": "PASS; puckworks/ tests/ plus new runner/example",
+  "shell": "NOT_APPLICABLE; no shell file changes",
+  "source_and_historical_integrity": "PASS; 69 existing files byte-identical; original numerical source at recorded producer, one guarded failure-path addition at final source",
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005",
+  "warnings": [
+    "Existing PUCKWORKS_VIS_SALT DEV-salt warning in normal QA; no production harvest executed.",
+    "Existing mypy annotation-unchecked informational note in product/_serialize.py."
+  ]
 }

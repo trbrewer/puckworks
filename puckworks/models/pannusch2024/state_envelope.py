@@ -580,6 +580,7 @@ def _optimize(u, g, coefficient_allowances, sense, settings):
             c = sign*g/objective_scale
             if (not np.isfinite(np.r_[lo, hi, b, c]).all()
                     or np.any((u.lower_masses_kg > 0) & (lo == 0))
+                    or np.any((u.upper_masses_kg > 0) & (hi == 0))
                     or np.any((rhs != 0) & (b == 0))):
                 raise RuntimeError('UNREPRESENTABLE_LP_SCALING')
             calls = 1

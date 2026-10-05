@@ -1,0 +1,78 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "continuum_or_physical_promotion": false,
+  "corrected_source_sha256": "d3de7998e6273d1f4bb3494b9d4a7b082e63b24f877801d0c1a7f661bc5423af",
+  "correction_forward_calls": 0,
+  "correction_large_executions": 4,
+  "correction_optimization_calls": 6,
+  "declared_set_new_guard": "FALSE; all canonical lower bounds are strictly positive and normalize representably",
+  "hostile_regression": {
+    "analytical_maximum_kg": 3.3686512626279957e-286,
+    "cells": 2,
+    "lower_liquid_kg_m3": [
+      0.0,
+      0.0
+    ],
+    "new_required_status": "NUMERICALLY_UNRESOLVED",
+    "new_required_termination": "UNREPRESENTABLE_LP_SCALING",
+    "old_maximum_interval_kg": [
+      -5e-324,
+      1e-323
+    ],
+    "old_status": "OPTIMIZATION_QUALIFIED_INCORRECTLY",
+    "other_phases": "EXACT_ZERO",
+    "upper_liquid_kg_m3": [
+      1e-280,
+      1e+300
+    ]
+  },
+  "only_runtime_difference": "Reject positive upper mass bounds that underflow during LP normalization before linprog",
+  "original_producer_commit": "ef413fc6cd7182ef86450ab711e110985be9cb24",
+  "original_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+  "primary_queries": {
+    "A": {
+      "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+      "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+      "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+      "outer_interval_kg": [
+        2.6707216426327628e-05,
+        7.340198633701916e-05
+      ],
+      "witness_state_identities": [
+        "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+        "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc"
+      ]
+    },
+    "A-minus-B": {
+      "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+      "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+      "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+      "outer_interval_kg": [
+        -9.534715186319658e-08,
+        8.574470415411578e-07
+      ],
+      "witness_state_identities": [
+        "027396df7bf0a31aef8797ec513e16881404a4c7af12f227d2b1ec6e21d74a58",
+        "a0d0ee8ad67bdc7e62ce5fd56a813e6f10dbc867e9f81c4d3ace91c233ddf503"
+      ]
+    },
+    "B": {
+      "correction_candidate_status": "WITNESS_REPLAY_REQUIRED",
+      "intervals_gaps_predictions_states": "BITWISE_IDENTICAL_TO_ORIGINAL_PRODUCER",
+      "original_fresh_replay_receipts": "PRESERVED_AT_ORIGINAL_PRODUCER_NOT_RELABELLED",
+      "outer_interval_kg": [
+        2.639956146360549e-05,
+        7.297114397210723e-05
+      ],
+      "witness_state_identities": [
+        "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+        "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc"
+      ]
+    }
+  },
+  "reason": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+  "replay_basis": "Six reported primary states and eight fresh original forward receipts are unchanged. These correction candidates verify equality; they are not new primary witnesses or relabelled replay receipts.",
+  "response_arrays": "BITWISE_IDENTICAL; both ordinary and split-action arithmetic allowances preserved",
+  "status": "CORRECTION_VERIFIED",
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005"
+}

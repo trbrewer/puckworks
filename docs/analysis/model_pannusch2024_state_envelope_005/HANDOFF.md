@@ -14,8 +14,12 @@ implementation/verification and required software/CI checks pass.
 
 Author review after the declared programme identified an extreme-dynamic-range
 LP upper-bound scaling underflow when the corresponding lower bound is zero.
-A guard/regression correction and the four reserved response executions are
-pending. This candidate is not yet a completed engineering qualification.
+The final source rejects that case as numerically unresolved before HiGHS.
+The added regression passes on normal and minimum dependencies. Four reserved
+response executions verified exact equality of the declared responses,
+extrema/gaps/predictions and all six primary state identities. The eight fresh
+original replay receipts retain their original producer; they are not relabelled
+as new trajectories. See [CORRECTION.json](CORRECTION.json).
 
 ## Exact authority and changed paths
 
@@ -48,8 +52,12 @@ under SCI-GOV-001. Missing originals establish no exhaustion.
 [PRE_EXECUTION.json](PRE_EXECUTION.json) records exact new source/test/example
 and verification-specification hashes before the full comparison. Numerical
 execution used that working-tree producer on the exact base above; its source
-hashes, not a later report-edit commit, identify the producer. The final PR
-contains these unchanged numerical source bytes.
+hashes, not a later report-edit commit, identify the producer. Commit
+`ef413fc6cd7182ef86450ab711e110985be9cb24` preserves those exact producer bytes.
+The final source differs by exactly
+one LP-scaling rejection condition; CORRECTION.json binds both source hashes
+and the equality checks. Existing forward source and parameters are unchanged.
+The final current-source API is also covered by fresh small-mesh forward tests.
 
 ## Public contract and example
 
@@ -110,9 +118,10 @@ failure and `IMPLEMENTED_QUALIFICATION_INCOMPLETE` remain unchanged.
 
 The predeclared 28 large executions completed: 18 response passes, eight
 primary witness trajectories and two unchanged forward timings. Four correction
-slots are unused (hard total 32). 101728 exponential actions; 38 LP calls;
-100.913519/1800 s aggregate numerical wall; 172368 KiB peak RSS. All numerical
-thread settings were 1. Per-call forward settings retain the 120 s ceiling.
+response passes were subsequently used, reaching the hard total of 32 large
+executions: 22 response passes and 10 forward calls. 104728 exponential actions;
+44 LP calls; 104.016653/1800 s aggregate numerical wall; 172368 KiB peak RSS.
+All numerical thread settings were 1. Per-call forward settings retain the 120 s ceiling.
 No dense full-mesh transitions or coordinate-wise forward sweep occurred.
 Baseline/final timing includes correctness checks and earns no speedup claim.
 See [RESOURCES.json](RESOURCES.json).
@@ -131,7 +140,8 @@ output/worktree directories; the existing campaign refuses an unaccounted
 repeat. An independent parent enforces the remaining aggregate deadline.
 These reproduction commands are not authorization for another campaign.
 Ordinary CI tests are small meshes; no full programme is hidden in optimizers
-or tests. Fine-level sensitivity and timing-repeat candidates are not primary replay witnesses.
+or tests. Fine-level sensitivity and timing-repeat candidates are not primary
+replay witnesses.
 
 [QA.json](QA.json) records actual baseline/final checks, skips, warnings and
 any incomplete check separately from numerical results. Review performed by
@@ -139,9 +149,11 @@ the implementation agent is nonhuman author review, not independent review.
 No human or independent scientific review is implied. Required hosted CI and
 ordinary owner review are reported on the draft PR; auto-merge is disabled.
 
-No numerical mandatory check failed or was skipped in the declared programme.
-The full-mesh programme used no correction execution. External-data/live/GPU
-software lanes remain outside the normal selected QA, and Python versions not
+No declared full-mesh check failed or was skipped. A later two-cell hostile-input
+probe exposed the LP-scaling defect described above; it is corrected and retained
+in the QA failure history. All four reserved correction executions are consumed.
+The full-mesh campaign is closed; it must not be extended or reset.
+External-data/live/GPU software lanes remain outside the normal selected QA, and Python versions not
 installed locally are covered only by the actual hosted matrix, not by an
 invented local result. Source-derived outputs retain Pannusch/Schmieder
 CC-BY-NC-3.0 attribution separately from first-party software licensing.

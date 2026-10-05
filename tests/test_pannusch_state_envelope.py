@@ -411,6 +411,21 @@ def test_primary_contrast_replays_both_plans_from_identical_unknown_states():
     assert out.forward_calls == 4
 
 
+def test_positive_upper_mass_cannot_disappear_during_lp_normalization():
+    lo = state(n=2, concentrations=np.zeros((3, 2)))
+    c = np.zeros((3, 2)); c[0] = (1e-280, 1e300)
+    hi = state(n=2, concentrations=c)
+    u = se.FVChemicalStateSet(lo, hi, (0., hi.inventory_kg), 'HOSTILE_FINITE_DYNAMIC_RANGE')
+    assert u.feasibility == 'ESTABLISHED_NONEMPTY'
+    assert u.upper_masses_kg[0] > 0
+    assert u.upper_masses_kg[0]/u.inventory_scale_kg == 0
+    for e in synthetic_optima(u, (1., 0.)):
+        assert e.status == 'NUMERICALLY_UNRESOLVED'
+        assert e.termination == 'UNREPRESENTABLE_LP_SCALING'
+        assert e.optimization.calls == 0
+        assert e.interval_kg[0] <= u.upper_masses_kg[0] <= e.interval_kg[1]
+
+
 def test_checked_dual_support_bounds_remain_global_without_stationarity():
     u, M = inventory_fixture()
     actual = se.linprog

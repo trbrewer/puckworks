@@ -385,8 +385,9 @@ The one declared synthetic matched-volume comparison is numerically qualified
 as `NO_MATERIAL_DIFFERENCE_THROUGHOUT_SET` at delta=1e-6 kg, while feasible
 replayed witnesses support an opposite-sign reversal below that margin. Its
 shared-state contrast enclosure is [-9.53471519e-8, 8.57447042e-7] kg.
-All 28 planned large executions completed in 100.914 s, with four correction
-slots unused. Whole-set temporal and inventory-preserving N400/N800 sensitivity
+The 28 planned plus four reserved correction response passes completed in
+104.017 s (32/32 hard total). A scaling-underflow guard was corrected; declared
+responses, extrema and primary witness identities repeat exactly. Whole-set temporal and inventory-preserving N400/N800 sensitivity
 remain separate from fixed-operator arithmetic enclosures and physical accuracy.
 Software QA, hosted CI and ordinary review are separate acceptance evidence;
 see the [005 handoff](../analysis/model_pannusch2024_state_envelope_005/HANDOFF.md)

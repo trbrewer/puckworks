@@ -2,7 +2,11 @@
 
 G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
-**Declared numerical verification passed.** Overall engineering acceptance remains conditional on the separately recorded software QA and hosted CI; ordinary draft-PR review is separate. No mandatory numerical check failed and no correction execution was used.
+**Declared numerical verification passed.** Overall engineering acceptance remains conditional on the separately recorded software QA and hosted CI; ordinary draft-PR review is separate. No declared full-mesh check failed. Subsequent author review found and corrected
+an extreme-dynamic-range upper-bound scaling underflow. Four reserved response
+executions verified the original responses, intervals, gaps and six states
+exactly; see [CORRECTION.json](CORRECTION.json). The eight original fresh replay
+receipts remain at their original producer, not relabelled as new executions.
 
 Caffeine, grind1.7, N400, default h=.02 s, absolute clock/window [7,17] s. Both prescribed collection volumes are 2.16e-5 m^3. The synthetic U, epsilon=1e-9 kg, and delta=1e-6 kg were declared before this comparison.
 
@@ -57,10 +61,18 @@ Each row optimizes both signs of the response difference over the original U. Th
 
 ## Work and timing
 
-28/28 planned large executions: 18 response passes and 10 forward trajectories (eight primary witness replays plus baseline/final timing). Four correction slots remain unused; hard total32. Exactly 101728 exponential actions and 38 LP calls. Aggregate numerical wall time 100.913519/1800 s; peak RSS 172368 KiB. Threads: OpenBLAS/OMP/MKL/HiGHS all1. No failed numerical launch or hidden full-mesh CI trajectory.
+28/28 planned large executions plus 4/4 reserved correction response passes:
+32/32 hard total, comprising 22 response passes and 10 forward trajectories
+(eight primary witness replays plus baseline/final timing). Exactly 104728
+exponential actions and 44 LP calls. Aggregate numerical wall time
+104.016653/1800 s; peak RSS 172368 KiB. Threads: OpenBLAS/OMP/MKL/HiGHS all 1.
+No failed full-mesh launch or hidden full-mesh CI trajectory. The separate
+small two-cell author-review defect probe is recorded in QA.json.
 
 Same-machine wrapper timings include correctness checks and serialization/validation overhead: unchanged forward 7.652437 s baseline / 7.701574 s final; representative A response 1.464614 / 1.467481 s; A envelope optimization 0.047087 / 0.045481 s. The final forward delivery, response vector and envelope interval repeat exactly. These are timings, not a speedup claim.
 
-Full arrays, full trajectories/logs and evidence paths remain outside Git. Compact array identities and all extrema/optimization/replay facts are in [RESULTS.json](RESULTS.json); execution receipts are in [RESOURCES.json](RESOURCES.json). The [pre-execution identities](PRE_EXECUTION.json) bind the actual numerical producer code and specification.
+Full arrays, full trajectories/logs and evidence paths remain outside Git. Compact array identities and all extrema/optimization/replay facts are in [RESULTS.json](RESULTS.json); execution receipts are in [RESOURCES.json](RESOURCES.json). The [pre-execution identities](PRE_EXECUTION.json) bind the original numerical producer code and specification at commit
+`ef413fc6cd7182ef86450ab711e110985be9cb24`. The guard-only correction has its own
+source identities and equality receipt; RESULTS.json is not restamped.
 
 004 retains resolved_temporal_decrease=FAIL and IMPLEMENTED_QUALIFICATION_INCOMPLETE. Its programme was not rerun or restamped. No physical validation, measured-state recovery, universal profile superiority, taste conclusion, data-exhaustion claim or successor.

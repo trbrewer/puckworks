@@ -359,6 +359,53 @@
       "peak_rss_kib": 172368,
       "status": "RETURNED",
       "wall_s": 0.0454812478274107
+    },
+    {
+      "correction": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+      "exponential_actions": 1500,
+      "label": "correction-A-N400-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 81784,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.47731373924762
+    },
+    {
+      "correction": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+      "exponential_actions": 1500,
+      "label": "correction-B-N400-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 81784,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.486240692436695
+    },
+    {
+      "correction": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+      "label": "correction-A-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 85880,
+      "status": "RETURNED",
+      "wall_s": 0.047638759948313236
+    },
+    {
+      "correction": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+      "label": "correction-B-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 85880,
+      "status": "RETURNED",
+      "wall_s": 0.04521634243428707
+    },
+    {
+      "correction": "POSITIVE_UPPER_LP_SCALING_UNDERFLOW_GUARD; ORIGINAL_MODEL_AND_SELECTED_ARITHMETIC_UNCHANGED",
+      "label": "correction-A-minus-B-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 85880,
+      "status": "RETURNED",
+      "wall_s": 0.046724556013941765
     }
   ],
   "notes": [
@@ -368,18 +415,18 @@
     "Native HiGHS and OPENBLAS/OMP/MKL threads were each set to 1."
   ],
   "summary": {
-    "correction_executions_unused": 4,
-    "correction_executions_used": 0,
-    "exponential_actions": 101728,
+    "correction_executions_unused": 0,
+    "correction_executions_used": 4,
+    "exponential_actions": 104728,
     "forward_calls": 10,
     "hard_limit": 32,
     "hard_numerical_wall_limit_s": 1800,
-    "large_executions": 28,
-    "optimization_calls": 38,
+    "large_executions": 32,
+    "optimization_calls": 44,
     "peak_rss_kib": 172368,
     "planned_limit": 28,
-    "response_passes": 18
+    "response_passes": 22
   },
   "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005",
-  "wall_s": 100.91351869888604
+  "wall_s": 104.0166527889669
 }
