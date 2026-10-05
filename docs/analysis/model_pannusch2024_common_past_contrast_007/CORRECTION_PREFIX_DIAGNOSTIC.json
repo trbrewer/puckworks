@@ -1,0 +1,325 @@
+{
+  "after-transport": {
+    "branch_state_bitwise_equal": true,
+    "concentration_view_bitwise_equal": true,
+    "differing_entries": 0,
+    "first_difference": null,
+    "maximum_difference_kg": 0.0,
+    "outlet_increments_bitwise_equal": true,
+    "prefix_deliveries_kg": [
+      2.880932733265696e-05,
+      2.880932733265696e-05
+    ],
+    "prefix_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "raw_trace_bitwise_equal": true,
+    "volume_increments_bitwise_equal": true
+  },
+  "after_freeze": {
+    "branch_state_bitwise_equal": true,
+    "concentration_view_bitwise_equal": true,
+    "differing_entries": 0,
+    "first_difference": null,
+    "maximum_difference_kg": 0.0,
+    "outlet_increments_bitwise_equal": true,
+    "prefix_deliveries_kg": [
+      2.880932733265696e-05,
+      2.880932733265696e-05
+    ],
+    "prefix_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "raw_trace_bitwise_equal": true,
+    "volume_increments_bitwise_equal": true
+  },
+  "before-transport": {
+    "branch_state_bitwise_equal": true,
+    "concentration_view_bitwise_equal": true,
+    "differing_entries": 0,
+    "first_difference": null,
+    "maximum_difference_kg": 0.0,
+    "outlet_increments_bitwise_equal": true,
+    "prefix_deliveries_kg": [
+      2.880932733265696e-05,
+      2.880932733265696e-05
+    ],
+    "prefix_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "raw_trace_bitwise_equal": true,
+    "volume_increments_bitwise_equal": true
+  },
+  "historical_complete_trajectories": "NOT_ARCHIVED_NOT_RECOVERABLE_FROM_HASHES",
+  "historical_first_difference": {
+    "cell": null,
+    "index": null,
+    "phase": null,
+    "reason": "HISTORICAL_B_RAW_ARRAYS_NOT_ARCHIVED",
+    "time_s": null,
+    "ulp_difference": null,
+    "values_kg": null
+  },
+  "historical_state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+  "hypotheses": {
+    "arithmetic_nondeterminism": "NOT_ESTABLISHED: one diagnostic pair is bitwise equal; no retry loop",
+    "indexing": "NO_REPRODUCED_FAILURE: exact original primary prefix index used; branch matches",
+    "mutation": "NOT_ESTABLISHED: original inputs immutable/hash checked; old output arrays missing",
+    "receipt_construction": "Unchanged function text verified against reviewed head; cannot reconstruct absent B values from hash",
+    "transport": "Fresh pre/post transport and freezing raw arrays agree; this cannot audit missing historical transport arrays"
+  },
+  "new_receipt": {
+    "algorithm_source_sha256": "2f184d0589ea808a499be8c0589f6e5ca8f53bb7f7d3a96791d5987696ac52b0",
+    "branch_time_s": 12.0,
+    "comparison_basis": "MATCHED_COLLECTED_VOLUME",
+    "compiled_prefix_identity": "da4e9008c6c5987e56c0351295a53fb8f67408e7a4df907ae8119fe4ec9d4782",
+    "delta_kg": 1e-06,
+    "epsilon_kg": 1e-09,
+    "exact_zero": false,
+    "fv_settings": {
+      "cells": 400,
+      "diagnostic_step_s": 0.0125,
+      "h_max_s": 0.01,
+      "max_diagnostic_samples": 60000,
+      "max_exponential_applications": 100000,
+      "max_state_values": 30000000,
+      "max_steps": 10000,
+      "wall_time_limit_s": 120.0
+    },
+    "identity_sha256": "4a131dfd24b4c2674e925db5e5074d90bef6a5606b2d1de7755dd42f0e85ef90",
+    "initial_time_s": 7.0,
+    "mapping": "NATIVE_ORIGINAL_MASS_COORDINATES",
+    "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+    "native_model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+    "numerical_settings": {
+      "dual_tolerance": 1e-09,
+      "lp_wall_s": 30.0,
+      "max_exponential_actions": 100000,
+      "max_lp_iterations": 10000,
+      "max_steps": 10000,
+      "primal_tolerance": 1e-09,
+      "response_wall_s": 120.0
+    },
+    "observation_identities": [],
+    "orientation": "B_MINUS_A",
+    "original_assumption": "007_EXPLICIT_SYNTHETIC_ASSUMPTION_NOT_COFFEE_PRIOR",
+    "original_set_identity": "ff69f4db3a8fc9d7a167daded4e82791919586d778ed4c5389f5df90645b011f",
+    "plan_a_identity": "828e122e8464af093493282173aa4d5cf6e740b1b4a84814b425e563e0912282",
+    "plan_b_identity": "38fa1efc8f1549374645468c1b115f5064c12984725b3994d919480068a486b9",
+    "post_branch_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "prefix_steps": 500,
+    "prescribed_prefix_identity": "71dfe08cb3286c94a0c47d30996f1ef7e17b9f200a07c8f937484c6588bf74ea",
+    "response_a_identity": "9cc4bd435cafa25f56c2aa30562be0c388889596dc82c7917eb8b50116cc9f86",
+    "response_b_identity": "553c59d352477d1dfdddbae87a8d83a6c9135c4be633f5f3e34226039eb5e1fc",
+    "source_identities": [
+      [
+        "closures.py",
+        "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1"
+      ],
+      [
+        "flow_history.py",
+        "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f"
+      ],
+      [
+        "flow_temperature_history_fv.py",
+        "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964"
+      ],
+      [
+        "pannusch2024/table2_fitted_params.csv",
+        "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409"
+      ],
+      [
+        "pannusch2024/table2_grind_psi_ds2.csv",
+        "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+      ],
+      [
+        "solver.py",
+        "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4"
+      ],
+      [
+        "temperature_history.py",
+        "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68"
+      ],
+      [
+        "temperature_history_fv.py",
+        "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9"
+      ],
+      [
+        "stateful_fv.py",
+        "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed"
+      ]
+    ],
+    "target_volume_difference_m3": 0.0,
+    "target_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "target_window_s": [
+      12.0,
+      17.0
+    ],
+    "volume_rounding_allowance_m3": 1.4210854715202002e-19
+  },
+  "query": "N400-h0.01-unconditioned-full.json",
+  "replay": {
+    "branch_a": {
+      "elapsed_wall_s": 14.11108222603798,
+      "exponential_applications": 14467,
+      "forward_status": "COMPLETE",
+      "parent_accuracy": "NOT_ASSESSED",
+      "plan_identity": "828e122e8464af093493282173aa4d5cf6e740b1b4a84814b425e563e0912282",
+      "replay_state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+      "state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+      "status": "CHECKED",
+      "termination": "COMPLETE",
+      "windows": [
+        {
+          "band_kg": null,
+          "combined_interval_kg": [
+            2.0284989016368227e-05,
+            2.0284989208723975e-05
+          ],
+          "contained": true,
+          "discrepancy_kg": 1.1170315291953992e-20,
+          "forward_allowance_kg": 9.617787151103074e-14,
+          "forward_delivery_kg": 2.02849891125461e-05,
+          "observation_label": null,
+          "prediction_kg": 2.028498911254609e-05,
+          "replay_interval_kg": [
+            2.0284989016368227e-05,
+            2.0284989208723975e-05
+          ],
+          "response_allowance_kg": 1.9426159404449655e-14,
+          "response_identity": "9cc4bd435cafa25f56c2aa30562be0c388889596dc82c7917eb8b50116cc9f86",
+          "status": "CHECKED",
+          "window_s": [
+            12.0,
+            17.0
+          ]
+        }
+      ]
+    },
+    "branch_b": {
+      "elapsed_wall_s": 14.155956152826548,
+      "exponential_applications": 14467,
+      "forward_status": "COMPLETE",
+      "parent_accuracy": "NOT_ASSESSED",
+      "plan_identity": "38fa1efc8f1549374645468c1b115f5064c12984725b3994d919480068a486b9",
+      "replay_state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+      "state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+      "status": "CHECKED",
+      "termination": "COMPLETE",
+      "windows": [
+        {
+          "band_kg": null,
+          "combined_interval_kg": [
+            1.9945782623235843e-05,
+            1.994578281559405e-05
+          ],
+          "contained": true,
+          "discrepancy_kg": -1.7601118048088754e-21,
+          "forward_allowance_kg": 9.617910086773759e-14,
+          "forward_delivery_kg": 1.9945782719414947e-05,
+          "observation_label": null,
+          "prediction_kg": 1.994578271941495e-05,
+          "replay_interval_kg": [
+            1.9945782623235843e-05,
+            1.994578281559405e-05
+          ],
+          "response_allowance_kg": 1.942686829589132e-14,
+          "response_identity": "553c59d352477d1dfdddbae87a8d83a6c9135c4be633f5f3e34226039eb5e1fc",
+          "status": "CHECKED",
+          "window_s": [
+            12.0,
+            17.0
+          ]
+        }
+      ]
+    },
+    "branch_state_identities": [
+      "2901f170903e8403bf070ffc53c39dfd23a2e7c813b998f2c0e667b7c52c7d93",
+      "2901f170903e8403bf070ffc53c39dfd23a2e7c813b998f2c0e667b7c52c7d93"
+    ],
+    "combined_interval_kg": [
+      -3.3920658548813125e-07,
+      -3.3920620077417595e-07
+    ],
+    "forward_calls": 2,
+    "forward_difference_kg": -3.392063931311536e-07,
+    "legacy_receipts_b_a": [
+      {
+        "discrepancy_kg": -3.3881317890172014e-21,
+        "elapsed_wall_s": 10.399651962332428,
+        "exponential_applications": 14467,
+        "forward_actual_end_s": 17.0,
+        "forward_arithmetic_allowance_kg": 9.617910086773757e-14,
+        "forward_delivery_kg": 1.9945782719414947e-05,
+        "forward_reason": null,
+        "forward_status": "COMPLETE",
+        "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+        "parent_accuracy": "NOT_ASSESSED",
+        "prediction_kg": 1.994578271941495e-05,
+        "response_allowance_kg": 1.9426868295891317e-14,
+        "response_identity": "553c59d352477d1dfdddbae87a8d83a6c9135c4be633f5f3e34226039eb5e1fc",
+        "state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+        "status": "REPLAY_QUALIFIED",
+        "summation_conversion_allowance_kg": 2.834466204065926e-19,
+        "termination": "COMPLETE"
+      },
+      {
+        "discrepancy_kg": 1.0164395367051604e-20,
+        "elapsed_wall_s": 10.339807718992233,
+        "exponential_applications": 14467,
+        "forward_actual_end_s": 17.0,
+        "forward_arithmetic_allowance_kg": 9.617787151103072e-14,
+        "forward_delivery_kg": 2.02849891125461e-05,
+        "forward_reason": null,
+        "forward_status": "COMPLETE",
+        "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+        "parent_accuracy": "NOT_ASSESSED",
+        "prediction_kg": 2.028498911254609e-05,
+        "response_allowance_kg": 1.9426159404449655e-14,
+        "response_identity": "9cc4bd435cafa25f56c2aa30562be0c388889596dc82c7917eb8b50116cc9f86",
+        "state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+        "status": "REPLAY_QUALIFIED",
+        "summation_conversion_allowance_kg": 2.882670331778469e-19,
+        "termination": "COMPLETE"
+      }
+    ],
+    "maximum_prefix_mass_discrepancy_kg": 0.0,
+    "prefix_bitwise_equal": true,
+    "prefix_deliveries_kg": [
+      2.880932733265696e-05,
+      2.880932733265696e-05
+    ],
+    "prefix_trace_identities": [
+      "900af345ceff9a7b29bbe17a6d4d0feed9a79aaf3ca6f5c75162bbc163de8844",
+      "900af345ceff9a7b29bbe17a6d4d0feed9a79aaf3ca6f5c75162bbc163de8844"
+    ],
+    "prefix_volumes_m3": [
+      9.999999999999999e-06,
+      9.999999999999999e-06
+    ],
+    "receipt_identity": "4a131dfd24b4c2674e925db5e5074d90bef6a5606b2d1de7755dd42f0e85ef90",
+    "replay_state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+    "signed_forward_interval_kg": [
+      -3.3920658548813125e-07,
+      -3.3920620077417595e-07
+    ],
+    "signed_prediction_interval_kg": [
+      -3.392064319841684e-07,
+      -3.3920635427811293e-07
+    ],
+    "state_identity": "c2c01602b17bd2310ac27ad7917dd91bd571a9f73e2b4f8808e2bd3fb1b51649",
+    "status": "CHECKED",
+    "subtraction_rounding_kg": 0.0,
+    "termination": "COMPLETE"
+  },
+  "transport_raw_arrays_unchanged": true
+}

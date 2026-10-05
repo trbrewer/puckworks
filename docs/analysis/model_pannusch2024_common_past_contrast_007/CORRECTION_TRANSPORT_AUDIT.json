@@ -1,0 +1,277 @@
+{
+  "interpretation": "VALUE_AND_DTYPE_COMPARISON_OF_HASH_VERIFIED_ARCHIVES; NO_CAUSE_CLAIM_FOR_MISSING_HISTORICAL_B",
+  "propagations": 0,
+  "rows": [
+    {
+      "archive": "corrections/007-joint-witness-v1/108-N400-h0.02-unconditioned-forward-1",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/109-N400-h0.02-unconditioned-forward-2",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/111-N400-h0.02-conditioned-forward-3",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/112-N400-h0.02-conditioned-forward-4",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/113-N400-h0.01-unconditioned-forward-5",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/114-N400-h0.01-unconditioned-forward-6",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/116-N400-h0.01-conditioned-forward-7",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/117-N400-h0.01-conditioned-forward-8",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/118-N400-h0.005-unconditioned-forward-9",
+      "differences": [
+        {
+          "dtype_after": "float64",
+          "dtype_before": "float64",
+          "entries": [
+            {
+              "absolute_time_s": 14.475,
+              "cell": 340,
+              "concentration_difference_kg_m3": 1.862645149230957e-09,
+              "concentration_recomputed_from_raw_kg_m3": 1.267133046516906,
+              "concentration_ulp_difference": 8388608,
+              "concentration_values_kg_m3": [
+                1.267133046516906,
+                1.267133048379551,
+                1.267133048379551
+              ],
+              "local_mass_scale_kg": 2.1342646685334173e-08,
+              "outlet_increments_kg": [
+                1.2587801196021381e-08,
+                1.2587801196021381e-08
+              ],
+              "phase": "liquid",
+              "preceding_primary_step": [
+                14.47,
+                14.475,
+                359.19399999999996,
+                1.5e-06
+              ],
+              "primary_index": 1495,
+              "raw_mass_difference_kg": 0.0,
+              "raw_ulp_difference": 0,
+              "raw_values_kg": [
+                2.1342646685334173e-08,
+                2.1342646685334173e-08
+              ],
+              "volume_increments_m3": [
+                7.499999999998509e-09,
+                7.499999999998509e-09
+              ]
+            }
+          ],
+          "field": ".primary.liquid_cell_average_kg_m3",
+          "values_equal": false
+        }
+      ],
+      "freeze_changed_values": false,
+      "observed_localization": "AFTER_CHILD_ARCHIVE_SERIALIZATION_BEFORE_PARENT_RECEIPT; INTERNAL_CAUSE_UNDETERMINED",
+      "old_receipt_disposition": "SUPERSEDED_BY_FULL_REVALIDATION_OF_VERIFIED_PRETRANSPORT_OUTPUTS; NO_NEW_PROPAGATION"
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/119-N400-h0.005-unconditioned-forward-10",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/121-N400-h0.005-conditioned-forward-11",
+      "differences": [
+        {
+          "dtype_after": "float64",
+          "dtype_before": "float64",
+          "entries": [
+            {
+              "absolute_time_s": 13.035,
+              "cell": 306,
+              "concentration_difference_kg_m3": 1.4551915228366852e-11,
+              "concentration_recomputed_from_raw_kg_m3": 2.6046384772140048,
+              "concentration_ulp_difference": 32768,
+              "concentration_values_kg_m3": [
+                2.6046384772140048,
+                2.6046384772285567,
+                2.6046384772285567
+              ],
+              "local_mass_scale_kg": 4.92640958490347e-08,
+              "outlet_increments_kg": [
+                1.5255193154548145e-08,
+                1.5255193154548145e-08
+              ],
+              "phase": "fine",
+              "preceding_primary_step": [
+                13.03,
+                13.035,
+                361.498,
+                1.5e-06
+              ],
+              "primary_index": 1207,
+              "raw_mass_difference_kg": 0.0,
+              "raw_ulp_difference": 0,
+              "raw_values_kg": [
+                4.92640958490347e-08,
+                4.92640958490347e-08
+              ],
+              "volume_increments_m3": [
+                7.500000000001172e-09,
+                7.500000000001172e-09
+              ]
+            },
+            {
+              "absolute_time_s": 13.035,
+              "cell": 370,
+              "concentration_difference_kg_m3": -7.275957614183426e-12,
+              "concentration_recomputed_from_raw_kg_m3": 3.2631111836182063,
+              "concentration_ulp_difference": 16384,
+              "concentration_values_kg_m3": [
+                3.2631111836182063,
+                3.2631111836109303,
+                3.2631111836109303
+              ],
+              "local_mass_scale_kg": 6.171843943877066e-08,
+              "outlet_increments_kg": [
+                1.5255193154548145e-08,
+                1.5255193154548145e-08
+              ],
+              "phase": "fine",
+              "preceding_primary_step": [
+                13.03,
+                13.035,
+                361.498,
+                1.5e-06
+              ],
+              "primary_index": 1207,
+              "raw_mass_difference_kg": 0.0,
+              "raw_ulp_difference": 0,
+              "raw_values_kg": [
+                6.171843943877066e-08,
+                6.171843943877066e-08
+              ],
+              "volume_increments_m3": [
+                7.500000000001172e-09,
+                7.500000000001172e-09
+              ]
+            },
+            {
+              "absolute_time_s": 13.285,
+              "cell": 29,
+              "concentration_difference_kg_m3": 2.9802322387695312e-08,
+              "concentration_recomputed_from_raw_kg_m3": 0.08068075187571187,
+              "concentration_ulp_difference": 2147483648,
+              "concentration_values_kg_m3": [
+                0.08068075187571187,
+                0.08068078167803426,
+                0.08068078167803426
+              ],
+              "local_mass_scale_kg": 1.5259946162772924e-09,
+              "outlet_increments_kg": [
+                1.5039345478742678e-08,
+                1.5039345478742678e-08
+              ],
+              "phase": "fine",
+              "preceding_primary_step": [
+                13.28,
+                13.285,
+                361.09799999999996,
+                1.5e-06
+              ],
+              "primary_index": 1257,
+              "raw_mass_difference_kg": 0.0,
+              "raw_ulp_difference": 0,
+              "raw_values_kg": [
+                1.5259946162772924e-09,
+                1.5259946162772924e-09
+              ],
+              "volume_increments_m3": [
+                7.500000000001172e-09,
+                7.500000000001172e-09
+              ]
+            },
+            {
+              "absolute_time_s": 13.285,
+              "cell": 93,
+              "concentration_difference_kg_m3": -5.960464477539063e-08,
+              "concentration_recomputed_from_raw_kg_m3": 0.3117870852738301,
+              "concentration_ulp_difference": 1073741824,
+              "concentration_values_kg_m3": [
+                0.3117870852738301,
+                0.3117870256691853,
+                0.3117870256691853
+              ],
+              "local_mass_scale_kg": 5.897136584517678e-09,
+              "outlet_increments_kg": [
+                1.5039345478742678e-08,
+                1.5039345478742678e-08
+              ],
+              "phase": "fine",
+              "preceding_primary_step": [
+                13.28,
+                13.285,
+                361.09799999999996,
+                1.5e-06
+              ],
+              "primary_index": 1257,
+              "raw_mass_difference_kg": 0.0,
+              "raw_ulp_difference": 0,
+              "raw_values_kg": [
+                5.897136584517678e-09,
+                5.897136584517678e-09
+              ],
+              "volume_increments_m3": [
+                7.500000000001172e-09,
+                7.500000000001172e-09
+              ]
+            }
+          ],
+          "field": ".primary.fine_cell_average_kg_m3",
+          "values_equal": false
+        }
+      ],
+      "freeze_changed_values": false,
+      "observed_localization": "AFTER_CHILD_ARCHIVE_SERIALIZATION_BEFORE_PARENT_RECEIPT; INTERNAL_CAUSE_UNDETERMINED",
+      "old_receipt_disposition": "SUPERSEDED_BY_FULL_REVALIDATION_OF_VERIFIED_PRETRANSPORT_OUTPUTS; NO_NEW_PROPAGATION"
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/122-N400-h0.005-conditioned-forward-12",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/124-N800-h0.02-unconditioned-forward-13",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/125-N800-h0.02-unconditioned-forward-14",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/127-N800-h0.02-conditioned-forward-15",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-joint-witness-v1/128-N800-h0.02-conditioned-forward-16",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-prefix-diagnostic-v1/105-failed-minimum-A",
+      "differences": []
+    },
+    {
+      "archive": "corrections/007-prefix-diagnostic-v1/106-failed-minimum-B",
+      "differences": []
+    }
+  ]
+}

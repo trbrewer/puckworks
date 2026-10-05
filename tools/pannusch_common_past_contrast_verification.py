@@ -7,6 +7,7 @@ import hashlib
 import json
 import multiprocessing as mp
 import os
+import pickle
 from pathlib import Path
 import platform
 import subprocess
@@ -47,13 +48,46 @@ def fixture(n=400, h=.02):
     return (*plans, u)
 
 
+def _archive_value(directory, label, value):
+    """Full owner-retained object, including failed/nonfinite native output.
+
+    Pickle is an archival format only; consumers must verify its indexed hash
+    before loading this owner-created file. No arrays are inferred from hashes.
+    """
+    data = pickle.dumps(value, protocol=5)
+    path = directory/(label+'.pickle')
+    temporary = path.with_suffix('.tmp')
+    temporary.write_bytes(data); temporary.replace(path)
+    _write(directory/(label+'.json'), dict(bytes=len(data), sha256=hashlib.sha256(data).hexdigest(),
+        format='PYTHON_PICKLE_5_COMPLETE_OBJECT', source_sha256={p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (Path(cc.__file__), Path(pc.__file__), Path(se.__file__), Path(sf.__file__), Path(sf.fv.__file__))},
+        environment=dict(python=platform.python_version(), numpy=np.__version__, scipy=scipy.__version__,
+            threads={k: os.environ.get(k) for k in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS')})))
+    return dict(archive_sha256=hashlib.sha256(data).hexdigest(), content_identity=sf._hash(value))
+
+
+def _load_checked_forward(directory, packet):
+    """Use the complete child archive as transport; verify bytes AND object content.
+
+    Large arrays never cross the unchecked multiprocessing pickle pipe. A digest
+    failure is retained and fails closed; there is no tolerance or retry.
+    """
+    data = (directory/'before-transport.pickle').read_bytes()
+    if hashlib.sha256(data).hexdigest() != packet['archive_sha256']:
+        raise RuntimeError('FORWARD_ARCHIVE_TRANSPORT_CHECKSUM_MISMATCH')
+    value = pickle.loads(data)
+    if sf._hash(value) != packet['content_identity']:
+        raise RuntimeError('FORWARD_DESERIALIZED_CONTENT_MISMATCH')
+    return value
+
+
 class Budget:
     """One task receipt, using the existing Git-common-directory accounting pattern.
 
     POSIX campaign tool. Each native call runs in a separate child with an
     external deadline; native hangs cannot suppress Python signal handling.
     """
-    def __init__(self, evidence_dir):
+    def __init__(self, evidence_dir, *, correction=None, dependencies=None):
         self.evidence = Path(evidence_dir).resolve()
         self.evidence.mkdir(parents=True, exist_ok=True)
         common = Path(subprocess.check_output(['git', 'rev-parse', '--git-common-dir'], text=True).strip()).resolve()
@@ -68,6 +102,20 @@ class Budget:
         if any(row['status'] == 'RUNNING' for row in self.data['executions']):
             self.lock.close()
             raise ValueError('INTERRUPTED_EXECUTION_REQUIRES_ACCOUNTING')
+        self.correction = correction
+        self.output = self.evidence
+        if correction is not None:
+            if correction not in ('007-prefix-diagnostic-v1', '007-joint-witness-v1', '007-transport-validation-v1') or not dependencies:
+                raise ValueError('NAMED_CORRECTION_AND_EXACT_DEPENDENCIES_REQUIRED')
+            if not self.data['executions']:
+                raise ValueError('CORRECTION_REQUIRES_EXISTING_CAMPAIGN')
+            previous = self.data.setdefault('corrections', [])
+            if any(r['identifier'] == correction for r in previous):
+                raise ValueError('CORRECTION_ALREADY_ATTEMPTED')
+            self.output = self.evidence/'corrections'/correction
+            self.output.mkdir(parents=True, exist_ok=False)
+            previous.append(dict(identifier=correction, dependencies=dependencies,
+                                 starting_executions=len(self.data['executions']), starting_wall_s=self.data['wall_s']))
         self.prior_wall, self.start = self.data['wall_s'], time.monotonic()
 
     def save(self):
@@ -75,10 +123,17 @@ class Budget:
         text = json.dumps(self.data, sort_keys=True, indent=2, allow_nan=False)+'\n'
         tmp = self.path.with_suffix('.tmp'); tmp.write_text(text); tmp.replace(self.path)
         public = {k: v for k, v in self.data.items() if k != 'evidence_dir'}
-        (self.evidence/'resources.json').write_text(json.dumps(public, sort_keys=True, indent=2, allow_nan=False)+'\n')
+        (self.output/'resources.json').write_text(json.dumps(public, sort_keys=True, indent=2, allow_nan=False)+'\n')
 
-    def run(self, label, kind, units, callback, *, deadline_s=None, correction=None):
+    def run(self, label, kind, units, callback, *, deadline_s=None, correction=None, forward_inputs=None):
         self.save()
+        correction = self.correction if correction is None else correction
+        if correction != self.correction:
+            raise ValueError('CORRECTION_DEPENDENCIES_NOT_REGISTERED')
+        if self.correction and kind == 'response':
+            raise ValueError('CORRECTION_REUSES_EXISTING_RESPONSES')
+        if self.correction and kind == 'forward' and forward_inputs is None:
+            raise ValueError('COMPLETE_FORWARD_INPUTS_REQUIRED')
         if kind not in ('response', 'forward', 'lp'):
             raise ValueError('UNKNOWN_NUMERICAL_CALL')
         if type(units) is not int or units != (2 if kind == 'response' else 1 if kind == 'forward' else 0):
@@ -88,7 +143,7 @@ class Budget:
             raise RuntimeError('PROPAGATION_LIMIT')
         if sum(r['kind'] == 'lp' for r in rows)+(kind == 'lp') > 160:
             raise RuntimeError('LP_LIMIT')
-        if any(r['label'] == label for r in rows) and correction is None:
+        if any(r['label'] == label for r in rows):
             raise RuntimeError('REPEAT_REQUIRES_NAMED_CORRECTION')
         remaining = 1800-self.data['wall_s']
         if remaining <= 0:
@@ -99,12 +154,28 @@ class Budget:
             raise ValueError('POSITIVE_EXTERNAL_DEADLINE_REQUIRED')
         row = dict(label=label, kind=kind, charged_propagations=units, status='RUNNING', correction=correction)
         rows.append(row); self.save()
-        context = mp.get_context('fork')
-        parent, child = context.Pipe(duplex=False)
-        actions = context.Value('q', 0, lock=False)
-        worker = context.Process(target=_child, args=(child, callback, actions))
+        archive = worker = parent = child = actions = None
+        archive_created = False
         start = time.monotonic()
         try:
+            context = mp.get_context('fork')
+            parent, child = context.Pipe(duplex=False)
+            actions = context.Value('q', 0, lock=False)
+            if kind == 'forward':
+                archive = self.output/f'{len(rows):03d}-{label}'
+                archive.mkdir()
+                archive_created = True
+                _archive_value(archive, 'inputs', forward_inputs)
+                row['archive'] = str(archive.relative_to(self.evidence))
+                original_callback = callback
+                def callback():
+                    try:
+                        value = original_callback()
+                        return _archive_value(archive, 'before-transport', value)
+                    except BaseException as exc:
+                        _write(archive/'failure.json', dict(exception=type(exc).__name__, reason=str(exc)))
+                        raise
+            worker = context.Process(target=_child, args=(child, callback, actions))
             worker.start(); child.close()
             if not parent.poll(timeout):
                 worker.kill(); worker.join()
@@ -117,20 +188,34 @@ class Budget:
             row['peak_rss_kib'] = peak
             if status != 'OK':
                 raise RuntimeError(value)
+            if archive is not None:
+                row['checked_transport_packet'] = value
+                value = _load_checked_forward(archive, value)
             row['status'] = 'RETURNED'
             row['actual_response_passes'] = getattr(value, 'response_passes', 0)
             row['forward_calls'] = int(kind == 'forward')
             row['returned_status'] = str(getattr(value, 'status', 'RETURNED'))
+            if archive is not None:
+                _archive_value(archive, 'after-transport', value)
             _freeze_received(value)
+            if archive is not None:
+                _archive_value(archive, 'after-freeze', value)
+                if sf._hash(value) != row['checked_transport_packet']['content_identity']:
+                    raise RuntimeError('FORWARD_IMMUTABLE_FREEZE_CONTENT_MISMATCH')
             return value
         except BaseException as exc:
             row['status'] = 'FAILED'; row['failure'] = type(exc).__name__+':'+str(exc)
             raise
         finally:
-            if worker.is_alive():
+            if worker is not None and worker.is_alive():
                 worker.kill(); worker.join()
-            parent.close(); child.close()
-            row['exponential_actions'] = actions.value
+            if parent is not None:
+                parent.close(); child.close()
+            if archive_created:
+                row['archive_index'] = {p.name: dict(bytes=p.stat().st_size,
+                    sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in sorted(archive.iterdir()) if p.is_file()}
+                _write(archive/'index.json', row['archive_index'])
+            row['exponential_actions'] = 0 if actions is None else actions.value
             row['wall_s'] = time.monotonic()-start
             self.save()
 
@@ -195,7 +280,7 @@ def execute(budget):
         nonlocal forward_index
         forward_index += 1
         return budget.run(f'{level_label}-forward-{forward_index:02d}', 'forward', 1,
-                          lambda: original_forward(**kwargs))
+                          lambda: original_forward(**kwargs), forward_inputs=kwargs)
     pc.linprog = se.linprog = lp
     sf.simulate_stateful_fv = forward
     try:
@@ -261,12 +346,29 @@ def execute(budget):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--correction', choices=('007-prefix-diagnostic-v1', '007-joint-witness-v1', '007-transport-validation-v1'))
     args = parser.parse_args(argv)
     if any(os.environ.get(k) != '1' for k in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS')):
         parser.error('All BLAS/OpenMP thread settings must be 1')
-    budget = Budget(args.output)
+    saved = dependencies = None
+    if args.correction:
+        from tools import pannusch_common_past_correction as correction_tools
+        saved = correction_tools.verified_inputs(args.output)
+        dependencies = dict(artifacts=json.loads((correction_tools.DOCS/'EXTERNAL_EVIDENCE_INDEX.json').read_text())['artifacts'],
+            source_sha256={p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in
+                (Path(cc.__file__), Path(pc.__file__), Path(se.__file__), Path(sf.__file__), Path(__file__), Path(correction_tools.__file__))})
+    if args.correction == '007-transport-validation-v1':
+        dependencies['correction_index_sha256'] = correction_tools.sha(correction_tools.DOCS/'CORRECTION_EXTERNAL_EVIDENCE_INDEX.json')
+    budget = Budget(args.output, correction=args.correction, dependencies=dependencies)
     try:
-        result = execute(budget)
+        if args.correction == '007-prefix-diagnostic-v1':
+            result = correction_tools.prefix_diagnostic(saved, budget)
+        elif args.correction == '007-joint-witness-v1':
+            result = correction_tools.correct_witnesses(saved, budget)
+        elif args.correction == '007-transport-validation-v1':
+            result = correction_tools.validate_archived_transport(saved, budget)
+        else:
+            result = execute(budget)
         print(result['disposition'])
         return 0 if result['disposition'] == 'REPRESENTATIVE_FIXED_OPERATOR_QUERIES_QUALIFIED' else 1
     except Exception as exc:

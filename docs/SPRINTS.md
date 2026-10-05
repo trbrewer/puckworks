@@ -1,6 +1,6 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
-- [ ] MODEL-PANNUSCH2024-COMMON-PAST-CONTRAST-007: implemented; mandatory small tests pass; representative **IMPLEMENTED_QUALIFICATION_INCOMPLETE** due unresolved maximum reconstruction and one bitwise prefix replay discrepancy. [Results and handoff](analysis/model_pannusch2024_common_past_contrast_007/HANDOFF.md). G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Draft review/QA/CI separate; no successor.
+- [ ] MODEL-PANNUSCH2024-COMMON-PAST-CONTRAST-007: targeted correction on draft PR #321; all eight maxima and seven complete comparisons qualify. **IMPLEMENTED_QUALIFICATION_INCOMPLETE**: historical N400/h=.01 unconditioned prefix discrepancy remains unexplained despite a passing diagnostic pair. [Correction results and handoff](analysis/model_pannusch2024_common_past_contrast_007/CORRECTION_HANDOFF.md). G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; PHYSICAL_VALIDATION=NOT_ESTABLISHED. QA/CI/review separate; no merge or successor.
 
 - [x] MODEL-PANNUSCH2024-PREFIX-CONDITIONED-006: ENGINEERING_CAPABILITY_VERIFIED on the declared synthetic query and mandatory small tests; all four fixed operators qualify, with mesh sensitivity separately retained. [Results and handoff](analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md). G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; no real-data scoring, physical validation, merge or successor.
 

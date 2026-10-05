@@ -430,12 +430,18 @@ separate final software QA, author review and hosted checks.
 ## Common-past paired contrast (007, additive research interface)
 
 The 007 interface composes unchanged FV responses and 006 joint constraints to
-bound later B_MINUS_A for two complete supplied plans whose prescribed and
-compiled pasts agree exactly. It retains original state uncertainty and early
-observation correlations, without a best-fit state or schedule selection.
+bound B_MINUS_A for complete plans with a structurally proved common past.
+It retains original-coordinate correlations and uses paired same-state replay;
+no fitting, schedule selection, taste claim or physical validation follows.
 [Engineering specification](../analysis/model_pannusch2024_common_past_contrast_007/CONTRACT.md).
-Implemented with mandatory small tests passing; representative qualification is
-**IMPLEMENTED_QUALIFICATION_INCOMPLETE**: maximum reconstruction remains unresolved
-and one unconditioned prefix replay differs. [Results](../analysis/model_pannusch2024_common_past_contrast_007/RESULTS.md). No registry evidence promotion.
-G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY;
-PHYSICAL_VALIDATION=NOT_ESTABLISHED. Historical 004–006 findings are unchanged.
+
+The targeted PR #321 correction reuses the actual repaired legacy states and
+adds a bounded joint concentration proposal. All eight maxima and seven complete
+fixed comparisons qualify as NO_MATERIAL_DIFFERENCE at the declared 1 mg margin.
+**IMPLEMENTED_QUALIFICATION_INCOMPLETE** persists: the historical N400/h=.01
+unconditioned prefix discrepancy remains unexplained, with its B trace arrays
+unavailable. A fresh bitwise-equal diagnostic pair does not erase that failure.
+[Correction results](../analysis/model_pannusch2024_common_past_contrast_007/CORRECTION_RESULTS.md).
+G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY.
+Historical 004–006 results remain unchanged. No registry evidence promotion;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. No successor is authorized.

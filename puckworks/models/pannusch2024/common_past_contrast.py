@@ -247,6 +247,13 @@ class FVPairedReplay:
     termination: str = 'NOT_REPLAYED'
 
 
+def _repair_calls(witness):
+    if witness is None:
+        return 0
+    own = 0 if witness.repair_optimization is None else witness.repair_optimization.calls
+    return own+_repair_calls(getattr(witness, 'previous_attempt', None))
+
+
 @dataclass(frozen=True)
 class FVCommonPastBounds:
     conditioned_set: object
@@ -278,15 +285,13 @@ class FVCommonPastBounds:
     @property
     def optimization_calls(self):
         if self.legacy_b_a is not None:
-            return self.legacy_b_a.optimization_calls + sum(e.witness.repair_optimization.calls
-                for e in (self.minimum, self.maximum) if e is not None and e.witness is not None
-                and e.witness.repair_optimization is not None)
+            return self.legacy_b_a.optimization_calls + sum(_repair_calls(e.witness)
+                for e in (self.minimum, self.maximum) if e is not None)
         if self.core is None:
             return 0
         return sum(e.calls for e in (self.core.feasibility, *self.core.outer_optimizations,
-            *self.core.inner_optimizations)) + sum(e.witness.repair_optimization.calls
-            for e in (self.minimum, self.maximum) if e is not None and e.witness is not None
-            and e.witness.repair_optimization is not None)
+            *self.core.inner_optimizations)) + sum(_repair_calls(e.witness)
+            for e in (self.minimum, self.maximum) if e is not None)
 
     @property
     def forward_calls(self):
@@ -343,6 +348,118 @@ def bound_mapped_common_past_contrast(state_set, response_a, response_b, *, obse
                   epsilon_kg=epsilon_kg, delta_kg=delta_kg, comparison_basis=comparison_basis)
 
 
+@dataclass(frozen=True, eq=False)
+class FVContrastWitness(pc.FVConditionedWitness):
+    """007 adapter provenance; raw evidence always remains the optimizer vector."""
+    legacy_witness: object | None = None
+    previous_attempt: object | None = None
+    proposal_coordinates: str | None = None
+
+
+def _existing_state(u, inner, state, raw, target, *, legacy=None):
+    """Check actual stored concentrations without a mass/concentration round trip."""
+    w = FVContrastWitness(raw, pc._residuals(inner, raw), state=state, legacy_witness=legacy)
+    try:
+        state.validate()
+        c = se._concentrations(state)
+        m = c*u.capacities_m3
+        final, original = pc._residuals(inner, m), se._residuals(u, m)
+        change = pc._rounded(sum(abs(pc._q(x)-pc._q(y)) for x, y in zip(m, raw)), 1)
+        w = replace(w, masses_kg=m, final_residuals=final, original_set_residuals=original,
+                    mass_change_kg=change, repair_method='EXISTING_REPRESENTABLE_STATE_RECHECKED')
+        if (state.model_identity != u.lower.model_identity or state.time_s != u.lower.time_s
+                or not final.feasible or not original.feasible
+                or np.any(c < se._concentrations(u.lower)) or np.any(c > se._concentrations(u.upper))):
+            raise RuntimeError('EXISTING_STATE_FAILS_007_JOINT_CHECK')
+        if pc._q(change) > pc._product(64*target.settings.primal_tolerance, u.inventory_scale_kg):
+            raise RuntimeError('REPAIR_MASS_CHANGE_LIMIT')
+        return replace(w, prediction_interval_kg=pc._prediction(target, m),
+                       status='CHECKED_REPLAY_REQUIRED', termination='COMPLETE')
+    except Exception as exc:
+        return replace(w, termination=str(exc) if isinstance(exc, RuntimeError)
+                       else 'EXISTING_STATE_EXCEPTION:'+type(exc).__name__)
+
+
+def _local_proposal_problem(u, poly, raw, settings):
+    """Translated, scaled ALL-row search in a bounded concentration box.
+
+    The auxiliary slack is maximized, never imposed as a feasibility condition.
+    Exact opposite equalities get zero slack; dependent rows can force slack to
+    zero. This is a proposal only. Acceptance uses unchanged original kg rows.
+    """
+    n = len(raw)
+    radius = pc._product(64*settings.primal_tolerance, u.inventory_scale_kg)/(2*n)
+    clo, chi = se._concentrations(u.lower), se._concentrations(u.upper)
+    lower, upper = [], []
+    for r, cap, l, h, ml, mh in zip(raw, u.capacities_m3, clo, chi, poly.lower, poly.upper):
+        lower.append(max(l, pc._rounded(max(pc._q(ml), pc._q(r)-radius)/pc._q(cap), 1)))
+        upper.append(min(h, pc._rounded(min(pc._q(mh), pc._q(r)+radius)/pc._q(cap), -1)))
+    lower, upper = np.array(lower), np.array(upper)
+    if np.any(lower > upper):
+        raise RuntimeError('REPAIR_MASS_CHANGE_LIMIT')
+    ml, mh = lower*u.capacities_m3, upper*u.capacities_m3
+    rows, rhs = [], []
+    margin = pc._product(1024*se.EPS, u.inventory_scale_kg)
+    for i, (a, b) in enumerate(zip(poly.A, poly.b)):
+        variation = [pc._q(x)*(pc._q(h)-pc._q(l)) for x, l, h in zip(a, ml, mh)]
+        scale = sum(abs(x) for x in variation)
+        remaining = pc._q(b)-pc._dotq(a, ml)
+        if scale == 0:
+            if remaining < 0:
+                raise RuntimeError('LOCAL_FIXED_ROW_INFEASIBLE')
+            rows.append([0.]*(n+1)); rhs.append(0.)
+            continue
+        equality = any(np.array_equal(a, -other) and b == -poly.b[j]
+                       for j, other in enumerate(poly.A) if j != i)
+        slack = 0. if equality else pc._rounded(min(margin, scale)/scale)
+        rows.append([*(pc._rounded(x/scale) for x in variation), slack])
+        rhs.append(pc._rounded(remaining/scale))
+    problem = pc._Polytope(np.zeros(n+1), np.ones(n+1), np.array(rows).reshape(-1, n+1),
+                          np.array(rhs), 1., poly.row_labels)
+    return problem, lower, upper
+
+
+def _joint_proposal(u, inner, evidence, target, *, previous, search=None):
+    """One bounded LP proposal; no repeated tightening or acceptance tolerance."""
+    raw = evidence.raw_masses_kg
+    if raw is None:
+        return previous
+    try:
+        problem, lo, hi = _local_proposal_problem(u, inner if search is None else search, raw, target.settings)
+        objective = np.zeros(len(raw)+1); objective[-1] = -1.
+        repair = pc._solve(problem, objective, target.settings)
+        w = FVContrastWitness(raw, pc._residuals(inner, raw), previous_attempt=previous,
+            repair_method='BOUNDED_LOCAL_ALL_ROW_CONCENTRATION_PROPOSAL', repair_work=repair.calls,
+            repair_optimization=repair, proposal_coordinates='DIMENSIONLESS_LOCAL_CONCENTRATIONS_AND_OPTIONAL_SLACK')
+        if repair.status != 'CHECKED' or repair.raw_masses_kg is None:
+            return replace(w, termination='LOCAL_ALL_ROW_PROPOSAL_UNRESOLVED')
+        z = repair.raw_masses_kg[:-1]
+        c = lo+(hi-lo)*z
+        n = len(c)//3
+        state = sf.FVChemicalState.from_cell_averages(solute=u.lower.solute, grind=u.lower.grind,
+            time_s=u.lower.time_s, edges_m=u.lower.edges_m,
+            liquid_kg_m3=c[:n], fine_kg_m3=c[n:2*n], coarse_kg_m3=c[2*n:])
+        checked = _existing_state(u, inner, state, raw, target)
+        return replace(checked, previous_attempt=previous, repair_method=w.repair_method,
+            repair_work=repair.calls, repair_optimization=repair, proposal_coordinates=w.proposal_coordinates)
+    except Exception as exc:
+        return FVContrastWitness(raw, pc._residuals(inner, raw), previous_attempt=previous,
+            repair_method='BOUNDED_LOCAL_ALL_ROW_CONCENTRATION_PROPOSAL',
+            termination=str(exc) if isinstance(exc, RuntimeError) else 'LOCAL_PROPOSAL_EXCEPTION:'+type(exc).__name__)
+
+
+def _candidate(u, inner, evidence, target, *, search=None, legacy=None):
+    if legacy is not None:
+        first = _existing_state(u, inner, legacy.state, legacy.optimizer_masses_kg, target, legacy=legacy)
+        if first.status == 'CHECKED_REPLAY_REQUIRED':
+            return first
+    else:
+        first = pc._candidate(u, inner, evidence, target, search=search)
+        if first is None or first.status == 'CHECKED_REPLAY_REQUIRED':
+            return first
+    return _joint_proposal(u, inner, evidence, target, previous=first, search=search)
+
+
 def _bound(conditioned, a, b, **kwargs):
     receipt, epsilon, margin = _validate(conditioned, a, b, **kwargs)
     objective = FVSignedContrast(a, b, receipt)
@@ -379,7 +496,7 @@ def _bound(conditioned, a, b, **kwargs):
                     base = pc._base_polytope(u)
                     proposal = pc._LPEvidence(base, objective.weights if e.sense == 'minimum' else -objective.weights,
                         raw_masses_kg=e.witness.optimizer_masses_kg)
-                    w = pc._candidate(u, base, proposal, objective)
+                    w = _candidate(u, base, proposal, objective, legacy=e.witness)
                 extrema.append(pc.FVConditionalExtremum(e.sense, None, None, e.optimization, e.optimization, w))
             return replace(result, outer_interval_kg=outer, minimum=extrema[0], maximum=extrema[1])
         bands, search = _bands(conditioned)
@@ -393,7 +510,7 @@ def _bound(conditioned, a, b, **kwargs):
             return replace(result, termination='NUMERICAL_OUTER_ORDER_UNRESOLVED')
         extrema = []
         for i, sense in enumerate(('minimum', 'maximum')):
-            witness = pc._candidate(u, core.inner, core.inner_optimizations[i], objective, search=core.search)
+            witness = _candidate(u, core.inner, core.inner_optimizations[i], objective, search=core.search)
             extrema.append(pc.FVConditionalExtremum(sense, None, None, core.outer_optimizations[i],
                                                     core.inner_optimizations[i], witness))
         return replace(result, minimum=extrema[0], maximum=extrema[1], termination='PAIRED_WITNESS_REPLAYS_REQUIRED')
@@ -578,20 +695,28 @@ def replay_common_past_extrema(result):
         if w.replay is not None:
             raise ValueError('WITNESS_ALREADY_REPLAYED')
         replay = _paired_replay(result, w)
-        w = replace(w, replay=replay, status='COMPATIBLE' if replay.status == 'CHECKED' else 'UNRESOLVED')
-        bracket = gap = None
-        if replay.status == 'CHECKED':
-            lo, hi = replay.combined_interval_kg
-            outer = result.outer_interval_kg
-            bracket = (outer[0], hi) if e.sense == 'minimum' else (lo, outer[1])
-            gap = pc._rounded(pc._q(bracket[1])-pc._q(bracket[0]), 1)
-        outer_good = result.legacy_b_a is None and e.outer_optimization.status == 'CHECKED'
-        if result.legacy_b_a is not None:
-            original = getattr(result.legacy_b_a, e.sense)
-            outer_good = original.status == 'OPTIMIZATION_QUALIFIED'
-        good = gap is not None and 0 <= gap <= result.epsilon_kg and outer_good
-        extrema.append(replace(e, witness=w, interval_kg=bracket, gap_kg=gap,
-                               status='QUALIFIED' if good else 'NUMERICALLY_UNRESOLVED'))
+        extrema.append(_qualify_extremum(result, e, replay))
+    return _finish_replays(result, extrema)
+
+
+def _qualify_extremum(result, e, replay):
+    w = replace(e.witness, replay=replay, status='COMPATIBLE' if replay.status == 'CHECKED' else 'UNRESOLVED')
+    bracket = gap = None
+    if replay.status == 'CHECKED':
+        lo, hi = replay.combined_interval_kg
+        outer = result.outer_interval_kg
+        bracket = (outer[0], hi) if e.sense == 'minimum' else (lo, outer[1])
+        gap = pc._rounded(pc._q(bracket[1])-pc._q(bracket[0]), 1)
+    outer_good = result.legacy_b_a is None and e.outer_optimization.status == 'CHECKED'
+    if result.legacy_b_a is not None:
+        original = getattr(result.legacy_b_a, e.sense)
+        outer_good = original.status == 'OPTIMIZATION_QUALIFIED'
+    good = gap is not None and 0 <= gap <= result.epsilon_kg and outer_good
+    return replace(e, witness=w, interval_kg=bracket, gap_kg=gap,
+                           status='QUALIFIED' if good else 'NUMERICALLY_UNRESOLVED')
+
+
+def _finish_replays(result, extrema):
     legacy = result.legacy_b_a
     if legacy is not None and all(e.witness is not None and e.witness.replay is not None
                                  and len(e.witness.replay.legacy_receipts_b_a) == 2
