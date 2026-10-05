@@ -35,3 +35,11 @@ outside this composition task. No such source changes or extra full-mesh search
 were made. Software QA, baseline native crashes and hosted checks are separate
 from these numerical findings. Final delta review verifies unchanged code/data
 hashes after documentation and publication edits.
+
+Reporting correction addendum: reproduced a missing top-level fallback label on
+native legacy optimizer termination. Four added source lines now label that
+retained inventory endpoint fallback; a new native failure regression checks the
+label, signed interval, zero replay calls and unresolved disposition. All eight
+representative queries are unaffected, as checked in FALLBACK_LABEL_CORRECTION.json.
+The campaign keeps its actual original source identity. Nonhuman author delta
+review only; no human or independent approval is claimed.

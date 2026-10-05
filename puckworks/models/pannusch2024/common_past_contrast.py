@@ -362,7 +362,11 @@ def _bound(conditioned, a, b, **kwargs):
     try:
         if not conditioned.observations and isinstance(a, se.FVDeliveryResponse):
             # 005 A-B with positional labels (B,A) is exactly public B_MINUS_A.
+            inventory_fallback = any(e is None or e.status != 'OPTIMIZATION_QUALIFIED'
+                                     for e in (legacy.minimum, legacy.maximum))
             result = replace(result, legacy_b_a=legacy, outer_interval_kg=legacy.outer_delivery_interval_kg,
+                             fallback='LEGACY_SIGNED_INVENTORY_ENDPOINT_FALLBACK'
+                             if inventory_fallback and not receipt.exact_zero else None,
                              termination='LEGACY_B_A:'+legacy.termination)
             if legacy.minimum is None or legacy.maximum is None:
                 return result

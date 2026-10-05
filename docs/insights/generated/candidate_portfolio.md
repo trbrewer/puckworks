@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `3cb203fb03` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `d7b8d9c4e4` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 

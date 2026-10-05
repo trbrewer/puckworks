@@ -56,6 +56,14 @@ stricter complete-gap check are separate. No stored response/observation hash or
 006 same-plan guard is altered. Equal-child fine queries retain original N400
 coordinates and replay lifted states.
 
+A final audit corrected one reporting defect: unsuccessful native legacy
+optimization now explicitly labels its retained signed inventory fallback.
+[FALLBACK_LABEL_CORRECTION.json](FALLBACK_LABEL_CORRECTION.json) proves the exact
+four-line source delta and unchanged applicability of all eight retained queries.
+Historical source identities remain attached to the campaign; results were not
+restamped or rerun. No objective, solver, reconstruction, replay or qualification
+behavior changed.
+
 ## Exact bases, QA and review
 
 Puckworks base `f08677b177d9569068941cbb602c7b88f3aca769`, tree
@@ -71,8 +79,9 @@ plus the existing card/planning/status and generated surfaces.
 
 [QA](QA.json) separates focused/full local tests, minimum dependencies, static
 checks, packaging, generated surfaces, baseline crashes and hosted infrastructure.
-The final normal suite passed **6020 tests**, with 65 skipped and 63 deselected.
-The 165 focused/regression tests, 38 new minimum-dependency tests, historical
+The source-candidate local full suite passed **6020 tests**, with 65 skipped and
+63 deselected. After a four-line failure-label correction, **166 affected
+focused/regression tests** and **39 new minimum-dependency tests** pass. Historical
 integrity suite, Ruff/mypy, all canonical generated checks and wheel/sdist
 installation/inventory checks passed. The first normal baseline passed 5982 tests. An untouched detached-base repeat
 segfaulted in an existing Waszkiewicz number-audit test; its focused isolation

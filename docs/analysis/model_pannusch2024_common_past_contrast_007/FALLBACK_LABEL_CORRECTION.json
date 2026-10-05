@@ -1,0 +1,32 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "corrected_source_sha256": "703b48357d22ccaf3464d6000e1ccb392f9a6c2cbea0cf68947694319490b236",
+  "corrected_test_sha256": "ade6a1a5d3dc059998f45639cd8181f1f4c758d99e3eae5335863baf9ea70f38",
+  "exact_source_delta": "PASS: only four added fallback-label lines; original source reconstructs exactly",
+  "focused_tests": "155 passed in 42.23s plus 11 verification regressions passed in 3.96s",
+  "governance": "G0",
+  "historical_source_commit": "3cb203fb03637294fb6ee891bc81db2b64fa30e6",
+  "historical_source_sha256": "5b5d060c16f45dff2dd0a5a2c1f1786ca808918bfb32da49f138e3f9caffe5c3",
+  "minimum_dependencies": "39 passed in 33.85s",
+  "preserved_artifact_sha256": {
+    "CONTRACT.md": "472c2b28736ed239f503aeacd67769712e324aa0200668fcd258aab116f9d2f5",
+    "EXTERNAL_EVIDENCE_INDEX.json": "87e8bc4eb9ebfb407cf0a7e73538e769a73cfd5658710efee5c4c2ddac43d057",
+    "FROZEN_BANDS.json": "aa98578094b5c3bd532cb060fb78bbda2ea20cc01218522469ae0403a761cd0a",
+    "PRE_EXECUTION.json": "2c66acb60fcad9657fff883aa341d40203b9ef70c14e1e43d78beda6dd958cfe",
+    "RESOURCES.json": "b9b340e46c95724992ca27e966ccee2449aaef28b215f7ec891e33b780a5657b",
+    "RESULTS.json": "e1ff99279e2e9a358322ef5dca0add71985df2c2600b7852bd0273ab20303c15"
+  },
+  "reason": "All native representative legacy extrema have OPTIMIZATION_QUALIFIED outer status; mapped/conditioned paths are untouched. No campaign rerun or numerical restamping.",
+  "representative_queries_unaffected": [
+    "N400-h0.02:unconditioned",
+    "N400-h0.02:conditioned",
+    "N400-h0.01:unconditioned",
+    "N400-h0.01:conditioned",
+    "N400-h0.005:unconditioned",
+    "N400-h0.005:conditioned",
+    "N800-h0.02:unconditioned",
+    "N800-h0.02:conditioned"
+  ],
+  "scope": "Reporting-only correction: label inherited native signed inventory endpoint fallback after unsuccessful legacy optimization. No numerical objective, allowance, constraint, solver, reconstruction, replay or qualification behavior changes."
+}

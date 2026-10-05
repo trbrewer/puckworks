@@ -324,6 +324,20 @@ def test_opposite_sign_and_material_reversal_are_separate():
     assert cc._decision((-2., 2.), 1., [(-2., -1.1), (1.1, 2.)], True) == ('DEMONSTRATED_MATERIAL_REVERSAL', True, True)
 
 
+def test_native_optimizer_failure_labels_retained_signed_inventory_fallback():
+    from types import SimpleNamespace
+    c, a, b = inputs(observations=False)
+    failure = SimpleNamespace(success=False, status=1, message='INJECTED_TERMINATION', nit=1)
+    with patch.object(se, 'linprog', return_value=failure):
+        result = cc.replay_common_past_extrema(query(c, a, b))
+    assert result.fallback == 'LEGACY_SIGNED_INVENTORY_ENDPOINT_FALLBACK'
+    assert result.outer_interval_kg == (-c.original.inventory_scale_kg, c.original.inventory_scale_kg)
+    assert result.compatibility == 'UNRESOLVED' and result.bounds == 'NUMERICALLY_UNRESOLVED'
+    assert result.forward_calls == 0
+    assert all(e.status == 'NUMERICALLY_UNRESOLVED' for e in
+               (result.legacy_b_a.minimum, result.legacy_b_a.maximum))
+
+
 def test_exact_zero_unresolved_band_is_not_vacuous_equivalence():
     c, a, b = inputs(identical=True)
     u = singleton(c.original.upper)
