@@ -5,11 +5,13 @@ and fixed-model tests plus the representative synthetic fixed-operator query.
 G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. No empirical predictive advantage is established.
 
-The deliverable is one draft Puckworks PR from
+The deliverable is [draft Puckworks PR #320](https://github.com/trbrewer/puckworks/pull/320) from
 `model/pannusch2024-prefix-conditioned-006`, unmerged with auto-merge disabled.
 Exact publication head/tree and final hosted check states belong to the PR and
 final delivery receipt; they are not self-referential claims inside their own
-commit. Base is `4f652dee3a43e9e97dc555173cb469d424cdc69a`, tree
+commit. The source candidate verified locally is
+`5fb7b83e2585556f910a2754225b5f8cdbcf55a7`; the publication follow-up changes only lifecycle documentation.
+Base is `4f652dee3a43e9e97dc555173cb469d424cdc69a`, tree
 `c17082884871e0a37dced8598560b191c8425da1`. EWP remote remains the reviewed
 `73ec476ffe6ac626705ca949e28b32935ddf2992`, tree
 `8ced37ad5b294616b8935d92a57e3845321d5eed`.
