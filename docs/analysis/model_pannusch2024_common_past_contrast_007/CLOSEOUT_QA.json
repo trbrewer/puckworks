@@ -1,0 +1,56 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "affected": "66 passed in 37.21 s; includes all mandatory original 007 small capability tests and 15 archive-only closeout cases",
+  "baseline": "Clean reviewed-head focused: 51 passed in 34.02 s",
+  "classification": "G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "doc_regressions": "81 passed in 3.04 s (statusdoc, status reconciliation, insight foundry)",
+  "generated": "All 12 canonical commands and both strict paper3/all scopes pass; statusdoc and insights regenerated",
+  "hosted_candidate": "NOT_RUN_UNPUBLISHED; no old-head success transferred",
+  "hosted_reviewed_head": {
+    "administrative_skips": 2,
+    "attempt": 1,
+    "cancelled_jobs": [
+      "quick (3.10)",
+      "quality"
+    ],
+    "classification": "CI_INFRASTRUCTURE_INCOMPLETE",
+    "head": "00655c7b59a26895f49a34fa50edb7540a1de75b",
+    "required_incomplete": [
+      "quick (3.10)"
+    ],
+    "run_id": 37356902747,
+    "success_jobs": 25
+  },
+  "minimum_dependencies": "66 passed in 37.58 s; NumPy2.0.2/SciPy1.13.1",
+  "normal_full_suite": "Reused reviewed-head full runtime suite: hosted quick3.11/3.12/3.13 and minimum dependencies passed (6033 tests). No puckworks runtime source changed. This is software dependency evidence, not a candidate hosted-CI pass.",
+  "old_failures_retained": "CORRECTION_QA.json retains old-head min-deps timeout attempts and unexplained untouched-base segfaults. Historical prefix and transport anomalies remain prominent in CLOSEOUT.md.",
+  "packaging": "PASS staged wheel/sdist build, canonical inventory and sdist wheel rebuild; all 296 packaged Python files byte-equal to unchanged runtime sources. Closeout helper remains a repository tool under existing setuptools package scope.",
+  "permission_limit": "Original Puckworks worktree/campaign receipt are read-only. Local candidate and pending accounting append are prepared; applying/publishing them requires permitted access. No bypass or budget reset.",
+  "preservation": {
+    "earlier_protected_hashes_verified": 74,
+    "ewp_live_checkout_changed_by_closeout": false,
+    "ewp_live_checkout_observed": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "ewp_reference": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+    "ewp_reference_and_live_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "original_and_correction_artifacts_byte_identical": 31,
+    "puckworks_runtime_tree_unchanged": true
+  },
+  "qa_log_sha256": {
+    "pannusch007-closeout-baseline.log": "71f38e3c0676e71843747d00acf4a69e003f9a8e053baf725ccafecb48e9679d",
+    "pannusch007-closeout-build.log": "c6b543b06c4e7de24da2a92e398026923083d81803dc8bf76b453112d482d045",
+    "pannusch007-closeout-doc-regression.log": "3423d687ffa122632bde59f64de339115b344306ddfd14f5bf0dcc515f9d85dc",
+    "pannusch007-closeout-doc-tests.log": "4f8db688378cc3a28e6e66f8abca59f6cb60ce6e7a46aab8846df2987f9fbba2",
+    "pannusch007-closeout-final-build.log": "354b0c419c19e06e8c97dd52a0033e73ba63051d21a081f55c055cfab769ef8a",
+    "pannusch007-closeout-focused.log": "4bb9b6310302b736a70f8227511c34e94d37e1bbd57a6f5a37ea89aaaa5a0842",
+    "pannusch007-closeout-generated.log": "a6b54ac38b5c6a3b0f747ac0ad025bb2d6b0a5d7066657279f180d22d8aab221",
+    "pannusch007-closeout-min-deps.log": "946949c32a6ff9a1976c2eef9c079d8d64fa452b807a670f23d23b406aaa015d",
+    "pannusch007-closeout-mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "pannusch007-closeout-sdist.log": "305bd182dca3115c5620631fdb2a806ea7252e1259742730e05cdb38476fa375"
+  },
+  "retained_setup_mistakes": [
+    "Initial documentation-test glob tests/test_insights* did not exist; no tests ran. Discovered tests/insights/test_foundry.py and reran correct selection: 81 passed.",
+    "Additional packaging probe incorrectly assumed tools were part of sdist; existing package scope contains puckworks only and zero tools. Canonical packaging inventory passed; package scope was not changed."
+  ],
+  "review": "NONHUMAN_AUTHOR_REVIEW; exact request matching, raw/report consistency, unchanged certificates/gaps, historical scope and zero-execution guards reviewed. No human or independent scientific approval asserted.",
+  "static": "Ruff repository puckworks/tests plus closeout tool PASS; canonical mypy19 modules and explicit closeout tool PASS"
+}

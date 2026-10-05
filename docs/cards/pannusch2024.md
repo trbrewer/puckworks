@@ -435,13 +435,7 @@ It retains original-coordinate correlations and uses paired same-state replay;
 no fitting, schedule selection, taste claim or physical validation follows.
 [Engineering specification](../analysis/model_pannusch2024_common_past_contrast_007/CONTRACT.md).
 
-The targeted PR #321 correction reuses the actual repaired legacy states and
-adds a bounded joint concentration proposal. All eight maxima and seven complete
-fixed comparisons qualify as NO_MATERIAL_DIFFERENCE at the declared 1 mg margin.
-**IMPLEMENTED_QUALIFICATION_INCOMPLETE** persists: the historical N400/h=.01
-unconditioned prefix discrepancy remains unexplained, with its B trace arrays
-unavailable. A fresh bitwise-equal diagnostic pair does not erase that failure.
-[Correction results](../analysis/model_pannusch2024_common_past_contrast_007/CORRECTION_RESULTS.md).
+ENGINEERING_CAPABILITY_VERIFIED on all eight unchanged current fixed queries and mandatory small tests; NO_MATERIAL_DIFFERENCE throughout. The complete archived h=.01 unconditioned minimum qualifies (gap 2.4537162992395933e-13 kg). HISTORICAL_PREFIX_FAILURE=UNRESOLVED; TRANSPORT_ROOT_CAUSE=UNDETERMINED. Zero new propagation/LP calls. The failed historical execution and unavailable B arrays remain separate from the newly checked current execution. No general execution reliability is claimed. [Closeout and evidence limits](../analysis/model_pannusch2024_common_past_contrast_007/CLOSEOUT.md).
 G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY.
 Historical 004–006 results remain unchanged. No registry evidence promotion;
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. No successor is authorized.
