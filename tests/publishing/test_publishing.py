@@ -31,6 +31,22 @@ def dump(path: Path, value: object) -> None:
     path.write_text(yaml.safe_dump(value, sort_keys=False), encoding="utf-8")
 
 
+def dump_schedule_fixture(path: Path, schedule: dict[str, object]) -> None:
+    dump(path, schedule)
+    items = schedule.get("items")
+    assert isinstance(items, list), "canonical schedule fixture must contain an items list"
+    for item in items:
+        assert isinstance(item, dict), "canonical schedule fixture items must be mappings"
+        trigger_ids = item.get("source_triggers", [])
+        assert isinstance(trigger_ids, list), "schedule source_triggers must be a list"
+        for trigger_id in trigger_ids:
+            source = ROOT / "content" / "triggers" / f"{trigger_id}.yml"
+            assert source.is_file(), f"canonical schedule trigger manifest does not exist: {source}"
+            destination = path.parent / "triggers" / source.name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(source.read_bytes())
+
+
 @pytest.fixture
 def publication_fixture(tmp_path: Path) -> dict[str, object]:
     repo = tmp_path / "repo"; repo.mkdir()
@@ -59,16 +75,16 @@ def publication_fixture(tmp_path: Path) -> dict[str, object]:
     stem = "2026-08-28-synthetic-fixture"
     dump(root / "content/evidence" / f"{stem}.yml", {"schema_version": 1, "trigger_id": trigger_id, "draft_slug": "synthetic-fixture", "assembled_at": "2026-08-28T12:00:00Z", "artifacts": [evidence_item], "claims": [claim]})
     metadata = {
-        "schema_version": 1, "title": "Synthetic fixture", "subtitle": "Tooling only", "slug": "synthetic-fixture", "archetype": "behind_model", "status": "draft", "created_at": "2026-08-28T12:00:00Z", "updated_at": "2026-08-28T12:00:00Z", "author": "Tim Brewer", "target_platforms": ["substack", "medium"], "primary_platform": "substack", "target_length_words": {"minimum": 1, "preferred": 1, "maximum": 10},
+        "schema_version": 2, "title": "Synthetic fixture", "subtitle": "Tooling only", "slug": "synthetic-fixture", "archetype": "behind_model", "status": "human_review", "created_at": "2026-08-28T12:00:00Z", "updated_at": "2026-08-28T12:00:00Z", "author": "Tim Brewer", "target_platforms": ["substack", "medium"], "primary_platform": "substack", "target_length_words": {"minimum": 1, "preferred": 1, "maximum": 10},
         "source_event": {"trigger_id": trigger_id, "repository": "puckworks", "event_type": "public_explainer", "identifier": f"commit:{sha}"}, "claim_ceiling": {"repository": "puckworks", "path": "control.txt", "commit_sha": sha, "exact_status": "SYNTHETIC_FIXTURE_ONLY"}, "source_artifacts": [evidence_item], "figures": [], "claims": [claim],
+        "reader_contract": {"question": "What does this fixture test?", "answer": "This is a synthetic fixture.", "takeaway": "The fixture checks reader-first draft mechanics."},
         "uncertainty": {field: "Synthetic fixture" for field in ("numerical", "measurement", "parameter", "model_form", "identifiability", "external_validity", "largest_remaining_uncertainty", "next_discriminating_measurement")}, "practical_implication": {"supported": False, "text": "", "conditions": "", "prohibited_overreach": "No science"},
         "ai_assistance": {"used": True, "tool_role": ["draft"], "human_reviewer": None, "scientific_claims_checked": False, "numbers_checked": False, "citations_checked": False, "figures_checked": False, "substantive_human_rewrite_medium": False, "disclosure_substack": "Drafting note: I used AI assistance to prepare and edit this article from the linked repository materials. I checked every scientific claim, number, citation, and figure before publication.", "disclosure_medium": "Disclosure: I used an AI writing tool to help draft and edit this article from the linked repository materials. I personally checked every scientific claim, number, citation, and figure."},
         "cross_posting": {"substack": {"planned": True, "send_email": True, "publication_date": None, "url": None}, "medium": {"planned": True, "publication_name": None, "publication_date": None, "publish_not_before": "2026-09-04", "url": None}, "canonical_url": None, "canonical_verified": False}, "review": {"evidence_gate_passed": False, "style_gate_passed": False, "platform_gate_passed": False, "human_approved": False, "approved_at": None},
     }
-    headings = ("Result or question in one sentence", "Why this matters", "Question or hypothesis", "Evidence box", "Method", "Result", "Interpretation", "What this does not show", "Uncertainty and limitations", "What evidence would change the conclusion", "How to reproduce or inspect the result")
-    body = "\n\n".join(f"## {heading}\n\nSynthetic fixture text." for heading in headings)
-    body += "\n\n## Claims-to-evidence table\n\n| Claim ID | Exact claim | Evidence IDs | Evidence level | Conditions/applicability | Caveat |\n|---|---|---|---|---|---|\n| C1 | This is a synthetic fixture. | E1 | qualitative | Tool tests | Not scientific evidence |"
-    body += "\n\n## AI-assistance disclosure\n\n[PLATFORM DISCLOSURE]\n\n## Agent self-review\n\nSynthetic fixture only.\n"
+    body = "This is a synthetic fixture. The fixture checks reader-first draft mechanics.\n\n"
+    body += "## A plain-language explanation\n\nIt gives the checks ordinary prose to inspect.\n\n"
+    body += "## Sources and technical notes\n\nSynthetic control material.\n\n[PLATFORM DISCLOSURE]\n"
     draft_path = root / "content/drafts" / f"{stem}.md"
     draft_path.write_text("---\n" + yaml.safe_dump(metadata, sort_keys=False) + "---\n" + body, encoding="utf-8")
     return {"root": root, "repo": repo, "sha": sha, "trigger": trigger, "trigger_path": trigger_path, "draft": draft_path}
@@ -88,8 +104,26 @@ def test_schedule_adverse_paths(tmp_path: Path, mutation: str) -> None:
     if mutation == "delivery": schedule["items"][0]["platforms"]["substack"]["send_email"] = False
     if mutation == "lag": schedule["items"][0]["platforms"]["medium"]["publish_not_before"] = date(2026, 9, 9)
     if mutation == "published": schedule["items"][0]["status"] = "published"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
-    assert not validate_schedule(path).ok
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
+    result = validate_schedule(path)
+    assert not result.ok
+    assert not any("source_triggers contains a missing manifest" in error for error in result.errors)
+
+
+def test_temporary_schedule_fixture_preserves_trigger_closure(tmp_path: Path) -> None:
+    schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
+    path = tmp_path / "schedule.yml"
+    dump_schedule_fixture(path, schedule)
+    assert validate_schedule(path).ok
+    referenced = next(
+        trigger_id
+        for item in schedule["items"]
+        for trigger_id in item.get("source_triggers", [])
+    )
+    (path.parent / "triggers" / f"{referenced}.yml").unlink()
+    result = validate_schedule(path)
+    assert not result.ok
+    assert any("source_triggers contains a missing manifest" in error for error in result.errors)
 
 
 def test_trigger_and_ledger_success(publication_fixture: dict[str, object]) -> None:
@@ -116,17 +150,44 @@ def test_draft_success(publication_fixture: dict[str, object]) -> None:
     assert result.ok, result.errors
 
 
-@pytest.mark.parametrize("needle", ["missing_trigger", "ready", "number", "h1", "table", "banned"])
+@pytest.mark.parametrize("needle", [
+    "missing_trigger", "ready", "number", "h1", "banned", "missing_sources",
+    "evidence_heading", "claims_heading", "agent_heading", "sha", "trigger_id",
+    "shell", "missing_claim", "late_answer", "missing_takeaway",
+])
 def test_draft_adverse_paths(publication_fixture: dict[str, object], needle: str) -> None:
     path = publication_fixture["draft"]; text = path.read_text()
     if needle == "missing_trigger": (publication_fixture["root"] / "content/triggers/PW-PUB-2026-001.yml").rename(publication_fixture["root"] / "content/triggers/moved.yml")
-    if needle == "ready": text = text.replace("status: draft", "status: ready")
-    if needle == "number": text = text.replace("Synthetic fixture text.", "Synthetic fixture text with 42 units.", 1)
-    if needle == "h1": text = text.replace("Synthetic fixture text.", "H1 is confirmed.", 1)
-    if needle == "table": text = text.replace("| C1 | This is", "| C2 | This is")
-    if needle == "banned": text = text.replace("Synthetic fixture text.", "This is groundbreaking.", 1)
+    if needle == "ready": text = text.replace("status: human_review", "status: ready")
+    if needle == "number": text = text.replace("It gives", "It gives 42 units and")
+    if needle == "h1": text = text.replace("It gives", "H1 is confirmed. It gives")
+    if needle == "banned": text = text.replace("It gives", "This is groundbreaking. It gives")
+    if needle == "missing_sources": text = text.replace("## Sources and technical notes", "## Further reading")
+    if needle == "evidence_heading": text = text.replace("## A plain-language explanation", "## Evidence box")
+    if needle == "claims_heading": text = text.replace("## A plain-language explanation", "## Claims-to-evidence table")
+    if needle == "agent_heading": text = text.replace("## A plain-language explanation", "## Agent self-review")
+    if needle == "sha": text = text.replace("It gives", f"{publication_fixture['sha']} It gives")
+    if needle == "trigger_id": text = text.replace("It gives", "PW-PUB-2026-001 It gives")
+    if needle == "shell": text = text.replace("It gives", "```bash\ngit status\n```\n\nIt gives")
+    if needle == "missing_claim": text = text.replace("This is a synthetic fixture.", "This fixture is synthetic.", 1)
+    if needle == "late_answer": text = text.replace("This is a synthetic fixture.", ("ordinary words " * 260) + "This is a synthetic fixture.", 1)
+    if needle == "missing_takeaway": text = text.replace("The fixture checks reader-first draft mechanics.", "The fixture exercises draft mechanics.", 1)
     path.write_text(text, encoding="utf-8")
     assert not validate_draft(path, {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"]).ok
+
+
+def test_source_citation_numbers_are_not_narrative_claims(publication_fixture: dict[str, object]) -> None:
+    path = publication_fixture["draft"]
+    text = path.read_text().replace("Synthetic control material.", "Synthetic control, volume 37, page 013383 (2025). DOI: 10.1000/42.")
+    path.write_text(text, encoding="utf-8")
+    assert validate_draft(path, {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"]).ok
+
+
+def test_human_review_passes_with_human_style_gate_false(publication_fixture: dict[str, object]) -> None:
+    meta, _ = parse_frontmatter(publication_fixture["draft"])
+    assert meta["status"] == "human_review" and meta["review"]["style_gate_passed"] is False
+    result = validate_draft(publication_fixture["draft"], {"puckworks": publication_fixture["repo"]}, content_root=publication_fixture["root"])
+    assert result.ok, result.errors
 
 
 def test_substack_variant_and_overwrite_guard(publication_fixture: dict[str, object]) -> None:
@@ -174,7 +235,7 @@ def test_dry_run_makes_no_writes() -> None:
 
 def test_issue_dedup_and_terminal_close(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text()); schedule["items"][0]["status"] = "cancelled"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     actions = plan_actions([{"number": 17, "body": "<!-- publishing-schedule-id: launch-01 -->"}], path, date(2026, 8, 28), ROOT)
     matching = [action for action in actions if action.path == "/issues/17"]
     assert len(matching) == 1 and matching[0].payload["state"] == "closed"
@@ -347,7 +408,7 @@ def test_managed_region_rejects_single_marker() -> None:
 def test_unchanged_issue_plans_no_patch(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
     schedule["items"] = [schedule["items"][0]]
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     item = schedule["items"][0]
     issue = {"number": 1, "title": f"Editorial reminder: {item['title']}",
              "body": reminder_block(item, date(2026, 8, 28)), "state": "open",
@@ -363,7 +424,7 @@ def test_terminal_reminder_creation_and_closure(tmp_path: Path) -> None:
     schedule = yaml.safe_load((ROOT / "content/schedule.yml").read_text())
     schedule["items"] = [schedule["items"][0]]
     schedule["items"][0]["status"] = "cancelled"
-    path = tmp_path / "schedule.yml"; dump(path, schedule)
+    path = tmp_path / "schedule.yml"; dump_schedule_fixture(path, schedule)
     assert plan_actions([], path, date(2026, 9, 9), ROOT) == []
     item = schedule["items"][0]
     issue = {"number": 1, "title": f"Editorial reminder: {item['title']}",
