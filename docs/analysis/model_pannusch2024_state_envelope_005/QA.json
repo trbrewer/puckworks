@@ -1,0 +1,27 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "baseline": "PASS; see INTAKE.json",
+  "disposition": "LOCAL_IMPLEMENTATION_QA_PASSED_DOMAIN_CORRECTION_PENDING",
+  "failed_numerical_checks": [],
+  "final_normal": "PASS; 5938 passed, 65 skipped, 63 deselected, one existing warning; 1282.94 s; original numerical producer before isolated domain correction",
+  "final_scientific_baseline": "PASS; 5 passed, 7 skipped, 6054 deselected; 213.20 s",
+  "focused": "PASS; 83 tests",
+  "generated_status_and_insights": "PASS",
+  "hosted_ci": "NOT_STARTED; draft PR not yet published",
+  "minimum_dependencies_focused": "PASS; 83 tests; NumPy 2.0 / SciPy 1.13 / Python 3.12",
+  "mypy_affected": "PASS; 2 files",
+  "mypy_repository": "PASS; 19 files; existing annotation-unchecked informational note",
+  "packaging": "PASS; inventory, installed-wheel public/service/licence/example smoke, sdist rebuild",
+  "pending_author_review_correction": {
+    "defect": "A positive upper mass bound can underflow to zero during LP normalization when the lower bound is zero and the finite dynamic range is extreme.",
+    "full_mesh_effect": "Declared U has strictly positive representable lower bounds; original responses and primary results retained.",
+    "planned_correction_executions": 4,
+    "probe": "Two liquid cells with upper concentrations [1e-280,1e300] kg/m^3; other phases zero.",
+    "status": "CONFIRMED; explicit unresolved guard and regression test pending"
+  },
+  "review": "NONHUMAN_AUTHOR_REVIEW_ONLY; no independent or human review",
+  "ruff": "PASS",
+  "skipped_numerical_checks": [],
+  "source_and_historical_integrity": "PASS; 69 existing files byte-identical; pre-execution numerical producer exact",
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005"
+}

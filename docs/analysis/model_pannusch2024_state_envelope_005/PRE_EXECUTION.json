@@ -1,0 +1,20 @@
+{
+  "files": {
+    "examples/pannusch_state_envelope.py": "b7b14f6ed7ab7d812f2f43cede3a57dad4a7e1c279225c469d2d0064494c5330",
+    "puckworks/models/pannusch2024/state_envelope.py": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+    "tests/test_pannusch_state_envelope.py": "c53339504bf1065de291eaf3a66ad0ceba4b088676690a1d8f99401613348a45",
+    "tests/test_pannusch_state_envelope_verification.py": "1286b8c7988be1017731d571a579620ff63b5efb85a2da9735748fade0b5791e",
+    "tools/pannusch_state_envelope_verification.py": "895c2313643256441d8fd970517c8fef95dc7b5ce598607d7a96e10b1722c213"
+  },
+  "full_mesh_already_executed": "one unchanged forward baseline only",
+  "numpy": "2.5.3",
+  "python": "3.12.3",
+  "scipy": "1.18.1",
+  "specification_sha256": "cf983ca6c155ff15c86853dba8cb20e41c2af99285473e0ffa0320cdb02f7bad",
+  "threads": {
+    "HiGHS": 1,
+    "MKL_NUM_THREADS": 1,
+    "OMP_NUM_THREADS": 1,
+    "OPENBLAS_NUM_THREADS": 1
+  }
+}

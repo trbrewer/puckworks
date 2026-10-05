@@ -1,0 +1,71 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "branch": "model/pannusch2024-state-envelope-005",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "corpus_census": false,
+  "data_availability_preflight": "G0_NOT_APPLICABLE_TO_ORIGINAL_OBSERVATIONS; unchanged source parameters and synthetic verification only",
+  "datasets": [
+    "pannusch2024/table2_params",
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "ewp_read_only_checkout": "78cbd59c751393cddfe539e4c69e43a224329bca",
+  "ewp_remote_main": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+  "governance": "G0",
+  "initial_hosted_base_status": "quick-pr CANCELLED; scientific-baseline/packaging/generated-artifacts/experience/notebook-smoke/paper3-evidence SUCCESS",
+  "inspected_repository_context": {
+    ".github/workflows/gates.yml": "b72be24d5840ee6f114a0eea6d563d3a036a05dbc4d19b1820fc2b2bde439c84",
+    ".github/workflows/packaging.yml": "3a9522fdd1cc2b4d56424df944055f4e0bac582ac8a44bda7ba25fedce993519",
+    ".github/workflows/scientific-baseline.yml": "78182e6a4897c92b22ded810f2b7e56300e969fd0d69af5c188630c1c19ee33b",
+    "AGENTS.md": "f33ecfc5274dc8a2b7ae8a01c1df13214fffccdf9bad302f3b079592e7872a58",
+    "CLAUDE.md": "24e27b14f190c88fc573b85bd372e43ec1803e6dae96b4e7dceab70d5790b328",
+    "docs/ONBOARDING.md": "5d5aa48d1bc7373d98bee2c5a10b0d1450f7a64127e2cda39b1d04cb2d6eea7b",
+    "docs/ROADMAP.md": "fb2095ad9c3c5676bae24a9965141cd9baca195f55cdca53a1a59eebb4077dcf",
+    "docs/SPRINTS.md": "83d27b18df15ce0f0e870d77771d766130446b7f570837d2be296c2b14b27407",
+    "docs/analysis/model_eng_assay_envelope_001/README.md": "808854a10eb59005c20c2806a073a4e504cf02d6a5191f29da3781586bd567a8",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/HANDOFF.md": "f61a4652372f51a9bd18d8b99f3a2f6603a82d2a47395a197b20dc2acf1b8601",
+    "docs/cards/pannusch2024.md": "44441ee16b04eef86a64ddad0f0f2dacfdbc3e46901ae18f2a31fd5aea715ad4",
+    "docs/data/AVAILABLE_DATA_FIRST_POLICY.md": "c253a36c886f1b5feb8e3656294784653f2461c355ea625c0907e59557c7ced4",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "450a780004d3fd8af5a7602398d6a9b1dd1b478968460530956a79552cfeee8d",
+    "docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md": "58c33923f02ca733d611ddc41173fce0e2f33a20d2908312b572f57822edc364",
+    "docs/task-ledger.md": "6ea70b2567fa46d7b173e7739032ffaae19d4523236c352ad93e315e8f3b6b96",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "puckworks/data/MANIFEST.csv": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "pyproject.toml": "d61165168cdff735bf24f29e89c94f1a5c7c32a2ead52480f478ab8d95d82617"
+  },
+  "lineage": "experimental_kinetics and raw_fractions share lineage; not independent datasets",
+  "local_baseline": {
+    "focused": "255 passed; 14.11 s",
+    "mypy": "PASS: 19 repository files",
+    "normal": "5855 passed; 65 skipped; 63 deselected; one warning; 1317.03 s",
+    "ruff": "PASS",
+    "scientific_baseline": "5 passed; 7 skipped; 5971 deselected; 213.24 s"
+  },
+  "new_acquisition": false,
+  "new_originals_inspected": [],
+  "puckworks_base": "28c32df8ed996043f943b777e9312016e8b5ce05",
+  "puckworks_base_tree": "746e4c8970c57720d9c4b1dc51fcf40eee50a55c",
+  "rights": "Source-derived outputs: Pannusch/Schmieder, Mendeley 10.17632/y2tz67f6ry.1, CC-BY-NC-3.0; separate first-party code licensing",
+  "scientific_target_use": "NONE; normal isolated silent integrity QA is separately recorded",
+  "scope": "RESEARCH_ONLY",
+  "source_runtime_and_parameter_identities": {
+    "closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+    "pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+    "solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+    "temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9"
+  },
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005",
+  "task_selection_gate": {
+    "decision_consequence": "Qualified conditional bounds, honest reversal/immaterial/threshold-straddling decisions or explicit unresolved capability",
+    "grinder_to_cup_link": "Bounded saturated-model chemistry query only; no state inference or coupling",
+    "lower_cost_alternative": "Sparse transpose response plus LP; no coordinate forward sweep",
+    "new_information": "Fixed-model state-set response and shared-state extrema unavailable from prior scalar-inventory runs",
+    "repeated_blocker": "No attempt to resolve missing measured initial states, clock authority or physical validation"
+  }
+}

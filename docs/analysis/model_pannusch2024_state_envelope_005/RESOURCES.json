@@ -1,0 +1,385 @@
+{
+  "executions": [
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "label": "baseline-forward",
+      "large_executions": 1,
+      "peak_rss_kib": 167036,
+      "status": "RETURNED",
+      "wall_s": 7.652436899021268
+    },
+    {
+      "correction": null,
+      "exponential_actions": 1500,
+      "label": "A-N400-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 81852,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.4646142749115825
+    },
+    {
+      "correction": null,
+      "exponential_actions": 1500,
+      "label": "B-N400-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 81852,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.4723249776288867
+    },
+    {
+      "correction": null,
+      "label": "A-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 84924,
+      "status": "RETURNED",
+      "wall_s": 0.04708699230104685
+    },
+    {
+      "correction": null,
+      "label": "B-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 85948,
+      "status": "RETURNED",
+      "wall_s": 0.04516994673758745
+    },
+    {
+      "correction": null,
+      "label": "A-minus-B-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 85948,
+      "status": "RETURNED",
+      "wall_s": 0.0469035878777504
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "forward_calls": 1,
+      "label": "A-minimum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 170948,
+      "status": "RETURNED",
+      "wall_s": 7.628001745790243
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "forward_calls": 1,
+      "label": "A-maximum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 171860,
+      "status": "RETURNED",
+      "wall_s": 7.6390129663050175
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7624,
+      "forward_calls": 1,
+      "label": "B-minimum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.601416904479265
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7624,
+      "forward_calls": 1,
+      "label": "B-maximum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.56417893152684
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "forward_calls": 1,
+      "label": "A-minus-B-minimum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.582277162000537
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7624,
+      "forward_calls": 1,
+      "label": "A-minus-B-minimum-plan-1",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.567762635648251
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "forward_calls": 1,
+      "label": "A-minus-B-maximum-plan-0",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.65248235873878
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7624,
+      "forward_calls": 1,
+      "label": "A-minus-B-maximum-plan-1",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.628986882045865
+    },
+    {
+      "correction": null,
+      "exponential_actions": 3000,
+      "label": "A-N400-h010",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 2.6734857270494103
+    },
+    {
+      "correction": null,
+      "exponential_actions": 3000,
+      "label": "B-N400-h010",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 2.6705514397472143
+    },
+    {
+      "correction": null,
+      "label": "A-h010-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04552759230136871
+    },
+    {
+      "correction": null,
+      "label": "B-h010-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04496411979198456
+    },
+    {
+      "correction": null,
+      "label": "A-minus-B-h010-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04673720058053732
+    },
+    {
+      "correction": null,
+      "exponential_actions": 6000,
+      "label": "A-N400-h005",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 5.073084490373731
+    },
+    {
+      "correction": null,
+      "exponential_actions": 6000,
+      "label": "B-N400-h005",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 5.028244214132428
+    },
+    {
+      "correction": null,
+      "label": "A-h005-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04570453427731991
+    },
+    {
+      "correction": null,
+      "label": "B-h005-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.0451783025637269
+    },
+    {
+      "correction": null,
+      "label": "A-minus-B-h005-sensitivity-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.047166379168629646
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.02-A",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.042532870545983315
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.02-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04288641829043627
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.02-A-minus-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.042317516170442104
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.01-A",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04247860889881849
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.01-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.04290633928030729
+    },
+    {
+      "correction": null,
+      "label": "temporal-0.01-A-minus-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.0423511965200305
+    },
+    {
+      "correction": null,
+      "exponential_actions": 1500,
+      "label": "A-N800-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 2.0040792105719447
+    },
+    {
+      "correction": null,
+      "exponential_actions": 1500,
+      "label": "B-N800-h020",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.9970228988677263
+    },
+    {
+      "correction": null,
+      "label": "mesh-A",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.043204995803534985
+    },
+    {
+      "correction": null,
+      "label": "mesh-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.043147724121809006
+    },
+    {
+      "correction": null,
+      "label": "mesh-A-minus-B",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.042754595167934895
+    },
+    {
+      "correction": null,
+      "exponential_actions": 7622,
+      "forward_calls": 1,
+      "label": "final-forward",
+      "large_executions": 1,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 7.701573533006012
+    },
+    {
+      "correction": null,
+      "exponential_actions": 1500,
+      "label": "A-N400-h020-timing-repeat",
+      "large_executions": 2,
+      "peak_rss_kib": 172368,
+      "response_passes": 2,
+      "status": "RETURNED",
+      "wall_s": 1.4674812788143754
+    },
+    {
+      "correction": null,
+      "label": "A-timing-repeat-optimization",
+      "large_executions": 0,
+      "optimization_calls": 2,
+      "peak_rss_kib": 172368,
+      "status": "RETURNED",
+      "wall_s": 0.0454812478274107
+    }
+  ],
+  "notes": [
+    "The initial baseline-forward receipt predates the forward_calls metadata field; its one actual successful forward is included in the summary.",
+    "Each response build reserves/counts two large executions for the two arithmetic passes.",
+    "Ordinary baseline/final software QA and N<=12 tests are separate from the bounded numerical programme.",
+    "Native HiGHS and OPENBLAS/OMP/MKL threads were each set to 1."
+  ],
+  "summary": {
+    "correction_executions_unused": 4,
+    "correction_executions_used": 0,
+    "exponential_actions": 101728,
+    "forward_calls": 10,
+    "hard_limit": 32,
+    "hard_numerical_wall_limit_s": 1800,
+    "large_executions": 28,
+    "optimization_calls": 38,
+    "peak_rss_kib": 172368,
+    "planned_limit": 28,
+    "response_passes": 18
+  },
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005",
+  "wall_s": 100.91351869888604
+}
