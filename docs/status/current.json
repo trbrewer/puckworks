@@ -507,9 +507,9 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Draft PR handoff; no merge or successor authorized. Representative qualification remains incomplete; software QA and hosted CI are separate.",
+      "next_gate": "Draft PR #321 owner disposition; no merge or successor authorized. Representative qualification remains incomplete; software QA and hosted CI are separate.",
       "acceptance_evidence": "docs/analysis/model_pannusch2024_common_past_contrast_007/HANDOFF.md: IMPLEMENTED_QUALIFICATION_INCOMPLETE. Small capability tests pass; four representative levels evaluated with checked signed outer bounds. Maximum reconstruction remains unresolved; one unconditioned prefix replay fails bitwise equality. PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
-      "issue_or_pr": null,
+      "issue_or_pr": "#321",
       "verified_commit": null,
       "verified_date": null
     }

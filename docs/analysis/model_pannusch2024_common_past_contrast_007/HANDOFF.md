@@ -63,14 +63,22 @@ Puckworks base `f08677b177d9569068941cbb602c7b88f3aca769`, tree
 `73ec476ffe6ac626705ca949e28b32935ddf2992`, tree
 `8ced37ad5b294616b8935d92a57e3845321d5eed`. Both matched the supplied review.
 One isolated branch: `model/pannusch2024-common-past-contrast-007`.
-Publication head/tree, draft PR URL and final hosted status are recorded on the
-PR and final delivery receipt, avoiding self-referential commit claims here.
+Draft PR: [#321](https://github.com/trbrewer/puckworks/pull/321). Publication
+head/tree and final hosted status are recorded on the PR and final delivery
+receipt, avoiding self-referential commit claims here. [Changed files](CHANGED_FILES.json)
+list the complete additive implementation, tests, example, runner and evidence
+plus the existing card/planning/status and generated surfaces.
 
 [QA](QA.json) separates focused/full local tests, minimum dependencies, static
 checks, packaging, generated surfaces, baseline crashes and hosted infrastructure.
-The first normal baseline passed 5982 tests. An untouched detached-base repeat
+The final normal suite passed **6020 tests**, with 65 skipped and 63 deselected.
+The 165 focused/regression tests, 38 new minimum-dependency tests, historical
+integrity suite, Ruff/mypy, all canonical generated checks and wheel/sdist
+installation/inventory checks passed. The first normal baseline passed 5982 tests. An untouched detached-base repeat
 segfaulted in an existing Waszkiewicz number-audit test; its focused isolation
-also segfaulted. These actual process failures are retained, not relabelled as
+also segfaulted. One untouched same-base retry then passed 5982 tests (65 skipped,
+63 deselected). Their cause remains unexplained. These actual process failures
+are retained, not relabelled as
 pending hosted jobs or scientific model failures. No unrelated repair campaign
 or test/coverage threshold weakening occurred. Exact same-base retry and final
 head CI are reported as observed, never assumed passed.
