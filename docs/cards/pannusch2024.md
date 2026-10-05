@@ -360,5 +360,40 @@ This capability does not identify wetting chemistry, demonstrate empirical
 predictive improvement, qualify arbitrary initial states, or authorize coupling,
 production adoption, laboratory operation or a successor. No global shot-chain
 contract or registry evidence level changes. The 001/002/003 ceilings remain.
+
+## Conditional initial-state delivery envelopes (005)
+
+`state_envelope` adds `FVChemicalStateSet`, reusable `FVDeliveryResponse`,
+`bound_delivery`, direct shared-state `contrast_deliveries`, and explicit
+`replay_extrema` operations over the unchanged discrete FV model. G0 /
+NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY. All existing runtime source and
+parameter files remain byte-identical; application defaults and registry
+evidence strength are unchanged. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+The caller supplies all liquid/fine/coarse cell bounds in their source kg/m^3
+bases, total and optional phase inventory intervals in kg, and an assumption
+label. No initial state is inferred or supplied by default. The set intersects
+these constraints on a fixed species, grind, source configuration, mesh and
+absolute start. Fine capacity excludes phi_v2. Sparse transpose responses use
+the original plan's frozen steps and direct partial-window rewards; volume
+uses the prescribed flow integral. Concentration is kg/m^3, never percent TDS.
+Scaled HiGHS extrema include checked original-coordinate primal/dual evidence,
+both numerical gaps and reconstructed states. Primary witnesses receive fresh
+unchanged forward replays, both plans from the identical contrast state.
+
+The one declared synthetic matched-volume comparison is numerically qualified
+as `NO_MATERIAL_DIFFERENCE_THROUGHOUT_SET` at delta=1e-6 kg, while feasible
+replayed witnesses support an opposite-sign reversal below that margin. Its
+shared-state contrast enclosure is [-9.53471519e-8, 8.57447042e-7] kg.
+The 28 planned plus four reserved correction response passes completed in
+104.017 s (32/32 hard total). A scaling-underflow guard was corrected; declared
+responses, extrema and primary witness identities repeat exactly. Whole-set temporal and inventory-preserving N400/N800 sensitivity
+remain separate from fixed-operator arithmetic enclosures and physical accuracy.
+Software QA, hosted CI and ordinary review are separate acceptance evidence;
+see the [005 handoff](../analysis/model_pannusch2024_state_envelope_005/HANDOFF.md)
+and [public API contract](../analysis/model_pannusch2024_state_envelope_005/README.md).
+The historical 004 temporal-decrease failure and incomplete qualification stand.
+No universally better profile, measured state recovery, physical validation,
+taste claim, production adoption or successor follows.
 Pannusch attribution and source-derived CC-BY-NC-3.0 remain separate from
 first-party code licensing.

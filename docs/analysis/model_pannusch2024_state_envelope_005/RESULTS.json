@@ -1,0 +1,4247 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "default_h_s": 0.02,
+  "delta_kg": 1e-06,
+  "disposition": "DECLARED_NUMERICAL_VERIFICATION_PASSED_SOFTWARE_AND_HOSTED_CI_SEPARATE",
+  "epsilon_kg": 1e-09,
+  "grind": 1.7,
+  "historical_004": {
+    "disposition": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+    "resolved_temporal_decrease": "FAIL"
+  },
+  "mesh": [
+    {
+      "functional": "A",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "lift": "EQUAL_MASS_TO_TWO_CHILD_CELLS_PER_PHASE",
+      "maximum": {
+        "gap_kg": 1.2575039033615853e-13,
+        "interval_kg": [
+          -1.0832560376113266e-08,
+          -1.083243462572293e-08
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": 1.0832497500905206e-08,
+          "dual_roundoff_allowance_kg": 2.5628343161164482e-20,
+          "inequality_duals": {
+            "sha256": "866cd85e20d9ea60e45963bed71369d9d5ad911ee928ae624f31ec229dd434e9",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 3,
+          "objective_scale": 0.0003836097073770528,
+          "raw_objective_kg": 1.0832497500930837e-08,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.5294679318573761,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 2.578487405450298e-20,
+        "response_allowance_kg": 6.287518227345027e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.539482354130877e-22,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 2.1630773018261674e-22,
+          "masses_kg": {
+            "sha256": "f7729e4a14a13adc5c3dd59e872e34ba6a2b422377a0dbaa7f272da6a35c68f2",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "0103352f27ee424c79698b49ee651fec76f17e4c1ad9ec2a7eadd47a0c92911f",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              0.0,
+              -6.216019941171662e-08,
+              -4.19378398005883e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              1.0062160199411717e-05,
+              6.19378398005883e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.993783980058828e-05,
+              -1.806216019941171e-05
+            ],
+            "total_kg": 8.000000000000002e-05,
+            "total_lower_kg": -1.3552527156068805e-20,
+            "total_upper_kg": -3.999999999999998e-05
+          },
+          "prediction_kg": -1.0832497500930837e-08,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 8,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              0.0,
+              -6.216019941171662e-08,
+              -4.19378398005883e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              1.0062160199411717e-05,
+              6.19378398005883e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.993783980058828e-05,
+              -1.806216019941171e-05
+            ],
+            "total_kg": 8.000000000000002e-05,
+            "total_lower_kg": -1.3552527156068805e-20,
+            "total_upper_kg": -3.999999999999998e-05
+          },
+          "state": {
+            "identity": "490192f22aae75c5ce80cdcbd8963654cadcc13c95165fb13a82c11293a1636a",
+            "inventory_kg": 8e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        3.327650008542669e-08,
+        3.327662583581665e-08
+      ],
+      "minimum": {
+        "gap_kg": 1.2575038996558162e-13,
+        "interval_kg": [
+          -3.327662583581665e-08,
+          -3.327650008542669e-08
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -3.327656296063437e-08,
+          "dual_roundoff_allowance_kg": 2.4926629361080904e-20,
+          "inequality_duals": {
+            "sha256": "4b38cca0a6382fa24fd784e345a16be58f79c5d74a571a1dbff7d1e98823eed1",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 0.0003836097073770528,
+          "raw_objective_kg": -3.327656296060944e-08,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.5540162901777443,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 2.5404370972728586e-20,
+        "response_allowance_kg": 6.287518227345027e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 4.728889762511003e-22,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 4.698385879301197e-22,
+          "masses_kg": {
+            "sha256": "9580cd609aa11d5392ca3bc00aeb340792c3f93ea5ef25c61b12f01d4daad0fb",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "9824bee695714f93fc1951c514c5f4c26b6a39977ac1edec4ac19541f5a9230c",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.1166256348416995e-05,
+              -3.51085706017452e-05,
+              -2.572517304983777e-05
+            ],
+            "phase_totals_kg": [
+              2.9166256348416996e-05,
+              4.51085706017452e-05,
+              4.572517304983777e-05
+            ],
+            "phase_upper_kg": [
+              -8.337436515830045e-07,
+              -4.891429398254805e-06,
+              -3.4274826950162235e-05
+            ],
+            "total_kg": 0.00011999999999999996,
+            "total_lower_kg": -3.9999999999999956e-05,
+            "total_upper_kg": -4.0657581468206416e-20
+          },
+          "prediction_kg": -3.327656296060944e-08,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 13,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.1166256348416995e-05,
+              -3.51085706017452e-05,
+              -2.572517304983777e-05
+            ],
+            "phase_totals_kg": [
+              2.9166256348416996e-05,
+              4.51085706017452e-05,
+              4.572517304983777e-05
+            ],
+            "phase_upper_kg": [
+              -8.337436515830045e-07,
+              -4.891429398254805e-06,
+              -3.4274826950162235e-05
+            ],
+            "total_kg": 0.00011999999999999996,
+            "total_lower_kg": -3.9999999999999956e-05,
+            "total_upper_kg": -4.0657581468206416e-20
+          },
+          "state": {
+            "identity": "de351655aaa569d0081aae33b18d9c8b56d971a2ba6ef1a1911883793cb1d999",
+            "inventory_kg": 0.00011999999999999996
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "functional": "B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "lift": "EQUAL_MASS_TO_TWO_CHILD_CELLS_PER_PHASE",
+      "maximum": {
+        "gap_kg": 1.257496471937875e-13,
+        "interval_kg": [
+          -1.055325149754694e-08,
+          -1.0553125747899747e-08
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": 1.0553188622710827e-08,
+          "dual_roundoff_allowance_kg": 2.4879435572601818e-20,
+          "inequality_duals": {
+            "sha256": "4f63fbcf45c75701d709cb29708ce060435b361f454a02ea9145c08d4c87ddab",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 5,
+          "objective_scale": 0.00037296799569097594,
+          "raw_objective_kg": 1.055318862273571e-08,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.4892338621111244,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 2.503379405830483e-20,
+        "response_allowance_kg": 6.287481107762328e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.499698302998199e-22,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 2.5601239958516207e-22,
+          "masses_kg": {
+            "sha256": "d13fdc4ab92fb66207e426e3422138326cdfc7d5eb62e6714ff60b62081ce930",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "6e61f4eca4cdae6529a3e79423dbb53d6f6d044432f677bea406a67337d3e2c8",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              0.0,
+              -3.3881317890172014e-21,
+              -4.200000000000002e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              1.0000000000000004e-05,
+              6.200000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.799999999999999e-05
+            ],
+            "total_kg": 8.000000000000002e-05,
+            "total_lower_kg": -1.3552527156068805e-20,
+            "total_upper_kg": -3.999999999999998e-05
+          },
+          "prediction_kg": -1.055318862273571e-08,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 8,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              0.0,
+              -3.3881317890172014e-21,
+              -4.200000000000002e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              1.0000000000000004e-05,
+              6.200000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.799999999999999e-05
+            ],
+            "total_kg": 8.000000000000002e-05,
+            "total_lower_kg": -1.3552527156068805e-20,
+            "total_upper_kg": -3.999999999999998e-05
+          },
+          "state": {
+            "identity": "0d5987e96b546542a481cbf9abe8260ffdcc0a30afa3e28536a2284af2f7917a",
+            "inventory_kg": 8e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        3.2417487653121905e-08,
+        3.241761340276914e-08
+      ],
+      "minimum": {
+        "gap_kg": 1.2574964723680089e-13,
+        "interval_kg": [
+          -3.241761340276914e-08,
+          -3.2417487653121905e-08
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -3.241755052795806e-08,
+          "dual_roundoff_allowance_kg": 2.4604372252104773e-20,
+          "inequality_duals": {
+            "sha256": "176b3ede5d31c193815f1b8c30f28eefd8c7c9da89e572e4a21d6f261480937c",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 3,
+          "objective_scale": 0.00037296799569097594,
+          "raw_objective_kg": -3.241755052793345e-08,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.554554829007369,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 2.5073498727707375e-20,
+        "response_allowance_kg": 6.287481107762328e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 4.606811007751823e-22,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 4.698385879301197e-22,
+          "masses_kg": {
+            "sha256": "34fff099dba1c95ad14a947f2b200903a28215a489e8175403dcf483b4bba4ed",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "ae7ef32ac5bd88bd2ba9d017a9b6699e79fad2440b422bc4d980fa0e7eb570db",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -3.707787450944559e-05,
+              -2.2922125490554402e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              4.707787450944559e-05,
+              4.2922125490554404e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -2.922125490554414e-06,
+              -3.70778745094456e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "prediction_kg": -3.241755052793345e-08,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 13,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -3.707787450944559e-05,
+              -2.2922125490554402e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              4.707787450944559e-05,
+              4.2922125490554404e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -2.922125490554414e-06,
+              -3.70778745094456e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "state": {
+            "identity": "86359a4c6aaf4899c8349eb970e3a0548b2c8edb41c0f6634a050a4363a4bcdc",
+            "inventory_kg": 0.00011999999999999999
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "functional": "A-minus-B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "lift": "EQUAL_MASS_TO_TWO_CHILD_CELLS_PER_PHASE",
+      "maximum": {
+        "gap_kg": 2.514991809834653e-13,
+        "interval_kg": [
+          1.731338962461578e-10,
+          1.7338539542714128e-10
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.7325964583707276e-10,
+          "dual_roundoff_allowance_kg": 8.389945390691948e-22,
+          "inequality_duals": {
+            "sha256": "f3e3c92f7c1bb5dd6af0eb0fc5f2909da393100ef2ffbe8c46277d7f68b1c253",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 3.6785755114232543e-05,
+          "raw_objective_kg": -1.7325964583623374e-10,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.1320277400464585,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 8.4643841118902785e-22,
+        "response_allowance_kg": 1.2574959006849754e-13,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 7.416748534171287e-24,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 4.963083675318166e-24,
+          "masses_kg": {
+            "sha256": "e911ec1d6a016fbdab7a68a7a3bafea013b4d317d1a0279a014655927b47e95d",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "4e51ca01fd510c47909a339f4042bef65f692a1d2092db37b3964fe8a95bb74b",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 0.0,
+            "feasible": false,
+            "phase_lower_kg": [
+              -4.20278129334198e-06,
+              -2.1447457134860835e-05,
+              -1.6349761571797195e-05
+            ],
+            "phase_totals_kg": [
+              1.220278129334198e-05,
+              3.1447457134860834e-05,
+              3.6349761571797196e-05
+            ],
+            "phase_upper_kg": [
+              -1.779721870665802e-05,
+              -1.8552542865139168e-05,
+              -4.365023842820281e-05
+            ],
+            "total_kg": 8e-05,
+            "total_lower_kg": 0.0,
+            "total_upper_kg": -3.9999999999999996e-05
+          },
+          "prediction_kg": 1.7325964583623374e-10,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 4,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -4.20278129334198e-06,
+              -2.1447457134860835e-05,
+              -1.6349761571797195e-05
+            ],
+            "phase_totals_kg": [
+              1.220278129334198e-05,
+              3.1447457134860834e-05,
+              3.6349761571797196e-05
+            ],
+            "phase_upper_kg": [
+              -1.779721870665802e-05,
+              -1.8552542865139168e-05,
+              -4.365023842820281e-05
+            ],
+            "total_kg": 8e-05,
+            "total_lower_kg": 0.0,
+            "total_upper_kg": -3.9999999999999996e-05
+          },
+          "state": {
+            "identity": "f163bef3e5f38542a6d7a08b8dcb6f4f36314bd00d4ee4a133a0bdf9854f8462",
+            "inventory_kg": 8e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        1.3601423205666628e-09,
+        1.3603938197474313e-09
+      ],
+      "minimum": {
+        "gap_kg": 2.514991807685276e-13,
+        "interval_kg": [
+          -1.3603938197474313e-09,
+          -1.3601423205666628e-09
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.3602680701573626e-09,
+          "dual_roundoff_allowance_kg": 6.110556064571457e-22,
+          "inequality_duals": {
+            "sha256": "b1aa9a67d088209de80f9a4710fa7bb30f56c6254694f90c623e3c1b5ef726ec",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 3.6785755114232543e-05,
+          "raw_objective_kg": -1.3602680701567513e-09,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.0388562522999107,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 6.311388073779601e-22,
+        "response_allowance_kg": 1.2574959006849754e-13,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.9943482367428232e-23,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 4.1114598756641964e-20,
+          "masses_kg": {
+            "sha256": "1694380c7bd12f84c4eb4f98d21df6f9d125ee7689e70b2b79dc4b23e837ecd5",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "0525f6a76395d779f0a2b6a02e3ac4df4b8653dc34eb5655c05d66e5b4826d5f",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 4.1359030627651384e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.4829191701301993e-05,
+              -1.5476180476315505e-05,
+              -5.169462782238254e-05
+            ],
+            "phase_totals_kg": [
+              2.2829191701301993e-05,
+              2.5476180476315507e-05,
+              7.169462782238254e-05
+            ],
+            "phase_upper_kg": [
+              -7.170808298698008e-06,
+              -2.4523819523684495e-05,
+              -8.30537217761747e-06
+            ],
+            "total_kg": 0.00012000000000000004,
+            "total_lower_kg": -4.000000000000004e-05,
+            "total_upper_kg": 4.0657581468206416e-20
+          },
+          "prediction_kg": -1.3602680701567513e-09,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 10,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.4829191701301993e-05,
+              -1.5476180476315505e-05,
+              -5.16946278223825e-05
+            ],
+            "phase_totals_kg": [
+              2.2829191701301993e-05,
+              2.5476180476315507e-05,
+              7.16946278223825e-05
+            ],
+            "phase_upper_kg": [
+              -7.170808298698008e-06,
+              -2.4523819523684495e-05,
+              -8.30537217761751e-06
+            ],
+            "total_kg": 0.00012,
+            "total_lower_kg": -3.9999999999999996e-05,
+            "total_upper_kg": 0.0
+          },
+          "state": {
+            "identity": "735ffef9c53b15ccb8f593ee350150628310a5e2ee75ae60599b8e4ca9045b3b",
+            "inventory_kg": 0.00011999999999999999
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    }
+  ],
+  "observation_window_s": [
+    7.0,
+    17.0
+  ],
+  "queries": {
+    "A": {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "certificate_kind": "ENGINEERING_ENCLOSURE_NOT_RIGOROUS_INTERVAL_ARITHMETIC",
+      "comparison_basis": null,
+      "concentration_interval_kg_m3": [
+        1.2364452049225754,
+        3.3982401081953317
+      ],
+      "decision_status": "NOT_A_DECISION_QUERY",
+      "delta_kg": null,
+      "discretization_status": "NOT_INCLUDED_IN_FIXED_OPERATOR_ENCLOSURE",
+      "epsilon_kg": 1e-09,
+      "forward_calls": 2,
+      "kind": "DELIVERY_ENVELOPE",
+      "material_reversal_supported": false,
+      "maximum": {
+        "gap_kg": 4.5437761084059225e-14,
+        "interval_kg": [
+          7.34019862915814e-05,
+          7.340198633701916e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -7.340198631432889e-05,
+          "dual_roundoff_allowance_kg": 5.614481342780419e-17,
+          "inequality_duals": {
+            "sha256": "ecda8aeb6268694ddc6b96ac6c61ff16b24e4dd99598d7b09b11fd180f498e9c",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 3,
+          "objective_scale": 0.9994099062666046,
+          "raw_objective_kg": -7.340198631427272e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.6153099335619583,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.720521712576643e-17,
+        "response_allowance_kg": 2.2690261975893294e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.0431049633193755e-18,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 3.8712052667481695e-21,
+          "masses_kg": {
+            "sha256": "591d1353193094a6617bfa66a970d0e8d70752d2cee752047e261b712f62c380",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "41d1c8897e252cac8e76571d56a13cae67dcd7b77ee83719831433b842ba6684",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2000000000000006e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3.0000000000000004e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              3.3881317890172014e-21,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "prediction_kg": 7.340198631427272e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 14,
+          "replay_interval_kg": [
+            7.34019862271343e-05,
+            7.340198640141112e-05
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": -1.3552527156068805e-20,
+              "exponential_applications": 7622,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 8.71372287123737e-14,
+              "forward_delivery_kg": 7.340198631427271e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 7.340198631427272e-05,
+              "response_allowance_kg": 2.2689324900774113e-14,
+              "response_identity": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+              "state_identity": "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 1.0431049633193755e-18,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.00011999999999999999,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "minimum": {
+        "gap_kg": 4.5436104287614396e-14,
+        "interval_kg": [
+          2.6707216426327628e-05,
+          2.6707216471763732e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": 2.6707216449017892e-05,
+          "dual_roundoff_allowance_kg": 5.5183932720472514e-17,
+          "inequality_duals": {
+            "sha256": "6ad0376d7f88bfc1f22bfd27bc7eca12b2e0a38bbf0511e9913eb6689f2d5cbf",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 4,
+          "objective_scale": 0.9994099062666046,
+          "raw_objective_kg": 2.670721644907309e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.4837434520068543,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.557552573524915e-17,
+        "response_allowance_kg": 2.2690261975893294e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 3.795323728052308e-19,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 2.357464745776129e-22,
+          "masses_kg": {
+            "sha256": "f1805500315ed4baa34313f3b5162ca262b60df003ac3e0ec763a99e765b6110",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "40195d4bba2f4cc075611e7031f63c2438737bceb86eb0623e05d908e5b0084e",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 2.670721644907309e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 7,
+          "replay_interval_kg": [
+            2.670721639098118e-05,
+            2.6707216507165003e-05
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": 3.3881317890172014e-21,
+              "exponential_applications": 7622,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 5.809148580824916e-14,
+              "forward_delivery_kg": 2.6707216449073092e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 2.670721644907309e-05,
+              "response_allowance_kg": 1.5126125750168813e-14,
+              "response_identity": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+              "state_identity": "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 3.795323728052308e-19,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 8.000000000000003e-05,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "numerical_status": "NUMERICALLY_QUALIFIED",
+      "opposite_sign_reversal_supported": false,
+      "optimization_calls": 2,
+      "outer_delivery_interval_kg": [
+        2.6707216426327628e-05,
+        7.340198633701916e-05
+      ],
+      "responses": [
+        {
+          "algorithm": "pannusch2024.state_envelope.transpose_local_reward.highs.v1",
+          "algorithm_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+          "arithmetic_floor": 1.890740811686238e-10,
+          "coefficient_allowances": {
+            "sha256": "7bf0f6f484ec041c81b88deda11ac6e9e58a5deea7db8096e24c72c6f6063ce4",
+            "shape": [
+              1200
+            ]
+          },
+          "conditioning_sum": 5151.452824190883,
+          "exponential_applications": 1500,
+          "identity_sha256": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+          "model": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.0,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "5428b25ceb09858dc481f5ab73aa0c3d6a0af967c9eef4867f86459482824f58",
+            "time_s": 7.0
+          },
+          "plan": {
+            "flow_history": {
+              "flows_m3_s": [
+                1.2e-06,
+                2.7e-06,
+                1.8e-06
+              ],
+              "kind": "linear",
+              "times_s": [
+                7.0,
+                10.0,
+                17.0
+              ],
+              "units": "m^3/s"
+            },
+            "plan_identity": "4054fb06ded87f32d63cdb185267bc45ef19cb0d1858d585bf214792feb16c6c",
+            "primary_steps": 500,
+            "settings": {
+              "cells": 400,
+              "diagnostic_step_s": 0.0125,
+              "h_max_s": 0.02,
+              "max_diagnostic_samples": 60000,
+              "max_exponential_applications": 100000,
+              "max_state_values": 30000000,
+              "max_steps": 10000,
+              "wall_time_limit_s": 120.0
+            },
+            "span_s": [
+              7.0,
+              17.0
+            ],
+            "temperature_history": {
+              "kind": "linear",
+              "temperatures_K": [
+                353.15,
+                369.15,
+                360.15
+              ],
+              "times_s": [
+                7.0,
+                11.0,
+                17.0
+              ]
+            }
+          },
+          "response_passes": 2,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "split_discrepancy": 1.1435297153639112e-14,
+          "status": "RESPONSE_QUALIFIED",
+          "termination": "COMPLETE",
+          "volume_m3": 2.16e-05,
+          "weights": {
+            "sha256": "50a3b4cc4ef099c008235ed9c94bc45df13f328a4269541a67aa0fa1e1b75c82",
+            "shape": [
+              1200
+            ]
+          },
+          "window_s": [
+            7.0,
+            17.0
+          ]
+        }
+      ],
+      "scope": "RESEARCH_ONLY",
+      "state_set": {
+        "assumption_label": "PREDECLARED_SYNTHETIC_U_005",
+        "capacities_m3": {
+          "sha256": "964ea2ee6d71d7aa418f56145c960cea9348fa3e91b8ccd3fc07688196f7ec78",
+          "shape": [
+            1200
+          ]
+        },
+        "feasibility": "ESTABLISHED_NONEMPTY",
+        "identity_sha256": "f79804180d765aecfe2b4cbf7c5ca535c65400f82abe4ace6b2845734dd8fc49",
+        "inventory_scale_kg": 0.00012,
+        "inventory_units": "kg",
+        "lower": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 1.2643380443660694e-05,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "d072039a5d69926b565f7fc4028dfed5e582ab666c0d70f585828f1f51cb926a",
+          "time_s": 7.0
+        },
+        "lower_masses_kg": {
+          "sha256": "0d7c3fb92c435915f78c657e7ba4c5bc37c1595a7ad0f05d60c56249a18051e0",
+          "shape": [
+            1200
+          ]
+        },
+        "phase_inventory_kg": [
+          [
+            8e-06,
+            3e-05
+          ],
+          [
+            1e-05,
+            5e-05
+          ],
+          [
+            2e-05,
+            8e-05
+          ]
+        ],
+        "total_inventory_kg": [
+          8e-05,
+          0.00012
+        ],
+        "upper": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 0.00017067608487231003,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "daa19a3befa7de4861776122b35bb55fb6a5e63b35167eb46aebd092bf3fea9c",
+          "time_s": 7.0
+        },
+        "upper_masses_kg": {
+          "sha256": "0ab378fb9bb9e78678468efbd23ee5cb0dc38a4f8f2f56f90acdbd45806182fd",
+          "shape": [
+            1200
+          ]
+        }
+      },
+      "termination": "COMPLETE",
+      "volume_difference_m3": null,
+      "volume_match_allowance_m3": null
+    },
+    "A-minus-B": {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "certificate_kind": "ENGINEERING_ENCLOSURE_NOT_RIGOROUS_INTERVAL_ARITHMETIC",
+      "comparison_basis": "MATCHED_COLLECTED_VOLUME",
+      "concentration_interval_kg_m3": null,
+      "decision_status": "NO_MATERIAL_DIFFERENCE_THROUGHOUT_SET",
+      "delta_kg": 1e-06,
+      "discretization_status": "NOT_INCLUDED_IN_FIXED_OPERATOR_ENCLOSURE",
+      "epsilon_kg": 1e-09,
+      "forward_calls": 4,
+      "kind": "DIRECT_SHARED_STATE_CONTRAST",
+      "material_reversal_supported": false,
+      "maximum": {
+        "gap_kg": 9.076080796667621e-14,
+        "interval_kg": [
+          8.574469507803498e-07,
+          8.574470415411578e-07
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -8.574469961609659e-07,
+          "dual_roundoff_allowance_kg": 4.113642750648885e-19,
+          "inequality_duals": {
+            "sha256": "f65715dfa33d5c6a2911a3610ff257451d67a2668e349643aacf0dd5314599bb",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 0.012946925746134097,
+          "raw_objective_kg": -8.574469961605544e-07,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.8337395943711502,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 4.240458692191841e-19,
+        "response_allowance_kg": 4.538019188206331e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.2434347576475904e-20,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.3932616647536922e-20,
+          "masses_kg": {
+            "sha256": "02e5d1791d4d3c0678f44bf13de8e3d562f2775696af9cdaf4a05afc570f838f",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "77678523f4ddc6991d572e611af3cb1e2b862bcd32fcf5bfd2fe336cfbb982e7",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.8758670763981575e-05,
+              -1.4610858933650795e-06,
+              -6.000000000000002e-05
+            ],
+            "phase_totals_kg": [
+              2.6758670763981573e-05,
+              1.146108589336508e-05,
+              8.000000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -3.2413292360184276e-06,
+              -3.8538914106634925e-05,
+              1.3552527156068805e-20
+            ],
+            "total_kg": 0.00011821975665734667,
+            "total_lower_kg": -3.8219756657346664e-05,
+            "total_upper_kg": -1.7802433426533328e-06
+          },
+          "prediction_kg": 8.574469961605542e-07,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 8,
+          "replay_interval_kg": [
+            8.574468244596215e-07,
+            8.574471678620279e-07
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": -6.776263578034403e-21,
+              "exponential_applications": 7622,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 8.58445164514365e-14,
+              "forward_delivery_kg": 5.8868701223862247e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 5.886870122386225e-05,
+              "response_allowance_kg": 2.235263128436115e-14,
+              "response_identity": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+              "state_identity": "a0d0ee8ad67bdc7e62ce5fd56a813e6f10dbc867e9f81c4d3ace91c233ddf503",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 8.365745603649409e-19,
+              "termination": "COMPLETE"
+            },
+            {
+              "discrepancy_kg": -2.778268066994105e-19,
+              "exponential_applications": 7624,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 8.58548181200882e-14,
+              "forward_delivery_kg": 5.801125422770142e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 5.80112542277017e-05,
+              "response_allowance_kg": 2.2351860477836855e-14,
+              "response_identity": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+              "state_identity": "a0d0ee8ad67bdc7e62ce5fd56a813e6f10dbc867e9f81c4d3ace91c233ddf503",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 8.243895056765169e-19,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.8758670763981575e-05,
+              -1.4610858933650795e-06,
+              -6.000000000000001e-05
+            ],
+            "phase_totals_kg": [
+              2.6758670763981573e-05,
+              1.146108589336508e-05,
+              8e-05
+            ],
+            "phase_upper_kg": [
+              -3.2413292360184276e-06,
+              -3.8538914106634925e-05,
+              0.0
+            ],
+            "total_kg": 0.00011821975665734666,
+            "total_lower_kg": -3.821975665734665e-05,
+            "total_upper_kg": -1.7802433426533464e-06
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.00011821975665734664,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "a0d0ee8ad67bdc7e62ce5fd56a813e6f10dbc867e9f81c4d3ace91c233ddf503",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "minimum": {
+        "gap_kg": 9.076088176442174e-14,
+        "interval_kg": [
+          -9.534715186319658e-08,
+          -9.534706110231481e-08
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -9.534710648300468e-08,
+          "dual_roundoff_allowance_kg": 4.935883455800083e-19,
+          "inequality_duals": {
+            "sha256": "188893ee31f4a92758609d9f500ff67807c7946d322c0ea90fd1d7c04c12bec6",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 0.012946925746134097,
+          "raw_objective_kg": -9.534710648251101e-08,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.7973246786032196,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 4.979759636467235e-19,
+        "response_allowance_kg": 4.538019188206331e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 4.3055206342047005e-21,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.0091603473146938e-22,
+          "masses_kg": {
+            "sha256": "31376e2bbaf38545c35a340fb17dbf919265b8542742f81b4efa3fd9fed7100a",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "a4b7897127403e5975c6eb15f63275dfa5d8cdf0a48ae80143d2810d8fe7aee9",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 1.3234889800848443e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.592302813925905e-06,
+              -3.917636375566998e-05,
+              -2.3133343040415854e-07
+            ],
+            "phase_totals_kg": [
+              1.0592302813925905e-05,
+              4.917636375566998e-05,
+              2.023133343040416e-05
+            ],
+            "phase_upper_kg": [
+              -1.9407697186074096e-05,
+              -8.236362443300233e-07,
+              -5.9768666569595846e-05
+            ],
+            "total_kg": 8.000000000000005e-05,
+            "total_lower_kg": -4.0657581468206416e-20,
+            "total_upper_kg": -3.9999999999999956e-05
+          },
+          "prediction_kg": -9.534710648251101e-08,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 11,
+          "replay_interval_kg": [
+            -9.534722267387295e-08,
+            -9.53469902911232e-08
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": 1.3552527156068805e-20,
+              "exponential_applications": 7622,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 5.809148580824917e-14,
+              "forward_delivery_kg": 4.4739961761516035e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 4.473996176151602e-05,
+              "response_allowance_kg": 1.5126222102299296e-14,
+              "response_identity": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+              "state_identity": "027396df7bf0a31aef8797ec513e16881404a4c7af12f227d2b1ec6e21d74a58",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 6.357930965565973e-19,
+              "termination": "COMPLETE"
+            },
+            {
+              "discrepancy_kg": 0.0,
+              "exponential_applications": 7624,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 5.809845700761076e-14,
+              "forward_delivery_kg": 4.483530886799853e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 4.483530886799853e-05,
+              "response_allowance_kg": 1.5125946341281907e-14,
+              "response_identity": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+              "state_identity": "027396df7bf0a31aef8797ec513e16881404a4c7af12f227d2b1ec6e21d74a58",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 6.371480604343352e-19,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.592302813925905e-06,
+              -3.917636375566998e-05,
+              -2.3133343040415854e-07
+            ],
+            "phase_totals_kg": [
+              1.0592302813925905e-05,
+              4.917636375566998e-05,
+              2.023133343040416e-05
+            ],
+            "phase_upper_kg": [
+              -1.9407697186074096e-05,
+              -8.236362443300233e-07,
+              -5.9768666569595846e-05
+            ],
+            "total_kg": 8.000000000000005e-05,
+            "total_lower_kg": -4.0657581468206416e-20,
+            "total_upper_kg": -3.9999999999999956e-05
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 8.000000000000005e-05,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "027396df7bf0a31aef8797ec513e16881404a4c7af12f227d2b1ec6e21d74a58",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "numerical_status": "NUMERICALLY_QUALIFIED",
+      "opposite_sign_reversal_supported": true,
+      "optimization_calls": 2,
+      "outer_delivery_interval_kg": [
+        -9.534715186319658e-08,
+        8.574470415411578e-07
+      ],
+      "responses": [
+        {
+          "algorithm": "pannusch2024.state_envelope.transpose_local_reward.highs.v1",
+          "algorithm_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+          "arithmetic_floor": 1.890740811686238e-10,
+          "coefficient_allowances": {
+            "sha256": "7bf0f6f484ec041c81b88deda11ac6e9e58a5deea7db8096e24c72c6f6063ce4",
+            "shape": [
+              1200
+            ]
+          },
+          "conditioning_sum": 5151.452824190883,
+          "exponential_applications": 1500,
+          "identity_sha256": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+          "model": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.0,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "5428b25ceb09858dc481f5ab73aa0c3d6a0af967c9eef4867f86459482824f58",
+            "time_s": 7.0
+          },
+          "plan": {
+            "flow_history": {
+              "flows_m3_s": [
+                1.2e-06,
+                2.7e-06,
+                1.8e-06
+              ],
+              "kind": "linear",
+              "times_s": [
+                7.0,
+                10.0,
+                17.0
+              ],
+              "units": "m^3/s"
+            },
+            "plan_identity": "4054fb06ded87f32d63cdb185267bc45ef19cb0d1858d585bf214792feb16c6c",
+            "primary_steps": 500,
+            "settings": {
+              "cells": 400,
+              "diagnostic_step_s": 0.0125,
+              "h_max_s": 0.02,
+              "max_diagnostic_samples": 60000,
+              "max_exponential_applications": 100000,
+              "max_state_values": 30000000,
+              "max_steps": 10000,
+              "wall_time_limit_s": 120.0
+            },
+            "span_s": [
+              7.0,
+              17.0
+            ],
+            "temperature_history": {
+              "kind": "linear",
+              "temperatures_K": [
+                353.15,
+                369.15,
+                360.15
+              ],
+              "times_s": [
+                7.0,
+                11.0,
+                17.0
+              ]
+            }
+          },
+          "response_passes": 2,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "split_discrepancy": 1.1435297153639112e-14,
+          "status": "RESPONSE_QUALIFIED",
+          "termination": "COMPLETE",
+          "volume_m3": 2.16e-05,
+          "weights": {
+            "sha256": "50a3b4cc4ef099c008235ed9c94bc45df13f328a4269541a67aa0fa1e1b75c82",
+            "shape": [
+              1200
+            ]
+          },
+          "window_s": [
+            7.0,
+            17.0
+          ]
+        },
+        {
+          "algorithm": "pannusch2024.state_envelope.transpose_local_reward.highs.v1",
+          "algorithm_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+          "arithmetic_floor": 1.8906080774577288e-10,
+          "coefficient_allowances": {
+            "sha256": "ea01926fd23bd23cc03f589063006e66a450b4eabcbdb0ea9a8651a77ac4a153",
+            "shape": [
+              1200
+            ]
+          },
+          "conditioning_sum": 5150.985807142404,
+          "exponential_applications": 1500,
+          "identity_sha256": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+          "model": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.0,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "5428b25ceb09858dc481f5ab73aa0c3d6a0af967c9eef4867f86459482824f58",
+            "time_s": 7.0
+          },
+          "plan": {
+            "flow_history": {
+              "flows_m3_s": [
+                2.16e-06
+              ],
+              "kind": "constant",
+              "times_s": [
+                7.0,
+                17.0
+              ],
+              "units": "m^3/s"
+            },
+            "plan_identity": "2473855edb4b8d5488a2df7d3541b8167fc78b146d61d30ee868e6a4e2e580e8",
+            "primary_steps": 500,
+            "settings": {
+              "cells": 400,
+              "diagnostic_step_s": 0.0125,
+              "h_max_s": 0.02,
+              "max_diagnostic_samples": 60000,
+              "max_exponential_applications": 100000,
+              "max_state_values": 30000000,
+              "max_steps": 10000,
+              "wall_time_limit_s": 120.0
+            },
+            "span_s": [
+              7.0,
+              17.0
+            ],
+            "temperature_history": {
+              "kind": "linear",
+              "temperatures_K": [
+                369.15,
+                357.15,
+                365.15
+              ],
+              "times_s": [
+                7.0,
+                9.5,
+                17.0
+              ]
+            }
+          },
+          "response_passes": 2,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "split_discrepancy": 2.5202062658991053e-14,
+          "status": "RESPONSE_QUALIFIED",
+          "termination": "COMPLETE",
+          "volume_m3": 2.16e-05,
+          "weights": {
+            "sha256": "19a8b93c8a52e65eb3fad8d2999bbcf06c337b3bb28ea559a3a44c3c97249b1b",
+            "shape": [
+              1200
+            ]
+          },
+          "window_s": [
+            7.0,
+            17.0
+          ]
+        }
+      ],
+      "scope": "RESEARCH_ONLY",
+      "state_set": {
+        "assumption_label": "PREDECLARED_SYNTHETIC_U_005",
+        "capacities_m3": {
+          "sha256": "964ea2ee6d71d7aa418f56145c960cea9348fa3e91b8ccd3fc07688196f7ec78",
+          "shape": [
+            1200
+          ]
+        },
+        "feasibility": "ESTABLISHED_NONEMPTY",
+        "identity_sha256": "f79804180d765aecfe2b4cbf7c5ca535c65400f82abe4ace6b2845734dd8fc49",
+        "inventory_scale_kg": 0.00012,
+        "inventory_units": "kg",
+        "lower": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 1.2643380443660694e-05,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "d072039a5d69926b565f7fc4028dfed5e582ab666c0d70f585828f1f51cb926a",
+          "time_s": 7.0
+        },
+        "lower_masses_kg": {
+          "sha256": "0d7c3fb92c435915f78c657e7ba4c5bc37c1595a7ad0f05d60c56249a18051e0",
+          "shape": [
+            1200
+          ]
+        },
+        "phase_inventory_kg": [
+          [
+            8e-06,
+            3e-05
+          ],
+          [
+            1e-05,
+            5e-05
+          ],
+          [
+            2e-05,
+            8e-05
+          ]
+        ],
+        "total_inventory_kg": [
+          8e-05,
+          0.00012
+        ],
+        "upper": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 0.00017067608487231003,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "daa19a3befa7de4861776122b35bb55fb6a5e63b35167eb46aebd092bf3fea9c",
+          "time_s": 7.0
+        },
+        "upper_masses_kg": {
+          "sha256": "0ab378fb9bb9e78678468efbd23ee5cb0dc38a4f8f2f56f90acdbd45806182fd",
+          "shape": [
+            1200
+          ]
+        }
+      },
+      "termination": "COMPLETE",
+      "volume_difference_m3": 0.0,
+      "volume_match_allowance_m3": 3.069544618483633e-19
+    },
+    "A-timing-repeat": {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "certificate_kind": "ENGINEERING_ENCLOSURE_NOT_RIGOROUS_INTERVAL_ARITHMETIC",
+      "comparison_basis": null,
+      "concentration_interval_kg_m3": [
+        1.2364452049225754,
+        3.3982401081953317
+      ],
+      "decision_status": "NOT_A_DECISION_QUERY",
+      "delta_kg": null,
+      "discretization_status": "NOT_INCLUDED_IN_FIXED_OPERATOR_ENCLOSURE",
+      "epsilon_kg": 1e-09,
+      "forward_calls": 0,
+      "kind": "DELIVERY_ENVELOPE",
+      "material_reversal_supported": false,
+      "maximum": {
+        "gap_kg": 4.5437761084059225e-14,
+        "interval_kg": [
+          7.34019862915814e-05,
+          7.340198633701916e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -7.340198631432889e-05,
+          "dual_roundoff_allowance_kg": 5.614481342780419e-17,
+          "inequality_duals": {
+            "sha256": "ecda8aeb6268694ddc6b96ac6c61ff16b24e4dd99598d7b09b11fd180f498e9c",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 3,
+          "objective_scale": 0.9994099062666046,
+          "raw_objective_kg": -7.340198631427272e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.6153099335619583,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.720521712576643e-17,
+        "response_allowance_kg": 2.2690261975893294e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.0431049633193755e-18,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 3.8712052667481695e-21,
+          "masses_kg": {
+            "sha256": "591d1353193094a6617bfa66a970d0e8d70752d2cee752047e261b712f62c380",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "41d1c8897e252cac8e76571d56a13cae67dcd7b77ee83719831433b842ba6684",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2000000000000006e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3.0000000000000004e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              3.3881317890172014e-21,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "prediction_kg": 7.340198631427272e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 14,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.00011999999999999999,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "minimum": {
+        "gap_kg": 4.5436104287614396e-14,
+        "interval_kg": [
+          2.6707216426327628e-05,
+          2.6707216471763732e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": 2.6707216449017892e-05,
+          "dual_roundoff_allowance_kg": 5.5183932720472514e-17,
+          "inequality_duals": {
+            "sha256": "6ad0376d7f88bfc1f22bfd27bc7eca12b2e0a38bbf0511e9913eb6689f2d5cbf",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 4,
+          "objective_scale": 0.9994099062666046,
+          "raw_objective_kg": 2.670721644907309e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.4837434520068543,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.557552573524915e-17,
+        "response_allowance_kg": 2.2690261975893294e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 3.795323728052308e-19,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 2.357464745776129e-22,
+          "masses_kg": {
+            "sha256": "f1805500315ed4baa34313f3b5162ca262b60df003ac3e0ec763a99e765b6110",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "40195d4bba2f4cc075611e7031f63c2438737bceb86eb0623e05d908e5b0084e",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 2.670721644907309e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 7,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 8.000000000000003e-05,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "numerical_status": "WITNESS_REPLAY_REQUIRED",
+      "opposite_sign_reversal_supported": false,
+      "optimization_calls": 2,
+      "outer_delivery_interval_kg": [
+        2.6707216426327628e-05,
+        7.340198633701916e-05
+      ],
+      "responses": [
+        {
+          "algorithm": "pannusch2024.state_envelope.transpose_local_reward.highs.v1",
+          "algorithm_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+          "arithmetic_floor": 1.890740811686238e-10,
+          "coefficient_allowances": {
+            "sha256": "7bf0f6f484ec041c81b88deda11ac6e9e58a5deea7db8096e24c72c6f6063ce4",
+            "shape": [
+              1200
+            ]
+          },
+          "conditioning_sum": 5151.452824190883,
+          "exponential_applications": 1500,
+          "identity_sha256": "e8a3c351c8d3d44bc6a8c0a110df27cc4589a6fe2c66936b3eef461370cb9020",
+          "model": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.0,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "5428b25ceb09858dc481f5ab73aa0c3d6a0af967c9eef4867f86459482824f58",
+            "time_s": 7.0
+          },
+          "plan": {
+            "flow_history": {
+              "flows_m3_s": [
+                1.2e-06,
+                2.7e-06,
+                1.8e-06
+              ],
+              "kind": "linear",
+              "times_s": [
+                7.0,
+                10.0,
+                17.0
+              ],
+              "units": "m^3/s"
+            },
+            "plan_identity": "4054fb06ded87f32d63cdb185267bc45ef19cb0d1858d585bf214792feb16c6c",
+            "primary_steps": 500,
+            "settings": {
+              "cells": 400,
+              "diagnostic_step_s": 0.0125,
+              "h_max_s": 0.02,
+              "max_diagnostic_samples": 60000,
+              "max_exponential_applications": 100000,
+              "max_state_values": 30000000,
+              "max_steps": 10000,
+              "wall_time_limit_s": 120.0
+            },
+            "span_s": [
+              7.0,
+              17.0
+            ],
+            "temperature_history": {
+              "kind": "linear",
+              "temperatures_K": [
+                353.15,
+                369.15,
+                360.15
+              ],
+              "times_s": [
+                7.0,
+                11.0,
+                17.0
+              ]
+            }
+          },
+          "response_passes": 2,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "split_discrepancy": 1.1435297153639112e-14,
+          "status": "RESPONSE_QUALIFIED",
+          "termination": "COMPLETE",
+          "volume_m3": 2.16e-05,
+          "weights": {
+            "sha256": "50a3b4cc4ef099c008235ed9c94bc45df13f328a4269541a67aa0fa1e1b75c82",
+            "shape": [
+              1200
+            ]
+          },
+          "window_s": [
+            7.0,
+            17.0
+          ]
+        }
+      ],
+      "scope": "RESEARCH_ONLY",
+      "state_set": {
+        "assumption_label": "PREDECLARED_SYNTHETIC_U_005",
+        "capacities_m3": {
+          "sha256": "964ea2ee6d71d7aa418f56145c960cea9348fa3e91b8ccd3fc07688196f7ec78",
+          "shape": [
+            1200
+          ]
+        },
+        "feasibility": "ESTABLISHED_NONEMPTY",
+        "identity_sha256": "f79804180d765aecfe2b4cbf7c5ca535c65400f82abe4ace6b2845734dd8fc49",
+        "inventory_scale_kg": 0.00012,
+        "inventory_units": "kg",
+        "lower": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 1.2643380443660694e-05,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "d072039a5d69926b565f7fc4028dfed5e582ab666c0d70f585828f1f51cb926a",
+          "time_s": 7.0
+        },
+        "lower_masses_kg": {
+          "sha256": "0d7c3fb92c435915f78c657e7ba4c5bc37c1595a7ad0f05d60c56249a18051e0",
+          "shape": [
+            1200
+          ]
+        },
+        "phase_inventory_kg": [
+          [
+            8e-06,
+            3e-05
+          ],
+          [
+            1e-05,
+            5e-05
+          ],
+          [
+            2e-05,
+            8e-05
+          ]
+        ],
+        "total_inventory_kg": [
+          8e-05,
+          0.00012
+        ],
+        "upper": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 0.00017067608487231003,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "daa19a3befa7de4861776122b35bb55fb6a5e63b35167eb46aebd092bf3fea9c",
+          "time_s": 7.0
+        },
+        "upper_masses_kg": {
+          "sha256": "0ab378fb9bb9e78678468efbd23ee5cb0dc38a4f8f2f56f90acdbd45806182fd",
+          "shape": [
+            1200
+          ]
+        }
+      },
+      "termination": "FRESH_PRIMARY_WITNESS_REPLAYS_REQUIRED",
+      "volume_difference_m3": null,
+      "volume_match_allowance_m3": null
+    },
+    "B": {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "certificate_kind": "ENGINEERING_ENCLOSURE_NOT_RIGOROUS_INTERVAL_ARITHMETIC",
+      "comparison_basis": null,
+      "concentration_interval_kg_m3": [
+        1.2222019196113654,
+        3.3782937024123716
+      ],
+      "decision_status": "NOT_A_DECISION_QUERY",
+      "delta_kg": null,
+      "discretization_status": "NOT_INCLUDED_IN_FIXED_OPERATOR_ENCLOSURE",
+      "epsilon_kg": 1e-09,
+      "forward_calls": 2,
+      "kind": "DELIVERY_ENVELOPE",
+      "material_reversal_supported": false,
+      "maximum": {
+        "gap_kg": 4.543709701022858e-14,
+        "interval_kg": [
+          7.297114392667013e-05,
+          7.297114397210723e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -7.29711439494169e-05,
+          "dual_roundoff_allowance_kg": 5.5363340102503314e-17,
+          "inequality_duals": {
+            "sha256": "b319fd51848a9a7481860d64b6e4b5bf8c06a49cf25f597763a8dffdeac86a4b",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 3,
+          "objective_scale": 0.9992614327991796,
+          "raw_objective_kg": -7.297114394936151e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.6238783403853543,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.64327230778705e-17,
+        "response_allowance_kg": 2.2690321177011828e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.0369823250664681e-18,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 3.8712052667481695e-21,
+          "masses_kg": {
+            "sha256": "591d1353193094a6617bfa66a970d0e8d70752d2cee752047e261b712f62c380",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "41d1c8897e252cac8e76571d56a13cae67dcd7b77ee83719831433b842ba6684",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2000000000000006e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3.0000000000000004e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              3.3881317890172014e-21,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "prediction_kg": 7.297114394936151e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 14,
+          "replay_interval_kg": [
+            7.297114386221233e-05,
+            7.297114403651006e-05
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": -3.1170812458958252e-19,
+              "exponential_applications": 7624,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 8.714768551141608e-14,
+              "forward_delivery_kg": 7.29711439493612e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 7.297114394936151e-05,
+              "response_allowance_kg": 2.268882036136304e-14,
+              "response_identity": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+              "state_identity": "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 1.0369823250664681e-18,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -3.917636375566998e-05,
+              -2.082363624433001e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              4.917636375566998e-05,
+              4.082363624433001e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -8.236362443300233e-07,
+              -3.9176363755669994e-05
+            ],
+            "total_kg": 0.00011999999999999999,
+            "total_lower_kg": -3.999999999999998e-05,
+            "total_upper_kg": -1.3552527156068805e-20
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.00011999999999999999,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "9ee64ee947edf1c9cfe255a3f44e6ab263d64245764639c156a4fd00014fdddc",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "minimum": {
+        "gap_kg": 4.5435660442350034e-14,
+        "interval_kg": [
+          2.639956146360549e-05,
+          2.639956150904115e-05
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": 2.6399561486295815e-05,
+          "dual_roundoff_allowance_kg": 5.462369228006791e-17,
+          "inequality_duals": {
+            "sha256": "9b9efd4d7157d638e504a0f6285ce1b4fd3233b57743611307de215dcaffb344",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 4,
+          "objective_scale": 0.9992614327991796,
+          "raw_objective_kg": 2.639956148635045e-05,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.4751224961572602,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.500970772648328e-17,
+        "response_allowance_kg": 2.2690321177011828e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 3.751603328275685e-19,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 2.357464745776129e-22,
+          "masses_kg": {
+            "sha256": "f1805500315ed4baa34313f3b5162ca262b60df003ac3e0ec763a99e765b6110",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "40195d4bba2f4cc075611e7031f63c2438737bceb86eb0623e05d908e5b0084e",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 2.639956148635045e-05,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 7,
+          "replay_interval_kg": [
+            2.6399561428251415e-05,
+            2.6399561544449177e-05
+          ],
+          "replays": [
+            {
+              "discrepancy_kg": -1.5246593050577406e-19,
+              "exponential_applications": 7624,
+              "forward_actual_end_s": 17.0,
+              "forward_arithmetic_allowance_kg": 5.809845700761075e-14,
+              "forward_delivery_kg": 2.6399561486350296e-05,
+              "forward_reason": null,
+              "forward_status": "COMPLETE",
+              "forward_window_status": "NUMERICAL_ONLY_ACCURACY_NOT_ASSESSED",
+              "parent_accuracy": "NOT_ASSESSED",
+              "prediction_kg": 2.639956148635045e-05,
+              "response_allowance_kg": 1.5125625766922592e-14,
+              "response_identity": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+              "state_identity": "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+              "status": "REPLAY_QUALIFIED",
+              "summation_conversion_allowance_kg": 3.751603328275685e-19,
+              "termination": "COMPLETE"
+            }
+          ],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -3.3881317890172014e-21,
+              -3.3881317890172014e-21,
+              -4.200000000000003e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000003e-06,
+              1.0000000000000004e-05,
+              6.200000000000003e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -3.9999999999999996e-05,
+              -1.7999999999999977e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 8.000000000000003e-05,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "f7b2d0af4bd6d6c942a81f78123fd48581376dca89bbcbc43e89814daf81fbe6",
+            "time_s": 7.0
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "numerical_status": "NUMERICALLY_QUALIFIED",
+      "opposite_sign_reversal_supported": false,
+      "optimization_calls": 2,
+      "outer_delivery_interval_kg": [
+        2.639956146360549e-05,
+        7.297114397210723e-05
+      ],
+      "responses": [
+        {
+          "algorithm": "pannusch2024.state_envelope.transpose_local_reward.highs.v1",
+          "algorithm_source_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+          "arithmetic_floor": 1.8906080774577288e-10,
+          "coefficient_allowances": {
+            "sha256": "ea01926fd23bd23cc03f589063006e66a450b4eabcbdb0ea9a8651a77ac4a153",
+            "shape": [
+              1200
+            ]
+          },
+          "conditioning_sum": 5150.985807142404,
+          "exponential_applications": 1500,
+          "identity_sha256": "b83db9f7322d524d4bd3a0282aecd23ad8518a40893aa2ef8e36ab8d65254864",
+          "model": {
+            "cells": 400,
+            "grind": 1.7,
+            "inventory_kg": 0.0,
+            "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+            "solute": "caffeine",
+            "state_identity": "5428b25ceb09858dc481f5ab73aa0c3d6a0af967c9eef4867f86459482824f58",
+            "time_s": 7.0
+          },
+          "plan": {
+            "flow_history": {
+              "flows_m3_s": [
+                2.16e-06
+              ],
+              "kind": "constant",
+              "times_s": [
+                7.0,
+                17.0
+              ],
+              "units": "m^3/s"
+            },
+            "plan_identity": "2473855edb4b8d5488a2df7d3541b8167fc78b146d61d30ee868e6a4e2e580e8",
+            "primary_steps": 500,
+            "settings": {
+              "cells": 400,
+              "diagnostic_step_s": 0.0125,
+              "h_max_s": 0.02,
+              "max_diagnostic_samples": 60000,
+              "max_exponential_applications": 100000,
+              "max_state_values": 30000000,
+              "max_steps": 10000,
+              "wall_time_limit_s": 120.0
+            },
+            "span_s": [
+              7.0,
+              17.0
+            ],
+            "temperature_history": {
+              "kind": "linear",
+              "temperatures_K": [
+                369.15,
+                357.15,
+                365.15
+              ],
+              "times_s": [
+                7.0,
+                9.5,
+                17.0
+              ]
+            }
+          },
+          "response_passes": 2,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "split_discrepancy": 2.5202062658991053e-14,
+          "status": "RESPONSE_QUALIFIED",
+          "termination": "COMPLETE",
+          "volume_m3": 2.16e-05,
+          "weights": {
+            "sha256": "19a8b93c8a52e65eb3fad8d2999bbcf06c337b3bb28ea559a3a44c3c97249b1b",
+            "shape": [
+              1200
+            ]
+          },
+          "window_s": [
+            7.0,
+            17.0
+          ]
+        }
+      ],
+      "scope": "RESEARCH_ONLY",
+      "state_set": {
+        "assumption_label": "PREDECLARED_SYNTHETIC_U_005",
+        "capacities_m3": {
+          "sha256": "964ea2ee6d71d7aa418f56145c960cea9348fa3e91b8ccd3fc07688196f7ec78",
+          "shape": [
+            1200
+          ]
+        },
+        "feasibility": "ESTABLISHED_NONEMPTY",
+        "identity_sha256": "f79804180d765aecfe2b4cbf7c5ca535c65400f82abe4ace6b2845734dd8fc49",
+        "inventory_scale_kg": 0.00012,
+        "inventory_units": "kg",
+        "lower": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 1.2643380443660694e-05,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "d072039a5d69926b565f7fc4028dfed5e582ab666c0d70f585828f1f51cb926a",
+          "time_s": 7.0
+        },
+        "lower_masses_kg": {
+          "sha256": "0d7c3fb92c435915f78c657e7ba4c5bc37c1595a7ad0f05d60c56249a18051e0",
+          "shape": [
+            1200
+          ]
+        },
+        "phase_inventory_kg": [
+          [
+            8e-06,
+            3e-05
+          ],
+          [
+            1e-05,
+            5e-05
+          ],
+          [
+            2e-05,
+            8e-05
+          ]
+        ],
+        "total_inventory_kg": [
+          8e-05,
+          0.00012
+        ],
+        "upper": {
+          "cells": 400,
+          "grind": 1.7,
+          "inventory_kg": 0.00017067608487231003,
+          "model_identity": "8a85bab0650eac41f193f598bacfbb3b41843199568fce9c463638cac2fbbf63",
+          "solute": "caffeine",
+          "state_identity": "daa19a3befa7de4861776122b35bb55fb6a5e63b35167eb46aebd092bf3fea9c",
+          "time_s": 7.0
+        },
+        "upper_masses_kg": {
+          "sha256": "0ab378fb9bb9e78678468efbd23ee5cb0dc38a4f8f2f56f90acdbd45806182fd",
+          "shape": [
+            1200
+          ]
+        }
+      },
+      "termination": "COMPLETE",
+      "volume_difference_m3": null,
+      "volume_match_allowance_m3": null
+    }
+  },
+  "source_code_sha256": "ff03a59d88ce9d9d01e2a3624a8c6a2d0fc9b37bdd2a34b62ecf7c22d1f2ca6b",
+  "source_species": "caffeine",
+  "state_set_identity": "f79804180d765aecfe2b4cbf7c5ca535c65400f82abe4ace6b2845734dd8fc49",
+  "task": "MODEL-PANNUSCH2024-STATE-ENVELOPE-005",
+  "temporal": [
+    {
+      "coarse_h_s": 0.02,
+      "fine_h_s": 0.01,
+      "functional": "A",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 1.009921193847789e-13,
+        "interval_kg": [
+          2.9377897485769008e-12,
+          3.0387818679616797e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -2.9882858082713445e-12,
+          "dual_roundoff_allowance_kg": 4.042963344717628e-24,
+          "inequality_duals": {
+            "sha256": "8fb8a17a0dbf783bb155c6794972dbeae5f79ef76a1006ede6f247a046762d06",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 5,
+          "objective_scale": 1.9297940179185957e-07,
+          "raw_objective_kg": -2.9882858082673006e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.0134884996382048,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 4.1084380814889636e-24,
+        "response_allowance_kg": 5.0496059690335014e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 6.462202019963947e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 9.926167350636332e-23,
+          "masses_kg": {
+            "sha256": "c51407d4baee132edd252065efb35eab907adeb6eb8e2e2fa2770a0219ecf2a5",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "e29ac3ac5ebe501fd3552decb8d862dc291271f4e26612db54ad645911972aaa",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 1.3234889800848443e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -2.0000000000000025e-05,
+              -3.3881317890172014e-21
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              3.0000000000000028e-05,
+              2.0000000000000005e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -1.9999999999999975e-05,
+              -6e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 2.9882858082673006e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 9,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -2.0000000000000025e-05,
+              -3.3881317890172014e-21
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              3.0000000000000028e-05,
+              2.0000000000000005e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -1.9999999999999975e-05,
+              -6e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "identity": "657437d37541e6a3dff558f514cfd33c7e127dd307cfd3f7d03b65d4d8e35ed0",
+            "inventory_kg": 8.000000000000003e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        4.527548032341344e-12,
+        4.628540151726687e-12
+      ],
+      "minimum": {
+        "gap_kg": 1.0099211938534273e-13,
+        "interval_kg": [
+          -4.628540151726687e-12,
+          -4.527548032341344e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -4.5780440920363515e-12,
+          "dual_roundoff_allowance_kg": 4.592847873706681e-24,
+          "inequality_duals": {
+            "sha256": "51c76e1ae384ff8ed5aad592ae911ac20271dd1a8020c93281a4bdd13655ecc6",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 1.9297940179185957e-07,
+          "raw_objective_kg": -4.578044092031758e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.7829509772755524,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 4.671470197650546e-24,
+        "response_allowance_kg": 5.0496059690335014e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 7.764670619498075e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.3927653563861603e-20,
+          "masses_kg": {
+            "sha256": "d38fb81457004bb0d19a2420be5bba4ca85819aebe302b195665226b29afabb9",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "9259d58b298e2d1ae3da2a0c1a1578b5955e68f4de1e0b9a898a12a85b33478c",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              0.0,
+              -1.673951539424313e-05,
+              -6.000000000000002e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              2.673951539424313e-05,
+              8.000000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.326048460575687e-05,
+              1.3552527156068805e-20
+            ],
+            "total_kg": 0.00011473951539424315,
+            "total_lower_kg": -3.4739515394243146e-05,
+            "total_upper_kg": -5.26048460575685e-06
+          },
+          "prediction_kg": -4.5780440920317575e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 10,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              0.0,
+              -1.673951539424313e-05,
+              -6.000000000000001e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              2.673951539424313e-05,
+              8e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.326048460575687e-05,
+              0.0
+            ],
+            "total_kg": 0.00011473951539424314,
+            "total_lower_kg": -3.473951539424313e-05,
+            "total_upper_kg": -5.2604846057568636e-06
+          },
+          "state": {
+            "identity": "8da2e778f0f658d091f823c204ae4bcd53bd9edfa2408b5617330394edbbd088",
+            "inventory_kg": 0.00011473951539424313
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "coarse_h_s": 0.02,
+      "fine_h_s": 0.01,
+      "functional": "B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 1.0098971421601263e-13,
+        "interval_kg": [
+          5.8115155009461966e-12,
+          5.912505215162209e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -5.862010358057009e-12,
+          "dual_roundoff_allowance_kg": 5.520809434575402e-24,
+          "inequality_duals": {
+            "sha256": "a5d72336614065e5d5570fe499e756cf176fa90300740365e07e16aaaf22ba1b",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 5,
+          "objective_scale": 2.2134510890836623e-07,
+          "raw_objective_kg": -5.862010358051487e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.44409258867748125,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 5.612549703143004e-24,
+        "response_allowance_kg": 5.0494857105198847e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 9.072707551358018e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 3.7810425799798895e-21,
+          "masses_kg": {
+            "sha256": "04675810668007bbd6f5c2c111984fcc21db53d4bfa8ed14add7ea610ed58eae",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "3cae0f7afa663496621912fb4af943e594e493aa8e1ad6b5668e24848a2e8fc6",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2000000000000006e-05,
+              -5.082197683525802e-21,
+              -2.000000000000003e-05
+            ],
+            "phase_totals_kg": [
+              3.0000000000000004e-05,
+              1.0000000000000006e-05,
+              4.000000000000003e-05
+            ],
+            "phase_upper_kg": [
+              3.3881317890172014e-21,
+              -3.9999999999999996e-05,
+              -3.9999999999999976e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 5.862010358051487e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 12,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -5.082197683525802e-21,
+              -2.000000000000003e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              1.0000000000000006e-05,
+              4.000000000000003e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -3.9999999999999996e-05,
+              -3.9999999999999976e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "identity": "05e7508f4ecbb80ed6217be94f351eaa516cd7f860f8da829a2e3f4619c88e21",
+            "inventory_kg": 8.000000000000003e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        5.8115155009461966e-12,
+        5.912505215162209e-12
+      ],
+      "minimum": {
+        "gap_kg": 1.0098971421535185e-13,
+        "interval_kg": [
+          -2.3450699452536653e-12,
+          -2.2440802310383135e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -2.294575088148466e-12,
+          "dual_roundoff_allowance_kg": 4.8820638013865745e-24,
+          "inequality_duals": {
+            "sha256": "673da1351d1e62786674787771a239cc5fa25ebf4ba41040897dbe228ee70dcd",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 2.2134510890836623e-07,
+          "raw_objective_kg": -2.2945750881435838e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.3862747555486672,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 4.95339015251481e-24,
+        "response_allowance_kg": 5.0494857105198847e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 7.066694117623235e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 6.814148450089331e-20,
+          "masses_kg": {
+            "sha256": "f1441d7ebeb3fd4d5e47083cdbce3b5b51a5ca77dcad94bd79f59c4c40184382",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "14deb2b33e6eecc13ef7c128184d23cc2a409467467fa96d38bf094085576463",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.6940658945086007e-21,
+              -3.756613573795223e-05,
+              -4.443386426204783e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000001e-06,
+              4.756613573795223e-05,
+              6.443386426204783e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.433864262047774e-06,
+              -1.5566135737952175e-05
+            ],
+            "total_kg": 0.00012000000000000007,
+            "total_lower_kg": -4.0000000000000064e-05,
+            "total_upper_kg": 6.776263578034403e-20
+          },
+          "prediction_kg": -2.2945750881435834e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 11,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.6940658945086007e-21,
+              -3.756613573795223e-05,
+              -4.4433864262047765e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000001e-06,
+              4.756613573795223e-05,
+              6.443386426204776e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.433864262047774e-06,
+              -1.5566135737952243e-05
+            ],
+            "total_kg": 0.00012,
+            "total_lower_kg": -3.9999999999999996e-05,
+            "total_upper_kg": 0.0
+          },
+          "state": {
+            "identity": "021ef22ada727bac112d66b5617a4bc6f9dbc71cc3bb74f4eecd5f0f93db1a2a",
+            "inventory_kg": 0.00011999999999999999
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "coarse_h_s": 0.02,
+      "fine_h_s": 0.01,
+      "functional": "A-minus-B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 2.0197996644328902e-13,
+        "interval_kg": [
+          1.879560480542861e-12,
+          2.08154044698615e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.980550463766309e-12,
+          "dual_roundoff_allowance_kg": 3.558221698166332e-24,
+          "inequality_duals": {
+            "sha256": "bc260ae103adcf7b4696c8376fa16356aeb8778ac73a5ec94749f6daf18c44ce",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 1.9757064106951105e-07,
+          "raw_objective_kg": -1.9805504637627497e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.9376149967702292,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 3.606798276415301e-24,
+        "response_allowance_kg": 1.0098998321984056e-13,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 4.767794932393092e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.0091603473146938e-22,
+          "masses_kg": {
+            "sha256": "14a3feec5f60bed0b74522721310c7e235fac66c54eab1736ba05f5a3297780d",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "cd71cdd5903f82d5809221f35789bf35ec82dfdfd7fbe1673adaaa1dcbb47dba",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 1.3234889800848443e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.1661414613348904e-07,
+              -3.917636375566998e-05,
+              -2.6070220981965914e-06
+            ],
+            "phase_totals_kg": [
+              8.216614146133489e-06,
+              4.917636375566998e-05,
+              2.2607022098196593e-05
+            ],
+            "phase_upper_kg": [
+              -2.1783385853866512e-05,
+              -8.236362443300233e-07,
+              -5.7392977901803414e-05
+            ],
+            "total_kg": 8.000000000000006e-05,
+            "total_lower_kg": -5.421010862427522e-20,
+            "total_upper_kg": -3.999999999999994e-05
+          },
+          "prediction_kg": 1.9805504637627497e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 11,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.1661414613348904e-07,
+              -3.917636375566998e-05,
+              -2.6070220981965914e-06
+            ],
+            "phase_totals_kg": [
+              8.216614146133489e-06,
+              4.917636375566998e-05,
+              2.2607022098196593e-05
+            ],
+            "phase_upper_kg": [
+              -2.1783385853866512e-05,
+              -8.236362443300233e-07,
+              -5.7392977901803414e-05
+            ],
+            "total_kg": 8.000000000000006e-05,
+            "total_lower_kg": -5.421010862427522e-20,
+            "total_upper_kg": -3.999999999999994e-05
+          },
+          "state": {
+            "identity": "e1d2d79f73e58033241eae5ae99efd5f880b3f9a8d4d20b2df393f636e13a20c",
+            "inventory_kg": 8.000000000000006e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        6.297823863134052e-12,
+        6.4998038295774705e-12
+      ],
+      "minimum": {
+        "gap_kg": 2.0197996644341827e-13,
+        "interval_kg": [
+          -6.4998038295774705e-12,
+          -6.297823863134052e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -6.398813846357629e-12,
+          "dual_roundoff_allowance_kg": 3.633493156808637e-24,
+          "inequality_duals": {
+            "sha256": "6bd6db82599c2a8425e917efda2be14b414c082804ea3db02228abb5fe25e6de",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 1.9757064106951105e-07,
+          "raw_objective_kg": -6.398813846353995e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.0,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 3.736045247126712e-24,
+        "response_allowance_kg": 1.0098998321984056e-13,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.0027196965809713e-25,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.3939234092437346e-20,
+          "masses_kg": {
+            "sha256": "fc947d6c9998f9ec9d5b8aa35849c374a864031ddd84aaecf8919bb0c7b74a9c",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "31b2aafe9f9abaa7f3c4b74cb0d91c22881c2f2287e2f6cc616b6bb0a14d50b6",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.7647015847314335e-05,
+              -5.082197683525802e-21,
+              -6.000000000000002e-05
+            ],
+            "phase_totals_kg": [
+              2.5647015847314333e-05,
+              1.0000000000000006e-05,
+              8.000000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -4.352984152685668e-06,
+              -3.9999999999999996e-05,
+              1.3552527156068805e-20
+            ],
+            "total_kg": 0.00011564701584731436,
+            "total_lower_kg": -3.564701584731435e-05,
+            "total_upper_kg": -4.352984152685644e-06
+          },
+          "prediction_kg": -6.3988138463539935e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 8,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.7647015847314335e-05,
+              -5.082197683525802e-21,
+              -6.000000000000001e-05
+            ],
+            "phase_totals_kg": [
+              2.5647015847314333e-05,
+              1.0000000000000006e-05,
+              8e-05
+            ],
+            "phase_upper_kg": [
+              -4.352984152685668e-06,
+              -3.9999999999999996e-05,
+              0.0
+            ],
+            "total_kg": 0.00011564701584731435,
+            "total_lower_kg": -3.564701584731434e-05,
+            "total_upper_kg": -4.352984152685658e-06
+          },
+          "state": {
+            "identity": "3d4265632e917d6e20ce14ded76726f9297c7d68cc5d4568cc6e4dca41dbd1b3",
+            "inventory_kg": 0.00011564701584731433
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "coarse_h_s": 0.01,
+      "fine_h_s": 0.005,
+      "functional": "A",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 1.316883479588477e-13,
+        "interval_kg": [
+          6.812310106581864e-13,
+          8.129193586170341e-13
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -7.470751846381237e-13,
+          "dual_roundoff_allowance_kg": 1.0107157119929643e-24,
+          "inequality_duals": {
+            "sha256": "6b91dca2ecd71ef8a3cda50e67e208d8a69db1fd0db584554a1d1f5197af2372",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 5,
+          "objective_scale": 4.824413313286868e-08,
+          "raw_objective_kg": -7.47075184637113e-13,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.0135272261631558,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 1.0269075719805043e-24,
+        "response_allowance_kg": 6.584417397891027e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.61555719102296e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 9.926167350636332e-23,
+          "masses_kg": {
+            "sha256": "c51407d4baee132edd252065efb35eab907adeb6eb8e2e2fa2770a0219ecf2a5",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "e29ac3ac5ebe501fd3552decb8d862dc291271f4e26612db54ad645911972aaa",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 1.3234889800848443e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -2.0000000000000025e-05,
+              -3.3881317890172014e-21
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              3.0000000000000028e-05,
+              2.0000000000000005e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -1.9999999999999975e-05,
+              -6e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 7.47075184637113e-13,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 9,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -2.0000000000000025e-05,
+              -3.3881317890172014e-21
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              3.0000000000000028e-05,
+              2.0000000000000005e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -1.9999999999999975e-05,
+              -6e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "identity": "657437d37541e6a3dff558f514cfd33c7e127dd307cfd3f7d03b65d4d8e35ed0",
+            "inventory_kg": 8.000000000000003e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        1.0786653993861133e-12,
+        1.2103537473451024e-12
+      ],
+      "minimum": {
+        "gap_kg": 1.3168834795898906e-13,
+        "interval_kg": [
+          -1.2103537473451024e-12,
+          -1.0786653993861133e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.144509573366192e-12,
+          "dual_roundoff_allowance_kg": 1.1482167604452003e-24,
+          "inequality_duals": {
+            "sha256": "2ebab0c5e06d0a2f6691201aef366d51f4d67b5e0a179a6caf011380f30bef55",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 4.824413313286868e-08,
+          "raw_objective_kg": -1.1445095733650435e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.7829423852819499,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 1.1682714461961096e-24,
+        "response_allowance_kg": 6.584417397891027e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.94117011759989e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.3927653563861603e-20,
+          "masses_kg": {
+            "sha256": "d38fb81457004bb0d19a2420be5bba4ca85819aebe302b195665226b29afabb9",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "9259d58b298e2d1ae3da2a0c1a1578b5955e68f4de1e0b9a898a12a85b33478c",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              0.0,
+              -1.673951539424313e-05,
+              -6.000000000000002e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              2.673951539424313e-05,
+              8.000000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.326048460575687e-05,
+              1.3552527156068805e-20
+            ],
+            "total_kg": 0.00011473951539424315,
+            "total_lower_kg": -3.4739515394243146e-05,
+            "total_upper_kg": -5.26048460575685e-06
+          },
+          "prediction_kg": -1.144509573365043e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 10,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              0.0,
+              -1.673951539424313e-05,
+              -6.000000000000001e-05
+            ],
+            "phase_totals_kg": [
+              8e-06,
+              2.673951539424313e-05,
+              8e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.326048460575687e-05,
+              0.0
+            ],
+            "total_kg": 0.00011473951539424314,
+            "total_lower_kg": -3.473951539424313e-05,
+            "total_upper_kg": -5.2604846057568636e-06
+          },
+          "state": {
+            "identity": "8da2e778f0f658d091f823c204ae4bcd53bd9edfa2408b5617330394edbbd088",
+            "inventory_kg": 0.00011473951539424313
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "coarse_h_s": 0.01,
+      "fine_h_s": 0.005,
+      "functional": "B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 1.316957005559135e-13,
+        "interval_kg": [
+          1.3996603347791411e-12,
+          1.5313560353350547e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.4655081850577996e-12,
+          "dual_roundoff_allowance_kg": 1.3802095803590926e-24,
+          "inequality_duals": {
+            "sha256": "8b261da7397da7222eada51c4e8ddd97722b0e112d4443d67edf23a29aba771b",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 5,
+          "objective_scale": 5.533639824140124e-08,
+          "raw_objective_kg": -1.4655081850564189e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.44409264071946974,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 1.4033393741774876e-24,
+        "response_allowance_kg": 6.584785027725497e-14,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 2.268187845908874e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 3.7810425799798895e-21,
+          "masses_kg": {
+            "sha256": "04675810668007bbd6f5c2c111984fcc21db53d4bfa8ed14add7ea610ed58eae",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "3cae0f7afa663496621912fb4af943e594e493aa8e1ad6b5668e24848a2e8fc6",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.2000000000000006e-05,
+              -5.082197683525802e-21,
+              -2.000000000000003e-05
+            ],
+            "phase_totals_kg": [
+              3.0000000000000004e-05,
+              1.0000000000000006e-05,
+              4.000000000000003e-05
+            ],
+            "phase_upper_kg": [
+              3.3881317890172014e-21,
+              -3.9999999999999996e-05,
+              -3.9999999999999976e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "prediction_kg": 1.4655081850564189e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 12,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.2e-05,
+              -5.082197683525802e-21,
+              -2.000000000000003e-05
+            ],
+            "phase_totals_kg": [
+              3e-05,
+              1.0000000000000006e-05,
+              4.000000000000003e-05
+            ],
+            "phase_upper_kg": [
+              0.0,
+              -3.9999999999999996e-05,
+              -3.9999999999999976e-05
+            ],
+            "total_kg": 8.000000000000003e-05,
+            "total_lower_kg": -2.710505431213761e-20,
+            "total_upper_kg": -3.999999999999997e-05
+          },
+          "state": {
+            "identity": "05e7508f4ecbb80ed6217be94f351eaa516cd7f860f8da829a2e3f4619c88e21",
+            "inventory_kg": 8.000000000000003e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        1.3996603347791411e-12,
+        1.5313560353350547e-12
+      ],
+      "minimum": {
+        "gap_kg": 1.316957005557474e-13,
+        "interval_kg": [
+          -6.39173475989824e-13,
+          -5.074777754340766e-13
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -5.733256257125689e-13,
+          "dual_roundoff_allowance_kg": 1.2194471315406035e-24,
+          "inequality_duals": {
+            "sha256": "f725c059c6fb9d02a5ad83b32489c1457601bbe89de670bf2e8a01b8a6831e8e",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 5.533639824140124e-08,
+          "raw_objective_kg": -5.733256257113493e-13,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.386275035852115,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 1.2372368219741514e-24,
+        "response_allowance_kg": 6.584785027725497e-14,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.767140036458209e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 6.816795428049501e-20,
+          "masses_kg": {
+            "sha256": "a3826ba3fcde387cfab24d992292053f6110bd756f2c51baa04066535638e18f",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "ef22e2d210913deb314c3e05593f5897209f03606010a14f264daebf10931d66",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.6940658945086007e-21,
+              -3.756613573795223e-05,
+              -4.443386426204783e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000001e-06,
+              4.756613573795223e-05,
+              6.443386426204783e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.433864262047774e-06,
+              -1.5566135737952175e-05
+            ],
+            "total_kg": 0.00012000000000000007,
+            "total_lower_kg": -4.0000000000000064e-05,
+            "total_upper_kg": 6.776263578034403e-20
+          },
+          "prediction_kg": -5.733256257113493e-13,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 11,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.6940658945086007e-21,
+              -3.756613573795223e-05,
+              -4.4433864262047765e-05
+            ],
+            "phase_totals_kg": [
+              8.000000000000001e-06,
+              4.756613573795223e-05,
+              6.443386426204776e-05
+            ],
+            "phase_upper_kg": [
+              -2.2e-05,
+              -2.433864262047774e-06,
+              -1.5566135737952243e-05
+            ],
+            "total_kg": 0.00012,
+            "total_lower_kg": -3.9999999999999996e-05,
+            "total_upper_kg": 0.0
+          },
+          "state": {
+            "identity": "15bed78a5cbc3b25ee1dffa44a852b76809f146915664f56782e082f9dd72103",
+            "inventory_kg": 0.00011999999999999999
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    },
+    {
+      "coarse_h_s": 0.01,
+      "fine_h_s": 0.005,
+      "functional": "A-minus-B",
+      "interpretation": "WHOLE_ORIGINAL_SET_SENSITIVITY_NOT_A_CONTINUUM_ERROR_BOUND",
+      "maximum": {
+        "gap_kg": 2.6338308748132316e-13,
+        "interval_kg": [
+          3.6344739989642824e-13,
+          6.268304873777514e-13
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -4.951389436375406e-13,
+          "dual_roundoff_allowance_kg": 8.895573071634335e-25,
+          "inequality_duals": {
+            "sha256": "56cc852fb860b2ede319619124626793cd133bc0dae24582bcd4d33f060cf4c2",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 1,
+          "objective_scale": 4.6965697331202705e-08,
+          "raw_objective_kg": -4.951389436366509e-13,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 0.9343905946166946,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 9.016995691038253e-25,
+        "response_allowance_kg": 1.3169154374021068e-13,
+        "sense": "maximum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 1.191948880835512e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.0091603473146938e-22,
+          "masses_kg": {
+            "sha256": "14a3feec5f60bed0b74522721310c7e235fac66c54eab1736ba05f5a3297780d",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "cd71cdd5903f82d5809221f35789bf35ec82dfdfd7fbe1673adaaa1dcbb47dba",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 1.6543612251060553e-24,
+            "cell_upper_kg": 1.3234889800848443e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -2.1661414613348904e-07,
+              -3.917636375566998e-05,
+              -2.6070220981965914e-06
+            ],
+            "phase_totals_kg": [
+              8.216614146133489e-06,
+              4.917636375566998e-05,
+              2.2607022098196593e-05
+            ],
+            "phase_upper_kg": [
+              -2.1783385853866512e-05,
+              -8.236362443300233e-07,
+              -5.7392977901803414e-05
+            ],
+            "total_kg": 8.000000000000006e-05,
+            "total_lower_kg": -5.421010862427522e-20,
+            "total_upper_kg": -3.999999999999994e-05
+          },
+          "prediction_kg": 4.951389436366509e-13,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 11,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -2.1661414613348904e-07,
+              -3.917636375566998e-05,
+              -2.6070220981965914e-06
+            ],
+            "phase_totals_kg": [
+              8.216614146133489e-06,
+              4.917636375566998e-05,
+              2.2607022098196593e-05
+            ],
+            "phase_upper_kg": [
+              -2.1783385853866512e-05,
+              -8.236362443300233e-07,
+              -5.7392977901803414e-05
+            ],
+            "total_kg": 8.000000000000006e-05,
+            "total_lower_kg": -5.421010862427522e-20,
+            "total_upper_kg": -3.999999999999994e-05
+          },
+          "state": {
+            "identity": "e1d2d79f73e58033241eae5ae99efd5f880b3f9a8d4d20b2df393f636e13a20c",
+            "inventory_kg": 8.000000000000006e-05
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "maximum_absolute_difference_interval_kg": [
+        1.4680086677411866e-12,
+        1.7313917552225425e-12
+      ],
+      "minimum": {
+        "gap_kg": 2.633830874813559e-13,
+        "interval_kg": [
+          -1.7313917552225425e-12,
+          -1.4680086677411866e-12
+        ],
+        "optimization": {
+          "calls": 1,
+          "checked_dual_lower_kg": -1.5997002114823316e-12,
+          "dual_roundoff_allowance_kg": 9.083744960910788e-25,
+          "inequality_duals": {
+            "sha256": "6b7608723b2405e99ab719caf751663f19687ff52ca601a13c13323207cac822",
+            "shape": [
+              8
+            ]
+          },
+          "iterations": 2,
+          "objective_scale": 4.6965697331202705e-08,
+          "raw_objective_kg": -1.5997002114814229e-12,
+          "scale_kg": 0.00012,
+          "settings": {
+            "dual_tolerance": 1e-09,
+            "lp_wall_s": 30.0,
+            "max_exponential_actions": 100000,
+            "max_lp_iterations": 10000,
+            "max_steps": 10000,
+            "primal_tolerance": 1e-09,
+            "response_wall_s": 120.0
+          },
+          "solver_status": 0,
+          "stationarity_residual_inf": 1.0,
+          "termination": "COMPLETE"
+        },
+        "optimizer_gap_kg": 9.342132601734146e-25,
+        "response_allowance_kg": 1.3169154374021068e-13,
+        "sense": "minimum",
+        "status": "OPTIMIZATION_QUALIFIED",
+        "summation_conversion_allowance_kg": 2.5067990577355885e-26,
+        "termination": "COMPLETE",
+        "witness": {
+          "conversion_mass_change_kg": 1.3939234092437346e-20,
+          "masses_kg": {
+            "sha256": "fc947d6c9998f9ec9d5b8aa35849c374a864031ddd84aaecf8919bb0c7b74a9c",
+            "shape": [
+              1200
+            ]
+          },
+          "optimizer_masses_kg": {
+            "sha256": "31b2aafe9f9abaa7f3c4b74cb0d91c22881c2f2287e2f6cc616b6bb0a14d50b6",
+            "shape": [
+              1200
+            ]
+          },
+          "original_residuals": {
+            "cell_lower_kg": 8.271806125530277e-25,
+            "cell_upper_kg": 2.6469779601696886e-23,
+            "feasible": false,
+            "phase_lower_kg": [
+              -1.7647015847314335e-05,
+              -5.082197683525802e-21,
+              -6.000000000000002e-05
+            ],
+            "phase_totals_kg": [
+              2.5647015847314333e-05,
+              1.0000000000000006e-05,
+              8.000000000000002e-05
+            ],
+            "phase_upper_kg": [
+              -4.352984152685668e-06,
+              -3.9999999999999996e-05,
+              1.3552527156068805e-20
+            ],
+            "total_kg": 0.00011564701584731436,
+            "total_lower_kg": -3.564701584731435e-05,
+            "total_upper_kg": -4.352984152685644e-06
+          },
+          "prediction_kg": -1.5997002114814225e-12,
+          "repair": "EXPLICIT_ORIGINAL_BOX_CLAMP_AND_LAMINAR_INVENTORY_REBALANCE",
+          "repair_updates": 8,
+          "replay_interval_kg": null,
+          "replays": [],
+          "residuals": {
+            "cell_lower_kg": 0.0,
+            "cell_upper_kg": 0.0,
+            "feasible": true,
+            "phase_lower_kg": [
+              -1.7647015847314335e-05,
+              -5.082197683525802e-21,
+              -6.000000000000001e-05
+            ],
+            "phase_totals_kg": [
+              2.5647015847314333e-05,
+              1.0000000000000006e-05,
+              8e-05
+            ],
+            "phase_upper_kg": [
+              -4.352984152685668e-06,
+              -3.9999999999999996e-05,
+              0.0
+            ],
+            "total_kg": 0.00011564701584731435,
+            "total_lower_kg": -3.564701584731434e-05,
+            "total_upper_kg": -4.352984152685658e-06
+          },
+          "state": {
+            "identity": "3d4265632e917d6e20ce14ded76726f9297c7d68cc5d4568cc6e4dca41dbd1b3",
+            "inventory_kg": 0.00011564701584731433
+          },
+          "status": "FEASIBLE",
+          "termination": "COMPLETE"
+        }
+      },
+      "optimization_calls": 2,
+      "status": "QUALIFIED_FIXED_OPERATOR_DIFFERENCE"
+    }
+  ],
+  "temporal_levels": [
+    {
+      "functionals": {
+        "A": {
+          "maximum_gap_kg": 4.5437761084059225e-14,
+          "maximum_interval_kg": [
+            7.34019862915814e-05,
+            7.340198633701916e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 4.5436104287614396e-14,
+          "minimum_interval_kg": [
+            2.6707216426327628e-05,
+            2.6707216471763732e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.6707216426327628e-05,
+            7.340198633701916e-05
+          ]
+        },
+        "A-minus-B": {
+          "maximum_gap_kg": 9.076080796667621e-14,
+          "maximum_interval_kg": [
+            8.574469507803498e-07,
+            8.574470415411578e-07
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 9.076088176442174e-14,
+          "minimum_interval_kg": [
+            -9.534715186319658e-08,
+            -9.534706110231481e-08
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            -9.534715186319658e-08,
+            8.574470415411578e-07
+          ]
+        },
+        "B": {
+          "maximum_gap_kg": 4.543709701022858e-14,
+          "maximum_interval_kg": [
+            7.297114392667013e-05,
+            7.297114397210723e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 4.5435660442350034e-14,
+          "minimum_interval_kg": [
+            2.639956146360549e-05,
+            2.639956150904115e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.639956146360549e-05,
+            7.297114397210723e-05
+          ]
+        }
+      },
+      "h_s": 0.02,
+      "is_default": true,
+      "role": "PRIMARY_REPLAYED"
+    },
+    {
+      "functionals": {
+        "A": {
+          "maximum_gap_kg": 5.566948540602218e-14,
+          "maximum_interval_kg": [
+            7.340198582199432e-05,
+            7.34019858776638e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 5.5667838773972717e-14,
+          "minimum_interval_kg": [
+            2.6707218161002478e-05,
+            2.6707218216670316e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.6707218161002478e-05,
+            7.34019858776638e-05
+          ]
+        },
+        "A-minus-B": {
+          "maximum_gap_kg": 1.112231037987609e-13,
+          "maximum_interval_kg": [
+            8.574532666163817e-07,
+            8.574533778394855e-07
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 1.1122317746415753e-13,
+          "minimum_interval_kg": [
+            -9.53488549788791e-08,
+            -9.534874375570163e-08
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            -9.53488549788791e-08,
+            8.574533778394855e-07
+          ]
+        },
+        "B": {
+          "maximum_gap_kg": 5.566743897442161e-14,
+          "maximum_interval_kg": [
+            7.297114053703801e-05,
+            7.297114059270545e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 5.5665985465884124e-14,
+          "minimum_interval_kg": [
+            2.6399561823824204e-05,
+            2.639956187949019e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.6399561823824204e-05,
+            7.297114059270545e-05
+          ]
+        }
+      },
+      "h_s": 0.01,
+      "is_default": false,
+      "role": "SENSITIVITY_ONLY_UNREPLAYED_CANDIDATES"
+    },
+    {
+      "functionals": {
+        "A": {
+          "maximum_gap_kg": 7.613365233388736e-14,
+          "maximum_interval_kg": [
+            7.340198569563946e-05,
+            7.340198577177311e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 7.613198198491537e-14,
+          "minimum_interval_kg": [
+            2.6707218585719553e-05,
+            2.6707218661851535e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.6707218585719553e-05,
+            7.340198577177311e-05
+          ]
+        },
+        "A-minus-B": {
+          "maximum_gap_kg": 1.5216176086853592e-13,
+          "maximum_interval_kg": [
+            8.574548276608785e-07,
+            8.574549798226394e-07
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 1.5216183465304656e-13,
+          "minimum_interval_kg": [
+            -9.534929866907958e-08,
+            -9.534914650724493e-08
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            -9.534929866907958e-08,
+            8.574549798226394e-07
+          ]
+        },
+        "B": {
+          "maximum_gap_kg": 7.614326107564101e-14,
+          "maximum_interval_kg": [
+            7.297113968066871e-05,
+            7.297113975681197e-05
+          ],
+          "maximum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "minimum_gap_kg": 7.614184822468499e-14,
+          "minimum_interval_kg": [
+            2.639956190491947e-05,
+            2.639956198106132e-05
+          ],
+          "minimum_optimizer_status": "OPTIMIZATION_QUALIFIED",
+          "outer_delivery_interval_kg": [
+            2.639956190491947e-05,
+            7.297113975681197e-05
+          ]
+        }
+      },
+      "h_s": 0.005,
+      "is_default": false,
+      "role": "SENSITIVITY_ONLY_UNREPLAYED_CANDIDATES"
+    }
+  ]
+}
