@@ -495,8 +495,8 @@
       "next_gate": "Draft PR owner review and exact-head CI disposition; no merge, real-data scoring or successor.",
       "acceptance_evidence": "docs/analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md: ENGINEERING_CAPABILITY_VERIFIED for mandatory small tests and the representative synthetic query; all four fixed operators qualify with compatible checked witnesses. Mesh sensitivity exceeds epsilon for the minimum endpoint. Software QA, author review and hosted CI separate. PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
       "issue_or_pr": "#320",
-      "verified_commit": "5fb7b83e2585556f910a2754225b5f8cdbcf55a7",
-      "verified_date": "2026-10-05"
+      "verified_commit": null,
+      "verified_date": null
     }
   ]
 }
