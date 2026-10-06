@@ -99,7 +99,7 @@ and R1–R15 dispositions. No new scientific result or new successor ID is assig
 
 ### Evidence actually inspected and limits
 
-**Source inspected:** repository instructions/contribution/rights/planning records;
+**Source inspected during the initial delivery:** repository instructions/contribution/rights/planning records;
 the call paths and headers linked below; relevant cards, manifest/register/snapshot;
 primary [Cameron publisher text/SI](https://doi.org/10.1016/j.matt.2019.12.019)
 and actual Fig. 5 image; [Grudeva EJAM](https://doi.org/10.1017/S095679252500018X) §5 and
@@ -119,7 +119,7 @@ execution commits, configurations, commands, selectors and limitations. This gui
 did not run their commands, fit, rescore, execute source notebooks/macros/pickles,
 read protected target values or launch PW/EWP scientific campaigns.
 
-**Independently executed here:** Git/GitHub identity and lifecycle queries;
+**Independently executed for the initial delivery:** Git/GitHub identity and lifecycle queries;
 non-scoring existing inventory queries; documentation/software checks listed at
 handoff. The configured corpus and private manifest were available. Six bounded
 `inventory_local_corpus.py query` selections matched the existing snapshot:
@@ -138,17 +138,29 @@ physical applicability of synthetic state sets, several experimental input joins
 and new-task tolerances remain unresolved.
 
 <a id="review-input-limit"></a>
-**October 5 review limitation.** The original attachment is identified by the
-owner as SHA-256
-`593b8eb2d095b107fe999cdc70dd641a45a54aed7a022f3af565e3d217c325bf`.
-Neither that attachment nor a separately identifiable second-review document was
-available in the bounded review-input search. Consequently this guide audits the
-owner-supplied correction summary and R1–R15 mapping, not an invented full-text
-review. Those stable recommendation IDs are used below; original section/page
-numbers, verbatim wording and second-review identity remain **UNRESOLVED**.
-The supplied review's reported executions are not ours. Add the exact original
-section crosswalk when the documents become available; preserve both opinions as
-historical documents. This limitation does not prevent source-supported corrections.
+<a id="review-inputs"></a>
+**Review inputs inspected — source-attribution closeout, 2026-10-06.** The initial
+delivery at PW `58b20ce1fc5ebbf830f78c188ffd034feb146ff6` / EWP
+`dd1ad140e0e2b6ee9e98be4f8e0e4db8e7df36d4` lacked both complete review documents
+and used the owner's summary. After the owner installed the two Markdown files
+externally, this closeout verified both SHA-256 values and read both files in full.
+Document access is now resolved; this does not retroactively change the initial
+inspection scope or settle the remaining scientific source questions.
+
+| Citation key / historical document | Attribution and verified SHA-256 |
+|---|---|
+| **O** — *Independent review: `puckworks` and `espresso-whole-pull`*, 2026-10-05; `puckworks_ewp_independent_review_2026-10-05.md` | Reviewer self-identifies as Claude (Anthropic), in a clean Linux container. `593b8eb2d095b107fe999cdc70dd641a45a54aed7a022f3af565e3d217c325bf` |
+| **S** — *Second-review revision: Puckworks and Espresso Whole Pull*, 2026-10-05; `puckworks_ewp_second_review_2026-10-05.md` | Separate second-review document prepared for Tim Brewer; no reviewer name is specified. `5c9d2564cec4ec59b9561659c8abb7c300e37068d2b99a51db1650545b280df3` |
+
+Both reviews inspected the main revisions in the identity table above. S separately
+inspected #321 at `28fe6c36873fa52965b9413dd3ab7d2b6316a773`; the guide retains the
+later `bd976d2d` closeout. O reports its own registry/Guided Pull executions and an
+unfinished quick test run. S reports source inspection and algebra, not independent
+execution of those runs. Neither account is relabelled as this guide's execution.
+The reviews remain unchanged external inputs, not repository copies. Citations
+below use their Markdown section numbers, exact headings and R1–R15 identifiers;
+they have no PDF page numbers. Current repository evidence controls where stronger
+or later evidence supersedes either historical review.
 
 ## How to judge a capability or a proposed task
 
@@ -253,11 +265,41 @@ Rights below summarize the existing source records; they grant no new permission
 
 ## Adjudicated review findings
 
-Original claims below are **paraphrases of the supplied review/task summary**,
-identified by R numbers and correction topics; see the [document-access limitation](#review-input-limit).
-They are not quotations or a silent rewrite of either reviewer's opinion.
+**O** and **S** identify the [two inspected historical reviews](#review-inputs).
+The crosswalk preserves O's exact section headings; the findings distinguish
+explicit statements, qualified inferences, internal contradictions and later
+cautions. S is an attributed critique, not an authority that overrides source
+evidence. The [recommendation table](#r1r15-disposition-crosswalk) maps every R ID.
+O's §4 **Findings** is organized as §4.1 **State of model development**,
+§4.2 **Maturity and capabilities**, §4.3 **Comparison with available experimental
+data**, and §4.4 **Process observations (L unless noted)**.
+
+| O: numbered section and exact heading | S: corresponding discussion | Guide disposition / supporting detail |
+|---|---|---|
+| §1 **Objectives** | §1 **Objectives** | Retain all four owner questions; S makes the next bounded decision explicit. See [objectives](#objectives-baseline-and-review-method). |
+| §2 **Methodology**; §2.1 **What was done (in order)**; §2.2 **What was not done, and why it matters**; §2.3 **Logic used to form judgements** | §§2.1–2.3 | Preserve O's reported executions, missing private corpus/primary-paper inspection and unfinished test run; use the guide's separate [inspection record](#evidence-actually-inspected-and-limits) and [decision logic](#how-to-judge-a-capability-or-a-proposed-task). |
+| §3 **Executive summary** | §3 **Executive summary** | Retain the gap between implementation and whole-shot prediction; narrow its data, process and repair diagnoses as below. |
+| §4.1.1 **Footprint (H)**; §4.1.3 **Self-awareness already in the repo (H)**; §4.4 **Process observations (L unless noted)** | §4.1.1 **Footprint and process claims**; §4.4 **Process and readability** | Counts are descriptive. O explicitly disclaims causal proof; its stronger executive diagnosis remains a qualified inference, not an established cause. See [process attribution](#r8r10-and-r13r14-data-uncertainty-and-process). |
+| §4.1.2 **Trajectory, last six weeks (H for counts, M for task outcomes)** | §4.1.2 **Recent capabilities missing from the headline diagnosis** | Preserve the interpretation as O's inference; reconcile merged status and meaningful engineering/negative results through the [capability matrix](#capability-and-evidence-matrix). |
+| §4.1.4 **Test suite (H for collection, M for pass counts)**; §4.2.1 **PW registry and gates — what "66 PASS" means (H)** | §4.2.1 **Gates need purpose and exposure labels, not a headline promotion** | O reports 66 PASS plus one exception, not 67 empirical validations; its unfinished test run stays unfinished. Purpose and exposure are separate. O §4.2.1's “see R9” is a cross-reference error: the gate-tier proposal is R4 in O §5. |
+| §4.2.2 **The Guided Espresso Pull — what the product actually predicts (H)**, findings 4.2.2a–c | §4.2.2 **Cameron: real mismatch, overstated diagnosis** | Keep exact audited configuration; reject the inventory-ceiling inference and transfer of RMSE to pointwise/different-recipe claims. Primary SI and call-path inspection refine the [pressure finding](#r1r2-cameron-disclosure-and-the-pressureproduct-contract). |
+| §4.2.3 **Other registered-model defects worth fixing (H for the artifacts)** | §4.2.3 **Grudeva: the proposed quick fix is not the current frontier**; §4.2.6 **Viscosity and numerical uncertainty** | O's factor diagnosis is a hypothesis with a §7 alternative; completed 002/003 work supersedes the proposed repeat. Source viscosity spread is not a probability model. See [Grudeva](#r3-grudevas-actual-numerical-frontier) and [uncertainty](#r8r10-and-r13r14-data-uncertainty-and-process). |
+| §4.2.4 **EWP solver — physics as implemented (H for the source reading)**; §4.2.5 **EWP solver — validation state (M, from `validation/wp03/WP03_002_CORRECTED_COMPARISON.json` and `docs/wp03/WP03_002_RESULTS.md`)** | §§4.2.4–4.2.5 | O already names compaction/permeability fields. Its R6 proposal nevertheless needs a distinct mechanism and separate chemistry/hydraulic tests; preserve [WP03 and E2C decisions](#r6-existing-ewp-hydraulics-monotonicity-and-retirement). |
+| §4.2.6 **Readability (H)** | §4.4 **Process and readability**; §5.2 **Shape of the enduring artifact** | Guide and thin pointer improve navigation; R10–R12 do not authorize package moves, deletion or a broad rewrite. |
+| §4.3.1 **What the data are (M, from `docs/data/ESPRESSO_DATA_GUIDE.md` snapshot of 2026-09-23)** | §4.3.1 **Availability, independence, and relevant inputs** | O's catalogue-based no-first-party finding includes an outside-catalogue caveat; ownership does not determine independence. Use [question-specific eligibility](#question-specific-data-eligibility), not absence/exhaustion inference. |
+| §4.3.2 **What the comparisons show (H where I executed the gate; M for analysis bundles)**, findings 4.3.2a–c | §§4.3.1–4.3.3 | Its all-one-campaign assertion conflicts with its own table; preserve MASS-007's gains and failed adequacy. R9 proposes profile stratification, but source matching and prior Visualizer work still constrain the inference. |
+| §5 **Recommendations** | §5 **Revised recommendations, retaining R1–R15**; §§5.1–5.2 | Exact original headings and individual dispositions are in the [R1–R15 table](#r1r15-disposition-crosswalk); the [frontier](#near-term-frontier) is proposed only. |
+| §6 **Open questions for the owner and the second reviewer**; §7 **Where this review may be wrong** | §6 **Open questions and how to resolve them**; §7 **Where this second review remains limited** | Preserve O's qualifications on recipe norms, unread SI, possible digitization error, unexecuted EWP, approximate counts and inferred process diagnosis. Review-file access is resolved; scientific pressure/source/observer questions remain. |
+| **Appendix A — Commands to reproduce the executed findings**; **Appendix B — Gate census as executed (PW `f08677b1`, 2026-10-05)**; **Appendix C — Files inspected (primary)** | **Appendix A. Evidence index**; **Appendix B. Relationship to the original review** | Historical execution/source locators only. They neither describe this closeout's checks nor authorize a scientific replay. |
 
 ### R1–R2: Cameron disclosure and the pressure/product contract
+
+**O's statements and qualifications:** §4.2.2a asserts a systematic pointwise EY
+deficit, while the inferred source range is labelled L and §7 qualifies the use
+of generic espresso ranges. §4.2.2c says one pressure number is wrong; §7 limits
+that finding to an internal inconsistency because the reviewer did not read the
+SI. S §4.2.2 correctly narrows both diagnoses. The guide's initial primary-source
+inspection adds the evidence below; neither review alone establishes a conversion.
 
 **Confirmed implementation/documentation mismatch:** the public exports in
 [`product/__init__.py`](../../puckworks/product/__init__.py) lead to
@@ -311,8 +353,11 @@ separate. F13/F14/F15 are completed repairs; none is a new recommendation.
 
 ### R3: Grudeva's actual numerical frontier
 
-**Original claim:** a roughly factor-2.2 discrepancy offers an untouched
-normalization fix. **Revised:** superseded by completed
+**O's qualified inference:** §4.2.3 infers a concentration-basis mismatch from
+selected approximately 2.2-ratio samples; R3 proposes a one-day targeted check
+and a correction **if confirmed**. O §7 acknowledges possible digitization-axis
+error. It does not demonstrate a multiplier repair. **Current disposition,
+consistent with S §4.2.3:** the proposed generic repeat is superseded by completed
 [REFERENCE-002](../analysis/model_grudeva2026_reference_002/RESULTS.md) and
 [CONSERVATIVE-003](../analysis/model_grudeva2026_conservative_003/RESULTS.md).
 002's comparator failed conservation/refinement; 003 repaired actual paired
@@ -334,17 +379,28 @@ re-extraction audit: 002 already reproduced the retained figure coordinates.
 
 ### R4–R5, R7 and R15: engineering, empirical value and closed questions
 
-**Original overgeneralizations:** all extraction evidence is one campaign;
-negative/no-physics work is no development; a new envelope or conditioning step
-necessarily advances prediction. **Revised:** shared Pannusch/Schmieder lineage
-limits that source, not Grudeva, Cameron, Waszkiewicz or every programme test.
+**O's explicit overgeneralization and internal contradiction:** §3 item 5 and
+finding 4.3.2a say all extraction comparisons use the Pannusch/Schmieder campaign,
+although §4.3.2's own table includes other sources and calls 007 cross-source.
+S §4.3.1 identifies this contradiction. Shared Pannusch/Schmieder lineage limits
+that source, not Grudeva, Cameron, Waszkiewicz or every programme test.
+
+**O's development inference:** §4.1.2 says the retrospective work is not moving
+the models toward validation; §4.4 argues that continuously applying the
+no-governing-physics-change default prevents a model becoming less wrong.
+S §§1 and 4.1.2 distinguish useful implementation, numerical and decision progress
+from physical validation. The guide adopts that distinction without attributing
+a blanket “no development” statement to O.
 The [capability matrix](#capability-and-evidence-matrix) credits merged Q/T,
 state continuation and set-valued research tools within their exact contracts.
 005/006's checked extrema do not validate real-data conditioning or cure 004.
 At #321's **new** head, [archive-only closeout][007-closeout] establishes the
 declared fixed-operator engineering capability; the earlier incomplete disposition
 remains historical, and the failed historical prefix/transport cause remain
-unresolved. No automatic adjacent extension is selected.
+unresolved. **Later development caution, not O's claim:** S §5.1 and this guide
+require a useful comparison to select numerical/observer prerequisites. O does
+not say that another envelope or conditioning step necessarily advances prediction.
+No automatic adjacent extension is selected.
 
 **Stronger current transfer authority:** the [Paper A manuscript](../PAPER_A_DRAFT.md)
 and its committed aggregate bundle supersede the concise
@@ -377,8 +433,14 @@ not a standing owner refusal to authorize future useful work.
 
 ### R6: existing EWP hydraulics, monotonicity and retirement
 
-**Original claim:** add stress-dependent permeability to fix the pressure ranking.
-**Revised:** it already exists in [poroelasticCompaction.H][ewp-poro]. For fixed
+**O's proposal and internal tension:** §4.2.4 already describes poroelastic
+compaction and stress/permeability fields. R6 nevertheless proposes intragrain
+diffusion plus pressure-dependent permeability as missing mechanisms, with a
+Waszkiewicz candidate replacing or supplementing the current branch, under one
+WP03 acceptance test. It is inaccurate to say O never recognized the existing
+structure. **Revised, following S §§4.2.4–4.2.5:** identify what distinct hydraulic
+change is meant and separate its test from chemistry. The static law already
+exists in [poroelasticCompaction.H][ewp-poro]. For fixed
 positive A, k0, Pc, mu and L, and fixed 0<Phi<1, the static implementation is
 
 ```text
@@ -423,10 +485,22 @@ Spearman +1 or a newly selected 5-g threshold alone would not validate either.
 
 ### R8–R10 and R13–R14: data, uncertainty and process
 
-**Original claims:** lack of public files proves absent/exhausted data; pooled
-pressure/flow identifies a hydraulic law; inter-source viscosity implies ±50%
-probability; document/branch counts prove governance caused slow science.
-**Revised:** none follows. The [eligibility matrix](#question-specific-data-eligibility)
+**Data argument, not public-file absence:** O §3 item 5 states that no first-party
+experimental data exist and concludes independent validation is impossible with
+current data. §4.3.1 derives its narrower finding from the catalogue and explicitly
+allows for unregistered owner measurements; §6 asks whether those exist. O §2.2
+also discloses that the private corpus was unavailable. The review therefore
+cannot settle the owner's complete holdings. As S §§2.3 and 4.3.1 explain,
+third-party ownership does not prevent independent testing; eligibility depends
+on inputs, grouping and exposure. The executive impossibility conclusion is not
+established. O does not argue that public files are absent.
+
+**Visualizer proposal and later caution:** O finding 4.3.2c/R9 proposes hydraulic-only
+analysis stratified by declared machine profile and a population pressure response
+to inform closure choice; it also says no prior task did this. It is not a proposal
+for wholly unstratified pooling. S §4.3.3 and this guide caution that profile
+stratification alone does not identify a causal material law, and prior work must
+be checked. The [eligibility matrix](#question-specific-data-eligibility)
 and [completed index](#completed-and-negative-work-index) preserve available
 evidence and prior use. [Visualizer's private-work record][ewp-visualizer]
 includes descriptive, matched empirical and native work beyond the initial boundary
@@ -435,36 +509,54 @@ feedback, coffee/grind/dose, duplicates and repeated cohorts before interpreting
 a slope; chemistry is not required for every hydraulic description. Same-shot
 fitted conductance is not an untouched holdout or a measured permeability map.
 
-Source viscosity disagreement is material-/basis-/domain-dependent sensitivity
-information. It is not automatically symmetric uncertainty with a probability
-model. Suitable analytical, numerical, unit and regression contracts must remain
+**Uncertainty attribution:** O §4.2.3 calls the 30–54% inter-source spread “±50 %
+uncertainty,” but supplies no probability model. S §4.2.6 and this guide caution
+against converting that spread into a symmetric probabilistic interval; such a
+distribution is not an explicit claim of O. Source disagreement is
+material-/basis-/domain-dependent sensitivity information.
+
+**Process diagnosis and explicit qualifications:** O §3 item 2 says “Physics
+progress has stalled behind process.” O §4.1.3 expressly disclaims causal proof
+and says the observed output pattern is consistent with that diagnosis; §7 calls
+the process diagnosis an inference from outputs, not observed workflow. The
+original does **not** claim that document/branch counts prove causality. S §4.1.1's
+causal caution remains appropriate: no time-allocation or counterfactual evidence
+establishes the diagnosis. **Causality is not established.**
+
+Suitable analytical, numerical, unit and regression contracts must remain
 strong even when empirical tests fail. No branch-count/test-file quotas, new
 PASS exceptions, package relocation, automatic experiment programme or standing
 physics authority follow from this guide. Process causality was not measured.
 
 ## R1–R15 disposition crosswalk
 
-These are the stable recommendation references supplied with the task; original
-review section numbers remain subject to the [input limitation](#review-input-limit).
-“Proposed” below confers no authority.
+The first column transcribes the exact recommendation headings in **O §5
+Recommendations**. Its priority groups are **P0 — corrections (days)** (R1–R4),
+**P1 — model development (weeks)** (R5–R7), **P1 — data (weeks, in parallel)**
+(R8–R9), **P2 — reorganisation and documentation** (R10–R13), and **P3 — process**
+(R14–R15). The dispositions audit **S §5 Revised recommendations, retaining
+R1–R15** against the controlling sources below; they are this guide's conclusions,
+not rewritten opinions attributed to O. O's **What this review does *not*
+recommend** rejects more governance machinery, repeat F1–F15 repairs and a coupled
+mega-model; those limits remain. “Proposed” confers no authority.
 
-| ID / original proposal as supplied | Disposition and development consequence | Controlling evidence |
+| O §5: exact heading / stable R identifier | Disposition and development consequence | Controlling evidence |
 |---|---|---|
-| R1 Cameron reproduction disclosure/gate | **Retain/narrow:** exact 20-g/40-g/5-bar residuals; no arbitrary empirical gate or inventory change | [Cameron audit][cameron-audit], pressure finding above |
-| R2 pressure correction / hydraulic substitution | **Split/revise:** source/observable/product contract first; any hydraulic replacement separate and material/rig matched | Primary SI + call path; [Waszkiewicz card](../cards/waszkiewicz2025.md) |
-| R3 Grudeva factor correction | **Supersede repeat:** 003's spatial/observer frontier; no factor assumption or fixture repair | [003](../analysis/model_grudeva2026_conservative_003/RESULTS.md) |
-| R4 evidence/verification classification | **Retain concept:** purpose/exposure distinctions in this guide; no new schema | [Decision logic](#how-to-judge-a-capability-or-a-proposed-task), existing registry |
-| R5 close negative task families | **Revise:** compact synthesis and scoped reopening criteria; preserve history and useful negative evidence, no blanket archival | [Completed index](#completed-and-negative-work-index), leverage ledger |
-| R6 new stress/hydraulic mechanism | **Replace:** acknowledge existing law; retired E2C; identify a distinct testable mechanism before proposing implementation | [SCI-MD-012][ewp-md12], WP03 |
-| R7 sequence chemistry/hydraulics | **Retain sequencing:** isolate mechanisms and observables; no indefinite total freeze | EWP strategy and gate; frontier dependencies |
-| R8 pressure experiments | **Defer:** demonstrate the remaining named gap; source-condition and marginal-value design first | [SCI-ED-003][ewp-ed3], eligibility matrix |
-| R9 Visualizer hydraulic inference | **Conditional:** source-qualified descriptive/matched use, deduplication and equal-information baselines; no pooled causality | [Private-work record][ewp-visualizer] |
-| R10 package/module relocation | **Defer:** compatibility, consumer and dependency evidence required; no moves in this task | [API policy](../API.md), [production lock][ewp-lock] |
-| R11 navigation / destructive cleanup | **Split:** guide/navigation now; deletion, branch cleanup and archival separately reviewed | CURRENT index and this bounded diff |
-| R12 physics-first explanation | **Retain/stage:** source-to-observable explanations and links; no sprawling rewrite | Capability matrix and thin EWP pointer |
-| R13 test quotas | **Replace quotas:** risk/capability-appropriate analytical, numerical and empirical tests; known inadequacy visible | Existing governance/CI and frozen numerical contracts |
-| R14 standing physics authorization | **Proposal only:** owner-granted bounded task scope remains necessary | Current user scope; EWP Stage F/D remain unauthorized |
-| R15 decisive test and fresh data | **Revise:** require a discriminating oracle and nonduplication; existing data or analytical oracle may suffice | Three-test gate and reopening premises below |
+| R1 ✱ Disclose and gate the Cameron offset. | **Retain/narrow:** exact 20-g/40-g/5-bar residuals; no arbitrary empirical gate or inventory change | [Cameron audit][cameron-audit], pressure finding above |
+| R2 ✱ Fix the pressure evidence range and the pressure scaling. | **Split/revise:** source/observable/product contract first. O already notes the different rig/coffee; that caveat does not qualify a hydraulic substitution | Primary SI + call path; [Waszkiewicz card](../cards/waszkiewicz2025.md) |
+| R3 ✱ Resolve the Grudeva-2026 factor ~2.2. | **Supersede repeat:** 003's spatial/observer frontier; no factor assumption or fixture repair | [003](../analysis/model_grudeva2026_conservative_003/RESULTS.md) |
+| R4 ✱ Report gates by evidence tier. | **Retain concept:** purpose/exposure distinctions in this guide; no new schema | [Decision logic](#how-to-judge-a-capability-or-a-proposed-task), existing registry |
+| R5 Close the SCI-MD programme and write its synthesis. | **Revise:** compact synthesis and scoped reopening criteria; preserve history and useful negative evidence, no blanket archival | [Completed index](#completed-and-negative-work-index), leverage ledger |
+| R6 Open one governing-physics window in EWP, judged by WP03. | **Replace:** acknowledge existing law; retired E2C; identify a distinct testable mechanism before proposing implementation | [SCI-MD-012][ewp-md12], WP03 |
+| R7 Do not add anything else to EWP until R6 is decided. | **Retain sequencing:** isolate mechanisms and observables; no indefinite total freeze | EWP strategy and gate; frontier dependencies |
+| R8 Run EXP-001 and EXP-003 yourself. | **Defer:** demonstrate the remaining named gap; source-condition and marginal-value design first; separate calibration from final testing | [SCI-ED-003][ewp-ed3], eligibility matrix |
+| R9 Use the Visualizer corpus for hydraulics only. | **Conditional:** source-qualified descriptive/matched use, deduplication and equal-information baselines; profile stratification alone does not identify a causal law | [Private-work record][ewp-visualizer] |
+| R10 ✱ Split the research record out of the importable package. | **Defer:** compatibility, consumer and dependency evidence required; no moves in this task | [API policy](../API.md), [production lock][ewp-lock] |
+| R11 ✱ Prune branches and consolidate status surfaces. | **Split:** guide/navigation now; deletion, branch cleanup and archival separately reviewed; no branch-count quota | CURRENT index and this bounded diff |
+| R12 ✱ Rewrite the EWP README around the physics. | **Retain/stage:** source-to-observable explanations and links; no sprawling rewrite | Capability matrix and thin EWP pointer |
+| R13 ✱ Rebalance the test suite. | **Replace quotas:** risk/capability-appropriate tests; no universal measurement gate or 40%-of-files target; known inadequacy visible | Existing governance/CI and frozen numerical contracts |
+| R14 Replace per-task owner authorisation with a standing envelope. | **Proposal only:** owner-granted bounded task scope remains necessary | Current user scope; EWP Stage F/D remain unauthorized |
+| R15 Require a discriminating dataset before any new analysis task is opened. | **Revise:** require a discriminating oracle and nonduplication; existing data or analytical oracle may suffice | Three-test gate and reopening premises below |
 
 ## Near-term frontier
 
@@ -638,8 +730,10 @@ Keep producer pins, historical thresholds and adverse executions intact. Cite
 the current status date separately from the evidence date. If a recommendation
 is authorized later, record that in the existing issue/queue rather than treating
 this guide as permission. Do not hand-edit generated STATE_OF_TRUTH or duplicate
-this full guide in EWP. Replace EWP's branch-aware link with a main link only after
-the canonical guide merges.
+this full guide in EWP. Before merge, EWP links to the exact full SHA of a reviewed
+PW documentation candidate, not a moving branch or merged main. Update that pin
+only after publishing and checking a later candidate's remote guide path. Replace
+it with the canonical `main` link only after the PW guide merges.
 
 Use existing documentation/link/generated-artifact checks; preserve the frozen
 release, runtime/API/parameter/defaults, historical bundles and dependency lock.
