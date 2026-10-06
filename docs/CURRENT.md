@@ -6,6 +6,7 @@ listed here wins.
 
 | topic | current document |
 |---|---|
+| **PW / EWP development and next decisions** | [Espresso development guide](research/ESPRESSO_DEVELOPMENT_GUIDE.md) — capabilities, experimental evidence, limitations and bounded proposals; does not grant execution authority |
 | **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
 | **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
 | **Public-experience / homepage policy** | [`docs/PUBLIC_EXPERIENCE.md`](PUBLIC_EXPERIENCE.md) — the design + review authority behind `README.md` (issue #41) |
