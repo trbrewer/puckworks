@@ -15,8 +15,12 @@ figure (``guided_pull_captions.txt`` + the Markdown report).
 from __future__ import annotations
 
 import os
+import textwrap
 
-from ..product._pull import PullReportArtifacts, pull_run_to_json, pull_run_to_markdown
+from ..product._pull import (
+    PullReportArtifacts, pull_run_to_json, pull_run_to_markdown,
+    _AUDIT_NOTE, _AUDIT_SOURCE, _GUIDE_SOURCE, _INTERVAL_NOTE, _PRESSURE_NOTE,
+)
 from .palette import BADGE_COLORS, BADGE_TEXT_COLOR
 from ..figures import INK, NULL, GOOD, ACCENT, BAD
 
@@ -66,7 +70,7 @@ def _stamp(fig, ax, component_id, ceiling, scope):
 def _process_strip(fig, run):
     """A numbered, labelled Recipe→…→Cup strip. Stages are numbered and named in words (never
     color-only), and unsupported slots are marked explicitly rather than omitted."""
-    ax = fig.add_axes([0.03, 0.60, 0.94, 0.34])
+    ax = fig.add_axes([0.03, 0.80, 0.94, 0.13])
     ax.axis("off")
     slots = [("1 Recipe", "input"), ("2 Grind", "run"), ("3 Bed", "assumed"),
              ("4 Machine", "prescribed"), ("5 Wetting", "not modeled"), ("6 Flow", "derived"),
@@ -96,35 +100,45 @@ def _rect(x, y, w, h, face):
 def _fig_summary(run, path):
     plt = _plt()
     obs = run.final_observables
-    fig = plt.figure(figsize=(8.4, 5.4))
+    fig = plt.figure(figsize=(9.6, 7.6))
     _process_strip(fig, run)
-    ax = fig.add_axes([0.06, 0.10, 0.88, 0.42]); ax.axis("off")
+    ax = fig.add_axes([0.04, 0.09, 0.92, 0.70]); ax.axis("off")
     n_warn = len(run.warnings)
     lines = [
         f"Guided Espresso Pull — configuration `{run.config.config_id}`  (run {run.run_id})",
         "",
-        f"Recipe: {run.recipe.dose_g:g} g in → {run.recipe.target_beverage_g:g} g out · "
-        f"{run.recipe.pressure_bar:g} bar · {run.recipe.grinder_model} dial "
+        f"Recipe: {run.recipe.dose_g:g} g in → {run.recipe.target_beverage_g:g} g prescribed beverage target · "
+        f"{run.recipe.pressure_bar:g} bar prescribed model overpressure · {run.recipe.grinder_model} dial "
         f"{run.recipe.grind_setting:g} · profile {run.recipe.coffee_profile}",
         f"Temperature {run.recipe.brew_temperature_c:g} °C is RECORDED-ONLY (no thermal transient in v0.3.0).",
         "",
-        f"Extraction yield: {obs['extraction_yield_pct']['value']} %      "
-        f"TDS: {obs['tds_pct']['value']} %      "
-        f"Shot duration: {obs['shot_duration_s']['value']} s",
-        f"Beverage mass: {obs['beverage_mass_g']['value']} g      "
-        f"Dissolved (extracted) mass: {obs['extracted_mass_g']['value']} g",
+        f"Extraction yield: {obs['extraction_yield_pct']['value']:.4f} %      "
+        f"TDS: {obs['tds_pct']['value']:.4f} %      "
+        f"Shot duration: {obs['shot_duration_s']['value']:.4f} s",
+        f"Prescribed beverage target: {obs['beverage_mass_g']['value']:g} g (endpoint by construction)      "
+        f"Dissolved mass: {obs['extracted_mass_g']['value']:.4f} g",
+        "",
+        _AUDIT_NOTE,
+        "Historical comparison / producer attribution: programme review 2026-10-01, sections B-C "
+        "(source link in the companion Markdown report and captions).",
         "",
         "First drip / puck wetting: NOT MODELED (the primary model begins from a saturated bed).",
-        "Pressure is a prescribed constant input, not a predicted profile. Composition, not flavor.",
-        f"Domain warnings: {n_warn}" + (": " + "; ".join(run.warnings) if n_warn else "  (none)"),
+        "No dynamic pressure profile or flavor prediction. Alternative components were not executed.",
+        _PRESSURE_NOTE,
+        "Source account: ESPRESSO_DEVELOPMENT_GUIDE (link in companion report and captions).",
+        "",
+        _INTERVAL_NOTE,
+        "Product interval statuses: " + "; ".join(
+            f"{f.field}={f.status.value}" for f in run.domain_findings),
+        f"Domain warnings: {n_warn}" + (" (outside configured product intervals)" if n_warn else " (none)"),
     ]
-    ax.text(0.0, 1.0, "\n".join(lines), ha="left", va="top", fontsize=8.2, color=INK,
-            family="monospace")
+    wrapped = "\n".join(textwrap.fill(line, width=115) for line in lines)
+    ax.text(0.0, 1.0, wrapped, ha="left", va="top", fontsize=8.2, color=INK)
     if n_warn:
-        # Warning state marked by an explicit boxed word + hatch, never color alone.
-        ax.text(0.0, -0.02, "⚠ EXTRAPOLATION — outside the validated evidence range", ha="left",
+        # Warning state marked by an explicit boxed word, never color alone.
+        ax.text(0.0, -0.02, "WARNING — outside configured product intervals; physical applicability unqualified", ha="left",
                 va="top", fontsize=8.0, color=INK, fontweight="bold",
-                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor=INK, hatch="///"))
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor=INK))
     fig.suptitle("Result summary — exploratory simulation, not a taste prediction",
                  y=0.995, fontsize=10.5, fontweight="bold")
     _stamp(fig, ax, run.stages[0].component_id, _trace(run, "extraction_time").fidelity_ceiling,
@@ -139,20 +153,24 @@ def _fig_pressure_flow(run, path):
     p = _series(tr, "prescribed_pressure_bar")
     q = _series(tr, "flow_g_s")
     fig, ax = plt.subplots(figsize=(7.6, 4.2))
+    fig.subplots_adjust(bottom=0.20)
     ax.plot(t, p.values, color=NULL, lw=2.0, ls="--", marker="s", markevery=max(1, len(t) // 10),
-            ms=4, label=f"prescribed pressure [{p.unit}] — INPUT, not predicted")
-    ax.set_xlabel("time [s]"); ax.set_ylabel(f"pressure [{p.unit}]", color=NULL)
+            ms=4, label=f"prescribed model overpressure [{p.unit}] — INPUT")
+    ax.set_xlabel("time [s]"); ax.set_ylabel(f"model overpressure [{p.unit}]", color=NULL)
     ax.set_ylim(0, max(p.values) * 1.6 + 1)
     ax2 = ax.twinx()
+    ax2.grid(False)
     ax2.plot(t, q.values, color=ACCENT, lw=2.0, ls="-", marker="o", markevery=max(1, len(t) // 10),
              ms=4, label=f"model flow [{q.unit}] — simulated")
     ax2.set_ylabel(f"flow [{q.unit}]", color=ACCENT)
     ax2.set_ylim(0, max(q.values) * 1.6 + 0.1)
     h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper center", fontsize=7.6)
-    ax.set_title("Machine & flow — prescribed constant pressure, constant model flow")
-    ax.text(0.02, 0.06, "Pressure is prescribed (a constant model input), NOT a predicted dynamic "
-            "profile.\nFlow is the model's constant Darcy flux. No channeling / preinfusion transient.",
+    ax.set_title("Machine & flow — prescribed model overpressure")
+    ax.text(0.02, 0.06, "pressure_bar enters Cameron unchanged; not measured puck pressure or a verified bed drop.\n"
+            "SI pump-overpressure wording and paper static-pressure label are distinct;\n"
+            "reference / sensor-node equivalence unresolved (see report source link).\n"
+            "Constant model flow; no dynamic pressure profile, channeling or preinfusion transient.",
             transform=ax.transAxes, fontsize=6.8, color=NULL, va="bottom")
     _stamp(fig, ax, tr.component_id, tr.fidelity_ceiling, "prescribed input + simulated flow")
     return _save(fig, path)
@@ -165,11 +183,13 @@ def _fig_cup_progress(run, path):
     bev = _series(mf, "cumulative_beverage_g")
     diss = _series(ex, "cumulative_extracted_g")
     fig, ax = plt.subplots(figsize=(7.6, 4.2))
+    fig.subplots_adjust(bottom=0.20)
     ax.plot(mf.axis_values, bev.values, color=GOOD, lw=2.0, ls="-", marker="o",
             markevery=max(1, len(bev.values) // 10), ms=4,
             label=f"cumulative beverage mass [{bev.unit}] — DERIVED from model flow")
     ax.set_xlabel("time [s]"); ax.set_ylabel(f"beverage mass [{bev.unit}]", color=GOOD)
     ax2 = ax.twinx()
+    ax2.grid(False)
     ax2.plot(ex.axis_values, diss.values, color=ACCENT, lw=2.0, ls="--", marker="^",
              markevery=max(1, len(diss.values) // 10), ms=4,
              label=f"cumulative dissolved mass [{diss.unit}] — SIMULATED")
@@ -177,7 +197,8 @@ def _fig_cup_progress(run, path):
     h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper left", fontsize=7.6)
     ax.set_title("Cup progress — beverage accumulates, solute dissolves")
-    ax.text(0.98, 0.04, "Beverage mass is DERIVED from the model's constant flow (not measured).",
+    ax.text(0.98, 0.04, "Beverage mass is DERIVED from constant model flow (not measured).\n"
+            "Endpoint equals the prescribed beverage target by construction.",
             transform=ax.transAxes, fontsize=6.8, color=NULL, va="bottom", ha="right")
     _stamp(fig, ax, ex.component_id, ex.fidelity_ceiling, "derived + simulated")
     return _save(fig, path)
@@ -189,21 +210,24 @@ def _fig_extraction_progress(run, path):
     ey = _series(ex, "extraction_yield_pct")
     cl = _series(ex, "outlet_concentration")
     fig, ax = plt.subplots(figsize=(7.6, 4.2))
+    fig.subplots_adjust(bottom=0.20, top=0.74)
     ax.plot(ex.axis_values, ey.values, color=ACCENT, lw=2.0, ls="-", marker="o",
             markevery=max(1, len(ey.values) // 10), ms=4,
             label=f"cumulative extraction yield [{ey.unit}] — DERIVED")
     ax.set_xlabel("time [s]"); ax.set_ylabel(f"extraction yield [{ey.unit}]", color=ACCENT)
     ax2 = ax.twinx()
+    ax2.grid(False)
     ax2.plot(ex.axis_values, cl.values, color=GOOD, lw=2.0, ls=":", marker="D",
              markevery=max(1, len(cl.values) // 10), ms=4,
              label=f"outlet concentration [{cl.unit}] — SIMULATED")
     ax2.set_ylabel(f"outlet conc. [{cl.unit}]", color=GOOD)
     h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="lower right", fontsize=7.6)
-    ax.set_title("Extraction progress — yield and outlet concentration")
-    ax.text(0.02, 0.96, "EY is derived from the simulated dissolved mass; concentration is a "
-            "modeled single soluble pool (composition, not flavor).",
-            transform=ax.transAxes, fontsize=6.8, color=NULL, va="top")
+    fig.suptitle("Extraction progress — yield and outlet concentration", y=0.93, fontsize=10.5)
+    fig.text(0.125, 0.86, "EY derives from simulated dissolved mass; single soluble pool, not flavor.\n"
+            "Historical Cameron source-reproduction discrepancy remains unresolved.\n"
+            "See summary / report for reference configuration, RMSE and source; not a current-run error bar.",
+            fontsize=6.8, color=NULL, va="top")
     _stamp(fig, ax, ex.component_id, ex.fidelity_ceiling, "derived + simulated")
     return _save(fig, path)
 
@@ -226,15 +250,20 @@ def _captions(run) -> str:
         f"Cup with each slot's execution status, plus recipe and final observables. EY "
         f"{obs['extraction_yield_pct']['value']}%, TDS {obs['tds_pct']['value']}%, shot "
         f"{obs['shot_duration_s']['value']} s. First drip and puck wetting are NOT modeled; pressure "
-        "is a prescribed constant; temperature is recorded-only.",
+        "is prescribed model overpressure; beverage target is prescribed; temperature is recorded-only.",
+        _AUDIT_NOTE + " Source: " + _AUDIT_SOURCE,
+        _INTERVAL_NOTE,
+        "Product interval statuses: " + "; ".join(
+            f"{f.field}={f.status.value}" for f in run.domain_findings),
         "",
-        "pressure_flow.png — Prescribed constant pump pressure (dashed, squares) on the left axis and "
+        "pressure_flow.png — Prescribed constant model overpressure (dashed, squares) on the left axis and "
         "the model's constant flow (solid, circles) on the right axis versus time. Pressure is an "
         "input, not a predicted profile.",
+        _PRESSURE_NOTE + " Source: " + _GUIDE_SOURCE,
         "",
         "cup_progress.png — Cumulative beverage mass (solid, circles; derived from model flow) and "
         "cumulative dissolved mass (dashed, triangles; simulated) versus time. Beverage mass is not "
-        "measured.",
+        "measured; the endpoint equals the prescribed beverage target by construction.",
         "",
         "extraction_progress.png — Cumulative extraction yield (solid, circles; derived) and outlet "
         "liquid concentration (dotted, diamonds; simulated) versus time. Composition, not flavor.",

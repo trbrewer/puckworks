@@ -4,7 +4,7 @@ CPU-only, no network, no private data. Same validation as the Python API. Warnin
 into the exported reports.
 
 Exit codes (stable):
-  0  success (including a completed warning-mode extrapolation)
+  0  success (including a completed warning-mode product-interval departure)
   2  REJECTED input / unexecutable configuration (PullDomainError)
   3  a required optional dependency for figures (matplotlib / the [viz] extra) is missing
   4  an output path already exists (without --force) or an I/O error
@@ -37,7 +37,7 @@ def _progress(event: PullEvent, payload: dict) -> None:
     if event is PullEvent.STAGE_STARTED:
         print(f"  … {payload.get('stage')}", file=sys.stderr)
     elif event is PullEvent.STAGE_WARNING:
-        print(f"  ⚠ {payload.get('stage')}: {payload.get('field')} out of evidence range",
+        print(f"  ⚠ {payload.get('stage')}: {payload.get('field')} outside configured product interval",
               file=sys.stderr)
 
 
@@ -145,8 +145,8 @@ def _cmd_run(args) -> int:
               file=sys.stderr)
 
     if run.warnings:
-        print(f"⚠ {len(run.warnings)} domain warning(s) — result is an EXTRAPOLATION beyond the "
-              "validated range:", file=sys.stderr)
+        print(f"⚠ {len(run.warnings)} domain warning(s) — outside configured product intervals; "
+              "physical applicability remains unqualified:", file=sys.stderr)
         for w in run.warnings:
             print(f"    - {w}", file=sys.stderr)
     # No "failed" completion_state is reachable here: the producer raises (PullDomainError /
@@ -162,15 +162,18 @@ def main(argv: list[str] | None = None) -> int:
 
     r = sub.add_parser("run", help="run a guided espresso pull")
     r.add_argument("--preset", default="guided_v1", choices=list(available_pull_presets()))
-    r.add_argument("--dose-g", type=float, dest="dose_g")
-    r.add_argument("--beverage-g", type=float, dest="beverage_g")
-    r.add_argument("--temperature-c", type=float, dest="temperature_c")
-    r.add_argument("--pressure-bar", type=float, dest="pressure_bar")
+    r.add_argument("--dose-g", type=float, dest="dose_g", help="prescribed dose; product interval 15-25 g")
+    r.add_argument("--beverage-g", type=float, dest="beverage_g", help="prescribed beverage target; product interval 25-60 g")
+    r.add_argument("--temperature-c", type=float, dest="temperature_c", help="recorded-only; does not affect the calculation")
+    r.add_argument("--pressure-bar", type=float, dest="pressure_bar",
+                   help="prescribed model overpressure, passed unchanged to Cameron; product interval "
+                        "6-9 bar is not an experimentally validated band; sensor-node equivalence unresolved")
     r.add_argument("--grinder-model", dest="grinder_model")
-    r.add_argument("--grind-setting", type=float, dest="grind_setting")
+    r.add_argument("--grind-setting", type=float, dest="grind_setting", help="EK43-specific dial; product interval 1.1-2.3")
     r.add_argument("--coffee-profile", dest="coffee_profile")
     r.add_argument("--bean-label", dest="bean_label")
-    r.add_argument("--domain-policy", choices=["warn", "strict"], default=None)
+    r.add_argument("--domain-policy", choices=["warn", "strict"], default=None,
+                   help="warn or block outside configured product intervals; membership is not physical validation")
     r.add_argument("--format", choices=["summary", "json", "markdown"], default="summary")
     r.add_argument("--out", default=None, help="write <out>.json and <out>.md")
     r.add_argument("--report-dir", dest="report_dir", default=None,

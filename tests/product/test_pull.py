@@ -646,3 +646,125 @@ def test_pw_pull_012_markdown_escapes_injected_label():
     run = simulate_pull(replace(r, bean_label="evil | ` * [x](http://x)\nnewline"), c)
     bean_line = next(l for l in pull_run_to_markdown(run).splitlines() if "bean" in l)
     assert "\\|" in bean_line and "\n" not in bean_line
+
+
+# PV-19A disclosure: existing policy outcomes and solver contract, not an empirical sweep.
+@pytest.fixture(scope="module")
+def reference_shot():
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    return cam.simulate_shot(gs=1.7, p_bar=9.0, m_in=0.020, m_out=0.040, N=40, M=24)
+
+
+@pytest.mark.parametrize("pressure,status", [(5.0, "warning"), (6.0, "in_domain"), (9.0, "in_domain")])
+@pytest.mark.parametrize("policy", ["warn", "strict"])
+def test_pressure_policy_and_unchanged_solver_input(pressure, status, policy, reference_shot, monkeypatch):
+    from dataclasses import replace
+    from unittest.mock import Mock
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+
+    recipe, config = _guided(pressure_bar=pressure, brew_temperature_c=91.0)
+    finding = next(f for f in p.evaluate_domain(recipe) if f.field == "pressure_bar")
+    assert finding.status.value == status
+    assert finding.supported_range == "6.0-9.0"  # legacy machine field and bounds stay intact
+    assert "configured product interval" in finding.technical_reason
+    assert "5-bar pump-overpressure reference" in finding.plain_explanation
+    assert "3/5/7/9-bar scaled model explorations" in finding.plain_explanation
+    assert "ESPRESSO_DEVELOPMENT_GUIDE.md" in finding.source
+    spy = Mock(return_value=reference_shot)  # routing/acceptance check, not a numerical result
+    monkeypatch.setattr(cam, "simulate_shot", spy)
+    config = replace(config, domain_policy=policy)
+    if pressure == 5.0 and policy == "strict":
+        with pytest.raises(p.PullDomainError, match="strict domain"):
+            p.simulate_pull(recipe, config)
+        spy.assert_not_called()
+    else:
+        run = p.simulate_pull(recipe, config)
+        spy.assert_called_once_with(gs=1.7, p_bar=pressure, m_in=0.020, m_out=0.040, N=40, M=24)
+        assert run.completion_state == ("completed_with_warnings" if pressure == 5.0 else "completed")
+        assert len(run.warnings) == (1 if pressure == 5.0 else 0)
+        assert run.final_observables["pressure_bar"]["value"] == pressure
+        assert "recorded-only" in run.stages[-1].inputs["temperature"]["note"]
+
+
+@pytest.mark.parametrize("field,edge", [("dose_g", 100.0), ("target_beverage_g", 500.0),
+                                       ("pressure_bar", 20.0), ("grind_setting", 2.5)])
+def test_admission_ceiling_is_unchanged_and_rejects_before_solver(field, edge, monkeypatch):
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    from unittest.mock import Mock
+    spy = Mock(side_effect=AssertionError("rejected input reached solver"))
+    monkeypatch.setattr(cam, "simulate_shot", spy)
+    recipe, config = _guided(**{field: edge})
+    assert not any(f.status is p.DomainStatus.REJECTED for f in p.evaluate_domain(recipe))
+    for outside in (math.nextafter(edge, math.inf), 0.0):
+        recipe, config = _guided(**{field: outside})
+        with pytest.raises(p.PullDomainError, match="rejected"):
+            p.simulate_pull(recipe, config)
+    spy.assert_not_called()
+
+
+@pytest.mark.parametrize("field,value,source", [
+    ("dose_g", 26.0, "Source reference: 20 g"),
+    ("target_beverage_g", 61.0, "Source reference: 40 g"),
+    ("grind_setting", 2.4, "seven SI S3 shot-time settings"),
+])
+def test_shared_interval_disclosure_keeps_source_support_distinct(field, value, source):
+    recipe, _ = _guided(**{field: value})
+    f = next(f for f in p.evaluate_domain(recipe) if f.field == field)
+    assert f.status is p.DomainStatus.WARNING
+    assert source in f.plain_explanation
+    assert "does not establish physical validation" in f.plain_explanation
+    assert "does not guarantee a supported physical prediction" in f.suggested_action
+
+
+def test_pressure_and_historical_audit_disclosures_in_serialized_results():
+    from puckworks.product._pull import pull_run_summary
+    payload = json.loads(p.pull_run_to_json(RUN))
+    assert payload == p.pull_run_to_dict(RUN)
+    assert payload["schema_version"] == 1
+    assert "passed unchanged" in payload["final_observables"]["pressure_bar"]["note"]
+    pressure = payload["traces"][0]["series"][0]
+    assert pressure["label"] == "Prescribed model overpressure"
+    assert pressure["role"] == "prescribed_input"
+    assert pressure["values"] == [9.0] * len(pressure["values"])
+    md = p.pull_run_to_markdown(RUN)
+    summary = pull_run_summary(RUN)
+    # An ordinary 9-bar recipe carries historical reference limitations, not its own measured error.
+    for text in (payload["stages"][-1]["caveat"], md, summary):
+        for token in ("20-g dose / 40-g beverage / 5-bar model overpressure", "N40/M24", "GS 1.1-2.3",
+                      "7.102391 EY percentage points against the homogeneous curve",
+                      "6.480780 EY percentage points against experimental means", "Codex local audit",
+                      "not an independent human review", "cause remain unresolved",
+                      "not recomputed for this run", "neither is a measured error for the current recipe",
+                      "ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md"):
+            assert token in text, token
+    for text in (md, summary, " ".join(payload["assumptions_summary"])):
+        assert "SI's 5-bar pump-overpressure" in text
+        assert "paper's 6-bar static-pressure" in text
+        assert "sensor-node equivalence remain unresolved" in text
+        assert "no universal one-bar conversion" in text
+        assert "not an experimentally validated pressure band" in text
+    assert "prescribed target; endpoint by construction" in md
+    assert "**in_domain**" in md
+    assert "recorded-only" in md and "recorded-only" in summary
+    assert md.index("7.102391") < md.index("## Stages")
+    assert "7.102391" in md.split("## What this does not prove")[1]
+
+
+def test_cli_pressure_help_and_warning_disclosure(capsys, monkeypatch, reference_shot):
+    from puckworks.product import _pull_cli as cli
+    from puckworks.models.cameron2020 import extraction_bdf as cam
+    with pytest.raises(SystemExit) as exc:
+        cli.main(["run", "--help"])
+    assert exc.value.code == 0
+    help_text = " ".join(capsys.readouterr().out.split())
+    assert "prescribed model overpressure, passed unchanged" in help_text
+    assert "not an experimentally validated band" in help_text
+    assert "recorded-only" in help_text
+    monkeypatch.setattr(cam, "simulate_shot", lambda **kw: reference_shot)
+    assert cli.main(["run", "--pressure-bar", "5"]) == 0
+    out, err = capsys.readouterr()
+    assert "5 bar prescribed model overpressure" in out
+    assert "Historical reference-configuration limitation" in out
+    assert "outside configured product intervals" in err
+    assert "physical applicability remains unqualified" in err
+    assert cli.main(["run", "--pressure-bar", "5", "--domain-policy", "strict"]) == 2
