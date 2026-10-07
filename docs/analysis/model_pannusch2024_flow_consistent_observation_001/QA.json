@@ -1,5 +1,6 @@
 {
   "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "accounting_exception": "Review metadata/hash audit 0.3 s charged retrospectively; 0.682913036 s bookkeeping-only failed audit launch reconciled. Public/common ledger retains no prior reservation for these items; no representative run unreserved and no budget ceiling exceeded.",
   "baseline_head": "b9ad38c6ebfe96d90462254dfb664dd789036b31",
   "baseline_hosted": {
     "disposition": "ALL_SUCCESS_ON_EXACT_BASE",
@@ -9,6 +10,113 @@
     "scientific_baseline": "https://github.com/trbrewer/puckworks/actions/runs/37682685764"
   },
   "baseline_tree": "9f1f93cf0147784055e9e9d2110b66b9e5ed2074",
+  "corrected_commands": [
+    {
+      "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "exit_code": 0,
+      "log": "corrected-focused.log",
+      "name": "corrected-focused",
+      "sha256": "d61f04df641079447759d2f9475233b3dc186fb5657fab1c4eb0e19cdc33d52b",
+      "wall_s": 11.260570216007181
+    },
+    {
+      "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "exit_code": 0,
+      "log": "corrected-minimum.log",
+      "name": "corrected-minimum",
+      "sha256": "36aed3a5e803608296463f4f64a66d3db588649e9ed9120d6fe37f3a39ed52b5",
+      "wall_s": 11.50708940300683
+    },
+    {
+      "command": "ruff check puckworks/ tests/ tools/pannusch_flow_consistent_verification.py",
+      "exit_code": 0,
+      "log": "corrected-ruff.log",
+      "name": "corrected-ruff",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "wall_s": 0.02823321399046108
+    },
+    {
+      "command": "mypy",
+      "exit_code": 0,
+      "log": "corrected-mypy.log",
+      "name": "corrected-mypy",
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "wall_s": 0.15670174999104347
+    },
+    {
+      "command": "python -m build --outdir '$EVIDENCE_DIR/dist-corrected' .",
+      "exit_code": 0,
+      "log": "corrected-build.log",
+      "name": "corrected-build",
+      "sha256": "5045a6b073caa7523a029eb99985ba430164dfda9b557eb33a8cfbb4fb76cec9",
+      "wall_s": 5.326113215996884
+    },
+    {
+      "command": "python tools/packaging_check.py '$EVIDENCE_DIR/dist-corrected'",
+      "exit_code": 0,
+      "log": "corrected-inventory.log",
+      "name": "corrected-inventory",
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+      "wall_s": 0.24421101200277917
+    },
+    {
+      "command": "python -m pip install --no-deps --force-reinstall '$EVIDENCE_DIR/dist-corrected/puckworks-0.4.0.dev0-py3-none-any.whl'",
+      "exit_code": 0,
+      "log": "corrected-wheel-install.log",
+      "name": "corrected-wheel-install",
+      "sha256": "a9de4ad38ea9daf5ca32ef9fb08993959ffcb44fc566f6ac13429b23101556a6",
+      "wall_s": 1.2621685679914663
+    },
+    {
+      "command": "python -c '<exact examples/pannusch_flow_consistent_observer.py source, installed wheel outside checkout>'",
+      "exit_code": 0,
+      "log": "corrected-wheel-observer.log",
+      "name": "corrected-wheel-observer",
+      "sha256": "328bf4da3953433fc3198621e62182198679febb5483ef15c86681d4bc843809",
+      "wall_s": 0.5089309949980816
+    },
+    {
+      "command": "python -m twine check '$EVIDENCE_DIR/dist-corrected/puckworks-0.4.0.dev0-py3-none-any.whl' '$EVIDENCE_DIR/dist-corrected/puckworks-0.4.0.dev0.tar.gz'",
+      "exit_code": 0,
+      "log": "corrected-twine.log",
+      "name": "corrected-twine",
+      "sha256": "c9cd7d7722efd8025dee1e3934a2cd4c0c352d9f09ee32ddec691b3e0d303bec",
+      "wall_s": 0.298936633989797
+    },
+    {
+      "command": "python -m pip wheel --no-deps -w '$EVIDENCE_DIR/sdwheel-corrected' '$EVIDENCE_DIR/dist-corrected/puckworks-0.4.0.dev0.tar.gz'",
+      "exit_code": 0,
+      "log": "corrected-sdist-rebuild.log",
+      "name": "corrected-sdist-rebuild",
+      "sha256": "bd103c530759a83d99f9c38e8a1f9720fd7cbf47782de23734db74fc2b82a2d8",
+      "wall_s": 2.88631302700378
+    },
+    {
+      "command": "python -m puckworks.statusdoc --verify",
+      "exit_code": 0,
+      "log": "corrected-status.log",
+      "name": "corrected-status",
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "wall_s": 0.42250815000443254
+    },
+    {
+      "command": "python tools/readme_governance.py verify",
+      "exit_code": 0,
+      "log": "corrected-readme.log",
+      "name": "corrected-readme",
+      "sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+      "wall_s": 0.37181326700374484
+    }
+  ],
+  "corrected_focused": {
+    "current_passed": 124,
+    "minimum_passed": 124,
+    "numpy_minimum": "2.0.2",
+    "review_regressions": "Doubled prior volumes and negative prior delivery with coherent raw/physical/hash views are explicitly rejected.",
+    "scipy_minimum": "1.13.1"
+  },
+  "corrected_numerical_source_head": "d42e21bd08420a303b017c4b5a1b1431c44e17e6",
+  "corrected_numerical_source_tree": "bec42879f95c61fee7f9ece3c25686341041b95a",
   "ewp_owner_checkout": "UNCHANGED_CLEAN; actual main still 16eec1dda24ebf658965eddcf1a6fffa81903b32",
   "final_commands": [
     {
@@ -280,13 +388,27 @@
     }
   ],
   "hosted_CI": "PENDING_EXACT_CANDIDATE",
-  "independent_review": "PENDING_ONE_INDEPENDENT_NONHUMAN_EXACT_HEAD_REVIEW",
+  "independent_review": "ONE_NONHUMAN_REVIEW_CHANGES_REQUESTED_AT_9891199d; P2_CORRECTED; BOUNDED_FINAL_HEAD_ADDENDUM_PENDING",
   "mypy": {
     "command": "mypy",
     "log": "candidate-mypy.log",
     "modules": 19,
     "result": "PASS",
     "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+  },
+  "numerical_correction_replays": {
+    "all_saved_arrays_bitwise_equal": true,
+    "cases": [
+      "C.caffeine.RESUME",
+      "D.caffeine.RESUME",
+      "E.caffeine.BRANCH"
+    ],
+    "count": 3,
+    "execution_ids": [
+      "exec-030",
+      "exec-031",
+      "exec-032"
+    ]
   },
   "numerical_source_head": "780fbda0edb27ffcd2bae85bc10650a41612df17",
   "numerical_source_tree": "d30b328c19e726f27ff31e72042aaef1e0f3eac6",
@@ -314,7 +436,7 @@
     "result": "PASS",
     "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
   },
-  "package_source_note": "Runtime observer bytes are identical to numerical producer 780fbda0. Subsequent changes are report/test/documentation only. Exact final-candidate packaging is also required by hosted CI.",
+  "package_source_note": "Corrected runtime built into a fresh wheel/sdist; inventory, installed-wheel observer, twine and sdist rebuild passed. Earlier full installed-wheel public-gate smoke remains applicable to unchanged legacy public modules; hosted packaging separately checks final head.",
   "prior_combined_minimum_dependencies": {
     "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
     "log": "min-focused.log",
@@ -335,7 +457,7 @@
     "passed": 5,
     "sha256": "ae5fba65d921fdac1d07df2d4c0621785efbaf2180961712ad6328bf7b56e222"
   },
-  "reporter_source_sha256": "2f09cd49e8aad85b960263e81b0b4313a82f6a0811c8f55e66a40d6d6b1f4837",
+  "reporter_source_sha256": "c8226d1e47a233d73450286bbd83a50aa1dd863b4016145be91680ab4684a9c0",
   "review_and_CI_receipt_location": "Draft PR final exact-head receipt; pending when this bundle was authored. No local check substitutes for either.",
   "ruff": {
     "command": "ruff check puckworks/ tests/ tools/pannusch_flow_consistent_verification.py",

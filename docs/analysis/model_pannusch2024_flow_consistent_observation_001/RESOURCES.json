@@ -49,9 +49,15 @@
       "kind": "GUARD_ONLY_EVIDENCE_REUSE",
       "reserved_wall_s": 120.0,
       "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 48.678555424005026,
+      "kind": "REPORT_ONLY",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
     }
   ],
-  "charged_total_wall_s": 1229.7039283290055,
+  "charged_total_wall_s": 1420.3022475850144,
   "executions": [
     {
       "case_id": "A.caffeine.BASE_003",
@@ -861,6 +867,90 @@
         "tools/pannusch_stateful_fv_verification.py": "3eef3fb6c9c31bb0da6a8c3ed61790cfa3af8a2275412a07319a56a8f0206fc0"
       },
       "receipt_sha256": "0d45f768efca15783ac947e028a7720d08660db567b3c876420ad96423e541bd",
+      "reserved_wall_s": 120.0,
+      "returncode": 0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "C.caffeine.RESUME",
+      "charged_wall_s": 46.20529071800411,
+      "correction": true,
+      "execution_id": "exec-030",
+      "identities": {
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CASES.json": "585e9b09bed82f92d91653a7a6eb427b497761585953dcce40ba5a921bae6b2e",
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CONTRACT.md": "a5c67891a8b09446874f0b83b6849ce1c88bbdefef2f998554d8949ba3d00674",
+        "numerical_runner_blocks": "043f85b744be3dfa17804f0999d24465fd8d5adbb81a8a34bd6554ad656b01d1",
+        "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+        "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+        "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+        "puckworks/models/pannusch2024/flow_consistent_observer.py": "f89ef214bfae8fdc34eeae652ac36cd87ed70c11c71b26341d281c2b646e6255",
+        "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+        "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+        "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+        "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+        "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+        "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+        "tools/pannusch_flow_consistent_verification.py": "1be5f4344c987e5a6918a63644149af087c79c829d93169f0cc4b5b67566dc7e",
+        "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+        "tools/pannusch_stateful_fv_verification.py": "3eef3fb6c9c31bb0da6a8c3ed61790cfa3af8a2275412a07319a56a8f0206fc0"
+      },
+      "receipt_sha256": "d7ad7128f93d8c0a0cc868251e4b18bc95cae6e6a698404c37d50862afde55bf",
+      "reserved_wall_s": 120.0,
+      "returncode": 0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "D.caffeine.RESUME",
+      "charged_wall_s": 48.15643509700021,
+      "correction": true,
+      "execution_id": "exec-031",
+      "identities": {
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CASES.json": "585e9b09bed82f92d91653a7a6eb427b497761585953dcce40ba5a921bae6b2e",
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CONTRACT.md": "a5c67891a8b09446874f0b83b6849ce1c88bbdefef2f998554d8949ba3d00674",
+        "numerical_runner_blocks": "043f85b744be3dfa17804f0999d24465fd8d5adbb81a8a34bd6554ad656b01d1",
+        "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+        "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+        "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+        "puckworks/models/pannusch2024/flow_consistent_observer.py": "f89ef214bfae8fdc34eeae652ac36cd87ed70c11c71b26341d281c2b646e6255",
+        "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+        "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+        "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+        "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+        "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+        "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+        "tools/pannusch_flow_consistent_verification.py": "1be5f4344c987e5a6918a63644149af087c79c829d93169f0cc4b5b67566dc7e",
+        "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+        "tools/pannusch_stateful_fv_verification.py": "3eef3fb6c9c31bb0da6a8c3ed61790cfa3af8a2275412a07319a56a8f0206fc0"
+      },
+      "receipt_sha256": "d8d8ba1556ac5326f6143eb562c09575d213730b87363f2747e05644faac18ff",
+      "reserved_wall_s": 120.0,
+      "returncode": 0,
+      "status": "COMPLETE"
+    },
+    {
+      "case_id": "E.caffeine.BRANCH",
+      "charged_wall_s": 47.55803801699949,
+      "correction": true,
+      "execution_id": "exec-032",
+      "identities": {
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CASES.json": "585e9b09bed82f92d91653a7a6eb427b497761585953dcce40ba5a921bae6b2e",
+        "docs/analysis/model_pannusch2024_flow_consistent_observation_001/CONTRACT.md": "a5c67891a8b09446874f0b83b6849ce1c88bbdefef2f998554d8949ba3d00674",
+        "numerical_runner_blocks": "043f85b744be3dfa17804f0999d24465fd8d5adbb81a8a34bd6554ad656b01d1",
+        "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+        "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639",
+        "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+        "puckworks/models/pannusch2024/flow_consistent_observer.py": "f89ef214bfae8fdc34eeae652ac36cd87ed70c11c71b26341d281c2b646e6255",
+        "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+        "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+        "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+        "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+        "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+        "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+        "tools/pannusch_flow_consistent_verification.py": "1be5f4344c987e5a6918a63644149af087c79c829d93169f0cc4b5b67566dc7e",
+        "tools/pannusch_flow_temp_fv_reference.py": "e3bb95de65e6ff39c6305a4da05c9f8518587f0be32d8e3d588f68e52af501ff",
+        "tools/pannusch_stateful_fv_verification.py": "3eef3fb6c9c31bb0da6a8c3ed61790cfa3af8a2275412a07319a56a8f0206fc0"
+      },
+      "receipt_sha256": "099dec22fd92a7b96cb623a93a485362e3e8cde23bedd2bee311575de66f2e0c",
       "reserved_wall_s": 120.0,
       "returncode": 0,
       "status": "COMPLETE"

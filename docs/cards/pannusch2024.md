@@ -441,8 +441,8 @@ accumulator; its denominator is actual prescribed volume. No default or legacy
 operator changes, including 005/006/007.
 
 G2 / NUMERICAL_METHOD_CHANGE / RESEARCH_ONLY. **VERIFIED_ON_DECLARED_CASES**
-for this separately identified observer: all frozen gates pass in 29 new
-executions, including independent physical-time phase references, actual-Q flux,
+for this separately identified observer: all frozen gates pass in 29 initial
+executions plus three validation-correction replays, including independent physical-time phase references, actual-Q flux,
 resolved temporal refinement, bounded mesh sensitivity, continuation and branch
 checks. At default h=0.02 s, the controlling short-fraction error changes from
 -2.02910268e-4 to -4.26277041e-8 on the original C* scale. Primary endpoints and

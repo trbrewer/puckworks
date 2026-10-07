@@ -63,7 +63,7 @@ allowances. This is bounded mesh sensitivity, not continuum validation.
 | Same-environment numerical repeat | PASS for every saved numerical array; runtime metadata separate |
 | Ordinary software QA | See [QA.json](QA.json); no historical selector exception |
 | Hosted CI | Pending at bundle authorship; exact final-head receipt belongs to the draft PR |
-| Independent review | Pending at bundle authorship; one nonhuman exact-head review and any bounded addendum belong to the draft PR |
+| Independent review | Pending at bundle authorship; one nonhuman exact-head review found the corrected P2 issue; its bounded final-head addendum belongs to the draft PR |
 | Physical validation | NOT_ESTABLISHED |
 
 ## Provenance, execution and resources
@@ -75,25 +75,52 @@ No equivalent work was found; #321 was excluded and completed #324 was not reope
 The feature worktree preserves all dependency-hashed legacy numerical modules,
 historical 004 evidence, 005/006/007 operators, workflows, dependencies and defaults.
 
-All 29 candidate/legacy/reference integrations are **new**, produced at commit
-780fbda0edb27ffcd2bae85bc10650a41612df17, tree
-d30b328c19e726f27ff31e72042aaef1e0f3eac6. Attached observers are charged with their
-producing integration. Later runner edits affect reporting only: bounded-memory
-reduction, full saved-array repeat comparison and strict-JSON scalar conversion.
-The numerical runner blocks and all numerical dependency hashes are verified
-unchanged before reduction; original producer identities are never rewritten.
+The initial 29 candidate/legacy/reference integrations were **new**, produced at
+commit 780fbda0edb27ffcd2bae85bc10650a41612df17, tree
+d30b328c19e726f27ff31e72042aaef1e0f3eac6. An independent nonhuman exact-head review
+of 9891199d23ca2d024ea94f343733ce57174c67a9 found one material continuation-accounting
+issue: coherently rehashed invalid prior volume or negative delivery terms could
+pass. The correction applies the existing checkpoint signed-increment criterion
+and exact known-plan volume-tail check, with two regression probes.
 
-[RESOURCES.json](RESOURCES.json) records 29/36 execution slots and
-1212.6755001830024/3600 charged seconds: 1111.2660759529972 integration seconds,
-12.212339675999829 archive-audit seconds, a retained failed 44.50836168299429-second
-report attempt (NumPy boolean JSON serialization), and a successful
-44.68872287101112-second report. Zero integration failures or correction replays;
-all seven correction slots remain unused. Maximum integration invocation was
-100.50022652299958 seconds, below 120. One numerical worker and one BLAS thread;
-every numerical/auxiliary process is capped at 2 GiB. Reservations are held in the
-existing Git-common-directory authority; external receipts, logs and arrays have
-one bound location. Ordinary small tests and silent integrity QA are separate.
-No numerical successor follows this campaign.
+Three reserved correction integrations (S resume, L resume, branch) were produced
+at d42e21bd08420a303b017c4b5a1b1431c44e17e6, tree
+bec42879f95c61fee7f9ece3c25686341041b95a. Every saved numerical array is bitwise
+identical to its original execution. The full original gate reduction passes again.
+The remaining 26 selected cases reuse their actual original producer records;
+none is restamped as a current observer result. A charged audit verifies that
+removing only the new guard definition/call makes the whole observer AST identical,
+that numerical runner blocks remain identical except the checked evidence loader,
+and that all retained receipt inputs pass the new guard. All other numerical
+source/plan/input/array bindings remain exact. Legacy stateful and checkpoint
+source bytes never changed: the prefix checkpoints from these new 780fbda0
+executions remain current-source checkpoints without migration. This does not
+make 004's older constructor-incompatible checkpoints current.
+
+Attached observers are charged with their producing integration. Reporting-only
+changes cover bounded memory, full saved-array comparisons and strict-JSON scalar
+conversion. Original producer identities and all superseded artifacts are retained.
+
+[RESOURCES.json](RESOURCES.json) records **32/36 execution slots** and
+**1420.3022475850144/3600 charged seconds**, including
+1253.185839785001 integration seconds and all auxiliary work. There are zero
+integration failures, three named correction integrations and four unused reserve
+slots. The maximum integration invocation remains 100.50022652299958 seconds,
+below 120. One numerical worker and one BLAS thread; numerical/auxiliary worker
+processes are capped at 2 GiB. Failed work is retained: a 44.50836168299429-second
+report serialization attempt and a 0.682913036-second bookkeeping-only audit launch.
+The successful guard/source/input audit cost 16.04551511000318 seconds; the final
+all-gate/array-comparison reduction cost 48.678555424005026 seconds.
+
+**Reservation exception, disclosed:** the independent review's two read-only
+receipt/source metadata checks were charged retrospectively at their complete
+enclosing-tool times (0.2 and 0.1 seconds). Their reservation did not occur before
+launch. The subsequent bookkeeping-only failed launch is also reconciled, with
+zero recorded prior reservation. This exception is preserved, not represented as
+fully compliant pre-launch accounting. No representative execution was unreserved;
+no slot, time, worker or memory ceiling was exceeded. The Git-common authority
+and one external evidence location retain all receipts/logs/arrays. Ordinary small
+tests and silent integrity QA remain separate. No numerical successor follows.
 
 [EVIDENCE_REUSE.json](EVIDENCE_REUSE.json) verifies original producer, source,
 input, plan, array and checked-support bindings. Its reuse is historical comparison,
@@ -117,12 +144,17 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m examples.pa
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py
 ```
 
-Recorded bounded campaign commands (outside normal CI; `EVIDENCE_DIR` denotes
+Recorded bounded campaign commands (outside normal CI; the initial execute used
+780fbda0, guard audit/corrections used d42e21bd; `EVIDENCE_DIR` denotes
 the private bound evidence location, not a public raw-data path):
 
 ```bash
 python -m tools.pannusch_flow_consistent_verification audit --evidence-dir "$EVIDENCE_DIR"
 python -m tools.pannusch_flow_consistent_verification execute --evidence-dir "$EVIDENCE_DIR"
+python -m tools.pannusch_flow_consistent_verification audit-guard --evidence-dir "$EVIDENCE_DIR"
+python -m tools.pannusch_flow_consistent_verification execute --evidence-dir "$EVIDENCE_DIR" --case-id C.caffeine.RESUME --correction
+python -m tools.pannusch_flow_consistent_verification execute --evidence-dir "$EVIDENCE_DIR" --case-id D.caffeine.RESUME --correction
+python -m tools.pannusch_flow_consistent_verification execute --evidence-dir "$EVIDENCE_DIR" --case-id E.caffeine.BRANCH --correction
 python -m tools.pannusch_flow_consistent_verification report --evidence-dir "$EVIDENCE_DIR"
 ```
 

@@ -677,6 +677,16 @@ def reduce_report(directory):
         comparisons['repeat']=_repeat_arrays(directory,data['D.default'][0],data['F.repeat'][0])
         checks['deterministic_repeat']=all(comparisons['repeat'].values())
     else:checks['deterministic_repeat']=False
+    # Additional compatibility receipt for the three reserved guard corrections.
+    # All original artifacts and producer identities remain separately retained.
+    executions=read_json(Path(directory)/'executions.json')
+    for name in ('C.caffeine.RESUME','D.caffeine.RESUME','E.caffeine.BRANCH'):
+        runs=[r for r in executions if r['case_id']==name]
+        if name in data and len(runs)>1 and runs[-1]['correction']:
+            row=runs[-2];path=Path(directory)/(row['execution_id']+'.json')
+            if digest(path)!=row['receipt_sha256']:raise ValueError('CORRECTION_ORIGINAL_RECEIPT_HASH')
+            original=read_json(path);_guard_only_reuse(original)
+            comparisons['guard_correction.'+name]=_repeat_arrays(directory,original,data[name][0])
     checks['all_independent_accounting']=len(accounts)==29 and all(v['passed'] for v in accounts.values())
     checks['full_coverage']=len(data)==29 and not missing
     # All old/new/reference fraction values and errors, including the controlling
