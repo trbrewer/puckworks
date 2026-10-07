@@ -56,6 +56,23 @@ def test_small_report_reducers_and_reference_quadrature(tmp_path):
     m,a,_=v.run_case(tmp_path,case,c,120)
     account=v._observer_account(m,a,c)
     assert account['passed'],[(k,x) for k,x in account.items() if isinstance(x,dict) and not x.get('passed',True)]
+    assert json.loads(json.dumps(v.sf._json(account),allow_nan=False))['passed'] is True
     rm,ra,_=v.run_case(tmp_path,dict(c['cases'][21],cells=4),c,120)
     account=v._reference_account(rm,ra,c)
     assert account['passed']
+
+
+def test_repeat_compares_full_saved_quadrature_and_checked_support(tmp_path):
+    # Reporting must not lose coverage when its working set discards large arrays.
+    a=dict(fields=np.ones((2,12)),observer_quadrature=np.ones((8,12)),exportable=np.ones(2))
+    np.savez(tmp_path/'left.npz',**a);np.savez(tmp_path/'right.npz',**a)
+    def meta(name):
+        return dict(execution_id=name,arrays_sha256=v.digest(tmp_path/(name+'.npz')))
+    assert all(v._repeat_arrays(tmp_path,meta('left'),meta('right')).values())
+    a['observer_quadrature'][0,6]=2.
+    np.savez(tmp_path/'right.npz',**a)
+    checks=v._repeat_arrays(tmp_path,meta('left'),meta('right'))
+    assert checks['fields'] and not checks['observer_quadrature']
+    stale=meta('right');a['exportable'][1]=0.;np.savez(tmp_path/'right.npz',**a)
+    with pytest.raises(ValueError,match='HASH_MISMATCH'):
+        v._repeat_arrays(tmp_path,meta('left'),stale)

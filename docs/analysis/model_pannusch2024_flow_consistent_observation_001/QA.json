@@ -1,0 +1,348 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "baseline_head": "b9ad38c6ebfe96d90462254dfb664dd789036b31",
+  "baseline_hosted": {
+    "disposition": "ALL_SUCCESS_ON_EXACT_BASE",
+    "generated": "https://github.com/trbrewer/puckworks/actions/runs/37682685727",
+    "packaging": "https://github.com/trbrewer/puckworks/actions/runs/37682685732",
+    "quick_pr": "https://github.com/trbrewer/puckworks/actions/runs/37682685846",
+    "scientific_baseline": "https://github.com/trbrewer/puckworks/actions/runs/37682685764"
+  },
+  "baseline_tree": "9f1f93cf0147784055e9e9d2110b66b9e5ed2074",
+  "ewp_owner_checkout": "UNCHANGED_CLEAN; actual main still 16eec1dda24ebf658965eddcf1a6fffa81903b32",
+  "final_commands": [
+    {
+      "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "exit_code": 0,
+      "log": "final-focused.log",
+      "name": "final-focused",
+      "sha256": "ab2aa0f3f92738cfe0ba4f73ba94637e27774216091614e2469a02575b6627a3",
+      "wall_s": 11.111978284010547
+    },
+    {
+      "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "exit_code": 0,
+      "log": "min-final-focused.log",
+      "name": "min-final-focused",
+      "sha256": "7edfdf7a9ac4c8de9e95aec7c1b1e84e86f210abec5af9d7c4d2cf9bff69638b",
+      "wall_s": 11.183398007997312
+    },
+    {
+      "command": "python -c 'import puckworks; assert '\"'\"'site-packages'\"'\"' in puckworks.__file__; puckworks.load_builtin_components(); s=puckworks.evaluate_all_gates(); assert s.passed; print('\"'\"'installed wheel public smoke PASS'\"'\"')'",
+      "exit_code": 0,
+      "log": "wheel-public-smoke.log",
+      "name": "wheel-public-smoke",
+      "sha256": "7f02172c8adb45a47cd444201fc647b78a21a96dbaaf0db5bf6f8ee4db0fa661",
+      "wall_s": 40.21674398500181
+    },
+    {
+      "command": "python -c '<exact examples/pannusch_flow_consistent_observer.py source, installed wheel outside checkout>'",
+      "exit_code": 0,
+      "log": "wheel-observer-smoke.log",
+      "name": "wheel-observer-smoke",
+      "sha256": "56080bd08ff4294f4a9b117f67e7105fc846a1cea358537d1a60ae003a29dfbd",
+      "wall_s": 0.5021034930105088
+    },
+    {
+      "command": "python -m twine check '$EVIDENCE_DIR/dist-final/puckworks-0.4.0.dev0-py3-none-any.whl' '$EVIDENCE_DIR/dist-final/puckworks-0.4.0.dev0.tar.gz'",
+      "exit_code": 0,
+      "log": "twine-final.log",
+      "name": "twine-final",
+      "sha256": "5f698268d177d7bfa3c7cf6c7c68aff94444212f40e23f1b4a20b371e59870ab",
+      "wall_s": 0.30115638200368267
+    },
+    {
+      "command": "python -m pip wheel --no-deps -w '$EVIDENCE_DIR/sdwheel' '$EVIDENCE_DIR/dist-final/puckworks-0.4.0.dev0.tar.gz'",
+      "exit_code": 0,
+      "log": "sdist-rebuild.log",
+      "name": "sdist-rebuild",
+      "sha256": "a3d8f21f7601431f2c6841b0211ebcd32f64568dc52902e55fb9ae3ba165daa2",
+      "wall_s": 2.9075300580007024
+    },
+    {
+      "command": "python -m puckworks.paper3.archive create-archive --out '$EVIDENCE_DIR/pa.tar.gz'",
+      "exit_code": 0,
+      "log": "archive-a.log",
+      "name": "archive-a",
+      "sha256": "9eaf093e7eb7d1fb0f9522e183ea2f694d7083675427b729cf0d21cfd8e5ab6d",
+      "wall_s": 0.5359514169977047
+    },
+    {
+      "command": "python -m puckworks.paper3.archive create-archive --out '$EVIDENCE_DIR/pb.tar.gz'",
+      "exit_code": 0,
+      "log": "archive-b.log",
+      "name": "archive-b",
+      "sha256": "447f30cd1acda941310d39398f4c1bd8ee6261e7a35d15aa8b79b892998716af",
+      "wall_s": 0.5356479499896523
+    },
+    {
+      "command": "cmp '$EVIDENCE_DIR/pa.tar.gz' '$EVIDENCE_DIR/pb.tar.gz'",
+      "exit_code": 0,
+      "log": "archive-identical.log",
+      "name": "archive-identical",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wall_s": 0.0027908300107810646
+    },
+    {
+      "command": "python -m puckworks.paper3.archive verify-archive '$EVIDENCE_DIR/pa.tar.gz'",
+      "exit_code": 0,
+      "log": "archive-verify.log",
+      "name": "archive-verify",
+      "sha256": "e8671d0203bb8dcd99c766dfb746421dd0cf5da873e9001e4befbac31f46aca2",
+      "wall_s": 0.442077101994073
+    },
+    {
+      "command": "ruff check puckworks/ tests/ tools/pannusch_flow_consistent_verification.py",
+      "exit_code": 0,
+      "log": "final-ruff.log",
+      "name": "final-ruff",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "wall_s": 0.03100007500324864
+    }
+  ],
+  "final_focused_and_minimum": {
+    "current": {
+      "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "log": "final-focused.log",
+      "passed": 122,
+      "sha256": "ab2aa0f3f92738cfe0ba4f73ba94637e27774216091614e2469a02575b6627a3"
+    },
+    "minimum": {
+      "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+      "log": "min-final-focused.log",
+      "note": "Exact hosted minimum lane on oldest supported Python 3.10 remains separately required.",
+      "numpy": "2.0.2",
+      "passed": 122,
+      "python": "3.12.3",
+      "scipy": "1.13.1",
+      "sha256": "7edfdf7a9ac4c8de9e95aec7c1b1e84e86f210abec5af9d7c4d2cf9bff69638b"
+    }
+  },
+  "final_untouched_source_check": "git diff --exit-code b9ad38c6ebfe96d90462254dfb664dd789036b31 -- dependency-hashed legacy Pannusch modules, old runners, original 004 bundle, pyproject.toml and .github/workflows: PASS",
+  "focused": {
+    "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py",
+    "log": "prefix-final.log",
+    "passed": 44,
+    "sha256": "1b27f0c3011967ba185d3500dbc4d5ce33e484c12b6051aa2b33e78a66eb9285",
+    "wall_s": 5.39
+  },
+  "generated_and_baseline_commands": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-00.log",
+      "wall_s": 0.36864458399941213
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-01.log",
+      "wall_s": 0.384548857997288
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-02.log",
+      "wall_s": 0.45018508000066504
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-03.log",
+      "wall_s": 0.36764589899394196
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "generated-04.log",
+      "wall_s": 0.5787871450011153
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "generated-05.log",
+      "wall_s": 0.7629142380028497
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "generated-06.log",
+      "wall_s": 11.186074047000147
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-07.log",
+      "wall_s": 2.897308139989036
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile"
+      ],
+      "exit_code": 0,
+      "log": "generated-08.log",
+      "wall_s": 0.3692100900079822
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-09.log",
+      "wall_s": 0.37934694498835597
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-10.log",
+      "wall_s": 0.42122048199234996
+    },
+    {
+      "command": [
+        "python",
+        "tools/readme_governance.py",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "generated-11.log",
+      "wall_s": 0.3699547750002239
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "examples.pannusch_flow_consistent_observer"
+      ],
+      "exit_code": 0,
+      "log": "generated-12.log",
+      "wall_s": 0.5339704340003664
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline and not live and not gpu and not external_data"
+      ],
+      "exit_code": 0,
+      "log": "generated-13.log",
+      "wall_s": 212.31588486199325
+    }
+  ],
+  "hosted_CI": "PENDING_EXACT_CANDIDATE",
+  "independent_review": "PENDING_ONE_INDEPENDENT_NONHUMAN_EXACT_HEAD_REVIEW",
+  "mypy": {
+    "command": "mypy",
+    "log": "candidate-mypy.log",
+    "modules": 19,
+    "result": "PASS",
+    "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+  },
+  "numerical_source_head": "780fbda0edb27ffcd2bae85bc10650a41612df17",
+  "numerical_source_tree": "d30b328c19e726f27ff31e72042aaef1e0f3eac6",
+  "ordinary_QA_boundary": "Normal selectors unchanged; no historical PR318 exclusion. Integrity QA remains isolated and silent. No empirical scoring or target values used for implementation/selection.",
+  "ordinary_regression": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q -m 'not slow and not live and not gpu and not external_data'",
+    "coverage_note": "Collected before additive tests were written; legacy numerical sources remained byte-identical throughout. Added observer tests run separately below; exact-base hosted QA is the pristine baseline authority.",
+    "deselected": 72,
+    "log": "baseline-quick.log",
+    "passed": 6085,
+    "sha256": "b1ab686687bfae2989e1bbe33a4158b5b6050a37d687716a10997f33ddafc255",
+    "skipped": 33,
+    "wall_s": 1374.33,
+    "warnings": 10
+  },
+  "package_build": {
+    "command": "python -m build --outdir \"$EVIDENCE_DIR/dist-final\" .",
+    "log": "package-final-build.log",
+    "result": "PASS",
+    "sha256": "753095f1906460d38583d8dc084d9b7d29e307210f5de8ae569df79626012f42"
+  },
+  "package_inventory": {
+    "command": "python tools/packaging_check.py \"$EVIDENCE_DIR/dist-final\"",
+    "log": "package-final-inventory.log",
+    "result": "PASS",
+    "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+  },
+  "package_source_note": "Runtime observer bytes are identical to numerical producer 780fbda0. Subsequent changes are report/test/documentation only. Exact final-candidate packaging is also required by hosted CI.",
+  "prior_combined_minimum_dependencies": {
+    "command": "python -m pytest -q tests/test_pannusch_flow_consistent_observer.py tests/test_pannusch_flow_consistent_verification.py tests/test_pannusch_stateful_fv.py tests/test_pannusch_stateful_fv_verification.py",
+    "log": "min-focused.log",
+    "note": "Before final admissible-prefix validation guard/test; affected minimum-dependency check follows at final head.",
+    "numpy": "2.0.2",
+    "passed": 120,
+    "python": "3.12.3",
+    "scipy": "1.13.1",
+    "sha256": "c81ead78372834b7c19a3d4b78066cd05c862c976412e7c32124c8de6f03d87c"
+  },
+  "report_only_changes_after_numerical_freeze": [
+    "bounded-memory report reduction",
+    "compare all saved repeat arrays instead of reduced working set",
+    "normalize NumPy booleans with existing strict-JSON conversion"
+  ],
+  "report_reducer_tests": {
+    "log": "report-reducers-final.log",
+    "passed": 5,
+    "sha256": "ae5fba65d921fdac1d07df2d4c0621785efbaf2180961712ad6328bf7b56e222"
+  },
+  "reporter_source_sha256": "2f09cd49e8aad85b960263e81b0b4313a82f6a0811c8f55e66a40d6d6b1f4837",
+  "review_and_CI_receipt_location": "Draft PR final exact-head receipt; pending when this bundle was authored. No local check substitutes for either.",
+  "ruff": {
+    "command": "ruff check puckworks/ tests/ tools/pannusch_flow_consistent_verification.py",
+    "log": "candidate-ruff.log",
+    "result": "PASS",
+    "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "software_QA": "PASS_LOCAL; HOSTED_EXACT_HEAD_SEPARATE",
+  "task": "MODEL-PANNUSCH2024-FLOW-CONSISTENT-OBSERVATION-001"
+}

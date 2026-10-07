@@ -503,6 +503,22 @@ def _reference_account(meta,a,c):
     return base
 
 
+
+def _repeat_arrays(directory, left, right):
+    """Compare every saved numerical array, streaming one pair at a time.
+
+    Caller has verified producer, receipt, source and array identities. Check
+    artifact bytes again here; runtime metadata is deliberately separate.
+    """
+    paths=[Path(directory)/(m['execution_id']+'.npz') for m in (left,right)]
+    for path,meta in zip(paths,(left,right)):
+        if digest(path)!=meta['arrays_sha256']:raise ValueError('REPEAT_ARRAY_HASH_MISMATCH')
+    with np.load(paths[0],allow_pickle=False) as a, np.load(paths[1],allow_pickle=False) as b:
+        checks={'same_array_keys':set(a.files)==set(b.files)}
+        checks.update({key:bool(key in b.files and np.array_equal(a[key],b[key])) for key in a.files})
+    return checks
+
+
 def reduce_report(directory):
     c=read_json(BUNDLE/'CASES.json');data={};missing={}
     checks={};comparisons={};old_comparisons={};accounts={};old_accounts={}
@@ -528,6 +544,13 @@ def reduce_report(directory):
         for key in ('observer_quadrature','observer_checks','panels','old_quadrature',
                     'reference_quadrature','diagnostic_fields','diagnostic_local_mass'):
             a.pop(key,None)
+        # Only restart comparisons need local raw accumulators. Preserve their
+        # exact samples; other cases retain phase/endpoint fields for all gates.
+        if name not in ('B.caffeine.U','C.caffeine.PREFIX','C.caffeine.RESUME',
+                        'D.default','D.caffeine.PREFIX','D.caffeine.RESUME'):
+            for key in ('raw_primary','raw_diagnostic','old_raw_diagnostic',
+                        'diagnostic_times','old_diagnostic_times'):
+                a.pop(key,None)
         data[name]=(m,a)
     def pair(name,left,right,tol,**kwargs):
         if left not in data or right not in data:
@@ -565,8 +588,7 @@ def reduce_report(directory):
         comparisons['mesh']=old.spatial(*data['D.default'],*data['D.N800'],c);checks['mesh']=comparisons['mesh']['passed']
     else:checks['mesh']=False
     if all(k in data for k in ('D.default','F.repeat')):
-        a,b=data['D.default'][1],data['F.repeat'][1]
-        comparisons['repeat']={k:bool(np.array_equal(v,b.get(k))) for k,v in a.items()}
+        comparisons['repeat']=_repeat_arrays(directory,data['D.default'][0],data['F.repeat'][0])
         checks['deterministic_repeat']=all(comparisons['repeat'].values())
     else:checks['deterministic_repeat']=False
     checks['all_independent_accounting']=len(accounts)==29 and all(v['passed'] for v in accounts.values())
@@ -603,6 +625,7 @@ def reduce_report(directory):
         producers={k:dict(commit=m['source_commit'],tree=m['source_tree'],upstream=m.get('upstream_result_sha256'),observer=m.get('observer_result_sha256'),
             arrays_sha256=m['arrays_sha256'],execution_id=m['execution_id']) for k,(m,a) in data.items()},
         runtime_accuracy='NOT_ASSESSED',PHYSICAL_VALIDATION='NOT_ESTABLISHED',scope='RESEARCH_ONLY',rights=RIGHTS)
+    record=sf._json(record)  # Preserve finite values; normalize NumPy scalar booleans.
     write_json(BUNDLE/'RESULTS.json',record)
     lines=['# Flow-consistent observer results','', '**'+dispositions['numerical_qualification']+'**; '+ob.METHOD+'.',
         'G2 / NUMERICAL_METHOD_CHANGE / RESEARCH_ONLY. Runtime accuracy NOT_ASSESSED.',

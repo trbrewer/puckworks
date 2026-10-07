@@ -440,7 +440,16 @@ The finite-fraction numerator evolves directly with a zero local outlet
 accumulator; its denominator is actual prescribed volume. No default or legacy
 operator changes, including 005/006/007.
 
-G2 / NUMERICAL_METHOD_CHANGE / RESEARCH_ONLY; qualification pending under the
-[frozen contract](../analysis/model_pannusch2024_flow_consistent_observation_001/CONTRACT.md).
+G2 / NUMERICAL_METHOD_CHANGE / RESEARCH_ONLY. **VERIFIED_ON_DECLARED_CASES**
+for this separately identified observer: all frozen gates pass in 29 new
+executions, including independent physical-time phase references, actual-Q flux,
+resolved temporal refinement, bounded mesh sensitivity, continuation and branch
+checks. At default h=0.02 s, the controlling short-fraction error changes from
+-2.02910268e-4 to -4.26277041e-8 on the original C* scale. Primary endpoints and
+whole-step delivery remain identical. [Results](../analysis/model_pannusch2024_flow_consistent_observation_001/RESULTS.md)
+and [handoff](../analysis/model_pannusch2024_flow_consistent_observation_001/HANDOFF.md)
+separate numerical qualification from software QA, hosted CI and independent
+review. [Small runnable example](../../examples/pannusch_flow_consistent_observer.py).
 Historical 004 remains IMPLEMENTED_QUALIFICATION_INCOMPLETE. Runtime accuracy
-NOT_ASSESSED; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+NOT_ASSESSED; PHYSICAL_VALIDATION=NOT_ESTABLISHED. This establishes no measured
+initial state, empirical accuracy, hydraulic prediction or taste claim.
