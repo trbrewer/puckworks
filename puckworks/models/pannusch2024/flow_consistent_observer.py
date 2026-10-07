@@ -36,6 +36,18 @@ def _finite_array(value, shape, name):
              and np.isrealobj(value) and np.isfinite(value).all(), name)
 
 
+def _check_prior_accounting(root_inventory, mode, start_index, prior_mass,
+                            prior_volume, flow, primary_times):
+    """Existing checkpoint invariants available from this result's own plan."""
+    _require(all(sf._within(min(0., x), root_inventory, 1e-10) for x in prior_mass),
+             "PRIOR_DELIVERY_ADMISSIBILITY")
+    if mode == "SAME_SCHEDULE_CONTINUATION":
+        expected = tuple(flow.integral(a, b) for a, b in
+                         zip(primary_times[:start_index], primary_times[1:start_index+1]))
+        _require(tuple(prior_volume[-start_index:]) == expected,
+                 "PRIOR_VOLUME_SCHEDULE_MISMATCH")
+
+
 def _checked_prefix(result):
     """Validate content and physical views; hashes are not execution authenticity.
 
@@ -100,6 +112,8 @@ def _checked_prefix(result):
                      "CONTINUATION_INDEX")
         else:
             _require(r.start_index == 0, "BRANCH_INDEX")
+    _check_prior_accounting(root.inventory_kg, r.mode, r.start_index,
+        r.prior_outlet_terms_kg, r.prior_volume_terms_m3, p.flow_history, p.primary_times_s)
     c = (r.raw_primary_masses_kg[:, :-1]/s.capacities).reshape(k, 3, n)
     for j, name in enumerate(('liquid_cell_average_kg_m3', 'fine_cell_average_kg_m3',
                               'coarse_cell_average_kg_m3')):

@@ -10,6 +10,7 @@ for _name in ('OPENBLAS_NUM_THREADS', 'OMP_NUM_THREADS', 'MKL_NUM_THREADS', 'NUM
     os.environ[_name] = '1'
 
 import argparse
+import ast
 from contextlib import contextmanager
 import fcntl
 import hashlib
@@ -84,6 +85,60 @@ def identities():
     return out
 
 
+
+def _guard_only_reuse(meta):
+    """Narrow proof for the one independently reviewed validation correction.
+
+    Original observations retain their producer/identity. No result is rebuilt
+    or restamped. Legacy upstream/checkpoint sources must remain byte-identical.
+    """
+    producer='780fbda0edb27ffcd2bae85bc10650a41612df17'
+    observer='puckworks/models/pannusch2024/flow_consistent_observer.py'
+    runner='tools/pannusch_flow_consistent_verification.py'
+    if meta['source_commit']!=producer:raise ValueError('UNSUPPORTED_REUSE_PRODUCER')
+    original={p:subprocess.check_output(['git','show',producer+':'+p],cwd=ROOT).decode() for p in (observer,runner)}
+    for path,source in original.items():
+        if hashlib.sha256(source.encode()).hexdigest()!=meta['identities'][path]:
+            raise ValueError('REUSE_PRODUCING_SOURCE_MISMATCH')
+    old_tree=ast.parse(original[observer]);new_tree=ast.parse((ROOT/observer).read_text())
+    guards=[f for f in new_tree.body if isinstance(f,ast.FunctionDef) and f.name=='_check_prior_accounting']
+    if len(guards)!=1:raise ValueError('REUSE_GUARD_MISSING')
+    new_tree.body.remove(guards[0])
+    prefix=next(f for f in new_tree.body if isinstance(f,ast.FunctionDef) and f.name=='_checked_prefix')
+    calls=[x for x in prefix.body if isinstance(x,ast.Expr) and isinstance(x.value,ast.Call)
+           and isinstance(x.value.func,ast.Name) and x.value.func.id=='_check_prior_accounting']
+    if len(calls)!=1:raise ValueError('REUSE_GUARD_CALL_MISMATCH')
+    prefix.body.remove(calls[0])
+    if ast.dump(old_tree)!=ast.dump(new_tree):raise ValueError('OBSERVER_NUMERICS_CHANGED')
+    names=('authority_path','locked_authority','reserve','identities','load_case','_trajectory',
+           '_reference','run_case','worker','execute')
+    before={f.name:f for f in ast.parse(original[runner]).body if isinstance(f,ast.FunctionDef)}
+    after={f.name:f for f in ast.parse(Path(__file__).read_text()).body if isinstance(f,ast.FunctionDef)}
+    lines=original[runner].splitlines(keepends=True)
+    def source(f):
+        first=min([f.lineno,*[d.lineno for d in f.decorator_list]])
+        return ''.join(lines[first-1:f.end_lineno])
+    frozen=hashlib.sha256('\n'.join(source(before[n]) for n in names).encode()).hexdigest()
+    if frozen!=meta['identities']['numerical_runner_blocks']:raise ValueError('REUSE_RUNNER_IDENTITY')
+    if any(ast.dump(before[n])!=ast.dump(after[n]) for n in names if n!='load_case'):
+        raise ValueError('REUSE_NUMERICAL_RUNNER_CHANGED')
+    # Apply the new read-only guard to actual retained receipt inputs, without
+    # manufacturing a StatefulFVResult or any current observer identity.
+    if 'observer_result_sha256' in meta:
+        plan=meta['plan'];times=plan['primary_times_s']
+        start=int(np.searchsorted(times,meta['actual_span_s'][0]))
+        flow=sf.FlowHistory(**plan['flow_history'])
+        root=meta['root_state']
+        inventory=sf._inventory(*(np.asarray(root[k]) for k in ('liquid_cell_average_kg_m3',
+            'fine_cell_average_kg_m3','coarse_cell_average_kg_m3')),root['grind'])
+        ob._check_prior_accounting(inventory,meta['mode'],start,
+            meta['prior_mass_terms'],meta['prior_volume_terms'],flow,times)
+    return dict(producer=producer,observer_ast_equal_without_added_guard=True,
+        numerical_runner_ast_equal_except_checked_loader=True,new_guard_passed_on_receipt_inputs=True,
+        checkpoint_policy='UPSTREAM_SOURCES_BYTE_IDENTICAL; CURRENT_CHECKPOINT_NOT_MIGRATED',
+        original_observer_identity_preserved=meta.get('observer_result_sha256'))
+
+
 def load_case(directory, case_id):
     rows = [r for r in read_json(Path(directory)/'executions.json') if r['case_id'] == case_id]
     if not rows or rows[-1]['status'] != 'COMPLETE':
@@ -95,7 +150,11 @@ def load_case(directory, case_id):
     if m['identities'] != row['identities'] or not m['coverage_complete']:
         raise ValueError('IDENTITY_OR_COVERAGE_MISMATCH')
     # Exact producing source remains authoritative even after report-only edits.
+    observer='puckworks/models/pannusch2024/flow_consistent_observer.py'
+    guard_reuse=m['identities'][observer]!=digest(ROOT/observer)
+    if guard_reuse:_guard_only_reuse(m)
     for name, sha in m['identities'].items():
+        if guard_reuse and name in (observer,'numerical_runner_blocks'):continue
         if name == 'numerical_runner_blocks':
             if identities()[name] != sha:raise ValueError('NUMERICAL_RUNNER_CHANGED')
             continue
@@ -414,6 +473,33 @@ def audit_reuse(directory):
     return record
 
 
+
+def audit_guard_reuse(directory):
+    """Charged source/input/array audit before three affected correction runs."""
+    proof=read_json(BUNDLE/'EVIDENCE_REUSE.json');rows=[]
+    for case in read_json(BUNDLE/'CASES.json')['cases']:
+        meta,arrays=load_case(directory,case['id'])
+        entry=_guard_only_reuse(meta)
+        entry.update(case_id=case['id'],arrays_sha256=meta['arrays_sha256'],
+            source_identities=meta['identities'],upstream_result_sha256=meta.get('upstream_result_sha256'),
+            plan_sha256=meta['plan_sha256'])
+        if 'checkpoint_sha256' in meta:
+            path=Path(directory)/(meta['execution_id']+'.checkpoint.json')
+            if digest(path)!=meta['checkpoint_sha256']:raise ValueError('REUSE_CURRENT_CHECKPOINT_BYTES')
+            cp=sf.FVCheckpoint.from_json(path.read_text())
+            if cp.identity_sha256!=meta['checkpoint_identity']:raise ValueError('REUSE_CURRENT_CHECKPOINT_IDENTITY')
+            entry['unchanged_current_source_checkpoint_validated']=cp.identity_sha256
+        rows.append(entry);del arrays
+    proof['independent_review_guard_correction']=dict(
+        finding='Prior signed delivery and same-schedule volume-tail checkpoint invariants missing',
+        observer_source_sha256=digest(Path(ob.__file__)),runner_source_sha256=digest(Path(__file__)),
+        frozen_contract_unchanged=True,original_records_retained=rows,
+        correction_cases=['C.caffeine.RESUME','D.caffeine.RESUME','E.caffeine.BRANCH'],
+        scope='Validation-only reuse, no altered numerical expression or old result/current identity fabrication')
+    write_json(BUNDLE/'EVIDENCE_REUSE.json',proof)
+    return proof
+
+
 def _old_arrays(a):
     legacy=dict(a)
     for name in ('times','fields','local_mass','origin_mass','local_volume','origin_volume','fractions','quadrature','diagnostic_times','raw_diagnostic'):
@@ -651,12 +737,13 @@ def reduce_report(directory):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['execute','worker','audit','report'])
+    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['execute','worker','audit','audit-guard','report'])
     parser.add_argument('--evidence-dir',type=Path,required=True);parser.add_argument('--case-id');parser.add_argument('--execution-id')
     parser.add_argument('--correction',action='store_true');args=parser.parse_args()
     if args.command=='execute':execute(args.evidence_dir,args.case_id,args.correction)
     elif args.command=='worker':return worker(args.evidence_dir,args.case_id,args.execution_id)
     elif args.command=='audit':auxiliary(args.evidence_dir,'VERIFIED_ARCHIVE_REUSE',lambda:audit_reuse(args.evidence_dir))
+    elif args.command=='audit-guard':auxiliary(args.evidence_dir,'GUARD_ONLY_EVIDENCE_REUSE',lambda:audit_guard_reuse(args.evidence_dir))
     else:auxiliary(args.evidence_dir,'REPORT_ONLY',lambda:reduce_report(args.evidence_dir))
     return 0
 

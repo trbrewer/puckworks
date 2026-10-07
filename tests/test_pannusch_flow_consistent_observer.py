@@ -290,3 +290,33 @@ def test_later_inadmissibility_retains_prefix_without_future_forcing():
     with patch.object(sf.FlowHistory,'value_m3_s',guarded_value),patch.object(sf.FlowHistory,'integral',guarded_integral):
         z=ob.observe_flow_consistent_fv(r,observation_times_s=(end,.11))
     assert z.observation_status==('SUPPORTED','OUTSIDE_UPSTREAM_CHECKED_PREFIX')
+
+
+@pytest.mark.parametrize('corruption', ['volume', 'negative_mass'])
+def test_continuation_rejects_corrupt_prior_terms_even_with_consistent_views(corruption):
+    p,state=fixture();tc=p.primary_times_s[3]
+    prefix=run(p,state,stop_time_s=tc)
+    r=sf.simulate_stateful_fv(checkpoint=prefix.checkpoint(tc),observation_times_s=(tc,.11))
+    if corruption=='volume':
+        terms=tuple(2*v for v in r.prior_volume_terms_m3)
+        def changed(tr):
+            return replace(tr,origin_volume_m3=np.array([math.fsum((*terms,v)) for v in tr.segment_volume_m3]))
+        bad=replace(r,prior_volume_terms_m3=terms,primary=changed(r.primary),observations=changed(r.observations))
+        reason='PRIOR_VOLUME_SCHEDULE_MISMATCH'
+        checkpoint_reason='CHECKPOINT_VOLUME_SCHEDULE_MISMATCH'
+    else:
+        old=r.prior_outlet_terms_kg
+        terms=(-r.root_state.inventory_kg,math.fsum((old[0],old[1],r.root_state.inventory_kg)),*old[2:])
+        def changed(tr):
+            values=[]
+            for t in tr.times_s:
+                j=int(np.searchsorted(r.primary.times_s,t))
+                values.append(math.fsum((*terms,*r.step_outlet_solute_kg[:j])))
+            return replace(tr,origin_outlet_solute_kg=np.array(values))
+        bad=replace(r,prior_outlet_terms_kg=terms,primary=changed(r.primary),observations=changed(r.observations))
+        reason='PRIOR_DELIVERY_ADMISSIBILITY'
+        checkpoint_reason='CHECKPOINT_ACCUMULATOR_MISMATCH'
+    assert bad.identity_sha256==sf._hash(bad)
+    with pytest.raises(ValueError,match=checkpoint_reason):bad.checkpoint(.11)
+    with pytest.raises(ValueError,match=reason):ob.observe_flow_consistent_fv(bad,observation_times_s=(tc,.11))
+    assert ob.observe_flow_consistent_fv(r,observation_times_s=(tc,.11)).request_support=='COMPLETE'

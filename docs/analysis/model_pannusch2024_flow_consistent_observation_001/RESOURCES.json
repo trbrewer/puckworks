@@ -17,9 +17,41 @@
       "kind": "REPORT_ONLY",
       "reserved_wall_s": 120.0,
       "status": "COMPLETE"
+    },
+    {
+      "charged_wall_s": 0.2,
+      "kind": "INDEPENDENT_REVIEW_RECEIPT_METADATA_AUDIT",
+      "reason": "Reviewer read-only metadata/hash audit was not reserved before launch; disclosed and charged on reconciliation",
+      "reservation": "RETROSPECTIVE_ACCOUNTING_EXCEPTION",
+      "reserved_wall_s": 0.0,
+      "status": "COMPLETE",
+      "timing_basis": "Complete enclosing tool elapsed, conservatively charged; no NPZ reduction or integration"
+    },
+    {
+      "charged_wall_s": 0.1,
+      "kind": "INDEPENDENT_REVIEW_SOURCE_METADATA_AUDIT",
+      "reason": "Reviewer read-only metadata/hash audit was not reserved before launch; disclosed and charged on reconciliation",
+      "reservation": "RETROSPECTIVE_ACCOUNTING_EXCEPTION",
+      "reserved_wall_s": 0.0,
+      "status": "COMPLETE",
+      "timing_basis": "Complete enclosing tool elapsed, conservatively charged; no NPZ reduction or integration"
+    },
+    {
+      "charged_wall_s": 0.682913036,
+      "kind": "GUARD_AUDIT_LAUNCH_BOOKKEEPING_FAILURE",
+      "reason": "Reconciled review metadata rows lacked the required reserved_wall_s key; failed before archive operation. Zero denotes no prior reservation.",
+      "reservation": "RETROSPECTIVE_LAUNCH_RECONCILIATION",
+      "reserved_wall_s": 0.0,
+      "status": "FAILED"
+    },
+    {
+      "charged_wall_s": 16.04551511000318,
+      "kind": "GUARD_ONLY_EVIDENCE_REUSE",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
     }
   ],
-  "charged_total_wall_s": 1212.6755001830024,
+  "charged_total_wall_s": 1229.7039283290055,
   "executions": [
     {
       "case_id": "A.caffeine.BASE_003",
