@@ -267,6 +267,12 @@ def run_case(directory, case, c, limit):
         # Saved raw observation accumulators permit direct local restart reduction.
         times, idx=np.unique(np.r_[primary.times_s,z.observations.times_s],return_index=True)
         arrays.update(diagnostic_times=times,raw_diagnostic=np.vstack((r.raw_primary_masses_kg,z.raw_observation_masses_kg))[idx])
+        shared,oi,pi=np.intersect1d(z.observations.times_s,r.primary.times_s,return_indices=True)
+        endpoint_identity=bool(np.array_equal(old.fields_array(z.observations)[oi],old.fields_array(r.primary)[pi])
+            and np.array_equal(z.observations.segment_outlet_solute_kg[oi],r.primary.segment_outlet_solute_kg[pi])
+            and np.array_equal(z.observations.origin_outlet_solute_kg[oi],r.primary.origin_outlet_solute_kg[pi]))
+        whole_identity=all(panel.solute_kg==r.step_outlet_solute_kg[panel.owner_index] for panel in z.panels
+            if panel.start_s==r.primary.times_s[panel.owner_index] and panel.end_s==r.primary.times_s[panel.owner_index+1])
         meta.update(status=r.status,integration_complete=r.integration_complete,actual_span_s=[start,r.actual_end_s],mode=r.mode,
             parent_identity=r.parent_identity,upstream_result_sha256=r.identity_sha256,observer_result_sha256=z.identity_sha256,
             model_identity=r.root_state.model_identity,root_state=sf._json(r.root_state),plan=sf._json(p),
@@ -274,7 +280,8 @@ def run_case(directory, case, c, limit):
             observer_support=z.request_support,observer_reason=z.reason,observer_admissibility=z.numerical_admissibility,
             fraction_status=[f.status for f in z.fractions],fraction_reason=[f.reason for f in z.fractions],
             propagations=r.propagations,exponential_applications=r.exponential_applications+z.exponential_applications,
-            primary_unchanged=sf._hash(r)==r.identity_sha256,legacy_diagnostics=sf._json(r.diagnostics))
+            primary_unchanged=sf._hash(r)==r.identity_sha256 and endpoint_identity and whole_identity,
+            observed_primary_endpoint_count=len(shared),observed_primary_identity=endpoint_identity,whole_step_identity=whole_identity,legacy_diagnostics=sf._json(r.diagnostics))
         if method=='PREFIX' and r.integration_complete:
             exported=r.checkpoint(stop).to_json()
             meta['checkpoint_identity']=r.checkpoint(stop).identity_sha256
