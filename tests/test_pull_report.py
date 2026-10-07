@@ -98,3 +98,49 @@ def test_cameron_has_a_fidelity_ceiling():
     from puckworks.viz.spec import FIDELITY_CEILINGS
     assert "cameron2020.extraction_bdf" in FIDELITY_CEILINGS
     assert FIDELITY_CEILINGS["cameron2020.extraction_bdf"]
+
+
+@pytest.mark.parametrize("pressure,status", [(5.0, "warning"), (9.0, "in_domain")])
+def test_report_disclosure_and_plotted_pressure_preserve_run(pressure, status, tmp_path, monkeypatch):
+    pytest.importorskip("matplotlib")
+    import matplotlib.pyplot as plt
+    from dataclasses import replace
+    from puckworks.viz import pull_report
+
+    recipe, config = p.load_pull_preset("guided_v1")
+    run = p.simulate_pull(replace(recipe, pressure_bar=pressure), config)
+    captured = {}
+
+    def inspect_figure(fig, path):
+        from pathlib import Path
+        texts = [t.get_text() for t in fig.texts]
+        for ax in fig.axes:
+            texts += [ax.get_title(), ax.get_ylabel()] + [t.get_text() for t in ax.texts]
+        captured[Path(path).name] = " ".join(" ".join(texts).split())
+        if Path(path).name == "pressure_flow.png":
+            line = fig.axes[0].lines[0]
+            trace = next(t for t in run.traces if t.trace_id == "machine_flow_time")
+            assert tuple(line.get_xdata()) == trace.axis_values
+            assert tuple(line.get_ydata()) == trace.series[0].values
+            assert "prescribed model overpressure [bar]" in line.get_label()
+        plt.close(fig)
+        return path
+
+    monkeypatch.setattr(pull_report, "_save", inspect_figure)
+    before = p.pull_run_to_json(run)
+    art = p.render_pull_report(run, tmp_path / "report")
+    assert p.pull_run_to_json(run) == before
+    from pathlib import Path
+    captions = Path(art.captions_txt).read_text()
+    md = Path(art.report_md).read_text()
+    summary = captured["guided_pull_summary.png"]
+    for text in (summary, captions):
+        for token in ("prescribed model overpressure", "prescribed beverage target", "N40/M24",
+                      "7.102391 EY percentage points", "6.480780 EY percentage points",
+                      "not recomputed for this run", f"pressure_bar={status}"):
+            assert token in text, token
+    assert "ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md" in captions and "7.102391" in md
+    assert "model overpressure [bar]" in captured["pressure_flow.png"]
+    assert "sensor-node equivalence unresolved" in captured["pressure_flow.png"]
+    assert "prescribed beverage target by construction" in captured["cup_progress.png"]
+    assert "not a current-run error bar" in captured["extraction_progress.png"]

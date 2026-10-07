@@ -29,8 +29,8 @@ import puckworks
 
 PULL_RUN_SCHEMA_VERSION = 1
 
-# EK43 dial range the primary model is documented for (evidence/calibration bounds), plus the wider
-# solver-safe hard bounds. Sources: cameron2020.extraction_bdf card (valid_range) + solver limits.
+# Legacy *_EVIDENCE names denote configured product intervals, not empirical validation bands.
+# The wider hard bounds govern computational admission, not guaranteed numerical/physical safety.
 _GS_EVIDENCE = (1.1, 2.3)
 _GS_HARD = (1.0, 2.5)
 _DOSE_EVIDENCE_G = (15.0, 25.0)
@@ -41,13 +41,47 @@ _PRESSURE_EVIDENCE_BAR = (6.0, 9.0)
 # a departure is NOT model extrapolation (it is NOT_APPLICABLE, never a WARNING).
 _TEMP_LIQUID_C = (0.0, 100.0)
 
-# Hard COMPUTATIONAL-SAFETY ceilings (distinct from the evidence ranges above): generous
-# "nothing is physically sane past here" bounds that keep an absurd input (e.g. dose_g=1e9) out of
-# the solver, where it would blow up bed depth / flux and produce non-finite output. A value inside
-# the ceiling but outside the evidence range is still only a WARNING; only past the ceiling is REJECT.
-_DOSE_HARD_MAX = 100.0        # g  (espresso dose is ~7-25 g; 4x the evidence max)
+# Existing admission ceilings reject oversized inputs before execution. Admission does not prove
+# that every accepted combination computes successfully or predicts a physical cup.
+_DOSE_HARD_MAX = 100.0        # g
 _BEV_HARD_MAX = 500.0         # g
-_PRESSURE_HARD_MAX = 20.0     # bar (Ulka deadhead ~15 bar)
+_PRESSURE_HARD_MAX = 20.0     # bar
+
+_GUIDE_SOURCE = (
+    "https://github.com/trbrewer/puckworks/blob/main/docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md")
+_AUDIT_SOURCE = (
+    "https://github.com/trbrewer/puckworks/blob/main/docs/research/"
+    "ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md")
+_PRESSURE_NOTE = (
+    "Prescribed model overpressure: pressure_bar is passed unchanged to the Cameron calculation; "
+    "not a measured puck pressure or an independently verified pressure drop across the bed. "
+    "The guide's source account distinguishes the SI's 5-bar pump-overpressure reference from the "
+    "main paper's 6-bar static-pressure label. Pressure-reference and sensor-node equivalence remain "
+    "unresolved; no universal one-bar conversion is applied.")
+_INTERVAL_NOTE = (
+    "Domain statuses describe configured product intervals, not scientific evidence ratings. "
+    "The 6-9 bar interval is not an experimentally validated pressure band. Being inside an interval "
+    "does not qualify a physical prediction; being outside does not by itself establish empirical "
+    "extrapolation. Hard bounds control computational admission, not numerical or physical safety.")
+_AUDIT_NOTE = (
+    "Historical reference-configuration limitation: the Codex local audit (2026-09-30; not an "
+    "independent human review) compared 20-g dose / 40-g beverage / 5-bar model overpressure, "
+    "N40/M24, EK43 GS 1.1-2.3, with the retained 118 kg/m^3 grain inventory. RMSE was 7.102391 "
+    "EY percentage points against the homogeneous curve and 6.480780 EY percentage points against "
+    "experimental means. Source reproduction and the cause remain unresolved. These historical "
+    "scores were not recomputed for this run: neither is a measured error for the current recipe, "
+    "a pointwise error bar, or a correction factor.")
+_INTERVAL_SOURCES = {
+    "pressure_bar": "SI: 5-bar pump-overpressure reference; 3/5/7/9-bar scaled model explorations, "
+                    "not an experimentally validated band. Product interval: 6-9 bar.",
+    "dose_g": "Source reference: 20 g; SI explores 16/18/20/22/24-g model geometry. "
+              "Product interval: 15-25 g, not empirical validation of every dose.",
+    "target_beverage_g": "Source reference: 40 g beverage. Product interval: 25-60 g, "
+                         "not an experimentally validated beverage band.",
+    "grind_setting": "Source support: seven SI S3 shot-time settings, EK43 GS 1.1-2.3. "
+                     "Product interval: 1.1-2.3; wider 1.0-2.5 microstructure knots permit admission. "
+                     "Neither qualifies every recipe or transfers to another grinder.",
+}
 
 _PRIMARY = "cameron2020.extraction_bdf"
 _SUPPORTED_CONFIG_IDS = ("pv19_named", "guided_v1")
@@ -109,7 +143,7 @@ class PullEvent(str, Enum):
 
 
 class PullDomainError(ValueError):
-    """Raised when a recipe/config is hard-invalid (REJECTED), or leaves evidence domain under
+    """Raised when a recipe/config is hard-invalid (REJECTED), or leaves a product interval under
     ``domain_policy='strict'``."""
 
 
@@ -441,20 +475,24 @@ def _hard(field, value, ok, rng, units, reason, plain, action):
     if ok:
         return None
     return DomainFinding(DomainStatus.REJECTED, field, value, rng, units,
-                         _PRIMARY, reason, plain, action, "solver/physical limits")
+                         _PRIMARY, reason, plain, action, "Guided Pull computational admission policy")
 
 
 def _evidence(field, value, lo, hi, units, plain):
+    context = _INTERVAL_SOURCES[field]
+    explanation = plain + " " + context + " Interval membership does not establish physical validation."
+    source = "Guide's source-to-product account: " + _GUIDE_SOURCE
     if lo <= value <= hi:
         return DomainFinding(DomainStatus.IN_DOMAIN, field, value, f"{lo}-{hi}", units,
-                             _PRIMARY, "within documented evidence range",
-                             plain, "", "cameron2020.extraction_bdf card")
+                             _PRIMARY, "within configured product interval",
+                             explanation, "", source)
     return DomainFinding(DomainStatus.WARNING, field, value, f"{lo}-{hi}", units,
                          _PRIMARY,
-                         f"{value} is outside the documented evidence range {lo}-{hi} {units}",
-                         plain + " — this run extrapolates beyond the model's validated range",
-                         f"move {field} into {lo}-{hi} {units} for a supported result",
-                         "cameron2020.extraction_bdf card")
+                         f"{value} is outside the configured product interval {lo}-{hi} {units}",
+                         explanation + " Outside the product interval; physical applicability remains unqualified.",
+                         f"use {lo}-{hi} {units} to satisfy the {field} interval policy; "
+                         "this does not guarantee a supported physical prediction",
+                         source)
 
 
 def _grind_setting(recipe: PullRecipe) -> float:
@@ -467,31 +505,31 @@ def _grind_setting(recipe: PullRecipe) -> float:
 
 
 def evaluate_domain(recipe: PullRecipe) -> tuple[DomainFinding, ...]:
-    """Return all domain findings. Hard-invalid inputs are REJECTED; evidence-range departures are
+    """Return all domain findings. Hard-invalid inputs are REJECTED; product-interval departures are
     WARNING; recorded-only / not-modeled inputs are NOT_APPLICABLE. Never clamps."""
     gs = recipe.grind_setting
     findings: list[DomainFinding | None] = [
         _hard("dose_g", recipe.dose_g, 0 < recipe.dose_g <= _DOSE_HARD_MAX, f"0-{_DOSE_HARD_MAX:g}", "g",
-              "dose must be positive and within the solver-safe ceiling",
-              "You must use some coffee, and not an absurd amount.", "set a dose in ~15-25 g"),
+              "dose must be positive and within the computational admission ceiling",
+              "This dose is outside the product's computational admission bounds.", "set a dose in ~15-25 g"),
         _hard("target_beverage_g", recipe.target_beverage_g,
               0 < recipe.target_beverage_g <= _BEV_HARD_MAX, f"0-{_BEV_HARD_MAX:g}", "g",
-              "beverage mass must be positive and within the solver-safe ceiling",
-              "The cup must hold some liquid, and not an absurd amount.", "set a target in ~25-60 g"),
+              "beverage mass must be positive and within the computational admission ceiling",
+              "This target is outside the product's computational admission bounds.", "set a target in ~25-60 g"),
         _hard("brew_temperature_c", recipe.brew_temperature_c,
               _TEMP_LIQUID_C[0] < recipe.brew_temperature_c < _TEMP_LIQUID_C[1],
               "0-100 (exclusive)", "degC", "not a liquid-water brew temperature",
               "Recorded brew temperature must be between 0 and 100 C.", "record ~85-96 C"),
         _hard("pressure_bar", recipe.pressure_bar, 0 < recipe.pressure_bar <= _PRESSURE_HARD_MAX,
               f"0-{_PRESSURE_HARD_MAX:g}", "bar",
-              "pump overpressure must be positive and within the solver-safe ceiling",
-              "The pump must push, but not past a physically implausible pressure.", "use ~6-9 bar"),
+              "model overpressure must be positive and within the computational admission ceiling",
+              "This prescribed model input is outside the product's admission bounds.", "use ~6-9 bar model overpressure"),
     ]
     if gs is not None:
         findings.append(_hard("grind_setting", gs, _GS_HARD[0] <= gs <= _GS_HARD[1],
                               f"{_GS_HARD[0]}-{_GS_HARD[1]}", "EK43 dial",
-                              "grind setting outside the solver-safe range",
-                              "This grind is too far outside the model's stable range to compute.",
+                              "grind setting outside the computational admission range",
+                              "This grind is outside the admitted microstructure-table range.",
                               f"use an EK43 dial in {_GS_EVIDENCE[0]}-{_GS_EVIDENCE[1]}"))
     # Unsupported recipe fields: rejected (never silently accepted) until a capable component couples.
     if recipe.preinfusion_s is not None:
@@ -523,7 +561,7 @@ def evaluate_domain(recipe: PullRecipe) -> tuple[DomainFinding, ...]:
         _evidence("grind_setting", gs, *_GS_EVIDENCE, "EK43 dial", "How fine the coffee is ground.") if gs is not None else None,
         _evidence("dose_g", recipe.dose_g, *_DOSE_EVIDENCE_G, "g", "How much dry coffee."),
         _evidence("target_beverage_g", recipe.target_beverage_g, *_BEV_EVIDENCE_G, "g", "How much espresso in the cup."),
-        _evidence("pressure_bar", recipe.pressure_bar, *_PRESSURE_EVIDENCE_BAR, "bar", "Pump pressure."),
+        _evidence("pressure_bar", recipe.pressure_bar, *_PRESSURE_EVIDENCE_BAR, "bar", "Prescribed model overpressure."),
         # Temperature is RECORDED-ONLY — the primary model has no thermal transient, so a departure is
         # NOT model extrapolation. It is reported as NOT_APPLICABLE, never a WARNING.
         DomainFinding(
@@ -679,11 +717,11 @@ def _build_traces(cam_model, cam, recipe, gs, q, shot) -> tuple[PullTrace, ...]:
 
     machine_flow = trace(
         "machine_flow_time", "machine_flow", "time", "s", t,
-        [_series("prescribed_pressure_bar", "Prescribed pump pressure", pressure_series, "bar",
+        [_series("prescribed_pressure_bar", "Prescribed model overpressure", pressure_series, "bar",
                  "prescribed_input",
-                 "prescribed constant pump overpressure — a model input, not a measured or predicted "
-                 "pressure trace",
-                 "the model does not predict a dynamic pressure profile; this line is the input you set"),
+                 "pressure_bar passed unchanged to the Cameron overpressure calculation; "
+                 "a prescribed constant input, not a measured or predicted pressure trace",
+                 _PRESSURE_NOTE + " Source: " + _GUIDE_SOURCE),
          _series("flow_g_s", "Model flow", flow_series, "g/s", "simulated",
                  "constant Darcy mass flow area*q*rho_out, with q from darcy_flux(gs, p_bar)",
                  "constant flow; no channeling or preinfusion transient is modeled"),
@@ -692,7 +730,7 @@ def _build_traces(cam_model, cam, recipe, gs, q, shot) -> tuple[PullTrace, ...]:
                  "beverage mass by construction of the shot time t_shot",
                  "derived from the model's constant flow — beverage mass is not measured")],
         "prescribed constant pressure drives a constant Darcy flow; beverage mass accumulates linearly",
-        "constant-pressure Darcy flow; no dynamic channeling, wetting front, or preinfusion transient")
+        "constant model-overpressure Darcy flow; no dynamic channeling, wetting front, or preinfusion transient")
 
     extraction = trace(
         "extraction_time", "extraction", "time", "s", t,
@@ -723,7 +761,7 @@ def _build_traces(cam_model, cam, recipe, gs, q, shot) -> tuple[PullTrace, ...]:
 def simulate_pull(recipe: PullRecipe, config: PullConfig, *,
                   progress: ProgressCallback | None = None) -> PullRun:
     """Run the guided espresso pull. Raises :class:`PullDomainError` on hard-invalid input / an
-    unsupported configuration / a strict-mode evidence departure, or :class:`PullExecutionError` on a
+    unsupported configuration / a strict-mode product-interval departure, or :class:`PullExecutionError` on a
     non-finite solver result. Every started run emits exactly ONE terminal event: RUN_COMPLETED on
     success, or RUN_FAILED (with a stable `category`) on ANY failure of the producer phase — model
     import, solve, trace construction, or serialization — never a RUN_STARTED left dangling.
@@ -808,17 +846,18 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     t_shot = _require_finite_positive(
         "shot_duration", m_out / (math.pi * cam_model.R0 ** 2 * cam_model.RHO_OUT * q))
     mf = _stage("machine_flow", seq, cam,
-                "Prescribed pump pressure drives a constant Darcy flow through the bed, setting the shot time.",
+                "Prescribed model overpressure drives a constant Darcy flow; the prescribed beverage target sets the shot time.",
                 "darcy_flux(gs, p_bar); t_shot = m_out / (pi R0^2 rho_out q)",
                 {"pressure": {"value": recipe.pressure_bar, "unit": "bar",
-                              "note": "prescribed constant input (not a predicted profile)"},
+                              "note": _PRESSURE_NOTE},
                  "bed_depth": {"value": float(L), "unit": "m"}},
                 {"darcy_flux": {"value": float(q), "unit": "m/s"},
                  "mass_flow": {"value": float(math.pi * cam_model.R0 ** 2 * q * cam_model.RHO_OUT * 1000),
                                "unit": "g/s"},
                  "shot_duration": {"value": float(t_shot), "unit": "s"}},
                 find("pressure_bar"), time.monotonic() - t0,
-                "constant-pressure Darcy flow; no dynamic channeling, wetting front, or preinfusion transient")
+                "constant model-overpressure Darcy flow; no dynamic channeling, wetting front, or "
+                "preinfusion transient. " + _PRESSURE_NOTE + " Source: " + _GUIDE_SOURCE)
     stages.append(mf)
     for f in mf.domain_findings:
         if f.status is DomainStatus.WARNING:
@@ -842,7 +881,8 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     # primary model starts from a SATURATED bed and does not solve wetting/hydraulic breakthrough.
     first_arrival = next((float(shot.t[i]) for i in range(len(shot.t)) if shot.m_cup[i] > 0), 0.0)
     ex = _stage("extraction", seq, cam,
-                "Solute dissolves from the grounds into the flowing water and reaches the cup.",
+                "Solute dissolves from the grounds into the flowing water and reaches the cup; "
+                "target beverage mass is prescribed, not predicted.",
                 "BDF integration of the single-solute two-family bed model (Cameron Eqs.)",
                 {"dose": {"value": recipe.dose_g, "unit": "g"},
                  "target_beverage": {"value": recipe.target_beverage_g, "unit": "g"},
@@ -855,7 +895,8 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
                      "note": "numerical diagnostic, NOT physical first drip (saturated-bed model)"}},
                 find("brew_temperature_c") + find("dose_g") + find("target_beverage_g"),
                 solve_s, _cameron_inventory_note() + "; temperature enters only "
-                         "through the recorded recipe, not a resolved thermal transient")
+                         "through the recorded recipe, not a resolved thermal transient. "
+                         + _AUDIT_NOTE + " Source: " + _AUDIT_SOURCE)
     stages.append(ex)
     _emit(progress, PullEvent.STAGE_COMPLETED, {"stage": "extraction"})
 
@@ -864,7 +905,7 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
     extracted_g = float(shot.EY) / 100.0 * recipe.dose_g
     final_obs = {
         "pressure_bar": {"value": recipe.pressure_bar, "unit": "bar",
-                         "note": "prescribed constant input (v1); not a predicted profile"},
+                         "note": _PRESSURE_NOTE},
         "mean_flow_g_s": {"value": float(recipe.target_beverage_g / t_shot), "unit": "g/s",
                           "note": "constant model flow"},
         "first_drip_s": {"value": None, "unit": "s", "status": "unavailable",
@@ -892,7 +933,9 @@ def _simulate_pull_impl(recipe: PullRecipe, config: PullConfig, progress, emitte
         schema_version=PULL_RUN_SCHEMA_VERSION, package_version=puckworks.__version__,
         source_commit=None, run_id=run_id, recipe=recipe, config=config,
         stages=tuple(stages), lenses=(), traces=traces, final_observables=final_obs,
-        domain_findings=findings, assumptions_summary=(cam.assumptions,), coverage=coverage,
+        domain_findings=findings,
+        assumptions_summary=(cam.assumptions, _PRESSURE_NOTE + " Source: " + _GUIDE_SOURCE,
+                             _INTERVAL_NOTE, _AUDIT_NOTE + " Source: " + _AUDIT_SOURCE), coverage=coverage,
         warnings=warn_msgs, completion_state=completion)
 
 
@@ -1024,6 +1067,10 @@ def _fmt_obs(k: str, v: dict) -> str:
     line = f"- **{_md(k)}**: {val} {_md(unit)}".rstrip()
     if status == "diagnostic":
         line += f" _(diagnostic — {v.get('note', '')})_"
+    elif k == "pressure_bar":
+        line += " — prescribed model overpressure (passed unchanged)"
+    elif k == "beverage_mass_g":
+        line += " — prescribed target; endpoint by construction"
     return line
 
 
@@ -1036,14 +1083,20 @@ def pull_run_to_markdown(run: PullRun) -> str:
         f"twin). Run id `{run.run_id}` · state: **{run.completion_state}**.*",
         "",
         "## Recipe",
-        f"- {r.dose_g} g in → {r.target_beverage_g} g out · {r.pressure_bar} bar · {_md(r.grinder_model)} "
+        f"- {r.dose_g} g in → {r.target_beverage_g} g prescribed beverage target · "
+        f"{r.pressure_bar} bar prescribed model overpressure · {_md(r.grinder_model)} "
         f"dial {r.grind_setting} · profile `{_md(r.coffee_profile)}`"
         + (f" · bean *{_md(r.bean_label)}* (label only)" if r.bean_label else ""),
         f"- brew temperature {r.brew_temperature_c} °C — *recorded-only; not a model input in v0.3.0*",
+        "", _PRESSURE_NOTE + f" [Source account]({_GUIDE_SOURCE}).",
+        "", "## Product interval classification", _INTERVAL_NOTE,
+        *[f"- `{f.field}`: **{f.status.value}** — {_md(f.plain_explanation)}"
+          for f in run.domain_findings],
         "",
         "## Final observables",
     ]
     lines += [_fmt_obs(k, v) for k, v in obs.items()]
+    lines += ["", _AUDIT_NOTE + f" [Historical comparison and attribution]({_AUDIT_SOURCE})."]
     lines += ["", "## Stages (Recipe → Grind → Machine/Flow → Extraction → Cup)"]
     for s in run.stages:
         lines.append(f"### {s.sequence}. {s.stage_id} — {s.method_name} [{s.evidence_badge}]")
@@ -1052,7 +1105,8 @@ def pull_run_to_markdown(run: PullRun) -> str:
                                                 for k, x in s.inputs.items()))
         lines.append("- outputs: " + ", ".join(f"{_md(k)}={_disp(x['value'])} {_md(x['unit'])}".rstrip()
                                                  for k, x in s.outputs.items()))
-        lines.append(f"- evidence: {s.evidence_strength} · valid range: {s.valid_range}")
+        lines.append(f"- registry evidence label: {s.evidence_strength} · registry range description: "
+                     f"{s.valid_range} (not a validation guarantee)")
         lines.append(f"- caveat: {_md(s.caveat)}")
     lines += ["", "## Authoritative traces (static text equivalent of the figures)"]
     for t in run.traces:
@@ -1071,8 +1125,8 @@ def pull_run_to_markdown(run: PullRun) -> str:
               "- Not your actual puck, not a flavor/taste prediction, not the 'best' recipe.",
               "- Physical first drip and puck wetting are NOT modeled (the primary model starts from a "
               "saturated bed).",
-              "- Pressure is a prescribed constant input, not a predicted dynamic profile. Temperature "
-              "is recorded-only.",
+              "- Pressure is prescribed model overpressure; target beverage is prescribed. "
+              "No dynamic pressure profile is predicted. Temperature is recorded-only.",
               "- Alternative components are separate scientific views; none were executed or averaged "
               "into a consensus in this run.",
               f"- Assumptions: {'; '.join(run.assumptions_summary)}"]
@@ -1096,6 +1150,11 @@ def pull_run_summary(run: PullRun) -> str:
     obs = run.final_observables
     return (f"[{run.completion_state}] {run.config.config_id} {run.run_id}: "
             f"EY {_disp(obs['extraction_yield_pct']['value'])}% · TDS {_disp(obs['tds_pct']['value'])}% · "
-            f"{_disp(obs['shot_duration_s']['value'])}s · {_disp(obs['beverage_mass_g']['value'])}g · "
+            f"{_disp(obs['shot_duration_s']['value'])}s · "
+            f"{_disp(obs['beverage_mass_g']['value'])}g prescribed beverage target · "
             f"first drip unavailable (not modeled)"
-            + (f" · {len(run.warnings)} warning(s)" if run.warnings else ""))
+            + (f" · {len(run.warnings)} warning(s)" if run.warnings else "")
+            + f"\n{run.recipe.pressure_bar:g} bar prescribed model overpressure; "
+              f"temperature {run.recipe.brew_temperature_c:g} C recorded-only.\n"
+            + _PRESSURE_NOTE + " Source: " + _GUIDE_SOURCE + "\n"
+            + _INTERVAL_NOTE + "\n" + _AUDIT_NOTE + " Source: " + _AUDIT_SOURCE)

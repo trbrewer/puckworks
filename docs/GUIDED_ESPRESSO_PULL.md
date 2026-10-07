@@ -11,12 +11,15 @@ data; everything is computed from model code plus your inputs.
 Public surface: `puckworks.product` (see [API.md](API.md)). Released in **v0.3.0** (GitHub-only; not on
 PyPI).
 
+The disclosures below describe the development source. They do not change the frozen v0.3.0
+release or notebook installations pinned to that release.
+
 ## Presets
 
 | preset | purpose | editable |
 |---|---|---|
 | `pv19_named` | fixed reference scenario — deterministic regression + a stage-scorecard example | none (fixed) |
-| `guided_v1` | range-limited, user-adjustable guided mode centered on the well-understood region | the active controls below |
+| `guided_v1` | user-adjustable mode with configured product intervals and computational admission bounds | the active controls below |
 
 ```python
 from puckworks.product import load_pull_preset, simulate_pull, render_pull_report
@@ -30,7 +33,7 @@ artifacts = render_pull_report(run, "guided_pull_report")   # JSON + Markdown + 
 
 The one executed chain is `cameron2020.extraction_bdf`, a coherent, self-contained single-solute BDF
 shot model spanning **grind → machine/flow → extraction → cup**. Its evidence strength is
-code-verification against the source paper; the guided pull is badged `EXPLORATORY_SIMULATION` and is
+code verification, with source reproduction unresolved; the guided pull is badged `EXPLORATORY_SIMULATION` and is
 **not** independently validated against a measured cup.
 
 Every other registered component is dispositioned in the run's **coverage ledger** with an explicit
@@ -43,14 +46,32 @@ never claims a comparison it did not run.
 
 ### Active controls (each changes the calculation)
 
-| input | evidence range | hard (solver) range | unit |
+| input | configured product interval | computational admission bounds | unit |
 |---|---|---|---|
-| `dose_g` | 15–25 | > 0 | g |
-| `target_beverage_g` | 25–60 | > 0 | g |
-| `pressure_bar` | 6–9 | > 0 | bar (prescribed constant) |
+| `dose_g` | 15–25 | > 0 and ≤ 100 | g |
+| `target_beverage_g` | 25–60 | > 0 and ≤ 500 | g (prescribed target) |
+| `pressure_bar` | 6–9 | > 0 and ≤ 20 | bar (prescribed model overpressure) |
 | `grind_setting` (EK43 dial) | 1.1–2.3 | 1.0–2.5 | dial |
 | `coffee_profile` | `reference` only | model-backed selector | — |
 | `domain_policy` | `warn` / `strict` | — | — |
+
+### Pressure convention and source support
+
+`pressure_bar` is passed **unchanged** to the current Cameron overpressure-based calculation.
+It is neither measured puck pressure nor an independently verified pressure drop across the bed.
+The [development guide's primary-source account](research/ESPRESSO_DEVELOPMENT_GUIDE.md)
+distinguishes the SI S1 **5-bar pump-overpressure** reference from the main paper's **6-bar
+static-pressure** label (p. 638 and Fig. 5). Their pressure-reference and sensor-node equivalence
+remain unresolved; this input does not apply a universal one-bar conversion. The older SI intake's
+absolute/gauge interpretation is not a verified pressure transfer.
+
+The source reference configuration is **20 g dose / 40 g beverage / 5 bar model overpressure**.
+SI S5 explores scaled **3/5/7/9-bar model cases**, not four measured pressure campaigns. The
+configured **6–9-bar interval is product policy, not an experimentally validated band**. Likewise,
+15–25 g dose and 25–60 g beverage are product intervals: the SI's 16/18/20/22/24-g geometry
+exploration does not validate every dose/beverage combination. The EK43 1.1–2.3 interval has seven
+SI S3 shot-time settings as source support; the wider 1.0–2.5 microstructure knots permit
+computational admission, not validation of every recipe or transfer to another grinder.
 
 ### Recorded-only inputs (do **not** affect the model)
 
@@ -74,10 +95,17 @@ execute.
 
 ## Domain policy
 
-- **Hard-invalid** inputs (non-positive dose/beverage/pressure, a non-liquid-water temperature, an
-  out-of-solver grind, or a rejected unsupported field) are **REJECTED** — the run raises.
-- **Evidence-range** departures are **WARNING** under `domain_policy="warn"` (the run completes and
-  is flagged an extrapolation) and **block** under `"strict"`.
+- **Hard-invalid** inputs (dose/beverage/pressure outside the admission bounds above, a
+  non-liquid-water temperature, grind outside the admitted table range, or an unsupported field)
+  are **REJECTED** — the run raises. Admission does not guarantee numerical or physical safety.
+- **Product-interval** departures are **WARNING** under `domain_policy="warn"` (the run can complete
+  with warnings) and **block** under `"strict"`. Membership is `IN_DOMAIN`; these unchanged enum
+  values classify product policy, not scientific evidence. The legacy JSON field `supported_range`
+  carries that configured interval, not an empirical validation band.
+- **5 bar** still warns (and blocks in strict mode), despite being the model's source reference.
+  **6 and 9 bar** still satisfy the pressure interval in both modes. Neither outcome establishes
+  physical validation. Leaving an interval does not by itself prove empirical extrapolation, and
+  moving back inside does not guarantee a supported physical prediction.
 - Values are **never silently clamped**; the supplied value is preserved everywhere.
 
 ## Traces (authoritative, full solver precision)
@@ -88,7 +116,7 @@ carries a **value role**: `prescribed_input`, `simulated`, or `derived`.
 
 | trace / series | role | unit | derivation |
 |---|---|---|---|
-| prescribed pressure | prescribed_input | bar | the constant you set — an input, not a prediction |
+| prescribed model overpressure | prescribed_input | bar | `pressure_bar` passed unchanged — an input, not a prediction |
 | model flow | simulated | g/s | `area · q · rho_out`, `q` from `darcy_flux(gs, p_bar)` (constant) |
 | cumulative beverage mass | derived | g | integral of the constant model flow; endpoint = target by construction |
 | cumulative dissolved mass | simulated | g | model solute reaching the cup (`m_cup`), kg→g |
@@ -98,6 +126,15 @@ carries a **value role**: `prescribed_input`, `simulated`, or `derived`.
 
 ## Explicit limitations
 
+- **Historical Cameron source reproduction remains unresolved.** The Codex local audit of
+  2026-09-30 (not independent human review) used 20 g dose / 40 g beverage / 5 bar model overpressure,
+  N40/M24, EK43 GS 1.1–2.3, and the retained 118 kg/m³ grain inventory. Its RMSE was **7.102391 EY
+  percentage points against the homogeneous curve** and **6.480780 EY percentage points against
+  experimental means**. See the [original local audit](analysis/cameron_local_audit_20260930.md)
+  and the [comparison and producer attribution](research/ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md),
+  sections B–C. The cause remains unresolved. These are historical reference-configuration scores,
+  not newly computed scores, pointwise error bars, correction factors, or measured errors for the
+  current recipe (including recipes at other pressures).
 - **Physical first drip is unavailable.** The primary model begins from a saturated bed and does not
   model wetting or hydraulic breakthrough, so `first_drip_s` is reported as `unavailable`. The old
   first-positive-cup-solute time survives only as the honest diagnostic
@@ -123,7 +160,7 @@ carries a **value role**: `prescribed_input`, `simulated`, or `derived`.
 - **Package:** `from puckworks.product import load_pull_preset, simulate_pull, render_pull_report`.
 - **CLI:** `puckworks-pull presets` · `puckworks-pull run --preset guided_v1 --dose-g 20 --beverage-g 40
   --pressure-bar 9 --grind-setting 1.7 --report-dir build/guided-pull` (add `--domain-policy strict`
-  to block extrapolations). Summary/JSON/Markdown modes need no matplotlib; `--figures` / `--report-dir`
+  to block product-interval departures). Summary/JSON/Markdown modes need no matplotlib; `--figures` / `--report-dir`
   need the `puckworks[viz]` extra and print an actionable message if it is missing.
 - **Colab (released, one-click):** [`notebooks/guided_espresso_pull_colab.ipynb`](../notebooks/guided_espresso_pull_colab.ipynb)
   with native form controls. Its default path downloads the exact v0.3.0 release wheel and verifies
