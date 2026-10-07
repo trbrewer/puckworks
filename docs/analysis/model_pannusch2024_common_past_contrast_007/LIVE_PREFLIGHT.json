@@ -1,0 +1,38 @@
+{
+  "actual_bases": {
+    "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+    "ewp_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "ewp_main": "73ec476ffe6ac626705ca949e28b32935ddf2992",
+    "ewp_tree": "8ced37ad5b294616b8935d92a57e3845321d5eed",
+    "governance": "G0",
+    "puckworks_base": "f08677b177d9569068941cbb602c7b88f3aca769",
+    "puckworks_tree": "1c372d9845e4f71997d0939de12ff5cc368d1df4"
+  },
+  "base_hosted_quick_pr": {
+    "run": 37306906012,
+    "status": "SUCCESS"
+  },
+  "base_slow_science": "IN_PROGRESS_AT_INTAKE_NOT_A_MODEL_FAILURE",
+  "branch": "model/pannusch2024-common-past-contrast-007",
+  "catalog_sha256": {
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "450a780004d3fd8af5a7602398d6a9b1dd1b478968460530956a79552cfeee8d",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "puckworks/data/MANIFEST.csv": "48748b24bb60e4ebbac69399236322e6a67dc20bab7843dcf5198ad739236b13"
+  },
+  "live_refs_match_review": true,
+  "local_worktrees": "ISOLATED_NEW_BRANCH_UNRELATED_WORK_PRESERVED",
+  "prior_006": "MERGED_PR_320",
+  "relevant_open_prs_or_branches": [],
+  "required_checks": [
+    "quick (3.10)",
+    "quick (3.12)",
+    "verify-generated",
+    "paper3-scope-strict",
+    "all-scope-strict"
+  ],
+  "required_review_count": 0,
+  "scoped_data_preflight": "NOT_NEEDED_FOR_SYNTHETIC_G0; CATALOG_METADATA_ONLY; PRIVATE_CORPUS_NOT_INSPECTED_OR_EXHAUSTED",
+  "source_role": "Pannusch/Schmieder shared lineage and prior exposure; no observation inputs acquired",
+  "tests_separate_from_campaign": true
+}

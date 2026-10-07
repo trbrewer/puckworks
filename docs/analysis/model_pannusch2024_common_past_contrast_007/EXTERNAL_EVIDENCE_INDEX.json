@@ -1,0 +1,121 @@
+{
+  "artifacts": {
+    "N400-h0.005-conditioned-full.json": {
+      "bytes": 9673412,
+      "sha256": "befd0ad2315191883bea5ce9586f42147934724a398545a75a903127b5dd4561"
+    },
+    "N400-h0.005-response-0.json": {
+      "bytes": 302421,
+      "sha256": "d68ade7eee346692c016fa92219d4c30e62fe142a7d259735ae34cfe6e729797"
+    },
+    "N400-h0.005-response-1.json": {
+      "bytes": 303362,
+      "sha256": "d75820f49f7f61a6cc3d5a33fa06e1557daea5ecea4210b57f6c53d4ea8e19b1"
+    },
+    "N400-h0.005-response-2.json": {
+      "bytes": 302774,
+      "sha256": "088be84bda8539a9f8dc4c74dfa2a77edda355affff98ceea6d4fd7e47268dfb"
+    },
+    "N400-h0.005-response-3.json": {
+      "bytes": 302814,
+      "sha256": "548cd36499e2c2ab413e601c9d8d25b5b473c185b1f87b20a440888db2828688"
+    },
+    "N400-h0.005-unconditioned-full.json": {
+      "bytes": 3356407,
+      "sha256": "08f437617d57390e3bc312f727630d5409e3a6685a43a9e2bad8c46c70649c6a"
+    },
+    "N400-h0.01-conditioned-full.json": {
+      "bytes": 8982521,
+      "sha256": "d97f3509d727c141ead25f0270bd033dcbfa2799468d8e4639f93bcf1b91dd9b"
+    },
+    "N400-h0.01-response-0.json": {
+      "bytes": 200489,
+      "sha256": "5cf794fb3ce7681de6ba7224958578cdb93c0d0fa0526d3da485864309d23f0c"
+    },
+    "N400-h0.01-response-1.json": {
+      "bytes": 201607,
+      "sha256": "b665f7f02ba7aca6477672b396201203fef7e5983fca98de184ce93d12bc208f"
+    },
+    "N400-h0.01-response-2.json": {
+      "bytes": 201160,
+      "sha256": "bcdb3ce995dbe17766c35f2590da4d9d43ab347d02f83ca6b1e36257bcdddded"
+    },
+    "N400-h0.01-response-3.json": {
+      "bytes": 201276,
+      "sha256": "2331e79c2a136421f1f9c8b9811aafc64b8f7136cb9b3c8353841f87a8846736"
+    },
+    "N400-h0.01-unconditioned-full.json": {
+      "bytes": 2694609,
+      "sha256": "d516d3363809e36f65c46038398b0f19077d7d46adff89ca9ef7fc18b76db3b3"
+    },
+    "N400-h0.02-conditioned-full.json": {
+      "bytes": 8643692,
+      "sha256": "4e3852b6266f50ee1a77efa3b3ba287c972d5b676cbb8fa26eb353a7270a3fc7"
+    },
+    "N400-h0.02-response-0.json": {
+      "bytes": 151449,
+      "sha256": "5a3080bb7e67a17f2933788475b5f7a4e86915255374fdd2a2d6a96286b7022f"
+    },
+    "N400-h0.02-response-1.json": {
+      "bytes": 150818,
+      "sha256": "a5c3a6be826fdad4a3176a02919ebf512574f0f433df0475ebae377e34237107"
+    },
+    "N400-h0.02-response-2.json": {
+      "bytes": 151595,
+      "sha256": "d8a387df4479ed1287f64739e995f7068c1af41bb7c5cb441b975c9aec2e1545"
+    },
+    "N400-h0.02-response-3.json": {
+      "bytes": 151707,
+      "sha256": "04cf868c711525a4b2094beed0661c3222396a5783b162ffeab06ae3c95f9b12"
+    },
+    "N400-h0.02-unconditioned-full.json": {
+      "bytes": 2369945,
+      "sha256": "eae2701b94ecb67267b5f6a676273984aad00ee585e9784f8fc9e4d4f6be39fa"
+    },
+    "N800-h0.02-conditioned-full.json": {
+      "bytes": 9784463,
+      "sha256": "a1df299de181be255bc4f6fd1621a5d9a716ad2a49dad19e4438af4966bac024"
+    },
+    "N800-h0.02-response-0.json": {
+      "bytes": 235946,
+      "sha256": "37cb7556875d500721ac91fa99f0d0107e571a51596599a6f79c18327ba80d7e"
+    },
+    "N800-h0.02-response-1.json": {
+      "bytes": 237773,
+      "sha256": "abe0644759409ad00843a36c12546b0e404658139fbe83b5529b95ea4823a14c"
+    },
+    "N800-h0.02-response-2.json": {
+      "bytes": 236535,
+      "sha256": "1e5a94b1383757c7f5929f0b55bff154522516e7be0c0909b56647b478d63ae1"
+    },
+    "N800-h0.02-response-3.json": {
+      "bytes": 236812,
+      "sha256": "185d52e5faebeb26b618f808d301a4123134b85b068efa7423d42b8d4177c946"
+    },
+    "N800-h0.02-unconditioned-full.json": {
+      "bytes": 6617216,
+      "sha256": "ad744e789053d8e194eec1245f49ccecdc3d8cd21573bb0d4d793ca874d28cce"
+    },
+    "frozen-bands.json": {
+      "bytes": 849,
+      "sha256": "aa98578094b5c3bd532cb060fb78bbda2ea20cc01218522469ae0403a761cd0a"
+    },
+    "generator-full.json": {
+      "bytes": 46788123,
+      "sha256": "a30eac5393943e1f344a3076964351846adc0907a321d50bb36e912ce4689ee1"
+    },
+    "resources.json": {
+      "bytes": 36802,
+      "sha256": "b9b340e46c95724992ca27e966ccee2449aaef28b215f7ec891e33b780a5657b"
+    },
+    "results.json": {
+      "bytes": 701032,
+      "sha256": "e1ff99279e2e9a358322ef5dca0add71985df2c2600b7852bd0273ab20303c15"
+    },
+    "synthetic-inputs-full.json": {
+      "bytes": 345238,
+      "sha256": "9070775b98d3790010d8ebb377535680992e788d5619d6a6d8208aa800a7aeb1"
+    }
+  },
+  "location": "Owner-retained MODEL-PANNUSCH2024-COMMON-PAST-CONTRAST-007 evidence/campaign directory; resolve via task id and relative artifact names; local absolute paths intentionally omitted"
+}

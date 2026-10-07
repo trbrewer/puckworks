@@ -1,0 +1,10 @@
+{
+  "fixed_queries": 8,
+  "numerical": "IMPLEMENTED_QUALIFICATION_INCOMPLETE",
+  "packaging_licenses": "PASS",
+  "paired_orientation": "B_MINUS_A",
+  "pre_execution_source_and_test_hashes": "Historical exact hashes preserved; later reporting-only delta checked in FALLBACK_LABEL_CORRECTION.json",
+  "small_tests": 39,
+  "source_and_band_identities": "MATCH",
+  "status": "PASS"
+}

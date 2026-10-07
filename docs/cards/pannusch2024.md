@@ -426,3 +426,16 @@ endpoint shifts about -7.13e-9 kg: discretization sensitivity remains separate,
 with no continuum certificate. [Results](../analysis/model_pannusch2024_prefix_conditioned_006/RESULTS.md)
 and [handoff](../analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md)
 separate final software QA, author review and hosted checks.
+
+## Common-past paired contrast (007, additive research interface)
+
+The 007 interface composes unchanged FV responses and 006 joint constraints to
+bound B_MINUS_A for complete plans with a structurally proved common past.
+It retains original-coordinate correlations and uses paired same-state replay;
+no fitting, schedule selection, taste claim or physical validation follows.
+[Engineering specification](../analysis/model_pannusch2024_common_past_contrast_007/CONTRACT.md).
+
+ENGINEERING_CAPABILITY_VERIFIED on all eight unchanged current fixed queries and mandatory small tests; NO_MATERIAL_DIFFERENCE throughout. The complete archived h=.01 unconditioned minimum qualifies (gap 2.4537162992395933e-13 kg). HISTORICAL_PREFIX_FAILURE=UNRESOLVED; TRANSPORT_ROOT_CAUSE=UNDETERMINED. Zero new propagation/LP calls. The failed historical execution and unavailable B arrays remain separate from the newly checked current execution. No general execution reliability is claimed. [Closeout and evidence limits](../analysis/model_pannusch2024_common_past_contrast_007/CLOSEOUT.md).
+G0 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY.
+Historical 004–006 results remain unchanged. No registry evidence promotion;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. No successor is authorized.
