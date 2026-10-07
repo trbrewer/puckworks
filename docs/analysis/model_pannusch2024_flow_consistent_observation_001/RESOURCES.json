@@ -1,0 +1,13 @@
+{
+  "auxiliary": [
+    {
+      "charged_wall_s": 12.212339675999829,
+      "kind": "VERIFIED_ARCHIVE_REUSE",
+      "reserved_wall_s": 120.0,
+      "status": "COMPLETE"
+    }
+  ],
+  "charged_total_wall_s": 12.212339675999829,
+  "executions": [],
+  "task": "MODEL-PANNUSCH2024-FLOW-CONSISTENT-OBSERVATION-001"
+}

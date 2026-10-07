@@ -1,0 +1,246 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "all_original_artifacts_verified": [
+    {
+      "arrays_sha256": "3f97a0136e5f1de013bccebba35b042d22e051c2f40224463601a31389b4a37c",
+      "case_id": "A.caffeine.BASE_003",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "7830b86cb36086bcaee8ba7485bc2e6ee75d2bfb4b88099fef00442761076337"
+    },
+    {
+      "arrays_sha256": "357d59a106d351d8b2b31fdf53fdcbdcf03695a83c3f4c366ed371f3a7f1387a",
+      "case_id": "A.caffeine.EQUILIBRIUM",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "31d9832a2eb9c375e8c09b3f06796e56577126f8dfcd8b732ed06df218eba571"
+    },
+    {
+      "arrays_sha256": "05bcb315a0481114f5965962911372e84df32517ab4d787f79ef8b6e4c591ec1",
+      "case_id": "A.trigonelline.BASE_003",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "ac7d1712cff18543ab9b8991c1f68cbb393ea33ea086b389fae8f38281a7ff83"
+    },
+    {
+      "arrays_sha256": "d4af468e756e5b1108c0b91d4b92258e287fe0a3f497a163f664bf795fdb703a",
+      "case_id": "A.trigonelline.EQUILIBRIUM",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "284d7d8b194c72b2c87d6c64f036f3d841f537d1c74b42863ecdfc7cb15fdedd"
+    },
+    {
+      "arrays_sha256": "856940d0b986a99e4e9e861502ca03b692c819e3bdc757044ae37a2c8b0da5db",
+      "case_id": "A.5CQA.BASE_003",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "b5c530004ebab8bcb94c63371fe92a01ffd5fbfe0775b66b249976f943745fd2"
+    },
+    {
+      "arrays_sha256": "bf41ef34970015ebe399160eff9215430e749fb8ba9de6732c245ad03c8a0ca3",
+      "case_id": "A.5CQA.EQUILIBRIUM",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "478302f08fd87200849f132859f147b7e071f5544183b7e2d1fa3bb06a72c6d0"
+    },
+    {
+      "arrays_sha256": "c80ed69439874ec492c41619e43f992bb7f6aa36308fdfc8c26dcd8c63c27f53",
+      "case_id": "A.tds.BASE_003",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "28adbe08cca84bf83c8a603fd53584c1e6dc73500810dce6519351e767416014"
+    },
+    {
+      "arrays_sha256": "608feb4899b38a8f8f56a057bb8c4c5820dc265bbb28fd7112c5d347ba3c6986",
+      "case_id": "A.tds.EQUILIBRIUM",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "e69ff37c56fa2fadb2404801f4757f06d63592538c415432e34c2aec31d6bca3"
+    },
+    {
+      "arrays_sha256": "f5baf8a1d0a4eb7604c213f78076e9cd518890fe48fb16722e4e8b47b2e01dbf",
+      "case_id": "B.caffeine.U",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "78eed0e1be91751167c6420a9a47f0d5aa2674f76841fad14ff40974331c3143"
+    },
+    {
+      "arrays_sha256": "0d03727dc8784a2e3dfd7814b8bdefde84fceeb279c30a1ca6dcf409699c5ee7",
+      "case_id": "B.caffeine.ORDERED",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "7d7df7228eb6bdddfc9d399b5ed4c18b66f332e7628fe69d552a12d8b945618f"
+    },
+    {
+      "arrays_sha256": "f7fa1d0c73af545013ee295c28910cb22c72b766a02dc0d5810892c91fad1af8",
+      "case_id": "B.trigonelline.U",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "2ca8961d10976d7a29aa4b616ae427a0f8fe9a18bc8a63d00fcfedc6d72bd134"
+    },
+    {
+      "arrays_sha256": "8b956f21909589ce2af043379534e4ab86695baa3c1e930a5dbe4ab35cbd3f65",
+      "case_id": "B.trigonelline.ORDERED",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "35294695abe6bdc478df3b9491b026df260cfe3b169cdaff3e24f00cc8564e3e"
+    },
+    {
+      "arrays_sha256": "95b55ac7a49ca6b3b6aba226bc0cbaa44f50c25fda94f0d3cb83989d2148a51f",
+      "case_id": "B.5CQA.U",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "ea42d1647c0475e37e3ff6a4bafe183f8ad43fd9d75e4a05b6c3938dfbc79e34"
+    },
+    {
+      "arrays_sha256": "29955e2e88fa4be4f94769c4fa46bfba49add0d6c9d994fe41742782485f94da",
+      "case_id": "B.5CQA.ORDERED",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "4c3a952f7f3478d3bef1d09cd8f335377c99e949cb6993991b331f37b0939748"
+    },
+    {
+      "arrays_sha256": "ceb490719ce1f2de7cb26a7c00973ab3b7f240051073c7cbc92367a534afc555",
+      "case_id": "B.tds.U",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "4020645d0648582452d748653df3bafff76b1d36832476fc88be1d9368074693"
+    },
+    {
+      "arrays_sha256": "4b055021beeb4922e38d03d6e8010ca61edac76471675695c2ceef287414e5c3",
+      "case_id": "B.tds.ORDERED",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "6bbd653b79f96a51831c322df4740f5da77f25f58abe1747339609e275f47a04"
+    },
+    {
+      "arrays_sha256": "806dd4306853ccb699983c101e2e7f81b21e9de7380e3d184d777140eb7e1716",
+      "case_id": "C.caffeine.PREFIX",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "3b6e58888da4c5af240a5ab383fbcfd5deb3476b0500cd4bc1c99e2bca1d93cd"
+    },
+    {
+      "arrays_sha256": "38445cf0f1d7fb4db201eb15d922e7bc7d1735007b9bbf1d3ef55144965605b8",
+      "case_id": "C.caffeine.RESUME",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "0b0aee38cb7c3d57ef64ad81b24ee3bd5e5f19e7995eca3b49a7755389747986"
+    },
+    {
+      "arrays_sha256": "eb66fa355a46f1d1d72143c2beeaf7a93554a86cc75a265f2da22ba127172e84",
+      "case_id": "D.default",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "4d9847b2670411416a11c63c77afbe81670e33306f4bc63769ea1de5054c47df"
+    },
+    {
+      "arrays_sha256": "4bafe1869fa3540679f93b574a9255e9d30e16da20d82d10e6915bc8456fa323",
+      "case_id": "D.coarse",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "16e3d7a5b91de2b376302a08bcb3d2876e6729b2853d4fa09d5ad00d3d9af485"
+    },
+    {
+      "arrays_sha256": "8df5ffc8337f9fe9576bac96fe2be5069d9bf65f4337e94e515b154a6b098399",
+      "case_id": "D.fine",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "b151c84d1313ea70ed951834cae5ef9522474feea1ea97a46e13ac6a2af3306a"
+    },
+    {
+      "arrays_sha256": "c5473e1c7164b020190adbfec3eb45239678efbf4b14960f668540614c8f0eaa",
+      "case_id": "D.caffeine.Radau",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "178d6490ea123cfc44ea8bcd18341541d20ef131e44bcd14c58dbcb74857842a"
+    },
+    {
+      "arrays_sha256": "eed04aae6d81327fe50a16e0ba8ae3e4b4186d8880bc94df3e4165ff30858ea1",
+      "case_id": "D.N800",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "b2b3c606864a345a77a9c94e37936a337cfd22abc76076ef7ec447eac0b6e181"
+    },
+    {
+      "arrays_sha256": "590ba6e5c9f6c4ef34f30d0e47f7eb04cc06dc75bc48a6b0ba849af062661570",
+      "case_id": "D.caffeine.PREFIX",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "4371af26a2279b186ceb4945567336c679148d4d1cd29b8a3d0ee8730999a41e"
+    },
+    {
+      "arrays_sha256": "cddec2705f9ec3761da26194b736e30c05d283491e125f2641d9cbfacff79af4",
+      "case_id": "D.caffeine.RESUME",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "2b6567d3d138cd037313ddd735a8968039468601eed54619b85cf1cf1a528a19"
+    },
+    {
+      "arrays_sha256": "e21964d638ef40a4619bc2df13d3263d465359bd664c0c0876e9d924ee521472",
+      "case_id": "E.caffeine.BRANCH",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "df5a89b9303abf20c16e9cc86c6050bf465bff3726bad9574d8f680272a6866a"
+    },
+    {
+      "arrays_sha256": "92459503c31e0cf3e4caad7247c30c4cbfb60cd72ec376e9a3f031864e6374ca",
+      "case_id": "E.caffeine.BRANCH_REFERENCE",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "1ed9acc9077221c831ae21e53548ee2322fe53d74dd5e2b10b8d2de2dc45f89a"
+    },
+    {
+      "arrays_sha256": "eb66fa355a46f1d1d72143c2beeaf7a93554a86cc75a265f2da22ba127172e84",
+      "case_id": "F.repeat",
+      "producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+      "receipt_sha256": "292cf5058ee72f1fe05e004a29633ac00b404193cc455366030b8a610f14b5b4"
+    }
+  ],
+  "checkpoint_policy": "HISTORICAL_ARTIFACT_ONLY; NO_MIGRATION; new current-source prefix/suffix",
+  "diagnostic_sha256": "083eb988b6def8d3af84b3423e1a94894be9f2d4df959c9a475d65744bd7b372",
+  "evidence_reuse_sha256": "e49eceed6f898df9115e2c3681142ca68e3f4b9dd1c026c6964832dd4f3c3608",
+  "historical_producer": "d691b055e8900f6547d4a5d4e5ec9f58f093bc8c",
+  "mapping": {
+    "A": "NEW_EXECUTION; original settings and reducers retained",
+    "B": "NEW_EXECUTION; original settings and reducers retained",
+    "C": "NEW_EXECUTION; original settings and reducers retained",
+    "D": "NEW_EXECUTION; original settings and reducers retained",
+    "E": "NEW_EXECUTION; original settings and reducers retained",
+    "F": "NEW_EXECUTION; original settings and reducers retained"
+  },
+  "original_files_inspected_this_task": [],
+  "prior_original_inspections_reused": [
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "632de12d04a1a0b7a2fba7a8cfdff26df69c69874386bf281dcf6f9956923c73",
+      "source_relative_path": "MATLAB_Code/physical_parameters.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "1c42759d031f25b6d15c55cd3ae4c44f87658a6721e4e47f62453a3d4c9ed0ed",
+      "source_relative_path": "MATLAB_Code/numerical_parameters.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "62de5e80e19d72f307a7d75fc3e1bb3a260a1cd41d040ccdf8c2ea80911c9c95",
+      "source_relative_path": "MATLAB_Code/pde_coffee_extraction_fd_Fit3.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "0b78d2d62ec45d7eb6f093b096d440318e291bc3e4be04cd0f86986b09491d97",
+      "source_relative_path": "MATLAB_Code/simulation_Fit3.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "d98e9c491a911bd760f26f62e0be49c153ca8404d622879101f19d736470f81f",
+      "source_relative_path": "MATLAB_Code/SherwoodFunction.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "37a70c9c6df5eed0c4e0056f04d6ff77ee7e5fdb0002f99bdb1aa64c0c0e1ae9",
+      "source_relative_path": "MATLAB_Code/diffusionCoeff.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "3509f964e5bf97616a188066e4e685a5455e1c25dace57bd850b2b7d7c1e1bd2",
+      "source_relative_path": "MATLAB_Code/vantHoff_solubility.m"
+    },
+    {
+      "inspection": "READ_SOURCE_TEXT_NOT_EXECUTED",
+      "rights": "CC-BY-NC-3.0",
+      "sha256": "995921716ea9d27b51790d210e73ef8b1df858b590b5a7c8923c5d0a486c62cc",
+      "source_relative_path": "MATLAB_Code/five_point_biased_upwind.m"
+    }
+  ],
+  "rights": "Pannusch et al., 10.17632/y2tz67f6ry.1; CC-BY-NC-3.0 source-derived output; first-party software licensing separate",
+  "source_reuse": {
+    "docs/analysis/model_pannusch2024_positive_fv_002/INTAKE.json": "8be0a3ec682534aa0b498293ce9ff3d98de2cad277bf0f11aa83cabc873c168b",
+    "docs/analysis/model_pannusch2024_positive_fv_002/SOURCE_IDENTITIES.json": "211b3dbe72fb767c96cad016c74c3f4af1ad7396c48c6976efe5569f0f798c40",
+    "docs/analysis/model_pannusch2024_temp_history_001/DATA_PREFLIGHT.json": "c71d1b31528401a4db243741ea8ad3ee2d88ba755570721a710380fdf71c019f",
+    "docs/analysis/model_pannusch2024_temp_history_001/SOURCE_IDENTITIES.json": "d7f543a3bfd4c01817d7bf9581d0710039e9fc249745d1e3923bf32a653389b1",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+  },
+  "task": "MODEL-PANNUSCH2024-FLOW-CONSISTENT-OBSERVATION-001"
+}

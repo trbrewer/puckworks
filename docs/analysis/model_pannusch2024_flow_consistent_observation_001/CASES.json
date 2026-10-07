@@ -1,0 +1,582 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "allowances": {
+    "GL8_GL4": 1e-06,
+    "analytic_volume": 1e-12,
+    "equilibrium_compatibility": 1e-12,
+    "inventory": 1e-08,
+    "linear_temporal": 0.0005,
+    "mesh": 0.005,
+    "numerical_flux": 1e-06,
+    "outlet_increment": 1e-10,
+    "phase_undershoot": 1e-10,
+    "prescribed_flux_linear": 0.0005,
+    "refinement_resolved_floor": 1e-10,
+    "same_schedule": 1e-12,
+    "state_and_branch_reference": 1e-08
+  },
+  "cases": [
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.caffeine.BASE_003",
+      "method": "BASE_003",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.caffeine.EQUILIBRIUM",
+      "method": "EQUILIBRIUM",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.trigonelline.BASE_003",
+      "method": "BASE_003",
+      "solute": "trigonelline"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.trigonelline.EQUILIBRIUM",
+      "method": "EQUILIBRIUM",
+      "solute": "trigonelline"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.5CQA.BASE_003",
+      "method": "BASE_003",
+      "solute": "5CQA"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.5CQA.EQUILIBRIUM",
+      "method": "EQUILIBRIUM",
+      "solute": "5CQA"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.tds.BASE_003",
+      "method": "BASE_003",
+      "solute": "tds"
+    },
+    {
+      "cells": 400,
+      "family": "A",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "A.tds.EQUILIBRIUM",
+      "method": "EQUILIBRIUM",
+      "solute": "tds"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.caffeine.U",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.caffeine.ORDERED",
+      "method": "ORDERED",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.trigonelline.U",
+      "method": "U",
+      "solute": "trigonelline"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.trigonelline.ORDERED",
+      "method": "ORDERED",
+      "solute": "trigonelline"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.5CQA.U",
+      "method": "U",
+      "solute": "5CQA"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.5CQA.ORDERED",
+      "method": "ORDERED",
+      "solute": "5CQA"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.tds.U",
+      "method": "U",
+      "solute": "tds"
+    },
+    {
+      "cells": 400,
+      "family": "B",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "B.tds.ORDERED",
+      "method": "ORDERED",
+      "solute": "tds"
+    },
+    {
+      "cells": 400,
+      "checkpoint_index": 137,
+      "family": "C",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "C.caffeine.PREFIX",
+      "method": "PREFIX",
+      "parent": "B.caffeine.U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "C",
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "C.caffeine.RESUME",
+      "method": "RESUME",
+      "parent": "C.caffeine.PREFIX",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.default",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "D",
+      "h_max_s": 0.04,
+      "history": "L",
+      "id": "D.coarse",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "D",
+      "h_max_s": 0.01,
+      "history": "L",
+      "id": "D.fine",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.caffeine.Radau",
+      "method": "Radau",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 800,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.N800",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "checkpoint_index": 137,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.caffeine.PREFIX",
+      "method": "PREFIX",
+      "parent": "D.default",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.caffeine.RESUME",
+      "method": "RESUME",
+      "parent": "D.caffeine.PREFIX",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "E",
+      "future_Q_m3_s": 2.2e-06,
+      "future_T_C": 93.0,
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "E.caffeine.BRANCH",
+      "method": "BRANCH",
+      "parent": "C.caffeine.PREFIX",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "E",
+      "future_Q_m3_s": 2.2e-06,
+      "future_T_C": 93.0,
+      "h_max_s": 0.02,
+      "history": "S",
+      "id": "E.caffeine.BRANCH_REFERENCE",
+      "method": "BRANCH_REFERENCE",
+      "parent": "B.caffeine.ORDERED",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "family": "F",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "F.repeat",
+      "method": "U",
+      "solute": "caffeine"
+    },
+    {
+      "cells": 400,
+      "control": true,
+      "family": "D",
+      "h_max_s": 0.02,
+      "history": "L",
+      "id": "D.caffeine.Radau.control",
+      "method": "Radau",
+      "solute": "caffeine"
+    }
+  ],
+  "change": "NUMERICAL_METHOD_CHANGE",
+  "checkpoint": {
+    "L": {
+      "index": 137,
+      "plan_sha256": "3806f378c4dca18fa0e6e2f6ac225b44f77e465453dbadb5a0439cdfbfefeaf2",
+      "time_hex": "0x1.5eb851eb851ecp+1",
+      "time_s": 2.74
+    },
+    "S": {
+      "index": 137,
+      "plan_sha256": "2107c0baf0b71ecb9372ef4912202f2bf6f0ff08e43025ea7c4a8cf3bc8c6959",
+      "time_hex": "0x1.5e561673aa39fp+1",
+      "time_s": 2.737002188183808
+    }
+  },
+  "fraction_windows_s": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2.737002188183808
+    ],
+    [
+      2.737002188183808,
+      2.74
+    ],
+    [
+      2.74,
+      5
+    ],
+    [
+      5,
+      9.13
+    ],
+    [
+      9.13,
+      11.3
+    ],
+    [
+      11.3,
+      12.31
+    ],
+    [
+      12.31,
+      17.2
+    ],
+    [
+      17.2,
+      20.17
+    ],
+    [
+      20.17,
+      22.07
+    ],
+    [
+      22.07,
+      25
+    ],
+    [
+      25,
+      30
+    ],
+    [
+      0,
+      30
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      5,
+      25
+    ],
+    [
+      2.737002188183808,
+      5
+    ],
+    [
+      1,
+      2.74
+    ]
+  ],
+  "governance": "G2",
+  "grind": 1.7,
+  "histories": {
+    "L": {
+      "flow": {
+        "kind": "linear",
+        "times_s": [
+          0,
+          17.2,
+          30
+        ],
+        "values": [
+          1.2e-06,
+          2.8e-06,
+          1.6e-06
+        ]
+      },
+      "temperature_C": {
+        "kind": "linear",
+        "times_s": [
+          0,
+          11.3,
+          30
+        ],
+        "values": [
+          80,
+          95,
+          86
+        ]
+      }
+    },
+    "S": {
+      "flow": {
+        "kind": "constant",
+        "times_s": [
+          0,
+          12.31,
+          20.17,
+          30
+        ],
+        "values": [
+          1e-06,
+          2.7e-06,
+          1.4e-06
+        ]
+      },
+      "temperature_C": {
+        "kind": "constant",
+        "times_s": [
+          0,
+          9.13,
+          22.07,
+          30
+        ],
+        "values": [
+          80,
+          98,
+          86
+        ]
+      }
+    }
+  },
+  "initial_family_U": {
+    "basis": "exact cell averages with x=z/L and species fitted C0 as reference only",
+    "coarse": "C0*(.10+.45*x*x)",
+    "fine": "C0*(.85-.55*x)",
+    "liquid": "C0*(.15+.25*x)"
+  },
+  "limits": {
+    "aggregate_numerical_wall_s": 3600,
+    "blas_threads": 1,
+    "correction_reserve": 7,
+    "hard_integrations": 36,
+    "numerical_workers": 1,
+    "per_invocation_wall_s": 120,
+    "planned_integrations": 29,
+    "process_memory_bytes": 2147483648
+  },
+  "observations_s": [
+    0.0,
+    1e-06,
+    0.013,
+    0.5,
+    1.0,
+    1.5,
+    1.753,
+    2.0,
+    2.5,
+    2.737002188183808,
+    2.74,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0,
+    5.5,
+    6.0,
+    6.5,
+    7.0,
+    7.117,
+    7.5,
+    8.0,
+    8.5,
+    9.0,
+    9.12999999,
+    9.13,
+    9.130000010000002,
+    9.5,
+    10.0,
+    10.5,
+    11.0,
+    11.29999999,
+    11.3,
+    11.300000010000002,
+    11.5,
+    12.0,
+    12.30999999,
+    12.31,
+    12.310000010000001,
+    12.5,
+    13.0,
+    13.5,
+    14.0,
+    14.5,
+    15.0,
+    15.5,
+    16.0,
+    16.5,
+    17.0,
+    17.19999999,
+    17.2,
+    17.20000001,
+    17.5,
+    18.0,
+    18.5,
+    19.0,
+    19.5,
+    20.0,
+    20.16999999,
+    20.17,
+    20.170000010000003,
+    20.5,
+    21.0,
+    21.5,
+    22.0,
+    22.06999999,
+    22.07,
+    22.07000001,
+    22.5,
+    23.0,
+    23.443,
+    23.5,
+    24.0,
+    24.5,
+    25.0,
+    25.5,
+    26.0,
+    26.5,
+    27.0,
+    27.5,
+    28.0,
+    28.5,
+    29.0,
+    29.5,
+    30.0
+  ],
+  "radau": {
+    "max_step_s": 0.02,
+    "rtol": 2e-12,
+    "scaled_atol": 2e-14
+  },
+  "reference_control": {
+    "max_step_s": 0.01,
+    "rtol": 2.5e-13,
+    "scaled_atol": 2.5e-15
+  },
+  "reference_primary_h_s": [
+    0.04,
+    0.02,
+    0.01
+  ],
+  "roundoff": {
+    "clock_relative": 1.4210854715202004e-14,
+    "composition_inventory_relative": 1.1368683772161603e-13,
+    "local_flux_concentration_scaled": 2e-11,
+    "local_flux_mass_relative": 1.1368683772161603e-13
+  },
+  "scope": "RESEARCH_ONLY",
+  "settings": {
+    "cells": 400,
+    "diagnostic_step_s": 0.0125,
+    "h_max_s": 0.02,
+    "max_diagnostic_samples": 60000,
+    "max_exponential_applications": 100000,
+    "max_state_values": 30000000,
+    "max_steps": 10000,
+    "wall_time_limit_s": 120.0
+  },
+  "t_span_s": [
+    0.0,
+    30.0
+  ],
+  "task": "MODEL-PANNUSCH2024-FLOW-CONSISTENT-OBSERVATION-001"
+}
