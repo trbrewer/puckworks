@@ -154,11 +154,11 @@ jobs:
   quality:
     # P1.3 quality ratchet — coverage FLOOR on the core public/release/control modules.
     # Mypy runs as the independently bounded quality-mypy job above.
-    # The complete non-slow suite remains selected, but coverage instrumentation is deliberately
-    # scoped to the same seven critical modules governed by the floor. This restores CI signal
-    # without weakening test selection, the 70% floor, mypy, or the existing timeout.
+    # Repeated #322 coverage timeouts justify this bounded 45-minute limit.
+    # The suite, seven-module coverage scope, and 70% floor are unchanged.
+    # Investigate any further timeout; do not automatically increase this limit.
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
