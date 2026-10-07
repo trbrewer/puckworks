@@ -268,3 +268,25 @@ def test_forcing_validation_allows_original_interpolation_roundoff():
     state=sf.FVChemicalState.source_equilibrium(p.temperature_history,time_s=0,solute='caffeine',cells=1)
     r=sf.simulate_stateful_fv(plan=p,initial_state=state,observation_times_s=(0,.11))
     assert ob.observe_flow_consistent_fv(r,observation_times_s=(.01,.11)).request_support=='COMPLETE'
+
+
+def test_later_inadmissibility_retains_prefix_without_future_forcing():
+    p,s=fixture(); original=sf.fv._inventory;calls=0
+    def later_fault(c,m,system):
+        nonlocal calls
+        calls+=1
+        return original(c,m,system)+(1. if calls>36 else 0.)
+    with patch.object(sf.fv,'_inventory',later_fault):r=run(p,s)
+    good=np.flatnonzero(r.exportable_primary)
+    assert len(good)>1 and len(good)<len(r.primary.times_s)
+    end=float(r.primary.times_s[good[-1]])
+    value=sf.FlowHistory.value_m3_s;integral=sf.FlowHistory.integral
+    def guarded_value(self,t):
+        assert t<=end
+        return value(self,t)
+    def guarded_integral(self,l,h):
+        assert h<=end
+        return integral(self,l,h)
+    with patch.object(sf.FlowHistory,'value_m3_s',guarded_value),patch.object(sf.FlowHistory,'integral',guarded_integral):
+        z=ob.observe_flow_consistent_fv(r,observation_times_s=(end,.11))
+    assert z.observation_status==('SUPPORTED','OUTSIDE_UPSTREAM_CHECKED_PREFIX')

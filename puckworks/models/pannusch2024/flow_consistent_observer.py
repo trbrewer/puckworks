@@ -108,17 +108,17 @@ def _checked_prefix(result):
     inventory = np.array([sf._inventory(*row, root.grind) for row in c])
     masses = np.array([math.fsum(r.step_outlet_solute_kg[:i]) for i in range(k)])
     origins = np.array([math.fsum((*r.prior_outlet_terms_kg, *r.step_outlet_solute_kg[:i])) for i in range(k)])
-    vols = np.array([p.flow_history.integral(ts[0], t) for t in ts])
+    vols = np.array([p.flow_history.integral(ts[0], t) for t in ts[:end+1]])
     origin_vols = np.array([math.fsum((*r.prior_volume_terms_m3, v)) for v in vols])
     expected = dict(outlet_face_kg_m3=c[:, 0, -1], remaining_inventory_kg=inventory,
         segment_outlet_solute_kg=masses, origin_outlet_solute_kg=origins,
         segment_volume_m3=vols, origin_volume_m3=origin_vols)
     for name, value in expected.items():
         _finite_array(getattr(r.primary, name), (k,), "PRIMARY_VIEW_DIMENSIONS")
-        _require(np.array_equal(value, getattr(r.primary, name)), "PRIMARY_ACCOUNTING_VIEW_MISMATCH")
+        _require(np.array_equal(value, getattr(r.primary, name)[:end+1] if name in ("segment_volume_m3", "origin_volume_m3") else getattr(r.primary, name)), "PRIMARY_ACCOUNTING_VIEW_MISMATCH")
     # Validate only stored forcing intervals. History knots may not be interior.
     knots = (*p.flow_history.times_s, *p.temperature_history.times_s)
-    for i, (a, b) in enumerate(zip(ts, ts[1:])):
+    for i, (a, b) in enumerate(zip(ts[:end], ts[1:end+1])):
         step = p.primary_steps[r.start_index+i]
         mid = float(a+(b-a)/2)
         _require(not any(a < t < b for t in knots), "UNSPLIT_FORCING_KNOT")
