@@ -426,3 +426,30 @@ endpoint shifts about -7.13e-9 kg: discretization sensitivity remains separate,
 with no continuum certificate. [Results](../analysis/model_pannusch2024_prefix_conditioned_006/RESULTS.md)
 and [handoff](../analysis/model_pannusch2024_prefix_conditioned_006/HANDOFF.md)
 separate final software QA, author review and hosted checks.
+
+
+## Opt-in prescribed-flow-consistent observer (001)
+
+The additive `flow_consistent_observer.observe_flow_consistent_fv` consumes a
+checked stateful result and reconstructs interiors with the original frozen
+generator in a local prescribed-volume clock. It preserves original primary
+endpoints, whole-step delivery and checkpoint identities. Constant-Q intervals
+retain physical-time reconstruction. All frozen rates, including exchange, are
+scaled by this numerical clock; this is not exact continuously varying chemistry.
+The finite-fraction numerator evolves directly with a zero local outlet
+accumulator; its denominator is actual prescribed volume. No default or legacy
+operator changes, including 005/006/007.
+
+G2 / NUMERICAL_METHOD_CHANGE / RESEARCH_ONLY. **VERIFIED_ON_DECLARED_CASES**
+for this separately identified observer: all frozen gates pass in 29 initial
+executions plus three validation-correction replays, including independent physical-time phase references, actual-Q flux,
+resolved temporal refinement, bounded mesh sensitivity, continuation and branch
+checks. At default h=0.02 s, the controlling short-fraction error changes from
+-2.02910268e-4 to -4.26277041e-8 on the original C* scale. Primary endpoints and
+whole-step delivery remain identical. [Results](../analysis/model_pannusch2024_flow_consistent_observation_001/RESULTS.md)
+and [handoff](../analysis/model_pannusch2024_flow_consistent_observation_001/HANDOFF.md)
+separate numerical qualification from software QA, hosted CI and independent
+review. [Small runnable example](../../examples/pannusch_flow_consistent_observer.py).
+Historical 004 remains IMPLEMENTED_QUALIFICATION_INCOMPLETE. Runtime accuracy
+NOT_ASSESSED; PHYSICAL_VALIDATION=NOT_ESTABLISHED. This establishes no measured
+initial state, empirical accuracy, hydraulic prediction or taste claim.

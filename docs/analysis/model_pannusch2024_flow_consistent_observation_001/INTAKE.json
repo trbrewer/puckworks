@@ -1,0 +1,41 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "baseline_drift": "NONE",
+  "change": "NUMERICAL_METHOD_CHANGE",
+  "ewp_main": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+  "exact_baseline_hosted_QA": {
+    "generated-artifacts": "https://github.com/trbrewer/puckworks/actions/runs/37682685727",
+    "packaging": "https://github.com/trbrewer/puckworks/actions/runs/37682685732",
+    "quick-pr": "https://github.com/trbrewer/puckworks/actions/runs/37682685846",
+    "scientific-baseline": "https://github.com/trbrewer/puckworks/actions/runs/37682685764"
+  },
+  "exact_baseline_hosted_disposition": "ALL_SUCCESS_ON_b9ad38c6ebfe96d90462254dfb664dd789036b31",
+  "experimental_value_access": false,
+  "governance": "G2",
+  "inspected": "AGENTS.md, CLAUDE.md, ONBOARDING, contribution and minimum-governance standard; Pannusch card, data and development guides; original 004 bundle; current FV source/reference/runners/tests; repository source tables and geometry. EWP retained input-mapping result read only.",
+  "new_original_source_access": false,
+  "nonduplication": "Live open/recent PRs, relevant remote branch names and local main/stateful source searches found no equivalent observer. #321 remains open and excluded; #324 merged. No owner checkout modified.",
+  "puckworks_main": "b9ad38c6ebfe96d90462254dfb664dd789036b31",
+  "puckworks_tree": "9f1f93cf0147784055e9e9d2110b66b9e5ed2074",
+  "scope": "RESEARCH_ONLY",
+  "source_reuse_record": "EVIDENCE_REUSE.json",
+  "task": "MODEL-PANNUSCH2024-FLOW-CONSISTENT-OBSERVATION-001",
+  "unchanged_authorities": {
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CASES.json": "7ab13d901348cd758ee1f3505ef2498dcc51a34d68a6be3cd1b4e069cf2268e4",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/CONTRACT.md": "0d0a042e7df3cec240e32c3e7c468688a1341f1556d67ecf48635ae0ce65b9ab",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/DIAGNOSTIC.json": "083eb988b6def8d3af84b3423e1a94894be9f2d4df959c9a475d65744bd7b372",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/DIAGNOSTIC.md": "cd003bc51f13a2c5ad97a6ad2411be6dafeb1738accb4bb7acbcc8981c5ac186",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/EVIDENCE_REUSE.json": "e49eceed6f898df9115e2c3681142ca68e3f4b9dd1c026c6964832dd4f3c3608",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/HANDOFF.md": "f61a4652372f51a9bd18d8b99f3a2f6603a82d2a47395a197b20dc2acf1b8601",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.json": "54fc78c5a1f0b602f24e938952470bf0ebd0fc96c1c8c2bb7d7d90065bc4248a",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/RESULTS.md": "c8ed25153373f47b3ee197fd0d0729ecd8c4d9d9c5c14d17a9bd81d96a5e8c0e",
+    "docs/analysis/model_pannusch2024_stateful_fv_004/SOURCE_IDENTITIES.json": "0e9f62e5075ab3bddbd1d41319ee403741558ecf29a80a5cf1bd618c8be8733a",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/flow_history.py": "218e3333d843380886cd8f8af7c214364dd8cca86d9988def4eb580de11ff53f",
+    "puckworks/models/pannusch2024/flow_temperature_history_fv.py": "76f98a608611cb712c89d30180a7bbf42d232e704c459b90b97e0cbe0d1f5964",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/stateful_fv.py": "fa607cbb18395d55c8431490cc0b09905db17c28e9aa8d147b41105df1f789ed",
+    "puckworks/models/pannusch2024/temperature_history.py": "54fe8c4398648089653bcb3463c310ab764bc5905cea8d487c2d66b8bbf6ad68",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9"
+  }
+}
