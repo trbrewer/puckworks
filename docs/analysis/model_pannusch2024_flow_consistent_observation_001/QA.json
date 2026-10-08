@@ -387,8 +387,45 @@
       "wall_s": 212.31588486199325
     }
   ],
-  "hosted_CI": "PENDING_EXACT_CANDIDATE",
-  "independent_review": "ONE_NONHUMAN_REVIEW_CHANGES_REQUESTED_AT_9891199d; P2_CORRECTED; BOUNDED_FINAL_HEAD_ADDENDUM_PENDING",
+  "hosted_CI": "CANDIDATE_6e03_FOUND_STALE_INSIGHT_SNAPSHOT; REGENERATED; FINAL_HEAD_CHECKS_PENDING",
+  "hosted_generated_snapshot_correction": {
+    "cause": "Edited model card required the existing Insight Foundry snapshot producer; omitted from earlier local generated checks.",
+    "commands": [
+      {
+        "command": "python -m puckworks.insights write",
+        "log": "insights-regenerate.log",
+        "result": "PASS",
+        "sha256": "1e12ea99eb51b2bc641c86e864e3868cb2c11eea1d4a7f2f81eb7389a18b3149"
+      },
+      {
+        "command": "python -m puckworks.insights verify",
+        "log": "insights-verify.log",
+        "result": "PASS",
+        "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+      },
+      {
+        "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q tests/insights/test_foundry.py",
+        "log": "insights-tests.log",
+        "passed": 65,
+        "sha256": "4e3e5f0840ba1021e7bbfd529afd520e842ff14e550a9956c4194abb8d9c171f",
+        "wall_s": 2.7
+      }
+    ],
+    "correction": "python -m puckworks.insights write; python -m puckworks.insights verify",
+    "failed_head": "6e03f7a959652e5d58f1af2c6024595c835584d9",
+    "failed_job": "https://github.com/trbrewer/puckworks/actions/runs/37703386176/job/113072140092",
+    "failures": [
+      "tests/insights/test_foundry.py::test_generated_artifacts_are_in_sync_with_the_tree",
+      "tests/insights/test_foundry.py::test_verify_reports_drift_when_a_generated_file_is_hand_edited",
+      "tests/insights/test_foundry.py::test_cli_build_and_verify_run_clean"
+    ],
+    "generated_scope": "Eight existing generated files: source commit/input/output hashes and Pannusch card section metadata. Counts, candidates and scientific claims unchanged; no new research census or scoring.",
+    "log": "hosted-final-quick311.log",
+    "numerical_changes": false,
+    "sha256": "f2fec500b6607469ac3a7bf9a11484d8094b854b5d33a0bc845346d67ecf5dc6",
+    "workflow_changes": false
+  },
+  "independent_review": "ONE_NONHUMAN_REVIEW_AND_BOUNDED_ADDENDUM_APPROVED_6e03; FINAL_GENERATED_METADATA_HEAD_BINDING_PENDING",
   "mypy": {
     "command": "mypy",
     "log": "candidate-mypy.log",

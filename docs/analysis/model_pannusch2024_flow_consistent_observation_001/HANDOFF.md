@@ -135,6 +135,14 @@ Pannusch et al. DOI 10.1016/j.jfoodeng.2023.111887, Mendeley
 10.17632/y2tz67f6ry.1, and Schmieder shared lineage retain their attribution.
 Source-derived output remains CC-BY-NC-3.0, separately from first-party software.
 
+The 6e03f7a9 hosted Python 3.11 suite found three stale Insight Foundry snapshot
+checks after the card edit. This candidate-specific omission was corrected with
+`python -m puckworks.insights write`, followed by `verify` and all 65 Foundry tests.
+The eight existing generated files refresh source identities and Pannusch card
+section metadata; counts, candidates and scientific claims are unchanged. No
+workflow, numerical source, qualification gate or empirical data changed. Final
+hosted checks and review binding are recorded on the draft PR at its exact head.
+
 ## Reproduction
 
 Small offline example and focused QA, with existing project dependencies:
