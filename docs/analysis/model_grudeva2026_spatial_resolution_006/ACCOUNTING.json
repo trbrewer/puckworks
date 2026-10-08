@@ -1,0 +1,589 @@
+{
+  "accounting_closure": {
+    "file": "006-reduction-accounting-closure.json",
+    "sha256": "d8beb4f3be1252b3fe9d4c9a706337ae13b0502f6a61a575fba87d15c7fa1e82"
+  },
+  "conclusion": "A",
+  "disposition": "FINER_RESOLUTION_PROMISING_FOR_SEPARATELY_AUTHORIZED_QUALIFICATION",
+  "failure_accounting": {
+    "extra_attempts": 0,
+    "failed_invocations": 0,
+    "retries": 0,
+    "terminations": 0,
+    "timeouts": 0,
+    "unresolved_starts": 0
+  },
+  "historical_closed_ledger": {
+    "bytes": 103467,
+    "file": "invocations.jsonl",
+    "full": 7,
+    "seconds": 727.042119908976,
+    "sha256": "5154af5b48a993edc8b273e16d4bc8d257bb5d425246798ef583b142c7befb29",
+    "short": 21
+  },
+  "ledger": {
+    "bytes": 9851,
+    "file": "invocations.jsonl",
+    "sha256": "3692bdcbf8c2f0f320a61c106feee7859af4d5d46216f4b8194a23e08d9ba169"
+  },
+  "note": "Private commands, PIDs and cgroup paths omitted; full append-only ledger and all closure records retained externally. Finalization performs accounting only, not a second numerical reduction.",
+  "phase_seconds": {
+    "observation_audits_persistence": 16.354191923019243,
+    "production_call": 98.29499366000528,
+    "public_checkpoint": 0.12633136301883496,
+    "segment_persistence_fidelity_replay": 22.839138340001227
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+  "preliminary_file": "006-reduction.json",
+  "preliminary_reduction_accounting": {
+    "charged_or_reserved_seconds": 323.69307083802414,
+    "ends": {
+      "006-readout": {
+        "artifact_sha256": "1ef0ed6acce738c87b7fa485da4430476aa886953c5d6d8770d68f67e61f9569",
+        "enforced_rlimit_as": [
+          8589934592,
+          8589934592
+        ],
+        "event": "end",
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "006-readout",
+        "observations_sha256": null,
+        "peak_rss_bytes": 374300672,
+        "runtime_sha256": "6d117bfeec90bd1488e346671bf0ac59162efb05eb2494793d7ccec783f30df2",
+        "seconds": 4.367024984007003,
+        "telemetry": {
+          "VmHWM_bytes": 376922112,
+          "VmPeak_bytes": 551034880,
+          "VmRSS_bytes": 376922112,
+          "VmSize_bytes": 551034880
+        },
+        "termination": null,
+        "utc": "2026-10-08T23:10:51.822363+00:00"
+      },
+      "006-spatial-512": {
+        "artifact_sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05",
+        "enforced_rlimit_as": [
+          8589934592,
+          8589934592
+        ],
+        "event": "end",
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "006-spatial-512",
+        "observations_sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b",
+        "peak_rss_bytes": 3328622592,
+        "runtime_sha256": "6da74f31d31c30737f8639c9da7ebadd782ec0a3bcea81149f04405dade2faa6",
+        "seconds": 139.32604585401714,
+        "telemetry": {
+          "VmHWM_bytes": 3334967296,
+          "VmPeak_bytes": 3685965824,
+          "VmRSS_bytes": 3334967296,
+          "VmSize_bytes": 3685965824
+        },
+        "termination": null,
+        "utc": "2026-10-08T23:15:31.379105+00:00"
+      }
+    },
+    "full": 1,
+    "passed": false,
+    "reasons": [
+      "unresolved start; ceiling reserved; no further execution"
+    ],
+    "seconds": 143.69307083802414,
+    "short": 2,
+    "starts": {
+      "006-readout": {
+        "ceiling": 90.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "15386333184",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "36886589440",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40919003136",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46148694016",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46197116928",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46448340992",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260699324416,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1431621529600
+        },
+        "kind": "short",
+        "memory_bytes": 8589934592,
+        "name": "006-readout",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:10:47.455342+00:00"
+      },
+      "006-reduction": {
+        "ceiling": 180.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "17770754048",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "39272935424",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "43307044864",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48536485888",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48586465280",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48837689344",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260698681344,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1429296832512
+        },
+        "kind": "short",
+        "memory_bytes": 8589934592,
+        "name": "006-reduction",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:15:47.851985+00:00"
+      },
+      "006-spatial-512": {
+        "ceiling": 290.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "15380676608",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "36882477056",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40923410432",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46152888320",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46202912768",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46454136832",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260741681152,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1431620739072
+        },
+        "kind": "full",
+        "memory_bytes": 8589934592,
+        "name": "006-spatial-512",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:13:12.053060+00:00"
+      }
+    },
+    "unresolved_starts": [
+      "006-reduction"
+    ]
+  },
+  "preliminary_sha256": "2ee6cb4436436651b2c80a942b0469643fdf0c322d64314508155d829fbec23b",
+  "production_attempted": true,
+  "resources": {
+    "charged_or_reserved_seconds": 166.21631713100942,
+    "ends": {
+      "006-readout": {
+        "artifact_sha256": "1ef0ed6acce738c87b7fa485da4430476aa886953c5d6d8770d68f67e61f9569",
+        "enforced_rlimit_as": [
+          8589934592,
+          8589934592
+        ],
+        "event": "end",
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "006-readout",
+        "observations_sha256": null,
+        "peak_rss_bytes": 374300672,
+        "runtime_sha256": "6d117bfeec90bd1488e346671bf0ac59162efb05eb2494793d7ccec783f30df2",
+        "seconds": 4.367024984007003,
+        "telemetry": {
+          "VmHWM_bytes": 376922112,
+          "VmPeak_bytes": 551034880,
+          "VmRSS_bytes": 376922112,
+          "VmSize_bytes": 551034880
+        },
+        "termination": null,
+        "utc": "2026-10-08T23:10:51.822363+00:00"
+      },
+      "006-reduction": {
+        "artifact_sha256": "2ee6cb4436436651b2c80a942b0469643fdf0c322d64314508155d829fbec23b",
+        "enforced_rlimit_as": [
+          8589934592,
+          8589934592
+        ],
+        "event": "end",
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "006-reduction",
+        "observations_sha256": null,
+        "peak_rss_bytes": 1607794688,
+        "runtime_sha256": "27b6a42e7f7af313476917242f6fbe0ceeaacafb44125d30a7c6fe78c54f95ae",
+        "seconds": 22.523246292985277,
+        "telemetry": {
+          "VmHWM_bytes": 1607794688,
+          "VmPeak_bytes": 1791639552,
+          "VmRSS_bytes": 1591943168,
+          "VmSize_bytes": 1791639552
+        },
+        "termination": null,
+        "utc": "2026-10-08T23:16:10.375232+00:00"
+      },
+      "006-spatial-512": {
+        "artifact_sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05",
+        "enforced_rlimit_as": [
+          8589934592,
+          8589934592
+        ],
+        "event": "end",
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "006-spatial-512",
+        "observations_sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b",
+        "peak_rss_bytes": 3328622592,
+        "runtime_sha256": "6da74f31d31c30737f8639c9da7ebadd782ec0a3bcea81149f04405dade2faa6",
+        "seconds": 139.32604585401714,
+        "telemetry": {
+          "VmHWM_bytes": 3334967296,
+          "VmPeak_bytes": 3685965824,
+          "VmRSS_bytes": 3334967296,
+          "VmSize_bytes": 3685965824
+        },
+        "termination": null,
+        "utc": "2026-10-08T23:15:31.379105+00:00"
+      }
+    },
+    "full": 1,
+    "passed": true,
+    "reasons": [],
+    "seconds": 166.21631713100942,
+    "short": 2,
+    "starts": {
+      "006-readout": {
+        "ceiling": 90.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "15386333184",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "36886589440",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40919003136",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46148694016",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46197116928",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46448340992",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260699324416,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1431621529600
+        },
+        "kind": "short",
+        "memory_bytes": 8589934592,
+        "name": "006-readout",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:10:47.455342+00:00"
+      },
+      "006-reduction": {
+        "ceiling": 180.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "17770754048",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "39272935424",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "43307044864",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48536485888",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48586465280",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "48837689344",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260698681344,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1429296832512
+        },
+        "kind": "short",
+        "memory_bytes": 8589934592,
+        "name": "006-reduction",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:15:47.851985+00:00"
+      },
+      "006-spatial-512": {
+        "ceiling": 290.0,
+        "controller_sha256": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "15380676608",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "36882477056",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40923410432",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46152888320",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46202912768",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "46454136832",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260741681152,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 2147483648,
+          "storage_free_bytes": 1431620739072
+        },
+        "kind": "full",
+        "memory_bytes": 8589934592,
+        "name": "006-spatial-512",
+        "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+        "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+        "utc": "2026-10-08T23:13:12.053060+00:00"
+      }
+    },
+    "unresolved_starts": []
+  },
+  "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+}
