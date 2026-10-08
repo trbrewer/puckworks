@@ -183,3 +183,15 @@ qualify but unchanged production fails; OBSERVER_QUALIFICATION_INCOMPLETE when
 observation or neutrality fails/is unresolved. Source/environment/resource blocks
 remain separate; an unexecuted matrix is not a demonstrated production failure.
 Software QA, hosted CI, independent review and physical validation stay separate.
+
+## One observer-only correction
+
+The independent review identified omitted diagnostic point bounds, endpoint-failure
+misclassification and failed-attempt execution labeling. The bounded correction
+audits unmasked liquid profiles, grain profiles and seven histories at all
+required/activation records and both physical event sides; extrema have times,
+positions and provenance. Accepted-state bounds remain separate. A failed
+diagnostic endpoint or point reconstruction blocks observer qualification;
+charged full attempts remain executed even if no usable observation survives.
+No production, mask, allocation or support changes, and no recapture. MATRIX
+binds the old/new observer identities and the one charged correction check.

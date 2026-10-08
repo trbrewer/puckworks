@@ -573,6 +573,28 @@ def execute(path, row='normal', *, pilot=False, observed=True, matrix_sha256=Non
     return base
 
 
+def diagnostic_bounds(rows, z):
+    """Unmasked extrema of every requested physical reconstruction, not cells."""
+    result = {}
+    for field, positions in [('liquid_profile', z), ('grain_profile', z), ('grain_history', HISTORY_Z)]:
+        count, low, high = 0, None, None
+        low_at = high_at = None
+        for row in rows:
+            values = np.asarray(row[field], float)
+            if values.shape != (len(positions),) or not np.all(np.isfinite(values)):
+                raise ValueError('invalid diagnostic bounds support: '+field)
+            count += len(values)
+            for k, value in enumerate(values):
+                location = dict(t=row['t'], z=float(positions[k]), provenance=row.get('provenance', 'required'))
+                if low is None or value < low:
+                    low, low_at = float(value), location
+                if high is None or value > high:
+                    high, high_at = float(value), location
+        result[field] = dict(requested=count, included=count, excluded=0, unavailable=0, minimum=low, maximum=high,
+                             minimum_location=low_at, maximum_location=high_at)
+    return result
+
+
 def observe_saved(path):
     """Recompute observations and independent audits from safe retained states."""
     trajectory = Trajectory(path)
@@ -629,12 +651,18 @@ def observe_saved(path):
                 accepted.append(dict(t=t, segment=segment_id, provenance=provenance, s=s,
                                      cup=float(y[-1]), phases=phases.tolist(),
                                      normalized_residual=amounts['normalized_residual']))
+        bound_rows = list(observations)
         for t, name in [(1., 'first_drip'), (trajectory.arrival, 'desaturation_exit')]:
             if t is None or t > trajectory.horizon:
                 continue
             sides = []
             for side in ('left', 'right'):
                 y, phase = trajectory.evaluate(t, side=side)
+                cp, bp, _ = profiles(t, y, trajectory.n, trajectory.weights, trajectory.faces, z, trajectory.arrival)
+                _, history, _ = profiles(t, y, trajectory.n, trajectory.weights, trajectory.faces,
+                                          HISTORY_Z, trajectory.arrival)
+                bound_rows.append(dict(t=t, provenance=name+':'+side, liquid_profile=cp.tolist(),
+                                       grain_profile=bp.tolist(), grain_history=history.tolist()))
                 sides.append(dict(side=side, fixed=phase['fixed'], dripping=phase['dripping'],
                                   s=float(y[0]), cup=float(y[-1]),
                                   outlet=outlet(t, y, trajectory.n, trajectory.faces, trajectory.arrival, side=side)))
@@ -686,6 +714,7 @@ def observe_saved(path):
                                 conservation_location=inventory_max_location,
                                 aqueous_min=aqueous_min, aqueous_max=aqueous_max,
                                 grain_mean_min=grain_min, phase_min=phase_min,
+                                diagnostic_bounds=diagnostic_bounds(bound_rows, z),
                                 front_wet_excess=front_excess, front_decrease=front_decrease,
                                 independent_sum_allowance_fraction=sum_fraction,
                                 public_inventory_allowance_fraction=algebra_fraction,

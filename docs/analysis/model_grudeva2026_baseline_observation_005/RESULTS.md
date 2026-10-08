@@ -34,6 +34,16 @@ identities are unchanged; [MATRIX.json](MATRIX.json) records old/new observer
 hashes. The pilot is reused only as resource evidence, never restamped as
 successful observation or neutrality evidence. No correction recapture occurred.
 
+One independent nonhuman review found three observer/reporting defects: missing
+bounds on reconstructed profiles/histories, incorrect production attribution when
+the independent inlet reconstruction failed, and NOT_EXECUTED labeling of failed
+full attempts without reconstructable output. One coherent observer-only correction
+adds unmasked diagnostic extrema/counts/locations at required/activation times and
+both event sides, makes endpoint/reconstruction gates observer prerequisites, and
+uses attempts/raw evidence for execution status. No clipping or allowance change.
+The old/new observation identities and prior MATRIX hash are retained; the pilot's
+resource evidence remains unchanged. The review addendum covers only this delta.
+
 ## Delivered implementation and compact qualification
 
 One observer retains original return objects, reads the actual production modal
@@ -107,20 +117,25 @@ mismatch, and none is hidden using tolerances or omitted fields.
 
 ## Attempts and separate acceptance states
 
-Seven short invocations, zero full attempts, **91.039357 numerical seconds**.
+Eight short invocations, zero full attempts, **94.661088 numerical seconds**.
 One failed pilot, no timeout, no unresolved start. Peak process RSS is the pilot's
-1,838,239,744 bytes; maximum invocation 87.535275 s. Five fixture-generation/check
+1,838,239,744 bytes; maximum invocation 87.535275 s. Six fixture-generation/check
 invocations and one manufactured example are charged alongside the pilot.
-Remaining: 10 full slots, 13 short invocations, 1,108.960643 seconds. The three
-full-slot/300-second correction reserve is intact. Unused budget is not authority
+Remaining: 10 full slots, 12 short invocations, 1,105.338912 seconds. The single observer-only correction used 3.621731 seconds and no full slots;
+more than three full slots/300 seconds remain available within the ceilings. Unused budget is not authority
 to bypass the demonstrated memory block or execute a successor.
 
 The original normal software baseline passed 6,080 tests (67 skipped, 63
 deselected); registry 66 PASS plus one acknowledged exception. New focused tests:
-34 passed. Supported minimum NumPy 2.0.2/SciPy 1.13.1 focused inherited/new checks:
-130 passed, three existing slow tests deselected, on local Python 3.12. The full
-candidate normal suite, other QA, hosted Python matrix/minimum lane and one
-independent nonhuman exact-head review have separate final receipts on the draft
+41 passed. Supported minimum NumPy 2.0.2/SciPy 1.13.1 focused inherited/new checks:
+130 passed, three existing slow tests deselected, on local Python 3.12. The candidate normal suite passed 6,113 tests (67 skipped, 63 deselected).
+Its collection preceded the final retention test and bounded correction; current
+affected inherited/new checks passed 137 tests (three existing slow deselections),
+and the current 41 new tests passed at minimum dependencies. Unaffected normal
+checks are reused by unchanged source identity. Scientific-baseline: 5 passed,
+7 optional-dependency skips. Packaging, configured static/type and applicable
+integrity/generated checks passed. Hosted Python matrix/minimum lane and the one
+independent nonhuman review/addendum have exact-head final receipts on the draft
 PR. Pending checks are not inferred from the baseline. Selectors, dependencies,
 thresholds, CI protections and historical receipts are unchanged.
 

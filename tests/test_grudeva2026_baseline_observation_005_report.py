@@ -128,3 +128,75 @@ def test_blocked_matrix_cannot_launch_full_runner(tmp_path, monkeypatch):
     with pytest.raises(SystemExit) as result:
         runner['main'](['run', '--row', 'normal', '--matrix', str(matrix), '--output', str(tmp_path/'out.json')])
     assert result.value.code == 2
+
+
+@pytest.mark.parametrize('failed_gate', ['diagnostic_inlet', 'diagnostic_liquid_profile_bounds',
+                                        'diagnostic_grain_profile_bounds', 'diagnostic_grain_history_bounds'])
+def test_failed_observer_endpoint_or_point_bounds_cannot_be_attributed_to_production(tmp_path, monkeypatch, failed_gate):
+    # Isolate report disposition from already-tested capture/identity checks.
+    # All seven raw executions exist, neutrality is exact, and refinement agrees.
+    p = plan()
+    p['feasibility'] = {'disposition': 'FEASIBLE'}
+    controller = tmp_path/'invoke.py'
+    controller.write_text('# synthetic accounting fixture\n')
+    p['controller_sha256'] = obs.sha(controller)
+    matrix = tmp_path/'matrix.json'
+    matrix.write_text(json.dumps(p))
+    starts, ends = {}, {}
+    for name in p['runs']:
+        path = tmp_path/(name+'.json')
+        public = {'status': 'COMPLETED'}
+        path.write_text(obs.canonical(dict(public_result=public, public_result_sha256=obs.digest(public),
+                                           environment={'synthetic': True})))
+        starts[name] = {'kind': 'full'}
+        ends[name] = {'artifact_sha256': obs.sha(path), 'exit_code': 2}
+    monkeypatch.setattr(report, 'resource_audit', lambda folder: dict(passed=True, reasons=[], full=7,
+                                                                     starts=starts, ends=ends))
+    monkeypatch.setattr(report, 'fixture_audit', lambda *args: dict(passed=True, reasons=[]))
+    monkeypatch.setattr(report, 'check_run', lambda *args: [])
+    observed = synthetic_observations()
+    observed['audits'] = {}
+    monkeypatch.setattr(obs, 'observe_saved', lambda path: deepcopy(observed))
+    keys = ['independent_inventory_sums', 'public_inventory_algebra', 'public_profile_reconstruction',
+            'public_cup_outlet_reconstruction', 'tail_weights_rates', 'cup_quadrature', 'diagnostic_inlet',
+            'diagnostic_liquid_profile_bounds', 'diagnostic_grain_profile_bounds', 'diagnostic_grain_history_bounds']
+    monkeypatch.setattr(report, 'numeric_gates', lambda *args: {k: k != failed_gate for k in keys})
+    r = report.report(tmp_path, matrix)
+    assert r['neutrality']['passed'] and r['deterministic_repeat']['passed']
+    assert all(g['passed'] for pair in r['refinements'].values() for g in pair.values())
+    assert not r['observer_qualified']
+    assert r['disposition'] == report.OBSERVER_INCOMPLETE
+    assert r['production_numerics'] == 'INCOMPLETE'
+    assert any(failed_gate in reason for reason in r['reasons'])
+
+
+def test_failed_full_attempt_remains_executed_without_reconstructable_output(tmp_path):
+    matrix = tmp_path/'matrix.json'
+    matrix.write_text(json.dumps(plan()))
+    (tmp_path/'invocations.jsonl').write_text(json.dumps({'event': 'start', 'name': 'normal', 'kind': 'full'})+'\n')
+    r = report.report(tmp_path, matrix)
+    assert r['production_numerics'] == 'INCOMPLETE'
+    assert r['disposition'] == report.OBSERVER_INCOMPLETE
+    assert 'unresolved attempt starts/ends' in r['reasons']
+
+
+def test_numeric_gates_check_diagnostic_bounds_without_a_unit_grain_cap():
+    bound_rows = [dict(t=8., liquid_profile=[0., 1.], grain_profile=[0., 12.], grain_history=[12.]*7)]
+    a = dict(horizon=8., max_normalized_conservation=0., aqueous_min=0., aqueous_max=1.,
+             grain_mean_min=0., phase_min=0., front_wet_excess=0., front_decrease=0.,
+             cup_quadrature_refinement_max=0., cup_state_integral_max=0.,
+             independent_sum_allowance_fraction=0., public_inventory_allowance_fraction=0.,
+             public_profile_reconstruction_error=0., public_cup_error=0., public_outlet_error=0.,
+             diagnostic_inlet_mean_error=0., spectrum={'weight_error':0., 'rate_relative_error':0.},
+             diagnostic_bounds=obs.diagnostic_bounds(bound_rows, [0., 1.]))
+    run = dict(audits=a, events=[{}, {}], arrival=6.5, activation=[0.]*220,
+               grain_history_activation=[0.]*7, unavailable_times=[])
+    meta = dict(public_result={'status':'COMPLETED'}, segments=[{'success':True}])
+    assert all(report.numeric_gates(run, meta).values())
+    for field in ('liquid_profile', 'grain_profile', 'grain_history'):
+        a['diagnostic_bounds'][field]['minimum'] = -7/6
+    gates = report.numeric_gates(run, meta)
+    assert gates['aqueous_bounds'] and gates['grain_bounds']
+    assert not gates['diagnostic_liquid_profile_bounds']
+    assert not gates['diagnostic_grain_profile_bounds']
+    assert not gates['diagnostic_grain_history_bounds']

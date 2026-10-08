@@ -25,7 +25,7 @@ Implementation:
 
 Use the external archive named `grudeva2026-baseline-observation-005`, with its
 original `invocations.jsonl`, `invoke.py`, logs, `pilot.json` and
-`fixtures-retention.json`. The arrays in these JSON fixtures are synthetic; the
+`fixtures-correction.json`. The arrays in these JSON fixtures are synthetic; the
 failed pilot contains no returned production arrays. All original attempt
 records and pre-freeze source identities remain retained. Do not reset its ledger.
 
@@ -71,7 +71,9 @@ python "$EVIDENCE/invoke.py" fixtures-retention short development \
 The initial fixture/pilot source snapshot is historical and hash-bound; the
 current implementation does not restamp it. The three intermediate fixture
 emissions (`fixtures-final`, `fixtures-bound`, `fixtures-freeze`) and manufactured `example` invocation
-remain counted. Reproducing numerical invocations consumes a separately
+remain counted, along with `fixtures-retention`. The final `fixtures-correction`
+attempt runs all 41 focused tests and emits the independent fixture arrays through
+the same external controller (phase `correction`, 3.621731 seconds). Reproducing numerical invocations consumes a separately
 allocated budget, not a fresh ledger used to evade this task's limits. The full
 runner requires an exact frozen matrix with established feasibility and refuses
 this blocked matrix before calling production. No full execution command is a
@@ -98,7 +100,8 @@ python tools/packaging_check.py "$EVIDENCE/dist"
 
 Current generated/integrity and registry checks are ordinary QA. No generator
 or historical receipt is edited to suppress a failure. The full normal selector
-and supported dependency floors remain intact. The final head/tree, PR URL,
+and supported dependency floors remain intact. The single observer-only correction and its same-review addendum are identity-bound
+in MATRIX; no production recapture occurred. The final head/tree, PR URL,
 actual candidate QA, hosted checks and the single independent nonhuman exact-head
 review receipt are supplied in the PR/final response after those identities exist.
 This avoids a circular self-hash and does not imply pending checks passed.

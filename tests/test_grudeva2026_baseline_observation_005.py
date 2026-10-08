@@ -333,3 +333,23 @@ def test_missing_dense_output_retains_failed_solver_states_and_diagnostics(tmp_p
     with np.load(tmp_path/'failed.npz', allow_pickle=False) as raw:
         assert np.array_equal(raw['accepted_y'], live.y)
         assert np.array_equal(raw['event_y_0'], live.y_events[0])
+
+
+def test_quadratic_point_undershoot_is_retained_in_unmasked_diagnostic_bounds():
+    # For uniform cells [0,1/3,2/3,1] with averages [0,1,0], symmetry
+    # and exact cell integrals give p(x)=13/12-9*(x-1/2)**2; p(1)=-7/6.
+    faces = np.linspace(0., 1., 4)
+    y = np.array([1., 0., 1., 0., 0., 1., 0., 0.])
+    cp, bp, _ = obs.profiles(2., y, 3, np.array([1.]), faces, np.array([0., 1.]), 1.)
+    _, history, _ = obs.profiles(2., y, 3, np.array([1.]), faces, obs.HISTORY_Z, 1.)
+    assert cp[-1] == pytest.approx(-7/6)
+    assert bp[-1] == pytest.approx(-7/6)
+    rows = [dict(t=2., provenance=side, liquid_profile=cp, grain_profile=bp, grain_history=history)
+            for side in ('desaturation_exit:left', 'desaturation_exit:right')]
+    bounds = obs.diagnostic_bounds(rows, [0., 1.])
+    for field in ('liquid_profile', 'grain_profile', 'grain_history'):
+        assert bounds[field]['minimum'] == pytest.approx(-7/6)
+        assert bounds[field]['minimum'] < -1e-8
+        assert bounds[field]['excluded'] == 0
+        assert bounds[field]['minimum_location']['t'] == 2.
+    assert bounds['grain_history']['included'] == 14

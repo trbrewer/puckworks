@@ -195,6 +195,11 @@ def numeric_gates(run, meta):
         'diagnostic_inlet': a['diagnostic_inlet_mean_error'] <= 2e-5,
         'tail_weights_rates': max(a['spectrum']['weight_error'], a['spectrum']['rate_relative_error']) <= obs.ALGEBRA,
     }
+    for field in ('liquid_profile', 'grain_profile', 'grain_history'):
+        bound = a.get('diagnostic_bounds', {}).get(field, {})
+        gates['diagnostic_'+field+'_bounds'] = (bound.get('included', 0) > 0
+            and bound.get('minimum') is not None and bound['minimum'] >= -1e-8
+            and (field != 'liquid_profile' or bound.get('maximum', float('inf')) <= 1+1e-8))
     return {k: bool(v) for k, v in gates.items()}
 
 
@@ -278,6 +283,7 @@ def report(folder, matrix):
                 if name != 'control' and not failures:
                     observed[name] = obs.observe_saved(path)
                     gates = numeric_gates(observed[name], r)
+                    reasons.extend(name+': failed gate: '+key for key, passed in gates.items() if not passed)
                     runs[name] = dict(artifact_sha256=obs.sha(path), public_status=r['public_result']['status'],
                                       audits=observed[name]['audits'], gates=gates,
                                       numerical_passed=all(gates.values()))
@@ -314,7 +320,9 @@ def report(folder, matrix):
         if name not in observed:
             observer_ok = False
         elif any(not runs[name]['gates'][k] for k in ('independent_inventory_sums', 'public_inventory_algebra',
-                 'public_profile_reconstruction', 'public_cup_outlet_reconstruction', 'tail_weights_rates', 'cup_quadrature')):
+                 'public_profile_reconstruction', 'public_cup_outlet_reconstruction', 'tail_weights_rates', 'cup_quadrature',
+                 'diagnostic_inlet', 'diagnostic_liquid_profile_bounds', 'diagnostic_grain_profile_bounds',
+                 'diagnostic_grain_history_bounds')):
             observer_ok = False
     numeric_ok = all(runs.get(k, {}).get('numerical_passed', False) for k in [*obs.ROWS, 'repeat'])
     numeric_ok &= repeat['passed'] and all(v['passed'] for pair in refinements.values() for v in pair.values())
@@ -333,7 +341,7 @@ def report(folder, matrix):
                 disposition=disposition, physical_validation='NOT_ESTABLISHED',
                 matrix_sha256=matrix_hash, blocks=blocks, reasons=reasons,
                 observer_qualified=observer_ok, production_numerics='PASS' if numeric_ok else
-                ('INCOMPLETE' if observed else 'NOT_EXECUTED'), numerical_support='COMPLETE' if numeric_ok else 'INCOMPLETE',
+                ('INCOMPLETE' if resources.get('full', 0) or raw else 'NOT_EXECUTED'), numerical_support='COMPLETE' if numeric_ok else 'INCOMPLETE',
                 fixtures=fixtures, neutrality=neutrality, deterministic_repeat=repeat,
                 runs=runs, refinements=refinements, resources=public_resources, feasibility=feasibility,
                 software_qa='SEPARATE_RECEIPT', hosted_ci='SEPARATE_EXACT_HEAD_RECEIPT',

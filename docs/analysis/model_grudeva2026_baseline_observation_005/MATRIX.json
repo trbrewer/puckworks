@@ -41,7 +41,7 @@
       2039,
       16898
     ],
-    "current_observer_sha256": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "current_observer_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
     "disposition": "RESOURCE_FEASIBILITY_BLOCKED",
     "exit_code": 1,
     "failure_site": "scipy.integrate._ivp.ivp.solve_ivp: accepted-state vstack, before return",
@@ -108,9 +108,9 @@
     "unchanged_capture_function_ast_sha256": "d8894a6a0192a21e37486c320de555affe9729cdb7f03e312de395cee288356c"
   },
   "fixtures": {
-    "attempt": "fixtures-retention",
-    "file": "fixtures-retention.json",
-    "sha256": "7d2350502874ca307190802eb74d58d57b9ca44ee4b49eac2137c95e744bea75"
+    "attempt": "fixtures-correction",
+    "file": "fixtures-correction.json",
+    "sha256": "1cc43259f96527e97131c642f1ee920b2fd40fa88640bec5fd9a123a2d02a2ba"
   },
   "governance": "G1",
   "limits": {
@@ -132,6 +132,16 @@
     "grain_analytical_per_method": 2e-05,
     "no_added_allowance": true,
     "positive_age_flux": 0.0002
+  },
+  "observer_correction": {
+    "attempt": "fixtures-correction",
+    "count": 1,
+    "new_observer_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+    "prior_head": "67040f4508b94c11ed8df4d859f25d1dec033594",
+    "prior_matrix_sha256": "1c3a737f26d55697163de538a90a8a2063a5f3be46e850b31ec628832fe120e0",
+    "prior_observer_sha256": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "recaptures": 0,
+    "scope": "Unmasked diagnostic bounds; observer endpoint classification; failed-attempt execution status"
   },
   "physical_validation": "NOT_ESTABLISHED",
   "protected_sources": {
@@ -192,7 +202,7 @@
     "public_result_sha256": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec"
   },
   "public_request_archive_scope": "Complete 001 scientific Result inspected; not new raw-state evidence; no archive neutrality assumed.",
-  "reporter_sha256": "9ea036b54ed96860c7b498a5434fdfe474d9a9a68063bfee4291bacf97667aea",
+  "reporter_sha256": "9119c91a2aa33eca3f7fcb7fb59d4cbd37a00b9d7760976c35c05a84d1c5a84d",
   "request_counts": {
     "diagnostic_times": 395,
     "diagnostic_z": 220,
@@ -309,7 +319,7 @@
     }
   },
   "sources": {
-    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
     "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
     "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
     "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
