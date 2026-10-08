@@ -1,0 +1,797 @@
+{
+  "accepted_tree": "ef85e16573dee279aa84b90dfc5440c8c948a2d3",
+  "allocation_files": [
+    "allocation-pilot-8gib.json",
+    "allocation-combined-probe-8gib.json",
+    "allocation-combined-persistence.json",
+    "allocation-bed_fine-persistence.json",
+    "allocation-control-persistence.json",
+    "allocation-modes_fine-persistence.json",
+    "allocation-normal-persistence.json",
+    "allocation-repeat-persistence.json",
+    "allocation-time_fine-persistence.json"
+  ],
+  "base_commit": "45f594b92e6bed01f254158fa002ef82519fd5a6",
+  "budgets": {
+    "activation": 0.001,
+    "arrival": 0.001,
+    "boulder_inventory": 5e-05,
+    "cup": 5e-05,
+    "fines_inventory": 5e-05,
+    "front": 0.001,
+    "grain_histories": 0.00023,
+    "grain_profiles": 0.00023,
+    "liquid_inventory": 5e-05,
+    "liquid_profiles": 0.001,
+    "outlet": 0.001
+  },
+  "canonical_parameters": {
+    "c_b_init": 1.388,
+    "c_f_init": 1.388,
+    "d_sb": 1.0,
+    "phi_b": 0.16,
+    "phi_f": 0.64,
+    "phi_l": 0.2,
+    "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+    "varphi_lb": 0.0
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "controller_inherited_sha256": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+  "controller_sha256": "911ba0d24569b4d832cc1e1ba12b4a86ecee30a22d52ad08b5c740e7ab1c8c99",
+  "ewp": {
+    "checkout_commit": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
+    "local_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "remote_head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "writes": 0
+  },
+  "external_requests_file_sha256": "751bbda6fa1ed937f2cfbae594ca768ef2ae0c07830fb4f1c6dd37695bdbbeb1",
+  "feasibility": {
+    "combined_evaluation_sha256": "7589c6bf8f8520cb3accf30acd83faffb48232a768541aa46670c5fe4a4cdb59",
+    "combined_measured_rss": 3765407744,
+    "combined_measured_seconds": 142.27878846699605,
+    "combined_measured_virtual": 4082462720,
+    "disposition": "FEASIBLE",
+    "execution_block": "OBSERVER_DIAGNOSTIC_INLET_BLOCKED",
+    "recovery_allocation": {
+      "basis": "Prior full combined returned all3segments in108.117899s but stopped before observation. New bounded archive inspection took5.14655s for2.685GB and manufactured fidelity/replay pass. Allow roughly112s beyond prior duration for extra streamed array checks, durable receipts, all full physical observations/accepted-event audits/cup. Current pilot96.15s and old normal/space-fine/modes-fine/time-fine public-only costs7.78/21.01/20.02/9.61s support deliberately larger45/70/70/60s planning envelopes, not ordering guarantees.",
+      "cumulative_before": 322.6962052669696,
+      "offline_report_seconds": 60.0,
+      "projected_total": 937.6962052669696,
+      "recapture_hard_seconds": 300.0,
+      "recapture_planning_seconds": 220.0,
+      "recapture_planning_virtual_bytes": 6442450944,
+      "remaining_rows_planning_seconds": {
+        "bed_fine": 70.0,
+        "control": 45.0,
+        "modes_fine": 70.0,
+        "normal": 45.0,
+        "repeat": 45.0,
+        "time_fine": 60.0
+      },
+      "reserve_scope": "Recapture consumes one original correction full slot and its measured seconds; two full slots remain if all mandatory runs finish. Original 3.6217310409992933 correction seconds remain counted.",
+      "total_full_if_all_complete": 8,
+      "uncertainty": "No complete corrected combined timing exists yet. Nonlinear/BDF costs and full post-return work can exceed estimates. Remaining panel requires new measured allocation after this single capture; no automatic second recapture or reduced support.",
+      "worst_recapture_projected_total": 1017.6962052669696
+    },
+    "remaining_panel": "STOPPED after normal; no control/repeat/other refinements. Normal diagnostic inlet error2.046100506994386e-5 exceeds unchanged2e-5. Grain refinement errors retained without production attribution while observer gate/neutrality unresolved.",
+    "remaining_panel_allocation": {
+      "basis": "Trustworthy combined full capture and full observation completed142.278788s with3.765GB RSS/4.082GB virtual; all22individual gates pass, exact historical complete public Result repeat. Retain separate45/70/70/60s row envelopes based on historical single-axis costs and measured combined overhead, not a monotonic-cost assumption. 727.874867s aggregate remain; per-row hard caps still300s, total/primary controller limits enforce reserve. Stop on material unresolved gate or neutrality failure.",
+      "cumulative_seconds": 472.1251329539664,
+      "primary_full_after_panel": 7,
+      "projected_total": 867.1251329539664,
+      "report_seconds": 60,
+      "row_seconds": {
+        "bed_fine": 70.0,
+        "control": 45.0,
+        "modes_fine": 70.0,
+        "normal": 45.0,
+        "repeat": 45.0,
+        "time_fine": 60.0
+      },
+      "total_full_after_panel": 8
+    }
+  },
+  "fixtures": {
+    "attempt": "persistence-final-fixtures",
+    "file": "persistence-final-fixtures-analytic.json",
+    "sha256": "aef1e2771bd9afdceb724bfb06b7de102aa93bb97f83721678e571c4d8db476e"
+  },
+  "governance": "G1",
+  "historical_2gib_feasibility": {
+    "additional_allocation_bytes": 275640176,
+    "allocation_shape": [
+      2039,
+      16898
+    ],
+    "current_observer_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+    "disposition": "RESOURCE_FEASIBILITY_BLOCKED",
+    "exit_code": 1,
+    "failure_site": "scipy.integrate._ivp.ivp.solve_ivp: accepted-state vstack, before return",
+    "interpretation": "The largest mandatory row cannot finish the short pilot under the address-space cap. Complete-panel time/memory feasibility is not established; no full runs allocated.",
+    "original_exception": {
+      "message": "Unable to allocate 263. MiB for an array with shape (2039, 16898) and data type float64",
+      "type": "MemoryError"
+    },
+    "peak_rss_bytes": 1838239744,
+    "pilot_artifact_sha256": "5b2d8841ba64b58b6406195b0b02ff79525efef2edc75d4a174cb5b674cb648c",
+    "pilot_attempt": "pilot-combined",
+    "pilot_controls": {
+      "atol": 2e-11,
+      "cells": 256,
+      "front_mesh_power": 2.0,
+      "max_step": 0.025,
+      "modes": 64,
+      "rtol": 2e-09
+    },
+    "pilot_horizon": 0.4,
+    "pilot_observer_sha256": "0a326246cf8cec213bd88ba8355f5eb61541e66e939a6176bdda6bcce536a6b3",
+    "returned": 0,
+    "reuse_scope": "Resource failure only: production/kernel/SciPy and interception body unchanged; later offline guards/exception-retention additions earn no full-trajectory evidence.",
+    "row_estimates": {
+      "bed_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "combined": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "control": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "modes_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "normal": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "repeat": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "time_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      }
+    },
+    "seconds": 87.53527537699847,
+    "solve_invocations": 1,
+    "symbol_restored": true,
+    "unchanged_capture_function_ast_sha256": "d8894a6a0192a21e37486c320de555affe9729cdb7f03e312de395cee288356c"
+  },
+  "historical_capture_identity_block": {
+    "basis": "One replacement short combined pilot authorized; eight GiB is an execution ceiling, not a measured full-trajectory requirement.",
+    "disposition": "NOT_ESTABLISHED",
+    "execution_block": "OBSERVER_CAPTURE_IDENTITY_BLOCKED",
+    "full_probe": "EXECUTED_UNQUALIFIED_OBSERVER_BLOCK",
+    "full_probe_basis": {
+      "all_production_segments_and_post_return_work_included": true,
+      "cumulative_before_probe": 190.81219789096212,
+      "full_probe_planning_seconds": 250,
+      "full_probe_planning_virtual_bytes": 7516192768,
+      "historical_cost_source_sha256": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+      "historical_nfev": {
+        "modes_fine": 5228,
+        "normal": 4833,
+        "space_fine": 7242,
+        "time_fine": 6920
+      },
+      "historical_scope": "Different environment, separate single-axis rows, public-output work only. No combined archive and no full capture cost evidence; not a numerical identity reuse.",
+      "historical_seconds": {
+        "modes_fine": 20.024798010475934,
+        "normal": 7.776410486549139,
+        "pore_refill": 7.545105619356036,
+        "space_coarse": 3.7390521140769124,
+        "space_fine": 21.008430413901806,
+        "time_fine": 9.605339296162128
+      },
+      "pilot_accepted_bins": [
+        1264,
+        497,
+        139,
+        80,
+        58
+      ],
+      "pilot_bins": [
+        0,
+        0.01,
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "pilot_nfev": 7471,
+      "pilot_seconds": 96.1511100079806,
+      "pilot_virtual_peak": 2754076672,
+      "primary_remaining_after_worst_case": 409.1878021090379,
+      "rationale": "Measured startup dominates accepted intervals (1761 before.1 versus58 in.3-.4). Probe allowance admits substantial additional evolution, two physical transitions and full post-return observation; measured pilot total96.15s andVmPeak2.754GB leave about204s and5.84GB against hard limits. The250s/7GiB estimates are planning ranges, not proven bounds, and do not multiply8/.4 or cell-count scaling.",
+      "reserve_full_slots": 3,
+      "reserve_seconds": 300,
+      "uncertainties": "Later BDF nonlinear work, two physical boundaries, simultaneous retained segments, full395-time reconstruction and accepted/event audits can exceed estimates. Failure terminates continuation. No complete-panel feasibility claim.",
+      "worst_case_after_probe": 490.8121978909621
+    },
+    "full_probe_result": {
+      "artifact_sha256": "4a1b877539dcc5fa19947d0b6d6b2e95f53cc80434a7eec68d271e0f2553dc25",
+      "elapsed_seconds": 108.11789934101398,
+      "evidence_bytes": {
+        "combined-8gib-execution.json": 197,
+        "combined-8gib-segment-0.npz": 1809039292,
+        "combined-8gib-segment-1.npz": 388293216,
+        "combined-8gib-segment-2.npz": 488340314,
+        "combined-8gib.json": 635189
+      },
+      "execution_block": "OBSERVER_CAPTURE_IDENTITY_BLOCKED",
+      "failure_reason": "ValueError: segment identity mismatch",
+      "failure_stage": "Third-segment persistence/replay identity check; observe_saved subsequently rejects unavailable segment metadata before full reconstruction.",
+      "neutrality": "UNAVAILABLE",
+      "peak_rss_bytes": 3452891136,
+      "physical_validation": "NOT_ESTABLISHED",
+      "production_numerical_failure": "NOT_DEMONSTRATED",
+      "public_horizon": 8.0,
+      "public_result_sha256": "8b810378a3e1d9b976ae1dc3311500274e63e56e2d03797278c8a30a1fb7348b",
+      "public_result_unchanged_after_capture": true,
+      "public_status": "COMPLETED",
+      "raw_files_scope": "Safe numeric files retained, including failed third segment. New file hashes are post-failure inventory, not substituted capture bindings or successful replay evidence.",
+      "remaining_panel": "NOT_ALLOCATED; stop on material unresolved observation identity error. Complete observation time/memory remains unmeasured.",
+      "replayed_segments": [
+        {
+          "file": "combined-8gib-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 4495
+          },
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "file": "combined-8gib-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 983
+          },
+          "valid_interval": [
+            1.0,
+            6.504306141250696
+          ]
+        }
+      ],
+      "reported_usable_retained_numeric_bytes": 2196662808,
+      "returned": 3,
+      "root_cause": "UNRESOLVED; no expected third-segment hash or live replay receipt survived in capture metadata.",
+      "segments": [
+        {
+          "accepted_states": 2247,
+          "dense_intervals": 2246,
+          "file": "combined-8gib-segment-0.npz",
+          "file_bytes": 1809039292,
+          "numerical_bytes": 1808490720,
+          "sha256": "916e1309cbcdda1aee1a542a1e324292f0561e5ee57bba081b422557e68527e4",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "accepted_states": 491,
+          "dense_intervals": 490,
+          "file": "combined-8gib-segment-1.npz",
+          "file_bytes": 388293216,
+          "numerical_bytes": 388172088,
+          "sha256": "09daa29710872daf19aa213e695422e6024727b2e88d0570e5ca906bb83a639d",
+          "valid_interval": [
+            1.0,
+            6.504306141250696
+          ]
+        },
+        {
+          "accepted_states": 524,
+          "dense_intervals": 523,
+          "file": "combined-8gib-segment-2.npz",
+          "file_bytes": 488340314,
+          "numerical_bytes": 488212200,
+          "sha256": "70d891eb7ec3e4b49e4d7f92bd6659574717f74ca6ceb8e1e42ee778ebdf66d0",
+          "valid_interval": [
+            6.504306141250696,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "status": "EXECUTED_UNQUALIFIED",
+      "symbol_restored": true,
+      "telemetry": {
+        "VmHWM_bytes": 3462905856,
+        "VmPeak_bytes": 3873128448,
+        "VmRSS_bytes": 3462905856,
+        "VmSize_bytes": 3873128448
+      },
+      "total_accepted_states": 3262,
+      "total_dense_intervals": 3259,
+      "total_numeric_bytes_by_safe_headers": 2684875008
+    },
+    "remaining_panel": "NOT_ALLOCATED",
+    "remaining_panel_basis": "One full probe returned all three production segments within8GiB/300s, but complete observation failed. Successful full-observation cost and identity required for remaining-panel allocation are unavailable. No further execution is authorized under the stop boundary.",
+    "replacement_pilot": "pilot-combined-8gib",
+    "replacement_pilot_result": {
+      "accepted_states": 2039,
+      "allocation_sha256": "c60e8db496a01129872a2f25d8be75ee196913046d64219a050c55afd6794e6c",
+      "applicable_pilot_checks_passed": true,
+      "audits": {
+        "accepted_states": 2039,
+        "aqueous_max": 0.41354324221321126,
+        "aqueous_min": 0.0,
+        "conservation_location": {
+          "provenance": "accepted",
+          "segment": 0,
+          "t": 0.3648233962096782
+        },
+        "cup_max_time": 0.0,
+        "cup_quadrature_points": 2071,
+        "cup_quadrature_refinement_max": 0.0,
+        "cup_state_integral_max": 0.0,
+        "diagnostic_bounds": {
+          "grain_history": {
+            "excluded": 0,
+            "included": 238,
+            "maximum": 1.3880000000000006,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.025
+            },
+            "minimum": 0.09487427256364803,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.4,
+              "z": 0.025
+            },
+            "requested": 238,
+            "unavailable": 0
+          },
+          "grain_profile": {
+            "excluded": 0,
+            "included": 7480,
+            "maximum": 1.3880000000000006,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "minimum": 0.016279143751082085,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.4,
+              "z": 0.0
+            },
+            "requested": 7480,
+            "unavailable": 0
+          },
+          "liquid_profile": {
+            "excluded": 0,
+            "included": 7480,
+            "maximum": 1.0,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.01,
+              "z": 0.005
+            },
+            "minimum": 0.0,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "requested": 7480,
+            "unavailable": 0
+          }
+        },
+        "diagnostic_inlet_mean_error": 5.513060442510764e-06,
+        "event_states": 0,
+        "front_decrease": 0.0,
+        "front_wet_excess": 0.0,
+        "grain_mean_min": 0.01661784951006214,
+        "horizon": 0.4,
+        "independent_sum_allowance_fraction": 9.1552734375e-05,
+        "max_normalized_conservation": 1.820829750184947e-11,
+        "phase_min": 0.0,
+        "public_cup_error": 0.0,
+        "public_grain_endpoint_difference": 0.0014619163307265093,
+        "public_inventory_allowance_fraction": 0.0009381003842459175,
+        "public_outlet_error": 0.0,
+        "public_profile_reconstruction_error": 6.661338147750939e-16,
+        "spectrum": {
+          "allowance": 5.684341886080802e-14,
+          "complement_tail": 0.009425037605941489,
+          "complement_tail_difference": 7.632783294297951e-17,
+          "rate_relative_error": 2.220446049250313e-16,
+          "tail_rate": 123192.40071156433,
+          "tail_weight": 0.009425037605941565,
+          "weight_error": 0.0,
+          "weight_sum": 1.0
+        },
+        "terminal_cup": 0.0,
+        "terminal_phases": [
+          0.3382008755293003,
+          4.162079328150011,
+          1.0517197964193432
+        ]
+      },
+      "censoring_reason": "Short horizon .4 precedes first drip, exit and most activation; not a full trajectory.",
+      "dense_intervals": 2038,
+      "elapsed_seconds": 96.1511100079806,
+      "evidence_bytes": {
+        "pilot-8gib-execution.json": 396,
+        "pilot-8gib-observations.json": 3976112,
+        "pilot-8gib-segment-0.npz": 1644039100,
+        "pilot-8gib.json": 38129
+      },
+      "full_contract_censored": {
+        "activation_support": false,
+        "events": false,
+        "horizon": false
+      },
+      "gates": {
+        "aqueous_bounds": true,
+        "complete_status": true,
+        "conservation": true,
+        "cup_quadrature": true,
+        "cup_state_integral": true,
+        "diagnostic_grain_history_bounds": true,
+        "diagnostic_grain_profile_bounds": true,
+        "diagnostic_inlet": true,
+        "diagnostic_liquid_profile_bounds": true,
+        "front_support": true,
+        "grain_bounds": true,
+        "independent_inventory_sums": true,
+        "phase_bounds": true,
+        "public_cup_outlet_reconstruction": true,
+        "public_inventory_algebra": true,
+        "public_profile_reconstruction": true,
+        "required_times": true,
+        "solver_segments": true,
+        "tail_weights_rates": true
+      },
+      "live_replay_points": 4079,
+      "live_replay_qualified_on_pilot": true,
+      "neutrality": "UNAVAILABLE",
+      "observations_sha256": "6179c86cdf341328753aa5b837daf73e70d03788605531189e6ce1aa908eb173",
+      "peak_rss_bytes": 2402525184,
+      "physical_validation": "NOT_ESTABLISHED",
+      "public_status": "COMPLETED",
+      "raw_sha256": "842781c12c402df7af259db47854a0c99f8c6e1141cf908799a31c34d2957cc0",
+      "retained_numerical_bytes": 1643541280,
+      "returned_segments": 1,
+      "scientific_sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "seam_qualified_on_pilot": true,
+      "status": "EXECUTED_UNQUALIFIED",
+      "stdout_label_correction": "Historical pilot stdout labeled4079 as dense_intervals; these are live replay points. The simultaneously retained execution receipt and NPZ orders give2038 actual dense intervals; original log unchanged.",
+      "telemetry": {
+        "VmHWM_bytes": 2405232640,
+        "VmPeak_bytes": 2754076672,
+        "VmRSS_bytes": 2405232640,
+        "VmSize_bytes": 2754076672
+      }
+    },
+    "short_pilot_evaluation_sha256": "d4cb751ba6b8303c36b62bcb7231cd1ba297f2f22e52df4b787007c8b9f2ecb2"
+  },
+  "historical_failed_combined": {
+    "attempt": "combined-feasibility-8gib",
+    "captured_matrix": {
+      "file": "MATRIX-combined-probe-frozen.json",
+      "sha256": "48b3c7e5188aa642e3f8a9c9e1ff39f2e0ce56b36539c35fa794fe4c734e31fe"
+    },
+    "controls": {
+      "atol": 2e-11,
+      "cells": 256,
+      "front_mesh_power": 2.0,
+      "max_step": 0.025,
+      "modes": 64,
+      "rtol": 2e-09
+    },
+    "file": "combined-8gib.json",
+    "horizon": 8.0,
+    "observed": true
+  },
+  "historical_fixtures": {
+    "attempt": "fixtures-correction",
+    "file": "fixtures-correction.json",
+    "sha256": "1cc43259f96527e97131c642f1ee920b2fd40fa88640bec5fd9a123a2d02a2ba"
+  },
+  "limits": {
+    "aggregate_seconds": 1200,
+    "full_attempts": 10,
+    "memory_bytes": 8589934592,
+    "per_invocation_seconds": 300,
+    "primary_seconds": 900,
+    "reserve_full_slots": 3,
+    "reserve_seconds": 300,
+    "short_invocations": 20
+  },
+  "numerical_allocations": {
+    "algebra_scale_factor": 5.684341886080802e-14,
+    "cup_quadrature": 1e-10,
+    "diagnostic_grain_fixture": 2e-05,
+    "diagnostic_liquid_fixture": 0.0001,
+    "global_normalized_conservation": 1e-06,
+    "grain_analytical_per_method": 2e-05,
+    "no_added_allowance": true,
+    "positive_age_flux": 0.0002
+  },
+  "observer_correction": {
+    "attempt": "fixtures-correction",
+    "count": 1,
+    "new_observer_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+    "prior_head": "67040f4508b94c11ed8df4d859f25d1dec033594",
+    "prior_matrix_sha256": "1c3a737f26d55697163de538a90a8a2063a5f3be46e850b31ec628832fe120e0",
+    "prior_observer_sha256": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "recaptures": 0,
+    "scope": "Unmasked diagnostic bounds; observer endpoint classification; failed-attempt execution status"
+  },
+  "persistence_correction": {
+    "controller_binding_sha256": "8f77042e7b9fe8239e60f9825af5603b695077ac6feeba2ed7ee2a62a18aae86",
+    "count": 1,
+    "diagnosis_sha256": "aa6d646008a4f2ade73c130accbdb597a55b23e4ffe933ac3caff63f8d4e4178",
+    "fixture_reuse": "Unchanged analytical values exactly reproduced with new source identity; old artifacts untouched",
+    "historical_cause": "UNRESOLVED",
+    "historical_ledger_sha256": "e3b03709d484128394cc65a631d0716c8774a0505184101d6a47aa0404a35054",
+    "historical_third_member_failure": "D_97.npy CRC-32 failure; no original expected hash or live reference survives",
+    "new_capture": "All three segments pass expected file identity, direct returned array fidelity and live replay. Complete combined observation; all22individual gates pass.",
+    "new_observer_sha256": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+    "normal_observation": "Complete, integrity/replay pass; diagnostic inlet gate fails. Historical cause remains unresolved; no further reconstruction correction.",
+    "old_matrix_sha256": "0bcfcae91e4a019bca4d439579d5ed0c1d654cd062ef411404b421ecdbbe5d04",
+    "old_observer_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+    "old_results_sha256": "b03dae5c9d1f7284e7209fb9063af35cbff90591ecaf5fafa19318b2743d94bc",
+    "prior_head": "ab3969d28992ae1bc55fbfdc8cc88c75bef8fca3",
+    "prior_tree": "c2035fdc3f297a1923d648fd5f8e08d036a3ac75",
+    "recaptures_authorized": 1,
+    "recaptures_executed": 1,
+    "reconstruction_correction_consumed": true,
+    "recovery_eligible": false,
+    "source_delta_sha256": "8c603c37279689e3f3c5af204789d98a226b9938d08e033c3b94334efefeba7c"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "protected_sources": {
+    "THIRD_PARTY_NOTICES.md": "4fa42afa76796deb0c40c72d374c328e4dab533bcfad16e234b1a73251148d66",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/CONTRACT.md": "47b03225fa1309ea5b8699ce41b3df065edc54b0f08ced10785f3fd3aa365ebb",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/HANDOFF.md": "46a94906d1474bf34500527d5f84d130a10de058d6eb0548425030ebbcc50412",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/MATRIX.json": "28e43008a3fdd5af6447dbbc08b8b0c72a0731eb4f338eb7f45974f433dcd3c4",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json": "2e30b0119f6ff210e67409250a771de44783b23e5b6ee9119a487696b6aa24d5",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.md": "7924895bf4d6174c8d52d0a41b8f222f1233ba6883e7f2c2408b213f27d9487b",
+    "docs/analysis/model_grudeva2026_conservative_003/CONTRACT.md": "30274b95e97b47cf02a90f84f1ccded38e3246e4f12cc14f78bb297c72d410f2",
+    "docs/analysis/model_grudeva2026_conservative_003/HANDOFF.md": "05f88a4dbdc050d4c93928ad4837de4fe7b7e24ab627a56e3e76895c330a0b15",
+    "docs/analysis/model_grudeva2026_conservative_003/MATRIX.json": "de86561b14f8773640aa2f846c7975b238f00d72f89a7865adc787da4fa65b46",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.json": "57b1bc90a9d6804f71ae160b65eb6c7d576db70bfcc7c04fdad169ce1149a314",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.md": "6451b9be20097fb805d8b5c843a439dec6517696e14b254a681d4df5b5c32cef",
+    "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+    "docs/analysis/model_grudeva2026_reduced_001/HANDOFF.md": "a8f396c796c91dca9343dd7b3b60704bfa1362c282d5dd7c385d87626018c820",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION.md": "0a0e30601e910eead7186cbebb2227b7e1caac39d4a4c12b835b0469d1849b71",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION_REUSE.json": "0b36ff4105a1266146a1776527722b377d7fa30a193a7d584c8b1a1629d1c90f",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.md": "a65994e6ebc31e33871d8557e9e406eeb635ead1f7aa433c82a3d080febea67e",
+    "docs/analysis/model_grudeva2026_reference_002/CONTRACT.md": "f0c3b93571ca72f173d2837c37c5e50c6fb20e37b14d758346924fd76966ef4b",
+    "docs/analysis/model_grudeva2026_reference_002/HANDOFF.md": "92e653bd01d2e3c9b20a8504e5bb9f0258d01945c0784ff7b7472997d07b764c",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.json": "e4819949ae6c723c93e34007ff46bed0d2a6596f83f763b097643410d3248bd6",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.md": "dd66bb8c129f1be406b68d3dc4fe3703b2347cb83aaab2917d9feb60256cfd49",
+    "docs/cards/grudeva2026_2.md": "c32fa237a22b2970f6369d6767fd9c7273bd09338c87d11de82b3744bb8366be",
+    "docs/permissions/grudeva2025.md": "f733d78af044ecbe33b6315c8d4e9ecc671eb57051c76d6984f22eba12787764",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004.py": "fcc1daa15df11fa2559deccbd3dd6dd43e8c7debd877275f4da2aa8b924f7db3",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004_report.py": "1f3336564f6d1dca5f5a5036fbbaee695e4b69b26c94e46543b871f3adab576d",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "puckworks/data/grudeva2026/PROVENANCE.md": "4eecab3bdc73851c06a6eb85c899b74cb179fda71db5b938e1d4bb643eed712f",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/__init__.py": "495af0bc7b514968a5f4e2d1901225ceb991cbb30c203a08edbbf0f5147f4d9d",
+    "puckworks/models/grudeva2026/__main__.py": "d2e58662371c7bd840b2cb768e152c11542c7934548fb6be9c3f62a2489705ab",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/quantities.py": "0ce6ab676afe0840b156d6924d19967ceb1a1937d1a35cf9e5076e40e7e20218",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86",
+    "tests/test_grudeva2026_bed_accuracy_004.py": "c67f1ea3352d6527fdd07f5a8971d04a85845fe981069660cd1122fccc5edfda",
+    "tests/test_grudeva2026_bed_accuracy_004_report.py": "22edd128797442ba68961dccd1db3d4667dc712543bfae49587e62baf0f4069b",
+    "tests/test_grudeva2026_conservative_003.py": "583f98ebf2d474313ceaae0337ba91e035392a0e139e8f8ebd5ea97579770d57",
+    "tests/test_grudeva2026_reference_002.py": "513f792482d88723096bd25025baf6e62a9841db6b35ba2d704ea68d3873a621",
+    "tools/grudeva2026_bed_accuracy_004_campaign.py": "18fed227ee90a07d9aa411ff8c0b1759f538a4485dc95becbb8c5ea91f4438b6",
+    "tools/grudeva2026_bed_accuracy_004_diagnostics.py": "0da1bc28cb0a12c05dd9abac3e3f786ea7ef8557b0d8ca5cbfe256d2ec712a5a",
+    "tools/grudeva2026_bed_accuracy_004_evidence.py": "063dff97244bb7257b7b8614559bd9319bea992d11574d765597dc67e76713f5",
+    "tools/grudeva2026_bed_accuracy_004_front_oracle.py": "3e84ded7eb2cdea15762e9a8a110c5be16af70156ad0864fc2ad0132cff2843c",
+    "tools/grudeva2026_bed_accuracy_004_history_oracle.py": "ee049be548fdf4a27c0165901b7485475307c7f1dc95b1f637ff88f37298ae55",
+    "tools/grudeva2026_bed_accuracy_004_invoke.py": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+    "tools/grudeva2026_bed_accuracy_004_verify.py": "b2e7d154a75328c92e29c4d4abbfb54ede1a8de88a5bd57dd14198112285b9da"
+  },
+  "public_request_archive_binding": {
+    "archive_sha256": "a211214b97c97758b04a85367942ce62f7e52c186b15d3064e8d5ee68e4c943b",
+    "public_request_matches_archive": true,
+    "public_result_sha256": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec"
+  },
+  "public_request_archive_scope": "Complete 001 scientific Result inspected; not new raw-state evidence; no archive neutrality assumed.",
+  "reporter_sha256": "01f863557eed0ad4d968bc09d8ac2a703dfc2a5ce915f167acc93062bdb7dfcb",
+  "request_counts": {
+    "diagnostic_times": 395,
+    "diagnostic_z": 220,
+    "history_z": 7,
+    "public_times": 75,
+    "public_z": 120
+  },
+  "request_hashes": {
+    "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+    "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+    "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+    "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+    "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+  },
+  "resource_amendment": {
+    "binding_sha256": "089ef59efb0bd5c27b0464d568ec7904d92db8574de6cdacb7e6ef3c814a5b49",
+    "controller_sha256": "cf6e9ecb512fa450b1207cc9814f8b94f1269e317835e5f461dc490957a2a224",
+    "ending_counts": {
+      "full": 1,
+      "seconds": 298.9300972319761,
+      "short": 9
+    },
+    "historical_ledger_sha256": "0fac70a37209e0c940ab44fd511507dbb8949eee0e329dbe9384016bafb2df9c",
+    "historical_matrix_sha256": "0198998f27f13ca827b8d8aad86d4801c0455d83150f47736ed632e421c087db",
+    "historical_result_sha256": "db7776be72aac98e19b398d8736e6bd844ee77a586b422d4ed04a2f056b73149",
+    "historical_reviewed_head": "0a8930de6a97513d95883646d6e19b63f9aec9a7",
+    "memory_bytes": 8589934592,
+    "observer_only_correction_consumed": true,
+    "old_controller_sha256": "6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341",
+    "physical_validation": "NOT_ESTABLISHED",
+    "policy": "005-owner-8gib-20261008",
+    "scope": "Owner-authorized G0 enforcement/accounting/allocation amendment within unchanged G1 scientific task",
+    "starting_full": 0,
+    "starting_seconds": 94.66108788298152,
+    "starting_short": 8,
+    "unchanged_scientific_sources": true
+  },
+  "runner_sha256": "7e036dcc0e8a520f4a57f58290e6f93cb27bcbb5b145681f39aa4cf01e1edc01",
+  "runs": {
+    "bed_fine": {
+      "attempt": "bed_fine-persistence",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 256,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "bed_fine-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "combined": {
+      "attempt": "combined-persistence-recapture",
+      "captured_matrix": {
+        "file": "MATRIX-persistence-recapture-frozen.json",
+        "sha256": "98ce4c2d4bf9be826b13b107d94fe6bdbb929f8df4d1d1be001a9ba882e12b63"
+      },
+      "controls": {
+        "atol": 2e-11,
+        "cells": 256,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "file": "combined-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "control": {
+      "attempt": "control-persistence",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "control-persistence.json",
+      "horizon": 8.0,
+      "observed": false
+    },
+    "modes_fine": {
+      "attempt": "modes_fine-persistence",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 64,
+        "rtol": 2e-08
+      },
+      "file": "modes_fine-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "normal": {
+      "attempt": "normal-persistence",
+      "captured_matrix": {
+        "file": "MATRIX-remaining-persistence-frozen.json",
+        "sha256": "37a8dcd4aa2d9df34416a7fed3456460401a24a1c03c4dfde760f9795b1ebf87"
+      },
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "normal-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "repeat": {
+      "attempt": "repeat-persistence",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "repeat-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "time_fine": {
+      "attempt": "time_fine-persistence",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 32,
+        "rtol": 2e-09
+      },
+      "file": "time_fine-persistence.json",
+      "horizon": 8.0,
+      "observed": true
+    }
+  },
+  "sources": {
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+  },
+  "task": "MODEL-GRUDEVA2026-BASELINE-OBSERVATION-005"
+}

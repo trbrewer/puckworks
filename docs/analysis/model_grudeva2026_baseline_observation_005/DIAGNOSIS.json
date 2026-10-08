@@ -1,0 +1,1233 @@
+{
+  "allocation_sha256": "a540f11ddd034d02aa76ab9dc26923891163bbee973c22612ad02892f743c6a1",
+  "archive_checks": {
+    "combined": {
+      "metadata_sha256": "55994bcce4081171aa81c4a0c394cdaa01e9eb55082d97c55bd16addffe01a3b",
+      "segments": [
+        {
+          "file": "combined-persistence-segment-0.npz",
+          "receipt_sha256": "b89a6cfe8b1953def6181013525ce001fbed7e3acf99e3de76855f57fab6d9f1",
+          "sha256": "916e1309cbcdda1aee1a542a1e324292f0561e5ee57bba081b422557e68527e4"
+        },
+        {
+          "file": "combined-persistence-segment-1.npz",
+          "receipt_sha256": "ee40d551dd8add3366dd0026ea0983337dcc3104b7da9b5e46971aee2679154c",
+          "sha256": "09daa29710872daf19aa213e695422e6024727b2e88d0570e5ca906bb83a639d"
+        },
+        {
+          "file": "combined-persistence-segment-2.npz",
+          "receipt_sha256": "773bf393ca5a0f8ce176467d744cba03c7553e3801251456e8fde257bda70fcd",
+          "sha256": "1344e4a5792dbd08ad40d62c87f4a68648f2ef8114fc90d4fa6277163ac2397a"
+        }
+      ],
+      "validated": true
+    },
+    "normal": {
+      "metadata_sha256": "ed7f2963894fc1de625b181efa88f71a8f224eeb8e05cc18c47f85ed3779ff0e",
+      "segments": [
+        {
+          "file": "normal-persistence-segment-0.npz",
+          "receipt_sha256": "3972aade38d21babbfcfbdf402bc5f114641e6a149a3fd7d20b1af286ad65de3",
+          "sha256": "37eb4666b174eb6ac6bc9795763b6a51d1e45266e5c9907980b6743ffa544138"
+        },
+        {
+          "file": "normal-persistence-segment-1.npz",
+          "receipt_sha256": "e2819c600c1554f6b31e9272dd9f4b7c7af53e97f2cc92d00489b5c549775d40",
+          "sha256": "9dae43b2c7c6b1499065b67395305672c2e2afd129d7bdd7ac4f08a51138a20a"
+        },
+        {
+          "file": "normal-persistence-segment-2.npz",
+          "receipt_sha256": "158bda822074db17034d3c473f62e1d6ded77233c89a6fd9aa5740e33be3f4ee",
+          "sha256": "a96b9c767f08ab430803af5f18e18902566e7f13f5d775887806a9fb22fb3c97"
+        }
+      ],
+      "validated": true
+    }
+  },
+  "artifact_bytes": 204341,
+  "artifact_sha256": "465525df7dde87cf3426ea028beb50def49c82c53c8d0e1d210320c0dd5e115c",
+  "block": "OBSERVER_DIAGNOSTIC_INLET_BLOCKED",
+  "diagnosis": "DECLARED_APPROXIMATION_LIMITATION_AND_COMMON_SUPPORT_STORED_FIELD_DIFFERENCES; CAUSAL_ATTRIBUTION_MIXED",
+  "fixtures": {
+    "combined": {
+      "cells": 256,
+      "families": {
+        "nonconstant": {
+          "allowance": 2e-05,
+          "excluded": 55,
+          "failures_age_eligible": 1,
+          "failures_all": 24,
+          "included": 84,
+          "independent_average_checks": {
+            "count": 24,
+            "maximum_reported_quadrature_error": 1.5409884563480766e-14,
+            "maximum_signed_difference": {
+              "cell": 255,
+              "exact_average": 1.3756895927938178,
+              "independent_average": 1.3756895927937483,
+              "mode": 64,
+              "quadrature_estimated_error": 1.5273222606568253e-14,
+              "signed_difference": 6.94999613415348e-14,
+              "t": 0.01
+            }
+          },
+          "inlet_t_point2": {
+            "actual": 0.1960520201119628,
+            "exact": 0.19605191195181326,
+            "signed_error": 1.0816014953118902e-07
+          },
+          "maximum_age_eligible": {
+            "age": 0.020999999999999908,
+            "eligible": true,
+            "signed_error": -2.1299187327850078e-05,
+            "t": 4.9,
+            "z": 0.9758000000000001
+          },
+          "maximum_all": {
+            "age": 0.0,
+            "eligible": false,
+            "signed_error": -0.015563820687770402,
+            "t": 5.0,
+            "z": 1.0
+          },
+          "requested": 139,
+          "unavailable": 0
+        },
+        "zero_boundary": {
+          "allowance": 2e-05,
+          "excluded": 55,
+          "failures_age_eligible": 1,
+          "failures_all": 24,
+          "included": 84,
+          "independent_average_checks": {
+            "count": 24,
+            "maximum_reported_quadrature_error": 1.5409883978289415e-14,
+            "maximum_signed_difference": {
+              "cell": 255,
+              "exact_average": 1.3750357774899669,
+              "independent_average": 1.3750357774898936,
+              "mode": 64,
+              "quadrature_estimated_error": 1.5265963798526334e-14,
+              "signed_difference": 7.327471962526033e-14,
+              "t": 0.01
+            }
+          },
+          "inlet_t_point2": {
+            "actual": 0.11729226733981851,
+            "exact": 0.11729215424253722,
+            "signed_error": 1.1309728129016428e-07
+          },
+          "maximum_age_eligible": {
+            "age": 0.020999999999999908,
+            "eligible": true,
+            "signed_error": -2.2407707830018886e-05,
+            "t": 4.9,
+            "z": 0.9758000000000001
+          },
+          "maximum_all": {
+            "age": 0.0,
+            "eligible": false,
+            "signed_error": -0.016390388349661444,
+            "t": 5.0,
+            "z": 1.0
+          },
+          "requested": 139,
+          "unavailable": 0
+        }
+      },
+      "modes_including_tail": 65
+    },
+    "normal": {
+      "cells": 128,
+      "families": {
+        "nonconstant": {
+          "allowance": 2e-05,
+          "excluded": 55,
+          "failures_age_eligible": 11,
+          "failures_all": 44,
+          "included": 84,
+          "independent_average_checks": {
+            "count": 18,
+            "maximum_reported_quadrature_error": 1.5409851508598444e-14,
+            "maximum_signed_difference": {
+              "cell": 127,
+              "exact_average": 1.3754955559865112,
+              "independent_average": 1.3754955559865025,
+              "mode": 32,
+              "quadrature_estimated_error": 1.5271068365257964e-14,
+              "signed_difference": 8.659739592076221e-15,
+              "t": 0.01
+            }
+          },
+          "inlet_t_point2": {
+            "actual": 0.19605278506709614,
+            "exact": 0.19605191195122212,
+            "signed_error": 8.731158740171718e-07
+          },
+          "maximum_age_eligible": {
+            "age": 0.020999999999999908,
+            "eligible": true,
+            "signed_error": 0.00015032535646730683,
+            "t": 5.0001,
+            "z": 0.99582
+          },
+          "maximum_all": {
+            "age": 0.0,
+            "eligible": false,
+            "signed_error": -0.031131819259399895,
+            "t": 5.0,
+            "z": 1.0
+          },
+          "requested": 139,
+          "unavailable": 0
+        },
+        "zero_boundary": {
+          "allowance": 2e-05,
+          "excluded": 55,
+          "failures_age_eligible": 11,
+          "failures_all": 44,
+          "included": 84,
+          "independent_average_checks": {
+            "count": 18,
+            "maximum_reported_quadrature_error": 1.5409849167836033e-14,
+            "maximum_signed_difference": {
+              "cell": 127,
+              "exact_average": 1.3748314350841704,
+              "independent_average": 1.3748314350841613,
+              "mode": 32,
+              "quadrature_estimated_error": 1.5263695142088822e-14,
+              "signed_difference": 9.103828801926284e-15,
+              "t": 0.01
+            }
+          },
+          "inlet_t_point2": {
+            "actual": 0.11729306722491839,
+            "exact": 0.11729215424253722,
+            "signed_error": 9.129823811682147e-07
+          },
+          "maximum_age_eligible": {
+            "age": 0.020999999999999908,
+            "eligible": true,
+            "signed_error": 0.00015813462830216451,
+            "t": 5.0001,
+            "z": 0.99582
+          },
+          "maximum_all": {
+            "age": 0.0,
+            "eligible": false,
+            "signed_error": -0.03278494341852012,
+            "t": 5.0,
+            "z": 1.0
+          },
+          "requested": 139,
+          "unavailable": 0
+        }
+      },
+      "modes_including_tail": 33
+    }
+  },
+  "historical_refinements": {
+    "bed_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      }
+    },
+    "combined": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 220,
+        "location": {
+          "index": [
+            84
+          ],
+          "z": 0.405
+        },
+        "max_absolute": 1.4624018952247297e-05,
+        "passed": true,
+        "requested": 220,
+        "unavailable": 0
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 1,
+        "location": {
+          "normal_t": 6.5043092876388835,
+          "refined_t": 6.504306141250696,
+          "z": 1.0
+        },
+        "max_absolute": 3.1463881873250443e-06,
+        "passed": true,
+        "requested": 1,
+        "unavailable": 0
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            329
+          ],
+          "t": 6.65
+        },
+        "max_absolute": 1.2379364434491127e-06,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            317
+          ],
+          "t": 6.595
+        },
+        "max_absolute": 9.539449723483528e-06,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            316
+          ],
+          "t": 6.59
+        },
+        "max_absolute": 6.430031463798558e-06,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            106
+          ],
+          "t": 2.6
+        },
+        "max_absolute": 2.2334260599277123e-06,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 971,
+        "included": 1794,
+        "location": {
+          "index": [
+            237,
+            5
+          ],
+          "t": 5.875,
+          "z": 0.9
+        },
+        "max_absolute": 0.0004323872501288406,
+        "passed": false,
+        "requested": 2765,
+        "unavailable": 0
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 30359,
+        "included": 56541,
+        "location": {
+          "index": [
+            299,
+            218
+          ],
+          "t": 6.51,
+          "z": 0.995
+        },
+        "max_absolute": 0.0006000191780015651,
+        "passed": false,
+        "requested": 86900,
+        "unavailable": 0
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            316
+          ],
+          "t": 6.59
+        },
+        "max_absolute": 2.009384832524219e-06,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 1224,
+        "included": 85676,
+        "location": {
+          "index": [
+            302,
+            213
+          ],
+          "t": 6.525,
+          "z": 0.98
+        },
+        "max_absolute": 0.0001757833765665684,
+        "passed": true,
+        "requested": 86900,
+        "unavailable": 0
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 14,
+        "included": 381,
+        "location": {
+          "index": [
+            303
+          ],
+          "t": 6.53
+        },
+        "max_absolute": 0.00011547549619722597,
+        "passed": true,
+        "requested": 395,
+        "unavailable": 0
+      }
+    },
+    "modes_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      }
+    },
+    "time_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "mandatory physical-coordinate trajectory unavailable",
+        "requested": 395,
+        "unavailable": 395
+      }
+    }
+  },
+  "historical_results_sha256": "5423e4119de76e4ababd1804310307b6b59420a07616da0f495ea21ee853cace",
+  "historical_root_cause": "UNRESOLVED",
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "4a81254af99e10a5ce60b0c1193b6b6562c713481ba00273571ff40fa4ece322",
+  "points": [
+    {
+      "combined": {
+        "activation": 0.0,
+        "analytic_inlet": 0.11729215424253724,
+        "arithmetic_allowance": 1.0928108442716092e-12,
+        "arithmetic_max": 2.7755575615628914e-17,
+        "containing_cell": 0,
+        "front": 0.03377631284347633,
+        "grain_age": 0.2,
+        "grain_cell_averages": [
+          0.11838393319990252,
+          0.12059837751476044,
+          0.12284015732719761
+        ],
+        "grain_mean": 0.11728664118209468,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.11728664118209468,
+        "integral_moment_residual_max": 2.7755575615628914e-17,
+        "integral_residual_max": 7.281155877966626e-21,
+        "moment_condition": 19.22493168378147,
+        "physical_faces": [
+          0.0,
+          0.00026336205845667126,
+          0.0005256933456473672,
+          0.000786993861572088
+        ],
+        "physical_widths": [
+          0.00026336205845667126,
+          0.00026233128719069595,
+          0.0002613005159247208
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": 2.7755575615628914e-17,
+        "reconstruction_weights": [
+          1.8356234831850227,
+          -1.1715840666975454,
+          0.33596058351252267
+        ],
+        "stencil": [
+          0,
+          1,
+          2
+        ],
+        "t": 0.2,
+        "z": 0.0
+      },
+      "combined_minus_analytic_inlet": -5.513060442552398e-06,
+      "decomposition": {
+        "closure": -2.5614276324970042e-17,
+        "coarse_means": [
+          0.11947560009010724,
+          0.12396240251125014,
+          0.1285565859996053
+        ],
+        "fine_averaged_on_coarse": [
+          0.11948899248179974,
+          0.1239725322350038,
+          0.1285655709771093
+        ],
+        "original_minus_mean_first": 1.3877787807814457e-17,
+        "original_observer_total": -1.494794462740534e-05,
+        "reaveraging_reconstruction": 7.907059575290587e-07,
+        "reference": "COMBINED_REPRESENTATION_NOT_CONTINUUM",
+        "stored_field": -1.5738650584922663e-05,
+        "stored_mean_differences": [
+          -1.339239169249884e-05,
+          -1.012972375366572e-05,
+          -8.984977504011837e-06
+        ],
+        "supported": true,
+        "total": -1.4947944627419218e-05
+      },
+      "mask": {
+        "aged": true,
+        "grain_history": true,
+        "grain_profile": true,
+        "inlet_gate": true,
+        "spatial": true
+      },
+      "name": "inlet",
+      "normal": {
+        "activation": 0.0,
+        "analytic_inlet": 0.11729215424253724,
+        "arithmetic_allowance": 1.092828836822302e-12,
+        "arithmetic_max": 4.163336342344337e-17,
+        "containing_cell": 0,
+        "front": 0.033776436459103644,
+        "grain_age": 0.2,
+        "grain_cell_averages": [
+          0.11947560009010724,
+          0.12396240251125014,
+          0.1285565859996053
+        ],
+        "grain_mean": 0.11727169323746728,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.11727169323746728,
+        "integral_moment_residual_max": 4.336808689942018e-19,
+        "integral_residual_max": 2.2440776202960137e-22,
+        "moment_condition": 19.225248212080672,
+        "physical_faces": [
+          0.0,
+          0.0005256952695966449,
+          0.0010472674390395904,
+          0.001564716508328837
+        ],
+        "physical_widths": [
+          0.0005256952695966449,
+          0.0005215721694429456,
+          0.0005174490692892466
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": 4.163336342344337e-17,
+        "reconstruction_weights": [
+          1.8379368833836485,
+          -1.176571678540183,
+          0.3386347951565345
+        ],
+        "stencil": [
+          0,
+          1,
+          2
+        ],
+        "t": 0.2,
+        "z": 0.0
+      },
+      "normal_minus_analytic_inlet": -2.046100506995774e-05,
+      "normal_minus_combined": -1.494794462740534e-05,
+      "original_allowance": 2e-05,
+      "original_max_absolute": 2.046100506994386e-05,
+      "spectrum_split": {
+        "closure": 2.964413483320588e-17,
+        "combined_additional_resolved": -2.127986137362064e-09,
+        "combined_tail": -2.1585987872871732e-09,
+        "normal_tail": -1.4932236172153693e-08,
+        "shared_resolved_modes": 32,
+        "shared_sum": -1.493729897618748e-05,
+        "tail_vs_additional_and_tail": -1.0645651247504456e-08
+      }
+    },
+    {
+      "combined": {
+        "activation": 6.471546352824901,
+        "analytic_inlet": null,
+        "arithmetic_allowance": 2.5767510683260262e-12,
+        "arithmetic_max": 2.220446049250313e-16,
+        "containing_cell": 237,
+        "front": 1.0,
+        "grain_age": 0.038453647175098915,
+        "grain_cell_averages": [
+          0.7589861087461593,
+          0.7851521876986994,
+          0.8113755971964272
+        ],
+        "grain_mean": 0.7957197004563982,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.7957197004563982,
+        "integral_moment_residual_max": 2.220446049250313e-16,
+        "integral_residual_max": 1.1858461261560205e-19,
+        "moment_condition": 19.244498750998417,
+        "physical_faces": [
+          0.993896484375,
+          0.9944915771484375,
+          0.99505615234375,
+          0.9955902099609375
+        ],
+        "physical_widths": [
+          0.0005950927734375,
+          0.0005645751953125,
+          0.0005340576171875
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": 2.220446049250313e-16,
+        "reconstruction_weights": [
+          -0.1504377430061633,
+          0.8975664717348996,
+          0.2528712712712638
+        ],
+        "stencil": [
+          236,
+          237,
+          238
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "decomposition": {
+        "closure": 3.144186300207963e-18,
+        "coarse_means": [
+          0.7201143561637335,
+          0.7722080967662057,
+          0.824625534579281
+        ],
+        "fine_averaged_on_coarse": [
+          0.7196578075984517,
+          0.7717248577098961,
+          0.8241042735076983
+        ],
+        "original_minus_mean_first": -3.3306690738754696e-16,
+        "original_observer_total": 0.0006000191780014541,
+        "reaveraging_reconstruction": 0.00010086787191954105,
+        "reference": "COMBINED_REPRESENTATION_NOT_CONTINUUM",
+        "stored_field": 0.000499151306082243,
+        "stored_mean_differences": [
+          0.00045654856528187793,
+          0.0004832390563096478,
+          0.0005212610715826793
+        ],
+        "supported": true,
+        "total": 0.0006000191780017872
+      },
+      "mask": {
+        "aged": true,
+        "grain_history": true,
+        "grain_profile": true,
+        "inlet_gate": null,
+        "spatial": true
+      },
+      "name": "grain_profile",
+      "normal": {
+        "activation": 6.471549270642203,
+        "analytic_inlet": null,
+        "arithmetic_allowance": 2.541818601224088e-12,
+        "arithmetic_max": 1.1102230246251565e-16,
+        "containing_cell": 118,
+        "front": 1.0,
+        "grain_age": 0.038450729357796476,
+        "grain_cell_averages": [
+          0.7201143561637335,
+          0.7722080967662057,
+          0.824625534579281
+        ],
+        "grain_mean": 0.7963197196343996,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.7963197196343996,
+        "integral_moment_residual_max": 1.1102230246251565e-16,
+        "integral_residual_max": 1.4230153513872246e-19,
+        "moment_condition": 19.2995897900852,
+        "physical_faces": [
+          0.99261474609375,
+          0.993896484375,
+          0.99505615234375,
+          0.99609375
+        ],
+        "physical_widths": [
+          0.00128173828125,
+          0.00115966796875,
+          0.00103759765625
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": -1.1102230246251565e-16,
+        "reconstruction_weights": [
+          -0.14216701754385963,
+          0.8234637037037077,
+          0.31870331384015194
+        ],
+        "stencil": [
+          117,
+          118,
+          119
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "normal_minus_combined": 0.0006000191780014541,
+      "original_allowance": 0.00023,
+      "original_max_absolute": 0.0006000191780015651,
+      "spectrum_split": {
+        "closure": -4.087442190270352e-17,
+        "combined_additional_resolved": 0.002512466524803349,
+        "combined_tail": 0.0025509090915840924,
+        "normal_tail": 0.005065933448298753,
+        "shared_resolved_modes": 32,
+        "shared_sum": 0.0005974613460901832,
+        "tail_vs_additional_and_tail": 2.5578319113117934e-06
+      }
+    },
+    {
+      "combined": {
+        "activation": 5.849112412682755,
+        "analytic_inlet": null,
+        "arithmetic_allowance": 2.984599493910259e-12,
+        "arithmetic_max": 3.774758283725532e-15,
+        "containing_cell": 239,
+        "front": 0.9039511501179931,
+        "grain_age": 0.02588758731724461,
+        "grain_cell_averages": [
+          0.8812660040526072,
+          0.9091413846394875,
+          0.937219916573199
+        ],
+        "grain_mean": 0.8973717125526521,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.8973717125526502,
+        "integral_moment_residual_max": 5.551115123125783e-17,
+        "integral_residual_max": 2.526732142632634e-20,
+        "moment_condition": 19.249561501156833,
+        "physical_faces": [
+          0.8994821533431178,
+          0.8999649153404037,
+          0.9004200909378447,
+          0.9008476801354408
+        ],
+        "physical_widths": [
+          0.00048276199728591873,
+          0.00045517559744101543,
+          0.00042758919759611214
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": 2.220446049250313e-16,
+        "reconstruction_weights": [
+          0.2433077425439154,
+          0.9343146550752144,
+          -0.17762239761912973
+        ],
+        "stencil": [
+          238,
+          239,
+          240
+        ],
+        "t": 5.875,
+        "z": 0.9
+      },
+      "decomposition": {
+        "closure": -2.299592807841755e-16,
+        "coarse_means": [
+          0.8399027406299117,
+          0.8951841065033047,
+          0.9513109606749257
+        ],
+        "fine_averaged_on_coarse": [
+          0.8395453810443054,
+          0.8948037497046495,
+          0.9508936444218021
+        ],
+        "original_minus_mean_first": -2.7755575615628914e-15,
+        "original_observer_total": 0.00043238725012861856,
+        "reaveraging_reconstruction": 5.1118617192535964e-05,
+        "reference": "COMBINED_REPRESENTATION_NOT_CONTINUUM",
+        "stored_field": 0.0003812686329390881,
+        "stored_mean_differences": [
+          0.0003573595856062317,
+          0.00038035679865522365,
+          0.00041731625312357856
+        ],
+        "supported": true,
+        "total": 0.0004323872501313941
+      },
+      "mask": {
+        "aged": true,
+        "grain_history": true,
+        "grain_profile": false,
+        "inlet_gate": null,
+        "spatial": false
+      },
+      "name": "grain_history",
+      "normal": {
+        "activation": 5.849111138889945,
+        "analytic_inlet": null,
+        "arithmetic_allowance": 2.9499801677389783e-12,
+        "arithmetic_max": 1.6653345369377348e-15,
+        "containing_cell": 119,
+        "front": 0.9039513188596577,
+        "grain_age": 0.025888861110055394,
+        "grain_cell_averages": [
+          0.8399027406299117,
+          0.8951841065033047,
+          0.9513109606749257
+        ],
+        "grain_mean": 0.8978040998027808,
+        "implementation_agrees": true,
+        "independent_grain_mean": 0.8978040998027816,
+        "integral_moment_residual_max": 2.220446049250313e-16,
+        "integral_residual_max": 2.0826402154236588e-19,
+        "moment_condition": 19.31828554481447,
+        "physical_faces": [
+          0.8984340378607585,
+          0.8994823212505493,
+          0.9004202590203622,
+          0.9012478511701971
+        ],
+        "physical_widths": [
+          0.001048283389790794,
+          0.0009379377698128799,
+          0.0008275921498349659
+        ],
+        "reconstruct_then_weight_minus_weight_then_reconstruct": 2.220446049250313e-16,
+        "reconstruction_weights": [
+          -0.06067869977381757,
+          1.0737634898316337,
+          -0.013084790057816131
+        ],
+        "stencil": [
+          118,
+          119,
+          120
+        ],
+        "t": 5.875,
+        "z": 0.9
+      },
+      "normal_minus_combined": 0.00043238725012861856,
+      "original_allowance": 0.00023,
+      "original_max_absolute": 0.0004323872501288406,
+      "spectrum_split": {
+        "closure": -8.131516293641283e-19,
+        "combined_additional_resolved": 0.0028334622568910676,
+        "combined_tail": 0.002876671297677723,
+        "normal_tail": 0.005711023205607051,
+        "shared_resolved_modes": 32,
+        "shared_sum": 0.00043149759909035917,
+        "tail_vs_additional_and_tail": 8.896510382602058e-07
+      }
+    }
+  ],
+  "preservation": {
+    "all_unchanged": true,
+    "ewp_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "frozen_paths": 61,
+    "protected_paths": 50
+  },
+  "public_reduction_source_sha256": "c1be9411e2a92a1e9fa52dd767199eabb74ea7ac5cb0ffa324d666a82cafa08e",
+  "qa": "See exact-final-head receipt on PR327; no scientific re-execution in QA/review",
+  "resources": {
+    "attempt": {
+      "artifact_sha256": "465525df7dde87cf3426ea028beb50def49c82c53c8d0e1d210320c0dd5e115c",
+      "enforced_rlimit_as": [
+        8589934592,
+        8589934592
+      ],
+      "event": "end",
+      "evidence_bytes": {
+        "grain-diagnosis-allocation.json": 844,
+        "grain-diagnosis-preflight.json": 1379,
+        "grain-diagnosis.json": 204341
+      },
+      "exit_code": 0,
+      "log_sha256": "56cf5d5f8b315d5e4f24e840eac3e58f3e569c12a4c33758b7ab439fcfb36c7e",
+      "name": "grain-archive-diagnosis",
+      "peak_rss_bytes": 810110976,
+      "seconds": 7.108402908022981,
+      "telemetry": {
+        "VmHWM_bytes": 810110976,
+        "VmPeak_bytes": 986800128,
+        "VmRSS_bytes": 774680576,
+        "VmSize_bytes": 948830208
+      },
+      "utc": "2026-10-08T16:39:39.856680+00:00"
+    },
+    "full": 3,
+    "ledger_sha256": "122dcabb9edf1651cedb1e37d6b235f91214b02ca456e1fbb0d61c32101898ae",
+    "new_full": 0,
+    "new_short": 1,
+    "original_prefix_sha256": "90145c508faaf24a68bc6a140f8c790341919f25f0eadd698aff828d9ed66d38",
+    "remaining_short": 0,
+    "seconds": 558.8723420479655,
+    "short": 20,
+    "solver_calls": 0,
+    "unresolved_starts": 0
+  },
+  "scientific_outcome": "OBSERVER_QUALIFICATION_INCOMPLETE",
+  "source_sha256": "db2fb00f2a1baa3dc58151598f91a88db1be086cd7e6e3cefb6a94fb8d528d87",
+  "task": "MODEL-GRUDEVA2026-BASELINE-OBSERVATION-005"
+}

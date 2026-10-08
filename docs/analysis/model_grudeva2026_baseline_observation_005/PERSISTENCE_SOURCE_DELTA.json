@@ -1,0 +1,46 @@
+{
+  "changed_existing_definitions": [
+    "Segment",
+    "save_segment",
+    "execute"
+  ],
+  "new_imports": [
+    "os",
+    "tempfile"
+  ],
+  "new_source_sha256": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+  "old_source_sha256": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+  "scope": "G0 persistence, identity, failed-metadata retention; scientific reconstruction and mathematical dense replay unchanged; exact new independent persistence/replay fixtures required",
+  "source_patch_sha256": "e861d333e44e3654103cd2b723f06146f237028a0e4722cc3678670b0ff4a57c",
+  "unchanged_definition_sha256": {
+    "Trajectory": "17aa05e9a4274497e2372d1b4ecb441e003f46e961f4f3128c41257826f0c912",
+    "_array": "d6b2b1a96dd82b8bb6f404c48fd43adf5715275535fd86c19602f90853f028ae",
+    "_production_geometry": "aca14603ad7d97307b3c456ae54427b5723af0f0f9e8adb67e32b09232b75893",
+    "canonical": "872ab87bf491618607f71627e3d5dcee4ae68fb76338f1cfbdf3464574d81957",
+    "capture_returns": "b1c0cb4e4680a6514b7fa86a6cc3222785690f740d0333f8d30c2b830e343d8d",
+    "cell_reconstruction": "f6275554e2839596a6b2a2fa77775f7abd1d198a3b19d14abb325ed0b849b42d",
+    "controls": "37e886338ca8c365f35fe5a0133451aac4621905372718a42ec69c54b4236926",
+    "cup_integral": "b8fb73b11cca2f51578e01c7bcf6c17cbc0aa665d588501a9f6d7566e032ac63",
+    "diagnostic_bounds": "4094a442b49f987b756d57c607e509732f8e040b3d9f2f95021c21291368ecfc",
+    "digest": "369c0fba894afef48ddd789f89ec1d1587691c5237631d7f2191e36b31df1c43",
+    "environment": "1c20ea7d0c7c96a885b75b00f7d87c1686adc315b2b21002990a19769a5f89cf",
+    "inventory": "6275818e9269717c1a5cdc08f2e3ad527e99a6986048db642d1f2770eb814250",
+    "observe_saved": "96aaadf65fe246d3b8eb9fac6fc4d5d17dee865f62001c055311f82b4464bf02",
+    "outlet": "f6d3b8f65af9a1db2d7f735b6d68fb2d6f79ed5004e6d5341bdd7ba7c5404198",
+    "polynomial": "dfadc5f48ebb2d41b147961699daf5c5cf5c6084bf844955b4efc552c8452780",
+    "production_trace": "e9d5a65ccec8bd5ab663ebca1b938791c439fc2d693d7944ee90ea1bc6f8cf73",
+    "profiles": "e19f121fff765aa49377a9967dae06d1fc0687e29799c826910938710a050718",
+    "read_json": "f215d5626bd779d0980567105b2f8254ff288dae896ca4aa5c7fec3bf4cf6ec5",
+    "requests": "6e7c63eb3fd115f3a915effd6ee4a4fe7543f85c893a81d1feb7379c048ac20e",
+    "sha": "90a11fdb01ca97481fea0266f3dcec8b20f7bb997ff03ce092c268c382f1a801",
+    "sources": "5dcac623eb2e6b841fec07526455fe7cfbab4d6f89cda0572a83b4f1479fe9f2",
+    "spectrum_audit": "1ef19ee048a15b0d31cd837646f46f20bd2613a32249126e9fd9d96887d02a5b",
+    "state_fields": "5dc75821670f50384559be280926c4b3ccfd66cb4edd6342b30fca3ed21549ef"
+  },
+  "unchanged_segment_methods": [
+    "evaluate",
+    "close"
+  ],
+  "unchanged_simulate_calls": true,
+  "unchanged_state_array_extraction": true
+}
