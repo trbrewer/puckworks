@@ -131,3 +131,14 @@ it is not relicensed under MIT, CC-BY or an OSI licence. Neither adaptation is
 an untouched author computation. The task-local baseline observer is separate
 from the alternative core. No additional upstream file, private source text,
 raw data or correspondence is redistributed.
+
+### MODEL-GRUDEVA2026-BED-ACCURACY-004 analysis correction
+
+`puckworks/analysis/grudeva2026_bed_accuracy_004.py` imports the unchanged
+CONSERVATIVE-003 radial and amount-mapping helpers, retaining REFERENCE-002's
+permission-covered Grudeva radial lineage. Its new integral reconstruction,
+transport closure and observations are documented in
+`docs/analysis/model_grudeva2026_bed_accuracy_004/CONTRACT.md`. The reused
+operator retains the direct-written-permission basis above; it is neither
+independently derived nor an untouched author execution. No source PDF,
+private correspondence or additional upstream material is redistributed.

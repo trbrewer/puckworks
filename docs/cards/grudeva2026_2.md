@@ -21,6 +21,16 @@ declared observation support. Coupled qualification is incomplete; raw-baseline
 observation and inter-method agreement remain unavailable. This establishes no
 baseline defect, publication correction, adoption or physical validation.
 
+The separately identified [BED-ACCURACY-004 comparator](../analysis/model_grudeva2026_bed_accuracy_004/RESULTS.md)
+is COMPARATOR_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES. Diagnostics demonstrate
+linear reconstruction error in the short-age diffusion layer; a conservative
+square-root integral reconstruction passes all original front, liquid, grain,
+phase-inventory and cup refinement allowances on the unchanged canonical case.
+Historical 003 remains unchanged and unqualified. This unlocks a separately
+authorized solver comparison; production raw-state/observer qualification is
+still required and no comparison or successor is executed here.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 The controlling [source/math/verification contract](../analysis/model_grudeva2026_reduced_001/CONTRACT.md)
 records derivations, parameters, numerical method, budgets and source limits.
 It corrects this card's previous algebra, clock, provenance and adapter statements.

@@ -207,7 +207,7 @@
     },
     {
       "path": "docs/cards/grudeva2026_2.md",
-      "sha256": "a98a9c8583b17141bb8e5e005d5df16eebfdcb5206c0eb641230ed5c93db0f22"
+      "sha256": "c32fa237a22b2970f6369d6767fd9c7273bd09338c87d11de82b3744bb8366be"
     },
     {
       "path": "docs/cards/hargarten2020.md",
@@ -513,7 +513,7 @@
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "d87b0ee5b2249d8a32bc70f0fd3601d38aeb17b9b0f5bdb48c3ad6cbe0626d00"
+      "sha256": "29ecb4b6f33ba17bc849144816d6732963651565689455be234cfc65f775f310"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",

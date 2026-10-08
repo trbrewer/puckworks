@@ -1,0 +1,123 @@
+{
+  "controller_sha256": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+  "diagnosis": "Square-root admission layer is not reproduced by linear traces; unified integral reconstruction.",
+  "local": "local-bound.json",
+  "local_attempt": "local-bound",
+  "physical_validation": "NOT_ESTABLISHED",
+  "reporter_sha256": "1f3336564f6d1dca5f5a5036fbbaee695e4b69b26c94e46543b871f3adab576d",
+  "runs": {
+    "bed_fine": {
+      "attempt": "bed_fine-final",
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "bed_fine-final.json"
+    },
+    "combined": {
+      "attempt": "combined-final",
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "file": "combined-final.json"
+    },
+    "limit": {
+      "attempt": "limit-final",
+      "controls": {
+        "bed": 32,
+        "diffusivity": 0.0,
+        "dt": 0.01,
+        "horizon": 8.0,
+        "shells": 16
+      },
+      "file": "limit-final.json"
+    },
+    "normal": {
+      "attempt": "normal-final",
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "normal-final.json"
+    },
+    "radial_fine": {
+      "attempt": "radial_fine-final",
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "file": "radial_fine-final.json"
+    },
+    "repeat": {
+      "attempt": "repeat-final",
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "repeat-final.json"
+    },
+    "time_fine": {
+      "attempt": "time_fine-final",
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "file": "time_fine-final.json"
+    }
+  },
+  "scheduling": {
+    "correction_reserve_seconds": 1500.0,
+    "correction_reserve_slots": 7,
+    "development_attempts": 12,
+    "full_slots_remaining_at_freeze": 24,
+    "horizon": 8.0,
+    "largest_estimated_invocation_seconds": 720.0,
+    "order": [
+      "normal",
+      "bed_fine",
+      "radial_fine",
+      "time_fine",
+      "combined",
+      "limit",
+      "repeat"
+    ],
+    "primary_aggregate_ceiling_including_development": 2100.0,
+    "primary_estimated_seconds": 1970.0,
+    "seconds_remaining_at_freeze": 3558.722971450028,
+    "serial": true,
+    "threads": 1
+  },
+  "scientific_sources": {
+    "puckworks/analysis/grudeva2026_bed_accuracy_004.py": "fcc1daa15df11fa2559deccbd3dd6dd43e8c7debd877275f4da2aa8b924f7db3",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2"
+  },
+  "task": "MODEL-GRUDEVA2026-BED-ACCURACY-004",
+  "verification_sources": {
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "tools/grudeva2026_bed_accuracy_004_diagnostics.py": "0da1bc28cb0a12c05dd9abac3e3f786ea7ef8557b0d8ca5cbfe256d2ec712a5a",
+    "tools/grudeva2026_bed_accuracy_004_front_oracle.py": "3e84ded7eb2cdea15762e9a8a110c5be16af70156ad0864fc2ad0132cff2843c",
+    "tools/grudeva2026_bed_accuracy_004_invoke.py": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+    "tools/grudeva2026_bed_accuracy_004_verify.py": "b2e7d154a75328c92e29c4d4abbfb54ede1a8de88a5bd57dd14198112285b9da"
+  }
+}
