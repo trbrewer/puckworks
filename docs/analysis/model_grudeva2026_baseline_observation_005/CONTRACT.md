@@ -195,3 +195,33 @@ diagnostic endpoint or point reconstruction blocks observer qualification;
 charged full attempts remain executed even if no usable observation survives.
 No production, mask, allocation or support changes, and no recapture. MATRIX
 binds the old/new observer identities and the one charged correction check.
+
+## Owner resource-feasibility amendment, October 8, 2026
+
+The owner replaced only the new-attempt address-space ceiling with
+`8*1024**3` bytes. Enforcement, accounting and allocation changes are G0 within
+this unchanged G1 task. The preceding 2 GiB contract/result is historical,
+preserved by exact controller, ledger, MATRIX and RESULTS hashes. It is not
+retroactively relabeled. All other limits, scientific sources, controls,
+requests, masks, numerical allocations and the consumed observer correction stand.
+
+Use the original append-only ledger and lock. Each new attempt binds the exact
+8 GiB policy, enforcement source and allocation; record actual child soft/hard
+RLIMIT_AS, RSS, virtual high-water and evidence size. Check host/cgroup memory,
+inherited limits and storage before each start, with an operating margin. Do
+not raise external restrictions or provision resources.
+
+The amendment authorizes exactly one replacement .4 combined pilot, then at
+most one horizon-8 combined feasibility probe after applicable pilot checks and
+a recorded cost/headroom/reserve basis. This is an exception to the original
+whole-panel preallocation rule, not permission to label the panel FEASIBLE.
+The runner admits only the exact named allocations; no force flag is provided.
+A later receipt may reuse successful captures only after checking unchanged
+scientific matrix fields and retaining their original matrix hashes.
+
+A pilot failure or unresolved observer error stops continuation. A full probe
+failure stops further numerical execution; no memory ladder, recapture or new
+scientific correction is authorized. The measured continuation reached a
+third-segment capture identity failure after production returned. Preserve all
+raw files and unavailable reasons, with no replacement hash or scientific repair.
+The remaining panel was not allocated. See current RESULTS and HANDOFF.

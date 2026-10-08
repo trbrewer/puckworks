@@ -13,6 +13,10 @@ from . import grudeva2026_conservative_003_report as inherited
 QUALIFIED = 'BASELINE_RAW_OBSERVATION_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES'
 BASELINE_INCOMPLETE = 'BASELINE_QUALIFICATION_INCOMPLETE'
 OBSERVER_INCOMPLETE = 'OBSERVER_QUALIFICATION_INCOMPLETE'
+RESOURCE_POLICY = '005-owner-8gib-20261008'
+OLD_CONTROLLER_SHA256 = '6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341'
+MEMORY_8GIB = 8*1024**3
+
 BUDGETS = dict(outlet=.001, liquid_profiles=.001, front=.001, arrival=.001,
                activation=.001, grain_profiles=.00023, grain_histories=.00023,
                cup=5e-5, liquid_inventory=5e-5, fines_inventory=5e-5, boulder_inventory=5e-5)
@@ -93,8 +97,36 @@ def resource_audit(folder):
     path = folder/'invocations.jsonl'
     if not path.exists():
         return dict(passed=False, reasons=['attempt ledger unavailable'], full=0, short=0, seconds=0.)
-    rows = [json.loads(line) for line in path.read_text().splitlines()]
-    obs.canonical(rows)
+    try:
+        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        obs.canonical(rows)
+        if any(not isinstance(r, dict) for r in rows):
+            raise ValueError('attempt must be an object')
+    except (ValueError, TypeError) as exc:
+        return dict(passed=False, reasons=['malformed attempt ledger: '+str(exc)], full=0, short=0, seconds=0.)
+    amendment = None
+    historical_names = set()
+    if (folder/'resource-amendment.json').exists():
+        try:
+            amendment = obs.read_json(folder/'resource-amendment.json')
+            historical = folder/'invocations-before-8gib.jsonl'
+            previous = obs.read_json(folder/'MATRIX-2gib-reviewed.json')
+            historical_rows = [json.loads(v) for v in historical.read_text().splitlines()]
+            historical_names = {v['name'] for v in historical_rows if v['event'] == 'start'}
+            controller_source = Path(obs.__file__).parents[2]/'tools/grudeva2026_baseline_observation_005_invoke.py'
+            if (amendment['policy'] != RESOURCE_POLICY or amendment['memory_bytes'] != MEMORY_8GIB
+                    or amendment['old_controller_sha256'] != OLD_CONTROLLER_SHA256
+                    or obs.sha(folder/'invoke-2gib.py') != OLD_CONTROLLER_SHA256
+                    or obs.sha(historical) != amendment['historical_ledger_sha256']
+                    or not path.read_bytes().startswith(historical.read_bytes())
+                    or obs.sha(folder/'invoke.py') != amendment['controller_sha256']
+                    or obs.sha(controller_source) != amendment['controller_sha256']
+                    or previous['controller_sha256'] != OLD_CONTROLLER_SHA256
+                    or obs.sha(folder/'MATRIX-2gib-reviewed.json') != amendment['historical_matrix_sha256']
+                    or obs.sha(folder/'RESULTS-2gib-reviewed.json') != amendment['historical_result_sha256']):
+                reasons.append('resource policy/controller/history identity mismatch')
+        except (KeyError, ValueError, TypeError, OSError) as exc:
+            reasons.append('resource amendment unavailable/malformed: '+str(exc))
     starts, ends = {}, {}
     for row in rows:
         group = starts if row.get('event') == 'start' else ends if row.get('event') == 'end' else None
@@ -109,9 +141,36 @@ def resource_audit(folder):
     if starts.keys() != ends.keys():
         reasons.append('unresolved attempt starts/ends')
     for name, start in starts.items():
-        if (start.get('time_ceiling', 301) > 300 or start.get('memory_bytes') != 2*1024**3
-                or start.get('phase') not in ('development', 'final', 'correction')):
-            reasons.append('invocation limits/phase unverified: '+name)
+        new = amendment is not None and name not in historical_names
+        memory = MEMORY_8GIB if new else 2*1024**3
+        try:
+            if (not 0 < start.get('time_ceiling', 301) <= 300 or start.get('memory_bytes') != memory
+                    or start.get('phase') not in ('development', 'final', 'correction')):
+                reasons.append('invocation limits/phase unverified: '+name)
+            if new:
+                if (start.get('resource_policy') != RESOURCE_POLICY
+                        or start.get('controller_sha256') != amendment.get('controller_sha256')
+                        or start.get('resource_amendment_sha256') != obs.sha(folder/'resource-amendment.json')):
+                    reasons.append('attempt policy/controller identity mismatch: '+name)
+                end = ends.get(name, {})
+                if end and end.get('enforced_rlimit_as') != [MEMORY_8GIB, MEMORY_8GIB]:
+                    reasons.append('actual child address-space enforcement unverified: '+name)
+                allocation = folder/start.get('allocation_file', '')
+                if not allocation.is_file() or obs.sha(allocation) != start.get('allocation_sha256'):
+                    reasons.append('attempt allocation identity mismatch: '+name)
+            elif any(k in start for k in ('resource_policy', 'resource_amendment_sha256')):
+                reasons.append('historical attempt retroactively relabeled: '+name)
+            if ends.get(name, {}).get('peak_rss_bytes', 0) > memory:
+                reasons.append('attempt memory ceiling exceeded: '+name)
+        except (ValueError, TypeError, OSError) as exc:
+            reasons.append('malformed attempt limits: '+name+': '+str(exc))
+    for name, end in ends.items():
+        if any(not isinstance(end.get(k), (int, float)) or isinstance(end.get(k), bool)
+               for k in ('seconds', 'peak_rss_bytes')):
+            return dict(passed=False, reasons=reasons+['malformed resource measurement: '+name],
+                        full=sum(r.get('kind') == 'full' for r in starts.values()),
+                        short=sum(r.get('kind') == 'short' for r in starts.values()), seconds=0.,
+                        starts=starts, ends=ends)
     primary = [name for name, start in starts.items() if start.get('phase') != 'correction']
     if (sum(starts[name].get('kind') == 'full' for name in primary) > 7
             or sum(ends.get(name, {}).get('seconds', 0) for name in primary) > 900):
@@ -123,7 +182,7 @@ def resource_audit(folder):
     seconds = sum(r.get('seconds', -1) for r in ends.values())
     peak = max([r.get('peak_rss_bytes', 0) for r in ends.values()] or [0])
     maximum = max([r.get('seconds', 0) for r in ends.values()] or [0])
-    if full > 10 or short > 20 or seconds > 1200 or maximum > 300 or peak > 2*1024**3:
+    if full > 10 or short > 20 or seconds > 1200 or maximum > 300:
         reasons.append('resource ceiling exceeded')
     for name, end in ends.items():
         if end.get('seconds', -1) < 0 or end.get('peak_rss_bytes', -1) < 0:
@@ -135,6 +194,30 @@ def resource_audit(folder):
                 maximum_seconds=maximum, peak_rss_bytes=peak,
                 starts=starts, ends=ends, remaining_full=10-full, remaining_short=20-short,
                 remaining_seconds=1200-seconds)
+
+
+def captured_matrix_hash(folder, plan, specification, current_hash):
+    """Permit a changed allocation receipt only with identical scientific fields."""
+    binding = specification.get('captured_matrix')
+    if binding is None:
+        return current_hash
+    name = binding['file']
+    if Path(name).name != name:
+        raise ValueError('invalid captured matrix filename')
+    path = folder/name
+    if obs.sha(path) != binding['sha256']:
+        raise ValueError('captured matrix identity mismatch')
+    previous = obs.read_json(path)
+    for key in ('sources', 'canonical_parameters', 'request_hashes', 'budgets', 'numerical_allocations'):
+        if key not in previous or previous[key] != plan.get(key):
+            raise ValueError('captured matrix scientific identity changed: '+key)
+    for name in [*obs.ROWS, 'repeat', 'control']:
+        for key in ('controls', 'horizon', 'observed'):
+            if previous['runs'][name][key] != plan['runs'][name][key]:
+                raise ValueError('captured matrix scientific row changed')
+    if previous.get('resource_amendment', {}).get('binding_sha256') != plan.get('resource_amendment', {}).get('binding_sha256'):
+        raise ValueError('captured matrix resource amendment changed')
+    return binding['sha256']
 
 
 def check_run(meta, expected, matrix_hash):
@@ -163,11 +246,13 @@ def check_run(meta, expected, matrix_hash):
         if not meta.get('solve_invocations') or meta.get('solve_invocations') != meta.get('returned'):
             reasons.append('not every original solver invocation returned')
         for s in meta.get('segments', []):
+            if 'unavailable_reason' in s:
+                reasons.append('segment unavailable: '+s['unavailable_reason'])
             replay = s.get('live_replay', {})
             if replay.get('allowance_fraction', 2) > 1:
                 reasons.append('live dense replay failed or unavailable')
             if max(replay.get('accepted_state_error', 1), replay.get('event_state_error', 1)) > obs.ALGEBRA*8:
-                reasons.append('dense replay disagrees with retained accepted/event states')
+                reasons.append('dense replay accepted/event agreement failed or unavailable')
     return reasons
 
 
@@ -257,6 +342,8 @@ def report(folder, matrix):
     feasibility = plan.get('feasibility', {})
     if feasibility.get('disposition') != 'FEASIBLE':
         blocks.append('RESOURCE_FEASIBILITY_BLOCKED')
+    if feasibility.get('execution_block') == 'OBSERVER_CAPTURE_IDENTITY_BLOCKED':
+        blocks.append('OBSERVER_CAPTURE_IDENTITY_BLOCKED')
     fixtures = fixture_audit(folder, plan)
     reasons.extend(fixtures['reasons'])
     raw, observed, runs = {}, {}, {}
@@ -272,7 +359,7 @@ def report(folder, matrix):
             try:
                 r = obs.read_json(path)
                 raw[name] = r
-                failures.extend(check_run(r, obs.controls(name), matrix_hash))
+                failures.extend(check_run(r, obs.controls(name), captured_matrix_hash(folder, plan, specification, matrix_hash)))
                 attempt = specification.get('attempt', name)
                 end = resources.get('ends', {}).get(attempt, {})
                 start = resources.get('starts', {}).get(attempt, {})
@@ -336,7 +423,11 @@ def report(folder, matrix):
             'start_utc': start.get('utc'), 'end_utc': end.get('utc'),
             'seconds': end.get('seconds'), 'exit_code': end.get('exit_code'),
             'peak_rss_bytes': end.get('peak_rss_bytes'), 'log_sha256': end.get('log_sha256'),
-            'artifact_sha256': end.get('artifact_sha256'), 'source_hashes': start.get('source_hashes')})
+            'artifact_sha256': end.get('artifact_sha256'), 'source_hashes': start.get('source_hashes'),
+            'memory_bytes': start.get('memory_bytes'), 'resource_policy': start.get('resource_policy', 'original-2gib'),
+            'controller_sha256': start.get('controller_sha256', OLD_CONTROLLER_SHA256),
+            'enforced_rlimit_as': end.get('enforced_rlimit_as'), 'telemetry': end.get('telemetry'),
+            'allocation_sha256': start.get('allocation_sha256'), 'evidence_bytes': end.get('evidence_bytes')})
     return dict(task=obs.TASK, governance='G1', change_declaration='NO_GOVERNING_PHYSICS_CHANGE',
                 disposition=disposition, physical_validation='NOT_ESTABLISHED',
                 matrix_sha256=matrix_hash, blocks=blocks, reasons=reasons,

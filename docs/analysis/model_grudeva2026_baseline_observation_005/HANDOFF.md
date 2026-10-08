@@ -1,119 +1,95 @@
-# 005 owner handoff
+# 005 owner handoff after resource amendment
 
-**RESOURCE_FEASIBILITY_BLOCKED; OBSERVER_QUALIFICATION_INCOMPLETE.**
-PHYSICAL_VALIDATION=NOT_ESTABLISHED. G1 / NO_GOVERNING_PHYSICS_CHANGE.
-The .4-horizon combined-row pilot failed in unchanged production solve_ivp's
-accepted-state allocation under 2 GiB, before a solver object returned. No
-full-horizon attempt, neutrality pair, matched comparison or production repair
-was executed. Historical 001 and qualified 004 retain their original authority.
+**OBSERVER_QUALIFICATION_INCOMPLETE / OBSERVER_CAPTURE_IDENTITY_BLOCKED.**
+Complete-panel resource feasibility remains NOT_ESTABLISHED.
+G1 / NO_GOVERNING_PHYSICS_CHANGE; G0 resource engineering within the task.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
-Implementation:
+The owner-authorized 8 GiB replacement pilot passed its applicable .4-horizon
+checks. The one full combined probe returned a COMPLETED public Result at t=8
+and all three original solver objects, then failed the unchanged observer's
+third-segment persistence/replay identity check. Full observation and neutrality
+remain unqualified. Stop: no remaining matrix, repair, recapture, comparison,
+publication score, merge or automatic successor is authorized.
 
-- `puckworks/analysis/grudeva2026_baseline_observation_005.py`: return capture,
-  numeric BDF persistence/replay, actual modal/state mapping, cell-average
-  reconstruction, activation, independent phase and cup observations.
-- `puckworks/analysis/grudeva2026_baseline_observation_005_report.py`: offline
-  failure-first reducer, inherited masks/gates plus maximum locations and counts.
-- `tools/run_grudeva2026_baseline_observation_005.py`: scoped adapter to the
-  unchanged 004 external controller, one-run execution and fixture evidence.
-- `tests/test_grudeva2026_baseline_observation_005*.py`: independent numerical
-  and software/negative-path checks.
-- `examples/grudeva2026_baseline_observation_005.py`: small manufactured
-  cell-average reconstruction example; explicitly not a production trajectory.
+## Evidence and reproduction
 
-## Reproduce saved evidence without a solver or pickle
+Use the existing external `grudeva2026-baseline-observation-005` archive. Its
+original `invocations.jsonl` contains every historical and new attempt; never
+initialize a replacement ledger. Preserved originals include `invoke-2gib.py`,
+`controller-binding-2gib.json`, `invocations-before-8gib.jsonl`,
+`MATRIX-2gib-reviewed.json` and `RESULTS-2gib-reviewed.json`. Their exact hashes,
+new controller and amendment are bound in current MATRIX. The old result remains
+OBSERVER_QUALIFICATION_INCOMPLETE / RESOURCE_FEASIBILITY_BLOCKED.
 
-Use the external archive named `grudeva2026-baseline-observation-005`, with its
-original `invocations.jsonl`, `invoke.py`, logs, `pilot.json` and
-`fixtures-correction.json`. The arrays in these JSON fixtures are synthetic; the
-failed pilot contains no returned production arrays. All original attempt
-records and pre-freeze source identities remain retained. Do not reset its ledger.
+New safe evidence includes `pilot-8gib.json`, its NPZ/observation files and
+`pilot-8gib-evaluation.json`; `combined-8gib.json`, three segment NPZ files,
+`combined-8gib-execution.json` and `combined-8gib-failure-audit.json`. The third
+NPZ survives without its original expected hash/live replay metadata. Its
+post-failure inventory hash must not be substituted to force successful replay.
+No numerical pickle or archived executable is needed to inspect these arrays.
 
 ```sh
 python -m puckworks.analysis.grudeva2026_baseline_observation_005_report \
   --runs-directory "$EVIDENCE" \
   --matrix docs/analysis/model_grudeva2026_baseline_observation_005/MATRIX.json \
-  --output "$EVIDENCE/replayed-results.json"
-# Expected exit 2 and OBSERVER_QUALIFICATION_INCOMPLETE, with RESOURCE_FEASIBILITY_BLOCKED.
-cmp "$EVIDENCE/replayed-results.json" \
+  --output "$EVIDENCE/replayed-amended-results.json"
+# Expected exit 2: observer incomplete, capture identity and panel-feasibility blocks.
+cmp "$EVIDENCE/replayed-amended-results.json" \
   docs/analysis/model_grudeva2026_baseline_observation_005/RESULTS.json
-python examples/grudeva2026_baseline_observation_005.py
 ```
 
-For a future separately authorized complete capture, `Trajectory(path)` loads
-only safe NPZ arrays; `evaluate(t, side='left'|'right')` retains segment provenance;
-`state_fields` exposes actual liquid/modal averages; physical faces are returned
-s times recorded xi faces. `profiles` returns liquid, weighted grain-volume mean
-and every mode at requested physical positions; `inventory` performs the separate
-spatial sums. `observe_saved` emits the full profiles, modal contributions,
-seven histories, activation, accepted/event audits and cup quadrature externally.
-None of these offline calls starts a solver. The diagnostic quadratic and public
-center-linear/end-extension reconstructions have distinct definitions. Public
-Results are never replaced by a diagnostic reconstruction.
+The failure-first reducer rejects incomplete segment evidence before launching
+full offline reconstruction. Its accounting checks both exact resource policies
+and preserves all individual unavailable reasons. It never launches a solver.
+The full raw Result remains COMPLETED but EXECUTED_UNQUALIFIED, not a qualified
+baseline or evidence of a governing-physics defect.
 
-## Execution commands and bound
-
-The exact original commands were serial, with controlled library threading and
-external start/end/resource logging:
+## Original continuation commands: historical, not rerun instructions
 
 ```sh
-python tools/run_grudeva2026_baseline_observation_005.py init "$EVIDENCE"
-python "$EVIDENCE/invoke.py" fixtures-initial short development \
-  python -m pytest -q tests/test_grudeva2026_baseline_observation_005.py
-python "$EVIDENCE/invoke.py" pilot-combined short development \
+python tools/run_grudeva2026_baseline_observation_005.py amend-resources "$EVIDENCE"
+python "$EVIDENCE/invoke.py" pilot-combined-8gib short development \
+  python tools/run_grudeva2026_baseline_observation_005.py run --row combined --pilot \
+    --output "$EVIDENCE/pilot-8gib.json" \
+    --matrix "$EVIDENCE/MATRIX-8gib-pilot-frozen.json" \
+    --allocation "$EVIDENCE/allocation-pilot-8gib.json"
+python "$EVIDENCE/invoke.py" combined-feasibility-8gib full development \
   python tools/run_grudeva2026_baseline_observation_005.py run --row combined \
-    --pilot --output "$EVIDENCE/pilot.json"
-python "$EVIDENCE/invoke.py" fixtures-retention short development \
-  python tools/run_grudeva2026_baseline_observation_005.py fixtures \
-    --output "$EVIDENCE/fixtures-retention.json"
+    --output "$EVIDENCE/combined-8gib.json" \
+    --matrix "$EVIDENCE/MATRIX-combined-probe-frozen.json" \
+    --allocation "$EVIDENCE/allocation-combined-probe-8gib.json"
 ```
 
-The initial fixture/pilot source snapshot is historical and hash-bound; the
-current implementation does not restamp it. The three intermediate fixture
-emissions (`fixtures-final`, `fixtures-bound`, `fixtures-freeze`) and manufactured `example` invocation
-remain counted, along with `fixtures-retention`. The final `fixtures-correction`
-attempt runs all 41 focused tests and emits the independent fixture arrays through
-the same external controller (phase `correction`, 3.621731 seconds). Reproducing numerical invocations consumes a separately
-allocated budget, not a fresh ledger used to evade this task's limits. The full
-runner requires an exact frozen matrix with established feasibility and refuses
-this blocked matrix before calling production. No full execution command is a
-continuation instruction for the present task.
+The installer refuses a second installation. It preserves the old controller and
+ledger before installing the exact task-local 8 GiB controller. Neither the
+protected 004 controller nor the scientific 005 observer changes. Both numerical
+starts checked real host/cgroup/limit/storage headroom. Resource tests use
+separate temporary software ledgers and a nonnumerical child; they do not run a
+production trajectory or require a CI host to allocate 8 GiB.
 
-## QA and review
+The probe retains its original matrix identity. Current MATRIX binds that
+receipt and checks identical scientific fields; changes to planning/status do
+not restamp the raw evidence. A successful complete probe would have been reused
+as the combined row. This probe is currently blocked and cannot qualify that row.
 
-```sh
-python -m pytest -q tests/test_grudeva2026_baseline_observation_005*.py \
-  tests/test_grudeva2026_bed_accuracy_004*.py tests/test_grudeva2026_conservative_003.py \
-  tests/test_grudeva2026_reference_002.py tests/test_grudeva2026.py \
-  tests/test_grudeva2026_cli.py -m 'not slow'
-python -m pytest -q -m 'not slow and not live and not gpu and not external_data'
-python -m pytest -q -m 'scientific_baseline and not live and not gpu and not external_data'
-ruff check puckworks/ tests/
-mypy
-python -m puckworks.insights verify
-python -m puckworks.statusdoc --verify
-python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3
-python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all
-python -m build --outdir "$EVIDENCE/dist"
-python tools/packaging_check.py "$EVIDENCE/dist"
-```
+## QA, review and boundaries
 
-Current generated/integrity and registry checks are ordinary QA. No generator
-or historical receipt is edited to suppress a failure. The full normal selector
-and supported dependency floors remain intact. The single observer-only correction and its same-review addendum are identity-bound
-in MATRIX; no production recapture occurred. The final head/tree, PR URL,
-actual candidate QA, hosted checks and the single independent nonhuman exact-head
-review receipt are supplied in the PR/final response after those identities exist.
-This avoids a circular self-hash and does not imply pending checks passed.
+Run focused affected resource/reporter tests and inherited observer tests with
+the unchanged selectors. Existing analytical fixtures and unaffected normal QA
+retain their actual identities. Final current-head hosted checks, static/type,
+minimum dependencies, packaging/integrity and the same independent review's
+resource/new-evidence addendum are recorded on draft PR #327. Do not present the
+prior review as approval of newly executed results.
 
-## Remaining owner decision
+Current totals: 1 full, 9 short, 298.9300972319761 numerical seconds. Original
+2 GiB failure remains counted. No unresolved starts or raised time/count limits.
+The consumed observer-only correction remains consumed; this G0 amendment does
+not authorize repairing the newly exposed scientific observation failure.
 
-The bounded task cannot qualify actual full production observation or neutrality
-within the measured memory limit. Code/tests and a reproducible blocked report
-are delivered; no numerical disagreement is attributed to production. Resolving
-execution feasibility would require a separate owner decision. It does not
-follow from the unused attempt/time reserve. EWP remains untouched at its older
-local head and current remote authority; its lock SHA256 remains
+All 50 protected 001–004/production paths and the scientific observer remain
+byte-identical. EWP is read-only; lock SHA256 remains
 `52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10`.
-Leave #67 open and this one PR draft, auto-merge disabled. No comparison, repair,
-production adoption, merge or successor is performed or authorized here.
+Leave #327 draft, auto-merge disabled, and #67 open. Any resolution of the
+unresolved observer identity failure requires a separate owner decision; unused
+budget alone does not authorize it. No matched comparison is ready or executed.

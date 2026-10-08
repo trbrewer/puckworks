@@ -1,5 +1,9 @@
 {
   "accepted_tree": "ef85e16573dee279aa84b90dfc5440c8c948a2d3",
+  "allocation_files": [
+    "allocation-pilot-8gib.json",
+    "allocation-combined-probe-8gib.json"
+  ],
   "base_commit": "45f594b92e6bed01f254158fa002ef82519fd5a6",
   "budgets": {
     "activation": 0.001,
@@ -26,7 +30,7 @@
   },
   "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
   "controller_inherited_sha256": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
-  "controller_sha256": "6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341",
+  "controller_sha256": "cf6e9ecb512fa450b1207cc9814f8b94f1269e317835e5f461dc490957a2a224",
   "ewp": {
     "checkout_commit": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
     "local_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
@@ -36,6 +40,344 @@
   },
   "external_requests_file_sha256": "751bbda6fa1ed937f2cfbae594ca768ef2ae0c07830fb4f1c6dd37695bdbbeb1",
   "feasibility": {
+    "basis": "One replacement short combined pilot authorized; eight GiB is an execution ceiling, not a measured full-trajectory requirement.",
+    "disposition": "NOT_ESTABLISHED",
+    "execution_block": "OBSERVER_CAPTURE_IDENTITY_BLOCKED",
+    "full_probe": "EXECUTED_UNQUALIFIED_OBSERVER_BLOCK",
+    "full_probe_basis": {
+      "all_production_segments_and_post_return_work_included": true,
+      "cumulative_before_probe": 190.81219789096212,
+      "full_probe_planning_seconds": 250,
+      "full_probe_planning_virtual_bytes": 7516192768,
+      "historical_cost_source_sha256": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+      "historical_nfev": {
+        "modes_fine": 5228,
+        "normal": 4833,
+        "space_fine": 7242,
+        "time_fine": 6920
+      },
+      "historical_scope": "Different environment, separate single-axis rows, public-output work only. No combined archive and no full capture cost evidence; not a numerical identity reuse.",
+      "historical_seconds": {
+        "modes_fine": 20.024798010475934,
+        "normal": 7.776410486549139,
+        "pore_refill": 7.545105619356036,
+        "space_coarse": 3.7390521140769124,
+        "space_fine": 21.008430413901806,
+        "time_fine": 9.605339296162128
+      },
+      "pilot_accepted_bins": [
+        1264,
+        497,
+        139,
+        80,
+        58
+      ],
+      "pilot_bins": [
+        0,
+        0.01,
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "pilot_nfev": 7471,
+      "pilot_seconds": 96.1511100079806,
+      "pilot_virtual_peak": 2754076672,
+      "primary_remaining_after_worst_case": 409.1878021090379,
+      "rationale": "Measured startup dominates accepted intervals (1761 before.1 versus58 in.3-.4). Probe allowance admits substantial additional evolution, two physical transitions and full post-return observation; measured pilot total96.15s andVmPeak2.754GB leave about204s and5.84GB against hard limits. The250s/7GiB estimates are planning ranges, not proven bounds, and do not multiply8/.4 or cell-count scaling.",
+      "reserve_full_slots": 3,
+      "reserve_seconds": 300,
+      "uncertainties": "Later BDF nonlinear work, two physical boundaries, simultaneous retained segments, full395-time reconstruction and accepted/event audits can exceed estimates. Failure terminates continuation. No complete-panel feasibility claim.",
+      "worst_case_after_probe": 490.8121978909621
+    },
+    "full_probe_result": {
+      "artifact_sha256": "4a1b877539dcc5fa19947d0b6d6b2e95f53cc80434a7eec68d271e0f2553dc25",
+      "elapsed_seconds": 108.11789934101398,
+      "evidence_bytes": {
+        "combined-8gib-execution.json": 197,
+        "combined-8gib-segment-0.npz": 1809039292,
+        "combined-8gib-segment-1.npz": 388293216,
+        "combined-8gib-segment-2.npz": 488340314,
+        "combined-8gib.json": 635189
+      },
+      "execution_block": "OBSERVER_CAPTURE_IDENTITY_BLOCKED",
+      "failure_reason": "ValueError: segment identity mismatch",
+      "failure_stage": "Third-segment persistence/replay identity check; observe_saved subsequently rejects unavailable segment metadata before full reconstruction.",
+      "neutrality": "UNAVAILABLE",
+      "peak_rss_bytes": 3452891136,
+      "physical_validation": "NOT_ESTABLISHED",
+      "production_numerical_failure": "NOT_DEMONSTRATED",
+      "public_horizon": 8.0,
+      "public_result_sha256": "8b810378a3e1d9b976ae1dc3311500274e63e56e2d03797278c8a30a1fb7348b",
+      "public_result_unchanged_after_capture": true,
+      "public_status": "COMPLETED",
+      "raw_files_scope": "Safe numeric files retained, including failed third segment. New file hashes are post-failure inventory, not substituted capture bindings or successful replay evidence.",
+      "remaining_panel": "NOT_ALLOCATED; stop on material unresolved observation identity error. Complete observation time/memory remains unmeasured.",
+      "replayed_segments": [
+        {
+          "file": "combined-8gib-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 4495
+          },
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "file": "combined-8gib-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 983
+          },
+          "valid_interval": [
+            1.0,
+            6.504306141250696
+          ]
+        }
+      ],
+      "reported_usable_retained_numeric_bytes": 2196662808,
+      "returned": 3,
+      "root_cause": "UNRESOLVED; no expected third-segment hash or live replay receipt survived in capture metadata.",
+      "segments": [
+        {
+          "accepted_states": 2247,
+          "dense_intervals": 2246,
+          "file": "combined-8gib-segment-0.npz",
+          "file_bytes": 1809039292,
+          "numerical_bytes": 1808490720,
+          "sha256": "916e1309cbcdda1aee1a542a1e324292f0561e5ee57bba081b422557e68527e4",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "accepted_states": 491,
+          "dense_intervals": 490,
+          "file": "combined-8gib-segment-1.npz",
+          "file_bytes": 388293216,
+          "numerical_bytes": 388172088,
+          "sha256": "09daa29710872daf19aa213e695422e6024727b2e88d0570e5ca906bb83a639d",
+          "valid_interval": [
+            1.0,
+            6.504306141250696
+          ]
+        },
+        {
+          "accepted_states": 524,
+          "dense_intervals": 523,
+          "file": "combined-8gib-segment-2.npz",
+          "file_bytes": 488340314,
+          "numerical_bytes": 488212200,
+          "sha256": "70d891eb7ec3e4b49e4d7f92bd6659574717f74ca6ceb8e1e42ee778ebdf66d0",
+          "valid_interval": [
+            6.504306141250696,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "status": "EXECUTED_UNQUALIFIED",
+      "symbol_restored": true,
+      "telemetry": {
+        "VmHWM_bytes": 3462905856,
+        "VmPeak_bytes": 3873128448,
+        "VmRSS_bytes": 3462905856,
+        "VmSize_bytes": 3873128448
+      },
+      "total_accepted_states": 3262,
+      "total_dense_intervals": 3259,
+      "total_numeric_bytes_by_safe_headers": 2684875008
+    },
+    "remaining_panel": "NOT_ALLOCATED",
+    "remaining_panel_basis": "One full probe returned all three production segments within8GiB/300s, but complete observation failed. Successful full-observation cost and identity required for remaining-panel allocation are unavailable. No further execution is authorized under the stop boundary.",
+    "replacement_pilot": "pilot-combined-8gib",
+    "replacement_pilot_result": {
+      "accepted_states": 2039,
+      "allocation_sha256": "c60e8db496a01129872a2f25d8be75ee196913046d64219a050c55afd6794e6c",
+      "applicable_pilot_checks_passed": true,
+      "audits": {
+        "accepted_states": 2039,
+        "aqueous_max": 0.41354324221321126,
+        "aqueous_min": 0.0,
+        "conservation_location": {
+          "provenance": "accepted",
+          "segment": 0,
+          "t": 0.3648233962096782
+        },
+        "cup_max_time": 0.0,
+        "cup_quadrature_points": 2071,
+        "cup_quadrature_refinement_max": 0.0,
+        "cup_state_integral_max": 0.0,
+        "diagnostic_bounds": {
+          "grain_history": {
+            "excluded": 0,
+            "included": 238,
+            "maximum": 1.3880000000000006,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.025
+            },
+            "minimum": 0.09487427256364803,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.4,
+              "z": 0.025
+            },
+            "requested": 238,
+            "unavailable": 0
+          },
+          "grain_profile": {
+            "excluded": 0,
+            "included": 7480,
+            "maximum": 1.3880000000000006,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "minimum": 0.016279143751082085,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.4,
+              "z": 0.0
+            },
+            "requested": 7480,
+            "unavailable": 0
+          },
+          "liquid_profile": {
+            "excluded": 0,
+            "included": 7480,
+            "maximum": 1.0,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.01,
+              "z": 0.005
+            },
+            "minimum": 0.0,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "requested": 7480,
+            "unavailable": 0
+          }
+        },
+        "diagnostic_inlet_mean_error": 5.513060442510764e-06,
+        "event_states": 0,
+        "front_decrease": 0.0,
+        "front_wet_excess": 0.0,
+        "grain_mean_min": 0.01661784951006214,
+        "horizon": 0.4,
+        "independent_sum_allowance_fraction": 9.1552734375e-05,
+        "max_normalized_conservation": 1.820829750184947e-11,
+        "phase_min": 0.0,
+        "public_cup_error": 0.0,
+        "public_grain_endpoint_difference": 0.0014619163307265093,
+        "public_inventory_allowance_fraction": 0.0009381003842459175,
+        "public_outlet_error": 0.0,
+        "public_profile_reconstruction_error": 6.661338147750939e-16,
+        "spectrum": {
+          "allowance": 5.684341886080802e-14,
+          "complement_tail": 0.009425037605941489,
+          "complement_tail_difference": 7.632783294297951e-17,
+          "rate_relative_error": 2.220446049250313e-16,
+          "tail_rate": 123192.40071156433,
+          "tail_weight": 0.009425037605941565,
+          "weight_error": 0.0,
+          "weight_sum": 1.0
+        },
+        "terminal_cup": 0.0,
+        "terminal_phases": [
+          0.3382008755293003,
+          4.162079328150011,
+          1.0517197964193432
+        ]
+      },
+      "censoring_reason": "Short horizon .4 precedes first drip, exit and most activation; not a full trajectory.",
+      "dense_intervals": 2038,
+      "elapsed_seconds": 96.1511100079806,
+      "evidence_bytes": {
+        "pilot-8gib-execution.json": 396,
+        "pilot-8gib-observations.json": 3976112,
+        "pilot-8gib-segment-0.npz": 1644039100,
+        "pilot-8gib.json": 38129
+      },
+      "full_contract_censored": {
+        "activation_support": false,
+        "events": false,
+        "horizon": false
+      },
+      "gates": {
+        "aqueous_bounds": true,
+        "complete_status": true,
+        "conservation": true,
+        "cup_quadrature": true,
+        "cup_state_integral": true,
+        "diagnostic_grain_history_bounds": true,
+        "diagnostic_grain_profile_bounds": true,
+        "diagnostic_inlet": true,
+        "diagnostic_liquid_profile_bounds": true,
+        "front_support": true,
+        "grain_bounds": true,
+        "independent_inventory_sums": true,
+        "phase_bounds": true,
+        "public_cup_outlet_reconstruction": true,
+        "public_inventory_algebra": true,
+        "public_profile_reconstruction": true,
+        "required_times": true,
+        "solver_segments": true,
+        "tail_weights_rates": true
+      },
+      "live_replay_points": 4079,
+      "live_replay_qualified_on_pilot": true,
+      "neutrality": "UNAVAILABLE",
+      "observations_sha256": "6179c86cdf341328753aa5b837daf73e70d03788605531189e6ce1aa908eb173",
+      "peak_rss_bytes": 2402525184,
+      "physical_validation": "NOT_ESTABLISHED",
+      "public_status": "COMPLETED",
+      "raw_sha256": "842781c12c402df7af259db47854a0c99f8c6e1141cf908799a31c34d2957cc0",
+      "retained_numerical_bytes": 1643541280,
+      "returned_segments": 1,
+      "scientific_sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "fcd260462e1f51a55c31743d2e7f4283c61147b344b17255abae536cbe53279d",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "seam_qualified_on_pilot": true,
+      "status": "EXECUTED_UNQUALIFIED",
+      "stdout_label_correction": "Historical pilot stdout labeled4079 as dense_intervals; these are live replay points. The simultaneously retained execution receipt and NPZ orders give2038 actual dense intervals; original log unchanged.",
+      "telemetry": {
+        "VmHWM_bytes": 2405232640,
+        "VmPeak_bytes": 2754076672,
+        "VmRSS_bytes": 2405232640,
+        "VmSize_bytes": 2754076672
+      }
+    },
+    "short_pilot_evaluation_sha256": "d4cb751ba6b8303c36b62bcb7231cd1ba297f2f22e52df4b787007c8b9f2ecb2"
+  },
+  "fixtures": {
+    "attempt": "fixtures-correction",
+    "file": "fixtures-correction.json",
+    "sha256": "1cc43259f96527e97131c642f1ee920b2fd40fa88640bec5fd9a123a2d02a2ba"
+  },
+  "governance": "G1",
+  "historical_2gib_feasibility": {
     "additional_allocation_bytes": 275640176,
     "allocation_shape": [
       2039,
@@ -107,16 +449,10 @@
     "symbol_restored": true,
     "unchanged_capture_function_ast_sha256": "d8894a6a0192a21e37486c320de555affe9729cdb7f03e312de395cee288356c"
   },
-  "fixtures": {
-    "attempt": "fixtures-correction",
-    "file": "fixtures-correction.json",
-    "sha256": "1cc43259f96527e97131c642f1ee920b2fd40fa88640bec5fd9a123a2d02a2ba"
-  },
-  "governance": "G1",
   "limits": {
     "aggregate_seconds": 1200,
     "full_attempts": 10,
-    "memory_bytes": 2147483648,
+    "memory_bytes": 8589934592,
     "per_invocation_seconds": 300,
     "primary_seconds": 900,
     "reserve_full_slots": 3,
@@ -202,7 +538,7 @@
     "public_result_sha256": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec"
   },
   "public_request_archive_scope": "Complete 001 scientific Result inspected; not new raw-state evidence; no archive neutrality assumed.",
-  "reporter_sha256": "9119c91a2aa33eca3f7fcb7fb59d4cbd37a00b9d7760976c35c05a84d1c5a84d",
+  "reporter_sha256": "47a193b7b4eab4ffe33f50129b30d413890972b54f93147eec42075d24a5d3f0",
   "request_counts": {
     "diagnostic_times": 395,
     "diagnostic_z": 220,
@@ -217,7 +553,30 @@
     "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
     "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
   },
-  "runner_sha256": "9997b53e0d0032d42347973d9f997aa1e1c787a6903caf93e6ab8ef9cf755e59",
+  "resource_amendment": {
+    "binding_sha256": "089ef59efb0bd5c27b0464d568ec7904d92db8574de6cdacb7e6ef3c814a5b49",
+    "controller_sha256": "cf6e9ecb512fa450b1207cc9814f8b94f1269e317835e5f461dc490957a2a224",
+    "ending_counts": {
+      "full": 1,
+      "seconds": 298.9300972319761,
+      "short": 9
+    },
+    "historical_ledger_sha256": "0fac70a37209e0c940ab44fd511507dbb8949eee0e329dbe9384016bafb2df9c",
+    "historical_matrix_sha256": "0198998f27f13ca827b8d8aad86d4801c0455d83150f47736ed632e421c087db",
+    "historical_result_sha256": "db7776be72aac98e19b398d8736e6bd844ee77a586b422d4ed04a2f056b73149",
+    "historical_reviewed_head": "0a8930de6a97513d95883646d6e19b63f9aec9a7",
+    "memory_bytes": 8589934592,
+    "observer_only_correction_consumed": true,
+    "old_controller_sha256": "6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341",
+    "physical_validation": "NOT_ESTABLISHED",
+    "policy": "005-owner-8gib-20261008",
+    "scope": "Owner-authorized G0 enforcement/accounting/allocation amendment within unchanged G1 scientific task",
+    "starting_full": 0,
+    "starting_seconds": 94.66108788298152,
+    "starting_short": 8,
+    "unchanged_scientific_sources": true
+  },
+  "runner_sha256": "bf1ba06305af93370207b5300a74b718d490636bb19d9f6216011d2278e639f1",
   "runs": {
     "bed_fine": {
       "attempt": "bed_fine",
@@ -234,7 +593,11 @@
       "observed": true
     },
     "combined": {
-      "attempt": "combined",
+      "attempt": "combined-feasibility-8gib",
+      "captured_matrix": {
+        "file": "MATRIX-combined-probe-frozen.json",
+        "sha256": "48b3c7e5188aa642e3f8a9c9e1ff39f2e0ce56b36539c35fa794fe4c734e31fe"
+      },
       "controls": {
         "atol": 2e-11,
         "cells": 256,
@@ -243,7 +606,7 @@
         "modes": 64,
         "rtol": 2e-09
       },
-      "file": "combined.json",
+      "file": "combined-8gib.json",
       "horizon": 8.0,
       "observed": true
     },
