@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import zipfile
 from pathlib import Path
 
 import numpy as np
@@ -105,6 +106,8 @@ def resource_audit(folder):
     except (ValueError, TypeError) as exc:
         return dict(passed=False, reasons=['malformed attempt ledger: '+str(exc)], full=0, short=0, seconds=0.)
     amendment = None
+    persistence = None
+    prior_persistence_names = set()
     historical_names = set()
     if (folder/'resource-amendment.json').exists():
         try:
@@ -114,13 +117,26 @@ def resource_audit(folder):
             historical_rows = [json.loads(v) for v in historical.read_text().splitlines()]
             historical_names = {v['name'] for v in historical_rows if v['event'] == 'start'}
             controller_source = Path(obs.__file__).parents[2]/'tools/grudeva2026_baseline_observation_005_invoke.py'
+            current_controller = amendment['controller_sha256']
+            if (folder/'persistence-amendment.json').exists():
+                persistence = obs.read_json(folder/'persistence-amendment.json')
+                prefix = folder/'invocations-before-persistence-controller.jsonl'
+                prior_persistence_names = {r['name'] for r in map(json.loads, prefix.read_text().splitlines())
+                                           if r['event'] == 'start'}
+                if (persistence['previous_controller_sha256'] != current_controller
+                        or obs.sha(folder/'invoke-before-persistence.py') != current_controller
+                        or persistence['resource_amendment_sha256'] != obs.sha(folder/'resource-amendment.json')
+                        or persistence['historical_ledger_sha256'] != obs.sha(prefix)
+                        or not path.read_bytes().startswith(prefix.read_bytes())):
+                    reasons.append('persistence controller/history identity mismatch')
+                current_controller = persistence['controller_sha256']
             if (amendment['policy'] != RESOURCE_POLICY or amendment['memory_bytes'] != MEMORY_8GIB
                     or amendment['old_controller_sha256'] != OLD_CONTROLLER_SHA256
                     or obs.sha(folder/'invoke-2gib.py') != OLD_CONTROLLER_SHA256
                     or obs.sha(historical) != amendment['historical_ledger_sha256']
                     or not path.read_bytes().startswith(historical.read_bytes())
-                    or obs.sha(folder/'invoke.py') != amendment['controller_sha256']
-                    or obs.sha(controller_source) != amendment['controller_sha256']
+                    or obs.sha(folder/'invoke.py') != current_controller
+                    or obs.sha(controller_source) != current_controller
                     or previous['controller_sha256'] != OLD_CONTROLLER_SHA256
                     or obs.sha(folder/'MATRIX-2gib-reviewed.json') != amendment['historical_matrix_sha256']
                     or obs.sha(folder/'RESULTS-2gib-reviewed.json') != amendment['historical_result_sha256']):
@@ -148,8 +164,10 @@ def resource_audit(folder):
                     or start.get('phase') not in ('development', 'final', 'correction')):
                 reasons.append('invocation limits/phase unverified: '+name)
             if new:
+                expected_controller = (persistence['controller_sha256']
+                    if persistence and name not in prior_persistence_names else amendment['controller_sha256'])
                 if (start.get('resource_policy') != RESOURCE_POLICY
-                        or start.get('controller_sha256') != amendment.get('controller_sha256')
+                        or start.get('controller_sha256') != expected_controller
                         or start.get('resource_amendment_sha256') != obs.sha(folder/'resource-amendment.json')):
                     reasons.append('attempt policy/controller identity mismatch: '+name)
                 end = ends.get(name, {})
@@ -158,6 +176,14 @@ def resource_audit(folder):
                 allocation = folder/start.get('allocation_file', '')
                 if not allocation.is_file() or obs.sha(allocation) != start.get('allocation_sha256'):
                     reasons.append('attempt allocation identity mismatch: '+name)
+                elif persistence and name not in prior_persistence_names:
+                    spec = obs.read_json(allocation)
+                    if (spec.get('controller_sha256') != expected_controller
+                            or spec.get('persistence_amendment_sha256') != obs.sha(folder/'persistence-amendment.json')):
+                        reasons.append('persistence attempt/controller binding mismatch: '+name)
+                    if start.get('phase') == 'correction' and (name != 'combined-persistence-recapture'
+                            or start.get('kind') != 'full' or spec.get('role') != 'combined_persistence_recapture'):
+                        reasons.append('unauthorized corrective recapture: '+name)
             elif any(k in start for k in ('resource_policy', 'resource_amendment_sha256')):
                 reasons.append('historical attempt retroactively relabeled: '+name)
             if ends.get(name, {}).get('peak_rss_bytes', 0) > memory:
@@ -248,6 +274,9 @@ def check_run(meta, expected, matrix_hash):
         for s in meta.get('segments', []):
             if 'unavailable_reason' in s:
                 reasons.append('segment unavailable: '+s['unavailable_reason'])
+            if s.get('persistence_schema') != '005.segment-persistence.v2' or any(
+                    s.get(k) != 'PASS' for k in ('capture_outcome', 'artifact_integrity', 'array_fidelity', 'numerical_replay')):
+                reasons.append('segment persistence/fidelity/replay incomplete')
             replay = s.get('live_replay', {})
             if replay.get('allowance_fraction', 2) > 1:
                 reasons.append('live dense replay failed or unavailable')
@@ -342,8 +371,8 @@ def report(folder, matrix):
     feasibility = plan.get('feasibility', {})
     if feasibility.get('disposition') != 'FEASIBLE':
         blocks.append('RESOURCE_FEASIBILITY_BLOCKED')
-    if feasibility.get('execution_block') == 'OBSERVER_CAPTURE_IDENTITY_BLOCKED':
-        blocks.append('OBSERVER_CAPTURE_IDENTITY_BLOCKED')
+    if feasibility.get('execution_block') in ('OBSERVER_CAPTURE_IDENTITY_BLOCKED', 'OBSERVER_DIAGNOSTIC_INLET_BLOCKED'):
+        blocks.append(feasibility['execution_block'])
     fixtures = fixture_audit(folder, plan)
     reasons.extend(fixtures['reasons'])
     raw, observed, runs = {}, {}, {}
@@ -360,6 +389,12 @@ def report(folder, matrix):
                 r = obs.read_json(path)
                 raw[name] = r
                 failures.extend(check_run(r, obs.controls(name), captured_matrix_hash(folder, plan, specification, matrix_hash)))
+                if r.get('observed'):
+                    for segment in r.get('segments', []):
+                        receipt = segment.get('receipt_file', '')
+                        if (not receipt or Path(receipt).name != receipt or not (folder/receipt).is_file()
+                                or obs.sha(folder/receipt) != segment.get('receipt_sha256')):
+                            failures.append('segment persistence receipt unavailable or mismatched')
                 attempt = specification.get('attempt', name)
                 end = resources.get('ends', {}).get(attempt, {})
                 start = resources.get('starts', {}).get(attempt, {})
@@ -374,7 +409,7 @@ def report(folder, matrix):
                     runs[name] = dict(artifact_sha256=obs.sha(path), public_status=r['public_result']['status'],
                                       audits=observed[name]['audits'], gates=gates,
                                       numerical_passed=all(gates.values()))
-            except (ValueError, KeyError, TypeError, OSError, IndexError) as exc:
+            except (ValueError, KeyError, TypeError, OSError, IndexError, zipfile.BadZipFile, EOFError) as exc:
                 failures.append('malformed/incomplete evidence: '+str(exc))
         runs.setdefault(name, {})['reasons'] = failures
         reasons.extend(name+': '+v for v in failures)

@@ -121,6 +121,19 @@ def allocation_gate(args):
     elif role == 'remaining_panel':
         if args.pilot or obs.read_json(args.matrix).get('feasibility', {}).get('disposition') != 'FEASIBLE':
             raise ValueError('remaining panel allocation is not feasible')
+    elif role == 'combined_persistence_recapture':
+        if args.pilot or args.row != 'combined' or spec['attempt'] != 'combined-persistence-recapture':
+            raise ValueError('only the exact corrective combined recapture is authorized')
+        if spec.get('persistence_amendment_sha256') != obs.sha(folder/'persistence-amendment.json'):
+            raise ValueError('persistence amendment identity mismatch')
+        for binding in spec.get('persistence_tests', []):
+            path = folder/binding['file']
+            if obs.sha(path) != binding['sha256'] or obs.read_json(path).get('exit_code') != 0:
+                raise ValueError('persistence qualification unavailable')
+            if obs.read_json(path).get('sources') != obs.sources():
+                raise ValueError('persistence tests source mismatch')
+        if len(spec.get('persistence_tests', [])) != 2 or not spec.get('remaining_panel_estimate'):
+            raise ValueError('recapture requires qualified tests and complete cost estimate')
     else:
         raise ValueError('unauthorized allocation role')
     return spec

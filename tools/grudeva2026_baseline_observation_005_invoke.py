@@ -47,19 +47,26 @@ def main(argv=None):
     from puckworks.analysis.grudeva2026_baseline_observation_005_report import resource_audit
     folder = Path(__file__).resolve().parent
     name, kind, phase, *command = sys.argv[1:] if argv is None else argv
-    assert kind in ('short', 'full') and phase in ('development', 'final')
+    assert kind in ('short', 'full') and phase in ('development', 'final', 'correction')
     with (folder/'controller.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         accounting = resource_audit(folder)
         assert accounting['passed'], accounting['reasons']
         assert name not in accounting['starts'], 'attempt names cannot be reused'
-        assert accounting[kind] < {'short': 20, 'full': 7}[kind]
+        assert accounting[kind] < {'short': 20, 'full': 10}[kind]
         used = accounting['seconds']
-        assert used < 900, 'primary spending must preserve 300 seconds'
-        ceiling = min(300., 900.-used)
+        primary = [n for n, s in accounting['starts'].items() if s['phase'] != 'correction']
+        primary_seconds = sum(accounting['ends'][n]['seconds'] for n in primary)
+        primary_full = sum(accounting['starts'][n]['kind'] == 'full' for n in primary)
+        assert used < 1200
+        ceiling = min(300., 1200.-used)
+        if phase != 'correction':
+            assert primary_seconds < 900 and (kind != 'full' or primary_full < 7)
+            ceiling = min(ceiling, 900.-primary_seconds)
         amendment = obs.read_json(folder/'resource-amendment.json')
         assert amendment['policy'] == POLICY and amendment['memory_bytes'] == MEMORY
-        assert obs.sha(__file__) == amendment['controller_sha256']
+        persistence = obs.read_json(folder/'persistence-amendment.json') if (folder/'persistence-amendment.json').exists() else None
+        assert obs.sha(__file__) == (persistence or amendment)['controller_sha256']
         assert '--allocation' in command, 'explicit bound allocation required'
         allocation = Path(command[command.index('--allocation')+1]).resolve()
         assert allocation.parent == folder, 'allocation must be retained beside original ledger'
@@ -67,6 +74,10 @@ def main(argv=None):
         assert spec['attempt'] == name and spec['kind'] == kind
         assert spec['resource_amendment_sha256'] == obs.sha(folder/'resource-amendment.json')
         assert spec['controller_sha256'] == obs.sha(__file__)
+        if phase == 'correction':
+            assert persistence and name == 'combined-persistence-recapture' and kind == 'full'
+            assert spec['role'] == 'combined_persistence_recapture'
+            assert spec['persistence_amendment_sha256'] == obs.sha(folder/'persistence-amendment.json')
         capacity = headroom(folder)
         root = Path.cwd()
         source = {str(p.relative_to(root)): obs.sha(p) for p in sorted((root/'puckworks/analysis').glob('grudeva2026_*.py'))}

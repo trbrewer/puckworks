@@ -200,3 +200,13 @@ def test_numeric_gates_check_diagnostic_bounds_without_a_unit_grain_cap():
     assert not gates['diagnostic_liquid_profile_bounds']
     assert not gates['diagnostic_grain_profile_bounds']
     assert not gates['diagnostic_grain_history_bounds']
+
+
+def test_observer_inlet_stop_retains_precise_block_without_production_attribution(tmp_path):
+    p = plan()
+    p['feasibility'] = {'disposition':'FEASIBLE', 'execution_block':'OBSERVER_DIAGNOSTIC_INLET_BLOCKED'}
+    matrix = tmp_path/'matrix.json'; matrix.write_text(obs.canonical(p))
+    result = report.report(tmp_path, matrix)
+    assert 'OBSERVER_DIAGNOSTIC_INLET_BLOCKED' in result['blocks']
+    assert result['disposition'] == report.OBSERVER_INCOMPLETE
+    assert result['production_numerics'] == 'NOT_EXECUTED'

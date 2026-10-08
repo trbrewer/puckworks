@@ -122,3 +122,58 @@ def test_allocation_receipt_change_cannot_restamp_scientific_identity(tmp_path):
     p['request_hashes']['diagnostic_times'] = 'changed'
     with pytest.raises(ValueError, match='scientific identity changed'):
         report.captured_matrix_hash(tmp_path,p,specification,'new')
+
+
+def test_only_named_corrective_recapture_with_current_qualified_fixtures(tmp_path, monkeypatch):
+    folder, runner = archive(tmp_path)
+    matrix = folder/'matrix.json'; matrix.write_text('{}')
+    (folder/'persistence-amendment.json').write_text('{}')
+    fixtures = []
+    for name in ('current.json', 'minimum.json'):
+        path = folder/name
+        path.write_text(obs.canonical({'exit_code':0, 'sources':obs.sources()}))
+        fixtures.append({'file':name, 'sha256':obs.sha(path)})
+    allocation = folder/'recapture-allocation.json'
+    args = SimpleNamespace(pilot=False, row='combined', output=folder/'recapture.json', allocation=allocation, matrix=matrix)
+    spec = dict(attempt='combined-persistence-recapture', kind='full', row='combined', output='recapture.json',
+                role='combined_persistence_recapture', sources=obs.sources(), controls=obs.controls('combined'),
+                request_hashes={k:obs.digest(v) for k,v in obs.requests().items()},
+                controller_sha256=obs.sha(folder/'invoke.py'), resource_amendment_sha256=obs.sha(folder/'resource-amendment.json'),
+                persistence_amendment_sha256=obs.sha(folder/'persistence-amendment.json'),
+                persistence_tests=fixtures, remaining_panel_estimate={'planning_only':True},
+                matrix_sha256=obs.sha(matrix), runner_sha256=obs.sha(ROOT/'tools/run_grudeva2026_baseline_observation_005.py'))
+    monkeypatch.setenv('GRUDEVA005_ATTEMPT', spec['attempt'])
+    monkeypatch.setenv('GRUDEVA005_RESOURCE_POLICY', report.RESOURCE_POLICY)
+    allocation.write_text(obs.canonical(spec))
+    assert runner['allocation_gate'](args)['role'] == 'combined_persistence_recapture'
+    spec['attempt'] = 'second-recapture'
+    monkeypatch.setenv('GRUDEVA005_ATTEMPT', spec['attempt'])
+    allocation.write_text(obs.canonical(spec))
+    with pytest.raises(ValueError, match='exact corrective'):
+        runner['allocation_gate'](args)
+    spec['attempt'] = 'combined-persistence-recapture'
+    monkeypatch.setenv('GRUDEVA005_ATTEMPT', spec['attempt'])
+    spec['persistence_tests'] = []
+    allocation.write_text(obs.canonical(spec))
+    with pytest.raises(ValueError, match='qualified tests'):
+        runner['allocation_gate'](args)
+
+
+def test_persistence_controller_history_prefix_cannot_be_rewritten(tmp_path):
+    folder, _ = archive(tmp_path)
+    prefix = folder/'invocations-before-persistence-controller.jsonl'
+    prefix.write_bytes((folder/'invocations.jsonl').read_bytes())
+    previous = obs.sha(folder/'invoke.py')
+    (folder/'invoke-before-persistence.py').write_bytes((folder/'invoke.py').read_bytes())
+    amendment = dict(previous_controller_sha256=previous, controller_sha256=previous,
+                     resource_amendment_sha256=obs.sha(folder/'resource-amendment.json'),
+                     historical_ledger_sha256=obs.sha(prefix))
+    (folder/'persistence-amendment.json').write_text(obs.canonical(amendment))
+    assert report.resource_audit(folder)['passed']
+    amendment['previous_controller_sha256'] = 'wrong'
+    (folder/'persistence-amendment.json').write_text(obs.canonical(amendment))
+    assert not report.resource_audit(folder)['passed']
+    amendment['previous_controller_sha256'] = previous
+    (folder/'persistence-amendment.json').write_text(obs.canonical(amendment))
+    prefix.write_text('')
+    assert not report.resource_audit(folder)['passed']

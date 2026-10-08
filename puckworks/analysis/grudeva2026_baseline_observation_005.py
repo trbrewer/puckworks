@@ -11,6 +11,8 @@ import hashlib
 import inspect
 import json
 import math
+import os
+import tempfile
 from pathlib import Path
 import platform
 import sys
@@ -139,6 +141,190 @@ def _array(data, name, shape=None, integer=False):
     return value
 
 
+def _file_identity(path):
+    s = Path(path).stat()
+    return dict(bytes=s.st_size, device=s.st_dev, inode=s.st_ino,
+                mtime_ns=s.st_mtime_ns, ctime_ns=s.st_ctime_ns)
+
+
+def _array_identity(value):
+    """Named-array manifests use C-order bytes, independently of ZIP bytes."""
+    value = np.asarray(value)
+    if value.dtype.kind not in 'fiu' or not np.all(np.isfinite(value)):
+        raise ValueError('unsafe or nonfinite returned numerical array')
+    h = hashlib.sha256()
+    # Bounded buffers also cover noncontiguous accepted/event arrays.
+    for block in np.nditer(value, flags=['external_loop', 'buffered', 'zerosize_ok'],
+                           op_flags=['readonly'], order='C', buffersize=131072):
+        h.update(block.tobytes(order='C'))
+    return dict(dtype=value.dtype.str, shape=list(value.shape), bytes=value.nbytes,
+                sha256=h.hexdigest())
+
+
+def _receipt_append(path, value, *, create=False):
+    with Path(path).open('x' if create else 'a') as f:
+        f.write(canonical(value)+'\n')
+        f.flush()
+        os.fsync(f.fileno())
+    if create:
+        _sync_directory(Path(path).parent)
+
+
+def _sync_directory(folder):
+    descriptor = os.open(folder, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _segment_file_check(path, expected, record):
+    record.update(expected_sha256=expected, expected_origin='closed temporary archive before publication',
+                  before=_file_identity(path), bytes_read=0)
+    record['observed_sha256'] = sha(path)
+    record.update(observed_origin='published archive read before decoding',
+                  after=_file_identity(path), bytes_read=record['before']['bytes'])
+    if record['observed_sha256'] != expected or record['before'] != record['after']:
+        raise ValueError('segment identity mismatch')
+
+
+class SegmentPersistenceError(ValueError):
+    """Carry the original failure and partial receipt back to execute."""
+
+    def __init__(self, metadata, original):
+        super().__init__(type(original).__name__+': '+str(original))
+        self.metadata = metadata
+
+
+def _persist_segment(folder, name, arrays, meta, captured, size, attempt, segment_index):
+    """Immutable publication with pre-write array and pre-check byte identities."""
+    path = Path(folder)/name
+    receipt = path.with_suffix('.receipt.jsonl')
+    meta.update(file=name, persistence_schema='005.segment-persistence.v2',
+                attempt=attempt, segment_index=segment_index, receipt_file=receipt.name,
+                capture_outcome='INCOMPLETE', artifact_integrity='NOT_CHECKED',
+                array_fidelity='NOT_CHECKED', numerical_replay='NOT_CHECKED')
+    stage, temporary, replay = 'reserve_names', None, None
+    receipt_created = False
+    try:
+        if Path(name).name != name or not name.endswith('.npz'):
+            raise ValueError('invalid segment filename')
+        if path.exists():
+            raise FileExistsError('immutable segment output already exists')
+        _receipt_append(receipt, dict(stage=stage, metadata=meta), create=True)
+        receipt_created = True
+        stage = 'array_binding'
+        meta['intended_layout'] = {k: dict(dtype=np.asarray(v).dtype.str,
+            shape=list(np.asarray(v).shape), bytes=np.asarray(v).nbytes) for k, v in arrays.items()}
+        _receipt_append(receipt, dict(stage='intended_layout', arrays=meta['intended_layout']))
+        meta['array_manifest'] = {k: _array_identity(v) for k, v in arrays.items()}
+        meta['numerical_bytes'] = sum(v['bytes'] for v in meta['array_manifest'].values())
+        _receipt_append(receipt, dict(stage=stage, array_manifest=meta['array_manifest'],
+                                     numerical_bytes=meta['numerical_bytes']))
+        stage = 'archive_write'
+        fd, temp_name = tempfile.mkstemp(prefix=name+'.', suffix='.tmp', dir=folder)
+        temporary = Path(temp_name)
+        with os.fdopen(fd, 'wb') as f:
+            np.savez(f, **arrays)
+            f.flush()
+            os.fsync(f.fileno())
+        # The writer is closed before hashing or publishing. Keep the expected
+        # hash durably even if publication, checking or replay subsequently fails.
+        meta['sha256'] = sha(temporary)
+        meta['writer'] = dict(expected_sha256=meta['sha256'],
+                              expected_origin='closed temporary archive before publication',
+                              temporary_name=temporary.name, identity=_file_identity(temporary),
+                              bytes_written=temporary.stat().st_size)
+        _receipt_append(receipt, dict(stage='expected_file_identity', writer=meta['writer']))
+        stage = 'publication'
+        os.link(temporary, path)  # atomic, same directory, refuses an existing name
+        temporary.unlink()
+        temporary = None
+        _sync_directory(folder)
+        stage = 'file_integrity'
+        meta['file_verification'] = {}
+        _segment_file_check(path, meta['sha256'], meta['file_verification'])
+        meta['artifact_integrity'] = 'PASS'
+        _receipt_append(receipt, dict(stage=stage, verification=meta['file_verification']))
+        stage = 'array_fidelity'
+        meta['array_verification'] = dict(checked=0, bytes_read=0)
+        with np.load(path, allow_pickle=False) as decoded:
+            if set(decoded.files) != set(arrays) or len(decoded.files) != len(arrays):
+                raise ValueError('saved array member layout differs')
+            for key, expected in arrays.items():
+                check = meta['array_verification']
+                check['member'] = key
+                actual = decoded[key]
+                check['expected'] = meta['array_manifest'][key]
+                check['observed'] = _array_identity(actual)
+                if check['expected'] != check['observed']:
+                    raise ValueError('saved numerical array identity mismatch: '+key)
+                # Compare decoded values directly to the retained returned arrays,
+                # not just to their hashes. No complete trajectory duplicate.
+                for first in range(0, actual.size, 131072):
+                    if not np.array_equal(actual.flat[first:first+131072],
+                                          np.asarray(expected).flat[first:first+131072]):
+                        raise ValueError('saved numerical array fidelity mismatch: '+key)
+                check['checked'] += 1
+                check['bytes_read'] += actual.nbytes
+        meta['array_fidelity'] = 'PASS'
+        _receipt_append(receipt, dict(stage=stage, verification=meta['array_verification']))
+        if 'unavailable_reason' not in meta:
+            stage = 'numerical_replay'
+            replay = Segment(folder, meta, size)
+            r = captured['solution']
+            maximum = scaled = 0.
+            # Unchanged live/offline mathematics and support, including event sides.
+            points = np.unique(np.r_[r.t, (r.sol.ts[:-1] + r.sol.ts[1:]) / 2,
+                                      np.nextafter(r.t[0], r.t[-1]), np.nextafter(r.t[-1], r.t[0])])
+            for t in points:
+                expected, actual = r.sol(t), replay.evaluate(t)
+                error = np.max(abs(actual - expected))
+                scale = ALGEBRA * max(1., float(np.max(abs(expected))))
+                maximum, scaled = max(maximum, float(error)), max(scaled, float(error / scale))
+            accepted_error = max(float(np.max(abs(replay.evaluate(t)-y))) for t, y in zip(r.t, r.y.T))
+            events = [] if r.t_events is None else list(zip(r.t_events, r.y_events))
+            event_error = max([float(np.max(abs(replay.evaluate(t)-y)))
+                               for ts, ys in events for t, y in zip(ts, ys)] or [0.])
+            meta['live_replay'] = dict(points=len(points), max_absolute=maximum, allowance_fraction=scaled,
+                                       accepted_state_error=accepted_error, event_state_error=event_error)
+            if scaled > 1 or max(accepted_error, event_error) > ALGEBRA*8:
+                raise ValueError('live dense replay failed')
+            meta['numerical_replay'] = 'PASS'
+            meta['capture_outcome'] = 'PASS'
+        if replay is not None:
+            replay.close()
+            replay = None
+        _receipt_append(receipt, dict(stage='complete', capture_outcome=meta['capture_outcome'],
+                                     artifact_integrity=meta['artifact_integrity'], array_fidelity=meta['array_fidelity'],
+                                     numerical_replay=meta['numerical_replay'], live_replay=meta.get('live_replay')))
+        meta['receipt_sha256'] = sha(receipt)
+        return meta
+    except Exception as exc:
+        meta.update(capture_outcome='FAILED', unavailable_reason=type(exc).__name__+': '+str(exc),
+                    failure=dict(stage=stage, exception_type=type(exc).__name__, exception_message=str(exc)))
+        if stage == 'file_integrity':
+            meta['artifact_integrity'] = 'FAILED'
+        elif stage == 'array_fidelity':
+            meta['array_fidelity'] = 'FAILED'
+        elif stage == 'numerical_replay':
+            meta['numerical_replay'] = 'FAILED'
+        try:
+            if receipt_created:
+                _receipt_append(receipt, dict(stage='failed', metadata=meta))
+                meta['receipt_sha256'] = sha(receipt)
+        except Exception as secondary:
+            meta['receipt_failure'] = dict(exception_type=type(secondary).__name__, exception_message=str(secondary))
+        raise SegmentPersistenceError(meta, exc) from exc
+    finally:
+        if replay is not None:
+            try:
+                replay.close()
+            except Exception as cleanup:
+                meta['cleanup_failure'] = dict(exception_type=type(cleanup).__name__, exception_message=str(cleanup))
+        # A failed unpublished temporary remains diagnostic evidence, never reused.
+
+
 class Segment:
     """Lazy safe numerical replay: only one interval's coefficients in memory."""
 
@@ -148,8 +334,7 @@ class Segment:
         if Path(name).name != name or not name.endswith('.npz'):
             raise ValueError('invalid segment filename')
         path = Path(folder) / name
-        if sha(path) != meta['sha256']:
-            raise ValueError('segment identity mismatch')
+        _segment_file_check(path, meta['sha256'], meta.setdefault('replay_file_verification', {}))
         self.data = np.load(path, allow_pickle=False)
         self.t = _array(self.data, 'accepted_t')
         self.y = _array(self.data, 'accepted_y', (size, len(self.t)))
@@ -186,6 +371,13 @@ class Segment:
                     raise ValueError('invalid BDF divisor')
                 if self.step_bounds[k, 0] > self.breaks[k] or self.step_bounds[k, 1] < self.breaks[k+1]:
                     raise ValueError('dense polynomial does not cover valid interval')
+            if meta.get('persistence_schema') == '005.segment-persistence.v2':
+                manifest = meta['array_manifest']
+                if set(self.data.files) != set(manifest) or len(self.data.files) != len(manifest):
+                    raise ValueError('saved array member layout differs')
+                for name, expected in manifest.items():
+                    if _array_identity(self.data[name]) != expected:
+                        raise ValueError('saved numerical array identity mismatch: '+name)
 
     def evaluate(self, t):
         if not np.isfinite(t) or not self.t[0] <= t <= self.t[-1]:
@@ -202,7 +394,7 @@ class Segment:
         self.data.close()
 
 
-def save_segment(folder, name, captured, size):
+def save_segment(folder, name, captured, size, *, attempt=None, segment_index=None):
     """Serialize after production returns, preserving terminal truncation."""
     r = captured['solution']
     if r is None:
@@ -239,29 +431,8 @@ def save_segment(folder, name, captured, size):
             arrays[f'D_{k}'] = x.D
             arrays['shifts'][k, :x.order] = x.t_shift
             arrays['denominators'][k, :x.order] = x.denom
-    path = Path(folder) / name
-    if any(np.asarray(value).dtype.kind not in 'fiu' for value in arrays.values()):
-        raise ValueError('unsafe nonnumeric returned array; no pickle written')
-    np.savez(path, **arrays)
-    meta.update(file=name, sha256=sha(path), numerical_bytes=sum(x.nbytes for x in arrays.values()))
-    if 'unavailable_reason' not in meta:
-        replay = Segment(folder, meta, size)
-        maximum = scaled = 0.
-        # Actual live interpolants, accepted nodes, interval interiors, event sides.
-        points = np.unique(np.r_[r.t, (r.sol.ts[:-1] + r.sol.ts[1:]) / 2,
-                                  np.nextafter(r.t[0], r.t[-1]), np.nextafter(r.t[-1], r.t[0])])
-        for t in points:
-            expected, actual = r.sol(t), replay.evaluate(t)
-            error = np.max(abs(actual - expected))
-            scale = ALGEBRA * max(1., float(np.max(abs(expected))))
-            maximum, scaled = max(maximum, float(error)), max(scaled, float(error / scale))
-        accepted_error = max(float(np.max(abs(replay.evaluate(t)-y))) for t, y in zip(r.t, r.y.T))
-        event_error = max([float(np.max(abs(replay.evaluate(t)-y)))
-                           for ts, ys in events for t, y in zip(ts, ys)] or [0.])
-        meta['live_replay'] = dict(points=len(points), max_absolute=maximum, allowance_fraction=scaled,
-                                   accepted_state_error=accepted_error, event_state_error=event_error)
-        replay.close()
-    return meta
+    return _persist_segment(folder, name, arrays, meta, captured, size,
+                            attempt or os.environ.get('GRUDEVA005_ATTEMPT', name), segment_index)
 
 
 class Trajectory:
@@ -545,9 +716,11 @@ def execute(path, row='normal', *, pilot=False, observed=True, matrix_sha256=Non
                 try:
                     if segment['solution'] is not None:
                         base.setdefault('geometry', _production_geometry(segment))
-                    base['segments'].append(save_segment(path.parent, f'{path.stem}-segment-{i}.npz', segment, size))
+                    base['segments'].append(save_segment(path.parent, f'{path.stem}-segment-{i}.npz', segment, size,
+                        attempt=os.environ.get('GRUDEVA005_ATTEMPT', path.stem), segment_index=i))
                 except Exception as persistence_error:
-                    base['segments'].append({'unavailable_reason': str(persistence_error)})
+                    base['segments'].append(getattr(persistence_error, 'metadata',
+                        {'unavailable_reason': type(persistence_error).__name__+': '+str(persistence_error)}))
             path.write_text(canonical(base) + '\n')
         except Exception:
             pass
@@ -559,14 +732,28 @@ def execute(path, row='normal', *, pilot=False, observed=True, matrix_sha256=Non
                 return_identity='same retained object returned by seam',
                 state_layout={'size': size, 'modal_shape': [c['modes']+1, c['cells']],
                               'modal_axis': 0, 'order': 's,liquid,mode-major,cup'}, segments=[])
+    # Persist the immutable complete public Result before diagnostic work.
+    checkpoint = path.with_name(path.stem+'-public-result.json')
+    try:
+        with checkpoint.open('x') as f:
+            f.write(public_bytes+'\n')
+            f.flush()
+            os.fsync(f.fileno())
+        _sync_directory(path.parent)
+        base['public_checkpoint'] = {'file': checkpoint.name, 'sha256': sha(checkpoint)}
+    except Exception as checkpoint_error:
+        base['public_checkpoint_failure'] = {'type': type(checkpoint_error).__name__,
+                                             'message': str(checkpoint_error)}
     if captured:
         base['geometry'] = _production_geometry(captured[0])
     for i, segment in enumerate(captured):
         try:
-            base['segments'].append(save_segment(path.parent, f'{path.stem}-segment-{i}.npz', segment, size))
+            base['segments'].append(save_segment(path.parent, f'{path.stem}-segment-{i}.npz', segment, size,
+                        attempt=os.environ.get('GRUDEVA005_ATTEMPT', path.stem), segment_index=i))
         except Exception as exc:
             # Observation failure cannot erase a returned public scientific Result.
-            base['segments'].append({'unavailable_reason': type(exc).__name__+': '+str(exc)})
+            base['segments'].append(getattr(exc, 'metadata',
+                {'unavailable_reason': type(exc).__name__+': '+str(exc)}))
     base['public_result_unchanged_after_capture'] = result.canonical_json() == public_bytes
     base['retained_numerical_bytes'] = sum(s.get('numerical_bytes', 0) for s in base['segments'])
     path.write_text(canonical(base) + '\n')

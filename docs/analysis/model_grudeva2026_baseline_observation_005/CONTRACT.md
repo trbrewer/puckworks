@@ -225,3 +225,51 @@ scientific correction is authorized. The measured continuation reached a
 third-segment capture identity failure after production returned. Preserve all
 raw files and unavailable reasons, with no replacement hash or scientific repair.
 The remaining panel was not allocated. See current RESULTS and HANDOFF.
+
+## Owner persistence/identity amendment, October 8, 2026
+
+The owner explicitly authorized one coherent G0 persistence/identity/failure-reporting
+correction within this G1 task, despite the consumed scientific observer correction.
+It supersedes the preceding stop only for bounded archive diagnosis, manufactured
+persistence qualification and at most one corrective full combined recapture.
+No mathematical reconstruction, solver calls, support, masks or allowance changes.
+The complete module hash changes; PERSISTENCE_SOURCE_DELTA.json binds the exact
+old/new source and delta, unchanged definitions and production-call structure.
+
+The original failed capture is immutable historical diagnostic evidence. Its
+third NPZ spans [6.504306141250696,8] by surviving arrays and has a CRC failure
+in D_97.npy. Original expected third-segment identity and live reference/replay
+metadata are absent. Current hash stability or partial numerical plausibility
+cannot supply those missing facts. Archive recovery is ineligible. The historical
+mismatch cause remains UNRESOLVED; neither the CRC finding nor new flushing and
+publication steps demonstrate the mechanism that produced it.
+
+Future persistence binds named array dtypes, shapes and C-order content before
+writing. A same-directory temporary NPZ is closed and fsynced, its expected hash
+is durably recorded, and link publication refuses an existing name. The published
+file is checked independently, decoded arrays are compared exactly against the
+retained returned arrays and pre-write manifests, and unchanged live/offline
+BDF replay follows. File bytes, array fidelity and numerical replay have separate
+outcomes. Each segment has an append-only receipt with attempt, interval, solver
+status, compared identities, byte counts, file metadata and original failure
+stage/type/message. A failed receipt write is secondary to the original failure;
+it cannot erase that failure or a returned public Result. Partial receipts do
+not qualify capture. There is no retry, hash replacement or executable pickle.
+
+The successful 8 GiB short pilot is retained; no new production pilot is authorized.
+The only recapture is `combined-persistence-recapture`, full horizon 8 with the
+original combined configuration and exact requests. It consumes one original
+correction full slot and its measured time. The original ledger and historical
+resource policies remain bound; 10 full, 20 short, 1200 aggregate seconds,
+300 seconds/invocation and exactly 8589934592 bytes RLIMIT_AS remain ceilings.
+Archive numerical checks and affected numerical fixtures are charged. Source and
+allocation receipts are frozen before execution. The old 108.117899-second
+probe is not a bound for complete corrected observation.
+
+A successful new capture alone does not qualify 005. All required combined
+observation checks must pass before a measured remaining-panel allocation.
+Unresolved capture/replay or scientific observation errors stop the continuation.
+If complete combined observation qualifies, reuse it as the combined row and
+run the normal/control neutrality pair early. Every original refinement, repeat,
+support and numerical gate remains mandatory. No matched comparison, production
+repair, second recapture, automatic successor or scientific correction is authorized.
