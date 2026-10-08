@@ -17,6 +17,9 @@ OBSERVER_INCOMPLETE = 'OBSERVER_QUALIFICATION_INCOMPLETE'
 RESOURCE_POLICY = '005-owner-8gib-20261008'
 OLD_CONTROLLER_SHA256 = '6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341'
 MEMORY_8GIB = 8*1024**3
+ATTRIBUTION_POLICY = '005-owner-single-axis-20261008'
+ATTRIBUTION_ATTEMPTS = ('attribution-control', 'attribution-bed_fine',
+                        'attribution-modes_fine', 'attribution-time_fine', 'attribution-reduction')
 
 BUDGETS = dict(outlet=.001, liquid_profiles=.001, front=.001, arrival=.001,
                activation=.001, grain_profiles=.00023, grain_histories=.00023,
@@ -107,6 +110,8 @@ def resource_audit(folder):
         return dict(passed=False, reasons=['malformed attempt ledger: '+str(exc)], full=0, short=0, seconds=0.)
     amendment = None
     persistence = None
+    attribution = None
+    prior_attribution_names = set()
     prior_persistence_names = set()
     historical_names = set()
     if (folder/'resource-amendment.json').exists():
@@ -130,6 +135,24 @@ def resource_audit(folder):
                         or not path.read_bytes().startswith(prefix.read_bytes())):
                     reasons.append('persistence controller/history identity mismatch')
                 current_controller = persistence['controller_sha256']
+            if (folder/'attribution-amendment.json').exists():
+                attribution = obs.read_json(folder/'attribution-amendment.json')
+                prefix = folder/'invocations-before-attribution.jsonl'
+                prior_rows = list(map(json.loads, prefix.read_text().splitlines()))
+                prior_attribution_names = {r['name'] for r in prior_rows if r['event'] == 'start'}
+                if (attribution['previous_controller_sha256'] != current_controller
+                        or obs.sha(folder/'invoke-before-attribution.py') != current_controller
+                        or attribution['policy'] != ATTRIBUTION_POLICY
+                        or attribution['short_limit'] != 21 or attribution['historical_short_limit'] != 20
+                        or attribution['attempts'] != list(ATTRIBUTION_ATTEMPTS)
+                        or attribution['memory_bytes'] != MEMORY_8GIB
+                        or attribution['historical_ledger_sha256'] != obs.sha(prefix)
+                        or attribution['persistence_amendment_sha256'] != obs.sha(folder/'persistence-amendment.json')
+                        or not path.read_bytes().startswith(prefix.read_bytes())):
+                    reasons.append('attribution policy/controller/history identity mismatch')
+                if sum(r.get('kind') == 'short' for r in prior_rows if r['event'] == 'start') > 20:
+                    reasons.append('historical short ceiling violated before attribution')
+                current_controller = attribution['controller_sha256']
             if (amendment['policy'] != RESOURCE_POLICY or amendment['memory_bytes'] != MEMORY_8GIB
                     or amendment['old_controller_sha256'] != OLD_CONTROLLER_SHA256
                     or obs.sha(folder/'invoke-2gib.py') != OLD_CONTROLLER_SHA256
@@ -156,7 +179,12 @@ def resource_audit(folder):
         group[row['name']] = row
     if starts.keys() != ends.keys():
         reasons.append('unresolved attempt starts/ends')
+    if attribution:
+        added = [n for n in starts if n not in prior_attribution_names]
+        if added != list(ATTRIBUTION_ATTEMPTS[:len(added)]):
+            reasons.append('unauthorized attribution attempt or order')
     for name, start in starts.items():
+        attributed = attribution is not None and name not in prior_attribution_names
         new = amendment is not None and name not in historical_names
         memory = MEMORY_8GIB if new else 2*1024**3
         try:
@@ -166,7 +194,14 @@ def resource_audit(folder):
             if new:
                 expected_controller = (persistence['controller_sha256']
                     if persistence and name not in prior_persistence_names else amendment['controller_sha256'])
-                if (start.get('resource_policy') != RESOURCE_POLICY
+                if attributed:
+                    expected_controller = attribution['controller_sha256']
+                    expected_kind = 'short' if name == ATTRIBUTION_ATTEMPTS[-1] else 'full'
+                    if (start.get('kind') != expected_kind or start.get('phase') != 'final'
+                            or start.get('attribution_amendment_sha256') != obs.sha(folder/'attribution-amendment.json')
+                            or start.get('short_limit') != 21):
+                        reasons.append('unauthorized attribution limits/attempt: '+name)
+                if (start.get('resource_policy') != (ATTRIBUTION_POLICY if attributed else RESOURCE_POLICY)
                         or start.get('controller_sha256') != expected_controller
                         or start.get('resource_amendment_sha256') != obs.sha(folder/'resource-amendment.json')):
                     reasons.append('attempt policy/controller identity mismatch: '+name)
@@ -181,6 +216,8 @@ def resource_audit(folder):
                     if (spec.get('controller_sha256') != expected_controller
                             or spec.get('persistence_amendment_sha256') != obs.sha(folder/'persistence-amendment.json')):
                         reasons.append('persistence attempt/controller binding mismatch: '+name)
+                    if attributed and spec.get('attribution_amendment_sha256') != obs.sha(folder/'attribution-amendment.json'):
+                        reasons.append('attribution allocation identity mismatch: '+name)
                     if start.get('phase') == 'correction' and (name != 'combined-persistence-recapture'
                             or start.get('kind') != 'full' or spec.get('role') != 'combined_persistence_recapture'):
                         reasons.append('unauthorized corrective recapture: '+name)
@@ -208,7 +245,8 @@ def resource_audit(folder):
     seconds = sum(r.get('seconds', -1) for r in ends.values())
     peak = max([r.get('peak_rss_bytes', 0) for r in ends.values()] or [0])
     maximum = max([r.get('seconds', 0) for r in ends.values()] or [0])
-    if full > 10 or short > 20 or seconds > 1200 or maximum > 300:
+    short_limit = 21 if attribution else 20
+    if full > 10 or short > short_limit or seconds > 1200 or maximum > 300:
         reasons.append('resource ceiling exceeded')
     for name, end in ends.items():
         if end.get('seconds', -1) < 0 or end.get('peak_rss_bytes', -1) < 0:
@@ -218,7 +256,7 @@ def resource_audit(folder):
             reasons.append('attempt log identity mismatch: '+name)
     return dict(passed=not reasons, reasons=reasons, full=full, short=short, seconds=seconds,
                 maximum_seconds=maximum, peak_rss_bytes=peak,
-                starts=starts, ends=ends, remaining_full=10-full, remaining_short=20-short,
+                starts=starts, ends=ends, remaining_full=10-full, remaining_short=short_limit-short,
                 remaining_seconds=1200-seconds)
 
 

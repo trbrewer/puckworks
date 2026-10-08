@@ -85,6 +85,53 @@ def amend_resources(folder):
     return binding
 
 
+def amend_attribution(folder):
+    """Install the one-short, four-row owner amendment under the original lock."""
+    import fcntl
+    from puckworks.analysis import grudeva2026_baseline_observation_005_report as report
+    folder = folder.resolve()
+    with (folder/'controller.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        target = folder/'attribution-amendment.json'
+        if target.exists():
+            raise FileExistsError('attribution amendment already installed')
+        old = obs.read_json(folder/'persistence-amendment.json')['controller_sha256']
+        if obs.sha(folder/'invoke.py') != old or obs.sha(folder/'invoke-before-attribution.py') != old:
+            raise ValueError('wrong preceding controller identity')
+        prefix = folder/'invocations-before-attribution.jsonl'
+        if prefix.read_bytes() != (folder/'invocations.jsonl').read_bytes():
+            raise ValueError('intake ledger changed before installation')
+        rows = list(map(json.loads, prefix.read_text().splitlines()))
+        starts = {r['name']: r for r in rows if r['event'] == 'start'}
+        ends = {r['name']: r for r in rows if r['event'] == 'end'}
+        if (starts.keys() != ends.keys() or len(rows) != 2*len(starts)
+                or sum(v['kind'] == 'full' for v in starts.values()) != 3
+                or sum(v['kind'] == 'short' for v in starts.values()) != 20):
+            raise ValueError('wrong attribution starting ledger')
+        for name, end in ends.items():
+            if obs.sha(folder/(name+'.log')) != end['log_sha256']:
+                raise ValueError('historical attempt log mismatch')
+        source = ROOT/'tools/grudeva2026_baseline_observation_005_invoke.py'
+        estimates = dict(zip(report.ATTRIBUTION_ATTEMPTS, (45., 100., 100., 70., 90.)))
+        binding = dict(policy=report.ATTRIBUTION_POLICY, memory_bytes=report.MEMORY_8GIB,
+            historical_short_limit=20, short_limit=21, attempts=list(report.ATTRIBUTION_ATTEMPTS),
+            previous_controller_sha256=old, controller_sha256=obs.sha(source),
+            historical_ledger_sha256=obs.sha(prefix),
+            persistence_amendment_sha256=obs.sha(folder/'persistence-amendment.json'),
+            starting_full=3, starting_short=20, starting_seconds=sum(v['seconds'] for v in ends.values()),
+            estimated_seconds=estimates)
+        with target.open('x') as f:
+            f.write(obs.canonical(binding)+'\n'); f.flush(); os.fsync(f.fileno())
+        temporary = folder/'invoke-attribution.tmp'
+        with temporary.open('xb') as f:
+            f.write(source.read_bytes()); f.flush(); os.fsync(f.fileno())
+        temporary.replace(folder/'invoke.py')
+        audit = report.resource_audit(folder)
+        if not audit['passed']:
+            raise ValueError(audit['reasons'])
+    return binding
+
+
 def allocation_gate(args):
     from puckworks.analysis import grudeva2026_baseline_observation_005_report as report
     if args.allocation is None:
@@ -101,7 +148,8 @@ def allocation_gate(args):
               spec.get('resource_amendment_sha256') == obs.sha(folder/'resource-amendment.json'),
               spec.get('controller_sha256') == obs.sha(folder/'invoke.py'),
               spec.get('matrix_sha256') == obs.sha(args.matrix) if args.matrix else False,
-              os.environ.get('GRUDEVA005_RESOURCE_POLICY') == report.RESOURCE_POLICY)
+              os.environ.get('GRUDEVA005_RESOURCE_POLICY') == (report.ATTRIBUTION_POLICY
+                  if spec.get('role') == 'single_axis_diagnostic' else report.RESOURCE_POLICY))
     if not all(checks):
         raise ValueError('allocation source/request/resource identity mismatch')
     role = spec.get('role')
@@ -118,6 +166,20 @@ def allocation_gate(args):
         pilot = obs.read_json(path)
         if not pilot.get('applicable_pilot_checks_passed') or not spec.get('measured_full_probe_basis'):
             raise ValueError('full probe has no qualified pilot/headroom/budget basis')
+    elif role == 'single_axis_diagnostic':
+        names = dict(zip(('control', 'bed_fine', 'modes_fine', 'time_fine'), report.ATTRIBUTION_ATTEMPTS[:4]))
+        if args.pilot or args.row not in names or spec['attempt'] != names[args.row]:
+            raise ValueError('only the four exact diagnostic rows are authorized')
+        if spec.get('attribution_amendment_sha256') != obs.sha(folder/'attribution-amendment.json'):
+            raise ValueError('attribution amendment identity mismatch')
+        plan = obs.read_json(args.matrix)
+        binding = plan['attribution']['normal_binding']
+        if obs.sha(folder/binding['file']) != binding['sha256']:
+            raise ValueError('preserved observed normal identity mismatch')
+        if obs.read_json(folder/binding['file'])['environment'] != obs.environment():
+            raise ValueError('same-environment neutrality prerequisite unresolved')
+        if plan['attribution']['purpose'] != 'DIAGNOSTIC_SINGLE_AXIS_NO_QUALIFICATION_OVERRIDE':
+            raise ValueError('wrong diagnostic purpose')
     elif role == 'remaining_panel':
         if args.pilot or obs.read_json(args.matrix).get('feasibility', {}).get('disposition') != 'FEASIBLE':
             raise ValueError('remaining panel allocation is not feasible')
@@ -145,6 +207,8 @@ def main(argv=None):
     init.add_argument('directory', type=Path)
     amend = sub.add_parser('amend-resources')
     amend.add_argument('directory', type=Path)
+    attribution = sub.add_parser('amend-attribution')
+    attribution.add_argument('directory', type=Path)
     fixtures = sub.add_parser('fixtures')
     fixtures.add_argument('--output', type=Path, required=True)
     run = sub.add_parser('run')
@@ -159,6 +223,9 @@ def main(argv=None):
         return 0
     if args.command == 'amend-resources':
         amend_resources(args.directory)
+        return 0
+    if args.command == 'amend-attribution':
+        amend_attribution(args.directory)
         return 0
     if not os.environ.get('GRUDEVA005_ATTEMPT'):
         parser.error('scientific execution requires the external invoke.py controller')
@@ -189,6 +256,7 @@ def main(argv=None):
         args.output.with_name(args.output.stem+'-execution.json').write_text(
             obs.canonical(dict(stage=value, **details))+'\n')
     stage('production_and_capture')
+    observed_data = None
     try:
         r = obs.execute(args.output, row=args.row, pilot=args.pilot,
                         observed=args.row != 'control', matrix_sha256=matrix_hash)
@@ -196,6 +264,7 @@ def main(argv=None):
         if args.row != 'control' and r.get('segments'):
             stage('replay_and_observation', production_status=r['public_result']['status'], returned=r.get('returned'))
             observed = obs.observe_saved(args.output)
+            observed_data = observed
             # Full observation arrays are external; compact run metadata remain separate.
             output = args.output.with_name(args.output.stem+'-observations.json')
             output.write_text(obs.canonical(observed)+'\n')
@@ -218,6 +287,14 @@ def main(argv=None):
                               'observation_sha256': obs.sha(output)}, sort_keys=True))
         else:
             print(json.dumps({'status': r['status'], 'production_status': r['public_result']['status']}))
+        if amended and obs.read_json(args.allocation).get('role') == 'single_axis_diagnostic':
+            from puckworks.analysis.grudeva2026_baseline_observation_005_attribution import run_check
+            check = run_check(args.output, r, observed_data, obs.read_json(args.matrix), matrix_hash)
+            check_path = args.output.with_name(args.output.stem+'-attribution-check.json')
+            with check_path.open('x') as f:
+                f.write(obs.canonical(check)+'\n'); f.flush(); os.fsync(f.fileno())
+            if not check['safe_to_continue']:
+                raise ValueError('diagnostic integrity/support/neutrality stop: '+str(check['reasons']))
     except BaseException as exc:
         import traceback
         frames = traceback.extract_tb(exc.__traceback__)

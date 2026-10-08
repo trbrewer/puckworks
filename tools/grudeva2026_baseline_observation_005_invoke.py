@@ -44,7 +44,8 @@ def headroom(folder):
 
 def main(argv=None):
     from puckworks.analysis import grudeva2026_baseline_observation_005 as obs
-    from puckworks.analysis.grudeva2026_baseline_observation_005_report import resource_audit
+    from puckworks.analysis.grudeva2026_baseline_observation_005_report import (
+        resource_audit, ATTRIBUTION_POLICY, ATTRIBUTION_ATTEMPTS)
     folder = Path(__file__).resolve().parent
     name, kind, phase, *command = sys.argv[1:] if argv is None else argv
     assert kind in ('short', 'full') and phase in ('development', 'final', 'correction')
@@ -53,7 +54,9 @@ def main(argv=None):
         accounting = resource_audit(folder)
         assert accounting['passed'], accounting['reasons']
         assert name not in accounting['starts'], 'attempt names cannot be reused'
-        assert accounting[kind] < {'short': 20, 'full': 10}[kind]
+        attribution = obs.read_json(folder/'attribution-amendment.json') if (folder/'attribution-amendment.json').exists() else None
+        short_limit = 21 if attribution else 20
+        assert accounting[kind] < {'short': short_limit, 'full': 10}[kind]
         used = accounting['seconds']
         primary = [n for n, s in accounting['starts'].items() if s['phase'] != 'correction']
         primary_seconds = sum(accounting['ends'][n]['seconds'] for n in primary)
@@ -66,7 +69,7 @@ def main(argv=None):
         amendment = obs.read_json(folder/'resource-amendment.json')
         assert amendment['policy'] == POLICY and amendment['memory_bytes'] == MEMORY
         persistence = obs.read_json(folder/'persistence-amendment.json') if (folder/'persistence-amendment.json').exists() else None
-        assert obs.sha(__file__) == (persistence or amendment)['controller_sha256']
+        assert obs.sha(__file__) == (attribution or persistence or amendment)['controller_sha256']
         assert '--allocation' in command, 'explicit bound allocation required'
         allocation = Path(command[command.index('--allocation')+1]).resolve()
         assert allocation.parent == folder, 'allocation must be retained beside original ledger'
@@ -74,6 +77,31 @@ def main(argv=None):
         assert spec['attempt'] == name and spec['kind'] == kind
         assert spec['resource_amendment_sha256'] == obs.sha(folder/'resource-amendment.json')
         assert spec['controller_sha256'] == obs.sha(__file__)
+        policy = POLICY
+        if attribution:
+            assert attribution['policy'] == ATTRIBUTION_POLICY and attribution['short_limit'] == 21
+            assert name in ATTRIBUTION_ATTEMPTS and phase == 'final'
+            index = ATTRIBUTION_ATTEMPTS.index(name)
+            prior = {r['name'] for r in map(json.loads, (folder/'invocations-before-attribution.jsonl').read_text().splitlines())
+                     if r['event'] == 'start'}
+            added = [n for n in accounting['starts'] if n not in prior]
+            assert added == list(ATTRIBUTION_ATTEMPTS[:index]), 'exact diagnostic execution order required'
+            assert kind == ('short' if index == 4 else 'full')
+            assert spec['role'] == ('single_axis_reduction' if index == 4 else 'single_axis_diagnostic')
+            assert spec['attribution_amendment_sha256'] == obs.sha(folder/'attribution-amendment.json')
+            assert spec['output'] == name+'.json'
+            if index:
+                previous = ATTRIBUTION_ATTEMPTS[index-1]
+                end = accounting['ends'][previous]
+                check_path = folder/(previous+'-attribution-check.json')
+                assert end['exit_code'] in (0, 2) and end.get('diagnostic_check_sha256') == obs.sha(check_path)
+                check = obs.read_json(check_path)
+                assert check['safe_to_continue'], check.get('reasons')
+                assert check['artifact_sha256'] == end['artifact_sha256']
+            future = sum(attribution['estimated_seconds'][n] for n in ATTRIBUTION_ATTEMPTS[index+1:])
+            ceiling = min(ceiling, 900.-primary_seconds-future, 1200.-used-future)
+            assert ceiling > 0, 'remaining allocation and final reduction reserve do not fit'
+            policy = ATTRIBUTION_POLICY
         if phase == 'correction':
             assert persistence and name == 'combined-persistence-recapture' and kind == 'full'
             assert spec['role'] == 'combined_persistence_recapture'
@@ -88,15 +116,17 @@ def main(argv=None):
         append(dict(name=name, kind=kind, phase=phase, event='start',
                     utc=datetime.datetime.now(datetime.timezone.utc).isoformat(), command=command,
                     source_hashes=source, time_ceiling=ceiling, memory_bytes=MEMORY,
-                    resource_policy=POLICY, controller_sha256=obs.sha(__file__),
+                    resource_policy=policy, controller_sha256=obs.sha(__file__),
                     resource_amendment_sha256=obs.sha(folder/'resource-amendment.json'),
-                    allocation_file=allocation.name, allocation_sha256=obs.sha(allocation), headroom=capacity))
+                    allocation_file=allocation.name, allocation_sha256=obs.sha(allocation), headroom=capacity,
+                    **(dict(short_limit=21, attribution_amendment_sha256=obs.sha(folder/'attribution-amendment.json'))
+                       if attribution else {})))
         start = time.perf_counter()
         def limits():
             resource.setrlimit(resource.RLIMIT_AS, (MEMORY, MEMORY))
         env = dict(os.environ, OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1',
                    NUMEXPR_NUM_THREADS='1', PYTHONPATH=str(root), PYTHONHASHSEED='0',
-                   GRUDEVA005_ATTEMPT=name, GRUDEVA005_RESOURCE_POLICY=POLICY)
+                   GRUDEVA005_ATTEMPT=name, GRUDEVA005_RESOURCE_POLICY=policy)
         telemetry, enforced, code = {}, None, 125
         with (folder/(name+'.log')).open('w') as log:
             try:
@@ -131,6 +161,9 @@ def main(argv=None):
         artifact = Path(command[command.index('--output')+1])
         finish['artifact_sha256'] = obs.sha(artifact) if artifact.exists() else None
         finish['evidence_bytes'] = {f.name: f.stat().st_size for f in artifact.parent.glob(artifact.stem+'*') if f.is_file()}
+        if attribution and kind == 'full':
+            check = artifact.with_name(artifact.stem+'-attribution-check.json')
+            finish['diagnostic_check_sha256'] = obs.sha(check) if check.is_file() else None
         append(finish)
         print(json.dumps(finish)); print((folder/(name+'.log')).read_text()[-2500:])
         return 0 if code in (0, 2) else code
