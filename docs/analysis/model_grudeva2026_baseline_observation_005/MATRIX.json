@@ -1,0 +1,322 @@
+{
+  "accepted_tree": "ef85e16573dee279aa84b90dfc5440c8c948a2d3",
+  "base_commit": "45f594b92e6bed01f254158fa002ef82519fd5a6",
+  "budgets": {
+    "activation": 0.001,
+    "arrival": 0.001,
+    "boulder_inventory": 5e-05,
+    "cup": 5e-05,
+    "fines_inventory": 5e-05,
+    "front": 0.001,
+    "grain_histories": 0.00023,
+    "grain_profiles": 0.00023,
+    "liquid_inventory": 5e-05,
+    "liquid_profiles": 0.001,
+    "outlet": 0.001
+  },
+  "canonical_parameters": {
+    "c_b_init": 1.388,
+    "c_f_init": 1.388,
+    "d_sb": 1.0,
+    "phi_b": 0.16,
+    "phi_f": 0.64,
+    "phi_l": 0.2,
+    "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+    "varphi_lb": 0.0
+  },
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "controller_inherited_sha256": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+  "controller_sha256": "6de6f55611ceaea5be65dd4f2027c4aefaff92cd9e22f78f1aa7f1576aa37341",
+  "ewp": {
+    "checkout_commit": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
+    "local_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "remote_head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "writes": 0
+  },
+  "external_requests_file_sha256": "751bbda6fa1ed937f2cfbae594ca768ef2ae0c07830fb4f1c6dd37695bdbbeb1",
+  "feasibility": {
+    "additional_allocation_bytes": 275640176,
+    "allocation_shape": [
+      2039,
+      16898
+    ],
+    "current_observer_sha256": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "disposition": "RESOURCE_FEASIBILITY_BLOCKED",
+    "exit_code": 1,
+    "failure_site": "scipy.integrate._ivp.ivp.solve_ivp: accepted-state vstack, before return",
+    "interpretation": "The largest mandatory row cannot finish the short pilot under the address-space cap. Complete-panel time/memory feasibility is not established; no full runs allocated.",
+    "original_exception": {
+      "message": "Unable to allocate 263. MiB for an array with shape (2039, 16898) and data type float64",
+      "type": "MemoryError"
+    },
+    "peak_rss_bytes": 1838239744,
+    "pilot_artifact_sha256": "5b2d8841ba64b58b6406195b0b02ff79525efef2edc75d4a174cb5b674cb648c",
+    "pilot_attempt": "pilot-combined",
+    "pilot_controls": {
+      "atol": 2e-11,
+      "cells": 256,
+      "front_mesh_power": 2.0,
+      "max_step": 0.025,
+      "modes": 64,
+      "rtol": 2e-09
+    },
+    "pilot_horizon": 0.4,
+    "pilot_observer_sha256": "0a326246cf8cec213bd88ba8355f5eb61541e66e939a6176bdda6bcce536a6b3",
+    "returned": 0,
+    "reuse_scope": "Resource failure only: production/kernel/SciPy and interception body unchanged; later offline guards/exception-retention additions earn no full-trajectory evidence.",
+    "row_estimates": {
+      "bed_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "combined": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "control": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "modes_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "normal": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "repeat": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      },
+      "time_fine": {
+        "full_wall_seconds": null,
+        "peak_bytes": null,
+        "reason": "No defensible feasible full-panel estimate after measured combined-row memory failure."
+      }
+    },
+    "seconds": 87.53527537699847,
+    "solve_invocations": 1,
+    "symbol_restored": true,
+    "unchanged_capture_function_ast_sha256": "d8894a6a0192a21e37486c320de555affe9729cdb7f03e312de395cee288356c"
+  },
+  "fixtures": {
+    "attempt": "fixtures-retention",
+    "file": "fixtures-retention.json",
+    "sha256": "7d2350502874ca307190802eb74d58d57b9ca44ee4b49eac2137c95e744bea75"
+  },
+  "governance": "G1",
+  "limits": {
+    "aggregate_seconds": 1200,
+    "full_attempts": 10,
+    "memory_bytes": 2147483648,
+    "per_invocation_seconds": 300,
+    "primary_seconds": 900,
+    "reserve_full_slots": 3,
+    "reserve_seconds": 300,
+    "short_invocations": 20
+  },
+  "numerical_allocations": {
+    "algebra_scale_factor": 5.684341886080802e-14,
+    "cup_quadrature": 1e-10,
+    "diagnostic_grain_fixture": 2e-05,
+    "diagnostic_liquid_fixture": 0.0001,
+    "global_normalized_conservation": 1e-06,
+    "grain_analytical_per_method": 2e-05,
+    "no_added_allowance": true,
+    "positive_age_flux": 0.0002
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "protected_sources": {
+    "THIRD_PARTY_NOTICES.md": "4fa42afa76796deb0c40c72d374c328e4dab533bcfad16e234b1a73251148d66",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/CONTRACT.md": "47b03225fa1309ea5b8699ce41b3df065edc54b0f08ced10785f3fd3aa365ebb",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/HANDOFF.md": "46a94906d1474bf34500527d5f84d130a10de058d6eb0548425030ebbcc50412",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/MATRIX.json": "28e43008a3fdd5af6447dbbc08b8b0c72a0731eb4f338eb7f45974f433dcd3c4",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json": "2e30b0119f6ff210e67409250a771de44783b23e5b6ee9119a487696b6aa24d5",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.md": "7924895bf4d6174c8d52d0a41b8f222f1233ba6883e7f2c2408b213f27d9487b",
+    "docs/analysis/model_grudeva2026_conservative_003/CONTRACT.md": "30274b95e97b47cf02a90f84f1ccded38e3246e4f12cc14f78bb297c72d410f2",
+    "docs/analysis/model_grudeva2026_conservative_003/HANDOFF.md": "05f88a4dbdc050d4c93928ad4837de4fe7b7e24ab627a56e3e76895c330a0b15",
+    "docs/analysis/model_grudeva2026_conservative_003/MATRIX.json": "de86561b14f8773640aa2f846c7975b238f00d72f89a7865adc787da4fa65b46",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.json": "57b1bc90a9d6804f71ae160b65eb6c7d576db70bfcc7c04fdad169ce1149a314",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.md": "6451b9be20097fb805d8b5c843a439dec6517696e14b254a681d4df5b5c32cef",
+    "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+    "docs/analysis/model_grudeva2026_reduced_001/HANDOFF.md": "a8f396c796c91dca9343dd7b3b60704bfa1362c282d5dd7c385d87626018c820",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION.md": "0a0e30601e910eead7186cbebb2227b7e1caac39d4a4c12b835b0469d1849b71",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION_REUSE.json": "0b36ff4105a1266146a1776527722b377d7fa30a193a7d584c8b1a1629d1c90f",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.md": "a65994e6ebc31e33871d8557e9e406eeb635ead1f7aa433c82a3d080febea67e",
+    "docs/analysis/model_grudeva2026_reference_002/CONTRACT.md": "f0c3b93571ca72f173d2837c37c5e50c6fb20e37b14d758346924fd76966ef4b",
+    "docs/analysis/model_grudeva2026_reference_002/HANDOFF.md": "92e653bd01d2e3c9b20a8504e5bb9f0258d01945c0784ff7b7472997d07b764c",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.json": "e4819949ae6c723c93e34007ff46bed0d2a6596f83f763b097643410d3248bd6",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.md": "dd66bb8c129f1be406b68d3dc4fe3703b2347cb83aaab2917d9feb60256cfd49",
+    "docs/cards/grudeva2026_2.md": "c32fa237a22b2970f6369d6767fd9c7273bd09338c87d11de82b3744bb8366be",
+    "docs/permissions/grudeva2025.md": "f733d78af044ecbe33b6315c8d4e9ecc671eb57051c76d6984f22eba12787764",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004.py": "fcc1daa15df11fa2559deccbd3dd6dd43e8c7debd877275f4da2aa8b924f7db3",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004_report.py": "1f3336564f6d1dca5f5a5036fbbaee695e4b69b26c94e46543b871f3adab576d",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "puckworks/data/grudeva2026/PROVENANCE.md": "4eecab3bdc73851c06a6eb85c899b74cb179fda71db5b938e1d4bb643eed712f",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/__init__.py": "495af0bc7b514968a5f4e2d1901225ceb991cbb30c203a08edbbf0f5147f4d9d",
+    "puckworks/models/grudeva2026/__main__.py": "d2e58662371c7bd840b2cb768e152c11542c7934548fb6be9c3f62a2489705ab",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/quantities.py": "0ce6ab676afe0840b156d6924d19967ceb1a1937d1a35cf9e5076e40e7e20218",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86",
+    "tests/test_grudeva2026_bed_accuracy_004.py": "c67f1ea3352d6527fdd07f5a8971d04a85845fe981069660cd1122fccc5edfda",
+    "tests/test_grudeva2026_bed_accuracy_004_report.py": "22edd128797442ba68961dccd1db3d4667dc712543bfae49587e62baf0f4069b",
+    "tests/test_grudeva2026_conservative_003.py": "583f98ebf2d474313ceaae0337ba91e035392a0e139e8f8ebd5ea97579770d57",
+    "tests/test_grudeva2026_reference_002.py": "513f792482d88723096bd25025baf6e62a9841db6b35ba2d704ea68d3873a621",
+    "tools/grudeva2026_bed_accuracy_004_campaign.py": "18fed227ee90a07d9aa411ff8c0b1759f538a4485dc95becbb8c5ea91f4438b6",
+    "tools/grudeva2026_bed_accuracy_004_diagnostics.py": "0da1bc28cb0a12c05dd9abac3e3f786ea7ef8557b0d8ca5cbfe256d2ec712a5a",
+    "tools/grudeva2026_bed_accuracy_004_evidence.py": "063dff97244bb7257b7b8614559bd9319bea992d11574d765597dc67e76713f5",
+    "tools/grudeva2026_bed_accuracy_004_front_oracle.py": "3e84ded7eb2cdea15762e9a8a110c5be16af70156ad0864fc2ad0132cff2843c",
+    "tools/grudeva2026_bed_accuracy_004_history_oracle.py": "ee049be548fdf4a27c0165901b7485475307c7f1dc95b1f637ff88f37298ae55",
+    "tools/grudeva2026_bed_accuracy_004_invoke.py": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+    "tools/grudeva2026_bed_accuracy_004_verify.py": "b2e7d154a75328c92e29c4d4abbfb54ede1a8de88a5bd57dd14198112285b9da"
+  },
+  "public_request_archive_binding": {
+    "archive_sha256": "a211214b97c97758b04a85367942ce62f7e52c186b15d3064e8d5ee68e4c943b",
+    "public_request_matches_archive": true,
+    "public_result_sha256": "02395e86c402dae1534bd4f76e61f22bcddebcc8e74e7408f5c493fb8b8140ec"
+  },
+  "public_request_archive_scope": "Complete 001 scientific Result inspected; not new raw-state evidence; no archive neutrality assumed.",
+  "reporter_sha256": "9ea036b54ed96860c7b498a5434fdfe474d9a9a68063bfee4291bacf97667aea",
+  "request_counts": {
+    "diagnostic_times": 395,
+    "diagnostic_z": 220,
+    "history_z": 7,
+    "public_times": 75,
+    "public_z": 120
+  },
+  "request_hashes": {
+    "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+    "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+    "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+    "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+    "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+  },
+  "runner_sha256": "9997b53e0d0032d42347973d9f997aa1e1c787a6903caf93e6ab8ef9cf755e59",
+  "runs": {
+    "bed_fine": {
+      "attempt": "bed_fine",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 256,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "bed_fine.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "combined": {
+      "attempt": "combined",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 256,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "file": "combined.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "control": {
+      "attempt": "control",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "control.json",
+      "horizon": 8.0,
+      "observed": false
+    },
+    "modes_fine": {
+      "attempt": "modes_fine",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 64,
+        "rtol": 2e-08
+      },
+      "file": "modes_fine.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "normal": {
+      "attempt": "normal",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "normal.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "repeat": {
+      "attempt": "repeat",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "file": "repeat.json",
+      "horizon": 8.0,
+      "observed": true
+    },
+    "time_fine": {
+      "attempt": "time_fine",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 128,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 32,
+        "rtol": 2e-09
+      },
+      "file": "time_fine.json",
+      "horizon": 8.0,
+      "observed": true
+    }
+  },
+  "sources": {
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "a710746300a8a1b7758950d36ca579ad35f8dc5e354f2ab5929db0bec06b04c6",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+  },
+  "task": "MODEL-GRUDEVA2026-BASELINE-OBSERVATION-005"
+}
