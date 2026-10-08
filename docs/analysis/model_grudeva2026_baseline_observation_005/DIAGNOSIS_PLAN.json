@@ -1,0 +1,378 @@
+{
+  "arithmetic_allowance": "256*float64_eps*max(1,sum(abs(weight*modal stencil)),sum(abs(weight*point)))*max(physical,normalized moment condition); diagnostic arithmetic only, no qualification allowance change",
+  "attempt": "grain-archive-diagnosis",
+  "captures": {
+    "combined": {
+      "file": "combined-persistence.json",
+      "sha256": "55994bcce4081171aa81c4a0c394cdaa01e9eb55082d97c55bd16addffe01a3b"
+    },
+    "normal": {
+      "file": "normal-persistence.json",
+      "sha256": "ed7f2963894fc1de625b181efa88f71a8f224eeb8e05cc18c47f85ed3779ff0e"
+    }
+  },
+  "diagnostic_source_sha256": "db2fb00f2a1baa3dc58151598f91a88db1be086cd7e6e3cefb6a94fb8d528d87",
+  "execution": {
+    "estimate_basis": "Existing full raw reporter completed in25.031s; this reads same archives and validates arrays, only3points plus frozen finite fixtures; 300s hard bound covers archive IO and fixture uncertainty. No retry. Worst cumulative851.7639391399425s.",
+    "estimated_seconds": 60,
+    "full": 0,
+    "maximum_seconds": 300,
+    "memory_bytes": 8589934592,
+    "partial_output": true,
+    "short": 1,
+    "solver_calls": 0
+  },
+  "failure_points": [
+    {
+      "allowance": 2e-05,
+      "name": "inlet",
+      "original_max_absolute": 2.046100506994386e-05,
+      "t": 0.2,
+      "z": 0.0
+    },
+    {
+      "allowance": 0.00023,
+      "name": "grain_profile",
+      "original_max_absolute": 0.0006000191780015651,
+      "t": 6.51,
+      "z": 0.995
+    },
+    {
+      "allowance": 0.00023,
+      "name": "grain_history",
+      "original_max_absolute": 0.0004323872501288406,
+      "t": 5.875,
+      "z": 0.9
+    }
+  ],
+  "fixture": {
+    "activation": "z/.2",
+    "age_threshold": 0.02,
+    "cases": [
+      {
+        "t": 0.01,
+        "z": [
+          0.0,
+          0.0018000000000000004,
+          0.001998,
+          0.002
+        ]
+      },
+      {
+        "t": 0.02,
+        "z": [
+          0.0,
+          0.0002000000000000002,
+          0.002,
+          0.0038,
+          0.003996,
+          0.004
+        ]
+      },
+      {
+        "t": 0.05,
+        "z": [
+          0.0,
+          0.0058000000000000005,
+          0.006000000000000001,
+          0.006200000000000001,
+          0.008,
+          0.009800000000000001,
+          0.009990000000000002,
+          0.010000000000000002
+        ]
+      },
+      {
+        "t": 0.1,
+        "z": [
+          0.0,
+          0.010000000000000002,
+          0.0158,
+          0.016,
+          0.016200000000000003,
+          0.018000000000000002,
+          0.0198,
+          0.019980000000000005,
+          0.020000000000000004
+        ]
+      },
+      {
+        "t": 0.2,
+        "z": [
+          0.0,
+          0.025,
+          0.030000000000000006,
+          0.035800000000000005,
+          0.036000000000000004,
+          0.0362,
+          0.038000000000000006,
+          0.0398,
+          0.03996000000000001,
+          0.04000000000000001
+        ]
+      },
+      {
+        "t": 0.4,
+        "z": [
+          0.0,
+          0.025,
+          0.04000000000000001,
+          0.07,
+          0.0758,
+          0.07600000000000001,
+          0.0762,
+          0.07800000000000001,
+          0.07980000000000001,
+          0.07992000000000002,
+          0.08000000000000002
+        ]
+      },
+      {
+        "t": 2.0,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.36000000000000004,
+          0.39,
+          0.39580000000000004,
+          0.396,
+          0.39620000000000005,
+          0.398,
+          0.3996,
+          0.39980000000000004,
+          0.4
+        ]
+      },
+      {
+        "t": 4.9,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.9400000000000001,
+          0.9700000000000002,
+          0.9758000000000001,
+          0.9760000000000002,
+          0.9762000000000001,
+          0.9780000000000002,
+          0.9790200000000001,
+          0.9798,
+          0.9800000000000001
+        ]
+      },
+      {
+        "t": 5.0,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.96,
+          0.9900000000000001,
+          0.9958,
+          0.9960000000000001,
+          0.9962,
+          0.9980000000000001,
+          0.999,
+          0.9998,
+          1.0
+        ]
+      },
+      {
+        "t": 5.0001,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.96002,
+          0.99002,
+          0.99582,
+          0.9960200000000001,
+          0.99622,
+          0.99802,
+          0.999,
+          0.9998199999999999,
+          1.0
+        ]
+      },
+      {
+        "t": 5.02,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.964,
+          0.994,
+          0.999,
+          0.9998,
+          1.0
+        ]
+      },
+      {
+        "t": 6.0,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.999,
+          1.0
+        ]
+      },
+      {
+        "t": 8.0,
+        "z": [
+          0.0,
+          0.025,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          0.9,
+          0.999,
+          1.0
+        ]
+      }
+    ],
+    "forcing": {
+      "nonconstant": [
+        0.07,
+        0.1,
+        0.02
+      ],
+      "zero_boundary": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "front": "min(.2*t,1)",
+    "grain_allowance": 2e-05,
+    "independent_average_subset": [
+      {
+        "case_index": 0,
+        "cell": -1
+      },
+      {
+        "case_index": 4,
+        "cell": 0
+      },
+      {
+        "case_index": 4,
+        "cell": 1
+      },
+      {
+        "case_index": 4,
+        "cell": 2
+      },
+      {
+        "case_index": 9,
+        "cell": -1
+      },
+      {
+        "case_index": 11,
+        "cell": 32
+      }
+    ],
+    "independent_modes": "indices0,31,last-resolved,tail deduplicated",
+    "initial": 1.388,
+    "meshes_spectra": "normal 128/32+tail and combined256/64+tail; captured weights/rates, no renormalization",
+    "quadrature": "QUADPACK epsabs=1e-13*age_span epsrel=1e-12; split at lower_age+[1,4,16,64]/rate inside interval; estimated errors reported separately",
+    "source": "existing finite_mode/finite_primitive forcing and speed=.2; slow three-mode result remains historical"
+  },
+  "frozen_sources": {
+    "THIRD_PARTY_NOTICES.md": "4fa42afa76796deb0c40c72d374c328e4dab533bcfad16e234b1a73251148d66",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/CONTRACT.md": "acd73c778ae9cdb8fbc948d48ae4c4c43fed369bfe3508ab487d19291a6e351a",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/HANDOFF.md": "56ff867580a2aa11af5a9dffbe154b3904b6c591c02e30a8549df6e8d5fd8d0a",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/MATRIX.json": "bb13526980932ca597378461581895423f4b309b307949a56cd443ef2d75ef47",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/PERSISTENCE_SOURCE_DELTA.json": "8c603c37279689e3f3c5af204789d98a226b9938d08e033c3b94334efefeba7c",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/RESULTS.json": "5423e4119de76e4ababd1804310307b6b59420a07616da0f495ea21ee853cace",
+    "docs/analysis/model_grudeva2026_baseline_observation_005/RESULTS.md": "fc55e55f3ede9b5143068f0ab206cc0188f66309ae0b9fa363a572043b50ac9c",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/CONTRACT.md": "47b03225fa1309ea5b8699ce41b3df065edc54b0f08ced10785f3fd3aa365ebb",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/HANDOFF.md": "46a94906d1474bf34500527d5f84d130a10de058d6eb0548425030ebbcc50412",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/MATRIX.json": "28e43008a3fdd5af6447dbbc08b8b0c72a0731eb4f338eb7f45974f433dcd3c4",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json": "2e30b0119f6ff210e67409250a771de44783b23e5b6ee9119a487696b6aa24d5",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.md": "7924895bf4d6174c8d52d0a41b8f222f1233ba6883e7f2c2408b213f27d9487b",
+    "docs/analysis/model_grudeva2026_conservative_003/CONTRACT.md": "30274b95e97b47cf02a90f84f1ccded38e3246e4f12cc14f78bb297c72d410f2",
+    "docs/analysis/model_grudeva2026_conservative_003/HANDOFF.md": "05f88a4dbdc050d4c93928ad4837de4fe7b7e24ab627a56e3e76895c330a0b15",
+    "docs/analysis/model_grudeva2026_conservative_003/MATRIX.json": "de86561b14f8773640aa2f846c7975b238f00d72f89a7865adc787da4fa65b46",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.json": "57b1bc90a9d6804f71ae160b65eb6c7d576db70bfcc7c04fdad169ce1149a314",
+    "docs/analysis/model_grudeva2026_conservative_003/RESULTS.md": "6451b9be20097fb805d8b5c843a439dec6517696e14b254a681d4df5b5c32cef",
+    "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+    "docs/analysis/model_grudeva2026_reduced_001/HANDOFF.md": "a8f396c796c91dca9343dd7b3b60704bfa1362c282d5dd7c385d87626018c820",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION.md": "0a0e30601e910eead7186cbebb2227b7e1caac39d4a4c12b835b0469d1849b71",
+    "docs/analysis/model_grudeva2026_reduced_001/REMEDIATION_REUSE.json": "0b36ff4105a1266146a1776527722b377d7fa30a193a7d584c8b1a1629d1c90f",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json": "e53f736e68a367e0832a507f3f16d1e52707fa6fe2d1cf08a33aa4a42610d2cc",
+    "docs/analysis/model_grudeva2026_reduced_001/RESULTS.md": "a65994e6ebc31e33871d8557e9e406eeb635ead1f7aa433c82a3d080febea67e",
+    "docs/analysis/model_grudeva2026_reference_002/CONTRACT.md": "f0c3b93571ca72f173d2837c37c5e50c6fb20e37b14d758346924fd76966ef4b",
+    "docs/analysis/model_grudeva2026_reference_002/HANDOFF.md": "92e653bd01d2e3c9b20a8504e5bb9f0258d01945c0784ff7b7472997d07b764c",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.json": "e4819949ae6c723c93e34007ff46bed0d2a6596f83f763b097643410d3248bd6",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.md": "dd66bb8c129f1be406b68d3dc4fe3703b2347cb83aaab2917d9feb60256cfd49",
+    "docs/cards/grudeva2026_2.md": "c32fa237a22b2970f6369d6767fd9c7273bd09338c87d11de82b3744bb8366be",
+    "docs/permissions/grudeva2025.md": "f733d78af044ecbe33b6315c8d4e9ecc671eb57051c76d6984f22eba12787764",
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+    "puckworks/analysis/grudeva2026_baseline_observation_005_report.py": "01f863557eed0ad4d968bc09d8ac2a703dfc2a5ce915f167acc93062bdb7dfcb",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004.py": "fcc1daa15df11fa2559deccbd3dd6dd43e8c7debd877275f4da2aa8b924f7db3",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004_report.py": "1f3336564f6d1dca5f5a5036fbbaee695e4b69b26c94e46543b871f3adab576d",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "puckworks/data/grudeva2026/PROVENANCE.md": "4eecab3bdc73851c06a6eb85c899b74cb179fda71db5b938e1d4bb643eed712f",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/__init__.py": "495af0bc7b514968a5f4e2d1901225ceb991cbb30c203a08edbbf0f5147f4d9d",
+    "puckworks/models/grudeva2026/__main__.py": "d2e58662371c7bd840b2cb768e152c11542c7934548fb6be9c3f62a2489705ab",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/quantities.py": "0ce6ab676afe0840b156d6924d19967ceb1a1937d1a35cf9e5076e40e7e20218",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86",
+    "tests/test_grudeva2026_baseline_observation_005.py": "30c9ea764837c6ed2181eb2355d9fe88690c943863f5ae93bd20d6dec5abac82",
+    "tests/test_grudeva2026_bed_accuracy_004.py": "c67f1ea3352d6527fdd07f5a8971d04a85845fe981069660cd1122fccc5edfda",
+    "tests/test_grudeva2026_bed_accuracy_004_report.py": "22edd128797442ba68961dccd1db3d4667dc712543bfae49587e62baf0f4069b",
+    "tests/test_grudeva2026_conservative_003.py": "583f98ebf2d474313ceaae0337ba91e035392a0e139e8f8ebd5ea97579770d57",
+    "tests/test_grudeva2026_reference_002.py": "513f792482d88723096bd25025baf6e62a9841db6b35ba2d704ea68d3873a621",
+    "tools/grudeva2026_baseline_observation_005_invoke.py": "911ba0d24569b4d832cc1e1ba12b4a86ecee30a22d52ad08b5c740e7ab1c8c99",
+    "tools/grudeva2026_bed_accuracy_004_campaign.py": "18fed227ee90a07d9aa411ff8c0b1759f538a4485dc95becbb8c5ea91f4438b6",
+    "tools/grudeva2026_bed_accuracy_004_diagnostics.py": "0da1bc28cb0a12c05dd9abac3e3f786ea7ef8557b0d8ca5cbfe256d2ec712a5a",
+    "tools/grudeva2026_bed_accuracy_004_evidence.py": "063dff97244bb7257b7b8614559bd9319bea992d11574d765597dc67e76713f5",
+    "tools/grudeva2026_bed_accuracy_004_front_oracle.py": "3e84ded7eb2cdea15762e9a8a110c5be16af70156ad0864fc2ad0132cff2843c",
+    "tools/grudeva2026_bed_accuracy_004_history_oracle.py": "ee049be548fdf4a27c0165901b7485475307c7f1dc95b1f637ff88f37298ae55",
+    "tools/grudeva2026_bed_accuracy_004_invoke.py": "4587012c5c3fa6e98b154771ed9b3c83f05e84cd48832e1ef297d2323391e7a1",
+    "tools/grudeva2026_bed_accuracy_004_verify.py": "b2e7d154a75328c92e29c4d4abbfb54ede1a8de88a5bd57dd14198112285b9da",
+    "tools/run_grudeva2026_baseline_observation_005.py": "7e036dcc0e8a520f4a57f58290e6f93cb27bcbb5b145681f39aa4cf01e1edc01"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "scope": "DIAGNOSIS_ONLY_NO_SOLVER_NO_PROMOTION",
+  "starting_counts": {
+    "full": 3,
+    "seconds": 551.7639391399425,
+    "short": 19
+  },
+  "starting_head": "63cde4ca35af74c7b4998c9a3ef2209fd8911c50",
+  "starting_ledger_sha256": "90145c508faaf24a68bc6a140f8c790341919f25f0eadd698aff828d9ed66d38",
+  "starting_tree": "7082e059abf24febad7c76784155593882fb699f",
+  "task": "MODEL-GRUDEVA2026-BASELINE-OBSERVATION-005",
+  "test_source_sha256": "85d2d32c43bc82233b8d97e2166d98901a7f14f4e5ab6988e09a590b2c2de7dd"
+}
