@@ -402,11 +402,11 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "Draft PR owner disposition; exact-head review receipt in PR; Figure 3/4 reproduction failed, Figure 5 reference incomplete; no successor",
-      "acceptance_evidence": "docs/analysis/model_grudeva2026_reduced_001/RESULTS.json; standalone numerical verification only; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "next_gate": "004 draft PR owner disposition with separate exact-head review/hosted receipts; qualified comparator unlocks a separately authorized matched comparison, with production raw-state/observer qualification still required. Figures 3/4 remain failed and Figure 5 incomplete; no automatic successor.",
+      "acceptance_evidence": "Historical 001/002/003 evidence unchanged. docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json: COMPARATOR_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES after correction of short-age bed reconstruction; all original gates pass. No production comparison; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
       "issue_or_pr": "#67",
       "verified_commit": null,
-      "verified_date": "2026-10-02"
+      "verified_date": "2026-10-07"
     },
     {
       "id": "model-pannusch2024-temp-history-001",
