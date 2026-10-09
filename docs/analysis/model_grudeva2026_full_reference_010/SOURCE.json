@@ -1,0 +1,37 @@
+{
+  "equation_source": "GRUDEVA-EJAM-2026-E23-E29",
+  "doi": "10.1017/S095679252500018X",
+  "article_license": "CC-BY-4.0",
+  "actually_read": [
+    {
+      "file_role": "grudeva2026-reference-002-article.txt",
+      "sha256": "e07bc1ee39b006bbcfae9f3d1288780c8d1ea34774e44ac479b31a55d33b1945",
+      "sections": "Eqs2\u20134,9\u201311,18\u201329 and definitions"
+    },
+    {
+      "file_role": "grudeva2026-reference-002-supplement.txt",
+      "sha256": "1814085ab5f17a5365dc78a8dd5c0c915ac8cf7984284b45388e8f8506c0546c",
+      "sections": "B, opening of C"
+    }
+  ],
+  "access_limits": [
+    "DOI web open unavailable; retained local mathematics inspected",
+    "Retained supplement text inspected; underlying supplement PDF not reopened in 010",
+    "No original authors full-model arrays/settings qualified; no nonexistence claim"
+  ],
+  "existing_data_ids": [
+    "grudeva2025/params",
+    "grudeva2025/exp13_vial_stats",
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "duplication_check": {
+    "remote_prs": "Open/closed Grudeva search and last 100 PRs inspected; 001\u2013009 present, no equivalent 010 found",
+    "remote_branches": "Live grudeva/full branch names inspected; no equivalent found",
+    "local": "Available worktrees and retained Grudeva evidence directories 001\u2013009 inspected; no qualified full-model capture found",
+    "configured_collection": "Existing data_sources inventory manifest and grudeva2025 family inspected: parameter transcription, vial summary, provenance, not full PDE arrays",
+    "limits": "Scoped discovery is not proof that no other artifact exists"
+  },
+  "reuse": "Historical 004\u2013009 contracts and archive interfaces consulted, not executed or imported as dynamics. No old numerical result supplies 010 correctness.",
+  "retained_article_pdf_sha256": "5b9e41e85591dce8a32b923663ee3ccf9e00c0ac34dc17659864ff7417326a29"
+}

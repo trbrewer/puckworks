@@ -1,0 +1,57 @@
+{
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "review_kind": "Focused independent pre-campaign review",
+  "disposition": "PASS",
+  "meaning": "The frozen design is ready for its declared campaign; this is not numerical or physical qualification.",
+  "reviewer": {
+    "identity": "OpenAI Codex nonhuman reviewing agent /root/pre_campaign_review",
+    "independence": "Separate agent from the implementing author. Read source mathematics, contract, implementation, controls and freeze; supplied review recommendations but did not write solver code, execute numerical controls or run scientific rows.",
+    "human_review": false
+  },
+  "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "controls_sha256": "328f5b6b5b7b9b5f870ebe51bcd13eefe531a9bb5b3cc00f4525df97469971f1",
+  "integration_sha256": "58abbf1fbad2f6281ce4839ef69ccd23ec18960a08f576046c2c48019993e9ce",
+  "identity_checks": "Independently recomputed and matched all six implementation/source/contract/test hashes in MATRIX.json, the matrix hash, the development and integration receipts, and both retained control log/XML pairs.",
+  "source_read": [
+    {
+      "role": "Retained article mathematical text",
+      "sha256": "e07bc1ee39b006bbcfae9f3d1288780c8d1ea34774e44ac479b31a55d33b1945",
+      "scope": "Eqs. 2-4, 18-29 and supporting definitions/scalings"
+    },
+    {
+      "role": "Retained supplement mathematical text",
+      "sha256": "1814085ab5f17a5365dc78a8dd5c0c915ac8cf7984284b45388e8f8506c0546c",
+      "scope": "Section B moving-front conservation and opening of C spherical diffusion"
+    }
+  ],
+  "checked": [
+    "Synthetic case is distinct from the equation source and Figure 5. Independently recover b_f/b_b=40, b_f+b_b=2, Q_f=5/48, Q_b=5/12, equal-dimensional-diffusivity ratio 100, and M0=5.552.",
+    "Signed min(c_surface,1)-c_liquid surface law and half-shell elimination preserve forward, reverse and zero transfer; grain states are not capped at one.",
+    "Stationary physical grain histories transform to ALE grain flux -xi*s_prime*C. Right admission uses initial concentration, and final implementation evolves U=s*C conservatively.",
+    "Reynolds transport and 3*Q_i*phi_i/phi_T=1 give stored plus Jout minus Jin equal M0. Negative Jin is inlet loss. Moving physical front flux differs from zero relative front/discharge flux.",
+    "Startup liquid polynomial, grain constant-flux age response, signed startup inlet integral and retained O(tau^3) inventory residual are explicitly approximations. Three tau levels qualify this separate numerical error; no state reset or mass correction is present.",
+    "At t=1 raw amount states continue unchanged, s=1, geometry motion stops and discharge begins. Jout(1)=0 and outlet concentration uses the declared right limit.",
+    "Focused controls independently exercise spherical Robin diffusion, short-age constant flux, saturation transition, reverse/zero transfer, phase-weighted paired equilibrium, liquid flux divergence, geometry/memory, startup, observation reconstruction and archive integrity. Temporal controls were separately checked against a matrix exponential after spatial verification.",
+    "DEVELOPMENT.json records 15 passing final tests and both retained failed oracle-truncation controls. The 800/1600-mode correction retains the original reference consistency allowance and does not modify solver physics or campaign thresholds.",
+    "Fourteen fixed rows isolate time, axial, fines radial, boulder radial and startup effects with three levels, plus combined refinement and an exact repeat. Time-control effectiveness, floors, combined error budgets and conditional uncertainty interpretations are declared.",
+    "The frozen 211 times, 210 physical axial coordinates and 14 radii cover nontrivial startup liquid, short wetting ages, birth states, the t=1 transition, the liquid layer and the complete discharge interval. Dry liquid and pre-drip beverage are explicitly unavailable.",
+    "Actual-state inventories and independent boundary quadrature, native/common extrema and witnesses, phase/boundary labels, safe numeric serialization, exact hashes, interpolant evaluation checks and partial-trajectory failure preservation are implemented.",
+    "The exact selected-base integration receipt identifies seven successful push workflows at 3cd308ac5bed39acff3d995108b5178a53c982ee; it is not a receipt for an older merge or PR head. No hosted workflows were independently queried or rerun by this reviewer."
+  ],
+  "resolved_before_freeze": [
+    "Added actual liquid divergence refinement and saturation-limited equilibration controls.",
+    "Made moving amount variables explicit to avoid a time-product conservation error.",
+    "Added nonzero physical startup observation positions and explicit front/discharge flux semantics.",
+    "Corrected phase/integral witness labels, native witnesses and failed-run archive accounting.",
+    "Bound focused tests and installed dependency records, and added temporal-effectiveness qualification."
+  ],
+  "remaining_material_findings": [],
+  "limits": [
+    "No full-case scientific row was executed or its result inspected in this review.",
+    "The campaign may fail a precision, boundedness, availability, conservation or archive gate. Such failures must remain visible and cannot be repaired by relaxing this freeze.",
+    "Continuum-error bounds are not established by refinement differences or the conditional Richardson estimates.",
+    "This receipt does not replace the required final independent exact-candidate review, ordinary QA or candidate hosted CI.",
+    "No authors' source code, original Figure 5 arrays or supplement PDF was inspected by this reviewer. Retained mathematical text was sufficient for the reviewed source semantics; private text is not redistributed.",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED; no reduced-model approximation, publication discrepancy, production adoption or EWP claim follows."
+  ]
+}

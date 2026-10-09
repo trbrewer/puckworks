@@ -1,0 +1,70 @@
+{
+  "disposition": "PASS",
+  "role": "Focused mathematical development controls, not horizon-8 qualification",
+  "control_tests_passed": 15,
+  "corrected_invocation_bounded_trajectories": 17,
+  "corrected_invocation_solve_ivp_segments": 19,
+  "attempts": [
+    {
+      "id": "controls-01",
+      "passed": 13,
+      "failed": 2,
+      "log_sha256": "49cc6fe02931ba2799337ea4e15bd9a2ed5eaf8c422342bd021268bfa6cd1bd5",
+      "xml_sha256": "b6905c55d8e9d3d6621ff027e3f31bb133a8b496e092c36a07176f492f2dc1df",
+      "failure": "400-mode continuum Robin oracle differed from 800 modes by 2.75949e-10 at age1e-5, exceeding2e-12 oracle consistency check",
+      "correction": "Use800 modes and independently check1600; unchanged2e-12 reference consistency allowance; no solver equation or threshold change",
+      "bounded_trajectories": 15,
+      "solve_ivp_segments": 17
+    },
+    {
+      "id": "controls-02",
+      "passed": 15,
+      "failed": 0,
+      "log_sha256": "4c7444d670f5cce1a2588f1c47d2e42a7467f7f10204b63bb28ccaa5bcd7d1c8",
+      "xml_sha256": "7d02d4f5eb3a1229b39b9f4a7aeb5eeff32bb288665590368d166bc08a414cda",
+      "bounded_trajectories": 17,
+      "solve_ivp_segments": 19
+    }
+  ],
+  "metrics": {
+    "robin_finest_profile_forward": 5.764038371858238e-05,
+    "robin_finest_surface_forward": 4.064915432966387e-05,
+    "robin_finest_mean_forward": 1.1172555471561374e-05,
+    "robin_finest_flux_forward": 0.00010162288582415968,
+    "robin_finest_profile_reverse": 5.7640425307758925e-05,
+    "saturated_short_age_surface_error": 5.213613222121438e-05,
+    "saturated_mean_error": 2.220446049250313e-16,
+    "surface_transition_time_continuum": 0.010201339446615072,
+    "transition_surface_errors": [
+      0.0008105159454840916,
+      0.0002031915335483081,
+      5.0833219032209165e-05
+    ],
+    "liquid_fixed_rhs_errors": [
+      0.0009114583333338939,
+      0.0002278645833346804,
+      5.696614583551411e-05
+    ],
+    "liquid_moving_rhs_errors": [
+      0.001871744791666647,
+      0.00048353407118054945,
+      0.00012283325195314626
+    ],
+    "temporal_errors": [
+      2.239420832550465e-05,
+      1.0775153191922016e-07,
+      1.7520808137660993e-09
+    ],
+    "temporal_nfev": [
+      164,
+      365,
+      624
+    ]
+  },
+  "implementation_design_before_any_numerical_execution": [
+    "Radial cubic mesh chosen prospectively for known short-age diffusion layer",
+    "Amount variables U=s*C chosen prospectively for conservative time invariant"
+  ],
+  "noninvasive_capture": "Two identical bounded trajectories through1.01, capture on/off, accepted times and raw states bit-identical",
+  "test_source_sha256": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5"
+}

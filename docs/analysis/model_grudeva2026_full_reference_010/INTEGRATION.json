@@ -1,0 +1,91 @@
+{
+  "checked": "2026-10-09T22:02:23.027258+00:00",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 37994127440,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "generated-artifacts",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127440"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127626,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "paper3-evidence",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127626"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127505,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "notebook-smoke",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127505"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127727,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "packaging",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127727"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127538,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "experience",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127538"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127536,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "scientific-baseline",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127536"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 37994127568,
+      "event": "push",
+      "headSha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+      "name": "quick-pr",
+      "status": "completed",
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/37994127568"
+    }
+  ],
+  "status": "PASS",
+  "base": {
+    "sha": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+    "parents": [
+      {
+        "sha": "3afe04dc9e0e0d1537bebe5220eb42d48ef7becd",
+        "url": "https://api.github.com/repos/trbrewer/puckworks/commits/3afe04dc9e0e0d1537bebe5220eb42d48ef7becd",
+        "html_url": "https://github.com/trbrewer/puckworks/commit/3afe04dc9e0e0d1537bebe5220eb42d48ef7becd"
+      },
+      {
+        "sha": "d370fd67c88c9bad2f10f1362700cfb36fbfe7b6",
+        "url": "https://api.github.com/repos/trbrewer/puckworks/commits/d370fd67c88c9bad2f10f1362700cfb36fbfe7b6",
+        "html_url": "https://github.com/trbrewer/puckworks/commit/d370fd67c88c9bad2f10f1362700cfb36fbfe7b6"
+      }
+    ],
+    "tree": "96ad0b033c070a99416209828b5780034f438dba"
+  },
+  "ewp": {
+    "sha": "4284e9460c8057053e95de7cfa2fb3590e68e9db",
+    "tree": "d9d9faaa56f22ab0bd7f47c43174024d15ada192",
+    "production_puckworks_dependency": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
+    "writes": 0
+  }
+}

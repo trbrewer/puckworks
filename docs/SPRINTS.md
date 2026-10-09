@@ -657,3 +657,24 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 ### SCI-MD-5CQA-ASSAY-002 — completed scientific evaluation (2026-09-29)
 
 - [x] One independent nonhuman exact-freeze approval and one outcome join: **TESTED_EARLY_ASSAY_FAMILIES_INADEQUATE**: L1M/L2M/L12 fail both adequacy budgets in every primary condition on complete qualified 48/48 support. Balanced R is 0.343708141 / 0.349467750 / 0.297495166 mg/g. L12 improves R but fails the required increments; neither placement nor two-assay complexity is earned. Historical controls remain immutable; all arms share 42 eligible FIT shots and 165/168 supported targets. [Result and matrix](analysis/sci_md_5cqa_assay_002/RESULTS.md), [handoff](analysis/sci_md_5cqa_assay_002/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; source-internal, target-exposed retrospective evidence. No production adoption, physical validation, EWP change/run, merge or successor.
+
+
+### MODEL-GRUDEVA2026-FULL-REFERENCE-010 — bounded incomplete execution (2026-10-09)
+
+- [x] Independent full Eqs. 23–29 implementation, scoped mathematical contract,
+  synthetic case and 15 final focused controls; fixed 14-row matrix and independent
+  nonhuman pre-campaign review.
+- [x] Execute anchor through t=8 and preserve the archive-integrity failure:
+  raw post-wetting state identity unresolved; 25/26 arrays match; three read-only
+  diagnostics, no solver rerun. Remaining 13 rows NOT_RUN.
+- [ ] Full-reference numerical/observation/archive qualification: **NOT ACHIEVED**.
+- [x] [Results and limitations](analysis/model_grudeva2026_full_reference_010/RESULTS.md)
+  retain unavailable gates and failure witnesses. Ordinary QA, hosted candidate CI
+  and final independent review have separate receipts in the handoff.
+
+G2 / NUMERICAL_METHOD_CHANGE; analysis only. Existing production, defaults,
+locks and historical 001–009 scientific evidence remain unchanged. Completed
+008 matched agreement and 009 publication discrepancy are not repeated.
+No automatic rerun, downstream comparison, adoption or successor. Issue #67
+stays open; one draft unmerged PR with auto-merge disabled.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
