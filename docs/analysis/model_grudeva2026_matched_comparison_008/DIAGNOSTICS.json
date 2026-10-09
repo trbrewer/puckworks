@@ -1,0 +1,897 @@
+{
+  "kind": "DIAGNOSTIC_ONLY_SAVED_DIFFERENCES",
+  "pairs": [
+    {
+      "actual_total_inventory_difference": {
+        "comparator": 5.551999999999704,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            249
+          ],
+          "t": 6.175
+        },
+        "max_absolute": 1.6867445218338162e-08,
+        "meaning": "Diagnostic difference of actual cup plus all actual phases; no complement reconstruction or new gate",
+        "production": 5.552000016867149,
+        "reasons": [],
+        "requested": 395,
+        "signed_difference": 1.6867445218338162e-08,
+        "unavailable": 0
+      },
+      "families": {
+        "activation": {
+          "comparator": 0.6819736870474186,
+          "exceedance_count": 0,
+          "location": {
+            "index": [
+              25
+            ],
+            "z": 0.11
+          },
+          "production": 0.6819230889996203,
+          "signed_difference": -5.0598047798278145e-05
+        },
+        "arrival": {
+          "comparator": 6.504342715967524,
+          "exceedance_count": 0,
+          "location": {
+            "comparator_t": 6.504342715967524,
+            "index": [
+              0
+            ],
+            "production_t": 6.504308470045491,
+            "z": 1.0
+          },
+          "production": 6.504308470045491,
+          "signed_difference": -3.424592203238319e-05
+        },
+        "boulder_inventory": {
+          "comparator": 0.9288223177452228,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.17836521005133124,
+            "production": 0.17837294723966965
+          },
+          "location": {
+            "index": [
+              47
+            ],
+            "t": 1.125
+          },
+          "production": 0.9288214528231662,
+          "signed_difference": -8.649220566425697e-07,
+          "temporal_region": "front_advancing"
+        },
+        "cup": {
+          "comparator": 5.504642840045905,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 5.50462204625403,
+          "signed_difference": -2.0793791875028944e-05,
+          "temporal_region": "both_fronts_exited"
+        },
+        "fines_inventory": {
+          "comparator": 0.023122446464214894,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.023138534474318583,
+          "signed_difference": 1.6088010103689626e-05,
+          "temporal_region": "both_fronts_exited"
+        },
+        "front": {
+          "comparator": 0.0018149449831153957,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.0018149449831153957,
+            "production": 0.001798774512152068
+          },
+          "location": {
+            "index": [
+              1
+            ],
+            "t": 0.01
+          },
+          "production": 0.001798774512152068,
+          "signed_difference": -1.617047096332761e-05,
+          "temporal_region": "before_first_drip"
+        },
+        "grain_histories": {
+          "comparator": 0.9396626167153884,
+          "distance_from_front": {
+            "comparator": -0.0032695658957330176,
+            "production": -0.003276031498180676
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.503269565895733,
+            "production": 0.5032760314981807
+          },
+          "location": {
+            "index": [
+              132,
+              3
+            ],
+            "t": 3.25,
+            "z": 0.5
+          },
+          "production": 0.9395644380427085,
+          "signed_difference": -9.817867267991609e-05,
+          "spatial_region": "interior",
+          "temporal_region": "front_advancing"
+        },
+        "grain_profiles": {
+          "comparator": 0.9477061496435191,
+          "distance_from_front": {
+            "comparator": 0.0,
+            "production": 0.0
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              302,
+              219
+            ],
+            "t": 6.525,
+            "z": 1.0
+          },
+          "production": 0.9476087188635222,
+          "signed_difference": -9.743077999690986e-05,
+          "spatial_region": "outlet_endpoint",
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_inventory": {
+          "comparator": 0.007225764520067068,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.00723079202322463,
+          "signed_difference": 5.027503157561952e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_profiles": {
+          "comparator": 0.2832165497150262,
+          "distance_from_front": {
+            "comparator": -0.0050000000000000044,
+            "production": -0.0050000000000000044
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298,
+              218
+            ],
+            "t": 6.505,
+            "z": 0.995
+          },
+          "production": 0.2834316589857064,
+          "signed_difference": 0.0002151092706801916,
+          "spatial_region": "outlet_region_z_ge_0.9",
+          "temporal_region": "both_fronts_exited"
+        },
+        "outlet": {
+          "comparator": 0.30559768753543665,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              303
+            ],
+            "t": 6.53
+          },
+          "production": 0.3057826982083279,
+          "signed_difference": 0.0001850106728912282,
+          "temporal_region": "both_fronts_exited"
+        }
+      },
+      "pair": "PRIMARY"
+    },
+    {
+      "actual_total_inventory_difference": {
+        "comparator": 5.551999999999674,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            321
+          ],
+          "t": 6.61
+        },
+        "max_absolute": 1.4837446826732048e-09,
+        "meaning": "Diagnostic difference of actual cup plus all actual phases; no complement reconstruction or new gate",
+        "production": 5.552000001483418,
+        "reasons": [],
+        "requested": 395,
+        "signed_difference": 1.4837446826732048e-09,
+        "unavailable": 0
+      },
+      "families": {
+        "activation": {
+          "comparator": 0.6819736870474186,
+          "exceedance_count": 0,
+          "location": {
+            "index": [
+              25
+            ],
+            "z": 0.11
+          },
+          "production": 0.6819234142838063,
+          "signed_difference": -5.027276361224686e-05
+        },
+        "arrival": {
+          "comparator": 6.504342715967524,
+          "exceedance_count": 0,
+          "location": {
+            "comparator_t": 6.504342715967524,
+            "index": [
+              0
+            ],
+            "production_t": 6.504309539469248,
+            "z": 1.0
+          },
+          "production": 6.504309539469248,
+          "signed_difference": -3.317649827572211e-05
+        },
+        "boulder_inventory": {
+          "comparator": 1.0601383652169856,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.05791020589577531,
+            "production": 0.05791685533613444
+          },
+          "location": {
+            "index": [
+              15
+            ],
+            "t": 0.35
+          },
+          "production": 1.0601375042775607,
+          "signed_difference": -8.609394248626501e-07,
+          "temporal_region": "before_first_drip"
+        },
+        "cup": {
+          "comparator": 5.504642840045905,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 5.504622726531054,
+          "signed_difference": -2.011351485098345e-05,
+          "temporal_region": "both_fronts_exited"
+        },
+        "fines_inventory": {
+          "comparator": 0.023122446464214894,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.023138007366417575,
+          "signed_difference": 1.5560902202681887e-05,
+          "temporal_region": "both_fronts_exited"
+        },
+        "front": {
+          "comparator": 0.0018149449831153957,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.0018149449831153957,
+            "production": 0.0017987744403323413
+          },
+          "location": {
+            "index": [
+              1
+            ],
+            "t": 0.01
+          },
+          "production": 0.0017987744403323413,
+          "signed_difference": -1.6170542783054426e-05,
+          "temporal_region": "before_first_drip"
+        },
+        "grain_histories": {
+          "comparator": 0.9396626167153884,
+          "distance_from_front": {
+            "comparator": -0.0032695658957330176,
+            "production": -0.003275833450284482
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.503269565895733,
+            "production": 0.5032758334502845
+          },
+          "location": {
+            "index": [
+              132,
+              3
+            ],
+            "t": 3.25,
+            "z": 0.5
+          },
+          "production": 0.9395590848068754,
+          "signed_difference": -0.00010353190851297711,
+          "spatial_region": "interior",
+          "temporal_region": "front_advancing"
+        },
+        "grain_profiles": {
+          "comparator": 0.9477061496435191,
+          "distance_from_front": {
+            "comparator": 0.0,
+            "production": -2.220446049250313e-16
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              302,
+              219
+            ],
+            "t": 6.525,
+            "z": 1.0
+          },
+          "production": 0.9476223158380628,
+          "signed_difference": -8.383380545629038e-05,
+          "spatial_region": "outlet_endpoint",
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_inventory": {
+          "comparator": 0.007225764520067068,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.007230627302005521,
+          "signed_difference": 4.862781938452798e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_profiles": {
+          "comparator": 0.2832165497150262,
+          "distance_from_front": {
+            "comparator": -0.0050000000000000044,
+            "production": -0.0050000000000002265
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298,
+              218
+            ],
+            "t": 6.505,
+            "z": 0.995
+          },
+          "production": 0.2834238441828209,
+          "signed_difference": 0.00020729446779471639,
+          "spatial_region": "outlet_region_z_ge_0.9",
+          "temporal_region": "both_fronts_exited"
+        },
+        "outlet": {
+          "comparator": 0.30559768753543665,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              303
+            ],
+            "t": 6.53
+          },
+          "production": 0.305787848493527,
+          "signed_difference": 0.00019016095809037958,
+          "temporal_region": "both_fronts_exited"
+        }
+      },
+      "pair": "SECONDARY 1"
+    },
+    {
+      "actual_total_inventory_difference": {
+        "comparator": 5.552000000000076,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            249
+          ],
+          "t": 6.175
+        },
+        "max_absolute": 1.6867073071580307e-08,
+        "meaning": "Diagnostic difference of actual cup plus all actual phases; no complement reconstruction or new gate",
+        "production": 5.552000016867149,
+        "reasons": [],
+        "requested": 395,
+        "signed_difference": 1.6867073071580307e-08,
+        "unavailable": 0
+      },
+      "families": {
+        "activation": {
+          "comparator": 0.33171257542462607,
+          "exceedance_count": 0,
+          "location": {
+            "index": [
+              11
+            ],
+            "z": 0.055
+          },
+          "production": 0.33169627800996876,
+          "signed_difference": -1.629741465730694e-05
+        },
+        "arrival": {
+          "comparator": 6.504319387674365,
+          "exceedance_count": 0,
+          "location": {
+            "comparator_t": 6.504319387674365,
+            "index": [
+              0
+            ],
+            "production_t": 6.504308470045491,
+            "z": 1.0
+          },
+          "production": 6.504308470045491,
+          "signed_difference": -1.0917628873841068e-05
+        },
+        "boulder_inventory": {
+          "comparator": 1.0601378280519183,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.05791428256658353,
+            "production": 0.05791687509509568
+          },
+          "location": {
+            "index": [
+              15
+            ],
+            "t": 0.35
+          },
+          "production": 1.0601375034031795,
+          "signed_difference": -3.246487387809083e-07,
+          "temporal_region": "before_first_drip"
+        },
+        "cup": {
+          "comparator": 5.50463005107581,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 5.50462204625403,
+          "signed_difference": -8.004821779650229e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "fines_inventory": {
+          "comparator": 0.023132333594936928,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.023138534474318583,
+          "signed_difference": 6.200879381655644e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "front": {
+          "comparator": 0.001804771907277494,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.001804771907277494,
+            "production": 0.001798774512152068
+          },
+          "location": {
+            "index": [
+              1
+            ],
+            "t": 0.01
+          },
+          "production": 0.001798774512152068,
+          "signed_difference": -5.997395125425858e-06,
+          "temporal_region": "before_first_drip"
+        },
+        "grain_histories": {
+          "comparator": 0.9396074342166321,
+          "distance_from_front": {
+            "comparator": -0.003273624764504768,
+            "production": -0.003276031498180676
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.5032736247645048,
+            "production": 0.5032760314981807
+          },
+          "location": {
+            "index": [
+              132,
+              3
+            ],
+            "t": 3.25,
+            "z": 0.5
+          },
+          "production": 0.9395644380427085,
+          "signed_difference": -4.299617392355959e-05,
+          "spatial_region": "interior",
+          "temporal_region": "front_advancing"
+        },
+        "grain_profiles": {
+          "comparator": 0.9476511112192979,
+          "distance_from_front": {
+            "comparator": 0.0,
+            "production": 0.0
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              302,
+              219
+            ],
+            "t": 6.525,
+            "z": 1.0
+          },
+          "production": 0.9476087188635222,
+          "signed_difference": -4.2392355775744406e-05,
+          "spatial_region": "outlet_endpoint",
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_inventory": {
+          "comparator": 0.007228854248417793,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.00723079202322463,
+          "signed_difference": 1.9377748068372114e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_profiles": {
+          "comparator": 0.2833967654938447,
+          "distance_from_front": {
+            "comparator": -0.0050000000000000044,
+            "production": -0.0050000000000000044
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              298,
+              218
+            ],
+            "t": 6.505,
+            "z": 0.995
+          },
+          "production": 0.2834316589857064,
+          "signed_difference": 3.489349186169832e-05,
+          "spatial_region": "outlet_region_z_ge_0.9",
+          "temporal_region": "both_fronts_exited"
+        },
+        "outlet": {
+          "comparator": 0.3057581339930322,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0
+          },
+          "location": {
+            "index": [
+              303
+            ],
+            "t": 6.53
+          },
+          "production": 0.3057826982083279,
+          "signed_difference": 2.4564215295674874e-05,
+          "temporal_region": "both_fronts_exited"
+        }
+      },
+      "pair": "SECONDARY 2"
+    },
+    {
+      "actual_total_inventory_difference": {
+        "comparator": 5.552000000000164,
+        "excluded": 0,
+        "included": 395,
+        "location": {
+          "index": [
+            302
+          ],
+          "t": 6.525
+        },
+        "max_absolute": 1.4832535200071106e-09,
+        "meaning": "Diagnostic difference of actual cup plus all actual phases; no complement reconstruction or new gate",
+        "production": 5.552000001483417,
+        "reasons": [],
+        "requested": 395,
+        "signed_difference": 1.4832535200071106e-09,
+        "unavailable": 0
+      },
+      "families": {
+        "activation": {
+          "comparator": 0.33171257542462607,
+          "exceedance_count": 0,
+          "location": {
+            "index": [
+              11
+            ],
+            "z": 0.055
+          },
+          "production": 0.3316963928785699,
+          "signed_difference": -1.6182546056175973e-05
+        },
+        "arrival": {
+          "comparator": 6.504319387674365,
+          "exceedance_count": 0,
+          "location": {
+            "comparator_t": 6.504319387674365,
+            "index": [
+              0
+            ],
+            "production_t": 6.504309539469248,
+            "z": 1.0
+          },
+          "production": 6.504309539469248,
+          "signed_difference": -9.848205117179987e-06
+        },
+        "boulder_inventory": {
+          "comparator": 1.0601378280519183,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.05791428256658353,
+            "production": 0.05791685533613444
+          },
+          "location": {
+            "index": [
+              15
+            ],
+            "t": 0.35
+          },
+          "production": 1.0601375042775607,
+          "signed_difference": -3.237743575468244e-07,
+          "temporal_region": "before_first_drip"
+        },
+        "cup": {
+          "comparator": 5.50463005107581,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 5.504622726531054,
+          "signed_difference": -7.324544755604734e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "fines_inventory": {
+          "comparator": 0.023132333594936928,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              298
+            ],
+            "t": 6.505
+          },
+          "production": 0.023138007366417575,
+          "signed_difference": 5.6737714806479045e-06,
+          "temporal_region": "both_fronts_exited"
+        },
+        "front": {
+          "comparator": 0.001804771907277494,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.001804771907277494,
+            "production": 0.0017987744403323413
+          },
+          "location": {
+            "index": [
+              1
+            ],
+            "t": 0.01
+          },
+          "production": 0.0017987744403323413,
+          "signed_difference": -5.997466945152673e-06,
+          "temporal_region": "before_first_drip"
+        },
+        "grain_histories": {
+          "comparator": 0.9396074342166321,
+          "distance_from_front": {
+            "comparator": -0.003273624764504768,
+            "production": -0.003275833450284482
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.5032736247645048,
+            "production": 0.5032758334502845
+          },
+          "location": {
+            "index": [
+              132,
+              3
+            ],
+            "t": 3.25,
+            "z": 0.5
+          },
+          "production": 0.9395590848068754,
+          "signed_difference": -4.834940975662061e-05,
+          "spatial_region": "interior",
+          "temporal_region": "front_advancing"
+        },
+        "grain_profiles": {
+          "comparator": 0.9476511112192979,
+          "distance_from_front": {
+            "comparator": 0.0,
+            "production": -2.220446049250313e-16
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              302,
+              219
+            ],
+            "t": 6.525,
+            "z": 1.0
+          },
+          "production": 0.9476223158380628,
+          "signed_difference": -2.879538123512493e-05,
+          "spatial_region": "outlet_endpoint",
+          "temporal_region": "both_fronts_exited"
+        },
+        "liquid_inventory": {
+          "comparator": 0.008251270967911818,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 0.001804771907277494,
+            "production": 0.0017987744403323413
+          },
+          "location": {
+            "index": [
+              1
+            ],
+            "t": 0.01
+          },
+          "production": 0.00824947203808374,
+          "signed_difference": -1.7989298280781524e-06,
+          "temporal_region": "before_first_drip"
+        },
+        "liquid_profiles": {
+          "comparator": 0.3057581339930322,
+          "distance_from_front": {
+            "comparator": 0.0,
+            "production": -2.220446049250313e-16
+          },
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              303,
+              219
+            ],
+            "t": 6.53,
+            "z": 1.0
+          },
+          "production": 0.3057878499144036,
+          "signed_difference": 2.9715921371409326e-05,
+          "spatial_region": "outlet_endpoint",
+          "temporal_region": "both_fronts_exited"
+        },
+        "outlet": {
+          "comparator": 0.3057581339930322,
+          "exceedance_count": 0,
+          "front_at_maximum": {
+            "comparator": 1.0,
+            "production": 1.0000000000000002
+          },
+          "location": {
+            "index": [
+              303
+            ],
+            "t": 6.53
+          },
+          "production": 0.305787848493527,
+          "signed_difference": 2.9714500494826268e-05,
+          "temporal_region": "both_fronts_exited"
+        }
+      },
+      "pair": "SECONDARY 3"
+    }
+  ]
+}

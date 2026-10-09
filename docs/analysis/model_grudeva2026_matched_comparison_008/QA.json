@@ -1,0 +1,156 @@
+{
+  "affected_final": {
+    "log_sha256": "08ffdf48a98632d5eedb02751397db18f24b0efcd9cb59ac5547612d3fb31632",
+    "passed": 162,
+    "seconds": 5.02,
+    "status": "PASS"
+  },
+  "baseline": {
+    "command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data'",
+    "deselected": 72,
+    "exit_code": 0,
+    "head": "37f62d80ce972141b515b48c893244780e6dd097",
+    "junit_sha256": "3efa1bc022743b4a52c2fec0edeb1a5601866a6520ffee623caed05396822cd7",
+    "log_sha256": "fc13ad26950b9eff387a36083c1bbc8e13b5be051144a3c0684acf97e40aa45a",
+    "passed": 6388,
+    "seconds": 1381.18,
+    "skipped": 33,
+    "status": "PASS",
+    "warnings": 8
+  },
+  "current_head_ci": {
+    "receipt": "External final-ci.json; exact head/tree/run/attempt/job identities reported on the single draft PR",
+    "status": "PENDING_CANDIDATE_PUSH"
+  },
+  "ewp": {
+    "head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "lock_file": "dependencies/puckworks.lock.json",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "writes": 0
+  },
+  "focused": {
+    "log_sha256": "dc2b33cc9ae8cf1c9d019fb86cd7fb6a0f35bbf975febe34f0d184273e77d860",
+    "passed": 71,
+    "status": "PASS"
+  },
+  "generated_integrity": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4363468869996723
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4565189879795071
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5187127270037308
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.44117507300688885
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6509314469876699
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8411015589954332
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "seconds": 11.371227734984132
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "seconds": 2.9248777190223336
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.44441465198178776
+    }
+  ],
+  "independent_final_review": {
+    "nonhuman": true,
+    "receipt": "External final-review.json; exact candidate head/tree and receipt hash reported on the single draft PR",
+    "status": "PENDING_ACTUAL_EVIDENCE_REVIEW"
+  },
+  "initial_other_integrity": {
+    "all_scope_strict": "PASS",
+    "insights": "PASS",
+    "paper3_scope_strict": "PASS",
+    "statusdoc": "PASS"
+  },
+  "new_comparator_simulations": 0,
+  "new_production_simulations": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+    "passing": 66,
+    "status": "PASS"
+  },
+  "reporting": {
+    "scientific_rescore": false,
+    "source_sha256": "6ef58a26ace77614b27025af7d5755f7c8748046b6a6e5181d945274d664cac2",
+    "status": "PASS_AFTER_SERIALIZATION_ONLY_CORRECTION"
+  },
+  "static": {
+    "configured_mypy": "PASS (19 source files)",
+    "mypy_log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "ruff": "PASS"
+  },
+  "task": "MODEL-GRUDEVA2026-MATCHED-COMPARISON-008"
+}
