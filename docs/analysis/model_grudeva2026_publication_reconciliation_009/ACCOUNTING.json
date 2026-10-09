@@ -1,0 +1,46 @@
+{
+  "all_new_starts_closed": true,
+  "application_limits": {
+    "aggregate_seconds": null,
+    "application_memory_bytes": null,
+    "monitoring": "disk, process, memory and durable locked accounting",
+    "os_limits": "retained",
+    "per_invocation_seconds": null,
+    "retry_quota": null
+  },
+  "archive_assessments": 1,
+  "attempts": [
+    {
+      "elapsed_seconds": 87.63170858900412,
+      "end": "2026-10-09T17:33:53.744272+00:00",
+      "identity": "assessment-0001",
+      "inherited_rlimit_as": [
+        -1,
+        -1
+      ],
+      "inherited_rlimit_cpu": [
+        -1,
+        -1
+      ],
+      "ledger_sha256": "e6ac2b01363bef1d83bca2cdc1e7ed6a7cca43dce31a47ea06aec33ad4a271f6",
+      "outputs": {
+        "admissions.json": "148a9380a9fff5b53d5f4393f0d51890e773af1fc009fd1938cd9ff840f7f128",
+        "contract.json": "d2655d9bc55eeb7dcd347a33caa9d8bdadf4a82c7bd45fddc56daa09a9f8ac6e",
+        "integration.json": "47c3093f3d13d32a95818c9ba43ae1f6afb9b6717e57b8799d7e0eb82d573c5a",
+        "results.json": "b2895fe8bdf7b8b1e529a9830b036f18eff9100800331a0ae8953b9ae9d13862",
+        "review.json": "c972c8ee5a321cc4419dcfc674464545fd13ad5eeb10b6e3b5acbe30d791b670"
+      },
+      "peak_resident_bytes": 7896387584,
+      "start": "2026-10-09T17:32:26.112588+00:00",
+      "status": "COMPLETED"
+    }
+  ],
+  "fits": 0,
+  "new_comparator_simulations": 0,
+  "new_production_simulations": 0,
+  "new_qualification_campaigns": 0,
+  "ordinary_software_qa": "Separate: existing bounded solver fixtures do run in ordinary QA; zero solver invocations is claimed only for 009 admission/scoring/reporting",
+  "predecessor_accounting": "Unchanged; original failures and ledgers remain external and bound by reused admissions",
+  "task": "MODEL-GRUDEVA2026-PUBLICATION-RECONCILIATION-009",
+  "total_elapsed_seconds": 87.63170858900412
+}

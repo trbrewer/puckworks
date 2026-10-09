@@ -1,0 +1,80 @@
+{
+  "claim_ceiling": "PUBLIC_NUMERICAL_REFERENCE_COMPARISON / TARGET_EXPOSED; no new qualification, causal attribution or physical validation; Figure 5 unchanged.",
+  "closed_findings": [
+    {
+      "finding": "Malformed event records [None,None] raised AttributeError rather than returning unavailable support.",
+      "id": "009-PRE-01",
+      "resolution": "Explicit event, event-side and observation object validation added before historical helper use; 3 manufactured regressions pass."
+    },
+    {
+      "finding": "Stable overall family FAIL labels alone did not expose changed primary/refinement shared-witness targets or residual-direction reversals.",
+      "id": "009-PRE-02",
+      "resolution": "Per-family persistent same-direction, primary-only, refinement-only and direction-changed IDs now reported; changes flag mixed diagnostics without erasing primary corroboration. Target-shift and sign-reversal tests pass."
+    }
+  ],
+  "command_evidence": [
+    {
+      "command": "python -m pytest -q tests/test_grudeva2026_publication_reconciliation_009.py",
+      "environment": "existing 005 Python 3.12.3 venv; OPENBLAS_NUM_THREADS=OMP_NUM_THREADS=MKL_NUM_THREADS=1; PYTHONPATH=reviewed worktree",
+      "exit_code": 0,
+      "result": "58 passed in 0.59s"
+    },
+    {
+      "command": "009 check_contract + integration + direct unchanged BUDGETS comparison + manufactured historical-scorer mask equivalence for +/-0.005 front/arrival displacement",
+      "exit_code": 0,
+      "result": "Frozen contract/environment/source bindings, #330 receipt digest, original publication limits and included rows/maxima agree."
+    },
+    {
+      "command": "Compare compact INTEGRATION.json with retained raw external integration.json; git show -s --format=%H %T %P HEAD",
+      "exit_code": 0,
+      "result": "All 7 PUSH runs and 17 jobs retain exact #330 merge head, attempts and completed-success conclusions, including quick-pr 37957821862. Git head/tree/ordered parents match selected base."
+    },
+    {
+      "command": "Initial manufactured historical-mask equivalence probe with constant .4/.59 front at every time",
+      "exit_code": 1,
+      "result": "Legacy scorer raises max(empty) after all Figure 3 concentrations are masked. Reviewer corrected only synthetic probe front inputs to preserve comparable support; no implementation change or scientific execution."
+    }
+  ],
+  "contract_sha256": "ab4d874bb4d93b17ced4610e72b77505db72b833fc2a6c0445f39805cf6c888b",
+  "evidence_scope": "Reviewed repository authorities, actual source hashes and retained integration evidence. No retained numerical arrays or archive publication outcomes were scored by reviewer. Production execution must still admit each external original archive through the reviewed unchanged helpers.",
+  "findings": [],
+  "implementation": {
+    "puckworks/analysis/grudeva2026_publication_reconciliation_009.py": "894652022524d6dd93d577ae28800f8f009d16637a27b49fcadd69c1d68c98d6",
+    "puckworks/analysis/grudeva2026_publication_reconciliation_009_io.py": "b503d7e01831c26fbd80cad4656bda7caabecb8e59d112339ecda2ff0091f0eb"
+  },
+  "integration_sha256": "8f3d7b1efc65d3873666a4ce0a8b2258a21b5c22d41f810cbe174f94a7b84e5d",
+  "manufactured_tests_sha256": "3d13b2b96ee181feb564a54dd21f32a78d5dd0d4a228d52b3c82867d68b6ce0d",
+  "nonhuman": true,
+  "passed": true,
+  "review_kind": "INDEPENDENT_PRE_SCORING_AUDIT",
+  "reviewed_utc": "2026-10-09T17:22:34.820508+00:00",
+  "reviewer": "Codex automated/nonhuman sub-agent /root/pre_scoring_audit_009",
+  "scientific_execution": {
+    "008_comparisons": 0,
+    "archive_publication_scores": 0,
+    "certification_runs": 0,
+    "comparator_simulations": 0,
+    "observation_regenerations": 0,
+    "production_simulations": 0,
+    "qualification_campaigns": 0
+  },
+  "scope": [
+    "Actual frozen 009 contract, adapter, execution wrapper and 58 manufactured tests",
+    "Historical publication_comparison limits and closed displaced masks, including mask-only t=6.4 boundary",
+    "Immutable public fixture inventory, coordinates, order, units and reduced-curve identity",
+    "Unchanged 008 admission helper call graph, authoritative original bindings, actual hash-bound historical source files and P1 certificate composition",
+    "Raw-state profile path, unique exact-depth and 2e-13 time support, unavailable-before-exclusion, complete 124-row accounting",
+    "Same-target same-direction shared witnesses, independent completeness and primary outcomes, direction-aware refinement witness persistence, deterministic maxima and residual identity",
+    "Separate actual #330 selected-base receipt, durable external attempt accounting, zero-solver static execution path and manufactured forbidden-call check"
+  ],
+  "selected_base": {
+    "head": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+    "parents": [
+      "37f62d80ce972141b515b48c893244780e6dd097",
+      "0ec0dfce30b49a8bd8b6143a5807f20cf0121b32"
+    ],
+    "tree": "2aced72fda1c8413d572f803319b7899b9dcb3e5"
+  },
+  "separate_prerequisites": "Ordinary software baseline, actual archive admission and execution, candidate-specific hosted CI, actual-result final independent review and delivery remain the primary agent responsibility; this receipt does not assert them complete.",
+  "task": "MODEL-GRUDEVA2026-PUBLICATION-RECONCILIATION-009"
+}

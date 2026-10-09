@@ -1,5 +1,5 @@
 {
-  "commit": "37f62d80ce972141b515b48c893244780e6dd097",
+  "commit": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
   "counts": {
     "candidates": 90,
     "entities": 283,
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "15824f38df4f06d6c7fdc09a8b35f1f37d745cd35c4dc3c176eacd648bbb8db2"
+      "sha256": "628760003bbb35e8502834c540a0ed81f7bd8ccf93059269cb855295a0ca1996"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "56291f8ced50f7d7ba39cbea030f955ff8890c4728ca4152e6ab80e4cf4de853"
+      "sha256": "b6261e451f2714136295ca2d79422ce24dd72ae982b4c220bda6811744033388"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "84673a4d48e553779235caac99bf425ef610b1d697d1898e64b968be57015674"
+      "sha256": "fb962cf02cbf8e52651303cd0fd03e4155cff29246f4740c49ad21c14e533e66"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "6f6cd00e23ad00e8c67b21c104664ba9f6b8199dd35ea3aac9065ca6dc5747e8"
+      "sha256": "591dc058bd603e4cad0d235b84b5843ae354efc7794fd5263e75f774100ac087"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "0490261fc496ad58baf9abb835185a6def8c22497a04dd20c7e59ee0b35a4c76"
+      "sha256": "996e2919508a0af9083f80528c51fa012f7103c859a0dc90ce26958df5461c4c"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "4f3a3048f7e402785843ec681de8f339d235ae8c41a1de003d5604101064a049"
+      "sha256": "c930b7aed2ed575882700d31bc69e68eef3d086934b7aaa89af60d18bfa424f6"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "995301dc012cce29e3212ba5d60fcdf753a2c2f4f39b3edf3088cb4b90469e01"
+      "sha256": "4f450da50bea0e0f9823726b343f16559fac76b0c25bb8ff6bda897ac3aa4dfb"
     }
   ],
   "pack": [

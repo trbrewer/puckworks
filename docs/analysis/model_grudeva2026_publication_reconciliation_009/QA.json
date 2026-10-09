@@ -1,0 +1,282 @@
+{
+  "affected": {
+    "log_sha256": "59f1792ff423df35d0254b4ef0f87f4b7fba562e8fa76948604827d1168b3d07",
+    "passed": 178,
+    "status": "PASS"
+  },
+  "baseline": {
+    "base": {
+      "head": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "parents": [
+        "37f62d80ce972141b515b48c893244780e6dd097",
+        "0ec0dfce30b49a8bd8b6143a5807f20cf0121b32"
+      ],
+      "tree": "2aced72fda1c8413d572f803319b7899b9dcb3e5"
+    },
+    "command": "python -m pytest -v -m 'not slow and not live and not gpu and not external_data'",
+    "errors": "0",
+    "failures": "0",
+    "junit_sha256": "6efc7b89e68696a1f3927f307bfbcf093b04de2c204f7e8d22584107953d1f26",
+    "log_sha256": "4f4b939c857e9a4f09d02ee02d01e8fd1281f14da6507c23d0f0838fe120819a",
+    "name": "pytest",
+    "scope": "Unchanged ordinary selector; baseline suite collected before additive 009 tests; affected tests separately executed; no existing tracked source changed during baseline",
+    "skipped": "67",
+    "status": "PASS",
+    "tests": "6438",
+    "time": "1296.025",
+    "timestamp": "2026-10-09T12:10:28.467579-05:00"
+  },
+  "current_candidate_ci": {
+    "receipt": "Exact candidate head/tree and workflow/job receipt recorded on the draft PR; no earlier-head substitution",
+    "status": "PENDING"
+  },
+  "derived_document_tests": {
+    "log_sha256": "c9bba5e6427d9ffed2f5294897d455c3ec7acba25c7ded85832d0b21080baea9",
+    "passed": 73,
+    "status": "PASS"
+  },
+  "ewp": {
+    "hosted_main": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "lock_file": "dependencies/puckworks.lock.json",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "writes": 0
+  },
+  "generated_integrity_scientific_baseline_packaging": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-00.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.3792120380094275
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-01.log",
+      "log_sha256": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62",
+      "seconds": 0.39706700001261197
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-02.log",
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "seconds": 0.4638762160029728
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-03.log",
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "seconds": 0.3812381540192291
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-04.log",
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "seconds": 0.585099886986427
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-05.log",
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "seconds": 0.7573664149967954
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-06.log",
+      "log_sha256": "0affe8cb40971f6cbdc29e598928dacc59786e66a632fe6894102afb39bd3b0d",
+      "seconds": 11.13383663300192
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-07.log",
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "seconds": 2.8242478460015263
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-08.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.39376218800316565
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log": "qa-09.log",
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "seconds": 0.3897724980197381
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log": "qa-10.log",
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "seconds": 0.3845898300060071
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.insights",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-11.log",
+      "log_sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87",
+      "seconds": 0.5620177000237163
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-12.log",
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "seconds": 0.4332486460043583
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline and not live and not gpu and not external_data"
+      ],
+      "exit_code": 0,
+      "log": "qa-13.log",
+      "log_sha256": "9833435fe50354c1ed18e45f02ea1450494d22b51df34d2550563b01d8475c56",
+      "seconds": 211.27686085400637
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "build",
+        "--outdir",
+        "EXTERNAL_009_EVIDENCE/dist"
+      ],
+      "exit_code": 0,
+      "log": "qa-14.log",
+      "log_sha256": "ec48d7af6af96547bc5e84a871de235c2782307a3e8e6316fede8f2407109e4c",
+      "seconds": 5.426529552991269
+    },
+    {
+      "command": [
+        "python",
+        "tools/packaging_check.py",
+        "EXTERNAL_009_EVIDENCE/dist"
+      ],
+      "exit_code": 0,
+      "log": "qa-15.log",
+      "log_sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+      "seconds": 0.25389852400985546
+    }
+  ],
+  "independent_final_review": {
+    "nonhuman": true,
+    "receipt": "Exact candidate review and result checks recorded externally and on the draft PR",
+    "status": "PENDING"
+  },
+  "manufactured": {
+    "log_sha256": "fcd1a578d709f721de21ca1fa394785ec532ba9e8fd7e11b967f6888eb51e071",
+    "passed": 58,
+    "status": "PASS"
+  },
+  "pre_scoring_review": {
+    "nonhuman": true,
+    "sha256": "85c61e7e9e8f4bd5163767dabdb8c362e936a6cb0a0ef9990f7c4653ab5a9823",
+    "status": "PASS"
+  },
+  "registry": {
+    "acknowledged_exceptions": 1,
+    "log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+    "passing": 66,
+    "status": "PASS"
+  },
+  "reporter_sha256": "32c9248b8a7e9981a1dbf4cbc3bfd47e6f4ef9cab6b6f326b1bbb8b3f86850bf",
+  "reporting_correction": {
+    "assessment_sha256": "b2895fe8bdf7b8b1e529a9830b036f18eff9100800331a0ae8953b9ae9d13862",
+    "contract_unchanged": true,
+    "corrected_source_sha256": "7f7dd1890ec3d8571b373d9c55c8ce586a8baa58919306733f9c92de33ee3601",
+    "correction": "Filter attempt glob to directories; rerun only report assembly",
+    "failure": "NotADirectoryError: assessment-0001.log/ledger.jsonl; glob matched an adjacent log",
+    "initial_source_sha256": "a76e6e9499a7ad5cef09348906bb2c27db583d4f96c3fab49cf941df53169caf",
+    "scientific_rescores": 0,
+    "stage": "report assembly after successful assessment"
+  },
+  "static": {
+    "configured_mypy": "PASS (19 files)",
+    "mypy_log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "ruff": "PASS",
+    "ruff_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "task": "MODEL-GRUDEVA2026-PUBLICATION-RECONCILIATION-009"
+}
