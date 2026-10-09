@@ -1,0 +1,19 @@
+{
+  "adapter_bindings_checked": 3,
+  "claim": "bounded engineering attempt, not guaranteed resource feasibility",
+  "disposition": "APPROVE",
+  "environment_exact_match": true,
+  "findings": "all working-review findings resolved",
+  "head": "12fdfd05a7e377547ae34740fc88bd2ddf92fbb6",
+  "historical_ledger": {
+    "full": 7,
+    "seconds": 727.042119908976,
+    "short": 21
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+  "reviewer": "independent nonhuman agent /root/review_006",
+  "scientific_bindings_checked": 72,
+  "scope": "read-only source/evidence/baseline/resource/pre-execution audit; no canonical numerical work",
+  "tree": "2186f8f98a9dbdf2006c6a8883b6dd852954ad8f"
+}

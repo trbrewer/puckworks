@@ -1,0 +1,110 @@
+{
+  "affected_tests": {
+    "log": {
+      "file": "affected.log",
+      "sha256": "0c409fbd083be33fe594ffee7c720824a5b9f84add063f887ceb06e52c733b23"
+    },
+    "passed": 122
+  },
+  "base_head": "5e07a1992c404cb5e605757c1125e5866f326378",
+  "base_tree": "03cb1476f510c575ed9e4b00d759a0997cf99ea7",
+  "evidence_access": "metadata/checkpoints/receipts/log and complete NPZ file hashes inspected; numerical-array validation charged to A",
+  "ewp_main": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+  "ewp_writes": false,
+  "focused_006_tests": 28,
+  "integration_event": "push",
+  "integration_workflows": {
+    "experience": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754162,
+      "status": "completed"
+    },
+    "generated-artifacts": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754183,
+      "status": "completed"
+    },
+    "notebook-smoke": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754265,
+      "status": "completed"
+    },
+    "packaging": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754163,
+      "status": "completed"
+    },
+    "paper3-evidence": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754148,
+      "status": "completed"
+    },
+    "quick-pr": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754147,
+      "status": "completed"
+    },
+    "scientific-baseline": {
+      "attempt": 1,
+      "conclusion": "success",
+      "run_id": 37851754222,
+      "status": "completed"
+    }
+  },
+  "local_baseline": {
+    "deselected": 63,
+    "junit": {
+      "file": "baseline.xml",
+      "sha256": "ba2b93b3d853fe44e483fa0bd4f6fd895c52e1e3bdbc5863737399ceb4ed219c"
+    },
+    "log": {
+      "file": "baseline.log",
+      "sha256": "754a9636829193e080f39472ac4d644215ba4ae82640699e2fd94be25b7e8946"
+    },
+    "passed": 6174,
+    "seconds": 1299.35,
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": 67,
+    "warnings": 1
+  },
+  "merged_pr": 327,
+  "new_pdf_acquisition": false,
+  "physical_validation": "NOT_ESTABLISHED",
+  "quality_job": {
+    "completed_at": "2026-10-08T22:38:27Z",
+    "conclusion": "success",
+    "id": 113566083372
+  },
+  "registry_baseline": {
+    "acknowledged_exception": 1,
+    "log": {
+      "file": "registry-baseline.log",
+      "sha256": "e2d057974a9d04c39a590e15b6605dd62889bcd843aaee3f5f4a4edaca9eda05"
+    },
+    "passed": 66
+  },
+  "review": "scoped independent working review corrections applied; exact-head audit receipt required before numerical execution and retained externally",
+  "ruff": {
+    "log": {
+      "file": "ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "passed": true
+  },
+  "scientific_consumption_at_freeze": {
+    "full": 0,
+    "seconds": 0,
+    "short": 0
+  },
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+}

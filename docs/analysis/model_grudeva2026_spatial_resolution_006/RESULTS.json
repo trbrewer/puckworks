@@ -1,0 +1,2944 @@
+{
+  "accounting_note": "own pending start is retained; controller completion supplies accounting-only closure",
+  "candidate_audits": {
+    "accepted_states": 3038,
+    "aqueous_max": 0.4720980628806571,
+    "aqueous_min": 0.0,
+    "conservation_location": {
+      "provenance": "accepted",
+      "segment": 1,
+      "t": 6.155460976930302
+    },
+    "cup_max_time": 7.547969439045619,
+    "cup_quadrature_points": 3686,
+    "cup_quadrature_refinement_max": 0.0,
+    "cup_state_integral_max": 3.1560185576040567e-09,
+    "diagnostic_bounds": {
+      "grain_history": {
+        "excluded": 0,
+        "included": 4326,
+        "maximum": 1.3880000000000001,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.025
+        },
+        "minimum": 1.0700467816462948e-32,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 8.0,
+          "z": 0.025
+        },
+        "requested": 4326,
+        "unavailable": 0
+      },
+      "grain_profile": {
+        "excluded": 0,
+        "included": 135960,
+        "maximum": 1.3880000000000001,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.0
+        },
+        "minimum": 6.442496734365866e-35,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 8.0,
+          "z": 0.0
+        },
+        "requested": 135960,
+        "unavailable": 0
+      },
+      "liquid_profile": {
+        "excluded": 0,
+        "included": 135960,
+        "maximum": 1.0,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.01,
+          "z": 0.005
+        },
+        "minimum": 0.0,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.0
+        },
+        "requested": 135960,
+        "unavailable": 0
+      }
+    },
+    "diagnostic_inlet_mean_error": 1.5171920852152798e-06,
+    "event_states": 1,
+    "front_decrease": 0.0,
+    "front_wet_excess": 0.0,
+    "grain_mean_min": 9.01968902071055e-35,
+    "horizon": 8.0,
+    "independent_sum_allowance_fraction": 0.00018310546875,
+    "max_normalized_conservation": 3.037545239352549e-09,
+    "phase_min": 0.0,
+    "public_cup_error": 0.0,
+    "public_grain_endpoint_difference": 0.0007302567648314051,
+    "public_inventory_allowance_fraction": 0.0009381003842459175,
+    "public_outlet_error": 0.0,
+    "public_profile_reconstruction_error": 4.440892098500626e-16,
+    "spectrum": {
+      "allowance": 5.684341886080802e-14,
+      "complement_tail": 0.018703974001373136,
+      "complement_tail_difference": -6.938893903907228e-17,
+      "rate_relative_error": 0.0,
+      "tail_rate": 31286.640354063482,
+      "tail_weight": 0.018703974001373067,
+      "weight_error": 0.0,
+      "weight_sum": 0.9999999999999999
+    },
+    "terminal_cup": 5.551999379438095,
+    "terminal_phases": [
+      9.71529410254135e-08,
+      3.108894109508198e-07,
+      2.2935563882642232e-07
+    ]
+  },
+  "candidate_gates": {
+    "activation_support": true,
+    "aqueous_bounds": true,
+    "complete_status": true,
+    "conservation": true,
+    "cup_quadrature": true,
+    "cup_state_integral": true,
+    "diagnostic_grain_history_bounds": true,
+    "diagnostic_grain_profile_bounds": true,
+    "diagnostic_inlet": true,
+    "diagnostic_liquid_profile_bounds": true,
+    "events": true,
+    "front_support": true,
+    "grain_bounds": true,
+    "horizon": true,
+    "independent_inventory_sums": true,
+    "phase_bounds": true,
+    "public_cup_outlet_reconstruction": true,
+    "public_inventory_algebra": true,
+    "public_profile_reconstruction": true,
+    "required_times": true,
+    "solver_segments": true,
+    "tail_weights_rates": true
+  },
+  "compact_projection_note": "Full modal point arrays, physical overlap pieces and exact cell amounts retained in the bound external reduction; compact stencil values and closure residuals copied here without reevaluation.",
+  "comparison_256_512": {
+    "activation": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 220,
+      "location": {
+        "index": [
+          104
+        ],
+        "z": 0.49
+      },
+      "max_absolute": 4.515744936650634e-06,
+      "passed": true,
+      "requested": 220,
+      "unavailable": 0
+    },
+    "arrival": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 1,
+      "location": {
+        "normal_t": 6.504306131517926,
+        "refined_t": 6.504308470045491,
+        "z": 1.0
+      },
+      "max_absolute": 2.338527565370896e-06,
+      "passed": true,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "boulder_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          333
+        ],
+        "t": 6.665
+      },
+      "max_absolute": 5.22256657904327e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "cup": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          318
+        ],
+        "t": 6.6
+      },
+      "max_absolute": 3.855290454879423e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "fines_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "max_absolute": 2.585292581349166e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "front": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          128
+        ],
+        "t": 3.15
+      },
+      "max_absolute": 6.894313843153199e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "grain_histories": {
+      "budget": 0.00023,
+      "excluded": 971,
+      "included": 1794,
+      "location": {
+        "index": [
+          241,
+          5
+        ],
+        "t": 5.975,
+        "z": 0.9
+      },
+      "max_absolute": 9.302874373223746e-05,
+      "passed": true,
+      "requested": 2765,
+      "unavailable": 0
+    },
+    "grain_profiles": {
+      "budget": 0.00023,
+      "excluded": 30359,
+      "included": 56541,
+      "location": {
+        "index": [
+          299,
+          218
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "max_absolute": 0.00012485272381557166,
+      "passed": true,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "liquid_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "max_absolute": 8.079039317543391e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "liquid_profiles": {
+      "budget": 0.001,
+      "excluded": 1224,
+      "included": 85676,
+      "location": {
+        "index": [
+          304,
+          215
+        ],
+        "t": 6.535,
+        "z": 0.9852289512555391
+      },
+      "max_absolute": 4.4668728573477035e-05,
+      "passed": true,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "outlet": {
+      "budget": 0.001,
+      "excluded": 14,
+      "included": 381,
+      "location": {
+        "index": [
+          303
+        ],
+        "t": 6.53
+      },
+      "max_absolute": 2.3222303353442886e-05,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    }
+  },
+  "comparison_sign_convention": "coarse minus refined, inherited acceptance semantics",
+  "complete_external_reduction": {
+    "file": "006-reduction.json",
+    "sha256": "2ee6cb4436436651b2c80a942b0469643fdf0c322d64314508155d829fbec23b"
+  },
+  "conclusion": "A",
+  "disposition": "FINER_RESOLUTION_PROMISING_FOR_SEPARATELY_AUTHORIZED_QUALIFICATION",
+  "final_accounting": "ACCOUNTING.json",
+  "historical_128_256": {
+    "activation": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 220,
+      "location": {
+        "index": [
+          84
+        ],
+        "z": 0.405
+      },
+      "max_absolute": 1.4611412276099855e-05,
+      "passed": true,
+      "requested": 220,
+      "unavailable": 0
+    },
+    "arrival": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 1,
+      "location": {
+        "normal_t": 6.5043092876388835,
+        "refined_t": 6.504306131517926,
+        "z": 1.0
+      },
+      "max_absolute": 3.1561209574704208e-06,
+      "passed": true,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "boulder_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          329
+        ],
+        "t": 6.65
+      },
+      "max_absolute": 1.2374645506144089e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "cup": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          317
+        ],
+        "t": 6.595
+      },
+      "max_absolute": 9.54710495815192e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "fines_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          316
+        ],
+        "t": 6.59
+      },
+      "max_absolute": 6.4289091430240475e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "front": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          106
+        ],
+        "t": 2.6
+      },
+      "max_absolute": 2.2315005248629838e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "grain_histories": {
+      "budget": 0.00023,
+      "excluded": 971,
+      "included": 1794,
+      "location": {
+        "index": [
+          237,
+          5
+        ],
+        "t": 5.875,
+        "z": 0.9
+      },
+      "max_absolute": 0.00043232399697179513,
+      "passed": false,
+      "requested": 2765,
+      "unavailable": 0
+    },
+    "grain_profiles": {
+      "budget": 0.00023,
+      "excluded": 30359,
+      "included": 56541,
+      "location": {
+        "index": [
+          299,
+          218
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "max_absolute": 0.000599964833227995,
+      "passed": false,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "liquid_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          316
+        ],
+        "t": 6.59
+      },
+      "max_absolute": 2.0090341070755358e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "liquid_profiles": {
+      "budget": 0.001,
+      "excluded": 1224,
+      "included": 85676,
+      "location": {
+        "index": [
+          302,
+          213
+        ],
+        "t": 6.525,
+        "z": 0.98
+      },
+      "max_absolute": 0.00017577559183272473,
+      "passed": true,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "outlet": {
+      "budget": 0.001,
+      "excluded": 14,
+      "included": 381,
+      "location": {
+        "index": [
+          303
+        ],
+        "t": 6.53
+      },
+      "max_absolute": 0.00011550140220856209,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    }
+  },
+  "historical_comparison_source": "../model_grudeva2026_baseline_observation_005/ATTRIBUTION.json",
+  "historical_individual": {
+    "bed_fine": {
+      "artifact_sha256": "c028650d75e6ea9724b30d1be4864f73f72ed9076ec8c132737a5078b9c40994",
+      "audits": {
+        "accepted_states": 2177,
+        "aqueous_max": 0.47209953824087536,
+        "aqueous_min": 0.0,
+        "conservation_location": {
+          "provenance": "accepted",
+          "segment": 1,
+          "t": 5.0328873032384704
+        },
+        "cup_max_time": 7.993914897227492,
+        "cup_quadrature_points": 2825,
+        "cup_quadrature_refinement_max": 0.0,
+        "cup_state_integral_max": 3.6854705953714983e-09,
+        "diagnostic_bounds": {
+          "grain_history": {
+            "excluded": 0,
+            "included": 4326,
+            "maximum": 1.3880000000000001,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.025
+            },
+            "minimum": 7.327554871153573e-33,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 8.0,
+              "z": 0.025
+            },
+            "requested": 4326,
+            "unavailable": 0
+          },
+          "grain_profile": {
+            "excluded": 0,
+            "included": 135960,
+            "maximum": 1.3880000000000001,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "minimum": -1.4294833506698683e-35,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 7.875,
+              "z": 0.005
+            },
+            "requested": 135960,
+            "unavailable": 0
+          },
+          "liquid_profile": {
+            "excluded": 0,
+            "included": 135960,
+            "maximum": 1.0,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.01,
+              "z": 0.005
+            },
+            "minimum": -4.0544950852807726e-29,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 6.143948986213942,
+              "z": 0.005
+            },
+            "requested": 135960,
+            "unavailable": 0
+          }
+        },
+        "diagnostic_inlet_mean_error": 5.524851674945652e-06,
+        "event_states": 1,
+        "front_decrease": 0.0,
+        "front_wet_excess": 2.220446049250313e-16,
+        "grain_mean_min": 9.611652290037215e-35,
+        "horizon": 8.0,
+        "independent_sum_allowance_fraction": 0.0001220703125,
+        "max_normalized_conservation": 1.7854635477431629e-09,
+        "phase_min": 0.0,
+        "public_cup_error": 0.0,
+        "public_grain_endpoint_difference": 0.002740272250576936,
+        "public_inventory_allowance_fraction": 0.0009381003842459175,
+        "public_outlet_error": 0.0,
+        "public_profile_reconstruction_error": 2.220446049250313e-16,
+        "spectrum": {
+          "allowance": 5.684341886080802e-14,
+          "complement_tail": 0.018703974001373136,
+          "complement_tail_difference": -6.938893903907228e-17,
+          "rate_relative_error": 0.0,
+          "tail_rate": 31286.640354063482,
+          "tail_weight": 0.018703974001373067,
+          "weight_error": 0.0,
+          "weight_sum": 0.9999999999999999
+        },
+        "terminal_cup": 5.551999368778738,
+        "terminal_phases": [
+          9.779134502174713e-08,
+          3.1293230384419007e-07,
+          2.3035735269002621e-07
+        ]
+      },
+      "gates": {
+        "activation_support": true,
+        "aqueous_bounds": true,
+        "complete_status": true,
+        "conservation": true,
+        "cup_quadrature": true,
+        "cup_state_integral": true,
+        "diagnostic_grain_history_bounds": true,
+        "diagnostic_grain_profile_bounds": true,
+        "diagnostic_inlet": true,
+        "diagnostic_liquid_profile_bounds": true,
+        "events": true,
+        "front_support": true,
+        "grain_bounds": true,
+        "horizon": true,
+        "independent_inventory_sums": true,
+        "phase_bounds": true,
+        "public_cup_outlet_reconstruction": true,
+        "public_inventory_algebra": true,
+        "public_profile_reconstruction": true,
+        "required_times": true,
+        "solver_segments": true,
+        "tail_weights_rates": true
+      },
+      "numerical_passed": true,
+      "public_status": "COMPLETED",
+      "reasons": []
+    },
+    "normal": {
+      "artifact_sha256": "ed7f2963894fc1de625b181efa88f71a8f224eeb8e05cc18c47f85ed3779ff0e",
+      "audits": {
+        "accepted_states": 1514,
+        "aqueous_max": 0.47210981251785417,
+        "aqueous_min": -2.8065524495228704e-25,
+        "conservation_location": {
+          "provenance": "accepted",
+          "segment": 1,
+          "t": 6.3527151451264166
+        },
+        "cup_max_time": 8.0,
+        "cup_quadrature_points": 2162,
+        "cup_quadrature_refinement_max": 0.0,
+        "cup_state_integral_max": 3.6763392330385614e-09,
+        "diagnostic_bounds": {
+          "grain_history": {
+            "excluded": 0,
+            "included": 4326,
+            "maximum": 1.3880000000000001,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.025
+            },
+            "minimum": -2.658783161455926e-25,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 5.85,
+              "z": 0.025
+            },
+            "requested": 4326,
+            "unavailable": 0
+          },
+          "grain_profile": {
+            "excluded": 0,
+            "included": 135960,
+            "maximum": 1.3880000000000001,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.0,
+              "z": 0.0
+            },
+            "minimum": -1.860402942134487e-21,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 4.762295288543322,
+              "z": 0.01
+            },
+            "requested": 135960,
+            "unavailable": 0
+          },
+          "liquid_profile": {
+            "excluded": 0,
+            "included": 135960,
+            "maximum": 1.0,
+            "maximum_location": {
+              "provenance": "required",
+              "t": 0.01,
+              "z": 0.005
+            },
+            "minimum": -2.7413180399267086e-20,
+            "minimum_location": {
+              "provenance": "required",
+              "t": 4.05,
+              "z": 0.005
+            },
+            "requested": 135960,
+            "unavailable": 0
+          }
+        },
+        "diagnostic_inlet_mean_error": 2.046100506994386e-05,
+        "event_states": 1,
+        "front_decrease": 0.0,
+        "front_wet_excess": 0.0,
+        "grain_mean_min": -6.21694484508161e-24,
+        "horizon": 8.0,
+        "independent_sum_allowance_fraction": 6.103515625e-05,
+        "max_normalized_conservation": 1.3102289026388825e-09,
+        "phase_min": 0.0,
+        "public_cup_error": 0.0,
+        "public_grain_endpoint_difference": 0.009259576211408271,
+        "public_inventory_allowance_fraction": 0.0009381003843560316,
+        "public_outlet_error": 0.0,
+        "public_profile_reconstruction_error": 3.3306690738754696e-16,
+        "spectrum": {
+          "allowance": 5.684341886080802e-14,
+          "complement_tail": 0.018703974001373136,
+          "complement_tail_difference": -6.938893903907228e-17,
+          "rate_relative_error": 0.0,
+          "tail_rate": 31286.640354063482,
+          "tail_weight": 0.018703974001373067,
+          "weight_error": 0.0,
+          "weight_sum": 0.9999999999999999
+        },
+        "terminal_cup": 5.551999349061818,
+        "terminal_phases": [
+          9.825157731846446e-08,
+          3.144050476155665e-07,
+          2.310140907092343e-07
+        ]
+      },
+      "gates": {
+        "activation_support": true,
+        "aqueous_bounds": true,
+        "complete_status": true,
+        "conservation": true,
+        "cup_quadrature": true,
+        "cup_state_integral": true,
+        "diagnostic_grain_history_bounds": true,
+        "diagnostic_grain_profile_bounds": true,
+        "diagnostic_inlet": false,
+        "diagnostic_liquid_profile_bounds": true,
+        "events": true,
+        "front_support": true,
+        "grain_bounds": true,
+        "horizon": true,
+        "independent_inventory_sums": true,
+        "phase_bounds": true,
+        "public_cup_outlet_reconstruction": true,
+        "public_inventory_algebra": true,
+        "public_profile_reconstruction": true,
+        "required_times": true,
+        "solver_segments": true,
+        "tail_weights_rates": true
+      },
+      "numerical_passed": false,
+      "public_status": "COMPLETED",
+      "reasons": []
+    }
+  },
+  "individual_details": {
+    "activation_support": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 227,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 227,
+      "unavailable": 0
+    },
+    "aqueous_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0,
+        "trace": false
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "complete_status": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "conservation": {
+      "allowance": 1e-06,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "provenance": "accepted",
+        "segment": 1,
+        "t": 6.155460976930302
+      },
+      "maximum": 3.037545239352549e-09,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 3.037545239352549e-09,
+      "unavailable": 0
+    },
+    "cup_quadrature": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 3686,
+      "location": {
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3686,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "cup_state_integral": {
+      "allowance": 5e-05,
+      "excluded": 0,
+      "gate_sum_of_component_maxima": 3.1560185576040567e-09,
+      "included": 3686,
+      "location": {
+        "t": 7.547969439045619
+      },
+      "maximum": 3.1560185576040567e-09,
+      "passed": true,
+      "requested": 3686,
+      "separate_quadrature_maximum": 0.0,
+      "signed_at_maximum": 3.1560185576040567e-09,
+      "unavailable": 0
+    },
+    "diagnostic_grain_history_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 4326,
+      "maximum": 1.3880000000000001,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.025
+      },
+      "minimum": 1.0700467816462948e-32,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.025
+      },
+      "passed": true,
+      "requested": 4326,
+      "unavailable": 0
+    },
+    "diagnostic_grain_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.3880000000000001,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "minimum": 6.442496734365866e-35,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "diagnostic_inlet": {
+      "allowance": 2e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "t": 0.175,
+        "z": 0.0
+      },
+      "maximum": 1.5171920852152798e-06,
+      "passed": true,
+      "requested": 395,
+      "signed_at_maximum": -1.5171920852152798e-06,
+      "unavailable": 0
+    },
+    "diagnostic_liquid_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.0,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.01,
+        "z": 0.005
+      },
+      "minimum": 0.0,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "events": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 2,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 2,
+      "unavailable": 0
+    },
+    "front_support": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 6074,
+      "location": {
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 6074,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "grain_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "horizon": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "independent_inventory_sums": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.46325122333617424
+      },
+      "maximum": 0.00018310546875,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.00018310546875,
+      "unavailable": 0
+    },
+    "phase_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "phase": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_cup_outlet_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 150,
+      "location": {
+        "field": "cup",
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 150,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_inventory_algebra": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 225,
+      "location": {
+        "phase": 1,
+        "t": 0.0
+      },
+      "maximum": 0.0009381003842459175,
+      "passed": true,
+      "requested": 225,
+      "signed_at_maximum": 0.0009381003842459175,
+      "unavailable": 0
+    },
+    "public_profile_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 18000,
+      "location": {
+        "field": "grain",
+        "t": 6.451127819548873,
+        "z": 0.99
+      },
+      "maximum": 4.440892098500626e-16,
+      "passed": true,
+      "requested": 18000,
+      "signed_at_maximum": -4.440892098500626e-16,
+      "unavailable": 0
+    },
+    "required_times": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 614,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 614,
+      "unavailable": 0
+    },
+    "solver_segments": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 3,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 3,
+      "unavailable": 0
+    },
+    "tail_weights_rates": {
+      "allowance": 5.684341886080802e-14,
+      "audit": {
+        "allowance": 5.684341886080802e-14,
+        "complement_tail": 0.018703974001373136,
+        "complement_tail_difference": -6.938893903907228e-17,
+        "rate_relative_error": 0.0,
+        "tail_rate": 31286.640354063482,
+        "tail_weight": 0.018703974001373067,
+        "weight_error": 0.0,
+        "weight_sum": 0.9999999999999999
+      },
+      "excluded": 0,
+      "included": 33,
+      "location": {
+        "rate_mode_index": 0,
+        "tail_index": 32,
+        "weight_mode_index": 0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 33,
+      "unavailable": 0
+    }
+  },
+  "integrity_reasons": [],
+  "numerical_freeze_head": "12fdfd05a7e377547ae34740fc88bd2ddf92fbb6",
+  "numerical_freeze_tree": "2186f8f98a9dbdf2006c6a8883b6dd852954ad8f",
+  "physical_validation": "NOT_ESTABLISHED",
+  "production_attempted": true,
+  "readout_file": "READOUT.json",
+  "same_point_observables": [
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 1.4611412276099855e-05,
+      "delta_256_512": 4.401560043554298e-06,
+      "location": {
+        "index": [
+          84
+        ],
+        "z": 0.405
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "activation",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 2.606347224997638,
+        "256": 2.606361836409914,
+        "512": 2.6063662379699575
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": true,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -3.1561209574704208e-06,
+      "delta_256_512": 2.338527565370896e-06,
+      "location": {
+        "normal_t": 6.5043092876388835,
+        "refined_t": 6.504306131517926,
+        "z": 1.0
+      },
+      "monotone": false,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "arrival",
+      "reversal": true,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 6.5043092876388835,
+        "256": 6.504306131517926,
+        "512": 6.504308470045491
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -1.2374645506144089e-06,
+      "delta_256_512": -5.194437669667901e-07,
+      "location": {
+        "index": [
+          329
+        ],
+        "t": 6.65
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "boulder_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.005548356640079316,
+        "256": 0.0055471191755287015,
+        "512": 0.005546599731761735
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 9.54710495815192e-06,
+      "delta_256_512": 3.854572537598244e-06,
+      "location": {
+        "index": [
+          317
+        ],
+        "t": 6.595
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "cup",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 5.528644683328284,
+        "256": 5.528654230433242,
+        "512": 5.528658085005779
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -6.4289091430240475e-06,
+      "delta_256_512": -2.5850686522117805e-06,
+      "location": {
+        "index": [
+          316
+        ],
+        "t": 6.59
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "fines_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.011846586381942852,
+        "256": 0.011840157472799828,
+        "512": 0.011837572404147616
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -2.2315005248629838e-06,
+      "delta_256_512": -6.717860741578541e-07,
+      "location": {
+        "index": [
+          106
+        ],
+        "t": 2.6
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "front",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.4040306473767694,
+        "256": 0.40402841587624455,
+        "512": 0.4040277440901704
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.00043232399697179513,
+      "delta_256_512": -5.9417723681787216e-05,
+      "location": {
+        "index": [
+          237,
+          5
+        ],
+        "t": 5.875,
+        "z": 0.9
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "grain_histories",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.897804099802781,
+        "256": 0.8973717758058092,
+        "512": 0.8973123580821274
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.000599964833227995,
+      "delta_256_512": -0.00012485272381557166,
+      "location": {
+        "index": [
+          299,
+          218
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "grain_profiles",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.7963197196343995,
+        "256": 0.7957197548011715,
+        "512": 0.795594902077356
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -2.0090341070755358e-06,
+      "delta_256_512": -8.078339539530077e-07,
+      "location": {
+        "index": [
+          316
+        ],
+        "t": 6.59
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "liquid_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.003702058244357209,
+        "256": 0.0037000492102501337,
+        "512": 0.0036992413762961807
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.00017577559183272473,
+      "delta_256_512": -4.260635210452668e-05,
+      "location": {
+        "index": [
+          302,
+          213
+        ],
+        "t": 6.525,
+        "z": 0.98
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "liquid_profiles",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.11072707697173005,
+        "256": 0.11055130137989733,
+        "512": 0.1105086950277928
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 0.00011550140220856209,
+      "delta_256_512": 2.3222303353442886e-05,
+      "location": {
+        "index": [
+          303
+        ],
+        "t": 6.53
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "historical_128_256",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "outlet",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.30564397450276587,
+        "256": 0.30575947590497443,
+        "512": 0.3057826982083279
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 0.00011550140220856209,
+      "delta_256_512": 2.3222303353442886e-05,
+      "location": {
+        "index": [
+          303
+        ],
+        "t": 6.53
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "outlet",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.30564397450276587,
+        "256": 0.30575947590497443,
+        "512": 0.3057826982083279
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -2.1411549857019985e-06,
+      "delta_256_512": -6.894313843153199e-07,
+      "location": {
+        "index": [
+          128
+        ],
+        "t": 3.15
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "front",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.4880119344051399,
+        "256": 0.4880097932501542,
+        "512": 0.4880091038187699
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": true,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -3.1561209574704208e-06,
+      "delta_256_512": 2.338527565370896e-06,
+      "location": {
+        "normal_t": 6.504306131517926,
+        "refined_t": 6.504308470045491,
+        "z": 1.0
+      },
+      "monotone": false,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "arrival",
+      "reversal": true,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 6.5043092876388835,
+        "256": 6.504306131517926,
+        "512": 6.504308470045491
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.00017082962213368913,
+      "delta_256_512": -4.4668728573477035e-05,
+      "location": {
+        "index": [
+          304,
+          215
+        ],
+        "t": 6.535,
+        "z": 0.9852289512555391
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "liquid_profiles",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.13292181333050704,
+        "256": 0.13275098370837335,
+        "512": 0.13270631497979987
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.000599964833227995,
+      "delta_256_512": -0.00012485272381557166,
+      "location": {
+        "index": [
+          299,
+          218
+        ],
+        "t": 6.51,
+        "z": 0.995
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "grain_profiles",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.7963197196343995,
+        "256": 0.7957197548011715,
+        "512": 0.795594902077356
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 1.3998059371189697e-05,
+      "delta_256_512": 4.515744936650634e-06,
+      "location": {
+        "index": [
+          104
+        ],
+        "z": 0.49
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "activation",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 3.163021860156823,
+        "256": 3.1630358582161944,
+        "512": 3.163040373961131
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -0.000354258722089551,
+      "delta_256_512": -9.302874373223746e-05,
+      "location": {
+        "index": [
+          241,
+          5
+        ],
+        "t": 5.975,
+        "z": 0.9
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "grain_histories",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.395335435955984,
+        "256": 0.3949811772338945,
+        "512": 0.39488814849016224
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": 9.541619809816382e-06,
+      "delta_256_512": 3.855290454879423e-06,
+      "location": {
+        "index": [
+          318
+        ],
+        "t": 6.6
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "cup",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 5.529507167445003,
+        "256": 5.529516709064813,
+        "512": 5.529520564355268
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -2.0067169819171227e-06,
+      "delta_256_512": -8.079039317543391e-07,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "liquid_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.0038443743113112383,
+        "256": 0.003842367594329321,
+        "512": 0.003841559690397567
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -6.421494342176079e-06,
+      "delta_256_512": -2.585292581349166e-06,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "fines_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.012301997796195794,
+        "256": 0.012295576301853618,
+        "512": 0.012292991009272268
+      }
+    },
+    {
+      "acceptance_support": "native pair-specific panels retained separately",
+      "available": {
+        "128": true,
+        "256": true,
+        "512": true
+      },
+      "cancellation": false,
+      "common_acceptance_eligible": true,
+      "common_supported": true,
+      "delta_128_256": -1.226398050781577e-06,
+      "delta_256_512": -5.22256657904327e-07,
+      "location": {
+        "index": [
+          333
+        ],
+        "t": 6.665
+      },
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origin": "new_256_512",
+      "pair_masks": {
+        "128/256": true,
+        "256/512": true
+      },
+      "quantity": "boulder_inventory",
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "values": {
+        "128": 0.00495949569904654,
+        "256": 0.004958269300995758,
+        "512": 0.004957747044337854
+      }
+    }
+  ],
+  "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006",
+  "three_grid": [
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          0,
+          1,
+          2
+        ],
+        "common_values": {
+          "128": 0.11727169323746724,
+          "256": 0.11728742723373106,
+          "512": 0.1172910207677327
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": 1.4936153394970453e-05,
+            "readout": -7.9784286885487e-07,
+            "stored_field": 1.5733996263825323e-05
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": 4.007865668453903e-06,
+            "readout": 4.143316668092645e-07,
+            "stored_field": 3.593534001644638e-06
+          }
+        },
+        "physical_faces": [
+          0.0,
+          0.0005256952695966449,
+          0.0010472674390395904,
+          0.001564716508328837
+        ],
+        "projected_averages": {
+          "128": [
+            0.11947560009010724,
+            0.12396240251125014,
+            0.1285565859996053
+          ],
+          "256": [
+            0.11948899287542866,
+            0.12397253858785669,
+            0.1285655771690323
+          ],
+          "512": [
+            0.11949199124359444,
+            0.12397478339952389,
+            0.12856771488317584
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          1.8379368833836485,
+          -1.176571678540183,
+          0.3386347951565345
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.11947560009010724,
+            0.12396240251125014,
+            0.1285565859996053
+          ],
+          "coarse_cells": [
+            0,
+            1,
+            2
+          ],
+          "coarse_physical_faces": [
+            0.0,
+            0.0005256952695966449,
+            0.0010472674390395904,
+            0.001564716508328837
+          ],
+          "point_grouping_residual": -1.3877787807814457e-17,
+          "projected_averages": [
+            0.11948899287542866,
+            0.12397253858785669,
+            0.1285655771690323
+          ],
+          "readout": -7.978428688409922e-07,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": 1.5733996263825323e-05,
+          "supported": true,
+          "weights": [
+            1.8379368833836485,
+            -1.176571678540183,
+            0.3386347951565345
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.11838392889976579,
+            0.12059838268859377,
+            0.12284016376777526
+          ],
+          "coarse_cells": [
+            0,
+            1,
+            2
+          ],
+          "coarse_physical_faces": [
+            0.0,
+            0.00026336206247277533,
+            0.0005256933536638568,
+            0.0007869938735732445
+          ],
+          "point_grouping_residual": -4.163336342344337e-17,
+          "projected_averages": [
+            0.11838734494536077,
+            0.12060096174237735,
+            0.12284245903792411
+          ],
+          "readout": -1.2249823808097027e-08,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": 4.020115492303633e-06,
+          "supported": true,
+          "weights": [
+            1.8356234831850227,
+            -1.1715840666975454,
+            0.33596058351252267
+          ]
+        }
+      },
+      "delta_128_256": 1.4936153394970453e-05,
+      "delta_256_512": 4.007865668453903e-06,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "original_inlet"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 0.2,
+      "values": {
+        "128": 0.11727169323746728,
+        "256": 0.11728662939086225,
+        "512": 0.1172906372565307
+      },
+      "z": 0.0
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          118,
+          119,
+          120
+        ],
+        "common_values": {
+          "128": 0.8978040998027816,
+          "256": 0.8974228946138246,
+          "512": 0.8973411579322179
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": -0.00043232399697146207,
+            "readout": -5.111880801444979e-05,
+            "stored_field": -0.0003812051889570123
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": -5.941772368189824e-05,
+            "readout": 2.2318957924816196e-05,
+            "stored_field": -8.173668160671443e-05
+          }
+        },
+        "physical_faces": [
+          0.8984340378607585,
+          0.8994823212505493,
+          0.9004202590203622,
+          0.9012478511701971
+        ],
+        "projected_averages": {
+          "128": [
+            0.8399027406299117,
+            0.8951841065033047,
+            0.9513109606749257
+          ],
+          "256": [
+            0.8395454378837783,
+            0.8948038128624173,
+            0.9508937150058755
+          ],
+          "512": [
+            0.8394666342531997,
+            0.8947221816249872,
+            0.9508070297071786
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          -0.06067869977381757,
+          1.0737634898316337,
+          -0.013084790057816131
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.8399027406299117,
+            0.8951841065033047,
+            0.9513109606749257
+          ],
+          "coarse_cells": [
+            118,
+            119,
+            120
+          ],
+          "coarse_physical_faces": [
+            0.8984340378607585,
+            0.8994823212505493,
+            0.9004202590203622,
+            0.9012478511701971
+          ],
+          "point_grouping_residual": 1.5543122344752192e-15,
+          "projected_averages": [
+            0.8395454378837783,
+            0.8948038128624173,
+            0.9508937150058755
+          ],
+          "readout": -5.111880801622615e-05,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.00038120518895679023,
+          "supported": true,
+          "weights": [
+            -0.06067869977381757,
+            1.0737634898316337,
+            -0.013084790057816131
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.8812661547388757,
+            0.9091415449179013,
+            0.9372200874797013
+          ],
+          "coarse_cells": [
+            238,
+            239,
+            240
+          ],
+          "coarse_physical_faces": [
+            0.8994821548929347,
+            0.8999649168910525,
+            0.9004200924892778,
+            0.9008476816876105
+          ],
+          "point_grouping_residual": -5.551115123125783e-16,
+          "projected_averages": [
+            0.8811854482064292,
+            0.9090589321939098,
+            0.9371349664693148
+          ],
+          "readout": 2.2285674757815954e-05,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -8.170339843915908e-05,
+          "supported": true,
+          "weights": [
+            0.24331072751159366,
+            0.9343120118805085,
+            -0.17762273939210205
+          ]
+        }
+      },
+      "delta_128_256": -0.00043232399697146207,
+      "delta_256_512": -5.941772368189824e-05,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "original_history",
+        "historical_128_256:grain_histories"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": false
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": false
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 5.875,
+      "values": {
+        "128": 0.8978040998027808,
+        "256": 0.8973717758058093,
+        "512": 0.8973123580821274
+      },
+      "z": 0.9
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          108,
+          109,
+          110
+        ],
+        "common_values": {
+          "128": 0.39533543595598314,
+          "256": 0.39497524406825996,
+          "512": 0.3948875285336747
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": -0.00035425872208982856,
+            "readout": 5.933165633353887e-06,
+            "stored_field": -0.00036019188772318245
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": -9.30287437319599e-05,
+            "readout": -5.313209146706743e-06,
+            "stored_field": -8.771553458525316e-05
+          }
+        },
+        "physical_faces": [
+          0.896772179125434,
+          0.8989602493823092,
+          0.9010361109080626,
+          0.9029997637026941
+        ],
+        "projected_averages": {
+          "128": [
+            0.3558945411097064,
+            0.39548379414572266,
+            0.4372898020861129
+          ],
+          "256": [
+            0.35554567063021414,
+            0.3951239110228174,
+            0.43692655359243027
+          ],
+          "512": [
+            0.3554611976402992,
+            0.3950362843414264,
+            0.4368379733731277
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          -0.040981223065421846,
+          1.0833381542014142,
+          -0.04235693113599246
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.3558945411097064,
+            0.39548379414572266,
+            0.4372898020861129
+          ],
+          "coarse_cells": [
+            108,
+            109,
+            110
+          ],
+          "coarse_physical_faces": [
+            0.896772179125434,
+            0.8989602493823092,
+            0.9010361109080626,
+            0.9029997637026941
+          ],
+          "point_grouping_residual": -1.7208456881689926e-15,
+          "projected_averages": [
+            0.35554567063021414,
+            0.3951239110228174,
+            0.43692655359243027
+          ],
+          "readout": 5.933165635074733e-06,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.00036019188772318245,
+          "supported": true,
+          "weights": [
+            -0.040981223065421846,
+            1.0833381542014142,
+            -0.04235693113599246
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.3652787766569644,
+            0.385078395930745,
+            0.4054420275189447
+          ],
+          "coarse_cells": [
+            217,
+            218,
+            219
+          ],
+          "coarse_physical_faces": [
+            0.8978801746823689,
+            0.8989601836404341,
+            0.9000121404177702,
+            0.9010360450143775
+          ],
+          "point_grouping_residual": 9.992007221626409e-16,
+          "projected_averages": [
+            0.3651931990918154,
+            0.3849912541659741,
+            0.40535390273514055
+          ],
+          "readout": -5.311519205575266e-06,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -8.771722452738384e-05,
+          "supported": true,
+          "weights": [
+            -0.16012323561652897,
+            0.829514121426987,
+            0.33060911418954203
+          ]
+        }
+      },
+      "delta_128_256": -0.00035425872208982856,
+      "delta_256_512": -9.30287437319599e-05,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "new_256_512:grain_histories"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 5.975,
+      "values": {
+        "128": 0.39533543595598414,
+        "256": 0.3949811772338943,
+        "512": 0.39488814849016235
+      },
+      "z": 0.9
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          117,
+          118,
+          119
+        ],
+        "common_values": {
+          "128": 0.7963197196343998,
+          "256": 0.7958206227061955,
+          "512": 0.7957080692434653
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": -0.000599964833228106,
+            "readout": -0.00010086790502372711,
+            "stored_field": -0.0004990969282043789
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": -0.00012485272381557166,
+            "readout": -1.229926108536894e-05,
+            "stored_field": -0.00011255346273020272
+          }
+        },
+        "physical_faces": [
+          0.99261474609375,
+          0.993896484375,
+          0.99505615234375,
+          0.99609375
+        ],
+        "projected_averages": {
+          "128": [
+            0.7201143561637335,
+            0.7722080967662057,
+            0.824625534579281
+          ],
+          "256": [
+            0.7196578544759332,
+            0.7717249095713947,
+            0.8241043310416085
+          ],
+          "512": [
+            0.7195527210869378,
+            0.7716152241940675,
+            0.8239876769799234
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          -0.14216701754385963,
+          0.8234637037037077,
+          0.31870331384015194
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.7201143561637335,
+            0.7722080967662057,
+            0.824625534579281
+          ],
+          "coarse_cells": [
+            117,
+            118,
+            119
+          ],
+          "coarse_physical_faces": [
+            0.99261474609375,
+            0.993896484375,
+            0.99505615234375,
+            0.99609375
+          ],
+          "point_grouping_residual": 0.0,
+          "projected_averages": [
+            0.7196578544759332,
+            0.7717249095713947,
+            0.8241043310416085
+          ],
+          "readout": -0.00010086790502383813,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.0004990969282042679,
+          "supported": true,
+          "weights": [
+            -0.14216701754385963,
+            0.8234637037037077,
+            0.31870331384015194
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.7589861593124451,
+            0.7851522409254434,
+            0.8113756532617968
+          ],
+          "coarse_cells": [
+            236,
+            237,
+            238
+          ],
+          "coarse_physical_faces": [
+            0.9938964843750002,
+            0.9944915771484377,
+            0.9950561523437502,
+            0.9955902099609377
+          ],
+          "point_grouping_residual": -1.1102230246251565e-16,
+          "projected_averages": [
+            0.7588778596068305,
+            0.7850410949752297,
+            0.8112610244322528
+          ],
+          "readout": -1.2397870864266913e-05,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.00011245485295119373,
+          "supported": true,
+          "weights": [
+            -0.15043774300613222,
+            0.8975664717352397,
+            0.2528712712708925
+          ]
+        }
+      },
+      "delta_128_256": -0.000599964833228106,
+      "delta_256_512": -0.00012485272381557166,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "original_profile",
+        "historical_128_256:grain_profiles",
+        "new_256_512:grain_profiles"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 6.51,
+      "values": {
+        "128": 0.7963197196343996,
+        "256": 0.7957197548011715,
+        "512": 0.795594902077356
+      },
+      "z": 0.995
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          108,
+          109,
+          110
+        ],
+        "common_values": {
+          "128": 0.3254640789147009,
+          "256": 0.3250590251335481,
+          "512": 0.3249610975612986
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": -0.00043709143602060907,
+            "readout": -3.2037654867811405e-05,
+            "stored_field": -0.00040505378115279767
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": -0.00010136637304319907,
+            "readout": -3.438800793675867e-06,
+            "stored_field": -9.79275722495232e-05
+          }
+        },
+        "physical_faces": [
+          0.9755859375,
+          0.97796630859375,
+          0.980224609375,
+          0.98236083984375
+        ],
+        "projected_averages": {
+          "128": [
+            0.27787834545637546,
+            0.31142017558008567,
+            0.34700328499885275
+          ],
+          "256": [
+            0.27751489584501005,
+            0.31102548380691347,
+            0.34658620235603654
+          ],
+          "512": [
+            0.277427972906289,
+            0.3109303084842447,
+            0.34648505253275474
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          -0.1504377430061633,
+          0.8975664717348996,
+          0.2528712712712638
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.27787834545637546,
+            0.31142017558008567,
+            0.34700328499885275
+          ],
+          "coarse_cells": [
+            108,
+            109,
+            110
+          ],
+          "coarse_physical_faces": [
+            0.9755859375,
+            0.97796630859375,
+            0.980224609375,
+            0.98236083984375
+          ],
+          "point_grouping_residual": 1.1102230246251565e-16,
+          "projected_averages": [
+            0.27751489584501005,
+            0.31102548380691347,
+            0.34658620235603654
+          ],
+          "readout": -3.203765486792243e-05,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.00040505378115279767,
+          "supported": true,
+          "weights": [
+            -0.1504377430061633,
+            0.8975664717348996,
+            0.2528712712712638
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.30249830832101005,
+            0.3197862805390129,
+            0.3375786001820439
+          ],
+          "coarse_cells": [
+            218,
+            219,
+            220
+          ],
+          "coarse_physical_faces": [
+            0.9779663085937502,
+            0.9791107177734377,
+            0.9802246093750002,
+            0.9813079833984377
+          ],
+          "point_grouping_residual": 5.551115123125783e-17,
+          "projected_averages": [
+            0.3024048877665191,
+            0.3196893023723259,
+            0.3374786412515624
+          ],
+          "readout": -3.416532768585334e-06,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -9.794984027466924e-05,
+          "supported": true,
+          "weights": [
+            -0.14167113414780563,
+            0.984777577577713,
+            0.15689355657009266
+          ]
+        }
+      },
+      "delta_128_256": -0.00043709143602060907,
+      "delta_256_512": -0.00010136637304319907,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "historical_128_256:liquid_profiles"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 6.525,
+      "values": {
+        "128": 0.32546407891470086,
+        "256": 0.32502698747868025,
+        "512": 0.32492562110563705
+      },
+      "z": 0.98
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          125,
+          126,
+          127
+        ],
+        "common_values": {
+          "128": 0.8989486699410401,
+          "256": 0.8990085663717179,
+          "512": 0.8990432152325218
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": 5.895562198532378e-05,
+            "readout": -9.408086925066783e-07,
+            "stored_field": 5.989643067783046e-05
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": 3.624203564156492e-05,
+            "readout": 1.593174837610789e-06,
+            "stored_field": 3.464886080395413e-05
+          }
+        },
+        "physical_faces": [
+          0.99945068359375,
+          0.999755859375,
+          0.99993896484375,
+          1.0
+        ],
+        "projected_averages": {
+          "128": [
+            0.8759664552052159,
+            0.8899661313589803,
+            0.8971369628133002
+          ],
+          "256": [
+            0.8759236532292863,
+            0.8899803884619023,
+            0.897187079792894
+          ],
+          "512": [
+            0.8759272391885317,
+            0.8900029950545143,
+            0.8972193101186007
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          0.055555555555555636,
+          -0.416666666666667,
+          1.3611111111111114
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.8759664552052159,
+            0.8899661313589803,
+            0.8971369628133002
+          ],
+          "coarse_cells": [
+            125,
+            126,
+            127
+          ],
+          "coarse_physical_faces": [
+            0.99945068359375,
+            0.999755859375,
+            0.99993896484375,
+            1.0
+          ],
+          "point_grouping_residual": -3.3306690738754696e-16,
+          "projected_averages": [
+            0.8759236532292863,
+            0.8899803884619023,
+            0.897187079792894
+          ],
+          "readout": -9.408086922846337e-07,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": 5.989643067794148e-05,
+          "supported": true,
+          "weights": [
+            0.055555555555555636,
+            -0.416666666666667,
+            1.3611111111111114
+          ]
+        },
+        "256/512": {
+          "reason": "complete common physical stencil unavailable",
+          "supported": false
+        }
+      },
+      "delta_128_256": 5.895562198532378e-05,
+      "delta_256_512": 3.624203564156492e-05,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "historical_128_256:outlet",
+        "new_256_512:outlet"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 6.53,
+      "values": {
+        "128": 0.8989486699410401,
+        "256": 0.8990076255630254,
+        "512": 0.899043867598667
+      },
+      "z": 1.0
+    },
+    {
+      "cancellation": false,
+      "common_three_grid": {
+        "cells": [
+          111,
+          112,
+          113
+        ],
+        "common_values": {
+          "128": 0.3907238328962918,
+          "256": 0.3902894890766961,
+          "512": 0.39018365613730155
+        },
+        "components": {
+          "128/256": {
+            "closure": 0.0,
+            "direct": -0.00042603152323944515,
+            "readout": 8.312296356283166e-06,
+            "stored_field": -0.0004343438195957283
+          },
+          "256/512": {
+            "closure": 0.0,
+            "direct": -0.00010941462955393888,
+            "readout": -3.5816901594043493e-06,
+            "stored_field": -0.00010583293939453453
+          }
+        },
+        "physical_faces": [
+          0.98236083984375,
+          0.984375,
+          0.98626708984375,
+          0.988037109375
+        ],
+        "projected_averages": {
+          "128": [
+            0.3565202902534982,
+            0.39266759855895245,
+            0.4300723950263209
+          ],
+          "256": [
+            0.35609476998926415,
+            0.392233186878104,
+            0.42963481046830504
+          ],
+          "512": [
+            0.35599125746003407,
+            0.3921273433949543,
+            0.42952824166308756
+          ]
+        },
+        "reference": "same 128 physical cells; no continuum reference",
+        "supported": true,
+        "weights": [
+          -0.016655112011959128,
+          1.0847159857996231,
+          -0.06806087378766391
+        ]
+      },
+      "common_three_grid_stencil_supported": true,
+      "decompositions": {
+        "128/256": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.3565202902534982,
+            0.39266759855895245,
+            0.4300723950263209
+          ],
+          "coarse_cells": [
+            111,
+            112,
+            113
+          ],
+          "coarse_physical_faces": [
+            0.98236083984375,
+            0.984375,
+            0.98626708984375,
+            0.988037109375
+          ],
+          "point_grouping_residual": 0.0,
+          "projected_averages": [
+            0.35609476998926415,
+            0.392233186878104,
+            0.42963481046830504
+          ],
+          "readout": 8.312296356227655e-06,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.0004343438195956728,
+          "supported": true,
+          "weights": [
+            -0.016655112011959128,
+            1.0847159857996231,
+            -0.06806087378766391
+          ]
+        },
+        "256/512": {
+          "closure": 0.0,
+          "coarse_averages": [
+            0.36508957981157175,
+            0.383173438034411,
+            0.4015899766675007
+          ],
+          "coarse_cells": [
+            223,
+            224,
+            225
+          ],
+          "coarse_physical_faces": [
+            0.9833831787109377,
+            0.9843750000000002,
+            0.9853363037109377,
+            0.9862670898437502
+          ],
+          "point_grouping_residual": 5.551115123125783e-17,
+          "projected_averages": [
+            0.3649852432805371,
+            0.38306795045100756,
+            0.4014837656157606
+          ],
+          "readout": -3.5793679732387673e-06,
+          "reference": "finite numerical representation, not continuum truth",
+          "stored_field": -0.00010583526158075562,
+          "supported": true,
+          "weights": [
+            -0.1538793448303739,
+            0.9181330317037191,
+            0.23574631312665484
+          ]
+        }
+      },
+      "delta_128_256": -0.00042603152323944515,
+      "delta_256_512": -0.00010941462955393888,
+      "monotone": true,
+      "order_estimate": "UNSUPPORTED_NOT_ESTIMATED",
+      "origins": [
+        "new_256_512:liquid_profiles"
+      ],
+      "pair_masks": {
+        "128/256": {
+          "grain_history": true,
+          "grain_profile": true
+        },
+        "256/512": {
+          "grain_history": true,
+          "grain_profile": true
+        }
+      },
+      "reversal": false,
+      "same_point_absolute_difference_reduced": true,
+      "sign_convention": "refined minus coarse",
+      "t": 6.535,
+      "values": {
+        "128": 0.39072383289629176,
+        "256": 0.3902978013730523,
+        "512": 0.39018838674349837
+      },
+      "z": 0.9852289512555391
+    }
+  ]
+}

@@ -1,0 +1,434 @@
+{
+  "actual_rates": [
+    9.869604401089358,
+    39.47841760435743,
+    88.82643960980423,
+    157.91367041742973,
+    246.74011002723395,
+    355.3057584392169,
+    483.61061565337855,
+    631.6546816697189,
+    799.437956488238,
+    986.9604401089358,
+    1194.2221325318121,
+    1421.2230337568676,
+    1667.9631437841017,
+    1934.4424626135142,
+    2220.660990245105,
+    2526.6187266788756,
+    2852.3156719148246,
+    3197.751825952952,
+    3562.9271887932578,
+    3947.8417604357433,
+    4352.495540880407,
+    4776.8885301272485,
+    5221.02072817627,
+    5684.89213502747,
+    6168.502750680849,
+    6671.852575136407,
+    7194.941608394141,
+    7737.769850454057,
+    8300.33730131615,
+    8882.64396098042,
+    9484.689829446872,
+    10106.474906715503,
+    31286.640354063482
+  ],
+  "actual_weights": [
+    0.6079271018540267,
+    0.15198177546350666,
+    0.06754745576155852,
+    0.037995443865876666,
+    0.024317084074161065,
+    0.01688686394038963,
+    0.012406675548041361,
+    0.009498860966469166,
+    0.007505272862395391,
+    0.006079271018540266,
+    0.005024190924413445,
+    0.004221715985097407,
+    0.0035972017861185005,
+    0.0031016688870103403,
+    0.0027018982304623414,
+    0.0023747152416172916,
+    0.0021035539856540716,
+    0.0018763182155988477,
+    0.0016840085923934258,
+    0.0015198177546350666,
+    0.0013785195053379288,
+    0.0012560477311033612,
+    0.001149200570612527,
+    0.0010554289962743518,
+    0.0009726833629664426,
+    0.0008993004465296251,
+    0.0008339192069328213,
+    0.0007754172217525851,
+    0.0007228621900761315,
+    0.0006754745576155853,
+    0.0006325984410551787,
+    0.0005936788104043229,
+    0.018703974001373067
+  ],
+  "adapter_sources": {
+    "puckworks/analysis/grudeva2026_spatial_resolution_006.py": "8725729da2d4c1148b5ff670b84aad62da9b2a3574e68dcc168d3c16cbd71226",
+    "puckworks/analysis/grudeva2026_spatial_resolution_006_report.py": "d13c39152f7f31d276630c80c57e86df885dc2004756192ccea776daac572efc",
+    "tools/grudeva2026_spatial_resolution_006_invoke.py": "b8e14b30b3529bf42c4f764e7fc82dad5f8285256a1c174ef9bdaa37a53c2dc4"
+  },
+  "candidate_metadata": {
+    "file": "006-spatial-512.json",
+    "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+  },
+  "candidate_observations": {
+    "file": "006-spatial-512-observations.json",
+    "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+  },
+  "controls": {
+    "atol": 2e-10,
+    "cells": 512,
+    "front_mesh_power": 2.0,
+    "max_step": 0.05,
+    "modes": 32,
+    "rtol": 2e-08
+  },
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.5.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "evidence_policy": "Complete public Result, accepted/event states, dense arrays, geometry, receipts, observations, fixture point arrays, overlap pieces and logs stay outside Git. No new PDF/source acquisition or publication rescore.",
+  "external_artifacts": {
+    "006-fixture-256-arrays.json": {
+      "bytes": 36182,
+      "sha256": "6aa268c7c415f26ffe6a522dbb11161cc07e36f0974016986ba4822becfcde0e"
+    },
+    "006-fixture-512-arrays.json": {
+      "bytes": 36113,
+      "sha256": "83af2246de1365414605fb0eeda100b1872f40b135ad54af4eff0001fdc8db76"
+    },
+    "006-readout-accounting-closure.json": {
+      "bytes": 3397,
+      "sha256": "7b3c39fb1bcd7d146bff218109d7b03d4d5acef73a1b0c68fec245dcdeb0f6bd"
+    },
+    "006-readout-runtime.json": {
+      "bytes": 566,
+      "sha256": "6d117bfeec90bd1488e346671bf0ac59162efb05eb2494793d7ccec783f30df2"
+    },
+    "006-readout.json": {
+      "bytes": 25156,
+      "sha256": "1ef0ed6acce738c87b7fa485da4430476aa886953c5d6d8770d68f67e61f9569"
+    },
+    "006-readout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "006-reduction-accounting-closure.json": {
+      "bytes": 10294,
+      "sha256": "d8beb4f3be1252b3fe9d4c9a706337ae13b0502f6a61a575fba87d15c7fa1e82"
+    },
+    "006-reduction-runtime.json": {
+      "bytes": 568,
+      "sha256": "27b6a42e7f7af313476917242f6fbe0ceeaacafb44125d30a7c6fe78c54f95ae"
+    },
+    "006-reduction.json": {
+      "bytes": 373472,
+      "sha256": "2ee6cb4436436651b2c80a942b0469643fdf0c322d64314508155d829fbec23b"
+    },
+    "006-reduction.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "006-spatial-512-accounting-closure.json": {
+      "bytes": 6789,
+      "sha256": "9eeed5d9f338906ab03281702734ae24c5727e975d98695cc7dab66efdee3248"
+    },
+    "006-spatial-512-observations.json": {
+      "bytes": 78412013,
+      "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+    },
+    "006-spatial-512-public-result.json": {
+      "bytes": 590015,
+      "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+    },
+    "006-spatial-512-runtime.json": {
+      "bytes": 570,
+      "sha256": "6da74f31d31c30737f8639c9da7ebadd782ec0a3bcea81149f04405dade2faa6"
+    },
+    "006-spatial-512-segment-0.npz": {
+      "bytes": 1557671748,
+      "sha256": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525"
+    },
+    "006-spatial-512-segment-0.receipt.jsonl": {
+      "bytes": 444345,
+      "sha256": "f1180e25e92e89eefb6db2cbfe2185a1f5827e7d0f2482976eb5649fb5506bc9"
+    },
+    "006-spatial-512-segment-1.npz": {
+      "bytes": 292919724,
+      "sha256": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775"
+    },
+    "006-spatial-512-segment-1.receipt.jsonl": {
+      "bytes": 103703,
+      "sha256": "487635241d27af9fcd072b8c219282d27397808ac66acf6ef854186947162d96"
+    },
+    "006-spatial-512-segment-2.npz": {
+      "bytes": 390138690,
+      "sha256": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c"
+    },
+    "006-spatial-512-segment-2.receipt.jsonl": {
+      "bytes": 104345,
+      "sha256": "3c7dce7eccf7f4d25255c22f4783d2e1f01d636917a0eb02f854a91c2520ea33"
+    },
+    "006-spatial-512.json": {
+      "bytes": 1273231,
+      "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+    },
+    "006-spatial-512.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "historical_fixture_inputs": [
+    {
+      "file": "grain-diagnosis.json",
+      "sha256": "465525df7dde87cf3426ea028beb50def49c82c53c8d0e1d210320c0dd5e115c"
+    },
+    {
+      "attempt": "persistence-final-fixtures",
+      "file": "persistence-final-fixtures-analytic.json",
+      "sha256": "aef1e2771bd9afdceb724bfb06b7de102aa93bb97f83721678e571c4d8db476e"
+    }
+  ],
+  "historical_inputs_inspected": {
+    "bed_fine": {
+      "attribution-bed_fine-public-result.json": "d3cf49bb081e8366e19d23d9cad6176190288aa7fd94aae3951328a6f9ef6ba7",
+      "attribution-bed_fine-segment-0.npz": "18ce6761cd2f264dd26155a554efca23f0595da83aff1cdd4671b1aeae94e822",
+      "attribution-bed_fine-segment-0.receipt.jsonl": "0f8d0a17262f5ef1e4929d4915a95f7aabce96a20c549aa55a88a84fb8531e2d",
+      "attribution-bed_fine-segment-1.npz": "51c80c13454835b4804ea2f818116b8b6e9a2524791c30d3321d1e8255507058",
+      "attribution-bed_fine-segment-1.receipt.jsonl": "70b89bd516135c1c70204f83e614501fb7b95dadc26a8b1f76d5418b8e7f83ce",
+      "attribution-bed_fine-segment-2.npz": "bacb5f934a156ec08f3339cd139860935bdf72df049b428dbc1c12d7d2a759ca",
+      "attribution-bed_fine-segment-2.receipt.jsonl": "445b7b559d10cd4c1d2d941bbb12a7b09110bc7eb64c31ae4cb82e3e11500cb0",
+      "attribution-bed_fine.json": "c028650d75e6ea9724b30d1be4864f73f72ed9076ec8c132737a5078b9c40994"
+    },
+    "normal": {
+      "normal-persistence-public-result.json": "fa0c989d885dd733a52f5e61560c4cb81710237408f36d98f0b0dcf23b439aa8",
+      "normal-persistence-segment-0.npz": "37eb4666b174eb6ac6bc9795763b6a51d1e45266e5c9907980b6743ffa544138",
+      "normal-persistence-segment-0.receipt.jsonl": "3972aade38d21babbfcfbdf402bc5f114641e6a149a3fd7d20b1af286ad65de3",
+      "normal-persistence-segment-1.npz": "9dae43b2c7c6b1499065b67395305672c2e2afd129d7bdd7ac4f08a51138a20a",
+      "normal-persistence-segment-1.receipt.jsonl": "e2819c600c1554f6b31e9272dd9f4b7c7af53e97f2cc92d00489b5c549775d40",
+      "normal-persistence-segment-2.npz": "a96b9c767f08ab430803af5f18e18902566e7f13f5d775887806a9fb22fb3c97",
+      "normal-persistence-segment-2.receipt.jsonl": "158bda822074db17034d3c473f62e1d6ded77233c89a6fd9aa5740e33be3f4ee",
+      "normal-persistence.json": "ed7f2963894fc1de625b181efa88f71a8f224eeb8e05cc18c47f85ed3779ff0e"
+    }
+  },
+  "historical_observations_inspected": {
+    "bed_fine": {
+      "binding": {
+        "authority": "ATTRIBUTION.json bindings",
+        "file": "attribution-bed_fine-attribution-check.json",
+        "sha256": "df0590bd23697f054860027227decf9b6ddd815b713e75f0ea69e5292595d384"
+      },
+      "file": "attribution-bed_fine-observations.json",
+      "sha256": "bd0fbdcc318878d875574d72c9ab8455de18437305d897ac6ac0ba4b33300b7f"
+    },
+    "normal": {
+      "binding": {
+        "authority": "closed 005 ledger end.log_sha256, first JSON record",
+        "file": "normal-persistence.log",
+        "sha256": "7e268ae2ff78d97f883dcafee50bbcf2e36da5cffc69346b46e44a134bafbee3"
+      },
+      "file": "normal-persistence-observations.json",
+      "sha256": "e05ba32cddb4cb1398eba15e28e800c7bd6086cbd78e15d1795b5ac41ef8961d"
+    }
+  },
+  "parameters": {
+    "c_b_init": 1.388,
+    "c_f_init": 1.388,
+    "d_sb": 1.0,
+    "phi_b": 0.16,
+    "phi_f": 0.64,
+    "phi_l": 0.2,
+    "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+    "varphi_lb": 0.0
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+  "public_checkpoint": {
+    "file": "006-spatial-512-public-result.json",
+    "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+  },
+  "public_preserved": true,
+  "public_result_sha256": "84a42781d60c2fb5df10a82a7db9663177db96eb21a1e8f9ab57cf86a2dd15e6",
+  "request_hashes": {
+    "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+    "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+    "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+    "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+    "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+  },
+  "returned": 3,
+  "scientific_artifact_bytes": 2322150921,
+  "seam_restored": true,
+  "segments": [
+    {
+      "accepted_state_shape": [
+        17410,
+        2197
+      ],
+      "array_fidelity": "PASS",
+      "arrays_verified": 2207,
+      "artifact_integrity": "PASS",
+      "attempt": "006-spatial-512",
+      "capture_outcome": "PASS",
+      "dense_side": "right",
+      "dripping": false,
+      "event_channels": 2,
+      "file": "006-spatial-512-segment-0.npz",
+      "fixed": false,
+      "live_replay": {
+        "accepted_state_error": 8.881784197001252e-16,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 4395
+      },
+      "nfev": 7908,
+      "njev": 72,
+      "nlu": 613,
+      "numerical_bytes": 1557135376,
+      "numerical_replay": "PASS",
+      "receipt_file": "006-spatial-512-segment-0.receipt.jsonl",
+      "receipt_sha256": "f1180e25e92e89eefb6db2cbfe2185a1f5827e7d0f2482976eb5649fb5506bc9",
+      "requested_interval": [
+        0.0,
+        1.0
+      ],
+      "segment_index": 0,
+      "sha256": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525",
+      "status": 0,
+      "success": true,
+      "valid_interval": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "accepted_state_shape": [
+        17410,
+        417
+      ],
+      "array_fidelity": "PASS",
+      "arrays_verified": 427,
+      "artifact_integrity": "PASS",
+      "attempt": "006-spatial-512",
+      "capture_outcome": "PASS",
+      "dense_side": "right",
+      "dripping": true,
+      "event_channels": 2,
+      "file": "006-spatial-512-segment-1.npz",
+      "fixed": false,
+      "live_replay": {
+        "accepted_state_error": 6.661338147750939e-16,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 835
+      },
+      "nfev": 1476,
+      "njev": 11,
+      "nlu": 114,
+      "numerical_bytes": 292816504,
+      "numerical_replay": "PASS",
+      "receipt_file": "006-spatial-512-segment-1.receipt.jsonl",
+      "receipt_sha256": "487635241d27af9fcd072b8c219282d27397808ac66acf6ef854186947162d96",
+      "requested_interval": [
+        1.0,
+        8.0
+      ],
+      "segment_index": 1,
+      "sha256": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775",
+      "status": 1,
+      "success": true,
+      "valid_interval": [
+        1.0,
+        6.504308470045491
+      ]
+    },
+    {
+      "accepted_state_shape": [
+        17410,
+        424
+      ],
+      "array_fidelity": "PASS",
+      "arrays_verified": 430,
+      "artifact_integrity": "PASS",
+      "attempt": "006-spatial-512",
+      "capture_outcome": "PASS",
+      "dense_side": "right",
+      "dripping": true,
+      "event_channels": 0,
+      "file": "006-spatial-512-segment-2.npz",
+      "fixed": true,
+      "live_replay": {
+        "accepted_state_error": 1.8951507030351422e-13,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 849
+      },
+      "nfev": 875,
+      "njev": 7,
+      "nlu": 81,
+      "numerical_bytes": 390034776,
+      "numerical_replay": "PASS",
+      "receipt_file": "006-spatial-512-segment-2.receipt.jsonl",
+      "receipt_sha256": "3c7dce7eccf7f4d25255c22f4783d2e1f01d636917a0eb02f854a91c2520ea33",
+      "requested_interval": [
+        6.504308470045491,
+        8.0
+      ],
+      "segment_index": 2,
+      "sha256": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c",
+      "status": 0,
+      "success": true,
+      "valid_interval": [
+        6.504308470045491,
+        8.0
+      ]
+    }
+  ],
+  "solve_invocations": 3,
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "sources": {
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+    "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+    "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+    "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+  },
+  "state_layout": {
+    "modal_axis": 0,
+    "modal_shape": [
+      33,
+      512
+    ],
+    "order": "s,liquid,mode-major,cup",
+    "size": 17410
+  },
+  "storage_schema": "grudeva2026.baseline_observation.005.v1",
+  "storage_semantics": "unchanged 005 format only; execution authority is 006",
+  "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+}
