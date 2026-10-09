@@ -1,0 +1,73 @@
+{
+  "figure3_002": {
+    "file": "figure-19-0.jpeg",
+    "sha256": "089302c08c61eaaa19af4a3bf38ac45107f458cea53cc16208b468c46338e9a8",
+    "verified": true
+  },
+  "figure3_original": {
+    "file": "figure-page19-0.jpeg",
+    "sha256": "089302c08c61eaaa19af4a3bf38ac45107f458cea53cc16208b468c46338e9a8",
+    "verified": true
+  },
+  "figure4_002": {
+    "file": "figure-20-0.png",
+    "sha256": "55c978287c1168353f35bff414dcf3ecb6ac7e1cf78198d6ab24a09f4e96429a",
+    "verified": true
+  },
+  "figure4_original": {
+    "file": "figure-page20-0.png",
+    "sha256": "55c978287c1168353f35bff414dcf3ecb6ac7e1cf78198d6ab24a09f4e96429a",
+    "verified": true
+  },
+  "inspection_limits": "Original fixture PDF and both retained embedded images rehashed. 002 alternate-container and supplement inspection reused by immutable source-audit identity; no new PDF extraction, source acquisition or correspondence inspection.",
+  "original_pdf": {
+    "file": "article.pdf",
+    "sha256": "5b9e41e85591dce8a32b923663ee3ccf9e00c0ac34dc17659864ff7417326a29",
+    "verified": true
+  },
+  "retained_002_independent_reextraction": {
+    "all_target_rows_equal": true,
+    "file": "independent-review-reextracted.json",
+    "sha256": "e9548cbfd86c82673d9ebe2a241ae98c6914f4aeee8b2efff2203fa09a1777b7"
+  },
+  "retained_002_reextraction": {
+    "all_target_rows_equal": true,
+    "file": "reference-reextracted.json",
+    "sha256": "e9548cbfd86c82673d9ebe2a241ae98c6914f4aeee8b2efff2203fa09a1777b7",
+    "source": {
+      "article_sha256": "592304014b7be482b5fe2814d730f7d128f9ec2e77d6f7d25f8e0292c5fce5e5",
+      "authors": "Grudeva, Moroney and Foster",
+      "axes": "dimensionless z,t,c_l; linear",
+      "calibration": {
+        "figure3": {
+          "c0_y": 641,
+          "c1_y": 115,
+          "z0_x": 88,
+          "z1_x": 765
+        },
+        "figure4": {
+          "c0_y": 571,
+          "c1_y": 95,
+          "t4_x": 95,
+          "t8_x": 893
+        }
+      },
+      "curve_identity": "epsilon -> 0, asymptotic, gray",
+      "doi": "10.1017/S095679252500018X",
+      "figure3_sha256": "089302c08c61eaaa19af4a3bf38ac45107f458cea53cc16208b468c46338e9a8",
+      "figure4_sha256": "55c978287c1168353f35bff414dcf3ecb6ac7e1cf78198d6ab24a09f4e96429a",
+      "license": "CC-BY-4.0",
+      "limitations": "Raster resolution, JPEG artifacts and curve occlusion; selected supported samples only; not author arrays or original MSE grid",
+      "method": "PDF embedded raster extraction; grayscale isolation in declared unoccluded columns; median centerline, pixel-width uncertainty; manual axis calibration"
+    }
+  },
+  "source_audit_reused": {
+    "article_inspected_sha256": "592304014b7be482b5fe2814d730f7d128f9ec2e77d6f7d25f8e0292c5fce5e5",
+    "figure3_figure4_reextracted_coordinates_equal": true,
+    "fixture_changes": "NONE",
+    "pdf_container_difference": "Inspected local PDF has different bytes from original fixture PDF; embedded figure hashes and every extracted coordinate/uncertainty agree",
+    "source_setting_alternatives": 0,
+    "supplement_inspected_sha256": "5437e3310288c2a9506fbd1eb4c4d8854ec8f4293f6edcda5579bbdc9bae5179",
+    "supplement_sections_read": "E.2, E26-E33, pages 13-15"
+  }
+}

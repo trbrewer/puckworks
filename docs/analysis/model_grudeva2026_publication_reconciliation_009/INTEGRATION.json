@@ -1,0 +1,272 @@
+{
+  "checked_utc": "2026-10-09T17:10:57.151722+00:00",
+  "pull_request": 330,
+  "selected_base": {
+    "head": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+    "parents": [
+      "37f62d80ce972141b515b48c893244780e6dd097",
+      "0ec0dfce30b49a8bd8b6143a5807f20cf0121b32"
+    ],
+    "tree": "2aced72fda1c8413d572f803319b7899b9dcb3e5"
+  },
+  "workflow_runs": [
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957822044",
+      "id": 37957822044,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957822044/job/113912717562",
+            "id": 113912717562,
+            "name": "all-scope-strict",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957822044/job/113912717868",
+            "id": 113912717868,
+            "name": "paper3-scope-strict",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 2
+      },
+      "name": "paper3-evidence",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821874",
+      "id": 37957821874,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821874/job/113912716405",
+            "id": 113912716405,
+            "name": "verify-generated",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821874/job/113912716593",
+            "id": 113912716593,
+            "name": "status-truth",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 2
+      },
+      "name": "generated-artifacts",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957822017",
+      "id": 37957822017,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957822017/job/113912718307",
+            "id": 113912718307,
+            "name": "distribution",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 1
+      },
+      "name": "packaging",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821838",
+      "id": 37957821838,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821838/job/113912716557",
+            "id": 113912716557,
+            "name": "guided pull \u2014 tests + installed-wheel report + hermetic notebook",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 1
+      },
+      "name": "experience",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821872",
+      "id": 37957821872,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821872/job/113912715572",
+            "id": 113912715572,
+            "name": "Guided Pull Laboratory notebook \u2014 hermetic (current dev wheel, no network)",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821872/job/113912716033",
+            "id": 113912716033,
+            "name": "Mode 1 \u2014 hermetic (current dev wheel, no network)",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821872/job/113912716144",
+            "id": 113912716144,
+            "name": "Mode 2 \u2014 canonical v0.3.0 release (download + hash-verify)",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 3
+      },
+      "name": "notebook-smoke",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821908",
+      "id": 37957821908,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821908/job/113912716103",
+            "id": 113912716103,
+            "name": "scientific-baseline",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 1
+      },
+      "name": "scientific-baseline",
+      "run_attempt": 1,
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862",
+      "id": 37957821862,
+      "jobs_evidence": {
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912716658",
+            "id": 113912716658,
+            "name": "min-deps",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717054",
+            "id": 113912717054,
+            "name": "quality-mypy",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717146",
+            "id": 113912717146,
+            "name": "quick (3.11)",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717198",
+            "id": 113912717198,
+            "name": "quick (3.12)",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717205",
+            "id": 113912717205,
+            "name": "quick (3.10)",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717211",
+            "id": 113912717211,
+            "name": "quality",
+            "run_attempt": 1,
+            "status": "completed"
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "ab28bd1d20b4fec43d6023a15bc628ee9f0bebcc",
+            "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37957821862/job/113912717379",
+            "id": 113912717379,
+            "name": "quick (3.13)",
+            "run_attempt": 1,
+            "status": "completed"
+          }
+        ],
+        "total_count": 7
+      },
+      "name": "quick-pr",
+      "run_attempt": 1,
+      "status": "completed"
+    }
+  ]
+}
