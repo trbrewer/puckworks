@@ -7,6 +7,7 @@ listed here wins.
 | topic | current document |
 |---|---|
 | **PW / EWP development and next decisions** | [Espresso development guide](research/ESPRESSO_DEVELOPMENT_GUIDE.md) — capabilities, experimental evidence, limitations and bounded proposals; does not grant execution authority |
+| **Thresholds and useful model capabilities** | [Updated independent review, 9 October 2026](research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md) — owner-supplied second-pass review and recommendations; no new scientific adjudication or execution authorization |
 | **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
 | **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
 | **Public-experience / homepage policy** | [`docs/PUBLIC_EXPERIENCE.md`](PUBLIC_EXPERIENCE.md) — the design + review authority behind `README.md` (issue #41) |

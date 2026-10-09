@@ -4,6 +4,12 @@
 This is the cross-repository development guide; cards, result bundles and existing
 planning authorities retain their responsibilities. **PHYSICAL_VALIDATION=NOT_ESTABLISHED.**
 
+See also the owner-supplied [updated independent review of thresholds, capabilities
+and development priorities (9 October 2026)](ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md).
+That later review retains its own source identities and evidence limits; its action
+register is a set of recommendations, not execution authorization. This guide's
+dated findings remain historical.
+
 ## At a glance
 
 **What has been developed?** PW provides runnable components, source adapters,
