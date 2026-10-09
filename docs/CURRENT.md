@@ -7,7 +7,6 @@ listed here wins.
 | topic | current document |
 |---|---|
 | **PW / EWP development and next decisions** | [Espresso development guide](research/ESPRESSO_DEVELOPMENT_GUIDE.md) — capabilities, experimental evidence, limitations and bounded proposals; does not grant execution authority |
-| **Thresholds and useful model capabilities** | [Updated independent review, 9 October 2026](research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md) — owner-supplied second-pass review and recommendations; no new scientific adjudication or execution authorization |
 | **Project status / active queue** | [`docs/planning/STATE_OF_TRUTH.md`](planning/STATE_OF_TRUTH.md) — GENERATED from [`docs/status/current.json`](status/current.json) (`python -m puckworks.statusdoc`); curate the JSON, not the Markdown |
 | **Supported public API + stability policy** | [`docs/API.md`](API.md) — `puckworks.__all__`; what semver covers; internal vs public |
 | **Public-experience / homepage policy** | [`docs/PUBLIC_EXPERIENCE.md`](PUBLIC_EXPERIENCE.md) — the design + review authority behind `README.md` (issue #41) |
@@ -28,6 +27,14 @@ listed here wins.
 | **Model/source cards** | [`docs/cards/`](cards/) — one card per model; source of truth for the physics |
 | **Release / reproducibility** | `python -m puckworks.paper_a.build` / `.paper3.build`; `docs/reproducibility/` |
 | **Superseded reviews / history** | [`docs/archive/`](archive/) — provenance only, NOT current |
+
+## Review inputs (recommendations only)
+
+- [Updated independent review of thresholds, capabilities and development priorities,
+  9 October 2026](research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md) —
+  owner-supplied second-pass review. Filing this document does not supersede the
+  authorities above, adjudicate scientific results, change threshold policy or
+  authorize its proposed tasks.
 
 ## Vocabulary (no bare "DONE")
 
