@@ -1,0 +1,107 @@
+{
+  "comparisons": [
+    [
+      "baseline_512",
+      "modes_fine"
+    ],
+    [
+      "baseline_512",
+      "time_fine"
+    ],
+    [
+      "baseline_512",
+      "bed_fine"
+    ],
+    [
+      "baseline_512",
+      "combined"
+    ]
+  ],
+  "rows": {
+    "baseline_512": {
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "execution": "reuse 006",
+      "horizon": 8.0
+    },
+    "bed_fine": {
+      "controls": {
+        "atol": 2e-10,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "execution": "new observed",
+      "horizon": 8.0
+    },
+    "combined": {
+      "controls": {
+        "atol": 2e-11,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "execution": "new observed",
+      "horizon": 8.0
+    },
+    "control_512": {
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "execution": "new unobserved",
+      "horizon": 8.0
+    },
+    "modes_fine": {
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 64,
+        "rtol": 2e-08
+      },
+      "execution": "new observed",
+      "horizon": 8.0
+    },
+    "repeat_512": {
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "execution": "new observed",
+      "horizon": 8.0
+    },
+    "time_fine": {
+      "controls": {
+        "atol": 2e-11,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 32,
+        "rtol": 2e-09
+      },
+      "execution": "new observed",
+      "horizon": 8.0
+    }
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

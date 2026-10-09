@@ -1,0 +1,96 @@
+{
+  "all_007": {
+    "full": 6,
+    "seconds": 7922.5715879080235,
+    "short_or_offline": 8
+  },
+  "all_new_starts_closed": true,
+  "continuation": {
+    "full": 6,
+    "seconds": 7358.471498611994,
+    "short": 2
+  },
+  "execution_limits": "No application deadline, aggregate budget, invocation quota or memory ceiling. Actual machine safety monitored.",
+  "ledgers": {
+    "replay_certification": {
+      "closed": true,
+      "invocations": [
+        {
+          "exit_code": 0,
+          "identity": "certify-0001",
+          "peak_memory_bytes": {
+            "VmHWM": 1044242432,
+            "VmPeak": 1219891200,
+            "VmRSS": 565198848,
+            "VmSize": 771600384
+          },
+          "seconds": 60.042163345002336,
+          "stage": "certify",
+          "termination": null
+        }
+      ],
+      "ledger_sha256": "0a8c1cee430a32c01a07e690895cec4dd1146a0d00d350f72dce63580eecc5e1",
+      "seconds": 60.042163345002336,
+      "unresolved": []
+    },
+    "replay_reassessment": {
+      "closed": true,
+      "invocations": [
+        {
+          "exit_code": 0,
+          "identity": "diagnose-0001",
+          "peak_memory_bytes": {
+            "VmHWM": 110202880,
+            "VmPeak": 284315648,
+            "VmRSS": 107327488,
+            "VmSize": 281169920
+          },
+          "seconds": 30.022281889017904,
+          "stage": "diagnose",
+          "termination": null
+        },
+        {
+          "exit_code": 0,
+          "identity": "analyze-0001",
+          "peak_memory_bytes": {
+            "VmHWM": 8098893824,
+            "VmPeak": 8314425344,
+            "VmRSS": 5319086080,
+            "VmSize": 7872139264
+          },
+          "seconds": 165.21344985999167,
+          "stage": "analyze",
+          "termination": null
+        }
+      ],
+      "ledger_sha256": "4b2943f05aab66c806bb93e7f6e4d30dd63c3df89a53e29cf0d8c7389d2f3e93",
+      "seconds": 195.23573174900957,
+      "unresolved": []
+    }
+  },
+  "new_numerical_seconds": 255.2778950940119,
+  "new_offline_invocations": 3,
+  "new_production_invocations": 0,
+  "note": "Conservative controller wall time includes verification and polling. Original ledgers/accounting are unchanged.",
+  "operational_retries": 0,
+  "original_005": {
+    "full": 7,
+    "seconds": 727.042119908976,
+    "short": 21,
+    "unchanged": true
+  },
+  "original_006": {
+    "full": 1,
+    "seconds": 166.21631713100942,
+    "short": 2,
+    "unchanged": true
+  },
+  "original_007": {
+    "full": 0,
+    "seconds": 308.8221942020173,
+    "short": 3
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "safety_terminations": 0,
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

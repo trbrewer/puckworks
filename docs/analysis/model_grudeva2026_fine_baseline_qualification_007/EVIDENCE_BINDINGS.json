@@ -1,0 +1,212 @@
+{
+  "external_artifacts": {
+    "007-fixture-1024-32.json": {
+      "bytes": 36262,
+      "sha256": "1a4832e8c42fbf8c494f8b47d7ff1e2e98dd2c4b8b7ddabdb12dfaeb7a2ef0ee"
+    },
+    "007-fixture-1024-64.json": {
+      "bytes": 39633,
+      "sha256": "37b51e955225a3e229acd13db430b13ca8ecac90fa13bdd8bb9447756d7ce831"
+    },
+    "007-fixture-512-64.json": {
+      "bytes": 39536,
+      "sha256": "1ec8b64bb830432533d1b65272def26f2abd58d370ee94591e7157c9600de0c3"
+    },
+    "007-pilot-accounting-closure.json": {
+      "bytes": 7154,
+      "sha256": "4656f5c7ec8c12a6e4c85e536e5bb73763cf1dfbd20fb307e510f2df7fe3e106"
+    },
+    "007-pilot-runtime.json": {
+      "bytes": 2008,
+      "sha256": "3aa36aa8a110704caab684b7a76c63cbd143c979ca8ac7ada39877cfd16f3f89"
+    },
+    "007-pilot.json": {
+      "bytes": 5488,
+      "sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd"
+    },
+    "007-pilot.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "007-readout-accounting-closure.json": {
+      "bytes": 3794,
+      "sha256": "1ec5e0e5ebabf5821593f1e7847be7eb5ee52003f23acc6f75e83ca6f3e3996a"
+    },
+    "007-readout-runtime.json": {
+      "bytes": 2010,
+      "sha256": "8f5c32687efe90c86c9082e351102a1fb5024e6e8f5ff6101fbe8d064fdcb129"
+    },
+    "007-readout.json": {
+      "bytes": 41905,
+      "sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0"
+    },
+    "007-readout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "007-reduction-accounting-closure.json": {
+      "bytes": 10648,
+      "sha256": "4da24a6d6e892dd3c407e8090ba6dcb353691f2d2b5104b6505a85e249739f24"
+    },
+    "007-reduction-runtime.json": {
+      "bytes": 2010,
+      "sha256": "abfdb37343b5cc9139e358e99637b1976a3b15a228c988787f4560425836b3e7"
+    },
+    "007-reduction.json": {
+      "bytes": 26041,
+      "sha256": "d141538309745ba3e53cdda6f1891479bbb113681576da7b426eddc45498b894"
+    },
+    "007-reduction.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "invocations.jsonl": {
+      "bytes": 10295,
+      "sha256": "94fbeeadcd9018c7c391ffa46ed6c139f62ed8b0ce8839d77a29a10ec17c22c7"
+    }
+  },
+  "inherited_fixture_inputs": {
+    "attempt": "persistence-final-fixtures",
+    "file": "persistence-final-fixtures-analytic.json",
+    "sha256": "aef1e2771bd9afdceb724bfb06b7de102aa93bb97f83721678e571c4d8db476e"
+  },
+  "new_rows": {
+    "bed_fine": {
+      "status": "NOT_RUN"
+    },
+    "combined": {
+      "status": "NOT_RUN"
+    },
+    "control_512": {
+      "status": "NOT_RUN"
+    },
+    "modes_fine": {
+      "status": "NOT_RUN"
+    },
+    "pilot": {
+      "actual_rates": null,
+      "actual_weights": null,
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "9613daf303cc4632e627f36caf556c7b65cbafd62748cdb5dec981d874dfc134",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47"
+      },
+      "attempt": "007-pilot",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "horizon": 0.4,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "request_hashes": {
+        "diagnostic_times": "e33def4270791eea9deed1250c0f87489937865773040312c45a41fa0cd86c65",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "df714ddb6cc9530d33b60a675871bc7b9c6e754558adaa78b8ca9825c336caa1",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "row": "combined",
+      "segments": [],
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          65,
+          1024
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 67586
+      },
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "repeat_512": {
+      "status": "NOT_RUN"
+    },
+    "time_fine": {
+      "status": "NOT_RUN"
+    }
+  },
+  "original_baseline_reuse": {
+    "005_ledger_sha256": "5154af5b48a993edc8b273e16d4bc8d257bb5d425246798ef583b142c7befb29",
+    "files": {
+      "006-fixture-512-arrays.json": "83af2246de1365414605fb0eeda100b1872f40b135ad54af4eff0001fdc8db76",
+      "006-readout-accounting-closure.json": "7b3c39fb1bcd7d146bff218109d7b03d4d5acef73a1b0c68fec245dcdeb0f6bd",
+      "006-readout-runtime.json": "6d117bfeec90bd1488e346671bf0ac59162efb05eb2494793d7ccec783f30df2",
+      "006-readout.json": "1ef0ed6acce738c87b7fa485da4430476aa886953c5d6d8770d68f67e61f9569",
+      "006-readout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "006-spatial-512-accounting-closure.json": "9eeed5d9f338906ab03281702734ae24c5727e975d98695cc7dab66efdee3248",
+      "006-spatial-512-observations.json": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b",
+      "006-spatial-512-public-result.json": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490",
+      "006-spatial-512-runtime.json": "6da74f31d31c30737f8639c9da7ebadd782ec0a3bcea81149f04405dade2faa6",
+      "006-spatial-512-segment-0.npz": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525",
+      "006-spatial-512-segment-0.receipt.jsonl": "f1180e25e92e89eefb6db2cbfe2185a1f5827e7d0f2482976eb5649fb5506bc9",
+      "006-spatial-512-segment-1.npz": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775",
+      "006-spatial-512-segment-1.receipt.jsonl": "487635241d27af9fcd072b8c219282d27397808ac66acf6ef854186947162d96",
+      "006-spatial-512-segment-2.npz": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c",
+      "006-spatial-512-segment-2.receipt.jsonl": "3c7dce7eccf7f4d25255c22f4783d2e1f01d636917a0eb02f854a91c2520ea33",
+      "006-spatial-512.json": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05",
+      "006-spatial-512.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "invocations.jsonl": "3692bdcbf8c2f0f320a61c106feee7859af4d5d46216f4b8194a23e08d9ba169"
+    },
+    "fixture": {
+      "file": "006-fixture-512-arrays.json",
+      "sha256": "83af2246de1365414605fb0eeda100b1872f40b135ad54af4eff0001fdc8db76"
+    },
+    "metadata": {
+      "file": "006-spatial-512.json",
+      "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+    },
+    "observations": {
+      "file": "006-spatial-512-observations.json",
+      "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+    },
+    "original_attempt": "006-spatial-512",
+    "original_plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+    "original_task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "policy": "Original 006 evidence remains in its original root and identity. Full new arrays, public Results, observations, receipts and logs stay external. No new source acquisition or publication rescore.",
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

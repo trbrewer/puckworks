@@ -1,0 +1,114 @@
+{
+  "correction_plan_sha256": "133273136ba913e91489de95d73c52fdffe44ed74a2de7b238d8ccc1293206aa",
+  "diagnostic_plan_sha256": "4af6a3661e507d4f9f9f79b4d333aaf3b11807c8dca4062bec374f97c6819a08",
+  "external_artifacts": {
+    "replay-correction-preexecution-review.json": {
+      "bytes": 3979,
+      "sha256": "dde04f6c146e7fe339295b7b32c6c802953b3a0f2de659adf2cc1570e3003493"
+    },
+    "replay-correction-review1-contract.json": {
+      "bytes": 12906,
+      "sha256": "d416d82f6e6919cfba9fb9561c7e4174aceda6212f715544d7f7c863713e661f"
+    },
+    "replay-correction-review1-source.py": {
+      "bytes": 13425,
+      "sha256": "a0acf163b17e4597829c644adecaa4ba33cd6e88e888caaab875f3598a256c15"
+    },
+    "replay-integration-recheck.json": {
+      "bytes": 2407,
+      "sha256": "eb1d8f3b21d81fb37a632b7f6d9f68f1e19618d22803c894904488007c76c44f"
+    },
+    "replay_certification/certify-0001/certificate.json": {
+      "bytes": 35269,
+      "sha256": "79fdadc149c89eed161d5bc62433e6ad5d2a512fa6b2ab46e2f683168f03f31c"
+    },
+    "replay_certification/certify-0001/completion.json": {
+      "bytes": 247,
+      "sha256": "98d5ab6eea1fd8ec46b009500ab5ae0b22993fdae85fa7e8de7e4480bf77036d"
+    },
+    "replay_certification/certify-0001/progress.jsonl": {
+      "bytes": 10307,
+      "sha256": "3ce1496cde20e77e1b9463d45f6d8e9cf98ee6b74c75642d251abee31ee0eb8e"
+    },
+    "replay_certification/certify-0001/qualification.json": {
+      "bytes": 177927,
+      "sha256": "cde841c6f00a9ee30ba871fdd778d1c1835ddb1fbbdb87c5ead6a011e5cffba8"
+    },
+    "replay_certification/certify-0001/runtime.json": {
+      "bytes": 3164,
+      "sha256": "4992d8bd0951f11de8402bb5982f301d84dd9e06973654a3174f6b42e2d646d1"
+    },
+    "replay_certification/certify-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "replay_certification/ledger.jsonl": {
+      "bytes": 1298,
+      "sha256": "0a8c1cee430a32c01a07e690895cec4dd1146a0d00d350f72dce63580eecc5e1"
+    },
+    "replay_reassessment/analyze-0001/analysis.json": {
+      "bytes": 10720,
+      "sha256": "8273acc644c5a6184c9cc394e89c77faa8021ddb6804999470d54fa941de3d23"
+    },
+    "replay_reassessment/analyze-0001/completion.json": {
+      "bytes": 216,
+      "sha256": "96b5ffda71f49deb623d531e536b8ddb930e4dc6c17cf2012f293358fb563e36"
+    },
+    "replay_reassessment/analyze-0001/observations.json": {
+      "bytes": 149945214,
+      "sha256": "801ddd753f97c204009ad7fd0b052158792dbcbbca52722bddaeda7ef0317544"
+    },
+    "replay_reassessment/analyze-0001/progress.jsonl": {
+      "bytes": 28389,
+      "sha256": "d6dd1265f7029bdc8ad5601169c6eb13c570f5ae28bc7bbf8f497df71b2d0a95"
+    },
+    "replay_reassessment/analyze-0001/runtime.json": {
+      "bytes": 3164,
+      "sha256": "f65d3eec2f7eb178fe284383a2fd65c3458a45c67cf6fd171367412bce98dda7"
+    },
+    "replay_reassessment/analyze-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "replay_reassessment/diagnose-0001/completion.json": {
+      "bytes": 218,
+      "sha256": "a4195b7a4f5e465a907971f5c54d5f1b42a4ad9808a6ad62a02e4a2065b08992"
+    },
+    "replay_reassessment/diagnose-0001/diagnosis.json": {
+      "bytes": 18159,
+      "sha256": "34ffabfbe893e0250b1bcf656d4a0ebad7200d7ab1647d660f31869dcc2b677f"
+    },
+    "replay_reassessment/diagnose-0001/progress.jsonl": {
+      "bytes": 5150,
+      "sha256": "f0929d15596e44b91e78f86fb1c962071d19f8941724598249fcd93dec42ab06"
+    },
+    "replay_reassessment/diagnose-0001/runtime.json": {
+      "bytes": 3165,
+      "sha256": "10c59f9f592af40ec91eb73e429db59e81a6da549caf2d90a278172269241a9e"
+    },
+    "replay_reassessment/diagnose-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "replay_reassessment/frozen_controller.py": {
+      "bytes": 7130,
+      "sha256": "230c7075744065050000c6d6a7b82192c666daff14420be494786a789d120c70"
+    },
+    "replay_reassessment/ledger.jsonl": {
+      "bytes": 2510,
+      "sha256": "4b2943f05aab66c806bb93e7f6e4d30dd63c3df89a53e29cf0d8c7389d2f3e93"
+    }
+  },
+  "inspected": "Combined public Result, all three archives/array manifests/receipts and source/environment bindings; all combined arrays structurally decoded and audited. Segment 2 replay exhaustively scanned; exceptional coefficients independently certified. Other captures and predecessor evidence reused through preserved bindings.",
+  "original_plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "physical_validation": "NOT_ESTABLISHED",
+  "prior_bindings": {
+    "file": "CONTINUATION_EVIDENCE_BINDINGS.json",
+    "sha256": "2b204eb01033ac474f28e2a80629dbcd7e7ae507a2602e38097ac155b324052a"
+  },
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

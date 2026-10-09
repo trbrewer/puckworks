@@ -1,0 +1,379 @@
+{
+  "accepted_state_support": 818,
+  "allowance": 4.547473508864641e-13,
+  "allowance_definition": "ALGEBRA = 256 * float64 epsilon; accepted/event allowance = ALGEBRA * 8",
+  "classification": "persistence_replay_observation",
+  "downstream": "Combined 22 individual audits and all 11 refinement families unavailable because the required replay admission failed. These were not measured refinement failures.",
+  "execution_id": "007-combined-0001",
+  "failure": {
+    "exception_message": "live dense replay failed",
+    "exception_type": "ValueError",
+    "stage": "numerical_replay"
+  },
+  "live_replay": {
+    "accepted_state_error": 5.401235014801387e-13,
+    "allowance_fraction": 0.0,
+    "event_state_error": 0.0,
+    "max_absolute": 0.0,
+    "points": 1637
+  },
+  "location": {
+    "reason": "Inherited receipt retains the maximum but not its exact time or state index; no new numerical reconstruction performed.",
+    "segment": 2,
+    "state_index": null,
+    "t": null
+  },
+  "maximum": 5.401235014801387e-13,
+  "metadata_file": "continuation/attempts/007-combined-0001/007-combined.json",
+  "metadata_sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f",
+  "passed": false,
+  "physical_validation": "NOT_ESTABLISHED",
+  "public_checkpoint": {
+    "file": "007-combined-public-result.json",
+    "sha256": "7f07ca426203c9bed70b91c3cccc8fbed727fc922d85b1b802ecd496c58e2629"
+  },
+  "public_status": "COMPLETED",
+  "reporting_basis": "Metadata-only explanation of the saved failure. No solver, replay or numerical reduction rerun.",
+  "retained_segments": [
+    {
+      "array_fidelity": "PASS",
+      "artifact_integrity": "PASS",
+      "capture_outcome": "PASS",
+      "file": "007-combined-segment-0.npz",
+      "live_replay": {
+        "accepted_state_error": 8.881784197001252e-16,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 13089
+      },
+      "numerical_replay": "PASS",
+      "receipt_file": "007-combined-segment-0.receipt.jsonl",
+      "receipt_sha256": "8ebb2a1282793233fa0ab353d0c22107d51c677892d52b97881c409ab8dec875",
+      "segment_index": 0,
+      "sha256": "40ebee3aeaae1d738110922ef329ca028175e15f4b2640e5dd3a409076e00839",
+      "valid_interval": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "array_fidelity": "PASS",
+      "artifact_integrity": "PASS",
+      "capture_outcome": "PASS",
+      "file": "007-combined-segment-1.npz",
+      "live_replay": {
+        "accepted_state_error": 8.881784197001252e-16,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 2369
+      },
+      "numerical_replay": "PASS",
+      "receipt_file": "007-combined-segment-1.receipt.jsonl",
+      "receipt_sha256": "162cd18596d255a7ecd4407efbe525f8f77579edf85b98acc23975d943bc1cd6",
+      "segment_index": 1,
+      "sha256": "6ed9d467411950401c6fd21d163f83dc7e47bf0a8be9a50b8afcb1b298e088ee",
+      "valid_interval": [
+        1.0,
+        6.504309539469248
+      ]
+    },
+    {
+      "array_fidelity": "PASS",
+      "artifact_integrity": "PASS",
+      "capture_outcome": "FAILED",
+      "file": "007-combined-segment-2.npz",
+      "live_replay": {
+        "accepted_state_error": 5.401235014801387e-13,
+        "allowance_fraction": 0.0,
+        "event_state_error": 0.0,
+        "max_absolute": 0.0,
+        "points": 1637
+      },
+      "numerical_replay": "FAILED",
+      "receipt_file": "007-combined-segment-2.receipt.jsonl",
+      "receipt_sha256": "7a51de6e50b535f28ddebcd33a4c2cb00b367a7549f4f0844795aa8770826489",
+      "segment_index": 2,
+      "sha256": "ce39d5136cc70cdf8c7232e479b923dff25eb17297c7b742a2a20d2ef7d5417f",
+      "valid_interval": [
+        6.504309539469248,
+        8.0
+      ]
+    }
+  ],
+  "scientific_retry": false,
+  "segment_index": 2,
+  "source_condition": "grudeva2026_baseline_observation_005.py:291: max(accepted_error, event_error) > ALGEBRA*8",
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+  "unavailable_individual_audits": {
+    "activation_support": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "aqueous_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "complete_status": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "conservation": {
+      "allowance": 1e-06,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "cup_quadrature": {
+      "allowance": 1e-10,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "cup_state_integral": {
+      "allowance": 5e-05,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "diagnostic_grain_history_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "diagnostic_grain_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "diagnostic_inlet": {
+      "allowance": 2e-05,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "diagnostic_liquid_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "events": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "front_support": {
+      "allowance": 1e-10,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "grain_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "horizon": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "independent_inventory_sums": {
+      "allowance": 1.0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "phase_bounds": {
+      "allowance": 1e-08,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "public_cup_outlet_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "public_inventory_algebra": {
+      "allowance": 1.0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "public_profile_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "required_times": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "solver_segments": {
+      "allowance": 0,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    },
+    "tail_weights_rates": {
+      "allowance": 5.684341886080802e-14,
+      "excluded": null,
+      "included": null,
+      "location": null,
+      "maximum": null,
+      "passed": false,
+      "reason": "Complete individual audit function was not entered after required replay admission failed; support counts are not inferred.",
+      "requested": null,
+      "status": "NOT_EVALUATED_AFTER_REPLAY_FAILURE",
+      "unavailable": null
+    }
+  },
+  "valid_interval": [
+    6.504309539469248,
+    8.0
+  ]
+}

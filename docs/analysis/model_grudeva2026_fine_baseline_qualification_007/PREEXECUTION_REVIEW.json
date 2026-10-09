@@ -1,0 +1,28 @@
+{
+  "adapter_sources": {
+    "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "9613daf303cc4632e627f36caf556c7b65cbafd62748cdb5dec981d874dfc134",
+    "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47"
+  },
+  "blockers": [],
+  "contract_sha256": "e0965c2fbb01c3162bdb2a08839f901959acdf8eae5c9dedd93f8864bce3eac8",
+  "disposition": "Implementation approved for bounded execution subject to runtime prerequisites; neither numerical qualification nor full-horizon feasibility established by review.",
+  "head": "13aee05550acf6953bbd28577778a6139eb6fee3",
+  "passed": true,
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "protected_file_count": 92,
+  "resolved_working_findings": [
+    "preserve closed-prefix accounting violations",
+    "retain completed diagnostics and original failure",
+    "complete failed readout support",
+    "separate actual failure categories",
+    "bind first full admission to unchanged PLAN and closed A/B ledger prefix",
+    "retain missing-output termination evidence"
+  ],
+  "reviewer": "/root/review_007",
+  "reviewer_kind": "independent nonhuman subagent",
+  "scientific_invocations_by_reviewer": 0,
+  "scope": "Frozen contract, original reuse/source/environment bindings, exact row/support settings, 32 GiB and aggregate admission, locked crash accounting, failure closeout, complete scientific equality, horizon-.4 pilot, all 22 audits/four refinements and claim boundary.",
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+  "test_source_sha256": "9e4dcfb69385c10ea32f96709798ab865175d0c35206a88d4a039d2c2375353f",
+  "tree": "2ad749231aca6969be6f4f6fbefd86ec09c4204f"
+}

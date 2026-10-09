@@ -1,0 +1,357 @@
+{
+  "disposition": "FINE_BASELINE_QUALIFICATION_INCOMPLETE",
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "preliminary_file": "007-reduction.json",
+  "preliminary_sha256": "d141538309745ba3e53cdda6f1891479bbb113681576da7b426eddc45498b894",
+  "resources": {
+    "charged_or_reserved_seconds": 308.8221942020173,
+    "ends": {
+      "007-pilot": {
+        "artifact_sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-pilot-runtime.json": 2008,
+          "007-pilot.json": 5488,
+          "007-pilot.log": 0,
+          "007-readout-accounting-closure.json": 3794,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 124,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-pilot",
+        "observations_sha256": null,
+        "peak_rss_bytes": 917729280,
+        "runtime_sha256": "3aa36aa8a110704caab684b7a76c63cbd143c979ca8ac7ada39877cfd16f3f89",
+        "seconds": 298.05785053400905,
+        "telemetry": {
+          "VmHWM_bytes": 929751040,
+          "VmPeak_bytes": 1692385280,
+          "VmRSS_bytes": 929751040,
+          "VmSize_bytes": 1692385280
+        },
+        "termination": "TIMEOUT",
+        "utc": "2026-10-09T01:47:26.983144+00:00"
+      },
+      "007-readout": {
+        "artifact_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-readout",
+        "observations_sha256": null,
+        "peak_rss_bytes": 747847680,
+        "runtime_sha256": "8f5c32687efe90c86c9082e351102a1fb5024e6e8f5ff6101fbe8d064fdcb129",
+        "seconds": 10.284434583998518,
+        "telemetry": {
+          "VmHWM_bytes": 747847680,
+          "VmPeak_bytes": 925233152,
+          "VmRSS_bytes": 727871488,
+          "VmSize_bytes": 925233152
+        },
+        "termination": null,
+        "utc": "2026-10-09T01:42:28.465807+00:00"
+      },
+      "007-reduction": {
+        "artifact_sha256": "d141538309745ba3e53cdda6f1891479bbb113681576da7b426eddc45498b894",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-pilot-accounting-closure.json": 7154,
+          "007-pilot-runtime.json": 2008,
+          "007-pilot.json": 5488,
+          "007-pilot.log": 0,
+          "007-readout-accounting-closure.json": 3794,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0,
+          "007-reduction-runtime.json": 2010,
+          "007-reduction.json": 26041,
+          "007-reduction.log": 0
+        },
+        "exit_code": 2,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-reduction",
+        "observations_sha256": null,
+        "peak_rss_bytes": 88821760,
+        "runtime_sha256": "abfdb37343b5cc9139e358e99637b1976a3b15a228c988787f4560425836b3e7",
+        "seconds": 0.4799090840097051,
+        "telemetry": {
+          "VmHWM_bytes": 88371200,
+          "VmPeak_bytes": 263565312,
+          "VmRSS_bytes": 88371200,
+          "VmSize_bytes": 263565312
+        },
+        "termination": null,
+        "utc": "2026-10-09T01:47:27.928735+00:00"
+      }
+    },
+    "full": 0,
+    "passed": true,
+    "reasons": [],
+    "seconds": 308.8221942020173,
+    "short": 3,
+    "starts": {
+      "007-pilot": {
+        "admission_sha256": null,
+        "ceiling": 300.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18083250176",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40098299904",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44183973888",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49413808128",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49461985280",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49713209344",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260414390272,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88231936,
+            "VmPeak": 263585792,
+            "VmRSS": 88231936,
+            "VmSize": 263585792
+          },
+          "remaining_archive_bytes": 113816633344,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579815424,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-pilot",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:28.926611+00:00"
+      },
+      "007-readout": {
+        "admission_sha256": null,
+        "ceiling": 120.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18088656896",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40102551552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44154007552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49384722432",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49434144768",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49685368832",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260609236992,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88137728,
+            "VmPeak": 263573504,
+            "VmRSS": 88137728,
+            "VmSize": 263573504
+          },
+          "remaining_archive_bytes": 114890375168,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579995648,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-readout",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:18.182622+00:00"
+      },
+      "007-reduction": {
+        "admission_sha256": null,
+        "ceiling": 240.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18077544448",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40089075712",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44188471296",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49416261632",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49465044992",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49716269056",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260202872832,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88211456,
+            "VmPeak": 263569408,
+            "VmRSS": 88211456,
+            "VmSize": 263569408
+          },
+          "remaining_archive_bytes": 1073741824,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428583227392,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-reduction",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:47:27.450048+00:00"
+      }
+    },
+    "unresolved_starts": []
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

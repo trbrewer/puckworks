@@ -1,0 +1,30 @@
+{
+  "adapter_sources": {
+    "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+    "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+  },
+  "blockers": [],
+  "checks": [
+    "Owner override authority",
+    "No application deadline/aggregate budget/attempt quota/RLIMIT assignment",
+    "92 protected files and historical documents/external evidence unchanged",
+    "Explicit current source/test bindings",
+    "Persistent service, monitoring, locking and process identity",
+    "Scientific stops survive operational incidents",
+    "Completed outputs recovered without duplicate solvers",
+    "Operational reduction retries and distinct input identities",
+    "Unchanged scientific configuration, observer, equality, audits and comparisons",
+    "171 affected tests / 49 manufactured tests and static checks pass"
+  ],
+  "disposition": "Approved for execution under the owner override and unchanged scientific gates; no numerical qualification or runtime guarantee.",
+  "head": "e2c660cb530889868b9e79c6f25bf389b91e4dcd",
+  "original_plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "passed": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+  "reviewer": "/root/review_007",
+  "reviewer_kind": "independent nonhuman subagent",
+  "scientific_invocations": 0,
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+  "tree": "2af15426985d2e200963e9cbf7c8682ca8a53651"
+}

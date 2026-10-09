@@ -1,0 +1,179 @@
+{
+  "actual_capacity": {
+    "cgroups": [
+      {
+        "values": {
+          "memory.current": "16421457920",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "60456284160",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "65688682496",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "65740386304",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "65991610368",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+        }
+      }
+    ],
+    "disk_free_bytes": 1412764917760,
+    "disk_operating_margin_bytes": 1073741824,
+    "disk_total_bytes": 3935709487104,
+    "host_available_bytes": 260238901248,
+    "host_operating_margin_bytes": 2701011681,
+    "host_total_bytes": 270101168128,
+    "inherited_rlimit_as": [
+      -1,
+      -1
+    ],
+    "inherited_rlimit_cpu": [
+      -1,
+      -1
+    ],
+    "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+    "process": {
+      "VmHWM": 98181120,
+      "VmPeak": 271785984,
+      "VmRSS": 98181120,
+      "VmSize": 271785984,
+      "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+      "cpu_ticks": 1139,
+      "pid": 1703586,
+      "start_ticks": 17623705,
+      "state": "R"
+    },
+    "utc": "2026-10-09T03:28:54.981841+00:00"
+  },
+  "conclusion": "FULL_PANEL_ADMITTED_UNDER_OWNER_OVERRIDE",
+  "conservative_archive_estimates": {
+    "007-bed_fine": 21474836480,
+    "007-combined": 34359738368,
+    "007-control_512": 1073741824,
+    "007-modes_fine": 12884901888,
+    "007-pilot": 17179869184,
+    "007-reduction": 1073741824,
+    "007-repeat_512": 12884901888,
+    "007-time_fine": 12884901888
+  },
+  "full_rows": [
+    "control_512",
+    "repeat_512",
+    "modes_fine",
+    "time_fine",
+    "bed_fine",
+    "combined"
+  ],
+  "ledger_prefix_sha256": "4a24d9025e8572281d0bf7b30f8997d354f541d1fd1b1a39945120da6ff2295a",
+  "limitation": "Pilot is not a full-horizon runtime or retained-memory guarantee; estimates are not termination ceilings.",
+  "limits": {
+    "aggregate_seconds": null,
+    "application_rlimit_as": null,
+    "full_attempts": null,
+    "per_invocation_seconds": null,
+    "short_attempts": null
+  },
+  "passed": true,
+  "pilot_execution_id": "007-pilot-0001",
+  "pilot_phase_seconds": {
+    "observations_audits_comparison": 38.69177579000825,
+    "persistence": 152.07404041299014,
+    "production": 2535.3320509769837,
+    "public_checkpoint": 0.012730941991321743
+  },
+  "pilot_resources": {
+    "artifact_sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d",
+    "event": "end",
+    "execution_id": "007-pilot-0001",
+    "exit_code": 0,
+    "failure_class": "none",
+    "files": {
+      "007-pilot-observations.json": {
+        "bytes": 4781273,
+        "sha256": "51ffe03f3b90709bd5516e73a84bdf771ba9bc3f80e694c926c88519c72fd8f9"
+      },
+      "007-pilot-public-result.json": {
+        "bytes": 8284,
+        "sha256": "bd830241a0d7e3776561d197a61125eae4258db7d25d658225b61249a7cad9fd"
+      },
+      "007-pilot-segment-0.npz": {
+        "bytes": 15909240200,
+        "sha256": "4fc216585e02580ea77aed71599eaabf7ab61d84eea0cde31ecf4d9164fce38e"
+      },
+      "007-pilot-segment-0.receipt.jsonl": {
+        "bytes": 1177915,
+        "sha256": "c9de8ace9ddd62b3d192a749a5598c6b12e045d1fac58c1923e59a94061d89ee"
+      },
+      "007-pilot.json": {
+        "bytes": 1237051,
+        "sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d"
+      },
+      "completion.json": {
+        "bytes": 614,
+        "sha256": "14dbf6b7e6d50dcd0a1b86ab9be4a583bd87110d378dab25c0117b4f7404e6c7"
+      },
+      "progress.jsonl": {
+        "bytes": 475203,
+        "sha256": "efd2bf54c2914b3c7dd6e85b0907df88b8be06c0cfb39954a9fa0ab69b258ea2"
+      },
+      "runtime.json": {
+        "bytes": 3489,
+        "sha256": "feb291effda9a314f8e6bf3d34c8056d0aa11861b3b37716dd784a65fb2385ae"
+      },
+      "worker.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "peak_memory_bytes": {
+      "VmHWM": 26023190528,
+      "VmPeak": 26274754560,
+      "VmRSS": 22480633856,
+      "VmSize": 22717566976
+    },
+    "recovery_incident": null,
+    "seconds": 2737.3964768830047,
+    "termination": null,
+    "utc": "2026-10-09T03:28:46.190892+00:00"
+  },
+  "pilot_sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+  "readout_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

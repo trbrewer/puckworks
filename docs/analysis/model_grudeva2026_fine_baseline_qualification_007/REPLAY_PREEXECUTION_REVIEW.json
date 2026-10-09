@@ -1,0 +1,49 @@
+{
+  "canonical_array_decodes": 0,
+  "code_edits": 0,
+  "contract_sha256": "133273136ba913e91489de95d73c52fdffe44ed74a2de7b238d8ccc1293206aa",
+  "findings": [],
+  "limitations": [
+    "This approval covers the frozen implementation and rule before assessment; no certificate result or qualification success is asserted.",
+    "Passing the new replay certificate cannot substitute for the original scientific accuracy, support, individual-audit, neutrality/repeatability or refinement requirements.",
+    "Final actual-evidence and exact-head review plus hosted CI remain separate."
+  ],
+  "passed": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "preexecution_state": "No replay_certification ledger or certificate invocation exists at review completion.",
+  "qa": {
+    "canonical_scientific_execution": false,
+    "manufactured_tests_passed": 49,
+    "seconds": 0.58
+  },
+  "resolved_preexecution_findings": [
+    "Nested evidence bindings now use a traversal/symlink-safe relative path adapter and unchanged basename/hash reader.",
+    "Runtime bit-pattern probes establish subnormal outputs and denormal inputs in addition to fegetround.",
+    "Failure-first final assembly retains specific replay/audit/refinement/coverage/neutrality/integration failures and original history.",
+    "Worker explicitly binds recorded stage and stage/ordinal identity."
+  ],
+  "review": "pre-execution review of exact frozen replay admission correction",
+  "reviewed_source_hashes": {
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_ADMISSION_CORRECTION.md": "fe66218765d7d1306151cfe11d93acb826d639502fbbcbba683c8562f36fc6a7",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_REASSESSMENT_AUTHORITY.md": "c76509665f46c35549350562944ccd66d903e18e8cf5dbe8a789556eac4cc39d",
+    "puckworks/analysis/grudeva2026_replay_certificate_007.py": "c3e8499d197ef7ff8243ddb623623d04c8ce99c7b18b6a7b101b73e2008564e9",
+    "puckworks/analysis/grudeva2026_replay_reassessment_007.py": "ee65f5b48696e68719f8bf84cc3eea114f5f6aaff8c538131a5c9fca33b3cca3",
+    "tests/test_grudeva2026_replay_certificate_007.py": "dd50ddbe816476c47e8ced17a0454300ac97982d0b3b3c8f11b868897639763d",
+    "tests/test_grudeva2026_replay_reassessment_007.py": "59ae84712a8d805d37a1c36313e10658654e61969c2557975cad0d9663abd432",
+    "tools/grudeva2026_replay_certificate_007_invoke.py": "02e3b0a8dd2355c0fc837e64e953787b787a1c48b612fced97a598cbb617bbf7",
+    "tools/grudeva2026_replay_reassessment_007_invoke.py": "40590a76ec386d6a3a301b96c345dae403dcf164adef35cccd679ebef64fb165"
+  },
+  "reviewed_utc": "2026-10-09T13:01:36.401035+00:00",
+  "reviewer": "independent nonhuman reviewer /root/review_007",
+  "scientific_executions": 0,
+  "scientific_invocations": 0,
+  "scope": [
+    "Exact rational stored/ideal Newton polynomials; unchanged ideal-coordinate accepted-state threshold; source-derived coordinate and evaluation-rounding bounds; finite/overflow guard and active nearest-rounding/gradual-underflow checks.",
+    "Exhaustive offender identity binding and original archive/receipt/native-fidelity reuse; unchanged event gate and scientific observer/support/masks; no fabricated historical PASS.",
+    "Separate diagnostic reader and isolated observer globals mapping; stage/ordinal/lock/parent/source/environment admission; closed predecessor accounting and bound evidence root.",
+    "Final assembly distinguishes replay admission from complete qualification, retains original historical dispositions/reasons, and reports specific current failures.",
+    "All 8 current source bindings, 29 historical repository bindings, 35 historical external bindings and 92 protected scientific source hashes verified.",
+    "49 focused manufactured tests independently run and passed in 0.58 seconds. No canonical trajectory, fixture, replay, observation, reduction or certificate was executed by reviewer."
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}
