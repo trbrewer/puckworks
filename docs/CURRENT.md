@@ -28,6 +28,14 @@ listed here wins.
 | **Release / reproducibility** | `python -m puckworks.paper_a.build` / `.paper3.build`; `docs/reproducibility/` |
 | **Superseded reviews / history** | [`docs/archive/`](archive/) — provenance only, NOT current |
 
+## Review inputs (recommendations only)
+
+- [Updated independent review of thresholds, capabilities and development priorities,
+  9 October 2026](research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md) —
+  owner-supplied second-pass review. Filing this document does not supersede the
+  authorities above, adjudicate scientific results, change threshold policy or
+  authorize its proposed tasks.
+
 ## Vocabulary (no bare "DONE")
 
 `proposed` · `implemented` · `CI-verified` · `validated` · `release-ready` · `submitted`.
