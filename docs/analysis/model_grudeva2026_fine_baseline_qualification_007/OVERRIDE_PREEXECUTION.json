@@ -1,0 +1,116 @@
+{
+  "actual_capacity": {
+    "cgroups": [
+      {
+        "values": {
+          "memory.current": "17977683968",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "40006856704",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "44111294464",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "49345040384",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "49396211712",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.current": "49647435776",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "max",
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+        }
+      },
+      {
+        "values": {
+          "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+        }
+      }
+    ],
+    "disk_free_bytes": 1428681609216,
+    "disk_operating_margin_bytes": 1073741824,
+    "disk_total_bytes": 3935709487104,
+    "host_available_bytes": 260541304832,
+    "host_operating_margin_bytes": 2701011681,
+    "host_total_bytes": 270101168128,
+    "inherited_rlimit_as": [
+      -1,
+      -1
+    ],
+    "inherited_rlimit_cpu": [
+      -1,
+      -1
+    ],
+    "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+    "process": {
+      "VmHWM": 91774976,
+      "VmPeak": 268226560,
+      "VmRSS": 90349568,
+      "VmSize": 265080832,
+      "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+      "cpu_ticks": 175,
+      "pid": 1702640,
+      "start_ticks": 17610971,
+      "state": "R"
+    },
+    "utc": "2026-10-09T02:41:10.189385+00:00"
+  },
+  "durable_service_preflight": {
+    "default_RLIMIT_AS": "infinity",
+    "default_RLIMIT_CPU": "infinity",
+    "service_launched": false,
+    "systemd_user_manager_available": true,
+    "user_slice_MemoryMax": "infinity"
+  },
+  "historical_007_documents_and_outputs_unchanged": true,
+  "original_baseline_and_readout_reused_without_numerical_execution": true,
+  "physical_validation": "NOT_ESTABLISHED",
+  "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+  "software_qa": {
+    "affected_passed": 171,
+    "logs": {
+      "override-affected.log": "a9c640c72838bb6918f1c59025f15eb6280d3cd8a32e2d4f7d6c0b96a5c0eab6",
+      "override-mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "override-ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "mypy": "PASS",
+    "new_manufactured_tests": 49,
+    "ruff": "PASS"
+  },
+  "source_bindings_passed": true,
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

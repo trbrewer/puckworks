@@ -23,53 +23,14 @@ def test_fixed_rows(row):
     with pytest.raises(ValueError): t.controls('extra',t.BASE)
 
 
-def test_reservations_and_failure_closeout():
-    a=audit()
-    assert sum(c.ALLOCATIONS.values())==4660
-    assert c.allocations('007-readout',a)[0]==120
-    with pytest.raises(ValueError): c.allocations('007-pilot',a)
-    a.update(starts={'007-readout':{}},ends={'007-readout':{'exit_code':1}},short=1,seconds=15.)
-    assert c.allocations('007-reduction',a)[0]==240
-    with pytest.raises(ValueError): c.allocations('007-readout',a)
-    a['seconds']=4561
-    with pytest.raises(ValueError): c.allocations('007-reduction',a)
-    a.update(passed=False,reasons=['unresolved start'])
-    with pytest.raises(ValueError): c.allocations('007-reduction',a)
 
 
-def ledger(tmp_path):
-    p=tmp_path/'invocations.jsonl'
-    c.append(p,dict(event='freeze',task=t.TASK,plan_sha256='p',limits=c.LIMITS))
-    return p
 
 
-def start(name='007-readout'):
-    return dict(event='start',task=t.TASK,name=name,kind='short',plan_sha256='p',ceiling=c.ALLOCATIONS[name],memory_bytes=c.MEMORY)
 
 
-@pytest.mark.parametrize('bad',['duplicate','concurrent','wrong_memory','wrong_plan','duration','nan','unresolved'])
-def test_crash_accounting(tmp_path,bad):
-    p=ledger(tmp_path);s=start()
-    if bad=='wrong_memory': s['memory_bytes']=8*1024**3
-    if bad=='wrong_plan': s['plan_sha256']='other'
-    c.append(p,s)
-    if bad in ('duplicate','concurrent'): c.append(p,start('007-readout' if bad=='duplicate' else '007-pilot'))
-    if bad=='duration': c.append(p,dict(event='end',name='007-readout',seconds=121.,enforced_rlimit_as=[c.MEMORY]*2))
-    if bad=='nan':
-        with p.open('a') as f: f.write('{"event":"end","name":"007-readout","seconds":NaN}\n')
-    if bad in ('duration','unresolved'):
-        a=c.accounting(tmp_path,'p');assert not a['passed']
-        if bad=='unresolved': assert a['charged_or_reserved_seconds']==120
-    else:
-        with pytest.raises(ValueError): c.accounting(tmp_path,'p')
 
 
-def test_closed_failed_attempt_is_counted(tmp_path):
-    p=ledger(tmp_path);c.append(p,start())
-    c.append(p,dict(event='end',name='007-readout',seconds=3.,exit_code=-9,enforced_rlimit_as=[c.MEMORY]*2))
-    a=c.accounting(tmp_path,'p')
-    assert a['passed'] and a['short']==1 and a['seconds']==3.
-    assert c.allocations('007-reduction',a)[0]==240
 
 
 @pytest.mark.parametrize('modes,count',[(32,18),(64,24)])
@@ -159,40 +120,13 @@ def test_genuine_metadata_rejects_mismatch(tmp_path,monkeypatch,field,value):
     with pytest.raises(ValueError): t.validate_new(meta,'control_512',plan)
 
 
-def test_root_binding_cannot_reset(tmp_path):
-    args=SimpleNamespace(evidence=tmp_path/'a',prior=tmp_path/'b',historical=tmp_path/'c')
-    plan={k+'_root_sha256':t.obs.digest(str(getattr(args,k).resolve())) for k in ('evidence','prior','historical')}
-    c.roots(args,plan)
-    args.evidence=tmp_path/'new'
-    with pytest.raises(ValueError): c.roots(args,plan)
 
 
-@pytest.mark.parametrize('available,limit,usage,free,allowed',[
-    (40,64,1,100,True),(12,64,1,100,False),(40,20,1,100,False),
-    (40,64,40,100,False),(40,64,1,8,False)])
-def test_32_gib_admission_not_old_8(tmp_path,monkeypatch,available,limit,usage,free,allowed):
-    original=Path.read_text
-    def read(path,*a,**k):
-        s=str(path)
-        if s=='/proc/meminfo': return f'MemAvailable: {available*1024**2} kB\n'
-        if s=='/proc/self/status': return 'VmSize: 1024 kB\nVmRSS: 512 kB\n'
-        if s=='/proc/self/cgroup': return '0::/\n'
-        if s.endswith('memory.current'): return str(usage*c.GIB)
-        if s.endswith(('memory.max','memory.high')): return str(limit*c.GIB)
-        return original(path,*a,**k)
-    monkeypatch.setattr(Path,'read_text',read)
-    original_exists=Path.exists
-    monkeypatch.setattr(Path,'exists',lambda p:True if str(p).startswith('/sys/fs/cgroup/memory.') else original_exists(p))
-    monkeypatch.setattr(c.resource,'getrlimit',lambda n:(-1,-1))
-    monkeypatch.setattr(c.shutil,'disk_usage',lambda p:SimpleNamespace(free=free*c.GIB))
-    if allowed: assert c.capacity(tmp_path,2*c.GIB)['requested_address_space_bytes']==34359738368
-    else:
-        with pytest.raises(ValueError): c.capacity(tmp_path,2*c.GIB)
 
 
 def test_orphan_worker_and_pilot_events(monkeypatch):
     monkeypatch.delenv('GRUDEVA007_LOCK_FD',raising=False)
-    with pytest.raises(ValueError,match='controller'): c.worker(SimpleNamespace(action='007-pilot'),{})
+    with pytest.raises(ValueError,match='controller'): c.worker(SimpleNamespace(action='007-pilot'),{},{})
     monkeypatch.setattr(t.report,'numeric_gates',lambda *a:{k:True for k in t.GATES})
     observed=dict(audits={'horizon':.4},events=[],arrival=None,records=[[.4,.08]],z=[0.,.1],activation=[0.,None],
         grain_history_z=[.025,.9],grain_history_activation=[.1,None])
@@ -201,21 +135,8 @@ def test_orphan_worker_and_pilot_events(monkeypatch):
     assert not t.pilot_gates(observed,{})['activation_support']
 
 
-def test_worker_keeps_closed_prefix_failure():
-    a=audit();a.update(starts={'007-pilot':{'kind':'short'}},short=1,unresolved_starts=['007-pilot'],
-        reasons=['unresolved start; full allocation reserved; numerical work blocked','earlier allocation exceeded'],passed=False)
-    p=c.closed_prefix(a,'007-pilot')
-    assert not p['passed'] and p['reasons']==['earlier allocation exceeded']
-    with pytest.raises(ValueError): c.allocations('007-pilot',p)
 
 
-def test_diagnostic_failure_retains_completed_gates(tmp_path):
-    t.write_new(tmp_path/'007-repeat_512.json',dict(task=t.TASK,gates={'conservation':True},
-        observation_binding={'file':'already-saved'},passed=True))
-    c.retain_failure(tmp_path,'007-repeat_512','plan',ValueError('dense replay failed'))
-    r=t.obs.read_json(tmp_path/'007-repeat_512.json')
-    assert r['gates']=={'conservation':True} and r['observation_binding']['file']=='already-saved'
-    assert not r['passed'] and r['failure']['reason']=='dense replay failed'
 
 
 def test_reduction_after_failed_a_retains_missing_rows(tmp_path,monkeypatch):
@@ -268,20 +189,6 @@ def test_plan_and_horizon_binding(monkeypatch):
         with pytest.raises(ValueError): t.verify_plan(bad)
 
 
-def test_first_full_requires_bound_admission(tmp_path,monkeypatch):
-    # Fake only artifact reading; exercise actual admission link checks.
-    monkeypatch.setattr(c,'artifact',lambda *a,**k:{'passed':True})
-    monkeypatch.setattr(t.obs,'sha',lambda p:'hash')
-    a=audit();a.update(starts={n:{} for n in t.ATTEMPTS[:2]},
-        ends={n:dict(artifact_sha256='a',seconds=1.) for n in t.ATTEMPTS[:2]})
-    receipt=dict(task=t.TASK,plan_sha256='hash',passed=True,full_allocations=c.FULL_ALLOCATIONS,
-        final_reduction_reserve=240.,prerequisites={n:'a' for n in t.ATTEMPTS[:2]},estimates={'x':1},
-        consumed_seconds=2.,reserved_total_seconds=4240.,aggregate_with_reservations=4242.,ledger_prefix_sha256='wrong')
-    t.write_new(tmp_path/'ADMISSION.json',receipt)
-    (tmp_path/'invocations.jsonl').write_text('{"event":"end"}\n')
-    with pytest.raises(ValueError,match='prefix'): c.prerequisites(tmp_path,'007-control_512',{'full_panel_estimates':{'x':1}},a)
-    receipt['estimates']={'x':2};t.checkpoint(tmp_path/'ADMISSION.json',receipt)
-    with pytest.raises(ValueError,match='basis'): c.prerequisites(tmp_path,'007-control_512',{'full_panel_estimates':{'x':1}},a)
 
 
 def test_public_checkpoint_failure_keeps_returned_result(tmp_path,monkeypatch):
@@ -299,3 +206,179 @@ def test_public_checkpoint_failure_keeps_returned_result(tmp_path,monkeypatch):
     plan=dict(rows=t.ROWS,requests=dict(public_times=[0.,8.],public_z=[0.,1.]),parameters={},adapter_sources={})
     with pytest.raises(OSError,match='checkpoint'): t.simulate_row(tmp_path,tmp_path,plan,'control_512')
     assert t.obs.read_json(tmp_path/'007-control_512.json')['public_result']==public
+
+
+def continuation_ledger(tmp_path):
+    c.append(tmp_path/'invocations.jsonl',dict(event='override',task=t.TASK,policy_sha256='p'))
+    return tmp_path/'invocations.jsonl'
+
+
+def continuation_start(key='007-pilot-0001',stage='007-pilot'):
+    return dict(event='start',execution_id=key,stage=stage,kind='short' if stage in ('007-pilot','007-reduction') else 'full',
+        directory='attempts/'+key,policy_sha256='p')
+
+
+def test_no_task_deadlines_quotas_or_memory_assignment():
+    import ast
+    tree=ast.parse(Path(c.__file__).read_text())
+    forbidden={'setrlimit','setitimer','alarm'}
+    calls=[n for n in ast.walk(tree) if isinstance(n,ast.Call)]
+    assert not any(isinstance(n.func,ast.Attribute) and n.func.attr in forbidden for n in calls)
+    assert not any(k.arg=='timeout' for n in calls for k in n.keywords)
+    assert all(value is None for value in c.UNLIMITED.values())
+
+
+def test_accounting_has_no_elapsed_or_attempt_cap(tmp_path):
+    ledger=continuation_ledger(tmp_path)
+    for i in range(10):
+        key=f'007-pilot-{i+1:04d}'
+        c.append(ledger,continuation_start(key))
+        c.append(ledger,dict(event='end',execution_id=key,seconds=100000.,exit_code=1,failure_class='operational'))
+    a=c.accounting(tmp_path,'p')
+    assert a['passed'] and a['short']==10 and a['seconds']==1000000.
+
+
+@pytest.mark.parametrize('problem',['duplicate','concurrent','wrong_policy','unsafe_path','unmatched_end','nan'])
+def test_continuation_ledger_integrity(tmp_path,problem):
+    ledger=continuation_ledger(tmp_path);s=continuation_start()
+    if problem=='wrong_policy': s['policy_sha256']='other'
+    if problem=='unsafe_path': s['directory']='../../elsewhere'
+    c.append(ledger,s)
+    if problem=='duplicate':
+        c.append(ledger,dict(event='end',execution_id=s['execution_id'],seconds=1.,exit_code=0))
+        c.append(ledger,s)
+    if problem=='concurrent': c.append(ledger,continuation_start('007-pilot-0002'))
+    if problem=='unmatched_end': c.append(ledger,dict(event='end',execution_id='other',seconds=1.))
+    if problem=='nan':
+        with ledger.open('a') as f: f.write('{"event":"end","execution_id":"007-pilot-0001","seconds":NaN}\n')
+    with pytest.raises(ValueError): c.accounting(tmp_path,'p')
+
+
+def test_live_unresolved_execution_cannot_be_restarted(tmp_path,monkeypatch):
+    ledger=continuation_ledger(tmp_path);s=continuation_start();s.update(controller={'pid':123},wall_start=0.)
+    c.append(ledger,s);a=c.accounting(tmp_path,'p')
+    assert not a['passed']
+    with pytest.raises(ValueError,match='unresolved'): c.prerequisites(tmp_path,'007-pilot',a)
+    monkeypatch.setattr(c,'alive',lambda identity:True)
+    with pytest.raises(ValueError,match='still active'): c.reconcile(tmp_path,a)
+    assert c.accounting(tmp_path,'p')['unresolved_starts']==['007-pilot-0001']
+
+
+def test_verified_crash_is_closed_and_charged(tmp_path,monkeypatch):
+    ledger=continuation_ledger(tmp_path);s=continuation_start();s.update(controller={'pid':123},wall_start=1.)
+    c.append(ledger,s);a=c.accounting(tmp_path,'p')
+    monkeypatch.setattr(c,'alive',lambda identity:False)
+    monkeypatch.setattr(c.time,'time',lambda:100001.)
+    c.reconcile(tmp_path,a);a=c.accounting(tmp_path,'p')
+    assert a['passed'] and a['seconds']==100000.
+    assert a['ends'][s['execution_id']]['failure_class']=='controller_crash'
+
+
+def test_operational_retry_is_explicit_and_never_scientific():
+    a={'latest':{'007-pilot':'x'},'ends':{'x':{'failure_class':'operational'}}}
+    with pytest.raises(ValueError): c.operational_retry(a,'007-pilot',None)
+    c.operational_retry(a,'007-pilot','documented controller crash')
+    for classification in ('scientific','integrity_or_scientific','none'):
+        a['ends']['x']['failure_class']=classification
+        with pytest.raises(ValueError): c.operational_retry(a,'007-pilot','try again')
+
+
+def test_completed_reduction_reused_until_inputs_change():
+    a=dict(latest={'007-pilot':'p','007-reduction':'r'},
+        ends={'p':{'artifact_sha256':'old'},'r':{'exit_code':2}},
+        starts={'r':{}})
+    a['starts']['r']['input_signature']=c.input_signature(a)
+    with pytest.raises(ValueError,match='already covers'): c.operational_retry(a,'007-reduction','unnecessary')
+    a['ends']['p']['artifact_sha256']='new'
+    c.operational_retry(a,'007-reduction','new completed input set')
+
+
+def test_os_limits_are_observed_not_replaced(tmp_path,monkeypatch):
+    monkeypatch.setattr(c.resource,'getrlimit',lambda n:(8*c.GIB,8*c.GIB))
+    snapshot=c.capacity(tmp_path)
+    assert snapshot['inherited_rlimit_as']==[8*c.GIB]*2
+    assert 'requested_address_space_bytes' not in snapshot
+    assert not c.safety_reasons(dict(snapshot,host_available_bytes=40*c.GIB,disk_free_bytes=100*c.GIB,cgroups=[]))
+
+
+def test_pressure_requires_evidence_not_quiet_or_elapsed():
+    s=dict(disk_free_bytes=100*c.GIB,disk_operating_margin_bytes=c.GIB,host_available_bytes=40*c.GIB,
+        host_operating_margin_bytes=c.GIB,cgroups=[],process={'VmRSS':90*c.GIB},elapsed_seconds=1e12)
+    assert c.safety_reasons(s,s)==[]
+    low=dict(s,host_available_bytes=100,process={'VmRSS':91*c.GIB})
+    assert c.safety_reasons(low,s)==[]
+    assert c.safety_reasons(dict(low,process={'VmRSS':92*c.GIB}),low)
+
+
+def test_pid_reuse_does_not_count_as_live(monkeypatch):
+    monkeypatch.setattr(c,'process',lambda pid:dict(pid=pid,start_ticks=222,boot_id='b',state='R'))
+    assert not c.alive(dict(pid=123,start_ticks=111,boot_id='b'))
+    assert c.alive(dict(pid=123,start_ticks=222,boot_id='b'))
+
+
+def test_policy_is_explicit_without_rewriting_scientific_plan(monkeypatch):
+    from puckworks.models.grudeva2026.reduced import Parameters
+    p=dict(task=t.TASK,rows=deepcopy(t.ROWS),horizon=8.,pilot_horizon=.4,parameters=asdict(Parameters()),
+        requests=t.obs.requests(),pilot_requests=t.obs.requests(.4),segment_science_fields=list(t.SEGMENT_SCIENCE),
+        scientific_sources={},adapter_sources={'adapter.py':'old'},contract_sha256='new')
+    policy=dict(task=t.TASK,original_plan_sha256='new',original_adapter_sources={'adapter.py':'old'},adapter_sources={'adapter.py':'new'})
+    monkeypatch.setattr(t.obs,'sha',lambda p:'new')
+    before=deepcopy(p);t.verify_plan(p,policy);assert p==before
+    policy['original_adapter_sources']={'adapter.py':'not original'}
+    with pytest.raises(ValueError,match='ancestry'): t.verify_plan(p,policy)
+
+
+@pytest.mark.parametrize('partial',[{'gates':{'conservation':False}}, {'neutrality':{'passed':False}},
+    {'repeatability':{'passed':False}}, {'refinement':{}}, {'public_result':{'status':'FAILED'}}])
+def test_scientific_stop_survives_later_operational_failure(tmp_path,monkeypatch,partial):
+    ledger=continuation_ledger(tmp_path);s=continuation_start();s.update(controller={'pid':123},wall_start=0.)
+    c.append(ledger,s);work=tmp_path/s['directory'];work.mkdir(parents=True)
+    result=dict(partial,failure={'classification':'operational','type':'MemoryError'})
+    t.write_new(work/'007-pilot.json',result)
+    assert c.scientific_failure(result)
+    monkeypatch.setattr(c,'alive',lambda identity:False)
+    c.reconcile(tmp_path,c.accounting(tmp_path,'p'))
+    a=c.accounting(tmp_path,'p');assert a['ends'][s['execution_id']]['failure_class']=='scientific'
+    with pytest.raises(ValueError,match='scientific'): c.operational_retry(a,'007-pilot','controller died')
+
+
+def test_dead_controller_completed_row_is_reused(tmp_path,monkeypatch):
+    ledger=continuation_ledger(tmp_path);s=continuation_start();s.update(controller={'pid':123},wall_start=0.)
+    c.append(ledger,s)
+    monkeypatch.setattr(c,'alive',lambda identity:False)
+    monkeypatch.setattr(c,'recovered_completion',lambda *a:0)
+    c.reconcile(tmp_path,c.accounting(tmp_path,'p'),{}, {})
+    end=c.accounting(tmp_path,'p')['ends'][s['execution_id']]
+    assert end['exit_code']==0 and end['recovered_completion'] and end['controller_incident']
+    assert end['termination'] is None
+
+
+def test_null_output_retries_are_distinct_reduction_inputs():
+    a=dict(latest={'007-pilot':'one'},ends={'one':{'artifact_sha256':None,'exit_code':1}})
+    original=c.input_signature(a)
+    a['latest']['007-pilot']='two';a['ends']['two']={'artifact_sha256':None,'exit_code':1}
+    assert c.input_signature(a)!=original
+
+
+def test_operational_reduction_can_retry_same_inputs():
+    a=dict(latest={'007-pilot':'p','007-reduction':'r'},ends={'p':{'artifact_sha256':None},
+        'r':{'exit_code':1,'failure_class':'operational'}},starts={'r':{}})
+    a['starts']['r']['input_signature']=c.input_signature(a)
+    c.operational_retry(a,'007-reduction','disk interruption investigated and resolved')
+
+
+def test_receipt_failure_preserves_completed_row(tmp_path,monkeypatch):
+    import json
+    root=tmp_path/'evidence';work=root/'continuation/attempts/007-pilot-0001';work.mkdir(parents=True)
+    docs=tmp_path/'docs';docs.mkdir();t.write_new(docs/'PLAN.json',{})
+    policy=docs/'EXECUTION_POLICY_OVERRIDE.json';t.write_new(policy,{})
+    monkeypatch.setattr(t,'DOCS',docs);monkeypatch.setattr(c,'POLICY',policy)
+    result=dict(status='ROW_PASSED',passed=True,gates={'conservation':True})
+    path=work/'007-pilot.json';t.write_new(path,result)
+    def broken(*a): raise OSError('completion receipt write failed')
+    monkeypatch.setattr(c,'worker',broken)
+    monkeypatch.setattr(c,'accounting',lambda *a:{'starts':{'007-pilot-0001':{'stage':'007-pilot'}}})
+    with pytest.raises(OSError,match='receipt'):
+        c.main(['worker','--execution-id','007-pilot-0001','--evidence',str(root),'--prior',str(tmp_path/'prior'),'--historical',str(tmp_path/'history')])
+    assert json.loads(path.read_text())==result
+    assert (work/'worker-incident.json').exists()

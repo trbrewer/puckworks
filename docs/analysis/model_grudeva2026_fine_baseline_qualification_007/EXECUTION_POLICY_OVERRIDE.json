@@ -1,0 +1,125 @@
+{
+  "adapter_sources": {
+    "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+    "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+  },
+  "additional_envelope_fields": [
+    "execution.execution_id",
+    "execution.policy_sha256",
+    "execution.adapter_sources",
+    "continuation attempt directories",
+    "OS resource telemetry"
+  ],
+  "archive_estimate_semantics": "Conservative free-space admission estimates only, never output-size or elapsed-time ceilings; actual use monitored.",
+  "archive_estimates": {
+    "007-bed_fine": 21474836480,
+    "007-combined": 34359738368,
+    "007-control_512": 1073741824,
+    "007-modes_fine": 12884901888,
+    "007-pilot": 17179869184,
+    "007-reduction": 1073741824,
+    "007-repeat_512": 12884901888,
+    "007-time_fine": 12884901888
+  },
+  "authorization": "OWNER OVERRIDE \u2014 LET THE GRUDEVA QUALIFICATION FINISH",
+  "authorization_sha256": "81facc0a30f35ea63e859d926b75939f9b11dfa835e174e9ca17999f9c4b274b",
+  "continuation_relative_root": "continuation",
+  "historical_closed_consumption": {
+    "full": 0,
+    "seconds": 308.8221942020173,
+    "short": 3
+  },
+  "historical_documents": {
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/ACCOUNTING.json": "5c36b41e7a83479e8e2bf126f52b501c564b0ef1f63af31cd6f06215836edb74",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTRACT.md": "e0965c2fbb01c3162bdb2a08839f901959acdf8eae5c9dedd93f8864bce3eac8",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/EVIDENCE_BINDINGS.json": "675f5b89b2fc3562956d75c8b7a0721732b339d59694cb9dbe3f161069158b8f",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/HANDOFF.md": "a2256e36c20aff2f26529e4fb2a2e5333fc3e46267c84a7db9264c0acdce80d3",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/MATRIX.json": "796fd24ced0c9ee8ba3764e3a46b71aed919d281e76ab8c066f0575caadcef7c",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PLAN.json": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PREEXECUTION.json": "5d3402cbea950fde0034600e59a038bda34cda81de033f73e7d0924dc579c138",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PREEXECUTION_REVIEW.json": "1789b6aaa84cd0c586aadcac73fdf9428242f560647a3c95051f11bf8a374bf0",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/READOUT.json": "d94c876fb4c8f6da32976860afa99f5942b8d27349904d470c4bb5d3836afd53",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/RESULTS.json": "04db1be9e2da97e8f1577f0423dadbec0e97848053af68bed2a0aff2a1caa45c",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/RESULTS.md": "05aa39c22312aff37a5952e24bdd59f11cd9a8cbcd317d4539eb275acf5e7a67",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/UNCHANGED_SOURCES.json": "e4f8e52c86314677e1d5493846fe4fecdec86d6a1d6e3c0063b91ed5fa568694"
+  },
+  "historical_external": {
+    "007-fixture-1024-32.json": "1a4832e8c42fbf8c494f8b47d7ff1e2e98dd2c4b8b7ddabdb12dfaeb7a2ef0ee",
+    "007-fixture-1024-64.json": "37b51e955225a3e229acd13db430b13ca8ecac90fa13bdd8bb9447756d7ce831",
+    "007-fixture-512-64.json": "1ec8b64bb830432533d1b65272def26f2abd58d370ee94591e7157c9600de0c3",
+    "007-pilot-accounting-closure.json": "4656f5c7ec8c12a6e4c85e536e5bb73763cf1dfbd20fb307e510f2df7fe3e106",
+    "007-pilot-runtime.json": "3aa36aa8a110704caab684b7a76c63cbd143c979ca8ac7ada39877cfd16f3f89",
+    "007-pilot.json": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+    "007-pilot.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "007-readout-accounting-closure.json": "1ec5e0e5ebabf5821593f1e7847be7eb5ee52003f23acc6f75e83ca6f3e3996a",
+    "007-readout-runtime.json": "8f5c32687efe90c86c9082e351102a1fb5024e6e8f5ff6101fbe8d064fdcb129",
+    "007-readout.json": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+    "007-readout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "007-reduction-accounting-closure.json": "4da24a6d6e892dd3c407e8090ba6dcb353691f2d2b5104b6505a85e249739f24",
+    "007-reduction-runtime.json": "abfdb37343b5cc9139e358e99637b1976a3b15a228c988787f4560425836b3e7",
+    "007-reduction.json": "d141538309745ba3e53cdda6f1891479bbb113681576da7b426eddc45498b894",
+    "007-reduction.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "invocations.jsonl": "94fbeeadcd9018c7c391ffa46ed6c139f62ed8b0ce8839d77a29a10ec17c22c7"
+  },
+  "limits": {
+    "aggregate_seconds": null,
+    "application_rlimit_as": null,
+    "full_attempts": null,
+    "per_invocation_seconds": null,
+    "short_attempts": null
+  },
+  "numerical_environment": {
+    "machine": "x86_64",
+    "numpy": "2.5.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "original_adapter_sources": {
+    "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "9613daf303cc4632e627f36caf556c7b65cbafd62748cdb5dec981d874dfc134",
+    "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47"
+  },
+  "original_head": "a7f403b654c9fec0150c7c19b38aceee28c18601",
+  "original_plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "original_tree": "cd41a610c3766de9490faddf14c59e469acb5e42",
+  "physical_validation": "NOT_ESTABLISHED",
+  "retry_policy": "Recorded operational causes only; never retry scientific/integrity failures or duplicate completed work.",
+  "reuse_readout": {
+    "file": "007-readout.json",
+    "numerical_reexecution": false,
+    "sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0"
+  },
+  "scientific_equality_exclusions": [],
+  "scientific_plan_unchanged": true,
+  "service_policy": {
+    "inherit_os_memory_limits": true,
+    "manager": "existing systemd user manager",
+    "restart": "no",
+    "runtime_max": "infinity",
+    "session_disconnect_does_not_stop": true,
+    "system_wide_limits_changed": false
+  },
+  "service_unit": "puckworks-grudeva007-continuation.service",
+  "source_verification": "All 92 original protected files remain checked directly; only two 007 orchestration adapters receive explicitly rebound hashes.",
+  "stages": [
+    "007-pilot",
+    "007-control_512",
+    "007-repeat_512",
+    "007-modes_fine",
+    "007-time_fine",
+    "007-bed_fine",
+    "007-combined"
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+  "tests": {
+    "file": "tests/test_grudeva2026_fine_baseline_qualification_007.py",
+    "sha256": "8c4d80064864dc95737dfc9371ef3ea0f9f3cf0278fa5ed98fa973854a0e29c0"
+  }
+}

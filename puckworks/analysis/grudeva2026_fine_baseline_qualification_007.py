@@ -1,6 +1,6 @@
 """Fixed 007 orchestration over unchanged production and scientific primitives.
 
-All numerical entry points are called only by the locked, budgeted 007 worker.
+All numerical entry points are called only by the locked 007 worker.
 The inherited schema identifies storage, never execution authority.
 """
 from __future__ import annotations
@@ -50,7 +50,7 @@ def controls(row, value):
     return Controls(**value)
 
 
-def verify_plan(plan):
+def verify_plan(plan, policy=None):
     from puckworks.models.grudeva2026.reduced import Parameters
     require(plan['task'] == TASK and plan['rows'] == ROWS, '007 matrix identity differs')
     require(plan['horizon'] == 8. and plan['pilot_horizon'] == .4, 'horizon differs')
@@ -58,8 +58,14 @@ def verify_plan(plan):
     for key, horizon in [('requests', 8.), ('pilot_requests', .4)]:
         require(plan[key] == obs.requests(horizon), 'request differs: '+key)
     require(plan['segment_science_fields'] == list(SEGMENT_SCIENCE), 'equality projection changed')
-    for scope in ('scientific_sources', 'adapter_sources'):
-        for name, expected in plan[scope].items():
+    adapters = plan['adapter_sources']
+    if policy is not None:
+        require(policy['task']==TASK and policy['original_plan_sha256']==obs.sha(DOCS/'PLAN.json') and
+                policy['original_adapter_sources']==adapters, 'execution-policy ancestry differs')
+        require(set(policy['adapter_sources'])==set(adapters), 'execution-policy adapter scope differs')
+        adapters = policy['adapter_sources']
+    for sources in (plan['scientific_sources'], adapters):
+        for name, expected in sources.items():
             require(obs.sha(ROOT/name) == expected, 'source mismatch: '+name)
     require(obs.sha(DOCS/'CONTRACT.md') == plan['contract_sha256'], 'contract changed')
 
@@ -205,14 +211,16 @@ def readout(folder, prior, historical, plan):
     return result
 
 
-def validate_new(meta, row, plan, *, pilot=False):
+def validate_new(meta, row, plan, *, pilot=False, execution=None):
     """Validate genuine 007 metadata; do not impersonate a predecessor task."""
     request = plan['pilot_requests' if pilot else 'requests']
     attempt = '007-pilot' if pilot else '007-'+row
     require(meta['task']==TASK and meta['attempt']==attempt and meta['row']==row, '007 execution binding differs')
     require(meta['horizon']==(.4 if pilot else 8.) and meta['controls']==ROWS[row], '007 settings differ')
     require(meta['observed']==(row!='control_512'), 'control/repeat observation authority differs')
-    require(meta['matrix_sha256']==obs.sha(DOCS/'PLAN.json') and meta['adapter_sources']==plan['adapter_sources'], '007 source/plan differs')
+    adapters = plan['adapter_sources'] if execution is None else execution['adapter_sources']
+    require(meta['matrix_sha256']==obs.sha(DOCS/'PLAN.json') and meta['adapter_sources']==adapters, '007 source/plan differs')
+    require(meta.get('execution')==execution, '007 execution-policy binding differs')
     require(meta['environment']==plan['environment']==obs.environment(), '007 environment differs')
     require(meta['parameters']==plan['parameters'] and meta['sources']==obs.sources(), 'scientific binding differs')
     require(meta['requests']==request and meta['request_hashes']=={k:obs.digest(v) for k,v in request.items()}, 'request binding differs')
@@ -260,7 +268,7 @@ def pilot_gates(observed, meta):
     return gates
 
 
-def simulate_row(folder, prior, plan, row, *, pilot=False):
+def simulate_row(folder, prior, plan, row, *, pilot=False, execution=None):
     from puckworks.models.grudeva2026 import reduced
     from puckworks import rights
     require(rights.may_execute_locally('grudeva2026.reduced').allowed, 'local execution rights unavailable')
@@ -274,9 +282,12 @@ def simulate_row(folder, prior, plan, row, *, pilot=False):
         task=TASK, attempt=attempt, row=row, horizon=.4 if pilot else 8., observed=observed_call,
         status='EXECUTED_UNQUALIFIED', passed=False, controls=asdict(ctrl), parameters=plan['parameters'],
         requests=request, request_hashes={k:obs.digest(v) for k,v in request.items()}, sources=obs.sources(),
-        adapter_sources=plan['adapter_sources'], environment=obs.environment(), matrix_sha256=obs.sha(DOCS/'PLAN.json'),
+        adapter_sources=plan['adapter_sources'] if execution is None else execution['adapter_sources'],
+        environment=obs.environment(), matrix_sha256=obs.sha(DOCS/'PLAN.json'),
         physical_validation='NOT_ESTABLISHED', segments=[], phase_seconds={},
         state_layout=dict(size=size, modal_shape=[ctrl.modes+1,ctrl.cells], modal_axis=0, order='s,liquid,mode-major,cup'))
+    if execution is not None:
+        meta['execution']=execution
     write_new(path,meta)
     captured=[]
     original = reduced.solve_ivp
@@ -327,7 +338,7 @@ def simulate_row(folder, prior, plan, row, *, pilot=False):
     gc.collect()
     meta['phase_seconds']['persistence']=time.perf_counter()-started
     checkpoint(path,meta)
-    validate_new(meta,row,plan,pilot=pilot)
+    validate_new(meta,row,plan,pilot=pilot,execution=execution)
     require(bound_json(folder,meta['public_checkpoint'])==meta['public_result'], 'public checkpoint mismatch')
     if not observed_call:
         base=bound_json(prior,plan['reuse']['metadata'])
@@ -371,14 +382,16 @@ def comparisons_pass(metrics):
     return set(metrics)==set(report.BUDGETS) and all(m['passed'] and m['included']>0 and m['unavailable']==0 for m in metrics.values())
 
 
-def reduction(folder, prior, plan, audit):
-    """The one solver-free reduction, including failure closeout and missing rows."""
+def reduction(folder, prior, plan, audit, *, inputs=None, execution=None, admission_path=None):
+    """Solver-free reduction of bound inputs, including failure closeout."""
     result=dict(task=TASK, plan_sha256=obs.sha(DOCS/'PLAN.json'), physical_validation='NOT_ESTABLISHED',
         disposition=INCOMPLETE, rows={}, comparisons={}, prerequisites={}, preliminary_accounting=audit,
         baseline_original_identity=plan['reuse']['metadata'], reasons={})
+    if execution is not None:
+        result['execution']=execution
     for name in ATTEMPTS[:-1]:
         end=audit['ends'].get(name)
-        path=folder/(name+'.json')
+        path=(inputs or {}).get(name, folder/(name+'.json'))
         if not end:
             result['rows'][name]=dict(status='NOT_RUN', passed=False)
             continue
@@ -420,7 +433,7 @@ def reduction(folder, prior, plan, audit):
             result['reasons'][r['failure']['category']].append(dict(attempt=n,**r['failure']))
     if not result['prerequisites'].get('007-readout',{}).get('passed'):
         result['reasons']['persistence_replay_observation'].append('required readout unavailable or failed')
-    admission=folder/'ADMISSION.json'
+    admission=admission_path or folder/'ADMISSION.json'
     if admission.exists():
         receipt=obs.read_json(admission)
         require(receipt['task']==TASK and receipt['plan_sha256']==obs.sha(DOCS/'PLAN.json'), 'admission binding differs')
