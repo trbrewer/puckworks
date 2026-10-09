@@ -1,0 +1,52 @@
+{
+  "affected_tests": {
+    "log_sha256": "40900a4b2f078507a7fdf5210ce1e114cc77b9e9247c9ea6948dc1194513720e",
+    "passed": 220,
+    "seconds": 5.61
+  },
+  "broad_software_baseline": {
+    "command": "python -m pytest -q -m 'not slow and not live and not release and not gpu and not external_data and not protected_target_integrity'",
+    "deselected": 760,
+    "log_sha256": "c0c12eef7dd3ded9e359db879ae1c552dab4edceda21b7324e5d687a3b708b02",
+    "passed": 5575,
+    "scope": "Ordinary quick suite; final changed orchestration additionally covered by all 220 affected tests and 49 manufactured tests after the last source changes.",
+    "seconds": 1205.59,
+    "skipped": 66,
+    "status": "PASS",
+    "warnings": 1
+  },
+  "ewp": {
+    "hosted_head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "unchanged": true
+  },
+  "exact_merge_integration": {
+    "all_attempt_one": true,
+    "head": "751d5de1badf287f28de811f511ac1a49acda157",
+    "receipt_sha256": "eb1d8f3b21d81fb37a632b7f6d9f68f1e19618d22803c894904488007c76c44f",
+    "successful_push_workflows": 7,
+    "tree": "86d9906de6425532300e4b3208f75407f6336e62"
+  },
+  "final_document_checks": {
+    "git_diff_check": "PASS",
+    "json_parse": "PASS",
+    "private_absolute_path_scan": "PASS"
+  },
+  "final_head_CI_and_review": "Separate external receipts bind actual final commit/tree; see PR #329. Preexecution approval is not final evidence review.",
+  "manufactured_reassessment_tests": {
+    "independent_reviewer_seconds": 0.58,
+    "passed": 49,
+    "scope": "no canonical arrays, trajectories or fixtures"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "preexecution_review": {
+    "passed": true,
+    "scientific_executions": 0,
+    "sha256": "dde04f6c146e7fe339295b7b32c6c802953b3a0f2de659adf2cc1570e3003493"
+  },
+  "static_checks": {
+    "mypy": "PASS (19 configured files)",
+    "ruff": "PASS"
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

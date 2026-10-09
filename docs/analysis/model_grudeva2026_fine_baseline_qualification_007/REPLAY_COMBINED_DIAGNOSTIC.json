@@ -1,0 +1,642 @@
+{
+  "assessment": "DIAGNOSTIC_ONLY",
+  "audits": {
+    "accepted_states": 8546,
+    "aqueous_max": 0.4720978373384914,
+    "aqueous_min": 0.0,
+    "conservation_location": {
+      "provenance": "accepted",
+      "segment": 2,
+      "t": 7.310999901471381
+    },
+    "cup_max_time": 7.840010481953066,
+    "cup_quadrature_points": 9194,
+    "cup_quadrature_refinement_max": 0.0,
+    "cup_state_integral_max": 1.0687228879646682e-09,
+    "diagnostic_bounds": {
+      "grain_history": {
+        "excluded": 0,
+        "included": 4326,
+        "maximum": 1.3880000000000006,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.025
+        },
+        "minimum": 1.0576692093362185e-32,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 8.0,
+          "z": 0.025
+        },
+        "requested": 4326,
+        "unavailable": 0
+      },
+      "grain_profile": {
+        "excluded": 0,
+        "included": 135960,
+        "maximum": 1.3880000000000006,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.0
+        },
+        "minimum": 4.4105246951774673e-35,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 8.0,
+          "z": 0.0
+        },
+        "requested": 135960,
+        "unavailable": 0
+      },
+      "liquid_profile": {
+        "excluded": 0,
+        "included": 135960,
+        "maximum": 1.0,
+        "maximum_location": {
+          "provenance": "required",
+          "t": 0.01,
+          "z": 0.005
+        },
+        "minimum": 0.0,
+        "minimum_location": {
+          "provenance": "required",
+          "t": 0.0,
+          "z": 0.0
+        },
+        "requested": 135960,
+        "unavailable": 0
+      }
+    },
+    "diagnostic_inlet_mean_error": 4.13781920477474e-07,
+    "event_states": 1,
+    "front_decrease": 0.0,
+    "front_wet_excess": 2.220446049250313e-16,
+    "grain_mean_min": 6.500094150767518e-35,
+    "horizon": 8.0,
+    "independent_sum_allowance_fraction": 0.000244140625,
+    "max_normalized_conservation": 2.671868490144874e-10,
+    "phase_min": 0.0,
+    "public_cup_error": 0.0,
+    "public_grain_endpoint_difference": 0.00036491470339977683,
+    "public_inventory_allowance_fraction": 0.0009381003842459175,
+    "public_outlet_error": 0.0,
+    "public_profile_reconstruction_error": 6.661338147750939e-16,
+    "spectrum": {
+      "allowance": 5.684341886080802e-14,
+      "complement_tail": 0.009425037605941489,
+      "complement_tail_difference": 7.632783294297951e-17,
+      "rate_relative_error": 2.220446049250313e-16,
+      "tail_rate": 123192.40071156433,
+      "tail_weight": 0.009425037605941565,
+      "weight_error": 0.0,
+      "weight_sum": 1.0
+    },
+    "terminal_cup": 5.551999365370945,
+    "terminal_phases": [
+      9.693023717005644e-08,
+      3.101767584635284e-07,
+      2.2900547621395098e-07
+    ]
+  },
+  "disposition": "FINE_BASELINE_QUALIFICATION_INCOMPLETE",
+  "gates": {
+    "activation_support": true,
+    "aqueous_bounds": true,
+    "complete_status": true,
+    "conservation": true,
+    "cup_quadrature": true,
+    "cup_state_integral": true,
+    "diagnostic_grain_history_bounds": true,
+    "diagnostic_grain_profile_bounds": true,
+    "diagnostic_inlet": true,
+    "diagnostic_liquid_profile_bounds": true,
+    "events": true,
+    "front_support": true,
+    "grain_bounds": true,
+    "horizon": true,
+    "independent_inventory_sums": true,
+    "phase_bounds": true,
+    "public_cup_outlet_reconstruction": true,
+    "public_inventory_algebra": true,
+    "public_profile_reconstruction": true,
+    "required_times": true,
+    "solver_segments": true,
+    "tail_weights_rates": true
+  },
+  "individual_details": {
+    "activation_support": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 227,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 227,
+      "unavailable": 0
+    },
+    "aqueous_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 8547,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0,
+        "trace": false
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 8547,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "complete_status": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "conservation": {
+      "allowance": 1e-06,
+      "excluded": 0,
+      "included": 8547,
+      "location": {
+        "provenance": "accepted",
+        "segment": 2,
+        "t": 6.953744038737861
+      },
+      "maximum": 2.671868490144874e-10,
+      "passed": true,
+      "requested": 8547,
+      "signed_at_maximum": 2.671868490144874e-10,
+      "unavailable": 0
+    },
+    "cup_quadrature": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 9194,
+      "location": {
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 9194,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "cup_state_integral": {
+      "allowance": 5e-05,
+      "excluded": 0,
+      "gate_sum_of_component_maxima": 1.0687228879646682e-09,
+      "included": 9194,
+      "location": {
+        "t": 7.840010481953066
+      },
+      "maximum": 1.0687228879646682e-09,
+      "passed": true,
+      "requested": 9194,
+      "separate_quadrature_maximum": 0.0,
+      "signed_at_maximum": 1.0687228879646682e-09,
+      "unavailable": 0
+    },
+    "diagnostic_grain_history_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 4326,
+      "maximum": 1.3880000000000006,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.025
+      },
+      "minimum": 1.0576692093362185e-32,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.025
+      },
+      "passed": true,
+      "requested": 4326,
+      "unavailable": 0
+    },
+    "diagnostic_grain_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.3880000000000006,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "minimum": 4.4105246951774673e-35,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "diagnostic_inlet": {
+      "allowance": 2e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "t": 0.175,
+        "z": 0.0
+      },
+      "maximum": 4.13781920477474e-07,
+      "passed": true,
+      "requested": 395,
+      "signed_at_maximum": -4.13781920477474e-07,
+      "unavailable": 0
+    },
+    "diagnostic_liquid_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.0,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.01,
+        "z": 0.005
+      },
+      "minimum": 0.0,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "events": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 2,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 2,
+      "unavailable": 0
+    },
+    "front_support": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 17090,
+      "location": {
+        "provenance": "accepted",
+        "segment": 1,
+        "t": 6.504309539469248
+      },
+      "maximum": 2.220446049250313e-16,
+      "passed": true,
+      "requested": 17090,
+      "signed_at_maximum": 2.220446049250313e-16,
+      "unavailable": 0
+    },
+    "grain_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 8547,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 8547,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "horizon": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "independent_inventory_sums": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 8547,
+      "location": {
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.28850660029188163
+      },
+      "maximum": 0.000244140625,
+      "passed": true,
+      "requested": 8547,
+      "signed_at_maximum": 0.000244140625,
+      "unavailable": 0
+    },
+    "phase_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 8547,
+      "location": {
+        "phase": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 8547,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_cup_outlet_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 150,
+      "location": {
+        "field": "cup",
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 150,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_inventory_algebra": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 225,
+      "location": {
+        "phase": 1,
+        "t": 0.0
+      },
+      "maximum": 0.0009381003842459175,
+      "passed": true,
+      "requested": 225,
+      "signed_at_maximum": 0.0009381003842459175,
+      "unavailable": 0
+    },
+    "public_profile_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 18000,
+      "location": {
+        "field": "grain",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "maximum": 6.661338147750939e-16,
+      "passed": true,
+      "requested": 18000,
+      "signed_at_maximum": 6.661338147750939e-16,
+      "unavailable": 0
+    },
+    "required_times": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 614,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 614,
+      "unavailable": 0
+    },
+    "solver_segments": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 3,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 3,
+      "unavailable": 0
+    },
+    "tail_weights_rates": {
+      "allowance": 5.684341886080802e-14,
+      "audit": {
+        "allowance": 5.684341886080802e-14,
+        "complement_tail": 0.009425037605941489,
+        "complement_tail_difference": 7.632783294297951e-17,
+        "rate_relative_error": 2.220446049250313e-16,
+        "tail_rate": 123192.40071156433,
+        "tail_weight": 0.009425037605941565,
+        "weight_error": 0.0,
+        "weight_sum": 1.0
+      },
+      "excluded": 0,
+      "included": 65,
+      "location": {
+        "rate_mode_index": 64,
+        "tail_index": 64,
+        "weight_mode_index": 0
+      },
+      "maximum": 2.220446049250313e-16,
+      "passed": true,
+      "requested": 65,
+      "unavailable": 0
+    }
+  },
+  "metadata_sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f",
+  "observations_sha256": "801ddd753f97c204009ad7fd0b052158792dbcbbca52722bddaeda7ef0317544",
+  "physical_validation": "NOT_ESTABLISHED",
+  "refinement": {
+    "activation": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 220,
+      "location": {
+        "index": [
+          124
+        ],
+        "z": 0.58
+      },
+      "max_absolute": 1.3127063209772416e-06,
+      "passed": true,
+      "requested": 220,
+      "unavailable": 0
+    },
+    "arrival": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 1,
+      "location": {
+        "normal_t": 6.504308470045491,
+        "refined_t": 6.504309539469248,
+        "z": 1.0
+      },
+      "max_absolute": 1.069423756661081e-06,
+      "passed": true,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "boulder_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          335
+        ],
+        "t": 6.675
+      },
+      "max_absolute": 1.5884969747741173e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "cup": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          318
+        ],
+        "t": 6.6
+      },
+      "max_absolute": 1.1354529600993146e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "fines_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "max_absolute": 7.720346135824119e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "front": {
+      "budget": 0.001,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          152
+        ],
+        "t": 3.75
+      },
+      "max_absolute": 2.003810699591213e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "grain_histories": {
+      "budget": 0.00023,
+      "excluded": 971,
+      "included": 1794,
+      "location": {
+        "index": [
+          241,
+          5
+        ],
+        "t": 5.975,
+        "z": 0.9
+      },
+      "max_absolute": 2.2239502444454384e-05,
+      "passed": true,
+      "requested": 2765,
+      "unavailable": 0
+    },
+    "grain_profiles": {
+      "budget": 0.00023,
+      "excluded": 30359,
+      "included": 56541,
+      "location": {
+        "index": [
+          300,
+          218
+        ],
+        "t": 6.515,
+        "z": 0.995
+      },
+      "max_absolute": 2.8391326331256295e-05,
+      "passed": true,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "liquid_inventory": {
+      "budget": 5e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "index": [
+          315
+        ],
+        "t": 6.585
+      },
+      "max_absolute": 2.412608166579844e-07,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    },
+    "liquid_profiles": {
+      "budget": 0.001,
+      "excluded": 1224,
+      "included": 85676,
+      "location": {
+        "index": [
+          304,
+          215
+        ],
+        "t": 6.535,
+        "z": 0.9852289512555391
+      },
+      "max_absolute": 1.0955168643633773e-05,
+      "passed": true,
+      "requested": 86900,
+      "unavailable": 0
+    },
+    "outlet": {
+      "budget": 0.001,
+      "excluded": 14,
+      "included": 381,
+      "location": {
+        "index": [
+          303
+        ],
+        "t": 6.53
+      },
+      "max_absolute": 5.150285199151394e-06,
+      "passed": true,
+      "requested": 395,
+      "unavailable": 0
+    }
+  },
+  "replay_admission": "UNRESOLVED_ORIGINAL_FAILURE_PRESERVED",
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

@@ -1,0 +1,95 @@
+{
+  "adoption": "NOT_AUTHORIZED",
+  "continuum_accuracy": "NOT_ESTABLISHED",
+  "diagnostic_combined": {
+    "file": "REPLAY_COMBINED_DIAGNOSTIC.json",
+    "sha256": "f02c29c3839b84ea3e2fd3658280dff3349ef8f8142d0e978a5e350ab6dd4a57"
+  },
+  "disposition": "FINE_BASELINE_RAW_OBSERVATION_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES",
+  "full_external_result": {
+    "file": "replay_certification/certify-0001/qualification.json",
+    "sha256": "cde841c6f00a9ee30ba871fdd778d1c1835ddb1fbbdb87c5ead6a011e5cffba8"
+  },
+  "historical_disposition": "FINE_BASELINE_QUALIFICATION_INCOMPLETE",
+  "original_results": {
+    "file": "CONTINUATION_RESULTS.json",
+    "sha256": "2f2a8909402a34debb0eb0a5ea0f9d8178315a2b6b0aebcc284439f5d6ff9822"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "qualification_gates": {
+    "baseline": true,
+    "combined_audit_coverage": true,
+    "independent_audits": true,
+    "neutrality": true,
+    "other_blockers": true,
+    "prerequisites": true,
+    "refinement_coverage": true,
+    "refinements": true,
+    "repeatability": true,
+    "replay": true,
+    "rows": true
+  },
+  "reasons": {
+    "individual_audits": {},
+    "integration_software": [],
+    "neutrality_repeatability": [],
+    "persistence_replay_observation": [],
+    "refinements": {},
+    "resources_execution": [],
+    "source_environment_rights": []
+  },
+  "reassessment": {
+    "analysis_sha256": "8273acc644c5a6184c9cc394e89c77faa8021ddb6804999470d54fa941de3d23",
+    "certificate_sha256": "79fdadc149c89eed161d5bc62433e6ad5d2a512fa6b2ab46e2f683168f03f31c",
+    "diagnosis_sha256": "34ffabfbe893e0250b1bcf656d4a0ebad7200d7ab1647d660f31869dcc2b677f",
+    "original_failed_metadata_preserved": true,
+    "plan_sha256": "133273136ba913e91489de95d73c52fdffe44ed74a2de7b238d8ccc1293206aa",
+    "production_invocations": 0,
+    "scientific_sources_unchanged": true
+  },
+  "scope": {
+    "baseline": {
+      "atol": 2e-10,
+      "cells": 512,
+      "front_mesh_power": 2.0,
+      "max_step": 0.05,
+      "modes": 32,
+      "rtol": 2e-08
+    },
+    "environment": {
+      "machine": "x86_64",
+      "numpy": "2.5.3",
+      "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+      "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+      "scipy": "1.18.1",
+      "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+      "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+      "threads": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    },
+    "horizon": 8.0,
+    "masks": "unchanged pair-specific inherited masks",
+    "original_plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+    "parameters": {
+      "c_b_init": 1.388,
+      "c_f_init": 1.388,
+      "d_sb": 1.0,
+      "phi_b": 0.16,
+      "phi_f": 0.64,
+      "phi_l": 0.2,
+      "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+      "varphi_lb": 0.0
+    },
+    "refinements": [
+      "modes_fine",
+      "time_fine",
+      "bed_fine",
+      "combined"
+    ],
+    "support": "unchanged full public and 395-time/220-position diagnostic requests; all seven histories"
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}
