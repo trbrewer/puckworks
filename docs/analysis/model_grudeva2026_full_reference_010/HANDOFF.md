@@ -11,14 +11,14 @@
 | Numerical qualification | INCOMPLETE: one solver-complete anchor; zero audited/qualified rows; thirteen rows NOT_RUN |
 | Observation/archive qualification | FAILED: one of 26 array identities mismatches; required full-case observations/audits unavailable |
 | Local software QA | PASS; 6443 quick tests, 65 document regressions, configured static checks, ordinary gates/baseline, generated checks and clean wheel/sdist |
-| Hosted candidate CI | Pending exact-candidate receipt; the selected-base receipt is separate |
-| Independent review | Pre-campaign PASS; final exact-candidate review pending |
+| Hosted candidate CI | Exact final-head status is recorded externally and in the draft PR checks/body after this commit; local QA and selected-base integration do not substitute |
+| Independent review | Pre-campaign PASS; [final independent nonhuman review](FINAL_REVIEW.json) PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF on the exact scientific payload |
 
 ## Identities and scope
 
 - Selected base head: `3cd308ac5bed39acff3d995108b5178a53c982ee`; tree: `96ad0b033c070a99416209828b5780034f438dba`. Live main still matched at handoff preparation.
 - All seven exact-base PUSH workflows passed before the campaign; [INTEGRATION.json](INTEGRATION.json) binds them. No successful workflow was manually rerun.
-- One branch: `model/grudeva2026-full-reference-010`. The scientific candidate head/tree and final review/hosted receipts are supplied with the draft PR; final G0 receipt additions do not change the frozen scientific hashes.
+- Reviewed scientific candidate: head `9ec7b1a2fbedb1650eb51afe0ee4d84d55ab063a`, tree `0d386fc8388a88c14fb8fa28f5c7c7f6e6f04a1e`. One branch: `model/grudeva2026-full-reference-010`. Final G0 receipt/status additions preserve scientific/result/archive hashes. The exact final tip/tree and hosted CI are recorded in the draft PR body and external closeout receipt after commit, avoiding a self-referential Git identity.
 - Read-only EWP main `4284e9460c8057053e95de7cfa2fb3590e68e9db`, tree `d9d9faaa56f22ab0bd7f47c43174024d15ada192`; production Puckworks dependency remains `fc61c4670ec7bf801e40bb391aab16048b8da26b`.
 - Changed scope: two new analysis modules, explicit campaign CLI, focused tests, the new 010 documentation/results bundle, and narrowly scoped ROADMAP/SPRINTS/development-guide/status-source navigation and generated status. No runtime registration, production equations, default, lock, historical card or scientific evidence changes.
 - All 206 retained scientific-file hashes and the historical source card match. The October 9 review is unchanged. See [QA.json](QA.json).

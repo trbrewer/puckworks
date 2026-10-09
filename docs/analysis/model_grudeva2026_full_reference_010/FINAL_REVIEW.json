@@ -1,0 +1,116 @@
+{
+  "archive_failure_verification": {
+    "C_order_data_bytes": 3576692016,
+    "array": "segment-1.npz:y",
+    "dtype": "<f8",
+    "interpretation": "The identity mismatch is not a refinement or continuum-error result. No checksum replacement, state substitution, mass correction, clipping or tolerance relaxation was adopted.",
+    "manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+    "matches_producer": false,
+    "producer_recorded_sha256": "44beb9f18896f0515575d3bc4c032a5e6a1e149edbed4dbf1c5d1905cb1ea050",
+    "reviewer_streamed_sha256": "353cb660c94479c69488e19faf1b3dddd87033b9b0a8bfc76ec43d002b95293e",
+    "root_cause": "UNESTABLISHED",
+    "shape": [
+      24834,
+      18003
+    ]
+  },
+  "candidate": {
+    "base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+    "head": "9ec7b1a2fbedb1650eb51afe0ee4d84d55ab063a",
+    "tree": "0d386fc8388a88c14fb8fa28f5c7c7f6e6f04a1e"
+  },
+  "disposition": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+  "findings": [
+    {
+      "disposition": "Retained without qualification. Stopping the serial campaign on this unresolved evidence dependency is a defensible bounded incomplete outcome under the owner instruction; no speculative correction or scientific retry is prescribed.",
+      "finding": "The sole completed anchor fails exact raw-state archive identity; shared-anchor refinement, repeatability, observations and full-case audits are unavailable. Thirteen rows remain NOT_RUN.",
+      "id": "010-FINAL-01",
+      "severity": "QUALIFICATION_BLOCKER_ALREADY_REPORTED"
+    }
+  ],
+  "independently_checked": [
+    "Selected exact candidate and tree, all six frozen implementation/source/test hashes, complete matrix hash, source text hashes, compact result and QA identities.",
+    "b_i dimensional normalization gives b_f/b_b=40 and b_f+b_b=2; Q_i=phi_T/(3 phi_i), phase weights 3.2 and 0.8, 3 Q_i phi_i/phi_T=1, M0=5.552 and equal-dimensional-diffusivity ratio 100. NOTATION clarifies the dimensional radius star without changing the frozen numerical definitions.",
+    "Finite signed min(surface,1)-liquid surface law, half-shell resistance elimination, spherical shell conservation and grain means preserve forward/reverse transfer and allow grain concentrations above one.",
+    "ALE U=s*C liquid equation and grain geometric flux -xi*s_prime*C give fixed-physical-position grain histories and right-boundary admission. Reynolds balance yields stored+Jout-Jin=M0; negative inlet flux is loss, and relative moving-front flux differs from physical front flux.",
+    "Declared startup approximation, its grain-age admission and O(tau^3) balance residual are explicit; no hidden time shift, concentration clipping, mass correction or t=1 reset found. Approximation accuracy remains unqualified on the full case.",
+    "Focused controls use independent continuum Robin and Neumann sphere references, saturation transition, true paired equilibria, actual liquid flux/divergence, grain memory/admission, polynomial reconstruction, safe archive round trip and non-invasive capture. Temporal matrix exponential is used only after independent spatial controls.",
+    "Retained failed control and QA records agree with reported corrections. Control log records 15 final passes; full quick log records 6443 passes/67 skips/64 deselections; post-document regressions record 65 passes. No tests were rerun by this reviewer.",
+    "Fourteen frozen rows isolate time, axial, fines radial, boulder radial and startup errors with three levels, plus combined refinement and repeat. Limits, floors, combined budgets, temporal effectiveness and uncertainty caveats were prospective and unchanged.",
+    "Observation support independently recounts 211 times, 210 z positions and 14 radii: 35612 required liquid observations and 146 required outlet observations. All other counts in RESULTS follow their declared shapes; no dry-liquid or pre-drip beverage values are promoted to available observations.",
+    "Both accepted-time arrays independently match manifest hashes and span [1e-7,1] and [1,8], containing 7826 and 18003 entries. Segment success metadata and original failure traceback establish solver completion followed by strict loader rejection, not numerical qualification.",
+    "A reviewer-owned direct ZIP/NPY data-byte stream independently reproduces the failed raw y hash. The discrepancy is real at the retained artifact/identity interface; this does not identify its root cause.",
+    "Read all three original diagnostic scripts/records; independently verified 36 small external manifest entries and 24 QA log identities. Large-array finiteness, 25/26 count, full archive file hashes and redundant-copy comparison are supported by those hash-bound diagnostic records; only the failed raw y member and accepted-time arrays were independently reread from large segment files.",
+    "All 206 retained scientific-file hashes match; the historical source card is byte-identical to base. Git diff is scoped to new 010 code/tests/results and required living planning/status navigation; no production registration/default/lock, historical scientific evidence or EWP write found."
+  ],
+  "limits": [
+    "No large trajectory state was treated as qualified, no full-case numerical gate recomputed, and no root cause was attributed to hardware, filesystem, NumPy or BDF.",
+    "No author code, original Figure 5 arrays, private correspondence or supplement PDF was inspected by this reviewer. Retained mathematical texts were sufficient for the reviewed declared-case semantics and are not redistributed.",
+    "Candidate hosted CI was not yet available for this review. Exact hosted receipt is required separately; selected-base integration is not substituted.",
+    "A later documentation/receipt-only commit may receive a bounded delta addendum with unchanged scientific hashes under SCI-GOV-001; no new full scientific review is needed for that G0 delta.",
+    "No reduced-model error, epsilon-convergence, Figure 5 reproduction, publication-discrepancy cause, author error, physical validation or production/Guided Pull/EWP adoption follows. Issue #67 stays open; PR draft/unmerged; auto-merge disabled."
+  ],
+  "meaning": "The implementation and retained partial evidence may be handed off with FULL_REFERENCE_QUALIFICATION_INCOMPLETE. This review does not award numerical/reference qualification, certify the failed archive, establish physical validation, or authorize continuation/adoption/merge.",
+  "new_material_defects_or_overclaims_found": [],
+  "physical_validation": "NOT_ESTABLISHED",
+  "primary_mathematics_read": [
+    {
+      "role": "Retained article text",
+      "scope": "Eqs. 2-4, 18-29 and supporting definitions/scalings",
+      "sha256": "e07bc1ee39b006bbcfae9f3d1288780c8d1ea34774e44ac479b31a55d33b1945"
+    },
+    {
+      "role": "Retained supplement text",
+      "scope": "Section B moving-front pillbox and opening of C; no author numerical scheme used as authority",
+      "sha256": "1814085ab5f17a5365dc78a8dd5c0c915ac8cf7984284b45388e8f8506c0546c"
+    }
+  ],
+  "review_execution": {
+    "actions": "Read-only review, small-array reads and independent hashes; only this review receipt written. The original three diagnostic attempts remain distinct from this review audit.",
+    "scientific_retries": 0,
+    "solver_invocations": 0,
+    "source_code_edits": 0,
+    "test_invocations": 0
+  },
+  "review_kind": "One final independent exact-candidate scientific and results review",
+  "reviewed_at": "2026-10-09T22:59:03.010781+00:00",
+  "reviewed_document_sha256": {
+    "CARD_ADDENDUM.md": "da017d6a8e7a2148c379f566667d5ab58e77666e0f20ae4002ce828c8018724a",
+    "CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "DEVELOPMENT.json": "328f5b6b5b7b9b5f870ebe51bcd13eefe531a9bb5b3cc00f4525df97469971f1",
+    "EXTERNAL_EVIDENCE.json": "d18bfd727a56c37fc78100c7c54c272f0705082cd5080430e03ac5e2ac5af60c",
+    "HANDOFF.md": "a8c5ef665cc0d7c6fd52540753d464c057dcd6d98f9e015eba8b10c54ccb5ebe",
+    "INTEGRATION.json": "58abbf1fbad2f6281ce4839ef69ccd23ec18960a08f576046c2c48019993e9ce",
+    "MATRIX.json": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "NOTATION.md": "ad1436d72c4c0cddd018adc9a0a77a23c9b5b502cc6ed475d0f94bdf34f017a5",
+    "PRE_CAMPAIGN_REVIEW.json": "068e41824283be13ba8e039c7119a905f01c16d616b1d2964a0c5f3761a84264",
+    "QA.json": "e8542967dd48f17a5621964113cacc9995a3c9c1ec6f164a24e77a32ec478978",
+    "REPRODUCE.md": "adeec00f1ced1f1fac1079c7872f6d23d0d30edbbff4cc475fb01447a0d4e334",
+    "RESULTS.json": "a02712598b11bd5ed02e40460c0c05663e1b8c15d8be86bde617ef7e8a8fc829",
+    "RESULTS.md": "6692a6825fa06ba3584e4c40d932740a6e6d8b6b1ffa3f78f5f5bedfd1d456cf",
+    "SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34"
+  },
+  "reviewer": {
+    "human_review": false,
+    "identity": "OpenAI Codex nonhuman reviewing agent /root/final_review",
+    "independence": "Separate from the implementing author and the pre-campaign reviewer. Read source mathematics, candidate code, contracts, controls and retained evidence; wrote no solver, observation or reporting code and executed no solver or tests."
+  },
+  "scientific_implementation_sha256": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807",
+    "tests/test_grudeva2026_full_reference_010.py": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5",
+    "tools/run_grudeva2026_full_reference_010.py": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5"
+  },
+  "separate_dispositions": {
+    "hosted_candidate_ci": "PENDING_SEPARATE_EXACT_CANDIDATE_RECEIPT",
+    "implementation": "DELIVERED_ANALYSIS_ONLY; FULL_CASE_ARCHIVE_IDENTITY_UNRESOLVED",
+    "independent_review": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+    "local_software_qa": "PASS_ON_RETAINED_HASH_VERIFIED_RECORDS",
+    "mathematical_source_contract": "COMPLETE_FOR_DECLARED_CASE_WITH_NOTATION_CLARIFICATION",
+    "numerical_qualification": "INCOMPLETE; NO_FULL_CASE_PRECISION_PASS",
+    "observations_archive": "FAILED_QUARANTINED; REQUIRED_OBSERVATIONS_UNAVAILABLE"
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}
