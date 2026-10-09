@@ -1,0 +1,258 @@
+{
+  "affected_tests": {
+    "focused_007_tests": 42,
+    "log_sha256": "b1b9c66ce054af98d1fdbb38bc25fab3197fe6366d1c66cb27efa060ea4ea537",
+    "summary": "164 passed in 5.40s"
+  },
+  "base_head": "751d5de1badf287f28de811f511ac1a49acda157",
+  "base_tree": "86d9906de6425532300e4b3208f75407f6336e62",
+  "change_declaration": "NO_GOVERNING_PHYSICS_CHANGE",
+  "data_access": "Owner configuration and existing predecessor evidence roots inspected. Complete bound files hashed and metadata/public checkpoints/receipts/ledgers inspected; numerical array validation charged to A. No new source acquisition or protected target/publication score.",
+  "ewp_hosted_head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+  "ewp_local_preserved_head": "78cbd59c751393cddfe539e4c69e43a224329bca",
+  "ewp_lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+  "governance": "G1",
+  "integration_workflows": [
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369632",
+      "id": 37865369632,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610700991,
+          "name": "min-deps",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701200,
+          "name": "quality",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701202,
+          "name": "quality-mypy",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701216,
+          "name": "quick (3.11)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701269,
+          "name": "quick (3.10)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701281,
+          "name": "quick (3.12)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701321,
+          "name": "quick (3.13)",
+          "status": "completed"
+        }
+      ],
+      "name": "quick-pr",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:59:40Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369661",
+      "id": 37865369661,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610701275,
+          "name": "scientific-baseline",
+          "status": "completed"
+        }
+      ],
+      "name": "scientific-baseline",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:35:59Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369674",
+      "id": 37865369674,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610701425,
+          "name": "distribution",
+          "status": "completed"
+        }
+      ],
+      "name": "packaging",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:34:57Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369617",
+      "id": 37865369617,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610701303,
+          "name": "guided pull \u2014 tests + installed-wheel report + hermetic notebook",
+          "status": "completed"
+        }
+      ],
+      "name": "experience",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:35:28Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369616",
+      "id": 37865369616,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610700979,
+          "name": "Mode 1 \u2014 hermetic (current dev wheel, no network)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701165,
+          "name": "Guided Pull Laboratory notebook \u2014 hermetic (current dev wheel, no network)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701408,
+          "name": "Mode 2 \u2014 canonical v0.3.0 release (download + hash-verify)",
+          "status": "completed"
+        }
+      ],
+      "name": "notebook-smoke",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:34:52Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369633",
+      "id": 37865369633,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610701210,
+          "name": "all-scope-strict",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701329,
+          "name": "paper3-scope-strict",
+          "status": "completed"
+        }
+      ],
+      "name": "paper3-evidence",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:33:48Z"
+    },
+    {
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "751d5de1badf287f28de811f511ac1a49acda157",
+      "html_url": "https://github.com/trbrewer/puckworks/actions/runs/37865369647",
+      "id": 37865369647,
+      "jobs": [
+        {
+          "conclusion": "success",
+          "id": 113610701022,
+          "name": "verify-generated",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "id": 113610701347,
+          "name": "status-truth",
+          "status": "completed"
+        }
+      ],
+      "name": "generated-artifacts",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-10-09T00:34:13Z"
+    }
+  ],
+  "local_baseline": {
+    "junit_sha256": "afaad5252a299cebb44c1926ec53964ffb7b801310eae99459aa60273d56beaa",
+    "junit_suites": [
+      {
+        "errors": "0",
+        "failures": "0",
+        "hostname": "tim-MS-7C60",
+        "name": "pytest",
+        "skipped": "67",
+        "tests": "6269",
+        "time": "1301.065",
+        "timestamp": "2026-10-08T20:19:18.122066-05:00"
+      }
+    ],
+    "log_sha256": "c07ba804b5ad14f65aa4aa54d84eadaa2e997c0f0e3c790663aa3f3d0597830c",
+    "selector": "not slow and not live and not gpu and not external_data",
+    "summary": "6202 passed, 67 skipped, 63 deselected, 1 warning in 1301.12s (0:21:41)"
+  },
+  "merged": true,
+  "merged_pr": 328,
+  "mypy": {
+    "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "summary": "puckworks/product/_serialize.py:86: note: By default the bodies of untyped functions are not checked, consider using --check-untyped-defs  [annotation-unchecked]\nSuccess: no issues found in 19 source files"
+  },
+  "parents": [
+    "5e07a1992c404cb5e605757c1125e5866f326378",
+    "84b58c14323bfeb913d3e90a022fca0acdcf90e8"
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "reconciliation": "Targeted local branch/worktree/007 filename/ledger and hosted exact-identifier/open-Grudeva PR searches found no equivalent work. One isolated branch created; unrelated work untouched.",
+  "registry": {
+    "log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+    "summary": "gates: PASSED  (PASS=66, ACKNOWLEDGED_EXCEPTION=1)"
+  },
+  "ruff": {
+    "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "summary": "All checks passed!"
+  },
+  "scientific_consumption": {
+    "full": 0,
+    "seconds": 0,
+    "short": 0
+  },
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}
