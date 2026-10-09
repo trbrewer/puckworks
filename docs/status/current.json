@@ -405,7 +405,7 @@
       "next_gate": "Owner disposition of bounded incomplete 010. Archive raw-state identity failure is unresolved; no automatic rerun, downstream full-versus-reduced assessment or successor. Figure 5 remains incomplete; issue #67 stays open.",
       "acceptance_evidence": "Historical 001\u2013009 evidence unchanged. Completed 008: MATCHED_BASELINE_AGREEMENT_ON_DECLARED_CASE. Completed 009: CORROBORATED_PUBLICATION_DISCREPANCY. 010 RESULTS.json: FULL_REFERENCE_QUALIFICATION_INCOMPLETE; 15 focused controls pass; one anchor reaches t=8 but fails raw-state archive identity, 13 frozen rows NOT_RUN, no full-case precision qualification. PHYSICAL_VALIDATION=NOT_ESTABLISHED",
       "issue_or_pr": "#67",
-      "verified_commit": "9ec7b1a2fbedb1650eb51afe0ee4d84d55ab063a",
+      "verified_commit": null,
       "verified_date": "2026-10-09"
     },
     {

@@ -1,0 +1,29 @@
+{
+  "affected_candidate": "ecc82485a01bc937a3798a7de082619adcb834d4",
+  "author_error": "The earlier local status validator also failed. A multiline shell sequence continued to commit, and the last command exit status was mistakenly treated as verification success. This supersedes the earlier claim that that local status check passed.",
+  "correction": "Restore verified_commit to null on the still-active existing planning item. Keep reviewed scientific commit identity in HANDOFF.md and FINAL_REVIEW.json.",
+  "external_log_sha256": {
+    "final-receipt-status-verify.log": "8e9f9f5e567b2be260201ad27e77e5f3549db875898a9d2fc869206d60d0820d",
+    "hosted-generated-failure-01.log": "48e96dd3e7183036f924930777ee30d094ccf189a20d7c7fd2eeadd592809f53",
+    "status-ci-correction-tests.log": "6ca361ff38728a893cdaf9d5406930ba290e0b0489ec9b70feceb63caea54a4d",
+    "status-ci-correction-verify.log": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+  },
+  "hosted_failure": {
+    "check": "status-truth",
+    "reason": "The active model-grudeva2026-reduced-001 planning item incorrectly carried a non-null verified_commit.",
+    "run_url": "https://github.com/trbrewer/puckworks/actions/runs/38002243310",
+    "workflow": "generated-artifacts"
+  },
+  "kind": "G0_STATUS_METADATA_CORRECTION",
+  "physical_validation": "NOT_ESTABLISHED",
+  "prior_evidence": "The first candidate hosted failure and initial local failure are retained, as is the original G0 review addendum. That addendum did not independently run the status validator.",
+  "recorded_at": "2026-10-09T23:06:42.783973+00:00",
+  "scope": "No change to equations, frozen contract/matrix, implementation, controls, scientific results, archive, QA receipt, historical evidence, thresholds, selectors or protections. New final-head hosted checks are required separately.",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "verification": {
+    "exit_handling": "Each correction check was run and its tool-returned exit code inspected separately.",
+    "statusdoc_tests_exit": 0,
+    "statusdoc_verify_exit": 0,
+    "statusdoc_write_exit": 0
+  }
+}
