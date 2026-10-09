@@ -1,0 +1,179 @@
+{
+  "actual_restrictions": "Inherited OS/cgroup limits preserved; memory/disk/process monitoring retained externally",
+  "all_new_starts_closed": true,
+  "application_limits": {
+    "aggregate_seconds": null,
+    "memory_bytes": null,
+    "per_invocation_seconds": null,
+    "retry_quota": null
+  },
+  "attempts": [
+    {
+      "contract_sha256": "09e28048872481b0669763aa2297b07e004684617265c07f2e5e1f03668b0d07",
+      "elapsed_seconds": 0.03250458900583908,
+      "end": "2026-10-09T15:12:00.485593+00:00",
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "identity": "admission-0001",
+      "ledger_sha256": "bc1ee8d5a46c46d356535df940c6cb1b9130a78f72256e498af2142c00750a4b",
+      "outputs": {},
+      "peak_resident_bytes": 83316736,
+      "process": {
+        "VmHWM": 82739200,
+        "VmPeak": 255213568,
+        "VmRSS": 82739200,
+        "VmSize": 255205376,
+        "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+        "cpu_ticks": 34,
+        "pid": 2084699,
+        "start_ticks": 22116139,
+        "state": "R"
+      },
+      "start": "2026-10-09T15:12:00.453124+00:00",
+      "status": "IMPLEMENTATION_OR_CONTRACT_FAILURE"
+    },
+    {
+      "contract_sha256": "be830939e8c1f2acea9812bbb49e58f6ae739b8867fa2193b7416581196b42f1",
+      "elapsed_seconds": 87.75485394598218,
+      "end": "2026-10-09T15:13:42.763162+00:00",
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "identity": "admission-0002",
+      "ledger_sha256": "589b5a21e73b98f428e4e09923f1365f0ff575839efb4c462e2d2c7a7eec3cf8",
+      "outputs": {
+        "admissions.json": "148a9380a9fff5b53d5f4393f0d51890e773af1fc009fd1938cd9ff840f7f128"
+      },
+      "peak_resident_bytes": 7840296960,
+      "process": {
+        "VmHWM": 82964480,
+        "VmPeak": 256258048,
+        "VmRSS": 82964480,
+        "VmSize": 256258048,
+        "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+        "cpu_ticks": 34,
+        "pid": 2084820,
+        "start_ticks": 22117594,
+        "state": "R"
+      },
+      "start": "2026-10-09T15:12:15.008356+00:00",
+      "status": "COMPLETED"
+    },
+    {
+      "contract_sha256": "4f657f041145cf42916a9f37c4788d290d0b8bac47783c233c6c76be29d81e7c",
+      "elapsed_seconds": 88.03380397098954,
+      "end": "2026-10-09T15:29:21.275012+00:00",
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "identity": "comparison-0001",
+      "ledger_sha256": "5f75520b927385ac711fb7a423b2acff07e1c36287bc295a689f9421cabc5930",
+      "outputs": {
+        "P0-C0.json": "4563a7b053cc65005159f6f58b21ad1eca5ef61dd8af9e1003603439e8cb3a68",
+        "P0-C0.npz": "0395731caae3ca6c2410deb51180a12f2e6ffaa5e99bc2b5a1dcabf1730318fb",
+        "P0-C1.json": "d28224e54f998d6de5bde20d9acae9dc92396e85927d6963a46d8a97509796ee",
+        "P0-C1.npz": "da8dbc53418927ea2a2fd6fe455f29c2045b7c7b3c407297b750b349e6e550fc",
+        "P1-C0.json": "89831dce44a122cb05933a336338bf5ee9a69e41d806fb10ad41babf798719d0",
+        "P1-C0.npz": "fc4c81d728c39565fc7b380ad97cebdaa69f882111e7e968cbe193737ed205cf",
+        "P1-C1.json": "a154f6f117220fc6fc78f532f6eba46814e5185309c25589161ae9f9f7bf717b",
+        "P1-C1.npz": "9871d16abb5a643953dad95bce6e5c54969778e44e372841b555da37827848c3",
+        "admissions.json": "148a9380a9fff5b53d5f4393f0d51890e773af1fc009fd1938cd9ff840f7f128",
+        "contract.json": "2908d79883c1995a72809a36e92ae52b411b6873593e4b36a069a60f73cfb183",
+        "results.json": "9fab86f0ef8d148cff5eb7ab3158e53769197d52551a676b843fc0b2d1834539"
+      },
+      "peak_resident_bytes": 7841468416,
+      "process": {
+        "VmHWM": 82919424,
+        "VmPeak": 255221760,
+        "VmRSS": 82919424,
+        "VmSize": 255201280,
+        "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+        "cpu_ticks": 33,
+        "pid": 2097119,
+        "start_ticks": 22211418,
+        "state": "R"
+      },
+      "start": "2026-10-09T15:27:53.241257+00:00",
+      "status": "COMPLETED"
+    }
+  ],
+  "interpretation": "Archive admission/decode and four-pair comparison only; reuse is not a new simulation. Software QA and reporting separate.",
+  "new_comparator_simulations": 0,
+  "new_offline_attempt_seconds": 175.82116250597755,
+  "new_production_simulations": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "prior_costs": {
+    "comparator_004": {
+      "aggregate_seconds": 1518.0926029819675,
+      "full_attempts": 7,
+      "passed": true,
+      "short_attempts": 13,
+      "unresolved": 0
+    },
+    "production_005": "Original closed accounting and failures remain unchanged; see inherited 005/006/007 bindings",
+    "production_006": {
+      "full": 1,
+      "seconds": 166.21631713100942,
+      "short": 2
+    },
+    "production_007": {
+      "full": 6,
+      "seconds": 7922.5715879080235,
+      "short_or_offline": 8
+    }
+  },
+  "report_operations": [
+    {
+      "reason": "NumPy Boolean in non-gating total-inventory diagnostic; scientific results JSON already identical to accepted output.",
+      "source_sha256": "837bcba3ba568d5add793b83abeab50cb758493d49175ff581cff4acee188270",
+      "status": "FAILED_SERIALIZATION",
+      "tool_elapsed_seconds": 0.416117598
+    },
+    {
+      "correction": "Omit non-applicable verdict flag from a diagnostic with no acceptance gate; retained score unchanged.",
+      "source_sha256": "6ef58a26ace77614b27025af7d5755f7c8748046b6a6e5181d945274d664cac2",
+      "status": "COMPLETED",
+      "tool_elapsed_seconds": 0.439556786
+    }
+  ],
+  "scientific_comparison_executions": 1,
+  "setup_failure": {
+    "attempt": "admission-0001",
+    "reason": "Freeze builder used historical 007 adapter hash for current admission source. Corrected source-role binding before scoring; old contract, implementation snapshot and failure preserved."
+  },
+  "task": "MODEL-GRUDEVA2026-MATCHED-COMPARISON-008"
+}

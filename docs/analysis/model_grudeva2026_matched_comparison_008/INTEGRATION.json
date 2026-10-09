@@ -1,0 +1,211 @@
+{
+  "base": {
+    "runs": [
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140175,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879091,
+            "name": "paper3-scope-strict",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879563,
+            "name": "all-scope-strict",
+            "run_attempt": 1
+          }
+        ],
+        "name": "paper3-evidence",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140163,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879844,
+            "name": "verify-generated",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865880062,
+            "name": "status-truth",
+            "run_attempt": 1
+          }
+        ],
+        "name": "generated-artifacts",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140279,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879816,
+            "name": "scientific-baseline",
+            "run_attempt": 1
+          }
+        ],
+        "name": "scientific-baseline",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140212,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865881078,
+            "name": "guided pull \u2014 tests + installed-wheel report + hermetic notebook",
+            "run_attempt": 1
+          }
+        ],
+        "name": "experience",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140150,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879341,
+            "name": "Mode 2 \u2014 canonical v0.3.0 release (download + hash-verify)",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879661,
+            "name": "Guided Pull Laboratory notebook \u2014 hermetic (current dev wheel, no network)",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879761,
+            "name": "Mode 1 \u2014 hermetic (current dev wheel, no network)",
+            "run_attempt": 1
+          }
+        ],
+        "name": "notebook-smoke",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140057,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879127,
+            "name": "distribution",
+            "run_attempt": 1
+          }
+        ],
+        "name": "packaging",
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+        "id": 37944140100,
+        "jobs": [
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879123,
+            "name": "min-deps",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879427,
+            "name": "quality-mypy",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879535,
+            "name": "quick (3.10)",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879608,
+            "name": "quick (3.13)",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879619,
+            "name": "quality",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865879676,
+            "name": "quick (3.11)",
+            "run_attempt": 1
+          },
+          {
+            "conclusion": "success",
+            "head_sha": "37f62d80ce972141b515b48c893244780e6dd097",
+            "id": 113865880017,
+            "name": "quick (3.12)",
+            "run_attempt": 1
+          }
+        ],
+        "name": "quick-pr",
+        "run_attempt": 1,
+        "status": "completed"
+      }
+    ],
+    "status": "PASS"
+  },
+  "ewp": {
+    "head": "16eec1dda24ebf658965eddcf1a6fffa81903b32",
+    "lock_file": "dependencies/puckworks.lock.json",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "writes": 0
+  },
+  "original_receipt_sha256": "891b5a9c162b94809e40adedc7e585f93983a0f46c0fa19ddfd4127b5b829160",
+  "status": "PASS"
+}

@@ -1,0 +1,142 @@
+{
+  "affected_followup_within_same_audit": {
+    "actual_evidence_check": "Both replay_reassessment and replay_certification ledgers match the accepted REPLAY_ACCOUNTING hashes; all_new_starts_closed, both closed flags, and empty unresolved lists verified. accepted_qualification reads the same qualified final result.",
+    "canonical_scores_run": 0,
+    "identity_verification": "Removing exactly the six added ledger-check lines reproduces the previously reviewed IO SHA256; replacing only its implementation digest reproduces the previously reviewed contract SHA256. Scorer bytes are unchanged.",
+    "outcome": "PASS",
+    "reason": "Self-review identified accepted replay-certification ledger hash was preserved in repository accounting but not dereferenced against current external bytes by the new adapter.",
+    "scope": "Six-line closed-ledger check in accepted_qualification only; no new review stage.",
+    "unaffected_evidence_reused": true
+  },
+  "audit": "SCOPED_INDEPENDENT_PRE_SCORING_AUDIT",
+  "canonical_cross_method_scores_run_by_reviewer": 0,
+  "contract_sha256": "4f657f041145cf42916a9f37c4788d290d0b8bac47783c233c6c76be29d81e7c",
+  "evidence_inspection": {
+    "contract_sources_verified": 117,
+    "inspection_basis": "Source/contract/support inspection, immutable metadata and successful admission preflight receipts; admission code traced into safe saved numerical-array readers. No canonical pair scoring, old fixture rerun, or recertification performed by reviewer.",
+    "preflight_admissions_sha256": "148a9380a9fff5b53d5f4393f0d51890e773af1fc009fd1938cd9ff840f7f128",
+    "preflight_qualified_inputs": [
+      "P0",
+      "P1",
+      "C0",
+      "C1"
+    ],
+    "support_counts": {
+      "histories": 7,
+      "times": 395,
+      "z": 220
+    }
+  },
+  "external_original_sha256": "b458da3897a05e1b69a1f3c5eef555ec354fba6ab21a25167f6fafa0b7327b02",
+  "findings": [
+    {
+      "finding": "An individually empty required grain history could previously coexist with an aggregate PASS and pair agreement.",
+      "location": "puckworks/analysis/grudeva2026_matched_comparison_008.py:158,206",
+      "resolution": "All seven individual histories now participate in family completeness; any unavailable or empty required history makes the family/pair incomplete without changing support counts, maxima or qualified partial excess. A manufactured regression preserves incomplete-plus-disagreement.",
+      "severity": "medium",
+      "status": "RESOLVED_WITHIN_THIS_AUDIT"
+    },
+    {
+      "finding": "Missing-input pairs previously omitted the seven individual history rows.",
+      "location": "puckworks/analysis/grudeva2026_matched_comparison_008.py:228",
+      "resolution": "Each missing-input pair now reports all seven explicitly unavailable histories.",
+      "severity": "low",
+      "status": "RESOLVED_WITHIN_THIS_AUDIT"
+    },
+    {
+      "finding": "Original solver tripwire covered compare() only.",
+      "location": "tests/test_grudeva2026_matched_comparison_008.py:test_manufactured_execute_path_no_solver",
+      "resolution": "New manufactured execute-path case covers all four ordered pairs, durable start/end accounting and zero-simulation fields with production/comparator solver calls forbidden.",
+      "severity": "low",
+      "status": "RESOLVED_WITHIN_THIS_AUDIT"
+    },
+    {
+      "finding": "Accepted replay-certification accounting digest was bound in repository metadata but needed direct verification of the current external ledger bytes.",
+      "location": "puckworks/analysis/grudeva2026_matched_comparison_008_io.py:58",
+      "resolution": "accepted_qualification now checks the closed-starts record, each replay ledger closed/unresolved fields, and exact current ledger SHA256. Manufactured changed-ledger refusal and actual two-ledger checks passed.",
+      "severity": "low",
+      "status": "RESOLVED_WITHIN_THIS_AUDIT"
+    }
+  ],
+  "implementation": {
+    "puckworks/analysis/grudeva2026_matched_comparison_008.py": "0d8bb769eb9910741d52f2520d4a9ae096cf21d3f0e24df06385a0ae5b5a53c7",
+    "puckworks/analysis/grudeva2026_matched_comparison_008_io.py": "727a11d334ebc6a931b9176978018e19e1f34bb36ad224fc9bb07cf940902d1d"
+  },
+  "limitations": [
+    "This is a nonhuman scoped pre-scoring audit, not human approval, final evidence review, ordinary software QA, or current-head CI.",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+    "Additive report renderer is outside this pre-scoring acceptance audit; its final output and code remain in the required final independent review scope."
+  ],
+  "new_comparator_simulations": 0,
+  "new_production_simulations": 0,
+  "nonhuman": true,
+  "passed": true,
+  "prior_receipt": {
+    "contract_sha256": "111f906253632aba060fdddc4d133a66b315e37a038988c0aca5286518c3fc99",
+    "file": "pre-scoring-review-initial.json",
+    "implementation": {
+      "puckworks/analysis/grudeva2026_matched_comparison_008.py": "0d8bb769eb9910741d52f2520d4a9ae096cf21d3f0e24df06385a0ae5b5a53c7",
+      "puckworks/analysis/grudeva2026_matched_comparison_008_io.py": "6b15d4b295a4c06e26c57b212eb6da1876113f5bff005edfe547453948b8fc18"
+    },
+    "sha256": "baf28a67655f17e7fdf68f60a70a21044250159d47d10626e00249a55094af02"
+  },
+  "reasoned_conclusions": [
+    "P0 is original 006-spatial-512. P1 is the retained 007 combined capture. C0 and C1 are qualified 004 normal-final and combined-final. Frozen hashes and task/row/attempt/configuration bindings prevent substitution.",
+    "P1 composes the original failed metadata, exact accepted certificate, exact DIAGNOSTIC_ONLY analysis and observations, final qualification and unchanged safe segment readers. No unsupported certified=True shortcut, monkey-patch, historical rewrite or exhaustive certificate rerun appears in the 008 path.",
+    "The scorer uses qualified observation quantities at inherited physical support, never compares modal and radial-shell states, never shifts coordinates or fits scales, and keeps native outlet/cup and actual inventory semantics.",
+    "All eleven families use the exact original absolute inter-method limits with inclusive decisions; pair masks preserve displaced-front/event intervals, wetting exclusion, separate grain profile/history ages and post-exit z=1. Unavailable and nonfinite values remain unavailable before masking, and requested equals included plus excluded plus unavailable.",
+    "Primary and secondary dispositions are separate. Required incomplete support cannot pass, but demonstrated comparable-subset excess remains recorded. A complete disagreement is an intended successful scientific outcome.",
+    "New execution is offline and sequential over fixed pairs. The reviewed code neither invokes numerical solvers nor reenforces predecessor quotas. Execution snapshots/accounting are separate from predecessor evidence."
+  ],
+  "reviewed_at_utc": "2026-10-09T15:27:28.625230+00:00",
+  "reviewer_identity": "Codex independent review agent /root/pre_scoring_audit",
+  "scope": [
+    "Frozen contract and exact support",
+    "P0/P1/C0/C1 identity-bound saved-result admission adapters",
+    "Accepted 007 certificate composition and preservation of failed/diagnostic history",
+    "Pair-specific inherited masks, sample matching, quantities and unchanged 002 limits",
+    "Completeness, individual histories, mixed outcomes and ordered four-pair execution",
+    "No solver invocation and separate durable offline accounting"
+  ],
+  "task": "MODEL-GRUDEVA2026-MATCHED-COMPARISON-008",
+  "test_outcomes": [
+    {
+      "command": "python -m pytest -q tests/test_grudeva2026_matched_comparison_008.py",
+      "elapsed_seconds": 1.83,
+      "failed": 0,
+      "passed": 70,
+      "test_file_sha256": "56ddebaaf88666b166cf273df6c4870ed8ec5c5b870a5f309ad94a9a9575ccf7"
+    },
+    {
+      "cases": [
+        "test_failed_reader_preserves_original_metadata_and_normal_refusal",
+        "test_diagnostic_reader_rejects_real_corruption (7 cases)",
+        "test_certificate_cannot_cover_events_or_native_fidelity_failures"
+      ],
+      "elapsed_seconds": 0.48,
+      "failed": 0,
+      "passed": 9,
+      "scope": "Inherited manufactured reader/certificate refusal cases only"
+    },
+    {
+      "canonical_scores_run": 0,
+      "check": "check_contract with retained thread/runtime settings",
+      "sources_verified": 117,
+      "status": "PASS"
+    },
+    {
+      "command": "python -m pytest -q tests/test_grudeva2026_matched_comparison_008.py::test_accepted_qualification_binds_closed_certificate_ledger",
+      "current_test_file_sha256": "32155dbc31348a5b8a17d576c4247f82d3392462cacf72cea2958fe5a0da0054",
+      "elapsed_seconds": 0.73,
+      "failed": 0,
+      "passed": 1,
+      "scope": "Only newly affected manufactured test rerun; preceding 70 manufactured cases and 9 refusal cases reused."
+    },
+    {
+      "canonical_scores_run": 0,
+      "check": "check_contract and accepted_qualification on bound actual replay metadata and both closed ledgers",
+      "status": "PASS"
+    }
+  ],
+  "unresolved_findings": []
+}
