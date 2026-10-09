@@ -1,0 +1,1510 @@
+{
+  "combined": {
+    "full": 6,
+    "seconds": 7667.293692814012,
+    "short": 5
+  },
+  "continuation": {
+    "ends": {
+      "007-bed_fine-0001": {
+        "artifact_sha256": "fc52457520a4c5e76bcd55b1c5bc310383f8a0f94c3bc10b8096912e11434d6f",
+        "event": "end",
+        "execution_id": "007-bed_fine-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-bed_fine-observations.json": {
+            "bytes": 79319743,
+            "sha256": "cf72d776557b093d8a3854565245c1fa48365692d1d9f3e53d0369153f20444a"
+          },
+          "007-bed_fine-public-result.json": {
+            "bytes": 592646,
+            "sha256": "2ab2a90e78996072d77d1831db155939e6d08433a7148d2b541408d32a01894c"
+          },
+          "007-bed_fine-segment-0.npz": {
+            "bytes": 6866266824,
+            "sha256": "94b7b12ee9de74e168706ef5c0f00bc199705269ebbafe6ff3cf3f9deb5cecd8"
+          },
+          "007-bed_fine-segment-0.receipt.jsonl": {
+            "bytes": 989557,
+            "sha256": "c5dd64ec2a04fa7a67aee005932f180bdf11bc8563171731dc3868fbcae16da5"
+          },
+          "007-bed_fine-segment-1.npz": {
+            "bytes": 1269650846,
+            "sha256": "717cdd6c77ca023ac0e2b10436dd16c22851c26ebd0c526eeca32cce3f2278f1"
+          },
+          "007-bed_fine-segment-1.receipt.jsonl": {
+            "bytes": 215671,
+            "sha256": "0943a8e296e49f1d448a7525631c938e21c7c1b5e4184ef538c9b603c5c7c2bb"
+          },
+          "007-bed_fine-segment-2.npz": {
+            "bytes": 862278778,
+            "sha256": "5bf5ac3c14873fd122fe3398966c911b7591d3ebd034eebb8d82431d4e45ef2e"
+          },
+          "007-bed_fine-segment-2.receipt.jsonl": {
+            "bytes": 140863,
+            "sha256": "b46a9dc84daeb0e876163549ba006f2cc6173f318a6191bbd6d8fb286c60ab1c"
+          },
+          "007-bed_fine.json": {
+            "bytes": 1999839,
+            "sha256": "fc52457520a4c5e76bcd55b1c5bc310383f8a0f94c3bc10b8096912e11434d6f"
+          },
+          "completion.json": {
+            "bytes": 617,
+            "sha256": "a41304a1aea8fe76aefbe1dcf42cc09993fde85325b5d770e09a8f68d8d40586"
+          },
+          "progress.jsonl": {
+            "bytes": 104465,
+            "sha256": "66e384440ac4b73296f823aa742b9a79c2dd56534e549380082e551829cf3e9d"
+          },
+          "runtime.json": {
+            "bytes": 3494,
+            "sha256": "ad1ba39ff29d20b37da0a0ac9b93360fcc6130376268939684579daaede306c0"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 13461852160,
+          "VmPeak": 13936336896,
+          "VmRSS": 11943862272,
+          "VmSize": 12405870592
+        },
+        "recovery_incident": null,
+        "seconds": 591.8545508550014,
+        "termination": null,
+        "utc": "2026-10-09T03:57:00.721948+00:00"
+      },
+      "007-combined-0001": {
+        "artifact_sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f",
+        "event": "end",
+        "execution_id": "007-combined-0001",
+        "exit_code": 1,
+        "failure_class": "integrity_or_scientific",
+        "files": {
+          "007-combined-public-result.json": {
+            "bytes": 590998,
+            "sha256": "7f07ca426203c9bed70b91c3cccc8fbed727fc922d85b1b802ecd496c58e2629"
+          },
+          "007-combined-segment-0.npz": {
+            "bytes": 17791096136,
+            "sha256": "40ebee3aeaae1d738110922ef329ca028175e15f4b2640e5dd3a409076e00839"
+          },
+          "007-combined-segment-0.receipt.jsonl": {
+            "bytes": 1312953,
+            "sha256": "8ebb2a1282793233fa0ab353d0c22107d51c677892d52b97881c409ab8dec875"
+          },
+          "007-combined-segment-1.npz": {
+            "bytes": 3210501700,
+            "sha256": "6ed9d467411950401c6fd21d163f83dc7e47bf0a8be9a50b8afcb1b298e088ee"
+          },
+          "007-combined-segment-1.receipt.jsonl": {
+            "bytes": 273072,
+            "sha256": "162cd18596d255a7ecd4407efbe525f8f77579edf85b98acc23975d943bc1cd6"
+          },
+          "007-combined-segment-2.npz": {
+            "bytes": 2722123510,
+            "sha256": "ce39d5136cc70cdf8c7232e479b923dff25eb17297c7b742a2a20d2ef7d5417f"
+          },
+          "007-combined-segment-2.receipt.jsonl": {
+            "bytes": 403761,
+            "sha256": "7a51de6e50b535f28ddebcd33a4c2cb00b367a7549f4f0844795aa8770826489"
+          },
+          "007-combined.json": {
+            "bytes": 2430942,
+            "sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f"
+          },
+          "progress.jsonl": {
+            "bytes": 510005,
+            "sha256": "12f495550ebf55f345321a199219cce5cfcdaa4c27d56fe6161f63022f0e35a5"
+          },
+          "runtime.json": {
+            "bytes": 3494,
+            "sha256": "20739398763522bc9750aa4b461be3233d46ab04af1b01081d1169fc586d8ccf"
+          },
+          "worker.log": {
+            "bytes": 1743,
+            "sha256": "63337140fa91a2858042a33b565cfbe08fc6b8cfdd7020ecea6707c160663bb1"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 34917076992,
+          "VmPeak": 35203231744,
+          "VmRSS": 30959374336,
+          "VmSize": 31222681600
+        },
+        "recovery_incident": null,
+        "seconds": 2927.887513309979,
+        "termination": null,
+        "utc": "2026-10-09T04:45:40.760666+00:00"
+      },
+      "007-control_512-0001": {
+        "artifact_sha256": "42de1c82dde071e3c4bc0d0a56b90949e47465c7816f1bb38906cebce355ca01",
+        "event": "end",
+        "execution_id": "007-control_512-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-control_512-public-result.json": {
+            "bytes": 590015,
+            "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+          },
+          "007-control_512.json": {
+            "bytes": 599392,
+            "sha256": "42de1c82dde071e3c4bc0d0a56b90949e47465c7816f1bb38906cebce355ca01"
+          },
+          "completion.json": {
+            "bytes": 620,
+            "sha256": "59d03253f8e903f8b0338dea14deee3bd5b23c0d28ea5230484836552fc8f1c8"
+          },
+          "progress.jsonl": {
+            "bytes": 18284,
+            "sha256": "3508c53f044f13a6c521983f8242ade78d4bf2b677770ba14fec0b74156d4935"
+          },
+          "runtime.json": {
+            "bytes": 3497,
+            "sha256": "3b0521f648f6bace91cab0324d7e0765f4575855183eebce9d9251ac998f17c9"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 1692459008,
+          "VmPeak": 2079502336,
+          "VmRSS": 1692459008,
+          "VmSize": 1983012864
+        },
+        "recovery_incident": null,
+        "seconds": 101.15584233999834,
+        "termination": null,
+        "utc": "2026-10-09T03:30:36.173068+00:00"
+      },
+      "007-modes_fine-0001": {
+        "artifact_sha256": "779972c6ab71ef1b37b89a620f6989917695cb3d592b569ec251b50c3cc6a535",
+        "event": "end",
+        "execution_id": "007-modes_fine-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-modes_fine-observations.json": {
+            "bytes": 148837056,
+            "sha256": "d2a29631043bbbe4cf0bcdce2364fd9d97e905e09ffa26f570354ad6107a5d06"
+          },
+          "007-modes_fine-public-result.json": {
+            "bytes": 590067,
+            "sha256": "fa7c1ba4b063ab46436158147533b88f6ea3c9d7f5c36415dc6411e8abde51eb"
+          },
+          "007-modes_fine-segment-0.npz": {
+            "bytes": 3356777456,
+            "sha256": "0bd3809733ccae49f69ffa8d3482c019a4e6c2bf18ad712dd49f03caa00cfa64"
+          },
+          "007-modes_fine-segment-0.receipt.jsonl": {
+            "bytes": 495240,
+            "sha256": "8e0f1257aef53fa823c917dd18fd4a9f355d356da8cf16a3724ebaf9924dfabb"
+          },
+          "007-modes_fine-segment-1.npz": {
+            "bytes": 598450466,
+            "sha256": "d7a97078c3f94cb340ba46056610fed47ae53ca8715e0f4a3159cebbf56d9ae0"
+          },
+          "007-modes_fine-segment-1.receipt.jsonl": {
+            "bytes": 110248,
+            "sha256": "07fae881305c6dd945a7cf720be9a6a304a7eb9c0358de109f9ebb42d44f0bfb"
+          },
+          "007-modes_fine-segment-2.npz": {
+            "bytes": 771743280,
+            "sha256": "c5b0cb35ad4e775b3b462ee2966bab36be90731c0b03c9cc19b6dc67b1b31005"
+          },
+          "007-modes_fine-segment-2.receipt.jsonl": {
+            "bytes": 108605,
+            "sha256": "8993cf8945fedc9865878e45d8ca3bdfb52652f3220dbbeda32359d60734e233"
+          },
+          "007-modes_fine.json": {
+            "bytes": 1346821,
+            "sha256": "779972c6ab71ef1b37b89a620f6989917695cb3d592b569ec251b50c3cc6a535"
+          },
+          "completion.json": {
+            "bytes": 619,
+            "sha256": "031788426cc5528802410c125ea326f0a96d30e60834efd90af1028c43f9d472"
+          },
+          "progress.jsonl": {
+            "bytes": 112399,
+            "sha256": "8d041638a3412d3e3ac21003df38a389a1744b842ff21e86623da22a78fbe1f4"
+          },
+          "runtime.json": {
+            "bytes": 3496,
+            "sha256": "0b40f11ae04bf14de0a8daf3f214a4819100f7d76ea837dd4657e242fcdc00fa"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 6945710080,
+          "VmPeak": 7247208448,
+          "VmRSS": 5674430464,
+          "VmSize": 5971177472
+        },
+        "recovery_incident": null,
+        "seconds": 642.6270315209986,
+        "termination": null,
+        "utc": "2026-10-09T03:43:56.783685+00:00"
+      },
+      "007-pilot-0001": {
+        "artifact_sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d",
+        "event": "end",
+        "execution_id": "007-pilot-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-pilot-observations.json": {
+            "bytes": 4781273,
+            "sha256": "51ffe03f3b90709bd5516e73a84bdf771ba9bc3f80e694c926c88519c72fd8f9"
+          },
+          "007-pilot-public-result.json": {
+            "bytes": 8284,
+            "sha256": "bd830241a0d7e3776561d197a61125eae4258db7d25d658225b61249a7cad9fd"
+          },
+          "007-pilot-segment-0.npz": {
+            "bytes": 15909240200,
+            "sha256": "4fc216585e02580ea77aed71599eaabf7ab61d84eea0cde31ecf4d9164fce38e"
+          },
+          "007-pilot-segment-0.receipt.jsonl": {
+            "bytes": 1177915,
+            "sha256": "c9de8ace9ddd62b3d192a749a5598c6b12e045d1fac58c1923e59a94061d89ee"
+          },
+          "007-pilot.json": {
+            "bytes": 1237051,
+            "sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d"
+          },
+          "completion.json": {
+            "bytes": 614,
+            "sha256": "14dbf6b7e6d50dcd0a1b86ab9be4a583bd87110d378dab25c0117b4f7404e6c7"
+          },
+          "progress.jsonl": {
+            "bytes": 475203,
+            "sha256": "efd2bf54c2914b3c7dd6e85b0907df88b8be06c0cfb39954a9fa0ab69b258ea2"
+          },
+          "runtime.json": {
+            "bytes": 3489,
+            "sha256": "feb291effda9a314f8e6bf3d34c8056d0aa11861b3b37716dd784a65fb2385ae"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 26023190528,
+          "VmPeak": 26274754560,
+          "VmRSS": 22480633856,
+          "VmSize": 22717566976
+        },
+        "recovery_incident": null,
+        "seconds": 2737.3964768830047,
+        "termination": null,
+        "utc": "2026-10-09T03:28:46.190892+00:00"
+      },
+      "007-reduction-0001": {
+        "artifact_sha256": "1f7e459a8cd5c22d0ac6140fe7c705ca3947764fbef006f4e46f42a91640283a",
+        "event": "end",
+        "execution_id": "007-reduction-0001",
+        "exit_code": 2,
+        "failure_class": "incomplete_reduction",
+        "files": {
+          "007-reduction.json": {
+            "bytes": 112566,
+            "sha256": "1f7e459a8cd5c22d0ac6140fe7c705ca3947764fbef006f4e46f42a91640283a"
+          },
+          "completion.json": {
+            "bytes": 618,
+            "sha256": "baa23a0966cab444583cc2c50e830ab8d95890a923af6bdf73b8b19cbdb34b53"
+          },
+          "progress.jsonl": {
+            "bytes": 2606,
+            "sha256": "6acccf0912a3d8f94ed5b03d7447ebb42e862eeddb7abfa00a3602359b489245"
+          },
+          "runtime.json": {
+            "bytes": 3499,
+            "sha256": "4d9f2145faf3d6d3306c240591f461c7f1f036add2869f396b09c55a0fd32102"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 9621504,
+          "VmPeak": 20848640,
+          "VmRSS": 9621504,
+          "VmSize": 20848640
+        },
+        "recovery_incident": null,
+        "seconds": 3.0351945370202884,
+        "termination": null,
+        "utc": "2026-10-09T04:45:56.908004+00:00"
+      },
+      "007-repeat_512-0001": {
+        "artifact_sha256": "d7b4fae605f654d4f9cf3225df2ed5a4673480c884b2cfbd3fc21da261429dbf",
+        "event": "end",
+        "execution_id": "007-repeat_512-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-repeat_512-observations.json": {
+            "bytes": 78412013,
+            "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+          },
+          "007-repeat_512-public-result.json": {
+            "bytes": 590015,
+            "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+          },
+          "007-repeat_512-segment-0.npz": {
+            "bytes": 1557671748,
+            "sha256": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525"
+          },
+          "007-repeat_512-segment-0.receipt.jsonl": {
+            "bytes": 444341,
+            "sha256": "f75fce12c0299ad8d1743b43636e946af9a97530f4e91af11c69dbc2c452ff35"
+          },
+          "007-repeat_512-segment-1.npz": {
+            "bytes": 292919724,
+            "sha256": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775"
+          },
+          "007-repeat_512-segment-1.receipt.jsonl": {
+            "bytes": 103699,
+            "sha256": "0a6bab48732ca99ac9e313e9b9e147bd3d1150aa9de2a666b547645eec24c270"
+          },
+          "007-repeat_512-segment-2.npz": {
+            "bytes": 390138690,
+            "sha256": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c"
+          },
+          "007-repeat_512-segment-2.receipt.jsonl": {
+            "bytes": 104341,
+            "sha256": "260b29e294f0c67f73a02b5fab5356ba1b757f1fc557bbc2eda4a30ffdb78846"
+          },
+          "007-repeat_512.json": {
+            "bytes": 1283657,
+            "sha256": "d7b4fae605f654d4f9cf3225df2ed5a4673480c884b2cfbd3fc21da261429dbf"
+          },
+          "completion.json": {
+            "bytes": 619,
+            "sha256": "e527bcb009aa6cf792f1bf4750229f7e19a112d80f9d4cee9bd074492e6a6b9e"
+          },
+          "progress.jsonl": {
+            "bytes": 28740,
+            "sha256": "feab4d58e31449ae52fe4b618de0617292ddd47017b8aef77e9dec20e4a6bc8d"
+          },
+          "runtime.json": {
+            "bytes": 3496,
+            "sha256": "9ab9f545a01bf1cd63dc278f443339c6c486ec1b074a2e6a8732cdf3e64161b2"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 3369435136,
+          "VmPeak": 3691864064,
+          "VmRSS": 2943766528,
+          "VmSize": 3232845824
+        },
+        "recovery_incident": null,
+        "seconds": 160.48480794299394,
+        "termination": null,
+        "utc": "2026-10-09T03:33:15.461169+00:00"
+      },
+      "007-time_fine-0001": {
+        "artifact_sha256": "9e7f18ec2094469701e412e0a5281f5049b34f912c1b1bc3a27db6550af959f5",
+        "event": "end",
+        "execution_id": "007-time_fine-0001",
+        "exit_code": 0,
+        "failure_class": "none",
+        "files": {
+          "007-time_fine-observations.json": {
+            "bytes": 78628580,
+            "sha256": "fc468058136541cafc1de071e86bb167e96cf89b06ce05cf6088119f0529a104"
+          },
+          "007-time_fine-public-result.json": {
+            "bytes": 589838,
+            "sha256": "267a570d9f8aeb8e6abbe19efe2f8581ee57b330864aacfb3c643051a4f3357f"
+          },
+          "007-time_fine-segment-0.npz": {
+            "bytes": 2128276692,
+            "sha256": "b8b9ff54dbcdf60a0de496fcae3890662ee17b1180b5c1fe3304267b13e2535a"
+          },
+          "007-time_fine-segment-0.receipt.jsonl": {
+            "bytes": 577974,
+            "sha256": "24f891fb6d1621fd60251d1fc7636bcc272febd8b1fdafa0190e19896156e53e"
+          },
+          "007-time_fine-segment-1.npz": {
+            "bytes": 445502638,
+            "sha256": "693503ea2d35db219532c343ae5431075720926bbfb1e086d9e316e10417a69d"
+          },
+          "007-time_fine-segment-1.receipt.jsonl": {
+            "bytes": 141126,
+            "sha256": "671eb22b2d498df02e77a7430ab4b6ebe988eb3bf452a1122d546a04acc12cea"
+          },
+          "007-time_fine-segment-2.npz": {
+            "bytes": 551766116,
+            "sha256": "f2c57909f242808c082a6e2cb021b419464315bcb24cc604af19f7a749c3d48c"
+          },
+          "007-time_fine-segment-2.receipt.jsonl": {
+            "bytes": 137209,
+            "sha256": "2261232cc197053f64dc49b56e07e5f78c33423011a38e778f0f4612105ee094"
+          },
+          "007-time_fine.json": {
+            "bytes": 1487504,
+            "sha256": "9e7f18ec2094469701e412e0a5281f5049b34f912c1b1bc3a27db6550af959f5"
+          },
+          "completion.json": {
+            "bytes": 618,
+            "sha256": "29618c8b3628b7315bf253b842c0e2afa36754690485559b24202ac3b74e8259"
+          },
+          "progress.jsonl": {
+            "bytes": 33962,
+            "sha256": "74b02948af75c82c7edc09d9f3d73b4c2f1f227b1865f5abca40ff0656a8cfd3"
+          },
+          "runtime.json": {
+            "bytes": 3495,
+            "sha256": "e6e5766f56881f02c09e81f78474219cd3e05f07fd663095fc93d4a56aa7fe3c"
+          },
+          "worker.log": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "peak_memory_bytes": {
+          "VmHWM": 4528271360,
+          "VmPeak": 4956700672,
+          "VmRSS": 3730890752,
+          "VmSize": 4150820864
+        },
+        "recovery_incident": null,
+        "seconds": 194.03008122299798,
+        "termination": null,
+        "utc": "2026-10-09T03:47:11.908110+00:00"
+      }
+    },
+    "full": 6,
+    "latest": {
+      "007-bed_fine": "007-bed_fine-0001",
+      "007-combined": "007-combined-0001",
+      "007-control_512": "007-control_512-0001",
+      "007-modes_fine": "007-modes_fine-0001",
+      "007-pilot": "007-pilot-0001",
+      "007-reduction": "007-reduction-0001",
+      "007-repeat_512": "007-repeat_512-0001",
+      "007-time_fine": "007-time_fine-0001"
+    },
+    "passed": true,
+    "reasons": [],
+    "seconds": 7358.471498611994,
+    "short": 2,
+    "spawns": {
+      "007-bed_fine-0001": {
+        "event": "spawn",
+        "execution_id": "007-bed_fine-0001",
+        "utc": "2026-10-09T03:47:13.877120+00:00",
+        "worker": {
+          "VmHWM": 827392,
+          "VmPeak": 12120064,
+          "VmRSS": 827392,
+          "VmSize": 12120064,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1729562,
+          "start_ticks": 18007515,
+          "state": "R"
+        }
+      },
+      "007-combined-0001": {
+        "event": "spawn",
+        "execution_id": "007-combined-0001",
+        "utc": "2026-10-09T03:57:05.981435+00:00",
+        "worker": {
+          "VmHWM": 811008,
+          "VmPeak": 9949184,
+          "VmRSS": 811008,
+          "VmSize": 9949184,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1733799,
+          "start_ticks": 18066726,
+          "state": "R"
+        }
+      },
+      "007-control_512-0001": {
+        "event": "spawn",
+        "execution_id": "007-control_512-0001",
+        "utc": "2026-10-09T03:28:55.035565+00:00",
+        "worker": {
+          "VmHWM": 823296,
+          "VmPeak": 12120064,
+          "VmRSS": 823296,
+          "VmSize": 12120064,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1722591,
+          "start_ticks": 17897631,
+          "state": "R"
+        }
+      },
+      "007-modes_fine-0001": {
+        "event": "spawn",
+        "execution_id": "007-modes_fine-0001",
+        "utc": "2026-10-09T03:33:16.866437+00:00",
+        "worker": {
+          "VmHWM": 819200,
+          "VmPeak": 9949184,
+          "VmRSS": 819200,
+          "VmSize": 9949184,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1724281,
+          "start_ticks": 17923814,
+          "state": "R"
+        }
+      },
+      "007-pilot-0001": {
+        "event": "spawn",
+        "execution_id": "007-pilot-0001",
+        "utc": "2026-10-09T02:43:17.550069+00:00",
+        "worker": {
+          "VmHWM": 942080,
+          "VmPeak": 12120064,
+          "VmRSS": 942080,
+          "VmSize": 12120064,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1703602,
+          "start_ticks": 17623883,
+          "state": "R"
+        }
+      },
+      "007-reduction-0001": {
+        "event": "spawn",
+        "execution_id": "007-reduction-0001",
+        "utc": "2026-10-09T04:45:53.890427+00:00",
+        "worker": {
+          "VmHWM": 786432,
+          "VmPeak": 9949184,
+          "VmRSS": 786432,
+          "VmSize": 9949184,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1752951,
+          "start_ticks": 18359517,
+          "state": "R"
+        }
+      },
+      "007-repeat_512-0001": {
+        "event": "spawn",
+        "execution_id": "007-repeat_512-0001",
+        "utc": "2026-10-09T03:30:36.267048+00:00",
+        "worker": {
+          "VmHWM": 794624,
+          "VmPeak": 9949184,
+          "VmRSS": 794624,
+          "VmSize": 9949184,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1723280,
+          "start_ticks": 17907754,
+          "state": "R"
+        }
+      },
+      "007-time_fine-0001": {
+        "event": "spawn",
+        "execution_id": "007-time_fine-0001",
+        "utc": "2026-10-09T03:43:59.653453+00:00",
+        "worker": {
+          "VmHWM": 827392,
+          "VmPeak": 12120064,
+          "VmRSS": 827392,
+          "VmSize": 12120064,
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "cpu_ticks": 0,
+          "pid": 1728355,
+          "start_ticks": 17988093,
+          "state": "R"
+        }
+      }
+    },
+    "starts": {
+      "007-bed_fine-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-bed_fine-0001",
+        "event": "start",
+        "execution_id": "007-bed_fine-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "27120820224",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "71130112000",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "76360138752",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "76409798656",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "76661022720",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1402361475072,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260276899840,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 97476608,
+            "VmPeak": 272973824,
+            "VmRSS": 96665600,
+            "VmSize": 269312000,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 1822,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 55834574848,
+          "utc": "2026-10-09T03:47:13.859269+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-bed_fine",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:47:13.859710+00:00",
+        "wall_start": 1791517633.859716
+      },
+      "007-combined-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-combined-0001",
+        "event": "start",
+        "execution_id": "007-combined-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "36455669760",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "80446398464",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "85677039616",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "85727985664",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "85979209728",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=37\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1393273114624,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260332044288,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=37\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 99704832,
+            "VmPeak": 275054592,
+            "VmRSS": 97697792,
+            "VmSize": 270360576,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 2372,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 34359738368,
+          "utc": "2026-10-09T03:57:05.963328+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-combined",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:57:05.963786+00:00",
+        "wall_start": 1791518225.9637918
+      },
+      "007-control_512-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-control_512-0001",
+        "event": "start",
+        "execution_id": "007-control_512-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "16419917824",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "60454735872",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "65687134208",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "65738809344",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "65990033408",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1412764909568,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260238901248,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 97476608,
+            "VmPeak": 271785984,
+            "VmRSS": 96657408,
+            "VmSize": 269312000,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 1141,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 95563022336,
+          "utc": "2026-10-09T03:28:55.019141+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-control_512",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:28:55.019569+00:00",
+        "wall_start": 1791516535.0195742
+      },
+      "007-modes_fine-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-modes_fine-0001",
+        "event": "start",
+        "execution_id": "007-modes_fine-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18809184256",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "62823178240",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "68054106112",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "68106166272",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "68357390336",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1410441809920,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260463128576,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 97824768,
+            "VmPeak": 272244736,
+            "VmRSS": 97824768,
+            "VmSize": 271478784,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 1306,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 81604378624,
+          "utc": "2026-10-09T03:33:16.848020+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-modes_fine",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:33:16.848471+00:00",
+        "wall_start": 1791516796.8484776
+      },
+      "007-pilot-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-pilot-0001",
+        "event": "start",
+        "execution_id": "007-pilot-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "57126912",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44104212480",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49338478592",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49388912640",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49640136704",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1428681158656,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260582592512,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 94068736,
+            "VmPeak": 269611008,
+            "VmRSS": 92549120,
+            "VmSize": 266465280,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 175,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 112742891520,
+          "utc": "2026-10-09T02:43:17.537738+00:00"
+        },
+        "input_signature": null,
+        "kind": "short",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": "owner override restarts original timed-out pilot",
+        "stage": "007-pilot",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T02:43:17.538199+00:00",
+        "wall_start": 1791513797.538205
+      },
+      "007-reduction-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-reduction-0001",
+        "event": "start",
+        "execution_id": "007-reduction-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "60844785664",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "104879370240",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "110110601216",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "110162391040",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "110413615104",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=37\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1369544679424,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260300967936,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=37\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 102678528,
+            "VmPeak": 276275200,
+            "VmRSS": 102678528,
+            "VmSize": 276062208,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 3780,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 1073741824,
+          "utc": "2026-10-09T04:45:53.873055+00:00"
+        },
+        "input_signature": {
+          "007-bed_fine": {
+            "end_sha256": "531109d051b4e622cbfae6152a3ec12b28dd51edc325c0d2cc086d28aa48d3af",
+            "execution_id": "007-bed_fine-0001"
+          },
+          "007-combined": {
+            "end_sha256": "1eacbfa0c31d2611322a9443ab123e86907e2245b84c659e7e76d29def1285fc",
+            "execution_id": "007-combined-0001"
+          },
+          "007-control_512": {
+            "end_sha256": "02335c6d6843fc91ca3fa15b0c3b339a3efbb954b1cf6239e7750c4e3ef166fe",
+            "execution_id": "007-control_512-0001"
+          },
+          "007-modes_fine": {
+            "end_sha256": "b8e6501ed0061fff718d6cc56f984528de4a2f5b9c916734f2c8e47449366ec4",
+            "execution_id": "007-modes_fine-0001"
+          },
+          "007-pilot": {
+            "end_sha256": "b85c7dfc1f686541cb1c56f7931d9c272654a0de2d6eb8b2a214c912ab109670",
+            "execution_id": "007-pilot-0001"
+          },
+          "007-repeat_512": {
+            "end_sha256": "1f7b5755c8b6bc4e40a99b774f4615b42e6742f4790ccdf40f69711bf29295ea",
+            "execution_id": "007-repeat_512-0001"
+          },
+          "007-time_fine": {
+            "end_sha256": "8d539439113553531bab6e8cd431bc3685f586f1cca2fff2de284918671ede70",
+            "execution_id": "007-time_fine-0001"
+          }
+        },
+        "kind": "short",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-reduction",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T04:45:53.873666+00:00",
+        "wall_start": 1791521153.8736727
+      },
+      "007-repeat_512-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-repeat_512-0001",
+        "event": "start",
+        "execution_id": "007-repeat_512-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "16422293504",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "60470083584",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "65700405248",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "65750310912",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "66001534976",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1412763607040,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260109852672,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 97730560,
+            "VmPeak": 271785984,
+            "VmRSS": 97730560,
+            "VmSize": 270958592,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 1157,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 94489280512,
+          "utc": "2026-10-09T03:30:36.252720+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-repeat_512",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:30:36.253164+00:00",
+        "wall_start": 1791516636.25317
+      },
+      "007-time_fine-0001": {
+        "controller": {
+          "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+          "pid": 1703586,
+          "start_ticks": 17623705
+        },
+        "controller_sha256": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3",
+        "directory": "attempts/007-time_fine-0001",
+        "event": "start",
+        "execution_id": "007-time_fine-0001",
+        "inherited_os_limits": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "23823937536",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=0\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "67842887680",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "73072574464",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=2\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "73122713600",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "73373937664",
+                "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+                "memory.high": "max",
+                "memory.max": "max",
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=1\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=1"
+              }
+            },
+            {
+              "values": {
+                "memory.pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36"
+              }
+            }
+          ],
+          "disk_free_bytes": 1405570494464,
+          "disk_operating_margin_bytes": 1073741824,
+          "disk_total_bytes": 3935709487104,
+          "host_available_bytes": 260382027776,
+          "host_operating_margin_bytes": 2701011681,
+          "host_total_bytes": 270101168128,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "inherited_rlimit_cpu": [
+            -1,
+            -1
+          ],
+          "pressure": "some avg10=0.00 avg60=0.00 avg300=0.00 total=36\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=36\n",
+          "process": {
+            "VmHWM": 97890304,
+            "VmPeak": 272826368,
+            "VmRSS": 97890304,
+            "VmSize": 271482880,
+            "boot_id": "a9df6b36-a02c-4c70-88b4-049bb5af91c4",
+            "cpu_ticks": 1615,
+            "pid": 1703586,
+            "start_ticks": 17623705,
+            "state": "R"
+          },
+          "remaining_archive_estimate_bytes": 68719476736,
+          "utc": "2026-10-09T03:43:59.635163+00:00"
+        },
+        "input_signature": null,
+        "kind": "full",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+        "retry_reason": null,
+        "stage": "007-time_fine",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T03:43:59.635643+00:00",
+        "wall_start": 1791517439.635649
+      }
+    },
+    "unresolved_starts": []
+  },
+  "continuation_ledger_sha256": "e85d04aa303b0baa0114cecc3bf0b97f604cf9d03464463f97008e407ab1ffb9",
+  "limits": {
+    "aggregate_seconds": null,
+    "application_rlimit_as": null,
+    "full_attempts": null,
+    "per_invocation_seconds": null,
+    "short_attempts": null
+  },
+  "original": {
+    "full": 0,
+    "seconds": 308.8221942020173,
+    "short": 3
+  },
+  "original_ledger_sha256": "94fbeeadcd9018c7c391ffa46ed6c139f62ed8b0ce8839d77a29a10ec17c22c7",
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+  "preliminary_reduction": {
+    "file": "continuation/attempts/007-reduction-0001/007-reduction.json",
+    "sha256": "1f7e459a8cd5c22d0ac6140fe7c705ca3947764fbef006f4e46f42a91640283a"
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}

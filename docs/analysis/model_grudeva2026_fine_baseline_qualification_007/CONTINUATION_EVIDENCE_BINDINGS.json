@@ -1,0 +1,2090 @@
+{
+  "attempts": {
+    "007-bed_fine-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        31286.640354063482
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.018703974001373067
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-bed_fine",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-bed_fine-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observation_binding": {
+        "file": "007-bed_fine-observations.json",
+        "sha256": "cf72d776557b093d8a3854565245c1fa48365692d1d9f3e53d0369153f20444a"
+      },
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-bed_fine-public-result.json",
+        "sha256": "2ab2a90e78996072d77d1831db155939e6d08433a7148d2b541408d32a01894c"
+      },
+      "public_result_sha256": "39cb538ae91f17aba3284a1bdc12a9e83e5d2ee311ca95defd7c289b3d563be6",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 3,
+      "row": "bed_fine",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-bed_fine",
+          "capture_outcome": "PASS",
+          "file": "007-bed_fine-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 9769
+          },
+          "numerical_bytes": 6865024312,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-bed_fine-segment-0.receipt.jsonl",
+          "receipt_sha256": "c5dd64ec2a04fa7a67aee005932f180bdf11bc8563171731dc3868fbcae16da5",
+          "segment_index": 0,
+          "sha256": "94b7b12ee9de74e168706ef5c0f00bc199705269ebbafe6ff3cf3f9deb5cecd8",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-bed_fine",
+          "capture_outcome": "PASS",
+          "file": "007-bed_fine-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 6.661338147750939e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 1789
+          },
+          "numerical_bytes": 1269432192,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-bed_fine-segment-1.receipt.jsonl",
+          "receipt_sha256": "0943a8e296e49f1d448a7525631c938e21c7c1b5e4184ef538c9b603c5c7c2bb",
+          "segment_index": 1,
+          "sha256": "717cdd6c77ca023ac0e2b10436dd16c22851c26ebd0c526eeca32cce3f2278f1",
+          "valid_interval": [
+            1.0,
+            6.504309534915991
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-bed_fine",
+          "capture_outcome": "PASS",
+          "file": "007-bed_fine-segment-2.npz",
+          "live_replay": {
+            "accepted_state_error": 1.325606291402437e-13,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 1017
+          },
+          "numerical_bytes": 862154536,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-bed_fine-segment-2.receipt.jsonl",
+          "receipt_sha256": "b46a9dc84daeb0e876163549ba006f2cc6173f318a6191bbd6d8fb286c60ab1c",
+          "segment_index": 2,
+          "sha256": "5bf5ac3c14873fd122fe3398966c911b7591d3ebd034eebb8d82431d4e45ef2e",
+          "valid_interval": [
+            6.504309534915991,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          33,
+          1024
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 34818
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-combined-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        10747.999192786312,
+        11409.262687659299,
+        12090.265391334462,
+        12791.007303811808,
+        13511.488425091331,
+        14251.708755173031,
+        15011.668294056912,
+        15791.367041742973,
+        16590.804998231208,
+        17409.98216352163,
+        18248.898537614223,
+        19107.554120508994,
+        19985.94891220595,
+        20884.08291270508,
+        21801.956122006395,
+        22739.56854010988,
+        23696.920167015545,
+        24674.011002723397,
+        25670.841047233418,
+        26687.410300545627,
+        27723.718762660006,
+        28779.766433576566,
+        29855.55331329531,
+        30951.079401816227,
+        32066.34469913932,
+        33201.3492052646,
+        34356.09292019205,
+        35530.57584392168,
+        36724.797976453505,
+        37938.75931778749,
+        39172.459867923666,
+        40425.89962686201,
+        123192.40071156433
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.0005582434360459381,
+        0.0005258884964135179,
+        0.0004962670219216545,
+        0.0004690795538997119,
+        0.00044406654627759435,
+        0.00042100214809835646,
+        0.00039968908734650015,
+        0.00037995443865876665,
+        0.00036164610461274644,
+        0.0003446298763344822,
+        0.000328786966930247,
+        0.0003140119327758403,
+        0.00030021091449581564,
+        0.00028730014265313176,
+        0.0002752046635826286,
+        0.00026385724906858796,
+        0.00025319746016410944,
+        0.00024317084074161065,
+        0.0002337282206282302,
+        0.00022482511163240628,
+        0.0002164211825753032,
+        0.00020847980173320532,
+        0.00020096763697653773,
+        0.00019385430543814627,
+        0.00018711206582149175,
+        0.00018071554751903287,
+        0.00017464151159265348,
+        0.00016886863940389634,
+        0.00016337734529804532,
+        0.00015814961026379466,
+        0.00015316883392643653,
+        0.00014841970260108073,
+        0.009425037605941565
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-combined",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-combined-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": false,
+      "public_checkpoint": {
+        "file": "007-combined-public-result.json",
+        "sha256": "7f07ca426203c9bed70b91c3cccc8fbed727fc922d85b1b802ecd496c58e2629"
+      },
+      "public_result_sha256": "ebeac7dad0e1e01d54a0ff2ee4805e4a91ffcb2ace4e98a9ee8d112eba566029",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 3,
+      "row": "combined",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-combined",
+          "capture_outcome": "PASS",
+          "file": "007-combined-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 13089
+          },
+          "numerical_bytes": 17789420376,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-combined-segment-0.receipt.jsonl",
+          "receipt_sha256": "8ebb2a1282793233fa0ab353d0c22107d51c677892d52b97881c409ab8dec875",
+          "segment_index": 0,
+          "sha256": "40ebee3aeaae1d738110922ef329ca028175e15f4b2640e5dd3a409076e00839",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-combined",
+          "capture_outcome": "PASS",
+          "file": "007-combined-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 2369
+          },
+          "numerical_bytes": 3210206640,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-combined-segment-1.receipt.jsonl",
+          "receipt_sha256": "162cd18596d255a7ecd4407efbe525f8f77579edf85b98acc23975d943bc1cd6",
+          "segment_index": 1,
+          "sha256": "6ed9d467411950401c6fd21d163f83dc7e47bf0a8be9a50b8afcb1b298e088ee",
+          "valid_interval": [
+            1.0,
+            6.504309539469248
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-combined",
+          "capture_outcome": "FAILED",
+          "file": "007-combined-segment-2.npz",
+          "live_replay": {
+            "accepted_state_error": 5.401235014801387e-13,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 1637
+          },
+          "numerical_bytes": 2721921448,
+          "numerical_replay": "FAILED",
+          "receipt_file": "007-combined-segment-2.receipt.jsonl",
+          "receipt_sha256": "7a51de6e50b535f28ddebcd33a4c2cb00b367a7549f4f0844795aa8770826489",
+          "segment_index": 2,
+          "sha256": "ce39d5136cc70cdf8c7232e479b923dff25eb17297c7b742a2a20d2ef7d5417f",
+          "valid_interval": [
+            6.504309539469248,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          65,
+          1024
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 67586
+      },
+      "status": "EXECUTION_INCOMPLETE",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-control_512-0001": {
+      "actual_rates": null,
+      "actual_weights": null,
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-control_512",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-control_512-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observed": false,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-control_512-public-result.json",
+        "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+      },
+      "public_result_sha256": "84a42781d60c2fb5df10a82a7db9663177db96eb21a1e8f9ab57cf86a2dd15e6",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 0,
+      "row": "control_512",
+      "segments": [],
+      "solve_invocations": 0,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          33,
+          512
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 17410
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-modes_fine-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        10747.999192786312,
+        11409.262687659299,
+        12090.265391334462,
+        12791.007303811808,
+        13511.488425091331,
+        14251.708755173031,
+        15011.668294056912,
+        15791.367041742973,
+        16590.804998231208,
+        17409.98216352163,
+        18248.898537614223,
+        19107.554120508994,
+        19985.94891220595,
+        20884.08291270508,
+        21801.956122006395,
+        22739.56854010988,
+        23696.920167015545,
+        24674.011002723397,
+        25670.841047233418,
+        26687.410300545627,
+        27723.718762660006,
+        28779.766433576566,
+        29855.55331329531,
+        30951.079401816227,
+        32066.34469913932,
+        33201.3492052646,
+        34356.09292019205,
+        35530.57584392168,
+        36724.797976453505,
+        37938.75931778749,
+        39172.459867923666,
+        40425.89962686201,
+        123192.40071156433
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.0005582434360459381,
+        0.0005258884964135179,
+        0.0004962670219216545,
+        0.0004690795538997119,
+        0.00044406654627759435,
+        0.00042100214809835646,
+        0.00039968908734650015,
+        0.00037995443865876665,
+        0.00036164610461274644,
+        0.0003446298763344822,
+        0.000328786966930247,
+        0.0003140119327758403,
+        0.00030021091449581564,
+        0.00028730014265313176,
+        0.0002752046635826286,
+        0.00026385724906858796,
+        0.00025319746016410944,
+        0.00024317084074161065,
+        0.0002337282206282302,
+        0.00022482511163240628,
+        0.0002164211825753032,
+        0.00020847980173320532,
+        0.00020096763697653773,
+        0.00019385430543814627,
+        0.00018711206582149175,
+        0.00018071554751903287,
+        0.00017464151159265348,
+        0.00016886863940389634,
+        0.00016337734529804532,
+        0.00015814961026379466,
+        0.00015316883392643653,
+        0.00014841970260108073,
+        0.009425037605941565
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-modes_fine",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 64,
+        "rtol": 2e-08
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-modes_fine-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observation_binding": {
+        "file": "007-modes_fine-observations.json",
+        "sha256": "d2a29631043bbbe4cf0bcdce2364fd9d97e905e09ffa26f570354ad6107a5d06"
+      },
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-modes_fine-public-result.json",
+        "sha256": "fa7c1ba4b063ab46436158147533b88f6ea3c9d7f5c36415dc6411e8abde51eb"
+      },
+      "public_result_sha256": "8464e67dfa78e0ea263e98d75036c1d02ea3bb5247a0b30c67be7cfd009fcf34",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 3,
+      "row": "modes_fine",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-modes_fine",
+          "capture_outcome": "PASS",
+          "file": "007-modes_fine-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 4861
+          },
+          "numerical_bytes": 3356170872,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-modes_fine-segment-0.receipt.jsonl",
+          "receipt_sha256": "8e0f1257aef53fa823c917dd18fd4a9f355d356da8cf16a3724ebaf9924dfabb",
+          "segment_index": 0,
+          "sha256": "0bd3809733ccae49f69ffa8d3482c019a4e6c2bf18ad712dd49f03caa00cfa64",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-modes_fine",
+          "capture_outcome": "PASS",
+          "file": "007-modes_fine-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 6.661338147750939e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 881
+          },
+          "numerical_bytes": 598341680,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-modes_fine-segment-1.receipt.jsonl",
+          "receipt_sha256": "07fae881305c6dd945a7cf720be9a6a304a7eb9c0358de109f9ebb42d44f0bfb",
+          "segment_index": 1,
+          "sha256": "d7a97078c3f94cb340ba46056610fed47ae53ca8715e0f4a3159cebbf56d9ae0",
+          "valid_interval": [
+            1.0,
+            6.504308483081586
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-modes_fine",
+          "capture_outcome": "PASS",
+          "file": "007-modes_fine-segment-2.npz",
+          "live_replay": {
+            "accepted_state_error": 2.028377465990161e-13,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 871
+          },
+          "numerical_bytes": 771636704,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-modes_fine-segment-2.receipt.jsonl",
+          "receipt_sha256": "8993cf8945fedc9865878e45d8ca3bdfb52652f3220dbbeda32359d60734e233",
+          "segment_index": 2,
+          "sha256": "c5b0cb35ad4e775b3b462ee2966bab36be90731c0b03c9cc19b6dc67b1b31005",
+          "valid_interval": [
+            6.504308483081586,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          65,
+          512
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 33794
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-pilot-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        10747.999192786312,
+        11409.262687659299,
+        12090.265391334462,
+        12791.007303811808,
+        13511.488425091331,
+        14251.708755173031,
+        15011.668294056912,
+        15791.367041742973,
+        16590.804998231208,
+        17409.98216352163,
+        18248.898537614223,
+        19107.554120508994,
+        19985.94891220595,
+        20884.08291270508,
+        21801.956122006395,
+        22739.56854010988,
+        23696.920167015545,
+        24674.011002723397,
+        25670.841047233418,
+        26687.410300545627,
+        27723.718762660006,
+        28779.766433576566,
+        29855.55331329531,
+        30951.079401816227,
+        32066.34469913932,
+        33201.3492052646,
+        34356.09292019205,
+        35530.57584392168,
+        36724.797976453505,
+        37938.75931778749,
+        39172.459867923666,
+        40425.89962686201,
+        123192.40071156433
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.0005582434360459381,
+        0.0005258884964135179,
+        0.0004962670219216545,
+        0.0004690795538997119,
+        0.00044406654627759435,
+        0.00042100214809835646,
+        0.00039968908734650015,
+        0.00037995443865876665,
+        0.00036164610461274644,
+        0.0003446298763344822,
+        0.000328786966930247,
+        0.0003140119327758403,
+        0.00030021091449581564,
+        0.00028730014265313176,
+        0.0002752046635826286,
+        0.00026385724906858796,
+        0.00025319746016410944,
+        0.00024317084074161065,
+        0.0002337282206282302,
+        0.00022482511163240628,
+        0.0002164211825753032,
+        0.00020847980173320532,
+        0.00020096763697653773,
+        0.00019385430543814627,
+        0.00018711206582149175,
+        0.00018071554751903287,
+        0.00017464151159265348,
+        0.00016886863940389634,
+        0.00016337734529804532,
+        0.00015814961026379466,
+        0.00015316883392643653,
+        0.00014841970260108073,
+        0.009425037605941565
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-pilot",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-pilot-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 0.4,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observation_binding": {
+        "file": "007-pilot-observations.json",
+        "sha256": "51ffe03f3b90709bd5516e73a84bdf771ba9bc3f80e694c926c88519c72fd8f9"
+      },
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-pilot-public-result.json",
+        "sha256": "bd830241a0d7e3776561d197a61125eae4258db7d25d658225b61249a7cad9fd"
+      },
+      "public_result_sha256": "60c50158076aeb9600cdb0bab32d5dfd42973d68a4fef96887a131d02446bd7d",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "e33def4270791eea9deed1250c0f87489937865773040312c45a41fa0cd86c65",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "df714ddb6cc9530d33b60a675871bc7b9c6e754558adaa78b8ca9825c336caa1",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 1,
+      "row": "combined",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-pilot",
+          "capture_outcome": "PASS",
+          "file": "007-pilot-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 11697
+          },
+          "numerical_bytes": 15907742616,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-pilot-segment-0.receipt.jsonl",
+          "receipt_sha256": "c9de8ace9ddd62b3d192a749a5598c6b12e045d1fac58c1923e59a94061d89ee",
+          "segment_index": 0,
+          "sha256": "4fc216585e02580ea77aed71599eaabf7ab61d84eea0cde31ecf4d9164fce38e",
+          "valid_interval": [
+            0.0,
+            0.4
+          ]
+        }
+      ],
+      "solve_invocations": 1,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          65,
+          1024
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 67586
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-reduction-0001": {
+      "actual_rates": null,
+      "actual_weights": null,
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-reduction-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "segments": [],
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-repeat_512-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        31286.640354063482
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.018703974001373067
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-repeat_512",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-repeat_512-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observation_binding": {
+        "file": "007-repeat_512-observations.json",
+        "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+      },
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-repeat_512-public-result.json",
+        "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+      },
+      "public_result_sha256": "84a42781d60c2fb5df10a82a7db9663177db96eb21a1e8f9ab57cf86a2dd15e6",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 3,
+      "row": "repeat_512",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-repeat_512",
+          "capture_outcome": "PASS",
+          "file": "007-repeat_512-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 4395
+          },
+          "numerical_bytes": 1557135376,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-repeat_512-segment-0.receipt.jsonl",
+          "receipt_sha256": "f75fce12c0299ad8d1743b43636e946af9a97530f4e91af11c69dbc2c452ff35",
+          "segment_index": 0,
+          "sha256": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-repeat_512",
+          "capture_outcome": "PASS",
+          "file": "007-repeat_512-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 6.661338147750939e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 835
+          },
+          "numerical_bytes": 292816504,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-repeat_512-segment-1.receipt.jsonl",
+          "receipt_sha256": "0a6bab48732ca99ac9e313e9b9e147bd3d1150aa9de2a666b547645eec24c270",
+          "segment_index": 1,
+          "sha256": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775",
+          "valid_interval": [
+            1.0,
+            6.504308470045491
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-repeat_512",
+          "capture_outcome": "PASS",
+          "file": "007-repeat_512-segment-2.npz",
+          "live_replay": {
+            "accepted_state_error": 1.8951507030351422e-13,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 849
+          },
+          "numerical_bytes": 390034776,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-repeat_512-segment-2.receipt.jsonl",
+          "receipt_sha256": "260b29e294f0c67f73a02b5fab5356ba1b757f1fc557bbc2eda4a30ffdb78846",
+          "segment_index": 2,
+          "sha256": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c",
+          "valid_interval": [
+            6.504308470045491,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          33,
+          512
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 17410
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    },
+    "007-time_fine-0001": {
+      "actual_rates": [
+        9.869604401089358,
+        39.47841760435743,
+        88.82643960980423,
+        157.91367041742973,
+        246.74011002723395,
+        355.3057584392169,
+        483.61061565337855,
+        631.6546816697189,
+        799.437956488238,
+        986.9604401089358,
+        1194.2221325318121,
+        1421.2230337568676,
+        1667.9631437841017,
+        1934.4424626135142,
+        2220.660990245105,
+        2526.6187266788756,
+        2852.3156719148246,
+        3197.751825952952,
+        3562.9271887932578,
+        3947.8417604357433,
+        4352.495540880407,
+        4776.8885301272485,
+        5221.02072817627,
+        5684.89213502747,
+        6168.502750680849,
+        6671.852575136407,
+        7194.941608394141,
+        7737.769850454057,
+        8300.33730131615,
+        8882.64396098042,
+        9484.689829446872,
+        10106.474906715503,
+        31286.640354063482
+      ],
+      "actual_weights": [
+        0.6079271018540267,
+        0.15198177546350666,
+        0.06754745576155852,
+        0.037995443865876666,
+        0.024317084074161065,
+        0.01688686394038963,
+        0.012406675548041361,
+        0.009498860966469166,
+        0.007505272862395391,
+        0.006079271018540266,
+        0.005024190924413445,
+        0.004221715985097407,
+        0.0035972017861185005,
+        0.0031016688870103403,
+        0.0027018982304623414,
+        0.0023747152416172916,
+        0.0021035539856540716,
+        0.0018763182155988477,
+        0.0016840085923934258,
+        0.0015198177546350666,
+        0.0013785195053379288,
+        0.0012560477311033612,
+        0.001149200570612527,
+        0.0010554289962743518,
+        0.0009726833629664426,
+        0.0008993004465296251,
+        0.0008339192069328213,
+        0.0007754172217525851,
+        0.0007228621900761315,
+        0.0006754745576155853,
+        0.0006325984410551787,
+        0.0005936788104043229,
+        0.018703974001373067
+      ],
+      "adapter_sources": {
+        "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+        "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+      },
+      "attempt": "007-time_fine",
+      "controls": {
+        "atol": 2e-11,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 32,
+        "rtol": 2e-09
+      },
+      "environment": {
+        "machine": "x86_64",
+        "numpy": "2.5.3",
+        "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+        "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+        "scipy": "1.18.1",
+        "scipy_bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+        "scipy_dense_sha256": "938a3c41a429e693cabe1ea31e0a00785fa39e0f880e241163865fb77e1bfb88",
+        "threads": {
+          "MKL_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1"
+        }
+      },
+      "execution": {
+        "adapter_sources": {
+          "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+          "tools/grudeva2026_fine_baseline_qualification_007_invoke.py": "de39311d829037b2d59f1137e1fcbf4e7dfc0214dfe5bc1010f9a39832016da3"
+        },
+        "execution_id": "007-time_fine-0001",
+        "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2"
+      },
+      "horizon": 8.0,
+      "matrix_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "observation_binding": {
+        "file": "007-time_fine-observations.json",
+        "sha256": "fc468058136541cafc1de071e86bb167e96cf89b06ce05cf6088119f0529a104"
+      },
+      "observed": true,
+      "parameters": {
+        "c_b_init": 1.388,
+        "c_f_init": 1.388,
+        "d_sb": 1.0,
+        "phi_b": 0.16,
+        "phi_f": 0.64,
+        "phi_l": 0.2,
+        "source_id": "EJAM_2026_EQ76_77_TABLE2_DIMENSIONLESS",
+        "varphi_lb": 0.0
+      },
+      "passed": true,
+      "public_checkpoint": {
+        "file": "007-time_fine-public-result.json",
+        "sha256": "267a570d9f8aeb8e6abbe19efe2f8581ee57b330864aacfb3c643051a4f3357f"
+      },
+      "public_result_sha256": "0f6f6a4bd4a8a2a5e07667e41586aec1b6e414a7efe8837f22d7444d48c3ffb3",
+      "public_result_unchanged_after_capture": true,
+      "request_hashes": {
+        "diagnostic_times": "0a3f723de14a37be05b38aa9c3915a947597ce43e239f80d7a321a2b3eb23db9",
+        "diagnostic_z": "689da039cb5c90ccc1a8aab17713b227b3b908dc4614fbeb3010f39ac379fafc",
+        "history_z": "272004cf1c2c1abceb358b930508973ae1dd374cd951cb49763e64f7b74e57bd",
+        "public_times": "ae44f6dc0cb220c8cef7c0d3725566066f0d06b202496c9bd7aa3d32492f3077",
+        "public_z": "bfa5253dbdf7b0614113a6563d1342756821becb9ddb152e3278f597d4e432e5"
+      },
+      "restored": true,
+      "returned": 3,
+      "row": "time_fine",
+      "segments": [
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-time_fine",
+          "capture_outcome": "PASS",
+          "file": "007-time_fine-segment-0.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 5787
+          },
+          "numerical_bytes": 2127570496,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-time_fine-segment-0.receipt.jsonl",
+          "receipt_sha256": "24f891fb6d1621fd60251d1fc7636bcc272febd8b1fdafa0190e19896156e53e",
+          "segment_index": 0,
+          "sha256": "b8b9ff54dbcdf60a0de496fcae3890662ee17b1180b5c1fe3304267b13e2535a",
+          "valid_interval": [
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-time_fine",
+          "capture_outcome": "PASS",
+          "file": "007-time_fine-segment-1.npz",
+          "live_replay": {
+            "accepted_state_error": 8.881784197001252e-16,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 1229
+          },
+          "numerical_bytes": 445351744,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-time_fine-segment-1.receipt.jsonl",
+          "receipt_sha256": "671eb22b2d498df02e77a7430ab4b6ebe988eb3bf452a1122d546a04acc12cea",
+          "segment_index": 1,
+          "sha256": "693503ea2d35db219532c343ae5431075720926bbfb1e086d9e316e10417a69d",
+          "valid_interval": [
+            1.0,
+            6.504308460421536
+          ]
+        },
+        {
+          "array_fidelity": "PASS",
+          "artifact_integrity": "PASS",
+          "attempt": "007-time_fine",
+          "capture_outcome": "PASS",
+          "file": "007-time_fine-segment-2.npz",
+          "live_replay": {
+            "accepted_state_error": 7.616129948928574e-14,
+            "allowance_fraction": 0.0,
+            "event_state_error": 0.0,
+            "max_absolute": 0.0,
+            "points": 1195
+          },
+          "numerical_bytes": 551620336,
+          "numerical_replay": "PASS",
+          "receipt_file": "007-time_fine-segment-2.receipt.jsonl",
+          "receipt_sha256": "2261232cc197053f64dc49b56e07e5f78c33423011a38e778f0f4612105ee094",
+          "segment_index": 2,
+          "sha256": "f2c57909f242808c082a6e2cb021b419464315bcb24cc604af19f7a749c3d48c",
+          "valid_interval": [
+            6.504308460421536,
+            8.0
+          ]
+        }
+      ],
+      "solve_invocations": 3,
+      "sources": {
+        "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+        "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+        "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+        "puckworks/data/grudeva2026/analytic_reference.json": "58d6b5bceb53c93e1c5454ed776b72ef9adfc5460d92c2b8ebe504a800b875ad",
+        "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2",
+        "puckworks/models/grudeva2026/kernel.py": "12c2c49c288fc17c85dd06a95cad00a1116d1de11c5bdaa644f8435a9eeef8bf",
+        "puckworks/models/grudeva2026/reduced.py": "60c8286b5c254d16a714629205b59363e09b32e2faf24772c1ef9ff776fb8425",
+        "puckworks/models/grudeva2026/verification.py": "086025760007bfd724dda7dee0cd44d43451b7b9ea32e55719869b2f9f2c4c86"
+      },
+      "state_layout": {
+        "modal_axis": 0,
+        "modal_shape": [
+          33,
+          512
+        ],
+        "order": "s,liquid,mode-major,cup",
+        "size": 17410
+      },
+      "status": "ROW_PASSED",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    }
+  },
+  "external_artifacts": {
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-observations.json": {
+      "bytes": 79319743,
+      "sha256": "cf72d776557b093d8a3854565245c1fa48365692d1d9f3e53d0369153f20444a"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-public-result.json": {
+      "bytes": 592646,
+      "sha256": "2ab2a90e78996072d77d1831db155939e6d08433a7148d2b541408d32a01894c"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-0.npz": {
+      "bytes": 6866266824,
+      "sha256": "94b7b12ee9de74e168706ef5c0f00bc199705269ebbafe6ff3cf3f9deb5cecd8"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-0.receipt.jsonl": {
+      "bytes": 989557,
+      "sha256": "c5dd64ec2a04fa7a67aee005932f180bdf11bc8563171731dc3868fbcae16da5"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-1.npz": {
+      "bytes": 1269650846,
+      "sha256": "717cdd6c77ca023ac0e2b10436dd16c22851c26ebd0c526eeca32cce3f2278f1"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-1.receipt.jsonl": {
+      "bytes": 215671,
+      "sha256": "0943a8e296e49f1d448a7525631c938e21c7c1b5e4184ef538c9b603c5c7c2bb"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-2.npz": {
+      "bytes": 862278778,
+      "sha256": "5bf5ac3c14873fd122fe3398966c911b7591d3ebd034eebb8d82431d4e45ef2e"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine-segment-2.receipt.jsonl": {
+      "bytes": 140863,
+      "sha256": "b46a9dc84daeb0e876163549ba006f2cc6173f318a6191bbd6d8fb286c60ab1c"
+    },
+    "continuation/attempts/007-bed_fine-0001/007-bed_fine.json": {
+      "bytes": 1999839,
+      "sha256": "fc52457520a4c5e76bcd55b1c5bc310383f8a0f94c3bc10b8096912e11434d6f"
+    },
+    "continuation/attempts/007-bed_fine-0001/ACCOUNTING.json": {
+      "bytes": 32385,
+      "sha256": "1e3f04da3a2ef5340540974e12a6b97bac8c7582e6622a0d47505fa1766b469a"
+    },
+    "continuation/attempts/007-bed_fine-0001/completion.json": {
+      "bytes": 617,
+      "sha256": "a41304a1aea8fe76aefbe1dcf42cc09993fde85325b5d770e09a8f68d8d40586"
+    },
+    "continuation/attempts/007-bed_fine-0001/progress.jsonl": {
+      "bytes": 104465,
+      "sha256": "66e384440ac4b73296f823aa742b9a79c2dd56534e549380082e551829cf3e9d"
+    },
+    "continuation/attempts/007-bed_fine-0001/runtime.json": {
+      "bytes": 3494,
+      "sha256": "ad1ba39ff29d20b37da0a0ac9b93360fcc6130376268939684579daaede306c0"
+    },
+    "continuation/attempts/007-bed_fine-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-public-result.json": {
+      "bytes": 590998,
+      "sha256": "7f07ca426203c9bed70b91c3cccc8fbed727fc922d85b1b802ecd496c58e2629"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-0.npz": {
+      "bytes": 17791096136,
+      "sha256": "40ebee3aeaae1d738110922ef329ca028175e15f4b2640e5dd3a409076e00839"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-0.receipt.jsonl": {
+      "bytes": 1312953,
+      "sha256": "8ebb2a1282793233fa0ab353d0c22107d51c677892d52b97881c409ab8dec875"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-1.npz": {
+      "bytes": 3210501700,
+      "sha256": "6ed9d467411950401c6fd21d163f83dc7e47bf0a8be9a50b8afcb1b298e088ee"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-1.receipt.jsonl": {
+      "bytes": 273072,
+      "sha256": "162cd18596d255a7ecd4407efbe525f8f77579edf85b98acc23975d943bc1cd6"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-2.npz": {
+      "bytes": 2722123510,
+      "sha256": "ce39d5136cc70cdf8c7232e479b923dff25eb17297c7b742a2a20d2ef7d5417f"
+    },
+    "continuation/attempts/007-combined-0001/007-combined-segment-2.receipt.jsonl": {
+      "bytes": 403761,
+      "sha256": "7a51de6e50b535f28ddebcd33a4c2cb00b367a7549f4f0844795aa8770826489"
+    },
+    "continuation/attempts/007-combined-0001/007-combined.json": {
+      "bytes": 2430942,
+      "sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f"
+    },
+    "continuation/attempts/007-combined-0001/ACCOUNTING.json": {
+      "bytes": 37765,
+      "sha256": "b0f3099b5f513fa9bf3728b5e41dbc642c8d1e8d32ce93ea702068335f060372"
+    },
+    "continuation/attempts/007-combined-0001/progress.jsonl": {
+      "bytes": 510005,
+      "sha256": "12f495550ebf55f345321a199219cce5cfcdaa4c27d56fe6161f63022f0e35a5"
+    },
+    "continuation/attempts/007-combined-0001/runtime.json": {
+      "bytes": 3494,
+      "sha256": "20739398763522bc9750aa4b461be3233d46ab04af1b01081d1169fc586d8ccf"
+    },
+    "continuation/attempts/007-combined-0001/worker.log": {
+      "bytes": 1743,
+      "sha256": "63337140fa91a2858042a33b565cfbe08fc6b8cfdd7020ecea6707c160663bb1"
+    },
+    "continuation/attempts/007-control_512-0001/007-control_512-public-result.json": {
+      "bytes": 590015,
+      "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+    },
+    "continuation/attempts/007-control_512-0001/007-control_512.json": {
+      "bytes": 599392,
+      "sha256": "42de1c82dde071e3c4bc0d0a56b90949e47465c7816f1bb38906cebce355ca01"
+    },
+    "continuation/attempts/007-control_512-0001/ACCOUNTING.json": {
+      "bytes": 9940,
+      "sha256": "73ce249125ee4c674c8498fe5afdbe45cd594fc95bbdedcc412ccca58098d50f"
+    },
+    "continuation/attempts/007-control_512-0001/completion.json": {
+      "bytes": 620,
+      "sha256": "59d03253f8e903f8b0338dea14deee3bd5b23c0d28ea5230484836552fc8f1c8"
+    },
+    "continuation/attempts/007-control_512-0001/progress.jsonl": {
+      "bytes": 18284,
+      "sha256": "3508c53f044f13a6c521983f8242ade78d4bf2b677770ba14fec0b74156d4935"
+    },
+    "continuation/attempts/007-control_512-0001/runtime.json": {
+      "bytes": 3497,
+      "sha256": "3b0521f648f6bace91cab0324d7e0765f4575855183eebce9d9251ac998f17c9"
+    },
+    "continuation/attempts/007-control_512-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-observations.json": {
+      "bytes": 148837056,
+      "sha256": "d2a29631043bbbe4cf0bcdce2364fd9d97e905e09ffa26f570354ad6107a5d06"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-public-result.json": {
+      "bytes": 590067,
+      "sha256": "fa7c1ba4b063ab46436158147533b88f6ea3c9d7f5c36415dc6411e8abde51eb"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-0.npz": {
+      "bytes": 3356777456,
+      "sha256": "0bd3809733ccae49f69ffa8d3482c019a4e6c2bf18ad712dd49f03caa00cfa64"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-0.receipt.jsonl": {
+      "bytes": 495240,
+      "sha256": "8e0f1257aef53fa823c917dd18fd4a9f355d356da8cf16a3724ebaf9924dfabb"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-1.npz": {
+      "bytes": 598450466,
+      "sha256": "d7a97078c3f94cb340ba46056610fed47ae53ca8715e0f4a3159cebbf56d9ae0"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-1.receipt.jsonl": {
+      "bytes": 110248,
+      "sha256": "07fae881305c6dd945a7cf720be9a6a304a7eb9c0358de109f9ebb42d44f0bfb"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-2.npz": {
+      "bytes": 771743280,
+      "sha256": "c5b0cb35ad4e775b3b462ee2966bab36be90731c0b03c9cc19b6dc67b1b31005"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine-segment-2.receipt.jsonl": {
+      "bytes": 108605,
+      "sha256": "8993cf8945fedc9865878e45d8ca3bdfb52652f3220dbbeda32359d60734e233"
+    },
+    "continuation/attempts/007-modes_fine-0001/007-modes_fine.json": {
+      "bytes": 1346821,
+      "sha256": "779972c6ab71ef1b37b89a620f6989917695cb3d592b569ec251b50c3cc6a535"
+    },
+    "continuation/attempts/007-modes_fine-0001/ACCOUNTING.json": {
+      "bytes": 21188,
+      "sha256": "0865f602241ecdceb85d3d032469f03ef888953d65ecf73277166a329b6d4b7b"
+    },
+    "continuation/attempts/007-modes_fine-0001/completion.json": {
+      "bytes": 619,
+      "sha256": "031788426cc5528802410c125ea326f0a96d30e60834efd90af1028c43f9d472"
+    },
+    "continuation/attempts/007-modes_fine-0001/progress.jsonl": {
+      "bytes": 112399,
+      "sha256": "8d041638a3412d3e3ac21003df38a389a1744b842ff21e86623da22a78fbe1f4"
+    },
+    "continuation/attempts/007-modes_fine-0001/runtime.json": {
+      "bytes": 3496,
+      "sha256": "0b40f11ae04bf14de0a8daf3f214a4819100f7d76ea837dd4657e242fcdc00fa"
+    },
+    "continuation/attempts/007-modes_fine-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-pilot-0001/007-pilot-observations.json": {
+      "bytes": 4781273,
+      "sha256": "51ffe03f3b90709bd5516e73a84bdf771ba9bc3f80e694c926c88519c72fd8f9"
+    },
+    "continuation/attempts/007-pilot-0001/007-pilot-public-result.json": {
+      "bytes": 8284,
+      "sha256": "bd830241a0d7e3776561d197a61125eae4258db7d25d658225b61249a7cad9fd"
+    },
+    "continuation/attempts/007-pilot-0001/007-pilot-segment-0.npz": {
+      "bytes": 15909240200,
+      "sha256": "4fc216585e02580ea77aed71599eaabf7ab61d84eea0cde31ecf4d9164fce38e"
+    },
+    "continuation/attempts/007-pilot-0001/007-pilot-segment-0.receipt.jsonl": {
+      "bytes": 1177915,
+      "sha256": "c9de8ace9ddd62b3d192a749a5598c6b12e045d1fac58c1923e59a94061d89ee"
+    },
+    "continuation/attempts/007-pilot-0001/007-pilot.json": {
+      "bytes": 1237051,
+      "sha256": "1b4cfb4ea17b6c34a9ed470bf4760d25853ab0e672196a3acea44f8d6cd5897d"
+    },
+    "continuation/attempts/007-pilot-0001/ACCOUNTING.json": {
+      "bytes": 5218,
+      "sha256": "19682358e05b327b2b300f3dc6e5552ca58d41ecdc759203cb567b3fe870372f"
+    },
+    "continuation/attempts/007-pilot-0001/completion.json": {
+      "bytes": 614,
+      "sha256": "14dbf6b7e6d50dcd0a1b86ab9be4a583bd87110d378dab25c0117b4f7404e6c7"
+    },
+    "continuation/attempts/007-pilot-0001/progress.jsonl": {
+      "bytes": 475203,
+      "sha256": "efd2bf54c2914b3c7dd6e85b0907df88b8be06c0cfb39954a9fa0ab69b258ea2"
+    },
+    "continuation/attempts/007-pilot-0001/runtime.json": {
+      "bytes": 3489,
+      "sha256": "feb291effda9a314f8e6bf3d34c8056d0aa11861b3b37716dd784a65fb2385ae"
+    },
+    "continuation/attempts/007-pilot-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-reduction-0001/007-reduction.json": {
+      "bytes": 112566,
+      "sha256": "1f7e459a8cd5c22d0ac6140fe7c705ca3947764fbef006f4e46f42a91640283a"
+    },
+    "continuation/attempts/007-reduction-0001/ACCOUNTING.json": {
+      "bytes": 43276,
+      "sha256": "11301d784d0e0628d5342f037f1187dcddfdc169175969506452368ee7257d83"
+    },
+    "continuation/attempts/007-reduction-0001/completion.json": {
+      "bytes": 618,
+      "sha256": "baa23a0966cab444583cc2c50e830ab8d95890a923af6bdf73b8b19cbdb34b53"
+    },
+    "continuation/attempts/007-reduction-0001/progress.jsonl": {
+      "bytes": 2606,
+      "sha256": "6acccf0912a3d8f94ed5b03d7447ebb42e862eeddb7abfa00a3602359b489245"
+    },
+    "continuation/attempts/007-reduction-0001/runtime.json": {
+      "bytes": 3499,
+      "sha256": "4d9f2145faf3d6d3306c240591f461c7f1f036add2869f396b09c55a0fd32102"
+    },
+    "continuation/attempts/007-reduction-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-observations.json": {
+      "bytes": 78412013,
+      "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-public-result.json": {
+      "bytes": 590015,
+      "sha256": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-0.npz": {
+      "bytes": 1557671748,
+      "sha256": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-0.receipt.jsonl": {
+      "bytes": 444341,
+      "sha256": "f75fce12c0299ad8d1743b43636e946af9a97530f4e91af11c69dbc2c452ff35"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-1.npz": {
+      "bytes": 292919724,
+      "sha256": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-1.receipt.jsonl": {
+      "bytes": 103699,
+      "sha256": "0a6bab48732ca99ac9e313e9b9e147bd3d1150aa9de2a666b547645eec24c270"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-2.npz": {
+      "bytes": 390138690,
+      "sha256": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512-segment-2.receipt.jsonl": {
+      "bytes": 104341,
+      "sha256": "260b29e294f0c67f73a02b5fab5356ba1b757f1fc557bbc2eda4a30ffdb78846"
+    },
+    "continuation/attempts/007-repeat_512-0001/007-repeat_512.json": {
+      "bytes": 1283657,
+      "sha256": "d7b4fae605f654d4f9cf3225df2ed5a4673480c884b2cfbd3fc21da261429dbf"
+    },
+    "continuation/attempts/007-repeat_512-0001/ACCOUNTING.json": {
+      "bytes": 15562,
+      "sha256": "61021ce72ac5bb8a2c698630cf853304fd9fa04904dbcec44554e73ae978f02a"
+    },
+    "continuation/attempts/007-repeat_512-0001/completion.json": {
+      "bytes": 619,
+      "sha256": "e527bcb009aa6cf792f1bf4750229f7e19a112d80f9d4cee9bd074492e6a6b9e"
+    },
+    "continuation/attempts/007-repeat_512-0001/progress.jsonl": {
+      "bytes": 28740,
+      "sha256": "feab4d58e31449ae52fe4b618de0617292ddd47017b8aef77e9dec20e4a6bc8d"
+    },
+    "continuation/attempts/007-repeat_512-0001/runtime.json": {
+      "bytes": 3496,
+      "sha256": "9ab9f545a01bf1cd63dc278f443339c6c486ec1b074a2e6a8732cdf3e64161b2"
+    },
+    "continuation/attempts/007-repeat_512-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-observations.json": {
+      "bytes": 78628580,
+      "sha256": "fc468058136541cafc1de071e86bb167e96cf89b06ce05cf6088119f0529a104"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-public-result.json": {
+      "bytes": 589838,
+      "sha256": "267a570d9f8aeb8e6abbe19efe2f8581ee57b330864aacfb3c643051a4f3357f"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-0.npz": {
+      "bytes": 2128276692,
+      "sha256": "b8b9ff54dbcdf60a0de496fcae3890662ee17b1180b5c1fe3304267b13e2535a"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-0.receipt.jsonl": {
+      "bytes": 577974,
+      "sha256": "24f891fb6d1621fd60251d1fc7636bcc272febd8b1fdafa0190e19896156e53e"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-1.npz": {
+      "bytes": 445502638,
+      "sha256": "693503ea2d35db219532c343ae5431075720926bbfb1e086d9e316e10417a69d"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-1.receipt.jsonl": {
+      "bytes": 141126,
+      "sha256": "671eb22b2d498df02e77a7430ab4b6ebe988eb3bf452a1122d546a04acc12cea"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-2.npz": {
+      "bytes": 551766116,
+      "sha256": "f2c57909f242808c082a6e2cb021b419464315bcb24cc604af19f7a749c3d48c"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine-segment-2.receipt.jsonl": {
+      "bytes": 137209,
+      "sha256": "2261232cc197053f64dc49b56e07e5f78c33423011a38e778f0f4612105ee094"
+    },
+    "continuation/attempts/007-time_fine-0001/007-time_fine.json": {
+      "bytes": 1487504,
+      "sha256": "9e7f18ec2094469701e412e0a5281f5049b34f912c1b1bc3a27db6550af959f5"
+    },
+    "continuation/attempts/007-time_fine-0001/ACCOUNTING.json": {
+      "bytes": 26794,
+      "sha256": "c6915150bdf7f84476c95c95f1c1d7e8f2cfac34b05590ce06ad2d9f7ea8d3b6"
+    },
+    "continuation/attempts/007-time_fine-0001/completion.json": {
+      "bytes": 618,
+      "sha256": "29618c8b3628b7315bf253b842c0e2afa36754690485559b24202ac3b74e8259"
+    },
+    "continuation/attempts/007-time_fine-0001/progress.jsonl": {
+      "bytes": 33962,
+      "sha256": "74b02948af75c82c7edc09d9f3d73b4c2f1f227b1865f5abca40ff0656a8cfd3"
+    },
+    "continuation/attempts/007-time_fine-0001/runtime.json": {
+      "bytes": 3495,
+      "sha256": "e6e5766f56881f02c09e81f78474219cd3e05f07fd663095fc93d4a56aa7fe3c"
+    },
+    "continuation/attempts/007-time_fine-0001/worker.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "original_baseline_reuse": {
+    "005_ledger_sha256": "5154af5b48a993edc8b273e16d4bc8d257bb5d425246798ef583b142c7befb29",
+    "files": {
+      "006-fixture-512-arrays.json": "83af2246de1365414605fb0eeda100b1872f40b135ad54af4eff0001fdc8db76",
+      "006-readout-accounting-closure.json": "7b3c39fb1bcd7d146bff218109d7b03d4d5acef73a1b0c68fec245dcdeb0f6bd",
+      "006-readout-runtime.json": "6d117bfeec90bd1488e346671bf0ac59162efb05eb2494793d7ccec783f30df2",
+      "006-readout.json": "1ef0ed6acce738c87b7fa485da4430476aa886953c5d6d8770d68f67e61f9569",
+      "006-readout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "006-spatial-512-accounting-closure.json": "9eeed5d9f338906ab03281702734ae24c5727e975d98695cc7dab66efdee3248",
+      "006-spatial-512-observations.json": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b",
+      "006-spatial-512-public-result.json": "389a7c87db6c1e793f5876d56bd7dd06bc583a2fef188c7954fd76e5beec8490",
+      "006-spatial-512-runtime.json": "6da74f31d31c30737f8639c9da7ebadd782ec0a3bcea81149f04405dade2faa6",
+      "006-spatial-512-segment-0.npz": "2195f0deb99531b2d07121c0d1ded74eb53f8f399374b5c36ce9598615131525",
+      "006-spatial-512-segment-0.receipt.jsonl": "f1180e25e92e89eefb6db2cbfe2185a1f5827e7d0f2482976eb5649fb5506bc9",
+      "006-spatial-512-segment-1.npz": "a864073062a94f8e7d3b0d8f51b343cd871f2aa17a5eca943ce8402511bab775",
+      "006-spatial-512-segment-1.receipt.jsonl": "487635241d27af9fcd072b8c219282d27397808ac66acf6ef854186947162d96",
+      "006-spatial-512-segment-2.npz": "9db0cdbb5d4010f5679586dd438300507bd7382106a116e8bc4823ff1d32321c",
+      "006-spatial-512-segment-2.receipt.jsonl": "3c7dce7eccf7f4d25255c22f4783d2e1f01d636917a0eb02f854a91c2520ea33",
+      "006-spatial-512.json": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05",
+      "006-spatial-512.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "invocations.jsonl": "3692bdcbf8c2f0f320a61c106feee7859af4d5d46216f4b8194a23e08d9ba169"
+    },
+    "fixture": {
+      "file": "006-fixture-512-arrays.json",
+      "sha256": "83af2246de1365414605fb0eeda100b1872f40b135ad54af4eff0001fdc8db76"
+    },
+    "metadata": {
+      "file": "006-spatial-512.json",
+      "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+    },
+    "observations": {
+      "file": "006-spatial-512-observations.json",
+      "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+    },
+    "original_attempt": "006-spatial-512",
+    "original_plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+    "original_task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+  },
+  "original_readout": {
+    "file": "007-readout.json",
+    "numerical_reexecution": false,
+    "sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "policy": "Original 006 and first 007 artifacts stay in their original identities and locations. Complete new arrays, Results, observations, receipts and logs remain external.",
+  "policy_sha256": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+  "source_datasets": [
+    "grudeva2026/analytic_reference",
+    "grudeva2026/publication_reference"
+  ],
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}
