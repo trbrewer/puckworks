@@ -1,0 +1,1659 @@
+{
+  "accounting_note": "Original pending numerical reduction retained externally by hash; accounting-only closure after worker completion. No second reduction.",
+  "baseline_gates": {
+    "activation_support": true,
+    "aqueous_bounds": true,
+    "complete_status": true,
+    "conservation": true,
+    "cup_quadrature": true,
+    "cup_state_integral": true,
+    "diagnostic_grain_history_bounds": true,
+    "diagnostic_grain_profile_bounds": true,
+    "diagnostic_inlet": true,
+    "diagnostic_liquid_profile_bounds": true,
+    "events": true,
+    "front_support": true,
+    "grain_bounds": true,
+    "horizon": true,
+    "independent_inventory_sums": true,
+    "phase_bounds": true,
+    "public_cup_outlet_reconstruction": true,
+    "public_inventory_algebra": true,
+    "public_profile_reconstruction": true,
+    "required_times": true,
+    "solver_segments": true,
+    "tail_weights_rates": true
+  },
+  "baseline_individual_details": {
+    "activation_support": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 227,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 227,
+      "unavailable": 0
+    },
+    "aqueous_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0,
+        "trace": false
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "complete_status": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "conservation": {
+      "allowance": 1e-06,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "provenance": "accepted",
+        "segment": 1,
+        "t": 6.155460976930302
+      },
+      "maximum": 3.037545239352549e-09,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 3.037545239352549e-09,
+      "unavailable": 0
+    },
+    "cup_quadrature": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 3686,
+      "location": {
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3686,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "cup_state_integral": {
+      "allowance": 5e-05,
+      "excluded": 0,
+      "gate_sum_of_component_maxima": 3.1560185576040567e-09,
+      "included": 3686,
+      "location": {
+        "t": 7.547969439045619
+      },
+      "maximum": 3.1560185576040567e-09,
+      "passed": true,
+      "requested": 3686,
+      "separate_quadrature_maximum": 0.0,
+      "signed_at_maximum": 3.1560185576040567e-09,
+      "unavailable": 0
+    },
+    "diagnostic_grain_history_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 4326,
+      "maximum": 1.3880000000000001,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.025
+      },
+      "minimum": 1.0700467816462948e-32,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.025
+      },
+      "passed": true,
+      "requested": 4326,
+      "unavailable": 0
+    },
+    "diagnostic_grain_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.3880000000000001,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "minimum": 6.442496734365866e-35,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 8.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "diagnostic_inlet": {
+      "allowance": 2e-05,
+      "excluded": 0,
+      "included": 395,
+      "location": {
+        "t": 0.175,
+        "z": 0.0
+      },
+      "maximum": 1.5171920852152798e-06,
+      "passed": true,
+      "requested": 395,
+      "signed_at_maximum": -1.5171920852152798e-06,
+      "unavailable": 0
+    },
+    "diagnostic_liquid_profile_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 135960,
+      "maximum": 1.0,
+      "maximum_location": {
+        "provenance": "required",
+        "t": 0.01,
+        "z": 0.005
+      },
+      "minimum": 0.0,
+      "minimum_location": {
+        "provenance": "required",
+        "t": 0.0,
+        "z": 0.0
+      },
+      "passed": true,
+      "requested": 135960,
+      "unavailable": 0
+    },
+    "events": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 2,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 2,
+      "unavailable": 0
+    },
+    "front_support": {
+      "allowance": 1e-10,
+      "excluded": 0,
+      "included": 6074,
+      "location": {
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 6074,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "grain_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "cell": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "horizon": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 1,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 1,
+      "unavailable": 0
+    },
+    "independent_inventory_sums": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.46325122333617424
+      },
+      "maximum": 0.00018310546875,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.00018310546875,
+      "unavailable": 0
+    },
+    "phase_bounds": {
+      "allowance": 1e-08,
+      "excluded": 0,
+      "included": 3039,
+      "location": {
+        "phase": 0,
+        "provenance": "accepted",
+        "segment": 0,
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 3039,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_cup_outlet_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 150,
+      "location": {
+        "field": "cup",
+        "t": 0.0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 150,
+      "signed_at_maximum": 0.0,
+      "unavailable": 0
+    },
+    "public_inventory_algebra": {
+      "allowance": 1.0,
+      "excluded": 0,
+      "included": 225,
+      "location": {
+        "phase": 1,
+        "t": 0.0
+      },
+      "maximum": 0.0009381003842459175,
+      "passed": true,
+      "requested": 225,
+      "signed_at_maximum": 0.0009381003842459175,
+      "unavailable": 0
+    },
+    "public_profile_reconstruction": {
+      "allowance": 2.2737367544323206e-13,
+      "excluded": 0,
+      "included": 18000,
+      "location": {
+        "field": "grain",
+        "t": 6.451127819548873,
+        "z": 0.99
+      },
+      "maximum": 4.440892098500626e-16,
+      "passed": true,
+      "requested": 18000,
+      "signed_at_maximum": -4.440892098500626e-16,
+      "unavailable": 0
+    },
+    "required_times": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 614,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 614,
+      "unavailable": 0
+    },
+    "solver_segments": {
+      "allowance": 0,
+      "excluded": 0,
+      "included": 3,
+      "location": null,
+      "maximum": 0,
+      "meaning": "categorical completeness check; no physical maximum",
+      "passed": true,
+      "reason": null,
+      "requested": 3,
+      "unavailable": 0
+    },
+    "tail_weights_rates": {
+      "allowance": 5.684341886080802e-14,
+      "audit": {
+        "allowance": 5.684341886080802e-14,
+        "complement_tail": 0.018703974001373136,
+        "complement_tail_difference": -6.938893903907228e-17,
+        "rate_relative_error": 0.0,
+        "tail_rate": 31286.640354063482,
+        "tail_weight": 0.018703974001373067,
+        "weight_error": 0.0,
+        "weight_sum": 0.9999999999999999
+      },
+      "excluded": 0,
+      "included": 33,
+      "location": {
+        "rate_mode_index": 0,
+        "tail_index": 32,
+        "weight_mode_index": 0
+      },
+      "maximum": 0.0,
+      "passed": true,
+      "requested": 33,
+      "unavailable": 0
+    }
+  },
+  "baseline_original_identity": {
+    "file": "006-spatial-512.json",
+    "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+  },
+  "baseline_reuse_validated": true,
+  "comparisons": {
+    "bed_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      }
+    },
+    "combined": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      }
+    },
+    "modes_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      }
+    },
+    "time_fine": {
+      "activation": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 220,
+        "unavailable": 220
+      },
+      "arrival": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 1,
+        "unavailable": 1
+      },
+      "boulder_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "cup": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "fines_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "front": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "grain_histories": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 2765,
+        "unavailable": 2765
+      },
+      "grain_profiles": {
+        "budget": 0.00023,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "liquid_inventory": {
+        "budget": 5e-05,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      },
+      "liquid_profiles": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 86900,
+        "unavailable": 86900
+      },
+      "outlet": {
+        "budget": 0.001,
+        "excluded": 0,
+        "included": 0,
+        "location": null,
+        "max_absolute": null,
+        "passed": false,
+        "reason": "NOT_RUN or unavailable row",
+        "requested": 395,
+        "unavailable": 395
+      }
+    }
+  },
+  "disposition": "FINE_BASELINE_QUALIFICATION_INCOMPLETE",
+  "final_accounting": {
+    "charged_or_reserved_seconds": 308.8221942020173,
+    "ends": {
+      "007-pilot": {
+        "artifact_sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-pilot-runtime.json": 2008,
+          "007-pilot.json": 5488,
+          "007-pilot.log": 0,
+          "007-readout-accounting-closure.json": 3794,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 124,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-pilot",
+        "observations_sha256": null,
+        "peak_rss_bytes": 917729280,
+        "runtime_sha256": "3aa36aa8a110704caab684b7a76c63cbd143c979ca8ac7ada39877cfd16f3f89",
+        "seconds": 298.05785053400905,
+        "telemetry": {
+          "VmHWM_bytes": 929751040,
+          "VmPeak_bytes": 1692385280,
+          "VmRSS_bytes": 929751040,
+          "VmSize_bytes": 1692385280
+        },
+        "termination": "TIMEOUT",
+        "utc": "2026-10-09T01:47:26.983144+00:00"
+      },
+      "007-readout": {
+        "artifact_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-readout",
+        "observations_sha256": null,
+        "peak_rss_bytes": 747847680,
+        "runtime_sha256": "8f5c32687efe90c86c9082e351102a1fb5024e6e8f5ff6101fbe8d064fdcb129",
+        "seconds": 10.284434583998518,
+        "telemetry": {
+          "VmHWM_bytes": 747847680,
+          "VmPeak_bytes": 925233152,
+          "VmRSS_bytes": 727871488,
+          "VmSize_bytes": 925233152
+        },
+        "termination": null,
+        "utc": "2026-10-09T01:42:28.465807+00:00"
+      },
+      "007-reduction": {
+        "artifact_sha256": "d141538309745ba3e53cdda6f1891479bbb113681576da7b426eddc45498b894",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-pilot-accounting-closure.json": 7154,
+          "007-pilot-runtime.json": 2008,
+          "007-pilot.json": 5488,
+          "007-pilot.log": 0,
+          "007-readout-accounting-closure.json": 3794,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0,
+          "007-reduction-runtime.json": 2010,
+          "007-reduction.json": 26041,
+          "007-reduction.log": 0
+        },
+        "exit_code": 2,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-reduction",
+        "observations_sha256": null,
+        "peak_rss_bytes": 88821760,
+        "runtime_sha256": "abfdb37343b5cc9139e358e99637b1976a3b15a228c988787f4560425836b3e7",
+        "seconds": 0.4799090840097051,
+        "telemetry": {
+          "VmHWM_bytes": 88371200,
+          "VmPeak_bytes": 263565312,
+          "VmRSS_bytes": 88371200,
+          "VmSize_bytes": 263565312
+        },
+        "termination": null,
+        "utc": "2026-10-09T01:47:27.928735+00:00"
+      }
+    },
+    "full": 0,
+    "passed": true,
+    "reasons": [],
+    "seconds": 308.8221942020173,
+    "short": 3,
+    "starts": {
+      "007-pilot": {
+        "admission_sha256": null,
+        "ceiling": 300.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18083250176",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40098299904",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44183973888",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49413808128",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49461985280",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49713209344",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260414390272,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88231936,
+            "VmPeak": 263585792,
+            "VmRSS": 88231936,
+            "VmSize": 263585792
+          },
+          "remaining_archive_bytes": 113816633344,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579815424,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-pilot",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:28.926611+00:00"
+      },
+      "007-readout": {
+        "admission_sha256": null,
+        "ceiling": 120.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18088656896",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40102551552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44154007552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49384722432",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49434144768",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49685368832",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260609236992,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88137728,
+            "VmPeak": 263573504,
+            "VmRSS": 88137728,
+            "VmSize": 263573504
+          },
+          "remaining_archive_bytes": 114890375168,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579995648,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-readout",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:18.182622+00:00"
+      },
+      "007-reduction": {
+        "admission_sha256": null,
+        "ceiling": 240.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18077544448",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40089075712",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44188471296",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49416261632",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49465044992",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49716269056",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260202872832,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88211456,
+            "VmPeak": 263569408,
+            "VmRSS": 88211456,
+            "VmSize": 263569408
+          },
+          "remaining_archive_bytes": 1073741824,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428583227392,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-reduction",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:47:27.450048+00:00"
+      }
+    },
+    "unresolved_starts": []
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+  "preliminary_accounting": {
+    "charged_or_reserved_seconds": 548.3422851180076,
+    "ends": {
+      "007-pilot": {
+        "artifact_sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-pilot-runtime.json": 2008,
+          "007-pilot.json": 5488,
+          "007-pilot.log": 0,
+          "007-readout-accounting-closure.json": 3794,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 124,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-pilot",
+        "observations_sha256": null,
+        "peak_rss_bytes": 917729280,
+        "runtime_sha256": "3aa36aa8a110704caab684b7a76c63cbd143c979ca8ac7ada39877cfd16f3f89",
+        "seconds": 298.05785053400905,
+        "telemetry": {
+          "VmHWM_bytes": 929751040,
+          "VmPeak_bytes": 1692385280,
+          "VmRSS_bytes": 929751040,
+          "VmSize_bytes": 1692385280
+        },
+        "termination": "TIMEOUT",
+        "utc": "2026-10-09T01:47:26.983144+00:00"
+      },
+      "007-readout": {
+        "artifact_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+        "enforced_rlimit_as": [
+          34359738368,
+          34359738368
+        ],
+        "event": "end",
+        "evidence_bytes": {
+          "007-fixture-1024-32.json": 36262,
+          "007-fixture-1024-64.json": 39633,
+          "007-fixture-512-64.json": 39536,
+          "007-readout-runtime.json": 2010,
+          "007-readout.json": 41905,
+          "007-readout.log": 0
+        },
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "name": "007-readout",
+        "observations_sha256": null,
+        "peak_rss_bytes": 747847680,
+        "runtime_sha256": "8f5c32687efe90c86c9082e351102a1fb5024e6e8f5ff6101fbe8d064fdcb129",
+        "seconds": 10.284434583998518,
+        "telemetry": {
+          "VmHWM_bytes": 747847680,
+          "VmPeak_bytes": 925233152,
+          "VmRSS_bytes": 727871488,
+          "VmSize_bytes": 925233152
+        },
+        "termination": null,
+        "utc": "2026-10-09T01:42:28.465807+00:00"
+      }
+    },
+    "full": 0,
+    "passed": false,
+    "reasons": [
+      "unresolved start; full allocation reserved; numerical work blocked"
+    ],
+    "seconds": 308.34228511800757,
+    "short": 3,
+    "starts": {
+      "007-pilot": {
+        "admission_sha256": null,
+        "ceiling": 300.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18083250176",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40098299904",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44183973888",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49413808128",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49461985280",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49713209344",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260414390272,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88231936,
+            "VmPeak": 263585792,
+            "VmRSS": 88231936,
+            "VmSize": 263585792
+          },
+          "remaining_archive_bytes": 113816633344,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579815424,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-pilot",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:28.926611+00:00"
+      },
+      "007-readout": {
+        "admission_sha256": null,
+        "ceiling": 120.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18088656896",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40102551552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44154007552",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49384722432",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49434144768",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49685368832",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260609236992,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88137728,
+            "VmPeak": 263573504,
+            "VmRSS": 88137728,
+            "VmSize": 263573504
+          },
+          "remaining_archive_bytes": 114890375168,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428579995648,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-readout",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:42:18.182622+00:00"
+      },
+      "007-reduction": {
+        "admission_sha256": null,
+        "ceiling": 240.0,
+        "controller_sha256": "850685914c3a5f631fa56ad89e0dd9e29a07107319c0b6b935c6423ef1458f47",
+        "event": "start",
+        "headroom": {
+          "cgroups": [
+            {
+              "values": {
+                "memory.current": "18077544448",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "40089075712",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "44188471296",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49416261632",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49465044992",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {
+                "memory.current": "49716269056",
+                "memory.high": "max",
+                "memory.max": "max"
+              }
+            },
+            {
+              "values": {}
+            }
+          ],
+          "host_available_bytes": 260202872832,
+          "inherited_rlimit_as": [
+            -1,
+            -1
+          ],
+          "operating_margin_bytes": 4294967296,
+          "process_memory_bytes": {
+            "VmHWM": 88211456,
+            "VmPeak": 263569408,
+            "VmRSS": 88211456,
+            "VmSize": 263569408
+          },
+          "remaining_archive_bytes": 1073741824,
+          "requested_address_space_bytes": 34359738368,
+          "storage_free_bytes": 1428583227392,
+          "storage_margin_bytes": 8589934592
+        },
+        "kind": "short",
+        "memory_bytes": 34359738368,
+        "name": "007-reduction",
+        "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+        "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007",
+        "utc": "2026-10-09T01:47:27.450048+00:00"
+      }
+    },
+    "unresolved_starts": [
+      "007-reduction"
+    ]
+  },
+  "prerequisites": {
+    "007-pilot": {
+      "artifact_sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+      "baseline_reuse": null,
+      "failure": null,
+      "gates": null,
+      "passed": false
+    },
+    "007-readout": {
+      "artifact_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+      "baseline_reuse": true,
+      "failure": null,
+      "gates": null,
+      "passed": true
+    }
+  },
+  "reasons": {
+    "individual_audits": {},
+    "integration_software": [],
+    "neutrality_repeatability": [
+      "007-control_512",
+      "007-repeat_512"
+    ],
+    "persistence_replay_observation": [],
+    "refinements": {
+      "bed_fine": [
+        "outlet",
+        "liquid_profiles",
+        "front",
+        "arrival",
+        "activation",
+        "grain_profiles",
+        "grain_histories",
+        "cup",
+        "liquid_inventory",
+        "fines_inventory",
+        "boulder_inventory"
+      ],
+      "combined": [
+        "outlet",
+        "liquid_profiles",
+        "front",
+        "arrival",
+        "activation",
+        "grain_profiles",
+        "grain_histories",
+        "cup",
+        "liquid_inventory",
+        "fines_inventory",
+        "boulder_inventory"
+      ],
+      "modes_fine": [
+        "outlet",
+        "liquid_profiles",
+        "front",
+        "arrival",
+        "activation",
+        "grain_profiles",
+        "grain_histories",
+        "cup",
+        "liquid_inventory",
+        "fines_inventory",
+        "boulder_inventory"
+      ],
+      "time_fine": [
+        "outlet",
+        "liquid_profiles",
+        "front",
+        "arrival",
+        "activation",
+        "grain_profiles",
+        "grain_histories",
+        "cup",
+        "liquid_inventory",
+        "fines_inventory",
+        "boulder_inventory"
+      ]
+    },
+    "resources_execution": [
+      "007-pilot: EXECUTED_UNQUALIFIED",
+      "007-control_512: NOT_RUN",
+      "007-repeat_512: NOT_RUN",
+      "007-modes_fine: NOT_RUN",
+      "007-time_fine: NOT_RUN",
+      "007-bed_fine: NOT_RUN",
+      "007-combined: NOT_RUN"
+    ],
+    "source_environment_rights": []
+  },
+  "rows": {
+    "007-bed_fine": {
+      "passed": false,
+      "status": "NOT_RUN"
+    },
+    "007-combined": {
+      "passed": false,
+      "status": "NOT_RUN"
+    },
+    "007-control_512": {
+      "passed": false,
+      "status": "NOT_RUN"
+    },
+    "007-modes_fine": {
+      "passed": false,
+      "status": "NOT_RUN"
+    },
+    "007-pilot": {
+      "artifact_sha256": "824f4c051117b1fa80a89e6ed6fd50c3e33d25dbb8feea964edbd14037a938bd",
+      "execution_exit_code": 124,
+      "passed": false,
+      "phase_seconds": {},
+      "status": "EXECUTED_UNQUALIFIED",
+      "termination": "TIMEOUT"
+    },
+    "007-readout": {
+      "artifact_sha256": "2ee34203dfc34ca0beae782a23cf299e6904fd0ae7d3937fb61fc9aa921adad0",
+      "execution_exit_code": 0,
+      "passed": true,
+      "termination": null
+    },
+    "007-repeat_512": {
+      "passed": false,
+      "status": "NOT_RUN"
+    },
+    "007-time_fine": {
+      "passed": false,
+      "status": "NOT_RUN"
+    }
+  },
+  "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+}
