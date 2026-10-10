@@ -734,6 +734,18 @@ attempt adds one trajectory/two segments. Provisional accumulator conservation i
 not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.
 
+### 010 exact-content recovery — unexpected-crash stop (2026-10-10)
+
+- [x] Confirm all four recorded identities agree with the current anchor's original prospective commitment.
+- [x] Preserve first process exit -11 and faulthandler traceback from environment collection, before candidate payload reads.
+- [x] Apply the explicit crash stop; retain prior failures and perform no retry or solver execution.
+- [ ] Current candidate admission, complete-set readback, equivalent fidelity and full audits: NOT_RUN after the stop.
+- [ ] Repeat and twelve refinements: NOT_RUN; cumulative three completed full trajectories/six BDF segments, zero admitted rows.
+
+[Actual stop and evidence](analysis/model_grudeva2026_full_reference_010/EXACT_CONTENT_RECOVERY.md).
+Cause unestablished; earlier partial results and two QA SIGSEGVs retain their scope.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 ### 010 retained-anchor recovery — partial contents only (2026-10-10)
 
 - [x] Revalidate original checkpoint lineage and all 18 retained archive members; identify segment-1 D as the first unwritten member by writer-order inference.

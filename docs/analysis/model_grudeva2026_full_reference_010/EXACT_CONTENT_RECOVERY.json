@@ -1,0 +1,213 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "accounting": {
+    "admitted_full_reference_rows": 0,
+    "completed_BDF_segments": 6,
+    "completed_full_trajectories": 3,
+    "new_recovery_attempt_processes": 1,
+    "new_solver_executions": 0,
+    "new_unexpected_crashes": 1,
+    "repeat": "NOT_RUN",
+    "twelve_refinements": "NOT_RUN"
+  },
+  "authorization": "CONTINUE PR #333 \u2014 EXACT-CONTENT RECOVERY FROM RETAINED PAYLOADS",
+  "candidate_CI_and_final_scoped_review": "Pending at commit; closeout metadata will record exact candidate results without a receipt-only commit",
+  "candidate_bytes": "NOT_READ_OR_CURRENTLY_ADMITTED_IN_THIS_CONTINUATION",
+  "candidate_sources": {
+    "D": "transfer-isolation/A/decoded-member.bin, resolved from retained transfer records",
+    "excluded": "failed extracted inputs/segment-1-D.npy and its discrepant later read; no entire failed historical archive admission",
+    "shift_denom_order": "dense-capture-diagnostic/selected-inputs, resolved from INPUT.json"
+  },
+  "crash": {
+    "PYTHONFAULTHANDLER": "1",
+    "Python_failure_record": "SIGSEGV bypassed Python exception handler; external parent exit and faulthandler stderr retained",
+    "cause": "UNESTABLISHED",
+    "location_not_cause": true,
+    "process_exit": {
+      "automatic_retry": false,
+      "command_record": "External candidates-start.json; its exact bytes are identified below",
+      "ended": "2026-10-10T18:17:24.933402+00:00",
+      "exit_code": -11,
+      "minimum_available_bytes": 259556909056,
+      "minimum_free_disk_bytes": 1237848596480,
+      "peak_rss_kib": 79592,
+      "pid": 3109832,
+      "safety_stop": null,
+      "seconds": 2.0229977679555304,
+      "stderr": "candidates.stderr.log",
+      "stdout": "candidates.stdout.log"
+    },
+    "traceback": "environment() -> importlib.metadata files enumeration -> pathlib/posixpath while garbage collecting"
+  },
+  "disposition": "STOP_NEW_UNEXPECTED_SIGSEGV_BEFORE_CANDIDATE_PAYLOAD_ADMISSION",
+  "earlier_evidence": {
+    "24_member_recovery": "Preserved at prior scope; not reverified in this continuation",
+    "earlier_provisional_numerical_results": "Unchanged; no new numerical results",
+    "two_prior_local_QA_SIGSEGVs": "Preserved; causes remain unresolved; this is a separate third recorded crash"
+  },
+  "equivalence": "Proposed frozen-BDF/direct-polynomial endpoint check reviewed conceptually; NOT_IMPLEMENTED_OR_EXECUTED after stop. Original live-source comparison remains UNAVAILABLE",
+  "evidence_directory": "controlled-rerun-20261010/exact-content-recovery-20261010",
+  "evidence_directory_identity": "d37f0ee77d2e74a2e7d65ad88867c59942d4e1e6e726694940234dad1de767f6",
+  "external_evidence": {
+    "candidates-exit.json": {
+      "bytes": 601,
+      "sha256": "2de7b331c732b8ca32d4aa90b1c6dcd1e2e5a360356eb66009a92cb5e47026a4"
+    },
+    "candidates-resources.jsonl": {
+      "bytes": 255,
+      "sha256": "6584935fc13528041ac31e9a32331956947fe4a1f20a740af386c06a7124ffcb"
+    },
+    "candidates-start.json": {
+      "bytes": 4541,
+      "sha256": "bf3e6611ee876bcde3ca30d5dd01db83caa7b34ad8d4fd0d8f20665d86aa4160"
+    },
+    "candidates.stderr.log": {
+      "bytes": 2917,
+      "sha256": "2b5b8863d1fcf89cf8a729e72ee0c95047863cf5f2d466aa6716a0f5e77cb855"
+    },
+    "candidates.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "supervise.py": {
+      "bytes": 3736,
+      "sha256": "cc1ca792372eb8b46f52c5e8ba86469fcba767cb8569574b6b400d3dad4dca80"
+    },
+    "verify_candidates.py": {
+      "bytes": 6680,
+      "sha256": "1788ab65bd363ae5b5a4cc87ca6b4bfc39b470e45665cfce3bb3105667b885c0"
+    }
+  },
+  "implementation_changes": [],
+  "local_checks": "No affected executable path changed; prior focused controls and mathematical/large diagnostic reviews reused by unchanged identity. Metadata/generated-status checks and candidate CI/scoped review reported separately. No numerical replay or test added.",
+  "qualification": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "record_comparison_scope": "Compact JSON metadata only, confirmed after stop for accurate accounting; no scientific-code import, candidate retry or numeric payload read",
+  "record_comparisons": {
+    "D": {
+      "DENSE_DIAGNOSTIC_AMENDMENT_input_arrays_1": {
+        "dtype": "<f8",
+        "sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "RECOVERY_expected": {
+        "dtype": "<f8",
+        "sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "current_anchor_original_commitment": {
+        "dtype": "<f8",
+        "sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "identities_equal": true
+    },
+    "denom": {
+      "DENSE_DIAGNOSTIC_AMENDMENT_input_arrays_1": {
+        "dtype": "<f8",
+        "sha256": "ef4fb35ea6570c74ce26f65e3f2bc25f3e35eb420af3641da3b6216b57994e53",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "RECOVERY_expected": {
+        "dtype": "<f8",
+        "sha256": "ef4fb35ea6570c74ce26f65e3f2bc25f3e35eb420af3641da3b6216b57994e53",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "current_anchor_original_commitment": {
+        "dtype": "<f8",
+        "sha256": "ef4fb35ea6570c74ce26f65e3f2bc25f3e35eb420af3641da3b6216b57994e53",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "identities_equal": true
+    },
+    "order": {
+      "DENSE_DIAGNOSTIC_AMENDMENT_input_arrays_1": {
+        "dtype": "|i1",
+        "sha256": "7c2d6b2bd34e626e84398175bac105c34d1a984a388b7af53415d69536a5aa2f",
+        "shape": [
+          18002
+        ]
+      },
+      "RECOVERY_expected": {
+        "dtype": "|i1",
+        "sha256": "7c2d6b2bd34e626e84398175bac105c34d1a984a388b7af53415d69536a5aa2f",
+        "shape": [
+          18002
+        ]
+      },
+      "current_anchor_original_commitment": {
+        "dtype": "|i1",
+        "sha256": "7c2d6b2bd34e626e84398175bac105c34d1a984a388b7af53415d69536a5aa2f",
+        "shape": [
+          18002
+        ]
+      },
+      "identities_equal": true
+    },
+    "shift": {
+      "DENSE_DIAGNOSTIC_AMENDMENT_input_arrays_1": {
+        "dtype": "<f8",
+        "sha256": "6cb7ef2619c50b3eb9bcfde127058cea0e554be1f901704499eff5de2afaed99",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "RECOVERY_expected": {
+        "dtype": "<f8",
+        "sha256": "6cb7ef2619c50b3eb9bcfde127058cea0e554be1f901704499eff5de2afaed99",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "current_anchor_original_commitment": {
+        "dtype": "<f8",
+        "sha256": "6cb7ef2619c50b3eb9bcfde127058cea0e554be1f901704499eff5de2afaed99",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "identities_equal": true
+    }
+  },
+  "record_sha256": {
+    "DENSE_DIAGNOSTIC_AMENDMENT.json": "9f8a37fc7489554a8443fd80aa4cd556501d9a6242bf5f51e0db56a3ed92912a",
+    "RECOVERY.json": "4c18b36466562ad803cd4d09adb9bd5cc8ab59074e3918e81e247b05799c88b9",
+    "current_anchor_trajectory_SOURCE_COMMITMENT.json": "909b775844dbd822979d56b29d0dcd8c64bc27b0ec8d4f5db05a1cabefe9af6a"
+  },
+  "recorded_at": "2026-10-10T18:19:04.725453+00:00",
+  "starting_reviewed_head": "5177da6b8ffeab54e8b6a29010b5abac4b95b677",
+  "stop_compliance": {
+    "alternate_candidate": false,
+    "automatic_retry": false,
+    "environment_change": false,
+    "fidelity_assessment_executed": false,
+    "hardware_or_transfer_investigation": false,
+    "new_solver_executions": 0,
+    "postprocessing": false,
+    "recovery_directory_assembled": false
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}
