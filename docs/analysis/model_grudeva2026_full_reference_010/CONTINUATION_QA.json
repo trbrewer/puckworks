@@ -265,8 +265,8 @@
     "Replacement full trajectory solved but capture failed; separately recorded, not a software test or numerical gate failure."
   ],
   "historical_010_documents_unchanged": 16,
-  "hosted_ci": "PENDING exact final new candidate; old-head nine successful workflows are not substituted",
-  "independent_review": "Pre-execution PASS on exact continuation; final exact-candidate review pending",
+  "hosted_ci": "Separate exact-delivery-head receipt in PR #333 and external continuation closeout; not part of this pre-push local-QA receipt. Old-head success is not reused.",
+  "independent_review": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF on 65c6410e19a3423656bd4a3dd43a00c42f0ba98c; CONTINUATION_FINAL_REVIEW.json SHA256 90d5ce92d92ee7197e85f4b35df8567f56fd8ab6d67af5669417705d1b1eddf2. Receipt-only delivery delta checked separately.",
   "local_010_fixture_accounting": {
     "focused_bounded_trajectories": 85,
     "focused_invocations": 5,

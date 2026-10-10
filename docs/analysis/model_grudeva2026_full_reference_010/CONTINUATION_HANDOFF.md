@@ -12,12 +12,12 @@
 | Observation/archive qualification | Full-scale capture FAILED before serialization; zero qualified full rows or replacement trajectory arrays. Focused end-to-end and large serialization controls PASS on their own workloads |
 | Local software QA | PASS: 6,482 quick tests, 73 affected document regressions, static/generated/gate/baseline/build/package checks; selectors and floors unchanged |
 | Hosted candidate CI | Separate exact-delivery-head receipt in PR #333 and external closeout; old-head CI is not reused for this delta |
-| Independent review | Scoped pre-execution PASS; final exact-candidate receipt is separately retained |
+| Independent review | Scoped pre-execution PASS; [final review](CONTINUATION_FINAL_REVIEW.json) PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF on exact candidate `65c6410e19a3423656bd4a3dd43a00c42f0ba98c` / tree `5e4bdc458680571efddf4648b60ee3c0450da500`; no numerical qualification |
 
 ## Base, candidate and unchanged contract
 
 - Selected live base: `3cd308ac5bed39acff3d995108b5178a53c982ee`; tree `96ad0b033c070a99416209828b5780034f438dba`. Rechecked unchanged immediately before continuation; the seven successful exact-base PUSH workflows are reused by [INTEGRATION.json](INTEGRATION.json).
-- Starting PR head: `9b5ef8db725afaad3238494abcb43f2dd6c3e1f5`; tree `a320143bc5324e2204cbafddfbb104320a5bda93`. One existing branch `model/grudeva2026-full-reference-010` and one existing draft [PR #333](https://github.com/trbrewer/puckworks/pull/333). Final candidate identities are supplied by the exact-candidate review/closeout and PR delivery receipt; obtain the checked-out identity with `git rev-parse HEAD HEAD^{tree}`.
+- Starting PR head: `9b5ef8db725afaad3238494abcb43f2dd6c3e1f5`; tree `a320143bc5324e2204cbafddfbb104320a5bda93`. One existing branch `model/grudeva2026-full-reference-010` and one existing draft [PR #333](https://github.com/trbrewer/puckworks/pull/333). Reviewed scientific/result candidate: `65c6410e19a3423656bd4a3dd43a00c42f0ba98c`, tree `5e4bdc458680571efddf4648b60ee3c0450da500`. The following receipt-only delivery commit is bound by the external review addendum/closeout and PR delivery receipt; obtain the checked-out identity with `git rev-parse HEAD HEAD^{tree}`.
 - Read-only EWP main: `4284e9460c8057053e95de7cfa2fb3590e68e9db`; tree `d9d9faaa56f22ab0bd7f47c43174024d15ada192`. Its production Puckworks dependency remains `fc61c4670ec7bf801e40bb391aab16048b8da26b`. No EWP writes.
 - Original matrix SHA256: `092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3`; unchanged byte-for-byte. Continuation binding: `64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a`.
 - Solver SHA256 remains `c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741`. All sixteen original 010 documents and 206 retained historical scientific-file hashes match. Production models/data/defaults/dependencies and the October 9 review remain unchanged.
