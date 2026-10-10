@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import gc
+import hashlib
 from dataclasses import asdict
 import datetime as dt
 import fcntl
@@ -16,6 +18,7 @@ import shutil
 import sys
 import time
 import traceback
+import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -28,7 +31,7 @@ from puckworks.analysis.grudeva2026_full_reference_010 import (  # noqa: E402
     Case, Settings, integrate, liquid_flux,
 )
 from puckworks.analysis.grudeva2026_full_reference_010_io import (  # noqa: E402
-    boundary_quadrature, capture, independent_inventories,
+    array_identity, boundary_quadrature, capture, independent_inventories,
     load_archive, observe, save_archive, sha256, write_json,
 )
 
@@ -126,11 +129,50 @@ def freeze():
     print('Frozen',len(rows),'rows; matrix',sha256(DOC/'MATRIX.json'),flush=True)
 
 
-def load_matrix():
-    matrix = json.loads((DOC/'MATRIX.json').read_text())
-    for p, digest in matrix['implementation'].items():
+ORIGINAL_MATRIX_SHA256 = '092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3'
+CONTINUATION_FILES = {FILES[0], FILES[2], FILES[3]}
+
+
+def continuation_binding(matrix):
+    """Explicit reviewed hash transition; no arbitrary changed-source bypass."""
+    path = DOC/'CONTINUATION.json'
+    binding = json.loads(path.read_text())
+    if (sha256(DOC/'MATRIX.json') != ORIGINAL_MATRIX_SHA256
+            or binding['original_matrix_sha256'] != ORIGINAL_MATRIX_SHA256
+            or binding['original_implementation'] != matrix['implementation']):
+        raise ValueError('Original continuation matrix/implementation identity mismatch')
+    if set(binding['implementation']) != set(matrix['implementation']):
+        raise ValueError('Continuation implementation scope mismatch')
+    changed = {p for p in matrix['implementation']
+               if binding['implementation'][p] != matrix['implementation'][p]}
+    if changed != CONTINUATION_FILES or set(binding['changed_files']) != changed:
+        raise ValueError('Unapproved continuation file delta')
+    for p, digest in binding['implementation'].items():
         if sha256(ROOT/p) != digest:
-            raise ValueError(f'Frozen implementation changed: {p}')
+            raise ValueError(f'Continuation implementation changed: {p}')
+    if binding['environment'] != matrix['environment'] or environment() != binding['environment']:
+        raise ValueError('Continuation environment changed')
+    if binding['archive_schema'] != 'grudeva-full-010-v2' or binding['row_order'] != matrix['row_order']:
+        raise ValueError('Continuation archive semantics or row order changed')
+    for name, digest in binding['control_documents'].items():
+        if Path(name).name != name or sha256(DOC/name) != digest:
+            raise ValueError('Continuation control/plan identity mismatch')
+    controls = json.loads((DOC/'CONTINUATION_CONTROLS.json').read_text())
+    review = json.loads((DOC/'CONTINUATION_PRE_REVIEW.json').read_text())
+    if (controls['disposition'] != 'PASS' or review['disposition'] != 'PASS'
+            or review['continuation_sha256'] != sha256(path)):
+        raise ValueError('Required continuation controls/review unavailable')
+    return binding
+
+
+def load_matrix(continuation=False):
+    matrix = json.loads((DOC/'MATRIX.json').read_text())
+    if continuation:
+        continuation_binding(matrix)
+    else:
+        for p, digest in matrix['implementation'].items():
+            if sha256(ROOT/p) != digest:
+                raise ValueError(f'Frozen implementation changed: {p}')
     if environment() != matrix['environment']:
         raise ValueError('Execution environment differs from freeze')
     review = json.loads((DOC/'PRE_CAMPAIGN_REVIEW.json').read_text())
@@ -247,8 +289,70 @@ def audit(trajectory, observations):
     return stats, arrays
 
 
-def run_row(root, row):
-    matrix = load_matrix()
+def bundle_identity(value):
+    """Exact observation bytes; NaN availability and bool masks are retained."""
+    a = np.asarray(value)
+    if a.dtype.kind not in 'fiub':
+        raise ValueError('Unsafe observation dtype')
+    identity = array_identity(a.view(np.uint8) if a.dtype.kind == 'b' else a)
+    return {**identity, 'dtype': a.dtype.str, 'shape': list(a.shape)}
+
+
+def validate_bundle(path, record):
+    commitment = path.with_suffix('.source.json')
+    if sha256(path) != record['sha256'] or sha256(commitment) != record['source_sha256']:
+        raise ValueError('Observation bundle file/commitment identity mismatch')
+    expected = json.loads(commitment.read_text())
+    if expected != record['arrays']:
+        raise ValueError('Observation prospective commitment mismatch')
+    with zipfile.ZipFile(path) as archive:
+        if sorted(archive.namelist()) != sorted(k+'.npy' for k in expected):
+            raise ValueError('Observation bundle array set mismatch')
+        for key, identity in expected.items():
+            with archive.open(key+'.npy') as stream:
+                version = np.lib.format.read_magic(stream)
+                reader = {(1, 0):np.lib.format.read_array_header_1_0,
+                          (2, 0):np.lib.format.read_array_header_2_0}.get(version)
+                if reader is None:
+                    raise ValueError('Unsupported observation header')
+                shape, fortran, dtype = reader(stream)
+                if dtype.kind not in 'fiub' or fortran:
+                    raise ValueError('Unsafe observation dtype/order')
+                h, count = hashlib.sha256(), 0
+                for block in iter(lambda: stream.read(4*1024**2), b''):
+                    h.update(block); count += len(block)
+                if (count != int(np.prod(shape, dtype=object))*dtype.itemsize
+                        or {'shape':list(shape), 'dtype':dtype.str, 'sha256':h.hexdigest()} != identity):
+                    raise ValueError('Observation serialized payload identity mismatch')
+    with np.load(path, allow_pickle=False) as loaded:
+        for key, identity in expected.items():
+            if bundle_identity(loaded[key]) != identity:
+                raise ValueError('Observation loaded payload identity mismatch')
+
+
+def save_bundle(path, values):
+    expected = {key:bundle_identity(value) for key,value in values.items()}
+    snapshots = {key:np.array(value, copy=True, order='C') for key,value in values.items()}
+    for key, a in snapshots.items():
+        if bundle_identity(a) != expected[key] or bundle_identity(values[key]) != expected[key]:
+            raise ValueError('Observation source mutation during capture')
+        a.flags.writeable = False
+    write_json(path.with_suffix('.source.json'), expected)
+    with path.open('xb') as stream:
+        np.savez_compressed(stream, **snapshots)
+        stream.flush(); os.fsync(stream.fileno())
+    for key, a in snapshots.items():
+        if bundle_identity(a) != expected[key] or bundle_identity(values[key]) != expected[key]:
+            raise ValueError('Observation source mutation during serialization')
+    record = {'sha256':sha256(path), 'source_sha256':sha256(path.with_suffix('.source.json')),
+              'arrays':expected, 'order':'C'}
+    validate_bundle(path, record)
+    return record
+
+
+def run_row(root, row, continuation=False):
+    matrix = load_matrix(continuation)
+    binding = continuation_binding(matrix) if continuation else None
     if row not in matrix['rows']:
         raise ValueError('Row outside frozen matrix')
     root.mkdir(parents=True,exist_ok=True)
@@ -260,26 +364,50 @@ def run_row(root, row):
         write_json(output/'start.json',{'row':row,'started':now(),'pid':os.getpid(),
                                        'matrix_sha256':sha256(DOC/'MATRIX.json'),
                                        'environment':environment(),
+                                       'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
                                        'free_disk_bytes':shutil.disk_usage(root).free,
                                        'host_meminfo':Path('/proc/meminfo').read_text(),
                                        'resources':resources()})
+        stage = 'ADMISSION'
         try:
-            if shutil.disk_usage(root).free < 8*1024**3:
+            if binding and row != 'anchor':
+                # Other rows do not consume anchor values; report() independently
+                # revalidates every archive before any reference comparison.
+                validate_saved_row(root/'anchor', matrix, binding, full_archive=False)
+            if shutil.disk_usage(root).free < (60 if binding else 8)*1024**3:
                 raise OSError('Insufficient safe archive disk headroom')
-            if resources()['available_bytes']<2*1024**3:
+            if resources()['available_bytes']<(160 if binding else 2)*1024**3:
                 raise OSError('Insufficient memory headroom under existing OS/host limits')
             print('START',row,now(),flush=True)
+            stage = 'INTEGRATING'
+            write_json(output/'solver-start.json', {'row':row,'started':now(),'settings':matrix['rows'][row]})
             model, results = integrate(Settings(**matrix['rows'][row]))
+            solver_complete = all(r.success for _, r in results) and results[-1][1].t[-1] == 8.
+            write_json(output/'solver-end.json', {'row':row,'ended':now(),'status':'COMPLETE' if solver_complete else 'FAILED',
+                       'segments':[{'moving':moving,'success':bool(r.success),'accepted_entries':len(r.t),
+                                    'start':float(r.t[0]),'end':float(r.t[-1]),'message':r.message} for moving,r in results]})
+            if not solver_complete:
+                stage = 'RETAINING_PARTIAL_SOLVER_STATES'
+                partial = capture(model, results)
+                save_archive(output/'partial-trajectory', partial,
+                             {'row':row,'role':'returned accepted states, incomplete solver; not qualified',
+                              'matrix_sha256':sha256(DOC/'MATRIX.json')}, complete=False)
+                raise RuntimeError('Integrator did not complete the declared horizon; returned states retained')
+            stage = 'CAPTURING'
             trajectory = capture(model,results)
+            stage = 'WRITING_ARCHIVE'
             manifest = save_archive(output/'trajectory',trajectory,
                                     {'row':row,'matrix_sha256':sha256(DOC/'MATRIX.json'),
                                      'environment':matrix['environment'],
-                                     'implementation':matrix['implementation']})
+                                     'implementation':binding['implementation'] if binding else matrix['implementation'],
+                                     'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None})
             for moving, result in results:
                 if not result.success:
                     raise RuntimeError(result.message)
             # Exact arrays are verified by hashes; interpolant arithmetic gets its own audit.
+            stage = 'RELOADING_ARCHIVE'
             restored, _ = load_archive(output/'trajectory')
+            stage = 'INTERPOLANT_FIDELITY'
             max_error, max_scaled = 0., 0.
             for seg, (_, original) in zip(restored.segments, results):
                 for t in (seg['t'][:-1]+seg['t'][1:])/2:
@@ -287,12 +415,21 @@ def run_row(root, row):
                     error = float(max(abs(want-got)))
                     max_error=max(max_error,error)
                     max_scaled=max(max_scaled,error/(256*np.finfo(float).eps*max(1,float(max(abs(want))))))
-            del restored
+            # All observations/audits consume the independently validated archive.
+            # Release original dense solver and capture buffers before auditing.
+            trajectory = restored
+            del results, original, result
+            gc.collect()
+            stage = 'OBSERVING'
             observations = observe(trajectory,matrix['support'])
+            stage = 'AUDITING'
             stats, arrays = audit(trajectory,observations)
-            np.savez_compressed(output/'observations.npz',**observations)
-            np.savez_compressed(output/'diagnostics.npz',**arrays)
-            stats['archive'] = {'manifest_sha256':sha256(output/'trajectory/manifest.json'),
+            stage = 'SAVING_AUDITS'
+            observation_record = save_bundle(output/'observations.npz', observations)
+            diagnostic_record = save_bundle(output/'diagnostics.npz', arrays)
+            stats['archive'] = {'observation_bundle':observation_record,
+                                'diagnostic_bundle':diagnostic_record,
+                                'manifest_sha256':sha256(output/'trajectory/manifest.json'),
                                 'observations_sha256':sha256(output/'observations.npz'),
                                 'diagnostics_sha256':sha256(output/'diagnostics.npz'),
                                 'state_byte_identity':'PASS','evaluation_max':max_error,
@@ -301,12 +438,19 @@ def run_row(root, row):
             stats['elapsed_seconds'] = time.monotonic()-start
             stats['peak_rss_kib'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             stats['settings']=matrix['rows'][row]
+            stats['continuation_sha256']=sha256(DOC/'CONTINUATION.json') if binding else None
+            stats['observation_source']='independently validated archive payloads'
             write_json(output/'results.json',stats)
             write_json(output/'end.json',{'row':row,'ended':now(),'status':'COMPLETE',
-                                         'seconds':time.monotonic()-start,'all_gates_passed':all(stats['gates'].values())})
+                                         'seconds':time.monotonic()-start,'all_gates_passed':all(stats['gates'].values()),
+                                         'solver_status':'COMPLETE','archive_status':'PASS','observation_status':'COMPLETE',
+                                         'results_sha256':sha256(output/'results.json'),
+                                         'archive_manifest_sha256':sha256(output/'trajectory/manifest.json'),
+                                         'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None})
             print('END',row,stats['elapsed_seconds'],stats['gates'],flush=True)
         except BaseException as exc:
             write_json(output/'failure.json',{'row':row,'ended':now(),'seconds':time.monotonic()-start,
+                                             'stage':stage,'archive_manifest_published':(output/'trajectory/manifest.json').exists(),
                                              'exception':type(exc).__name__,'message':str(exc),
                                              'traceback':traceback.format_exc()})
             raise
@@ -338,16 +482,56 @@ def compare(a,b,support):
     return metrics
 
 
-def report(root):
-    matrix=load_matrix()
+def validate_saved_row(path, matrix, binding, full_archive=True):
+    """Revalidate content identities; presence/completion labels are insufficient."""
+    end = json.loads((path/'end.json').read_text())
+    stats = json.loads((path/'results.json').read_text())
+    expected_binding = sha256(DOC/'CONTINUATION.json') if binding else None
+    if (end['status'] != 'COMPLETE' or end['results_sha256'] != sha256(path/'results.json')
+            or end['continuation_sha256'] != expected_binding
+            or stats['continuation_sha256'] != expected_binding):
+        raise ValueError('Saved row result/continuation identity mismatch')
+    if (stats['settings'] != matrix['rows'][path.name]
+            or end['archive_manifest_sha256'] != sha256(path/'trajectory/manifest.json')
+            or stats['archive']['manifest_sha256'] != end['archive_manifest_sha256']):
+        raise ValueError('Saved row settings/archive identity mismatch')
+    for key, file in [('observations_sha256', 'observations.npz'), ('diagnostics_sha256', 'diagnostics.npz')]:
+        if stats['archive'][key] != sha256(path/file):
+            raise ValueError('Saved observation/diagnostic identity mismatch')
+    manifest = json.loads((path/'trajectory/manifest.json').read_text())
+    if (manifest['case'] != matrix['case'] or manifest['settings'] != matrix['rows'][path.name]
+            or manifest['metadata']['row'] != path.name
+            or manifest['metadata']['implementation'] != (binding['implementation'] if binding else matrix['implementation'])
+            or manifest['metadata']['matrix_sha256'] != ORIGINAL_MATRIX_SHA256
+            or manifest['metadata']['continuation_sha256'] != expected_binding):
+        raise ValueError('Saved archive row/case/settings/implementation mismatch')
+    if binding:
+        validate_bundle(path/'observations.npz', stats['archive']['observation_bundle'])
+        validate_bundle(path/'diagnostics.npz', stats['archive']['diagnostic_bundle'])
+    if full_archive:
+        trajectory, manifest = load_archive(path/'trajectory')
+        if (manifest['metadata']['matrix_sha256'] != ORIGINAL_MATRIX_SHA256
+                or manifest['metadata']['continuation_sha256'] != expected_binding):
+            raise ValueError('Saved archive lineage mismatch')
+        del trajectory
+    return stats
+
+
+def report(root, continuation=False):
+    matrix=load_matrix(continuation)
+    binding=continuation_binding(matrix) if continuation else None
     rows={}
-    for row in matrix['rows']:
+    for row in matrix['row_order']:
         path=root/row/'results.json'
-        rows[row]=json.loads(path.read_text()) if path.exists() else {'disposition':'INCOMPLETE'}
+        rows[row]=(validate_saved_row(root/row, matrix, binding) if binding else json.loads(path.read_text())) if path.exists() else {'disposition':'INCOMPLETE'}
     if any('gates' not in row for row in rows.values()):
         partial={'task':matrix['task'],'disposition':'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
                  'physical_validation':'NOT_ESTABLISHED','rows':rows,'matrix_sha256':sha256(DOC/'MATRIX.json'),
-                 'executed_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
+                 'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
+                 'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
+                 'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
+                 'original_failed_solver_complete_rows':1 if binding else 0,
+                 'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
                  'reason':'Missing full rows; accepted partial trajectories and failures remain external; no reference qualification'}
         write_json(root/'RESULTS.json',partial)
         print(partial['disposition'],flush=True)
@@ -392,7 +576,11 @@ def report(root):
     passed=temporal_effective and all(all(row.get('gates',{'missing':False}).values()) for row in rows.values()) and all(x['passed'] for x in budgets.values()) and repeat_state
     result={'task':matrix['task'],'disposition':'FULL_REFERENCE_NUMERICALLY_QUALIFIED_ON_DECLARED_SYNTHETIC_CASE' if passed else 'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
             'physical_validation':'NOT_ESTABLISHED','matrix_sha256':sha256(DOC/'MATRIX.json'),
-            'executed_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
+            'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
+                 'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
+                 'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
+                 'original_failed_solver_complete_rows':1 if binding else 0,
+                 'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
             'reused_full_model_runs':0,'rows':rows,'refinement':pairs,'combined_budgets':budgets,
             'trends':trends,'repeat_native_state_identity':repeat_state,'temporal_effectiveness':temporal_effective,
             'limitations':['Not physical validation','Not a rigorous continuum-error bound','No reduced-model comparison','Not Figure 5 reproduction']}
@@ -405,11 +593,12 @@ def main():
     p.add_argument('operation',choices=['freeze','run','report'])
     p.add_argument('--archive-root',type=Path)
     p.add_argument('--row')
+    p.add_argument('--continuation', action='store_true', help='Validate the reviewed 010 continuation binding; never ignore hashes')
     a=p.parse_args()
     if a.operation=='freeze': freeze()
     elif a.archive_root is None: p.error('--archive-root required')
-    elif a.operation=='run': run_row(a.archive_root,a.row)
-    else: report(a.archive_root)
+    elif a.operation=='run': run_row(a.archive_root,a.row,a.continuation)
+    else: report(a.archive_root,a.continuation)
 
 
 if __name__=='__main__':

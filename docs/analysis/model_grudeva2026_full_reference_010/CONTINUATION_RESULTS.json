@@ -1,0 +1,594 @@
+{
+  "anchor_route": "SEPARATE_REPLACEMENT_EXECUTION; original artifact not repaired or requalified",
+  "capture_integrity_disposition": {
+    "focused_controls": "PASS (54 tests)",
+    "full_case_capture": "FAILED_BEFORE_SERIALIZATION",
+    "large_solver_free_serialization": "PASS (two payloads, one predeclared test)",
+    "replacement_archive": "NOT_CREATED",
+    "reusable_full_reference": "NOT_ESTABLISHED"
+  },
+  "case": {
+    "D_b": 1.0,
+    "D_f": 100.0,
+    "D_l": 0.01,
+    "b_b": 0.04878048780487805,
+    "b_f": 1.951219512195122,
+    "epsilon": 0.01,
+    "equation_source": "GRUDEVA-EJAM-2026-E23-E29",
+    "horizon": 8.0,
+    "identity": "SYNTHETIC-GRUDEVA-FINITE-RATE-010-A",
+    "initial": 1.388,
+    "phi_T": 0.2,
+    "phi_b": 0.16,
+    "phi_f": 0.64,
+    "phi_l": 0.2,
+    "q": 1.0,
+    "radius_ratio": 0.1,
+    "varphi_lb": 0.0
+  },
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "historical_attempt": {
+    "BDF_segments": 2,
+    "audited_rows": 0,
+    "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+    "manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+    "outstanding_rows_at_continuation": 13,
+    "qualified_rows": 0,
+    "solver_complete_trajectories": 1
+  },
+  "historical_root_cause": "HISTORICAL_ROOT_CAUSE_UNESTABLISHED",
+  "limits": {
+    "J_in": 5e-05,
+    "J_out": 5e-05,
+    "M_b": 5e-05,
+    "M_dry": 5e-05,
+    "M_f": 5e-05,
+    "M_l": 5e-05,
+    "grain_means": 0.00023,
+    "grain_radial": 0.00023,
+    "liquid": 0.001,
+    "outlet": 0.001
+  },
+  "new_execution": {
+    "BDF_segments_returned": 2,
+    "audited_rows": 0,
+    "reused_full_trajectories": 0,
+    "rows": [
+      {
+        "archive_status": "FAILED_BEFORE_PUBLICATION",
+        "failure": {
+          "archive_manifest_published": false,
+          "ended": "2026-10-10T00:27:51.121090+00:00",
+          "exception": "ValueError",
+          "message": "Dense source/target mutation after an earlier capture copy",
+          "row": "anchor",
+          "seconds": 1030.4521863459959,
+          "stage": "CAPTURING"
+        },
+        "failure_sha256": "b323074881987d001160ed0e6a977934890f137e5beb51e958cdf4dce849afe5",
+        "numerical_status": "NOT_AUDITED",
+        "observation_status": "UNAVAILABLE_CAPTURE_PREREQUISITE",
+        "resources": {
+          "ended": "2026-10-10T00:27:54.462994+00:00",
+          "exit_code": 1,
+          "final_stage": "CAPTURING",
+          "minimum_available_bytes": 190566535168,
+          "minimum_free_disk_bytes": 1332237389824,
+          "peak_sampled_rss_kib": 67069992,
+          "row": "anchor",
+          "safety_stop": null,
+          "seconds": 1034.2915529180027
+        },
+        "row": "anchor",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_end_sha256": "d22de07d011314994b1a672e93c5ff634ac2e9ccb87e68dd95e1be73cda86905",
+        "solver_segments": [
+          {
+            "accepted_entries": 7826,
+            "end": 1.0,
+            "message": "The solver successfully reached the end of the integration interval.",
+            "moving": true,
+            "start": 1e-07,
+            "success": true
+          },
+          {
+            "accepted_entries": 18003,
+            "end": 8.0,
+            "message": "The solver successfully reached the end of the integration interval.",
+            "moving": false,
+            "start": 1.0,
+            "success": true
+          }
+        ],
+        "solver_start_sha256": "19142a160452242253da7caa848e23ea37b5d12ea9a89a25ccf0f66082b663e9",
+        "solver_status": "COMPLETE",
+        "start_sha256": "3665cb8535165d2607a0fe971661ff7d9f68a6524e220ce587c8c64b0ae6d538"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "axial_coarse",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 64,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "axial_medium",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 128,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "fines_coarse",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 8,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "fines_medium",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 16,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "boulders_coarse",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 16,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "boulders_medium",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 32,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "startup_coarse",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-05
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "startup_medium",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-06
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "time_coarse",
+        "settings": {
+          "atol": 1e-10,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.08,
+          "rtol": 1e-05,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "time_medium",
+        "settings": {
+          "atol": 1e-12,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.04,
+          "rtol": 1e-07,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "combined_coarse",
+        "settings": {
+          "atol": 1e-10,
+          "axial": 64,
+          "boulders": 16,
+          "fines": 8,
+          "max_step": 0.08,
+          "rtol": 1e-05,
+          "startup": 1e-05
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "combined_medium",
+        "settings": {
+          "atol": 1e-12,
+          "axial": 128,
+          "boulders": 32,
+          "fines": 16,
+          "max_step": 0.04,
+          "rtol": 1e-07,
+          "startup": 1e-06
+        },
+        "solver_status": "NOT_RUN"
+      },
+      {
+        "archive_status": "NOT_RUN",
+        "numerical_status": "UNAVAILABLE",
+        "observation_status": "UNAVAILABLE",
+        "row": "repeat",
+        "settings": {
+          "atol": 1e-14,
+          "axial": 256,
+          "boulders": 64,
+          "fines": 32,
+          "max_step": 0.02,
+          "rtol": 1e-09,
+          "startup": 1e-07
+        },
+        "solver_status": "NOT_RUN"
+      }
+    ],
+    "solver_complete_trajectories": 1,
+    "solver_started_trajectories": 1
+  },
+  "numerical_requirements": {
+    "J_in": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "J_out": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "M_b": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "M_dry": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "M_f": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "M_l": {
+      "limit": 5e-05,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "grain_means": {
+      "limit": 0.00023,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "grain_radial": {
+      "limit": 0.00023,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "liquid": {
+      "limit": 0.001,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    },
+    "outlet": {
+      "limit": 0.001,
+      "measured": null,
+      "reason": "No integrity-qualified full trajectory",
+      "status": "UNAVAILABLE"
+    }
+  },
+  "observation_availability": {
+    "boundary_flux": {
+      "qualified_available": 0,
+      "reason": "Capture failed; four frozen boundary-flux columns were never observed. Frozen t=0 entry is an initialization convention, not a measured beverage concentration.",
+      "requested": 844,
+      "required_observations_unavailable": 844
+    },
+    "fixed_position_histories": {
+      "means_requested": 3798,
+      "qualified_available": 0,
+      "radial_requested": 53172,
+      "reason": "Subset of frozen physical-coordinate profiles; capture prerequisite failed",
+      "requested_positions": [
+        0.0,
+        0.001,
+        0.01,
+        0.05,
+        0.1,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ]
+    },
+    "grain_means": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 88620,
+      "required_observations_unavailable": 88620,
+      "required_supported": 88620,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "grain_radial": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 1240680,
+      "required_observations_unavailable": 1240680,
+      "required_supported": 1240680,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "integrals": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 422,
+      "required_observations_unavailable": 422,
+      "required_supported": 422,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "inventories": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 844,
+      "required_observations_unavailable": 844,
+      "required_supported": 844,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "liquid": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 44310,
+      "required_observations_unavailable": 35612,
+      "required_supported": 35612,
+      "structural_reason": "dry support or zero wet volume",
+      "structurally_unavailable": 8698
+    },
+    "outlet": {
+      "qualified_available": 0,
+      "reason": "Replacement capture commitment failed before observation/audit production",
+      "requested": 211,
+      "required_observations_unavailable": 146,
+      "required_supported": 146,
+      "structural_reason": "no beverage before t=1",
+      "structurally_unavailable": 65
+    }
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "physical_validation": "NOT_ESTABLISHED",
+  "qualified_partial_capabilities": [
+    "Unchanged mathematical/source contract and original focused operator evidence",
+    "Prospective small-fixture capture/write/load/observe/audit controls, with exact trajectory preservation",
+    "Solver-free representative 3.576692016 GB and 4.294967553 GB payload checks on retained helper identities",
+    "The full-scale commitment check rejects this replacement before successful archive publication"
+  ],
+  "recorded_at": "2026-10-10T00:29:00.620671+00:00",
+  "resource_observations": {
+    "ended": "2026-10-10T00:27:54.462994+00:00",
+    "exit_code": 1,
+    "final_stage": "CAPTURING",
+    "minimum_available_bytes": 190566535168,
+    "minimum_free_disk_bytes": 1332237389824,
+    "peak_sampled_rss_kib": 67069992,
+    "row": "anchor",
+    "safety_stop": null,
+    "seconds": 1034.2915529180027
+  },
+  "row_order": [
+    "anchor",
+    "axial_coarse",
+    "axial_medium",
+    "fines_coarse",
+    "fines_medium",
+    "boulders_coarse",
+    "boulders_medium",
+    "startup_coarse",
+    "startup_medium",
+    "time_coarse",
+    "time_medium",
+    "combined_coarse",
+    "combined_medium",
+    "repeat"
+  ],
+  "scientific_results": {
+    "audited_rows": 0,
+    "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "declared_rows": 14,
+    "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+    "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "original_failed_solver_complete_rows": 1,
+    "physical_validation": "NOT_ESTABLISHED",
+    "reason": "Missing full rows; accepted partial trajectories and failures remain external; no reference qualification",
+    "rows": {
+      "anchor": {
+        "disposition": "INCOMPLETE"
+      },
+      "axial_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "axial_medium": {
+        "disposition": "INCOMPLETE"
+      },
+      "boulders_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "boulders_medium": {
+        "disposition": "INCOMPLETE"
+      },
+      "combined_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "combined_medium": {
+        "disposition": "INCOMPLETE"
+      },
+      "fines_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "fines_medium": {
+        "disposition": "INCOMPLETE"
+      },
+      "repeat": {
+        "disposition": "INCOMPLETE"
+      },
+      "startup_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "startup_medium": {
+        "disposition": "INCOMPLETE"
+      },
+      "time_coarse": {
+        "disposition": "INCOMPLETE"
+      },
+      "time_medium": {
+        "disposition": "INCOMPLETE"
+      }
+    },
+    "solver_complete_rows": 1,
+    "solver_started_rows": 1,
+    "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+  },
+  "scope_limits": [
+    "No physical validation",
+    "No reduced-model approximation assessment",
+    "No epsilon-convergence or general validity range",
+    "No Figure 5 reconstruction or publication rescoring",
+    "No production, Guided Pull or EWP adoption"
+  ],
+  "stop_reason": {
+    "archive_manifest_published": false,
+    "classification": "FULL_SCALE_CAPTURE_COMMITMENT_FAILURE; NOT_A_NUMERICAL_GATE_FAILURE; NOT_A_RESOURCE_STOP",
+    "exception": "ValueError",
+    "failure_evidence_limit": "Exception identifies a combined source-after/captured-target dense-chain comparison. Actual digest values and which comparison failed were not retained; the process exited before trajectory serialization. No numerical witness coordinate can be recovered from the retained receipt.",
+    "message": "Dense source/target mutation after an earlier capture copy",
+    "new_failure_root_cause": "UNESTABLISHED",
+    "remaining_rows": "Thirteen NOT_RUN under the trustworthy-anchor prerequisite and explicit no-blind-retry stop condition",
+    "retry": "NONE; the one authorized replacement was executed; no further scientific execution",
+    "stage": "CAPTURING",
+    "trajectory_arrays_retained": false
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "unavailable_diagnostics": [
+    "native extrema and worst-case numerical locations",
+    "actual-state phase inventories and mass residuals",
+    "independent boundary-flux quadrature",
+    "observation reconstruction and dense evaluation fidelity",
+    "temporal effectiveness",
+    "individual and combined refinements",
+    "repeatability",
+    "numerical uncertainty estimates"
+  ],
+  "uncertainty_interpretation": "Conditional Richardson estimates only when ratio>1; not rigorous bounds; report none otherwise",
+  "validated_campaign_report_sha256": "63d3cc86a197817227a49a1839611de3b9c3cef6c27df352b468ad86bc207deb"
+}

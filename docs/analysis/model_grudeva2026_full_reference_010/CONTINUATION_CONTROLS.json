@@ -1,0 +1,166 @@
+{
+  "current_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+    "tests/test_grudeva2026_full_reference_010.py": "ab14425d85c7c41d994e7b5b8ee053bee60c11d1e1af331223c64146f60799c5",
+    "tools/run_grudeva2026_full_reference_010.py": "f53780a752195a68aa4fa1caee3b3071ac525c88410b14d6efbbc4e96f8d6760"
+  },
+  "disposition": "PASS",
+  "end_to_end": "Fixed Settings(12,6,8,rtol=1e-6,atol=1e-12,max_step=.05), horizon1.01; accepted states/times capture on/off exactly equal; loaded observations equal; loaded-state inventory/boundary audit computable. Not a second espresso case or a full-case precision qualification.",
+  "external_log_sha256": {
+    "HISTORICAL_DIAGNOSIS.json": "138b9f16f8ff5b7146a92a6e1d78215e88a96d97c3b99a4a78e4a3523ad7576d",
+    "controls-01.log": "8b5d50bef8508b48832325bf83a8b22e17cf047a09b911efc532573cfb6dd5fe",
+    "controls-02.log": "e60879eaaaa70239df53fb8e8b32a0679fc1a9806817ee493db20d20658fa2a1",
+    "controls-03.log": "aad9ad5a8be69bedbfde3c8b0398ac6fe91c59f0e92158d4e6f9d8f999ac2286",
+    "controls-04.log": "33ff3153ec05924a57bf2e414bea1342166396d560d04342d43a0bb39753c1cd",
+    "controls-05.log": "a967e9e085099587e69eeb6dbef4df18a4a367a5b86acc2f70aee3c3a25c25e1",
+    "historical-diagnosis.log": "e6f50fb6f5700758ac7e5b1fbdf078b741d42f67c43265a60ac663025fd0e982",
+    "kernel-errors.log": "c14f5926110b8021946154685763b626fbb28325c5d156c501cd8ce2f3ba4ec2",
+    "kernel-window.log": "78d84c63eb3ede05e43c79373b6340fb0416d02265f90a12ef2f99aa94e29afb",
+    "large-test-results.json": "c7e6d73599145551b5fbf29266e6d6aff8967f9d69ff4970cd434013c4ed6bbb",
+    "large-test.log": "a43d1b8853be8f2fcdac7724f37b4daf44c51586b48372360c08ab0ff574185f",
+    "large_serialization.py": "4cde51f846cbe15d98507b62c9ca3e49fc82e9e9d34a1b8ecebe17ab2a9c901a"
+  },
+  "fixture_accounting": "Five invocations: 85 bounded trajectories / 95 solve_ivp segments; zero new full-case runs. controls-04 repeated the unchanged 49-test candidate after an edit shell failed because python was unavailable; subsequent edit used python3 and controls-05 tests the corrected 54-test candidate. New integrity and synthetic-layout tests invoke zero solvers.",
+  "focused_attempts": [
+    {
+      "bounded_trajectories": 17,
+      "log": "controls-01.log",
+      "passed": 41,
+      "seconds": 4.33,
+      "solve_ivp_segments": 19
+    },
+    {
+      "bounded_trajectories": 17,
+      "log": "controls-02.log",
+      "passed": 45,
+      "seconds": 5.12,
+      "solve_ivp_segments": 19
+    },
+    {
+      "bounded_trajectories": 17,
+      "log": "controls-03.log",
+      "passed": 49,
+      "seconds": 5.67,
+      "solve_ivp_segments": 19
+    },
+    {
+      "bounded_trajectories": 17,
+      "log": "controls-04.log",
+      "passed": 49,
+      "seconds": 4.21,
+      "solve_ivp_segments": 19
+    },
+    {
+      "bounded_trajectories": 17,
+      "log": "controls-05.log",
+      "passed": 54,
+      "seconds": 4.36,
+      "solve_ivp_segments": 19
+    }
+  ],
+  "large_payloads": 2,
+  "large_serialization": {
+    "disposition": "PASS",
+    "io_sha256": "261973fedc326201a163d2fa5c5fbe0b1b1c3fb2a266067cbe257ae9e94bf3c6",
+    "peak_rss_kib": 8471740,
+    "plan_sha256": "30a14338fb5147124a6f6897693d44f1ad526500cd32feb62a703669314db2fa",
+    "records": [
+      {
+        "label": "representative-y",
+        "nbytes": 3576692016,
+        "record": {
+          "array": {
+            "dtype": "<f8",
+            "sha256": "9da88cd22be09b34a93437a9b76657cc44ccf17763292caec71fd39091a7e677",
+            "shape": [
+              24834,
+              18003
+            ]
+          },
+          "file": "representative-y.npy",
+          "independently_loaded_payload": "PASS",
+          "order": "C",
+          "post_write_source": "PASS",
+          "pre_write_source": "PASS",
+          "serialized_payload": "PASS",
+          "sha256": "13fd789dd7c72b80ff27ed7ad6b1a83b0803b903a827e0628b4855c53543d9ac"
+        },
+        "transpose_and_strided_canonical_checks": "PASS",
+        "witness_count": 19
+      },
+      {
+        "label": "uint8-4GiB-boundary",
+        "nbytes": 4294967553,
+        "record": {
+          "array": {
+            "dtype": "|u1",
+            "sha256": "354d5e7f5058b3286d0024983fae3197265f6b38d500f06baafd36ad9106cb5a",
+            "shape": [
+              4294967553
+            ]
+          },
+          "file": "uint8-4GiB-boundary.npy",
+          "independently_loaded_payload": "PASS",
+          "order": "C",
+          "post_write_source": "PASS",
+          "pre_write_source": "PASS",
+          "serialized_payload": "PASS",
+          "sha256": "b41ec51178f409439509c4b4f39be519d189df60ec7732c59744a1f38a0b4aca"
+        }
+      }
+    ],
+    "seconds": 98.77742559000035,
+    "solver_invocations": 0
+  },
+  "large_serialization_runs": 1,
+  "large_serialization_scoped_reuse_sha256": "5c4802b6ad4b55e8ba639c52d25316242befedbac1e05008516dcc9b21dd46aa",
+  "large_serialization_solver_invocations": 0,
+  "negative_controls": [
+    "source mutation during capture and serialization",
+    "matching whole-file digest with stale expected state identity",
+    "single-bit payload changes",
+    "wrong dtype/shape/order, missing arrays/files, incomplete writes",
+    "post-wetting concentration and separate accumulator disagreements",
+    "signed-zero preservation",
+    "unsafe objects/nonfinite arrays rejected",
+    "C/F/transposed/strided/reversed/scalar/empty chunk identity against independent tobytes reference",
+    "unchanged strict v1 rejection",
+    "no default bypass of original frozen hashes",
+    "continuation solver/matrix changes rejected",
+    "completion label without matching results rejected",
+    "dense target mutation after earlier copy",
+    "partial and zero-step solver states retained without successful manifest",
+    "different valid row archive rejected",
+    "observation source mutation and stale payload commitments, including NaN payload and bool bits"
+  ],
+  "new_scientific_rows_executed": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "recorded_at": "2026-10-10T00:08:32.116524+00:00",
+  "review_corrections": [
+    {
+      "control": "test_later_copy_cannot_mutate_earlier_dense_capture",
+      "correction": "Prospective per-piece source chain checked against complete captured target and source after all copies, persisted through reload",
+      "finding": "Earlier dense slice could change before final commitment"
+    },
+    {
+      "control": "test_returned_partial_solver_states_retained_without_success",
+      "correction": "Retain safely serialized partial trajectory and INCOMPLETE_MANIFEST, including zero accepted steps, never publish successful manifest",
+      "finding": "Failed integrator return lost accepted partial states"
+    },
+    {
+      "control": "test_saved_row_rejects_other_valid_row_archive",
+      "correction": "Direct case/settings/row/implementation checks against matrix and continuation",
+      "finding": "Resume could associate a valid archive with wrong row"
+    },
+    {
+      "control": "test_observation_bundle_prospective_identity (5 cases)",
+      "correction": "Prospective sidecar identity, owned snapshot, source post-check, raw ZIP payload and independent safe loaded checks; exact NaN and boolean availability bytes included",
+      "finding": "Observation and diagnostic bundle identities were post-write only"
+    }
+  ],
+  "static_check": "ruff PASS on all three changed Python files; one initial duplicate-import finding corrected before final controls",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

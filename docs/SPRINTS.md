@@ -678,3 +678,24 @@ locks and historical 001–009 scientific evidence remain unchanged. Completed
 No automatic rerun, downstream comparison, adoption or successor. Issue #67
 stays open; one draft unmerged PR with auto-merge disabled.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 archive continuation — bounded incomplete (2026-10-09)
+
+- [x] Preserve the original matrix/failure/source/results; retain all 19 historical
+  difference witnesses, with HISTORICAL_ROOT_CAUSE_UNESTABLISHED.
+- [x] Add prospective capture/source/payload checks, strict compatible loading,
+  negative controls and a fixed-settings end-to-end fixture. 54 focused tests and
+  one predeclared solver-free large serialization test pass; independent delta
+  review passes.
+- [x] Execute the one authorized replacement anchor through t=8. Capture rejects
+  a dense source/target commitment before serialization. Preserve failure and
+  resource records; no further automatic retry.
+- [ ] Full-reference numerical/archive qualification: **NOT ACHIEVED**. Zero
+  audited/qualified rows across both full attempts; thirteen rows NOT_RUN.
+
+[Continuation result](analysis/model_grudeva2026_full_reference_010/CONTINUATION_RESULTS.md)
+and [reproduction](analysis/model_grudeva2026_full_reference_010/CONTINUATION_REPRODUCE.md).
+The preceding original-attempt record remains historical and unchanged. Same
+G2 task and draft PR #333; #67 open; no merge, adoption, successor or downstream
+comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.

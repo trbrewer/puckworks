@@ -1,6 +1,9 @@
 """Independent mathematical controls; only bounded fixtures, no horizon-8 case."""
 from dataclasses import replace
+import hashlib
 import json
+
+from puckworks.analysis import grudeva2026_full_reference_010_io as archive_io
 
 import numpy as np
 import pytest
@@ -246,6 +249,14 @@ def test_capture_transition_availability_and_safe_archive(tmp_path):
         np.testing.assert_array_equal(seg['y'], original[1].y)
         for t in (seg['t'][:-1]+seg['t'][1:])/2:
             np.testing.assert_allclose(restored.state(t), original[1].sol(t), atol=2e-13, rtol=0)
+    # Continuation end-to-end audit consumes independently reloaded states.
+    from tools.run_grudeva2026_full_reference_010 import audit
+    restored_observations = observe(restored, support)
+    for key in observations:
+        np.testing.assert_array_equal(observations[key], restored_observations[key])
+    stats, diagnostic_arrays = audit(restored, restored_observations)
+    assert np.isfinite(stats['balance_independent_max'])
+    assert np.isfinite(diagnostic_arrays['native_inventories']).all()
     control_model, control = integrate(settings, capture=False, horizon=1.01)
     for (_, result), (_, plain) in zip(results, control):
         np.testing.assert_array_equal(result.t, plain.t)
@@ -257,7 +268,7 @@ def test_capture_transition_availability_and_safe_archive(tmp_path):
     np.testing.assert_allclose(integral5, actual, atol=2e-6, rtol=0)
     with pytest.raises(FileExistsError):
         save_archive(path, trajectory, {})
-    segment = path/'segment-0.npz'
+    segment = path/'segment-0-y.npy'
     with segment.open('ab') as stream:
         stream.write(b'corrupt')
     with pytest.raises(ValueError, match='identity'):
@@ -320,3 +331,298 @@ def test_temporal_controls_meaningful_on_actual_grain_operator():
     print('TEMPORAL', {'errors':errors,'nfev':work})
     assert errors[-1]<errors[-2]<errors[-3]
     assert work[0]<work[-1]
+
+
+# Solver-free continuation integrity controls. No new full-case rows in pytest.
+@pytest.mark.parametrize('layout', ['C', 'F', 'transpose', 'stride', 'reverse', 'scalar', 'empty'])
+def test_chunked_identity_independent_reference(layout, monkeypatch):
+    a = np.arange(7*11, dtype=np.float64).reshape(7, 11)
+    a[0, 0] = -0.
+    a = {'C': a, 'F': np.asfortranarray(a), 'transpose': a.T, 'stride': a[::2, ::3],
+         'reverse': a[::-1, ::-1], 'scalar': np.array(-0.), 'empty': a[:0]}[layout]
+    monkeypatch.setattr(archive_io, 'CHUNK_BYTES', 32)
+    identity = archive_io.array_identity(a)
+    assert identity == {'dtype': a.dtype.str, 'shape': list(a.shape),
+                        'sha256': hashlib.sha256(a.tobytes(order='C')).hexdigest()}
+    assert archive_io.array_identity(np.array([-0.])) != archive_io.array_identity(np.array([0.]))
+
+
+@pytest.mark.parametrize('layout', ['C', 'transpose', 'stride'])
+def test_numeric_roundtrip_layout(tmp_path, layout):
+    a = np.arange(99., dtype=np.float64).reshape(9, 11)
+    a[0, 0] = -0.
+    a = {'C': a, 'transpose': a.T, 'stride': a[::2, ::2]}[layout]
+    expected = {'shape': list(a.shape), 'dtype': a.dtype.str,
+                'sha256': hashlib.sha256(a.tobytes(order='C')).hexdigest()}
+    record = archive_io.write_numeric(tmp_path/'a.npy', a, expected)
+    loaded = np.load(tmp_path/'a.npy', allow_pickle=False)
+    assert loaded.tobytes(order='C') == a.tobytes(order='C')
+    assert archive_io.payload_identity(tmp_path/'a.npy') == expected
+    assert record['independently_loaded_payload'] == 'PASS'
+
+
+def test_source_mutation_during_serialization(tmp_path, monkeypatch):
+    a = archive_io.stable_copy(np.arange(20.))
+    expected = archive_io.array_identity(a)
+    original = np.save
+    def mutate(file, array, **kwargs):
+        original(file, array, **kwargs)
+        array.flags.writeable = True
+        array.view(np.uint64)[3] ^= np.uint64(1 << 29)
+    monkeypatch.setattr(np, 'save', mutate)
+    with pytest.raises(ValueError, match='Source mutation'):
+        archive_io.write_numeric(tmp_path/'a.npy', a, expected)
+
+
+@pytest.mark.parametrize('bad', [np.array([object()], dtype=object), np.array([np.nan]), np.array([np.inf])])
+def test_unsafe_or_nonfinite_source_rejected(tmp_path, bad):
+    with pytest.raises(ValueError):
+        archive_io.write_numeric(tmp_path/'a.npy', bad, archive_io.array_identity(bad))
+
+
+def _synthetic_archive(tmp_path):
+    """Construct state-layout fixture, not a PDE solution or numerical case."""
+    from types import SimpleNamespace
+    model = Model(Settings(axial=3, fines=3, boulders=3))
+    n = model.n*model.width+2
+    t = np.array([1., 1.1, 1.2])
+    y = np.arange(n*3, dtype=np.float64).reshape(n, 3)/100
+    y[0, 0] = -0.
+    parts = [SimpleNamespace(order=1, D=np.array([y[:,j+1], np.zeros(n)]),
+                             t_shift=np.array([t[j+1]]), denom=np.array([.1])) for j in range(2)]
+    result = SimpleNamespace(t=t, y=y, sol=SimpleNamespace(interpolants=parts),
+                             success=True, message='synthetic layout only', nfev=0, njev=0, nlu=0)
+    trajectory = archive_io.capture(model, [(False, result)])
+    path = tmp_path/'archive'
+    archive_io.save_archive(path, trajectory, {'role':'solver-free layout fixture'})
+    return path, trajectory, result
+
+
+def test_owned_capture_and_archive_roundtrip(tmp_path):
+    path, trajectory, original = _synthetic_archive(tmp_path)
+    assert not np.shares_memory(trajectory.segments[0]['y'], original.y)
+    assert trajectory.segments[0]['y'].flags.owndata
+    assert not trajectory.segments[0]['y'].flags.writeable
+    restored, _ = archive_io.load_archive(path)
+    assert restored.segments[0]['y'].tobytes() == original.y.tobytes()
+    original.y[0, 0] = 9.
+    assert trajectory.segments[0]['y'][0, 0] == 0.
+    assert np.signbit(trajectory.segments[0]['y'][0, 0])
+
+
+@pytest.mark.parametrize('failure', ['bit', 'dtype', 'shape', 'order', 'missing', 'incomplete', 'truncated', 'redundant', 'accumulator'])
+def test_archive_negative_boundaries(tmp_path, failure):
+    path, _, _ = _synthetic_archive(tmp_path)
+    manifest = json.loads((path/'manifest.json').read_text())
+    key = {'redundant':'concentrations', 'accumulator':'boundary_accumulators'}.get(failure, 'y')
+    record = manifest['segments'][0]['arrays'][key]
+    target = path/record['file']
+    if failure == 'incomplete':
+        (path/'manifest.json').unlink()
+    elif failure == 'missing':
+        target.unlink()
+    else:
+        a = np.load(target, allow_pickle=False)
+        if failure in ('bit', 'redundant', 'accumulator'):
+            a.reshape(-1).view(np.uint64)[4] ^= np.uint64(1 << 29)
+        elif failure == 'dtype':
+            a = a.astype(np.float32)
+        elif failure == 'shape':
+            a = a.reshape(-1)
+        elif failure == 'order':
+            a = np.asfortranarray(a)
+        np.save(target, a, allow_pickle=False)
+        if failure == 'truncated':
+            with target.open('r+b') as f: f.truncate(target.stat().st_size-1)
+        # Deliberately match the whole-file hash: stale prospective identity must
+        # still reject it, independently of byte-level file corruption checking.
+        record['sha256'] = archive_io.sha256(target)
+        if failure in ('redundant', 'accumulator'):
+            # Even a self-consistent payload identity cannot waive relationship checks.
+            commitments = json.loads((path/'SOURCE_COMMITMENT.json').read_text())
+            record['array'] = commitments['segment-0'][key] = archive_io.array_identity(a)
+            (path/'SOURCE_COMMITMENT.json').write_text(json.dumps(commitments))
+            manifest['source_commitment_sha256'] = archive_io.sha256(path/'SOURCE_COMMITMENT.json')
+        (path/'manifest.json').write_text(json.dumps(manifest))
+    with pytest.raises((ValueError, FileNotFoundError)):
+        archive_io.load_archive(path)
+
+
+def test_interrupted_write_has_no_success_manifest(tmp_path, monkeypatch):
+    original = archive_io.write_numeric
+    calls = []
+    def fail(path, a, expected):
+        calls.append(path)
+        if len(calls) == 3:
+            raise OSError('injected interrupted write')
+        return original(path, a, expected)
+    monkeypatch.setattr(archive_io, 'write_numeric', fail)
+    with pytest.raises(OSError, match='interrupted'):
+        _synthetic_archive(tmp_path)
+    assert (tmp_path/'archive/SOURCE_COMMITMENT.json').exists()
+    assert not (tmp_path/'archive/manifest.json').exists()
+    with pytest.raises(FileNotFoundError):
+        archive_io.load_archive(tmp_path/'archive')
+
+
+def test_legacy_stale_array_identity_rejected(tmp_path):
+    # v1 producer's exact old schema: matching ZIP hash must not mask stale y digest.
+    model = Model(Settings(axial=3, fines=3, boulders=3))
+    path = tmp_path/'legacy'; path.mkdir()
+    a = np.arange(20.)
+    expected = archive_io.array_identity(a)
+    a.view(np.uint64)[5] ^= np.uint64(1)
+    np.savez_compressed(path/'geometry.npz', y=a)
+    archive_io.write_json(path/'manifest.json', {
+        'schema':'grudeva-full-010-v1', 'case': __import__('dataclasses').asdict(model.case),
+        'settings':__import__('dataclasses').asdict(model.settings), 'segments':[],
+        'geometry': {'file':'geometry.npz', 'sha256':archive_io.sha256(path/'geometry.npz'),
+                     'arrays':{'y':expected}}})
+    with pytest.raises(ValueError, match='state identity'):
+        archive_io.load_archive(path)
+
+
+def test_capture_copy_detects_source_mutation(monkeypatch):
+    source = np.arange(10.)
+    original = np.array
+    def mutate(a, *args, **kwargs):
+        result = original(a, *args, **kwargs)
+        if a is source:
+            source[4] += 1.
+        return result
+    monkeypatch.setattr(np, 'array', mutate)
+    with pytest.raises(ValueError, match='Source mutation'):
+        archive_io.stable_copy(source)
+
+
+def test_no_continuation_means_original_hashes_still_required():
+    from tools.run_grudeva2026_full_reference_010 import load_matrix
+    with pytest.raises(ValueError, match='Frozen implementation changed'):
+        load_matrix()
+
+
+def test_continuation_cannot_change_solver_or_matrix(tmp_path, monkeypatch):
+    from tools import run_grudeva2026_full_reference_010 as runner
+    matrix = json.loads((runner.DOC/'MATRIX.json').read_text())
+    (tmp_path/'MATRIX.json').write_bytes((runner.DOC/'MATRIX.json').read_bytes())
+    binding = {'original_matrix_sha256':runner.ORIGINAL_MATRIX_SHA256,
+               'original_implementation':matrix['implementation'],
+               'implementation':dict(matrix['implementation']), 'changed_files':list(runner.CONTINUATION_FILES)}
+    binding['implementation']['puckworks/analysis/grudeva2026_full_reference_010.py']='0'*64
+    (tmp_path/'CONTINUATION.json').write_text(json.dumps(binding))
+    monkeypatch.setattr(runner, 'DOC', tmp_path)
+    with pytest.raises(ValueError, match='Unapproved continuation file delta'):
+        runner.continuation_binding(matrix)
+    (tmp_path/'MATRIX.json').write_text('{}')
+    with pytest.raises(ValueError, match='Original continuation matrix'):
+        runner.continuation_binding(matrix)
+
+
+def test_saved_row_cannot_trust_completion_label(tmp_path):
+    from tools.run_grudeva2026_full_reference_010 import validate_saved_row
+    archive_io.write_json(tmp_path/'results.json', {'gates':{'claimed':True}})
+    archive_io.write_json(tmp_path/'end.json', {'status':'COMPLETE','results_sha256':'0'*64})
+    with pytest.raises(ValueError, match='result/continuation identity'):
+        validate_saved_row(tmp_path, {}, None)
+
+
+def test_later_copy_cannot_mutate_earlier_dense_capture(tmp_path, monkeypatch):
+    original_zeros = np.zeros
+    original_commit = archive_io._dense_part_commitment
+    target = {}
+    def track(shape, *args, **kwargs):
+        a = original_zeros(shape, *args, **kwargs)
+        if isinstance(shape, tuple) and len(shape) == 3:
+            target['D'] = a
+        return a
+    calls = 0
+    def mutate(*args):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            target['D'][0, 0, 4] += .125
+        return original_commit(*args)
+    monkeypatch.setattr(np, 'zeros', track)
+    monkeypatch.setattr(archive_io, '_dense_part_commitment', mutate)
+    with pytest.raises(ValueError, match='mutation after an earlier capture'):
+        _synthetic_archive(tmp_path)
+
+
+@pytest.mark.parametrize('steps', [0, 1])
+def test_returned_partial_solver_states_retained_without_success(tmp_path, steps):
+    from types import SimpleNamespace
+    model = Model(Settings(axial=3, fines=3, boulders=3))
+    n = model.n*model.width+2
+    t = np.array([1., 1.1])[:steps+1]
+    y = np.ones((n, len(t)))
+    dense = [SimpleNamespace(order=1, D=np.array([y[:,1], np.zeros(n)]),
+                             t_shift=np.array([1.1]), denom=np.array([.1]))] if steps else []
+    result = SimpleNamespace(t=t, y=y, sol=SimpleNamespace(interpolants=dense),
+                             success=False, message='injected solver failure', nfev=3, njev=1, nlu=1)
+    trajectory = capture(model, [(False, result)])
+    path = tmp_path/'partial'
+    manifest = save_archive(path, trajectory, {'role':'injected partial solver'}, complete=False)
+    assert manifest['status'] == 'INCOMPLETE_SOLVER_TRAJECTORY_NOT_QUALIFIED'
+    assert (path/'INCOMPLETE_MANIFEST.json').exists()
+    assert np.load(path/'segment-0-y.npy', allow_pickle=False).tobytes() == y.tobytes()
+    assert not (path/'manifest.json').exists()
+    with pytest.raises(FileNotFoundError):
+        load_archive(path)
+
+
+def test_saved_row_rejects_other_valid_row_archive(tmp_path):
+    from tools.run_grudeva2026_full_reference_010 import validate_saved_row, ORIGINAL_MATRIX_SHA256
+    path, _, _ = _synthetic_archive(tmp_path)
+    row = tmp_path/'anchor'; row.mkdir()
+    path.rename(row/'trajectory')
+    manifest_path = row/'trajectory/manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    matrix = {'case':manifest['case'], 'rows':{'anchor':manifest['settings']}, 'implementation':{}}
+    manifest['metadata'] = {'row':'fines_coarse', 'implementation':{},
+                            'matrix_sha256':ORIGINAL_MATRIX_SHA256, 'continuation_sha256':None}
+    manifest_path.write_text(json.dumps(manifest))
+    np.savez_compressed(row/'observations.npz', a=np.ones(2))
+    np.savez_compressed(row/'diagnostics.npz', a=np.ones(2))
+    digest = archive_io.sha256(manifest_path)
+    stats = {'continuation_sha256':None,'settings':manifest['settings'],
+             'archive':{'manifest_sha256':digest,'observations_sha256':archive_io.sha256(row/'observations.npz'),
+                        'diagnostics_sha256':archive_io.sha256(row/'diagnostics.npz')}}
+    archive_io.write_json(row/'results.json', stats)
+    archive_io.write_json(row/'end.json', {'status':'COMPLETE','continuation_sha256':None,
+                    'results_sha256':archive_io.sha256(row/'results.json'), 'archive_manifest_sha256':digest})
+    with pytest.raises(ValueError, match='row/case/settings/implementation'):
+        validate_saved_row(row, matrix, None, full_archive=False)
+
+
+@pytest.mark.parametrize('failure', [None, 'source', 'stale', 'bool_bit', 'nan_bit'])
+def test_observation_bundle_prospective_identity(tmp_path, monkeypatch, failure):
+    from tools import run_grudeva2026_full_reference_010 as runner
+    a = np.array([0., -0., np.nan, 1.])
+    values = {'values':a, 'available':np.array([True, True, False, True])}
+    path = tmp_path/'observations.npz'
+    if failure == 'source':
+        original = np.savez_compressed
+        def mutate(file, **arrays):
+            original(file, **arrays)
+            a[1] = .125
+        monkeypatch.setattr(np, 'savez_compressed', mutate)
+        with pytest.raises(ValueError, match='source mutation during serialization'):
+            runner.save_bundle(path, values)
+        assert path.with_suffix('.source.json').exists()
+        return
+    record = runner.save_bundle(path, values)
+    # Independent reference bytes include NaN payload and signed zero.
+    import hashlib
+    for key, value in values.items():
+        assert record['arrays'][key]['sha256'] == hashlib.sha256(value.tobytes()).hexdigest()
+    if failure:
+        if failure == 'bool_bit':
+            values['available'][0] = False
+        else:
+            a.view(np.uint64)[2 if failure == 'nan_bit' else 3] ^= np.uint64(1)
+        np.savez_compressed(path, **values)
+        record['sha256'] = archive_io.sha256(path)
+        with pytest.raises(ValueError, match='serialized payload identity'):
+            runner.validate_bundle(path, record)
+    else:
+        runner.validate_bundle(path, record)

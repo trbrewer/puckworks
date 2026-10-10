@@ -1,0 +1,232 @@
+{
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "external_root_identity": "grudeva2026-full-reference-010 / continuation-v2",
+  "failure_evidence_limit": "Stage, exception, traceback, solver returns and sampled resources retained. Compared dense-chain digest values and in-memory states were not retained. No cause established.",
+  "files": [
+    {
+      "bytes": 1504,
+      "file": "campaign-v2/RESULTS.json",
+      "sha256": "63d3cc86a197817227a49a1839611de3b9c3cef6c27df352b468ad86bc207deb"
+    },
+    {
+      "bytes": 461,
+      "file": "campaign-v2/SUPERVISOR_END.json",
+      "sha256": "170b94616bb20944c0c67a314ce3f26b8f248f0290d6f82a45b931202cfb9fa4"
+    },
+    {
+      "bytes": 628,
+      "file": "campaign-v2/SUPERVISOR_START.json",
+      "sha256": "7f382b8ed1db45785b7219f8443b3b0f1e4af7e47b5401f652d02bc9e3ccc8bf"
+    },
+    {
+      "bytes": 874,
+      "file": "campaign-v2/anchor/failure.json",
+      "sha256": "b323074881987d001160ed0e6a977934890f137e5beb51e958cdf4dce849afe5"
+    },
+    {
+      "bytes": 549,
+      "file": "campaign-v2/anchor/solver-end.json",
+      "sha256": "d22de07d011314994b1a672e93c5ff634ac2e9ccb87e68dd95e1be73cda86905"
+    },
+    {
+      "bytes": 228,
+      "file": "campaign-v2/anchor/solver-start.json",
+      "sha256": "19142a160452242253da7caa848e23ea37b5d12ea9a89a25ccf0f66082b663e9"
+    },
+    {
+      "bytes": 6591,
+      "file": "campaign-v2/anchor/start.json",
+      "sha256": "3665cb8535165d2607a0fe971661ff7d9f68a6524e220ce587c8c64b0ae6d538"
+    },
+    {
+      "bytes": 158882,
+      "file": "campaign-v2/anchor-resources.jsonl",
+      "sha256": "31246154650e72e21425cd0ebdd32bcf51380a43028c42cff8db88023511e195"
+    },
+    {
+      "bytes": 296,
+      "file": "campaign-v2/anchor-supervisor-end.json",
+      "sha256": "882892434045ec2d9553ef61d39c5902a230ff2d829011161756d6e72aaebd2b"
+    },
+    {
+      "bytes": 2133,
+      "file": "campaign-v2/anchor.log",
+      "sha256": "d150ad0521fee01d5142e186dfba312759b82515871fd1a2ea1b4d705fb1c986"
+    },
+    {
+      "bytes": 0,
+      "file": "campaign-v2/execution.lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "file": "campaign-v2/supervisor.lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 5677,
+      "file": "INTAKE.json",
+      "sha256": "55a90edd79a96b44593eafd189a291471e31528506bd66f323b8c7c4d61a1285"
+    },
+    {
+      "bytes": 471,
+      "file": "BASE_RECHECK.json",
+      "sha256": "55dc2330b7f744481ee56f7c5a621330c647f75d7d0464b1aeadab406ad1f243"
+    },
+    {
+      "bytes": 13260,
+      "file": "HISTORICAL_DIAGNOSIS.json",
+      "sha256": "138b9f16f8ff5b7146a92a6e1d78215e88a96d97c3b99a4a78e4a3523ad7576d"
+    },
+    {
+      "bytes": 859,
+      "file": "historical-diagnosis.log",
+      "sha256": "e6f50fb6f5700758ac7e5b1fbdf078b741d42f67c43265a60ac663025fd0e982"
+    },
+    {
+      "bytes": 3761,
+      "file": "diagnose_complete_differences.py",
+      "sha256": "2f7c2191d96c7f92ae77b7344a72161bfde8b93880eae98e9ea96aaf34f2f459"
+    },
+    {
+      "bytes": 236,
+      "file": "kernel-errors.log",
+      "sha256": "c14f5926110b8021946154685763b626fbb28325c5d156c501cd8ce2f3ba4ec2"
+    },
+    {
+      "bytes": 671,
+      "file": "kernel-window.log",
+      "sha256": "78d84c63eb3ede05e43c79373b6340fb0416d02265f90a12ef2f99aa94e29afb"
+    },
+    {
+      "bytes": 3879,
+      "file": "prospective-resources.json",
+      "sha256": "709446450484dc5e013976a004c8c30adef57686be8adbc9f7bf0bf6ecc377b3"
+    },
+    {
+      "bytes": 3746,
+      "file": "execute_continuation.py",
+      "sha256": "a1a04f18521e05db7de2569ec9dd60b0fb41234821b2d32bc44558b537b927ec"
+    },
+    {
+      "bytes": 386,
+      "file": "campaign-progress.log",
+      "sha256": "2bb881328d12f181e0ea5e746e3215d770b52ca6d23c18542deec77fae31889b"
+    },
+    {
+      "bytes": 40,
+      "file": "campaign-report.log",
+      "sha256": "0c74ab95d05a25a60829d930766ff08d87a491d190557490e1187d7e37f2651d"
+    },
+    {
+      "bytes": 1962,
+      "file": "large-test-start.json",
+      "sha256": "f057b76b1f117d363235e13f9d417293a4493cc0c3ca69bd5b02754ef375747d"
+    },
+    {
+      "bytes": 1620,
+      "file": "large-test-results.json",
+      "sha256": "c7e6d73599145551b5fbf29266e6d6aff8967f9d69ff4970cd434013c4ed6bbb"
+    },
+    {
+      "bytes": 77,
+      "file": "large-test.log",
+      "sha256": "a43d1b8853be8f2fcdac7724f37b4daf44c51586b48372360c08ab0ff574185f"
+    },
+    {
+      "bytes": 3502,
+      "file": "large_serialization.py",
+      "sha256": "4cde51f846cbe15d98507b62c9ca3e49fc82e9e9d34a1b8ecebe17ab2a9c901a"
+    },
+    {
+      "bytes": 474,
+      "file": "COMPATIBILITY.json",
+      "sha256": "dd1ad3cb8d4e1eb942b0259d243a79797c71a21ee258c256c39158b45e2e2092"
+    },
+    {
+      "bytes": 8866,
+      "file": "assemble_result.py",
+      "sha256": "ac2fe19a5a89a91bff9ef180833d6e94af5be3c76165d4fb196253f4469fd976"
+    },
+    {
+      "bytes": 7404,
+      "file": "record_bounded_failure.py",
+      "sha256": "406981ee84a795ceaa84826f6f175b328f58a01b5011d00d82cf16ed04ac9f85"
+    }
+  ],
+  "large_payload_hash_basis": "Reused exact successful predeclared write/raw/reload receipt; no repeated multi-gigabyte rehash. CONTINUATION_LARGE_TEST_REUSE.json binds unchanged helper source. These are synthetic serialization fixtures, not espresso trajectories.",
+  "large_solver_free_payloads": [
+    {
+      "label": "representative-y",
+      "nbytes": 3576692016,
+      "record": {
+        "array": {
+          "dtype": "<f8",
+          "sha256": "9da88cd22be09b34a93437a9b76657cc44ccf17763292caec71fd39091a7e677",
+          "shape": [
+            24834,
+            18003
+          ]
+        },
+        "file": "representative-y.npy",
+        "independently_loaded_payload": "PASS",
+        "order": "C",
+        "post_write_source": "PASS",
+        "pre_write_source": "PASS",
+        "serialized_payload": "PASS",
+        "sha256": "13fd789dd7c72b80ff27ed7ad6b1a83b0803b903a827e0628b4855c53543d9ac"
+      },
+      "transpose_and_strided_canonical_checks": "PASS",
+      "witness_count": 19
+    },
+    {
+      "label": "uint8-4GiB-boundary",
+      "nbytes": 4294967553,
+      "record": {
+        "array": {
+          "dtype": "|u1",
+          "sha256": "354d5e7f5058b3286d0024983fae3197265f6b38d500f06baafd36ad9106cb5a",
+          "shape": [
+            4294967553
+          ]
+        },
+        "file": "uint8-4GiB-boundary.npy",
+        "independently_loaded_payload": "PASS",
+        "order": "C",
+        "post_write_source": "PASS",
+        "pre_write_source": "PASS",
+        "serialized_payload": "PASS",
+        "sha256": "b41ec51178f409439509c4b4f39be519d189df60ec7732c59744a1f38a0b4aca"
+      }
+    }
+  ],
+  "locator_policy": "Resolve through existing configured source/evidence records; private mounted paths remain external. Relative names here identify retained artifacts, not inferred public paths.",
+  "new_campaign_record_bytes": 172146,
+  "new_full_archive_disposition": "NOT_CREATED: dense capture commitment failed before serialization",
+  "new_full_state_archive_bytes": 0,
+  "new_full_state_arrays_retained": false,
+  "original_failure_preserved": {
+    "manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+    "original_closeout_sha256": "0d0db0664b5220bae199a3d3dbceb39e5b8dc06202c614c52527ebb981569fbd",
+    "original_external_manifest_sha256": "d18bfd727a56c37fc78100c7c54c272f0705082cd5080430e03ac5e2ac5af60c",
+    "original_results_sha256": "a02712598b11bd5ed02e40460c0c05663e1b8c15d8be86bde617ef7e8a8fc829"
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "peak_sampled_rss_kib": 67069992,
+  "physical_validation": "NOT_ESTABLISHED",
+  "recorded_at": "2026-10-10T00:31:55.783971+00:00",
+  "safe_serialization": "Numeric-only NPY/NPZ and JSON; allow_pickle=False loading; original strict rejection preserved. No successful new full archive exists to load.",
+  "scientific_execution_accounting": {
+    "further_replacement_attempts": 0,
+    "historical_completed_trajectories": 1,
+    "historical_segments": 2,
+    "new_audited_rows": 0,
+    "new_completed_trajectories": 1,
+    "new_segments": 2,
+    "new_started_trajectories": 1,
+    "qualified_rows": 0,
+    "remaining_frozen_rows_not_run": 13,
+    "reused_full_trajectories": 0
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

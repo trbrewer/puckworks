@@ -1,0 +1,303 @@
+{
+  "additional_checks": [
+    {
+      "exit_code": 0,
+      "log": "ordinary-quick.log",
+      "scope": "full unchanged ordinary quick selector",
+      "sha256": "4204cb2fe05ce68457e53abfde9cf6a82f5aafd716e12667f24ef5938648ddf8"
+    },
+    {
+      "exit_code": 0,
+      "log": "document-regressions.log",
+      "scope": "status/readme after living documentation changes",
+      "sha256": "2b17738a24e48e51e115dbd0356f64d895f7f5564207bd22b5bed6f5e046505d"
+    },
+    {
+      "exit_code": 0,
+      "log": "ruff-all.log",
+      "scope": "repository configured lint",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "exit_code": 0,
+      "log": "mypy.log",
+      "scope": "existing configured 19-file type-check scope",
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    },
+    {
+      "exit_code": 0,
+      "log": "status-verify.log",
+      "scope": "generated status after source update",
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    {
+      "exit_code": 0,
+      "log": "insights-verify.log",
+      "scope": "unchanged historical discovery snapshot",
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    {
+      "exit_code": 0,
+      "log": "final-build.log",
+      "scope": "rebuilt wheel/sdist after continuation results and living documentation",
+      "sha256": "3a514c95e732e93d67de9f6abb699fc221098f1b3fa6aae931ebfc3eeb889b23"
+    },
+    {
+      "exit_code": 0,
+      "log": "final-packaging.log",
+      "scope": "final wheel/sdist packaging check",
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    }
+  ],
+  "affected_document_regressions": {
+    "exit_code": 0,
+    "passed": 73,
+    "seconds": 41.65
+  },
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-00.log",
+      "seconds": 0.3782178920228034,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-01.log",
+      "seconds": 0.3951367709960323,
+      "sha256": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-02.log",
+      "seconds": 0.4565264100092463,
+      "sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-03.log",
+      "seconds": 0.3732576270122081,
+      "sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-04.log",
+      "seconds": 0.5833669300191104,
+      "sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-05.log",
+      "seconds": 0.7679078530054539,
+      "sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-06.log",
+      "seconds": 11.33346426699427,
+      "sha256": "0affe8cb40971f6cbdc29e598928dacc59786e66a632fe6894102afb39bd3b0d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-07.log",
+      "seconds": 2.920840679988032,
+      "sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-08.log",
+      "seconds": 0.3763747869816143,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-09.log",
+      "seconds": 0.37137972898199223,
+      "sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-10.log",
+      "seconds": 0.37130470998818055,
+      "sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.insights",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-11.log",
+      "seconds": 0.5526686290104408,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-12.log",
+      "seconds": 0.42155294498661533,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    {
+      "command": [
+        "-c",
+        "import puckworks; puckworks.load_builtin_components(); s=puckworks.evaluate_all_gates(); print(s); assert s.passed"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-13.log",
+      "seconds": 41.23542599400389,
+      "sha256": "409302be67b8bd0370c93cee09d6cb7883f7a762fb702837f54cd04fc8e673dd"
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline and not live and not gpu and not external_data"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-14.log",
+      "seconds": 215.97754436099785,
+      "sha256": "a1ac72f969bb65be7ef04cf7e0edd585834a8592b32b4919a70e83d403112f84"
+    },
+    {
+      "command": [
+        "-m",
+        "build",
+        "--outdir",
+        "<external-evidence>/dist",
+        "."
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-15.log",
+      "seconds": 5.57877745598671,
+      "sha256": "39e7841e60822c8f43a28afa35d5689f1b8f99c03a531335525ff93b09bf9074"
+    },
+    {
+      "command": [
+        "tools/packaging_check.py",
+        "<external-evidence>/dist"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-check-16.log",
+      "seconds": 0.25578441299148835,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    }
+  ],
+  "compatibility": {
+    "basis": "Exact retained scientific content hashes plus scoped tracked diff; existing ordinary regressions executed separately.",
+    "checked": "2026-10-10T00:14:02.135699+00:00",
+    "disposition": "PASS",
+    "historical_scientific_files": 206,
+    "mismatches": [],
+    "old_scientific_campaigns_reexecuted": 0,
+    "production_data_dependency_delta_against_selected_base": "",
+    "reference_manifest_sha256": "fdd21ce128c9504fdcaf84c578c910ce6da5c24e0127f8580c0dc5b51b37a89d"
+  },
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "failed_or_redundant_development_actions": [
+    "Initial duplicate-import lint finding corrected before binding.",
+    "One edit shell failed because python was unavailable; no files changed. controls-04 unnecessarily repeated the unchanged49-test candidate; retained and counted.",
+    "Replacement full trajectory solved but capture failed; separately recorded, not a software test or numerical gate failure."
+  ],
+  "historical_010_documents_unchanged": 16,
+  "hosted_ci": "PENDING exact final new candidate; old-head nine successful workflows are not substituted",
+  "independent_review": "Pre-execution PASS on exact continuation; final exact-candidate review pending",
+  "local_010_fixture_accounting": {
+    "focused_bounded_trajectories": 85,
+    "focused_invocations": 5,
+    "focused_solve_ivp_segments": 95,
+    "full_quick_invocations": 1,
+    "independent_review_solver_invocations": 0,
+    "large_serialization_solver_invocations": 0,
+    "note": "Existing other-repository ordinary fixtures remain regressions, not 004\u2013009 campaign replays. No fixtures are counted as scientific matrix rows.",
+    "quick_bounded_trajectories": 15,
+    "quick_solve_ivp_segments": 15,
+    "total_bounded_trajectories": 100,
+    "total_segments": 110
+  },
+  "local_software_qa": "PASS",
+  "quick_counts": {
+    "deselected": 64,
+    "exit_code": 0,
+    "passed": 6482,
+    "seconds": 1318.15,
+    "skipped": 67,
+    "warnings": 2
+  },
+  "quick_selector": "not slow and not live and not gpu and not external_data",
+  "scientific_qualification": "SEPARATE_AND_INCOMPLETE",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "tested_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+    "tests/test_grudeva2026_full_reference_010.py": "ab14425d85c7c41d994e7b5b8ee053bee60c11d1e1af331223c64146f60799c5",
+    "tools/run_grudeva2026_full_reference_010.py": "f53780a752195a68aa4fa1caee3b3071ac525c88410b14d6efbbc4e96f8d6760"
+  }
+}

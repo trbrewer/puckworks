@@ -393,6 +393,13 @@ QA. This is not a Figure 5 reconstruction. `FIG5_REFERENCE_INCOMPLETE` and
 assessment needs separate authorization. The October 9 review remains a preserved
 review/proposal register; 010 does not execute its other proposed tasks.
 
+The [archive continuation](../analysis/model_grudeva2026_full_reference_010/CONTINUATION_RESULTS.md)
+in the same draft PR #333 retains that historical failure. Its 54 focused controls
+and large solver-free serialization test pass, but the one replacement anchor
+fails a dense capture commitment after solving through t=8, before serialization.
+No full-reference archive or numerical precision claim is qualified; thirteen
+frozen rows remain unrun. No further automatic retry or downstream comparison.
+
 ### R4–R5, R7 and R15: engineering, empirical value and closed questions
 
 **O's explicit overgeneralization and internal contradiction:** §3 item 5 and

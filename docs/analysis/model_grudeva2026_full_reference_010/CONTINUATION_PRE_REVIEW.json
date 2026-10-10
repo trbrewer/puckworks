@@ -1,0 +1,86 @@
+{
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "review_kind": "Scoped independent pre-execution archive-continuation delta review",
+  "disposition": "PASS",
+  "meaning": "The reviewed archive continuation is adequate to execute the unchanged fourteen-row matrix under the declared stop conditions. This receipt does not qualify numerical results or establish the historical corruption mechanism.",
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "reviewer": {
+    "identity": "OpenAI Codex nonhuman reviewing agent /root/pre_campaign_review",
+    "independence": "Separate agent from the implementation author. Inspected the delta and retained evidence, reported four findings and checked their corrections. Did not edit solver or implementation code, execute numerical controls, run the large serialization fixture or execute scientific rows. Wrote only this continuation review receipt.",
+    "human_review": false
+  },
+  "reused_review": {
+    "file": "PRE_CAMPAIGN_REVIEW.json",
+    "sha256": "068e41824283be13ba8e039c7119a905f01c16d616b1d2964a0c5f3761a84264",
+    "scope": "Unchanged source mathematics, synthetic case, moving-boundary accounting, numerical operators and qualification design. No source re-review was performed."
+  },
+  "reviewed_implementation_sha256": {
+    "solver_unchanged": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "io": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+    "runner": "f53780a752195a68aa4fa1caee3b3071ac525c88410b14d6efbbc4e96f8d6760",
+    "tests": "ab14425d85c7c41d994e7b5b8ee053bee60c11d1e1af331223c64146f60799c5"
+  },
+  "evidence_sha256": {
+    "CONTINUATION_CONTROLS.json": "9e4a18851ba8df40759e465caa4387c741af52e5343e1d905e213da80b949f7e",
+    "CONTINUATION_LARGE_TEST_REUSE.json": "5c4802b6ad4b55e8ba639c52d25316242befedbac1e05008516dcc9b21dd46aa",
+    "controls-05.log": "a967e9e085099587e69eeb6dbef4df18a4a367a5b86acc2f70aee3c3a25c25e1",
+    "large-test-results.json": "c7e6d73599145551b5fbf29266e6d6aff8967f9d69ff4970cd434013c4ed6bbb",
+    "historical_diagnosis_external": "138b9f16f8ff5b7146a92a6e1d78215e88a96d97c3b99a4a78e4a3523ad7576d"
+  },
+  "identity_checks": [
+    "Independently recomputed the continuation binding and all six bound implementation hashes, four control-document hashes and twelve external evidence/log/script hashes; all matched.",
+    "All sixteen original committed 010 documents remain byte-identical to starting HEAD, including MATRIX.json, the historical failure/result material and the original review. Solver, CONTRACT and SOURCE hashes remain original.",
+    "Compared exact function-source text against starting HEAD for observation reconstruction, observation capture, independent inventory and boundary quadrature, extrema, audit, family extraction and refinement comparison; all nine functions are unchanged.",
+    "Independently compared all seven large-fixture helper function sources between the retained tested candidate and current IO module and recomputed their recorded hashes. All match; chunk size and archive schema are unchanged. Large-test evidence is reused only for those unchanged helpers, with its original whole-file identity retained."
+  ],
+  "checked": [
+    "The historical diagnosis preserves all nineteen differences, corrects the earlier incomplete ten-entry description, distinguishes payload offsets from process addresses and does not promote dense interpolation endpoints to exact backups. HISTORICAL_ROOT_CAUSE_UNESTABLISHED and ineligibility of the old anchor for exact reuse remain explicit.",
+    "Capture commits source bytes before copying, checks independently owned snapshots, and now binds the completed dense target and source to the prospective piece chain, including order and padding. The chain is checked before writing and after reload.",
+    "NPY v2 writing checks prospective source identities, post-write source identities, independently streamed payload bytes and safe loaded arrays. Final success manifests follow validation; interrupted or incomplete artifacts cannot be loaded as successful references. The original v1 reader still rejects stale exact array identities.",
+    "Exact concentration, accumulator and physical-coordinate redundancy checks are independent of file hashes. Saved byte/state identities remain exact; interpolant evaluation keeps its original numerical allowance.",
+    "Observation and diagnostic bundles now retain prospective sidecars and checked owned snapshots, with raw ZIP payload and safe loaded checks. NaN payloads, signed zero and boolean availability-mask bytes are preserved exactly. Audits consume the independently validated trajectory archive.",
+    "Saved-row validation binds the manifest case, settings, row, implementation, matrix and continuation directly. Completion labels and post-write whole-file hashes alone do not establish eligibility.",
+    "Returned incomplete and zero-step solver states are retained under an explicitly incomplete manifest without publishing archive success. Solver-started, solver-complete and audited-row counts remain separate, and the one historical completed-but-unqualified anchor is counted separately.",
+    "The continuation guard preserves the original matrix identity, permits only the three reviewed file changes, checks the unchanged environment and requires this exact-bound review. No ignore-hashes path or scientific refreeze is introduced.",
+    "The declared sequence remains one replacement anchor followed by thirteen original outstanding rows in original row_order, serially, with a separate repeat. Unexplained integrity failure stops continuation; numerical gate failures retain their results and do not alter thresholds.",
+    "The 160 GiB memory and 60 GiB disk admission estimates are tied to retained full-archive sizes and observed memory use, with host/cgroup checks and release of avoidable duplicate buffers. They are headroom estimates rather than numerical run quotas or guarantees. No environment or OS-limit change is included."
+  ],
+  "findings_resolved_within_this_review": [
+    {
+      "finding": "An earlier dense target slice could mutate during later copies and be included in a newly computed final digest.",
+      "resolution": "Prospective source/target dense-chain checks and an injected delayed-mutation control now reject the change."
+    },
+    {
+      "finding": "The incomplete-integrator branch raised before preserving returned accepted states.",
+      "resolution": "Partial and zero-step states are safely retained without a successful manifest; both cases have solver-free controls."
+    },
+    {
+      "finding": "A valid archive from a different row shared matrix/continuation identities and lacked direct row matching.",
+      "resolution": "Direct case/settings/row/implementation checks and a swapped-row negative control close the association gap."
+    },
+    {
+      "finding": "Observation and diagnostic bundles retained only post-write file hashes.",
+      "resolution": "Prospective identities, source checks, raw payload checks and loaded checks now cover both output bundles, including availability bytes."
+    }
+  ],
+  "control_accounting": {
+    "final_focused_tests_passed": 54,
+    "focused_invocations": 5,
+    "bounded_trajectories": 85,
+    "solve_ivp_segments": 95,
+    "unnecessary_unchanged_repeat": "controls-04 is explicitly retained after the failed edit shell; it is not new scientific evidence.",
+    "large_serialization_runs": 1,
+    "large_payloads": 2,
+    "large_serialization_solver_invocations": 0,
+    "new_full_case_rows_before_review": 0
+  },
+  "remaining_material_findings": [],
+  "limits": [
+    "Review reused the producer's hash-bound control and large-fixture results; it did not independently rerun them or rehash the multi-gigabyte payloads.",
+    "The large serialization test establishes its declared serialization controls, not a hardware reliability certificate or a bound on full-campaign memory use.",
+    "Successful prospective integrity checks cannot retroactively repair or qualify the historical failed anchor.",
+    "No current numerical/reference qualification is granted. Required full rows, resulting gates, exact final candidate QA/hosted CI and final independent review remain outstanding.",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED. No reduced-model comparison, publication reconciliation, production adoption or EWP change is authorized by this receipt."
+  ]
+}
