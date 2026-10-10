@@ -734,6 +734,27 @@ attempt adds one trajectory/two segments. Provisional accumulator conservation i
 not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.
 
+### 010 remaining qualification — stopped at repeat SIGSEGV (2026-10-10)
+
+- [x] Current recovered-anchor byte/bundle/admission checks PASS; existing 211-time
+  observations and eleven audit gates reused without numerical recomputation.
+- [x] Narrow recovered-anchor adapter, exact-content comparisons, original guards
+  and serial order; 22 affected controls PASS and pre-execution scoped review PASS.
+- [x] Execute the independent repeat once: SIGSEGV during BDF integration, before
+  returned completion/checkpoints. External stderr/exit/resources retained; cause
+  unresolved. No retry, new anchor, repeatability calculation or refinement.
+- [ ] Independent repeatability, twelve refinements, trends and error budgets:
+  unavailable after the mandatory crash stop.
+
+[Actual results and evidence](analysis/model_grudeva2026_full_reference_010/REMAINING_RESULTS.md).
+Accounting: three completed trajectories/six documented completed segments plus
+one interrupted repeat attempt; no new completed trajectory. Original live-anchor
+comparison remains unavailable; reviewed equivalent fidelity is its admission
+basis. All four recorded SIGSEGV causes remain unresolved. Final candidate CI and
+scoped-result review recorded separately in PR. Draft/unmerged PR #333, auto-merge
+disabled, issue #67 open; no EWP/default/lock/downstream change.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 ### 010 byte recovery — recovered anchor audits complete (2026-10-10)
 
 - [x] Verify four selected candidates without scientific imports/package enumeration; reverify prior 24 and fresh-read all 28 exact numeric members.
