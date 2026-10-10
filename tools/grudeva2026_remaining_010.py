@@ -18,6 +18,9 @@ import tempfile
 AUTHORIZATION = 'OWNER AUTHORIZATION — COMPLETE THE REMAINING 010 QUALIFICATION'
 MATRIX_SHA256 = '092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3'
 DOC = 'docs/analysis/model_grudeva2026_full_reference_010'
+NATIVE_AUTHORIZATION = 'CONTINUE PR #333 — NATIVE CRASH CAPTURE FOR THE INDEPENDENT REPEAT'
+PARENT_BINDING_SHA256 = 'eb0d3f42cfb51cd62ab069d2e4c07ce3cd99ca145483605311684b79e4dc77e2'
+NATIVE_HEAD = '40e2a0aca35d01d2a339cb082bfcd9389e273978'
 
 
 def digest(path):
@@ -41,6 +44,65 @@ def checked(record):
     if hashlib.sha256(raw).hexdigest() != record['sha256']:
         raise ValueError('Bound recovery record changed: '+record['path'])
     return json.loads(raw)
+
+
+def native_binding(root, parent, attempt):
+    """One fixed native-supervised transition; scientific expectations inherit."""
+    root = Path(root)
+    changed = {'tools/run_grudeva2026_full_reference_010.py',
+               'tools/grudeva2026_remaining_010.py'}
+    added = {'tools/capture_grudeva2026_native_010.py',
+             'tests/test_grudeva2026_native_010.py'}
+    if (digest(root/DOC/'REMAINING.json') != PARENT_BINDING_SHA256
+            or attempt['parent_binding_sha256'] != PARENT_BINDING_SHA256
+            or attempt['authorization'] != NATIVE_AUTHORIZATION
+            or attempt['starting_reviewed_head'] != NATIVE_HEAD
+            or attempt['new_row_order'] != parent['new_row_order']
+            or set(attempt['changed_sources']) != changed
+            or set(attempt['added_sources']) != added):
+        raise ValueError('Native attempt parent/authorization/order/source scope mismatch')
+    prior = checked(attempt['parent_anchor_admission'])
+    review = checked(attempt['parent_review'])
+    capability = checked(attempt['capability'])
+    debugger = attempt['debugger']
+    from tools import capture_grudeva2026_native_010 as native
+    if (prior['status'] != 'PASS' or prior['binding_sha256'] != PARENT_BINDING_SHA256
+            or prior['actual_admission_records'] != {k:v['sha256'] for k,v in parent['recovered_anchor']['records'].items()}
+            or review['candidate_commit'] != NATIVE_HEAD
+            or review['disposition'] != 'PASS_FOR_BOUNDED_CRASH_STOP_CLOSEOUT_ONLY'
+            or capability['status'] != 'PASS_NATIVE_CAPTURE_CAPABILITY'
+            or capability['source_sha256'] != attempt['added_sources']['tools/capture_grudeva2026_native_010.py']
+            or debugger['path'] != native.DEBUGGER or debugger['settings'] != native.SETTINGS
+            or digest(debugger['path']) != debugger['sha256']):
+        raise ValueError('Native attempt prior admission/review/capability/debugger mismatch')
+    for record in attempt['preserved_records'].values():
+        checked(record)
+    if digest(attempt['supervisor']['path']) != attempt['supervisor']['sha256']:
+        raise ValueError('Native supervisor changed')
+    binding = json.loads(json.dumps(parent))
+    for path, identity in attempt['changed_sources'].items():
+        target = 'implementation' if path in binding['implementation'] else 'adapter_files'
+        binding[target][path] = identity
+    binding['adapter_files'].update(attempt['added_sources'])
+    binding['evidence_directory_identity'] = attempt['evidence_directory_identity']
+    binding['native_attempt'] = attempt
+    return binding
+
+
+def active_binding(root, native=None):
+    parent = read(Path(root)/DOC/'REMAINING.json')
+    if native is None:
+        native = '--native' in sys.argv
+    return native_binding(root, parent, read(Path(root)/DOC/'NATIVE_REPEAT.json')) if native else parent
+
+
+def require_native_tracer(binding):
+    pid = int(next(line.split()[1] for line in Path('/proc/self/status').read_text().splitlines()
+                   if line.startswith('TracerPid:')))
+    expected = binding['native_attempt']['debugger']
+    if (not pid or Path(f'/proc/{pid}/exe').resolve() != Path(expected['path']).resolve()
+            or digest(f'/proc/{pid}/exe') != expected['sha256']):
+        raise ValueError('Native attempt requires its verified live GDB tracer')
 
 
 def verify_runtime(root, binding):
@@ -91,7 +153,7 @@ def verify_runtime(root, binding):
 
 def load_binding(root, matrix=None, campaign=None):
     root = Path(root)
-    binding = read(root/DOC/'REMAINING.json')
+    binding = active_binding(root)
     frozen = read(root/DOC/'MATRIX.json')
     if (binding['authorization'] != AUTHORIZATION
             or digest(root/DOC/'MATRIX.json') != MATRIX_SHA256
@@ -177,6 +239,9 @@ def verify_anchor_bytes(root, binding, campaign):
     command = [binding['runtime']['python'], '-I', '-S', '-X', 'faulthandler',
                str(Path(root)/'tools/verify_grudeva2026_recovery_bytes_010.py'),
                '--plan',spec['records']['byte_plan']['path'], '--output',str(destination/'checked')]
+    if 'native_attempt' in binding:
+        from tools import capture_grudeva2026_native_010 as native
+        command = native.command(destination/'native-reader', command)
     with (destination/'stdout.log').open('xb') as out, (destination/'stderr.log').open('xb') as err:
         result = subprocess.run(command, stdout=out, stderr=err)
         for stream in (out,err):
@@ -186,6 +251,8 @@ def verify_anchor_bytes(root, binding, campaign):
         stream.flush(); os.fsync(stream.fileno())
     if result.returncode:
         raise RuntimeError('Recovered-anchor byte reader failed; no retry: '+str(destination))
+    if 'native_attempt' in binding:
+        native.require_child_success(destination/'native-reader')
     receipt = read(destination/'checked/RESULT.json')
     if receipt['status'] != 'PASS' or receipt['members_verified'] != 28:
         raise ValueError('Recovered-anchor byte admission incomplete')

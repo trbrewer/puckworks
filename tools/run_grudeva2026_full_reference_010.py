@@ -29,10 +29,12 @@ from tools import grudeva2026_remaining_010 as remaining_io  # noqa: E402
 # The new bounded path verifies known dependency files before scientific imports.
 # Historical invocation paths retain their original environment checks.
 REMAINING_RUNTIME = None
-if '--remaining' in sys.argv:
+if '--remaining' in sys.argv or '--native' in sys.argv:
     if not (sys.flags.isolated and sys.flags.no_site and 'faulthandler' in sys._xoptions):
         raise ValueError('Remaining campaign requires -I -S -X faulthandler')
     _binding = remaining_io.load_binding(ROOT)
+    if '--native' in sys.argv:
+        remaining_io.require_native_tracer(_binding)
     REMAINING_RUNTIME = remaining_io.verify_runtime(ROOT, _binding)
     sys.path.insert(0, _binding['runtime']['site'])
 
@@ -74,7 +76,7 @@ def now():
 
 def environment():
     if REMAINING_RUNTIME is not None:
-        return remaining_io.verify_runtime(ROOT, remaining_io.read(DOC/'REMAINING.json'))['environment']
+        return remaining_io.verify_runtime(ROOT, remaining_io.active_binding(ROOT))['environment']
     from importlib.metadata import distribution
     return {'distribution_records':{name:sha256(next(p.locate() for p in distribution(name).files if str(p).endswith('.dist-info/RECORD'))) for name in ['numpy','scipy']},'python': sys.version, 'numpy': np.__version__, 'scipy': scipy.__version__,
             'platform': platform.platform(), 'bdf_sha256': sha256(bdf.__file__),
@@ -241,6 +243,8 @@ def rerun_binding(matrix, root=None):
 
 
 def binding_digest(binding):
+    if binding and 'native_attempt' in binding:
+        return sha256(DOC/'NATIVE_REPEAT.json')
     if binding and binding.get('authorization') == remaining_io.AUTHORIZATION:
         return sha256(DOC/'REMAINING.json')
     return sha256(DOC/('RERUN.json' if binding and 'authorization' in binding else 'CONTINUATION.json')) if binding else None
@@ -305,13 +309,18 @@ def fresh_read(directory, kind):
     isolated = REMAINING_RUNTIME is not None
     command = [sys.executable, *(['-I', '-S'] if isolated else []), '-X', 'faulthandler',
                str(Path(__file__).resolve()), 'readback', '--archive-root', str(directory),
-               '--row', kind, *(['--remaining'] if isolated else [])]
+               '--row', kind, *(['--native' if '--native' in sys.argv else '--remaining'] if isolated else [])]
+    if '--native' in sys.argv:
+        from tools import capture_grudeva2026_native_010 as native
+        command = native.command(directory/f'{kind}-native-reader', command)
     with (directory/f'{kind}-reader.stdout.log').open('xb') as out, (directory/f'{kind}-reader.stderr.log').open('xb') as err:
         result = subprocess.run(command, stdout=out, stderr=err)
         for stream in (out, err):
             stream.flush(); os.fsync(stream.fileno())
     write_json(directory/f'{kind}-reader-exit.json', {'command':command, 'exit_code':result.returncode})
     result.check_returncode()
+    if '--native' in sys.argv:
+        native.require_child_success(directory/f'{kind}-native-reader')
 
 
 def reconcile_provisional(early, final):
@@ -979,6 +988,9 @@ def report(root, continuation=False, rerun=False, remaining=False):
                                 'new_completed_BDF_segments':sum(sum(s['success'] for s in e['segments']) for e in ends),
                                 'cumulative_full_trajectories':3+completed,
                                 'cumulative_BDF_segments':6+sum(sum(s['success'] for s in e['segments']) for e in ends)}
+        if 'native_attempt' in binding:
+            result['accounting']['prior_interrupted_repeat_attempts'] = 1
+            result['native_instrumentation'] = 'GDB supervised; ASLR retained; altered timing; historical crash causes unresolved'
         snapshots = root/'reports'; snapshots.mkdir(exist_ok=True)
         destination = snapshots/(now().replace(':','-')+'.json')
     else:
@@ -995,8 +1007,10 @@ def main():
     p.add_argument('--continuation', action='store_true', help='Validate the reviewed 010 continuation binding; never ignore hashes')
     p.add_argument('--rerun', action='store_true', help='Validate the specific controlled rerun binding')
     p.add_argument('--remaining', action='store_true', help='Validate the recovered-anchor and thirteen-row binding')
+    p.add_argument('--native', action='store_true', help='Validate the single debugger-supervised replacement attempt binding')
     a=p.parse_args()
-    if sum((a.rerun,a.continuation,a.remaining))>1: p.error('Select exactly one binding')
+    if sum((a.rerun,a.continuation,a.remaining,a.native))>1: p.error('Select exactly one binding')
+    a.remaining = a.remaining or a.native
     if a.remaining and a.operation=='freeze': p.error('Original matrix is immutable')
     if a.operation=='freeze': freeze()
     elif a.archive_root is None: p.error('--archive-root required')
