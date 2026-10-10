@@ -494,6 +494,8 @@ def save_bundle(path, values):
 def preserve_run_failure(output, exc, record):
     """Retain the original failure even if secondary diagnostic writes fail."""
     if isinstance(exc, CaptureMismatch):
+        if exc.record.get('kind') == 'NUMERIC_MEMBER_REJECTED':
+            record['numeric_failure'] = exc.record
         record['capture_comparisons'] = exc.record.get('comparisons')
         record['capture_location'] = {k: exc.record.get(k) for k in
                                       ('segment', 'moving', 'interval', 'component')}
@@ -503,9 +505,18 @@ def preserve_run_failure(output, exc, record):
         print('Original failure:', json.dumps(record), file=sys.stderr, flush=True)
         print('Secondary failure-record write error:', repr(error), file=sys.stderr, flush=True)
     if isinstance(exc, CaptureMismatch):
-        receipt = persist_capture_failure(output/'capture-quarantine', exc)
-        if receipt['errors']:
-            print('Secondary capture diagnostic errors:', receipt['errors'], file=sys.stderr, flush=True)
+        try:
+            receipt = persist_capture_failure(output/'capture-quarantine', exc)
+            if receipt['errors']:
+                print('Secondary capture diagnostic errors:', receipt['errors'], file=sys.stderr, flush=True)
+        except BaseException as error:
+            secondary = {'error': f'{type(error).__name__}: {error}',
+                         'primary_failure': 'failure.json already attempted; original exception remains primary'}
+            print('Secondary capture diagnostic error:', secondary, file=sys.stderr, flush=True)
+            try:
+                write_json(output/'diagnostic-preservation-error.json', secondary)
+            except BaseException as write_error:
+                print('Secondary diagnostic receipt error:', repr(write_error), file=sys.stderr, flush=True)
 
 
 def run_row(root, row, continuation=False, rerun=False):

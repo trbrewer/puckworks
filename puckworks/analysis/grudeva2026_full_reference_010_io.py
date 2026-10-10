@@ -112,6 +112,30 @@ class CaptureMismatch(ValueError):
                        **record}
         self.pairs = list(pairs)
         self.snapshots = []
+        self.numeric_values = []
+
+
+def nonfinite_detail(value):
+    """Optional bounded witness of the current buffer, after primary preservation."""
+    a = np.asarray(value)
+    count, offset, first = 0, 0, None
+    for raw in numeric_chunks(a):
+        block = np.frombuffer(raw, dtype=a.dtype)
+        bad = ~np.isfinite(block)
+        count += int(np.count_nonzero(bad))
+        if first is None and bad.any():
+            first = offset + int(np.flatnonzero(bad)[0])
+        offset += block.size
+    result = {'scope': 'current buffer during later enrichment, not earlier comparison bytes',
+              'nonfinite_count': count, 'first_flat_index': first,
+              'first_index': None if first is None else [int(i) for i in np.unravel_index(first, a.shape)]}
+    if first is not None:
+        start, stop = max(0, first-8), min(a.size, first+24)
+        window = a.flat[start:stop]
+        result['window'] = {'flat_elements': [start, stop], 'dtype': a.dtype.str,
+                            'values_repr': [repr(v.item()) for v in window],
+                            'bytes_hex': window.tobytes().hex()}
+    return result
 
 
 def byte_difference(source, target):
@@ -159,6 +183,13 @@ def persist_capture_failure(directory, exc):
         receipt['errors'].append(f'essential record: {type(error).__name__}: {error}')
         print('Capture diagnostic preservation failure:', receipt, file=sys.stderr, flush=True)
         return receipt
+    # No count/location scan or witness construction precedes FAILURE.json.
+    for index, (role, value) in enumerate(exc.numeric_values):
+        try:
+            write_json(directory/f'numeric-detail-{index}.json',
+                       {'role': role, **nonfinite_detail(value)})
+        except BaseException as error:
+            receipt['errors'].append(f'numeric detail {role}: {type(error).__name__}: {error}')
     for index, (component, source, target) in enumerate(exc.pairs[:8]):
         try:
             detail, arrays = byte_difference(source, target)
@@ -167,8 +198,15 @@ def persist_capture_failure(directory, exc):
             # Record the scalar/byte comparison before attempting numeric writes.
             write_json(directory/f'witness-{index}.json', detail)
             for name, value in arrays.items():
+                # Nonfinite floating witnesses are retained as exact bytes; the
+                # numeric writer still rejects nonfinite scientific arrays.
+                encoding = {'dtype': value.dtype.str, 'shape': list(value.shape)}
+                if not finite(value):
+                    value = np.ascontiguousarray(value).view(np.uint8)
+                    encoding['storage'] = 'raw bytes of nonfinite numeric witness'
                 expected = array_identity(value)
-                detail['arrays'][name] = write_numeric(directory/f'witness-{index}-{name}.npy', value, expected)
+                detail['arrays'][name] = {**write_numeric(directory/f'witness-{index}-{name}.npy', value, expected),
+                                         'original_numeric_encoding': encoding}
             receipt['witnesses'].append(detail)
         except BaseException as error:
             receipt['errors'].append(f'witness {index}: {type(error).__name__}: {error}')
@@ -400,26 +438,70 @@ def payload_identity(path):
     return {'shape': list(shape), 'dtype': dtype.str, 'sha256': h.hexdigest()}
 
 
-def write_numeric(path, value, expected):
+def numeric_checks(value, expected):
+    """Evaluate both admission predicates; a failure never short-circuits the other."""
+    result = {'expected': expected}
+    try:
+        result['observed'] = array_identity(value)
+        result['identity'] = 'PASS' if result['observed'] == expected else 'FAIL'
+    except Exception as error:
+        result.update(identity='ERROR', observed=None, identity_error=f'{type(error).__name__}: {error}')
+    try:
+        result['finiteness'] = 'PASS' if finite(value) else 'FAIL'
+    except Exception as error:
+        result.update(finiteness='ERROR', finiteness_error=f'{type(error).__name__}: {error}')
+    return result
+
+
+def require_numeric(path, stage, checks, context, values=(), pairs=()):
+    failures = [f'{role}.{predicate}' for role, result in checks.items()
+                for predicate in ('identity', 'finiteness') if result.get(predicate) in ('FAIL', 'ERROR')]
+    if failures:
+        exc = CaptureMismatch(f'Numeric member rejected at {stage}: {Path(path).name}',
+                              {**(context or {}), 'kind': 'NUMERIC_MEMBER_REJECTED',
+                               'path': str(Path(path)), 'member': Path(path).name,
+                               'archive_group': (context or {}).get('archive_group'),
+                               'stage': stage, 'checks': checks, 'failed_conditions': failures,
+                               'comparison_bytes': 'Current source/target pairs only; prospective hashes do not supply prior bytes'},
+                              pairs)
+        exc.numeric_values = list(values)
+        raise exc
+
+
+def write_numeric(path, value, expected, context=None):
     """Serialize against a prospective source commitment, never a file-derived one."""
-    if array_identity(value) != expected or not finite(value):
-        raise ValueError('Source commitment mismatch or nonfinite source')
+    location = {**(context or {}), 'path': str(Path(path)), 'member': Path(path).name}
+    require_numeric(path, 'pre_write_source', {'source': numeric_checks(value, expected)},
+                    location, [('source', value)])
     # Capture snapshots already own read-only C buffers. Other callers get an
     # independent checked snapshot; ascontiguousarray alone would not suffice.
     a = value if (value.flags.owndata and value.flags.c_contiguous
-                  and not value.flags.writeable) else stable_copy(value)
+                  and not value.flags.writeable) else stable_copy(value, location)
     with Path(path).open('xb') as stream:
         np.save(stream, a, allow_pickle=False)
         stream.flush()
         os.fsync(stream.fileno())
-    if array_identity(value) != expected or array_identity(a) != expected:
-        raise ValueError('Source mutation during serialization')
-    raw = payload_identity(path)
-    if raw != expected:
-        raise ValueError('Serialized payload differs from source commitment')
-    loaded = np.load(path, allow_pickle=False, mmap_mode='r')
-    if array_identity(loaded) != expected or not finite(loaded):
-        raise ValueError('Loaded payload differs from source commitment')
+    require_numeric(path, 'post_write_source',
+                    {'source': numeric_checks(value, expected), 'snapshot': numeric_checks(a, expected)},
+                    location, [('source', value), ('snapshot', a)], [('source/snapshot', value, a)])
+    raw_check = {'expected': expected, 'finiteness': 'NOT_APPLICABLE',
+                 'finiteness_reason': 'Raw NPY bytes; safe loaded payload is checked independently below'}
+    try:
+        raw_check['observed'] = payload_identity(path)
+        raw_check['identity'] = 'PASS' if raw_check['observed'] == expected else 'FAIL'
+    except Exception as error:
+        raw_check.update(identity='ERROR', observed=None, identity_error=f'{type(error).__name__}: {error}')
+    loaded = None
+    try:
+        loaded = np.load(path, allow_pickle=False, mmap_mode='r')
+        loaded_check = numeric_checks(loaded, expected)
+    except Exception as error:
+        loaded_check = {'expected': expected, 'observed': None, 'identity': 'ERROR', 'finiteness': 'ERROR',
+                        'identity_error': f'{type(error).__name__}: {error}',
+                        'finiteness_error': 'Safe numeric loading failed; no array to evaluate'}
+    require_numeric(path, 'saved_payload', {'serialized_payload': raw_check, 'loaded_payload': loaded_check},
+                    location, [] if loaded is None else [('loaded_payload', loaded)],
+                    [] if loaded is None else [('source/loaded', value, loaded)])
     return {'file': Path(path).name, 'sha256': sha256(path), 'array': expected,
             'order': 'C', 'pre_write_source': 'PASS', 'post_write_source': 'PASS',
             'serialized_payload': 'PASS', 'independently_loaded_payload': 'PASS'}
@@ -521,7 +603,8 @@ def save_archive(directory, trajectory, metadata, complete=True, checkpoint_dire
                     raise ValueError('Linked checkpoint identity mismatch')
                 records[key] = rec
             else:
-                records[key] = write_numeric(target, a, prospective[name][key])
+                records[key] = write_numeric(target, a, prospective[name][key],
+                                             {'archive_group': name, 'component': key, 'archive_role': 'trajectory'})
         if prospective[name] != {key: array_identity(a) for key, a in arrays.items()}:
             raise ValueError('Source mutation across archive serialization')
         if name != 'geometry':
@@ -556,7 +639,8 @@ def save_checkpoints(directory, model, results, metadata):
     write_json(directory/'SOURCE_COMMITMENT.json', expected)
     records = []
     for j, (moving, result) in enumerate(results):
-        arrays = {k: write_numeric(directory/f'segment-{j}-{k}.npy', getattr(result, k), expected[j][k])
+        arrays = {k: write_numeric(directory/f'segment-{j}-{k}.npy', getattr(result, k), expected[j][k],
+                                   {'archive_group': f'segment-{j}', 'component': k, 'archive_role': 'checkpoint'})
                   for k in ('t', 'y')}
         records.append({'moving': bool(moving), 'arrays': arrays})
     for j, (_, result) in enumerate(results):

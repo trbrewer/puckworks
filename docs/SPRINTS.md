@@ -733,3 +733,17 @@ The historical two trajectories/four segments remain separately counted; this
 attempt adds one trajectory/two segments. Provisional accumulator conservation is
 not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.
+
+### 010 retained-anchor recovery — partial contents only (2026-10-10)
+
+- [x] Revalidate original checkpoint lineage and all 18 retained archive members; identify segment-1 D as the first unwritten member by writer-order inference.
+- [x] Preserve 24/28 recoverable numeric members in an exclusive directory; all four regenerated derived members match pre-existing commitments, and fresh-reader checks pass.
+- [x] Separate member-level identity/finiteness outcomes and preserve primary writer failures before optional witnesses; affected controls and failed records retained.
+- [x] Compute independent accepted spatial inventories and segment-0-only flux audit; retain diagnostics at 67/211 original observation times.
+- [ ] Full recovery: segment-1 D/shift/denom/order and original live-interpolant fidelity evidence remain unavailable; 144 arbitrary observation times lack support.
+- [ ] Repeat and twelve refinements: NOT_RUN. No new solver execution or automatic new anchor.
+
+[Recovery results and exact limits](analysis/model_grudeva2026_full_reference_010/RECOVERY.md).
+Three completed full trajectories/six BDF segments cumulatively, zero admitted
+full references. Local QA child SIGSEGV causes remain unestablished.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.

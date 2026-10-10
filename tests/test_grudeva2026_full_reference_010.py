@@ -379,8 +379,139 @@ def test_source_mutation_during_serialization(tmp_path, monkeypatch):
         array.flags.writeable = True
         array.view(np.uint64)[3] ^= np.uint64(1 << 29)
     monkeypatch.setattr(np, 'save', mutate)
-    with pytest.raises(ValueError, match='Source mutation'):
+    with pytest.raises(archive_io.CaptureMismatch, match='post_write_source') as caught:
         archive_io.write_numeric(tmp_path/'a.npy', a, expected)
+    assert caught.value.record['checks']['source']['identity'] == 'FAIL'
+    assert caught.value.record['checks']['source']['finiteness'] == 'PASS'
+
+
+@pytest.mark.parametrize('condition', ['identity', 'nonfinite', 'both', 'secondary'])
+def test_numeric_member_failure_persists_actual_conditions(tmp_path, monkeypatch, condition):
+    from tools.run_grudeva2026_full_reference_010 import preserve_run_failure
+    value = np.arange(12.).reshape(3, 4)
+    expected = archive_io.array_identity(value)
+    value[1, 2] = .25 if condition == 'identity' else np.nan
+    if condition == 'nonfinite':
+        expected = archive_io.array_identity(value)
+    path = tmp_path/'segment-1-D.npy'
+    if condition == 'secondary':
+        def unavailable(*args):
+            assert (tmp_path/'failure.json').exists()
+            assert (tmp_path/'capture-quarantine/FAILURE.json').exists()
+            raise OSError('injected optional scan failure')
+        monkeypatch.setattr(archive_io, 'nonfinite_detail', unavailable)
+    with pytest.raises(archive_io.CaptureMismatch) as caught:
+        archive_io.write_numeric(path, value, expected, {'archive_group': 'segment-1', 'component': 'D'})
+    preserve_run_failure(tmp_path, caught.value, {'message': str(caught.value)})
+    primary = json.loads((tmp_path/'failure.json').read_text())['numeric_failure']
+    saved = json.loads((tmp_path/'capture-quarantine/FAILURE.json').read_text())
+    assert primary == saved
+    assert saved['path'] == str(path) and saved['member'] == path.name
+    assert saved['archive_group'] == 'segment-1' and saved['component'] == 'D'
+    source = saved['checks']['source']
+    assert source['expected'] == expected
+    assert source['observed'] == archive_io.array_identity(value)
+    assert source['identity'] == ('PASS' if condition == 'nonfinite' else 'FAIL')
+    assert source['finiteness'] == ('PASS' if condition == 'identity' else 'FAIL')
+    assert set(saved['failed_conditions']) == {
+        'source.'+key for key in ('identity', 'finiteness') if source[key] == 'FAIL'}
+    assert not path.exists()
+    if condition == 'secondary':
+        receipt = json.loads((tmp_path/'capture-quarantine/PRESERVATION.json').read_text())
+        assert receipt['status'] == 'PARTIAL_EVIDENCE_WRITE_FAILURE'
+        assert 'injected optional scan failure' in receipt['errors'][0]
+    else:
+        detail = json.loads((tmp_path/'capture-quarantine/numeric-detail-0.json').read_text())
+        assert detail['nonfinite_count'] == (0 if condition == 'identity' else 1)
+        if condition != 'identity':
+            assert detail['first_index'] == [1, 2]
+            assert bytes.fromhex(detail['window']['bytes_hex']) == value.tobytes()
+
+
+@pytest.mark.parametrize('unavailable', ['identity', 'finiteness'])
+def test_numeric_primary_check_error_does_not_hide_other_failure(tmp_path, monkeypatch, unavailable):
+    from tools.run_grudeva2026_full_reference_010 import preserve_run_failure
+    value = np.arange(4.)
+    expected = archive_io.array_identity(value)
+    value[2] = np.inf
+    def fail(*args):
+        raise OSError('injected primary check error')
+    monkeypatch.setattr(archive_io, 'array_identity' if unavailable == 'identity' else 'finite', fail)
+    with pytest.raises(archive_io.CaptureMismatch) as caught:
+        archive_io.write_numeric(tmp_path/'segment-1-D.npy', value, expected, {'archive_group': 'segment-1'})
+    preserve_run_failure(tmp_path, caught.value, {'message': str(caught.value)})
+    saved = json.loads((tmp_path/'failure.json').read_text())['numeric_failure']['checks']['source']
+    assert saved[unavailable] == 'ERROR'
+    assert saved['finiteness' if unavailable == 'identity' else 'identity'] == 'FAIL'
+    assert saved[unavailable+'_error'] == 'OSError: injected primary check error'
+
+
+def test_numeric_caller_preserves_primary_if_preservation_raises(tmp_path, monkeypatch):
+    from tools import run_grudeva2026_full_reference_010 as runner
+    value = np.ones(2)
+    expected = archive_io.array_identity(value)
+    value[0] = np.nan
+    def fail(*args):
+        assert (tmp_path/'failure.json').exists()
+        raise OSError('injected preservation failure')
+    monkeypatch.setattr(runner, 'persist_capture_failure', fail)
+    with pytest.raises(archive_io.CaptureMismatch) as caught:
+        try:
+            archive_io.write_numeric(tmp_path/'segment-1-D.npy', value, expected, {'archive_group': 'segment-1'})
+        except archive_io.CaptureMismatch as exc:
+            runner.preserve_run_failure(tmp_path, exc, {'message': str(exc)})
+            raise
+    saved = json.loads((tmp_path/'failure.json').read_text())['numeric_failure']
+    assert saved == caught.value.record
+    assert saved['failed_conditions'] == ['source.identity', 'source.finiteness']
+    assert 'injected preservation failure' in (tmp_path/'diagnostic-preservation-error.json').read_text()
+
+
+def test_numeric_saved_payload_failure_retains_actual_byte_witness(tmp_path, monkeypatch):
+    from tools.run_grudeva2026_full_reference_010 import preserve_run_failure
+    path = tmp_path/'segment-1-D.npy'
+    value = np.arange(12.).reshape(3, 4)
+    expected = archive_io.array_identity(value)
+    save = np.save
+    def damaged_payload(stream, array, **kwargs):
+        if stream.name == str(path):
+            array = array.copy()
+            array[1, 2] = np.nan
+        return save(stream, array, **kwargs)
+    monkeypatch.setattr(np, 'save', damaged_payload)
+    with pytest.raises(archive_io.CaptureMismatch) as caught:
+        archive_io.write_numeric(path, value, expected, {'archive_group': 'segment-1'})
+    preserve_run_failure(tmp_path, caught.value, {'message': str(caught.value)})
+    saved = json.loads((tmp_path/'failure.json').read_text())['numeric_failure']
+    assert saved['stage'] == 'saved_payload'
+    assert saved['checks']['serialized_payload']['identity'] == 'FAIL'
+    assert saved['checks']['loaded_payload']['identity'] == 'FAIL'
+    assert saved['checks']['loaded_payload']['finiteness'] == 'FAIL'
+    q = tmp_path/'capture-quarantine'
+    witness = json.loads((q/'witness-0.json').read_text())
+    assert witness['first_index'] == [1, 2]
+    retained = np.load(q/'witness-0-target.npy', allow_pickle=False)
+    assert retained.dtype == np.uint8
+    assert retained.tobytes() == np.load(path, allow_pickle=False).tobytes()
+    assert json.loads((q/'PRESERVATION.json').read_text())['status'] == 'PRESERVED'
+
+
+def test_archive_writer_supplies_exact_member_context(tmp_path, monkeypatch):
+    from tools.run_grudeva2026_full_reference_010 import preserve_run_failure
+    original = archive_io.write_numeric
+    def reject(path, value, expected, context=None):
+        if path.name == 'segment-0-D.npy':
+            value = value.copy()
+            value.flat[0] = np.nan
+        return original(path, value, expected, context)
+    monkeypatch.setattr(archive_io, 'write_numeric', reject)
+    with pytest.raises(archive_io.CaptureMismatch) as caught:
+        _synthetic_archive(tmp_path)
+    preserve_run_failure(tmp_path, caught.value, {'message': str(caught.value)})
+    saved = json.loads((tmp_path/'failure.json').read_text())['numeric_failure']
+    assert saved['member'] == 'segment-0-D.npy' and saved['archive_group'] == 'segment-0'
+    assert saved['archive_role'] == 'trajectory' and saved['component'] == 'D'
+    assert not (tmp_path/'archive/manifest.json').exists()
 
 
 @pytest.mark.parametrize('bad', [np.array([object()], dtype=object), np.array([np.nan]), np.array([np.inf])])
@@ -460,11 +591,11 @@ def test_archive_negative_boundaries(tmp_path, failure):
 def test_interrupted_write_has_no_success_manifest(tmp_path, monkeypatch):
     original = archive_io.write_numeric
     calls = []
-    def fail(path, a, expected):
+    def fail(path, a, expected, context=None):
         calls.append(path)
         if len(calls) == 3:
             raise OSError('injected interrupted write')
-        return original(path, a, expected)
+        return original(path, a, expected, context)
     monkeypatch.setattr(archive_io, 'write_numeric', fail)
     with pytest.raises(OSError, match='interrupted'):
         _synthetic_archive(tmp_path)

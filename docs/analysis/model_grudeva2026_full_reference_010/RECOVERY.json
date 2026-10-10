@@ -1,0 +1,642 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "accounting": {
+    "admitted_full_reference_rows": 0,
+    "cumulative_BDF_segments": 6,
+    "cumulative_completed_full_trajectories": 3,
+    "new_BDF_segments": 0,
+    "new_solver_executions": 0,
+    "prior_BDF_segments": 6,
+    "prior_completed_full_trajectories": 3,
+    "repeat": "NOT_RUN",
+    "twelve_refinements": "NOT_RUN"
+  },
+  "actual_executable": {
+    "installed_files": {
+      "numpy": {
+        "files": 928,
+        "sha256": "7c9965141fb0db59f2db12c722e3372b0c492a45acb33be301d9ea7ef1e5a946"
+      },
+      "scipy": {
+        "files": 1432,
+        "sha256": "96c8cee5ddd7a4c5c008e6d9ba49dde60de6f36abff6b5a77e87b1972471ecb2"
+      }
+    },
+    "python_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+  },
+  "authorization": "CONTINUE PR #333 \u2014 RECOVER THE CURRENT ANCHOR BEFORE ANY REINTEGRATION",
+  "changed_files": [
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py",
+    "tests/test_grudeva2026_full_reference_010.py",
+    "tools/run_grudeva2026_full_reference_010.py"
+  ],
+  "corrections": [
+    "Arrays-only validator now receives numeric members, excluding moving metadata; resumed from verified files without integration",
+    "Explicit UTC kernel query supersedes initial future-localtime query interpretation; records both retained",
+    "Segment0 observation count supplemented by exact accepted endpoint t8;144 arbitrary-time requirements remain unavailable"
+  ],
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "environment": {
+    "bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "distribution_records": {
+      "numpy": "5cfda7f23476d53c21db44bd615c838fe6ec50788acdecf707065efe6f4776e7",
+      "scipy": "d376f6be3fce626b65090112b4498ae3221a25f6c8cb8d5fe46dd9f31d324858"
+    },
+    "numpy": "2.5.2",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "environment_disposition": "EXECUTION_ENVIRONMENT_INTEGRITY_UNRESOLVED",
+  "evidence_directory": "controlled-rerun-20261010/recovery-20261010",
+  "evidence_directory_identity": "0c3d1dc44836bb09f2be257886e3b68bfeebaff57b1e968de02ad3fcf6b8202c",
+  "evidence_sha256": {
+    "CHECKPOINT_REVALIDATION.json": "952832acbd528ed39d2b3fb61fa9f3b4748b399ee0a0a7242d24388b9f04f949",
+    "HEALTH_READ_CORRECTION.json": "9ec146a2a9f6e801c2d841c4954a40e3bb4854f9d57c17075607095f722026e9",
+    "INSPECTION_START.json": "40a298ec7c8879171e2db4f788aac74cd3463e40036035f0427b90246f696adc",
+    "INVENTORY.json": "56684f2516a7058a62f5a8db70f24504c274baec49130ae898669ca2bd6e3353",
+    "NUMERICAL_RESULTS.json": "a4e4a3b50906480a758340bf9b29d05043601868f01c73ea581e0f97abcdea6c",
+    "OBSERVATION_AVAILABILITY.json": "e9af77c9c8a66cf3bc23fa622ab99397267820189d4f9ed695f427e08f64481f",
+    "POSTPROCESS_CORRECTION.json": "9786babd9d79373e65ce5ce3504bdd2a2c5c8bf2e3b2ff906444d6707edf6d0e",
+    "POSTPROCESS_END.json": "67e36c9fc6ad298e8defbedb01b1624cf0af4544209a32d609ebcb33ae16df7f",
+    "POSTPROCESS_START.json": "7121e3dc0b95292783174ec61e9f39133dac839bd247d07fca556a72eecc807e",
+    "PROVISIONAL_RECOMPUTED.json": "1aacfdbf8080b0bb64e19c4e8fdb609d0238946b63613e66276e8392c9262b59",
+    "RECOVERED_MEMBERS.json": "a53da2ee69de0e4b56ba29747d70859d25a7828718a6e7cdd4e41d4cdd5bafda",
+    "RECOVERY_FRESH_READ.json": "e95cb8e9531702ae09209e103982125c6c7e01f1bf55ed104226bd6eda4cba25",
+    "SOURCE_ENVIRONMENT.json": "615e5ce13ff0eb572decb8bbd3cbb89c09ac63bbf16b5adbfc44b12e25d8e009",
+    "accepted_common_executed.py": "fe53ea834c62ed47f1d64e487ee72efcbd1339f2851d2f23c71b643e69d99e93",
+    "affected-controls.xml": "12ed71d7f964ed4c636df9866989e78854f49d7f16a1bd7ab2b0d36aa0184c46",
+    "affected-fault-check.xml": "1c2a44674ee576e9e5007da79a5e3e83e6f56591fd50939186b9ad884a548a52",
+    "document-controls.xml": "98a9c9e073a1a2c33517d8124f5294567ab8ac98843c2098b77da8637ccb6b28",
+    "failure.json": "b1653701119274dc80be9aba5bad58502d643a5a29447d8761241ca72992e547",
+    "inspect_retained.py": "52350a3eba0e1c3d38315b6c202b8bbd9b3d8cb5ada690cde0af5cb7b91b5d1f",
+    "postprocess_resume.py": "32a9f4bab3d37b982d137333c327b2e309f30dbdcfb2105043327fb431aeeaf5",
+    "recover_partial.py": "ee4179e43811113889f77986f1f3e6e0ce1d27ac9da8d519ca87de134195540f",
+    "writer-controls.xml": "569a0020753a7a32bc082c3a26d058cbd3132e967963f1bdc7b3a41122608f41"
+  },
+  "historical_documents_unchanged": 53,
+  "implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "9ee3ccf0ede78885e74e246470369007c6656fd66f4045b92d3c72bf11c01367",
+    "tests/test_grudeva2026_full_reference_010.py": "ae68763a11350de9e6a89b20a0371ac809f3cdf0502b207b39c7b449cefcc02b",
+    "tools/run_grudeva2026_full_reference_010.py": "2bd00408a2b8668b4e8fcb0c813e56771b232c932e9522441b3e8e560a47fd37"
+  },
+  "inventory": [
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "69b4f2ef4e2543b75b00553cff7f4b6fc0b48a8802210e396537971060058f69",
+        "shape": [
+          257
+        ]
+      },
+      "file": "geometry-xi_faces.npy",
+      "group": "geometry",
+      "member": "xi_faces",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "83b04026c0327e44d7c289bd69f937182745cbcd2d465e8cbc7d5a598543984e",
+        "shape": [
+          256
+        ]
+      },
+      "file": "geometry-xi.npy",
+      "group": "geometry",
+      "member": "xi",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "614fb8b47d33df1319872f3054978222cddea2b7df835af9c1cb99a29362ec10",
+        "shape": [
+          33
+        ]
+      },
+      "file": "geometry-fines_faces.npy",
+      "group": "geometry",
+      "member": "fines_faces",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "5b5ca6f6b218a6a17e548e412944fc882c5b3cd1972bb51469c5ebe1e6500ced",
+        "shape": [
+          32
+        ]
+      },
+      "file": "geometry-fines_centers.npy",
+      "group": "geometry",
+      "member": "fines_centers",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "5f9c3897ac34ca188ee7647e735478b9d37d666cc01f7defca7179bb5cea76eb",
+        "shape": [
+          32
+        ]
+      },
+      "file": "geometry-fines_volumes.npy",
+      "group": "geometry",
+      "member": "fines_volumes",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "5ccefd148fc56c3f8099d05af1ba3fe149640d0fd3ce29004c2110c1b352219b",
+        "shape": [
+          65
+        ]
+      },
+      "file": "geometry-boulders_faces.npy",
+      "group": "geometry",
+      "member": "boulders_faces",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "a660ab929650c16d74025dab1e92a8992448d6c154bcb738405f826ea011c0e5",
+        "shape": [
+          64
+        ]
+      },
+      "file": "geometry-boulders_centers.npy",
+      "group": "geometry",
+      "member": "boulders_centers",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "30ba61e38f0f4e67a93d4df0fc2510f2051c3963e375461f6768280c71074310",
+        "shape": [
+          64
+        ]
+      },
+      "file": "geometry-boulders_volumes.npy",
+      "group": "geometry",
+      "member": "boulders_volumes",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "9e4f23affd1c14cbf82e1370cd7a28b5cd8dd528cce43ef71cfe9532af1bdf7b",
+        "shape": [
+          7825,
+          6,
+          24834
+        ]
+      },
+      "file": "segment-0-D.npy",
+      "group": "segment-0",
+      "member": "D",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "496525aa878ebf6c24f230e976f97feef781f0b1641d8c6fdb106e0cdc2f98b0",
+        "shape": [
+          7825,
+          5
+        ]
+      },
+      "file": "segment-0-shift.npy",
+      "group": "segment-0",
+      "member": "shift",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "78c9709e8266f543af577adb661fb75e8b5667fceff78810bcd388e989df2a10",
+        "shape": [
+          7825,
+          5
+        ]
+      },
+      "file": "segment-0-denom.npy",
+      "group": "segment-0",
+      "member": "denom",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "|i1",
+        "sha256": "3c579ec9079092cdc23c054c445f5d64764da303cc14ba20155f74dd0ff50f00",
+        "shape": [
+          7825
+        ]
+      },
+      "file": "segment-0-order.npy",
+      "group": "segment-0",
+      "member": "order",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "3014e02a6d6d8b4c947c78b27969356af9a7b9daa773cefd275e2f2bc8457d97",
+        "shape": [
+          7826
+        ]
+      },
+      "file": "segment-0-t.npy",
+      "group": "segment-0",
+      "member": "t",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "3612c0304502f5d4ca405c4673959c35946248bff264ef67398b82538d024a1d",
+        "shape": [
+          24834,
+          7826
+        ]
+      },
+      "file": "segment-0-y.npy",
+      "group": "segment-0",
+      "member": "y",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "9e6fde0a0f35309bcc03754d5b8f373ed55ad84551cd20ddafef495413585217",
+        "shape": [
+          7826,
+          24832
+        ]
+      },
+      "file": "segment-0-concentrations.npy",
+      "group": "segment-0",
+      "member": "concentrations",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "6d1642d310dc19908241f60cedc6585694d73e073fbd1895d6d95c37b844ebf1",
+        "shape": [
+          7826,
+          2
+        ]
+      },
+      "file": "segment-0-boundary_accumulators.npy",
+      "group": "segment-0",
+      "member": "boundary_accumulators",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "18f3775c9426ff12fc1a4a695a23c4c2631f9336bad12174c27c2e2a240f848a",
+        "shape": [
+          7826,
+          257
+        ]
+      },
+      "file": "segment-0-physical_z_faces.npy",
+      "group": "segment-0",
+      "member": "physical_z_faces",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "441f3c1141dd644dbc4d0abeb57782ecbd4063576095a570df13b42b11d7f1e1",
+        "shape": [
+          7826,
+          256
+        ]
+      },
+      "file": "segment-0-physical_z_centers.npy",
+      "group": "segment-0",
+      "member": "physical_z_centers",
+      "present": true,
+      "status": "PRESENT_VERIFIED"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "file": "segment-1-D.npy",
+      "group": "segment-1",
+      "member": "D",
+      "present": false,
+      "recoverability": "ESSENTIAL_SOLVER_INFORMATION_UNAVAILABLE",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "6cb7ef2619c50b3eb9bcfde127058cea0e554be1f901704499eff5de2afaed99",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "file": "segment-1-shift.npy",
+      "group": "segment-1",
+      "member": "shift",
+      "present": false,
+      "recoverability": "ESSENTIAL_SOLVER_INFORMATION_UNAVAILABLE",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "ef4fb35ea6570c74ce26f65e3f2bc25f3e35eb420af3641da3b6216b57994e53",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "file": "segment-1-denom.npy",
+      "group": "segment-1",
+      "member": "denom",
+      "present": false,
+      "recoverability": "ESSENTIAL_SOLVER_INFORMATION_UNAVAILABLE",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "|i1",
+        "sha256": "7c2d6b2bd34e626e84398175bac105c34d1a984a388b7af53415d69536a5aa2f",
+        "shape": [
+          18002
+        ]
+      },
+      "file": "segment-1-order.npy",
+      "group": "segment-1",
+      "member": "order",
+      "present": false,
+      "recoverability": "ESSENTIAL_SOLVER_INFORMATION_UNAVAILABLE",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "48bd7f3e96ed8b0c545b5f7d234c6297de3a75cd89f656806ef0b514d723e7d2",
+        "shape": [
+          18003
+        ]
+      },
+      "file": "segment-1-t.npy",
+      "group": "segment-1",
+      "member": "t",
+      "present": false,
+      "recoverability": "VERIFIED_CHECKPOINT_SAME_EXECUTION",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "3921c7f8ba0674cd80505c84bc1a2b2e7420233ac45c142d3035af7b224532ff",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "file": "segment-1-y.npy",
+      "group": "segment-1",
+      "member": "y",
+      "present": false,
+      "recoverability": "VERIFIED_CHECKPOINT_SAME_EXECUTION",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "c5282dab3fa36d7c92c4577a715a9a00c12b4c2ddfa273caea01e401d8a4a5ab",
+        "shape": [
+          18003,
+          24832
+        ]
+      },
+      "file": "segment-1-concentrations.npy",
+      "group": "segment-1",
+      "member": "concentrations",
+      "present": false,
+      "recoverability": "DETERMINISTICALLY_REGENERABLE_PENDING_PRIOR_COMMITMENT_CHECK",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "df8b1a7f7006fefacccd7bc3968518cf99f8cb61ea98be01a17e0147a9338795",
+        "shape": [
+          18003,
+          2
+        ]
+      },
+      "file": "segment-1-boundary_accumulators.npy",
+      "group": "segment-1",
+      "member": "boundary_accumulators",
+      "present": false,
+      "recoverability": "DETERMINISTICALLY_REGENERABLE_PENDING_PRIOR_COMMITMENT_CHECK",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "44621af45d451e3133cb3f103438c1209c7d34f039b65f88aeb9a8a1890f84e2",
+        "shape": [
+          18003,
+          257
+        ]
+      },
+      "file": "segment-1-physical_z_faces.npy",
+      "group": "segment-1",
+      "member": "physical_z_faces",
+      "present": false,
+      "recoverability": "DETERMINISTICALLY_REGENERABLE_PENDING_PRIOR_COMMITMENT_CHECK",
+      "status": "MISSING"
+    },
+    {
+      "expected": {
+        "dtype": "<f8",
+        "sha256": "6b4ea68920c85e211182c2215e243a220647da0fd882c8a84f21b0b962e55a64",
+        "shape": [
+          18003,
+          256
+        ]
+      },
+      "file": "segment-1-physical_z_centers.npy",
+      "group": "segment-1",
+      "member": "physical_z_centers",
+      "present": false,
+      "recoverability": "DETERMINISTICALLY_REGENERABLE_PENDING_PRIOR_COMMITMENT_CHECK",
+      "status": "MISSING"
+    }
+  ],
+  "inventory_scope": "Original retained archive paths at inspection; final 24-member recovery identities and lineage are in RECOVERED_MEMBERS.json and RECOVERY_FRESH_READ.json",
+  "local_qa": {
+    "affected_controls_initial": {
+      "cause": "UNESTABLISHED",
+      "failed_child_SIGSEGV": 2,
+      "passed": 51
+    },
+    "affected_failed_cases_once_with_fault_handler": {
+      "cause_resolved": false,
+      "code_change": false,
+      "passed": 2
+    },
+    "document_controls": {
+      "passed": 78
+    },
+    "failed_records_preserved": true,
+    "hosted_ci_and_final_scoped_review": "Pending-at-commit; exact-head completion recorded in PR333 and external delivery without another scientific execution",
+    "large_diagnostic_replays": 0,
+    "static_checks": {
+      "git_diff_check": "PASS",
+      "ruff": "PASS",
+      "statusdoc_verify": "PASS"
+    },
+    "writer_controls": {
+      "passed": 15
+    }
+  },
+  "member_finding": {
+    "checkpoint_members_reused": 2,
+    "derived_members_matching_preexisting_commitment": 4,
+    "first_unwritten": "segment-1-D.npy",
+    "full_archive_recovery": "BLOCKED_MISSING_SEGMENT1_D_SHIFT_DENOM_ORDER",
+    "hardlinks": "Same underlying files; not independent backups; no in-place payload modification",
+    "historical_predicate": "UNRESOLVED_IDENTITY_MISMATCH_OR_NONFINITE_NO_RETAINED_BUFFER",
+    "identification": "INFERENCE_FROM_RETAINED_PREFIX_AND_BOUND_WRITER_ORDER_NOT_ORIGINAL_FILENAME_WITNESS",
+    "original_live_source_comparison": "UNAVAILABLE_NO_EQUIVALENCE_ASSERTED",
+    "original_present_verified": 18,
+    "recovered_members": 24,
+    "successful_manifest_published": false
+  },
+  "numerical_results": {
+    "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    "accepted_entries": 25829,
+    "at": "2026-10-10T17:18:25.478240+00:00",
+    "full_archive_admitted": false,
+    "label": "PROVISIONAL \u2014 NOT FULL_REFERENCE_QUALIFICATION",
+    "predrip_boundary_quadrature_3_vs_5": [
+      6.938893903907228e-18,
+      0.0
+    ],
+    "predrip_boundary_quadrature_vs_evolved": [
+      1.2078574251894736e-10,
+      0.0
+    ],
+    "predrip_independent_balance_max": 1.2078515965185943e-10,
+    "predrip_scope": [
+      1e-07,
+      1.0
+    ],
+    "predrip_terminal_Jin_Jout": [
+      -0.05842142441975782,
+      0.0
+    ],
+    "provisional_reconciliation_allowance_fraction": 0.0,
+    "required_observation_times_total": 211,
+    "scope_limits": [
+      "Accepted-time inventories are not arbitrary-time dense observations.",
+      "Spatial inventory quadrature is not independent time integration of boundary flux.",
+      "Independent time integration here covers segment0/startup only; no horizon8 conservation claim.",
+      "Original live-source interpolant fidelity comparison is unavailable and not replaced.",
+      "Segment1 arbitrary-time observations/flux quadrature cannot be reconstructed from accepted t/y.",
+      "No repeatability, refinement error budget, full numerical qualification or physical validity claim."
+    ],
+    "scoped_checks": {
+      "accepted_spatial_inventory_quadrature": true,
+      "predrip_boundary_accumulator": true,
+      "predrip_boundary_quadrature": true,
+      "predrip_independent_conservation": true
+    },
+    "solver_executions": 0,
+    "spatial_inventory_max_location": {
+      "phase": 1,
+      "t": 0.785601637834479
+    },
+    "spatial_inventory_quadrature_max": 1.3322676295501878e-15,
+    "spatial_inventory_threshold": 5.5519999999999986e-11,
+    "terminal_independent_inventories": [
+      0.001343952803642863,
+      0.004465061000911067,
+      0.002135084223013909,
+      0.0
+    ]
+  },
+  "observation_availability": {
+    "clarification": "NUMERICAL_RESULTS.json counted145 post-t=1 times outside the segment0 calculation. Those were not all intrinsically unavailable: exact accepted-time coincidences are processed here without dense interpolation. All other post-t=1 common times lack original dense coefficients. No full reference observation-support gate passes.",
+    "diagnostic_common_times_computed": 67,
+    "later_exact_accepted_times": [
+      8.0
+    ],
+    "original_required_common_times": 211,
+    "segment0_dense_times": 66,
+    "unavailable_arbitrary_times_count": 144
+  },
+  "original_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "9dc24e662ac9d714879376f2d1d20b71924cff7f3e7131f3f25c47dca35a112d",
+    "tests/test_grudeva2026_full_reference_010.py": "8790d29c3da9cc3d5e4c0e904f18e18023dd9c0379e0c0743d86d9901741a2a2",
+    "tools/run_grudeva2026_full_reference_010.py": "d2d52b47a3b6ace591efe30ec4ab65469acc683930abc0ab8b64392b76cc4057"
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "original_rerun_binding_sha256": "124ddf065b5a8e0020948f5497331765a03d2f039de6d8c3a066e1b976acd7b3",
+  "recorded_at": "2026-10-10T17:23:05.820845+00:00",
+  "reproduction_note": "accepted_common_executed.py preserves the exact previously executed endpoint command after execution; no prospective script-hash claim and no rerun. Other scripts are bound in their start/correction records.",
+  "reused_reviews": {
+    "CONTINUATION.json": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "CONTINUATION_CONTROLS.json": "9e4a18851ba8df40759e465caa4387c741af52e5343e1d905e213da80b949f7e",
+    "CONTINUATION_LARGE_TEST_REUSE.json": "5c4802b6ad4b55e8ba639c52d25316242befedbac1e05008516dcc9b21dd46aa",
+    "CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "DENSE_DIAGNOSTIC_REVIEW.json": "6e84e045717028c70bb9c45afc82def23544337720e9eb0bca1cee99be96c8cb",
+    "FINAL_REVIEW.json": "e3184a3f9dfedf8035a5d69b687aca732408dd370140eea30ff14dbefa369daf",
+    "PRE_CAMPAIGN_REVIEW.json": "068e41824283be13ba8e039c7119a905f01c16d616b1d2964a0c5f3761a84264",
+    "SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "TRANSFER_ISOLATION_REVIEW.json": "1e3bfeaff37db8b8101549d50f2ce8f23bac1a5196c236c046ea2c9d57ceeb2c"
+  },
+  "scope": "Narrow member-level reporting correction and partial recovery/post-processing; no solver executions or new execution binding bypass",
+  "starting_reviewed_head": "6a241e5578426c10ff5609e85a637ff92f64eed3",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}
