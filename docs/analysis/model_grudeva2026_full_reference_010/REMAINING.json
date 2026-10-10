@@ -1,0 +1,162 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "adapter_files": {
+    "tests/test_grudeva2026_remaining_010.py": "a3ae334df67bc42d3392e15ec5f2a0d7ff3054f6dadf4c9f33fe6bfe0a3e82a4",
+    "tools/diagnose_grudeva2026_transfer_010.py": "f233c54193f9c1308948d16d82af2488a36258e43ec47df1f5d537c428ead507",
+    "tools/grudeva2026_remaining_010.py": "faeaa16ad316730b9063ca9f10ae111bc1d138f199805efa20606698de5ec67d",
+    "tools/verify_grudeva2026_recovery_bytes_010.py": "5834998964f79dea48af03b5e628c9a4d35067575cd9cc92e0d51215421f9a7a"
+  },
+  "authorization": "OWNER AUTHORIZATION \u2014 COMPLETE THE REMAINING 010 QUALIFICATION",
+  "authorization_scope": "Exactly repeat once followed conditionally by twelve frozen refinements; no new anchor or automatic replacements",
+  "created_at": "2026-10-10T21:59:01.719258+00:00",
+  "entering_accounting": {
+    "completed_BDF_segments": 6,
+    "completed_full_trajectories": 3,
+    "reused_anchor_representations": 1
+  },
+  "environment": {
+    "bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "distribution_records": {
+      "numpy": "5cfda7f23476d53c21db44bd615c838fe6ec50788acdecf707065efe6f4776e7",
+      "scipy": "d376f6be3fce626b65090112b4498ae3221a25f6c8cb8d5fe46dd9f31d324858"
+    },
+    "numpy": "2.5.2",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "evidence_directory": "controlled-rerun-20261010/remaining-20261010/campaign",
+  "evidence_directory_identity": "ca4112b19e8caf46ace4da7d635d09f761061b05e2a79720768c94a38a106629",
+  "executable": {
+    "installed_files": {
+      "numpy": {
+        "files": 928,
+        "sha256": "7c9965141fb0db59f2db12c722e3372b0c492a45acb33be301d9ea7ef1e5a946"
+      },
+      "scipy": {
+        "files": 1432,
+        "sha256": "96c8cee5ddd7a4c5c008e6d9ba49dde60de6f36abff6b5a77e87b1972471ecb2"
+      }
+    },
+    "python_sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+  },
+  "governance": "G0 admission/runtime/reporting adapter; original G2 scientific contract and reviews unchanged",
+  "historical_SIGSEGV_causes": "THREE_UNRESOLVED",
+  "implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "9ee3ccf0ede78885e74e246470369007c6656fd66f4045b92d3c72bf11c01367",
+    "tests/test_grudeva2026_full_reference_010.py": "ae68763a11350de9e6a89b20a0371ac809f3cdf0502b207b39c7b449cefcc02b",
+    "tools/run_grudeva2026_full_reference_010.py": "ce6612e14c7ccf2a81830e302af7b49523864b86feba825866e255084243a934"
+  },
+  "new_row_order": [
+    "repeat",
+    "axial_coarse",
+    "axial_medium",
+    "fines_coarse",
+    "fines_medium",
+    "boulders_coarse",
+    "boulders_medium",
+    "startup_coarse",
+    "startup_medium",
+    "time_coarse",
+    "time_medium",
+    "combined_coarse",
+    "combined_medium"
+  ],
+  "original_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807",
+    "tests/test_grudeva2026_full_reference_010.py": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5",
+    "tools/run_grudeva2026_full_reference_010.py": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5"
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "recovered_anchor": {
+    "records": {
+      "admission": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/RECOVERED_REPRESENTATION.json",
+        "sha256": "c5fa4cf5396b8924b9c735df8fe57db26cd3eb8d3bf41d0a3d0efcb3c6cbc70b"
+      },
+      "byte_plan": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/COMPLETE28_PLAN.json",
+        "sha256": "45239374702dac3f443e4668dd130ebfe5cae61e148c816d36ecda0456de2ff0"
+      },
+      "byte_recovery": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/BYTE_RECOVERY_COMPLETE.json",
+        "sha256": "345515efa4cebbf4f28c5635680c7e274a66301228c4a89038177f46586f4172"
+      },
+      "checkpoint": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/campaign/anchor/checkpoints/checkpoint.json",
+        "sha256": "cc64122df4cfdefd1d42f0db0d048d0ba337bc20408981f708ea5eb8d3ac789d"
+      },
+      "fidelity": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/EQUIVALENT_FIDELITY.json",
+        "sha256": "d5c39cd5e827c9b2f8be686ce3f231494e8ef397f22899d93c53c3353ddc5621"
+      },
+      "fresh_bundles": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/BUNDLE_FRESH_READ.json",
+        "sha256": "d94f1e2d69067b2debe57c0a52a74d4b4f7accd01c2df9177ac93612fa172c81"
+      },
+      "original_source": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/campaign/anchor/trajectory/SOURCE_COMMITMENT.json",
+        "sha256": "909b775844dbd822979d56b29d0dcd8c64bc27b0ec8d4f5db05a1cabefe9af6a"
+      },
+      "provenance": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/RECOVERED_BYTES.json",
+        "sha256": "d6d7fcde72aed540ccd085bff62685f7de99fa86aafc2399dfcfcb37ccd63965"
+      },
+      "results": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/NUMERICAL_RESULTS_RECOVERED.json",
+        "sha256": "220984ce23776308f2989e4a45a8e5d3193530129cd551ebaee0e1bd99d1460e"
+      },
+      "review": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/FINAL_REVIEW.json",
+        "sha256": "3c1880e10acb2d543f9d0765cf27f0a63b0021c75bc0bb06a2eb496121b16174"
+      },
+      "solver_end": {
+        "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/campaign/anchor/solver-end.json",
+        "sha256": "9a32cd90514542eed1b9b56b6d393f2b408d7d26ac8bba807c8333603b712622"
+      }
+    },
+    "row": "anchor",
+    "scope": "Original live source unavailable; reviewed equivalent coefficient fidelity and original anchor audits admitted",
+    "support_sha256": "272ab557c01fd42ff2c9e120dd6aea5a7179379b8dba1c6b98f6474e72318e9e"
+  },
+  "reused_documents": {
+    "BYTE_RECOVERY.json": "3acc9dfad5455ff75d8813b538cc7cd2b5512ad3dfc1e85e80049e18ba8e1e3d",
+    "BYTE_RECOVERY.md": "26b66c763c3529004cde756bcc90ab21cd6c6a09072621ccbcadd6ca7ee20dc7",
+    "CONTINUATION_LARGE_TEST_REUSE.json": "5c4802b6ad4b55e8ba639c52d25316242befedbac1e05008516dcc9b21dd46aa",
+    "CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "FINAL_REVIEW.json": "e3184a3f9dfedf8035a5d69b687aca732408dd370140eea30ff14dbefa369daf",
+    "PRE_CAMPAIGN_REVIEW.json": "068e41824283be13ba8e039c7119a905f01c16d616b1d2964a0c5f3761a84264",
+    "RECOVERY.json": "4c18b36466562ad803cd4d09adb9bd5cc8ab59074e3918e81e247b05799c88b9",
+    "RERUN.json": "124ddf065b5a8e0020948f5497331765a03d2f039de6d8c3a066e1b976acd7b3",
+    "SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34"
+  },
+  "runtime": {
+    "bdf": "/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/bdf.py",
+    "python": "/home/tim/espresso-development/.venv-ewp-rwb-001/bin/python",
+    "records": {
+      "numpy": "/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/numpy-2.5.2.dist-info/RECORD",
+      "scipy": "/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy-1.18.1.dist-info/RECORD"
+    },
+    "site": "/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages"
+  },
+  "starting_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "9ee3ccf0ede78885e74e246470369007c6656fd66f4045b92d3c72bf11c01367",
+    "tests/test_grudeva2026_full_reference_010.py": "ae68763a11350de9e6a89b20a0371ac809f3cdf0502b207b39c7b449cefcc02b",
+    "tools/run_grudeva2026_full_reference_010.py": "2bd00408a2b8668b4e8fcb0c813e56771b232c932e9522441b3e8e560a47fd37"
+  },
+  "starting_reviewed_head": "c18b8675d4563b58b77379a4c938ba06d4df300a"
+}

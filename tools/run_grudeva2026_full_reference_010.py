@@ -10,7 +10,6 @@ from dataclasses import asdict
 import datetime as dt
 import fcntl
 import json
-from importlib.metadata import distribution
 import resource
 import os
 from pathlib import Path
@@ -25,9 +24,28 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from tools import grudeva2026_remaining_010 as remaining_io  # noqa: E402
+
+# The new bounded path verifies known dependency files before scientific imports.
+# Historical invocation paths retain their original environment checks.
+REMAINING_RUNTIME = None
+if '--remaining' in sys.argv:
+    if not (sys.flags.isolated and sys.flags.no_site and 'faulthandler' in sys._xoptions):
+        raise ValueError('Remaining campaign requires -I -S -X faulthandler')
+    _binding = remaining_io.load_binding(ROOT)
+    REMAINING_RUNTIME = remaining_io.verify_runtime(ROOT, _binding)
+    sys.path.insert(0, _binding['runtime']['site'])
+
 import numpy as np  # noqa: E402
 import scipy  # noqa: E402
 from scipy.integrate._ivp import bdf  # noqa: E402
+
+if REMAINING_RUNTIME is not None:
+    if (Path(np.__file__).resolve() != Path(_binding['runtime']['site'])/'numpy/__init__.py'
+            or Path(bdf.__file__).resolve() != Path(_binding['runtime']['bdf'])
+            or np.__version__ != _binding['environment']['numpy']
+            or scipy.__version__ != _binding['environment']['scipy']):
+        raise ValueError('Imported numerical modules differ from directly verified files')
 
 from puckworks.analysis.grudeva2026_full_reference_010 import (  # noqa: E402
     Case, Settings, integrate, liquid_flux,
@@ -55,6 +73,9 @@ def now():
 
 
 def environment():
+    if REMAINING_RUNTIME is not None:
+        return remaining_io.verify_runtime(ROOT, remaining_io.read(DOC/'REMAINING.json'))['environment']
+    from importlib.metadata import distribution
     return {'distribution_records':{name:sha256(next(p.locate() for p in distribution(name).files if str(p).endswith('.dist-info/RECORD'))) for name in ['numpy','scipy']},'python': sys.version, 'numpy': np.__version__, 'scipy': scipy.__version__,
             'platform': platform.platform(), 'bdf_sha256': sha256(bdf.__file__),
             'threads': {k: os.environ.get(k) for k in
@@ -171,6 +192,7 @@ def continuation_binding(matrix):
 
 def executable_identity():
     """Check actual installed bytes against RECORD, not version strings alone."""
+    from importlib.metadata import distribution
     records = {}
     for name in ('numpy', 'scipy'):
         entries = {}
@@ -219,12 +241,16 @@ def rerun_binding(matrix, root=None):
 
 
 def binding_digest(binding):
+    if binding and binding.get('authorization') == remaining_io.AUTHORIZATION:
+        return sha256(DOC/'REMAINING.json')
     return sha256(DOC/('RERUN.json' if binding and 'authorization' in binding else 'CONTINUATION.json')) if binding else None
 
 
-def load_matrix(continuation=False, rerun=False):
+def load_matrix(continuation=False, rerun=False, remaining=False):
     matrix = json.loads((DOC/'MATRIX.json').read_text())
-    if rerun:
+    if remaining:
+        remaining_io.load_binding(ROOT, matrix)
+    elif rerun:
         rerun_binding(matrix)
     elif continuation:
         continuation_binding(matrix)
@@ -232,7 +258,7 @@ def load_matrix(continuation=False, rerun=False):
         for p, digest in matrix['implementation'].items():
             if sha256(ROOT/p) != digest:
                 raise ValueError(f'Frozen implementation changed: {p}')
-    if not rerun and environment() != matrix['environment']:
+    if not rerun and not remaining and environment() != matrix['environment']:
         raise ValueError('Execution environment differs from freeze')
     review = json.loads((DOC/'PRE_CAMPAIGN_REVIEW.json').read_text())
     if review['disposition'] != 'PASS' or review['matrix_sha256'] != sha256(DOC/'MATRIX.json'):
@@ -276,8 +302,16 @@ def provisional_summary(trajectory):
 
 def fresh_read(directory, kind):
     """No solver in reader; its receipt binds verified metadata identities."""
-    subprocess.run([sys.executable, str(Path(__file__).resolve()), 'readback',
-                    '--archive-root', str(directory), '--row', kind], check=True)
+    isolated = REMAINING_RUNTIME is not None
+    command = [sys.executable, *(['-I', '-S'] if isolated else []), '-X', 'faulthandler',
+               str(Path(__file__).resolve()), 'readback', '--archive-root', str(directory),
+               '--row', kind, *(['--remaining'] if isolated else [])]
+    with (directory/f'{kind}-reader.stdout.log').open('xb') as out, (directory/f'{kind}-reader.stderr.log').open('xb') as err:
+        result = subprocess.run(command, stdout=out, stderr=err)
+        for stream in (out, err):
+            stream.flush(); os.fsync(stream.fileno())
+    write_json(directory/f'{kind}-reader-exit.json', {'command':command, 'exit_code':result.returncode})
+    result.check_returncode()
 
 
 def reconcile_provisional(early, final):
@@ -403,7 +437,7 @@ def audit(trajectory, observations):
              'boundary_quadrature_vs_evolved':np.max(abs(q5-evolved),axis=0).tolist(),
              'common_extrema':common,
              'terminal_inventories':phases[-1].tolist(),'terminal_Jin_Jout':acc[-1].tolist(),
-             'complete':all(seg['success'] for seg in trajectory.segments) and ts[-1]==8.,
+             'complete':bool(all(seg['success'] for seg in trajectory.segments) and ts[-1]==8.),
              'availability_reasons':{'liquid_unavailable':'dry support or zero wetted volume',
                                       'outlet_unavailable':'no discharge before t=1'},
              'work':[{k:seg[k] for k in ['nfev','njev','nlu']} for seg in trajectory.segments]}
@@ -519,11 +553,23 @@ def preserve_run_failure(output, exc, record):
                 print('Secondary diagnostic receipt error:', repr(write_error), file=sys.stderr, flush=True)
 
 
-def run_row(root, row, continuation=False, rerun=False):
-    matrix = load_matrix(continuation, rerun)
-    binding = rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None)
+def interpolant_error(want, got, t):
+    for name, value in [('live', want), ('restored', got)]:
+        bad = np.flatnonzero(~np.isfinite(value))
+        if len(bad):
+            raise ValueError(f'Nonfinite {name} interpolant at t={t!r}: '
+                             f'count={len(bad)}, first_flat_index={int(bad[0])}')
+    error = float(max(abs(want-got)))
+    return error, error/(256*np.finfo(float).eps*max(1,float(max(abs(want)))))
+
+
+def run_row(root, row, continuation=False, rerun=False, remaining=False):
+    matrix = load_matrix(continuation, rerun, remaining)
+    binding = remaining_io.load_binding(ROOT, matrix, root) if remaining else (rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None))
     if row not in matrix['rows']:
         raise ValueError('Row outside frozen matrix')
+    if remaining and row not in binding['new_row_order']:
+        raise ValueError('This continuation cannot execute an anchor')
     root.mkdir(parents=True,exist_ok=True)
     with (root/'execution.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -539,7 +585,7 @@ def run_row(root, row, continuation=False, rerun=False):
                                        'resources':resources()})
         stage = 'ADMISSION'
         try:
-            if rerun:
+            if rerun or remaining:
                 admit_rerun_row(root, row, matrix, binding)
             if binding and row != 'anchor':
                 # Other rows do not consume anchor values; report() independently
@@ -558,7 +604,7 @@ def run_row(root, row, continuation=False, rerun=False):
                        'segments':[{'moving':moving,'success':bool(r.success),'accepted_entries':len(r.t),
                                     'start':float(r.t[0]),'end':float(r.t[-1]),'message':r.message} for moving,r in results]})
             checkpoints = None
-            if rerun:
+            if rerun or remaining:
                 stage = 'CHECKPOINTING'
                 save_checkpoints(output/'checkpoints', model, results,
                                  {'row': row, 'binding_sha256': binding_digest(binding)})
@@ -572,7 +618,9 @@ def run_row(root, row, continuation=False, rerun=False):
                              {'row':row,'role':'returned accepted states, incomplete solver; not qualified',
                               'matrix_sha256':sha256(DOC/'MATRIX.json')}, complete=False)
                 raise RuntimeError('Integrator did not complete the declared horizon; returned states retained')
-            if rerun:
+            if remaining:
+                remaining_io.load_binding(ROOT, matrix, root)
+            elif rerun:
                 rerun_binding(matrix, root)
             stage = 'CAPTURING'
             trajectory = capture(model,results, {'run': row, 'diagnostic': 'capture-integrity'}, checkpoints=checkpoints)
@@ -582,8 +630,8 @@ def run_row(root, row, continuation=False, rerun=False):
                                      'environment':environment(),
                                      'implementation':binding['implementation'] if binding else matrix['implementation'],
                                      'continuation_sha256':binding_digest(binding)},
-                                    checkpoint_directory=output/'checkpoints' if rerun else None)
-            if rerun:
+                                    checkpoint_directory=output/'checkpoints' if rerun or remaining else None)
+            if rerun or remaining:
                 sync_directory(output/'trajectory')
                 stage = 'ARCHIVE_FRESH_READ'
                 fresh_read(output/'trajectory', 'archive')
@@ -598,15 +646,25 @@ def run_row(root, row, continuation=False, rerun=False):
             for seg, (_, original) in zip(restored.segments, results):
                 for t in (seg['t'][:-1]+seg['t'][1:])/2:
                     want, got = original.sol(t), restored.state(float(t))
-                    error = float(max(abs(want-got)))
+                    error, scaled = interpolant_error(want, got, float(t))
                     max_error=max(max_error,error)
-                    max_scaled=max(max_scaled,error/(256*np.finfo(float).eps*max(1,float(max(abs(want))))))
+                    max_scaled=max(max_scaled,scaled)
+            if remaining:
+                write_json(output/'capture-admission.json',
+                           {'manifest_sha256':sha256(output/'trajectory/manifest.json'),
+                            'archive_reader_sha256':sha256(output/'trajectory/archive-fresh-read.json'),
+                            'original_live_source_comparison':'PERFORMED_ON_THIS_NEW_EXECUTION',
+                            'evaluation_max':max_error, 'evaluation_allowance_fraction':max_scaled,
+                            'status':'PASS' if max_scaled<=1 else 'FAIL'})
+                sync_directory(output)
+                if max_scaled>1:
+                    raise ValueError('Original live-interpolant fidelity failed')
             # All observations/audits consume the independently validated archive.
             # Release original dense solver and capture buffers before auditing.
             trajectory = restored
             del results, original, result
             gc.collect()
-            if rerun:
+            if rerun or remaining:
                 stage = 'PROVISIONAL_RECONCILIATION'
                 early = json.loads((output/'checkpoints/PROVISIONAL.json').read_text())
                 final = provisional_summary(trajectory)
@@ -621,7 +679,11 @@ def run_row(root, row, continuation=False, rerun=False):
             stats, arrays = audit(trajectory,observations)
             stage = 'SAVING_AUDITS'
             observation_record = save_bundle(output/'observations.npz', observations)
+            if remaining:
+                write_json(output/'observation-admission.json', observation_record)
             diagnostic_record = save_bundle(output/'diagnostics.npz', arrays)
+            if remaining:
+                write_json(output/'diagnostic-admission.json', diagnostic_record)
             stats['archive'] = {'observation_bundle':observation_record,
                                 'diagnostic_bundle':diagnostic_record,
                                 'manifest_sha256':sha256(output/'trajectory/manifest.json'),
@@ -636,10 +698,13 @@ def run_row(root, row, continuation=False, rerun=False):
             stats['continuation_sha256']=binding_digest(binding)
             stats['observation_source']='independently validated archive payloads'
             write_json(output/'results.json',stats)
-            if rerun:
+            if rerun or remaining:
                 stage = 'BUNDLE_FRESH_READ'
                 fresh_read(output, 'bundles')
-                rerun_binding(matrix, root)
+                if remaining:
+                    remaining_io.load_binding(ROOT, matrix, root)
+                else:
+                    rerun_binding(matrix, root)
                 if not stats['gates']['required_support'] or not stats['gates']['archive_evaluation']:
                     raise ValueError('Required observation support or interpolant fidelity failed')
             write_json(output/'end.json',{'row':row,'ended':now(),'status':'COMPLETE',
@@ -685,6 +750,8 @@ def compare(a,b,support):
 
 def validate_saved_row(path, matrix, binding, full_archive=True):
     """Revalidate content identities; presence/completion labels are insufficient."""
+    if binding and binding.get('authorization') == remaining_io.AUTHORIZATION and path.name == 'anchor':
+        return remaining_io.anchor_stats(ROOT, path.parent, binding, matrix, validate_bundle, validate_observation_support, full_archive)
     end = json.loads((path/'end.json').read_text())
     stats = json.loads((path/'results.json').read_text())
     expected_binding = binding_digest(binding)
@@ -709,6 +776,8 @@ def validate_saved_row(path, matrix, binding, full_archive=True):
     if binding:
         validate_bundle(path/'observations.npz', stats['archive']['observation_bundle'])
         validate_bundle(path/'diagnostics.npz', stats['archive']['diagnostic_bundle'])
+    if recovered_binding(binding):
+        validate_observation_support(path/'observations.npz', matrix['support'])
     if full_archive:
         trajectory, manifest = load_archive(path/'trajectory')
         if (manifest['metadata']['matrix_sha256'] != ORIGINAL_MATRIX_SHA256
@@ -723,28 +792,84 @@ def repeat_check(root, matrix, binding):
     stats = {row: validate_saved_row(root/row, matrix, binding) for row in ('anchor', 'repeat')}
     if not all(v['gates']['required_support'] and v['gates']['archive_evaluation'] for v in stats.values()):
         raise ValueError('Missing required repeat support/fidelity')
-    manifests = [json.loads((root/row/'trajectory/manifest.json').read_text()) for row in ('anchor', 'repeat')]
-    identities = [[{key: rec['array'] for key, rec in segment['arrays'].items()}
-                   for segment in manifest['segments']] for manifest in manifests]
+    identities = [scientific_identities(root, row, binding) for row in ('anchor', 'repeat')]
     observations = []
     for row in ('anchor', 'repeat'):
-        with np.load(root/row/'observations.npz', allow_pickle=False) as values:
+        with np.load(observation_path(root, row, binding), allow_pickle=False) as values:
             observations.append({key: values[key] for key in values.files})
     metrics = compare(observations[1], observations[0], matrix['support'])
-    exact_observations = all(bundle_identity(observations[0][k]) == bundle_identity(observations[1][k])
-                             for k in observations[0])
+    exact_observations = (observations[0].keys() == observations[1].keys()
+                          and all(bundle_identity(observations[0][k]) == bundle_identity(observations[1][k])
+                                  for k in observations[0]))
     passed = identities[0] == identities[1] and exact_observations
     write_json(root/'REPEAT.json', {'status': 'PASS' if passed else 'FAIL',
                'binding_sha256': binding_digest(binding),
-               'manifest_sha256': [sha256(root/row/'trajectory/manifest.json') for row in ('anchor', 'repeat')],
+               ('admission_identities' if recovered_binding(binding) else 'manifest_sha256'):
+                   [row_receipt_identity(root, row, binding) for row in ('anchor', 'repeat')],
                'scientific_array_identity': identities[0] == identities[1],
-               'exact_observations': exact_observations, 'metrics': metrics})
+               'scientific_array_descriptors':identities,
+               'observation_array_identity':{k:bundle_identity(observations[0][k]) == bundle_identity(observations[1][k])
+                                             for k in observations[0].keys() & observations[1].keys()},
+               'required_masks_equal':bool(np.array_equal(observations[0]['wet'], observations[1]['wet'])),
+               'row_audit_gates':{row:stats[row]['gates'] for row in stats},
+               'exact_observations': exact_observations, 'metrics': metrics,
+               'interpretation':'Exact scientific content comparison; provenance and timestamps excluded; a failure alone diagnoses neither physics nor hardware'})
     if not passed:
         raise ValueError('Unresolved independent repeatability failure')
 
 
+def recovered_binding(binding):
+    return binding is not None and binding.get('authorization') == remaining_io.AUTHORIZATION
+
+
+def validate_observation_support(path, support):
+    with np.load(path, allow_pickle=False) as data:
+        if any(not np.array_equal(data[k], np.asarray(support[k])) for k in ('times', 'z', 'r')):
+            raise ValueError('Observation coordinates differ from original support')
+        wet = ((data['times'][:,None]>0)
+               & (data['z'][None,:]<=np.minimum(data['times'][:,None], 1.)))
+        if not np.array_equal(data['wet'], wet):
+            raise ValueError('Observation required wet mask differs from original support')
+        if (not np.isnan(data['liquid'][~wet]).all()
+                or not np.isnan(data['outlet'][data['times']<1]).all()):
+            raise ValueError('Structurally unavailable observations changed')
+        if (not np.isfinite(data['liquid'][wet]).all()
+                or not np.isfinite(data['outlet'][data['times']>=1]).all()
+                or any(not np.isfinite(data[k]).all() for k in
+                       ('grain_means','grain_radial','inventories','integrals','boundary_flux'))):
+            raise ValueError('Nonfinite required observation support')
+
+
+def observation_path(root, row, binding):
+    if recovered_binding(binding) and row == 'anchor':
+        return Path(binding['recovered_anchor']['records']['results']['path']).parent/'observations.npz'
+    return root/row/'observations.npz'
+
+
+def row_receipt_identity(root, row, binding):
+    if recovered_binding(binding) and row == 'anchor':
+        return {key:record['sha256'] for key,record in binding['recovered_anchor']['records'].items()}
+    return sha256(root/row/'trajectory/manifest.json')
+
+
+def scientific_identities(root, row, binding):
+    if recovered_binding(binding) and row == 'anchor':
+        return remaining_io.checked(binding['recovered_anchor']['records']['original_source'])
+    manifest = json.loads((root/row/'trajectory/manifest.json').read_text())
+    segments = [{key:rec['array'] for key,rec in seg['arrays'].items()} for seg in manifest['segments']]
+    if recovered_binding(binding):
+        return {'geometry':{key:rec['array'] for key,rec in manifest['geometry']['arrays'].items()},
+                **{f'segment-{j}':arrays for j,arrays in enumerate(segments)}}
+    return segments
+
+
 def admit_rerun_row(root, row, matrix, binding):
-    order = binding['row_order']
+    order = ['anchor', *binding['new_row_order']] if recovered_binding(binding) else binding['row_order']
+    if recovered_binding(binding):
+        admitted = json.loads((root/'RECOVERED_ANCHOR_ADMISSION.json').read_text())
+        if (admitted['status'] != 'PASS' or admitted['binding_sha256'] != binding_digest(binding)
+                or admitted['actual_admission_records'] != row_receipt_identity(root,'anchor',binding)):
+            raise ValueError('Recovered-anchor current admission missing or stale')
     # Current row directory already exists; every earlier row must be complete.
     for previous in order[:order.index(row)]:
         stats = validate_saved_row(root/previous, matrix, binding, full_archive=False)
@@ -754,99 +879,144 @@ def admit_rerun_row(root, row, matrix, binding):
         raise ValueError('Rerun order violation')
     if row not in ('anchor', 'repeat'):
         repeat = json.loads((root/'REPEAT.json').read_text())
+        identity_key = 'admission_identities' if recovered_binding(binding) else 'manifest_sha256'
         if (repeat['status'] != 'PASS' or repeat['binding_sha256'] != binding_digest(binding)
-                or repeat['manifest_sha256'] != [sha256(root/r/'trajectory/manifest.json') for r in ('anchor', 'repeat')]):
+                or repeat[identity_key] != [row_receipt_identity(root, r, binding) for r in ('anchor', 'repeat')]):
             raise ValueError('Repeatability admission missing or stale')
 
 
-def report(root, continuation=False, rerun=False):
-    matrix=load_matrix(continuation, rerun)
-    binding=rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None)
-    rows={}
+def report(root, continuation=False, rerun=False, remaining=False):
+    matrix = load_matrix(continuation, rerun, remaining)
+    binding = remaining_io.load_binding(ROOT, matrix, root) if remaining else (rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None))
+    rows, data = {}, {}
+    present_rows = {row:(remaining and row == 'anchor') or
+                    ((root/row/'results.json').exists() and
+                     (not (rerun or remaining) or (root/row/'end.json').exists()))
+                    for row in matrix['row_order']}
+    # Intermediate snapshots retain validated bundles; final qualification also
+    # requires current scientific payloads, including the recovered anchor.
+    full_archive = not remaining or all(present_rows.values())
     for row in matrix['row_order']:
-        path=root/row/'results.json'
-        rows[row]=(validate_saved_row(root/row, matrix, binding) if binding else json.loads(path.read_text())) if path.exists() and (not rerun or (root/row/'end.json').exists()) else {'disposition':'INCOMPLETE'}
-    if any('gates' not in row for row in rows.values()):
-        partial={'task':matrix['task'],'disposition':'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
-                 'physical_validation':'NOT_ESTABLISHED','rows':rows,'matrix_sha256':sha256(DOC/'MATRIX.json'),
-                 'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
-                 'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
-                 'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
-                 'original_failed_solver_complete_rows':2 if rerun else (1 if binding else 0),
-                 'continuation_sha256':binding_digest(binding),
-                 'reason':'Missing full rows; accepted partial trajectories and failures remain external; no reference qualification'}
-        write_json(root/'RESULTS.json',partial)
-        print(partial['disposition'],flush=True)
-        return
-    with np.load(root/'anchor/observations.npz',allow_pickle=False) as f: anchor={k:f[k] for k in f.files}
-    pairs={}
-    with np.load(root/'repeat/observations.npz',allow_pickle=False) as f:
-        repeat={k:f[k] for k in f.files}
-    pairs['repeat']=compare(repeat,anchor,matrix['support'])
+        path = root/row/'results.json'
+        rows[row] = (validate_saved_row(root/row, matrix, binding, full_archive=full_archive) if binding else json.loads(path.read_text())) if present_rows[row] else {'disposition':'INCOMPLETE'}
+        if 'gates' in rows[row]:
+            with np.load(observation_path(root, row, binding), allow_pickle=False) as f:
+                data[row] = {k:f[k] for k in f.files}
+    pairs, trends, budgets = {}, {}, {}
+    if 'anchor' in data and 'repeat' in data:
+        pairs['repeat'] = compare(data['repeat'], data['anchor'], matrix['support'])
     for axis in matrix['axes']:
-        data=[]
-        for level in ['coarse','medium']:
-            with np.load(root/f'{axis}_{level}/observations.npz',allow_pickle=False) as f:
-                data.append({k:f[k] for k in f.files})
-        pairs[axis+'_coarse_medium']=compare(data[0],data[1],matrix['support'])
-        pairs[axis+'_medium_fine']=compare(data[1],anchor,matrix['support'])
-    trends={}
-    budgets={}
+        coarse, medium = axis+'_coarse', axis+'_medium'
+        if coarse in data and medium in data:
+            pairs[axis+'_coarse_medium'] = compare(data[coarse], data[medium], matrix['support'])
+        if medium in data and 'anchor' in data:
+            pairs[axis+'_medium_fine'] = compare(data[medium], data['anchor'], matrix['support'])
     for key in LIMITS:
-        summed=sum(pairs[axis+'_medium_fine'][key]['max_change'] for axis in matrix['axes'] if axis!='combined')
-        combined=pairs['combined_medium_fine'][key]['max_change']
-        budgets[key]={'sum_isolated_changes':summed,'combined_change':combined,'limit':LIMITS[key],
-                      'passed':max(summed,combined)<=LIMITS[key]}
+        isolated = {axis:pairs[axis+'_medium_fine'][key]['max_change']
+                    for axis in matrix['axes'] if axis!='combined' and axis+'_medium_fine' in pairs}
+        missing = [axis for axis in matrix['axes'] if axis+'_medium_fine' not in pairs]
+        if not missing:
+            summed = sum(isolated.values())
+            combined = pairs['combined_medium_fine'][key]['max_change']
+            budgets[key] = {'sum_isolated_changes':summed, 'combined_change':combined,
+                            'limit':LIMITS[key], 'passed':max(summed,combined)<=LIMITS[key]}
+        else:
+            budgets[key] = {'available_isolated_changes':isolated, 'missing_axes':missing,
+                            'combined_change':pairs.get('combined_medium_fine', {}).get(key, {}).get('max_change'),
+                            'limit':LIMITS[key], 'passed':None, 'status':'INCOMPLETE'}
         for axis in matrix['axes']:
-            d1=pairs[axis+'_coarse_medium'][key]['max_change'];d2=pairs[axis+'_medium_fine'][key]['max_change']
-            floor=max(pairs['repeat'][key]['max_change'],pairs['repeat'][key]['roundoff_floor'])
-            if axis not in ('time','startup'): floor=max(floor,pairs['time_medium_fine'][key]['max_change'])
-            status='DECREASING' if d1>d2>floor else ('RESOLVED_STABILITY' if max(d1,d2)<=floor else 'TREND_UNESTABLISHED')
-            ratio=d1/d2 if d2>floor else None
-            trends[f'{axis}/{key}']={'coarse_medium':d1,'medium_fine':d2,'floor':floor,'status':status,
-                                    'conditional_estimated_fine_error':d2/(ratio-1) if ratio is not None and ratio>1 else None,
-                                    'interpretation':'Richardson-type estimate assumes the measured ratio persists; not a continuum certificate'}
-    repeat_state=True
-    for j in [0,1]:
-        a=json.loads((root/'anchor/trajectory/manifest.json').read_text())['segments'][j]['arrays']
-        b=json.loads((root/'repeat/trajectory/manifest.json').read_text())['segments'][j]['arrays']
-        repeat_state &= {k:v['array'] for k,v in a.items()} == {k:v['array'] for k,v in b.items()}
-    temporal_effective=(rows['time_coarse']['native_states']!=rows['anchor']['native_states']
-        and any(pairs['time_coarse_medium'][key]['max_change']>pairs['time_medium_fine'][key]['max_change']>
-                10*max(pairs['repeat'][key]['roundoff_floor'],pairs['repeat'][key]['max_change'])
-                for key in ['liquid','outlet','grain_means','grain_radial','J_out']))
-    passed=temporal_effective and all(all(row.get('gates',{'missing':False}).values()) for row in rows.values()) and all(x['passed'] for x in budgets.values()) and repeat_state
-    result={'task':matrix['task'],'disposition':'FULL_REFERENCE_NUMERICALLY_QUALIFIED_ON_DECLARED_SYNTHETIC_CASE' if passed else 'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
-            'physical_validation':'NOT_ESTABLISHED','matrix_sha256':sha256(DOC/'MATRIX.json'),
-            'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
-                 'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
-                 'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
-                 'original_failed_solver_complete_rows':2 if rerun else (1 if binding else 0),
-                 'continuation_sha256':binding_digest(binding),
-            'reused_full_model_runs':0,'rows':rows,'refinement':pairs,'combined_budgets':budgets,
-            'trends':trends,'repeat_native_state_identity':repeat_state,'temporal_effectiveness':temporal_effective,
-            'limitations':['Not physical validation','Not a rigorous continuum-error bound','No reduced-model comparison','Not Figure 5 reproduction']}
-    write_json(root/'RESULTS.json',result)
-    print(result['disposition'],flush=True)
+            required = ['repeat', axis+'_coarse_medium', axis+'_medium_fine']
+            if axis not in ('time', 'startup'):
+                required.append('time_medium_fine')
+            if any(name not in pairs for name in required):
+                trends[f'{axis}/{key}'] = {'status':'INCOMPLETE', 'missing_pairs':[name for name in required if name not in pairs]}
+                continue
+            d1 = pairs[axis+'_coarse_medium'][key]['max_change']
+            d2 = pairs[axis+'_medium_fine'][key]['max_change']
+            floor = max(pairs['repeat'][key]['max_change'],pairs['repeat'][key]['roundoff_floor'])
+            if axis not in ('time','startup'):
+                floor = max(floor,pairs['time_medium_fine'][key]['max_change'])
+            status = 'DECREASING' if d1>d2>floor else ('RESOLVED_STABILITY' if max(d1,d2)<=floor else 'TREND_UNESTABLISHED')
+            ratio = d1/d2 if d2>floor else None
+            trends[f'{axis}/{key}'] = {'coarse_medium':d1,'medium_fine':d2,'floor':floor,'status':status,
+                                     'conditional_estimated_fine_error':d2/(ratio-1) if ratio is not None and ratio>1 else None,
+                                     'interpretation':'Richardson-type estimate assumes the measured ratio persists; not a continuum certificate'}
+    repeat_state = repeat_observations = False
+    if 'repeat' in pairs:
+        repeat_state = scientific_identities(root,'anchor',binding) == scientific_identities(root,'repeat',binding)
+        repeat_observations = (data['anchor'].keys() == data['repeat'].keys()
+            and all(bundle_identity(data['anchor'][k]) == bundle_identity(data['repeat'][k]) for k in data['anchor']))
+    temporal_effective = None
+    if all(name in pairs for name in ('repeat','time_coarse_medium','time_medium_fine')):
+        temporal_effective = (rows['time_coarse']['native_states']!=rows['anchor']['native_states']
+            and any(pairs['time_coarse_medium'][key]['max_change']>pairs['time_medium_fine'][key]['max_change']>
+                    10*max(pairs['repeat'][key]['roundoff_floor'],pairs['repeat'][key]['max_change'])
+                    for key in ['liquid','outlet','grain_means','grain_radial','J_out']))
+    missing_rows = [name for name,row in rows.items() if 'gates' not in row]
+    failed_gates = {name:[key for key,value in row['gates'].items() if not value]
+                    for name,row in rows.items() if 'gates' in row and not all(row['gates'].values())}
+    passed = bool(not missing_rows and temporal_effective and not failed_gates
+                  and all(x['passed'] is True for x in budgets.values()) and repeat_state
+                  and (repeat_observations or not remaining))
+    started = sum((root/name/'solver-start.json').exists() for name in matrix['row_order'])
+    ends = [json.loads((root/name/'solver-end.json').read_text()) for name in matrix['row_order'] if (root/name/'solver-end.json').exists()]
+    completed = sum(e['status']=='COMPLETE' for e in ends)
+    result = {'task':matrix['task'], 'disposition':'FULL_REFERENCE_NUMERICALLY_QUALIFIED_ON_DECLARED_SYNTHETIC_CASE' if passed else 'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
+              'physical_validation':'NOT_ESTABLISHED', 'matrix_sha256':sha256(DOC/'MATRIX.json'),
+              'audited_rows':sum('gates' in row for row in rows.values()), 'declared_rows':len(rows),
+              'solver_started_rows':started, 'solver_complete_rows':completed,
+              'original_failed_solver_complete_rows':3 if remaining else (2 if rerun else (1 if binding else 0)),
+              'continuation_sha256':binding_digest(binding), 'reused_full_model_runs':1 if remaining else 0,
+              'rows':rows, 'refinement':pairs, 'combined_budgets':budgets, 'trends':trends,
+              'repeat_native_state_identity':repeat_state, 'repeat_exact_observations':repeat_observations,
+              'temporal_effectiveness':temporal_effective, 'missing_rows':missing_rows, 'failed_row_gates':failed_gates,
+              'failed_or_incomplete_budgets':[key for key,v in budgets.items() if v['passed'] is not True],
+              'limitations':['Not physical validation','Not a rigorous continuum-error bound','No reduced-model comparison','Not Figure 5 reproduction']}
+    if remaining:
+        result['recovered_anchor_basis'] = rows['anchor']['recovery']
+        result['accounting'] = {'historical_full_trajectories':3,'historical_BDF_segments':6,
+                                'new_completed_full_trajectories':completed,
+                                'new_completed_BDF_segments':sum(sum(s['success'] for s in e['segments']) for e in ends),
+                                'cumulative_full_trajectories':3+completed,
+                                'cumulative_BDF_segments':6+sum(sum(s['success'] for s in e['segments']) for e in ends)}
+        snapshots = root/'reports'; snapshots.mkdir(exist_ok=True)
+        destination = snapshots/(now().replace(':','-')+'.json')
+    else:
+        destination = root/'RESULTS.json'
+    write_json(destination,result)
+    print(result['disposition'], 'audited rows', result['audited_rows'], str(destination), flush=True)
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('operation',choices=['freeze','run','report','readback','repeat-check'])
+    p.add_argument('operation',choices=['freeze','run','report','readback','repeat-check','admit-anchor'])
     p.add_argument('--archive-root',type=Path)
     p.add_argument('--row')
     p.add_argument('--continuation', action='store_true', help='Validate the reviewed 010 continuation binding; never ignore hashes')
     p.add_argument('--rerun', action='store_true', help='Validate the specific controlled rerun binding')
+    p.add_argument('--remaining', action='store_true', help='Validate the recovered-anchor and thirteen-row binding')
     a=p.parse_args()
-    if a.rerun and a.continuation: p.error('Select exactly one binding')
+    if sum((a.rerun,a.continuation,a.remaining))>1: p.error('Select exactly one binding')
+    if a.remaining and a.operation=='freeze': p.error('Original matrix is immutable')
     if a.operation=='freeze': freeze()
     elif a.archive_root is None: p.error('--archive-root required')
     elif a.operation=='readback': readback(a.archive_root, a.row)
     elif a.operation=='repeat-check':
-        matrix=load_matrix(rerun=True)
-        repeat_check(a.archive_root, matrix, rerun_binding(matrix, a.archive_root))
-    elif a.operation=='run': run_row(a.archive_root,a.row,a.continuation,a.rerun)
-    else: report(a.archive_root,a.continuation,a.rerun)
+        matrix=load_matrix(rerun=not a.remaining, remaining=a.remaining)
+        binding=remaining_io.load_binding(ROOT,matrix,a.archive_root) if a.remaining else rerun_binding(matrix,a.archive_root)
+        repeat_check(a.archive_root, matrix, binding)
+    elif a.operation=='admit-anchor':
+        if not a.remaining: p.error('Recovered-anchor admission requires --remaining')
+        matrix=load_matrix(remaining=True)
+        binding=remaining_io.load_binding(ROOT,matrix,a.archive_root)
+        a.archive_root.mkdir(exist_ok=True)
+        stats=validate_saved_row(a.archive_root/'anchor',matrix,binding)
+        write_json(a.archive_root/'RECOVERED_ANCHOR_ADMISSION.json',
+                   {'status':'PASS','binding_sha256':binding_digest(binding),
+                    'actual_admission_records':row_receipt_identity(a.archive_root,'anchor',binding),
+                    'gates':stats['gates'], 'recovery':stats['recovery'], 'solver_executions':0})
+    elif a.operation=='run': run_row(a.archive_root,a.row,a.continuation,a.rerun,a.remaining)
+    else: report(a.archive_root,a.continuation,a.rerun,a.remaining)
 
 
 if __name__=='__main__':
