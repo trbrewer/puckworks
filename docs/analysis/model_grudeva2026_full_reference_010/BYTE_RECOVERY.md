@@ -69,11 +69,13 @@ t=0 and t=1e-7 retain the unchanged analytic-startup convention.
 
 Archive polynomial evaluation and frozen BDF evaluation agreed exactly at all
 tested midpoints, endpoints and required dense times. Direct polynomial versus
-the current anchor's accepted y had maximum absolute difference
-**8.881784197001252e-16**, using at most **0.01492734** of either existing
-evaluation allowance. Required-time accessor comparisons separately identify
-the stored-y knots t=1 and t=8; their maximum difference was
-6.661338147750939e-16 (allowance fraction 0.00844290). Endpoints were tested by
+the current anchor's accepted y used at most **0.01492734** of either existing
+evaluation allowance. At that largest allowance-fraction witness, the absolute
+difference was **8.881784197001252e-16**. Required-time accessor comparisons
+separately identify the stored-y knots t=1 and t=8; the absolute difference at
+their largest allowance-fraction witness was 6.661338147750939e-16 (fraction
+0.00844290). These witness differences are not asserted as global absolute-error
+maxima. Endpoints were tested by
 evaluating the polynomial itself, not by returning y. Both the contract's
 participating-term scale and the existing runner's reference-output scale were
 enforced; exact stored-byte checks remain separate.
