@@ -330,13 +330,23 @@ def capture_dense(dense, nvar, times, context=None):
                     'dense_comparisons': chains, 'dense_piece_commitments': before}
 
 
-def capture(model, results, context=None):
+def capture(model, results, context=None, checkpoints=None):
     segments, checked = [], []
     for segment_index, (moving, result) in enumerate(results):
         location = {**(context or {}), 'segment': segment_index, 'moving': bool(moving)}
         try:
-            t = stable_copy(result.t, {**location, 'component': 't'})
-            y = stable_copy(result.y, {**location, 'component': 'y'})
+            if checkpoints is None:
+                t = stable_copy(result.t, {**location, 'component': 't'})
+                y = stable_copy(result.y, {**location, 'component': 'y'})
+            else:
+                t, y = (checkpoints.segments[segment_index][k] for k in ('t', 'y'))
+                for key, source, saved in [('t', result.t, t), ('y', result.y, y)]:
+                    expected = checkpoints.segments[segment_index]['arrays'][key]['array']
+                    check = comparisons(expected, array_identity(source), array_identity(saved))
+                    if not check['source_matches'] or not check['target_matches']:
+                        raise CaptureMismatch('Checkpoint/source commitment mismatch',
+                                              {**location, 'component': key, 'comparisons': check},
+                                              [(key, source, saved)])
             accepted = {'t': array_identity(t), 'y': array_identity(y)}
             checked.extend((f'segment-{segment_index}-{k}', a, accepted[k]) for k, a in [('t', t), ('y', y)])
             arrays, dense_receipt = capture_dense(result.sol.interpolants, len(y), t, location)
@@ -453,7 +463,7 @@ def _redundancy(model, arrays):
                 raise ValueError('Physical geometry disagreement')
 
 
-def save_archive(directory, trajectory, metadata, complete=True):
+def save_archive(directory, trajectory, metadata, complete=True, checkpoint_directory=None):
     directory = Path(directory)
     directory.mkdir(exist_ok=False)
     model = trajectory.model
@@ -496,8 +506,22 @@ def save_archive(directory, trajectory, metadata, complete=True):
                    for name, _, arrays in groups}
     write_json(directory/'SOURCE_COMMITMENT.json', prospective)
     for name, info, arrays in groups:
-        records = {key: write_numeric(directory/f'{name}-{key}.npy', a, prospective[name][key])
-                   for key, a in arrays.items()}
+        records = {}
+        for key, a in arrays.items():
+            target = directory/f'{name}-{key}.npy'
+            if checkpoint_directory is not None and name != 'geometry' and key in ('t', 'y'):
+                source = Path(checkpoint_directory)/target.name
+                checkpoint = json.loads((Path(checkpoint_directory)/'checkpoint.json').read_text())
+                rec = checkpoint['segments'][int(name.split('-')[1])]['arrays'][key]
+                if (rec['array'] != prospective[name][key] or sha256(source) != rec['sha256']
+                        or payload_identity(source) != rec['array']):
+                    raise ValueError('Checkpoint archive member identity mismatch')
+                os.link(source, target)
+                if sha256(target) != rec['sha256'] or payload_identity(target) != rec['array']:
+                    raise ValueError('Linked checkpoint identity mismatch')
+                records[key] = rec
+            else:
+                records[key] = write_numeric(target, a, prospective[name][key])
         if prospective[name] != {key: array_identity(a) for key, a in arrays.items()}:
             raise ValueError('Source mutation across archive serialization')
         if name != 'geometry':
@@ -521,6 +545,74 @@ def save_archive(directory, trajectory, metadata, complete=True):
         manifest['status'] = 'INCOMPLETE_SOLVER_TRAJECTORY_NOT_QUALIFIED'
         write_json(directory/'INCOMPLETE_MANIFEST.json', manifest)
     return manifest
+
+
+def save_checkpoints(directory, model, results, metadata):
+    """Accepted t/y only, before dense capture; commitments precede every write."""
+    directory = Path(directory)
+    directory.mkdir(exist_ok=False)
+    expected = [{k: array_identity(getattr(result, k)) for k in ('t', 'y')}
+                for _, result in results]
+    write_json(directory/'SOURCE_COMMITMENT.json', expected)
+    records = []
+    for j, (moving, result) in enumerate(results):
+        arrays = {k: write_numeric(directory/f'segment-{j}-{k}.npy', getattr(result, k), expected[j][k])
+                  for k in ('t', 'y')}
+        records.append({'moving': bool(moving), 'arrays': arrays})
+    for j, (_, result) in enumerate(results):
+        if expected[j] != {k: array_identity(getattr(result, k)) for k in ('t', 'y')}:
+            raise ValueError('Accepted source changed across checkpoint writes')
+    manifest = {'schema': 'grudeva-full-010-checkpoint-v1', 'metadata': metadata,
+                'label': 'PROVISIONAL — NOT FULL_REFERENCE_QUALIFICATION',
+                'case': asdict(model.case), 'settings': asdict(model.settings),
+                'source_commitment_sha256': sha256(directory/'SOURCE_COMMITMENT.json'),
+                'segments': records}
+    write_json(directory/'checkpoint.json', manifest)
+    sync_directory(directory)
+    return manifest
+
+
+def sync_directory(directory):
+    descriptor = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def load_checkpoints(directory):
+    """Diagnostic accepted states only; never admitted as a full trajectory."""
+    directory = Path(directory)
+    manifest = json.loads((directory/'checkpoint.json').read_text())
+    if (manifest['schema'] != 'grudeva-full-010-checkpoint-v1'
+            or sha256(directory/'SOURCE_COMMITMENT.json') != manifest['source_commitment_sha256']):
+        raise ValueError('Checkpoint source identity mismatch')
+    expected = json.loads((directory/'SOURCE_COMMITMENT.json').read_text())
+    model = Model(Settings(**manifest['settings']), Case(**manifest['case']))
+    segments = []
+    if len(expected) != len(manifest['segments']):
+        raise ValueError('Checkpoint segment count mismatch')
+    for j, record in enumerate(manifest['segments']):
+        if set(record['arrays']) != {'t', 'y'} or set(expected[j]) != {'t', 'y'}:
+            raise ValueError('Checkpoint array set mismatch')
+        arrays = {}
+        for key, rec in record['arrays'].items():
+            if rec['file'] != f'segment-{j}-{key}.npy':
+                raise ValueError('Unsafe checkpoint member')
+            path = directory/rec['file']
+            if (rec['array'] != expected[j][key] or sha256(path) != rec['sha256']
+                    or payload_identity(path) != rec['array']):
+                raise ValueError('Checkpoint payload identity mismatch')
+            arrays[key] = np.load(path, allow_pickle=False, mmap_mode='r')
+            if array_identity(arrays[key]) != rec['array'] or not finite(arrays[key]):
+                raise ValueError('Checkpoint loaded identity mismatch')
+        t, y = arrays['t'], arrays['y']
+        if (t.ndim != 1 or len(t) < 1 or y.shape != (model.n*model.width+2, len(t))
+                or t.dtype != np.dtype('f8') or y.dtype != np.dtype('f8')
+                or not np.all(np.diff(t) > 0)):
+            raise ValueError('Invalid accepted checkpoint support')
+        segments.append({**record, **arrays})
+    return Trajectory(model, segments), manifest
 
 
 def _load_v1(directory, manifest):

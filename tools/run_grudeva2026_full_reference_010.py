@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import gc
 import hashlib
 from dataclasses import asdict
@@ -15,6 +16,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import subprocess
 import sys
 import time
 import traceback
@@ -34,6 +36,7 @@ from puckworks.analysis.grudeva2026_full_reference_010_io import (  # noqa: E402
     array_identity, boundary_quadrature, capture, independent_inventories,
     load_archive, observe, save_archive, sha256, write_json,
     CaptureMismatch, persist_capture_failure,
+    save_checkpoints, load_checkpoints, sync_directory,
 )
 
 DOC = ROOT/'docs/analysis/model_grudeva2026_full_reference_010'
@@ -166,20 +169,157 @@ def continuation_binding(matrix):
     return binding
 
 
-def load_matrix(continuation=False):
+def executable_identity():
+    """Check actual installed bytes against RECORD, not version strings alone."""
+    records = {}
+    for name in ('numpy', 'scipy'):
+        entries = {}
+        for entry in distribution(name).files:
+            if entry.hash is None:
+                continue
+            if entry.hash.mode != 'sha256':
+                raise ValueError('Unsupported installed-file hash')
+            digest = sha256(entry.locate())
+            expected = base64.urlsafe_b64decode(entry.hash.value+'='*((-len(entry.hash.value)) % 4)).hex()
+            if digest != expected:
+                raise ValueError(f'Installed scientific input identity mismatch: {name}/{entry}')
+            entries[str(entry)] = digest
+        records[name] = {'files': len(entries), 'sha256': hashlib.sha256(
+            json.dumps(entries, sort_keys=True).encode()).hexdigest()}
+    return {'python_sha256': sha256(sys.executable), 'installed_files': records}
+
+
+def rerun_binding(matrix, root=None):
+    """Specific owner-authorized rerun; historical binding paths stay strict."""
+    binding = json.loads((DOC/'RERUN.json').read_text())
+    if (binding['authorization'] != 'OWNER AUTHORIZATION — CONTROLLED SCIENTIFIC RERUN / MODEL-GRUDEVA2026-FULL-REFERENCE-010'
+            or sha256(DOC/'MATRIX.json') != ORIGINAL_MATRIX_SHA256
+            or binding['original_matrix_sha256'] != ORIGINAL_MATRIX_SHA256
+            or binding['original_implementation'] != matrix['implementation']):
+        raise ValueError('Rerun matrix/authorization identity mismatch')
+    changed = {p for p in matrix['implementation'] if binding['implementation'][p] != matrix['implementation'][p]}
+    if (set(binding['implementation']) != set(matrix['implementation'])
+            or changed != CONTINUATION_FILES or set(binding['changed_files']) != changed):
+        raise ValueError('Unapproved rerun source scope')
+    for path, digest in binding['implementation'].items():
+        if sha256(ROOT/path) != digest:
+            raise ValueError(f'Rerun source identity mismatch: {path}')
+    order = ['anchor', 'repeat']+[r for r in matrix['row_order'] if r not in ('anchor', 'repeat')]
+    if binding['row_order'] != order or len(set(order)) != 14:
+        raise ValueError('Rerun execution order mismatch')
+    if (binding['environment'] != environment() or binding['executable'] != executable_identity()
+            or any(v != '1' for v in binding['environment']['threads'].values())):
+        raise ValueError('Rerun executable/environment mismatch')
+    for name, digest in binding['reused_documents'].items():
+        if Path(name).name != name or sha256(DOC/name) != digest:
+            raise ValueError('Reused evidence identity mismatch')
+    if root is not None and hashlib.sha256(str(root.resolve()).encode()).hexdigest() != binding['evidence_directory_identity']:
+        raise ValueError('Rerun requires its exclusive bound evidence directory')
+    return binding
+
+
+def binding_digest(binding):
+    return sha256(DOC/('RERUN.json' if binding and 'authorization' in binding else 'CONTINUATION.json')) if binding else None
+
+
+def load_matrix(continuation=False, rerun=False):
     matrix = json.loads((DOC/'MATRIX.json').read_text())
-    if continuation:
+    if rerun:
+        rerun_binding(matrix)
+    elif continuation:
         continuation_binding(matrix)
     else:
         for p, digest in matrix['implementation'].items():
             if sha256(ROOT/p) != digest:
                 raise ValueError(f'Frozen implementation changed: {p}')
-    if environment() != matrix['environment']:
+    if not rerun and environment() != matrix['environment']:
         raise ValueError('Execution environment differs from freeze')
     review = json.loads((DOC/'PRE_CAMPAIGN_REVIEW.json').read_text())
     if review['disposition'] != 'PASS' or review['matrix_sha256'] != sha256(DOC/'MATRIX.json'):
         raise ValueError('Required independent pre-campaign review unavailable')
     return matrix
+
+
+def provisional_summary(trajectory):
+    """Compact accepted-state diagnostics, with no independent flux claim."""
+    model = trajectory.model
+    extrema = np.array([np.inf, -np.inf, np.inf, -np.inf, np.inf])
+    balance_max, count, samples = 0., 0, []
+    for segment in trajectory.segments:
+        selected = set(np.linspace(0, len(segment['t'])-1, 41, dtype=int))
+        for index, (t, y) in enumerate(zip(segment['t'], segment['y'].T)):
+            state = model.split(y, t)
+            phases = model.inventories(float(t), y)
+            _, outlet = liquid_flux(state[:, 0], min(t, 1.), segment['moving'], model.case.D_l)
+            surfaces = [sphere.transfer(state[:, sl], state[:, 0])[1]
+                        for sphere, sl in zip(model.spheres, model.slices)]
+            values = [min(0., state[:, 0].min(), outlet), max(state[:, 0].max(), outlet),
+                      min(state[:, 1:].min(), min(v.min() for v in surfaces)),
+                      max(state[:, 1:].max(), max(v.max() for v in surfaces)), min(phases)]
+            extrema[[0, 2, 4]] = np.minimum(extrema[[0, 2, 4]], np.asarray(values)[[0, 2, 4]])
+            extrema[[1, 3]] = np.maximum(extrema[[1, 3]], np.asarray(values)[[1, 3]])
+            residual = float(sum(phases)+y[-1]-y[-2]-model.case.M0)
+            if not np.isfinite([*values, *phases, residual]).all():
+                raise ValueError('Nonfinite accepted numerical summary')
+            balance_max = max(balance_max, abs(residual)); count += 1
+            if index in selected:
+                samples.append({'t': float(t), 'moving': segment['moving'],
+                                'outlet': None if segment['moving'] else float(outlet),
+                                'inventories': phases.tolist(), 'Jin_Jout': y[-2:].tolist(),
+                                'accumulator_balance': residual})
+    return {'label': 'PROVISIONAL — NOT FULL_REFERENCE_QUALIFICATION',
+            'balance_kind': 'model inventory plus evolved boundary accumulators; independent final flux/quadrature audit pending',
+            'native_states': count, 'balance_accumulator_max': balance_max,
+            'native_extrema': dict(zip(('aqueous_min', 'aqueous_max', 'grain_min', 'grain_max', 'inventory_min'), extrema.tolist())),
+            'evolution': samples}
+
+
+def fresh_read(directory, kind):
+    """No solver in reader; its receipt binds verified metadata identities."""
+    subprocess.run([sys.executable, str(Path(__file__).resolve()), 'readback',
+                    '--archive-root', str(directory), '--row', kind], check=True)
+
+
+def reconcile_provisional(early, final):
+    """Byte identities are exact; reevaluated floating-point summaries are not."""
+    errors = []
+    def check(a, b):
+        if isinstance(a, dict) and isinstance(b, dict) and a.keys() == b.keys():
+            for key in a:
+                check(a[key], b[key])
+        elif isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+            for x, y in zip(a, b):
+                check(x, y)
+        elif isinstance(a, float) and isinstance(b, float):
+            allowance = 256*np.finfo(float).eps*max(1., abs(a), abs(b))
+            errors.append(abs(a-b)/allowance)
+            if not np.isfinite([a, b]).all() or abs(a-b) > allowance:
+                raise ValueError('Provisional/validated numerical summary mismatch')
+        elif a != b:
+            raise ValueError('Provisional/validated summary structure mismatch')
+    check(early, final)
+    return max(errors, default=0.)
+
+
+def readback(directory, kind):
+    if kind == 'checkpoint':
+        trajectory, _ = load_checkpoints(directory)
+        write_json(directory/'PROVISIONAL.json', provisional_summary(trajectory))
+        identity = {'checkpoint_sha256': sha256(directory/'checkpoint.json'),
+                    'summary_sha256': sha256(directory/'PROVISIONAL.json')}
+    elif kind == 'archive':
+        trajectory, _ = load_archive(directory)
+        identity = {'manifest_sha256': sha256(directory/'manifest.json')}
+    elif kind == 'bundles':
+        stats = json.loads((directory/'results.json').read_text())
+        for name in ('observations', 'diagnostics'):
+            validate_bundle(directory/(name+'.npz'), stats['archive'][
+                'observation_bundle' if name == 'observations' else 'diagnostic_bundle'])
+        identity = {'results_sha256': sha256(directory/'results.json')}
+    else:
+        raise ValueError('Unknown readback kind')
+    write_json(directory/f'{kind}-fresh-read.json', {'status': 'PASS', 'pid': os.getpid(), **identity})
+    sync_directory(directory)
 
 
 def extrema(values, coordinates):
@@ -368,9 +508,9 @@ def preserve_run_failure(output, exc, record):
             print('Secondary capture diagnostic errors:', receipt['errors'], file=sys.stderr, flush=True)
 
 
-def run_row(root, row, continuation=False):
-    matrix = load_matrix(continuation)
-    binding = continuation_binding(matrix) if continuation else None
+def run_row(root, row, continuation=False, rerun=False):
+    matrix = load_matrix(continuation, rerun)
+    binding = rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None)
     if row not in matrix['rows']:
         raise ValueError('Row outside frozen matrix')
     root.mkdir(parents=True,exist_ok=True)
@@ -382,12 +522,14 @@ def run_row(root, row, continuation=False):
         write_json(output/'start.json',{'row':row,'started':now(),'pid':os.getpid(),
                                        'matrix_sha256':sha256(DOC/'MATRIX.json'),
                                        'environment':environment(),
-                                       'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
+                                       'continuation_sha256':binding_digest(binding),
                                        'free_disk_bytes':shutil.disk_usage(root).free,
                                        'host_meminfo':Path('/proc/meminfo').read_text(),
                                        'resources':resources()})
         stage = 'ADMISSION'
         try:
+            if rerun:
+                admit_rerun_row(root, row, matrix, binding)
             if binding and row != 'anchor':
                 # Other rows do not consume anchor values; report() independently
                 # revalidates every archive before any reference comparison.
@@ -404,6 +546,14 @@ def run_row(root, row, continuation=False):
             write_json(output/'solver-end.json', {'row':row,'ended':now(),'status':'COMPLETE' if solver_complete else 'FAILED',
                        'segments':[{'moving':moving,'success':bool(r.success),'accepted_entries':len(r.t),
                                     'start':float(r.t[0]),'end':float(r.t[-1]),'message':r.message} for moving,r in results]})
+            checkpoints = None
+            if rerun:
+                stage = 'CHECKPOINTING'
+                save_checkpoints(output/'checkpoints', model, results,
+                                 {'row': row, 'binding_sha256': binding_digest(binding)})
+                stage = 'CHECKPOINT_FRESH_READ_AND_PROVISIONAL'
+                fresh_read(output/'checkpoints', 'checkpoint')
+                checkpoints, _ = load_checkpoints(output/'checkpoints')
             if not solver_complete:
                 stage = 'RETAINING_PARTIAL_SOLVER_STATES'
                 partial = capture(model, results, {'run': row, 'diagnostic': 'capture-integrity'})
@@ -411,14 +561,21 @@ def run_row(root, row, continuation=False):
                              {'row':row,'role':'returned accepted states, incomplete solver; not qualified',
                               'matrix_sha256':sha256(DOC/'MATRIX.json')}, complete=False)
                 raise RuntimeError('Integrator did not complete the declared horizon; returned states retained')
+            if rerun:
+                rerun_binding(matrix, root)
             stage = 'CAPTURING'
-            trajectory = capture(model,results, {'run': row, 'diagnostic': 'capture-integrity'})
+            trajectory = capture(model,results, {'run': row, 'diagnostic': 'capture-integrity'}, checkpoints=checkpoints)
             stage = 'WRITING_ARCHIVE'
             manifest = save_archive(output/'trajectory',trajectory,
                                     {'row':row,'matrix_sha256':sha256(DOC/'MATRIX.json'),
-                                     'environment':matrix['environment'],
+                                     'environment':environment(),
                                      'implementation':binding['implementation'] if binding else matrix['implementation'],
-                                     'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None})
+                                     'continuation_sha256':binding_digest(binding)},
+                                    checkpoint_directory=output/'checkpoints' if rerun else None)
+            if rerun:
+                sync_directory(output/'trajectory')
+                stage = 'ARCHIVE_FRESH_READ'
+                fresh_read(output/'trajectory', 'archive')
             for moving, result in results:
                 if not result.success:
                     raise RuntimeError(result.message)
@@ -438,6 +595,15 @@ def run_row(root, row, continuation=False):
             trajectory = restored
             del results, original, result
             gc.collect()
+            if rerun:
+                stage = 'PROVISIONAL_RECONCILIATION'
+                early = json.loads((output/'checkpoints/PROVISIONAL.json').read_text())
+                final = provisional_summary(trajectory)
+                summary_fraction = reconcile_provisional(early, final)
+                write_json(output/'provisional-reconciliation.json',
+                           {'status': 'PASS', 'accepted_state_bytes': 'EXACT',
+                            'summary_evaluation_allowance_fraction': summary_fraction,
+                            'independent_flux_audit': 'SEPARATE_REQUIRED_AUDIT'})
             stage = 'OBSERVING'
             observations = observe(trajectory,matrix['support'])
             stage = 'AUDITING'
@@ -456,15 +622,21 @@ def run_row(root, row, continuation=False):
             stats['elapsed_seconds'] = time.monotonic()-start
             stats['peak_rss_kib'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             stats['settings']=matrix['rows'][row]
-            stats['continuation_sha256']=sha256(DOC/'CONTINUATION.json') if binding else None
+            stats['continuation_sha256']=binding_digest(binding)
             stats['observation_source']='independently validated archive payloads'
             write_json(output/'results.json',stats)
+            if rerun:
+                stage = 'BUNDLE_FRESH_READ'
+                fresh_read(output, 'bundles')
+                rerun_binding(matrix, root)
+                if not stats['gates']['required_support'] or not stats['gates']['archive_evaluation']:
+                    raise ValueError('Required observation support or interpolant fidelity failed')
             write_json(output/'end.json',{'row':row,'ended':now(),'status':'COMPLETE',
                                          'seconds':time.monotonic()-start,'all_gates_passed':all(stats['gates'].values()),
                                          'solver_status':'COMPLETE','archive_status':'PASS','observation_status':'COMPLETE',
                                          'results_sha256':sha256(output/'results.json'),
                                          'archive_manifest_sha256':sha256(output/'trajectory/manifest.json'),
-                                         'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None})
+                                         'continuation_sha256':binding_digest(binding)})
             print('END',row,stats['elapsed_seconds'],stats['gates'],flush=True)
         except BaseException as exc:
             preserve_run_failure(output, exc, {'row':row,'ended':now(),'seconds':time.monotonic()-start,
@@ -504,7 +676,7 @@ def validate_saved_row(path, matrix, binding, full_archive=True):
     """Revalidate content identities; presence/completion labels are insufficient."""
     end = json.loads((path/'end.json').read_text())
     stats = json.loads((path/'results.json').read_text())
-    expected_binding = sha256(DOC/'CONTINUATION.json') if binding else None
+    expected_binding = binding_digest(binding)
     if (end['status'] != 'COMPLETE' or end['results_sha256'] != sha256(path/'results.json')
             or end['continuation_sha256'] != expected_binding
             or stats['continuation_sha256'] != expected_binding):
@@ -535,21 +707,62 @@ def validate_saved_row(path, matrix, binding, full_archive=True):
     return stats
 
 
-def report(root, continuation=False):
-    matrix=load_matrix(continuation)
-    binding=continuation_binding(matrix) if continuation else None
+def repeat_check(root, matrix, binding):
+    """Fresh process revalidates both archives; compare science, not timestamps."""
+    stats = {row: validate_saved_row(root/row, matrix, binding) for row in ('anchor', 'repeat')}
+    if not all(v['gates']['required_support'] and v['gates']['archive_evaluation'] for v in stats.values()):
+        raise ValueError('Missing required repeat support/fidelity')
+    manifests = [json.loads((root/row/'trajectory/manifest.json').read_text()) for row in ('anchor', 'repeat')]
+    identities = [[{key: rec['array'] for key, rec in segment['arrays'].items()}
+                   for segment in manifest['segments']] for manifest in manifests]
+    observations = []
+    for row in ('anchor', 'repeat'):
+        with np.load(root/row/'observations.npz', allow_pickle=False) as values:
+            observations.append({key: values[key] for key in values.files})
+    metrics = compare(observations[1], observations[0], matrix['support'])
+    exact_observations = all(bundle_identity(observations[0][k]) == bundle_identity(observations[1][k])
+                             for k in observations[0])
+    passed = identities[0] == identities[1] and exact_observations
+    write_json(root/'REPEAT.json', {'status': 'PASS' if passed else 'FAIL',
+               'binding_sha256': binding_digest(binding),
+               'manifest_sha256': [sha256(root/row/'trajectory/manifest.json') for row in ('anchor', 'repeat')],
+               'scientific_array_identity': identities[0] == identities[1],
+               'exact_observations': exact_observations, 'metrics': metrics})
+    if not passed:
+        raise ValueError('Unresolved independent repeatability failure')
+
+
+def admit_rerun_row(root, row, matrix, binding):
+    order = binding['row_order']
+    # Current row directory already exists; every earlier row must be complete.
+    for previous in order[:order.index(row)]:
+        stats = validate_saved_row(root/previous, matrix, binding, full_archive=False)
+        if not all(stats['gates'][key] for key in ('complete', 'required_support', 'archive_evaluation')):
+            raise ValueError('Earlier row lacks required integrity/integration/support')
+    if any((root/later).exists() for later in order[order.index(row)+1:]):
+        raise ValueError('Rerun order violation')
+    if row not in ('anchor', 'repeat'):
+        repeat = json.loads((root/'REPEAT.json').read_text())
+        if (repeat['status'] != 'PASS' or repeat['binding_sha256'] != binding_digest(binding)
+                or repeat['manifest_sha256'] != [sha256(root/r/'trajectory/manifest.json') for r in ('anchor', 'repeat')]):
+            raise ValueError('Repeatability admission missing or stale')
+
+
+def report(root, continuation=False, rerun=False):
+    matrix=load_matrix(continuation, rerun)
+    binding=rerun_binding(matrix, root) if rerun else (continuation_binding(matrix) if continuation else None)
     rows={}
     for row in matrix['row_order']:
         path=root/row/'results.json'
-        rows[row]=(validate_saved_row(root/row, matrix, binding) if binding else json.loads(path.read_text())) if path.exists() else {'disposition':'INCOMPLETE'}
+        rows[row]=(validate_saved_row(root/row, matrix, binding) if binding else json.loads(path.read_text())) if path.exists() and (not rerun or (root/row/'end.json').exists()) else {'disposition':'INCOMPLETE'}
     if any('gates' not in row for row in rows.values()):
         partial={'task':matrix['task'],'disposition':'FULL_REFERENCE_QUALIFICATION_INCOMPLETE',
                  'physical_validation':'NOT_ESTABLISHED','rows':rows,'matrix_sha256':sha256(DOC/'MATRIX.json'),
                  'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
                  'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
                  'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
-                 'original_failed_solver_complete_rows':1 if binding else 0,
-                 'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
+                 'original_failed_solver_complete_rows':2 if rerun else (1 if binding else 0),
+                 'continuation_sha256':binding_digest(binding),
                  'reason':'Missing full rows; accepted partial trajectories and failures remain external; no reference qualification'}
         write_json(root/'RESULTS.json',partial)
         print(partial['disposition'],flush=True)
@@ -586,7 +799,7 @@ def report(root, continuation=False):
     for j in [0,1]:
         a=json.loads((root/'anchor/trajectory/manifest.json').read_text())['segments'][j]['arrays']
         b=json.loads((root/'repeat/trajectory/manifest.json').read_text())['segments'][j]['arrays']
-        repeat_state &= a==b
+        repeat_state &= {k:v['array'] for k,v in a.items()} == {k:v['array'] for k,v in b.items()}
     temporal_effective=(rows['time_coarse']['native_states']!=rows['anchor']['native_states']
         and any(pairs['time_coarse_medium'][key]['max_change']>pairs['time_medium_fine'][key]['max_change']>
                 10*max(pairs['repeat'][key]['roundoff_floor'],pairs['repeat'][key]['max_change'])
@@ -597,8 +810,8 @@ def report(root, continuation=False):
             'audited_rows':sum('gates' in row for row in rows.values()),'declared_rows':len(rows),
                  'solver_started_rows':sum((root/name/'solver-start.json').exists() for name in matrix['row_order']),
                  'solver_complete_rows':sum((root/name/'solver-end.json').exists() and json.loads((root/name/'solver-end.json').read_text())['status']=='COMPLETE' for name in matrix['row_order']),
-                 'original_failed_solver_complete_rows':1 if binding else 0,
-                 'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None,
+                 'original_failed_solver_complete_rows':2 if rerun else (1 if binding else 0),
+                 'continuation_sha256':binding_digest(binding),
             'reused_full_model_runs':0,'rows':rows,'refinement':pairs,'combined_budgets':budgets,
             'trends':trends,'repeat_native_state_identity':repeat_state,'temporal_effectiveness':temporal_effective,
             'limitations':['Not physical validation','Not a rigorous continuum-error bound','No reduced-model comparison','Not Figure 5 reproduction']}
@@ -608,15 +821,21 @@ def report(root, continuation=False):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('operation',choices=['freeze','run','report'])
+    p.add_argument('operation',choices=['freeze','run','report','readback','repeat-check'])
     p.add_argument('--archive-root',type=Path)
     p.add_argument('--row')
     p.add_argument('--continuation', action='store_true', help='Validate the reviewed 010 continuation binding; never ignore hashes')
+    p.add_argument('--rerun', action='store_true', help='Validate the specific controlled rerun binding')
     a=p.parse_args()
+    if a.rerun and a.continuation: p.error('Select exactly one binding')
     if a.operation=='freeze': freeze()
     elif a.archive_root is None: p.error('--archive-root required')
-    elif a.operation=='run': run_row(a.archive_root,a.row,a.continuation)
-    else: report(a.archive_root,a.continuation)
+    elif a.operation=='readback': readback(a.archive_root, a.row)
+    elif a.operation=='repeat-check':
+        matrix=load_matrix(rerun=True)
+        repeat_check(a.archive_root, matrix, rerun_binding(matrix, a.archive_root))
+    elif a.operation=='run': run_row(a.archive_root,a.row,a.continuation,a.rerun)
+    else: report(a.archive_root,a.continuation,a.rerun)
 
 
 if __name__=='__main__':

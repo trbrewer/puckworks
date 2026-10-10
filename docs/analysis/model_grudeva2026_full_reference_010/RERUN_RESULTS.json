@@ -1,0 +1,202 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "binding_sha256": "124ddf065b5a8e0020948f5497331765a03d2f039de6d8c3a066e1b976acd7b3",
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "environment": "EXECUTION_ENVIRONMENT_INTEGRITY_UNRESOLVED",
+  "external_evidence_directory": "controlled-rerun-20261010; private locator resolved from existing owner evidence configuration",
+  "external_final_index": {
+    "file": "FINAL_EVIDENCE.json",
+    "sha256": "702d58b297d8bb44ebfca79f5c86ba44c315f6abf0bad5affc2f737697dbd89c"
+  },
+  "external_records": {
+    "COMPATIBILITY.json": "6622d742a5ec4a852c1ab2fe11fddc9b6396b8947328f2c398c1eb38377f762f",
+    "FROZEN_SOURCE.json": "dcf1eefc1b1e2f562f587be12f34cc2602e3c12b4c7a23d2d87c5e2db59459d8",
+    "PREFLIGHT.json": "5e2da13eec675bf7716b67d58e25c4c061d571d208a140990a6c65f9183875db",
+    "campaign/RESULTS.json": "8bf5e197c25463774c9983b37cceb657c9dfb6d716679476d48deccabc01ad54",
+    "campaign/SUPERVISOR_END.json": "905061aba3d3972614c9782c6eaa532b2255a2effac854ca3de205eb80301565",
+    "campaign/SUPERVISOR_START.json": "2bfd62af47347b43130f11a3cbf85119b67d83f54f53810c837a0b3a07e13c5c",
+    "campaign/anchor/checkpoints/PROVISIONAL.json": "1aacfdbf8080b0bb64e19c4e8fdb609d0238946b63613e66276e8392c9262b59",
+    "campaign/anchor/checkpoints/SOURCE_COMMITMENT.json": "9a8c6150f1b2c1d431c192d5766184e35077fd4463e2fab604ffb0926ab20252",
+    "campaign/anchor/checkpoints/checkpoint-fresh-read.json": "fc88987e7f1a209560e732de6dff5b395e5f68b878040306f1a54a047a899d90",
+    "campaign/anchor/checkpoints/checkpoint.json": "cc64122df4cfdefd1d42f0db0d048d0ba337bc20408981f708ea5eb8d3ac789d",
+    "campaign/anchor/failure.json": "b934dc628ca932cd13f2ce36f4abf1e50f2d87fa3531f5b93b49b9b752df6301",
+    "campaign/anchor/solver-end.json": "9a32cd90514542eed1b9b56b6d393f2b408d7d26ac8bba807c8333603b712622",
+    "campaign/anchor/solver-start.json": "77d5056711a7407665fcd4513fe250ae44373df7502bccfb21296aa169b0c95f",
+    "campaign/anchor/trajectory/SOURCE_COMMITMENT.json": "909b775844dbd822979d56b29d0dcd8c64bc27b0ec8d4f5db05a1cabefe9af6a",
+    "execute.py": "232107d169154fb2ede52f402c6f7a4a770aa26e569024a170070e25081bc142"
+  },
+  "historical_accounting": {
+    "BDF_segments": 4,
+    "full_trajectories": 2,
+    "outcomes": "preserved failed evidence admission; no repaired historical references"
+  },
+  "integrity": {
+    "accepted_checkpoints": "PASS_AT_RECORDED_FRESH_PROCESS_READBACK; diagnostic evidence only",
+    "active_safety_stop": null,
+    "dense_capture": "RETURNED_WITHOUT_EXCEPTION",
+    "failure_condition": "Existing write_numeric pre-write check rejected a source; retained combined condition does not distinguish identity mismatch from nonfinite source or identify the offending member. No mechanism inferred.",
+    "failure_message": "Source commitment mismatch or nonfinite source",
+    "failure_record_sha256": "b934dc628ca932cd13f2ce36f4abf1e50f2d87fa3531f5b93b49b9b752df6301",
+    "failure_stage": "WRITING_ARCHIVE",
+    "failure_type": "ValueError",
+    "failure_witness_limit": "This ValueError retains stage and traceback but is not CaptureMismatch and has no additional capture-quarantine witness. No diagnostic development or replay followed.",
+    "full_archive": "FAILED_BEFORE_MANIFEST_PUBLICATION"
+  },
+  "new_accounting": {
+    "BDF_segments": 2,
+    "accepted_entries_by_segment": [
+      7826,
+      18003
+    ],
+    "accepted_entries_total": 25829,
+    "audited_full_rows": 0,
+    "full_executions_started": 1,
+    "integrity_admitted_full_archives": 0,
+    "remaining_refinement_status": "NOT_RUN",
+    "remaining_refinements": 12,
+    "repeat": "NOT_RUN",
+    "solver_complete_trajectories": 1,
+    "transition_note": "t=1 appears in both segments; count is entries, not unique times"
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "provisional": {
+    "balance_accumulator_max": 5.240252676230739e-14,
+    "balance_kind": "model inventory plus evolved boundary accumulators; independent final flux/quadrature audit pending",
+    "label": "PROVISIONAL \u2014 NOT FULL_REFERENCE_QUALIFICATION",
+    "native_extrema": {
+      "aqueous_max": 1.0000000000000007,
+      "aqueous_min": 0.0,
+      "grain_max": 1.3881944087925513,
+      "grain_min": 4.164197798828082e-15,
+      "inventory_min": 0.0
+    },
+    "native_states": 25829
+  },
+  "provisional_evolution": [
+    {
+      "Jin_Jout": [
+        -0.04064040961484621,
+        0.0
+      ],
+      "accumulator_balance": 0.0,
+      "inventories": [
+        0.08196283690475047,
+        0.35321204434387155,
+        0.1101791761482467,
+        4.966005532988284
+      ],
+      "moving": true,
+      "outlet": null,
+      "t": 0.10554655385657691
+    },
+    {
+      "Jin_Jout": [
+        -0.056512206517021484,
+        0.0
+      ],
+      "accumulator_balance": 0.0,
+      "inventories": [
+        0.4477329558806165,
+        1.9468568972310758,
+        0.5270633518540566,
+        2.573834588517228
+      ],
+      "moving": true,
+      "outlet": null,
+      "t": 0.5364130784370986
+    },
+    {
+      "Jin_Jout": [
+        -0.05842142435537556,
+        0.0
+      ],
+      "accumulator_balance": -3.552713678800501e-15,
+      "inventories": [
+        0.8426992321386557,
+        3.687044297260285,
+        0.9638350462456793,
+        0.0
+      ],
+      "moving": false,
+      "outlet": 1.0,
+      "t": 1.0
+    },
+    {
+      "Jin_Jout": [
+        -0.05878776510815285,
+        1.0156454516631586
+      ],
+      "accumulator_balance": -4.440892098500626e-15,
+      "inventories": [
+        0.6901638993909036,
+        2.9962310532375565,
+        0.7911718306002228,
+        0.0
+      ],
+      "moving": false,
+      "outlet": 1.0,
+      "t": 2.015645451663159
+    },
+    {
+      "Jin_Jout": [
+        -0.05879586524299765,
+        3.029402878341766
+      ],
+      "accumulator_balance": -5.329070518200751e-15,
+      "inventories": [
+        0.3846540783333903,
+        1.6296230594220684,
+        0.4495241186597706,
+        0.0
+      ],
+      "moving": false,
+      "outlet": 0.9999999999999996,
+      "t": 4.029402878341767
+    },
+    {
+      "Jin_Jout": [
+        -0.058795870406611765,
+        5.004870395940794
+      ],
+      "accumulator_balance": 3.8191672047105385e-14,
+      "inventories": [
+        0.08369258290104384,
+        0.29026745038598634,
+        0.11437370036560043,
+        0.0
+      ],
+      "moving": false,
+      "outlet": 0.9755724616134337,
+      "t": 6.006405571266226
+    },
+    {
+      "Jin_Jout": [
+        -0.05879587041145987,
+        5.485260031561004
+      ],
+      "accumulator_balance": 3.2862601528904634e-14,
+      "inventories": [
+        0.0013439528036428632,
+        0.004465061000911067,
+        0.002135084223013909,
+        0.0
+      ],
+      "moving": false,
+      "outlet": 0.01704354100746934,
+      "t": 8.0
+    }
+  ],
+  "required_final_audits": {
+    "combined_error_budget": "NOT_RUN",
+    "full_required_observation_support": "NOT_COMPUTED_FROM_A_VALIDATED_FULL_ARCHIVE",
+    "independent_conservation": "NOT_COMPUTED",
+    "independent_flux_quadrature": "NOT_COMPUTED_FROM_A_VALIDATED_FULL_ARCHIVE",
+    "individual_refinement_changes": "NOT_RUN",
+    "interpolant_fidelity": "NOT_RUN",
+    "repeatability": "NOT_RUN",
+    "uncertainty": "NOT_ESTABLISHED"
+  },
+  "source_access": "Existing mathematical review/source identities reused; no new paper/supplement/experimental-data access, no historical arrays admitted as inputs or references.",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "units": "Concentrations are saturation ratios; phase inventories and Jin/Jout use phi_T L A c_sat normalized mass. M0=5.552. Signed negative Jin is inlet loss, not cup delivery."
+}

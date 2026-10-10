@@ -718,3 +718,18 @@ comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 - [ ] Independent hardware/storage contrast: unavailable; execution-environment integrity unresolved.
 
 [Transfer handoff](analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.md). No new full trajectory or dense replay; two historical trajectories/four BDF segments, zero qualified rows, thirteen NOT_RUN. Another anchor is not recommended on the unresolved environment. Same draft PR #333, issue #67 open; FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 controlled scientific rerun — stopped at archive admission (2026-10-10)
+
+- [x] Preserve the original matrix and historical outcomes; bind the owner-authorized anchor/repeat/refinement order.
+- [x] Add and test early accepted-state checkpoints, fresh readback and provisional summaries; reuse unchanged mathematical review and large diagnostics.
+- [x] Execute one new anchor: two successful BDF segments, verified checkpoints and provisional science retained.
+- [ ] Full archive admission: writer rejects a source before manifest publication; exact combined error and partial files retained.
+- [ ] Repeat and twelve refinements: NOT_RUN because of the integrity/admission stop. No retry or new diagnostic sequence.
+
+[Actual result and evidence identities](analysis/model_grudeva2026_full_reference_010/RERUN_RESULTS.md).
+The historical two trajectories/four segments remain separately counted; this
+attempt adds one trajectory/two segments. Provisional accumulator conservation is
+not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.

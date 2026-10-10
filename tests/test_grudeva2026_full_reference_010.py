@@ -1,5 +1,5 @@
 """Independent mathematical controls; only bounded fixtures, no horizon-8 case."""
-from dataclasses import replace
+from dataclasses import asdict, replace
 import hashlib
 import json
 
@@ -233,7 +233,12 @@ def test_observation_reconstruction_exact_polynomials():
 def test_capture_transition_availability_and_safe_archive(tmp_path):
     settings = Settings(axial=12, fines=6, boulders=8, rtol=1e-6, atol=1e-12, max_step=.05)
     model, results = integrate(settings, horizon=1.01)
-    trajectory = capture(model, results)
+    from tools.run_grudeva2026_full_reference_010 import fresh_read, provisional_summary
+    checkpoints = tmp_path/'checkpoints'
+    archive_io.save_checkpoints(checkpoints, model, results, {'role': 'bounded fixture'})
+    fresh_read(checkpoints, 'checkpoint')
+    accepted, _ = archive_io.load_checkpoints(checkpoints)
+    trajectory = capture(model, results, checkpoints=accepted)
     np.testing.assert_array_equal(results[0][1].y[:, -1], results[1][1].y[:, 0])
     assert results[0][1].y[-1].max() == 0
     support = {'times': [0., 1e-7, .1, .5, .9999, 1., 1.0001, 1.01],
@@ -243,8 +248,12 @@ def test_capture_transition_availability_and_safe_archive(tmp_path):
     assert np.all(np.isnan(observations['outlet'][:5]))
     assert np.isfinite(observations['outlet'][5:]).all()
     path = tmp_path/'archive'
-    save_archive(path, trajectory, {'role': 'bounded software fixture; not campaign'})
+    save_archive(path, trajectory, {'role': 'bounded software fixture; not campaign'},
+                 checkpoint_directory=checkpoints)
+    fresh_read(path, 'archive')
     restored, manifest = load_archive(path)
+    assert (path/'segment-0-y.npy').stat().st_ino == (checkpoints/'segment-0-y.npy').stat().st_ino
+    assert provisional_summary(restored) == json.loads((checkpoints/'PROVISIONAL.json').read_text())
     for seg, original in zip(restored.segments, results):
         np.testing.assert_array_equal(seg['y'], original[1].y)
         for t in (seg['t'][:-1]+seg['t'][1:])/2:
@@ -626,3 +635,100 @@ def test_observation_bundle_prospective_identity(tmp_path, monkeypatch, failure)
             runner.validate_bundle(path, record)
     else:
         runner.validate_bundle(path, record)
+
+
+def test_checkpoint_rejects_changed_payload_in_fresh_reader(tmp_path):
+    import subprocess
+    from tools.run_grudeva2026_full_reference_010 import fresh_read
+    _, trajectory, result = _synthetic_archive(tmp_path)
+    path = tmp_path/'checkpoints'
+    archive_io.save_checkpoints(path, trajectory.model, [(False, result)], {})
+    with (path/'segment-0-y.npy').open('r+b') as stream:
+        stream.seek(-1, 2)
+        original = stream.read(1)
+        stream.seek(-1, 2)
+        stream.write(bytes([original[0] ^ 1]))
+    with pytest.raises(subprocess.CalledProcessError):
+        fresh_read(path, 'checkpoint')
+    assert not (path/'checkpoint-fresh-read.json').exists()
+
+
+def test_checkpoint_survives_dense_failure(tmp_path, monkeypatch):
+    from tools.run_grudeva2026_full_reference_010 import preserve_run_failure, fresh_read
+    _, trajectory, result = _synthetic_archive(tmp_path)
+    path = tmp_path/'checkpoints'
+    archive_io.save_checkpoints(path, trajectory.model, [(False, result)], {})
+    fresh_read(path, 'checkpoint')
+    accepted, _ = archive_io.load_checkpoints(path)
+    def fail(*args, **kwargs):
+        raise archive_io.CaptureMismatch('injected dense failure', {'stage': 'dense'}, [])
+    monkeypatch.setattr(archive_io, 'capture_dense', fail)
+    with pytest.raises(archive_io.CaptureMismatch) as error:
+        capture(trajectory.model, [(False, result)], checkpoints=accepted)
+    preserve_run_failure(tmp_path, error.value, {'message': str(error.value)})
+    assert json.loads((tmp_path/'failure.json').read_text())['message'] == 'injected dense failure'
+    assert (path/'PROVISIONAL.json').exists()
+    retained, _ = archive_io.load_checkpoints(path)
+    assert archive_io.array_identity(retained.segments[0]['y']) == archive_io.array_identity(result.y)
+    assert not (path/'manifest.json').exists()
+
+
+def test_checkpoint_detects_source_change_before_capture(tmp_path):
+    _, trajectory, result = _synthetic_archive(tmp_path)
+    path = tmp_path/'checkpoints'
+    archive_io.save_checkpoints(path, trajectory.model, [(False, result)], {})
+    accepted, _ = archive_io.load_checkpoints(path)
+    result.y[1, 0] += 1.
+    with pytest.raises(archive_io.CaptureMismatch, match='Checkpoint/source'):
+        capture(trajectory.model, [(False, result)], checkpoints=accepted)
+
+
+def test_provisional_evaluation_allowance_separate_from_exact_bytes():
+    from tools.run_grudeva2026_full_reference_010 import reconcile_provisional
+    assert reconcile_provisional({'mass': 1.}, {'mass': np.nextafter(1., 2.)}) < 1
+    with pytest.raises(ValueError, match='numerical summary'):
+        reconcile_provisional({'mass': 1.}, {'mass': 1.0001})
+    assert archive_io.array_identity(np.array([1.])) != archive_io.array_identity(np.array([np.nextafter(1., 2.)]))
+
+
+def test_rerun_checkpoints_precede_failed_solver_dense_capture(tmp_path, monkeypatch):
+    import tools.run_grudeva2026_full_reference_010 as runner
+    _, trajectory, result = _synthetic_archive(tmp_path)
+    result.success = False
+    matrix = {'rows': {'anchor': asdict(trajectory.model.settings)}}
+    monkeypatch.setattr(runner, 'load_matrix', lambda *a: matrix)
+    monkeypatch.setattr(runner, 'rerun_binding', lambda *a: {})
+    monkeypatch.setattr(runner, 'admit_rerun_row', lambda *a: None)
+    monkeypatch.setattr(runner, 'integrate', lambda *a: (trajectory.model, [(False, result)]))
+    monkeypatch.setattr(runner, 'resources', lambda: {'available_bytes': 200*1024**3})
+    output = tmp_path/'campaign'/'anchor'
+    def fail(*args, **kwargs):
+        assert (output/'checkpoints/PROVISIONAL.json').exists()
+        assert (output/'checkpoints/checkpoint-fresh-read.json').exists()
+        raise archive_io.CaptureMismatch('injected failed-solver capture', {'stage': 'dense'}, [])
+    monkeypatch.setattr(runner, 'capture', fail)
+    with pytest.raises(archive_io.CaptureMismatch):
+        runner.run_row(tmp_path/'campaign', 'anchor', rerun=True)
+    assert json.loads((output/'solver-end.json').read_text())['status'] == 'FAILED'
+    assert (output/'failure.json').exists()
+    archive_io.load_checkpoints(output/'checkpoints')
+
+
+def test_rerun_binding_rejects_order_and_scientific_change(tmp_path, monkeypatch):
+    import tools.run_grudeva2026_full_reference_010 as runner
+    matrix_path = runner.DOC/'MATRIX.json'
+    matrix = json.loads(matrix_path.read_text())
+    (tmp_path/'MATRIX.json').write_bytes(matrix_path.read_bytes())
+    monkeypatch.setattr(runner, 'DOC', tmp_path)
+    binding = {'authorization': 'OWNER AUTHORIZATION — CONTROLLED SCIENTIFIC RERUN / MODEL-GRUDEVA2026-FULL-REFERENCE-010',
+               'original_matrix_sha256': runner.ORIGINAL_MATRIX_SHA256,
+               'original_implementation': matrix['implementation'],
+               'implementation': {p: archive_io.sha256(runner.ROOT/p) for p in runner.FILES},
+               'changed_files': sorted(runner.CONTINUATION_FILES), 'row_order': matrix['row_order']}
+    (tmp_path/'RERUN.json').write_text(json.dumps(binding))
+    with pytest.raises(ValueError, match='execution order'):
+        runner.rerun_binding(matrix)
+    binding['implementation'][runner.FILES[1]] = 'changed'
+    (tmp_path/'RERUN.json').write_text(json.dumps(binding))
+    with pytest.raises(ValueError, match='source scope'):
+        runner.rerun_binding(matrix)

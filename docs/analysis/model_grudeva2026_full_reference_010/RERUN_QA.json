@@ -1,0 +1,89 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "affected_control_final": "60/60 PASS; existing t=1.01 paired fixture confirms identical accepted t/y with checkpoints; fresh readback, mutation/rejection and failure preservation controls pass",
+  "candidate_hosted_CI": "PENDING_CANDIDATE_COMMIT_PUSH; final exact-head status will be recorded in PR333 metadata and external delivery receipt",
+  "large_diagnostics": "REUSED_UNCHANGED; no new resident dense replay or large serialization test",
+  "local_010_fixture_accounting": {
+    "focused_BDF_or_operator_segments": 57,
+    "focused_bounded_solves": 51,
+    "focused_file_invocations": 3,
+    "full_scientific_trajectories": "One new full anchor, separately recorded; none from QA",
+    "new_solver_free_control_cases": "mocked runner/layout/byte controls do not integrate",
+    "ordinary_quick_010_operator_segments": 15,
+    "ordinary_quick_010_operator_solves": 15
+  },
+  "mathematical_review": "REUSED_UNCHANGED_BY_RERUN_BINDING_IDENTITIES",
+  "ordinary_qa": "Initial unchanged quick selector:6535 passed,67 skipped,2 failed,64 deselected. Two child-process import/launch failures corrected by supplying checkout PYTHONPATH=. to the affected tests;2/2 pass. No repository implementation, dependency or scientific-process environment change. Full suite not needlessly rerun; candidate CI is separate.",
+  "retained_development_failure": "focused-02: NameError in the new mocked-runner test because asdict was not imported; corrected test import only before binding or science. focused-03 passes all60.",
+  "scientific_result": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE; writer source admission failed; verified checkpoint summaries remain PROVISIONAL",
+  "scope": "Affected controls, ordinary QA and scoped review under SCI-GOV-001; original G2 mathematics reused. No new numerical method or physics change.",
+  "scoped_review": "Pre-execution delta review found one checkpoint-ordering issue, corrected and tested before binding. Final exact-candidate nonhuman receipt will be external and identified in PR333 metadata; no receipt-only commit loop.",
+  "static_checks": {
+    "git_diff_check": "PASS",
+    "mypy": "PASS on configured19 source files; tool transcript retained by session",
+    "ruff": "PASS on puckworks/, tests/, and existing runner; tool transcript retained by session"
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "tests": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "b00324d511c9f7b0abb031f2969ab716541e4b156711bcaa80612be4d790bd80",
+      "name": "focused-01",
+      "passed": 58,
+      "skipped": 0,
+      "tests": 58,
+      "xml_sha256": "a36060f7eceda0e6039996caf890cb449002e280c5d97dac5380bdbff15a0c1d"
+    },
+    {
+      "errors": 0,
+      "failures": 1,
+      "log_sha256": "3fc84f2b35dabaaaa234fe30785f592049b12e50338a9798d0a66253cdc243a2",
+      "name": "focused-02",
+      "passed": 59,
+      "skipped": 0,
+      "tests": 60,
+      "xml_sha256": "f1f29f239021f5797d4ef9fcbad85a872666fdb725a761ff7ac09641eacaf575"
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "b67e9e5da68ee68acaf796f473275eade665db0b331fea84f23aeb529fa66b82",
+      "name": "focused-03",
+      "passed": 60,
+      "skipped": 0,
+      "tests": 60,
+      "xml_sha256": "192a4f9bc26292a9304375bd6311d397a6e9bf8dab478f991913402d51b0b647"
+    },
+    {
+      "errors": 0,
+      "failures": 2,
+      "log_sha256": "4899434b8a755c1bdf1037f086bf55048674329e879fe99e8290b4ad3d1b7ee0",
+      "name": "ordinary-quick",
+      "passed": 6535,
+      "skipped": 67,
+      "tests": 6604,
+      "xml_sha256": "716904f3ad72cf9b31fdc170bf63d046a0c0735b715659274a94ae512068ded2"
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "132f551c1925c81e12d6724b708d43916ce3121c871e172a4fd891d268cca090",
+      "name": "qa-invocation-correction",
+      "passed": 2,
+      "skipped": 0,
+      "tests": 2,
+      "xml_sha256": "9732b9e7f2a0f25d856e06f6c7819eb7c1f999bb8aff3dc8a82f3cc795afe881"
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "log_sha256": "dce622f262b3ef97310f0eb3f571fed082b84f04631aeb78ec95ad975cfb5abf",
+      "name": "document-regressions",
+      "passed": 78,
+      "skipped": 0,
+      "tests": 78,
+      "xml_sha256": "598f152f23b1b7755e64a365e2c03459ea6d5384f8d85f816806af3dea5eb3c1"
+    }
+  ]
+}
