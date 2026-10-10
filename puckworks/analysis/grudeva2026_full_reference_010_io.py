@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 
 import numpy as np
 
@@ -61,12 +62,16 @@ def finite(value):
     return True
 
 
-def stable_copy(value):
+def stable_copy(value, context=None):
     """Commit before copy; ownership/contiguity alone never proves identity."""
     before = array_identity(value)
     snapshot = np.array(value, copy=True, order='C')
-    if array_identity(snapshot) != before or array_identity(value) != before:
-        raise ValueError('Source mutation during snapshot capture')
+    after, target = array_identity(value), array_identity(snapshot)
+    if after != before or target != before:
+        raise CaptureMismatch('Snapshot commitment mismatch',
+                              {**(context or {}), 'stage': 'snapshot',
+                               'comparisons': comparisons(before, after, target)},
+                              [('snapshot', value, snapshot)])
     snapshot.flags.writeable = False
     return snapshot
 
@@ -77,6 +82,112 @@ def write_json(path, value):
         stream.write('\n')
         stream.flush()
         os.fsync(stream.fileno())
+
+
+def comparisons(before, after, target):
+    """All operands are evaluated by the caller, including on a source mismatch."""
+    return {'prospective_source': before, 'source_after': after,
+            'completed_target': target, 'source_matches': after == before,
+            'target_matches': target == before, 'source_target_match': after == target}
+
+
+def memory_layout(value):
+    a = np.asarray(value)
+    return {'shape': list(a.shape), 'dtype': a.dtype.str, 'canonical_order': 'C',
+            'strides': list(a.strides), 'owned': bool(a.flags.owndata),
+            'writeable': bool(a.flags.writeable), 'C': bool(a.flags.c_contiguous),
+            'F': bool(a.flags.f_contiguous), 'base_type': type(a.base).__name__}
+
+
+class CaptureMismatch(ValueError):
+    """Neutral integrity failure; live references are quarantined before unwind.
+
+    No inference about a mutation mechanism follows from a digest discrepancy.
+    Pairs are current source/target, never a fabricated copy of prior bytes.
+    """
+    def __init__(self, message, record, pairs=()):
+        super().__init__(message)
+        self.record = {'status': 'QUARANTINED_NOT_A_REFERENCE', 'message': message,
+                       'prior_bytes': 'Unavailable unless identified immutable replay input supplies them',
+                       **record}
+        self.pairs = list(pairs)
+        self.snapshots = []
+
+
+def byte_difference(source, target):
+    """Independent bounded flat-slice bytes, not the commitment chunk helper.
+
+    This describes current buffers. It cannot locate changed prior bytes when
+    only an earlier digest survives. Signed zero is distinguished exactly.
+    """
+    detail = {'source_layout': memory_layout(source), 'target_layout': memory_layout(target),
+              'shares_memory': bool(np.shares_memory(source, target)),
+              'comparison_scope': 'current source versus current target'}
+    if source.shape != target.shape or source.dtype != target.dtype:
+        return {**detail, 'status': 'METADATA_DIFFERENCE', 'first_byte': None}, {}
+    count = byte_count = 0
+    first = None
+    for start in range(0, source.size, 32768):
+        a = np.frombuffer(source.flat[start:start+32768].tobytes(), dtype=np.uint8)
+        b = np.frombuffer(target.flat[start:start+32768].tobytes(), dtype=np.uint8)
+        different = a != b
+        byte_count += int(np.count_nonzero(different))
+        count += int(np.count_nonzero(different.reshape(-1, source.itemsize).any(axis=1)))
+        if first is None and different.any():
+            first = start*source.itemsize + int(np.flatnonzero(different)[0])
+    detail.update(status='OBSERVED_BYTE_DIFFERENCE' if count else 'NO_CURRENT_BYTE_DIFFERENCE',
+                  differing_entries=count, differing_bytes=byte_count, first_byte=first,
+                  first_index=[int(i) for i in np.unravel_index(first//source.itemsize, source.shape)] if first is not None else None)
+    # A small piece is retained in full; t/y get a bounded C-order witness window.
+    start = max(0, (first//source.itemsize if first is not None else 0)-8)
+    if source.nbytes <= 2*1024**2:
+        start, stop = 0, source.size
+    else:
+        stop = min(source.size, start+32)
+    detail['window_flat_elements'] = [start, stop]
+    return detail, {'source': source.flat[start:stop], 'target': target.flat[start:stop]}
+
+
+def persist_capture_failure(directory, exc):
+    """Essential record first, safe bounded numeric witnesses second; never mask exc."""
+    directory = Path(directory)
+    receipt = {'status': 'INCOMPLETE', 'errors': [], 'witnesses': [], 'snapshots': []}
+    try:
+        directory.mkdir(exist_ok=False)
+        write_json(directory/'FAILURE.json', exc.record)
+    except BaseException as error:
+        receipt['errors'].append(f'essential record: {type(error).__name__}: {error}')
+        print('Capture diagnostic preservation failure:', receipt, file=sys.stderr, flush=True)
+        return receipt
+    for index, (component, source, target) in enumerate(exc.pairs[:8]):
+        try:
+            detail, arrays = byte_difference(source, target)
+            detail['component'] = component
+            detail['arrays'] = {}
+            # Record the scalar/byte comparison before attempting numeric writes.
+            write_json(directory/f'witness-{index}.json', detail)
+            for name, value in arrays.items():
+                expected = array_identity(value)
+                detail['arrays'][name] = write_numeric(directory/f'witness-{index}-{name}.npy', value, expected)
+            receipt['witnesses'].append(detail)
+        except BaseException as error:
+            receipt['errors'].append(f'witness {index}: {type(error).__name__}: {error}')
+    receipt['unretained_pair_count'] = max(0, len(exc.pairs)-8)
+    # Preserve previously checked accepted t/y snapshots without another full
+    # memory copy. Completed dense pieces are represented by their commitments
+    # and bounded witnesses; duplicating all dense targets is deliberately avoided.
+    for name, value, expected in exc.snapshots:
+        try:
+            receipt['snapshots'].append(write_numeric(directory/f'{name}.npy', value, expected))
+        except BaseException as error:
+            receipt['errors'].append(f'snapshot {name}: {type(error).__name__}: {error}')
+    receipt['status'] = 'PRESERVED' if not receipt['errors'] else 'PARTIAL_EVIDENCE_WRITE_FAILURE'
+    try:
+        write_json(directory/'PRESERVATION.json', receipt)
+    except BaseException as error:
+        receipt['errors'].append(f'preservation receipt: {type(error).__name__}: {error}')
+        print('Capture diagnostic preservation failure:', receipt, file=sys.stderr, flush=True)
+    return receipt
 
 
 class Trajectory:
@@ -107,59 +218,150 @@ def _dense_part_commitment(order, D, shift, denom):
                       sort_keys=True).encode()
 
 
-def dense_chain(arrays):
-    """Prospective source-piece commitments must match the completed target."""
+def dense_chain(arrays, records=None, padding_issues=None):
+    """Same canonical chain, with optional complete diagnostic collection."""
     chain = hashlib.sha256()
     for j, order in enumerate(arrays['order']):
         order = int(order)
         if order < 1 or order > 5:
-            raise ValueError('Invalid dense order')
-        chain.update(_dense_part_commitment(order, arrays['D'][j, :order+1],
-                                           arrays['shift'][j, :order], arrays['denom'][j, :order]))
-        if (not _same_bits(arrays['D'][j, order+1:], np.zeros_like(arrays['D'][j, order+1:]))
-                or not _same_bits(arrays['shift'][j, order:], np.ones_like(arrays['shift'][j, order:]))
-                or not _same_bits(arrays['denom'][j, order:], np.ones_like(arrays['denom'][j, order:]))):
-            raise ValueError('Dense padding changed from declared initialization')
+            raise CaptureMismatch('Dense order metadata mismatch',
+                                  {'interval': j, 'component': 'order', 'observed': order,
+                                   'expected': 'integer 1..5'})
+        raw = _dense_part_commitment(order, arrays['D'][j, :order+1],
+                                    arrays['shift'][j, :order], arrays['denom'][j, :order])
+        chain.update(raw)
+        if records is not None:
+            records.append(json.loads(raw))
+        for name, actual, expected in [
+                ('D', arrays['D'][j, order+1:], np.zeros_like(arrays['D'][j, order+1:])),
+                ('shift', arrays['shift'][j, order:], np.ones_like(arrays['shift'][j, order:])),
+                ('denom', arrays['denom'][j, order:], np.ones_like(arrays['denom'][j, order:]))]:
+            got, want = array_identity(actual), array_identity(expected)
+            if got != want:
+                issue = {'interval': j, 'component': 'padding.'+name,
+                         'expected': want, 'observed': got}
+                if padding_issues is None:
+                    raise CaptureMismatch('Dense padding commitment mismatch', issue,
+                                          [('padding.'+name, expected, actual)])
+                padding_issues.append((issue, expected, actual))
     return chain.hexdigest()
 
 
-def capture(model, results):
-    segments = []
-    for moving, result in results:
-        # The solver still owns result arrays. Keep independent, checked snapshots.
-        t, y = stable_copy(result.t), stable_copy(result.y)
-        dense = result.sol.interpolants
-        ns, nvar = len(dense), len(y)
-        D = np.zeros((ns, 6, nvar))
-        shift, denom = np.ones((ns, 5)), np.ones((ns, 5))
-        order = np.empty(ns, dtype=np.int8)
-        source_chain = hashlib.sha256()
-        for j, part in enumerate(dense):
-            order[j] = part.order
-            source_chain.update(_dense_part_commitment(part.order, part.D, part.t_shift, part.denom))
-            for source, target in [(part.D, D[j, :part.order+1]),
-                                   (part.t_shift, shift[j, :part.order]),
-                                   (part.denom, denom[j, :part.order])]:
-                expected = array_identity(source)
-                target[...] = source
-                if array_identity(source) != expected or array_identity(target) != expected:
-                    raise ValueError('Dense source mutation during capture')
-        arrays = {'t': t, 'y': y, 'D': D, 'shift': shift, 'denom': denom, 'order': order}
-        source_after = hashlib.sha256()
-        for part in dense:
-            source_after.update(_dense_part_commitment(part.order, part.D, part.t_shift, part.denom))
-        if source_after.hexdigest() != source_chain.hexdigest() or dense_chain(arrays) != source_chain.hexdigest():
-            raise ValueError('Dense source/target mutation after an earlier capture copy')
-        identities = {k: array_identity(v) for k, v in arrays.items()}
-        if identities['t'] != array_identity(result.t) or identities['y'] != array_identity(result.y):
-            raise ValueError('Solver source mutated during dense capture')
-        for value in arrays.values():
-            value.flags.writeable = False
-        segments.append({**arrays, 'moving': moving,
-                         'capture_commitment': identities,
-                         'dense_source_chain_sha256': source_chain.hexdigest(),
-                         'success': bool(result.success), 'message': result.message,
-                         'nfev': result.nfev, 'njev': result.njev, 'nlu': result.nlu})
+def _dense_values(part):
+    return {'D': part.D, 'shift': part.t_shift, 'denom': part.denom}
+
+
+def capture_dense(dense, nvar, times, context=None):
+    """Actual per-piece capture, also used by the solver-free resident replay."""
+    context = context or {}
+    ns = len(dense)
+    D = np.zeros((ns, 6, nvar))
+    shift, denom = np.ones((ns, 5)), np.ones((ns, 5))
+    order = np.empty(ns, dtype=np.int8)
+    arrays = {'D': D, 'shift': shift, 'denom': denom, 'order': order}
+    before = []
+    source_chain = hashlib.sha256()
+    for j, part in enumerate(dense):
+        values = _dense_values(part)
+        raw = _dense_part_commitment(part.order, values['D'], values['shift'], values['denom'])
+        record = json.loads(raw)
+        location = {'interval': j, 'times': [float(times[j]), float(times[j+1])]}
+        before.append({**location, 'commitment': record,
+                       'source_layouts': {k: memory_layout(v) for k, v in values.items()}})
+        source_chain.update(raw)
+        valid_order = isinstance(part.order, (int, np.integer)) and 1 <= part.order <= 5
+        shapes = {'D': [int(part.order)+1, nvar], 'shift': [int(part.order)], 'denom': [int(part.order)]}
+        if not valid_order or any(record[k]['shape'] != shapes[k] or record[k]['dtype'] != np.dtype('f8').str
+                                  for k in values):
+            raise CaptureMismatch('Dense source metadata mismatch',
+                                  {**context, **location, 'stage': 'before_copy',
+                                   'component': 'order/metadata', 'prospective_pieces': before,
+                                   'expected_shapes': shapes, 'expected_dtype': np.dtype('f8').str})
+        order[j] = part.order
+        for name, source in values.items():
+            target = arrays[name][j, :part.order+(name == 'D')]
+            expected = record[name]
+            target[...] = source
+            after, got = array_identity(source), array_identity(target)
+            check = comparisons(expected, after, got)
+            if not check['source_matches'] or not check['target_matches']:
+                raise CaptureMismatch('Dense piece commitment mismatch',
+                                      {**context, **location, 'stage': 'piece_copy', 'component': name,
+                                       'prospective_pieces': before, 'comparisons': check},
+                                      [(name, source, target)])
+    # Evaluate BOTH complete passes. No source-first short circuit.
+    after, source_after = [], hashlib.sha256()
+    for part in dense:
+        raw = _dense_part_commitment(part.order, part.D, part.t_shift, part.denom)
+        after.append(json.loads(raw))
+        source_after.update(raw)
+    target, padding = [], []
+    try:
+        target_chain = dense_chain(arrays, target, padding)
+    except CaptureMismatch as exc:
+        exc.record.update({**context, 'stage': 'final_dense_pass',
+                           'prospective_pieces': before, 'source_after_pieces': after,
+                           'target_pieces': target,
+                           'comparisons': comparisons(source_chain.hexdigest(), source_after.hexdigest(), None),
+                           'target_chain_unavailable': 'Invalid target metadata; see component/interval'})
+        raise
+    chains = comparisons(source_chain.hexdigest(), source_after.hexdigest(), target_chain)
+    issues, pairs = [], []
+    for j, prior in enumerate(before):
+        for name in ('order', 'D', 'shift', 'denom'):
+            check = comparisons(prior['commitment'][name], after[j][name], target[j][name])
+            if not check['source_matches'] or not check['target_matches']:
+                issues.append({'interval': j, 'times': prior['times'], 'component': name,
+                               'comparisons': check})
+                if name == 'order':
+                    pairs.append((f'{j}.order', np.array([dense[j].order]), np.array([order[j]])))
+                else:
+                    pairs.append((f'{j}.{name}', _dense_values(dense[j])[name],
+                                  arrays[name][j, :int(order[j])+(name == 'D')]))
+    for issue, expected, actual in padding:
+        issues.append({**issue, 'times': before[issue['interval']]['times']})
+        pairs.append((f"{issue['interval']}.{issue['component']}", expected, actual))
+    if not chains['source_matches'] or not chains['target_matches'] or issues:
+        raise CaptureMismatch('Dense final commitment mismatch',
+                              {**context, 'stage': 'final_dense_pass', 'comparisons': chains,
+                               'prospective_pieces': before, 'source_after_pieces': after,
+                               'target_pieces': target, 'issues': issues}, pairs)
+    return arrays, {'dense_source_chain_sha256': source_chain.hexdigest(),
+                    'dense_comparisons': chains, 'dense_piece_commitments': before}
+
+
+def capture(model, results, context=None):
+    segments, checked = [], []
+    for segment_index, (moving, result) in enumerate(results):
+        location = {**(context or {}), 'segment': segment_index, 'moving': bool(moving)}
+        try:
+            t = stable_copy(result.t, {**location, 'component': 't'})
+            y = stable_copy(result.y, {**location, 'component': 'y'})
+            accepted = {'t': array_identity(t), 'y': array_identity(y)}
+            checked.extend((f'segment-{segment_index}-{k}', a, accepted[k]) for k, a in [('t', t), ('y', y)])
+            arrays, dense_receipt = capture_dense(result.sol.interpolants, len(y), t, location)
+            arrays.update(t=t, y=y)
+            identities = {k: array_identity(v) for k, v in arrays.items()}
+            source_after = {'t': array_identity(result.t), 'y': array_identity(result.y)}
+            target_after = {k: identities[k] for k in accepted}
+            check = comparisons(accepted, source_after, target_after)
+            if not check['source_matches'] or not check['target_matches']:
+                raise CaptureMismatch('Accepted state commitment mismatch',
+                                      {**location, 'stage': 'after_dense_capture', 'comparisons': check},
+                                      [('t', result.t, t), ('y', result.y, y)])
+            for value in arrays.values():
+                value.flags.writeable = False
+            segments.append({**arrays, 'moving': moving, 'capture_commitment': identities,
+                             **dense_receipt, 'success': bool(result.success), 'message': result.message,
+                             'nfev': result.nfev, 'njev': result.njev, 'nlu': result.nlu})
+        except CaptureMismatch as exc:
+            exc.record.update(location)
+            exc.record['completed_segments'] = [
+                {'moving': s['moving'], 'capture_commitment': s['capture_commitment'],
+                 'dense_comparisons': s['dense_comparisons'],
+                 'dense_piece_commitments': s['dense_piece_commitments']} for s in segments]
+            exc.snapshots = checked
+            raise
     return Trajectory(model, segments)
 
 

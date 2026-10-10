@@ -33,6 +33,7 @@ from puckworks.analysis.grudeva2026_full_reference_010 import (  # noqa: E402
 from puckworks.analysis.grudeva2026_full_reference_010_io import (  # noqa: E402
     array_identity, boundary_quadrature, capture, independent_inventories,
     load_archive, observe, save_archive, sha256, write_json,
+    CaptureMismatch, persist_capture_failure,
 )
 
 DOC = ROOT/'docs/analysis/model_grudeva2026_full_reference_010'
@@ -350,6 +351,23 @@ def save_bundle(path, values):
     return record
 
 
+def preserve_run_failure(output, exc, record):
+    """Retain the original failure even if secondary diagnostic writes fail."""
+    if isinstance(exc, CaptureMismatch):
+        record['capture_comparisons'] = exc.record.get('comparisons')
+        record['capture_location'] = {k: exc.record.get(k) for k in
+                                      ('segment', 'moving', 'interval', 'component')}
+    try:
+        write_json(output/'failure.json', record)
+    except BaseException as error:
+        print('Original failure:', json.dumps(record), file=sys.stderr, flush=True)
+        print('Secondary failure-record write error:', repr(error), file=sys.stderr, flush=True)
+    if isinstance(exc, CaptureMismatch):
+        receipt = persist_capture_failure(output/'capture-quarantine', exc)
+        if receipt['errors']:
+            print('Secondary capture diagnostic errors:', receipt['errors'], file=sys.stderr, flush=True)
+
+
 def run_row(root, row, continuation=False):
     matrix = load_matrix(continuation)
     binding = continuation_binding(matrix) if continuation else None
@@ -388,13 +406,13 @@ def run_row(root, row, continuation=False):
                                     'start':float(r.t[0]),'end':float(r.t[-1]),'message':r.message} for moving,r in results]})
             if not solver_complete:
                 stage = 'RETAINING_PARTIAL_SOLVER_STATES'
-                partial = capture(model, results)
+                partial = capture(model, results, {'run': row, 'diagnostic': 'capture-integrity'})
                 save_archive(output/'partial-trajectory', partial,
                              {'row':row,'role':'returned accepted states, incomplete solver; not qualified',
                               'matrix_sha256':sha256(DOC/'MATRIX.json')}, complete=False)
                 raise RuntimeError('Integrator did not complete the declared horizon; returned states retained')
             stage = 'CAPTURING'
-            trajectory = capture(model,results)
+            trajectory = capture(model,results, {'run': row, 'diagnostic': 'capture-integrity'})
             stage = 'WRITING_ARCHIVE'
             manifest = save_archive(output/'trajectory',trajectory,
                                     {'row':row,'matrix_sha256':sha256(DOC/'MATRIX.json'),
@@ -449,7 +467,7 @@ def run_row(root, row, continuation=False):
                                          'continuation_sha256':sha256(DOC/'CONTINUATION.json') if binding else None})
             print('END',row,stats['elapsed_seconds'],stats['gates'],flush=True)
         except BaseException as exc:
-            write_json(output/'failure.json',{'row':row,'ended':now(),'seconds':time.monotonic()-start,
+            preserve_run_failure(output, exc, {'row':row,'ended':now(),'seconds':time.monotonic()-start,
                                              'stage':stage,'archive_manifest_published':(output/'trajectory/manifest.json').exists(),
                                              'exception':type(exc).__name__,'message':str(exc),
                                              'traceback':traceback.format_exc()})

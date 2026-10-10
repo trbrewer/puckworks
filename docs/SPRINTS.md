@@ -699,3 +699,13 @@ and [reproduction](analysis/model_grudeva2026_full_reference_010/CONTINUATION_RE
 The preceding original-attempt record remains historical and unchanged. Same
 G2 task and draft PR #333; #67 open; no merge, adoption, successor or downstream
 comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 dense-capture diagnostic — diagnostic-only completion (2026-10-09)
+
+- [x] Separate and retain all capture commitments; preserve bounded witnesses and checked snapshots across process exit and secondary write failures.
+- [x] Two declared resident replays pass, with exact capture-record repeat and zero integrator calls.
+- [x] Preserve a new input-copy discrepancy (54 differing bytes) and its targeted source comparison; no mechanism inferred and no bad-copy repair.
+- [ ] Full-reference qualification remains **NOT ACHIEVED**: two historical full trajectories/four BDF segments, zero new full trajectories, zero qualified rows, thirteen NOT_RUN.
+
+[Diagnostic result, limits and reproduction](analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md). Same draft PR #333; issue #67 open; no further anchor recommended yet, merge, auto-merge, adoption or downstream comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.

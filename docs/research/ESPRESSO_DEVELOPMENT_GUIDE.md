@@ -400,6 +400,8 @@ fails a dense capture commitment after solving through t=8, before serialization
 No full-reference archive or numerical precision claim is qualified; thirteen
 frozen rows remain unrun. No further automatic retry or downstream comparison.
 
+The subsequent [dense-capture diagnostic](../analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md) adds durable failure witnesses and passes two resident solver-free replays. It also retains a new unexplained source-to-file byte discrepancy from input extraction. Zero new full trajectories ran; the full-reference disposition remains incomplete, and another anchor is not yet recommended.
+
 ### R4–R5, R7 and R15: engineering, empirical value and closed questions
 
 **O's explicit overgeneralization and internal contradiction:** §3 item 5 and

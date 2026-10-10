@@ -491,7 +491,7 @@ def test_capture_copy_detects_source_mutation(monkeypatch):
             source[4] += 1.
         return result
     monkeypatch.setattr(np, 'array', mutate)
-    with pytest.raises(ValueError, match='Source mutation'):
+    with pytest.raises(ValueError, match='Snapshot commitment mismatch'):
         archive_io.stable_copy(source)
 
 
@@ -544,7 +544,7 @@ def test_later_copy_cannot_mutate_earlier_dense_capture(tmp_path, monkeypatch):
         return original_commit(*args)
     monkeypatch.setattr(np, 'zeros', track)
     monkeypatch.setattr(archive_io, '_dense_part_commitment', mutate)
-    with pytest.raises(ValueError, match='mutation after an earlier capture'):
+    with pytest.raises(ValueError, match='Dense final commitment mismatch'):
         _synthetic_archive(tmp_path)
 
 
