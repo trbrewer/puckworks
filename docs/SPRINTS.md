@@ -734,6 +734,22 @@ attempt adds one trajectory/two segments. Provisional accumulator conservation i
 not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
 PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.
 
+### 010 byte recovery — recovered anchor audits complete (2026-10-10)
+
+- [x] Verify four selected candidates without scientific imports/package enumeration; reverify prior 24 and fresh-read all 28 exact numeric members.
+- [x] Record exact-content provenance and hardlink relationships; preserve all original failures and current anchor accepted states.
+- [x] Pass separately reviewed frozen-BDF equivalent fidelity at midpoints, direct endpoints/checkpoints and original required times.
+- [x] Compute all 211 observations and original full-horizon audits; all eleven anchor gates pass, independent conservation maximum 4.0683758584236784e-9 against 1e-6.
+- [x] Complete metadata from committed saved bundles after a JSON scalar TypeError; fresh validation passes without numerical audit/interpolant/quadrature rerun.
+- [ ] Repeatability, twelve refinements and full uncertainty/error-budget qualification remain NOT_RUN or unestablished; no solver execution authorized here.
+
+[Actual results and evidence](analysis/model_grudeva2026_full_reference_010/BYTE_RECOVERY.md).
+Three completed trajectories/six BDF segments remain; one recovered representation
+admitted for anchor audits by reviewed equivalent assessment, no fully qualified
+reference. Three prior SIGSEGV causes remain unresolved; two current bounded
+TypeError records remain preserved. Original live-source evidence remains unavailable.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 ### 010 exact-content recovery — unexpected-crash stop (2026-10-10)
 
 - [x] Confirm all four recorded identities agree with the current anchor's original prospective commitment.

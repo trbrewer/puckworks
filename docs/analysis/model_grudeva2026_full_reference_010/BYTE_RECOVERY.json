@@ -1,0 +1,275 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "accounting": {
+    "completed_BDF_segments": 6,
+    "completed_full_trajectories": 3,
+    "fully_numerically_qualified_references": 0,
+    "integrity_admitted_recovered_anchor_representations": 1,
+    "new_solver_executions": 0,
+    "repeat": "NOT_RUN_NOT_AUTHORIZED_HERE",
+    "twelve_refinements": "NOT_RUN_NOT_AUTHORIZED_HERE"
+  },
+  "affected_checks": {
+    "small_equivalence_controls": "PASS at known polynomial points including non-tautological endpoints",
+    "stdlib_byte_controls": "4 PASS; varied header/dtype and failure subcases",
+    "unchanged_math_and_large_diagnostics": "REUSED_BY_UNCHANGED_IDENTITIES"
+  },
+  "authorization": "CONTINUE PR #333 \u2014 SEPARATE BYTE RECOVERY FROM SCIENTIFIC PREFLIGHT",
+  "byte_recovery": {
+    "accepted_states": "Current anchor original t/y; no diagnostic synthetic y",
+    "complete_members": 28,
+    "disposition": "PASS_EXACT_CONTENT_BYTE_RECOVERY_ONLY",
+    "finiteness": "Deferred to separate numerical process",
+    "new_solver_executions": 0,
+    "original_commitment_sha256": "909b775844dbd822979d56b29d0dcd8c64bc27b0ec8d4f5db05a1cabefe9af6a",
+    "phases": [
+      {
+        "exit_record_sha256": "40c89a4d3ae5dc27ce0ec1446e3bb4799288113585e9392d87ec5f0b76d62a2a",
+        "peak_rss_kib": 28000,
+        "phase": "candidates",
+        "result_sha256": "fb7c5c9affeb55f3a5a77c7a79bdc56ce2e49c8ed7f1d8a7bca5aa0baa3b2bb0",
+        "seconds": 23.102355139970314,
+        "verified_members": 4
+      },
+      {
+        "exit_record_sha256": "ae62fea47a87afdc83079dd92e160dbfe64d990bbb4ac54e548f0d4f851f16b7",
+        "peak_rss_kib": 28052,
+        "phase": "prior24",
+        "result_sha256": "6f845b51725415bf1b99d68ea0013b8ec6bcebd9e699d3a16e471e8bae318561",
+        "seconds": 21.094853363989387,
+        "verified_members": 24
+      },
+      {
+        "exit_record_sha256": "44c89f866c57e4914c941ba924cef54bd118432154450cb8549f2bda9bcb0adf",
+        "peak_rss_kib": 27916,
+        "phase": "complete28",
+        "result_sha256": "e3c49e90a051d8222fe156f63dcdea2bad6623fae44d234cffc5a8d7cad4f5de",
+        "seconds": 43.16533911402803,
+        "verified_members": 28
+      }
+    ],
+    "receipt_sha256": "d6d7fcde72aed540ccd085bff62685f7de99fa86aafc2399dfcfcb37ccd63965",
+    "scientific_admission": "NOT_ASSERTED_BY_BYTE_RECOVERY",
+    "three_prior_SIGSEGVs": "preserved; causes unresolved"
+  },
+  "candidate_CI_and_final_review": "Recorded at exact final candidate in PR and external delivery receipt",
+  "corrections": [
+    "Synthetic control abs(list) TypeError corrected before scientific member loading; original failure preserved",
+    "NumPy bool JSON reporting TypeError after audit; complete metadata derived from verified already saved bundles; no numerical audit/interpolant/quadrature rerun"
+  ],
+  "disposition": "EXACT_CONTENT_BYTE_RECOVERY_COMPLETE_AND_RECOVERED_ANCHOR_AUDITS_PASS",
+  "equivalent_fidelity": {
+    "allowances": "Both unchanged limits enforced: contract256*eps*max(1,max absolute D0 and weighted polynomial terms); existing runner256*eps*max(1,max(abs(reference output)))",
+    "analytic_startup_times": [
+      0.0,
+      1e-07
+    ],
+    "contract_allowance_fractions": {
+      "endpoint_polynomial_vs_current_accepted_y": 0.014927339777093289,
+      "endpoint_polynomial_vs_frozen_bdf": 0.0,
+      "midpoint_archive_vs_frozen_bdf": 0.0,
+      "required_accessor_vs_frozen_bdf": 0.008442903458213252,
+      "required_polynomial_vs_frozen_bdf": 0.0
+    },
+    "establishes": "Frozen BDF evaluation of committed coefficients matches archive arithmetic at every midpoint, both polynomial endpoints and all required dense times; endpoints consistent with current anchor accepted checkpoints",
+    "exact_byte_checks": "separate; not an evaluation tolerance",
+    "interval_test_times_with_duplicates": 77481,
+    "intervals": 25827,
+    "limits": "Analytic startup retains original model scope; no observation of original live solver objects; no scientific repeat; historical failed write remains failed",
+    "original_live_source_comparison": "UNAVAILABLE_NOT_RETROSPECTIVELY_PASSED",
+    "required_accepted_knots": [
+      1.0,
+      8.0
+    ],
+    "required_dense_times_checked": 209,
+    "required_support_times": 211,
+    "runner_allowance_fractions": {
+      "endpoint_polynomial_vs_current_accepted_y": 0.014927339777093292,
+      "endpoint_polynomial_vs_frozen_bdf": 0.0,
+      "midpoint_archive_vs_frozen_bdf": 0.0,
+      "required_accessor_vs_frozen_bdf": 0.008442903458213252,
+      "required_polynomial_vs_frozen_bdf": 0.0
+    },
+    "status": "PASS_EQUIVALENT_COMMITTED_COEFFICIENT_EVALUATION",
+    "witnesses": {
+      "endpoint_polynomial_vs_current_accepted_y": {
+        "contract_allowance": 5.950011408349377e-14,
+        "contract_fraction": 0.014927339777093289,
+        "interval": 7461,
+        "largest_fraction": 0.014927339777093292,
+        "maximum_absolute_difference": 8.881784197001252e-16,
+        "runner_allowance": 5.950011408349376e-14,
+        "runner_fraction": 0.014927339777093292,
+        "segment": 0,
+        "t": 0.7541333405048981
+      },
+      "endpoint_polynomial_vs_frozen_bdf": {
+        "contract_allowance": 5.684341886080802e-14,
+        "contract_fraction": 0.0,
+        "interval": 0,
+        "largest_fraction": 0.0,
+        "maximum_absolute_difference": 0.0,
+        "runner_allowance": 5.684341886080802e-14,
+        "runner_fraction": 0.0,
+        "segment": 0,
+        "t": 1e-07
+      },
+      "midpoint_archive_vs_frozen_bdf": {
+        "contract_allowance": 5.684341886080802e-14,
+        "contract_fraction": 0.0,
+        "interval": 0,
+        "largest_fraction": 0.0,
+        "maximum_absolute_difference": 0.0,
+        "runner_allowance": 5.684341886080802e-14,
+        "runner_fraction": 0.0,
+        "segment": 0,
+        "t": 1.0000971982395992e-07
+      },
+      "required_accessor_vs_frozen_bdf": {
+        "contract_allowance": 7.889866537880157e-14,
+        "contract_fraction": 0.008442903458213252,
+        "interval": 7824,
+        "largest_fraction": 0.008442903458213252,
+        "maximum_absolute_difference": 6.661338147750939e-16,
+        "runner_allowance": 7.889866537880157e-14,
+        "runner_fraction": 0.008442903458213252,
+        "segment": 0,
+        "t": 1.0
+      },
+      "required_polynomial_vs_frozen_bdf": {
+        "contract_allowance": 5.684341886080802e-14,
+        "contract_fraction": 0.0,
+        "interval": 455,
+        "largest_fraction": 0.0,
+        "maximum_absolute_difference": 0.0,
+        "runner_allowance": 5.684341886080802e-14,
+        "runner_fraction": 0.0,
+        "segment": 0,
+        "t": 1e-06
+      }
+    }
+  },
+  "evidence_directory": "controlled-rerun-20261010/byte-recovery-20261010",
+  "evidence_directory_identity": "74674ed0a93443c62e79d0344934a09931e01557141909bf04048daf051b1235",
+  "external_index": {
+    "file": "RECOVERY_EVIDENCE_INDEX.json",
+    "sha256": "41015f6cdba41f07befd986b89ca49846c51d9d306e259a30e31c6f36e44baa5"
+  },
+  "full_scientific_manifest": "Not fabricated; recovered representation has a separate admission receipt",
+  "governance": "G0 recovery/reporting; unchanged scientific contract and source",
+  "historical_SIGSEGVs": {
+    "causes": "UNRESOLVED",
+    "count": 3,
+    "new_SIGSEGVs_this_continuation": 0
+  },
+  "key_receipts": {
+    "BYTE_RECOVERY_COMPLETE.json": "345515efa4cebbf4f28c5635680c7e274a66301228c4a89038177f46586f4172",
+    "BYTE_REVIEW.json": "5752d2456a994078aa2232bbe06c5d3f9cd5d1bd18ff174e12fa269cea59ef3a",
+    "NUMERICAL_REVIEW.json": "8f17bb53fa9e4e5ad285724591aa257e4965e4f477ecab1b7a2809d96424c4a7",
+    "RECOVERED_BYTES.json": "d6d7fcde72aed540ccd085bff62685f7de99fa86aafc2399dfcfcb37ccd63965",
+    "REPORT_COMPLETION_REVIEW.json": "4008d1ecb78d320e628978cb6008b3c3adca81bd131ec46355fa3b481e502214",
+    "numerical-postprocess/BUNDLE_FRESH_READ.json": "d94f1e2d69067b2debe57c0a52a74d4b4f7accd01c2df9177ac93612fa172c81",
+    "numerical-postprocess/NUMERICAL_RESULTS_RECOVERED.json": "220984ce23776308f2989e4a45a8e5d3193530129cd551ebaee0e1bd99d1460e",
+    "numerical-postprocess/RECOVERED_REPRESENTATION.json": "c5fa4cf5396b8924b9c735df8fe57db26cd3eb8d3bf41d0a3d0efcb3c6cbc70b",
+    "report-completion-exit.json": "ad902ada70152f7dc111b49b88eeb98e62ec84ce72fe996c5922c1802c32ab3d"
+  },
+  "numerical_results": {
+    "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    "availability": {
+      "grain_means": {
+        "available": 88620,
+        "requested": 88620,
+        "structurally_unavailable": 0
+      },
+      "grain_radial": {
+        "available": 1240680,
+        "requested": 1240680,
+        "structurally_unavailable": 0
+      },
+      "integrals": {
+        "available": 422,
+        "requested": 422,
+        "structurally_unavailable": 0
+      },
+      "inventories": {
+        "available": 844,
+        "requested": 844,
+        "structurally_unavailable": 0
+      },
+      "liquid": {
+        "available": 35612,
+        "requested": 44310,
+        "structurally_unavailable": 8698
+      },
+      "outlet": {
+        "available": 146,
+        "requested": 211,
+        "structurally_unavailable": 65
+      }
+    },
+    "availability_reasons": {
+      "liquid_unavailable": "dry support or zero wetted volume",
+      "outlet_unavailable": "no discharge before t=1"
+    },
+    "balance_accumulator_max": 5.240252676230739e-14,
+    "balance_common_max": 4.884981308350689e-14,
+    "balance_independent_location": {
+      "residual": 4.0683758584236784e-09,
+      "t": 7.996908331931376
+    },
+    "balance_independent_max": 4.0683758584236784e-09,
+    "balance_relative_to_M0": 7.32776631560461e-10,
+    "boundary_quadrature_3_vs_5": [
+      6.938893903907228e-18,
+      1.7763568394002505e-15
+    ],
+    "boundary_quadrature_vs_evolved": [
+      1.2078574251894736e-10,
+      4.0039260795765585e-09
+    ],
+    "complete": true,
+    "full_reference_qualification": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+    "gates": {
+      "aqueous_bounds": true,
+      "boundary_accumulator": true,
+      "boundary_quadrature": true,
+      "complete": true,
+      "conservation": true,
+      "grain_bounds": true,
+      "inventory_quadrature": true,
+      "phase_bounds": true,
+      "required_support": true,
+      "transition_continuity": true,
+      "zero_predrip_cup": true
+    },
+    "inventory_quadrature_max": 1.3322676295501878e-15,
+    "native_extrema": {
+      "aqueous_max": 1.0000000000000007,
+      "aqueous_min": 0.0,
+      "grain_max": 1.3881944087925513,
+      "grain_min": 4.164197798828082e-15,
+      "inventory_min": 0.0
+    },
+    "native_states": 25829,
+    "required_observation_times": 211,
+    "scope": "RECOVERED_ANCHOR_FULL_HORIZON_ONLY_NOT_REFINEMENT_OR_REPEATABILITY",
+    "solver_executions": 0,
+    "terminal_Jin_Jout": [
+      -0.05879587041145987,
+      5.485260031561004
+    ],
+    "terminal_inventories": [
+      0.0013439528036428632,
+      0.004465061000911067,
+      0.002135084223013909,
+      0.0
+    ],
+    "terminal_outlet": 0.01704354100746934,
+    "work_counter_status": "UNAVAILABLE; not invented"
+  },
+  "original_live_source_evidence": "UNAVAILABLE; separately reviewed equivalent assessment, never a retrospective original PASS",
+  "preserved_prior_010_documents": 57,
+  "qualification": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "scientific_runner_and_helper_unchanged": true,
+  "starting_reviewed_head": "3868efaf1a138c5be02c49f6ad6d472cfb737652"
+}
