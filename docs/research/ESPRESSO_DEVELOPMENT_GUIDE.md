@@ -402,6 +402,8 @@ frozen rows remain unrun. No further automatic retry or downstream comparison.
 
 The subsequent [dense-capture diagnostic](../analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md) adds durable failure witnesses and passes two resident solver-free replays. It also retains a new unexplained source-to-file byte discrepancy from input extraction. Zero new full trajectories ran; the full-reference disposition remains incomplete, and another anchor is not yet recommended.
 
+The [byte-transfer isolation continuation](../analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.md) passes the instrumented ZIP transfer and independent decode, but the plain-file row fails input admission before copying. Seven of 32 retained witness values differ in a bounded current read. Execution-environment integrity remains unresolved; an independent hardware/storage contrast is unavailable. No new scientific trajectory or resident replay ran, and another anchor is not recommended on the unresolved environment.
+
 ### R4–R5, R7 and R15: engineering, empirical value and closed questions
 
 **O's explicit overgeneralization and internal contradiction:** §3 item 5 and

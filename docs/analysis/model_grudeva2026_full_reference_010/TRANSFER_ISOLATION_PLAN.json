@@ -1,0 +1,163 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+  "chunk_bytes": 4194304,
+  "command_sha256": "f233c54193f9c1308948d16d82af2488a36258e43ec47df1f5d537c428ead507",
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "environment": {
+    "destination_st_dev": 2050,
+    "filesystem": "ext4 /dev/sda2 (current findmnt)",
+    "independent_environment": "UNAVAILABLE unless owner supplies an already authorized host; no provisioning",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "same_historical_physical_host": "UNESTABLISHED",
+    "zlib_build": "1.3",
+    "zlib_runtime": "1.3.1"
+  },
+  "executables": {
+    "/lib/x86_64-linux-gnu/libbz2.so.1.0": "cc08c9f50a8009ffd6391e0116a100369b11ca9238fa52392c019e6645b122a1",
+    "/lib/x86_64-linux-gnu/libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161",
+    "/lib/x86_64-linux-gnu/libcrypto.so.3": "6866ed711dab8927e1bf82bf1cd30e828bdfc34f3cc1e83b1c9eb01ce6c37d9a",
+    "/lib64/ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81",
+    "/usr/bin/dd": "dd07a1b0f236f221f71fac70103765286d1ccf29b747cbb24345d0c57a0311b6",
+    "/usr/bin/python3.12": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118",
+    "/usr/bin/sha256sum": "9992e1f1feb6f0f396bc8d6691ebc1adbfc269fd628bce84eda1d4ba5c3995c7",
+    "/usr/bin/strace": "28f957c227012de0b18d1bd7fff2d396cb693ea60ed8013be68de071e84b5001",
+    "/usr/bin/unzip": "b582f2d782989a4d0105284b8032b076222eb29a6c141b5c53b792c864199396",
+    "/usr/lib/python3.12/io.py": "7cec3cb8ac004058dd0a5af246e6d950fb59c7ddd0058fda48bcb3fcb98d8822",
+    "/usr/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so": "a3b9c456e723e5bad3161a1da96d50f3c65788dd6aff425ab0dfef90100e2bdb",
+    "/usr/lib/python3.12/shutil.py": "819e518cb7a539d09b2526138015541b34d2646afb9c2f6ae4ffd476d6a0fcf4",
+    "/usr/lib/python3.12/zipfile/__init__.py": "fa12220ba68d58a75767133c93af70d968a4be79da05ef3d67fb32ad5f518f84",
+    "/usr/local/lib/libz.so.1": "ba8051872cc5ca928d8496f048b71e8f8cfa73cbc6d505e0729feb543315571b"
+  },
+  "executions_per_row": 1,
+  "existing_evidence_reuse": {
+    "dense_CLOSEOUT_sha256": "8e2521fe49918d4492d0002db0a5e7896afc84940c8c7fddf0dfc86e68d0a485",
+    "historical_differences": "Reuse 54-count/first32; no repeated full source/bad comparison",
+    "new_resident_replays": 0,
+    "resident_replays": 2
+  },
+  "expected": [
+    "Every source payload matches its separate unchanged expected SHA",
+    "Prospective chunk == pre-write == post-write-buffer == immediate destination == all later checks",
+    "Exact lengths/header/metadata; no floating conversion",
+    "B source stable and destination byte-identical to BAD opaque fixture",
+    "C independent decode matches original payload; fresh reader does not prove physical media read"
+  ],
+  "frozen_at_ns": 1791632622906540066,
+  "identity": "010-TRANSFER-ISOLATION-A-B-C-ONCE",
+  "independence_limits": [
+    "A instrumentation changes buffering/timing; extra spool and flushes differ from historical operation",
+    "B dd is independent copy code; same host/kernel/filesystem",
+    "C Info-ZIP does not link libz; independent decoder, same compressed input and host",
+    "Python hashlib and GNU sha256sum both link libcrypto; their hash implementation is shared",
+    "No evidence establishes a common mechanism across the three historical incidents"
+  ],
+  "input_stats": {
+    "opaque_bad_fixture": {
+      "st_ctime_ns": 1791596698962504372,
+      "st_dev": 2050,
+      "st_ino": 74606003,
+      "st_mtime_ns": 1791596698962504372,
+      "st_size": 21458960192
+    },
+    "source": {
+      "st_ctime_ns": 1791585516771501221,
+      "st_dev": 2050,
+      "st_ino": 74606296,
+      "st_mtime_ns": 1791585516771501221,
+      "st_size": 20116525410
+    }
+  },
+  "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "opaque": {
+    "domains": {
+      "dtype": "<f8",
+      "header_bytes": 128,
+      "header_sha256": "32ae882e4d51d37f278db409b1367a6ed4ad5a1c8216e5726794234b8f9d74ac",
+      "member_bytes": 21458960192,
+      "order": "C",
+      "payload_bytes": 21458960064,
+      "payload_sha256": "e461a67c1e5e347dbd57c2440fa332280b11b376399e1fb7c900624b2bdb64ca",
+      "shape": [
+        18002,
+        6,
+        24834
+      ]
+    },
+    "role": "OPAQUE_BYTE_FIXTURE_NOT_SCIENTIFIC_RECOVERY"
+  },
+  "private_inputs_sha256": "85ac2fd209ae84d0953a31d0c86fc21af59b4bac6325db60efc4600caa9dc8f4",
+  "resource_plan": {
+    "admit_available_memory_bytes": 8589934592,
+    "admit_disk_free_bytes": 107374182400,
+    "bounded_resident_buffers_estimate_bytes": 268435456,
+    "initial_disk_free_bytes": 1301013880832,
+    "kernel_file_cache": "can grow across reads/writes, reclaimable; monitor host/cgroup and live process tree",
+    "new_complete_file_bytes": 64376880576,
+    "new_complete_files": 3,
+    "sampling_seconds": 1,
+    "stop_available_memory_bytes": 2147483648,
+    "stop_disk_free_bytes": 8589934592
+  },
+  "revision_reason": "Independent review identified lazy witness-read preservation and multi-chunk extension offsets; both corrected and fault-controlled before any large row. C additionally compares each decoded chunk to reverified A spool when available.",
+  "row_order": [
+    "A",
+    "B",
+    "C"
+  ],
+  "rows": {
+    "A": "CPython ZipExtFile + actual shutil.copyfileobj; prospective chunk log, retained decoded member, pre/post write taps, immediate destination after flush, full flush/fsync/fresh-process checks",
+    "B": "GNU dd explicit read/write copy conv=excl,fsync iflag=fullblock; strace syscall summary; fresh-process source/destination check",
+    "C": "Info-ZIP unzip -p; GNU sha256sum whole/member payload plus stdlib hash crosscheck; all process exit codes; final whole ZIP check; compare decoded chunks to reverified A spool where available, retaining complete differing-byte accounting; missing contrast recorded"
+  },
+  "scientific_counts": {
+    "frozen_rows_NOT_RUN": 13,
+    "historical_BDF_segments": 4,
+    "historical_full_trajectories": 2,
+    "new_full_trajectories": 0,
+    "qualified_full_rows": 0
+  },
+  "source": {
+    "compressed_data_offset": 2427743805,
+    "compressed_member_sha256": "NOT_SEPARATELY_COMPUTED; containing whole ZIP verified before A and after C",
+    "domains": {
+      "dtype": "<f8",
+      "header_bytes": 128,
+      "header_sha256": "32ae882e4d51d37f278db409b1367a6ed4ad5a1c8216e5726794234b8f9d74ac",
+      "member_bytes": 21458960192,
+      "order": "C",
+      "payload_bytes": 21458960064,
+      "payload_sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+      "shape": [
+        18002,
+        6,
+        24834
+      ]
+    },
+    "role": "INDIVIDUALLY_MATCHING_D_MEMBER_OF_FAILED_ARCHIVE_NOT_REFERENCE_ADMISSION",
+    "zip_file_bytes": 20116525410,
+    "zip_member": {
+      "CRC": 3577286710,
+      "compress_size": 15260274506,
+      "compress_type": 8,
+      "file_size": 21458960192,
+      "filename": "D.npy",
+      "flag_bits": 0,
+      "header_offset": 2427743750
+    },
+    "zip_sha256": "ccaf5a38c0f46f3b3e1b4842727e09a2d36d0294f2a0c3d3f5b2d8147822fc9b"
+  },
+  "starting_head": "84702ddaa6e91b64e807381a2199286f8cad6fbf",
+  "stopping": [
+    "Each row once; no retry until pass",
+    "Continue independent row after mismatch only with stable admitted inputs and safe host headroom",
+    "No software changes speculatively attributed to model code",
+    "No scientific or dense replay execution",
+    "A demonstrated diagnostic defect permits affected re-execution only under a separately recorded correction identity"
+  ],
+  "supersedes_unexecuted_plan_sha256": "5042bc4929b0b004e77a8e3fa206fb6e39ef5561fccd9aa24229bf0a76c0ba52",
+  "supervisor_sha256": "7c3c4b97080ab70ccdd35997e097919c2d0e197c8d64d661a1dc3eb870d8f494",
+  "tests_sha256": "6db3e68996cdd0bfbb814a8485ee6d14dcd400a6fcfe832eee401c88d9403806"
+}

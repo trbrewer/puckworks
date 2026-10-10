@@ -709,3 +709,12 @@ comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 - [ ] Full-reference qualification remains **NOT ACHIEVED**: two historical full trajectories/four BDF segments, zero new full trajectories, zero qualified rows, thirteen NOT_RUN.
 
 [Diagnostic result, limits and reproduction](analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md). Same draft PR #333; issue #67 open; no further anchor recommended yet, merge, auto-merge, adoption or downstream comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+### 010 byte-transfer isolation continuation (2026-10-10)
+
+- [x] Standalone byte-transfer/check command, focused negative controls and durable witnesses.
+- [x] Execute frozen A/B/C once: A/C pass; B fails source admission before any plain-file copy.
+- [x] Preserve the failed admission and bounded 256-byte inspection: seven of 32 prior witness values differ.
+- [ ] Independent hardware/storage contrast: unavailable; execution-environment integrity unresolved.
+
+[Transfer handoff](analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.md). No new full trajectory or dense replay; two historical trajectories/four BDF segments, zero qualified rows, thirteen NOT_RUN. Another anchor is not recommended on the unresolved environment. Same draft PR #333, issue #67 open; FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
