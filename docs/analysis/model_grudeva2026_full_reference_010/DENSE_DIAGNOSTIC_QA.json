@@ -124,7 +124,7 @@
     },
     "solver_calls": 0
   },
-  "hosted_ci": "Exact delivery head receipt retained externally and linked in PR333; old-head success is not evidence for this delta.",
+  "hosted_ci": "PENDING / TO_BE_RECORDED: exact-final-head hosted CI has not run yet. Its external receipt and PR333 will carry the actual status; old-head success is not evidence for this delta.",
   "implementation": {
     "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
     "tests/test_grudeva2026_dense_capture_010.py": "04e78b00c0315f11ca5e61bf43fcb84df4357e2819804a3711d2e8c03d08c26b",
