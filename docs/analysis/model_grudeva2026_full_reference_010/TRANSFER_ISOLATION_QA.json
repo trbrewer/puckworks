@@ -1,0 +1,317 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "document_and_initial_package_checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_readme.py",
+        "tests/test_readme_governance.py",
+        "tests/test_statusdoc.py",
+        "tests/test_status_reconciliation.py"
+      ],
+      "exit_code": 0,
+      "log": "final-check-0.log",
+      "seconds": 43.479119745024946,
+      "sha256": "62fdf61c9464d1d9eddb579474c38bbe473296f37e149d84f9c4943697395c0f"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "final-check-1.log",
+      "seconds": 0.41675305599346757,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    {
+      "command": [
+        "-m",
+        "build",
+        "--no-isolation",
+        "--outdir",
+        "<external-evidence>/dist",
+        "."
+      ],
+      "exit_code": 1,
+      "log": "final-check-2.log",
+      "seconds": 0.11159781599417329,
+      "sha256": "4f6a11c482848170bfbbf1cd72ce548d931149e15e74d084c703ed6332b13f91"
+    },
+    {
+      "command": [
+        "tools/packaging_check.py",
+        "<external-evidence>/dist"
+      ],
+      "exit_code": 1,
+      "log": "final-check-3.log",
+      "seconds": 0.03690816700691357,
+      "sha256": "7a14a6f0aeaea1ea45542646f311c3fec4bb37025bdfc1da340f04929accdbef"
+    }
+  ],
+  "focused_controls": {
+    "development_case_executions": 152,
+    "development_failed_tests": 1,
+    "final_bound_cases": 33,
+    "passed": 33,
+    "review_corrections": "two pre-execution new-checker defects corrected and tested; unexecuted plan retained",
+    "solver_calls": 0,
+    "xml_sha256": "13ef300c6c52d515c245083bd52ec6743ff517ac86b649c16d14cadde4cd165c"
+  },
+  "hosted_candidate_CI": "PENDING_NEW_COMMIT_PUSH; old-head workflows not reused as new-head certification",
+  "independent_review": "one scoped nonhuman review; actual records checked, exact commit receipt follows",
+  "new_scientific_trajectories": 0,
+  "ordinary_checks": [
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-00.log",
+      "seconds": 0.3746064589940943,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-01.log",
+      "seconds": 0.3864910010015592,
+      "sha256": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-02.log",
+      "seconds": 0.455393880023621,
+      "sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-03.log",
+      "seconds": 0.3676869429764338,
+      "sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-04.log",
+      "seconds": 0.5699135919567198,
+      "sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-05.log",
+      "seconds": 0.7478964169858955,
+      "sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "qa-06.log",
+      "seconds": 11.132553957984783,
+      "sha256": "0affe8cb40971f6cbdc29e598928dacc59786e66a632fe6894102afb39bd3b0d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-07.log",
+      "seconds": 2.851496056013275,
+      "sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-08.log",
+      "seconds": 0.37469296698691323,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log": "qa-09.log",
+      "seconds": 0.36885524401441216,
+      "sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log": "qa-10.log",
+      "seconds": 0.36668556701624766,
+      "sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.insights",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "qa-11.log",
+      "seconds": 0.5518755890079774,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/",
+        "tools/diagnose_grudeva2026_transfer_010.py"
+      ],
+      "exit_code": 0,
+      "log": "qa-12.log",
+      "seconds": 0.046931406017392874,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "log": "qa-13.log",
+      "seconds": 0.12868673796765506,
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    },
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "not slow and not live and not gpu and not external_data",
+        "--junitxml=<external-evidence>/ordinary-quick.xml"
+      ],
+      "exit_code": 0,
+      "log": "qa-14.log",
+      "seconds": 1316.602189177007,
+      "sha256": "566970f130284babd80fdb01da255dc854b7fd1936f5fadc36c8f7c3f127699a"
+    }
+  ],
+  "ordinary_quick": {
+    "deselected": 64,
+    "errors": 0,
+    "failures": 0,
+    "log_sha256": "566970f130284babd80fdb01da255dc854b7fd1936f5fadc36c8f7c3f127699a",
+    "passed": 6531,
+    "selector": "not slow and not live and not gpu and not external_data",
+    "skipped": 67,
+    "tests": 6598,
+    "xml_sha256": "d28df50b5367b5b3da26cc50bba7c6b3810d0f50656d5323370c1912cd82f3c5"
+  },
+  "package_backend_identity": {
+    "files": {
+      "/usr/lib/python3/dist-packages/setuptools/__init__.py": "1bebb5739c0da7a62456800cb671a9e87704e01773bc88b1f2c243374fca7860",
+      "/usr/lib/python3/dist-packages/setuptools/build_meta.py": "aca5bb663fc91791d63bb8869be586dc633fba0119b6a876575e6a7f118568fc",
+      "/usr/lib/python3/dist-packages/wheel/__init__.py": "7399f899e6b837252130293c1966d7e3f3bbdfd1390133d7db79532515dff592"
+    },
+    "role": "separate ordinary packaging QA, existing system backend; diagnostic environment unchanged",
+    "setuptools": "68.1.2",
+    "wheel": "0.42.0"
+  },
+  "package_with_existing_backend": {
+    "environment_delta": "PYTHONPATH adds already installed system dist-packages only for backend inspection/build; no installation or frozen environment modification",
+    "records": [
+      {
+        "command": [
+          "-c",
+          "import setuptools,wheel,sys; print(sys.version); print(setuptools.__version__,setuptools.__file__); print(wheel.__version__,wheel.__file__)"
+        ],
+        "exit_code": 0,
+        "log": "package-existing-0.log",
+        "seconds": 0.11033557303017005,
+        "sha256": "00ff74118a637eab46516e34f6facd36a1ed547671998c1629b8a954061b7ea0"
+      },
+      {
+        "command": [
+          "-m",
+          "build",
+          "--no-isolation",
+          "--outdir",
+          "<external-evidence>/dist-existing-backend",
+          "."
+        ],
+        "exit_code": 0,
+        "log": "package-existing-1.log",
+        "seconds": 3.739505712001119,
+        "sha256": "a32d973c55c52af34a6d39d844752718c8cf30da9f9ad7ffec678ad63ca0ed5a"
+      },
+      {
+        "command": [
+          "tools/packaging_check.py",
+          "<external-evidence>/dist-existing-backend"
+        ],
+        "exit_code": 0,
+        "log": "package-existing-2.log",
+        "seconds": 0.2545064949663356,
+        "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+      }
+    ],
+    "role": "ordinary build QA only; no scientific or diagnostic-row execution"
+  },
+  "preserved_identities_sha256": "e733e777b8a0dc31b555e8573629367e2c9a6689b5b50323cce3e463e97b5509",
+  "retained_build_failure": "Initial build --no-isolation lacks setuptools in frozen venv; dependent package check has no distributions. Existing system backend used only for separate ordinary packaging; no installation or upgrade.",
+  "scope": "ordinary QA, separate from finite transfer rows and scientific qualification",
+  "source_candidate": "working tree before receipt commits; exact delivery identities/CI captured externally and in PR metadata",
+  "task_010_ordinary_fixture_accounting": {
+    "basis": "unchanged full-reference test source and existing quick selector; 15 bounded single-segment operator fixtures, separate from historical full trajectories. No slow coupled full-reference fixture selected.",
+    "full_case_scientific_trajectories": 0,
+    "local_segments": 15,
+    "local_selected_bounded_ODE_fixture_solves": 15,
+    "new_transfer_tests_solver_calls": 0,
+    "reviewer_solver_or_test_runs": 0
+  },
+  "test_file_sha256": "6db3e68996cdd0bfbb814a8485ee6d14dcd400a6fcfe832eee401c88d9403806",
+  "transfer_command_sha256": "f233c54193f9c1308948d16d82af2488a36258e43ec47df1f5d537c428ead507"
+}

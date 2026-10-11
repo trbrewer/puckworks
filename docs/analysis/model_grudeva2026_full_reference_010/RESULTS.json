@@ -1,0 +1,539 @@
+{
+  "archive": {
+    "all_decoded_arrays_finite": true,
+    "array_identities_checked": 26,
+    "array_identities_matching": 25,
+    "disposition": "FAILED_QUARANTINED_CANDIDATE",
+    "failed_array": {
+      "array": "y",
+      "expected_identity": {
+        "dtype": "<f8",
+        "sha256": "44beb9f18896f0515575d3bc4c032a5e6a1e149edbed4dbf1c5d1905cb1ea050",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "file": "segment-1.npz",
+      "file_hash_matches": true,
+      "finite": true,
+      "identity": {
+        "dtype": "<f8",
+        "sha256": "353cb660c94479c69488e19faf1b3dddd87033b9b0a8bfc76ec43d002b95293e",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "kind": "f",
+      "matched": false
+    },
+    "file_hashes_matching": 3,
+    "independent_byte_diagnostic": {
+      "available_witnesses_with_physical_coordinates": [
+        {
+          "absolute_difference": 2.384185791015625e-07,
+          "c_bits": 4606650980166962743,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.94099822092216,
+          "redundant_C": 0.9409984593407391,
+          "state_index": 5754,
+          "t": 1.1972222631915606,
+          "time_index": 807,
+          "y_bits": 4606650978019479095,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 5.960464477539063e-08,
+          "c_bits": 4605703703705669507,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.8358297051440647,
+          "redundant_C": 0.83582964553942,
+          "state_index": 5754,
+          "t": 1.2316040680439013,
+          "time_index": 927,
+          "y_bits": 4605703704242540419,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 5.960464477539063e-08,
+          "c_bits": 4605568858606229443,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.8208587725191524,
+          "redundant_C": 0.8208588321237972,
+          "state_index": 5754,
+          "t": 1.238048790356645,
+          "time_index": 983,
+          "y_bits": 4605568858069358531,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 5.960464477539063e-08,
+          "c_bits": 4605183485354151454,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.7780738659752762,
+          "redundant_C": 0.7780738063706314,
+          "state_index": 5754,
+          "t": 1.2578928140819148,
+          "time_index": 1047,
+          "y_bits": 4605183485891022366,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 2.384185791015625e-07,
+          "c_bits": 4605129951281305953,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.7721300919245487,
+          "redundant_C": 0.7721303303431278,
+          "state_index": 5754,
+          "t": 1.2608227301751909,
+          "time_index": 1071,
+          "y_bits": 4605129949133822305,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 1.1920928955078125e-07,
+          "c_bits": 4602135750370954218,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.46985350641096935,
+          "redundant_C": 0.4698536256202589,
+          "state_index": 5754,
+          "t": 1.458247147856786,
+          "time_index": 1815,
+          "y_bits": 4602135748223470570,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 9.313225746154785e-10,
+          "c_bits": 4601718535055953563,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.44669352410458324,
+          "redundant_C": 0.44669352317326066,
+          "state_index": 5754,
+          "t": 1.4783357449026762,
+          "time_index": 1895,
+          "y_bits": 4601718535072730779,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 1.4901161193847656e-08,
+          "c_bits": 4597180699196937263,
+          "population": "fines",
+          "r": 0.9998626708984375,
+          "raw_y": 0.22239650036922984,
+          "redundant_C": 0.22239651527039103,
+          "state_index": 5754,
+          "t": 1.7526651560609223,
+          "time_index": 2831,
+          "y_bits": 4597180698660066351,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 5.684341886080802e-14,
+          "c_bits": 4532088576745130793,
+          "population": "fines",
+          "r": 0.9994659423828125,
+          "raw_y": 1.0115184792857512e-05,
+          "redundant_C": 1.011518484970093e-05,
+          "state_index": 5753,
+          "t": 5.269760708503057,
+          "time_index": 14586,
+          "y_bits": 4532088576711576361,
+          "z": 0.232421875
+        },
+        {
+          "absolute_difference": 9.094947017729282e-13,
+          "c_bits": 4531885725529618646,
+          "population": "fines",
+          "r": 0.9994659423828125,
+          "raw_y": 9.771540614347486e-06,
+          "redundant_C": 9.771541523842188e-06,
+          "state_index": 5753,
+          "t": 5.281245370307875,
+          "time_index": 14634,
+          "y_bits": 4531885724992747734,
+          "z": 0.232421875
+        }
+      ],
+      "bytes": 3576692016,
+      "checked": "2026-10-09T22:49:24.072070+00:00",
+      "fortran_order": false,
+      "matches_loaded_array_sha256": true,
+      "matches_manifest_expected_sha256": false,
+      "method": "Stream raw C-order NPY data bytes directly from ZIP member, without NumPy state loading or floating-point evaluation",
+      "raw_stream_sha256": "353cb660c94479c69488e19faf1b3dddd87033b9b0a8bfc76ec43d002b95293e",
+      "root_cause": "UNESTABLISHED; this check does not attribute the mismatch to hardware, filesystem, NumPy or the integrator",
+      "shape": [
+        24834,
+        18003
+      ]
+    },
+    "interpretation": "All three saved file hashes match. One decoded raw state array disagrees with its producer-recorded array identity. Direct streaming of its C-order NPY bytes reproduces the decoded hash, independently of NumPy state reconstruction. The separately hash-matching concentration copy disagrees with that array at 19 entries; substituting that copy does not recover the producer hash. This is not roundoff or a refinement result. Root cause remains unestablished; no attribution to hardware, filesystem, NumPy or BDF is made.",
+    "manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+    "redundancy_diagnostic": {
+      "candidate_matches_original_capture": false,
+      "checked": "2026-10-09T22:46:44.680038+00:00",
+      "different_PDE_state_values": 19,
+      "expected_identity": {
+        "dtype": "<f8",
+        "sha256": "44beb9f18896f0515575d3bc4c032a5e6a1e149edbed4dbf1c5d1905cb1ea050",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "maximum_numeric_difference": 2.384185791015625e-07,
+      "original_identity": {
+        "dtype": "<f8",
+        "sha256": "353cb660c94479c69488e19faf1b3dddd87033b9b0a8bfc76ec43d002b95293e",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "reason": "s=1 throughout second segment; stored concentration duplicates all PDE amount states exactly; no mass or state fitting",
+      "redundant_candidate_identity": {
+        "dtype": "<f8",
+        "sha256": "564a626f61a2544561875c513e66ce5fa47523e138fa68fb741119ab27d90e07",
+        "shape": [
+          24834,
+          18003
+        ]
+      },
+      "witnesses": [
+        {
+          "c_bits": 4606650980166962743,
+          "raw_y": 0.94099822092216,
+          "redundant_C": 0.9409984593407391,
+          "state_index": 5754,
+          "time_index": 807,
+          "y_bits": 4606650978019479095
+        },
+        {
+          "c_bits": 4605703703705669507,
+          "raw_y": 0.8358297051440647,
+          "redundant_C": 0.83582964553942,
+          "state_index": 5754,
+          "time_index": 927,
+          "y_bits": 4605703704242540419
+        },
+        {
+          "c_bits": 4605568858606229443,
+          "raw_y": 0.8208587725191524,
+          "redundant_C": 0.8208588321237972,
+          "state_index": 5754,
+          "time_index": 983,
+          "y_bits": 4605568858069358531
+        },
+        {
+          "c_bits": 4605183485354151454,
+          "raw_y": 0.7780738659752762,
+          "redundant_C": 0.7780738063706314,
+          "state_index": 5754,
+          "time_index": 1047,
+          "y_bits": 4605183485891022366
+        },
+        {
+          "c_bits": 4605129951281305953,
+          "raw_y": 0.7721300919245487,
+          "redundant_C": 0.7721303303431278,
+          "state_index": 5754,
+          "time_index": 1071,
+          "y_bits": 4605129949133822305
+        },
+        {
+          "c_bits": 4602135750370954218,
+          "raw_y": 0.46985350641096935,
+          "redundant_C": 0.4698536256202589,
+          "state_index": 5754,
+          "time_index": 1815,
+          "y_bits": 4602135748223470570
+        },
+        {
+          "c_bits": 4601718535055953563,
+          "raw_y": 0.44669352410458324,
+          "redundant_C": 0.44669352317326066,
+          "state_index": 5754,
+          "time_index": 1895,
+          "y_bits": 4601718535072730779
+        },
+        {
+          "c_bits": 4597180699196937263,
+          "raw_y": 0.22239650036922984,
+          "redundant_C": 0.22239651527039103,
+          "state_index": 5754,
+          "time_index": 2831,
+          "y_bits": 4597180698660066351
+        },
+        {
+          "c_bits": 4532088576745130793,
+          "raw_y": 1.0115184792857512e-05,
+          "redundant_C": 1.011518484970093e-05,
+          "state_index": 5753,
+          "time_index": 14586,
+          "y_bits": 4532088576711576361
+        },
+        {
+          "c_bits": 4531885725529618646,
+          "raw_y": 9.771540614347486e-06,
+          "redundant_C": 9.771541523842188e-06,
+          "state_index": 5753,
+          "time_index": 14634,
+          "y_bits": 4531885724992747734
+        }
+      ]
+    },
+    "strict_loader": "Correctly rejects retained anchor; no bypass, repaired checksum, replacement state or relaxed allowance"
+  },
+  "case": {
+    "D_b": 1.0,
+    "D_f": 100.0,
+    "D_l": 0.01,
+    "b_b": 0.04878048780487805,
+    "b_f": 1.951219512195122,
+    "epsilon": 0.01,
+    "equation_source": "GRUDEVA-EJAM-2026-E23-E29",
+    "horizon": 8.0,
+    "identity": "SYNTHETIC-GRUDEVA-FINITE-RATE-010-A",
+    "initial": 1.388,
+    "phi_T": 0.2,
+    "phi_b": 0.16,
+    "phi_f": 0.64,
+    "phi_l": 0.2,
+    "q": 1.0,
+    "radius_ratio": 0.1,
+    "varphi_lb": 0.0
+  },
+  "count_note": "The retained frozen runner report calls audited completed rows executed_rows (0). Actual scientific execution is counted separately here: one full anchor trajectory completed; its archive/audit pipeline failed. Other ordinary repository tests use their existing bounded fixtures; their individual solver-call counts are not represented by the 010-only fixture counts.",
+  "counts": {
+    "attempted_scientific_rows": 1,
+    "audited_rows": 0,
+    "declared_scientific_rows": 14,
+    "development_010_solve_ivp_segments": 36,
+    "development_bounded_010_trajectories": 32,
+    "diagnostic_solver_invocations": 0,
+    "not_run_rows": 13,
+    "numerically_qualified_rows": 0,
+    "offline_archive_diagnostic_invocations": 3,
+    "ordinary_local_010_solve_ivp_segments": 30,
+    "ordinary_local_bounded_010_trajectories": 30,
+    "ordinary_local_quick_invocations": 2,
+    "reused_full_model_rows": 0,
+    "solver_complete_rows": 1
+  },
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807",
+    "tests/test_grudeva2026_full_reference_010.py": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5",
+    "tools/run_grudeva2026_full_reference_010.py": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5"
+  },
+  "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "numerical_gates": {
+    "aqueous_boundedness": "UNAVAILABLE",
+    "combined_error_budget": "UNAVAILABLE",
+    "conservation": "UNAVAILABLE",
+    "grain_and_inventory_nonnegativity": "UNAVAILABLE",
+    "observation_reconstruction_on_full_case": "UNAVAILABLE",
+    "refinement": "UNAVAILABLE",
+    "repeatability": "UNAVAILABLE",
+    "temporal_effectiveness": "UNAVAILABLE"
+  },
+  "observation_availability": {
+    "grain_means": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 88620,
+      "required_observations_unavailable": 88620,
+      "required_supported": 88620,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "grain_radial": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 1240680,
+      "required_observations_unavailable": 1240680,
+      "required_supported": 1240680,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "integrals": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 422,
+      "required_observations_unavailable": 422,
+      "required_supported": 422,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "inventories": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 844,
+      "required_observations_unavailable": 844,
+      "required_supported": 844,
+      "structural_reason": "none",
+      "structurally_unavailable": 0
+    },
+    "liquid": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 44310,
+      "required_observations_unavailable": 35612,
+      "required_supported": 35612,
+      "structural_reason": "dry support or zero wet volume",
+      "structurally_unavailable": 8698
+    },
+    "outlet": {
+      "qualified_available": 0,
+      "reason": "Strict archive identity check failed before observation/audit production",
+      "requested": 211,
+      "required_observations_unavailable": 146,
+      "required_supported": 146,
+      "structural_reason": "no beverage before t=1",
+      "structurally_unavailable": 65
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "precision_limits": {
+    "J_in": 5e-05,
+    "J_out": 5e-05,
+    "M_b": 5e-05,
+    "M_dry": 5e-05,
+    "M_f": 5e-05,
+    "M_l": 5e-05,
+    "grain_means": 0.00023,
+    "grain_radial": 0.00023,
+    "liquid": 0.001,
+    "outlet": 0.001
+  },
+  "preserved_dispositions": [
+    "CORROBORATED_PUBLICATION_DISCREPANCY",
+    "FIG5_REFERENCE_INCOMPLETE",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+  ],
+  "qualified_partial_evidence": [
+    "15 focused mathematical/control tests pass after retained analytical-series truncation correction",
+    "Independent pre-campaign source/mathematical/moving-boundary review passed",
+    "Both anchor BDF segments report success through t=8; this is solver completion, not numerical qualification",
+    "25 of 26 archived arrays match their recorded identities, but the full archive is not qualified for reference use"
+  ],
+  "rows": {
+    "anchor": {
+      "accepted_entries": [
+        7826,
+        18003
+      ],
+      "accepted_time_intervals": [
+        [
+          1e-07,
+          1.0
+        ],
+        [
+          1.0,
+          8.0
+        ]
+      ],
+      "elapsed_seconds": 2049.8187254389923,
+      "failure": {
+        "ended": "2026-10-09T22:40:46.842555+00:00",
+        "exception": "ValueError",
+        "message": "Archive state identity mismatch"
+      },
+      "numerical_audits": "NOT_PRODUCED",
+      "solver_segments_success": [
+        true,
+        true
+      ],
+      "status": "SOLVER_COMPLETE_ARCHIVE_IDENTITY_FAILED",
+      "work": [
+        {
+          "nfev": 27695,
+          "njev": 1593,
+          "nlu": 4498
+        },
+        {
+          "nfev": 43965,
+          "njev": 1210,
+          "nlu": 5292
+        }
+      ]
+    },
+    "axial_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "axial_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "boulders_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "boulders_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "combined_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "combined_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "fines_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "fines_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "repeat": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "startup_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "startup_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "time_coarse": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    },
+    "time_medium": {
+      "reason": "Original serial campaign stopped on anchor archive-integrity exception before next row",
+      "status": "NOT_RUN"
+    }
+  },
+  "scope_limits": [
+    "No reduced-model comparison or publication scoring",
+    "No epsilon sweep or alternate physical case",
+    "No fitting or changed thresholds",
+    "No production, Guided Pull or EWP adoption",
+    "No automatic rerun, correction ladder or successor"
+  ],
+  "selected_base": {
+    "head": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+    "tree": "96ad0b033c070a99416209828b5780034f438dba"
+  },
+  "stop_reason": "ARCHIVE_STATE_IDENTITY_FAILURE_UNRESOLVED",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "uncertainty": "No full-case refinement difference or numerical-uncertainty estimate was produced. The 2.384185791015625e-7 redundant-copy discrepancy is an integrity diagnostic, not a numerical error estimate. No rigorous continuum bound is established."
+}

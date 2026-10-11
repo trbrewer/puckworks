@@ -1,0 +1,183 @@
+{
+  "actual_accounting": {
+    "bounded_existing_witness_probes": 1,
+    "bounded_witness_bytes_requested": 256,
+    "development_failed_test_cases": 1,
+    "development_test_case_executions": 152,
+    "final_bound_byte_controls": 33,
+    "frozen_rows_NOT_RUN": 13,
+    "historical_BDF_segments": 4,
+    "historical_full_trajectories": 2,
+    "independent_large_decodes": 1,
+    "instrumented_large_ZIP_transfers": 1,
+    "large_plain_file_copies": 0,
+    "large_rows_attempted_once": 3,
+    "new_dense_replays": 0,
+    "new_full_scientific_trajectories": 0,
+    "new_transfer_tests_solver_calls": 0,
+    "ordinary_selected_010_fixture_segments": 15,
+    "ordinary_selected_010_fixture_solves": 15,
+    "qualified_full_rows": 0,
+    "reused_prior_resident_replays": 2
+  },
+  "candidate": {
+    "changed_files": [
+      "docs/ROADMAP.md",
+      "docs/SPRINTS.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_EXTERNAL_EVIDENCE.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_PLAN.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_PLAN.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_QA.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_REPRODUCE.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.md",
+      "docs/planning/STATE_OF_TRUTH.md",
+      "docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md",
+      "docs/status/current.json",
+      "tests/test_grudeva2026_transfer_010.py",
+      "tools/diagnose_grudeva2026_transfer_010.py"
+    ],
+    "head": "004f2edcdafa1d20247564bfce822d59eb7e4e74",
+    "selected_base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+    "starting_head": "84702ddaa6e91b64e807381a2199286f8cad6fbf",
+    "starting_tree": "ab0d269646988aa9cde56e95293c3724f02e4cba",
+    "tree": "fab5127d2a9a3756316bb6ac0ed9411b35c0def2"
+  },
+  "diagnostic_implementation_sha256": {
+    "external:execute.py": "7c3c4b97080ab70ccdd35997e097919c2d0e197c8d64d661a1dc3eb870d8f494",
+    "tests/test_grudeva2026_transfer_010.py": "6db3e68996cdd0bfbb814a8485ee6d14dcd400a6fcfe832eee401c88d9403806",
+    "tools/diagnose_grudeva2026_transfer_010.py": "f233c54193f9c1308948d16d82af2488a36258e43ec47df1f5d537c428ead507"
+  },
+  "disposition": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+  "external_records_sha256": {
+    "A/RESULT.json": "488e25d9255a24d148920b46b2be8fa7a8f1bd1178f36cd8e61a18d10e1aa631",
+    "A/events.jsonl": "33a343eaf144e72e5a6e0eb2d936a8354e5cbba82b3de41f09441548c2ef01f5",
+    "A/fresh-reader/RESULT.json": "26c1e602fc63b01c1366d0ad94912227a74ddba756daa92d76a253ca5a21c2f9",
+    "A/prospective.jsonl": "691c56209ffa4a237f68ad258d15a887613f53fc4b5241363666264e98398778",
+    "B/FIRST_FAILURE.json": "5ae2d4c11037a54501cddf441590d54c0b5b6e20e0917c4a8548e0116b0b6651",
+    "B/RESULT.json": "4543fb30b8936226cb2284a8b72922f84b0633dd0810efa02423dd360378de01",
+    "BOUNDED_WITNESS_INSPECTION.json": "0a1527f74f0ab9eb00ce33cde1460f7b7d393a7758f976f2eea58b58411dca2c",
+    "BOUNDED_WITNESS_INSPECTION_PLAN.json": "d5d66b7948fbdba8877ff34e7f578bde25174a9bb951d763ec6487856603a0be",
+    "C/RESULT.json": "ea923115009991a9603c8cc84a0f5d5a0bb0a232880449f88eacac178fcacbbc",
+    "C/events.jsonl": "728e7a02bbc76023ee38be35d02624a39a691df8637209bfe1bae17e9fee96d5",
+    "DEVELOPMENT_CONTROLS.json": "ec888982689acaebb2fdd3a22e140ed6a5183b95e312db93d4fcafd8cae297b7",
+    "EXECUTIONS.json": "b485cb845eaa4518e03aee8d27841b5f4bc1ceb3609de1e4249bc3d3483ef3f3",
+    "FINAL_CHECKS.json": "75ae60a7866874f736adcb071ae049fa813e1605ca986704fcc3961fd0e9335f",
+    "INPUTS.json": "85ac2fd209ae84d0953a31d0c86fc21af59b4bac6325db60efc4600caa9dc8f4",
+    "INTAKE.json": "290094fb001cca2045adceae9927d5fd3900c728936b0bcb06246d9075a0e8bb",
+    "LIVE_BEFORE_ROWS.json": "0fb7ee387d939aabccac3500792875604be9e2e1204a822ba0b05805300615a8",
+    "PACKAGING_BACKEND_IDENTITY.json": "4740933b765a8d85e7d89f610d49159e75b8dad35a8edd49c61439bea657ff69",
+    "PACKAGING_EXISTING_BACKEND.json": "e37c84a5e660e30b382aa82397a7cb8fa346fba81e50e0cf733fec0e4b280931",
+    "POST_EXECUTION_SYSTEM_VISIBILITY.json": "6ff5457891f6e9b469698a9dfb961ac5a5db0a11b301b683bc747dcd324be0b4",
+    "PRESERVED.json": "5564793cdaf43cf125485d8e91a77e628cc493e8d4d5329b029b994faef7e19e",
+    "SYSTEM_VISIBILITY.json": "28fa3a064359802d77d34b06e2ef1b9bb9a0c47b2f7968a929855c2df8f0c85e",
+    "UNEXECUTED_PLAN_V1.json": "5042bc4929b0b004e77a8e3fa206fb6e39ef5561fccd9aa24229bf0a76c0ba52",
+    "controls-v4.xml": "13ef300c6c52d515c245083bd52ec6743ff517ac86b649c16d14cadde4cd165c",
+    "ordinary-quick.xml": "d28df50b5367b5b3da26cc50bba7c6b3810d0f50656d5323370c1912cd82f3c5"
+  },
+  "findings": [
+    {
+      "finding": "Eager spool-witness reads could prevent a known pre/post-write digest mismatch from being recorded. Primary mismatch persistence now precedes callable witness enrichment; a retained fault control confirms the primary survives a secondary read error.",
+      "id": "TRANSFER-REVIEW-01",
+      "status": "CORRECTED_BEFORE_LARGE_EXECUTION"
+    },
+    {
+      "finding": "The plain-file checker repeated offsets after source EOF for multiple destination-only chunks. It now advances by the maximum consumed span; a bounded appended-data control checks the full exact offset sequence.",
+      "id": "TRANSFER-REVIEW-02",
+      "status": "CORRECTED_BEFORE_LARGE_EXECUTION"
+    },
+    {
+      "finding": "B admission observes payload SHA 23e17d8ac0033a09e370834f49339200b5fafde7beb69f59d828bcc18982109c instead of retained e461a67c1e5e347dbd57c2440fa332280b11b376399e1fb7c900624b2bdb64ca. The primary digests survive, but complete scan member SHA/read bytes and prospective per-chunk admission records do not. Later sampled reads cannot reconstruct that complete scan or establish its mechanism.",
+      "id": "TRANSFER-REVIEW-03",
+      "status": "UNRESOLVED_LIMITATION_ALREADY_REPORTED"
+    },
+    {
+      "finding": "The independent hardware/storage contrast is unavailable. A/C successes and seven disagreements among 32 existing sampled witness values support preserving the unresolved integrity concern and recommending no further anchor on the current unresolved environment; they do not identify hardware, storage, software or a shared historical cause.",
+      "id": "TRANSFER-REVIEW-04",
+      "status": "BOUNDED_STOP_JUSTIFIED"
+    }
+  ],
+  "independently_checked": [
+    "Read the stdlib-only command and focused tests before freeze, then checked both corrections, the bound command/test/supervisor hashes, and the revised once-only A/B/C plan. The first unexecuted plan remains separately identified; no large row used it.",
+    "Reviewed bounded NPY header parsing without eval, pickle, array loading or floating conversion; distinct ZIP, complete NPY, header and payload domains; actual shutil.copyfileobj taps; source retention; byte counts; pre/post-write and reopened checks; exclusive output creation and primary/secondary failure preservation.",
+    "Reviewed independent byte-reference controls, short reads/writes, stale expectations, buffer and destination changes, truncation, multi-chunk extension offsets, signed-zero bytes, process exit, failure persistence, and small A/B/C command fixtures. Retained final XML has 33 tests, zero failures/errors/skips; no controls rerun by reviewer.",
+    "Verified all 49 compact external-manifest record hashes. Joined all 5,117 A prospective chunk records with write events, independently checking equal commitments/counts, contiguous logical/descriptor/source offsets, timestamp ordering, total 21,458,960,192 bytes and the final 900,928-byte chunk. Checked CRC/EOF, flush/fsync/fresh-reader results and lack of recorded failures.",
+    "Checked actual A/B/C process exits, exactly one attempt per row, resource-monitor extrema and safety-stop fields. Confirmed absence of B copy and dd execution artifacts and the code early return before dd on failed admission. C contrast availability records bind the actual passed A receipt; all three decoder/hasher subprocesses exited zero.",
+    "Checked C decoded complete-member and payload hashes against A and original payload identity, and original whole-ZIP identity after C. Code reverifies the actual A contrast spool rather than accepting a status label. Large-byte results are supported by hash-bound execution records, not a new reviewer large-payload reread.",
+    "Checked the prospective 256-byte follow-up plan and all 32 recorded witness offsets/old target hex against the previous immutable witness record. Exactly seven sampled eight-byte values differ by one byte each, and the seven published entries exactly match the new record. No claim of a full-file new difference count or immutable physical bytes follows.",
+    "Verified 22 ordinary QA/build log hashes and final control/quick XML identities. Logs report 6531 passed/67 skipped/64 deselected, 78 documentation regressions, and static/generated checks passing. Initial missing-setuptools build and dependent no-distribution check failures remain retained; a separately recorded existing system setuptools/wheel backend yields a passing ordinary build/package check. No installation, scientific execution or diagnostic row under that build-only path is claimed.",
+    "Verified 40 historical 010 documents, six existing 010 implementation files and 206 historical scientific-file hashes unchanged. Current diff contains only the new diagnostic command/tests/records and narrow living status/navigation. Historical external artifact preservation is accurately qualified: the quarantined path/metadata survive, but its old byte identity is currently unreproduced."
+  ],
+  "limits": [
+    "A instrumentation changes timing, buffering and allocation; its pass is not exact historical reproduction or a guarantee for a later full solve.",
+    "C uses an independent decoder, but GNU/Python hashers share libcrypto and local tests share host/kernel/filesystem. Fsync/fresh process reads do not prove physical-media reads or hardware health.",
+    "Current host/mount observations do not prove the historical physical host. Empty accessible kernel logs, denied SMART and unavailable EDAC are visibility limits, not health certification.",
+    "B current admission scan and later bounded witness observation are separate measurements. The old 54-byte comparison is historical; seven is only the count among 32 sampled witnesses. No actual full current difference count, corruption time, physical storage mutation or common mechanism is established.",
+    "No conservation/refinement/uncertainty/required-observation gate was computed or promoted. No reduced-model error, epsilon convergence, Figure 5 reconstruction, publication-discrepancy cause, author error or physical validation follows.",
+    "No unrelated historical scientific evidence is invalidated by inference from this packet. No production/default/lock/EWP change, merge, auto-merge, release, downstream comparison or automatic successor is authorized. PR333 remains draft/unmerged and issue67 open.",
+    "Hosted exact-final-head CI remains pending and separate. One receipt-only final-head addendum may close this same scoped review without another scientific review."
+  ],
+  "meaning": "The declared diagnostic findings, missing evidence and stopping recommendation are supported. This does not certify an execution environment, establish any failure mechanism, qualify a numerical reference, or authorize another scientific run, adoption or merge.",
+  "physical_validation": "NOT_ESTABLISHED",
+  "recommendation": {
+    "anchor": "NOT_RECOMMENDED_ON_CURRENT_UNRESOLVED_ENVIRONMENT",
+    "next_infrastructure_question": "Separately authorized independent hardware/storage contrast with verified transferred inputs and available owner/admin read-only health evidence; no provisioning or further execution authorized by this receipt.",
+    "rationale": "The current recorded/read byte disagreement is operationally material despite A/C passes. Lost internal historical states need not be reconstructed as an impossible precondition; available evidence still does not adequately establish current environment integrity."
+  },
+  "remaining_unreported_material_findings": [],
+  "reused_mathematical_review": {
+    "article_text_sha256": "e07bc1ee39b006bbcfae9f3d1288780c8d1ea34774e44ac479b31a55d33b1945",
+    "file": "FINAL_REVIEW.json",
+    "original_reviewed_head": "9ec7b1a2fbedb1650eb51afe0ee4d84d55ab063a",
+    "original_reviewed_tree": "0d386fc8388a88c14fb8fa28f5c7c7f6e6f04a1e",
+    "reuse_limit": "Prior review established source/case semantics, not successful full-case numerical qualification. The source texts and equations were not re-reviewed in this byte-transfer task.",
+    "sha256": "e3184a3f9dfedf8035a5d69b687aca732408dd370140eea30ff14dbefa369daf",
+    "supplement_text_sha256": "1814085ab5f17a5365dc78a8dd5c0c915ac8cf7984284b45388e8f8506c0546c",
+    "unchanged_continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "unchanged_contract_sha256": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "unchanged_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "unchanged_solver_sha256": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "unchanged_source_sha256": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34"
+  },
+  "review_execution": {
+    "code_edits": 0,
+    "large_IO_or_payload_reads": 0,
+    "repository_edits": 0,
+    "resident_replays": 0,
+    "solver_invocations": 0,
+    "test_invocations": 0,
+    "writes": "Only this exclusive external review receipt; small retained records and hashes inspected"
+  },
+  "review_kind": "One scoped independent exact-candidate review of the solver-free transfer-isolation continuation, including its prospective design and actual results",
+  "reviewed_at": "2026-10-10T12:20:32.713327+00:00",
+  "reviewed_document_sha256": {
+    "TRANSFER_ISOLATION_EXTERNAL_EVIDENCE.json": "9e93a0ff9570a4c360776390d506aa945cc2122676bd8f9e86489e7ad43d8aef",
+    "TRANSFER_ISOLATION_PLAN.json": "c10511966bb505fd0d0235ea73388933ad1f1a846b961b96eeea334bc632e366",
+    "TRANSFER_ISOLATION_PLAN.md": "c087f33f75ee4651cf7bb501fba34d1bcaeef590dabe178c3f8467ae7b41b4c4",
+    "TRANSFER_ISOLATION_QA.json": "6543f4e04becf516527c09c712e2fd0461d1f547d564877b643c6015253e3327",
+    "TRANSFER_ISOLATION_REPRODUCE.md": "20b6e13b5209eef498eec0b9dff8bd7fe18e02726b37042cb1fcdc8c251df75a",
+    "TRANSFER_ISOLATION_RESULTS.json": "90a6cd01e5e74067c4c8db3164ba4045bb0aa9fa0f6757e1a480784837d19583",
+    "TRANSFER_ISOLATION_RESULTS.md": "eec3eabd61228f4d0ed7d894bb5c66a0ab44042acb59ce122645be1e93eaf507"
+  },
+  "reviewer": {
+    "human_review": false,
+    "identity": "OpenAI Codex nonhuman independent reviewer /root/final_review",
+    "independence": "Separate from implementing author; inspected code, controls, frozen plan and actual records. Authored no diagnostic, solver or tests and performed no test, solver, replay or large-payload execution."
+  },
+  "separate_dispositions": {
+    "diagnostic_checker": "PASS_ON_DECLARED_BOUNDED_CONTROLS; two review findings corrected before large execution",
+    "execution_environment": "EXECUTION_ENVIRONMENT_INTEGRITY_UNRESOLVED",
+    "hosted_candidate_ci": "PENDING_SEPARATE_EXACT_FINAL_HEAD_RECEIPT",
+    "independent_environment_contrast": "INDEPENDENT_ENVIRONMENT_CONTRAST_UNAVAILABLE",
+    "independent_review": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+    "mathematical_source_contract": "REUSED_UNCHANGED_BY_IDENTITY; no new mathematical claim or re-review",
+    "mechanism": "UNESTABLISHED for current observation and each historical incident",
+    "numerical_reference": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE; zero qualified full rows",
+    "observation_archive": "NO_REFERENCE_ADMISSION; matching diagnostic bytes do not repair historical failed trajectories",
+    "row_A": "PASS_ON_DECLARED_INSTRUMENTED_TRANSFER; historical extraction discrepancy not reproduced at the tested boundaries",
+    "row_B": "SOURCE_ADMISSION_FAILED; PLAIN_FILE_COPY_NOT_EXECUTED",
+    "row_C": "PASS_ON_DECLARED_INDEPENDENT_DECODER_WORKLOAD; checked actual A spool and original ZIP identity",
+    "software_qa": "PASS_ON_RETAINED_RECORDS; initial packaging failures preserved and build-only existing-backend difference disclosed"
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

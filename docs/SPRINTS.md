@@ -657,3 +657,142 @@ related-work / physical-lateral-coupling gaps are closed). Abstract wording obey
 ### SCI-MD-5CQA-ASSAY-002 — completed scientific evaluation (2026-09-29)
 
 - [x] One independent nonhuman exact-freeze approval and one outcome join: **TESTED_EARLY_ASSAY_FAMILIES_INADEQUATE**: L1M/L2M/L12 fail both adequacy budgets in every primary condition on complete qualified 48/48 support. Balanced R is 0.343708141 / 0.349467750 / 0.297495166 mg/g. L12 improves R but fails the required increments; neither placement nor two-assay complexity is earned. Historical controls remain immutable; all arms share 42 eligible FIT shots and 165/168 supported targets. [Result and matrix](analysis/sci_md_5cqa_assay_002/RESULTS.md), [handoff](analysis/sci_md_5cqa_assay_002/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY; source-internal, target-exposed retrospective evidence. No production adoption, physical validation, EWP change/run, merge or successor.
+
+
+### MODEL-GRUDEVA2026-FULL-REFERENCE-010 — bounded incomplete execution (2026-10-09)
+
+- [x] Independent full Eqs. 23–29 implementation, scoped mathematical contract,
+  synthetic case and 15 final focused controls; fixed 14-row matrix and independent
+  nonhuman pre-campaign review.
+- [x] Execute anchor through t=8 and preserve the archive-integrity failure:
+  raw post-wetting state identity unresolved; 25/26 arrays match; three read-only
+  diagnostics, no solver rerun. Remaining 13 rows NOT_RUN.
+- [ ] Full-reference numerical/observation/archive qualification: **NOT ACHIEVED**.
+- [x] [Results and limitations](analysis/model_grudeva2026_full_reference_010/RESULTS.md)
+  retain unavailable gates and failure witnesses. Ordinary QA, hosted candidate CI
+  and final independent review have separate receipts in the handoff.
+
+G2 / NUMERICAL_METHOD_CHANGE; analysis only. Existing production, defaults,
+locks and historical 001–009 scientific evidence remain unchanged. Completed
+008 matched agreement and 009 publication discrepancy are not repeated.
+No automatic rerun, downstream comparison, adoption or successor. Issue #67
+stays open; one draft unmerged PR with auto-merge disabled.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 archive continuation — bounded incomplete (2026-10-09)
+
+- [x] Preserve the original matrix/failure/source/results; retain all 19 historical
+  difference witnesses, with HISTORICAL_ROOT_CAUSE_UNESTABLISHED.
+- [x] Add prospective capture/source/payload checks, strict compatible loading,
+  negative controls and a fixed-settings end-to-end fixture. 54 focused tests and
+  one predeclared solver-free large serialization test pass; independent delta
+  review passes.
+- [x] Execute the one authorized replacement anchor through t=8. Capture rejects
+  a dense source/target commitment before serialization. Preserve failure and
+  resource records; no further automatic retry.
+- [ ] Full-reference numerical/archive qualification: **NOT ACHIEVED**. Zero
+  audited/qualified rows across both full attempts; thirteen rows NOT_RUN.
+
+[Continuation result](analysis/model_grudeva2026_full_reference_010/CONTINUATION_RESULTS.md)
+and [reproduction](analysis/model_grudeva2026_full_reference_010/CONTINUATION_REPRODUCE.md).
+The preceding original-attempt record remains historical and unchanged. Same
+G2 task and draft PR #333; #67 open; no merge, adoption, successor or downstream
+comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 dense-capture diagnostic — diagnostic-only completion (2026-10-09)
+
+- [x] Separate and retain all capture commitments; preserve bounded witnesses and checked snapshots across process exit and secondary write failures.
+- [x] Two declared resident replays pass, with exact capture-record repeat and zero integrator calls.
+- [x] Preserve a new input-copy discrepancy (54 differing bytes) and its targeted source comparison; no mechanism inferred and no bad-copy repair.
+- [ ] Full-reference qualification remains **NOT ACHIEVED**: two historical full trajectories/four BDF segments, zero new full trajectories, zero qualified rows, thirteen NOT_RUN.
+
+[Diagnostic result, limits and reproduction](analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md). Same draft PR #333; issue #67 open; no further anchor recommended yet, merge, auto-merge, adoption or downstream comparison. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+### 010 byte-transfer isolation continuation (2026-10-10)
+
+- [x] Standalone byte-transfer/check command, focused negative controls and durable witnesses.
+- [x] Execute frozen A/B/C once: A/C pass; B fails source admission before any plain-file copy.
+- [x] Preserve the failed admission and bounded 256-byte inspection: seven of 32 prior witness values differ.
+- [ ] Independent hardware/storage contrast: unavailable; execution-environment integrity unresolved.
+
+[Transfer handoff](analysis/model_grudeva2026_full_reference_010/TRANSFER_ISOLATION_RESULTS.md). No new full trajectory or dense replay; two historical trajectories/four BDF segments, zero qualified rows, thirteen NOT_RUN. Another anchor is not recommended on the unresolved environment. Same draft PR #333, issue #67 open; FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+
+### 010 controlled scientific rerun — stopped at archive admission (2026-10-10)
+
+- [x] Preserve the original matrix and historical outcomes; bind the owner-authorized anchor/repeat/refinement order.
+- [x] Add and test early accepted-state checkpoints, fresh readback and provisional summaries; reuse unchanged mathematical review and large diagnostics.
+- [x] Execute one new anchor: two successful BDF segments, verified checkpoints and provisional science retained.
+- [ ] Full archive admission: writer rejects a source before manifest publication; exact combined error and partial files retained.
+- [ ] Repeat and twelve refinements: NOT_RUN because of the integrity/admission stop. No retry or new diagnostic sequence.
+
+[Actual result and evidence identities](analysis/model_grudeva2026_full_reference_010/RERUN_RESULTS.md).
+The historical two trajectories/four segments remain separately counted; this
+attempt adds one trajectory/two segments. Provisional accumulator conservation is
+not the independent final flux audit. FULL_REFERENCE_QUALIFICATION_INCOMPLETE;
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same draft PR #333, issue #67 open.
+
+### 010 remaining qualification — stopped at repeat SIGSEGV (2026-10-10)
+
+- [x] Current recovered-anchor byte/bundle/admission checks PASS; existing 211-time
+  observations and eleven audit gates reused without numerical recomputation.
+- [x] Narrow recovered-anchor adapter, exact-content comparisons, original guards
+  and serial order; 22 affected controls PASS and pre-execution scoped review PASS.
+- [x] Execute the independent repeat once: SIGSEGV during BDF integration, before
+  returned completion/checkpoints. External stderr/exit/resources retained; cause
+  unresolved. No retry, new anchor, repeatability calculation or refinement.
+- [ ] Independent repeatability, twelve refinements, trends and error budgets:
+  unavailable after the mandatory crash stop.
+
+[Actual results and evidence](analysis/model_grudeva2026_full_reference_010/REMAINING_RESULTS.md).
+Accounting: three completed trajectories/six documented completed segments plus
+one interrupted repeat attempt; no new completed trajectory. Original live-anchor
+comparison remains unavailable; reviewed equivalent fidelity is its admission
+basis. All four recorded SIGSEGV causes remain unresolved. Final candidate CI and
+scoped-result review recorded separately in PR. Draft/unmerged PR #333, auto-merge
+disabled, issue #67 open; no EWP/default/lock/downstream change.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+### 010 byte recovery — recovered anchor audits complete (2026-10-10)
+
+- [x] Verify four selected candidates without scientific imports/package enumeration; reverify prior 24 and fresh-read all 28 exact numeric members.
+- [x] Record exact-content provenance and hardlink relationships; preserve all original failures and current anchor accepted states.
+- [x] Pass separately reviewed frozen-BDF equivalent fidelity at midpoints, direct endpoints/checkpoints and original required times.
+- [x] Compute all 211 observations and original full-horizon audits; all eleven anchor gates pass, independent conservation maximum 4.0683758584236784e-9 against 1e-6.
+- [x] Complete metadata from committed saved bundles after a JSON scalar TypeError; fresh validation passes without numerical audit/interpolant/quadrature rerun.
+- [ ] Repeatability, twelve refinements and full uncertainty/error-budget qualification remain NOT_RUN or unestablished; no solver execution authorized here.
+
+[Actual results and evidence](analysis/model_grudeva2026_full_reference_010/BYTE_RECOVERY.md).
+Three completed trajectories/six BDF segments remain; one recovered representation
+admitted for anchor audits by reviewed equivalent assessment, no fully qualified
+reference. Three prior SIGSEGV causes remain unresolved; two current bounded
+TypeError records remain preserved. Original live-source evidence remains unavailable.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+### 010 exact-content recovery — unexpected-crash stop (2026-10-10)
+
+- [x] Confirm all four recorded identities agree with the current anchor's original prospective commitment.
+- [x] Preserve first process exit -11 and faulthandler traceback from environment collection, before candidate payload reads.
+- [x] Apply the explicit crash stop; retain prior failures and perform no retry or solver execution.
+- [ ] Current candidate admission, complete-set readback, equivalent fidelity and full audits: NOT_RUN after the stop.
+- [ ] Repeat and twelve refinements: NOT_RUN; cumulative three completed full trajectories/six BDF segments, zero admitted rows.
+
+[Actual stop and evidence](analysis/model_grudeva2026_full_reference_010/EXACT_CONTENT_RECOVERY.md).
+Cause unestablished; earlier partial results and two QA SIGSEGVs retain their scope.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+### 010 retained-anchor recovery — partial contents only (2026-10-10)
+
+- [x] Revalidate original checkpoint lineage and all 18 retained archive members; identify segment-1 D as the first unwritten member by writer-order inference.
+- [x] Preserve 24/28 recoverable numeric members in an exclusive directory; all four regenerated derived members match pre-existing commitments, and fresh-reader checks pass.
+- [x] Separate member-level identity/finiteness outcomes and preserve primary writer failures before optional witnesses; affected controls and failed records retained.
+- [x] Compute independent accepted spatial inventories and segment-0-only flux audit; retain diagnostics at 67/211 original observation times.
+- [ ] Full recovery: segment-1 D/shift/denom/order and original live-interpolant fidelity evidence remain unavailable; 144 arbitrary observation times lack support.
+- [ ] Repeat and twelve refinements: NOT_RUN. No new solver execution or automatic new anchor.
+
+[Recovery results and exact limits](analysis/model_grudeva2026_full_reference_010/RECOVERY.md).
+Three completed full trajectories/six BDF segments cumulatively, zero admitted
+full references. Local QA child SIGSEGV causes remain unestablished.
+FULL_REFERENCE_QUALIFICATION_INCOMPLETE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.

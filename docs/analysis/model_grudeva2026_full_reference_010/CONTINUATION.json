@@ -1,0 +1,110 @@
+{
+  "archive_schema": "grudeva-full-010-v2",
+  "changed_files": {
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": {
+      "new": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+      "old": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807",
+      "scope": "capture/hash/serialization/strict compatible loading; observation operators unchanged"
+    },
+    "tests/test_grudeva2026_full_reference_010.py": {
+      "new": "ab14425d85c7c41d994e7b5b8ee053bee60c11d1e1af331223c64146f60799c5",
+      "old": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5",
+      "scope": "negative integrity controls and fixed-settings paired end-to-end audit"
+    },
+    "tools/run_grudeva2026_full_reference_010.py": {
+      "new": "f53780a752195a68aa4fa1caee3b3071ac525c88410b14d6efbbc4e96f8d6760",
+      "old": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5",
+      "scope": "reviewed continuation binding, resource admission, archive-derived audit, honest execution counters and resume identity checks"
+    }
+  },
+  "control_documents": {
+    "CONTINUATION_CONTROLS.json": "9e4a18851ba8df40759e465caa4387c741af52e5343e1d905e213da80b949f7e",
+    "CONTINUATION_DIAGNOSIS.json": "f00ef7d9ab68e60ddc43ad5e264411be1e9ab0b17b374285789b6f33c60af87e",
+    "CONTINUATION_LARGE_TEST_REUSE.json": "5c4802b6ad4b55e8ba639c52d25316242befedbac1e05008516dcc9b21dd46aa",
+    "CONTINUATION_PLAN.md": "30a14338fb5147124a6f6897693d44f1ad526500cd32feb62a703669314db2fa"
+  },
+  "created_at": "2026-10-10T00:08:32.117234+00:00",
+  "environment": {
+    "bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "distribution_records": {
+      "numpy": "5cfda7f23476d53c21db44bd615c838fe6ec50788acdecf707065efe6f4776e7",
+      "scipy": "d376f6be3fce626b65090112b4498ae3221a25f6c8cb8d5fe46dd9f31d324858"
+    },
+    "numpy": "2.5.2",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "execution_plan": "One separately identified replacement anchor, then thirteen original outstanding rows serially in row_order. Stop on unexplained integrity failure; retain numerical-gate failures and computable results without changing thresholds. No original anchor reused as repeat.",
+  "implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+    "tests/test_grudeva2026_full_reference_010.py": "ab14425d85c7c41d994e7b5b8ee053bee60c11d1e1af331223c64146f60799c5",
+    "tools/run_grudeva2026_full_reference_010.py": "f53780a752195a68aa4fa1caee3b3071ac525c88410b14d6efbbc4e96f8d6760"
+  },
+  "new_required_evidence": [
+    "Prospective capture controls and large serialization fixture",
+    "Scoped independent delta review",
+    "Replacement anchor and thirteen original frozen rows",
+    "Validated-archive observations/audits/refinements/repeatability",
+    "Exact final candidate ordinary QA/hosted CI and independent final review"
+  ],
+  "original_attempt": {
+    "audited_rows": 0,
+    "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+    "original_closeout_sha256": "0d0db0664b5220bae199a3d3dbceb39e5b8dc06202c614c52527ebb981569fbd",
+    "role": "FAILED_HISTORICAL_ANCHOR_NOT_REPAIRED",
+    "solver_complete_rows": 1,
+    "trajectory_manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+    "unrun_rows": 13
+  },
+  "original_implementation": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807",
+    "tests/test_grudeva2026_full_reference_010.py": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5",
+    "tools/run_grudeva2026_full_reference_010.py": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5"
+  },
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "physical_validation": "NOT_ESTABLISHED",
+  "resource_admission": {
+    "disk_headroom_per_row_bytes": 64424509440,
+    "memory_headroom_bytes": 171798691840,
+    "rationale": "Source/dense snapshots plus mapped archive and scratch; all 14 rows conservatively <=840 GiB. Admission estimates and real safety headroom, not execution quotas. No OS limit/environment change."
+  },
+  "reused_evidence": [
+    "Original mathematical/source review and unchanged solver/control derivations",
+    "Original exact-base integration",
+    "Historical diagnostic findings explicitly identified as old; one new complete-witness check"
+  ],
+  "row_order": [
+    "anchor",
+    "axial_coarse",
+    "axial_medium",
+    "fines_coarse",
+    "fines_medium",
+    "boulders_coarse",
+    "boulders_medium",
+    "startup_coarse",
+    "startup_medium",
+    "time_coarse",
+    "time_medium",
+    "combined_coarse",
+    "combined_medium",
+    "repeat"
+  ],
+  "schema": "010-archive-continuation-binding-v1",
+  "selected_base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+  "starting_head": "9b5ef8db725afaad3238494abcb43f2dd6c3e1f5",
+  "superseded_pre_execution_binding_sha256": "04a2247286609ff6cb8313d6ecd69b479ba682098ae76665bd03611b5bbfc4c0",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "unchanged_science": "Original MATRIX bytes bind unchanged case, settings, horizon, support, limits, error budgets and row order. Solver, CONTRACT and SOURCE hashes remain exact. Observer and numerical audit definitions unchanged."
+}

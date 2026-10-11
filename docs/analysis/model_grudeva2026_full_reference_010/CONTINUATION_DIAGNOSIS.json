@@ -1,0 +1,541 @@
+{
+  "accumulators": {
+    "no_independent_exact_accumulator_checkpoint_found": true,
+    "raw_canonical_sha256": "657585b0b0d8b3f7397d37fc78b7823013a4c68539a7523a8a9e12b0d58cbc13",
+    "raw_dtype_shape": {
+      "dtype": "<f8",
+      "shape": [
+        2,
+        18003
+      ]
+    },
+    "redundant_concentration_has_accumulators": false
+  },
+  "all_single_bit": false,
+  "changed_bit_positions": [
+    24,
+    25,
+    26,
+    28,
+    29,
+    30,
+    31
+  ],
+  "changed_byte_offsets_mod64": [
+    43
+  ],
+  "checked": "2026-10-09T23:50:44.060308+00:00",
+  "complete_differences": [
+    {
+      "c_bits": 4606650980166962743,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828720552,
+      "raw_y": 0.94099822092216,
+      "redundant_C": 0.9409984593407391,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "t": 1.1972222631915606,
+      "time_index": 807,
+      "xor": 2147483648,
+      "y_bits": 4606650978019479095
+    },
+    {
+      "c_bits": 4605703703705669507,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828721512,
+      "raw_y": 0.8358297051440647,
+      "redundant_C": 0.83582964553942,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "t": 1.2316040680439013,
+      "time_index": 927,
+      "xor": 536870912,
+      "y_bits": 4605703704242540419
+    },
+    {
+      "c_bits": 4605568858606229443,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828721960,
+      "raw_y": 0.8208587725191524,
+      "redundant_C": 0.8208588321237972,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "t": 1.238048790356645,
+      "time_index": 983,
+      "xor": 536870912,
+      "y_bits": 4605568858069358531
+    },
+    {
+      "c_bits": 4605183485354151454,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828722472,
+      "raw_y": 0.7780738659752762,
+      "redundant_C": 0.7780738063706314,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "t": 1.2578928140819148,
+      "time_index": 1047,
+      "xor": 536870912,
+      "y_bits": 4605183485891022366
+    },
+    {
+      "c_bits": 4605129951281305953,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828722664,
+      "raw_y": 0.7721300919245487,
+      "redundant_C": 0.7721303303431278,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "t": 1.2608227301751909,
+      "time_index": 1071,
+      "xor": 2147483648,
+      "y_bits": 4605129949133822305
+    },
+    {
+      "c_bits": 4602135750370954218,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828728616,
+      "raw_y": 0.46985350641096935,
+      "redundant_C": 0.4698536256202589,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "t": 1.458247147856786,
+      "time_index": 1815,
+      "xor": 2147483648,
+      "y_bits": 4602135748223470570
+    },
+    {
+      "c_bits": 4601718535055953563,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828729256,
+      "raw_y": 0.44669352410458324,
+      "redundant_C": 0.44669352317326066,
+      "set_bits": [
+        24
+      ],
+      "state_index": 5754,
+      "t": 1.4783357449026762,
+      "time_index": 1895,
+      "xor": 16777216,
+      "y_bits": 4601718535072730779
+    },
+    {
+      "c_bits": 4597180699196937263,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828736744,
+      "raw_y": 0.22239650036922984,
+      "redundant_C": 0.22239651527039103,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "t": 1.7526651560609223,
+      "time_index": 2831,
+      "xor": 536870912,
+      "y_bits": 4597180698660066351
+    },
+    {
+      "c_bits": 4532088576745130793,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828686760,
+      "raw_y": 1.0115184792857512e-05,
+      "redundant_C": 1.011518484970093e-05,
+      "set_bits": [
+        25
+      ],
+      "state_index": 5753,
+      "t": 5.269760708503057,
+      "time_index": 14586,
+      "xor": 33554432,
+      "y_bits": 4532088576711576361
+    },
+    {
+      "c_bits": 4531885725529618646,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828687144,
+      "raw_y": 9.771540614347486e-06,
+      "redundant_C": 9.771541523842188e-06,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5753,
+      "t": 5.281245370307875,
+      "time_index": 14634,
+      "xor": 536870912,
+      "y_bits": 4531885724992747734
+    },
+    {
+      "c_bits": 4531219077082155434,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828688232,
+      "raw_y": 8.64219876334646e-06,
+      "redundant_C": 8.642195125367652e-06,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5753,
+      "t": 5.322034487374184,
+      "time_index": 14770,
+      "xor": 2147483648,
+      "y_bits": 4531219079229639082
+    },
+    {
+      "c_bits": 4531214008558713655,
+      "changed_byte_offset_mod64": [
+        43,
+        43
+      ],
+      "float_payload_offset": 828688296,
+      "raw_y": 8.633609224260187e-06,
+      "redundant_C": 8.633608712669417e-06,
+      "set_bits": [
+        25,
+        28
+      ],
+      "state_index": 5753,
+      "t": 5.322364528047616,
+      "time_index": 14778,
+      "xor": 301989888,
+      "y_bits": 4531214008860703543
+    },
+    {
+      "c_bits": 4530855731031450683,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828688872,
+      "raw_y": 8.026663427711692e-06,
+      "redundant_C": 8.02666297296434e-06,
+      "set_bits": [
+        28
+      ],
+      "state_index": 5753,
+      "t": 5.34655861829716,
+      "time_index": 14850,
+      "xor": 268435456,
+      "y_bits": 4530855731299886139
+    },
+    {
+      "c_bits": 4530653341272486723,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828689256,
+      "raw_y": 7.683801271218842e-06,
+      "redundant_C": 7.68380138490568e-06,
+      "set_bits": [
+        26
+      ],
+      "state_index": 5753,
+      "t": 5.361042770693453,
+      "time_index": 14898,
+      "xor": 67108864,
+      "y_bits": 4530653341205377859
+    },
+    {
+      "c_bits": 4530448574836616926,
+      "changed_byte_offset_mod64": [
+        43,
+        43,
+        43
+      ],
+      "float_payload_offset": 828689320,
+      "raw_y": 7.483152264047448e-06,
+      "redundant_C": 7.483154040404287e-06,
+      "set_bits": [
+        24,
+        25,
+        31
+      ],
+      "state_index": 5753,
+      "t": 5.369820091403831,
+      "time_index": 14906,
+      "xor": 2197815296,
+      "y_bits": 4530448572739464926
+    },
+    {
+      "c_bits": 4530333685078689795,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828689768,
+      "raw_y": 7.385839084885287e-06,
+      "redundant_C": 7.385838630137936e-06,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5753,
+      "t": 5.374161751140461,
+      "time_index": 14962,
+      "xor": 536870912,
+      "y_bits": 4530333685615560707
+    },
+    {
+      "c_bits": 4525290521840156668,
+      "changed_byte_offset_mod64": [
+        43,
+        43
+      ],
+      "float_payload_offset": 828696360,
+      "raw_y": 3.464405123485002e-06,
+      "redundant_C": 3.4644052371718398e-06,
+      "set_bits": [
+        28,
+        29
+      ],
+      "state_index": 5753,
+      "t": 5.62468355107657,
+      "time_index": 15786,
+      "xor": 805306368,
+      "y_bits": 4525290521571721212
+    },
+    {
+      "c_bits": 4519920078241227536,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828703912,
+      "raw_y": 1.5486412533653316e-06,
+      "redundant_C": 1.5486412675761863e-06,
+      "set_bits": [
+        26
+      ],
+      "state_index": 5753,
+      "t": 5.8899855500258,
+      "time_index": 16730,
+      "xor": 67108864,
+      "y_bits": 4519920078174118672
+    },
+    {
+      "c_bits": 4519548825465294092,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828704296,
+      "raw_y": 1.4700256617060504e-06,
+      "redundant_C": 1.470025434332375e-06,
+      "set_bits": [
+        30
+      ],
+      "state_index": 5753,
+      "t": 5.907113726791469,
+      "time_index": 16778,
+      "xor": 1073741824,
+      "y_bits": 4519548826539035916
+    }
+  ],
+  "dense_first_endpoint": {
+    "accumulator_bits_d0": [
+      13811952272454535450,
+      4493381138959300008
+    ],
+    "accumulator_bits_y": [
+      13811952272454535451,
+      4493381138959300008
+    ],
+    "different_entries": 2099,
+    "max_absolute_difference": 2.220446049250313e-16,
+    "meaning": "D0 built by backward-difference updates, self.y=y_new separately; observed inequality rules out assuming all D0 endpoints are exact accepted-state copies."
+  },
+  "historical_root_cause": "HISTORICAL_ROOT_CAUSE_UNESTABLISHED",
+  "new_work": "Complete 19-entry comparison; prior ten bit calculation; one first-interval D0 comparison; no repeat file/array hash census.",
+  "original_ten": [
+    {
+      "c_bits": 4606650980166962743,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828720552,
+      "raw_y": 0.94099822092216,
+      "redundant_C": 0.9409984593407391,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "time_index": 807,
+      "xor": 2147483648,
+      "y_bits": 4606650978019479095
+    },
+    {
+      "c_bits": 4605703703705669507,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828721512,
+      "raw_y": 0.8358297051440647,
+      "redundant_C": 0.83582964553942,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "time_index": 927,
+      "xor": 536870912,
+      "y_bits": 4605703704242540419
+    },
+    {
+      "c_bits": 4605568858606229443,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828721960,
+      "raw_y": 0.8208587725191524,
+      "redundant_C": 0.8208588321237972,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "time_index": 983,
+      "xor": 536870912,
+      "y_bits": 4605568858069358531
+    },
+    {
+      "c_bits": 4605183485354151454,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828722472,
+      "raw_y": 0.7780738659752762,
+      "redundant_C": 0.7780738063706314,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "time_index": 1047,
+      "xor": 536870912,
+      "y_bits": 4605183485891022366
+    },
+    {
+      "c_bits": 4605129951281305953,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828722664,
+      "raw_y": 0.7721300919245487,
+      "redundant_C": 0.7721303303431278,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "time_index": 1071,
+      "xor": 2147483648,
+      "y_bits": 4605129949133822305
+    },
+    {
+      "c_bits": 4602135750370954218,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828728616,
+      "raw_y": 0.46985350641096935,
+      "redundant_C": 0.4698536256202589,
+      "set_bits": [
+        31
+      ],
+      "state_index": 5754,
+      "time_index": 1815,
+      "xor": 2147483648,
+      "y_bits": 4602135748223470570
+    },
+    {
+      "c_bits": 4601718535055953563,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828729256,
+      "raw_y": 0.44669352410458324,
+      "redundant_C": 0.44669352317326066,
+      "set_bits": [
+        24
+      ],
+      "state_index": 5754,
+      "time_index": 1895,
+      "xor": 16777216,
+      "y_bits": 4601718535072730779
+    },
+    {
+      "c_bits": 4597180699196937263,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828736744,
+      "raw_y": 0.22239650036922984,
+      "redundant_C": 0.22239651527039103,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5754,
+      "time_index": 2831,
+      "xor": 536870912,
+      "y_bits": 4597180698660066351
+    },
+    {
+      "c_bits": 4532088576745130793,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828686760,
+      "raw_y": 1.0115184792857512e-05,
+      "redundant_C": 1.011518484970093e-05,
+      "set_bits": [
+        25
+      ],
+      "state_index": 5753,
+      "time_index": 14586,
+      "xor": 33554432,
+      "y_bits": 4532088576711576361
+    },
+    {
+      "c_bits": 4531885725529618646,
+      "changed_byte_offset_mod64": [
+        43
+      ],
+      "float_payload_offset": 828687144,
+      "raw_y": 9.771540614347486e-06,
+      "redundant_C": 9.771541523842188e-06,
+      "set_bits": [
+        29
+      ],
+      "state_index": 5753,
+      "time_index": 14634,
+      "xor": 536870912,
+      "y_bits": 4531885724992747734
+    }
+  ],
+  "payload_offsets_are_process_addresses": false,
+  "reason": "No independently committed accepted-state copy survives; neither dense evaluation nor substitution of C establishes original identity. No bit search or digest replacement attempted.",
+  "recovery_eligible": false
+}

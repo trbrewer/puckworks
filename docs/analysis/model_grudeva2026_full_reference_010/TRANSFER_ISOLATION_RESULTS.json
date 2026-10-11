@@ -1,0 +1,259 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+  "command_sha256": "f233c54193f9c1308948d16d82af2488a36258e43ec47df1f5d537c428ead507",
+  "continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+  "diagnostic_counts": {
+    "blind_retries": 0,
+    "bounded_existing_witness_probes": 1,
+    "independent_large_decodes": 1,
+    "instrumented_ZIP_extractions": 1,
+    "large_plain_file_copies": 0,
+    "large_rows_attempted": 3,
+    "new_dense_replays": 0,
+    "new_scientific_trajectories": 0,
+    "reused_resident_replays": 2
+  },
+  "dispositions": {
+    "checker_controls": "PASS_ON_TESTED_INPUTS",
+    "earliest_new_divergence": "B source admission: current decoded/read payload versus recorded quarantined-file identity, before dd",
+    "execution_environment": "EXECUTION_ENVIRONMENT_INTEGRITY_UNRESOLVED",
+    "historical_archive_root_cause": "HISTORICAL_ROOT_CAUSE_UNESTABLISHED",
+    "historical_extraction_mechanism": "UNESTABLISHED",
+    "independent_decoding_check": "PASS_ON_DECLARED_WORKLOAD (C)",
+    "independent_environment_contrast": "INDEPENDENT_ENVIRONMENT_CONTRAST_UNAVAILABLE",
+    "new_B_read_discrepancy_mechanism": "UNESTABLISHED",
+    "new_instrumented_extraction": "NOT_REPRODUCED_ON_DECLARED_TRANSFER_TESTS (A only)",
+    "plain_file_transfer": "NOT_EXECUTED_SOURCE_ADMISSION_FAILED",
+    "replacement_capture_mechanism": "UNESTABLISHED",
+    "scientific_reference": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE"
+  },
+  "focused_controls": {
+    "corrections_scope": "new diagnostic checker only; no demonstrated historical copy/solver defect corrected",
+    "development_case_executions_before_ordinary_QA": 152,
+    "development_failures": 1,
+    "failed": 0,
+    "final_bound_cases": 33,
+    "new_solver_fixture_integrations": 0,
+    "passed": 33,
+    "retained_failure": "invalid new diagnostic dd option; corrected before large execution",
+    "review_corrections": [
+      "known mismatch survives secondary witness-read failure",
+      "correct offsets across multiple destination-only chunks"
+    ]
+  },
+  "governance": "G2 / NUMERICAL_METHOD_CHANGE original task; no governing-physics delta",
+  "limits": [
+    "A instrumentation changes timing/buffering; no guarantee for a later full solve",
+    "C independent decoder shares host/kernel/filesystem; GNU and Python hashers share libcrypto",
+    "Fresh reopen/fsync does not prove physical-media read or complete hardware health",
+    "Current platform/mount visibility does not prove which physical host handled historical incidents",
+    "Kernel error window empty; SMART permission denied; EDAC counters unavailable",
+    "No actual full-case numerical/observation/archive qualification and no effect on unrelated historical evidence established"
+  ],
+  "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "new_observation": {
+    "B_expected_payload_sha256": "e461a67c1e5e347dbd57c2440fa332280b11b376399e1fb7c900624b2bdb64ca",
+    "B_observed_payload_sha256": "23e17d8ac0033a09e370834f49339200b5fafde7beb69f59d828bcc18982109c",
+    "B_status": "digest mismatch; dd not invoked; no destination produced",
+    "B_unretained_fields": "The early-admission return did not retain scan member SHA or a copy of that read buffer. Counts/header/shape checks produced no other failure. No later values are substituted for those missing fields.",
+    "all_changed_witnesses": [
+      {
+        "current_hex": "faec3c88af80c0be",
+        "expected_recorded_target_hex": "faec3c29af80c0be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389286776
+      },
+      {
+        "current_hex": "52ff6df0ccedd0be",
+        "expected_recorded_target_hex": "52ff6d70ccedd0be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389294520
+      },
+      {
+        "current_hex": "1d9779a5db1ec6be",
+        "expected_recorded_target_hex": "1d9779a4db1ec6be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389296440
+      },
+      {
+        "current_hex": "f65d929c417de1be",
+        "expected_recorded_target_hex": "f65d921c417de1be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389309624
+      },
+      {
+        "current_hex": "0ea4c31c37b6e2be",
+        "expected_recorded_target_hex": "0ea4c31837b6e2be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389310200
+      },
+      {
+        "current_hex": "06d592b59edcfabe",
+        "expected_recorded_target_hex": "06d592b39edcfabe",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389317944
+      },
+      {
+        "current_hex": "3b3edb8f0240f1be",
+        "expected_recorded_target_hex": "3b3edb8b0240f1be",
+        "matches_recorded_source": false,
+        "matches_recorded_target": false,
+        "member_offset": 14389318136
+      }
+    ],
+    "bounded_witness_read_bytes": 256,
+    "file_metadata": "dev/inode/length/mtime/ctime match intake; does not establish unchanged content or a cause",
+    "first_original_witness": "still matches recorded bad-copy bytes; not all recorded positions changed",
+    "full_new_difference_count": "UNAVAILABLE; only existing 32 witnesses sampled, not another full comparison",
+    "witnesses_checked": 32,
+    "witnesses_differing_from_retained_record": 7
+  },
+  "plan_sha256": "c10511966bb505fd0d0235ea73388933ad1f1a846b961b96eeea334bc632e366",
+  "preservation": {
+    "old_documents_unchanged": 40,
+    "old_implementation_files_unchanged": 6,
+    "production_defaults_locks_001_009_source_cards_and_EWP": "UNCHANGED"
+  },
+  "recommendation": {
+    "infrastructure_next_step": "Owner/admin preserve affected artifacts and obtain read-only memory/storage-health visibility; run a matching fixed-byte contrast on separately authorized independent hardware/storage with input identities verified. Do not repair artifacts, alter expected hashes, or expand this finite packet. A future anchor requires explicit authorization and an adequately established execution environment.",
+    "instrumented_anchor": "NOT_RECOMMENDED_ON_CURRENT_UNRESOLVED_ENVIRONMENT",
+    "missing_contrast": "No authorized independent host/access was supplied or found. CI and fresh local processes are not independent hardware contrasts.",
+    "reason": "A/C positive evidence does not resolve current byte disagreement with the retained opaque input record. No model-side defect or physical root cause was established."
+  },
+  "reuse": {
+    "dense_CLOSEOUT_sha256": "8e2521fe49918d4492d0002db0a5e7896afc84940c8c7fddf0dfc86e68d0a485",
+    "historical_differences": "Reuse 54-count/first32; no repeated full source/bad comparison",
+    "new_resident_replays": 0,
+    "resident_replays": 2
+  },
+  "rows": {
+    "A": {
+      "checkpoints": [
+        "prospective decoded chunks",
+        "checked retained decoded spool",
+        "pre-write buffer",
+        "returned byte count",
+        "post-write buffer",
+        "immediate destination after flush",
+        "after final flush",
+        "after fsync",
+        "after close in fresh process"
+      ],
+      "chunks": 5117,
+      "domains": {
+        "dtype": "<f8",
+        "header_bytes": 128,
+        "header_hex": "934e554d5059010076007b276465736372273a20273c6638272c2027666f727472616e5f6f72646572273a2046616c73652c20277368617065273a202831383030322c20362c203234383334292c207d20202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200a",
+        "header_sha256": "32ae882e4d51d37f278db409b1367a6ed4ad5a1c8216e5726794234b8f9d74ac",
+        "length_matches_header": true,
+        "member_bytes": 21458960192,
+        "member_sha256": "eceeca99f75e30e7dbad8656b43a7ef3790f6b0c09b7b23c028bd7ccb3d0d871",
+        "order": "C",
+        "payload_bytes": 21458960064,
+        "payload_sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "execution_sha256": "444e87e8c6b876640e2542905a3137fafa6c3f0514bc2267a130d4e84ba9747e",
+      "exit_code": 0,
+      "failures": [],
+      "minimum_available_bytes": 259200970752,
+      "minimum_disk_free_bytes": 1258179526656,
+      "numeric_library_imports": [],
+      "ordered_prospective_records_sha256": "691c56209ffa4a237f68ad258d15a887613f53fc4b5241363666264e98398778",
+      "peak_sampled_process_tree_rss_kib": 81168,
+      "result_sha256": "488e25d9255a24d148920b46b2be8fa7a8f1bd1178f36cd8e61a18d10e1aa631",
+      "safety_stop": null,
+      "secondary_errors": [],
+      "seconds": 331.212845618,
+      "status": "PASS",
+      "zip_crc_at_eof": {
+        "actual": 3577286710,
+        "eof": true,
+        "expected": 3577286710
+      }
+    },
+    "B": {
+      "execution_sha256": "e2d5ccc0dfb1500fbfffc0d95ca49a95cb583053d4feb2bc1e3b8e76471735a1",
+      "exit_code": 1,
+      "failures": [
+        {
+          "expected": "e461a67c1e5e347dbd57c2440fa332280b11b376399e1fb7c900624b2bdb64ca",
+          "member_offset": null,
+          "observed": "23e17d8ac0033a09e370834f49339200b5fafde7beb69f59d828bcc18982109c",
+          "prior_bytes": "not available; digest alone is not prior bytes",
+          "stage": "opaque_source_admission:payload_sha256",
+          "time_ns": 1791633031492030763
+        }
+      ],
+      "minimum_available_bytes": 259327373312,
+      "minimum_disk_free_bytes": 1258179485696,
+      "numeric_library_imports": [],
+      "peak_sampled_process_tree_rss_kib": 27864,
+      "result_sha256": "4543fb30b8936226cb2284a8b72922f84b0633dd0810efa02423dd360378de01",
+      "safety_stop": null,
+      "secondary_errors": [],
+      "seconds": 22.01219246,
+      "status": "FAIL"
+    },
+    "C": {
+      "chunks": 5117,
+      "domains": {
+        "dtype": "<f8",
+        "header_bytes": 128,
+        "header_hex": "934e554d5059010076007b276465736372273a20273c6638272c2027666f727472616e5f6f72646572273a2046616c73652c20277368617065273a202831383030322c20362c203234383334292c207d20202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200a",
+        "header_sha256": "32ae882e4d51d37f278db409b1367a6ed4ad5a1c8216e5726794234b8f9d74ac",
+        "length_matches_header": true,
+        "member_bytes": 21458960192,
+        "member_sha256": "eceeca99f75e30e7dbad8656b43a7ef3790f6b0c09b7b23c028bd7ccb3d0d871",
+        "order": "C",
+        "payload_bytes": 21458960064,
+        "payload_sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "execution_sha256": "9771ae58150493f0afe2ebf8f2e38f308122ca3943330af8f6664587fd89da15",
+      "exit_code": 0,
+      "exits": {
+        "payload_sha256sum": 0,
+        "unzip": 0,
+        "whole_sha256sum": 0
+      },
+      "failures": [],
+      "minimum_available_bytes": 258789011456,
+      "minimum_disk_free_bytes": 1258179063808,
+      "numeric_library_imports": [],
+      "peak_sampled_process_tree_rss_kib": 41788,
+      "result_sha256": "ea923115009991a9603c8cc84a0f5d5a0bb0a232880449f88eacac178fcacbbc",
+      "safety_stop": null,
+      "secondary_errors": [],
+      "seconds": 299.254936606,
+      "source_zip_sha256_after": "ccaf5a38c0f46f3b3e1b4842727e09a2d36d0294f2a0c3d3f5b2d8147822fc9b",
+      "status": "PASS"
+    }
+  },
+  "scientific_counts": {
+    "frozen_rows_NOT_RUN": 13,
+    "historical_BDF_segments": 4,
+    "historical_full_trajectories": 2,
+    "new_full_trajectories": 0,
+    "qualified_full_rows": 0
+  },
+  "scope": "byte-transfer isolation only",
+  "starting_head": "84702ddaa6e91b64e807381a2199286f8cad6fbf",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "tests_sha256": "6db3e68996cdd0bfbb814a8485ee6d14dcd400a6fcfe832eee401c88d9403806"
+}

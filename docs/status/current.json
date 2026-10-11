@@ -395,18 +395,18 @@
     },
     {
       "id": "model-grudeva2026-reduced-001",
-      "title": "Independent fixed-flow Grudeva EJAM reduced solver and native reference runner",
+      "title": "Independent Grudeva reduced solver and synthetic full-equation reference analysis",
       "area": "model-component",
       "state": "active",
       "priority": "P1",
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "004 draft PR owner disposition with separate exact-head review/hosted receipts; qualified comparator unlocks a separately authorized matched comparison, with production raw-state/observer qualification still required. Figures 3/4 remain failed and Figure 5 incomplete; no automatic successor.",
-      "acceptance_evidence": "Historical 001/002/003 evidence unchanged. docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json: COMPARATOR_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES after correction of short-age bed reconstruction; all original gates pass. No production comparison; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "next_gate": "Recovered anchor has 28 verified numeric members, reviewed equivalent fidelity, all 211 observations and passing original anchor audit gates. Repeat and twelve refinements remain NOT_RUN and are not authorized by this continuation. Full refinement/repeatability and uncertainty qualification remain incomplete. Draft PR #333 and issue #67 stay open.",
+      "acceptance_evidence": "BYTE_RECOVERY.json: isolated stdlib byte verification and separate fresh complete-set reader PASS; full-horizon independent conservation 4.0683758584236784e-9 <=1e-6; all eleven existing anchor gates PASS. Current direct numerical dependency checks and saved-output fresh reader PASS. Original live-source evidence remains unavailable; separately reviewed equivalent assessment only. Two bounded control/reporting TypeErrors preserved and corrected without repeating numerical audits. All three earlier SIGSEGV causes unresolved. Zero new solver executions; cumulative three completed full trajectories/six BDF segments. One recovered representation admitted for anchor audits, no fully numerically qualified reference. Science/MATRIX/bindings/thresholds/prior evidence unchanged. FULL_REFERENCE_QUALIFICATION_INCOMPLETE; EXECUTION_ENVIRONMENT_INTEGRITY_UNRESOLVED; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Historical 008/009 findings unchanged.",
       "issue_or_pr": "#67",
       "verified_commit": null,
-      "verified_date": "2026-10-07"
+      "verified_date": "2026-10-10"
     },
     {
       "id": "model-pannusch2024-temp-history-001",

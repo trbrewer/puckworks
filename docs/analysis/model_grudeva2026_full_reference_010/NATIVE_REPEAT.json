@@ -1,0 +1,109 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "added_sources": {
+    "tests/test_grudeva2026_native_010.py": "eb942f990ba26b40d5b47b427a5265df0080cc1f13575895f4aa1d3321d8e834",
+    "tools/capture_grudeva2026_native_010.py": "3fb64e9c67fae25eee6fd0476db8d9577be107dc8263e25c47b538686e22bb2b"
+  },
+  "authorization": "CONTINUE PR #333 \u2014 NATIVE CRASH CAPTURE FOR THE INDEPENDENT REPEAT",
+  "capability": {
+    "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/CAPABILITY_CONTROLS.json",
+    "sha256": "9bc9639d6cf00c6460b388c23aae1f8aa4cf9601d09f2acbbc3b8ecca10c8b3b"
+  },
+  "changed_sources": {
+    "tools/grudeva2026_remaining_010.py": "24a3a2059b397af5cb54d4688e7f3e32af976274009daa67c63540f1ea485f21",
+    "tools/run_grudeva2026_full_reference_010.py": "a1ecd9b2fe80318bb10dfd3188c08b04ec367b4241d114cb851450558331e318"
+  },
+  "debugger": {
+    "path": "/usr/bin/gdb",
+    "settings": [
+      "set auto-load off",
+      "set debuginfod enabled off",
+      "set disable-randomization off",
+      "set startup-with-shell off",
+      "set pagination off",
+      "set confirm off",
+      "set print elements 24",
+      "set print repeats 4",
+      "set print max-depth 3",
+      "set max-value-size 65536",
+      "set use-coredump-filter on",
+      "set dump-excluded-mappings off",
+      "set follow-fork-mode parent",
+      "set detach-on-fork on",
+      "handle SIGSEGV stop print nopass",
+      "handle SIGBUS stop print nopass",
+      "handle SIGILL stop print nopass",
+      "handle SIGFPE stop print nopass",
+      "handle SIGABRT stop print nopass"
+    ],
+    "sha256": "3832cc070ae1716e322105d3b39fb398695e5f031c9d39224cf227a8c2b889f6"
+  },
+  "entering_accounting": {
+    "completed_full_trajectories": 3,
+    "documented_completed_BDF_segments": 6,
+    "interrupted_repeat_attempts": 1,
+    "refinements_not_run": 12,
+    "reused_recovered_anchor": 1
+  },
+  "evidence_directory": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign",
+  "evidence_directory_identity": "2d7eac965ad0399d17c60422818c2a94804f077dde4627a34f885bb64b8b9136",
+  "limitations": [
+    "ASLR retained; GDB ptrace and load-file hashing alter timing",
+    "Historical native crashes remain unresolved; no host-health certification",
+    "Original anchor live-source evidence unavailable; reviewed equivalent coefficient fidelity reused",
+    "Core and private state external access-restricted; never automatically uploaded"
+  ],
+  "new_row_order": [
+    "repeat",
+    "axial_coarse",
+    "axial_medium",
+    "fines_coarse",
+    "fines_medium",
+    "boulders_coarse",
+    "boulders_medium",
+    "startup_coarse",
+    "startup_medium",
+    "time_coarse",
+    "time_medium",
+    "combined_coarse",
+    "combined_medium"
+  ],
+  "original_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "parent_anchor_admission": {
+    "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/remaining-20261010/campaign/RECOVERED_ANCHOR_ADMISSION.json",
+    "sha256": "111a2413855e614765632335b2944f8db84910c7b7db32aee1a94801c28073af"
+  },
+  "parent_binding_sha256": "eb0d3f42cfb51cd62ab069d2e4c07ce3cd99ca145483605311684b79e4dc77e2",
+  "parent_review": {
+    "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/remaining-20261010/FINAL_REVIEW.json",
+    "sha256": "ccc686f5f39025f94b64d07a76d10ff2faf8b371cbcf8ec20c363f1bc6370805"
+  },
+  "preserved_records": {
+    "EXISTING_CRASH_INSPECTION.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/EXISTING_CRASH_INSPECTION.json",
+      "sha256": "f5a7edee89f673351b6c2dc12fe5a1e701fb328263d4efb5bdaa63c2cb05614e"
+    },
+    "FINAL_CANDIDATE_CI.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/remaining-20261010/FINAL_CANDIDATE_CI.json",
+      "sha256": "f65fc18b3caa70972f7b45bdb2f0eef9cb2b38e19ca25ef6c02fbf2259702c6e"
+    },
+    "affected-checks-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/affected-checks-exit.json",
+      "sha256": "8617c5629ca79288f3402ba21895462437ce6007e62c97417b115fede1fe48e9"
+    },
+    "row-repeat-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/remaining-20261010/row-repeat-exit.json",
+      "sha256": "13ba189bfc856671568f1067525859ac2acffc3850d8272728a07178eac3a02e"
+    },
+    "solver-start.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/remaining-20261010/campaign/repeat/solver-start.json",
+      "sha256": "47e11fa09e0952a86540cfb5be02cbe53387af33ee315e76c2e8759a8c9c0638"
+    }
+  },
+  "scope": "One debugger-supervised replacement repeat. Twelve original refinements only after required repeat admission. No new anchor or automatic retry.",
+  "starting_reviewed_head": "40e2a0aca35d01d2a339cb082bfcd9389e273978",
+  "supervisor": {
+    "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/supervise.py",
+    "sha256": "54dc7a351de1a34111846983641f70062939fc81300c02b16e78e1f07835d1d1"
+  }
+}

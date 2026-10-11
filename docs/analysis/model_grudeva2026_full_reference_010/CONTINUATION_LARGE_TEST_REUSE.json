@@ -1,0 +1,16 @@
+{
+  "constants": "CHUNK_BYTES=4MiB, SCHEMA=v2 unchanged",
+  "current_io_sha256": "0c2eccef18811b3043b786e89b73e7192a97f85b7a0d6d21dd67f2225b22e2c7",
+  "disposition": "PASS",
+  "interpretation": "One historical solver-free large serialization test reused only for unchanged hashing/snapshot/numeric-write helpers. Later capture-chain, incomplete-state retention and audit-bundle controls are newly tested; original large-test whole-file identity is not relabeled.",
+  "old_tested_io_sha256": "261973fedc326201a163d2fa5c5fbe0b1b1c3fb2a266067cbe257ae9e94bf3c6",
+  "unchanged_function_source_sha256": {
+    "array_identity": "06ecd30c0702b1af32bbb61cc0e804cee5c550cf70b68823459a1d55051c90e7",
+    "finite": "77a1788a1bb13fd8217bdc84394dad5b311895becb5961205cd1d65e806a775d",
+    "numeric_chunks": "cb7c51df9551003aa5bfa65163c13b70c2a2072cc2581e70831234b5ee74ecbb",
+    "payload_identity": "344e3f954850cf03f525f24d1f98bad4afcb9a73d22acf01a8a30e5669fe20fc",
+    "sha256": "42820c854e5350c477805ee7f0dc6cc2200e6caff9165f2a720c3e44b3e56094",
+    "stable_copy": "1e5b2cfdb056032d941af8f1c2a9389dc3cdaa0442f26ab03a4c0f183d979272",
+    "write_numeric": "f2a7d9dac79c48b7eff5535be82c17d80d6898983529eee7f774443e4c8cd4c7"
+  }
+}

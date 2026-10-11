@@ -1,0 +1,169 @@
+{
+  "actual_execution_accounting": {
+    "diagnostic_solver_calls": 0,
+    "failed_extractions": 1,
+    "fixture_basis": "Two original focused invocations: 34/38; installed-layout fixture: 1/2; ordinary quick selector: 15/15. Three later solver-free focused invocations: 0/0. Other ordinary model regressions are not 010 scientific rows.",
+    "historical_BDF_segments": 4,
+    "historical_full_trajectories": 2,
+    "new_full_case_trajectories": 0,
+    "new_large_serialization_repeats": 0,
+    "new_local_010_bounded_fixture_BDF_segments": 55,
+    "new_local_010_bounded_fixture_trajectories": 50,
+    "qualified_full_rows": 0,
+    "remaining_frozen_rows_NOT_RUN": 13,
+    "resident_replays": 2,
+    "targeted_source_copy_comparisons": 1
+  },
+  "candidate": {
+    "changed_files": [
+      "docs/ROADMAP.md",
+      "docs/SPRINTS.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_AMENDMENT.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_DELIVERY.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_EXTERNAL_EVIDENCE.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_PLAN.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_PLAN.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_QA.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_REPRODUCE.md",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.json",
+      "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_RESULTS.md",
+      "docs/planning/STATE_OF_TRUTH.md",
+      "docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md",
+      "docs/status/current.json",
+      "puckworks/analysis/grudeva2026_full_reference_010_io.py",
+      "tests/test_grudeva2026_dense_capture_010.py",
+      "tests/test_grudeva2026_full_reference_010.py",
+      "tools/diagnose_grudeva2026_dense_capture_010.py",
+      "tools/run_grudeva2026_full_reference_010.py"
+    ],
+    "head": "f9a7ebeefaff5495f12e247007ab4dbc2874954a",
+    "selected_base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+    "starting_head": "ab23c050ba359a984e6106fb25d1073d81911386",
+    "starting_tree": "797f3c0cf78ca4e0746506c5806ac808958fd223",
+    "tree": "15e27a0b3c4aad3d13fc7f339a116659f813e3eb"
+  },
+  "disposition": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+  "executed_replay": {
+    "amendment_sha256": "9f8a37fc7489554a8443fd80aa4cd556501d9a6242bf5f51e0db56a3ed92912a",
+    "capture_record_sha256": "306322854dd2e5630a713da9cd6177fe95792bc32b10ca94037f9c91102afd96",
+    "interpretation": "Original individually verified dense coefficients and synthetic accepted y; allocator/Jacobian/history lifetimes and replacement lost coefficients are not reproduced. Exact diagnostic repeat is not the scientific matrix repeat row.",
+    "selected_input_manifest_sha256": "02682e281463da54a3e64810132895ac8ed716657b38da7f46ef16881fe3f075"
+  },
+  "external_records_sha256": {
+    "CONTROLS_05.json": "db322f48861050efe4f1d9f878b9aa22381dfbbab0ddc5d94eaebfc3aa004443",
+    "DELIVERY_CHECKS.json": "015f31fa87d50f0c4e876316996a59463d8e0fa3cdbf3431bd397876a08b1166",
+    "DELIVERY_FILE_INVENTORY.json": "47240b33d60d095578923dbc7dbecb34bb4b3275344df4e3150bb11f07513bf0",
+    "DELIVERY_REUSE.json": "bce2c6de3a7920be422f3cd554842316d923904e38ff745723f4663844f4530e",
+    "DIAGNOSTIC_FILE_INVENTORY.json": "754892447ec9664d29b7962773b54fcb8ea3d3339bcf7efe75d2460fcf331937",
+    "EXECUTIONS.json": "875ed47ddec647dbaa8e7aec5e34eebbbb63308a911434bb74fefe2f182e29bc",
+    "EXTRACTION_COMPARISON.json": "015aa80aee0dacbcc74e7e97ec350b7abd4a9e73ed1d37145a20d460547a72cb",
+    "EXTRACTION_WITNESS_RECEIPT.json": "42497c31ad237a03c29687bff8f0dc6c3f93641f8319adab8d04c39cef77e409",
+    "FINAL_CHECKS.json": "0d4127f34907f20fcf6ddb5a9d66f260a93bdb75789f09b4eafc1c2c72fb52f4",
+    "QUICK_QA.json": "9b6d608c541a2d1d63a81c5e5eedb3ab7d27626065d20139288a3a3f6876c2d5",
+    "REPEATABILITY.json": "620d52a9b0b1e3b039cf9ca8a143d64c2a8843e0865f7457ac406aa49e35dd76",
+    "RESIDENT_EXECUTIONS.json": "918ac6e61647bb7d6c1fa57574c01622dd1af1035d1fac8b51776a3d31058c24"
+  },
+  "findings": [
+    {
+      "finding": "The replay-final immutable-input mismatch initially omitted available witnesses, checked snapshots and per-piece records. The amendment attaches these; mapped/direct negative controls demonstrate preservation.",
+      "id": "DENSE-REVIEW-01",
+      "status": "CORRECTED_BEFORE_RESIDENT_REPLAYS"
+    },
+    {
+      "finding": "Fallible witness reads initially preceded construction of the primary mismatch and could replace it with a secondary exception. The delivered code constructs the mismatch and checked evidence first, records enrichment errors, then raises the original mismatch. Two mapped/direct read-failure controls pass. Successful-path replay reuse is justified by independently reproduced complete-command AST equality outside that one mismatch branch.",
+      "id": "DENSE-REVIEW-02",
+      "status": "CORRECTED_AFTER_REPLAYS_WITH_BOUNDED_CONTROL_AND_REUSE_PROOF"
+    },
+    {
+      "finding": "The initial QA wording implied the final hosted receipt already existed. The metadata-only candidate correction explicitly records PENDING / TO_BE_RECORDED; no hosted pass is asserted.",
+      "id": "DENSE-REVIEW-03",
+      "status": "CORRECTED_IN_REVIEWED_CANDIDATE"
+    },
+    {
+      "finding": "Input extraction produced a D payload differing at 54 bytes/entries although the retained original ZIP member matches its producer digest. Two passing resident replays do not explain that discrepancy or either historical failure. The recommendation NOT_YET for another anchor is justified; thirteen frozen rows remain NOT_RUN.",
+      "id": "DENSE-REVIEW-04",
+      "status": "UNRESOLVED_EVIDENCE_LIMITATION_ALREADY_REPORTED"
+    }
+  ],
+  "implementation_sha256": {
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+    "tests/test_grudeva2026_dense_capture_010.py": "04e78b00c0315f11ca5e61bf43fcb84df4357e2819804a3711d2e8c03d08c26b",
+    "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+    "tools/diagnose_grudeva2026_dense_capture_010.py": "92058a9fd22f4d17351c2813171b550e2a460dfcc14ee4b36f472e7d13577b5b",
+    "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+  },
+  "independently_checked": [
+    "Reviewed capture, canonical commitments, separate source-after and completed-target comparisons, prospective per-piece records, metadata/padding handling, bounded witnesses, safe numeric persistence, runner exception preservation and diagnostic solver denial. No archive-admission or scientific hash bypass was introduced.",
+    "Inspected independent bounded canonical byte references and retained source-only, target-only, simultaneous, order, padding, checker-only, persistence, metadata and process-exit controls. Safely reloaded small numeric witnesses and checked count/offset/signed-zero semantics and checked snapshots; no tests rerun.",
+    "Original failed extraction remains retained. Read the independent raw ZIP/copy comparison code and records, and verified the 32-entry safe witness NPZ against recorded exact hex, offsets and multidimensional indices. Multi-GB payload hashes and the total 54-entry count are supported by those hash-bound execution records, not a new reviewer reread.",
+    "The amendment selects nine verified read-only inputs plus direct safe decoding of the original segment-1 D; no failed copy is repaired or reused. The extra preparation buffer is declared and released before actual capture. Both originally unexecuted resident replays ran once, with zero diagnostic solver calls.",
+    "Verified both 54,324,913-byte CAPTURE JSON identities and exact equality. Independently recomputed canonical JSON commitment chains for 7,825 and 18,002 pieces and compared all final t/D/shift/denom/order identities with selected inputs. Recomputed resource extrema from recorded samples and checked each start/exit/end record.",
+    "Verified all 60 compact-manifest files, all 588 original detailed-inventory entries and all 750 supplemental delivery-inventory entries; these sets overlap and are not reported as additive unique artifacts. No scientific arrays were admitted as qualified.",
+    "Verified all five executed-source hashes in retained frozen-diagnostic-v2 and all five delivered-source hashes. Independently normalized only the known mismatch branch and reproduced complete-command AST equality and hash b1bd2f0315b86d2ddd2e3611c38aaf2bcaec777fecf6b403cd0cfd3c01a0b5a7. No new large replay under the delivery binding is claimed.",
+    "Read direct-exit QA receipts and retained logs: quick 6496 passed/67 skipped/64 deselected; final solver-free controls 16 passed; documentation regressions 78 passed; static/generated/registered/build/package checks pass. Quick collection predates two added failure-path controls; delivered coverage and reuse are explicit. Mypy remains the repository configured scope, not a new claim of complete type coverage.",
+    "Verified all 30 preceding 010 documents are byte-identical to the starting head and all 206 historical scientific files match their original retained hashes. Scientific solver, source contract, case, matrix, support, thresholds, production/defaults/locks and historical review evidence remain unchanged. Living status changes are narrow and verified_commit remains null."
+  ],
+  "limits": [
+    "Full-case conservation, physical bounds, refinement, uncertainty and required observation gates remain unavailable; no continuum-error or qualified-reference claim follows.",
+    "Current-buffer equality and checker-only injected faults cannot reconstruct lost historical bytes or identify when or how a mismatch arose. Missing witness input is recorded as unavailable; secondary failures are not evidence of a source mechanism.",
+    "No hardware, filesystem, NumPy or solver cause is established. The empty accessible kernel log is not a hardware-health certificate.",
+    "No reduced-model error, epsilon convergence, Figure 5 reconstruction, publication-discrepancy cause, author error or physical validation follows.",
+    "No further anchor, matrix row, environment change, resource purchase, downstream comparison, production/Guided Pull/EWP adoption, merge or automatic successor is authorized by this review. PR333 remains draft/unmerged, auto-merge disabled; issue67 stays open.",
+    "A receipt-only final commit can receive one external exact-head delta addendum in this same review; hosted exact-final-head CI is separate."
+  ],
+  "meaning": "Diagnostic capture and failure-preservation claims are supported on their declared workloads. This is not numerical reference qualification, source-to-storage reliability certification, a mechanism diagnosis, or authorization for another scientific run, adoption or merge.",
+  "physical_validation": "NOT_ESTABLISHED",
+  "remaining_unreported_material_findings": [],
+  "reused_mathematical_review": {
+    "article_text_sha256": "e07bc1ee39b006bbcfae9f3d1288780c8d1ea34774e44ac479b31a55d33b1945",
+    "file": "FINAL_REVIEW.json",
+    "original_reviewed_head": "9ec7b1a2fbedb1650eb51afe0ee4d84d55ab063a",
+    "sha256": "e3184a3f9dfedf8035a5d69b687aca732408dd370140eea30ff14dbefa369daf",
+    "supplement_text_sha256": "1814085ab5f17a5365dc78a8dd5c0c915ac8cf7984284b45388e8f8506c0546c",
+    "unchanged_continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "unchanged_contract_sha256": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "unchanged_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "unchanged_solver_sha256": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741",
+    "unchanged_source_sha256": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34"
+  },
+  "review_execution": {
+    "large_replays": 0,
+    "multi_GB_scientific_payload_rereads": 0,
+    "scientific_retries": 0,
+    "solver_invocations": 0,
+    "source_code_edits": 0,
+    "test_invocations": 0,
+    "writes": "Only this scoped review receipt"
+  },
+  "review_kind": "One scoped independent diagnostic-continuation review, with exact-candidate closeout; original mathematical review reused by unchanged identity",
+  "reviewed_at": "2026-10-10T02:18:20.437630+00:00",
+  "reviewed_document_sha256": {
+    "DENSE_DIAGNOSTIC_AMENDMENT.json": "9f8a37fc7489554a8443fd80aa4cd556501d9a6242bf5f51e0db56a3ed92912a",
+    "DENSE_DIAGNOSTIC_DELIVERY.json": "ca77e00a01c8e8e11e761f0612bad1e63998ac23204811eb5dc64bf6e9b43e3a",
+    "DENSE_DIAGNOSTIC_EXTERNAL_EVIDENCE.json": "5c3b3f95474ab7dd5c502ae74eb7930e15dc0a9f86dd67bb2a021992ed31155a",
+    "DENSE_DIAGNOSTIC_PLAN.json": "0fc7288278a3105c5a16e8c77a6f3239fb268af46a264d7ed88b126830fc9882",
+    "DENSE_DIAGNOSTIC_PLAN.md": "0d1246387d173cd60bd8692a8ed0d239fbd18f6900fbac7aaa51df4b592e1cd9",
+    "DENSE_DIAGNOSTIC_QA.json": "508a8eccab5472647b12023eba7198af2433dc5bbc58ed12ecc37f82fe6af242",
+    "DENSE_DIAGNOSTIC_REPRODUCE.md": "df0376fdf2d5bcb8e71a00031f40fba74066e920d546ff7fe401864e91a1436c",
+    "DENSE_DIAGNOSTIC_RESULTS.json": "abfdd104c17b9ddc8b2f3f3774087b11b531364aa5e0671b503b835108a3d30f",
+    "DENSE_DIAGNOSTIC_RESULTS.md": "771bf2a400087f325489a1e31cbfb3183ca7d1f425ae3b89ca759d2c1f3fe203"
+  },
+  "reviewer": {
+    "human_review": false,
+    "identity": "OpenAI Codex nonhuman reviewing agent /root/final_review",
+    "independence": "Separate from implementing author; inspected code, controls and retained evidence; authored no implementation or tests and executed no solver or test."
+  },
+  "separate_dispositions": {
+    "diagnostic_implementation": "PASS_ON_DECLARED_DIAGNOSTIC_WORKLOADS_AND_FAULT_CONTROLS",
+    "historical_failure_mechanism": "UNESTABLISHED",
+    "hosted_candidate_ci": "NOT_YET_RUN; separate exact-final-head receipt required",
+    "independent_review": "PASS_FOR_BOUNDED_INCOMPLETE_HANDOFF",
+    "local_software_qa": "PASS_ON_RETAINED_RECORDS_WITH_EXPLICIT_PRE_FINAL_QUICK_COLLECTION_AND_BOUNDED_DELTA_COVERAGE",
+    "mathematical_source_contract": "REUSED_UNCHANGED_BY_IDENTITY; no new mathematical claim or full mathematical re-review",
+    "new_extraction_discrepancy_mechanism": "UNESTABLISHED",
+    "numerical_qualification": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE; zero audited/qualified full rows",
+    "observation_archive_qualification": "NOT_ESTABLISHED; original archive remains quarantined, replacement has no completed archive, diagnostic inputs are not references",
+    "replacement_capture_mechanism": "UNESTABLISHED"
+  },
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

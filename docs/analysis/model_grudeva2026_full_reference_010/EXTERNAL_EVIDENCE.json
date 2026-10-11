@@ -1,0 +1,219 @@
+{
+  "accounting": "One anchor solve completed, one archive/audit pipeline failed, thirteen scientific rows not run; three read-only archive diagnostics and zero solver retries. See RESULTS for exact fixture and execution counts.",
+  "archive_bytes": 27685312970,
+  "archive_disposition": "FAILED_QUARANTINED_CANDIDATE",
+  "external_root_identity": "grudeva2026-full-reference-010",
+  "files": [
+    {
+      "array_count": 8,
+      "bytes": 3966,
+      "file": "campaign-v1/anchor/trajectory/geometry.npz",
+      "sha256": "7bbc967f9ca094a525d339502aa592a4fe4ac8e57f2d9709c0d43f68af6a986d",
+      "verification": "Recomputed and matched in archive-diagnosis-01; array identities separately include one failure"
+    },
+    {
+      "array_count": 9,
+      "bytes": 7568774977,
+      "file": "campaign-v1/anchor/trajectory/segment-0.npz",
+      "sha256": "e8fd20ed65b1ce2083052771dec1b529ef2970fc0e2f4eff5a0e8ea6ebf7228f",
+      "verification": "Recomputed and matched in archive-diagnosis-01; array identities separately include one failure"
+    },
+    {
+      "array_count": 9,
+      "bytes": 20116525410,
+      "file": "campaign-v1/anchor/trajectory/segment-1.npz",
+      "sha256": "ccaf5a38c0f46f3b3e1b4842727e09a2d36d0294f2a0c3d3f5b2d8147822fc9b",
+      "verification": "Recomputed and matched in archive-diagnosis-01; array identities separately include one failure"
+    },
+    {
+      "bytes": 8617,
+      "file": "campaign-v1/anchor/trajectory/manifest.json",
+      "sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e"
+    },
+    {
+      "bytes": 6492,
+      "file": "campaign-v1/anchor/start.json",
+      "sha256": "4cf304cb46ffd2cfd9623a9e1ab5a438fdd255f17d2d8acb77f298aa26863629"
+    },
+    {
+      "bytes": 759,
+      "file": "campaign-v1/anchor/failure.json",
+      "sha256": "ae9e4e979a467334926c9889eeefb53bc204a05fd3b43384b65b5d6c06e46d86"
+    },
+    {
+      "bytes": 2078,
+      "file": "campaign-v1/anchor.log",
+      "sha256": "533afb258f99695fb17bb69d33ec83e20005494063f1ce36f113d96ed402dc83"
+    },
+    {
+      "bytes": 1310,
+      "file": "campaign-v1/RESULTS.json",
+      "sha256": "fefba1dc47fb74e9df254dfcd4610261e1bc2449339e7d5576afd635d2f7e0bc"
+    },
+    {
+      "bytes": 122,
+      "file": "campaign-progress-v1.log",
+      "sha256": "632eb125105c151858f89826af0578e79a4e61d58db09203e110ca9883ca1101"
+    },
+    {
+      "bytes": 40,
+      "file": "campaign-report-v1.log",
+      "sha256": "0c74ab95d05a25a60829d930766ff08d87a491d190557490e1187d7e37f2651d"
+    },
+    {
+      "bytes": 14641,
+      "file": "archive-diagnosis-01.json",
+      "sha256": "0818e07f97086b14abf49012297177fdb8d7a3900ab95b34c48b57bbaddb5047"
+    },
+    {
+      "bytes": 1392,
+      "file": "archive-diagnosis-01.log",
+      "sha256": "bd2c67a2c37deaf2e000b49df7c5b4a856ce4aa27e80b28fc4d72018bb0daed1"
+    },
+    {
+      "bytes": 3052,
+      "file": "archive-redundancy-diagnosis-02.json",
+      "sha256": "5abf2ce9857cf209b64190cc5ecc9ed442fcf335820399e321a6996f2e1f8ff5"
+    },
+    {
+      "bytes": 4248,
+      "file": "archive-redundancy-diagnosis-02.log",
+      "sha256": "93c26f96f05e74f937379ff2e8f2f9ac5e2111aa84ccc8774ca37d44088002b5"
+    },
+    {
+      "bytes": 4460,
+      "file": "archive-byte-diagnosis-03.json",
+      "sha256": "7dfba16d9be4e173a3872081498b828d113de5b6fa56882d5d4965279ccbab77"
+    },
+    {
+      "bytes": 3663,
+      "file": "archive-byte-diagnosis-03.log",
+      "sha256": "5d412b8201e91458ccf6a76ea68935d1000be4abd081aa6d1a426866211e9156"
+    },
+    {
+      "bytes": 5123,
+      "file": "controls-01.log",
+      "sha256": "49cc6fe02931ba2799337ea4e15bd9a2ed5eaf8c422342bd021268bfa6cd1bd5"
+    },
+    {
+      "bytes": 8452,
+      "file": "controls-01.xml",
+      "sha256": "b6905c55d8e9d3d6621ff027e3f31bb133a8b496e092c36a07176f492f2dc1df"
+    },
+    {
+      "bytes": 1535,
+      "file": "controls-02.log",
+      "sha256": "4c7444d670f5cce1a2588f1c47d2e42a7467f7f10204b63bb28ccaa5bcd7d1c8"
+    },
+    {
+      "bytes": 2234,
+      "file": "controls-02.xml",
+      "sha256": "7d02d4f5eb3a1229b39b9f4a7aeb5eeff32bb288665590368d166bc08a414cda"
+    },
+    {
+      "bytes": 570,
+      "file": "environment-pip-freeze.txt",
+      "sha256": "ea39d0d545a0338862848ad771a5e7a9d84d51501958145b62516968dc9421de"
+    },
+    {
+      "bytes": 714,
+      "file": "environment-integrity-01.json",
+      "sha256": "cf6b08635c72d7d8f72f8ce084f67d21e5c3f7569a333d380e3ed6224baba848"
+    },
+    {
+      "bytes": 101,
+      "file": "base-at-campaign.json",
+      "sha256": "76e59490616db60576950aa2c0455bf8396e969d3ba674fb504e15a2af6bc6fa"
+    },
+    {
+      "bytes": 1202,
+      "file": "base-protection-rules.json",
+      "sha256": "be0f49bdd1a9b1df1596c965ae3af9c3316948af1b8be730c90925e8ece20bb7"
+    },
+    {
+      "bytes": 531,
+      "file": "compatibility-01.json",
+      "sha256": "4e3b1fcd21409419e26ae5ff9d83b05e3f49a5f2a2dd8c8acca2e785574a0dc2"
+    },
+    {
+      "bytes": 34775,
+      "file": "unchanged-scientific-files.json",
+      "sha256": "fdd21ce128c9504fdcaf84c578c910ce6da5c24e0127f8580c0dc5b51b37a89d"
+    },
+    {
+      "bytes": 144722,
+      "file": "anchor-resource-monitor.jsonl",
+      "sha256": "a4338a1b77b10702a99a9255aeee73f3fa39a6f05a84c2df3a0f44f255b00d8f"
+    },
+    {
+      "bytes": 377,
+      "file": "anchor-diagnostic-stack-01.log",
+      "sha256": "613fb75e73a8f854b73b5d1db7d6ac06d7eedfcea59419502679147c1ee73fbf"
+    },
+    {
+      "bytes": 2708,
+      "file": "frozen-source-v1/DEVELOPMENT.json",
+      "sha256": "328f5b6b5b7b9b5f870ebe51bcd13eefe531a9bb5b3cc00f4525df97469971f1"
+    },
+    {
+      "bytes": 3158,
+      "file": "frozen-source-v1/INTEGRATION.json",
+      "sha256": "58abbf1fbad2f6281ce4839ef69ccd23ec18960a08f576046c2c48019993e9ce"
+    },
+    {
+      "bytes": 13057,
+      "file": "frozen-source-v1/MATRIX.json",
+      "sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3"
+    },
+    {
+      "bytes": 5984,
+      "file": "frozen-source-v1/PRE_CAMPAIGN_REVIEW.json",
+      "sha256": "068e41824283be13ba8e039c7119a905f01c16d616b1d2964a0c5f3761a84264"
+    },
+    {
+      "bytes": 12968,
+      "file": "frozen-source-v1/docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md",
+      "sha256": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452"
+    },
+    {
+      "bytes": 1918,
+      "file": "frozen-source-v1/docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json",
+      "sha256": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34"
+    },
+    {
+      "bytes": 10901,
+      "file": "frozen-source-v1/puckworks/analysis/grudeva2026_full_reference_010.py",
+      "sha256": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741"
+    },
+    {
+      "bytes": 13050,
+      "file": "frozen-source-v1/puckworks/analysis/grudeva2026_full_reference_010_io.py",
+      "sha256": "7daa7a85d62712126d14ffdf5145e49f88822768414ffab04e9d210500d04807"
+    },
+    {
+      "bytes": 15183,
+      "file": "frozen-source-v1/tests/test_grudeva2026_full_reference_010.py",
+      "sha256": "16ba9d36cfeee54a7d84274ab46f18fbb2aa797fad85e24eb9dfb2d4d4c477f5"
+    },
+    {
+      "bytes": 25765,
+      "file": "frozen-source-v1/tools/run_grudeva2026_full_reference_010.py",
+      "sha256": "bd6eae59ede15578ee9504f92eb36d0c8a94e08d8ffb00ec6126893ccf20d3f5"
+    }
+  ],
+  "highest_sampled_RSS_kib": 91653436,
+  "integrity_result": {
+    "array_identities": "25/26 matching",
+    "failed": "segment-1.npz:y",
+    "file_hashes": "3/3 matching",
+    "reference_use": "NOT_QUALIFIED"
+  },
+  "locator_policy": "Private mounted locator remains external; archive-root is supplied explicitly to reproduction commands",
+  "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+  "monitor_interpretation": "One-second samples, not a continuous peak or resource quota",
+  "partial_evidence": "Full accepted-time/coordinate/state/coefficient files, all settings and activation/transition metadata are retained, including the failing array. Qualified observations and independent numerical-audit arrays are absent because the prerequisite failed. No lost state or unavailable metric is fabricated.",
+  "recorded": "2026-10-09T22:52:20.425827+00:00",
+  "safe_serialization": "JSON plus numeric NPZ; allow_pickle=False; strict loader rejects the mismatching y array",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "trajectory_manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e"
+}

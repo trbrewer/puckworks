@@ -1,0 +1,339 @@
+{
+  "additional_evidence_inventory": {
+    "entries": 750,
+    "file": "DELIVERY_FILE_INVENTORY.json",
+    "scope": "Additional small controls, quarantines, frozen replay code and receipts; original 588-entry inventory preserved.",
+    "sha256": "47240b33d60d095578923dbc7dbecb34bb4b3275344df4e3150bb11f07513bf0"
+  },
+  "delivery_binding_sha256": "ca77e00a01c8e8e11e761f0612bad1e63998ac23204811eb5dc64bf6e9b43e3a",
+  "delivery_static_generated_packaging": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/",
+        "tools/run_grudeva2026_full_reference_010.py",
+        "tools/diagnose_grudeva2026_dense_capture_010.py"
+      ],
+      "exit_code": 0,
+      "log": "delivery-check-0.log",
+      "seconds": 0.046957969665527344,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "delivery-check-1.log",
+      "seconds": 0.44506287574768066,
+      "sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "build",
+        "--outdir",
+        "<external-diagnostic-evidence>/dist-delivery",
+        "."
+      ],
+      "exit_code": 0,
+      "log": "delivery-check-2.log",
+      "seconds": 5.45533299446106,
+      "sha256": "3921e47dbecbcef28289e1f737f7c5659e5b7176f35f1f5c20c444478be7d5a0"
+    },
+    {
+      "command": [
+        "python",
+        "tools/packaging_check.py",
+        "<external-diagnostic-evidence>/dist-delivery"
+      ],
+      "exit_code": 0,
+      "log": "delivery-check-3.log",
+      "seconds": 0.2535684108734131,
+      "sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad"
+    }
+  ],
+  "documentation_regressions": {
+    "failed": 0,
+    "log_sha256": "4bcbd2f790a41c14164fa4c98a2451ddae70c6041ea87697835598080c81cd59",
+    "passed": 78
+  },
+  "evidence_receipts": [
+    {
+      "file": "ORDINARY_CHECKS.json",
+      "sha256": "04d8ea82a79f3bcbfab93b4392afcf7f24484ef2ece8d6c77b8356eefb898641"
+    },
+    {
+      "file": "REGISTERED_GATES_QA.json",
+      "sha256": "94970ed91b532557c492d684e85638e3fca887b23316d00c31f75bd10497f80c"
+    },
+    {
+      "file": "FINAL_CHECKS.json",
+      "sha256": "0d4127f34907f20fcf6ddb5a9d66f260a93bdb75789f09b4eafc1c2c72fb52f4"
+    },
+    {
+      "file": "DELIVERY_CHECKS.json",
+      "sha256": "015f31fa87d50f0c4e876316996a59463d8e0fa3cdbf3431bd397876a08b1166"
+    },
+    {
+      "file": "CONTROLS_05.json",
+      "sha256": "db322f48861050efe4f1d9f878b9aa22381dfbbab0ddc5d94eaebfc3aa004443"
+    },
+    {
+      "file": "DELIVERY_BINDING_CHECK.json",
+      "sha256": "29cf79a7d65125ca847b24e14083fa1099127437dd8f0e32cbeeab81e06ca630"
+    },
+    {
+      "file": "DELIVERY_REUSE.json",
+      "sha256": "bce2c6de3a7920be422f3cd554842316d923904e38ff745723f4663844f4530e"
+    },
+    {
+      "file": "QUICK_QA.json",
+      "sha256": "9b6d608c541a2d1d63a81c5e5eedb3ab7d27626065d20139288a3a3f6876c2d5"
+    }
+  ],
+  "failed_development_controls": [
+    "First focused invocation: 65 passed/1 failed due to injection-hook keyword signature; corrected and retained, next invocation 66 passed.",
+    "Initial Ruff unused-import finding corrected; subsequent Ruff checks pass."
+  ],
+  "focused_final": {
+    "failed": 0,
+    "passed": 16,
+    "receipt": {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_grudeva2026_dense_capture_010.py",
+        "--basetemp",
+        "<external-diagnostic-evidence>/pytest-controls-05"
+      ],
+      "exit_code": 0,
+      "log_sha256": "856f3e89643b7653444a865bdb72a610c31dc918b5c5d1c83a97b3bde64b2eba",
+      "seconds": 5.45290470123291,
+      "solver_calls": 0
+    },
+    "solver_calls": 0
+  },
+  "hosted_ci": "PENDING / TO_BE_RECORDED: exact-final-head hosted CI has not run yet. Its external receipt and PR333 will carry the actual status; old-head success is not evidence for this delta.",
+  "implementation": {
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+    "tests/test_grudeva2026_dense_capture_010.py": "04e78b00c0315f11ca5e61bf43fcb84df4357e2819804a3711d2e8c03d08c26b",
+    "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+    "tools/diagnose_grudeva2026_dense_capture_010.py": "92058a9fd22f4d17351c2813171b550e2a460dfcc14ee4b36f472e7d13577b5b",
+    "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+  },
+  "independent_review": "Separate DENSE_DIAGNOSTIC_REVIEW.json and exact-delivery addendum; no self-review substituted.",
+  "local_010_fixture_counts": {
+    "BDF_segments": 55,
+    "basis": "Two original focused invocations: 34/38; installed-layout fixture: 1/2; ordinary quick selector: 15/15. Three later solver-free focused invocations: 0/0. Other ordinary model regressions are not 010 scientific rows.",
+    "trajectories": 50
+  },
+  "new_full_case_scientific_trajectories": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "quick": {
+    "bounded_010_segments": 15,
+    "bounded_010_trajectories": 15,
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "-m",
+      "not slow and not live and not gpu and not external_data",
+      "--durations=15"
+    ],
+    "deselected": 64,
+    "exit_code": 0,
+    "log_sha256": "5ec209d553782274eac2f4b075976e2417e3dd22b144409b2231c2e269df3bb6",
+    "new_diagnostic_tests_solver_invocations": 0,
+    "new_full_case_trajectories": 0,
+    "passed": 6496,
+    "seconds": 1325.2157653099857,
+    "skipped": 67,
+    "source_scope": "Collected with 14 new diagnostic tests, before the final failure-only correction and two added tests. Existing full-reference I/O/runner and all other source unchanged. Final 16-test control invocation and scoped AST reuse receipt cover that correction; exact-new-head hosted CI reported separately."
+  },
+  "registered_gates": {
+    "command": [
+      "python",
+      "-c",
+      "import puckworks; puckworks.load_builtin_components(); s=puckworks.evaluate_all_gates(); print(s); assert s.passed"
+    ],
+    "exit_code": 0,
+    "seconds": 41.13850126799662,
+    "sha256": "da4bb17c023239d1826f762b1ea8bd3ee9e3388aef7958c11fe1129c2345dcfc"
+  },
+  "reporting_correction": "An intermediate commentary used the previous continuation documentation count 73; the actual new run is 78 passed, corrected in commentary and this receipt.",
+  "scope": "Ordinary software QA and solver-free diagnostic controls; no scientific matrix execution",
+  "static_generated_checks": [
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-00.log",
+      "seconds": 0.37512718202196993,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-01.log",
+      "seconds": 0.3936194620036986,
+      "sha256": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-02.log",
+      "seconds": 0.4589491429796908,
+      "sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-03.log",
+      "seconds": 0.3756877859996166,
+      "sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-04.log",
+      "seconds": 0.5794078229810111,
+      "sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-05.log",
+      "seconds": 0.7595750679902267,
+      "sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-06.log",
+      "seconds": 11.295285683008842,
+      "sha256": "0affe8cb40971f6cbdc29e598928dacc59786e66a632fe6894102afb39bd3b0d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-07.log",
+      "seconds": 2.9292919610161334,
+      "sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-08.log",
+      "seconds": 0.3779724750202149,
+      "sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-09.log",
+      "seconds": 0.37475173897109926,
+      "sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-10.log",
+      "seconds": 0.37495738599682227,
+      "sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f"
+    },
+    {
+      "command": [
+        "-m",
+        "puckworks.insights",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-11.log",
+      "seconds": 0.5709755990246776,
+      "sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "puckworks/",
+        "tests/"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-12.log",
+      "seconds": 0.049047214997699484,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "-m",
+        "mypy"
+      ],
+      "exit_code": 0,
+      "log": "ordinary-13.log",
+      "seconds": 0.12998472098843195,
+      "sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    }
+  ],
+  "status": "PASS",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

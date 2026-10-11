@@ -1,0 +1,323 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "QA": {
+    "affected_tests": "32 passed in 1.96 s; child0/GDB0",
+    "class": "G0 launcher/admission instrumentation delta; original G2 scientific and equivalent-fidelity reviews reused unchanged",
+    "final_candidate_CI": "Recorded separately for final delivered commit in external FINAL_CANDIDATE_CI.json and PR #333 checks",
+    "final_scoped_review": "Recorded separately for final delivered commit in external FINAL_REVIEW.json",
+    "lint": "PASS",
+    "native_capability": "PASS intentional fault/core/readback and separate child0/7 controls",
+    "prior_optional_min_deps_timeout": "Preserved at40e2; cancelled at30minutes is not a PASS; timeout and selection unchanged",
+    "prospective_scoped_review": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/PRE_EXECUTION_REVIEW.json",
+      "sha256": "17dba64d5be660ef50b5c7664af462886d855aa2f7565c219d4bb51b7c65a009"
+    }
+  },
+  "accounting": {
+    "admitted_recovered_anchor_representations": 1,
+    "cumulative_completed_full_trajectories": 4,
+    "cumulative_documented_BDF_segments": 8,
+    "entering_completed_full_trajectories": 3,
+    "entering_documented_BDF_segments": 6,
+    "new_admitted_reference_rows": 0,
+    "new_completed_full_trajectories": 1,
+    "new_debugger_supervised_repeat_attempts": 1,
+    "new_documented_completed_BDF_segments": 2,
+    "preserved_prior_interrupted_repeat_attempts": 1,
+    "refinements_NOT_RUN": 12
+  },
+  "archive_failure_scope": {
+    "actual_comparison_bytes": "UNAVAILABLE; process exited and live derived arrays were not retained",
+    "archive_members_written": 0,
+    "check": "Exact redundant concentration identity: in-memory candidate C block versus y[:-2].T/min(t,1); includes signed zero",
+    "checkpoint_prospective_commitment": "PRESERVED; distinct from unwritten trajectory commitment",
+    "failed_block": "UNAVAILABLE",
+    "failed_segment": "UNAVAILABLE",
+    "interpretation": "Unexplained source-side derived relationship disagreement; neither numerical tolerance miss nor reporting-only exception; no repair, retries, archive rewrite, or further scientific execution",
+    "manifest": "NOT_PUBLISHED",
+    "trajectory_files": [
+      "WRITE_START.json"
+    ],
+    "trajectory_prospective_commitment": "NOT_REACHED"
+  },
+  "authorization": "CONTINUE PR #333 \u2014 NATIVE CRASH CAPTURE FOR THE INDEPENDENT REPEAT",
+  "binding_sha256": "ed095b489dae5ec2fed784c39371a8589e38af0fa69bd780318be57dbf5e9042",
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "finding": {
+    "archive_manifest_published": false,
+    "ended": "2026-10-11T00:00:26.919931+00:00",
+    "exception": "ValueError",
+    "message": "Redundant concentration disagreement",
+    "row": "repeat",
+    "seconds": 1169.3928576339968,
+    "stage": "WRITING_ARCHIVE",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/tim/espresso-development/isolated/full010-native-repeat-20261010/tools/run_grudeva2026_full_reference_010.py\", line 637, in run_row\n    manifest = save_archive(output/'trajectory',trajectory,\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/tim/espresso-development/isolated/full010-native-repeat-20261010/puckworks/analysis/grudeva2026_full_reference_010_io.py\", line 580, in save_archive\n    _redundancy(model, arrays)\n  File \"/home/tim/espresso-development/isolated/full010-native-repeat-20261010/puckworks/analysis/grudeva2026_full_reference_010_io.py\", line 540, in _redundancy\n    raise ValueError('Redundant concentration disagreement')\nValueError: Redundant concentration disagreement\n"
+  },
+  "implementation_commit": "1491780a682f4494940935ad76b976bfdbfea08b",
+  "native_result": {
+    "cause": "Historical native crash cause NOT_IDENTIFIED; passing integration under GDB does not resolve historical incidents or certify host",
+    "control_core": "Intentional ctypes fault control only; private core and raw state retained externally; not a scientific crash",
+    "debugger_exit": 1,
+    "fatal_signal_recorded": false,
+    "installed_branch": "Sparse scipy BDF.solve_lu calls LU.solve(b) at installed bdf.py:227",
+    "original_repeat_PID": 3205376,
+    "original_report": "Apport logged skipping exact repeat report because existing unseen Python report; no suitable retained core found in accessible configured locations",
+    "outcome": {
+      "child_exit_code": 1,
+      "kind": "exited"
+    },
+    "replacement_PID": 3247065,
+    "replacement_core": "NONE; no native fatal signal occurred"
+  },
+  "receipts": {
+    "CAPABILITY_CONTROLS.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/CAPABILITY_CONTROLS.json",
+      "sha256": "9bc9639d6cf00c6460b388c23aae1f8aa4cf9601d09f2acbbc3b8ecca10c8b3b"
+    },
+    "EXISTING_CRASH_INSPECTION.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/EXISTING_CRASH_INSPECTION.json",
+      "sha256": "f5a7edee89f673351b6c2dc12fe5a1e701fb328263d4efb5bdaa63c2cb05614e"
+    },
+    "admit-anchor-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/admit-anchor-exit.json",
+      "sha256": "1efbe42619888cc74631565dc49b1eeb8560b0af9193a74103872efd5cdf0bd9"
+    },
+    "campaign/repeat/checkpoints/PROVISIONAL.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/PROVISIONAL.json",
+      "sha256": "1aacfdbf8080b0bb64e19c4e8fdb609d0238946b63613e66276e8392c9262b59"
+    },
+    "campaign/repeat/checkpoints/SOURCE_COMMITMENT.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/SOURCE_COMMITMENT.json",
+      "sha256": "9a8c6150f1b2c1d431c192d5766184e35077fd4463e2fab604ffb0926ab20252"
+    },
+    "campaign/repeat/checkpoints/checkpoint-fresh-read.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/checkpoint-fresh-read.json",
+      "sha256": "d19fe134e8f80e961f0525945ce986875dc345e73e8db7eac8dcf7d243ab8d78"
+    },
+    "campaign/repeat/checkpoints/checkpoint-native-reader/OUTCOME.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/checkpoint-native-reader/OUTCOME.json",
+      "sha256": "3cd064244e87e392880d826242e8b94ca37280b5dea60ff95ec83d98cdb7a90e"
+    },
+    "campaign/repeat/checkpoints/checkpoint-reader-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/checkpoint-reader-exit.json",
+      "sha256": "690ed5edc05ecf5b555bcf5ff1da1c1ef12ec20109319dfb426953422f002ac8"
+    },
+    "campaign/repeat/checkpoints/checkpoint.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/checkpoints/checkpoint.json",
+      "sha256": "0f5c0c877fbd7d91a166edf3e986ee9e7210d4250fda031bcfef77a7ee5c0f47"
+    },
+    "campaign/repeat/failure.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/failure.json",
+      "sha256": "3e3669b6eb1053389983de95b4f0c605c66225eb2acd215e819dd3a0222f5385"
+    },
+    "campaign/repeat/solver-end.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/solver-end.json",
+      "sha256": "9627977efa5b751e1be119ac09bdb11bee867b2624443cdd5befbfe0fef2067c"
+    },
+    "campaign/repeat/solver-start.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/solver-start.json",
+      "sha256": "e05e63ec1b241bd8cae679f9387e332cbbafa2f0e6bfab0837a980eebec70186"
+    },
+    "campaign/repeat/trajectory/WRITE_START.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/repeat/trajectory/WRITE_START.json",
+      "sha256": "c852de06d1f50c9a80ce2ac34a49e4913931b93f90a3f13629d90d6f14b3166b"
+    },
+    "direct-preflight-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/direct-preflight-exit.json",
+      "sha256": "7a94191529f09948ff29206d0103cb10ac0771098fe3933366f7899c3838ef9b"
+    },
+    "native-row-repeat/CONFIGURATION.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/native-row-repeat/CONFIGURATION.json",
+      "sha256": "a136a9180270f67c25d9c2c1488ee4657643580a37136c012e320b6b91ae193c"
+    },
+    "native-row-repeat/loaded-files.jsonl": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/native-row-repeat/loaded-files.jsonl",
+      "sha256": "355645b3a0ed14554871b6de89a7f0b66e7a00a5dfe9ff779c74e340758af1f0"
+    },
+    "row-repeat-exit.json": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/row-repeat-exit.json",
+      "sha256": "edb9a274ee8554c922f12036bff4591ac2d0daa43bcafe79e1d32c5c40cb0d28"
+    },
+    "row-repeat.stderr.log": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/row-repeat.stderr.log",
+      "sha256": "b7ccce0a2575027c3eae064b31d9c45d5d339cf30f6aa74601cc5fc9d1fdfd20"
+    },
+    "row-repeat.stdout.log": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/row-repeat.stdout.log",
+      "sha256": "8a9f4a90fb785797d87034555fbaec12ac098f4d18e3c5374cd6c4cf006e4068"
+    }
+  },
+  "recovered_anchor": {
+    "anchor_audits_recomputed": false,
+    "current_readmission": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/native-repeat-20261010/campaign/RECOVERED_ANCHOR_ADMISSION.json",
+      "sha256": "b91aa31ab0034604217efe0e7da6fdbf929462bdf81874ce9eabd0acbe68ea9e"
+    },
+    "equivalent_fidelity": "REVIEWED_PASS_REUSED",
+    "original_admission": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/RECOVERED_REPRESENTATION.json",
+      "sha256": "c5fa4cf5396b8924b9c735df8fe57db26cd3eb8d3bf41d0a3d0efcb3c6cbc70b"
+    },
+    "original_audit_gates": "11 PASS; reused unchanged",
+    "original_live_source": "UNAVAILABLE",
+    "original_observation_times": 211,
+    "original_results": {
+      "path": "/home/tim/espresso-development/evidence/grudeva2026-full-reference-010/controlled-rerun-20261010/byte-recovery-20261010/numerical-postprocess/NUMERICAL_RESULTS_RECOVERED.json",
+      "sha256": "220984ce23776308f2989e4a45a8e5d3193530129cd551ebaee0e1bd99d1460e"
+    }
+  },
+  "repeat": {
+    "accepted_state_identity": {
+      "recorded_matches": {
+        "segment-0/t": true,
+        "segment-0/y": true,
+        "segment-1/t": true,
+        "segment-1/y": true
+      },
+      "scope": "Four checkpoint payload identity descriptors matched the anchor prospective t/y commitments; checkpoint reader verified own saved bytes before archive failure. This is not a complete scientific-array repeatability check."
+    },
+    "admission": "NOT_ADMITTED",
+    "checkpoint_fresh_read": {
+      "checkpoint_sha256": "0f5c0c877fbd7d91a166edf3e986ee9e7210d4250fda031bcfef77a7ee5c0f47",
+      "pid": 3254342,
+      "status": "PASS",
+      "summary_sha256": "1aacfdbf8080b0bb64e19c4e8fdb609d0238946b63613e66276e8392c9262b59"
+    },
+    "exact_full_repeatability": "NOT_COMPUTABLE",
+    "full_observation_support": "NOT_RUN",
+    "independent_full_horizon_audits": "NOT_RUN",
+    "live_interpolant_fidelity": "NOT_RUN",
+    "provisional": {
+      "balance_accumulator_max": 5.240252676230739e-14,
+      "balance_kind": "model inventory plus evolved boundary accumulators; independent final flux/quadrature audit pending",
+      "label": "PROVISIONAL \u2014 NOT FULL_REFERENCE_QUALIFICATION",
+      "native_extrema": {
+        "aqueous_max": 1.0000000000000007,
+        "aqueous_min": 0.0,
+        "grain_max": 1.3881944087925513,
+        "grain_min": 4.164197798828082e-15,
+        "inventory_min": 0.0
+      },
+      "native_states": 25829,
+      "retained_evolution_samples": [
+        {
+          "Jin_Jout": [
+            -9.999999999999998e-13,
+            0.0
+          ],
+          "accumulator_balance": 0.0,
+          "inventories": [
+            6.666666666666667e-18,
+            4.4415902439024373e-07,
+            1.1103997560975605e-07,
+            5.551999444799999
+          ],
+          "moving": true,
+          "outlet": null,
+          "t": 1e-07
+        },
+        {
+          "Jin_Jout": [
+            -0.05842142435537556,
+            0.0
+          ],
+          "accumulator_balance": -3.552713678800501e-15,
+          "inventories": [
+            0.8426992321386557,
+            3.687044297260285,
+            0.9638350462456793,
+            0.0
+          ],
+          "moving": true,
+          "outlet": null,
+          "t": 1.0
+        },
+        {
+          "Jin_Jout": [
+            -0.05842142435537556,
+            0.0
+          ],
+          "accumulator_balance": -3.552713678800501e-15,
+          "inventories": [
+            0.8426992321386557,
+            3.687044297260285,
+            0.9638350462456793,
+            0.0
+          ],
+          "moving": false,
+          "outlet": 1.0,
+          "t": 1.0
+        },
+        {
+          "Jin_Jout": [
+            -0.05879584939522229,
+            2.63920531132351
+          ],
+          "accumulator_balance": -6.217248937900877e-15,
+          "inventories": [
+            0.4439649807812828,
+            1.894338304572271,
+            0.5156955539277066,
+            0.0
+          ],
+          "moving": false,
+          "outlet": 1.0,
+          "t": 3.6392053113235097
+        },
+        {
+          "Jin_Jout": [
+            -0.05879587041145987,
+            5.485260031561004
+          ],
+          "accumulator_balance": 3.2862601528904634e-14,
+          "inventories": [
+            0.0013439528036428632,
+            0.004465061000911067,
+            0.002135084223013909,
+            0.0
+          ],
+          "moving": false,
+          "outlet": 0.01704354100746934,
+          "t": 8.0
+        }
+      ],
+      "sample_scope": "Selected existing accepted-time records; no interpolation or new numerical audit"
+    },
+    "solver_end": {
+      "ended": "2026-10-10T23:56:20.044046+00:00",
+      "row": "repeat",
+      "segments": [
+        {
+          "accepted_entries": 7826,
+          "end": 1.0,
+          "message": "The solver successfully reached the end of the integration interval.",
+          "moving": true,
+          "start": 1e-07,
+          "success": true
+        },
+        {
+          "accepted_entries": 18003,
+          "end": 8.0,
+          "message": "The solver successfully reached the end of the integration interval.",
+          "moving": false,
+          "start": 1.0,
+          "success": true
+        }
+      ],
+      "status": "COMPLETE"
+    }
+  },
+  "resources": {
+    "minimum_available_bytes": 191514632192,
+    "minimum_free_disk_bytes": 1232686370816,
+    "peak_rss_kib": 72282280,
+    "safety_stop": null,
+    "seconds": 1174.7844839530298
+  },
+  "stop_category": "ARCHIVE_INTEGRITY_RELATIONSHIP_FAILURE",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010",
+  "warnings": {
+    "interpretation": "Warnings in SciPy Jacobian perturbation arithmetic retained; do not establish nonfinite accepted states or identify archive/native-fault cause",
+    "retained": "/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/common.py:408: RuntimeWarning: overflow encountered in multiply\n  new_factor = NUM_JAC_FACTOR_INCREASE * factor[ind]\n/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/common.py:447: RuntimeWarning: overflow encountered in multiply\n  factor[max_diff < NUM_JAC_DIFF_SMALL * scale] *= NUM_JAC_FACTOR_INCREASE\n/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/common.py:391: RuntimeWarning: invalid value encountered in multiply\n  h_vecs[group] = h * e\n/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/common.py:409: RuntimeWarning: overflow encountered in multiply\n  h_new = (y[ind] + new_factor * y_scale[ind]) - y[ind]\n/home/tim/espresso-development/.venv-ewp-rwb-001/lib/python3.12/site-packages/scipy/integrate/_ivp/common.py:326: RuntimeWarning: overflow encountered in multiply\n  h = (y + factor * y_scale) - y"
+  }
+}

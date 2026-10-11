@@ -1,0 +1,155 @@
+{
+  "additional_overhead": "Small arrays, Python commitment records, bounded hashing, reclaimable file cache; no solver/Jacobian buffers",
+  "amendment_scope": "Only the two originally unexecuted resident replays; no extraction retry, scientific run, method/settings change or new workload",
+  "disk_admission_bytes": 85899345920,
+  "environment": {
+    "bdf_sha256": "92014c6ddb85e0757ae2b951dfd783a4b5b92a9829a5cdf3f26b41c8390fe4b7",
+    "distribution_records": {
+      "numpy": "5cfda7f23476d53c21db44bd615c838fe6ec50788acdecf707065efe6f4776e7",
+      "scipy": "d376f6be3fce626b65090112b4498ae3221a25f6c8cb8d5fe46dd9f31d324858"
+    },
+    "numpy": "2.5.2",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "scipy": "1.18.1",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "executions": [
+    "resident-primary",
+    "resident-fresh-process"
+  ],
+  "extra_preparation_buffer_bytes": 21458960064,
+  "extraction_comparison_sha256": "015aa80aee0dacbcc74e7e97ec350b7abd4a9e73ed1d37145a20d460547a72cb",
+  "implementation": {
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+    "tests/test_grudeva2026_dense_capture_010.py": "2b1380c283074edbe214e08f5f39b7cacbeae65884b6740c5d732935b8f5f16b",
+    "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+    "tools/diagnose_grudeva2026_dense_capture_010.py": "623915436c2495ee783f81a2434eda0d4d477421d3a3f0e1e1c2ad088754d740",
+    "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+  },
+  "input_arrays": [
+    {
+      "D": {
+        "dtype": "<f8",
+        "sha256": "9e4f23affd1c14cbf82e1370cd7a28b5cd8dd528cce43ef71cfe9532af1bdf7b",
+        "shape": [
+          7825,
+          6,
+          24834
+        ]
+      },
+      "denom": {
+        "dtype": "<f8",
+        "sha256": "78c9709e8266f543af577adb661fb75e8b5667fceff78810bcd388e989df2a10",
+        "shape": [
+          7825,
+          5
+        ]
+      },
+      "order": {
+        "dtype": "|i1",
+        "sha256": "3c579ec9079092cdc23c054c445f5d64764da303cc14ba20155f74dd0ff50f00",
+        "shape": [
+          7825
+        ]
+      },
+      "shift": {
+        "dtype": "<f8",
+        "sha256": "496525aa878ebf6c24f230e976f97feef781f0b1641d8c6fdb106e0cdc2f98b0",
+        "shape": [
+          7825,
+          5
+        ]
+      },
+      "t": {
+        "dtype": "<f8",
+        "sha256": "3014e02a6d6d8b4c947c78b27969356af9a7b9daa773cefd275e2f2bc8457d97",
+        "shape": [
+          7826
+        ]
+      }
+    },
+    {
+      "D": {
+        "dtype": "<f8",
+        "sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+        "shape": [
+          18002,
+          6,
+          24834
+        ]
+      },
+      "denom": {
+        "dtype": "<f8",
+        "sha256": "ef4fb35ea6570c74ce26f65e3f2bc25f3e35eb420af3641da3b6216b57994e53",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "order": {
+        "dtype": "|i1",
+        "sha256": "7c2d6b2bd34e626e84398175bac105c34d1a984a388b7af53415d69536a5aa2f",
+        "shape": [
+          18002
+        ]
+      },
+      "shift": {
+        "dtype": "<f8",
+        "sha256": "6cb7ef2619c50b3eb9bcfde127058cea0e554be1f901704499eff5de2afaed99",
+        "shape": [
+          18002,
+          5
+        ]
+      },
+      "t": {
+        "dtype": "<f8",
+        "sha256": "48bd7f3e96ed8b0c545b5f7d234c6297de3a75cd89f656806ef0b514d723e7d2",
+        "shape": [
+          18003
+        ]
+      }
+    }
+  ],
+  "layout_settings": {
+    "atol": 1e-14,
+    "axial": 256,
+    "boulders": 64,
+    "fines": 32,
+    "max_step": 0.02,
+    "rtol": 1e-09,
+    "startup": 1e-07
+  },
+  "live_array_upper_estimate_bytes": 71836219104,
+  "memory_admission_bytes": 171798691840,
+  "memory_note": "Direct ZIP decode adds at most21.46GB transient padded input; released after constructing owned resident pieces, before capture. Worst conservative sum including this extra buffer <95GB, plus overhead/cache; same160GiB admission.",
+  "new_full_case_trajectories": 0,
+  "original_diagnostic_plan_sha256": "0fc7288278a3105c5a16e8c77a6f3239fb268af46a264d7ed88b126830fc9882",
+  "original_manifest_sha256": "e78201cceb99c773ccbe7d2d3359841d939c39734d99c03775b62569722d290e",
+  "plan_sha256": "0d1246387d173cd60bd8692a8ed0d239fbd18f6900fbac7aaa51df4b592e1cd9",
+  "preserved": {
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTINUATION.json": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "docs/analysis/model_grudeva2026_full_reference_010/CONTRACT.md": "87b45c0261009caeaa6fff962b56a0222ac750616dbbbfe7b8214a2636b1a452",
+    "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_PLAN.json": "0fc7288278a3105c5a16e8c77a6f3239fb268af46a264d7ed88b126830fc9882",
+    "docs/analysis/model_grudeva2026_full_reference_010/DENSE_DIAGNOSTIC_PLAN.md": "0d1246387d173cd60bd8692a8ed0d239fbd18f6900fbac7aaa51df4b592e1cd9",
+    "docs/analysis/model_grudeva2026_full_reference_010/MATRIX.json": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "docs/analysis/model_grudeva2026_full_reference_010/SOURCE.json": "9c5621bda7ea595eac00dc777c66df876eb266a0e45d8cbe3a647238c8a09e34",
+    "puckworks/analysis/grudeva2026_full_reference_010.py": "c88427aa1fba29605e1301e2a9bfb0da571ed44332c86b569ab58e0d41fc5741"
+  },
+  "previous_implementation": {
+    "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+    "tests/test_grudeva2026_dense_capture_010.py": "6426bca82efe6bdcb0fde6b1d2569bab775091bd49228c1240613cd9d4e7174d",
+    "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+    "tools/diagnose_grudeva2026_dense_capture_010.py": "c6a17fd913ddb1bb26c58e8e826c22c2ab5d7695a39cacb85e9ee9daa639f71e",
+    "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+  },
+  "reason": "Nine extracted members verified; segment1 D source ZIP matches its original commitment but copied payload differs at54bytes. Mechanism UNESTABLISHED. Preserve bad copy; read original individual member directly. Also preserve buffers on replay-final-check failure and explicit extraction mismatch digests.",
+  "scope": "solver-free dense diagnostic, no scientific execution authorization",
+  "selected_input_manifest_sha256": "02682e281463da54a3e64810132895ac8ed716657b38da7f46ef16881fe3f075",
+  "stopping": "No blind repeats; preserve mismatch; only demonstrated correction permits affected declared replay",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}

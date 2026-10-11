@@ -1,0 +1,235 @@
+{
+  "checker_correctness": "PASS_ON_DECLARED_DIAGNOSTIC_WORKLOADS; independent bounded canonical commitments and two resident replays; no checker arithmetic defect found",
+  "compatibility": {
+    "historical_continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a",
+    "historical_documents_checked": 30,
+    "historical_matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "historical_scientific_files_checked": 206,
+    "mismatches": [],
+    "production_data_default_lock_source_card_delta": "",
+    "status": "PASS"
+  },
+  "diagnosed_software_defect": "Combined short-circuit check and unstructured exception lost failure evidence; separate recorded comparisons, per-piece commitments and bounded quarantine correct this evidence-preservation defect",
+  "diagnostic_accounting": {
+    "diagnostic_solver_calls": 0,
+    "failed_extractions": 1,
+    "focused_invocations": [
+      {
+        "BDF_segments": 19,
+        "bounded_trajectories": 17,
+        "failed": 1,
+        "log": "controls-01.log",
+        "passed": 65,
+        "sha256": "aca5779caf99cd30e675654d36bde5a68c71ea2c89005434a04398623b0bbbd0"
+      },
+      {
+        "BDF_segments": 19,
+        "bounded_trajectories": 17,
+        "failed": 0,
+        "log": "controls-02.log",
+        "passed": 66,
+        "sha256": "78bf5d6de282079c172a515743e2968370995acb7701eb9ada0a3694271812d3"
+      },
+      {
+        "BDF_segments": 0,
+        "bounded_trajectories": 0,
+        "failed": 0,
+        "log": "controls-03.log",
+        "passed": 13,
+        "sha256": "4e60a06da10ef43a218e7f3b72478b60aafb8dfbc3333a24d2618592df3bb233"
+      },
+      {
+        "BDF_segments": 0,
+        "bounded_trajectories": 0,
+        "failed": 0,
+        "log": "controls-04.log",
+        "passed": 14,
+        "sha256": "9696f0e8e6d9d366a97e5a8a1f5fbd3c0b5bcf70436c04439d517779d3b7ea73"
+      },
+      {
+        "BDF_segments": 0,
+        "bounded_trajectories": 0,
+        "failed": 0,
+        "log": "controls-05.log",
+        "passed": 16,
+        "sha256": "856f3e89643b7653444a865bdb72a610c31dc918b5c5d1c83a97b3bde64b2eba"
+      }
+    ],
+    "layout_inspection_BDF_segments": 2,
+    "layout_inspection_bounded_trajectories": 1,
+    "new_large_serialization_test_repeats": 0,
+    "ordinary_quick_counts": "Separate DENSE_DIAGNOSTIC_QA.json and exact-head delivery receipt",
+    "resident_replays": 2,
+    "targeted_source_copy_comparisons": 1
+  },
+  "disposition": "FULL_REFERENCE_QUALIFICATION_INCOMPLETE",
+  "failure_witness_capability": "PASS_ON_DECLARED_FAULT_CONTROLS; source/target/both/order/padding/checker/persistence/exit; does not identify old mechanisms",
+  "governance": "G2 / NUMERICAL_METHOD_CHANGE; diagnostic-only continuation",
+  "historical_root_cause": "HISTORICAL_ROOT_CAUSE_UNESTABLISHED",
+  "identities": {
+    "delivery_binding_sha256": "ca77e00a01c8e8e11e761f0612bad1e63998ac23204811eb5dc64bf6e9b43e3a",
+    "delivery_implementation": {
+      "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+      "tests/test_grudeva2026_dense_capture_010.py": "04e78b00c0315f11ca5e61bf43fcb84df4357e2819804a3711d2e8c03d08c26b",
+      "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+      "tools/diagnose_grudeva2026_dense_capture_010.py": "92058a9fd22f4d17351c2813171b550e2a460dfcc14ee4b36f472e7d13577b5b",
+      "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+    },
+    "diagnostic_amendment_sha256": "9f8a37fc7489554a8443fd80aa4cd556501d9a6242bf5f51e0db56a3ed92912a",
+    "diagnostic_plan_sha256": "0fc7288278a3105c5a16e8c77a6f3239fb268af46a264d7ed88b126830fc9882",
+    "executed_replay_implementation": {
+      "puckworks/analysis/grudeva2026_full_reference_010_io.py": "899c2493e19697737146f23081c7820129908be91fad8ddc31d941db97e18081",
+      "tests/test_grudeva2026_dense_capture_010.py": "2b1380c283074edbe214e08f5f39b7cacbeae65884b6740c5d732935b8f5f16b",
+      "tests/test_grudeva2026_full_reference_010.py": "65ac314f0977d5408b14b557c8856adc838e0085bda13a06eed888244b543e64",
+      "tools/diagnose_grudeva2026_dense_capture_010.py": "623915436c2495ee783f81a2434eda0d4d477421d3a3f0e1e1c2ad088754d740",
+      "tools/run_grudeva2026_full_reference_010.py": "34cd1aeec89366ab5f3065abbaab580daab5c8fa209e278733ba7e8f09642c25"
+    },
+    "external_manifest_sha256": "5c3b3f95474ab7dd5c502ae74eb7930e15dc0a9f86dd67bb2a021992ed31155a",
+    "matrix_sha256": "092269b20b88d413abbfb1350240d32ab869e985cf1825ef1f28f73462e667d3",
+    "original_continuation_sha256": "64d92c5f87c46fad02aa7a2c078b7c473492d04d2d9296d12044af529c333b0a"
+  },
+  "kernel_window": {
+    "exit_code": 0,
+    "interpretation": "Limited accessible log, not a hardware-health certificate",
+    "result": "-- No entries --",
+    "sha256": "19c4e28b2f54ea8f217db4e622b0a5c758efa7b77ce2dc0394b6d159568c0b2e"
+  },
+  "limits": [
+    "No numerical observation/refinement/uncertainty gate computed or qualified",
+    "No original archive repair, accepted-state recovery, root-cause or hardware claim",
+    "No new scientific matrix row, anchor, downstream comparison, physics/default/lock/EWP change",
+    "PR333 draft/unmerged/auto-merge disabled; issue67 remains open"
+  ],
+  "new_extraction_discrepancy": {
+    "copied_payload_sha256": "e461a67c1e5e347dbd57c2440fa332280b11b376399e1fb7c900624b2bdb64ca",
+    "diagnostic_route": "No re-extraction or repair. Nine verified read-only extracted arrays plus original segment1/D directly decoded/verified. Extra21.46GB temporary preparation buffer released before capture.",
+    "different_bytes": 54,
+    "different_float_entries": 54,
+    "failed_extraction_preserved": true,
+    "first_witness": {
+      "component": "D",
+      "float_flat_index": 1798660639,
+      "index_interval_coefficient_state": [
+        12071,
+        1,
+        8521
+      ],
+      "payload_byte": 14389285115,
+      "payload_byte_mod64": 59,
+      "segment": 1,
+      "source_float_bytes": "c5433771aa48bcbe",
+      "target_float_bytes": "c5433733aa48bcbe",
+      "times": [
+        4.536169207907627,
+        4.536423337469096
+      ]
+    },
+    "mechanism": "UNESTABLISHED; not inferred to match either historical mechanism",
+    "recorded_witnesses": 32,
+    "source_payload_sha256": "dde6342fe349b2c33890c66d8316c2535f993121fcddeee4cc1b58a08292ae3a",
+    "status": "OBSERVED_SOURCE_TO_COPY_BYTE_DISCREPANCY"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "post_replay_failure_only_correction": {
+    "changed_files": [
+      "tests/test_grudeva2026_dense_capture_010.py",
+      "tools/diagnose_grudeva2026_dense_capture_010.py"
+    ],
+    "method": "AST comparison of complete diagnostic command after replacing only the known mismatch branch body with Pass; exact equality outside that failure-only branch",
+    "negative_control_result": {
+      "failed": 0,
+      "log_sha256": "856f3e89643b7653444a865bdb72a610c31dc918b5c5d1c83a97b3bde64b2eba",
+      "passed": 16,
+      "solver_calls": 0
+    },
+    "normalized_ast_sha256": "b1bd2f0315b86d2ddd2e3611c38aaf2bcaec777fecf6b403cd0cfd3c01a0b5a7",
+    "replay_reuse": "Both completed replays retain their original AMENDMENT/executable identities. Successful command/capture/hash/source/target path unchanged. No new large execution under the delivery binding.",
+    "status": "PASS",
+    "unchanged_files": [
+      "puckworks/analysis/grudeva2026_full_reference_010_io.py",
+      "tests/test_grudeva2026_full_reference_010.py",
+      "tools/run_grudeva2026_full_reference_010.py"
+    ]
+  },
+  "qa_ci_review": "Separate exact-candidate receipts; no reuse of old-head CI for this delta",
+  "recommend_instrumented_anchor": {
+    "reason": "New unexplained source-to-file byte discrepancy remains. Passing resident capture does not establish source-to-storage reliability or explain either historical failure. Separate infrastructure/evidence disposition and explicit owner authorization are needed before another scientific execution; none is performed or automatically scheduled.",
+    "recommendation": "NOT_YET"
+  },
+  "replacement_failure_mechanism": "UNESTABLISHED; no failing operands/digests or in-memory states survived",
+  "representative_dense_replay": {
+    "array_sizes": {
+      "combined_padded_bytes": 30786610464,
+      "padded_segment_0_bytes": 9327650400,
+      "padded_segment_1_bytes": 21458960064,
+      "resident_source_dense_bytes": 23457486800
+    },
+    "coverage": "Original individually verified dense coefficients/times/order; owned resident source pieces, two-segment retention, exact target/padding/source passes; synthetic F-layout y. No solver allocator/Jacobian/history or original accepted y reproduced.",
+    "executions": [
+      {
+        "elapsed_seconds": 208.40937690800638,
+        "exit_code": 0,
+        "log_sha256": "033398b9f1061b5f252dea5df6585c0ebc7eda61bd92897803d04c6280774781",
+        "min_available_bytes": 194594140160,
+        "min_disk_bytes": 1301084917760,
+        "monitor_sha256": "317c7c5bb9d50547e0e2c0bd6c7cb6acbc30a637228b71b3c9db2589a8c8fb51",
+        "name": "resident-primary",
+        "peak_sampled_rss_kib": 63266952,
+        "safety_stop": null
+      },
+      {
+        "elapsed_seconds": 208.4085991200118,
+        "exit_code": 0,
+        "log_sha256": "033398b9f1061b5f252dea5df6585c0ebc7eda61bd92897803d04c6280774781",
+        "min_available_bytes": 194419675136,
+        "min_disk_bytes": 1301027524608,
+        "monitor_sha256": "71a242100451089dad006ea00faf558b14135ec7c6015d9c3b9552e49fc007f4",
+        "name": "resident-fresh-process",
+        "peak_sampled_rss_kib": 63267596,
+        "safety_stop": null
+      }
+    ],
+    "repeatability": {
+      "capture_sha256": "306322854dd2e5630a713da9cd6177fe95792bc32b10ca94037f9c91102afd96",
+      "fresh_process": {
+        "accepted_state_oracle": "NONE; synthetic y, no numerical qualification",
+        "capture_sha256": "306322854dd2e5630a713da9cd6177fe95792bc32b10ca94037f9c91102afd96",
+        "elapsed_seconds": 205.84869040601188,
+        "ended": "2026-10-10T01:59:00.128464+00:00",
+        "input_sha256": "02682e281463da54a3e64810132895ac8ed716657b38da7f46ef16881fe3f075",
+        "peak_rss_kib": 63264536,
+        "segments": 2,
+        "solver_calls": 0,
+        "status": "PASS_ON_DECLARED_DIAGNOSTIC_WORKLOADS"
+      },
+      "input_sha256": "02682e281463da54a3e64810132895ac8ed716657b38da7f46ef16881fe3f075",
+      "primary": {
+        "accepted_state_oracle": "NONE; synthetic y, no numerical qualification",
+        "capture_sha256": "306322854dd2e5630a713da9cd6177fe95792bc32b10ca94037f9c91102afd96",
+        "elapsed_seconds": 205.11467757399078,
+        "ended": "2026-10-10T01:55:30.976778+00:00",
+        "input_sha256": "02682e281463da54a3e64810132895ac8ed716657b38da7f46ef16881fe3f075",
+        "peak_rss_kib": 63263992,
+        "segments": 2,
+        "solver_calls": 0,
+        "status": "PASS_ON_DECLARED_DIAGNOSTIC_WORKLOADS"
+      },
+      "scientific_repeat_row": false,
+      "solver_calls": 0,
+      "status": "EXACT_DIAGNOSTIC_CAPTURE_RECORD_REPEAT"
+    },
+    "status": "PASS_ON_DECLARED_DIAGNOSTIC_WORKLOADS"
+  },
+  "scientific_accounting": {
+    "audited_qualified_full_rows": 0,
+    "historical_BDF_segments": 4,
+    "historical_full_trajectories": 2,
+    "new_full_case_trajectories": 0,
+    "outstanding_NOT_RUN": 13,
+    "reused_full_trajectories": 0
+  },
+  "selected_base": "3cd308ac5bed39acff3d995108b5178a53c982ee",
+  "starting_head": "ab23c050ba359a984e6106fb25d1073d81911386",
+  "starting_tree": "797f3c0cf78ca4e0746506c5806ac808958fd223",
+  "task": "MODEL-GRUDEVA2026-FULL-REFERENCE-010"
+}
