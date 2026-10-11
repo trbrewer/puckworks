@@ -529,23 +529,94 @@ def _segment_shape_check(model, arrays):
         raise ValueError('Invalid dense denominators')
 
 
-def _redundancy(model, arrays):
+PRIMARY_KEYS = ('t', 'y', 'D', 'shift', 'denom', 'order')
+
+
+def concentration_blocks(t, y):
+    """Original float64 C-layout construction, also used by solver-free checks."""
+    concentrations = np.empty((len(t), len(y)-2))
+    for start in range(0, len(t), 64):
+        concentrations[start:start+64] = y[:-2, start:start+64].T/np.minimum(t[start:start+64, None], 1.)
+    return concentrations
+
+
+def _relationship(expected, observed, member, context, operands, before):
+    want, got = array_identity(expected), array_identity(observed)
+    after = {key: array_identity(value) for key, value in operands.items()}
+    if want != got or before != after:
+        exc = CaptureMismatch('Redundant '+member+' disagreement',
+                              {**context, 'stage': 'redundancy', 'component': member,
+                               'expected': want, 'observed': got, 'identity_matches': want == got,
+                               'operand_identities_before': before, 'operand_identities_after': after,
+                               'sources_stable': before == after}, [(member, expected, observed)])
+        # Actual current operands, bounded by the existing preservation utility.
+        exc.pairs.extend((key, value, value) for key, value in operands.items())
+        raise exc
+
+
+def check_concentrations(t, y, concentrations, context=None):
+    """Exact separately evaluated block check; includes signed zero."""
+    for start in range(0, len(t), 64):
+        stop = min(start+64, len(t))
+        operands = {'accepted_t': t[start:stop], 'accepted_y': y[:-2, start:stop].T}
+        before = {key: array_identity(value) for key, value in operands.items()}
+        scale = np.minimum(t[start:stop, None], 1.)
+        want = y[:-2, start:stop].T/scale
+        _relationship(want, concentrations[start:stop], 'concentrations',
+                      {**(context or {}), 'block': [start, stop],
+                       'time_range': [float(t[start]), float(t[stop-1])]}, operands, before)
+
+
+def _redundancy(model, arrays, context=None):
     _segment_shape_check(model, arrays)
-    # Bounded, separately evaluated relationship checks. Includes sign of zero.
+    check_concentrations(arrays['t'], arrays['y'], arrays['concentrations'], context)
     for start in range(0, len(arrays['t']), 64):
-        stop = start+64
+        stop = min(start+64, len(arrays['t']))
         scale = np.minimum(arrays['t'][start:stop, None], 1.)
-        want = arrays['y'][:-2, start:stop].T/scale
-        if not _same_bits(want, arrays['concentrations'][start:stop]):
-            raise ValueError('Redundant concentration disagreement')
-        if not _same_bits(arrays['y'][-2:, start:stop].T, arrays['boundary_accumulators'][start:stop]):
-            raise ValueError('Boundary accumulator disagreement')
+        where = {**(context or {}), 'block': [start, stop],
+                 'time_range': [float(arrays['t'][start]), float(arrays['t'][stop-1])]}
+        expected = arrays['y'][-2:, start:stop].T
+        _relationship(expected, arrays['boundary_accumulators'][start:stop],
+                      'boundary_accumulators', where, {'accepted_accumulators': expected},
+                      {'accepted_accumulators': array_identity(expected)})
         for key, coordinates in [('physical_z_faces', model.faces), ('physical_z_centers', model.xi)]:
-            if not _same_bits(scale*coordinates, arrays[key][start:stop]):
-                raise ValueError('Physical geometry disagreement')
+            operands = {'scale': scale, 'coordinates': coordinates}
+            before = {k: array_identity(v) for k, v in operands.items()}
+            _relationship(scale*coordinates, arrays[key][start:stop], key, where, operands, before)
 
 
-def save_archive(directory, trajectory, metadata, complete=True, checkpoint_directory=None):
+def verify_primary_archive(directory):
+    """Verify preserved primary data only; never admit a full reference archive."""
+    directory = Path(directory)
+    receipt = json.loads((directory/'PRIMARY_INCOMPLETE.json').read_text())
+    if (receipt['status'] != 'PRIMARY_ONLY_NOT_FULL_REFERENCE'
+            or sha256(directory/'CAPTURE_METADATA.json') != receipt['capture_metadata_sha256']
+            or sha256(directory/'PRIMARY_SOURCE_COMMITMENT.json') != receipt['source_commitment_sha256']):
+        raise ValueError('Primary commitment identity mismatch')
+    expected = json.loads((directory/'PRIMARY_SOURCE_COMMITMENT.json').read_text())
+    if set(expected) != {f'segment-{j}' for j in range(len(receipt['segments']))}:
+        raise ValueError('Primary segment set mismatch')
+    for j, segment in enumerate(receipt['segments']):
+        group = f'segment-{j}'
+        if set(segment['arrays']) != set(PRIMARY_KEYS) or segment['capture_commitment'] != expected[group]:
+            raise ValueError('Primary member/commitment mismatch')
+        loaded = {}
+        for key, rec in segment['arrays'].items():
+            path = directory/f'{group}-{key}.npy'
+            if (rec['file'] != path.name or rec['array'] != expected[group][key]
+                    or sha256(path) != rec['sha256'] or payload_identity(path) != rec['array']):
+                raise ValueError('Primary saved payload mismatch')
+            value = np.load(path, allow_pickle=False, mmap_mode='r')
+            if array_identity(value) != rec['array'] or not finite(value):
+                raise ValueError('Primary loaded payload mismatch')
+            loaded[key] = value
+        if dense_chain(loaded) != segment['dense_source_chain_sha256']:
+            raise ValueError('Primary dense chain mismatch')
+    return receipt
+
+
+def save_archive(directory, trajectory, metadata, complete=True, checkpoint_directory=None,
+                 primary_readback=None):
     directory = Path(directory)
     directory.mkdir(exist_ok=False)
     model = trajectory.model
@@ -555,43 +626,27 @@ def save_archive(directory, trajectory, metadata, complete=True, checkpoint_dire
                 'geometry': {}, 'activation': 't_wet(z)=z; dry inactive; initial=1.388',
                 'state_layout': 'y[:-2]=cell-major U=s*C amounts; last2=Jin,Jout; concentrations and accumulators stored separately',
                 'transition': 't=1; identical end/start state; motion ends, discharge begins'}
-    geometry = {'xi_faces': model.faces, 'xi': model.xi}
-    for label, sphere in zip(('fines', 'boulders'), model.spheres):
-        geometry.update({f'{label}_faces': sphere.faces, f'{label}_centers': sphere.r,
-                         f'{label}_volumes': sphere.volume})
-    groups = [('geometry', {}, {k: stable_copy(v) for k, v in geometry.items()})]
+    groups, prospective, primary_records = [], {}, {}
     for j, segment in enumerate(trajectory.segments):
+        name = f'segment-{j}'
         arrays = {k: v for k, v in segment.items() if isinstance(v, np.ndarray)}
-        if dense_chain(arrays) != segment['dense_source_chain_sha256']:
-            raise ValueError('Dense captured source chain mismatch')
         source = {k: array_identity(v) for k, v in arrays.items()}
-        if source != segment.get('capture_commitment'):
-            raise ValueError('Captured source commitment mismatch')
-        nt, nv = len(segment['t']), len(segment['y'])
-        concentrations = np.empty((nt, nv-2))
-        for start in range(0, nt, 64):
-            concentrations[start:start+64] = segment['y'][:-2, start:start+64].T/np.minimum(segment['t'][start:start+64, None], 1.)
-        arrays.update(concentrations=concentrations,
-                      boundary_accumulators=stable_copy(segment['y'][-2:].T),
-                      physical_z_faces=np.minimum(segment['t'][:, None], 1.)*model.faces,
-                      physical_z_centers=np.minimum(segment['t'][:, None], 1.)*model.xi)
-        if source != {k: array_identity(arrays[k]) for k in source}:
-            raise ValueError('Source mutation during derived-array construction')
-        _redundancy(model, arrays)
-        for a in arrays.values():
-            a.flags.writeable = False
-        groups.append((f'segment-{j}', {k: v for k, v in segment.items() if not isinstance(v, np.ndarray)}, arrays))
-    for name, info, arrays in groups[1:]:
-        if info['capture_commitment'] != {key: array_identity(arrays[key]) for key in info['capture_commitment']}:
-            raise ValueError('Captured source changed before prospective write commitment')
-    prospective = {name: {key: array_identity(a) for key, a in arrays.items()}
-                   for name, _, arrays in groups}
-    write_json(directory/'SOURCE_COMMITMENT.json', prospective)
+        if (set(arrays) != set(PRIMARY_KEYS) or source != segment.get('capture_commitment')
+                or dense_chain(arrays) != segment['dense_source_chain_sha256']):
+            raise ValueError('Captured primary source commitment/chain mismatch')
+        info = {k: v for k, v in segment.items() if not isinstance(v, np.ndarray)}
+        groups.append((name, info, arrays))
+        prospective[name] = source
+    # Capture metadata and prospective primary identities survive every later failure.
+    write_json(directory/'CAPTURE_METADATA.json', {'metadata': metadata,
+               'case': manifest['case'], 'settings': manifest['settings'],
+               'segments': [info for _, info, _ in groups]})
+    write_json(directory/'PRIMARY_SOURCE_COMMITMENT.json', prospective)
     for name, info, arrays in groups:
         records = {}
-        for key, a in arrays.items():
-            target = directory/f'{name}-{key}.npy'
-            if checkpoint_directory is not None and name != 'geometry' and key in ('t', 'y'):
+        for key in PRIMARY_KEYS:
+            a, target = arrays[key], directory/f'{name}-{key}.npy'
+            if checkpoint_directory is not None and key in ('t', 'y'):
                 source = Path(checkpoint_directory)/target.name
                 checkpoint = json.loads((Path(checkpoint_directory)/'checkpoint.json').read_text())
                 rec = checkpoint['segments'][int(name.split('-')[1])]['arrays'][key]
@@ -604,15 +659,56 @@ def save_archive(directory, trajectory, metadata, complete=True, checkpoint_dire
                 records[key] = rec
             else:
                 records[key] = write_numeric(target, a, prospective[name][key],
-                                             {'archive_group': name, 'component': key, 'archive_role': 'trajectory'})
+                                             {'archive_group': name, 'component': key, 'archive_role': 'trajectory', 'phase': 'primary'})
         if prospective[name] != {key: array_identity(a) for key, a in arrays.items()}:
+            raise ValueError('Source mutation across primary serialization')
+        primary_records[name] = records
+    write_json(directory/'PRIMARY_INCOMPLETE.json',
+               {'status': 'PRIMARY_ONLY_NOT_FULL_REFERENCE', 'metadata': metadata,
+                'source_commitment_sha256': sha256(directory/'PRIMARY_SOURCE_COMMITMENT.json'),
+                'capture_metadata_sha256': sha256(directory/'CAPTURE_METADATA.json'),
+                'segments': [{**info, 'arrays': primary_records[name]} for name, info, _ in groups]})
+    sync_directory(directory)
+    if primary_readback is not None:
+        primary_readback(directory)
+    else:
+        verify_primary_archive(directory)
+    # Only now construct redundant derivatives; scientific formulas/layout unchanged.
+    for name, info, arrays in groups:
+        source = prospective[name]
+        arrays.update(concentrations=concentration_blocks(arrays['t'], arrays['y']),
+                      boundary_accumulators=stable_copy(arrays['y'][-2:].T),
+                      physical_z_faces=np.minimum(arrays['t'][:, None], 1.)*model.faces,
+                      physical_z_centers=np.minimum(arrays['t'][:, None], 1.)*model.xi)
+        if source != {k: array_identity(arrays[k]) for k in source}:
+            raise ValueError('Source mutation during derived-array construction')
+        _redundancy(model, arrays, {'archive_group': name, 'path': str(directory), 'phase': 'constructed'})
+        for a in arrays.values():
+            a.flags.writeable = False
+    geometry = {'xi_faces': model.faces, 'xi': model.xi}
+    for label, sphere in zip(('fines', 'boulders'), model.spheres):
+        geometry.update({f'{label}_faces': sphere.faces, f'{label}_centers': sphere.r,
+                         f'{label}_volumes': sphere.volume})
+    groups.insert(0, ('geometry', {}, {k: stable_copy(v) for k, v in geometry.items()}))
+    all_sources = {name: {key: array_identity(a) for key, a in arrays.items()}
+                   for name, _, arrays in groups}
+    for name, expected in prospective.items():
+        if expected != {key: all_sources[name][key] for key in PRIMARY_KEYS}:
+            raise ValueError('Primary source changed before derived write commitment')
+    write_json(directory/'SOURCE_COMMITMENT.json', all_sources)
+    for name, info, arrays in groups:
+        records = dict(primary_records.get(name, {}))
+        for key, a in arrays.items():
+            if key not in records:
+                records[key] = write_numeric(directory/f'{name}-{key}.npy', a, all_sources[name][key],
+                                             {'archive_group': name, 'component': key, 'archive_role': 'trajectory', 'phase': 'derived'})
+        if all_sources[name] != {key: array_identity(a) for key, a in arrays.items()}:
             raise ValueError('Source mutation across archive serialization')
         if name != 'geometry':
-            _redundancy(model, arrays)
-            # Reloaded relationships, not just the source-side construction.
+            _redundancy(model, arrays, {'archive_group': name, 'phase': 'source-after-write'})
             loaded = {key: np.load(directory/rec['file'], mmap_mode='r', allow_pickle=False)
                       for key, rec in records.items()}
-            _redundancy(model, loaded)
+            _redundancy(model, loaded, {'archive_group': name, 'phase': 'saved-readback'})
             if dense_chain(loaded) != info['dense_source_chain_sha256']:
                 raise ValueError('Serialized dense capture chain mismatch')
             manifest['segments'].append({**info, 'arrays': records})
@@ -627,6 +723,7 @@ def save_archive(directory, trajectory, metadata, complete=True, checkpoint_dire
     else:
         manifest['status'] = 'INCOMPLETE_SOLVER_TRAJECTORY_NOT_QUALIFIED'
         write_json(directory/'INCOMPLETE_MANIFEST.json', manifest)
+    sync_directory(directory)
     return manifest
 
 

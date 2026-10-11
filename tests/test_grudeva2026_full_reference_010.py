@@ -599,7 +599,7 @@ def test_interrupted_write_has_no_success_manifest(tmp_path, monkeypatch):
     monkeypatch.setattr(archive_io, 'write_numeric', fail)
     with pytest.raises(OSError, match='interrupted'):
         _synthetic_archive(tmp_path)
-    assert (tmp_path/'archive/SOURCE_COMMITMENT.json').exists()
+    assert (tmp_path/'archive/PRIMARY_SOURCE_COMMITMENT.json').exists()
     assert not (tmp_path/'archive/manifest.json').exists()
     with pytest.raises(FileNotFoundError):
         archive_io.load_archive(tmp_path/'archive')

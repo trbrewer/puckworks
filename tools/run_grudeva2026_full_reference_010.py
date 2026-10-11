@@ -350,6 +350,10 @@ def readback(directory, kind):
         write_json(directory/'PROVISIONAL.json', provisional_summary(trajectory))
         identity = {'checkpoint_sha256': sha256(directory/'checkpoint.json'),
                     'summary_sha256': sha256(directory/'PROVISIONAL.json')}
+    elif kind == 'primary':
+        from puckworks.analysis.grudeva2026_full_reference_010_io import verify_primary_archive
+        verify_primary_archive(directory)
+        identity = {'primary_receipt_sha256': sha256(directory/'PRIMARY_INCOMPLETE.json')}
     elif kind == 'archive':
         trajectory, _ = load_archive(directory)
         identity = {'manifest_sha256': sha256(directory/'manifest.json')}
@@ -639,7 +643,8 @@ def run_row(root, row, continuation=False, rerun=False, remaining=False):
                                      'environment':environment(),
                                      'implementation':binding['implementation'] if binding else matrix['implementation'],
                                      'continuation_sha256':binding_digest(binding)},
-                                    checkpoint_directory=output/'checkpoints' if rerun or remaining else None)
+                                    checkpoint_directory=output/'checkpoints' if rerun or remaining else None,
+                                    primary_readback=lambda path: fresh_read(path, 'primary'))
             if rerun or remaining:
                 sync_directory(output/'trajectory')
                 stage = 'ARCHIVE_FRESH_READ'
