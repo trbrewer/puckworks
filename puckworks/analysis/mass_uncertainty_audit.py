@@ -444,6 +444,24 @@ def verify_oracle(rows, predictions, metrics, *, grudeva=False):
     reconcile(metric(masses, qs, ps), {k: metrics[k] for k in METRICS}, 'independent_arithmetic')
 
 
+def replicate_variability(rows, predictions):
+    """Separate available chemistry from each arm's actual scored support."""
+    def summarize(selected):
+        return {'n': len(selected), 'observed_tds_percent': spread([100*r['q'] for r in selected if r['q'] is not None]),
+                **{k: spread([r[k] for r in selected if r[k] is not None]) for k in ('mass_kg', 'b0', 'b1')}}
+    supported = {}
+    for arm, pi in predictions.items():
+        selected = []
+        for r in rows:
+            p = pi[(r['shot'], r['fraction'])]
+            if (r['eligible'] and r['q'] is not None and p['supported'] and p['numerical_qualified']
+                    and (arm != 'FIRST_ASSAY_EMPIRICAL' or p['legacy_supported'])):
+                selected.append(r)
+        supported[arm] = summarize(selected)
+    return {'intended_replicates': len(rows), 'chemistry_eligible_replicates': sum(r['eligible'] for r in rows),
+            'source_observed': summarize(rows), 'score_supported_by_arm': supported}
+
+
 def audit006(data):
     from . import conditional_tail_scoring as s
     p = s.pipeline
@@ -502,9 +520,7 @@ def audit006(data):
             for f in p.SUFFIX:
                 rows = [r for r in observed if r['condition'] == c and r['fraction'] == f]
                 result['observed_replicate_variability'].append({'panel': panel, 'condition': c, 'fraction': f,
-                    'intended_replicates': len(rows), 'observed_tds_percent': spread([100*r['q'] for r in rows if r['q'] is not None]),
-                    'eligible_replicates': sum(r['eligible'] for r in rows),
-                    **{k: spread([r[k] for r in rows if r[k] is not None]) for k in ('mass_kg', 'b0', 'b1')}})
+                    **replicate_variability(rows, pi)})
     result['comparison_headroom'] = {}
     for label, v in [('B_C2_vs_C1', second), ('D_C2_vs_legacy', legacy), ('secondary_C2_vs_C0', secondary['C0']['C2_material_gain'])]:
         result['comparison_headroom'][label] = {**increment_headroom(v), 'condition_wins': headroom(v['definite_condition_wins'], 3, minimum=True)}
@@ -736,6 +752,8 @@ def main():
     args = parser.parse_args()
     if args.operation == 'report':
         result = retained_report(args.retained)
+        print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
+        return
     else:
         result = run(args.evidence_root, args.output, args.ewp_checkout, preflight=args.operation == 'preflight')
     print(json.dumps({'task': TASK, 'completeness': result['completeness'],

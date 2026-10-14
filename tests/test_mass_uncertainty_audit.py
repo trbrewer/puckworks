@@ -211,3 +211,13 @@ def test_008_wrapper_calibration_component_requires_complete_manifest():
     del manifest['calibrations']['1/M']
     with pytest.raises(ValueError, match='COMPLETE_CALIBRATION'):
         a.calibration_status(manifest, [1, 2])
+
+
+def test_scored_replicate_support_is_distinct_from_chemistry_eligibility():
+    rows = [dict(shot=i, fraction=10, eligible=True, q=i/100, mass_kg=.01, b0=.05, b1=.06) for i in (1, 2, 3)]
+    predictions = {'C2': {(i, 10): dict(supported=i != 3, numerical_qualified=True) for i in (1, 2, 3)}}
+    result = a.replicate_variability(rows, predictions)
+    assert result['chemistry_eligible_replicates'] == 3
+    assert result['source_observed']['n'] == 3
+    assert result['score_supported_by_arm']['C2']['n'] == 2
+    assert result['score_supported_by_arm']['C2']['observed_tds_percent']['sd'] == pytest.approx(math.sqrt(.5))
