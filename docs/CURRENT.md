@@ -36,6 +36,10 @@ listed here wins.
   authorities above, adjudicate scientific results, change threshold policy or
   authorize its proposed tasks.
 
+## Bounded retrospective analysis
+
+- [MASS-006/007/008 uncertainty and physical-shot sensitivity](analysis/sci_md_mass_uncertainty_001/RESULTS.md) — unchanged predictions, original outcomes retained; no threshold-policy change or production adoption.
+
 ## Vocabulary (no bare "DONE")
 
 `proposed` · `implemented` · `CI-verified` · `validated` · `release-ready` · `submitted`.
