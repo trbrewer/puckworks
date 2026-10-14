@@ -90,7 +90,7 @@ there is no fallback to replacement bytes or aggregate reconstruction.
 ## Findings and limitations
 
 - MASS-006: C2 primary R=0.480034 pp, mean absolute shot bias=0.395567 pp;
-  original A/B/C/D PASS. Primary C2−C1 gain sensitivity is 0.093939–0.135358 pp.
+  original A/B/C/D PASS. Primary C2 gain over C1 (R_C1 − R_C2) sensitivity is 0.093939–0.135358 pp.
   Full flow scope remains incomplete. Source-observed replicate spread is
   explicitly separated from each arm's actual score-supported replicate spread.
 - MASS-007: C2 R=0.599149 pp, mean absolute shot bias=0.532635 pp; adequacy FAIL,
