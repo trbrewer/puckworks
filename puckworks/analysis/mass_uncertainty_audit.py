@@ -342,7 +342,7 @@ def load_bundle(t, directory, tracker, ewp_checkout):
     data = {p.name: tracker.json(p) for p in [directory / n for n in (
         'queries.json', 'predictions.json', 'observed_suffix.json' if t != '008' else 'outcomes.json',
         'shot_results.json' if t != '008' else 'pair_row_column_results.json')]}
-    for n in ('coordinates.json', 'cohort.json', 'folds.json', 'counts.json', 'pools.json', 'early_inputs.json', 'reference.json', 'source.json', 'training.json'):
+    for n in ('coordinates.json', 'cohort.json', 'folds.json', 'counts.json', 'pools.json', 'early_inputs.json', 'reference.json', 'source.json', 'training.json', 'calibration_manifest.json'):
         if n in f['artifacts'] or n in bound:
             data[n] = tracker.json(directory / n)
     data['historical'] = result
@@ -595,6 +595,15 @@ def audit007(data):
             'comparison_headroom': {n: {**increment_headroom(v), 'paired_wins': headroom(v['definite_paired_wins'], v['required_wins'], minimum=True)} for n, v in increments.items()}}, private
 
 
+def calibration_status(manifest, shots):
+    records = manifest['calibrations']
+    expected = {f'{i}/{a}' for i in shots for a in ('A2', 'A0', 'M')}
+    if set(records) != expected:
+        raise ValueError('COMPLETE_CALIBRATION_MEMBERSHIP_REQUIRED')
+    return {a: 'PASS' if all(records[f'{i}/{a}']['status'] == 'QUALIFIED' for i in shots)
+            else 'CALIBRATION_BLOCKED' for a in ('A2', 'A0', 'M')}
+
+
 def audit008(data):
     from . import grudeva_one_shot_scoring as s
     shots, details, units = grudeva_units(data, pairs=True)
@@ -629,6 +638,7 @@ def audit008(data):
               'numerical': {a: 'PASS' if all(p['prediction'] and p['prediction']['numerical_qualified'] and p['prediction']['allowance_kg'] <= 1e-9 for p in ps) else s.UNRESOLVED for a, ps in data['predictions.json'].items()},
               'adequacy': {a: v['adequacy'] for a, v in arms.items()},
               'increments': {n: v['status'] for n, v in increments.items()}}
+    vector['calibration'] = calibration_status(data['calibration_manifest.json'], shots)
     reconcile(vector, data['historical']['status_vector'], '008.status_vector')
     if arms['A2']['adequacy'] == 'PASS' and any(v['status'] != 'PASS' for v in increments.values()):
         reconcile('ADAPTATION_ADEQUATE_INCREMENT_NOT_ESTABLISHED', data['historical']['disposition'], '008.disposition')

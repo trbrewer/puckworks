@@ -200,3 +200,14 @@ def test_deleted_incomplete_shot_does_not_restore_original_full_scope():
     assert result['metrics']['C2']['available'] == 0
     assert details[2]['metrics']['C2'] is None
     assert a.balanced(arms['C2']) is None
+
+
+def test_008_wrapper_calibration_component_requires_complete_manifest():
+    manifest = {'calibrations': {f'{i}/{a}': {'status': 'QUALIFIED'}
+                               for i in (1, 2) for a in ('A2', 'A0', 'M')}}
+    assert a.calibration_status(manifest, [1, 2]) == {'A2': 'PASS', 'A0': 'PASS', 'M': 'PASS'}
+    manifest['calibrations']['1/M']['status'] = 'FAILED'
+    assert a.calibration_status(manifest, [1, 2])['M'] == 'CALIBRATION_BLOCKED'
+    del manifest['calibrations']['1/M']
+    with pytest.raises(ValueError, match='COMPLETE_CALIBRATION'):
+        a.calibration_status(manifest, [1, 2])
