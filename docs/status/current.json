@@ -402,11 +402,11 @@
       "owner_type": "maintainer",
       "external_blocker": null,
       "resume_trigger": null,
-      "next_gate": "004 draft PR owner disposition with separate exact-head review/hosted receipts; qualified comparator unlocks a separately authorized matched comparison, with production raw-state/observer qualification still required. Figures 3/4 remain failed and Figure 5 incomplete; no automatic successor.",
-      "acceptance_evidence": "Historical 001/002/003 evidence unchanged. docs/analysis/model_grudeva2026_bed_accuracy_004/RESULTS.json: COMPARATOR_NUMERICALLY_QUALIFIED_ON_DECLARED_CASES after correction of short-age bed reconstruction; all original gates pass. No production comparison; PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+      "next_gate": "Owner disposition on draft PR #333 at d4462d7ccaa8454babf114855fcf430a74daa3f4: FULL_REFERENCE_QUALIFICATION_INCOMPLETE after saved-payload mismatch; retain its execution restrictions and unresolved integrity stop. Grudeva 008/009 comparisons are merged; do not restart them. No automatic successor.",
+      "acceptance_evidence": "PRs #326/#330/#331 are merged. Comparator qualification and matched/publication comparisons are retained in their original result records. Draft #333 remains open and unmerged at the reviewed head; this status reconciliation does not alter its evidence or establish host reliability. PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
       "issue_or_pr": "#67",
       "verified_commit": null,
-      "verified_date": "2026-10-07"
+      "verified_date": "2026-10-14"
     },
     {
       "id": "model-pannusch2024-temp-history-001",
