@@ -30,6 +30,10 @@ listed here wins.
 
 ## Review inputs (recommendations only)
 
+- [Prospective decision-resolution supplement](governance/DECISION_RESOLUTION_POLICY.md) —
+  proposed G1 policy, opt-in helper and synthetic verification; owner acceptance and
+  merge pending, with no historical re-adjudication or production adoption.
+
 - [Updated independent review of thresholds, capabilities and development priorities,
   9 October 2026](research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md) —
   owner-supplied second-pass review. Filing this document does not supersede the
