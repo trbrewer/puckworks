@@ -348,3 +348,12 @@ A future authorization may impose stricter controls only when it states:
 In the absence of that explicit exception, this standard prevails over inherited stage-specific ceremony.
 
 This policy does not waive legal obligations, source-license restrictions, branch protection, or truthful reporting.
+
+## Prospective supplement under review
+
+[Decision-resolution policy](DECISION_RESOLUTION_POLICY.md) proposes a narrow G1
+extension separating contractual compliance, value relations, evidence resolution
+and practical value. It remains proposed until normal owner acceptance and merge;
+its opt-in synthetic implementation changes no historical contract or production
+default. Historical revisions of this standard remain authoritative for their
+cited cases.
