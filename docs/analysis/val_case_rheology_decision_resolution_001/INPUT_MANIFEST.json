@@ -1,0 +1,1646 @@
+{
+  "evidence": {
+    "commit": "4284e9460c8057053e95de7cfa2fb3590e68e9db",
+    "files": [
+      {
+        "path": "docs/analysis/sci_md_rheology_010/PROTOCOL.md",
+        "sha256": "9f2a26fbb69c126768a67f15919143a6d0e58f7956fc28a44fa5cc7d84722174"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/RESULT.md",
+        "sha256": "c4e3d78a8507d7195b9945606c42f0410a1147d6105bf4e82efbdeca13974460"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/METRICS.json",
+        "sha256": "a0bc4986348aafc90ae8d7a33a0b8162acd02f2688708f6b215340fded7b3c20"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+        "sha256": "2a5a0f353a70a015ac3fd4e8d4c7b4231bf29b543bb58be8b2151b003b91efc0"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/README.md",
+        "sha256": "05f041b4030967c6a91a642ff1425a51e1c3bd8424350f37cd7ab9857b678c79"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/REUSE.json",
+        "sha256": "03440af65c37afbabf3a94ab7feee631aaf69b8a16f6ec1270870b69847a79c5"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/AUDIT.json",
+        "sha256": "93411c6e8e29e801c191123de21908f483ec6d7604e674982a30e677deee62cf"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/ARTIFACT_RECEIPT.json",
+        "sha256": "e53eaa3eeb52a5d8b0ec2872ce285be1d9c8de3604e532984d58b5ca3143cf9a"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+        "sha256": "272e83982702f0309972d81596889f304eb4e21f27dee4bd8647485270bb490f"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/SUPPORT_RECEIPT.json",
+        "sha256": "df2165b125b76faa09fd6a86ddd4346de0b60693e8ef23e28b4f5c518a200597"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/FREEZE.json",
+        "sha256": "518920beb697fc93ea6279018df709dadf7520e45086be499697bbea9a6a27f9"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/CONTRACT.json",
+        "sha256": "78e782dd953be263e1b7673be9a7b19d8e982a23b0733039dfbcadce65a1bb90"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/REFERENCE_QUALIFICATION.json",
+        "sha256": "6a9e01c3a90d9c03b8489d15f3a02c86e8d2bc1a1890151ddf9af698702981f7"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/QUALIFICATION.json",
+        "sha256": "cab86e5b34c6462b6c6780b4ae57d400b420ac441146bd0a6c2942fc01ce64b6"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_010/SOURCE_USE.md",
+        "sha256": "ca63564c195a5f5b1eb7f7c0af294a7bd7c2ab67620f1b1df74f214165e4b4ec"
+      },
+      {
+        "path": "tools/sci_md_rheology_010/analyze.py",
+        "sha256": "d44a7cac609569f6ded47635e89aa61695924e280fa2256438f4fc1d89dcea4a"
+      },
+      {
+        "path": "tools/sci_md_rheology_010/common.py",
+        "sha256": "5f98a149e573da28a081aa5a614577695a60d0d09501ef64af02065dc8b3cf5c"
+      },
+      {
+        "path": "tools/sci_md_rheology_008/observer.py",
+        "sha256": "e5f4eab4f22ea10c4a119959bd3dab487482a80849a6c847b875439dc9b1cfdb"
+      },
+      {
+        "path": "tools/sci_md_rheology_008/arithmetic.py",
+        "sha256": "94e53ff8d7aa64bb611eb4f5532a9272c3b4add003a59c0a2adc67fda0fa85c6"
+      },
+      {
+        "path": "tools/sci_md_rheology_007/observer.py",
+        "sha256": "adcf82e33a6b7cfa8ef820f00f2643b033d980c72350c39800e977167c2f7367"
+      },
+      {
+        "path": "tools/sci_md_rheology_004/observer.py",
+        "sha256": "ed284d5e897549a0a058afaf1941b2a1bfe35c619fd3adc2bf8d56b11ea71514"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_007/RESULT.md",
+        "sha256": "28fc3862edfcce06a8dcf8fafb979249c42248f8bec4faa1a14f9d82d5b37f78"
+      },
+      {
+        "path": "docs/analysis/sci_md_rheology_011/RESULT.md",
+        "sha256": "9861db290ad20389407f5286c391ad5115cae894dbe636292c0156cd8405a737"
+      },
+      {
+        "path": "docs/validation/VALIDATION_OPERATING_STANDARD_V1.md",
+        "sha256": "1655e033a29570f71412ea065298f18c6227c40d7567c682ee6340ae6cf3bcc0"
+      },
+      {
+        "path": "docs/validation/VALIDATION_REVIEW_CHECKLIST_V1.md",
+        "sha256": "40672a07fc85828d66168a4bcc3aa666434e5baaa4f71d8ed4b9858e30285543"
+      }
+    ],
+    "repository": "https://github.com/trbrewer/espresso-whole-pull",
+    "tree": "d9d9faaa56f22ab0bd7f47c43174024d15ada192"
+  },
+  "policy": {
+    "acceptance_receipts": [
+      {
+        "author": "trbrewer",
+        "body_sha256": "cb90daed3e34ab279351ae2473b376674411a99e7eaca681a4b91e375010f5f1",
+        "created_at": "2026-10-15T13:14:49Z",
+        "updated_at": "2026-10-15T13:14:49Z",
+        "url": "https://github.com/trbrewer/puckworks/pull/335#issuecomment-6192947145"
+      },
+      {
+        "author": "trbrewer",
+        "body_sha256": "8ad35fb0941e84b0f939e77a90ba450efed3a4a899e4ae8d7a4e98861f395470",
+        "created_at": "2026-10-15T13:16:12Z",
+        "updated_at": "2026-10-15T13:16:12Z",
+        "url": "https://github.com/trbrewer/puckworks/pull/335#issuecomment-6192974851"
+      },
+      {
+        "author": "trbrewer",
+        "body_sha256": "c757ca8a41ac1a755680dea8703724bd36212dd1cd366224d9cc76769e5a3b17",
+        "created_at": "2026-10-15T13:44:08Z",
+        "updated_at": "2026-10-15T13:44:08Z",
+        "url": "https://github.com/trbrewer/puckworks/pull/335#issuecomment-6193554365"
+      }
+    ],
+    "accepted_head": "8cd54290f4a927b046f2da43447c1d864e95b2dd",
+    "authority": "Later owner acceptance and actual merge, independently authorized retrospective case",
+    "commit": "882584d110e1356091435ab8b002fb9abdd35ad6",
+    "files": [
+      {
+        "path": "docs/governance/DECISION_RESOLUTION_POLICY.md",
+        "sha256": "db16e68aa0e7fbdb37bfb455c39455928115af65c207fc43ec133424cd72a552"
+      },
+      {
+        "path": "puckworks/validation/decision_resolution.py",
+        "sha256": "d9c3d2a6e949e1f617e813dab12680dff58acdd1e4904178910739d4876e7d90"
+      },
+      {
+        "path": "docs/governance/MINIMUM_NECESSARY_GOVERNANCE_STANDARD.md",
+        "sha256": "f2250c36133b71d927b9f0cf77db38ba0c2a1561fe6d5a8029250df5f78995c5"
+      },
+      {
+        "path": "docs/analysis/val_infra_decision_resolution_001/HANDOFF.md",
+        "sha256": "90fd79a51579c3134d582a4d2ef655c703a89f8e7d4f117fac3f4ce72482026c"
+      },
+      {
+        "path": "docs/research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md",
+        "sha256": "21ea048798cdfad4af6374a83caacc3f3e5386d80588f36a8283ed56acf314c6"
+      }
+    ],
+    "repository": "https://github.com/trbrewer/puckworks",
+    "tree": "7741920d87c813658941ebc26869c2af19807fad",
+    "version": "DECISION_RESOLUTION_POLICY/v1-proposed"
+  },
+  "population": [
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/E_Qint",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/E_Qint",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/E_Qint",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/E_Qint",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/E_Qint"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qint/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/E_Qint",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Qint",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/E_Qint",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/E_Qint",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/E_Qint",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/E_Qint",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/E_Qint"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/E_Qpeak",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/E_Qpeak",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/E_Qpeak",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/E_Qpeak",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/E_Qpeak"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Qpeak/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/E_Qpeak",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Qpeak",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/E_Qpeak",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/E_Qpeak",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/E_Qpeak",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/E_Qpeak",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/E_Qpeak"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/D_share_mean_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/D_share_mean_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/D_share_mean_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/D_share_mean_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/D_share_mean_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_mean_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/D_share_mean_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_share_mean_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/D_share_mean_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/D_share_mean_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/D_share_mean_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/D_share_mean_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/D_share_mean_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/D_share_peak_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/D_share_peak_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/D_share_peak_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/D_share_peak_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/D_share_peak_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_share_peak_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/D_share_peak_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_share_peak_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/D_share_peak_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/D_share_peak_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/D_share_peak_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/D_share_peak_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/D_share_peak_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/E_Spath",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/E_Spath",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/E_Spath",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/E_Spath",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/E_Spath",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/E_Spath",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/E_Spath",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/E_Spath",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/E_Spath",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/D_TDS_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/D_TDS_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/D_TDS_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/D_TDS_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/SW_WATER_ANCHORED_90C_DOWN/D_TDS_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/D_TDS_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/base/D_TDS_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/property/D_TDS_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/D_TDS_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/E_Qint",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/E_Qint",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/E_Qint",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/E_Qint",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/E_Qint"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qint/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/E_Qint",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Qint",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/E_Qint",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/E_Qint",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/E_Qint",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/E_Qint",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/E_Qint"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/E_Qpeak",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/E_Qpeak",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/E_Qpeak",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/E_Qpeak",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/E_Qpeak"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Qpeak/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/E_Qpeak",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Qpeak",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/E_Qpeak",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/E_Qpeak",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/E_Qpeak",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/E_Qpeak",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/E_Qpeak"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/D_share_mean_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/D_share_mean_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/D_share_mean_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/D_share_mean_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/D_share_mean_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_mean_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/D_share_mean_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_share_mean_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/D_share_mean_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/D_share_mean_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/D_share_mean_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/D_share_mean_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/D_share_mean_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/D_share_peak_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/D_share_peak_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/D_share_peak_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/D_share_peak_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/D_share_peak_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_share_peak_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/D_share_peak_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_share_peak_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/D_share_peak_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/D_share_peak_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/D_share_peak_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/D_share_peak_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/D_share_peak_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/E_Spath",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/E_Spath",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/E_Spath",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/E_Spath",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/E_Spath",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/E_Spath",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/E_Spath",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/E_Spath",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/E_Spath",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/D_TDS_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/D_TDS_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/D_TDS_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/D_TDS_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_E2_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/budget",
+        "decision": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/terms",
+        "u_total": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/u_total",
+        "units": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/units",
+        "value": "/primary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/SW_WATER_ANCHORED_90C_UP/D_TDS_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/axial/D_TDS_pp",
+        "base": "/primary/SW_WATER_ANCHORED_90C_UP/variants/base/D_TDS_pp",
+        "property": "/primary/SW_WATER_ANCHORED_90C_UP/variants/property/D_TDS_pp",
+        "radial": "/primary/SW_WATER_ANCHORED_90C_UP/variants/radial/D_TDS_pp",
+        "temporal": "/primary/SW_WATER_ANCHORED_90C_UP/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/E_Qint",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/E_Qint",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/E_Qint",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/E_Qint"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/E_Qint",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/E_Qint/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/E_Qint",
+      "law": "TR_LINEAR",
+      "metric": "E_Qint",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/E_Qint",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/E_Qint",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/E_Qint",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/E_Qint"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/E_Qpeak",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/E_Qpeak",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/E_Qpeak",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/E_Qpeak"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/E_Qpeak/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/E_Qpeak",
+      "law": "TR_LINEAR",
+      "metric": "E_Qpeak",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/E_Qpeak",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/E_Qpeak",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/E_Qpeak",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/E_Qpeak"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/D_share_mean_pp",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/D_share_mean_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/D_share_mean_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/D_share_mean_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/D_share_mean_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/D_share_mean_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_share_mean_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/D_share_mean_pp",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/D_share_mean_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/D_share_mean_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/D_share_mean_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/D_share_peak_pp",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/D_share_peak_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/D_share_peak_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/D_share_peak_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/D_share_peak_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/D_share_peak_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_share_peak_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/D_share_peak_pp",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/D_share_peak_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/D_share_peak_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/D_share_peak_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/E_Spath",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/E_Spath",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/E_Spath",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/E_Spath/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/E_Spath",
+      "law": "TR_LINEAR",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/E_Spath",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/E_Spath",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/E_Spath",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/arithmetic/axial/D_TDS_pp",
+        "base": "/primary/TR_LINEAR_DOWN/arithmetic/base/D_TDS_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/arithmetic/radial/D_TDS_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/new_E2_TR_LINEAR_DOWN_axial",
+        "/new_E2_TR_LINEAR_DOWN_base",
+        "/new_E2_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/budget",
+        "decision": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/terms",
+        "u_total": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/u_total",
+        "units": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/units",
+        "value": "/primary/TR_LINEAR_DOWN/decisions/D_TDS_pp/value"
+      },
+      "group": "primary",
+      "history": "DOWN",
+      "id": "primary/TR_LINEAR_DOWN/D_TDS_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_DOWN/variants/axial/D_TDS_pp",
+        "base": "/primary/TR_LINEAR_DOWN/variants/base/D_TDS_pp",
+        "radial": "/primary/TR_LINEAR_DOWN/variants/radial/D_TDS_pp",
+        "temporal": "/primary/TR_LINEAR_DOWN/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/E_Qint",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/E_Qint",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/E_Qint",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/E_Qint"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/E_Qint",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/E_Qint/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/E_Qint/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/E_Qint/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/E_Qint/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/E_Qint/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/E_Qint/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/E_Qint/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/E_Qint",
+      "law": "TR_LINEAR",
+      "metric": "E_Qint",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/E_Qint",
+        "base": "/primary/TR_LINEAR_UP/variants/base/E_Qint",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/E_Qint",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/E_Qint"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/E_Qpeak",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/E_Qpeak",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/E_Qpeak",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/E_Qpeak"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/E_Qpeak",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/E_Qpeak/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/E_Qpeak",
+      "law": "TR_LINEAR",
+      "metric": "E_Qpeak",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/E_Qpeak",
+        "base": "/primary/TR_LINEAR_UP/variants/base/E_Qpeak",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/E_Qpeak",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/E_Qpeak"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/D_share_mean_pp",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/D_share_mean_pp",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/D_share_mean_pp",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/D_share_mean_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/D_share_mean_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/D_share_mean_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_share_mean_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/D_share_mean_pp",
+        "base": "/primary/TR_LINEAR_UP/variants/base/D_share_mean_pp",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/D_share_mean_pp",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/D_share_mean_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/D_share_peak_pp",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/D_share_peak_pp",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/D_share_peak_pp",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/D_share_peak_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/D_share_peak_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/D_share_peak_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_share_peak_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/D_share_peak_pp",
+        "base": "/primary/TR_LINEAR_UP/variants/base/D_share_peak_pp",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/D_share_peak_pp",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/D_share_peak_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/E_Spath",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/E_Spath",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/E_Spath",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/E_Spath/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/E_Spath/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/E_Spath/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/E_Spath/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/E_Spath/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/E_Spath/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/E_Spath/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/E_Spath",
+      "law": "TR_LINEAR",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/E_Spath",
+        "base": "/primary/TR_LINEAR_UP/variants/base/E_Spath",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/E_Spath",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/arithmetic/axial/D_TDS_pp",
+        "base": "/primary/TR_LINEAR_UP/arithmetic/base/D_TDS_pp",
+        "radial": "/primary/TR_LINEAR_UP/arithmetic/radial/D_TDS_pp",
+        "temporal": "/primary/TR_LINEAR_UP/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_E2 versus new_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/new_E2_TR_LINEAR_UP_axial",
+        "/new_E2_TR_LINEAR_UP_base",
+        "/new_E2_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/budget",
+        "decision": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/terms",
+        "u_total": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/u_total",
+        "units": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/units",
+        "value": "/primary/TR_LINEAR_UP/decisions/D_TDS_pp/value"
+      },
+      "group": "primary",
+      "history": "UP",
+      "id": "primary/TR_LINEAR_UP/D_TDS_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/primary/TR_LINEAR_UP/variants/axial/D_TDS_pp",
+        "base": "/primary/TR_LINEAR_UP/variants/base/D_TDS_pp",
+        "radial": "/primary/TR_LINEAR_UP/variants/radial/D_TDS_pp",
+        "temporal": "/primary/TR_LINEAR_UP/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/E_Spath",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/E_Spath",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/E_Spath",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/E_Spath",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/budget",
+        "decision": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/decision",
+        "evidence_complete": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/evidence_complete",
+        "terms": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/terms",
+        "u_total": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/u_total",
+        "units": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/units",
+        "value": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/E_Spath/value"
+      },
+      "group": "secondary",
+      "history": "DOWN",
+      "id": "secondary/SW_WATER_ANCHORED_90C_DOWN/E_Spath",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/E_Spath",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/base/E_Spath",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/property/E_Spath",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/E_Spath",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/axial/D_TDS_pp",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/base/D_TDS_pp",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/property/D_TDS_pp",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/radial/D_TDS_pp",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_DOWN/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_DOWN_temporal",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_axial",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_base",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_property",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_radial",
+        "/old_C_SW_WATER_ANCHORED_90C_DOWN_temporal"
+      ],
+      "decision_pointer": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/budget",
+        "decision": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/terms",
+        "u_total": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/u_total",
+        "units": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/units",
+        "value": "/secondary/SW_WATER_ANCHORED_90C_DOWN/decisions/D_TDS_pp/value"
+      },
+      "group": "secondary",
+      "history": "DOWN",
+      "id": "secondary/SW_WATER_ANCHORED_90C_DOWN/D_TDS_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/axial/D_TDS_pp",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/base/D_TDS_pp",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/property/D_TDS_pp",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/radial/D_TDS_pp",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_DOWN/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/E_Spath",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/E_Spath",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/E_Spath",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/E_Spath",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/budget",
+        "decision": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/decision",
+        "evidence_complete": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/evidence_complete",
+        "terms": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/terms",
+        "u_total": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/u_total",
+        "units": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/units",
+        "value": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/E_Spath/value"
+      },
+      "group": "secondary",
+      "history": "UP",
+      "id": "secondary/SW_WATER_ANCHORED_90C_UP/E_Spath",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/axial/E_Spath",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/base/E_Spath",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/property/E_Spath",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/radial/E_Spath",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/axial/D_TDS_pp",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/base/D_TDS_pp",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/property/D_TDS_pp",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/radial/D_TDS_pp",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_UP/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/new_C_SW_WATER_ANCHORED_90C_UP_temporal",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_axial",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_base",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_property",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_radial",
+        "/old_C_SW_WATER_ANCHORED_90C_UP_temporal"
+      ],
+      "decision_pointer": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/budget",
+        "decision": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/terms",
+        "u_total": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/u_total",
+        "units": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/units",
+        "value": "/secondary/SW_WATER_ANCHORED_90C_UP/decisions/D_TDS_pp/value"
+      },
+      "group": "secondary",
+      "history": "UP",
+      "id": "secondary/SW_WATER_ANCHORED_90C_UP/D_TDS_pp",
+      "law": "SW_WATER_ANCHORED_90C",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/axial/D_TDS_pp",
+        "base": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/base/D_TDS_pp",
+        "property": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/property/D_TDS_pp",
+        "radial": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/radial/D_TDS_pp",
+        "temporal": "/secondary/SW_WATER_ANCHORED_90C_UP/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/TR_LINEAR_DOWN/arithmetic/axial/E_Spath",
+        "base": "/secondary/TR_LINEAR_DOWN/arithmetic/base/E_Spath",
+        "radial": "/secondary/TR_LINEAR_DOWN/arithmetic/radial/E_Spath",
+        "temporal": "/secondary/TR_LINEAR_DOWN/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/old_C_TR_LINEAR_DOWN_axial",
+        "/old_C_TR_LINEAR_DOWN_base",
+        "/old_C_TR_LINEAR_DOWN_radial",
+        "/old_C_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/budget",
+        "decision": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/decision",
+        "evidence_complete": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/evidence_complete",
+        "terms": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/terms",
+        "u_total": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/u_total",
+        "units": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/units",
+        "value": "/secondary/TR_LINEAR_DOWN/decisions/E_Spath/value"
+      },
+      "group": "secondary",
+      "history": "DOWN",
+      "id": "secondary/TR_LINEAR_DOWN/E_Spath",
+      "law": "TR_LINEAR",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/secondary/TR_LINEAR_DOWN/variants/axial/E_Spath",
+        "base": "/secondary/TR_LINEAR_DOWN/variants/base/E_Spath",
+        "radial": "/secondary/TR_LINEAR_DOWN/variants/radial/E_Spath",
+        "temporal": "/secondary/TR_LINEAR_DOWN/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/TR_LINEAR_DOWN/arithmetic/axial/D_TDS_pp",
+        "base": "/secondary/TR_LINEAR_DOWN/arithmetic/base/D_TDS_pp",
+        "radial": "/secondary/TR_LINEAR_DOWN/arithmetic/radial/D_TDS_pp",
+        "temporal": "/secondary/TR_LINEAR_DOWN/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_DOWN_axial",
+        "/new_C_TR_LINEAR_DOWN_base",
+        "/new_C_TR_LINEAR_DOWN_radial",
+        "/new_C_TR_LINEAR_DOWN_temporal",
+        "/old_C_TR_LINEAR_DOWN_axial",
+        "/old_C_TR_LINEAR_DOWN_base",
+        "/old_C_TR_LINEAR_DOWN_radial",
+        "/old_C_TR_LINEAR_DOWN_temporal"
+      ],
+      "decision_pointer": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/budget",
+        "decision": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/terms",
+        "u_total": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/u_total",
+        "units": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/units",
+        "value": "/secondary/TR_LINEAR_DOWN/decisions/D_TDS_pp/value"
+      },
+      "group": "secondary",
+      "history": "DOWN",
+      "id": "secondary/TR_LINEAR_DOWN/D_TDS_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/DOWN",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/secondary/TR_LINEAR_DOWN/variants/axial/D_TDS_pp",
+        "base": "/secondary/TR_LINEAR_DOWN/variants/base/D_TDS_pp",
+        "radial": "/secondary/TR_LINEAR_DOWN/variants/radial/D_TDS_pp",
+        "temporal": "/secondary/TR_LINEAR_DOWN/variants/temporal/D_TDS_pp"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/TR_LINEAR_UP/arithmetic/axial/E_Spath",
+        "base": "/secondary/TR_LINEAR_UP/arithmetic/base/E_Spath",
+        "radial": "/secondary/TR_LINEAR_UP/arithmetic/radial/E_Spath",
+        "temporal": "/secondary/TR_LINEAR_UP/arithmetic/temporal/E_Spath"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/old_C_TR_LINEAR_UP_axial",
+        "/old_C_TR_LINEAR_UP_base",
+        "/old_C_TR_LINEAR_UP_radial",
+        "/old_C_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/secondary/TR_LINEAR_UP/decisions/E_Spath",
+      "field_pointers": {
+        "budget": "/secondary/TR_LINEAR_UP/decisions/E_Spath/budget",
+        "decision": "/secondary/TR_LINEAR_UP/decisions/E_Spath/decision",
+        "evidence_complete": "/secondary/TR_LINEAR_UP/decisions/E_Spath/evidence_complete",
+        "terms": "/secondary/TR_LINEAR_UP/decisions/E_Spath/terms",
+        "u_total": "/secondary/TR_LINEAR_UP/decisions/E_Spath/u_total",
+        "units": "/secondary/TR_LINEAR_UP/decisions/E_Spath/units",
+        "value": "/secondary/TR_LINEAR_UP/decisions/E_Spath/value"
+      },
+      "group": "secondary",
+      "history": "UP",
+      "id": "secondary/TR_LINEAR_UP/E_Spath",
+      "law": "TR_LINEAR",
+      "metric": "E_Spath",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "fraction",
+      "variant_pointers": {
+        "axial": "/secondary/TR_LINEAR_UP/variants/axial/E_Spath",
+        "base": "/secondary/TR_LINEAR_UP/variants/base/E_Spath",
+        "radial": "/secondary/TR_LINEAR_UP/variants/radial/E_Spath",
+        "temporal": "/secondary/TR_LINEAR_UP/variants/temporal/E_Spath"
+      }
+    },
+    {
+      "arithmetic_pointers": {
+        "axial": "/secondary/TR_LINEAR_UP/arithmetic/axial/D_TDS_pp",
+        "base": "/secondary/TR_LINEAR_UP/arithmetic/base/D_TDS_pp",
+        "radial": "/secondary/TR_LINEAR_UP/arithmetic/radial/D_TDS_pp",
+        "temporal": "/secondary/TR_LINEAR_UP/arithmetic/temporal/D_TDS_pp"
+      },
+      "comparison": "new_C versus old_C",
+      "coverage_file": "docs/analysis/sci_md_rheology_010/COVERAGE.json",
+      "coverage_pointers": [
+        "/new_C_TR_LINEAR_UP_axial",
+        "/new_C_TR_LINEAR_UP_base",
+        "/new_C_TR_LINEAR_UP_radial",
+        "/new_C_TR_LINEAR_UP_temporal",
+        "/old_C_TR_LINEAR_UP_axial",
+        "/old_C_TR_LINEAR_UP_base",
+        "/old_C_TR_LINEAR_UP_radial",
+        "/old_C_TR_LINEAR_UP_temporal"
+      ],
+      "decision_pointer": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp",
+      "field_pointers": {
+        "budget": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/budget",
+        "decision": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/decision",
+        "evidence_complete": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/evidence_complete",
+        "terms": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/terms",
+        "u_total": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/u_total",
+        "units": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/units",
+        "value": "/secondary/TR_LINEAR_UP/decisions/D_TDS_pp/value"
+      },
+      "group": "secondary",
+      "history": "UP",
+      "id": "secondary/TR_LINEAR_UP/D_TDS_pp",
+      "law": "TR_LINEAR",
+      "metric": "D_TDS_pp",
+      "metric_file": "docs/analysis/sci_md_rheology_010/METRICS.json",
+      "support_file": "docs/analysis/sci_md_rheology_010/SUPPORT.json",
+      "support_pointer": "/B_star_kg/UP",
+      "units": "percentage_points",
+      "variant_pointers": {
+        "axial": "/secondary/TR_LINEAR_UP/variants/axial/D_TDS_pp",
+        "base": "/secondary/TR_LINEAR_UP/variants/base/D_TDS_pp",
+        "radial": "/secondary/TR_LINEAR_UP/variants/radial/D_TDS_pp",
+        "temporal": "/secondary/TR_LINEAR_UP/variants/temporal/D_TDS_pp"
+      }
+    }
+  ],
+  "puckworks_base": "882584d110e1356091435ab8b002fb9abdd35ad6",
+  "task": "VAL-CASE-RHEOLOGY-DECISION-RESOLUTION-001"
+}

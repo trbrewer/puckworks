@@ -42,6 +42,8 @@ listed here wins.
 
 ## Bounded retrospective analysis
 
+- [RHEOLOGY-010 decision-resolution addendum](analysis/val_case_rheology_decision_resolution_001/RESULTS.md) — all 32 historical decisions preserved; precision eligibility and empirical numerical sensitivity reported separately, with no physical-validation or adoption claim.
+
 - [MASS-006/007/008 uncertainty and physical-shot sensitivity](analysis/sci_md_mass_uncertainty_001/RESULTS.md) — unchanged predictions, original outcomes retained; no threshold-policy change or production adoption.
 
 ## Vocabulary (no bare "DONE")

@@ -1,0 +1,72 @@
+{
+  "task": "VAL-CASE-RHEOLOGY-DECISION-RESOLUTION-001",
+  "fixture_origin": "Independent nonhuman specification before retained-case evaluation; expectations derived by hand, without importing the implementation under test or any historical scorer.",
+  "scope": "Synthetic contract and evidence-handling fixtures only; no retained RHEOLOGY-010 numerical results were evaluated.",
+  "number_encoding": "JSON numbers decode to binary64. An object with binary64_hex supplies an exact float.fromhex input. Objects with special denote invalid-input test tokens, not JSON nonfinite numbers.",
+  "default_units": "fraction",
+  "boundary_rationale": "For b=10 the inclusive precision ceiling is exactly 2. With u=2: M=7 has U=9<10; M=8 touches U=10; M=10 overlaps [8,12]; M=12 touches L=10; M=13 has L=11>10. The next binary64 number above 2 is 0x1.0000000000001p+1 and is ineligible without tolerance. Every equality remains historically UNRESOLVED. A complete numerical sensitivity envelope is diagnostic even when precision eligibility fails.",
+  "cases": [
+    {"id":"primary_strict_satisfaction","input":{"question":"primary","M":7,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"PASS","precision_eligible":true,"envelope_relation":"ENTIRELY_BELOW","L":5,"U":9,"precision_headroom":0}},
+    {"id":"primary_strict_failure","input":{"question":"primary","M":13,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"FAIL","precision_eligible":true,"envelope_relation":"ENTIRELY_ABOVE","L":11,"U":15,"precision_headroom":0}},
+    {"id":"primary_upper_boundary_equality","input":{"question":"primary","M":8,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":6,"U":10}},
+    {"id":"primary_lower_boundary_equality","input":{"question":"primary","M":12,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":10,"U":14}},
+    {"id":"primary_both_boundaries_equality","input":{"question":"primary","M":10,"u":0,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":10,"U":10}},
+    {"id":"primary_genuine_overlap","input":{"question":"primary","M":10,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":8,"U":12}},
+    {"id":"primary_immediately_above_precision_ceiling","input":{"question":"primary","M":7,"u":{"binary64_hex":"0x1.0000000000001p+1"},"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":false,"envelope_relation":"ENTIRELY_BELOW"}},
+    {"id":"primary_stable_above_precision_failure","input":{"question":"primary","M":13,"u":{"binary64_hex":"0x1.0000000000001p+1"},"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":false,"envelope_relation":"ENTIRELY_ABOVE"}},
+    {"id":"secondary_strict_materiality","input":{"question":"secondary","M":13,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"MATERIAL_MODELED_DELIVERY_CONTRAST","precision_eligible":true,"envelope_relation":"ENTIRELY_ABOVE","L":11,"U":15,"precision_headroom":0}},
+    {"id":"secondary_below_budget","input":{"question":"secondary","M":7,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"BELOW_DECLARED_MATERIALITY_BUDGET","precision_eligible":true,"envelope_relation":"ENTIRELY_BELOW","L":5,"U":9,"precision_headroom":0}},
+    {"id":"secondary_lower_boundary_equality","input":{"question":"secondary","M":12,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":10,"U":14}},
+    {"id":"secondary_upper_boundary_equality","input":{"question":"secondary","M":8,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":6,"U":10}},
+    {"id":"secondary_both_boundaries_equality","input":{"question":"secondary","M":10,"u":0,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":10,"U":10}},
+    {"id":"secondary_genuine_overlap","input":{"question":"secondary","M":10,"u":2,"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":true,"envelope_relation":"OVERLAPPING_OR_TOUCHING","L":8,"U":12}},
+    {"id":"secondary_stable_above_precision_failure","input":{"question":"secondary","M":13,"u":{"binary64_hex":"0x1.0000000000001p+1"},"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":false,"envelope_relation":"ENTIRELY_ABOVE"}},
+    {"id":"secondary_stable_below_precision_failure","input":{"question":"secondary","M":7,"u":{"binary64_hex":"0x1.0000000000001p+1"},"b":10,"evidence_complete":true},"expected":{"historical_decision":"UNRESOLVED","precision_eligible":false,"envelope_relation":"ENTIRELY_BELOW"}}
+  ],
+  "invalid_cases": [
+    {"id":"nonfinite_magnitude","replace":{"M":{"special":"NaN"}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"infinite_allowance","replace":{"u":{"special":"Infinity"}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"infinite_budget","replace":{"b":{"special":"Infinity"}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"negative_magnitude","replace":{"M":-1},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"negative_allowance","replace":{"u":-1},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"negative_budget","replace":{"b":-10},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"missing_mandatory_evidence","replace":{"evidence_complete":false},"expected":"HISTORICAL_UNRESOLVED_INTERPRETATION_UNAVAILABLE"},
+    {"id":"missing_magnitude","remove":"M","expected":"HISTORICAL_UNRESOLVED_INTERPRETATION_UNAVAILABLE"},
+    {"id":"missing_allowance","remove":"u","expected":"HISTORICAL_UNRESOLVED_INTERPRETATION_UNAVAILABLE"},
+    {"id":"incompatible_units","replace":{"metric_units":"fraction","allowance_units":"percentage_points"},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"missing_allowance_component","replace":{"terms":{"time":0.5,"axial":0.5,"Cradial":0.5,"property":0.5}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"negative_allowance_component","replace":{"terms":{"time":-0.5,"axial":0.5,"Cradial":0.5,"property":0.5,"arithmetic":1}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"component_sum_mismatch","replace":{"u":2,"terms":{"time":0.5,"axial":0.5,"Cradial":0.5,"property":0.5,"arithmetic":0.5}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"secondary_using_primary_radial_term","replace":{"question":"secondary","terms":{"time":0.5,"axial":0.5,"Cradial":0.5,"property":0.5,"arithmetic":0}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"primary_using_secondary_radial_term","replace":{"question":"primary","terms":{"time":0.5,"axial":0.5,"both_C_radial":0.5,"property":0.5,"arithmetic":0}},"expected":"NO_SUCCESSFUL_INTERPRETATION"},
+    {"id":"shortened_scored_support","replace":{"declared_B_star":"0.125","imported_B_star":"0.0625"},"expected":"NO_SUCCESSFUL_INTERPRETATION"}
+  ],
+  "invalid_case_base": {"question":"primary","M":7,"u":2,"b":10,"evidence_complete":true,"metric_units":"fraction","allowance_units":"fraction","terms":{"time":0.5,"axial":0.5,"Cradial":0.5,"property":0.5,"arithmetic":0},"declared_B_star":"0.125","imported_B_star":"0.125"},
+  "aggregate_cases": [
+    {"id":"complete_primary_success","decision_counts":{"PASS":24},"expected_total":24,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_SUFFICIENT_FOR_TESTED_OUTPUTS"},
+    {"id":"failure_precedes_unresolved","decision_counts":{"PASS":22,"FAIL":1,"UNRESOLVED":1},"expected_total":24,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_INSUFFICIENT"},
+    {"id":"failure_precedes_incomplete_population","decision_counts":{"PASS":21,"FAIL":1,"UNRESOLVED":1},"expected_total":23,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_INSUFFICIENT","population_check":"MISSING_DECISION_MUST_BE_DISCLOSED"},
+    {"id":"unresolved_sibling_retained","decision_counts":{"PASS":23,"UNRESOLVED":1},"expected_total":24,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_UNRESOLVED"},
+    {"id":"all_available_pass_is_not_complete","decision_counts":{"PASS":23},"expected_total":23,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_UNRESOLVED","population_check":"MISSING_DECISION_MUST_BE_DISCLOSED"},
+    {"id":"extra_pass_is_not_complete","decision_counts":{"PASS":25},"expected_total":25,"expected":"E2_CONDUCTANCE_MATCHED_REVERSAL_UNRESOLVED","population_check":"EXTRA_OR_DUPLICATE_DECISION_MUST_BE_DISCLOSED"}
+  ],
+  "population_requirements": {
+    "primary_count":24,
+    "secondary_count":8,
+    "law_histories":["SW_UP","SW_DOWN","TR_UP","TR_DOWN"],
+    "primary_metrics":["E_Qint","E_Qpeak","D_share_mean_pp","D_share_peak_pp","E_Spath","D_TDS_pp"],
+    "secondary_metrics":["E_Spath","D_TDS_pp"],
+    "identity":"question/law_history/metric",
+    "duplicate_identity":"MUST_BE_DISCLOSED_AND_CANNOT_YIELD_COMPLETE_SUCCESS",
+    "missing_identity":"MUST_BE_DISCLOSED_AND_CANNOT_DISAPPEAR",
+    "unresolved_row":"MUST_REMAIN_IN_ROW_AND_AGGREGATE_ACCOUNTING"
+  },
+  "structural_expectations": [
+    "Primary radial component changes C while E2 remains fixed; secondary radial component changes both C configurations.",
+    "Allowance components use the historical ordered arithmetic sum, never root-sum-of-squares.",
+    "Scored support is retained exactly; missing support cannot be repaired by shortening support.",
+    "Empirical sensitivity never becomes a certified bound; accepted-helper bound resolution remains separately represented.",
+    "All source paths are read-only inputs; no EWP scorer imports, source writes, native executions, or network calls occur during normal evaluation.",
+    "Identical inputs yield identical ordering and byte-identical deterministic serialization."
+  ]
+}
