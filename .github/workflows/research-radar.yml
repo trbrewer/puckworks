@@ -77,7 +77,7 @@ jobs:
           status="$(python -c "import json;print(json.load(open('out/radar/candidates.json'))['total_status'])")"
           echo "status=$status" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: radar-scan
           path: out/radar/
@@ -148,7 +148,7 @@ jobs:
                 "| body_bytes:", plan.get("body_bytes",0), "| target:", plan.get("existing_number"))
           PY
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: radar-plan
           path: out/plan.json
