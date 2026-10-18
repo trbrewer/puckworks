@@ -1,0 +1,131 @@
+{
+  "confirmed": {
+    "all_current_repository_manifest_commitments_match": true,
+    "all_seven_retained_input_hashes_match": true,
+    "completion_receipt_freeze_prediction_hash_chain_matches": true,
+    "equal_condition_weighting_after_deletion": true,
+    "finite_sensitivity_scope_explicit_not_certified_bound": true,
+    "four_model_json_file_bytes_match": true,
+    "hand_derived_synthetic_expectations_correct": true,
+    "historical_failure_precedence_and_strict_wins_preserved": true,
+    "historical_thresholds_not_replaced": true,
+    "intended_primary_deletions": 12,
+    "intended_temperature_deletions": 6,
+    "no_flow_deletions": true,
+    "prediction_support_windows_per_arm": 95,
+    "retained_concentration_and_total_allowance_used": true,
+    "same_four_arm_support": true,
+    "shared_unsupported_condition": "PRED-C07",
+    "shared_unsupported_fraction": 10,
+    "shared_unsupported_reason": "OUTSIDE_COMMON_TRAINING_MASS_DOMAIN",
+    "shots_per_condition": 3,
+    "source_derived_CC_BY_NC_3_0_separate_from_software": true,
+    "source_observations": 96,
+    "source_observations_all_valid": true,
+    "unknown_assay_training_and_transfer_uncertainty_separate": true
+  },
+  "findings": [
+    {
+      "affected_scientific_evidence": false,
+      "classification": "METADATA_OR_REPORTING_DEFECT",
+      "finding": "Initial manifest accidentally included puckworks/models/__init__.py in historical_model_file_sha256, with historical rather than current bytes. It is not one of the four model JSONs.",
+      "id": "PRE-01",
+      "resolution": "Author removed the registry file entry before this review receipt; four remaining model-file commitments were independently verified.",
+      "status": "RESOLVED"
+    }
+  ],
+  "fits": 0,
+  "helper_sha256": "d9c3d2a6e949e1f617e813dab12680dff58acdd1e4904178910739d4876e7d90",
+  "historical_arithmetic_source_sha256": "9e660b7c2ff6d65d2770a0caa2195ee084e768c5195fc42ffa01f081b851f989",
+  "historical_lifecycle_invocations": 0,
+  "implementation_checks_for_final_review": [
+    "No automatic assumption that retained-shot support counts reveal the unsupported fraction without crosswalk; present crosswalk here permits exact identification.",
+    "Helper sensitivity declaration must retain actual scenario set as estimand and membership maps; cannot attach deletion metrics to original complete population.",
+    "Report original forced relative FAIL only in original historical decision; diagnostic deletions must not be published as replacement A/B/C/D.",
+    "Public JSON must exclude keyed per-deletion means and individual shot metrics, including nested helper evidence.",
+    "All 18 declared deletion results and every paired shot comparison must be retained privately, including adverse outcomes."
+  ],
+  "independently_specified_extra_synthetic_cases": {
+    "bias_averaging": {
+      "mean_absolute_bias": 0.5,
+      "mean_signed_bias": 0,
+      "shot_signed_biases": [
+        0.5,
+        -0.5
+      ]
+    },
+    "definite_win_touching": {
+      "candidate_R": 0.25,
+      "candidate_u_R": 0.125,
+      "definite": false,
+      "possible": true,
+      "reference_R": 0.5,
+      "reference_u_R": 0.125
+    },
+    "deletion_weighting": {
+      "condition_metrics": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ]
+      ],
+      "deleted_value": 1,
+      "expected_balanced_R": 3.75,
+      "incorrect_pooled_R": 4.0
+    },
+    "win_count_states": [
+      {
+        "D": 2,
+        "P": 2,
+        "k": 3,
+        "status": "FAIL"
+      },
+      {
+        "D": 2,
+        "P": 3,
+        "k": 3,
+        "status": "NUMERICALLY_UNRESOLVED"
+      },
+      {
+        "D": 3,
+        "P": 3,
+        "k": 3,
+        "status": "PASS"
+      }
+    ]
+  },
+  "native_ewp_runs": 0,
+  "native_simulations": 0,
+  "policy_sha256": "db16e68aa0e7fbdb37bfb455c39455928115af65c207fc43ec133424cd72a552",
+  "pre_analysis_new_sensitivity_calculations": 0,
+  "prediction_generation": 0,
+  "process_note": "An initial AGENTS/CLAUDE filename-discovery command was broader than needed and returned unrelated instruction-file paths. No unrelated file contents or scientific evidence were read; subsequent reads were task-local and explicitly named.",
+  "retained_artifact_reads": "Read-only named run and its bound public authorities; inspected schema, identity, support, byte hashes and receipt chain, without computing sensitivity outcomes.",
+  "review_stage": "INDEPENDENT_NONHUMAN_PRE_ANALYSIS_REVIEW",
+  "review_utc": "2026-10-18T16:14:44.261060+00:00",
+  "reviewed_specification_sha256": {
+    "INPUT_MANIFEST.json": "204c309c75274037a35b97f9cd3ad02819bdccdc0e8950692b500bb207925ee8",
+    "PROTOCOL.md": "dba9f432e4f902e50bc93e28ec34cea272e09405eff94c072742ff42c1ec3927",
+    "SYNTHETIC_SPEC.md": "638709722ce8d497d40b3c7b990e13712a6ef578d03c59883f61617e2bf80941"
+  },
+  "reviewer": "Independent delegated Codex agent /root/independent_caffeine_review; not implementation author; not a human reviewer",
+  "scope": [
+    "Historical metric/allowance mapping and decision boundary semantics",
+    "Frozen primary and stress membership; paired whole-shot deletion design",
+    "Support distinctions, incomplete full-scope lower bounds, and subset retention",
+    "Case-local adapter versus unchanged helper compatibility and finite scenario scope",
+    "Evidence byte commitments, receipt/freeze chain and full retained artifact availability",
+    "Public/private reconstruction risk, source rights, adverse comparisons and claim limits",
+    "Independent manual derivation of all synthetic numeric expectations"
+  ],
+  "status": "PASS",
+  "task": "VAL-CASE-CAFFEINE-DECISION-RESOLUTION-001",
+  "underlying_source_workbooks_opened": false,
+  "unresolved_blocking_findings": []
+}
