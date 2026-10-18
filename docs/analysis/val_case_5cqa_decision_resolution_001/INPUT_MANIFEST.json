@@ -1,0 +1,71 @@
+{
+  "base_commit": "43ec258c3db49ff76cfb89e0ea27bc55ad8d2bae",
+  "base_tree": "fb33bdf2ea4c9c749c9e114182ea1d0a12472a6e",
+  "core_artifacts": [
+    "shot_results.json",
+    "scores.json",
+    "freeze.json",
+    "score_receipt.json",
+    "score_completion.json"
+  ],
+  "ewp_read_only_commit": "4284e9460c8057053e95de7cfa2fb3590e68e9db",
+  "ewp_tree": "d9d9faaa56f22ab0bd7f47c43174024d15ada192",
+  "historical_producer": "fbac5634d0c90bf36ac557297ddacf4d7142f916",
+  "historical_tree": "beae94a6430de645695e4db8fbf5f7b92731feb8",
+  "input_byte_sha256": {
+    "freeze.json": "90b1156e06f8c5a51b8027846a01b630302733bed6941ad20e45c49eeefab73e",
+    "observed_suffix.json": "11e06caa366505fafc0f15bf58bf291f5128df1b0232363b534e605495134936",
+    "predictions.json": "c571a4f690c3f81960b25f6b9fe406183626fe0ed3bbe78ba95d6e54f9b30864",
+    "score_completion.json": "47003a831052bdb62c1564efb853320e9caf44dcacad63258537d8ce877f0603",
+    "score_receipt.json": "6d0b1e003229bc46e54cc67c9a1aed3e898779f7fc0fff014d8398f75e00c588",
+    "scores.json": "8e5383f61e32d67a422737f025b52a8ecf0b61f00b267e7ce946385a12c32b39",
+    "shot_results.json": "63c371793e5469c8477528504e16e3824d59a3188fa14fd5d37b0be3cdb2fcd6",
+    "states.json": "b76e93720ec01876ba381e0eefd4c6d1e9e09966efcbf30f306bcc6e15d11ccc"
+  },
+  "intake_at_declaration": {
+    "all_eight_named_files_present_and_hash_matched": true,
+    "historical_result_exposure": true,
+    "initial_instruction_discovery": "A broad AGENTS/CLAUDE path search returned unrelated filenames only; subsequent intake limited to named files.",
+    "new_empirical_reductions": 0,
+    "private_locator_record": "intake-locators.json outside Git"
+  },
+  "optional_artifacts": [
+    "predictions.json",
+    "observed_suffix.json",
+    "states.json"
+  ],
+  "policy_acceptance": {
+    "merge": "882584d110e1356091435ab8b002fb9abdd35ad6",
+    "pr": 335,
+    "version": "DECISION_RESOLUTION_POLICY/v1-proposed"
+  },
+  "public_copy_mapping": {
+    "freeze.json": "FREEZE.json",
+    "score_completion.json": "SCORE_COMPLETION.json",
+    "score_receipt.json": "SCORE_RECEIPT.json",
+    "scores.json": "RESULTS.json"
+  },
+  "repository_file_byte_sha256": {
+    "docs/analysis/sci_md_5cqa_assay_002/FREEZE.json": "90b1156e06f8c5a51b8027846a01b630302733bed6941ad20e45c49eeefab73e",
+    "docs/analysis/sci_md_5cqa_assay_002/HANDOFF.md": "ccfcf85a88138ea6263bda9c739516a8ab8e954d37320383a4eaa1b664a8c7d9",
+    "docs/analysis/sci_md_5cqa_assay_002/INDEPENDENT_APPROVAL.json": "cdc0ca9e0014530b218b51326841c83c461c2c19a5e28921c0ad9063f4a2847b",
+    "docs/analysis/sci_md_5cqa_assay_002/INFORMATION_CONTRACT.json": "604ba3609544edea30e3d57b14507c698d369ce2432d9965d18571dcbad6d894",
+    "docs/analysis/sci_md_5cqa_assay_002/PROTOCOL.md": "1d3e01e77b93b1caa0455696936ea27a1383e230e2ee647609250f39adc1c4ef",
+    "docs/analysis/sci_md_5cqa_assay_002/REPRODUCE.md": "e7d2e8bb62918e7c87da32e8c919ff5e499dc92e43b9b04ef4417ed5cdbf14d1",
+    "docs/analysis/sci_md_5cqa_assay_002/RESULTS.json": "8e5383f61e32d67a422737f025b52a8ecf0b61f00b267e7ce946385a12c32b39",
+    "docs/analysis/sci_md_5cqa_assay_002/RESULTS.md": "c34eae1cff3f76a33d9bb3a92cabafaba3207144d4289c65aeed50f905730e76",
+    "docs/analysis/sci_md_5cqa_assay_002/SCORE_COMPLETION.json": "47003a831052bdb62c1564efb853320e9caf44dcacad63258537d8ce877f0603",
+    "docs/analysis/sci_md_5cqa_assay_002/SCORE_RECEIPT.json": "6d0b1e003229bc46e54cc67c9a1aed3e898779f7fc0fff014d8398f75e00c588",
+    "docs/governance/DECISION_RESOLUTION_POLICY.md": "db16e68aa0e7fbdb37bfb455c39455928115af65c207fc43ec133424cd72a552",
+    "docs/research/ESPRESSO_THRESHOLD_AND_CAPABILITY_REVIEW_2026-10-09.md": "21ea048798cdfad4af6374a83caacc3f3e5386d80588f36a8283ed56acf314c6",
+    "puckworks/analysis/pannusch_conditional_5cqa_delivery.py": "6ba1ea612589a9c10296b0f046962e915677a211e698912164c6b727b0edec7d",
+    "puckworks/analysis/pannusch_early_assay_5cqa_delivery.py": "f893704e4f69f0797b407cb10f2dc4000718d2f7f7bc8b844aa2e5174ffcdc42",
+    "puckworks/validation/decision_resolution.py": "d9c3d2a6e949e1f617e813dab12680dff58acdd1e4904178910739d4876e7d90"
+  },
+  "source_ids": [
+    "pannusch2024/experimental_kinetics",
+    "schmieder2023/raw_fractions"
+  ],
+  "source_qualification": "Reused historical 42 of 45 FIT qualification; no workbooks reopened",
+  "task": "VAL-CASE-5CQA-DECISION-RESOLUTION-001"
+}

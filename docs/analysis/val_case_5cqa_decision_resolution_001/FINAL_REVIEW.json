@@ -1,0 +1,122 @@
+{
+  "analytical_uncertainty": "NOT_ESTABLISHED",
+  "automatic_successor": false,
+  "confirmed": {
+    "adverse_temperature_L12_L1M_baseline_and_C04_preserved": true,
+    "all_eight_named_retained_input_hashes_unchanged": true,
+    "all_final_primary_comparisons_fail": true,
+    "all_primary_arms_remain_inadequate_in_all_deletions": true,
+    "both_primary_L12_gains_and_lower_endpoints_positive_in_all_12_deletions": true,
+    "detailed_flags_and_private_deletion_counts_verified": true,
+    "finite_sensitivity_not_population_or_certified_bound": true,
+    "historical_metric_decision_reproduction_exact": true,
+    "no_causal_diagnosis_equivalence_or_absence_of_benefit_claim": true,
+    "no_private_shot_or_deletion_vectors_in_public_projection": true,
+    "original_flow_denominator_and_incomplete_support_distinctions_preserved": true,
+    "primary_L2M_L1M_gain_sign_unstable": true,
+    "public_projection_byte_identical": true,
+    "signed_B_A_and_squared_mean_error_contribution_kept_distinct": true,
+    "temperature_L12_L2M_gain_and_contributions_positive_in_all_6_deletions": true,
+    "temperature_L2M_L1M_gain_negative_in_all_6_deletions": true
+  },
+  "historical_scorer_and_helper_hashes": {
+    "puckworks/analysis/pannusch_conditional_5cqa_delivery.py": "6ba1ea612589a9c10296b0f046962e915677a211e698912164c6b727b0edec7d",
+    "puckworks/analysis/pannusch_early_assay_5cqa_delivery.py": "f893704e4f69f0797b407cb10f2dc4000718d2f7f7bc8b844aa2e5174ffcdc42",
+    "puckworks/validation/decision_resolution.py": "d9c3d2a6e949e1f617e813dab12680dff58acdd1e4904178910739d4876e7d90"
+  },
+  "identity_basis": "Exact bytes of implementation, specification and actual result files; reporting files were not yet committed when reviewed. Subsequent draft PR and hosted CI metadata are separate.",
+  "independent_actual_audit": {
+    "all_private_results_inspected": true,
+    "counts": {
+      "exact_checks": 429,
+      "exact_rational_aggregate_enclosures": 120,
+      "exact_rational_contribution_enclosures": 1080,
+      "fraction_shots": 72,
+      "numerical_checks": 4976,
+      "paired_comparisons": 60,
+      "primary_arm_inadequacy": 39,
+      "raw_JSON_states": 72,
+      "scenarios": 20
+    },
+    "historical_lifecycle_calls": 0,
+    "maximum_absolute_difference": 1.6653345369377348e-16,
+    "maximum_difference_scaled_by_max_1_abs_expected": 1.6653345369377348e-16,
+    "model_fits": 0,
+    "new_predictions": 0,
+    "review_method": "Independent standard-library math.fsum and exact-rational arithmetic; no reducer or historical scorer import",
+    "source_writes": 0,
+    "status": "PASS"
+  },
+  "independent_elementary_interval_checks": {
+    "exact_rational_cases": 49,
+    "status": "PASS",
+    "zero_denominator_cases": 3
+  },
+  "merge_authorized": false,
+  "physical_validation": "NOT_ESTABLISHED",
+  "private_review_artifact_sha256": {
+    "independent-intake-audit.json": "936925add77b8604fa804a1e17e2c34648a10b448a9c8081f9f2e2a377ad01c8",
+    "independent-synthetic-interval-audit.json": "24e02dc270a570a9004a973a6c599a8ff95ba13863eada191be802ee6b912ce0",
+    "independent_actual_audit.json": "65286a48e727531fa0ac2f1d3370fd4f76068eb87942d407fbf8b9fa4a3ecd50",
+    "independent_actual_audit.log": "0c642507d7b0aee1ac7ab5bf3676febba7e956183c47223e649dda53a5424f35",
+    "independent_audit.py": "6afba02f5149178e6aff6c220ae77bbcef2bf6df50003d999f55aade1dd4c97c"
+  },
+  "production_adoption_authorized": false,
+  "prose_finalization": {
+    "additional_scientific_audits": 0,
+    "additional_scientific_reductions": 0,
+    "change": "Replaced source-independent declaration with analysis specification and explicit prior-exposure disclosure.",
+    "current_readable_sha256": "4fa78fae66611d454d671357352fad2d08e561d30e25e9d1136dbacfef882264",
+    "handoff_checked": "Scientific findings, numerical counts and limitations agree with reviewed evidence; broader local/hosted checks remain separately reported.",
+    "previous_readable_sha256": "250c44b5f280df0143b3a9a89b8dd09df3e0a0aec31e59f08318c68d6791c290",
+    "reviewed_at_utc": "2026-10-18T20:01:58.442798+00:00",
+    "scientific_artifacts_unchanged": true,
+    "unresolved_findings": []
+  },
+  "qa_scope": "Reviewer ran the 55 new source-independent tests and independent arithmetic audit. Broader repository checks, hosted CI and PR metadata are recorded separately in handoff; this is not human review or scientific validation upgrade.",
+  "resolved_pre_execution_observations": [
+    {
+      "resolution": "Direct authenticated fraction/core arithmetic disagreement explicitly blocks core reliance; optional missing or hash-mismatched files remain scoped. No actual retained disagreement occurred.",
+      "topic": "shared-evidence contradiction versus optional-only limitation"
+    }
+  ],
+  "review_scope": [
+    "declared method and source-independent tests",
+    "named retained artifact admission and historical identity links",
+    "all actual private baseline/deletion outcomes and numerical enclosures",
+    "optional fraction and raw JSON extrapolation checks",
+    "public JSON projection, readable scientific claims and reproduction instructions"
+  ],
+  "reviewed_at_utc": "2026-10-18T20:00:49.441831+00:00",
+  "reviewed_file_sha256": {
+    "docs/analysis/val_case_5cqa_decision_resolution_001/HANDOFF.md": "4ea1c06864558dc4d70e9776ef492eabde9378d0a7b244f6c44fa3073fd8df06",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/INPUT_MANIFEST.json": "12a55f0a2c887ba18504af70ca9cc457a29f520b8e25186df11353f4e83710b1",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/PROTOCOL.md": "720f55801005431a4ecf259e45cc39b8e4b7db698498e204a58058152462f167",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/REPRODUCE.md": "0b794eea32029ff33a9c4572aa13b1d2ad0576d26a4c38074bb6bd8d8e6c574d",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/RESULTS.json": "d4f6877a2a89cc41979153c006b114ca6ae263930a27ad14d17bf315e3d13436",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/RESULTS.md": "4fa78fae66611d454d671357352fad2d08e561d30e25e9d1136dbacfef882264",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/SYNTHETIC_SPEC.md": "60be6a8c2c84f841436ea86fdfeccd81091bd00b6aed590853b38eec83e492ad",
+    "puckworks/analysis/five_cqa_decision_resolution.py": "db165d432e6eb423ead3cb0f0d4db2b21ec72458665e398adfbf3b241d9984e8",
+    "tests/test_five_cqa_decision_resolution.py": "a878a88019138aa5de0735d98eeceb1d5144356e2d2a3a0c2891cd3b5125a43e"
+  },
+  "reviewed_private_output_sha256": {
+    "INPUT_LOCATORS.json": "e50ff07fd628429a3b58d5b53ef0d4f76b85a26ebbe9c07d80e1a87e5695336f",
+    "PRIVATE_RESULTS.json": "6bc2685766a51bdd808012e7889097e83c0aa654edd9acf06c98aa5e2f7fee04",
+    "RESULTS.json": "d4f6877a2a89cc41979153c006b114ca6ae263930a27ad14d17bf315e3d13436",
+    "completion.json": "de3f0ec547ac1a4dd1be22edd1f2d7c4bee9a63542e4834f5f260c0f82b51ea9"
+  },
+  "reviewer": "/root/independent_5cqa_review",
+  "reviewer_executed_tests": {
+    "command": "python -m pytest -q tests/test_five_cqa_decision_resolution.py",
+    "duration_seconds": 0.91,
+    "exit_code": 0,
+    "passed": 55,
+    "source_independent": true
+  },
+  "reviewer_kind": "INDEPENDENT_NONHUMAN_AGENT_NOT_IMPLEMENTATION_AUTHOR",
+  "specification_commit": "4a330d6ebd5fc425d18061f0cfb20c15c2153508",
+  "specification_tree": "16e363aa0b5ac8af312bfd1c87c8cfb7e2380e04",
+  "status": "PASS",
+  "task": "VAL-CASE-5CQA-DECISION-RESOLUTION-001",
+  "unresolved_blocking_findings": []
+}
