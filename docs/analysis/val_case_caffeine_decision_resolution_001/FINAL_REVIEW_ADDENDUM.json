@@ -1,0 +1,57 @@
+{
+  "automatic_successor": false,
+  "classification": "SOFTWARE_ASSEMBLY_DEFECT_WITH_UNCHANGED_ARITHMETIC",
+  "correction": "Explicit mapping selects RESULTS.json, SCORE_COMPLETION.json and SCORE_RECEIPT.json. Existing present-but-mismatched private files still cannot silently fall back.",
+  "final_private_output_binding": {
+    "INPUT_LOCATORS.json": "9d46a9b5504c251e06f8d2c73b9c611ed6eacadde840a327b1d69058765069ac",
+    "PRIVATE_RESULTS.json": "72fbb6c969052b80d03595c552ab73ec79c8306de29c316e816e41ee00946dce",
+    "completion.json": "65865baf19878a15ea96ea3cc8ee943a46ae3a69fdad184135061a3867fd714d"
+  },
+  "finding": "Public fallback uppercased the entire filename, producing nonexistent SCORE_COMPLETION.JSON and SCORE_RECEIPT.JSON when the private receipt files were absent.",
+  "identity_basis": "Exact changed-file bytes before correction commit; final handoff binds ensuing candidate commit/tree.",
+  "merge_authorized": false,
+  "physical_validation": "NOT_ESTABLISHED",
+  "prior_private_review_sha256": "dae32159b2b236c5fc305b05c2a4a57264c9a0fd8b0e964d4620d9b2cefd56c6",
+  "prior_public_review_sha256": "75e096d6790decdc583478a069b3e0706fdbacbb088b5fcfb1b88e1f8770faa5",
+  "production_adoption_authorized": false,
+  "qa_limit": "183 affected tests and broader QA/hosted CI remain separately recorded handoff evidence; reviewer independently executed the focused 33-test suite.",
+  "review_actions": {
+    "fits": 0,
+    "historical_score_lifecycle_invocations": 0,
+    "native_ewp_runs": 0,
+    "native_simulations": 0,
+    "predictions": 0,
+    "source_writes": 0
+  },
+  "review_stage": "BOUNDED_IMPLEMENTATION_CORRECTION_ADDENDUM",
+  "review_utc": "2026-10-18T16:35:16.460783+00:00",
+  "reviewed_file_sha256": {
+    "docs/analysis/val_case_caffeine_decision_resolution_001/HANDOFF.md": "f55401b56a344c69810fe03d4d8146eda0d4c4f2cc3aace897b658f86f3fcacf",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/RESULTS.json": "b76b428448f3b1bf8cd3eae78b647dca88e856a6ea6d0aa8be74f61460d80cb2",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/RESULTS.md": "9dbf3426b564ccedd9d8d1935ef3f7073768c11249710443d8a66c1b75c0bc37",
+    "puckworks/analysis/caffeine_decision_resolution.py": "366a40ac8be28a34b294adfd696dabf0fab364f01c47bea9ccefd24c926e7f2d",
+    "tests/test_caffeine_decision_resolution.py": "3d488d361c6ad8158e116cb61498810458ecee5ee23bdc2e4c72164e58480bb0"
+  },
+  "reviewed_parent_head": "f3f77594caa4396bd3a438a29402537f74ee6972",
+  "reviewer": "Independent delegated Codex agent /root/independent_caffeine_review; not implementation author or human reviewer",
+  "reviewer_executed_tests": {
+    "command": "python -m pytest tests/test_caffeine_decision_resolution.py -q",
+    "exit_code": 0,
+    "new_test": "test_public_receipt_fallback_when_private_run_is_unmounted",
+    "result": "33 passed in 0.59s"
+  },
+  "scope": "Review only the demonstrated fallback mapping correction, its regression test, unchanged scientific artifacts, updated public implementation binding and handoff metadata. Prior complete scientific review is reused by unchanged hashes.",
+  "status": "PASS",
+  "task": "VAL-CASE-CAFFEINE-DECISION-RESOLUTION-001",
+  "unchanged_evidence": {
+    "historical_evidence_and_decisions": true,
+    "input_locators_byte_identical": true,
+    "only_public_results_changed_key": "implementation_sha256",
+    "private_results_byte_identical": true,
+    "protocol_manifest_synthetic_specification": true,
+    "public_results_byte_identical_to_final_retained_analysis_004": true,
+    "public_scientific_values_and_conclusions_identical": true,
+    "readable_scientific_report_byte_identical": true
+  },
+  "unresolved_blocking_findings": []
+}

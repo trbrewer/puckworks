@@ -267,3 +267,13 @@ def test_window_pairing_uses_all_slots_and_same_arm_masks():
     with pytest.raises(ValueError): c.window_pairing(obs,bad)
     bad=deepcopy(predictions);bad['S1'][0]['allowance_kg']=-1
     with pytest.raises(ValueError): c.window_pairing(obs,bad)
+
+
+def test_public_receipt_fallback_when_private_run_is_unmounted(tmp_path):
+    # Public byte commitments only: no restricted inputs or scientific reduction.
+    data, available, _ = c.admit(tmp_path, c.Inputs())
+    for name in ('scores.json', 'score_completion.json', 'score_receipt.json'):
+        assert available[name]['status'] == 'ADMITTED'
+        assert name in data
+    assert available['shot_results.json']['status'] == 'UNAVAILABLE'
+    assert 'shot_results.json' not in data

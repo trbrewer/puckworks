@@ -25,9 +25,9 @@ entire queues. The [results](RESULTS.md) retain adverse and conditional findings
   Historical evaluated producer `3389f8f4d41cfcbb965e38e9ceaed0840f9a41ea`,
   tree `10be5a877c75a6476ad32c610a7ac4fc8f71deb3` remains distinct from this addendum.
 - Executed addendum module SHA-256:
-  `edc50fbc007abf5779ba5d260677fdde967eb10dc747659244b7f53f4513da5d`.
+  `366a40ac8be28a34b294adfd696dabf0fab364f01c47bea9ccefd24c926e7f2d`.
 - Public RESULTS.json SHA-256:
-  `e877285a209d31edefedddae8b0dfd17b42a4e9ed841ca9811b1fdc0466daba0`.
+  `b76b428448f3b1bf8cd3eae78b647dca88e856a6ea6d0aa8be74f61460d80cb2`.
 
 [INPUT_MANIFEST.json](INPUT_MANIFEST.json) records exact repository and admitted
 artifact byte identities, the four model-file hashes separately from embedded
@@ -70,8 +70,9 @@ identities/qualification are reused from the bound historical records. This is
 retained-source evidence, not new source qualification or independent replication.
 
 External evidence bundle label: **caffeine-decision-resolution-001-private**,
-final deterministic execution **analysis-002**; **analysis-003** is the identical
-repeat. Its private `INPUT_LOCATORS.json` contains the exact local input locators;
+final execution **analysis-004**.
+**analysis-002/003** are byte-identical repeats before the receipt-filename
+correction; all four executions have identical scientific and private results. Its private `INPUT_LOCATORS.json` contains the exact local input locators;
 its `PRIVATE_RESULTS.json` contains every paired shot comparison, all baselines,
 all 12 primary and six temperature deletion records, actual changed membership,
 scenario-specific allowances, condition contrasts, helper scopes, reconstructed
@@ -133,17 +134,23 @@ Independent final nonhuman review: [receipt](FINAL_REVIEW.json), PASS, no
 unresolved material findings. It independently checked 15,110 numerical values
 and 1,566 exact comparisons, all 96 arm/shot fraction reconstructions, 72 paired
 shot contrasts, 21 scenarios and 32 variability cells; reviewer tests: 32 passed.
-The public receipt redacts only the local interpreter path and binds its retained
+The [bounded correction addendum](FINAL_REVIEW_ADDENDUM.json) binds the final
+code/tests/RESULTS.json after a public-receipt filename correction; no scientific
+value changed. Reviewer final focused suite: 33 passed. The public receipt redacts only the local interpreter path and binds its retained
 private original. All private outcomes were reviewed. This is not human approval
 or scientific validation.
 
-Executed focused checks: 150 baseline tests passed, then 32 new synthetic tests;
-182 affected tests passed together. Repository Ruff, maintained mypy (19 modules),
+Executed focused checks: 150 baseline tests passed, then 32 new synthetic tests plus one public-receipt fallback check;
+183 affected tests passed together. Repository Ruff, maintained mypy (19 modules),
 status, README governance, generated registry artifacts and Paper 3 build checks
 passed. Analysis-001 completed; analysis-002 adds explicit canonical coordinate
 crosswalk checks and exact unsupported-shot identity without changing scientific
-values; analysis-003 is byte-identical to analysis-002. All prior outputs are
-preserved. Full ordinary QA and candidate-specific hosted CI outcomes are recorded
+values; analysis-003 is byte-identical to analysis-002. Analysis-004 fixes fallback
+lookup of public SCORE_COMPLETION.json/SCORE_RECEIPT.json when private receipts
+are absent; the previous uppercase .JSON suffix was wrong. This never affected
+the admitted private run. Only the implementation hash changes in public JSON;
+all scientific and private results remain identical. The added regression check
+and independent bounded review pass. All prior outputs are preserved. Full ordinary QA and candidate-specific hosted CI outcomes are recorded
 in the final candidate-bound PR receipt; a running check is not reported as PASS.
 No selector, threshold, coverage floor, timeout or protection rule was changed.
 

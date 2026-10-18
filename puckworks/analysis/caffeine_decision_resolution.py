@@ -504,7 +504,8 @@ def admit(directory, tracker):
     for name, h in expected.items():
         path = directory/name
         if not path.exists() and name in ('scores.json', 'score_completion.json', 'score_receipt.json'):
-            path = HISTORY/({'scores.json': 'RESULTS.json'}.get(name, name.upper()))
+            path = HISTORY/{'scores.json': 'RESULTS.json', 'score_completion.json': 'SCORE_COMPLETION.json',
+                            'score_receipt.json': 'SCORE_RECEIPT.json'}[name]
         try:
             data[name] = tracker.json(path, h)
             availability[name] = {'status': 'ADMITTED', 'sha256': h}
