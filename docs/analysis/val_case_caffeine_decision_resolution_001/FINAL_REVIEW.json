@@ -1,0 +1,170 @@
+{
+  "automatic_successor": false,
+  "base": "79852f11073ef92041edff5ae0e951603084c706",
+  "confirmed": {
+    "S1_primary_relative_component_met_in_10_of_12_diagnostic_deletions": true,
+    "adverse_C02_C05_and_D0_stress_results_preserved": true,
+    "all_32_variability_cells_retain_source_observation_and_scoring_support_counts": true,
+    "all_five_evidence_components_complete": true,
+    "every_primary_deletion_absolute_gain_below_original_0_10_mg_g": true,
+    "every_primary_deletion_point_and_allowance_lower_gain_positive_for_all_three_comparators": true,
+    "every_private_scenario_has_own_allowances_and_correct_actual_membership": true,
+    "finite_sensitivity_helper_not_certified_bound_or_contractual_PASS": true,
+    "full_flow_incomplete_supported_subset_keeps_all_six_shots": true,
+    "historical_code_policy_helper_and_scientific_artifacts_unchanged": true,
+    "no_equivalence_absence_of_benefit_new_condition_or_whole_cup_claim": true,
+    "no_keyed_deletion_means_or_individual_metrics_in_public_projection": true,
+    "original_and_reproduced_values_exactly_equal_in_execution_environment": true,
+    "original_condition_lower_bounds_and_incomplete_C07_preserved": true,
+    "original_decision_vector": {
+      "A": "PASS",
+      "B": "FAIL",
+      "C": "FAIL",
+      "D": "FAIL"
+    },
+    "original_disposition": "SIMPLER_CAFFEINE_PREDICTOR_ADEQUATE_NO_EARNED_COMPLEXITY",
+    "original_primary_adequacy": {
+      "D0": "PASS",
+      "S0": "PASS",
+      "S1": "PASS",
+      "S2": "PASS"
+    },
+    "practical_value_unestablished_without_intended_use_criterion": true,
+    "sample_SD_not_assay_repeatability_or_total_uncertainty": true,
+    "source_attribution_and_noncommercial_rights_separate_from_software": true,
+    "source_valid_outside_domain_observation_not_promoted_to_scoring_support": true,
+    "temperature_D0_sign_counts": {
+      "negative": 3,
+      "positive": 3,
+      "zero": 0
+    },
+    "temperature_S1_S0_all_six_gains_and_lower_endpoints_positive": true
+  },
+  "delta_review": {
+    "analysis_002_input_locators_identical": true,
+    "analysis_002_private_results_identical_to_fully_checked_analysis_001": true,
+    "canonical_coordinate_query_crosswalk_independently_verified": true,
+    "complete_slots_checked": 96,
+    "public_changed_keys": [
+      "implementation_sha256",
+      "unsupported_slot"
+    ],
+    "public_projection_byte_identical_to_analysis_002": true,
+    "unsupported_identity": "PRED-E07-R1 / PRED-C07 / fraction 10"
+  },
+  "exhaustive_independent_arithmetic": {
+    "all_private_results_checked": true,
+    "checks": {
+      "exact_comparisons": 1566,
+      "fraction_shots": 96,
+      "numeric_comparisons": 15110,
+      "paired_shots": 72,
+      "scenarios": 21,
+      "variability_cells": 32
+    },
+    "fits": 0,
+    "historical_lifecycle_invocations": 0,
+    "maximum_difference_scaled_by_max_1_abs_expected": 4.274540262933294e-16,
+    "maximum_independent_arithmetic_absolute_difference": 8.881784197001252e-16,
+    "native_simulations": 0,
+    "original_increment_components_independently_verified": true,
+    "predictions": 0,
+    "public_baselines_sign_counts_arm_ranges_verified": true,
+    "review_method": "Independent standard-library math.fsum/statistics arithmetic; no implementation or scorer import",
+    "status": "PASS"
+  },
+  "helper_sha256": "d9c3d2a6e949e1f617e813dab12680dff58acdd1e4904178910739d4876e7d90",
+  "historical_scoring_source_sha256": "9e660b7c2ff6d65d2770a0caa2195ee084e768c5195fc42ffa01f081b851f989",
+  "identity_basis": "Exact files in reviewed worktree; implementation and result files not yet committed at review. Final handoff must bind ensuing candidate commit/tree. No reliance on unstaged HEAD tree for these new files.",
+  "independent_review_artifact_sha256": {
+    "PRE_ANALYSIS_REVIEW.json": "1ba3602a5c73922bfb5e7f89e6abc6894e6ac011b55b100cecd1675508a875d1",
+    "independent_final_check.py": "d4faa9c9e23a5d7c681aa926fb98151363ce61968ed4df5160baaf88703a60d0",
+    "independent_final_check_results.json": "2e81bca617fddcb4aa24be805faab69ebe4ffca685a3a89ca505c567f5bf1997"
+  },
+  "merge_authorized": false,
+  "original_private_receipt_sha256": "dae32159b2b236c5fc305b05c2a4a57264c9a0fd8b0e964d4620d9b2cefd56c6",
+  "physical_validation": "NOT_ESTABLISHED",
+  "policy_merge_acceptance": "882584d110e1356091435ab8b002fb9abdd35ad6 / PR #335",
+  "policy_sha256": "db16e68aa0e7fbdb37bfb455c39455928115af65c207fc43ec133424cd72a552",
+  "production_adoption_authorized": false,
+  "protocol_freeze_commit": "8fd0483448cac73df8511e6c9efd0d7e69926510",
+  "qa_scope": "Focused tests executed by reviewer; broader ordinary QA/static/hosted CI are separate handoff evidence and are not claimed complete by this review receipt.",
+  "retained_evidence_sha256": {
+    "coordinates.json": {
+      "sha256": "7cf2df82fcd3aa0a5a91f69b38d6f265a67117c9b733fdee71ce9fb9f11a96cd",
+      "status": "ADMITTED"
+    },
+    "freeze.json": {
+      "sha256": "de43273e864a6c3f25778d2f08672e943141100aa360650e48ef97d7309e03bc",
+      "status": "ADMITTED"
+    },
+    "observed_suffix.json": {
+      "sha256": "cfe9869563278fefcc3c86136d0572d1aef759844d77e2293ba03beeb43ccf44",
+      "status": "ADMITTED"
+    },
+    "predictions.json": {
+      "sha256": "7e561efc9661c1eba07bdde27fe4eacb26dfc8acc4d37240cdd2e5bbeeca154f",
+      "status": "ADMITTED"
+    },
+    "queries.json": {
+      "sha256": "596d81d6f7245767635ab7c30431cbd8ee1d5b8f62cfe47d3c74e8f96e92bbf0",
+      "status": "ADMITTED"
+    },
+    "score_completion.json": {
+      "sha256": "ad5485b82c920dd59615a0d22a755f3b838b240c0d0ea41031186de5d116809c",
+      "status": "ADMITTED"
+    },
+    "score_receipt.json": {
+      "sha256": "123702efd694252ada6527b258fdb0f6086071948e28bf53d17446f0786babe9",
+      "status": "ADMITTED"
+    },
+    "scores.json": {
+      "sha256": "f42708bb45acbdd3b637fc6db28c5236ff7e973c02dd5c489ea9f9c2569e7c06",
+      "status": "ADMITTED"
+    },
+    "shot_results.json": {
+      "sha256": "01bd61d6af8403219071b80d094967211a06e196a8ed57dc1fb71fda9d2bb756",
+      "status": "ADMITTED"
+    },
+    "source.json": {
+      "sha256": "a9faf576e37edd971941a2805c1d0aae1bbbde87de500b6f0d5940b1cd4da440",
+      "status": "ADMITTED"
+    }
+  },
+  "review_actions": {
+    "historical_score_lifecycle_invocations": 0,
+    "native_ewp_runs": 0,
+    "native_simulations": 0,
+    "new_model_fits": 0,
+    "new_predictions": 0,
+    "source_workbook_reads": 0,
+    "source_writes": 0
+  },
+  "review_scope": "Binding, historical reproduction, actual retained evidence, every private comparison/deletion, public arithmetic/claims, relevant coordinate delta, and focused synthetic tests. No model validation upgrade or merge approval.",
+  "review_utc": "2026-10-18T16:27:01.923141+00:00",
+  "reviewed_private_output_sha256": {
+    "INPUT_LOCATORS.json": "9d46a9b5504c251e06f8d2c73b9c611ed6eacadde840a327b1d69058765069ac",
+    "PRIVATE_RESULTS.json": "72fbb6c969052b80d03595c552ab73ec79c8306de29c316e816e41ee00946dce",
+    "RESULTS.json": "e877285a209d31edefedddae8b0dfd17b42a4e9ed841ca9811b1fdc0466daba0",
+    "completion.json": "f0cbe4cd998753a7e4539d51e2be302573cfa70065914aef18eebc52f3300515"
+  },
+  "reviewed_public_and_source_sha256": {
+    "docs/analysis/val_case_caffeine_decision_resolution_001/INPUT_MANIFEST.json": "204c309c75274037a35b97f9cd3ad02819bdccdc0e8950692b500bb207925ee8",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/PROTOCOL.md": "dba9f432e4f902e50bc93e28ec34cea272e09405eff94c072742ff42c1ec3927",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/RESULTS.json": "e877285a209d31edefedddae8b0dfd17b42a4e9ed841ca9811b1fdc0466daba0",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/RESULTS.md": "9dbf3426b564ccedd9d8d1935ef3f7073768c11249710443d8a66c1b75c0bc37",
+    "docs/analysis/val_case_caffeine_decision_resolution_001/SYNTHETIC_SPEC.md": "638709722ce8d497d40b3c7b990e13712a6ef578d03c59883f61617e2bf80941",
+    "puckworks/analysis/caffeine_decision_resolution.py": "edc50fbc007abf5779ba5d260677fdde967eb10dc747659244b7f53f4513da5d",
+    "tests/test_caffeine_decision_resolution.py": "5a2ed4c2d1819ccb5c309094ed06a2c82a10bd42cec3eb50247707988e971e8b"
+  },
+  "reviewer": "Independent delegated Codex agent /root/independent_caffeine_review; not implementation author; not human review",
+  "reviewer_executed_tests": {
+    "command": "python -m pytest tests/test_caffeine_decision_resolution.py -q",
+    "exit_code": 0,
+    "result": "32 passed in 0.58s"
+  },
+  "stage": "INDEPENDENT_NONHUMAN_FINAL_REVIEW",
+  "status": "PASS",
+  "task": "VAL-CASE-CAFFEINE-DECISION-RESOLUTION-001",
+  "unresolved_blocking_findings": []
+}
