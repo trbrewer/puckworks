@@ -1,0 +1,112 @@
+{
+  "base_commit": "43ec258c3db49ff76cfb89e0ea27bc55ad8d2bae",
+  "base_tree": "fb33bdf2ea4c9c749c9e114182ea1d0a12472a6e",
+  "environment": {
+    "dependency_changes": false,
+    "existing_environment_reused": true,
+    "numpy": "2.5.2",
+    "python": "3.12.3",
+    "scipy": "1.18.0"
+  },
+  "hosted_ci": {
+    "local_checks_are_not_hosted_ci": true,
+    "status": "SEPARATELY_REPORTED_AT_DRAFT_PR_HEAD"
+  },
+  "independent_review": "INDEPENDENT_REVIEW.md and FINAL_REVIEW.json; scientific audit PASS, separate from software and hosted CI",
+  "post_empirical_corrections": [
+    "Report wording clarified analysis specification and disclosed prior exposure; no scientific value or method change."
+  ],
+  "pre_empirical_corrections": [
+    "Unused synthetic-test import removed after preliminary lint finding.",
+    "Initial commit failed for missing Git identity; existing Codex identity supplied per-command. No global configuration changed."
+  ],
+  "private_public_boundary": "Only baseline condition/panel aggregates and complete-family deletion ranges/counts published; shot rows, complete deletion vectors, condition-deletion values/extrema, residuals, locators and logs remain private.",
+  "retained_prior_check_logs": {
+    "affected-001.log": "4b67af8e2d459404cf81b9cb1610a4ce8985ba609e9c798580c03ebdb0ca7d47",
+    "focused-001.log": "8a21c81dbe43ac7bcd0159a8337c1624a73e4114369c4cbda2f923c9e476b7ee",
+    "focused-002.log": "3f64bdca9f35477d9fd46501bf2075141fc42ebee56604700fd424707c5f0323",
+    "focused-003.log": "0307ffd78c6cb80f3c7f1924f32badd2ef24e10cae0c31ea5cfe0edb4bc9987c"
+  },
+  "scientific_artifact_sha256": {
+    "docs/analysis/val_case_5cqa_decision_resolution_001/INPUT_MANIFEST.json": "12a55f0a2c887ba18504af70ca9cc457a29f520b8e25186df11353f4e83710b1",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/PROTOCOL.md": "720f55801005431a4ecf259e45cc39b8e4b7db698498e204a58058152462f167",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/RESULTS.json": "d4f6877a2a89cc41979153c006b114ca6ae263930a27ad14d17bf315e3d13436",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/RESULTS.md": "4fa78fae66611d454d671357352fad2d08e561d30e25e9d1136dbacfef882264",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/SYNTHETIC_SPEC.md": "60be6a8c2c84f841436ea86fdfeccd81091bd00b6aed590853b38eec83e492ad",
+    "puckworks/analysis/five_cqa_decision_resolution.py": "db165d432e6eb423ead3cb0f0d4db2b21ec72458665e398adfbf3b241d9984e8",
+    "tests/test_five_cqa_decision_resolution.py": "a878a88019138aa5de0735d98eeceb1d5144356e2d2a3a0c2891cd3b5125a43e"
+  },
+  "scientific_execution": {
+    "attempts": 1,
+    "correction_replays": 0,
+    "direct_fraction_maximum_absolute_difference": 9.367506770274758e-17,
+    "failed_empirical_attempts": 0,
+    "historical_decision_discrepancies": [],
+    "historical_lifecycle_invocations": 0,
+    "historical_reproduction_maximum_absolute_difference": 0.0,
+    "independent_deletion_identity_maximum_absolute_difference": 7.979727989493313e-17,
+    "input_authority_files_rehashed_unchanged": 23,
+    "native_or_EWP_runs": 0,
+    "new_fits": 0,
+    "prediction_regenerations": 0,
+    "private_completion_sha256": "de3f0ec547ac1a4dd1be22edd1f2d7c4bee9a63542e4834f5f260c0f82b51ea9",
+    "private_reduction_log_sha256": "05afaf1a1dc5a29003d4b94428528b79ac41a86d6289577d49425c31f99cdcdd",
+    "successful_offline_reductions": 1
+  },
+  "software_checks": {
+    "affected-002.log": {
+      "command": "python -m pytest -q tests/test_five_cqa_decision_resolution.py tests/test_decision_resolution.py tests/test_caffeine_decision_resolution.py",
+      "includes_new_synthetic_tests": 55,
+      "passed": 205,
+      "private_log_sha256": "77b4dd72d0fb84bae56d2b6e7a4e74a0eae2a60d67bcec0cbd78655c4881a8e6",
+      "status": "PASS"
+    },
+    "baseline-pytest.log": {
+      "collection_scope": "Normal pre-change suite; collected before new tests were added",
+      "command": "python -m pytest -q",
+      "deselected": 63,
+      "passed": 6660,
+      "private_log_sha256": "4bb7c3e0e569c1a3e02212a2695d20b8d2dc374926aa54ec9e47ff5a54960e10",
+      "skipped": 67,
+      "status": "PASS",
+      "warnings": 1
+    },
+    "generated-001.log": {
+      "commands": [
+        "python -m puckworks.statusdoc --verify",
+        "python tools/readme_governance.py verify",
+        "python -m puckworks.paper3.registry_artifacts --verify",
+        "python -m puckworks.paper3.build verify"
+      ],
+      "private_log_sha256": "2353be9c83b2f5ea48c1300eea7e7c68d9d0733adf66befedf1219db8774fdc8",
+      "status": "PASS"
+    },
+    "lint-001.log": {
+      "command": "python -m ruff check puckworks/ tests/",
+      "private_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "status": "PASS"
+    },
+    "lint-002.log": {
+      "command": "python -m ruff check puckworks/analysis/five_cqa_decision_resolution.py tests/test_five_cqa_decision_resolution.py",
+      "private_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "status": "PASS"
+    },
+    "registry-001.log": {
+      "ACKNOWLEDGED_EXCEPTION": 1,
+      "PASS": 66,
+      "command": "python -c \"from puckworks.registry import run_all_gates; run_all_gates()\"",
+      "private_log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+      "status": "PASS"
+    },
+    "types-001.log": {
+      "command": "python -m mypy",
+      "maintained_files": 19,
+      "private_log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "status": "PASS"
+    }
+  },
+  "specification_commit": "4a330d6ebd5fc425d18061f0cfb20c15c2153508",
+  "specification_tree": "16e363aa0b5ac8af312bfd1c87c8cfb7e2380e04",
+  "status": "LOCAL_VERIFICATION_PASS",
+  "task": "VAL-CASE-5CQA-DECISION-RESOLUTION-001"
+}
