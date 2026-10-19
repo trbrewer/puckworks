@@ -1,0 +1,283 @@
+{
+  "additional_checks": [
+    {
+      "check": "Registry gates",
+      "log_sha256": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+      "result": "PASS"
+    },
+    {
+      "check": "Full configured Ruff",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "result": "PASS"
+    },
+    {
+      "check": "Configured mypy",
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+      "result": "PASS"
+    },
+    {
+      "check": "Wheel and sdist build",
+      "log_sha256": "90183de98e38c3155a26c27ea452982198a006ddabba4b2de2d2756e8db2f97c",
+      "result": "PASS"
+    },
+    {
+      "check": "Distribution data/privacy/tracking checks",
+      "log_sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+      "result": "PASS"
+    },
+    {
+      "check": "Statusdoc after full history fetch",
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+      "result": "PASS"
+    },
+    {
+      "check": "Initial quick failures after local setup repair",
+      "log_sha256": "c92018fe4badff8cb98d6fc6a9d672546627750bcbefd8dd922c2dc6a210cc7a",
+      "result": "9 passed"
+    },
+    {
+      "check": "Initial unchanged quick run",
+      "log_sha256": "eb7e8456f81a55adef36234dd22f47c4ddacaf3bafc01f96469690f8906c9b72",
+      "result": "FAILED (retained)"
+    },
+    {
+      "check": "Initial synthetic range verification",
+      "log_sha256": "a6bf0d4821e77d0c33c644cc741b995714553b772764e382394136e4755ecf91",
+      "result": "19 passed; superseded by 26-test final synthetic verification"
+    },
+    {
+      "check": "Final synthetic range/admission isolation verification",
+      "command": "python -m pytest -q tests/test_grudeva2026_publication_reading_bounds_011.py",
+      "log_sha256": "f37e6967bf99b1c49e5f818064d1837046692efbf8c9d8f16881720ce0f3644c",
+      "result": "26 passed in 0.69s"
+    },
+    {
+      "check": "Synthetic complete/partial report rendering",
+      "result": "PASS; complete report reproducible; all-horizontal-unavailable case renders null nominal errors and partial wording without false completeness",
+      "scope": "Report-only G0 verification; no archive or new scientific execution"
+    },
+    {
+      "check": "Final report-only delta Ruff",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "result": "PASS"
+    },
+    {
+      "check": "Final wheel and sdist build",
+      "log_sha256": "edf6399ff4ad719f6f89469db2d772264a41ccbac193f46475c5b6c8a8d57dfb",
+      "result": "PASS"
+    },
+    {
+      "check": "Final distribution data/privacy/tracking checks",
+      "log_sha256": "38de8f576aa0abd9b92a16d38e4a47487687c1d750b55cc1210735cc3c5b1bad",
+      "result": "PASS"
+    }
+  ],
+  "checks": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.registry_artifacts",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.37007749010808766
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.build",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62",
+      "seconds": 0.3843777971342206
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.availability",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a",
+      "seconds": 0.4521421359386295
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.corpus",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be",
+      "seconds": 0.3670381340198219
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_a.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log_sha256": "3643793cd6fdce1b641fe04117191561afb342e75ecfe361d77ebec53e26dd09",
+      "seconds": 0.5774894149508327
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper_b2.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log_sha256": "571b48015ea49ea56185ae0a4c71f0cd0ab39bae3ece79dff2879a1a9435ee55",
+      "seconds": 0.7463688480202109
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.claim_coverage"
+      ],
+      "exit_code": 0,
+      "log_sha256": "0affe8cb40971f6cbdc29e598928dacc59786e66a632fe6894102afb39bd3b0d",
+      "seconds": 11.190207886975259
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.analysis.lateral_coupling_discrimination",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e1499d7cc05dddccfa47670a92cee8c7c82c578a027979ef1f22843c50c2ff6c",
+      "seconds": 2.827145806979388
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+      "seconds": 0.3789302911609411
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "paper3"
+      ],
+      "exit_code": 0,
+      "log_sha256": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+      "seconds": 0.371533224824816
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.paper3.evidence_graph",
+        "--reconcile",
+        "--strict",
+        "--scope",
+        "all"
+      ],
+      "exit_code": 0,
+      "log_sha256": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+      "seconds": 0.36854043812491
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.insights",
+        "verify"
+      ],
+      "exit_code": 0,
+      "log_sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87",
+      "seconds": 0.5375869828276336
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "puckworks.statusdoc",
+        "--verify"
+      ],
+      "exit_code": 1,
+      "log_sha256": "a9f2d044326ea6b2ea15bd8501299587b705d7861fe3fa38468a279e3c872be4",
+      "seconds": 0.4311374821700156
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-m",
+        "scientific_baseline and not live and not gpu and not external_data"
+      ],
+      "exit_code": 0,
+      "log_sha256": "b2b8e3e0b1b743349320bb4d3351b0d888d1d8247191e13cb721a60a74141da0",
+      "seconds": 212.2328851148486
+    }
+  ],
+  "final_candidate_review": "Exact candidate and independent review receipt in draft PR body",
+  "final_quick": {
+    "command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data'",
+    "exit_code": 0,
+    "junit_sha256": "74740ed974f22e9f79cefd873f15c2b74166fb045cd5b8778c130bae641af066",
+    "log_sha256": "96deae7d4a3c7e4e454d187eb0ea81b152b4adc0e6a0c7e982609caeb4bffa66",
+    "result": "6793 passed, 67 skipped, 63 deselected, 1 warning in 1297.64s",
+    "warning": "Existing visualizer DEV salt warning; no new warning or selector change"
+  },
+  "hosted_checks": {
+    "final_record": "Exact-candidate check runs and final hosted disposition in draft PR body",
+    "normal_and_required_workflows": "UNCHANGED",
+    "snapshot_at_commit": "Not yet started; PR opens after this candidate commit"
+  },
+  "local_setup_failures": {
+    "initial_quick": {
+      "cause": "Historical reviewed Git objects absent and package not installed for subprocess imports",
+      "full_normal_rerun": "PASS: 6793 passed, 67 skipped, 63 deselected, 1 warning in 1297.64s",
+      "repair": "Fetch named historical Git objects and install this checkout editable, without dependency changes",
+      "result": "6 failed, 6722 passed, 103 skipped, 63 deselected, 3 errors",
+      "targeted_rerun": "9 passed in 43.15s"
+    },
+    "initial_statusdoc": {
+      "repair": "Fetch full main history; unchanged statusdoc verification then passed",
+      "result": "Failed on 23 missing historical commits in shallow clone"
+    }
+  },
+  "method_review": "METHOD_REVIEW.json",
+  "normal_selectors_unchanged": true,
+  "protected_targets": "Normal isolated regression only; excluded from new scientific analysis, fitting and selection",
+  "scientific_baseline_counts": "5 passed, 7 skipped, 6906 deselected; unchanged selector",
+  "scientific_execution": {
+    "all_inputs_admitted": true,
+    "completed": true,
+    "executions": 1,
+    "expanded_numerical_enclosures": "UNESTABLISHED",
+    "historical_rows": 124,
+    "included_pairs": 108,
+    "included_reading_results": 72,
+    "new_trajectories": 0,
+    "nominal_concentration_checks_passed": 56,
+    "results_sha256": "e79969175d678f6796cee01b5998cdc96cd466813709e9e99e9cc72d6c978742",
+    "rows_csv_sha256": "e8940cbf0587fbeded675c76676071711284c84207c21a18167c03e01fd4a002",
+    "seconds": 190.96036537294276,
+    "stdout_sha256": "e093ca3490ad3271744ce616a7e715646c3717c2d2bba41ace0db947aa883170"
+  },
+  "task": "MODEL-GRUDEVA2026-PUBLICATION-READING-BOUNDS-011"
+}
