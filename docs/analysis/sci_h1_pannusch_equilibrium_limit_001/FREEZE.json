@@ -1,0 +1,22 @@
+{
+  "correction": "Input identity checks and output assembly only; unchanged numerical module and inputs; two failed synthetic charges retained",
+  "files": {
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/INPUT_MANIFEST.json": "e24264b89e4b9aa7a05ce2483603be8972e8386f6734ff386bd3d1d5caa58096",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/MODEL_CONSTANTS.json": "daa5ba26dda186a53bd37e7ef8fac5f2242b5c17199f6f6c632e47dcbd650bb5",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/PROTOCOL.md": "138015ead4b3dda30ac05b8f11e174b813d5b6687aba364d46c22f2df5f6307e",
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tests/test_pannusch_equilibrium_limit.py": "9c5c5b19bc28cc89ae2a740c43c036d89962c4783be984262774ed3e80657e6c",
+    "tools/pannusch_equilibrium_limit.py": "46e4a9e7de9618fc63fbb5e5a96bd109babef5b9917adf18980f00c84f7cfc3e"
+  },
+  "maximum_profile_rmse_allowance": 0.001,
+  "new_target_scores_computed": false,
+  "primary_integrations": 96,
+  "private_inputs_sha256": "fe98269b38c50fa520bf31834cda3984d3270bcef7d60dc93dd2a761476dd413",
+  "reused_numerical_freeze_sha256": "88bac3749863f95329f844c50d35cf76c3da9958ef12c0e466352214898d4c54",
+  "synthetic_integrations": 18,
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001",
+  "temporal_share_limit": 1e-08
+}

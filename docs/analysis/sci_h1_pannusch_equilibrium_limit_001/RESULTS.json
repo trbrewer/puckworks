@@ -1,0 +1,54 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "baseline": {
+    "analyte": "BOTH",
+    "arm_prediction_rmse": 0.07319226201337356,
+    "boundary": 0.011186801136910956,
+    "condition": "ALL",
+    "equilibrium": 0.07804342707216648,
+    "equilibrium_allowance": 1e-12,
+    "equilibrium_cumulative_rmse": 0.07607583632763269,
+    "equilibrium_early": -0.006169000921013325,
+    "equilibrium_tail": -0.10015551155482075,
+    "finite": 0.011345297058505127,
+    "finite_allowance": 0.000254687652012266,
+    "finite_cumulative_rmse": 0.01605033877160378,
+    "finite_early": 0.017994422715436435,
+    "finite_historical_max_share_delta": 0.00014882384703284135,
+    "finite_minus_historical": -2.6858501061715203e-05,
+    "finite_tail": -0.019435888218665428,
+    "gain_allowance": 0.000254687653012266,
+    "gain_equilibrium_vs_boundary": -0.06685662593525553,
+    "gain_finite": 0.06669813001366134,
+    "gain_finite_vs_boundary": -0.0001584959215941702,
+    "historical_loss": 0.011372155559566843
+  },
+  "empirical_reference": "PAIRED_RETAINED_ERRORS_REUSED",
+  "finite_sensitivity_cases": 17,
+  "freeze_sha256": "d8e946d416698462794d8e929f67b998026cd433ce30fb843b00954ed9bc9be4",
+  "practical_materiality": "NOT_ESTABLISHED",
+  "prediction_sha256": "4ec725be06d572192f5c90c51acb3644830c1e426e869945f97b1e6232297a66",
+  "private_fraction_results_sha256": "cf841cf8f5c2412a1cd5897b695a2ba715bf21d2bb490731f057dc700df27153",
+  "private_scored_profiles_sha256": "2744af8655e388855ef4262f874147f5ca087aa572e6ac86a9eda8b7011ee965",
+  "sensitivity": {
+    "BOTH": {
+      "gain_max": 0.06806439693148604,
+      "gain_min": 0.06588793653425595,
+      "positive_count": 17,
+      "resolved_count": 17
+    },
+    "caffeine": {
+      "gain_max": 0.06145661848409451,
+      "gain_min": 0.059402839485243775,
+      "positive_count": 17,
+      "resolved_count": 17
+    },
+    "trigonelline": {
+      "gain_max": 0.0760736109003301,
+      "gain_min": 0.07163199438068993,
+      "positive_count": 17,
+      "resolved_count": 17
+    }
+  },
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001"
+}

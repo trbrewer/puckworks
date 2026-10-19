@@ -1,0 +1,11 @@
+{
+  "all_qualified": true,
+  "freeze_sha256": "88bac3749863f95329f844c50d35cf76c3da9958ef12c0e466352214898d4c54",
+  "integrations": 96,
+  "max_loss_allowance": 0.0008679518324160965,
+  "max_mass_residual": 2.0806501569138608e-13,
+  "max_spatial_contraction_ratio": 0.6631222199697451,
+  "max_temporal_share_change": 1.7430501486614958e-14,
+  "prediction_sha256": "4ec725be06d572192f5c90c51acb3644830c1e426e869945f97b1e6232297a66",
+  "profiles": 24
+}
