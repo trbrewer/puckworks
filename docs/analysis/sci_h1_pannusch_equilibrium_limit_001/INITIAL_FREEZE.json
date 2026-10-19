@@ -1,0 +1,19 @@
+{
+  "files": {
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/INPUT_MANIFEST.json": "e24264b89e4b9aa7a05ce2483603be8972e8386f6734ff386bd3d1d5caa58096",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/MODEL_CONSTANTS.json": "daa5ba26dda186a53bd37e7ef8fac5f2242b5c17199f6f6c632e47dcbd650bb5",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/PROTOCOL.md": "0d1eeafec0127494354e101c620a0d73a25883b0b1b50acf39a8138b8e2c9471",
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tests/test_pannusch_equilibrium_limit.py": "9c5c5b19bc28cc89ae2a740c43c036d89962c4783be984262774ed3e80657e6c",
+    "tools/pannusch_equilibrium_limit.py": "8a331ada03330fc24a663222b164023996960bf8622faee5bc63aee84dc83777"
+  },
+  "maximum_profile_rmse_allowance": 0.001,
+  "new_target_scores_computed": false,
+  "primary_integrations": 96,
+  "synthetic_integrations": 16,
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001",
+  "temporal_share_limit": 1e-08
+}

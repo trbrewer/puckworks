@@ -1,0 +1,105 @@
+{
+  "exposure": "SOURCE_INTERNAL; TARGET_EXPOSED; NOT_INDEPENDENT",
+  "inspection": "Primary original MAT nonchemistry support inspected; five original hashes verified; source preprocessing/assay investigations reused, not repeated.",
+  "missing_components": [
+    "assay recovery/censoring covariance",
+    "window fit coefficient covariance",
+    "physical source flow-label resolution",
+    "independent production inventory and initial state"
+  ],
+  "paired_reference": {
+    "artifact": "C1/predictions/paired_shot_analyte_errors.csv",
+    "role": "Retained frozen calibration-only boundary-aware errors; no retraining",
+    "sha256": "26289d2862500a5a0cb0fbb53b5e706fc94e7775624e1cc12c8012d97c072b8e",
+    "status": "AVAILABLE"
+  },
+  "retained_primary": {
+    "conditions": 4,
+    "fraction_ids": [
+      1,
+      2,
+      3,
+      5,
+      7,
+      10
+    ],
+    "original_join_max_rounding_error": 4.929912478246479e-09,
+    "physical_shots": 12,
+    "profiles": 24,
+    "scalar_observations": 144
+  },
+  "reused_ewp": {
+    "analysis/xsv_pannusch_multimodel_001/c1_correction.py": "74611a887a9dae009e105921844a3e7d33ee359d2da6c31ab66f4b4636bf6d1e",
+    "docs/analysis/obs_pannusch_fraction_window_001/OBSERVER_RESULTS.csv": "037f3d183a40169797491029df2322e531739538bf89fcb290972a87d297c781",
+    "docs/analysis/obs_pannusch_fraction_window_001/RESULT.md": "c77cc222f5d6a93aabe0984bae9e366083d284828bd697315f1f01e27b5f9306",
+    "docs/analysis/obs_pannusch_fraction_window_001/SOURCE_LINEAGE.json": "f88f3c8cc1afc6759ff51c8957554f206e627225577e9dc5c7ce9904e929314e",
+    "docs/analysis/sci_md_pannusch_flow_history_001/RESULT.md": "7a0557f276c5031877393b4f3e23b98a00b651f0c0f2183c2d2e8c895c3626f7",
+    "docs/analysis/xsv_pannusch_ewp_input_mapping_001/RESULT.md": "9dfbfa972fcd04854db0a8d3d57630d96c7f35b52b82dbd1598a0f2cbb267d04",
+    "docs/analysis/xsv_pannusch_multimodel_001/C1_CALIBRATION_FREEZE_ADDENDUM.json": "5326056458b14c987f7765ee7850edd53f54b20c952946a426d32c46f0d728cb",
+    "docs/analysis/xsv_pannusch_multimodel_001/C1_REVIEW_MANDATED_METHODS_ADDENDUM.json": "769502c6f0b2e7b16fe96f8be2e7582ffae2f6454ebc386d6c17c90cab2c776c",
+    "docs/analysis/xsv_pannusch_multimodel_001/CALIBRATION_FREEZE.json": "0b9a70bc3fd265c2df49a14c8ffd80baebbb7adc0aadc38bd3fb7e3567e40990",
+    "docs/analysis/xsv_pannusch_multimodel_001/CONDITION_DIFFERENCES.csv": "2f75c6807022d73885a2f8246e412d8128dfe2222a43d636bc56346b43b6853b",
+    "docs/analysis/xsv_pannusch_multimodel_001/MODEL_PRIVILEGE_REGISTRY.csv": "fb18136d3518faf486f8236306f245b7df4295d4f88f749581015442a6743199",
+    "docs/analysis/xsv_pannusch_multimodel_001/OBSERVABLE_CONTRACT.json": "f46b369883deac90bfa920276e71c05789280d0886174d69b0cf9f54356a6b75",
+    "docs/analysis/xsv_pannusch_multimodel_001/RESULT.md": "4245572e7b1cb79a560548be96827a8b384e9dfbc458b1f53f18615dbeeaffd6",
+    "docs/analysis/xsv_pannusch_multimodel_001/SPLIT_CONTRACT.json": "abdeb61c8ead24ea761b88d0894c19d3e13c18261b88fe19dc6c8f05bac138c9"
+  },
+  "reused_puckworks": {
+    "docs/cards/pannusch2024.md": "538dc01dee353f215ceb502c6cd1d367ec27ab400b6e46d98bb934a0abb60e78",
+    "docs/data/AVAILABLE_DATA_FIRST_POLICY.md": "c253a36c886f1b5feb8e3656294784653f2461c355ea625c0907e59557c7ced4",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "450a780004d3fd8af5a7602398d6a9b1dd1b478968460530956a79552cfeee8d",
+    "docs/research/PANNUSCH_RAW_REPRO_001_REPORT.md": "ab45c43fa9be29552016f4db19729aca44be0a2550b46b0f4e015f4efe1f468c",
+    "docs/research/REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md": "dee129ff0ff62d99f954ba2d3ac89db7194c23bdb8df79bc17930aad312a8740",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+    "puckworks/data/MANIFEST.csv": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+    "puckworks/data/pannusch2024/experiment_register.csv": "6d72ac3a32dc05e6ae5b204ebb6d269a6e31ff87d4ef122f17a39d729d33208e",
+    "puckworks/data/pannusch2024/fit_fraction_replicates.csv": "55b16b9897956e2dab5a39c1c8b54e97dca6f7355e33c6513e7933316df5b1f2",
+    "puckworks/data/pannusch2024/pannusch_raw_repro_001_result.json": "ae723407f251d175d4ba590f9a9989f929f21c53114c39ae8768e628a97c4e99",
+    "puckworks/data/pannusch2024/pannusch_transfer_eligibility.json": "bfbdc952e37c71c6a5eb84dd7c247322704779a98d2fe3bf0fea1951a2cdc4cc",
+    "puckworks/data/pannusch2024/prediction_conditions.csv": "a1efcf9ce876101be373a3b5955193dbf5a2075aef2e3b65dc0c83e80bbb3ee5",
+    "puckworks/data/pannusch2024/prediction_fraction_replicates.csv": "e29344bcdd87d31ba1c1bcb1fe0ba73286befd82066394ad164fdb2384e0b665",
+    "puckworks/data/pannusch2024/source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c",
+    "puckworks/data/pannusch2024/table2_fitted_params.csv": "318e1440d2922dfe98ddc06efe89de8fcd70c65f49ae9a8b92bc1123bd26a409",
+    "puckworks/data/pannusch2024/table2_grind_psi_ds2.csv": "eb7400697015722d0d77ebe06bed385f3af0f142cd7b7e3f440dc00ae6594639"
+  },
+  "rights": "CC-BY-NC-3.0; Pannusch et al.; DOI 10.17632/y2tz67f6ry.1",
+  "source_status": "KNOWN_EXTERNAL_EVIDENCE_AVAILABLE_AND_INSPECTED",
+  "sources": [
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction replicate observations",
+      "sha256": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64",
+      "source_id": "P24-MAT-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction preprocessing",
+      "sha256": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+      "source_id": "P24-M-PREP-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction conditions and shots",
+      "sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+      "source_id": "P24-DOE-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction HPLC fractions and whole cup",
+      "sha256": "42257832ba03c19bc067121af6eaacdcf378d64060cce1a302c8f555ddeafc06",
+      "source_id": "P24-HPLC-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction fitted beverage-mass timing",
+      "sha256": "430f922d0df443d9f1b1d629409d9ef4a4967d15535ffa8b5a34f795523faaf3",
+      "source_id": "P24-MASS-PRED",
+      "status": "VERIFIED"
+    }
+  ],
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001"
+}

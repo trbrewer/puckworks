@@ -1,0 +1,116 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "additional_full_integrations_by_reviewer": 0,
+  "checks": [
+    "Direct conservation derivation matches unchanged source phase bases and 002 mass generator, including coarse phi_v2 and initial liquid inventory.",
+    "Analytical equilibrium overlap solution is primary; front timing independent of c_s0; no arbitrary transfer proxy or first-cell deletion.",
+    "Common dimensional operator m_liquid/rho*cbar and six-vial normalization applied identically; unassayed gaps propagated; denominator failures reject without clipping or pseudocounts.",
+    "Both-arm positive inventory-scale cancellation proven by homogeneous equations; synthetic checks and algebraic tests inspect finite and equilibrium paths.",
+    "All admitted five original source hashes verified; retained windows, measured masses, source fractions 1,2,3,5,7,10, t0 and 24 paired profiles agree with frozen private inputs.",
+    "Primary consists of 12 physical shots/four conditions/two analytes/144 scalar observations; reductions preserve paired analytes and equal condition/shot/analyte weighting.",
+    "C1 retained 24 paired reference errors reproduce all published per-condition Pannusch/boundary/ordinal means exactly; score additionally checks historical observed shares and historical Pannusch RMSE identity.",
+    "96 unchanged target-free integrations may be reused: current numerical module hash equals original freeze, private source inputs match, and prediction producer identities all match original numerical freeze.",
+    "Numerical allowance propagation through denominator and RMSE is algebraically conservative conditional on declared empirical concentration allowances; engineering bounds are not rigorous PDE or measurement uncertainty bounds.",
+    "Pre-score gates require complete primary numerical qualification and successful bounded synthetic verification before scoring; positivity/inventory, temporal splitting, spatial contraction and normalized loss budgets are explicit.",
+    "No model calibration, protected targets, production defaults, EWP source/lock/cases, or historical bundles are changed by reviewed files."
+  ],
+  "condition_of_execution": "score command must continue to enforce complete numerical and synthetic verification gates; this audit is not a waiver.",
+  "files": {
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/INPUT_MANIFEST.json": "e24264b89e4b9aa7a05ce2483603be8972e8386f6734ff386bd3d1d5caa58096",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/MODEL_CONSTANTS.json": "daa5ba26dda186a53bd37e7ef8fac5f2242b5c17199f6f6c632e47dcbd650bb5",
+    "docs/analysis/sci_h1_pannusch_equilibrium_limit_001/PROTOCOL.md": "138015ead4b3dda30ac05b8f11e174b813d5b6687aba364d46c22f2df5f6307e",
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tests/test_pannusch_equilibrium_limit.py": "9c5c5b19bc28cc89ae2a740c43c036d89962c4783be984262774ed3e80657e6c",
+    "tools/pannusch_equilibrium_limit.py": "46e4a9e7de9618fc63fbb5e5a96bd109babef5b9917adf18980f00c84f7cfc3e"
+  },
+  "findings": [
+    {
+      "finding": "Original runner did not bind private input bytes or reverify retained evidence hashes.",
+      "id": "R1",
+      "resolution": "Corrected freeze binds private_inputs_sha256; check_inputs revalidates retained hashes, private inputs and source membership; score verifies 24 frozen inputs against prediction records. Independently verified actual source/input hashes and all 24 profile joins.",
+      "severity": "material_pre_score_integrity",
+      "status": "RESOLVED_BEFORE_NEW_TARGET_SCORING"
+    },
+    {
+      "finding": "Original fit/exposure roles were inherited generically.",
+      "id": "R2",
+      "resolution": "Protocol now explicitly separates original published-fit experiments 9,10,11,14,15, ten other FIT reconstruction conditions, and exposed campaign-separated March evaluation.",
+      "severity": "documentation",
+      "status": "RESOLVED_BEFORE_NEW_TARGET_SCORING"
+    },
+    {
+      "finding": "First synthetic verification stopped on duplicate cells output keyword after two integrations.",
+      "id": "R3",
+      "resolution": "Producer corrected wrapper output assembly only, retained failure log, and declared total cap 18; numerical module and inputs unchanged. No empirical score occurred.",
+      "severity": "output_assembly",
+      "status": "BOUNDED_CORRECTION_ACCEPTED"
+    }
+  ],
+  "freeze_sha256": "d8e946d416698462794d8e929f67b998026cd433ce30fb843b00954ed9bc9be4",
+  "paired_reference_sha256": "26289d2862500a5a0cb0fbb53b5e706fc94e7775624e1cc12c8012d97c072b8e",
+  "pre_score_numerics": {
+    "all_qualified": true,
+    "freeze_sha256": "88bac3749863f95329f844c50d35cf76c3da9958ef12c0e466352214898d4c54",
+    "integrations": 96,
+    "max_loss_allowance": 0.0008679518324160965,
+    "max_mass_residual": 2.0806501569138608e-13,
+    "max_spatial_contraction_ratio": 0.6631222199697451,
+    "max_temporal_share_change": 1.7430501486614958e-14,
+    "prediction_sha256": "4ec725be06d572192f5c90c51acb3644830c1e426e869945f97b1e6232297a66",
+    "profiles": 24
+  },
+  "prediction_sha256": "4ec725be06d572192f5c90c51acb3644830c1e426e869945f97b1e6232297a66",
+  "private_inputs_sha256": "fe98269b38c50fa520bf31834cda3984d3270bcef7d60dc93dd2a761476dd413",
+  "retained_hash_checks": {
+    "ewp_files": 14,
+    "mismatches": 0,
+    "puckworks_files": 16
+  },
+  "reused_numerical_freeze_sha256": "88bac3749863f95329f844c50d35cf76c3da9958ef12c0e466352214898d4c54",
+  "review_role": "INDEPENDENT_G1_PRE_SCORING_AUDIT",
+  "reviewer": "independent_review subagent; separately authorized by owner; read-only repository access",
+  "source_hashes_verified": [
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction replicate observations",
+      "sha256": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64",
+      "source_id": "P24-MAT-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction preprocessing",
+      "sha256": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+      "source_id": "P24-M-PREP-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction conditions and shots",
+      "sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+      "source_id": "P24-DOE-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction HPLC fractions and whole cup",
+      "sha256": "42257832ba03c19bc067121af6eaacdcf378d64060cce1a302c8f555ddeafc06",
+      "source_id": "P24-HPLC-PRED",
+      "status": "VERIFIED"
+    },
+    {
+      "rights": "CC-BY-NC-3.0",
+      "role": "prediction fitted beverage-mass timing",
+      "sha256": "430f922d0df443d9f1b1d629409d9ef4a4967d15535ffa8b5a34f795523faaf3",
+      "source_id": "P24-MASS-PRED",
+      "status": "VERIFIED"
+    }
+  ],
+  "status": "APPROVED",
+  "target_scoring_by_reviewer": "NONE; historical retained reference comparison only; no new target-dependent score computed",
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001",
+  "unresolved_material_findings": []
+}

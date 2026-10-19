@@ -1,0 +1,92 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "additional_review_integrations": 0,
+  "branch_protection_query": {
+    "legacy_branch_protection_endpoint": "404; does not mean no ruleset protection",
+    "mechanism": "active GitHub repository ruleset Protect main",
+    "required_status_checks": [
+      "quick (3.10)",
+      "quick (3.12)",
+      "verify-generated",
+      "paper3-scope-strict",
+      "all-scope-strict"
+    ],
+    "ruleset_id": 19053322
+  },
+  "external_check_log_sha256": {
+    "all_scope_strict.log": "2e61fd1233fd892fdc86e758d4742708957d0d8cb67b14cf4378155a8ebcb37f",
+    "evidence_graph.log": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+    "insights.log": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87",
+    "lint.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "paper3_scope_strict.log": "14d6b50284753ce3685ffa89d0b29c71c044159c3ab3308fdf8ca03a19a244e4",
+    "predict.log": "42696955725370c6c1a6c15df39d10baab81c1236957782aab8230f835405f2d",
+    "quick.log": "e1b09901ccbf1a51477fe7455505efebf8cc0aee622b12c221a8154f26a4aafa",
+    "readme_governance.log": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+    "score.log": "a3df493973924124d4fb899322d189ec6fa8eed7e14fadfe5cef21bef0983ba4",
+    "status.log": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311",
+    "verify.log": "bf8825ff6f195bd31176efaea05300998095790512d73da0eb0ec11a445ab3a1",
+    "verify_failed_output_assembly.log": "fbcb6e98cfad20f6f675c13611770a5c8d1cdb0ef800d4b2aa7d5e1559656f86",
+    "verify_generated.log": "41ef9be9462dd01e8eced3876ee66922f89ebd9e47920dfecc92f137914ad043"
+  },
+  "final_review": "SEPARATE_EXACT_CANDIDATE_RECEIPT_IN_DRAFT_PR",
+  "historical_ewp_conclusion_reuse": {
+    "validation/sci_md_008/RESULT.json": "5d31aec69c1f53309fa431f3adfc80b90ca20efd20d22b7a8c7c3d246b7bd339",
+    "validation/sci_md_009/RESULT.json": "42c1f441f0ba71380a5ee3c9a7ef47aef84884c32adea1eeb3a25a00bb41c8e5",
+    "validation/sci_md_009/SCI_MD_009_C1_R1_FAIL_CLOSED_CORRECTION.md": "2315173ecf30add0d51db30b698bc47c10663841ade6ae11b92f46044ec54972"
+  },
+  "hosted_CI": "NOT_RUN_SCOPE_RESTRICTION: default workflows include protected-target reads; draft commit uses [skip ci]",
+  "independent_pre_score_audit": "APPROVED",
+  "lint": "PASS",
+  "mypy": "PASS_19_SOURCE_FILES",
+  "no_protected_target_access": true,
+  "numerical_execution": {
+    "failed_output_assembly_calculations": 2,
+    "primary_integrations": 96,
+    "successful_synthetic_integrations": 16,
+    "total_charged_synthetic_integrations": 18
+  },
+  "numpy": "2.5.4",
+  "python": "3.12.3",
+  "required_local_equivalents": {
+    "all-scope-strict": "PASS",
+    "paper3-scope-strict": "PASS",
+    "quick (3.10)": "NOT_RUN_INTERPRETER_NOT_INSTALLED",
+    "quick (3.12)": "PASS_ELIGIBLE_UNPROTECTED_SELECTION_ONLY",
+    "verify-generated": "PASS including all ten producers and deterministic archive/verification"
+  },
+  "retained_reference_checksum_receipt": {
+    "artifact": "XSV-PANNUSCH-MULTIMODEL-001-C1/checksums.sha256",
+    "paired_error_record_matches": "26289d2862500a5a0cb0fbb53b5e706fc94e7775624e1cc12c8012d97c072b8e",
+    "sha256": "f2cf93e5648792dacc4b54517cdeff887a30ca900702dda9e4833f5cc26e9f77",
+    "status": "PASS"
+  },
+  "scipy": "1.18.1",
+  "static_and_artifact_checks": [
+    "git diff --check PASS",
+    "strict JSON and CSV parsing PASS",
+    "bundle local links PASS",
+    "scoped secret/private-path scan PASS",
+    "statusdoc --verify PASS",
+    "insights verify PASS",
+    "paper3.evidence_graph --verify PASS",
+    "original numerical kernel, production source and historical tracked sources unchanged PASS",
+    "README governance verify PASS"
+  ],
+  "synthetic_unit_tests": {
+    "failed": 0,
+    "passed": 17
+  },
+  "task_id": "SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001",
+  "unprotected_quick_command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data and not protected_target_integrity' --deselect=tests/test_uncertainty_intake.py::test_angeloni_recovered_table_is_complete_and_self_consistent --deselect=tests/test_uncertainty_intake.py::test_recovered_angeloni_canonical_summary_validates",
+  "unprotected_quick_suite": {
+    "deselected": 762,
+    "duration_s": 1233.42,
+    "failures": 0,
+    "passed": 6070,
+    "scope": "Excluded slow/live/gpu/external_data/protected_target_integrity and two explicitly named unmarked Angeloni tests; not a complete hosted quick context.",
+    "skipped": 65,
+    "status": "PASS",
+    "warnings": 2
+  }
+}

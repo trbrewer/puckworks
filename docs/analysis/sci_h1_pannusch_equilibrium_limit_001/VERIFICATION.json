@@ -1,0 +1,150 @@
+{
+  "equilibrium_complete_delivery_relative_error": 2.220446049250313e-16,
+  "fast_transfer": [
+    {
+      "cells": 50,
+      "grid_share_rmse_to_continuum": 0.013654778947369071,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 3.2582740273216997e-15,
+      "minimum_phase_kg_m3": 0.012134379584444946,
+      "rate_scale": 1.0,
+      "remaining_kg": 4.187982817888222e-05,
+      "share_rmse_to_continuum": 0.06974278581572894,
+      "share_rmse_to_grid_limit": 0.06003870396883033,
+      "total_outlet_kg": 0.00020768531660193785
+    },
+    {
+      "cells": 50,
+      "grid_share_rmse_to_continuum": 0.013654778947369071,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 3.2582740273216997e-15,
+      "minimum_phase_kg_m3": 9.883858245079314e-08,
+      "rate_scale": 10.0,
+      "remaining_kg": 8.425983056383828e-07,
+      "share_rmse_to_continuum": 0.03624049377233656,
+      "share_rmse_to_grid_limit": 0.023120188419141964,
+      "total_outlet_kg": 0.0002487225464751833
+    },
+    {
+      "cells": 50,
+      "grid_share_rmse_to_continuum": 0.013654778947369071,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 6.082111517667173e-15,
+      "minimum_phase_kg_m3": 7.193067080148365e-32,
+      "rate_scale": 100.0,
+      "remaining_kg": 4.376978305800795e-11,
+      "share_rmse_to_continuum": 0.01849941490346673,
+      "share_rmse_to_grid_limit": 0.004879515095707332,
+      "total_outlet_kg": 0.00024956510101103866
+    },
+    {
+      "cells": 100,
+      "grid_share_rmse_to_continuum": 0.007903099006634355,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 6.950984591619626e-15,
+      "minimum_phase_kg_m3": 0.005981939168806168,
+      "rate_scale": 1.0,
+      "remaining_kg": 4.158655090854388e-05,
+      "share_rmse_to_continuum": 0.06974504841826117,
+      "share_rmse_to_grid_limit": 0.0640144369161181,
+      "total_outlet_kg": 0.0002079785938722753
+    },
+    {
+      "cells": 100,
+      "grid_share_rmse_to_continuum": 0.007903099006634355,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 1.1295349961381893e-14,
+      "minimum_phase_kg_m3": 2.3957291999172013e-08,
+      "rate_scale": 10.0,
+      "remaining_kg": 7.009575877819762e-07,
+      "share_rmse_to_continuum": 0.03531898171842519,
+      "share_rmse_to_grid_limit": 0.027700672028433945,
+      "total_outlet_kg": 0.0002488641871930361
+    },
+    {
+      "cells": 100,
+      "grid_share_rmse_to_continuum": 0.007903099006634355,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 5.647674980690946e-15,
+      "minimum_phase_kg_m3": 1.024212914179513e-47,
+      "rate_scale": 100.0,
+      "remaining_kg": 3.315179480328255e-13,
+      "share_rmse_to_continuum": 0.014508125386883232,
+      "share_rmse_to_grid_limit": 0.0066166730113461115,
+      "total_outlet_kg": 0.0002495651444493039
+    },
+    {
+      "cells": 200,
+      "grid_share_rmse_to_continuum": 0.004000043959559422,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 1.759467974753718e-14,
+      "minimum_phase_kg_m3": 0.002969816018867531,
+      "rate_scale": 1.0,
+      "remaining_kg": 4.144019999499995e-05,
+      "share_rmse_to_continuum": 0.06969357960657557,
+      "share_rmse_to_grid_limit": 0.06674033882368492,
+      "total_outlet_kg": 0.00020812494478581812
+    },
+    {
+      "cells": 200,
+      "grid_share_rmse_to_continuum": 0.004000043959559422,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 1.3033096109286799e-14,
+      "minimum_phase_kg_m3": 8.340788354777702e-09,
+      "rate_scale": 10.0,
+      "remaining_kg": 6.36736597798947e-07,
+      "share_rmse_to_continuum": 0.03482911307577343,
+      "share_rmse_to_grid_limit": 0.030962464848541454,
+      "total_outlet_kg": 0.0002489284081830252
+    },
+    {
+      "cells": 200,
+      "grid_share_rmse_to_continuum": 0.004000043959559422,
+      "halves": false,
+      "initial_inventory_kg": 0.0002495651447808209,
+      "intervals": 6,
+      "mass_balance_relative": 3.475492295809813e-15,
+      "minimum_phase_kg_m3": 1.7502772956640253e-60,
+      "rate_scale": 100.0,
+      "remaining_kg": 5.87912729891427e-15,
+      "share_rmse_to_continuum": 0.012030051710883165,
+      "share_rmse_to_grid_limit": 0.00803593976576585,
+      "total_outlet_kg": 0.00024956514477494256
+    }
+  ],
+  "independent_radau_mass_residual": 2.220446049250313e-16,
+  "independent_radau_max_share_difference": 6.207534486435407e-14,
+  "passed": true,
+  "rate_convergence_to_grid": true,
+  "scale_checks": [
+    {
+      "equilibrium_max_share_difference": 5.551115123125783e-17,
+      "finite_mass_ratio": 0.0010000000000000002,
+      "finite_max_share_difference": 2.7755575615628914e-16,
+      "scale": 0.001
+    },
+    {
+      "equilibrium_max_share_difference": 5.551115123125783e-17,
+      "finite_mass_ratio": 10.000000000000007,
+      "finite_max_share_difference": 3.885780586188048e-16,
+      "scale": 10.0
+    }
+  ],
+  "synthetic_integrations": 16
+}
