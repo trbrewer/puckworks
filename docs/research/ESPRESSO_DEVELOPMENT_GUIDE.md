@@ -10,6 +10,36 @@ That later review retains its own source identities and evidence limits; its act
 register is a set of recommendations, not execution authorization. This guide's
 dated findings remain historical.
 
+See also the complete [independent PW/EWP technical review by GPT-6 Astra Pro,
+18 October 2026](REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md), including its
+[recommendations register](REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md#section-9)
+and [second-reviewer handoff](REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md#section-12).
+This independent AI review was supplied to preserve its dated findings; R-01–R-08
+remain proposals requiring separate decisions. Filing does not supersede this
+guide, model cards, result bundles, planning authorities or accepted policies.
+
+**Archival provenance — REVIEW-PW-EWP-20261018, filed 19 October 2026 UTC (G0).**
+The owner confirmed the supplied presentation-corrected file as the filing source:
+663,603 bytes; original input SHA-256
+`1ff3341ea5a613a1dc09e7915579da7efe66126e677316f3619067e1ed56e0db`.
+Archived-file SHA-256: `fad620e31491be3a50c1e58d533215ccd3bb030b0ce37e31e76cfac3885c5915`.
+The older 578,169-byte review hash
+`60c88a4070824a80483e20a219fa64da8cfc127bc2db385d67ca5ea39afe477d`
+is historical provenance retained in the report, not the input verified here.
+The archive differs only by the authorized portability edits: three embedded EWP
+scripts derive the workspace from their locations, one recorded rerun command
+uses a relative interpreter path and explicit working directory, and Appendix A/B,
+the publication note and Section 13 distinguish executed-source and archived
+portable-script identities. The other ten scripts are unchanged. Original
+execution receipts concern the original scripts; filing did not rerun them.
+
+Filing intake bases (fresh main checkouts) were PW
+`9dd456be7fd797b9cda0a2bbf50d1ac717d72835` and EWP
+`4284e9460c8057053e95de7cfa2fb3590e68e9db`.
+These are separately recorded intake identities; they happen to equal the
+review's historical source commits. The review's final repository refresh remains
+`2026-10-18T23:20:46Z`; no dated finding was refreshed during filing.
+
 ## At a glance
 
 **What has been developed?** PW provides runnable components, source adapters,
