@@ -2,8 +2,6 @@
 
 **Presentation correction — 19 October 2026 UTC:** appendix prose now renders as prose; long reproduction payloads are expandable; the detailed census, crosswalks and source index use readable records. This is an editorial correction to the 18 October review, with no new scientific execution or changed verdict.
 
-**Archival publication note — 19 October 2026 UTC (REVIEW-PW-EWP-20261018, G0):** this filing preserves the owner-supplied presentation-corrected review (663,603 bytes; input SHA-256 `1ff3341ea5a613a1dc09e7915579da7efe66126e677316f3619067e1ed56e0db`). Only the three embedded EWP scripts’ workspace derivation, one recorded rerun-command path, associated digest labels and Appendix A/B provenance wording were made portable, with this note and the Section 13 entry added. This archive is not byte-identical to the supplied file. Original execution receipts concern the original scripts; filing did not rerun them or change scientific findings, results or authority. R-01–R-08 remain proposals requiring separate decisions. The older original-review hash in the existing change log is historical provenance, not the verified input identity for this filing.
-
 <a id="section-0"></a>
 
 ## 0. Identity and how to read this report
@@ -9849,3 +9847,4 @@ Every link below uses the full reviewed commit. A whole-file range is used for s
 
 - [L1–L40](https://github.com/trbrewer/puckworks/blob/9dd456be7fd797b9cda0a2bbf50d1ac717d72835/tests/test_cameron_inventory.py#L1-L40)
 
+**Archival publication note — 19 October 2026 UTC (REVIEW-PW-EWP-20261018, G0):** this filing preserves the owner-supplied presentation-corrected review (663,603 bytes; input SHA-256 `1ff3341ea5a613a1dc09e7915579da7efe66126e677316f3619067e1ed56e0db`). Only the three embedded EWP scripts’ workspace derivation, one recorded rerun-command path, associated digest labels and Appendix A/B provenance wording were made portable, with this note and the Section 13 entry added. This archive is not byte-identical to the supplied file. Original execution receipts concern the original scripts; filing did not rerun them or change scientific findings, results or authority. R-01–R-08 remain proposals requiring separate decisions. The older original-review hash in the existing change log is historical provenance, not the verified input identity for this filing.
