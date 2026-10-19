@@ -1,0 +1,38 @@
+{
+  "authorization_limit": "Approval is a retrospective method review, not target-blind validation, human approval, production adoption, merge permission or permission to run historical scoring.",
+  "bindings": {
+    "INPUT_MANIFEST.json": "1d5c2bc266cf6bc8a828e5303b4c375f1db05990c2024c0f1a1452b4fdc457f2",
+    "PROTOCOL.md": "dc451f26f44757e2e3e9c1520826321ceeec38bb489920f9d165d39ffcd1c5d6"
+  },
+  "checks": {
+    "authority_chain": "PASS: approved independent pre-score review hashes bind each freeze; STARTED receipts and separate COMPLETE records bind retained scores; MASS-003 completion also binds shot_results",
+    "declared_selected_retained_file_hashes": "PASS: 8/10/14 selected case artifacts, including original private pre-score reviews, match public commitments and declaration",
+    "ewp_bindings": "PASS: corresponding HANDOFF identities and research-only/physical-validation claim ceilings verified read-only",
+    "optional_dependencies": "PASS: authenticated unrounded shot R/B suffice for core paired reductions and algebraic decomposition; direct fraction check and input propagation retain separate dependencies",
+    "original_requirement_roles": "PASS: declared primary, ablation, sensitivity and separate superiority roles agree with original protocols",
+    "producer_identity": "PASS: historical producer code/protocol commitments verify; current historical analysis-module bytes match original frozen bytes",
+    "public_projection_plan": "PASS: only panel/whole-family aggregates and counts; detailed C01 and all condition-deletion ranges remain private",
+    "source_register_hashes": "PASS: all nine declared Pannusch registers match each source record"
+  },
+  "execution_before_review": "Historical artifacts and existing results inspected; no new empirical sensitivity results calculated by reviewer.",
+  "implementation_review_points": [
+    "The export-only 5e-9 pp diagnostic is conditional on the documented eight-decimal rounding interpretation and fixed masses/frozen predictions; it is not assay precision or full joint source uncertainty. Propagate any retained amplification allowance when applying the anchor-rounding term.",
+    "Final review must confirm exact shot/fraction/campaign joins, arithmetic/decision reconciliation and scenario-specific allowance aggregation in executed artifacts.",
+    "Preserve historical MASS-003 unresolved-first conjunction semantics where used, while preserving the original aggregate adequacy FAIL precedence for incomplete flow.",
+    "Final public projection must be reviewed jointly with already public aggregates; do not publish condition deletion extrema, complete deletion vectors, or small-cell summaries."
+  ],
+  "independent": true,
+  "review_type": "RETROSPECTIVE_TARGET_EXPOSED_PRE_ANALYSIS_METHOD_REVIEW",
+  "reviewer": "/root/independent_mass_review (independent nonhuman Codex reviewer; no implementation authorship)",
+  "scope": [
+    "Original MASS-001/002/003 protocols, frozen implementations, public manifests, receipts/completions and corresponding EWP research-consumer bindings",
+    "Read-only retained-input authentication and schema/arm membership inspection; no new empirical sensitivity calculation",
+    "Original comparison axes, 20-percent affine requirement, strict definite/possible wins and case-specific support/failure precedence",
+    "Finite whole-shot deletion declaration, algebraic MSE/RMSE decomposition and interval edge cases",
+    "Anchor/mass dependency declaration, conditional source-rounding diagnostic and combined public reconstruction controls"
+  ],
+  "status": "APPROVED",
+  "task": "VAL-CASE-MASS-DECISION-RESOLUTION-001",
+  "timestamp_utc": "2026-10-19T12:10:27.453198+00:00",
+  "unresolved_blocking_findings": []
+}

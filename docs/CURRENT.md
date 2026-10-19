@@ -47,6 +47,8 @@ listed here wins.
 
 ## Bounded retrospective analysis
 
+- [MASS-001/002/003 decision-resolution addendum](analysis/val_case_mass_decision_resolution_001/RESULTS.md) — original results reproduced; finite paired sensitivities and anchored error decomposition, with practical advantage and full input uncertainty unestablished.
+
 - [Caffeine decision-resolution addendum](analysis/val_case_caffeine_decision_resolution_001/RESULTS.md) — unchanged historical decisions; paired primary/temperature whole-shot sensitivity and observed caffeine variability, with practical incremental value unestablished.
 
 - [RHEOLOGY-010 decision-resolution addendum](analysis/val_case_rheology_decision_resolution_001/RESULTS.md) — all 32 historical decisions preserved; precision eligibility and empirical numerical sensitivity reported separately, with no physical-validation or adoption claim.

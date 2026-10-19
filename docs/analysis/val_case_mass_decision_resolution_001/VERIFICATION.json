@@ -1,0 +1,69 @@
+{
+  "analysis_freeze_sha256": "11d37d0f2a41c16590d91a88335f60932c77975b437335098ec8d19a5a3bf04d",
+  "empirical_runs": {
+    "mass001-001": "FAILED_ADAPTER_SUPPORTED_NUMERICS_GUARD",
+    "mass001-002": "COMPLETE_CORRECTED",
+    "mass002-001": "COMPLETE_UNAFFECTED",
+    "mass003-001": "COMPLETE_FIRST_MILESTONE"
+  },
+  "fits": 0,
+  "historical_score_invocations": 0,
+  "hosted_CI": {
+    "authoritative_completion_record": "Draft PR checks and PR body; no scientific files need modification to record subsequent CI completion.",
+    "status_at_commit": "PENDING_PR_SUBMISSION"
+  },
+  "independent_review": {
+    "direct_metric_checks": 792,
+    "final": "APPROVED",
+    "final_receipt_sha256": "fe0041b57370e710eac5609fd8f0cfeef985734f2c2bf4a9a337139e2c349371",
+    "pre_analysis": "APPROVED",
+    "scenario_checks": 2804,
+    "unresolved_blocking_findings": 0
+  },
+  "local": {
+    "affected_final": {
+      "passed": 374
+    },
+    "focused_synthetic": {
+      "passed": 35
+    },
+    "full_offline_suite": {
+      "deselected": 72,
+      "passed": 6803,
+      "scope": "Standard offline repository suite; the separate final 374-test affected run covers final reducer code and all 35 new synthetic tests.",
+      "seconds": 1417.24,
+      "selector": "not slow and not live and not gpu and not external_data",
+      "skipped": 33,
+      "status": "PASS",
+      "warnings": 8
+    },
+    "git_diff_check": "PASS",
+    "maintained_mypy": "PASS_19_FILES",
+    "paper3_build": "PASS",
+    "readme_governance": "PASS",
+    "registry_artifacts": "PASS",
+    "registry_gates": {
+      "ACKNOWLEDGED_EXCEPTION": 1,
+      "PASS": 66
+    },
+    "ruff": "PASS",
+    "statusdoc": "PASS"
+  },
+  "new_prediction_bundles": 0,
+  "no_dependencies_changed": true,
+  "private_log_sha256": {
+    "affected-final.log": "21c9a59e69583af74eded83d2149b8718b22f2f52f323f43869ab53a8bb28e1b",
+    "baseline-qa.log": "afd2187f53b269dd4f195d08883a0f60b159ea5410302dffcacd9f2229905102",
+    "focused-flow-correction.log": "4588a48225eb9421ea07e18432cb411e56e2b5e8a00ef4bb26ba4caef1e7a1a9",
+    "focused-initial.log": "317e13b4d61848150106a40eb00a6e749be96f3685bc324b578ec7ee3124c5d4",
+    "focused-review-corrections.log": "5a6a4553cb36b890e18f7d6fdd844fe39709300542094f94cc48697666d93cbf",
+    "mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "paper3-build.log": "bc887e98c3184b3e54d646e84ea3558d2e371cc2d461d3c4edb78c1b88897e62",
+    "readme.log": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e",
+    "registry-artifacts.log": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d",
+    "registry-gates.log": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66",
+    "ruff-final.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "statusdoc.log": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+  },
+  "task": "VAL-CASE-MASS-DECISION-RESOLUTION-001"
+}

@@ -1,0 +1,100 @@
+{
+  "authorization_limit": "Scientific review approval is not human acceptance, practical-value establishment, production adoption, merge authorization or permission to start a successor. Deliver one draft PR unmerged with auto-merge disabled.",
+  "execution_completeness": {
+    "all_declared_available_core_and_optional_reductions": "EXECUTED",
+    "full_joint_mass_assay_calibration_uncertainty": "NOT_EXECUTED_NO_JUSTIFIED_PRIMITIVE_ERROR_MODEL",
+    "full_uncertainty_bearing_R02_complete": false,
+    "mass_input_dependence": "ANALYTICALLY_ASSESSED; NO_ERROR_MAGNITUDE",
+    "other_unquantified_components": [
+      "analytical_repeatability",
+      "calibration_recovery",
+      "mass_measurement",
+      "shared_systematic_error",
+      "training_model_selection",
+      "source_campaign_transfer"
+    ]
+  },
+  "formatting_only_addendum": {
+    "change": "CSV line endings normalized CRLF to LF; parsed rows, values and scientific meaning unchanged.",
+    "current_sha256": "cdcc850438918705bd6519b67062e85c69b16885a7d6e52eb7103bf0b70fbf0b",
+    "path": "docs/analysis/val_case_mass_decision_resolution_001/aggregate_comparisons.csv",
+    "previous_sha256": "96423854fac2db18967ff9ebf4eb1f0a017db325d9e865d6e4cbf199c51bbd7b",
+    "timestamp_utc": "2026-10-19T12:24:43.334869+00:00",
+    "verification": "Restoring CRLF exactly reproduces the previously reviewed file hash; every other reviewed-file hash remains unchanged. No scientific rerun or new review performed."
+  },
+  "independent": true,
+  "independent_checks": {
+    "claim_ceiling": "PHYSICAL_VALIDATION=NOT_ESTABLISHED; source-internal conditional fraction predictions at supplied measured mass windows. No population/equivalence/controller/whole-cup/production inference.",
+    "decimal_fraction_reduction": {
+      "arm_shot_records": 264,
+      "maximum_absolute_discrepancy_pp": 3.552713678800501e-15,
+      "metric_comparisons": 792,
+      "scope": "R/B/A independently calculated from retained observations, mass weights and predictions; unsupported C07 prediction excluded only in its original supported-only diagnostic.",
+      "status": "PASS"
+    },
+    "decimal_scenario_reduction": {
+      "maximum_absolute_discrepancy": 2.842170943040401e-14,
+      "numeric_comparisons": 2804,
+      "scenarios": 46,
+      "scope": "All arm nested R/B/A and allowances, contrasts, strict condition-win counts, original primary requirement relations, MASS-003 MSE/RMSE decomposition; independent standard-library arithmetic without importing the reducer or invoking historical scoring.",
+      "status": "PASS"
+    },
+    "decomposition": "Per-shot bias-squared and centered-residual terms, hierarchical pp-squared and RMSE contributions agree; opposing contributions preserved; direct net bounds separate from contribution bounds. Signed-square, exact-zero, zero-denominator and narrow-roundoff branches inspected and synthetically covered.",
+    "dependency_maps": "Original frozen anchored runtime inspected: retained normalization and amplification agree with declared analytical anchor-only/shared-calibration derivatives and primitive anchor/scored/unassayed mass dependency maps. No uncertainty scale or independence assumption invented.",
+    "frozen_methods": "Original 20-percent affine comparisons, strict wins, support/failure precedence and separate case conjunctions are preserved; no threshold relaxation, new fit, new prediction or historical score call.",
+    "input_authentication": "All 32 selected retained artifacts rehashed and matched at final review; original producer/code, source registers, authority chain and EWP bindings independently verified in pre-analysis review.",
+    "interpretation": "MASS-003 advantage over adequate ANCHORED_EMPIRICAL remains unestablished: tiny RMSE gain changes sign, bias penalty persists, identical assay/window needs, and coefficient count alone provides no practical justification. MASS-001/002 positive, negative, sensitive and unsupported findings remain distinct.",
+    "public_projection": "Reviewed jointly with existing public aggregates. New public summaries are whole-family panel ranges/counts; no complete deletion vectors, condition-deletion extrema, reconstructive three-shot statistics, private locators, real anchors/states, observations or predictions. C01 count/status interpretation only.",
+    "public_result_join": "All case values exactly equal the original executed public result payloads except reviewed support metadata and binding hashes. All 14 comparison CSV rows exactly match JSON."
+  },
+  "private_review_artifact_sha256": {
+    "ANALYSIS_FREEZE.json": "11d37d0f2a41c16590d91a88335f60932c77975b437335098ec8d19a5a3bf04d",
+    "REVIEW_INDEPENDENT_ARITHMETIC.json": "8b74c722a32199a94fe7da73053270bb5847297e276553ad7b11e3adc473c00b",
+    "REVIEW_PREANALYSIS_AUTHENTICATION.json": "580a481782a5a3e2f1a917478c21f471c2712678cc5853d242e8f735ccd8d654",
+    "REVIEW_PUBLIC_PROJECTION.json": "c77f07f4f422ee8ce4471d989cf3c26eddfd9b449dc72f23b16bc7ad348b191c",
+    "review_independent_arithmetic.py": "2d54e839871e66f0f8a0b07fc8c9584b163b90c43be19f7a4036c86583d0678f"
+  },
+  "resolved_findings": [
+    {
+      "finding": "Optional observation variability was incorrectly dependent on predictions, and a present coordinate hash mismatch could fall back to prediction coordinates.",
+      "id": "R1",
+      "resolution": "observation_coordinates and separate observation admission now use authenticated coordinates independently of predictions; present coordinate mismatch blocks dependent calculations. Two synthetic regressions cover absent predictions and mismatched coordinates. Actual complete-input empirical results are unaffected."
+    },
+    {
+      "finding": "Flow export-rounding allowances were computed on supported subsets without an explicit support label.",
+      "id": "R2",
+      "resolution": "Public and future reducer projections explicitly label SUPPORTED_ONLY_DIAGNOSTIC_NOT_FULL_FLOW; original private run results and all empirical values remain unchanged."
+    },
+    {
+      "finding": "Initial public milestone_order did not distinguish the declared order from actual completion after the bounded MASS-001 adapter correction.",
+      "id": "R3",
+      "resolution": "Public metadata now records declared_case_order 003/001/002 and actual_completion_order 003/002/001; MASS-003 is the first completed milestone, and HANDOFF preserves the original failure and unaffected MASS-002 completion."
+    }
+  ],
+  "review_type": "RETROSPECTIVE_TARGET_EXPOSED_FINAL_IMPLEMENTATION_EVIDENCE_AND_PUBLIC_PROJECTION",
+  "reviewed_files_sha256": {
+    "docs/CURRENT.md": "c544457ea3193ba321dcddc317da97f5d11d225e6deb0a40c2e8fc28fa8a0438",
+    "docs/analysis/val_case_mass_decision_resolution_001/HANDOFF.md": "d4cd8f15b681ac12669282f4d6aaed588e81e7c50299f9d31d7515803106a2f9",
+    "docs/analysis/val_case_mass_decision_resolution_001/INPUT_MANIFEST.json": "1d5c2bc266cf6bc8a828e5303b4c375f1db05990c2024c0f1a1452b4fdc457f2",
+    "docs/analysis/val_case_mass_decision_resolution_001/PRE_ANALYSIS_REVIEW.json": "eac261f98a7d94db36bb9f7dfe559b7719105aa24022e27a147968d0185d9516",
+    "docs/analysis/val_case_mass_decision_resolution_001/PROTOCOL.md": "dc451f26f44757e2e3e9c1520826321ceeec38bb489920f9d165d39ffcd1c5d6",
+    "docs/analysis/val_case_mass_decision_resolution_001/RESULTS.json": "e3256879df67d11362f0c413218dbb13871f4fa008565bde2a5b698585bb3c7d",
+    "docs/analysis/val_case_mass_decision_resolution_001/RESULTS.md": "733cb42fa6a83e1a43c2bcb40d1a1d3732bf4d8bc8b9f8d0bd0bb428bff02e7c",
+    "docs/analysis/val_case_mass_decision_resolution_001/aggregate_comparisons.csv": "cdcc850438918705bd6519b67062e85c69b16885a7d6e52eb7103bf0b70fbf0b",
+    "puckworks/analysis/mass_decision_resolution.py": "34f3d5b405e20d89bcf082100a7440611f57d9323825710f97787c6fa554eea3",
+    "tests/test_mass_decision_resolution.py": "4457d95a384fe6104abecb96c0a206ba87d13e4ef1eaf01513d8f9285c5a9995"
+  },
+  "reviewer": "/root/independent_mass_review (independent nonhuman Codex reviewer; no implementation authorship)",
+  "software_evidence_at_review": {
+    "affected_suite_passed": 374,
+    "focused_synthetic_passed": 35,
+    "full_offline_suite": "RUNNING_AT_REVIEW",
+    "hosted_CI": "NOT_YET_SUBMITTED_AT_REVIEW",
+    "note": "Inspection verified recorded log hashes. CI/QA completion metadata may be updated without changing reviewed scientific files or rerunning unaffected empirical evidence.",
+    "static_generated_registry_checks": "PASS; 66 registry PASS and one acknowledged historical exception"
+  },
+  "status": "APPROVED",
+  "task": "VAL-CASE-MASS-DECISION-RESOLUTION-001",
+  "timestamp_utc": "2026-10-19T12:24:13.131392+00:00",
+  "unresolved_blocking_findings": []
+}
