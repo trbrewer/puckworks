@@ -30,6 +30,11 @@ listed here wins.
 
 ## Review inputs (recommendations only)
 
+- [Independent PW/EWP technical review, 18 October 2026 — GPT-6 Astra Pro](research/REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md) —
+  complete findings, evidence and proposed next actions, supplied for preservation.
+  Recommendations require separate decisions; filing supersedes none of the
+  authorities above and authorizes none of R-01–R-08.
+
 - [Prospective decision-resolution supplement](governance/DECISION_RESOLUTION_POLICY.md) —
   proposed G1 policy, opt-in helper and synthetic verification; owner acceptance and
   merge pending, with no historical re-adjudication or production adoption.
