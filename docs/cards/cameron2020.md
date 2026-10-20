@@ -32,7 +32,23 @@ grind.setting -> GrindState; flux table + kappa -> BedState.k; extraction consum
 BedState + MachineState.P_of_t -> ShotResultState.
 
 ## Validation
-Closed mass budget; browser/BDF parity <=0.03 pts matched grids; convergence study
-bounds default-grid bias ~0.15 pts. See paper SI Tables S1–S5 (transcribed in
+The registered `gate_cameron_conservation` checks GS 1.9 (N=40, M=24), GS 1.1
+and GS 2.1 (each N=20, M=12), all at 20 g in / 40 g out, 5 bar overpressure,
+c_s0=118 kg/m³ of grain, and unchanged BDF defaults (rtol=1e-6, atol=1e-8,
+n_save=120). Independent shell/phase-volume accounting of the returned state
+requires |initial − final solid − retained liquid − cup solute| <=2e-11 kg.
+Separately, |EY−EY_solid| <=1e-7 percentage points. All acceptance inputs must
+be finite, final solid/liquid fields >=−1e-8 kg/m³, and EY strictly positive
+and below that case's model-defined initial-inventory/dry-dose ceiling.
+The actual registered gate rejects the historical independent-area interpolation
+fault at GS 1.1/2.1; GS 1.9 remains the insensitive passing control.
+This finite panel neither proves trajectory-wide nonnegativity nor establishes
+empirical accuracy, source reproduction, or diffusion-timescale applicability.
+See [gate correction and results](../analysis/cameron_gate_correction.md).
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+Separate existing evidence: browser/BDF parity <=0.03 pts at matched grids and
+the prior convergence study bounding default-grid bias ~0.15 pts. These were
+not newly established by the gate correction. See paper SI Tables S1–S5 (transcribed in
 `extraction_bdf.py`) and Fig. 5 (EY-vs-grind curve). [corrected 2026-07-11: the
 earlier "Tables 2, 7, 8" do not exist in the paper.]

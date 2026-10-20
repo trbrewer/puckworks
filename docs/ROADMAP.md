@@ -846,6 +846,18 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- **2026-10-20 — R-05/T06 Cameron conservation-gate correction (G0):** connected
+  the actual registered gate to existing independent shell/phase-volume inventory
+  verification at GS 1.9 (40x24), 1.1/2.1 (20x12), with absolute 2e-11 kg and
+  1e-7 pp budgets, finite/final-concentration/model-inventory checks. Historical
+  area interpolation now fails the off-knot mass checks; GS 1.9 remains an
+  insensitive control; restoration passes. Conservation claims and PV-01's
+  comparator rationale corrected with generated consumers. Numerical models,
+  source values, prior evidence and Fasano correction preserved.
+  NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+  Only this Cameron portion is complete; remaining R-05/T06 and R-04/T08 stay
+  separate. [Plan/results](analysis/cameron_gate_correction.md).
+
 - **2026-10-20 — R-05/T06 Fasano gate/claim correction (G0):** removed the
   pressure/flow coincidence predicate and withdrew peak–knee/Corollary 8.2
   verification. The historical gate ID now checks retained sampled turnover,

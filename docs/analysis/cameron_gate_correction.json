@@ -1,0 +1,735 @@
+{
+  "governance": "G0 / NO_GOVERNING_PHYSICS_CHANGE",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base": "faa532409c848b24f7b8554c4c4377d0f9b92c4b",
+  "production_repair": "15479363ab3bcd879364628a1938879f2db8c05c",
+  "historical_interpolation_source": "713c3c229568bb189c548f4c8a490b69a6319bef",
+  "ewp_read_only": {
+    "main": "7c025527da7e07982428d4c78a3e79bfa29a76ac",
+    "puckworks_dependency": "fc61c4670ec7bf801e40bb391aab16048b8da26b"
+  },
+  "environment": {
+    "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "pytest": "9.1.1",
+      "ruff": "0.17.1",
+      "mypy": "2.4.0"
+    },
+    "setup": "isolated venv, pip install -e .[dev]; same dependency versions as the prior Fasano G0 environment"
+  },
+  "tested_source_sha256": {
+    "puckworks/validation/gates.py": "c5dd66eee7c88c6c8fbeb93a0da93f5d9f5a6352e380cf99a17068004be267cc",
+    "tests/test_cameron_conservation_gate.py": "f4498421bd438cc58c4fbd03f01b326a5426ae7bfd25d8e0495e22d0862b943b",
+    "tests/test_cameron_inventory.py": "4f7e3df30e146e13f8f3929638607c746e6eb6f526b94a594f7e28a92c4331c1",
+    "puckworks/models/cameron2020/extraction_bdf.py": "ab9ce925d07397e8effb8d17f909ecc1e42fed93ba3366de95669dd09be4b4a4",
+    "puckworks/models/__init__.py": "a337ce301e00dbb249f4ae0bc8f7318403b54e0865c7ed25023cf9af30b70aa1",
+    "puckworks/public/claims.py": "5e5550d67175a91ce76fec3265ef5b9a8f04001d23aa37ba2112ce34119809ea",
+    "puckworks/paper3/EVIDENCE_LINKS.json": "415ee41d8bf3fe82ee809c36978ce270d85f04eca8a52fe416bd58540741d1a1"
+  },
+  "production_model_git_blob": "63c1d95e150990720e0864945a003a5242469496",
+  "case_support": {
+    "reference": "GS 1.9 N=40 M=24 preserves the former gate and rounded scalars",
+    "off_knot": "GS 1.1/2.1 N=20 M=12 are existing inventory test settings in the two changing-radius intervals",
+    "defaults": "20 g dose, 40 g beverage, P_REF=5 bar overpressure, C_S0=118 kg/m^3 grain; BDF rtol=1e-6, atol=1e-8, n_save=120, q/t_shot model defaults",
+    "scope": "finite three-case verification; broader inventory/geometry/alternate-concentration/refinement tests preserved"
+  },
+  "inherited_requirements": {
+    "source": "tests/test_cameron_inventory.py plus positive/inventory-bound checks from the old gate",
+    "absolute_mass_tolerance_kg": 2e-11,
+    "absolute_ey_tolerance_percentage_points": 1e-07,
+    "final_concentration_floor_kg_m3": -1e-08,
+    "relative_tolerance": 0,
+    "ceiling": "100 * operative initial solute mass / actual dry dose",
+    "accounting": "M_initial - M_solid_final - M_liquid_retained - M_cup; reconstructed midpoint shell volumes and physical phase fractions, independent of EY_solid/BET/production reducers"
+  },
+  "old_gate_blind_spot": {
+    "ey_tolerance_percentage_points": 0.5,
+    "case": "GS 1.9 is in the constant-boulder-radius interval; tightening it alone cannot detect the historical fault"
+  },
+  "fixture": "Historical independent area interpolation reinstated in the current solver; other equations, parameters and settings unchanged. Not full reproduction of the old revision.",
+  "gate_results": {
+    "corrected": {
+      "component_id": "cameron2020.extraction_bdf",
+      "gate_id": "gate_cameron_conservation",
+      "status": "PASS",
+      "summary": "",
+      "metrics": {
+        "EY": 15.39,
+        "EY_solid": 15.39,
+        "inventory_ceiling": 24.5,
+        "cases": [
+          {
+            "case_id": "gs1.9_n40_m24",
+            "GS": 1.9,
+            "N": 40,
+            "M": 24,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 28.474985609583804,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0016346695799434846,
+            "retained_liquid_solute_mass_kg": 0.00018071888049401446,
+            "cup_solute_mass_kg": 0.003078106152895824,
+            "mass_residual_kg": 1.0408340855860843e-17,
+            "abs_mass_residual_kg": 1.0408340855860843e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 15.39053076447912,
+            "EY_solid": 15.390530764479177,
+            "ey_discrepancy_pp": -5.684341886080802e-14,
+            "abs_ey_discrepancy_pp": 5.684341886080802e-14,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.5597675494430817,
+              "cs2": 1.201008234399765,
+              "cl": 0.5580510711521691
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          },
+          {
+            "case_id": "gs1.1_n20_m12",
+            "GS": 1.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 37.63276992623387,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0013652319163670237,
+            "retained_liquid_solute_mass_kg": 0.0001964084821387833,
+            "cup_solute_mass_kg": 0.003331854214827497,
+            "mass_residual_kg": 2.992397996059992e-17,
+            "abs_mass_residual_kg": 2.992397996059992e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 16.659271074137486,
+            "EY_solid": 16.659271074137635,
+            "ey_discrepancy_pp": -1.4921397450962104e-13,
+            "abs_ey_discrepancy_pp": 1.4921397450962104e-13,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.6859541775989035,
+              "cs2": 0.995705802412179,
+              "cl": 0.6837995810045007
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          },
+          {
+            "case_id": "gs2.1_n20_m12",
+            "GS": 2.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 26.60362776312803,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0017491521427155262,
+            "retained_liquid_solute_mass_kg": 0.0001828508247312073,
+            "cup_solute_mass_kg": 0.0029614916458865683,
+            "mass_residual_kg": 3.165870343657673e-17,
+            "abs_mass_residual_kg": 3.165870343657673e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 14.80745822943284,
+            "EY_solid": 14.807458229433005,
+            "ey_discrepancy_pp": -1.652011860642233e-13,
+            "abs_ey_discrepancy_pp": 1.652011860642233e-13,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 1.2587377961698354,
+              "cs2": 1.7888197347196106,
+              "cl": 1.2571241060333473
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          }
+        ]
+      },
+      "artifacts": [],
+      "evidence_links": [],
+      "exception_type": null,
+      "exception_message": null,
+      "schema_version": 1
+    },
+    "historical_fault": {
+      "component_id": "cameron2020.extraction_bdf",
+      "gate_id": "gate_cameron_conservation",
+      "status": "FAIL",
+      "summary": "",
+      "metrics": {
+        "EY": 15.39,
+        "EY_solid": 15.39,
+        "inventory_ceiling": 24.5,
+        "cases": [
+          {
+            "case_id": "gs1.9_n40_m24",
+            "GS": 1.9,
+            "N": 40,
+            "M": 24,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 28.474985609583804,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0016346695799435052,
+            "retained_liquid_solute_mass_kg": 0.00018071888049401343,
+            "cup_solute_mass_kg": 0.0030781061528958055,
+            "mass_residual_kg": 9.540979117872439e-18,
+            "abs_mass_residual_kg": 9.540979117872439e-18,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 15.390530764479026,
+            "EY_solid": 15.390530764479076,
+            "ey_discrepancy_pp": -4.973799150320701e-14,
+            "abs_ey_discrepancy_pp": 4.973799150320701e-14,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.5597675494430365,
+              "cs2": 1.2010082343997095,
+              "cl": 0.5580510711521277
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          },
+          {
+            "case_id": "gs1.1_n20_m12",
+            "GS": 1.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 37.63276992623387,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0013712199762658773,
+            "retained_liquid_solute_mass_kg": 0.0001976419751522335,
+            "cup_solute_mass_kg": 0.0033383884118011794,
+            "mass_residual_kg": -1.3755749885956126e-05,
+            "abs_mass_residual_kg": 1.3755749885956126e-05,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 16.691942059005896,
+            "EY_solid": 16.59349946808369,
+            "ey_discrepancy_pp": 0.09844259092220753,
+            "abs_ey_discrepancy_pp": 0.09844259092220753,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.6900227251736127,
+              "cs2": 0.9990385435558186,
+              "cl": 0.68786865146779
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": false,
+              "ey_agreement": false,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": false
+          },
+          {
+            "case_id": "gs2.1_n20_m12",
+            "GS": 2.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 26.60362776312803,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0017536435111606737,
+            "retained_liquid_solute_mass_kg": 0.00018384377178168432,
+            "cup_solute_mass_kg": 0.002968474076424687,
+            "mass_residual_kg": -1.246674603371141e-05,
+            "abs_mass_residual_kg": 1.246674603371141e-05,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 14.842370382123434,
+            "EY_solid": 14.740819613338646,
+            "ey_discrepancy_pp": 0.1015507687847883,
+            "abs_ey_discrepancy_pp": 0.1015507687847883,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 1.265120903566916,
+              "cs2": 1.7938709392406262,
+              "cl": 1.263507330128762
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": false,
+              "ey_agreement": false,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": false
+          }
+        ]
+      },
+      "artifacts": [],
+      "evidence_links": [],
+      "exception_type": null,
+      "exception_message": null,
+      "schema_version": 1
+    },
+    "restored": {
+      "component_id": "cameron2020.extraction_bdf",
+      "gate_id": "gate_cameron_conservation",
+      "status": "PASS",
+      "summary": "",
+      "metrics": {
+        "EY": 15.39,
+        "EY_solid": 15.39,
+        "inventory_ceiling": 24.5,
+        "cases": [
+          {
+            "case_id": "gs1.9_n40_m24",
+            "GS": 1.9,
+            "N": 40,
+            "M": 24,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 28.474985609583804,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0016346695799434846,
+            "retained_liquid_solute_mass_kg": 0.00018071888049401446,
+            "cup_solute_mass_kg": 0.003078106152895824,
+            "mass_residual_kg": 1.0408340855860843e-17,
+            "abs_mass_residual_kg": 1.0408340855860843e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 15.39053076447912,
+            "EY_solid": 15.390530764479177,
+            "ey_discrepancy_pp": -5.684341886080802e-14,
+            "abs_ey_discrepancy_pp": 5.684341886080802e-14,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.5597675494430817,
+              "cs2": 1.201008234399765,
+              "cl": 0.5580510711521691
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          },
+          {
+            "case_id": "gs1.1_n20_m12",
+            "GS": 1.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 37.63276992623387,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0013652319163670237,
+            "retained_liquid_solute_mass_kg": 0.0001964084821387833,
+            "cup_solute_mass_kg": 0.003331854214827497,
+            "mass_residual_kg": 2.992397996059992e-17,
+            "abs_mass_residual_kg": 2.992397996059992e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 16.659271074137486,
+            "EY_solid": 16.659271074137635,
+            "ey_discrepancy_pp": -1.4921397450962104e-13,
+            "abs_ey_discrepancy_pp": 1.4921397450962104e-13,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 0.6859541775989035,
+              "cs2": 0.995705802412179,
+              "cl": 0.6837995810045007
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          },
+          {
+            "case_id": "gs2.1_n20_m12",
+            "GS": 2.1,
+            "N": 20,
+            "M": 12,
+            "p_bar": 5.0,
+            "m_in_kg": 0.02,
+            "m_out_kg": 0.04,
+            "c_s0_kg_m3": 118.0,
+            "integration": {
+              "method": "BDF",
+              "rtol": 1e-06,
+              "atol": 1e-08,
+              "n_save": 120,
+              "q": null,
+              "t_shot": null
+            },
+            "t_shot_s": 26.60362776312803,
+            "initial_solute_mass_kg": 0.004893494613333334,
+            "final_solid_solute_mass_kg": 0.0017491521427155262,
+            "retained_liquid_solute_mass_kg": 0.0001828508247312073,
+            "cup_solute_mass_kg": 0.0029614916458865683,
+            "mass_residual_kg": 3.165870343657673e-17,
+            "abs_mass_residual_kg": 3.165870343657673e-17,
+            "mass_tolerance_kg": 2e-11,
+            "EY": 14.80745822943284,
+            "EY_solid": 14.807458229433005,
+            "ey_discrepancy_pp": -1.652011860642233e-13,
+            "abs_ey_discrepancy_pp": 1.652011860642233e-13,
+            "ey_tolerance_pp": 1e-07,
+            "inventory_ceiling": 24.467473066666667,
+            "final_concentration_minima_kg_m3": {
+              "cs1": 1.2587377961698354,
+              "cs2": 1.7888197347196106,
+              "cl": 1.2571241060333473
+            },
+            "concentration_minimum_allowed_kg_m3": -1e-08,
+            "checks": {
+              "finite": true,
+              "mass_budget": true,
+              "ey_agreement": true,
+              "cs1_final_nonnegative": true,
+              "cs2_final_nonnegative": true,
+              "cl_final_nonnegative": true,
+              "ey_positive": true,
+              "below_inventory_ceiling": true
+            },
+            "passed": true
+          }
+        ]
+      },
+      "artifacts": [],
+      "evidence_links": [],
+      "exception_type": null,
+      "exception_message": null,
+      "schema_version": 1
+    }
+  },
+  "scientific_limits": [
+    "No empirical accuracy or source-reproduction claim",
+    "Printed Eq. 25 density/geometry inconsistency unresolved",
+    "118/PHI_S remains a caller-selected concentration convention",
+    "Final-state concentration checks do not prove trajectory-wide nonnegativity",
+    "No new convergence/browser-parity evidence",
+    "Conservation does not verify diffusion coefficient/radius interpretation/timescale or measured-fraction applicability",
+    "EWP and its dependency lock unchanged"
+  ],
+  "validation": [
+    {
+      "command": "focused selection (commands.focused)",
+      "passed": 238,
+      "skipped": 1,
+      "deselected": 0,
+      "elapsed_seconds": 15.97,
+      "skip_reason": "matplotlib unavailable; figure module skipped; dedicated Fig. 2 projection test passed"
+    },
+    {
+      "command": "python -m ruff check puckworks/ tests/",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m mypy",
+      "status": "PASS",
+      "source_files": 19
+    },
+    {
+      "command": "python -m puckworks.paper3.registry_artifacts --verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.build verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.availability --verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.corpus --verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m puckworks.insights verify",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m pytest -q -m \"not slow and not live and not gpu and not external_data\"",
+      "status": "PASS",
+      "passed": 6838,
+      "skipped": 70,
+      "deselected": 63,
+      "warnings": 1,
+      "elapsed_seconds": 1312.32,
+      "warning": "Existing Visualizer fixture development-salt warning",
+      "selection_exceptions": []
+    }
+  ],
+  "affected_claims": [
+    "gate_cameron_conservation docstring",
+    "Cameron registry notes",
+    "EVIDENCE_LINKS Cameron conservation claim/observable/caveat/claim_not_supported",
+    "Cameron card Validation",
+    "PV-01 comparator rationale"
+  ],
+  "generated_outputs": {
+    "changed": [
+      "Paper 3 evidence graph and evidence matrices",
+      "paper3_priority_evidence_matrix.md",
+      "Fig. 2 evidence-vector scope",
+      "public claims JSON/CSV/Markdown",
+      "Insight corpus, portfolios, tension atlas and snapshot fingerprints"
+    ],
+    "regenerated_unchanged": [
+      "registry exports",
+      "generated manuscript/catalog blocks",
+      "Insight ID registry"
+    ],
+    "not_required": [
+      "available-data register",
+      "local-family index",
+      "data guide",
+      "Fig. 4-7 scientific recalculation/rendering"
+    ]
+  },
+  "commands": {
+    "focused": "python -m pytest -q tests/test_cameron_inventory.py tests/test_cameron_conservation_gate.py tests/test_registry_artifacts.py tests/test_registry_validation.py tests/test_evidence_graph.py tests/test_evidence_vocabulary_coherence.py tests/test_public_claims.py tests/test_public_dependencies.py tests/test_figures_paper3.py tests/insights/test_foundry.py",
+    "normal": "python -m pytest -q -m \"not slow and not live and not gpu and not external_data\"",
+    "regeneration": [
+      "python -m puckworks.paper3.registry_artifacts --write",
+      "python -m puckworks.paper3.evidence_graph --write",
+      "python -m puckworks.public export --out docs/public/generated",
+      "Fig. 2 only: evidence_vectors projection; complete command in accompanying note",
+      "python -m puckworks.insights write"
+    ],
+    "receipt_reproduction": "runpy test support registered_gate_roundtrip using pytest.MonkeyPatch.context; complete command in accompanying note"
+  },
+  "preservation": {
+    "production_model_files": "byte-identical to base; only registry prose allowed/changed",
+    "other_gate_function_asts": "unchanged",
+    "source_data": "unchanged",
+    "dated_audit_and_review": "unchanged",
+    "fasano_correction": "preserved",
+    "insight_id_registry": "byte-identical",
+    "pv01_numbers": {
+      "early_over_peak": 0.968,
+      "early_tds_pct": 24.36,
+      "peak_tds_pct": 25.16,
+      "boulder_diffusion_timescale_s": 23.1
+    },
+    "pv01_badge": "OBSERVED",
+    "pv01_role": "comparator_context",
+    "pv01_public_evidence_relation": "verification"
+  },
+  "base_tree": "1e589ef944c53548fffceb848a653994b5086f5c",
+  "hosted_checks": {
+    "ruleset": 19053322,
+    "required": [
+      "quick (3.10)",
+      "quick (3.12)",
+      "verify-generated",
+      "paper3-scope-strict",
+      "all-scope-strict"
+    ],
+    "receipt": "Final candidate SHA and hosted receipt are recorded in the PR description/handoff; no hosted result is claimed by this pre-publication record."
+  },
+  "tested_implementation_commit": "9ed5a5436c776e67e2858c3993adef78cdecd622",
+  "tested_implementation_tree": "94f4ff1dfce0a5b65c4c3e3d179c7b05d9614de2",
+  "later_delta": "Documentation/result attribution and generated provenance only; executable/test source hashes remain identical. Public export was reseeded from the base committed claims.json before producer execution, so the changed PV-01 payload is attributed to the tested implementation commit while unchanged claims retain their generation identities. Insight was regenerated last.",
+  "metadata_delta_verification": {
+    "focused": {
+      "passed": 238,
+      "skipped": 1,
+      "deselected": 0,
+      "elapsed_seconds": 14.76
+    },
+    "generated_commands": [
+      {
+        "command": "python -m puckworks.paper3.registry_artifacts --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.build verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.availability --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.corpus --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.insights verify",
+        "returncode": 0
+      }
+    ],
+    "executable_and_test_hashes": "identical to tested implementation commit"
+  }
+}

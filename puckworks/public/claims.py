@@ -105,9 +105,12 @@ PUBLIC_CLAIMS = [
                  claim_domain="the cited boulder radius and bath conditions of the source model",
                  role_in_claim="comparator_context",
                  rationale="The reported 97 % is MEASURED from the Waszkiewicz fractions; "
-                           "cameron2020 supplies only the ~23 s comparator, and the conservation "
-                           "gate is what licenses using its internal accounting for that "
-                           "timescale. DELIBERATELY EXCLUDED: "
+                           "cameron2020 supplies only the ~23 s comparator. Its conservation "
+                           "gate verifies internal solute accounting on three declared cases; "
+                           "it does not verify the diffusion coefficient, radius interpretation, "
+                           "diffusion timescale, or applicability to the measured fraction "
+                           "experiment. This context-only comparator does not downgrade the "
+                           "independently measured fraction finding. DELIBERATELY EXCLUDED: "
                            "gate_smrke2024_fast_extraction_shape, an independent-external record "
                            "with a NEGATIVE outcome about EY(t) MORPHOLOGY. That is a different "
                            "observable from the diffusion timescale and this claim asserts "

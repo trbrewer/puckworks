@@ -1,5 +1,15 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] **R-05/T06 — Cameron conservation-gate portion only (G0):** registered
+  gate now applies existing independent inventory requirements to GS 1.9
+  (40x24), 1.1/2.1 (20x12); actual-gate regression passes/fails/passes across
+  corrected/historical-fault/restored interpolation. Current claims and dependent
+  projections corrected, including PV-01's context-only comparator rationale.
+  [Plan and results](analysis/cameron_gate_correction.md). Production models and
+  historical evidence unchanged. NO_GOVERNING_PHYSICS_CHANGE;
+  PHYSICAL_VALIDATION=NOT_ESTABLISHED. Other R-05/T06 and R-04/T08 work remain
+  separately scoped; one draft PR, open/unmerged, auto-merge disabled.
+
 - [x] **R-05/T06 — Fasano source-figure gate/claim portion only (G0):**
   remove cross-observable proximity and unsupported Corollary 8.2 verification;
   retain executable finite-table turnover/threshold checks and regenerate current
