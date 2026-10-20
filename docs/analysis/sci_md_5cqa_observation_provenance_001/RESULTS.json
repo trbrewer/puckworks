@@ -1,0 +1,261 @@
+{
+  "calibration": {
+    "FIT": {
+      "blank_water_entries": 0,
+      "calibration_sample_association": null,
+      "chart_concentration_interval_mg_per_kg": [
+        25.113817483452426,
+        399.6363309388457
+      ],
+      "chart_pairs": 10,
+      "chart_response_interval": [
+        647.369,
+        9488.07
+      ],
+      "displayed_coefficient_match": true,
+      "independent_injection_replicates": null,
+      "intercept": 78.92338434873636,
+      "nominal_interval_mg_per_kg": [
+        25,
+        400
+      ],
+      "prepared_nonzero_interval_mg_per_kg": [
+        25.113817483452426,
+        399.6363309388457
+      ],
+      "prepared_standard_records": 10,
+      "purity_isomer_certificate": null,
+      "reason": "Equation provenance alone supplies no explicit analytical batch/sample applicability record",
+      "recorded_stock_preparations": 2,
+      "slope": 24.513031419182962,
+      "source_basis": "source-labelled mg/kg; stock denominator is water mass, not solute-plus-water mass",
+      "source_stock_formula_cache_agreement": true,
+      "unassigned_zero_chart_pairs": 0,
+      "validated_range": null,
+      "working_formula_and_chart_agreement": true
+    },
+    "PRED": {
+      "blank_water_entries": 2,
+      "calibration_sample_association": null,
+      "chart_concentration_interval_mg_per_kg": [
+        0,
+        409.5658601882006
+      ],
+      "chart_pairs": 13,
+      "chart_response_interval": [
+        0,
+        10833.027
+      ],
+      "displayed_coefficient_match": true,
+      "independent_injection_replicates": null,
+      "intercept": -88.06721108738066,
+      "nominal_interval_mg_per_kg": [
+        5,
+        400
+      ],
+      "prepared_nonzero_interval_mg_per_kg": [
+        5.8503594576493105,
+        409.5658601882006
+      ],
+      "prepared_standard_records": 12,
+      "purity_isomer_certificate": null,
+      "reason": "Equation provenance alone supplies no explicit analytical batch/sample applicability record",
+      "recorded_stock_preparations": 2,
+      "slope": 26.382682871149022,
+      "source_basis": "source-labelled mg/kg; stock denominator is water mass, not solute-plus-water mass",
+      "source_stock_formula_cache_agreement": true,
+      "unassigned_zero_chart_pairs": 1,
+      "validated_range": null,
+      "working_formula_and_chart_agreement": true
+    }
+  },
+  "component_failures": {},
+  "coverage": [
+    {
+      "annotated_invalid_sample_labels": 0,
+      "campaign": "FIT",
+      "exact_sample_key_matches": 45,
+      "inspected_identity_and_preparation_positions": 45,
+      "intended": 45,
+      "invalid_spill": 0,
+      "new_preparation_consistent": 44,
+      "physical_shots": 45,
+      "preparation_assessable": 45,
+      "preparation_flagged_conflict": 1,
+      "preparation_unassessable": 0,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 45,
+      "range_within": null,
+      "reused_C01_arithmetic": 0,
+      "role": "q1",
+      "source_valid": 45,
+      "valid_zero_count_reused_authority": 0
+    },
+    {
+      "annotated_invalid_sample_labels": 2,
+      "campaign": "FIT",
+      "exact_sample_key_matches": 43,
+      "inspected_identity_and_preparation_positions": 45,
+      "intended": 45,
+      "invalid_spill": 3,
+      "new_preparation_consistent": 41,
+      "physical_shots": 45,
+      "preparation_assessable": 42,
+      "preparation_flagged_conflict": 1,
+      "preparation_unassessable": 0,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 42,
+      "range_within": null,
+      "reused_C01_arithmetic": 0,
+      "role": "q2",
+      "source_valid": 42,
+      "valid_zero_count_reused_authority": 0
+    },
+    {
+      "annotated_invalid_sample_labels": 0,
+      "campaign": "FIT",
+      "exact_sample_key_matches": 180,
+      "inspected_identity_and_preparation_positions": 180,
+      "intended": 180,
+      "invalid_spill": 0,
+      "new_preparation_consistent": 179,
+      "physical_shots": 45,
+      "preparation_assessable": 180,
+      "preparation_flagged_conflict": 1,
+      "preparation_unassessable": 0,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 180,
+      "range_within": null,
+      "reused_C01_arithmetic": 0,
+      "role": "suffix",
+      "source_valid": 180,
+      "valid_zero_count_reused_authority": 0
+    },
+    {
+      "annotated_invalid_sample_labels": 0,
+      "campaign": "PRED",
+      "exact_sample_key_matches": 24,
+      "inspected_identity_and_preparation_positions": 24,
+      "intended": 24,
+      "invalid_spill": 0,
+      "new_preparation_consistent": 21,
+      "physical_shots": 24,
+      "preparation_assessable": 24,
+      "preparation_flagged_conflict": 0,
+      "preparation_unassessable": 0,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 24,
+      "range_within": null,
+      "reused_C01_arithmetic": 3,
+      "role": "q1",
+      "source_valid": 24,
+      "valid_zero_count_reused_authority": 0
+    },
+    {
+      "annotated_invalid_sample_labels": 0,
+      "campaign": "PRED",
+      "exact_sample_key_matches": 24,
+      "inspected_identity_and_preparation_positions": 24,
+      "intended": 24,
+      "invalid_spill": 0,
+      "new_preparation_consistent": 21,
+      "physical_shots": 24,
+      "preparation_assessable": 24,
+      "preparation_flagged_conflict": 0,
+      "preparation_unassessable": 0,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 24,
+      "range_within": null,
+      "reused_C01_arithmetic": 3,
+      "role": "q2",
+      "source_valid": 24,
+      "valid_zero_count_reused_authority": 0
+    },
+    {
+      "annotated_invalid_sample_labels": 0,
+      "campaign": "PRED",
+      "exact_sample_key_matches": 96,
+      "inspected_identity_and_preparation_positions": 96,
+      "intended": 96,
+      "invalid_spill": 0,
+      "new_preparation_consistent": 83,
+      "physical_shots": 24,
+      "preparation_assessable": 95,
+      "preparation_flagged_conflict": 0,
+      "preparation_unassessable": 1,
+      "range_above": null,
+      "range_assessable": 0,
+      "range_below": null,
+      "range_reason": "No explicit standard-to-sample analytical batch/applicability relationship",
+      "range_unassessable": 96,
+      "range_within": null,
+      "reused_C01_arithmetic": 12,
+      "role": "suffix",
+      "source_valid": 96,
+      "valid_zero_count_reused_authority": 0
+    }
+  ],
+  "execution_coverage": {
+    "finite_scope": "PARTIALLY_INSPECTED",
+    "named_originals": "FULLY_INSPECTED_WITH_DECLARED_LEVELS",
+    "named_originals_inspected": 8,
+    "reason": "Eight originals and internal relevant references inspected; one explicit external Windows original unavailable"
+  },
+  "labels": [
+    "GOVERNANCE_CLASS=G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+    "ANALYTICAL_UNCERTAINTY=NOT_ESTABLISHED"
+  ],
+  "preparation_conflicts": {
+    "FIT_q1": 1,
+    "FIT_q2": 1,
+    "FIT_training_target": 1,
+    "PRED_missing_aliquot_quantity": 1,
+    "chosen_correction": null,
+    "effect_on_predictor_bias": null,
+    "q1_conflict_outside_matched_cohort_due_to_q2_spill": 1,
+    "source_value_diagnostics": "PRIVATE: reduction-003/reduction.json observations[].source_value_diagnostic"
+  },
+  "preserved_populations": {
+    "FIT_positions": 270,
+    "FIT_shots": 45,
+    "PRED_positions": 144,
+    "PRED_shots": 24,
+    "PRED_suffix_positions": 96,
+    "matched_FIT_qualified_mass_prefixes": 165,
+    "matched_FIT_shots": 42,
+    "matched_FIT_suffix_intended": 168
+  },
+  "private_evidence": {
+    "metadata_intake_sha256": "e301b0133d66ab008654f379a6750d981d728c70a4f2192b2cc8db3804ee166c",
+    "reduction_sha256": "31fe10379b42ac1ceb60fa08bae582f3b436a5eaf28c04f26540d447289c837b"
+  },
+  "rights": "Pannusch/Schmieder; CC-BY-NC-3.0; Mendeley DOI 10.17632/y2tz67f6ry.1; software licensing separate",
+  "scientific_disposition": [
+    "SPECIFIC_NEW_SOURCE_PREPARATION_INCONSISTENCIES",
+    "CALIBRATION_REGRESSIONS_REPRODUCED",
+    "CAUSAL_BIAS_EXPLANATION_UNRESOLVED",
+    "BATCH_APPLICABILITY_CONTROLS_AND_MATERIAL_RELATIONS_UNASSESSED"
+  ],
+  "task": "SCI-MD-5CQA-OBSERVATION-PROVENANCE-001"
+}
