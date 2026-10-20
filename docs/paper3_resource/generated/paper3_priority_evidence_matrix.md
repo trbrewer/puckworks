@@ -92,8 +92,8 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 - **claim NOT supported:** It does not externally validate the streamtube model nor extrapolate beyond dial 1.1-1.5; the held-out fold is 1 of only 3 same-campaign points.
 
 ## `cameron2020.extraction_bdf::gate_cameron_conservation`
-- **claim:** The cameron2020 BDF two-population solver conserves solute mass (cup-mass EY agrees with solid-depletion EY to within 0.5 pp) and the predicted EY stays strictly below the model's own per-bed soluble-inventory ceiling.
-- **observable:** Extraction yield EY (%) via two internal accounting routes plus an inventory upper bound, all computed from the simulation and module constants.
+- **claim:** On GS 1.9 (N=40,M=24), GS 1.1 and 2.1 (N=20,M=12), independent shell/phase-volume accounting of the returned state closes within 2e-11 kg; separately |EY-EY_solid|<=1e-7 percentage points. All acceptance inputs are finite, final solid/liquid concentrations are >=-1e-8 kg/m^3, and 0<EY<the model-defined initial-inventory/dry-dose ceiling. The registered gate rejects the historical off-knot area-interpolation fault at GS 1.1/2.1, with GS 1.9 an insensitive passing control.
+- **observable:** Independent returned-state solute residual (initial minus final solid, retained liquid and cup, kg), separate EY-EY_solid (percentage points), final concentration minima and model inventory bound; GS 1.9 (40x24), 1.1/2.1 (20x12); absolute budgets 2e-11 kg and 1e-7 pp; historical off-knot interpolation-fault detection.
 - **tier / relationship:** code_verification / code_verification
 - **paper3_use / support:** method_demonstration / admissible
 - **reality_facing:** False
@@ -101,8 +101,8 @@ The claims the `--strict --scope paper3` release gate is fail-closed on (claim_o
 - **eval datasets:** (none)
 - **sources:**
     - `cameron2020` — not_applicable_source_equation — role=reference, independence=not_applicable — physics/equations or model card; supplies no MANIFEST dataset for this gate
-- **caveat:** Loads NO MANIFEST dataset — it runs a self-contained simulate_shot and builds the ceiling from model-internal constants (R0, bed_depth, C_S0, phi_s), so the ceiling is self-referential.
-- **claim NOT supported:** Does NOT establish that the model's EY matches any measured espresso yield — it is a numerical mass-budget self-consistency check, not empirical validation.
+- **caveat:** Loads NO MANIFEST dataset. All cases use 20 g dry dose, 40 g beverage, 5 bar overpressure, c_s0=118 kg/m^3 of grain, BDF rtol=1e-6/atol=1e-8/n_save=120 and remaining defaults. Accounting independently reconstructs shell weights and uses measured phase fractions, but shares operative geometry and source constants; the ceiling is model-defined. Printed Eq. 25 density/geometry and source-reproduction inconsistencies remain unresolved; caller-selected 118/PHI_S is a separate concentration basis. Existing browser parity and convergence evidence is separate and is not newly established here.
+- **claim NOT supported:** Does NOT establish empirical EY accuracy, source/Fig. 5 reproduction, trajectory-wide nonnegativity, general convergence, or correctness/applicability of the diffusion coefficient, radius interpretation or diffusion timescale to measured fractions. Reinstating the historical interpolation fault in the current solver does not reproduce every behavior of the old revision. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 ## `fasano2000_partI.fines_migration::gate_fasano_freeboundary`
 - **claim:** A free-boundary fines-migration solver with puckworks' own (invented) closures exhibits Fasano's analytic structure: global mass balance <1%, q(t) monotone non-increasing, s(t)>= s_min, and a non-monotone q_inf(p0) with an interior peak.

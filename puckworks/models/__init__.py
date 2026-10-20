@@ -10,7 +10,13 @@ register(Component(
     assumptions="saturated bed from t=0; homogeneous 1D flow; single solute pool; "
                 "grain-volume soluble concentration; inventory from phase volume and printed Eq. 25",
     valid_range="EK43 dial 1.1-2.3; 20 g in / 40 g out class recipes",
-    notes="mass-conservative FV + scipy BDF; ~0.15-pt default-grid bias (per the paper's SI convergence); gated on the built-in EY==EY_solid mass budget"))
+    notes="mass-conservative FV + scipy BDF; conservation gate: GS 1.9 (N=40,M=24), "
+          "1.1/2.1 (N=20,M=12), 20 g in/40 g out, 5 bar overpressure, c_s0=118 kg/m^3 "
+          "of grain. Independent shell/phase-volume accounting of returned state <=2e-11 kg; "
+          "separate |EY-EY_solid|<=1e-7 pp; finite values, final concentrations>=-1e-8, "
+          "0<EY<model inventory ceiling. Detects historical off-knot area-interpolation fault. "
+          "Existing browser parity/convergence evidence is separate (~0.15-pt default-grid "
+          "bias); source reproduction and printed Eq. 25 density basis remain unresolved"))
 
 register(Component(
     name="brewer2026.streamtube", stage="bed_dynamics", kind="runtime",

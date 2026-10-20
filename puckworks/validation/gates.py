@@ -360,20 +360,98 @@ def gate_egidi_bracket():
                 cameron_in_bracket=bool(EY.min() <= cam_EY <= EY.max()))
 
 
+def _cameron_solid_inventory(concentration, radius, phase_fraction, bed_volume):
+    """Reduce a final (axial cell, radial node) field using physical shell volumes.
+
+    Reconstruct midpoint faces independently of SphereGrid and the production
+    mass reducer. Physical phase fractions, never BET-derived volumes, set mass.
+    """
+    import numpy as np
+    nodes = np.linspace(0.0, radius, concentration.shape[1])
+    faces = np.r_[0.0, (nodes[:-1] + nodes[1:]) / 2.0, radius]
+    weights = np.diff(faces ** 3) / radius ** 3
+    return float(bed_volume * phase_fraction * np.mean(concentration @ weights))
+
+
 def gate_cameron_conservation():
-    """cameron2020.extraction_bdf conserves solute (EY from cup mass == EY from
-    solid depletion minus holdup, its built-in cross-check) and stays below the
-    per-bed soluble-inventory ceiling. Self-contained mass-budget gate."""
+    """Verify returned-state solute accounting at GS 1.9 (40x24), 1.1/2.1 (20x12).
+
+    Independent shell/phase-volume accounting must close within 2e-11 kg;
+    separately, |EY-EY_solid| <= 1e-7 percentage points. Require finite values,
+    final concentrations >= -1e-8 and 0 < EY < the model inventory ceiling.
+    The off-knot cases detect the historical independent-area interpolation
+    fault; GS 1.9 is an insensitive control. This is finite code verification,
+    not empirical validation, browser parity or a new convergence study.
+    """
     import numpy as np
     from puckworks.models.cameron2020 import extraction_bdf as cam
-    r = cam.simulate_shot(1.9, m_in=0.020, m_out=0.040)
-    phi1, phi2, *_ = cam.grind_microstructure(1.9)
-    ceiling = (np.pi * cam.R0 ** 2 * cam.bed_depth(0.020) * (phi1 + phi2)
-               * cam.C_S0 / 0.020 * 100.0)
-    passed = (abs(r.EY - r.EY_solid) < 0.5      # mass conservation cross-check
-              and 0 < r.EY < ceiling)            # below inventory ceiling
-    return dict(passed=passed, EY=round(r.EY, 2), EY_solid=round(r.EY_solid, 2),
-                inventory_ceiling=round(ceiling, 1))
+    cases = []
+    # Existing defaults, explicit so the reported configuration is the one executed.
+    settings = dict(rtol=1e-6, atol=1e-8, n_save=120, q=None, t_shot=None)
+    m_in, m_out, p_bar, c_s0 = 0.020, 0.040, cam.P_REF, cam.C_S0
+    for gs, n, m in ((1.9, 40, 24), (1.1, 20, 12), (2.1, 20, 12)):
+        case_id = f"gs{gs:.1f}_n{n}_m{m}"
+        r = cam.simulate_shot(gs, N=n, M=m, m_in=m_in, m_out=m_out,
+                              p_bar=p_bar, c_s0=c_s0, **settings)
+        phi1, phi2, a2, _, _ = cam.grind_microstructure(gs)
+        volume = np.pi * cam.R0 ** 2 * cam.bed_depth(m_in)
+        fields = (r.cs1_final, r.cs2_final, r.cl_final)
+        if any(field.shape != shape for field, shape in
+               zip(fields, ((n, m), (n, m), (n,)))):
+            raise ValueError(f"{case_id}: malformed final concentration field")
+        inputs_finite = bool(
+            all(np.isfinite(field).all() for field in fields)
+            and np.isfinite([volume, phi1, phi2, cam.A1, a2, cam.PHI_S,
+                             c_s0, m_in, m_out, p_bar, r.EY, r.EY_solid,
+                             r.m_cup[-1], r.t_shot]).all())
+        if not inputs_finite:
+            # Use the runner's existing ERROR convention, never an unserializable FAIL.
+            raise ValueError(f"{case_id}: non-finite inventory input")
+        initial = float(volume * (phi1 + phi2) * c_s0)
+        solid = sum(_cameron_solid_inventory(field, radius, phi, volume)
+                    for field, radius, phi in
+                    ((r.cs1_final, cam.A1, phi1), (r.cs2_final, a2, phi2)))
+        retained = float(volume * (1 - cam.PHI_S) * np.mean(r.cl_final))
+        cup = float(r.m_cup[-1])
+        residual = initial - solid - retained - cup
+        ey, ey_solid = float(r.EY), float(r.EY_solid)
+        discrepancy = ey - ey_solid  # separate diagnostic, not converted mass residual
+        ceiling = 100.0 * initial / m_in
+        minima = dict(zip(("cs1", "cs2", "cl"),
+                          (float(field.min()) for field in fields)))
+        finite = bool(inputs_finite and np.isfinite(
+            [initial, solid, retained, cup, residual, discrepancy, ceiling]).all())
+        if not finite:
+            raise ValueError(f"{case_id}: non-finite inventory diagnostic")
+        checks = dict(
+            finite=finite,
+            mass_budget=bool(abs(residual) <= 2e-11),
+            ey_agreement=bool(abs(discrepancy) <= 1e-7),
+            cs1_final_nonnegative=bool(minima["cs1"] >= -1e-8),
+            cs2_final_nonnegative=bool(minima["cs2"] >= -1e-8),
+            cl_final_nonnegative=bool(minima["cl"] >= -1e-8),
+            ey_positive=bool(ey > 0.0),
+            below_inventory_ceiling=bool(ey < ceiling),
+        )
+        cases.append(dict(
+            case_id=case_id, GS=gs, N=n, M=m, p_bar=p_bar,
+            m_in_kg=m_in, m_out_kg=m_out, c_s0_kg_m3=c_s0,
+            integration=dict(method="BDF", **settings),
+            t_shot_s=float(r.t_shot),
+            initial_solute_mass_kg=initial, final_solid_solute_mass_kg=solid,
+            retained_liquid_solute_mass_kg=retained, cup_solute_mass_kg=cup,
+            mass_residual_kg=residual, abs_mass_residual_kg=abs(residual),
+            mass_tolerance_kg=2e-11, EY=ey, EY_solid=ey_solid,
+            ey_discrepancy_pp=discrepancy, abs_ey_discrepancy_pp=abs(discrepancy),
+            ey_tolerance_pp=1e-7, inventory_ceiling=ceiling,
+            final_concentration_minima_kg_m3=minima,
+            concentration_minimum_allowed_kg_m3=-1e-8,
+            checks=checks, passed=all(checks.values()),
+        ))
+    reference = cases[0]
+    return dict(passed=all(case["passed"] for case in cases),
+                EY=round(reference["EY"], 2), EY_solid=round(reference["EY_solid"], 2),
+                inventory_ceiling=round(reference["inventory_ceiling"], 1), cases=cases)
 
 
 def gate_p2_kappa_ladder():
