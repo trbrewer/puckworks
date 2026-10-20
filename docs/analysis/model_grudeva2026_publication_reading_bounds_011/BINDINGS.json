@@ -1,0 +1,201 @@
+{
+  "completed_343_integration_reuse": {
+    "disposition": "Existing completed 25 PR checks and 17 main-push jobs reused; no new integration campaign",
+    "main_checks_sha256": "7df9f2a8fee04f343b9a2506834cad1c0734ada7d41516fb053b1bb00aa336f1",
+    "merge": {
+      "administrative_bypass": false,
+      "auto_merge": false,
+      "ci_trigger_commit": "6b3f701dc5cafc6c7fdeebb004657da81ca6644e",
+      "corrective_commits": [],
+      "expected_head_guard": "6b3f701dc5cafc6c7fdeebb004657da81ca6644e",
+      "main_parent": "6f7e95fc5fe8aa7bc6fa0984e77d558cd3af7dbf",
+      "merge_message_contains_ci_skip": false,
+      "reviewed_commit": "8b05668ba0c2c235bf427e343daac850f8cfceb3",
+      "scientific_diff": "EMPTY",
+      "shared_tree": "b97a1bf4a95800ecc7c7459a7e924f5d1336a57c",
+      "squash_commit": "b755f250aaa300ccb7d379ef3a3ec2de672044a5"
+    },
+    "receipt_sha256": "c28f22287ec48d62f9c8dada44c587ad209ce4cfba16c6b21d36e35c1ecf452b"
+  },
+  "duplicate_check": "No equivalent 011 in repository, branches, open/completed PRs or issues at intake; full-reference 010 / PR #333 preserved",
+  "ewp_main": "7c025527da7e07982428d4c78a3e79bfa29a76ac",
+  "files": {
+    "docs/analysis/model_grudeva2026_baseline_observation_005/CONTRACT.md": "acd73c778ae9cdb8fbc948d48ae4c4c43fed369bfe3508ab487d19291a6e351a",
+    "docs/analysis/model_grudeva2026_bed_accuracy_004/CONTRACT.md": "47b03225fa1309ea5b8699ce41b3df065edc54b0f08ced10785f3fd3aa365ebb",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/ACCOUNTING.json": "5c36b41e7a83479e8e2bf126f52b501c564b0ef1f63af31cd6f06215836edb74",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_ACCOUNTING.json": "4f4a20864c2425a15bb99db46511663f327f9d7f3c60d318e1dbf8b3db3ee75b",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_ADMISSION.json": "b87ad616827095223747b76ea664f06500f970e8f0c639cf92b2fd89a995bf29",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_EVIDENCE_BINDINGS.json": "2b204eb01033ac474f28e2a80629dbcd7e7ae507a2602e38097ac155b324052a",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_FAILURE.json": "2d67f8d0657588c7b5768d3c3b85eabe85bd50439e11595458094e8a3b30441d",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_HANDOFF.md": "d7db0d6fed6705283f7ebb8b691b8e17a4024741ee7a6d2fe99dea5c525eaa2b",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_QA.json": "23f3df5396e6b71780b8f7cd9251a96fee074b9aab067b7cde2034a5bdb27b1e",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_RESULTS.json": "2f2a8909402a34debb0eb0a5ea0f9d8178315a2b6b0aebcc284439f5d6ff9822",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_RESULTS.md": "e2e27f57cb0bbb34195ddd8ed568c51fcbaeab8a17039b1aaa66d6b14b4fa7f8",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTINUATION_UNCHANGED_SOURCES.json": "fc804b6d7d53604d099da3b3d6d9672ca5b031960427fda30ccf780c35d309cb",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/CONTRACT.md": "e0965c2fbb01c3162bdb2a08839f901959acdf8eae5c9dedd93f8864bce3eac8",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/EVIDENCE_BINDINGS.json": "675f5b89b2fc3562956d75c8b7a0721732b339d59694cb9dbe3f161069158b8f",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/EXECUTION_POLICY_OVERRIDE.json": "7bade61e4f65e65dec5f800cf449e1f52e1a799ae667815bf7c5f45fb40285f2",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/HANDOFF.md": "a2256e36c20aff2f26529e4fb2a2e5333fc3e46267c84a7db9264c0acdce80d3",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/MATRIX.json": "796fd24ced0c9ee8ba3764e3a46b71aed919d281e76ab8c066f0575caadcef7c",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/OVERRIDE_PREEXECUTION.json": "24fed9b6f94bc9789b83ec293fcbd542ef173174a730ea4070c8e5b933c301fe",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/OVERRIDE_PREEXECUTION_REVIEW.json": "ead24775caf0ced9bcb5f390a08d509c28f26b7514a4e3e7eafd1a3487b285b2",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/OWNER_OVERRIDE.md": "81facc0a30f35ea63e859d926b75939f9b11dfa835e174e9ca17999f9c4b274b",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PLAN.json": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PREEXECUTION.json": "5d3402cbea950fde0034600e59a038bda34cda81de033f73e7d0924dc579c138",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/PREEXECUTION_REVIEW.json": "1789b6aaa84cd0c586aadcac73fdf9428242f560647a3c95051f11bf8a374bf0",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/READOUT.json": "d94c876fb4c8f6da32976860afa99f5942b8d27349904d470c4bb5d3836afd53",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_ACCOUNTING.json": "f2cc55c975c9972a9a1988dac3c2f53509e57085b7e2630b1cc6e561f16f6f11",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_ADMISSION_CORRECTION.json": "133273136ba913e91489de95d73c52fdffe44ed74a2de7b238d8ccc1293206aa",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_ADMISSION_CORRECTION.md": "fe66218765d7d1306151cfe11d93acb826d639502fbbcbba683c8562f36fc6a7",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_CERTIFICATE.json": "b8b63d580e960cc381e58d31ce6041a1c293360acf2bebd2f9e150a95bfaedab",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_COMBINED_DIAGNOSTIC.json": "f02c29c3839b84ea3e2fd3658280dff3349ef8f8142d0e978a5e350ab6dd4a57",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_DIAGNOSIS.json": "552591ed4b5341310e603daa125de2bc2192efe954d5bd36173f75ae9d942eb3",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_EVIDENCE_BINDINGS.json": "3c95c2e358b84704b540f1c7e5373b96d83c40b04d183596f98d497ba1df3f63",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_HANDOFF.md": "0240f76ec32c305b017b925ef417cc927d0631982c133ca66e9e4c6fd9f091a3",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_PREEXECUTION_REVIEW.json": "dde04f6c146e7fe339295b7b32c6c802953b3a0f2de659adf2cc1570e3003493",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_QA.json": "f714615848ca3fe5c795807ecf9d3e2d9718cfbebe4a5099f74c9a5548f2cdb2",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_REASSESSMENT_AUTHORITY.md": "c76509665f46c35549350562944ccd66d903e18e8cf5dbe8a789556eac4cc39d",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_REASSESSMENT_PLAN.json": "4af6a3661e507d4f9f9f79b4d333aaf3b11807c8dca4062bec374f97c6819a08",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_RESULTS.json": "5ffd988be2c102eb045125f19e553b88dc0820ed7dafc74981067284dab86827",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_RESULTS.md": "661bb8187d225a73267b6533052bc3be0b512666d303aba8276d4c05caa74961",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/REPLAY_UNCHANGED_SOURCES.json": "7f0f63d1be94408a2d99cab70a06d2fd6a516ed9547a08231971ba6aaded76e0",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/RESULTS.json": "04db1be9e2da97e8f1577f0423dadbec0e97848053af68bed2a0aff2a1caa45c",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/RESULTS.md": "05aa39c22312aff37a5952e24bdd59f11cd9a8cbcd317d4539eb275acf5e7a67",
+    "docs/analysis/model_grudeva2026_fine_baseline_qualification_007/UNCHANGED_SOURCES.json": "e4f8e52c86314677e1d5493846fe4fecdec86d6a1d6e3c0063b91ed5fa568694",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/ACCOUNTING.json": "848bba855869e3c81e7f4a05aa6ab22579cba72ee5fcce5d9e51963798e31cd8",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/CONTRACT.json": "4f657f041145cf42916a9f37c4788d290d0b8bac47783c233c6c76be29d81e7c",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/CONTRACT.md": "5dd8d185e0bb70cb07908a22192a23d4d7f5320410fbf86be92e1326a14ed741",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/DIAGNOSTICS.json": "b8dd14a6865bc5b6dab942af32d89084cd23a3bc6789e17fbb32918eba474645",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/EVIDENCE_BINDINGS.json": "4416225b0f04fa34ee6b04cdacdd5a0e9b8df50a09ed0a2feb2e49fb503903e4",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/HANDOFF.md": "03205e886366213b94f872448f07503218942d6cb709fa3a9695ac0686bb0928",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/INTEGRATION.json": "970a8d324c499fb55d20a81edc92a3285077a4806a57dfba692fb5df259aeaf4",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/PRE_SCORING_REVIEW.json": "0aa9cc3e1619782871611bc5e8264fc2b34e9c59fadcbcfd9e53f5988a7e2e18",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/QA.json": "bcf9e1c644b810ecf0e6826c811a38fda2631ba7b507de2c1813d4a25d1314fd",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/RESULTS.json": "53d7df682e3a334e283e38536cfcb31d0eb76b40b4b86ddb0a1d2624142c414e",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/RESULTS.md": "b6dda44ea048fcbd256186345eecdf9ad50160d33411a6b30403476ecdda76d0",
+    "docs/analysis/model_grudeva2026_matched_comparison_008/SUPPORT.json": "7b27aa41937e8426888c951deb6cbe4009bfa868d29c801e2b854847f27d1b30",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/ACCOUNTING.json": "1348570827e9f71a76d3c87376aaafc396625d15fbb75ded7dbff1b0fb9ade1f",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/CONTRACT.json": "ab4d874bb4d93b17ced4610e72b77505db72b833fc2a6c0445f39805cf6c888b",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/EVIDENCE_BINDINGS.json": "9531fcdb7223adc06446873e9510045ecaf30b1fbc78264a929a9eb42f554308",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/HANDOFF.md": "bdcfc10cb12e29e1d6ed63aa7aa76c61c09b7b29037079ebe34d382540c292da",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/INTEGRATION.json": "8f3d7b1efc65d3873666a4ce0a8b2258a21b5c22d41f810cbe174f94a7b84e5d",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/PRE_SCORING_REVIEW.json": "85c61e7e9e8f4bd5163767dabdb8c362e936a6cb0a0ef9990f7c4653ab5a9823",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/QA.json": "08d40bf8e4b3e63e49b771855a4f8406857a8a91198ba1e1441a48a60ae4a48e",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/RESULTS.json": "b2895fe8bdf7b8b1e529a9830b036f18eff9100800331a0ae8953b9ae9d13862",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/RESULTS.md": "6e4aa8024d78a813c2bccc0d8e102c91fbd83e609b93c25c33666be3a37e77f1",
+    "docs/analysis/model_grudeva2026_publication_reconciliation_009/SOURCE_REUSE.json": "6ec5f68c7b1c1c318139751cdc644c38ab526b377f8d61d462abaf5215a63e81",
+    "docs/analysis/model_grudeva2026_reduced_001/CONTRACT.md": "cd594ea467d8237ebe13c42ebc285c1d9d6d5e86a68efe5b8ad9f55a98dd4f7e",
+    "docs/analysis/model_grudeva2026_reference_002/RESULTS.md": "dd66bb8c129f1be406b68d3dc4fe3703b2347cb83aaab2917d9feb60256cfd49",
+    "docs/cards/grudeva2026_2.md": "c32fa237a22b2970f6369d6767fd9c7273bd09338c87d11de82b3744bb8366be",
+    "docs/research/REVIEW_PW_EWP_2026-10-18_gpt6-astra-pro.md": "dee129ff0ff62d99f954ba2d3ac89db7194c23bdb8df79bc17930aad312a8740",
+    "puckworks/analysis/grudeva2026_baseline_observation_005.py": "71985ef5c0c1d1680ef1ee211527359532d2b911e85ed3230a709ddd4ffe38da",
+    "puckworks/analysis/grudeva2026_baseline_observation_005_attribution.py": "00ad1fd1c79fa531e54f69e65fdffbc56782e8a497b88f6aae50d0dc084d3b49",
+    "puckworks/analysis/grudeva2026_baseline_observation_005_diagnosis.py": "db2fb00f2a1baa3dc58151598f91a88db1be086cd7e6e3cefb6a94fb8d528d87",
+    "puckworks/analysis/grudeva2026_baseline_observation_005_report.py": "3422eaefc584c944665c98071c563f3534ef30f8db3afe7cd9ca777e1b6785d0",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004.py": "fcc1daa15df11fa2559deccbd3dd6dd43e8c7debd877275f4da2aa8b924f7db3",
+    "puckworks/analysis/grudeva2026_bed_accuracy_004_report.py": "1f3336564f6d1dca5f5a5036fbbaee695e4b69b26c94e46543b871f3adab576d",
+    "puckworks/analysis/grudeva2026_conservative_003.py": "bfddfc3340867024b2f6e0522811205d3083b6c3014bac0baa6ebf7dd474028a",
+    "puckworks/analysis/grudeva2026_conservative_003_observer.py": "497eb0ee3e5a1ccce5814e0bc65ce302bcb0ef2e3f45199d0a650f1569e65022",
+    "puckworks/analysis/grudeva2026_conservative_003_report.py": "012cdc82b7b6ced5613bd5d96b7b443d78193249f3a242f5511ef916a6aa6a97",
+    "puckworks/analysis/grudeva2026_fine_baseline_qualification_007.py": "a067b099240c7fa4437d5a5bcba9c756a0b7004b4e134e5626386b65f7340fdb",
+    "puckworks/analysis/grudeva2026_matched_comparison_008.py": "0d8bb769eb9910741d52f2520d4a9ae096cf21d3f0e24df06385a0ae5b5a53c7",
+    "puckworks/analysis/grudeva2026_matched_comparison_008_io.py": "727a11d334ebc6a931b9176978018e19e1f34bb36ad224fc9bb07cf940902d1d",
+    "puckworks/analysis/grudeva2026_publication_reconciliation_009.py": "894652022524d6dd93d577ae28800f8f009d16637a27b49fcadd69c1d68c98d6",
+    "puckworks/analysis/grudeva2026_publication_reconciliation_009_io.py": "b503d7e01831c26fbd80cad4656bda7caabecb8e59d112339ecda2ff0091f0eb",
+    "puckworks/analysis/grudeva2026_reference_002.py": "456961006ced968c876e0bb4fa84f04c3ed4f0657bfc7de35855419c58a2358c",
+    "puckworks/analysis/grudeva2026_reference_002_report.py": "eaeb3bb53dbe8e3f92e3dcc3a107144a300558f69096a8789d0b1bfa6026b464",
+    "puckworks/analysis/grudeva2026_replay_certificate_007.py": "c3e8499d197ef7ff8243ddb623623d04c8ce99c7b18b6a7b101b73e2008564e9",
+    "puckworks/analysis/grudeva2026_replay_reassessment_007.py": "ee65f5b48696e68719f8bf84cc3eea114f5f6aaff8c538131a5c9fca33b3cca3",
+    "puckworks/analysis/grudeva2026_spatial_resolution_006.py": "8725729da2d4c1148b5ff670b84aad62da9b2a3574e68dcc168d3c16cbd71226",
+    "puckworks/analysis/grudeva2026_spatial_resolution_006_report.py": "d13c39152f7f31d276630c80c57e86df885dc2004756192ccea776daac572efc",
+    "puckworks/data/grudeva2026/publication_reference.json": "15260e44cfcdcb1b87b105fd0484b27a8ff7ac45cd9b81539431aab13a9cd6c2"
+  },
+  "inputs": {
+    "C0": {
+      "attempt": "normal-final",
+      "controls": {
+        "bed": 512,
+        "diffusivity": 1.0,
+        "dt": 0.002,
+        "horizon": 8.0,
+        "shells": 3200
+      },
+      "matrix_sha256": "28e43008a3fdd5af6447dbbc08b8b0c72a0731eb4f338eb7f45974f433dcd3c4",
+      "observations": {
+        "file": "normal-final.json",
+        "sha256": "7cd9ec12e80479f2f19ba108f5e097c59e4071b88fb14f5d09421ee308a2284b"
+      },
+      "row": "normal",
+      "task": "MODEL-GRUDEVA2026-BED-ACCURACY-004"
+    },
+    "C1": {
+      "attempt": "combined-final",
+      "controls": {
+        "bed": 1024,
+        "diffusivity": 1.0,
+        "dt": 0.001,
+        "horizon": 8.0,
+        "shells": 6400
+      },
+      "matrix_sha256": "28e43008a3fdd5af6447dbbc08b8b0c72a0731eb4f338eb7f45974f433dcd3c4",
+      "observations": {
+        "file": "combined-final.json",
+        "sha256": "c40491fac51a769b22f7b0ffff317decc6eafc0256c1a0b85592d2882656620d"
+      },
+      "row": "combined",
+      "task": "MODEL-GRUDEVA2026-BED-ACCURACY-004"
+    },
+    "P0": {
+      "attempt": "006-spatial-512",
+      "controls": {
+        "atol": 2e-10,
+        "cells": 512,
+        "front_mesh_power": 2.0,
+        "max_step": 0.05,
+        "modes": 32,
+        "rtol": 2e-08
+      },
+      "metadata": {
+        "file": "006-spatial-512.json",
+        "sha256": "6582ce08f9d2442b49a528440d1586988b68a7073b334c0ab70702ab84a04b05"
+      },
+      "observations": {
+        "file": "006-spatial-512-observations.json",
+        "sha256": "1b37a1217a5b687b297006ee8ae9582bdaea7ee9dc504315fc2f10b71ab7305b"
+      },
+      "plan_sha256": "4dff690bb93165a0e34e81b67d8d396b060324d9e1d1b439b93432dd7a7ee95b",
+      "row": "spatial_512",
+      "task": "MODEL-GRUDEVA2026-SPATIAL-RESOLUTION-006"
+    },
+    "P1": {
+      "attempt": "007-combined",
+      "certificate": {
+        "file": "replay_certification/certify-0001/certificate.json",
+        "sha256": "79fdadc149c89eed161d5bc62433e6ad5d2a512fa6b2ab46e2f683168f03f31c"
+      },
+      "controls": {
+        "atol": 2e-11,
+        "cells": 1024,
+        "front_mesh_power": 2.0,
+        "max_step": 0.025,
+        "modes": 64,
+        "rtol": 2e-09
+      },
+      "metadata": {
+        "file": "continuation/attempts/007-combined-0001/007-combined.json",
+        "sha256": "bae4244d7b5359956e03f0a18760ec000424e1b4fec3427559293bf0fa97e16f"
+      },
+      "observations": {
+        "file": "replay_reassessment/analyze-0001/observations.json",
+        "sha256": "801ddd753f97c204009ad7fd0b052158792dbcbbca52722bddaeda7ef0317544"
+      },
+      "plan_sha256": "58022fba2759562b0965410c774b5a8681e7373f83421abe9aba5c17e943d69b",
+      "row": "combined",
+      "task": "MODEL-GRUDEVA2026-FINE-BASELINE-QUALIFICATION-007"
+    }
+  },
+  "pw_main": "b755f250aaa300ccb7d379ef3a3ec2de672044a5",
+  "rights": "Grudeva, Moroney & Foster; DOI 10.1017/S095679252500018X; CC-BY-4.0 figure readings; adapted 004 permission lineage separate",
+  "source_role": "PUBLIC_NUMERICAL_REFERENCE_COMPARISON / TARGET_EXPOSED",
+  "task": "MODEL-GRUDEVA2026-PUBLICATION-READING-BOUNDS-011"
+}
