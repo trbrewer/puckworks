@@ -685,5 +685,51 @@
       "all-scope-strict"
     ],
     "receipt": "Final candidate SHA and hosted receipt are recorded in the PR description/handoff; no hosted result is claimed by this pre-publication record."
+  },
+  "tested_implementation_commit": "9ed5a5436c776e67e2858c3993adef78cdecd622",
+  "tested_implementation_tree": "94f4ff1dfce0a5b65c4c3e3d179c7b05d9614de2",
+  "later_delta": "Documentation/result attribution and generated provenance only; executable/test source hashes remain identical. Public export was reseeded from the base committed claims.json before producer execution, so the changed PV-01 payload is attributed to the tested implementation commit while unchanged claims retain their generation identities. Insight was regenerated last.",
+  "metadata_delta_verification": {
+    "focused": {
+      "passed": 238,
+      "skipped": 1,
+      "deselected": 0,
+      "elapsed_seconds": 14.76
+    },
+    "generated_commands": [
+      {
+        "command": "python -m puckworks.paper3.registry_artifacts --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.build verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.availability --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.corpus --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --verify",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all",
+        "returncode": 0
+      },
+      {
+        "command": "python -m puckworks.insights verify",
+        "returncode": 0
+      }
+    ],
+    "executable_and_test_hashes": "identical to tested implementation commit"
   }
 }

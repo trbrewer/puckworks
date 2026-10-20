@@ -259,3 +259,33 @@ EWP test, external-data campaign, GPU run, live service test or unrelated slow
 campaign was added. The checked implementation is identified by immutable source
 hashes in the JSON receipt; subsequent revision attribution is recorded below
 and the final hosted CI receipt belongs to the PR/handoff.
+
+
+## Revision attribution
+
+The precommit implementation content that passed the full normal suite is
+committed as `9ed5a5436c776e67e2858c3993adef78cdecd622` (tree
+`94f4ff1dfce0a5b65c4c3e3d179c7b05d9614de2`). Its executable and test SHA-256 identities
+match the gate receipts. The subsequent commit adds this attribution and updates
+only documentation/result metadata and generated provenance; it changes no tested
+executable, numerical model, source value or acceptance requirement.
+
+To avoid attributing the changed PV-01 payload to an unmodified base revision,
+the final public export was seeded with the **base committed** `claims.json`
+before running the existing producer at the implementation commit:
+
+```bash
+git restore --source=faa532409c848b24f7b8554c4c4377d0f9b92c4b --worktree docs/public/generated/claims.json
+python -m puckworks.public export --out docs/public/generated
+python -m puckworks.insights write
+```
+
+This is a provenance seed, not a hand-edit of generated rows. PV-01's new payload
+is now attributed to the tested implementation commit, while unchanged claims
+retain their existing generation identities. All public verification stamps and
+Insight commit stamps identify that implementation revision; subsequent hashes
+reflect those producer outputs. No self-referential commit update is required.
+The final candidate head and required hosted-check receipt are recorded in the
+PR description/handoff rather than in a commit claiming its own SHA.
+
+After this provenance-only refresh, the same focused selection passes again: **238 passed, 1 skipped** in 14.76 s. All eight generated verification/reconciliation commands above pass again. Executable and test hashes remain identical to the tested implementation commit. The full normal suite is attributed to that implementation; final hosted checks are attributed to the final PR head.

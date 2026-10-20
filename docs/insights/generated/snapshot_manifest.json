@@ -1,5 +1,5 @@
 {
-  "commit": "faa532409c848b24f7b8554c4c4377d0f9b92c4b",
+  "commit": "9ed5a5436c776e67e2858c3993adef78cdecd622",
   "counts": {
     "candidates": 90,
     "entities": 283,
@@ -19,7 +19,7 @@
     },
     {
       "path": "docs/public/generated/claims.json",
-      "sha256": "5bf8f44047ca59df12d98c9e9eaa40201832c81f6adba8336364d07288e154b3"
+      "sha256": "5dacd63a3d2762cc8687d84675df10a7485c6e022cb5b5d9fc0bf975048173d8"
     },
     {
       "path": "docs/ANALYSIS_P2.md",
@@ -497,7 +497,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "a2c0fd5eb9ae0cf78eaf2d9667e14fa205c5d8b7f52cf58f642383b4d2ed776d"
+      "sha256": "60bd90466bf2650b0b63e19addc55c8ed27a474cd405e1eb2f3ec79f569beca2"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -505,15 +505,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "10dfe0e61082da6937522913119106d7a8491e32c1662f38cb66577c59b7d68e"
+      "sha256": "1614e2bc969e250ff64974831e7322f638c3033f144131bee108421250807808"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "4bfdaf217b641d0ace0be9c909222080b90cfd7e63a96df78b3502b3d0715740"
+      "sha256": "1cff105e569f9e75517c1a2410ea53a5f1f7e58600817928638f7eb7ebccb3aa"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "349545108ead5a3b5d9572b02a12fd0c045e3b1df3910f17d0931423df1e2bc0"
+      "sha256": "771018de475f988dff020041dc72e003458bf832ef13855660a6cf306d8c8b07"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -525,15 +525,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "e077d633a2e05cba0e15bba733665dd94230f3c0fe32729530523a221f6d96aa"
+      "sha256": "7f2ea037ffd4d8a517026fcc1c2920d116fbfe82366a007b723417123c8d36c6"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "122c0a9c2296f97e34b8a2263fc5f2fc22485ff677f840847b7a880488e2439b"
+      "sha256": "fbd5ec953609619e781468a447cf98f90409897b68ff411a3e68aab03d31748f"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "d7f32fd982830cff112102d17c6f8cfc839b4476c39323103a9310e6be404c94"
+      "sha256": "23e201c93c968fb05db8447de293008194b1d64ea904c700ecde45f4c48f9929"
     }
   ],
   "pack": [
