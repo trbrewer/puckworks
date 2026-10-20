@@ -882,15 +882,22 @@ def gate_roman_bed_mpe_parameter_free():
 
 
 def gate_fasano_cor82_nonmonotone():
-    """fasano2000_partI (0.12/3.3 intake): the ONLY faithfully-checkable claim
-    (the model closures K,M,gamma are unpublished, so Fig 8.6 cannot be
-    reproduced from scratch -- this is NOT a model twin). The paper's Cor. 8.2
-    proves nonmonotone q_inf(p0) REQUIRES the flow to cross the detachment
-    threshold beta(q); therefore the peak of the digitized q_inf(p0) (Fig 8.6)
-    must sit at the flow where beta(q) drops steeply (Fig 8.7). Verified for both
-    thresholds, plus the ordering (beta2 drops at lower q -> peaks at lower p0).
-    Strength: qualitative / structural verification of the digitized figures via
-    the paper's own necessary condition. No closures invented."""
+    """Descriptive source-figure check of retained Fig. 8.6/8.7 samples.
+
+    ``cor82`` is historical naming; this does not verify Corollary 8.2.
+    For each response table, a sampled maximum is strictly inside the pressure
+    range, has lower discharge before it, and exceeds the final discharge by
+    more than 0.005. This inherited coordinate screen is not an uncertainty,
+    theorem, model-accuracy or physical-admission threshold. Tail rebounds are
+    allowed; neither strict unimodality nor a continuous maximum is asserted.
+    beta2's sampled maximum is at lower pressure than beta1's.
+
+    Separately, each threshold table is nonincreasing on every retained interval
+    with a net drop. The steepest-segment midpoint is sampling-dependent, not an
+    analytically identified transition. No cross-figure relation is assessed;
+    source-model output and threshold inputs are not independent measurements.
+    This gate does not execute the fines-migration solver.
+    """
     from puckworks import data as d
     f86 = d.fasano_fig8_6()
     f87 = d.fasano_fig8_7()
@@ -899,19 +906,34 @@ def gate_fasano_cor82_nonmonotone():
         pts = sorted((r["p0"], r["q"]) for r in f86 if r["series"] == s)
         ip = max(range(len(pts)), key=lambda i: pts[i][1])
         peak_p0, peak_q = pts[ip]
-        nonmono = pts[-1][1] < peak_q - 0.005 and ip > 0
+        interior = pts[0][0] < peak_p0 < pts[-1][0]
+        lower_before = any(q < peak_q for _, q in pts[:ip])
+        endpoint_drop = pts[-1][1] < peak_q - 0.005
         b = sorted((r["q"], r["beta"]) for r in f87 if r["series"] == s)
-        slopes = [((b[i][0] + b[i + 1][0]) / 2,
-                   (b[i + 1][1] - b[i][1]) / (b[i + 1][0] - b[i][0]))
+        slopes = [(b[i + 1][1] - b[i][1]) / (b[i + 1][0] - b[i][0])
                   for i in range(len(b) - 1)]
-        knee_q = min(slopes, key=lambda x: x[1])[0]
-        out[s] = dict(peak_p0=peak_p0, knee_q=knee_q,
-                      tracks=bool(abs(peak_p0 - knee_q) < 0.05), nonmono=bool(nonmono))
+        steepest = min(range(len(slopes)), key=slopes.__getitem__)
+        segment = (b[steepest][0], b[steepest + 1][0])
+        out[s] = dict(
+            n_samples=len(pts), peak_p0=peak_p0, peak_q=peak_q, final_q=pts[-1][1],
+            peak_inside_pressure_range=bool(interior), lower_before_peak=bool(lower_before),
+            endpoint_drop_gt_0_005=bool(endpoint_drop),
+            sampled_turnover=bool(interior and lower_before and endpoint_drop),
+            threshold_nonincreasing=bool(all(slope <= 0 for slope in slopes)),
+            threshold_net_drop=bool(b[-1][1] < b[0][1]),
+            steepest_segment_q=segment, steepest_segment_q_midpoint=sum(segment) / 2,
+            steepest_segment_slope=slopes[steepest])
     ordering = out["beta2"]["peak_p0"] < out["beta1"]["peak_p0"]
-    passed = bool(all(v["nonmono"] and v["tracks"] for v in out.values()) and ordering)
+    passed = bool(all(v["sampled_turnover"] and v["threshold_nonincreasing"]
+                      and v["threshold_net_drop"] for v in out.values()) and ordering)
     return dict(passed=passed, beta2_peaks_below_beta1=bool(ordering),
                 beta1=out["beta1"], beta2=out["beta2"],
-                strength="qualitative/structural (Cor. 8.2; digitized, not a model twin)")
+                endpoint_drop_screen=0.005,
+                cross_figure_relation="unassessed",
+                strength="qualitative (descriptive source-figure check; no solver execution)",
+                note="cor82 is historical naming; does not verify Corollary 8.2 or a "
+                     "peak-at-threshold-knee relationship. Peak-pressure ordering is an "
+                     "observation, not a consequence of threshold-segment ordering.")
 
 
 def gate_fasano_freeboundary():
@@ -948,7 +970,8 @@ def gate_fasano_reversal_signature():
     transient peak (fines counter-migration re-arms the compact layer), while
     segment 2 (pressure off/on, medium undisturbed) resumes at the LOW plateau
     with no such peak. The authors' key discriminating experiment for fines
-    migration. Qualitative."""
+    migration. Qualitative reduction of the experimental trace; this does not
+    simulate chamber reversal with the implemented solver."""
     from puckworks import data as d
     rows = d.fasano_fig8_4()
 

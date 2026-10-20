@@ -1,5 +1,13 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] **R-05/T06 — Fasano source-figure gate/claim portion only (G0):**
+  remove cross-observable proximity and unsupported Corollary 8.2 verification;
+  retain executable finite-table turnover/threshold checks and regenerate current
+  consumers. [Plan and results](analysis/fasano_gate_correction.md). No production
+  numerics, source-value, frozen-evidence or evidence-ceiling change.
+  PHYSICAL_VALIDATION=NOT_ESTABLISHED. Remaining R-05/T06 items and R-04 mechanism
+  work remain separately scoped; one draft PR, unmerged, auto-merge disabled.
+
 - [x] **SCI-H1-PANNUSCH-EQUILIBRIUM-LIMIT-001 (R-03):** derived and executed the matched frozen-model limit comparison on 12 March shots, paired caffeine/trigonelline and all six assayed fractions. Finite-rate RMSE 0.0113453 versus equilibrium 0.0780434; gain +0.0666981 ±0.0002547 numerical allowance, positive and resolved through all 16 deletions. Retained boundary-aware empirical RMSE 0.0111868; no combined mechanistic advantage established. [Result and limitations](analysis/sci_h1_pannusch_equilibrium_limit_001/RESULT.md), [reproduction and handoff](analysis/sci_h1_pannusch_equilibrium_limit_001/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / TARGET_EXPOSED / SOURCE_INTERNAL. PHYSICAL_VALIDATION=NOT_ESTABLISHED; practical materiality unestablished. Draft PR only, auto-merge disabled; EWP and historical bundles unchanged; no successor.
 
 - [x] **VAL-CASE-5CQA-DECISION-RESOLUTION-001:** one retained-evidence addendum completed. L12 has positive primary RMSE gains over L1M and L2M in all twelve paired physical-shot deletions, including numerical lower endpoints; L2M/L1M changes sign. Squared-mean-error and centered-residual contributions are reported separately. Temperature L12/L1M remains adverse at baseline and changes sign under deletion. All six analysis components completed; historical inadequacy, no earned two-assay route and incomplete flow remain unchanged. [Results and handoff](analysis/val_case_5cqa_decision_resolution_001/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL. PHYSICAL_VALIDATION=NOT_ESTABLISHED; ANALYTICAL_UNCERTAINTY=NOT_ESTABLISHED. One October 9 T04 case and bounded 5-CQA T02 interpretation only; neither broader queue is closed. One draft PR, unmerged, auto-merge disabled; EWP read-only; no successor.

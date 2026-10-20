@@ -20,9 +20,9 @@
     "resource_context": 13
   },
   "by_relationship": {
-    "code_verification": 22,
+    "code_verification": 21,
     "independent_external": 4,
-    "not_empirical": 10,
+    "not_empirical": 11,
     "post_fit_same_data": 21,
     "same_campaign_not_held_out": 8,
     "within_campaign_held_out": 2
@@ -31,7 +31,7 @@
     "admissible": 37,
     "context_only": 30
   },
-  "content_sha256": "ab575df32bc303ec5689555145f0374d6418c5bee5b9affcc9e89202840afa4b",
+  "content_sha256": "d060305e09231dfed9cea9b05ec14d627845e34d60e6c530e9723a1dabc3c45f",
   "n_adjudicated": 67,
   "n_asserted_paper3_admissible": 30,
   "n_asserted_paper3_claims": 30,

@@ -210,10 +210,12 @@ def _has_placeholder(link):
 #: by an ordering, so each one is recorded here with its reason.
 CONSERVATIVE_SUMMARIES = {
     "fasano2000_partI.fines_migration":
-        "Its gates verify code and reproduce a source curve for the deposition sub-model, but the "
-        "component is used in this project only for the DIRECTION of the fixed-pressure response; "
-        "declaring the reproduction tier would imply the whole migration model is reconstructed "
-        "here, which it is not.",
+        "The free-boundary gate checks bounded numerical behavior with project-chosen closures. "
+        "The Fig 8.6/8.7 gate describes retained source-model output and threshold inputs; the "
+        "Fig 8.4 gate reduces an experimental reversal trace without simulating reversal. "
+        "Neither figure reduction reproduces the solver or verifies Corollary 8.2. The component "
+        "retains qualitative capacity, including the tested fixed-pressure temporal direction, "
+        "not faithful source-model reproduction or physical validation.",
     "moroney2016.surrogate":
         "Reproduces its source curve, but is carried as a bounding surrogate rather than as a "
         "predictive component, so the weaker capacity claim is the one the project relies on.",

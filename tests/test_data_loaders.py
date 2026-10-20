@@ -213,7 +213,7 @@ def test_romancorrochano_y0_ceiling():
 
 
 def test_fasano2000_partI_intake():
-    # Cor 8.2 structural check: q_inf(p0) nonmonotone, peak tracks beta knee
+    # Intake smoke check only; full descriptive contract: test_fasano_source_figures.py.
     f86 = pwdata.fasano_fig8_6()
     f87 = pwdata.fasano_fig8_7()
     for s in ("beta1", "beta2"):
@@ -221,7 +221,7 @@ def test_fasano2000_partI_intake():
         ip = max(range(len(pts)), key=lambda i: pts[i][1])
         assert ip > 0 and pts[-1][1] < pts[ip][1]        # nonmonotone
         b = sorted((r["q"], r["beta"]) for r in f87 if r["series"] == s)
-        assert b[0][1] > b[-1][1]                        # beta decreasing
+        assert b[0][1] > b[-1][1]                        # net endpoint drop only
     # Fig 8.4 reversal: inverted segment replays a big peak, resume stays low
     rows = pwdata.fasano_fig8_4()
     pk = lambda seg: max(r["discharge_ml_s"] for r in rows if r["segment"] == seg)

@@ -766,15 +766,15 @@ def fasano_fig8_4():
 def fasano_fig8_6():
     """Fig 8.6 (digitized): MODEL asymptotic discharge q_inf vs applied pressure
     p0 for threshold functions beta1, beta2 (mu=0.5; Suski free-boundary
-    simulation). The nonmonotone q_inf(p0) result. Verification of a digitized
-    model output -- NOT reproducible from scratch (closures K,M,gamma unpublished)."""
+    simulation). Retained source-model output for descriptive shape checks,
+    not independent measurements or solver reproduction (closures unpublished)."""
     return _typed_rows(_fasano1() / "fig8_6_asymptotic_q_vs_p0.csv")
 
 
 def fasano_fig8_7():
     """Fig 8.7 (digitized): the detachment-threshold shapes beta1(q), beta2(q)
-    fed to the Fig 8.6 simulation -- monotone-decreasing with a steep drop (the
-    threshold the flow must cross for nonmonotone q_inf, per Cor. 8.2)."""
+    fed to the Fig 8.6 simulation. Retained threshold inputs with steep drops;
+    static samples do not demonstrate the evolving release condition b-beta(q)."""
     return _typed_rows(_fasano1() / "fig8_7_thresholds.csv")
 
 

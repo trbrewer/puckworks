@@ -566,7 +566,7 @@
       "historical_task_uses": [
         "3.3 experimental target (only nonmonotone-q_inf evidence)",
         "gate_fasano_reversal_signature",
-        "gate_fasano_cor82_nonmonotone (target)",
+        "gate_fasano_cor82_nonmonotone (source-figure description)",
         "gate_fasano_cor82_nonmonotone (input)"
       ],
       "laboratory_count_if_known": "UNKNOWN",
@@ -583,8 +583,8 @@
       "notes": [
         "low fidelity; 3/5/7 bar; transient peak then decay to a pressure-nonmonotone asymptote",
         "3 segments: direct decay / off-on resume at low plateau / inverted replays full peak",
-        "nonmonotone q_inf(p0) for beta1,beta2; peak tracks the Fig 8.7 beta knee (Cor 8.2)",
-        "monotone-decreasing with a steep drop; beta1 knee ~q=0.33, beta2 knee ~q=0.23"
+        "sampled interior maxima and lower final discharges with inherited 0.005 screen; beta2 peaks at lower pressure and has a smaller tail rebound; no peak-knee or Corollary 8.2 verification",
+        "nonincreasing retained threshold inputs; steepest-segment flow midpoints beta1=0.325 and beta2=0.225 are sampling-dependent diagnostics; cross-figure relation unassessed"
       ],
       "observables": [
         "UNKNOWN"
@@ -615,7 +615,7 @@
       "validation_strength": [
         "qualitative (experimental, schematic redraw)",
         "qualitative (fines counter-migration reversal test)",
-        "verification of DIGITIZED model output (Suski sim); NOT reproducible -- closures K,M,gamma unpublished",
+        "qualitative description of digitized source-model output; no solver execution or faithful reproduction -- closures K,M,gamma unpublished",
         "input (beta(q) detachment thresholds)"
       ]
     },
@@ -3346,6 +3346,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "3879b137f4dcac885d79c8a5946b6c2bc1e80d3d2caf10c95c8d5bbd56441106",
+  "manifest_sha256": "eee002dab1074a8412180735a7347f866c5fbe9959be1b0bf0133425b04b3eb1",
   "schema_version": 1
 }

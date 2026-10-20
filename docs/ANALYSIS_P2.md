@@ -125,11 +125,16 @@ observable and report an honest partial verdict rather than "pending":
   flow ratio is monotone non-increasing (throttles to ≈4 % of initial over the shot for a
   representative illy powder), so even with a best-case free level it scores RMSE ≈1.08 g/s
   — *worse than the best constant null* (0.573) — and is strongly anti-correlated with the
-  trace (*r* ≈ −0.95). **fasano2000_partI fines-migration**: analytically, its discharge is
-  monotone non-increasing at constant p₀ (Lemma 8.3), and Part III states the flux can rise
-  again *only if p₀(t) increases* — so at fixed 9 bar it cannot source the rise, independent
-  of the (unpublished, our-chosen) closures. The sign is grind/coffee-independent, so this
-  is a *qualitative* cross-rig refutation, not a fit to the Waszkiewicz coffee.
+  trace (*r* ≈ −0.95). **fasano2000_partI fines-migration**: the retained card's
+  Lemma 8.3 interpretation gives nonincreasing discharge at constant p₀ under
+  R=R(m+b) and condition (8.42). The existing free-boundary gate separately
+  demonstrates temporal nonincrease for its tested project-chosen closures and
+  settings. Under those admitted assumptions the mechanism cannot source the
+  rising fixed-pressure trace. This is a *qualitative* sign exclusion, not a fit
+  to the Waszkiewicz coffee or a result for arbitrary closures and all
+  fines-migration mechanisms. It does not depend on the withdrawn Fig. 8.6/8.7
+  peak–knee claim. Temporal behavior at fixed pressure differs from asymptotic
+  response across pressures; see the [R-05/T06 correction](analysis/fasano_gate_correction.md).
 - **Dissolution-driven porosity-opening (Φ(t), rung 4) is the only tested mechanism with the
   correct sign** — a dissolving matrix *opens* porosity over time, which is what a rising
   trace requires; RC-3b (rung 5, Cameron-coupled diffusion-limited Φ) has the right sign too
