@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "750d4306d19e73a57e52051b10188e57302bebafe1fb538e1b1c97f802435759",
+  "available_data_register_sha256": "bf15b981056f31f9710d54db5c4cd293d3893ad0e71f7ab70e8cd5676b3126e3",
   "families": [
     {
       "aliases": [
@@ -200,8 +200,8 @@
       "limits": [
         "low fidelity; 3/5/7 bar; transient peak then decay to a pressure-nonmonotone asymptote",
         "3 segments: direct decay / off-on resume at low plateau / inverted replays full peak",
-        "nonmonotone q_inf(p0) for beta1,beta2; peak tracks the Fig 8.7 beta knee (Cor 8.2)",
-        "monotone-decreasing with a steep drop; beta1 knee ~q=0.33, beta2 knee ~q=0.23"
+        "sampled interior maxima and lower final discharges with inherited 0.005 screen; beta2 peaks at lower pressure and has a smaller tail rebound; no peak-knee or Corollary 8.2 verification",
+        "nonincreasing retained threshold inputs; steepest-segment flow midpoints beta1=0.325 and beta2=0.225 are sampling-dependent diagnostics; cross-figure relation unassessed"
       ],
       "manifest_dataset_ids": [
         "fasano2000_partI/fig8_1_experimental",

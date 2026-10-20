@@ -25,12 +25,19 @@ OUR closures (documented, tunable -- NOT the paper's): resistivity R(u)=1+a*u
 (rises with total fines u=m+b), packing M, compact-layer resistivity R_c>>R,
 particle slowing mu=0.5 (the paper's Fig 8.6 value), initial mobile m0.
 
-What this reproduces (mechanism, gate_fasano_freeboundary): mass balance 8.33
-closed; q(t) monotone-nonincreasing (Lemma 8.3); s(t) >= s_m = 1-(1+m0)/M
-(Lemma 8.1); and a NONMONOTONE q_inf(p0) with an interior peak (rise -> peak ->
-decline, the Fig 8.6 headline) driven by the release->compaction->resistance
-feedback. The peak vs the digitized Fig 8.6/8.7 is checked separately by
-gate_fasano_cor82_nonmonotone (Cor. 8.2, data level).
+What the existing gate_fasano_freeboundary demonstrates for its tested settings:
+mass balance 8.33 closed to <1%; q(t) monotone-nonincreasing; s(t) >= s_m =
+1-(1+m0)/M; and a nonmonotone finite-horizon q_inf(p0) approximation on its
+sampled pressures. These are bounded numerical checks with project-chosen
+closures, not a faithful source-curve reproduction or all-parameter guarantee.
+The card's Lemma 8.3 interpretation requires R=R(m+b) and condition (8.42).
+
+Separately, gate_fasano_cor82_nonmonotone reduces retained Fig 8.6/8.7 samples
+without running this solver. It describes sampled turnover, peak-pressure
+ordering and threshold segments; ``cor82`` is historical naming, not Corollary
+8.2 verification. It assesses no peak-at-threshold-knee relationship. The
+Fig 8.4 reversal-signature gate also reduces a trace; it does not simulate
+chamber reversal.
 """
 import numpy as np
 from scipy.integrate import solve_ivp

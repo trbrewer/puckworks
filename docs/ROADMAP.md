@@ -463,7 +463,7 @@ preserved in §5.1.
 |---|---|---|---|---|---|
 | 3.1 | mo2023_2 swelling | bed_dynamics | M | 2.2 designed; 0.4-adjacent Table 1 transcribed; A8 | k₀ Table 2 closed-form (verification); Fig. 3(a) flow-decay ratios (verification); Fig. 8 yield/strength within replicate bars for M_c<30 g (post-fit); fixed-q insensitivity |
 | 3.2 | fasano2000_partII lifted κ(t) closure | bed_dynamics | S–M | 2.2; DE1 flow traces staged | fit compaction/swelling constants to rising-flow residual; discriminate vs partI via pressure-step |
-| 3.3 | fasano2000_partI fines migration | bed_dynamics | M | 2.2; β(q), γ, M, K(b,m) closure fitting; A8 | reproduce Fig. 8.6 nonmonotone q∞(p₀) (verification); fit exponential flow decay with physical params; exact mass budget |
+| 3.3 | fasano2000_partI fines migration | bed_dynamics | M | 2.2; β(q), γ, M, K(b,m) closure identification remains unresolved; A8 | existing structured solver: bounded mass (<1%), boundary, temporal-sign and sampled pressure checks; separate descriptive source-figure gate; faithful source reproduction and physical fit unestablished ([correction](analysis/fasano_gate_correction.md)) |
 | 3.4 | lee2023 N-tube graft | bed_dynamics | S (2-tube repro) / M (streamtube graft) | streamtube; 2.3 | reproduce Fig. 4 fit AND the documented negative result (plateau at physical ρ_c) |
 | 3.5 | romancorrochano2017_extraction | extraction | M | 0.5; A3/A6 from 1.8a | stirred-vessel MPE 5–8% with 4-MW Deff (post-fit); parameter-free bed gate MPE ≤14% (independent); y₀ vs Cameron ceiling cross-check (§5.5) |
 
@@ -845,6 +845,18 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 `gated + data`) require a §7.1 entry citing the dataset and the gate script.**
 
 ### 7.1 Change log
+
+- **2026-10-20 — R-05/T06 Fasano gate/claim correction (G0):** removed the
+  pressure/flow coincidence predicate and withdrew peak–knee/Corollary 8.2
+  verification. The historical gate ID now checks retained sampled turnover,
+  the unchanged 0.005 endpoint-drop screen, peak-pressure ordering and separate
+  threshold nonincrease. Source-figure, solver and reversal-trace roles remain
+  distinct; current evidence consumers regenerated. The P2 sign argument keeps
+  its separate basis under the card's R=R(m+b)/(8.42) assumptions. Source values,
+  production numerics and frozen history unchanged; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+  [Plan, evidence and results](analysis/fasano_gate_correction.md).
+  Only this Fasano portion is complete; remaining R-05/T06 and R-04 work stay separate.
+  This supersedes the peak–knee interpretation in the preserved 2026-07-11 intake entry below.
 
 - **2026-10-18 — VAL-CASE-5CQA-DECISION-RESOLUTION-001:** completed the bounded frozen 5-CQA addendum with authenticated retained evidence, twelve primary and six temperature paired physical-shot deletions, and an RMSE-scale algebraic decomposition. L12 gains over both matched single-assay controls remain positive throughout the primary family, including numerical endpoints; L2M/L1M changes sign. The adverse temperature L12/L1M baseline and all historical adequacy/complexity failures are preserved. Six components complete; direct fraction and detailed extrapolation checks available. [Results and handoff](analysis/val_case_5cqa_decision_resolution_001/HANDOFF.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL; physical validation and analytical uncertainty NOT_ESTABLISHED. Completes one October 9 T04 case and a bounded T02 interpretation, not either broader queue. Draft PR only, EWP read-only, no successor or evidence-strength upgrade.
 

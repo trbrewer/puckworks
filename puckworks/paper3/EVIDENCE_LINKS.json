@@ -291,10 +291,10 @@
   {
    "adjudication_status": "ADJUDICATED",
    "card": "fasano2000_partI",
-   "caveat": "fig8_6 is DIGITIZED MODEL OUTPUT (Suski simulation, not experiment) and the closures are unpublished, so this is a structural consistency check between two of the paper's own figures via its own necessary condition, not a reproduction of Fig 8.6 from scratch.",
-   "claim": "In Fasano's digitized figures the peak of the asymptotic-discharge curve q_inf(p0) (Fig 8.6) sits at the flow where the detachment threshold beta(q) (Fig 8.7) drops steeply, the structural link the paper's Corollary 8.2 requires.",
+   "caveat": "Descriptive source-figure check only: Fig. 8.6 is digitized source-model output and Fig. 8.7 contains threshold inputs, not independent espresso measurements. The inherited 0.005 endpoint-drop screen is not an uncertainty estimate, theorem requirement, model-accuracy tolerance or physical-admission threshold. Tail rebounds are allowed. Segment midpoints depend on sampling; compatible cross-figure normalization is unestablished.",
+   "claim": "The retained Fig. 8.6 response tables each have a sampled maximum strictly inside the represented pressure range, lower preceding discharge and a final discharge more than 0.005 below the maximum; beta2 peaks at lower pressure than beta1. Separately, Fig. 8.7 threshold samples are nonincreasing on every interval with a net drop.",
    "claim_id": "fasano2000_partI.fines_migration::gate_fasano_cor82_nonmonotone",
-   "claim_not_supported": "It does not reproduce the paper's model curve from the governing equations, identifies no parameter, and asserts nothing about physical reality.",
+   "claim_not_supported": "No solver execution, faithful source-curve reproduction, physical validation, parameter identification, finite-time cessation of release or peak-at-threshold-knee relationship is demonstrated. cor82 is historical naming; this does not verify Corollary 8.2. Peak-pressure ordering is not attributed to threshold ordering.",
    "claim_owner": "paper3",
    "component": "fasano2000_partI.fines_migration",
    "component_evidence_strength": "qualitative_capacity",
@@ -302,10 +302,10 @@
    "evidence_strength": "sign_or_compatibility",
    "gate": "gate_fasano_cor82_nonmonotone",
    "link_id": "fasano2000_partI.fines_migration::gate_fasano_cor82_nonmonotone",
-   "observable": "Location of the q_inf(p0) peak vs the steepest-slope knee of the beta(q) threshold, plus non-monotonicity of q_inf(p0).",
+   "observable": "Sampled peak pressure and peak discharge in Fig. 8.6, preceding and final discharge, and separately Fig. 8.7 steepest-segment flow bounds, midpoint and secant slope.",
    "paper3_use": "cited_science",
    "reality_facing": false,
-   "relationship": "code_verification",
+   "relationship": "not_empirical",
    "sources": [
     {
      "dataset_manifest_ids": [

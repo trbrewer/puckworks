@@ -180,8 +180,11 @@ register(Component(
                 "not inheritance, like RC-3b. No espresso-data fit possible",
     notes="the compaction/counter-migration branch of the kappa(t) backlog (complements "
           "mo2023_2 swelling + lee2023 extraction branches). q_inf(p0) peaks at p0~0.6 "
-          "from release->compaction->resistance feedback. Fig 8.6 peak-tracks-beta-knee "
-          "(Cor 8.2) verified at DATA level by gate_fasano_cor82_nonmonotone"))
+          "in the existing free-boundary check with project-chosen closures. "
+          "gate_fasano_cor82_nonmonotone describes sampled Fig 8.6 turnover and "
+          "peak-pressure ordering, and separately Fig 8.7 threshold segments; cor82 "
+          "is historical naming, not Corollary 8.2 verification. The Fig 8.4 gate "
+          "reduces the experimental reversal trace without simulating reversal"))
 
 register(Component(
     name="mo2023_2.coupled_bed", stage="extraction", kind="runtime",
