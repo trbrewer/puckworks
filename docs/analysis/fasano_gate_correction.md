@@ -206,8 +206,11 @@ The ordinary quick suite uses the repository's normal
 normal automated integrity QA; no protected-target values were manually inspected.
 Result: **6,822 passed, 70 skipped, 63 deselected** in 1,302.86 seconds,
 with one existing development-salt warning from a Visualizer fixture.
-This was the precommit implementation working tree; the PR records its committed
-identity and separately attributes the final generated-provenance refresh.
+This was the precommit implementation content committed as
+`60d806643c755b6433cc53d3609ddf44410faf8e`; the 89-test focused selection also
+passes at that exact commit. The subsequent commit only records this attribution
+and refreshes Insight Foundry commit stamps/digests from that source revision.
+It changes no tested executable, source observation or evidence claim.
 
 Final local/hosted revision attribution is recorded with the draft PR. Active GitHub
 ruleset `Protect main` (19053322), read at intake, requires `quick (3.10)`,
