@@ -744,6 +744,12 @@ No same shots may serve as both a fitted permeability map and untouched confirma
 
 ## Completed and negative work index
 
+[5-CQA observation provenance](../analysis/sci_md_5cqa_observation_provenance_001/RESULTS.md)
+completes a bounded retrospective source check: three FIT preparation-entry
+conflicts, reproduced calibration regressions, and unresolved causal attribution.
+All eight originals were inspected; one explicit external reference remains
+unavailable. Historical inadequacy and source authority are unchanged.
+
 | Existing work | Preserve / reopen only on |
 |---|---|
 | [October 1 synthesis][october-review], [Cameron audit][cameron-audit], PW#304/EWP#201 | F13 phase/area inventory, F14 comparator and F15 water-fraction conversion completed. Released-source sparse Octave execution and balance attribution completed. New source/configuration or demonstrated remaining defect required; no repeat “runtime unavailable” claim |

@@ -1,0 +1,105 @@
+{
+  "task": "SCI-MD-5CQA-OBSERVATION-PROVENANCE-001",
+  "review_type": "INDEPENDENT_NONHUMAN_FINAL_REVIEW",
+  "reviewer": "independent_provenance_review (independent Codex agent; not implementer)",
+  "reviewed_at_utc": "2026-10-20T01:36:35.449516+00:00",
+  "status": "APPROVED_FOR_BOUNDED_SCIENTIFIC_RESULT",
+  "base_commit": "e6822df8df4465e61ce4616c7a1c577236cab9b2",
+  "reviewed_files_sha256": {
+    "tools/five_cqa_observation_provenance.py": "92de88c4f57322270566dd53a45f43d4dfe61c1809f570874cd67f82f62535d3",
+    "tests/test_five_cqa_observation_provenance.py": "6e3214d477688b7dc30d23bbdff208342b25ae4143e40f49d45db17f7d848a8e",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/PROTOCOL.md": "a8c19c1875ecbd4ca7e84e4aa5362cee167a564191bcbc6c156753e83dda1408",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/RESULTS.md": "3ca4f7fdc7bf3bba5ecbf9dfe1e9362e576b67b2c7c05a246277a757b5b972c8",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/RESULTS.json": "4a122749097d0fd2c8359692af799e03a50d0a73a207031d62dc67fcbec95e96",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/SOURCE_AUDIT.json": "7806806a893c7c71f29e35c2fe5d0fa815d84bb85d1f5f998467d03e4c15bfe7",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/HANDOFF.md": "6cd2d7569ab2eeb2997c77f4e3193b2af7ab3befb051f9f7c36cea1358c3c187",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/METHOD_REVIEW.md": "02640d3b71b73f67bf94f4fa3f7ca211235f2c206d459ba827504c2b8c0a9903",
+    "docs/analysis/sci_md_5cqa_observation_provenance_001/METHOD_REVIEW.json": "a43858ca11837c11dda602b275a6d3f83b435be5d1dffad7b51acbd76b294eb9",
+    "docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md": "360298adc5227dfbf5663876f2be952a8910d59491203a9c0950c44439e5fd83"
+  },
+  "private_evidence_sha256": {
+    "intake-002/intake.json": "e301b0133d66ab008654f379a6750d981d728c70a4f2192b2cc8db3804ee166c",
+    "reduction-003/reduction.json": "31fe10379b42ac1ceb60fa08bae582f3b436a5eaf28c04f26540d447289c837b",
+    "SOURCE_LOCATORS.md": "fbab2bc437cd9a7ab8383269b01491424d32ec5099826325f31d9ab661343dfe",
+    "REVIEW_CHECKS.json": "505412ae7e2b9cc427ac2981a4d9e539b0155378967f6c1de2dc7d40f90ab4fe"
+  },
+  "method_protocol_sha256": "a8c19c1875ecbd4ca7e84e4aa5362cee167a564191bcbc6c156753e83dda1408",
+  "open_material_findings": [],
+  "resolved_final_findings": [
+    {
+      "id": "F1",
+      "finding": "Initial wording claimed 414 exact sample identities, but parser correctly retained source_key_match=false for two invalid labels ending (broke).",
+      "resolution": "Public coverage and prose now distinguish 414 position/preparation-key matches, 412 exact sample labels and two annotated invalid spill positions. Private reduction and strict parser remain unchanged; no scientific rerun needed."
+    }
+  ],
+  "independent_checks": {
+    "synthetic_tests": {
+      "command": "python -m pytest -q tests/test_five_cqa_observation_provenance.py",
+      "result": "19 passed in 0.21s",
+      "reviewer_executed": true
+    },
+    "independent_regression": {
+      "method": "Python statistics.linear_regression on source CGA D/E43:55 populated cached worksheet pairs, independent of implementation trendline reducer",
+      "FIT": {
+        "pairs": 10,
+        "slope_at_source_precision": 24.513,
+        "intercept_at_source_precision": 78.923
+      },
+      "PRED": {
+        "pairs": 13,
+        "slope_at_source_precision": 26.383,
+        "intercept_at_source_precision": -88.067
+      },
+      "result": "PASS"
+    },
+    "source_value_diagnostics": {
+      "method": "Read original exact DoE water/coffee cells and original HPLC dilution literal formulas; independent Decimal (DoE_water+coffee)/(HPLC_water+coffee) comparison",
+      "conflicts_verified": 3,
+      "missing_PRED_aliquot_verified": 1,
+      "result": "PASS"
+    },
+    "coverage": {
+      "unique_positions": 414,
+      "source_valid": 411,
+      "invalid_spill": 3,
+      "exact_sample_label_matches": 412,
+      "annotated_invalid_sample_labels": 2,
+      "preparation_assessable": 410,
+      "preparation_unassessable_valid": 1,
+      "new_quantity_agreements": 389,
+      "reused_C01": 18,
+      "flagged_conflicts": 3,
+      "result": "PASS"
+    },
+    "C01_shared_preparation": {
+      "method": "Direct source T/V/Y formula inspection confirms common C origins at all 18 C01 rows, without recomputing accepted C01 arithmetic",
+      "result": "PASS"
+    },
+    "source_and_reuse_integrity": {
+      "method": "Rehashed all eight originals and every public reused_evidence binding; matched private intake/reduction SHA fields",
+      "result": "PASS"
+    },
+    "metadata_external_reference": {
+      "sheets": 43,
+      "all_visible": true,
+      "CGA_chart_reference_verified_campaigns": 2,
+      "external_CGA_cache_cells": 0,
+      "external_46_cache_cells": 133,
+      "result": "PASS"
+    },
+    "valid_zero_semantics": {
+      "method": "Read accepted FIT/PRED 5CQA valid-row exports without reconstructing calculations; valid-zero count is zero in both; three invalid assignments retained separately",
+      "result": "PASS"
+    }
+  },
+  "scientific_conclusion": "Three new documentary FIT dilution-water conflicts are supported and one PRED aliquot quantity is absent. Both source regressions reproduce at displayed coefficient precision. Correct entry authority, calibration/sample batch applicability, control/recovery/censoring evidence and lot/roast relations remain unresolved; predictor-bias contributions cannot be separated. Conditional diagnostic multipliers do not correct measurements or models.",
+  "execution_coverage": "Eight exact originals and relevant internal references inspected at declared levels; overall finite scope partially inspected due to explicitly referenced inaccessible external workbook.",
+  "claim_limit_assessment": "PASS: separates numerical provenance from analytical accuracy, source range from validated range, source/control availability from absence, campaign attribution from causation, analytical support from predictor mass-domain support, and source inconsistency from demonstrated predictive effect.",
+  "QA_state_at_review": {
+    "focused": "19 passed; independently executed",
+    "normal_repository_QA": "still running; not certified by this receipt",
+    "hosted_CI": "not yet launched; not certified by this receipt"
+  },
+  "authorized_remaining_administrative_delta": "Append actual QA/CI receipts, commit/PR URL and lifecycle state; copy genuine review receipts. These administrative additions require no new scientific stage or historical rerun when scientific files and private reduction are unchanged.",
+  "forbidden_scope": "No merge, auto-merge enablement, model fit/replay/score/correction, source acquisition, external contact, EWP native run, production adoption or lock change."
+}

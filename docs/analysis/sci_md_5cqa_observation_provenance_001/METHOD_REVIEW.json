@@ -1,0 +1,42 @@
+{
+  "task": "SCI-MD-5CQA-OBSERVATION-PROVENANCE-001",
+  "review_type": "INDEPENDENT_NONHUMAN_METHOD_AUDIT",
+  "reviewer": "independent_provenance_review (independent Codex agent, not implementer)",
+  "reviewed_at_utc": "2026-10-20T01:22:48.374238+00:00",
+  "status": "APPROVED",
+  "protocol_sha256": "a8c19c1875ecbd4ca7e84e4aa5362cee167a564191bcbc6c156753e83dda1408",
+  "reviewed_base": "e6822df8df4465e61ce4616c7a1c577236cab9b2",
+  "scope": "One bounded retrospective target-exposed G1 source analysis; source metadata inspection only before this approval; no scientific reductions or joins performed by reviewer.",
+  "material_open_findings": [],
+  "resolved_method_clarifications": [
+    {
+      "id": "M1",
+      "issue": "PRED CGA blank water inputs must not become observed zero quantities.",
+      "resolution": "Protocol explicitly separates Excel blank-as-zero formula reproduction from physically recorded zero water; missing entries retain unresolved preparation provenance."
+    },
+    {
+      "id": "M2",
+      "issue": "Two linear chart trendlines share one series.",
+      "resolution": "Protocol counts the underlying populated source pairs once; duplicate trendlines do not supply additional standards or independent evidence."
+    }
+  ],
+  "approved_rules": [
+    "Preserve exact eight original hashes, per-source failure states, historical source resolvers and predecessor label.",
+    "Use all worksheet metadata, including hidden/nonnumeric sheets, finite explicit reference queue and no original execution/mutation.",
+    "Reproduce original source stock/working-standard formulas and chart linear response-on-concentration regression with free intercept, all populated pairs and no invented weighting/exclusions.",
+    "Treat regression reconstruction separately from correct standard preparation and calibration/sample applicability.",
+    "Require explicit source-defined calibration/sample or run/batch relationship before individual range classifications; absent relationship yields null range counts and unassessable component.",
+    "Restrict preparation joins to explicit within-campaign sample/fraction identities; reject ambiguous, duplicate, unmatched and UNKNOWN keys.",
+    "Reuse C01 arithmetic and inspect only new common preparation relationship to 5-CQA.",
+    "Separate physical shots, observations, preparations, standards, technical injections; preserve invalid spills and valid zeros, original denominators and analytical/model-domain distinction.",
+    "Preserve historical models, measurements, masks, thresholds and decisions; no corrected predictor or causal bias correction.",
+    "Keep raw values, joins, private paths and source diagnostics outside public Git."
+  ],
+  "source_evidence_inspected": [
+    "AGENTS.md; CLAUDE.md; docs/ONBOARDING.md; G1 governance and relevant data/development guidance",
+    "Accepted source_inputs.csv, analytical_method_register.csv, DATA_DICTIONARY.md, ASSAY-002 SOURCE_IDENTITIES.json",
+    "Accepted 5-CQA source adapter semantics and original formula mapping; R-08/F-O3-06; October 1 Section E C01 and SOURCE_NOTES.md; RAW-REPRO report",
+    "Private intake-001/intake.json and metadata-ranges.json",
+    "Read-only original P24-HPLC-FIT/PRED xl/charts/chart2.xml: CGA D/E43:55 references, linear trendline and free-intercept settings, concentration/response axes, populated pairs and duplicate displays"
+  ]
+}

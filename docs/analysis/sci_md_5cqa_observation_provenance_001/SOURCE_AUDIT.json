@@ -1,0 +1,338 @@
+{
+  "EWP_read_only_main": "7c025527da7e07982428d4c78a3e79bfa29a76ac",
+  "base_commit": "e6822df8df4465e61ce4616c7a1c577236cab9b2",
+  "base_tree": "b4492544eac40cd0d6d5f3ff856ed9626fe18918",
+  "inherited_source_task_label": "SCI-MD-5CQA-DELIVERY-001",
+  "original_bytes_unchanged": true,
+  "private_evidence": {
+    "metadata_intake_sha256": "e301b0133d66ab008654f379a6750d981d728c70a4f2192b2cc8db3804ee166c",
+    "reduction_sha256": "31fe10379b42ac1ceb60fa08bae582f3b436a5eaf28c04f26540d447289c837b"
+  },
+  "queue_policy": "finite named identities and explicit internal references; visited once; unavailable external reference not expanded",
+  "reference_queue": [
+    {
+      "identity": "CGA chart2 and standard input cells in both HPLC books",
+      "scope": "upstream regression and preparation arithmetic",
+      "state": "present and inspected"
+    },
+    {
+      "identity": "HPLC fraction sample rows; DoE No./Fr./IST quantity and ExpSheet keys",
+      "scope": "414 positions, no source script execution",
+      "state": "present and inspected"
+    },
+    {
+      "identity": "all workbook sheet/name/formula/relationship metadata and source text",
+      "scope": "finite metadata/text inspection; irrelevant numerical ranges not reduced",
+      "state": "present and inspected"
+    },
+    {
+      "identity": "FIT HPLC externalLink1 embedded cache",
+      "scope": "CGA cache empty; populated external cache concerns experiment 46, outside original frame",
+      "state": "present and inspected"
+    },
+    {
+      "identity": "FIT HPLC externalLink1 original target",
+      "qualification": "known referenced original; existence at historical path not reverified",
+      "reason": "author Windows path unavailable; no local identity mapping established; no replacement accepted",
+      "state": "present but inaccessible here"
+    },
+    {
+      "identity": "other-analyte, telemetry and primed/full-sample numerical relationships",
+      "scope": "metadata disposed; no new numerical investigation",
+      "state": "not applicable"
+    },
+    {
+      "identity": "analytical batch/sample and material lot/roast joins",
+      "reason": "no explicit matching key or applicability statement in inspected relevant records",
+      "state": "previously inspected and still unresolved"
+    },
+    {
+      "identity": "eligible recovery/LOD/LOQ/blank and purity controls",
+      "reason": "zero chart point is not an identified blank; repeat response column has no recorded repeats",
+      "state": "not located in the explicitly inspected scope"
+    }
+  ],
+  "registers_sha256": {
+    "DATA_DICTIONARY.md": "a135bb7f674938c322741dfee03aefeac4978a118237a883633fd2f4a6480599",
+    "analytical_method_register.csv": "78d4d01f9bd8485efae02bf1e4b25a48c34353ffc700126a59f8af3026e3cc56",
+    "source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "reused_evidence_sha256": {
+    "docs/analysis/sci_md_5cqa_assay_001/RESULTS.md": "7974330cbe472e285222c200a8239ac626c92b3910d276913c3e9bccd4bb74eb",
+    "docs/analysis/sci_md_5cqa_assay_002/INDEPENDENT_REVIEW.md": "d09814c388b3c63be6e65f6c21d30089bf6437a72ee147a3ffebe57c6c7c645e",
+    "docs/analysis/sci_md_5cqa_assay_002/RESULTS.json": "8e5383f61e32d67a422737f025b52a8ecf0b61f00b267e7ce946385a12c32b39",
+    "docs/analysis/sci_md_5cqa_assay_002/SOURCE_COUNTS.json": "17bcae8c6c50e1dff42a48dbda1feb30d206ee5df532352682ce566232fd9fd3",
+    "docs/analysis/sci_md_5cqa_assay_002/SOURCE_IDENTITIES.json": "f6c9cbfc9efbf6537d5f95127947ce4dbd6bca972061141fcb7dd9c96824e7b6",
+    "docs/analysis/sci_md_5cqa_delivery_001/RESULT.md": "06ecc24984b9da4cbba24d4616abcea536750975b35774981330a0bb118fde15",
+    "docs/analysis/sci_md_5cqa_tds_001/RESULTS.md": "af150b565a9702f7e13767cad8f726eab3b366ee82fb3fc007b04418c092087e",
+    "docs/analysis/val_case_5cqa_decision_resolution_001/RESULTS.json": "d4f6877a2a89cc41979153c006b114ca6ae263930a27ad14d17bf315e3d13436",
+    "docs/research/ESPRESSO_PROGRAMME_REVIEW_2026-10-01.md": "f281e31e3fce3fee90299a776c1494b4418695321db2e6670c5ffc85b209c632",
+    "docs/research/PANNUSCH_RAW_REPRO_001_REPORT.md": "ab45c43fa9be29552016f4db19729aca44be0a2550b46b0f4e015f4efe1f468c",
+    "docs/research/espresso_programme_review_20261001/SOURCE_NOTES.md": "5b93f0b166e029262bd94fcbd579178ed87c10f1bc57e9ccfce974a46a84974b"
+  },
+  "sources": {
+    "P24-DOE-FIT": {
+      "defined_names": [
+        {
+          "hidden": "1",
+          "localSheetId": "1",
+          "name": "_xlnm._FilterDatabase",
+          "text": "pmax!$A$1:$I$53"
+        }
+      ],
+      "expected_sha256": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+      "identity_status": "MATCH",
+      "inspection_level": "all-sheet metadata/text; only explicit relevant ranges reduced",
+      "observed_sha256": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+      "parse_status": "PASS",
+      "sheets": [
+        {
+          "name": "DoE",
+          "visibility": "visible"
+        },
+        {
+          "name": "pmax",
+          "visibility": "visible"
+        },
+        {
+          "name": "ExpSheet",
+          "visibility": "visible"
+        },
+        {
+          "name": "HPLCWeightsAlcaloids",
+          "visibility": "visible"
+        },
+        {
+          "name": "HPLCWeightsLactones",
+          "visibility": "visible"
+        },
+        {
+          "name": "SampleWeights",
+          "visibility": "visible"
+        }
+      ],
+      "state": "present and inspected"
+    },
+    "P24-DOE-PRED": {
+      "defined_names": [
+        {
+          "hidden": "1",
+          "localSheetId": "1",
+          "name": "_xlnm._FilterDatabase",
+          "text": "pmax!$A$1:$I$53"
+        }
+      ],
+      "expected_sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+      "identity_status": "MATCH",
+      "inspection_level": "all-sheet metadata/text; only explicit relevant ranges reduced",
+      "observed_sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+      "parse_status": "PASS",
+      "sheets": [
+        {
+          "name": "DoE",
+          "visibility": "visible"
+        },
+        {
+          "name": "pmax",
+          "visibility": "visible"
+        },
+        {
+          "name": "ExpSheet",
+          "visibility": "visible"
+        },
+        {
+          "name": "HPLCWeightsAlcaloids",
+          "visibility": "visible"
+        },
+        {
+          "name": "HPLCWeightsLactones",
+          "visibility": "visible"
+        },
+        {
+          "name": "SampleWeights",
+          "visibility": "visible"
+        }
+      ],
+      "state": "present and inspected"
+    },
+    "P24-HPLC-FIT": {
+      "defined_names": [],
+      "expected_sha256": "4be402a49a5ddac7f9ad08c1223a1427f110b3b58a77d0a525aef25a5528592d",
+      "identity_status": "MATCH",
+      "inspection_level": "all-sheet metadata/text; only explicit relevant ranges reduced",
+      "observed_sha256": "4be402a49a5ddac7f9ad08c1223a1427f110b3b58a77d0a525aef25a5528592d",
+      "parse_status": "PASS",
+      "sheets": [
+        {
+          "name": "Trigonellin",
+          "visibility": "visible"
+        },
+        {
+          "name": "CGA",
+          "visibility": "visible"
+        },
+        {
+          "name": "Coffein",
+          "visibility": "visible"
+        },
+        {
+          "name": "1-3",
+          "visibility": "visible"
+        },
+        {
+          "name": "4-6",
+          "visibility": "visible"
+        },
+        {
+          "name": "7-9",
+          "visibility": "visible"
+        },
+        {
+          "name": "10-12",
+          "visibility": "visible"
+        },
+        {
+          "name": "13-15",
+          "visibility": "visible"
+        },
+        {
+          "name": "16-18",
+          "visibility": "visible"
+        },
+        {
+          "name": "19-21",
+          "visibility": "visible"
+        },
+        {
+          "name": "22-24",
+          "visibility": "visible"
+        },
+        {
+          "name": "25-27",
+          "visibility": "visible"
+        },
+        {
+          "name": "25\u00b4-27\u00b4",
+          "visibility": "visible"
+        },
+        {
+          "name": "28-30",
+          "visibility": "visible"
+        },
+        {
+          "name": "31-33",
+          "visibility": "visible"
+        },
+        {
+          "name": "34-36",
+          "visibility": "visible"
+        },
+        {
+          "name": "37-39",
+          "visibility": "visible"
+        },
+        {
+          "name": "40-42",
+          "visibility": "visible"
+        },
+        {
+          "name": "43-45",
+          "visibility": "visible"
+        },
+        {
+          "name": "46",
+          "visibility": "visible"
+        }
+      ],
+      "state": "present and inspected"
+    },
+    "P24-HPLC-PRED": {
+      "defined_names": [],
+      "expected_sha256": "42257832ba03c19bc067121af6eaacdcf378d64060cce1a302c8f555ddeafc06",
+      "identity_status": "MATCH",
+      "inspection_level": "all-sheet metadata/text; only explicit relevant ranges reduced",
+      "observed_sha256": "42257832ba03c19bc067121af6eaacdcf378d64060cce1a302c8f555ddeafc06",
+      "parse_status": "PASS",
+      "sheets": [
+        {
+          "name": "Trigonellin",
+          "visibility": "visible"
+        },
+        {
+          "name": "CGA",
+          "visibility": "visible"
+        },
+        {
+          "name": "Coffein",
+          "visibility": "visible"
+        },
+        {
+          "name": "1-3",
+          "visibility": "visible"
+        },
+        {
+          "name": "4-6",
+          "visibility": "visible"
+        },
+        {
+          "name": "7-9",
+          "visibility": "visible"
+        },
+        {
+          "name": "10-12",
+          "visibility": "visible"
+        },
+        {
+          "name": "13-15",
+          "visibility": "visible"
+        },
+        {
+          "name": "16-18",
+          "visibility": "visible"
+        },
+        {
+          "name": "19-21",
+          "visibility": "visible"
+        },
+        {
+          "name": "22-24",
+          "visibility": "visible"
+        }
+      ],
+      "state": "present and inspected"
+    },
+    "P24-M-PREP-FIT": {
+      "expected_sha256": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+      "identity_status": "MATCH",
+      "inspection_level": "preprocessing text only",
+      "observed_sha256": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+      "parse_status": "PASS",
+      "state": "present and inspected"
+    },
+    "P24-M-PREP-PRED": {
+      "expected_sha256": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+      "identity_status": "MATCH",
+      "inspection_level": "preprocessing text only",
+      "observed_sha256": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+      "parse_status": "PASS",
+      "state": "present and inspected"
+    },
+    "P24-MAT-FIT": {
+      "expected_sha256": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+      "identity_status": "MATCH",
+      "inspection_level": "MAT container metadata; accepted array checks reused",
+      "observed_sha256": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+      "parse_status": "PASS",
+      "state": "present and inspected"
+    },
+    "P24-MAT-PRED": {
+      "expected_sha256": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64",
+      "identity_status": "MATCH",
+      "inspection_level": "MAT container metadata; accepted array checks reused",
+      "observed_sha256": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64",
+      "parse_status": "PASS",
+      "state": "present and inspected"
+    }
+  },
+  "task": "SCI-MD-5CQA-OBSERVATION-PROVENANCE-001"
+}
