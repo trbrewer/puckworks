@@ -115,16 +115,51 @@ and private reduction remain byte-identical.
 
 The normal suite was collected before the 19 task-local tests were added; its
 existing code/tests are unchanged. The final task-local suite passed separately.
-Hosted CI will exercise the combined set on the PR head. The initial focused
+Hosted CI was pending at that local-QA snapshot; the completed original-candidate
+results are recorded below. The initial focused
 collection error and FIT parser diagnostics remain private with their resolutions;
 they are not unresolved scientific failures. No QA selector or historical
 contract was changed. The scientific-baseline collection skips and registry
 acknowledged exception are not promoted to passes.
 
-Hosted CI had not started at this commit. Its live outcomes and the actual draft
-PR URL/lifecycle are reported in the final task handoff and PR checks, separately
-from this scientific review. The repository reports no required branch-protection
-contexts for main (API: branch not protected); normal PR workflows still run.
+## Original-candidate CI and G0 reporting correction
+
+The original scientific review at `2026-10-20T01:36:35.449516+00:00` preceded
+hosted CI, as its unchanged receipt states. Subsequently, candidate
+`2de4fe91c101952896a933b62eb6406a134f61a6` completed **16 passing checks,
+zero failed or pending, and one skipped main-only notification job**.
+Each Python 3.10–3.13 suite, minimum-dependency suite and coverage suite reported
+6,809 passed, 70 skipped and 63 deselected; coverage was 80%. Three task-local
+workbook tests skipped because normal CI lacks optional `openpyxl`; all 19
+focused tests had passed locally with reconstruction dependencies. Hosted
+scientific-baseline reported 5 passed, 7 skipped and 6,930 deselected.
+
+The active repository ruleset
+[“Protect main” (19053322)](https://api.github.com/repos/trbrewer/puckworks/rulesets/19053322),
+inspected on 2026-10-20, requires the following checks. All five passed on the
+original candidate above:
+
+| Required context | Original-candidate outcome |
+|---|---|
+| quick (3.10) | [PASS](https://github.com/trbrewer/puckworks/actions/runs/39355129063/job/118408051644) |
+| quick (3.12) | [PASS](https://github.com/trbrewer/puckworks/actions/runs/39355129063/job/118408051796) |
+| verify-generated | [PASS](https://github.com/trbrewer/puckworks/actions/runs/39355128991/job/118408051281) |
+| paper3-scope-strict | [PASS](https://github.com/trbrewer/puckworks/actions/runs/39355128994/job/118408051307) |
+| all-scope-strict | [PASS](https://github.com/trbrewer/puckworks/actions/runs/39355128994/job/118408051551) |
+
+The legacy branch-protection endpoint's “branch not protected” response does
+not describe these active ruleset requirements. The earlier inference that main
+had no required contexts was incorrect.
+
+This reporting correction is **G0**; the original scientific investigation remains
+G1. Its documentation delta is confined to this handoff. The original review
+receipts and bindings are reused, with the protocol, implementation, tests,
+scientific results, source audit and private scientific evidence unchanged.
+No scientific review or analysis is repeated. Checks for the subsequent
+documentation-correction commit are reported separately by exact head in
+[PR #345](https://github.com/trbrewer/puckworks/pull/345); the original-candidate
+passes above are not results for that later commit. The PR remains draft,
+unmerged, with auto-merge disabled.
 
 Private QA receipt: `verification-bindings.json`, SHA-256 `44a66ad2ae1ecdffb8e3e06f802b31a3c29868760df18b8188043eb00279f0cd`.
 It binds the normal/focused/scientific-baseline logs, XML reports and other check
