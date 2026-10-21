@@ -1,5 +1,5 @@
 {
-  "dataset_count": 119,
+  "dataset_count": 120,
   "families": [
     {
       "analytes": [
@@ -2542,12 +2542,47 @@
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
+      "dataset_scopes": {
+        "romancorrochano2017/fig6_23_pressure_flow_temperature": {
+          "blocked_uses": [
+            "authenticated individual pairing",
+            "intrinsic permeability",
+            "physical zero flow",
+            "independent campaign replication",
+            "physical validation"
+          ],
+          "campaign": "existing Corrochano/Melrose lineage; no new independent campaign",
+          "conditionally_eligible_uses": [
+            "scoped hydraulic observer implications",
+            "EQUAL-alpha common-geometry required viscosity ratio"
+          ],
+          "coverage": "44/48 condition-panel slots; 60s unsupported; one late hot-flow fragment; physical-run counts UNKNOWN",
+          "eligible_uses": [
+            "finite figure-reading compatibility and condition-envelope temperature contrasts"
+          ],
+          "last_qualified_task": "SCI-MD-CORROCHANO-PRESSURE-FLOW-001",
+          "missing_joins": [
+            "run pairing and membership",
+            "meter volume reference and bed-flow mapping",
+            "sensor response/alignment",
+            "actual pressure and calibration reconciliation",
+            "synchronized viscosity/internal geometry"
+          ],
+          "observer": "inlet-referenced apparent conductance; upstream meter / reported corrected bed pressure",
+          "physical_validation": "NOT_ESTABLISHED",
+          "source_card": "romancorrochano2017_permeability",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "target_exposure": "TARGET_EXPOSED",
+          "validation_strength": "SOURCE_INTERNAL; TARGET_EXPOSED; figure-reading evidence; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+        }
+      },
       "directness": [
         "transcription (thesis table)",
         "transcription (thesis tables)",
         "digitisation (raster, ~+/-0.5 pp)",
         "digitisation (MPE) + transcription (conditions)",
-        "transcription (PsiA exact) + digitisation (Fig 4.19 norm, ~+/-0.5 pp)"
+        "transcription (PsiA exact) + digitisation (Fig 4.19 norm, ~+/-0.5 pp)",
+        "Native-raster full-band condition envelopes and one late flow fragment; shared affine reading bounds"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -2565,7 +2600,8 @@
         "3.5 stirred-vessel (1-Deff case)",
         "3.5 stirred-vessel target (4-Deff / ~5-8%)",
         "3.5 parameter-free bed gate (<=14%)",
-        "gate_roman_y0_ceiling_sizeexclusion: \u00a75.5 nested ceilings + P3 hyp #4 size-exclusion"
+        "gate_roman_y0_ceiling_sizeexclusion: \u00a75.5 nested ceilings + P3 hyp #4 size-exclusion",
+        "SCI-MD-CORROCHANO-PRESSURE-FLOW-001 retrospective compatibility; research only; no production gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -2580,7 +2616,8 @@
         "romancorrochano2017/fig5_11_mpe",
         "romancorrochano2017/fig5_13_mpe",
         "romancorrochano2017/fig7_4_espresso",
-        "romancorrochano2017/y0_extractable"
+        "romancorrochano2017/y0_extractable",
+        "romancorrochano2017/fig6_23_pressure_flow_temperature"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
@@ -2594,7 +2631,8 @@
         "y-axis max 80%; min-MPE class per grind matches thesis text within ~0.2pp",
         "multiple-Deff drops MPE ~50% vs best single; two dialysis/diafiltration weightings",
         "15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class)",
-        "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest"
+        "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest",
+        "44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign"
       ],
       "observables": [
         "UNKNOWN"
@@ -2604,11 +2642,13 @@
       "publication_or_repository": "Table 6.1 (p.227)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "University of Birmingham e-theses (open access; non-commercial research use); no DOI"
+        "University of Birmingham e-theses (open access; non-commercial research use); no DOI",
+        "Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
-        "romancorrochano2017"
+        "romancorrochano2017",
+        "romancorrochano2017_permeability"
       ],
       "source_identifiers": [],
       "source_internal_or_external": "UNKNOWN",
@@ -2627,7 +2667,8 @@
         "n (vhigh is a range)",
         "n",
         "y (Qave/Tave +/-1 SD)",
-        "partial (PsiA +/-0.4; derived rows none)"
+        "partial (PsiA +/-0.4; derived rows none)",
+        "Source-reading bounds only; experimental and apparatus-correction uncertainty unbounded by source"
       ],
       "validation_strength": [
         "independent (measured Darcy permeability, tamped beds)",
@@ -2638,7 +2679,8 @@
         "post-fit reconstruction (Deff fitted, MPE)",
         "post-fit reconstruction (digitized MPE)",
         "independent (parameter-free bed MPE, digitized ~+/-0.5 pp)",
-        "independent (distinct nested ceiling quantities, K<1) + qualitative (monotone size-exclusion)"
+        "independent (distinct nested ceiling quantities, K<1) + qualitative (monotone size-exclusion)",
+        "SOURCE_INTERNAL; TARGET_EXPOSED; figure-reading evidence; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
       ]
     },
     {
@@ -3427,6 +3469,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "b26886be8dbee41b58aaab0514a843be037762ee2e4788d11d94d183f4eec019",
+  "manifest_sha256": "d4aac24bf5058392de3e8b2db467e5f928fe3a32fc238892a7ecad8ed6139156",
   "schema_version": 1
 }

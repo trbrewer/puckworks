@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `58075bbbce` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `96d8fe8779` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -630,7 +630,7 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0176
 - **Status.** SEED
 
-### I-038 — temperature is measured but no card claims to produce it
+### I-100 — temperature is measured but no card claims to produce it
 
 - **Question.** Is temperature genuinely unmodelled by the registry, or hidden by a card that never declared its outputs?
 - **Lens.** hidden_discriminator · tracks: data_note, technical_note
@@ -642,8 +642,8 @@ Tracks overlap by design — public value and academic value are separate axes (
     - INCONCLUSIVE if Whether the component produces it depends on an unimplemented coupling.
 - **Stop condition.** Every candidate component is checked against its card.
 - **Strongest alternative.** The measurement and the model output share a name but not a definition.
-- **Entities.** `observable:temperature`, `dataset:g10_liquor_rheology/telisromero2000_thermal`, `dataset:gagne2021/grinder_arm_summary`, `dataset:khamitova2020/tamping`
-- **Tension rows.** T-0056
+- **Entities.** `observable:temperature`, `dataset:g10_liquor_rheology/telisromero2000_thermal`, `dataset:gagne2021/grinder_arm_summary`, `dataset:khamitova2020/tamping`, `dataset:romancorrochano2017/fig6_23_pressure_flow_temperature`
+- **Tension rows.** T-0183
 - **Status.** SEED
 
 ### I-039 — Which strength is load-bearing where the manifest says 'digitized + qualitative + reference_only'?

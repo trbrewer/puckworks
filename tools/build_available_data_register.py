@@ -163,6 +163,27 @@ def build() -> dict:
             "last_qualified_task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
             "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
         })
+    # Heterogeneous older Corrochano subsets retain their original aggregate labels.
+    # This source observer and its exposure/eligibility apply ONLY to Figure6.23.
+    figure_id = "romancorrochano2017/fig6_23_pressure_flow_temperature"
+    figure_row = next(row for row in rows if row["dataset_id"] == figure_id)
+    families["ROMANCORROCHANO2017"]["dataset_scopes"] = {
+        figure_id: {
+            "source_card": figure_row["source_card"],
+            "observer": "inlet-referenced apparent conductance; upstream meter / reported corrected bed pressure",
+            "source_internal_or_external": "SOURCE_INTERNAL",
+            "target_exposure": "TARGET_EXPOSED",
+            "validation_strength": figure_row["validation_strength"],
+            "physical_validation": "NOT_ESTABLISHED",
+            "eligible_uses": ["finite figure-reading compatibility and condition-envelope temperature contrasts"],
+            "conditionally_eligible_uses": ["scoped hydraulic observer implications", "EQUAL-alpha common-geometry required viscosity ratio"],
+            "blocked_uses": ["authenticated individual pairing", "intrinsic permeability", "physical zero flow", "independent campaign replication", "physical validation"],
+            "missing_joins": ["run pairing and membership", "meter volume reference and bed-flow mapping", "sensor response/alignment", "actual pressure and calibration reconciliation", "synchronized viscosity/internal geometry"],
+            "coverage": "44/48 condition-panel slots; 60s unsupported; one late hot-flow fragment; physical-run counts UNKNOWN",
+            "campaign": "existing Corrochano/Melrose lineage; no new independent campaign",
+            "last_qualified_task": "SCI-MD-CORROCHANO-PRESSURE-FLOW-001",
+        }
+    }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

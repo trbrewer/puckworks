@@ -603,6 +603,21 @@ def egidi_table2():
 RC17 = DATA_DIR / "romancorrochano2017"
 
 
+def rc17_fig6_23_pressure_flow():
+    """Figure6.23 SI reading enclosures; missing cells remain None, never zero.
+
+    Condition envelopes and one late flow fragment, not raw samples or paired runs.
+    Source images are external; figure/observer qualifications live in contract.json.
+    """
+    rows = _typed_rows_hashskip(RC17 / "fig6_23_pressure_flow_temperature" / "readings.csv")
+    for row in rows:
+        for key, value in row.items():
+            if value == "":
+                row[key] = None
+    return rows
+
+
+
 def roman_tamped_kappa():
     """Table 6.1: steady-state Darcy permeability kappa [m^2] on fully-extracted,
     tamped/consolidated espresso beds -- 4 grinds (PsiB-PsiE) x 3 initial bed

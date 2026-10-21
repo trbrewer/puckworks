@@ -198,10 +198,12 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                          'wet operating porosity; methods and apparatus must be reconciled before EWP use.'),
  'romancorrochano2017': ('Comment-prefixed CSV tables/figures carry diffusivity, hindrance, partition '
                          'coefficients, tamped permeability, extraction inventory and model prediction '
-                         'error. Printed thesis pages are retained in comment provenance.',
+                         'error. Printed thesis pages are retained in comment provenance. The later Figure6.23 '
+                         'intake adds bounded inlet-flow/reported-pressure raster readings; it is not raw run data.',
                          'Source reconstruction and mass-basis/unit adapters. Fitted transport parameters '
                          'and digitized model error are not direct independent observables; strip comments '
-                         'before parsing, preserving source notes.'),
+                         'before parsing, preserving source notes. Figure6.23 observer/exposure/eligibility are '
+                         'dataset-scoped in AVAILABLE_DATA_REGISTER; no stronger older label transfers to it.'),
  'schmieder2023': ('S1 Fraction Mass & Concentration sheet: 292 sheet rows including headers; normalized '
                    'raw_fractions: 288 rows with exp/rep/fraction, fraction/accumulated mass g and three '
                    'analytes mg/g. S2 fits and S3 cup totals are different subsets; copies occur in two '

@@ -1,0 +1,270 @@
+{
+  "apparatus_calibration": {
+    "calibration_temperature": "UNKNOWN",
+    "caption_polynomial_SI": [
+      "180000000000000",
+      "530000000",
+      "1900"
+    ],
+    "caption_value_Pa": 25200,
+    "check_Q_m3_s": "0.00001",
+    "correction_reapplied": false,
+    "displayed_curve_near_Pa": 21000,
+    "displayed_curve_reading_Pa": [
+      20000,
+      22000
+    ],
+    "displayed_observation_count": 6,
+    "extrapolation_error_bound": null,
+    "figure": "3.3",
+    "formula_curve_reconciled": false,
+    "maximum_observed_Q_m3_s": [
+      "0.0000160",
+      "0.0000170"
+    ],
+    "minimum_observed_Q_m3_s": [
+      "0.0000030",
+      "0.0000034"
+    ],
+    "pdf_page": 89,
+    "printed_page": 64,
+    "support_basis": "Reading enclosures of leftmost/rightmost experimental circle centres, near 0.32e-5 and 1.66e-5; not 0..2e-5 axis limits"
+  },
+  "calibration": {
+    "coordinate_system": "Native 512x384 pixels; top-left origin; y downward",
+    "horizontal_guard_px": 2,
+    "integer_band_rule": "floor lower / ceil upper after inverse affine anchor union and horizontal guard",
+    "internal_tick_centres_px": {
+      "flow_m3_s": [
+        "0.00003",
+        "0.000025",
+        "0.00002",
+        "0.000015",
+        "0.00001",
+        "0.000005"
+      ],
+      "pressure_Pa": [
+        300000,
+        250000,
+        200000,
+        150000,
+        100000,
+        50000
+      ],
+      "time_s": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60
+      ],
+      "x": [
+        123,
+        180,
+        237,
+        294,
+        350,
+        407
+      ],
+      "y": [
+        73,
+        118,
+        163,
+        208,
+        252,
+        297
+      ]
+    },
+    "ordinate_guard_px": 2,
+    "shared_anchor_uncertainty": "All readings in a panel share anchors; same raster layout does not prove cross-sensor alignment",
+    "trace_endpoint_x_px": [
+      406,
+      408
+    ],
+    "x_anchors_px": [
+      [
+        65,
+        67
+      ],
+      [
+        463,
+        465
+      ]
+    ],
+    "x_values_s": [
+      0,
+      70
+    ],
+    "y_anchors_px": [
+      [
+        28,
+        30
+      ],
+      [
+        341,
+        343
+      ]
+    ],
+    "y_values": {
+      "flow": [
+        "0.000035",
+        "0"
+      ],
+      "pressure": [
+        "350000",
+        "0"
+      ]
+    }
+  },
+  "campaign": "Existing Corrochano thesis/2015/Melrose lineage; no independent replication or new campaign",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL"
+  ],
+  "conditions": {
+    "cold": {
+      "colour": "blue",
+      "label_temperature_degC": 15
+    },
+    "hot": {
+      "colour": "red",
+      "label_temperature_degC": 80
+    }
+  },
+  "coverage": {
+    "all_physical_repetitions_claim": "UNRESOLVED; no authenticated membership or omitted-run audit",
+    "distinct_flow_traces_per_condition": 3,
+    "distinct_pressure_traces_cold": 3,
+    "distinct_pressure_traces_hot": "UNKNOWN",
+    "envelope_population": "All represented coloured strokes over each full retained horizontal band; merged strokes enclosed, not decomposed",
+    "globally_authenticated_physical_runs": "UNKNOWN",
+    "pressure_hot_visible_minimum_branches": 2,
+    "published_caption_repetitions": 3,
+    "published_count_scope": "Three repetitions displayed; three flow strokes per temperature visually supported; exact physical-run list UNKNOWN",
+    "recoverable_joint_trajectories": 0,
+    "slots_at_60_s": "UNSUPPORTED_ENDPOINT; full band exceeds all visible endpoints"
+  },
+  "dataset_id": "romancorrochano2017/fig6_23_pressure_flow_temperature",
+  "grids": {
+    "PRIMARY": [
+      10,
+      20,
+      30,
+      40,
+      50,
+      60
+    ],
+    "SECONDARY": [
+      5,
+      15,
+      25,
+      35,
+      45,
+      55
+    ]
+  },
+  "grind": "Psi_B",
+  "holdings_inspection": {
+    "absence_claim": false,
+    "all_csv_hashes_match": true,
+    "authenticated_fig6_23_raw_found": false,
+    "csv_files_opened_and_rehashed": 11,
+    "inventory": "Existing configured inventory; mounted; bounded family selection only"
+  },
+  "initial_bulk_density_kg_m3": 400,
+  "observer": {
+    "acquisition": "Common logger, 10 measurements/s in generic methods",
+    "displayed_time_origin": "Brewing cycle starts at timed-valve opening in methods; figure-specific t=0 trigger and panel offset UNKNOWN",
+    "floor": "Recorded zeros can accompany observed dripping; no numerical detection limit or physical upper-flow bound supplied",
+    "formula": "Q_meter / DeltaP_bed_reported",
+    "meter": "USC-731 ultrasonic; after tank and before heaters",
+    "physical_flow_eligibility": "NOT_ESTABLISHED; inlet/outlet storage and wetting differences explicitly reported",
+    "physical_synchronization": "NOT_ESTABLISHED",
+    "pressure": "Pre-cell RS348-8087 transducer, 0-6 bar, minus flow-dependent empty-cell apparatus losses; not independent two-tap bed differential",
+    "quantity": "inlet-referenced apparent conductance",
+    "sensor_response_filtering_delay": "UNKNOWN",
+    "temperature_discrepancy": "Generic methods 20 C; Figure6.23 and cold-method section15 C; retain figure labels",
+    "volume_reference": "Meter indication in m3/s; local or standard reference temperature/density/compensation UNKNOWN"
+  },
+  "pairing": {
+    "authenticated_run_level_pairs": false,
+    "cross_panel_matchings_enumerated": null,
+    "disposition": "CONDITION_ENVELOPES; no fictitious six-permutation enumeration",
+    "fragment_continuity": "Upper red flow stroke separately followable only on retained late span; early dense overlap not bridged",
+    "fragment_id": "hot_flow_late_upper",
+    "fragment_pressure": "Entire hot pressure envelope at each displayed time, encompassing every possible fixed pressure partner",
+    "fragment_support_s": [
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55
+    ],
+    "panel_population_link": "Caption describes Q and bed pressure for same conditions/repetitions; treating the panels as same represented population is explicit source-based assumption, not authenticated individual pairing",
+    "pressure_track_ids": "UNKNOWN"
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan": {
+    "frozen_utc": "2026-10-21T20:18:00Z",
+    "path": "docs/analysis/sci_md_corrochano_pressure_flow_001/PLAN.md",
+    "prior_exposure": "Source text and qualitative target-panel inspection before plan; no coordinates or score before freeze",
+    "sha256": "fd1be0aa0e8802cf7473f0f9b0f6e2a8c49b28e72f6c45617891290097ed4724"
+  },
+  "relaxed_dependencies": [
+    "shared axis calibration",
+    "common displayed time within horizontal bands",
+    "within-panel track identity",
+    "fixed cross-panel pairing",
+    "flow-dependent pressure correction"
+  ],
+  "rights": "Compact derived coordinates/readings only; source PDF/images/overlays external; no thesis redistribution permission inferred",
+  "source": {
+    "author": "Borja Roman Corrochano",
+    "extraction_tool": "PyMuPDF 2.0 Document.get_images / Document.extract_image; actual page image list inspected",
+    "figure": "6.23",
+    "panels": [
+      {
+        "extension": "jpeg",
+        "height": 384,
+        "object": 3223,
+        "sha256": "9812ced032ea7a8a4a3a2ab24c5d0fcfcdbd6599356042d8b327e07d00788c9b",
+        "width": 512
+      },
+      {
+        "extension": "jpeg",
+        "height": 384,
+        "object": 3226,
+        "sha256": "9ce1ffc678791654b61c1966ca98ede419dbc5b2dbf88ab9032ebdd997234240",
+        "width": 512
+      }
+    ],
+    "pdf_page": 291,
+    "pdf_pages": 359,
+    "printed_page": 266,
+    "sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
+    "title": "Advancing the Engineering Understanding of Coffee Extraction",
+    "url": "https://etheses.bham.ac.uk/7176/2/Roman-Corrochano17EngD.pdf",
+    "year": 2017
+  },
+  "task_id": "SCI-MD-CORROCHANO-PRESSURE-FLOW-001",
+  "units": {
+    "conductance": "m^3/(Pa s)",
+    "display_conductance": "1 display unit = 1e-11 m^3/(Pa s)",
+    "flow": "m^3/s",
+    "pressure": "Pa"
+  },
+  "viscosity_scenario": {
+    "alpha": "Q_meter / Q_bed",
+    "conditional_equal_alpha": "Only with equal alpha, common geometric conductance, actual/report pressure equivalence and single-phase quasi-static Darcy",
+    "figure6_20": "Different conditions and inferred viscosity; printed 3.3-3.6 Pa s not silently repaired or imported",
+    "identity": "mu_hot / mu_cold = (alpha_hot / alpha_cold) * (G_cold / G_hot)",
+    "physical_required_ratio": "UNRESOLVED_WITH_UNKNOWN_ALPHA"
+  }
+}

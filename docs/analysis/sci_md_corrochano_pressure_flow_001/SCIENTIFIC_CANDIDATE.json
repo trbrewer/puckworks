@@ -1,0 +1,21 @@
+{
+  "base_commit": "96d8fe8779f065f12eeeed3c96de0a2d0c4a758b",
+  "description": "Scientific candidate before independent review; working tree on the stated base, no claim of a committed review head",
+  "frozen_at_utc": "2026-10-21T20:29:52.293272+00:00",
+  "sha256": {
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/PLAN.md": "fd1be0aa0e8802cf7473f0f9b0f6e2a8c49b28e72f6c45617891290097ed4724",
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/RESULT.json": "da24eb624a9c7fdb0a927ee6adde984d481ff331d51da421e6e16607ebe54044",
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/RESULT.md": "646559d3b943e18f6298b96a9d5c4e6b1691ad34c4b0d108e57cd28f89424125",
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/SOURCE_RECONCILIATION.md": "5cae5e1d954628e8cccbb322290a508b9831e2dae3cfb3698a238ea914bde47a",
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/conductances.csv": "abcf9b3a274a3b86d91d15d77820c3741845c5eda4e5f13c4565ef54a64c10dc",
+    "docs/analysis/sci_md_corrochano_pressure_flow_001/reconstruction.svg": "f5b82b82c857cfcb0c5cf168edc6f86d15886b272c6edf243451ffb4b37b39d2",
+    "docs/cards/romancorrochano2017_permeability.md": "131b1ebf136c4bad225658f40cf18242ee7eab97a25622ff568d525851246144",
+    "puckworks/analysis/corrochano2017_pressure_flow.py": "8372a54448e401ab936fe23c3861365448f25b343b861fc9aa712c3334820dd0",
+    "puckworks/data/romancorrochano2017/fig6_23_pressure_flow_temperature/PROVENANCE.md": "94003aa301b33a48c57948710285246d25eaba5f8e6678c93ebf98e8a6e1c115",
+    "puckworks/data/romancorrochano2017/fig6_23_pressure_flow_temperature/contract.json": "2a3427b022c9abf4a74233d313ff5aaaafa1d656cb416444291e520642c7d6a9",
+    "puckworks/data/romancorrochano2017/fig6_23_pressure_flow_temperature/coverage.csv": "178f283e614a2588e3855068f7f7e3fb5cfcab3ea0a044fe3ca1edb18c7cd3c2",
+    "puckworks/data/romancorrochano2017/fig6_23_pressure_flow_temperature/readings.csv": "9e909939a87b98a13f7c95d5bbb565455138afed01d6d9726d41226e5235cf12",
+    "puckworks/data/romancorrochano2017/fig6_23_pressure_flow_temperature/source_coordinates.csv": "63fe2346a2377092bc434265d5ef5c0163939bf744000fef39eec7eff6e65cc9",
+    "tests/test_corrochano2017_pressure_flow.py": "f0b3ce719610719eff6c3b15ede19cccf2ab99e2d4ad4836446253cad8199794"
+  }
+}
