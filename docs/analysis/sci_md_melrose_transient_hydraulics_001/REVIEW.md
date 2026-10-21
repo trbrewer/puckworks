@@ -208,3 +208,54 @@ inclusion rules or numerical outcomes were tuned to obtain a preferred verdict.
 
 The scoped scientific analysis is accepted. Software QA, required hosted CI,
 draft-PR state and the final checked head remain separately reportable facts.
+
+## QA-only delivery delta, 2026-10-21
+
+The same reviewer inspected a bounded delivery correction from **14:56:15 to
+14:59:12 UTC**. The original scientific content was committed as
+`f63f3a6d307ffcad76bdac5e5ceb992a91b4dc83`; administrative verification followed
+at `c553c11e8dfab4966384416501dab749d690c3fc` in draft PR #348. This addendum
+accepts the QA-only delta and preserves the original scientific review.
+
+The historical SCIENTIFIC_CANDIDATE.json is deliberately unchanged: its SHA256
+remains `2dbf237b78b4f9e747bf5eb52e8ba78ece1fa47e9d4c6903c196f566a0650a84`.
+The reviewer independently rehashed its mapped files. **All 19 other mapped
+files remain byte-identical**; the sole mapped delta is
+`tests/test_melrose2019bed_transient.py`, whose reviewed replacement SHA256 is
+`abadd7448fdb785ea78c4aabfab96cdef3e0bbb56de80825979349c25e823714`.
+Its historical hash remains recorded in the original manifest rather than
+being overwritten. The producer, source readings, contracts, normalized data,
+results, card and campaign treatment have not changed.
+
+The test helper now passes `threads=1` to HiGHS and uses the existing repository's
+specific `OptimizeWarning` filter for the forwarded native option. This matches
+the existing Pannusch state-envelope/prefix solvers and avoids a conflicting
+process-global HiGHS scheduler configuration. Objective, constraints, bounds,
+algorithm selection, comparison tolerances and production code are unchanged;
+optimizer success is still asserted. The reviewer inspected the original local
+interaction log: the 22 new tests passed, then the first existing Pannusch LP
+test failed. Independent execution of that same ordered combination after the
+correction passed **23 tests in 0.79 s**.
+
+The producer reported 49 hosted quick-Python-3.10 failures on the earlier head:
+47 existing solver cases, a missing active-card README reference and a stale
+claim audit. These are software/QA failures, not adverse scientific findings.
+The reviewer inspected the corrected combined local log: **236 passed**, with
+one remaining README size failure (52330 bytes versus its 52000-byte limit).
+The added citation was then shortened to a linked Melrose card reference; full
+source metadata remain in the card and dataset. The claim audit was regenerated,
+changing its source-commit metadata and Paper3 input hash after the previously
+reviewed count-only changes. Neither change alters a scientific assertion.
+
+The reviewer independently ran the corrected Melrose plus README/governance
+tests: **84 passed in 42.65 s**. Independently executed
+`python tools/claim_binding_audit.py --check` reports the audit current at
+`c553c11e8dfa`. The analysis command was rerun to the external
+`reviewer-reproduction-after-qa` directory; **all four retained outputs remain
+byte-identical**. Thus the source-image, finite-mathematics, LP-optimum and
+physical-scope evidence above is reusable with the explicit test-file delta.
+
+Disposition: **QA-only delta accepted; original scoped scientific acceptance
+unchanged**. Full-suite and required hosted-CI reruns were still in progress
+when this addendum completed and remain separate delivery evidence. No physical
+validation, new scientific result or expanded eligibility is asserted.

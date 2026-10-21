@@ -2,10 +2,11 @@
 import csv
 import itertools
 import json
+import warnings
 
 import numpy as np
 import pytest
-from scipy.optimize import linprog
+from scipy.optimize import OptimizeWarning, linprog
 
 from puckworks.analysis.melrose2019bed_transient import (
     DATA, DEFAULT_OUTPUT, affine_enclosure, analyze, compatibility, recover, write,
@@ -90,7 +91,12 @@ def lp_expansion(intervals, edges, mode):
         A.append(v); b.append(0)
         if mode == 'constant':
             A.append(-v); b.append(0)
-    opt = linprog([0]*n+[1], A_ub=A, b_ub=b, bounds=[(None, None)]*n+[(0, None)], method='highs')
+    # HiGHS keeps a process-global scheduler. Match the existing repository
+    # solver's one-thread setting so this verification cannot poison later LPs.
+    with warnings.catch_warnings():
+        warnings.filterwarnings('ignore', message='Unrecognized options detected.*', category=OptimizeWarning)
+        opt = linprog([0]*n+[1], A_ub=A, b_ub=b, bounds=[(None, None)]*n+[(0, None)],
+                      method='highs', options={'threads': 1})
     assert opt.success
     return opt.fun
 
