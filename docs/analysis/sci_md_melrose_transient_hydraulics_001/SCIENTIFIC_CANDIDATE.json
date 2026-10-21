@@ -1,0 +1,28 @@
+{
+  "task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
+  "frozen_utc": "2026-10-21T14:30:38.674764+00:00",
+  "base": "58075bbbce548e63d94106c96b918c1464221514",
+  "candidate_binding": "scientific file SHA256 manifest; commit binding added in REVIEW/VERIFICATION",
+  "files": {
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/PLAN.md": "ba842af502b76aa3d79e145904d7260a1656d03aee7a3e60cf7d83e9aefa8e95",
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/RESULT.json": "d24d61d96935d1a8a3a52ea56b80c2f5690b840a57998b3a6e5f2c8652d389c9",
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/RESULT.md": "5e06ae714fb001e4836bae056c4505dc2a4349db52ff4638b7229bf4609b5055",
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/SOURCE_RECONCILIATION.md": "e48f5f2f431072bebef8cc4fa9c379d9cf659ceeca38b91ee1ebe30d123c3d31",
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/condition_results.csv": "1204fc5ceee234162f3985f6295fd59f15009ec6c26b54d770401690ec52100c",
+    "docs/analysis/sci_md_melrose_transient_hydraulics_001/profile_results.csv": "0793a8d842ff11c7483c8bb15eb8ee7c6adcdbe26371f0a975d9ba287d2ba29e",
+    "docs/cards/melrose2019bed.md": "e2d2bd9ec871d082be7c84e055abcac36c6345130b6663944a65496f2b631597",
+    "puckworks/analysis/melrose2019bed_transient.py": "757b9f82fb1b011699a1633f1c74cf1848d91861af49a7e176265b1775411412",
+    "puckworks/data/BLOCKED_INTAKE.md": "3c9d590232b7f85cdda9febfbcfc10def7ba835ceadf88a0c2056cd2f73998c8",
+    "puckworks/data/MANIFEST.csv": "b26886be8dbee41b58aaab0514a843be037762ee2e4788d11d94d183f4eec019",
+    "puckworks/data/__init__.py": "f29982c74fd612a2c14c8c2c9e8f67edcc7cea421daf662d8def5c9854211531",
+    "puckworks/data/melrose2019bed/PROVENANCE.md": "b43d77fbd25ff7625392bbe280a40bf76bbc084f6120bc1ca9e94c67ee587dd8",
+    "puckworks/data/melrose2019bed/ambiguous_regions.csv": "d772d3dca5b4a983d6f3c7987629ed650a39d37ee7091d0de699ba65c99b5070",
+    "puckworks/data/melrose2019bed/contract.json": "adbae189e233b7f07d47da3eafdb9040323077a007de0f21a698c67819f85bba",
+    "puckworks/data/melrose2019bed/observations.csv": "b3d20137c5d709a5828f3e0e2d171ef9247ed4d3f38627f9bd182ad018973777",
+    "puckworks/data/melrose2019bed/profiles.json": "d673fd600f238d2766c43e108c1d908c03d72b144694f8626ffea0e4d8782fc6",
+    "puckworks/data/melrose2019bed/source_coordinates.csv": "6772af45837e92302b32e8522eeaa4cee9def19aba87ab4706f2de25ce72c6db",
+    "puckworks/paper3/corpus.py": "da8ee39ff731673926ebeae7e91716ed1de4693045cedb93972d079ee3e0d1b0",
+    "tests/test_melrose2019bed_transient.py": "b157f06a2d409f50a1b06e790159b1002b266bac5acb5b0bf03f5b60cf52cd40",
+    "tools/build_available_data_register.py": "296f7540ed9a9a78f48b05426f6e7d2b7dc57d020779a5ccc6f44fa0417a7733"
+  }
+}

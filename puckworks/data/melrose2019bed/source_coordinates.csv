@@ -1,0 +1,58 @@
+profile_id,point_id,x_min,x_max,y_min,y_max,x_center,y_center,reason
+HF-B400,HF-B400-x122,115,129,368,382,122,375,visible glyph; full footprint enclosure
+HF-B400,HF-B400-x163,156,170,341,355,163,348,visible glyph; full footprint enclosure
+HF-B400,HF-B400-x204,197,211,315,329,204,322,visible glyph; full footprint enclosure
+HF-B400,HF-B400-x245,238,252,303,317,245,310,visible glyph; full footprint enclosure
+HF-B400,HF-B400-x286,279,293,285,299,286,292,visible glyph; full footprint enclosure
+HF-B400,HF-B400-x327,320,334,267,281,327,274,visible glyph; full footprint enclosure
+HF-C400,HF-C400-x122,116,128,236,248,122,242,visible glyph; full footprint enclosure
+HF-C400,HF-C400-x163,157,169,306,318,163,312,visible glyph; full footprint enclosure
+HF-C400,HF-C400-x204,197,211,324,340,204,,closed-square lower edges visible under open square; center unresolved
+HF-C400,HF-C400-x245,239,251,335,347,245,341,visible glyph; full footprint enclosure
+HF-C400,HF-C400-x286,280,292,329,341,286,335,visible glyph; full footprint enclosure
+HF-C400,HF-C400-x327,320,334,303,318,327,,closed-square outline visible at circle/line overlap; center unresolved
+HF-C400,HF-C400-x368,360,375,211,228,368,,square lower corners visible under filled diamond; center unresolved
+HF-C480,HF-C480-x122,116,128,275,287,122,281,visible glyph; full footprint enclosure
+HF-C480,HF-C480-x163,157,169,321,333,163,327,visible glyph; full footprint enclosure
+HF-C480,HF-C480-x204,198,210,323,335,204,329,visible glyph; full footprint enclosure
+HF-C480,HF-C480-x245,238,252,295,309,245,,open-square upper/side outline visible at crossing; center unresolved
+HF-C480,HF-C480-x286,280,292,278,290,286,284,visible glyph; full footprint enclosure
+HF-C480,HF-C480-x327,321,333,248,260,327,254,visible glyph; full footprint enclosure
+HF-C480,HF-C480-x368,362,374,151,163,368,157,visible glyph; full footprint enclosure
+HF-D400,HF-D400-x122,114,130,116,132,122,124,visible glyph; full footprint enclosure
+HF-D400,HF-D400-x163,155,171,212,228,163,220,visible glyph; full footprint enclosure
+HF-D400,HF-D400-x368,359,377,208,226,368,,diamond top and side corners visible above square; center unresolved
+HF-D480,HF-D480-x122,114,130,176,192,122,184,visible glyph; full footprint enclosure
+HF-D480,HF-D480-x163,155,171,273,289,163,281,visible glyph; full footprint enclosure
+HF-D480,HF-D480-x204,196,212,290,306,204,298,visible glyph; full footprint enclosure
+HF-D480,HF-D480-x286,278,294,258,278,286,,diamond protrusion on rising trace overlaps circle; center unresolved
+HF-D480,HF-D480-x327,319,335,217,233,327,225,visible glyph; full footprint enclosure
+HF-D480,HF-D480-x368,360,376,163,179,368,171,visible glyph; full footprint enclosure
+HF-E400,HF-E400-x122,116,128,149,161,122,155,visible glyph; full footprint enclosure
+HF-E400,HF-E400-x204,198,210,240,252,204,246,visible glyph; full footprint enclosure
+HF-E400,HF-E400-x245,239,251,257,269,245,263,visible glyph; full footprint enclosure
+HF-E400,HF-E400-x286,278,294,258,278,286,,round shoulder on nearly horizontal trace overlaps rising diamond; center unresolved
+HF-E400,HF-E400-x368,362,374,259,271,368,265,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x122,116,128,103,115,122,109,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x163,157,169,232,244,163,238,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x204,198,210,253,265,204,259,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x245,239,251,269,281,245,275,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x286,280,292,294,306,286,300,visible glyph; full footprint enclosure
+HF-E480,HF-E480-x368,362,374,307,319,368,313,visible glyph; full footprint enclosure
+LF-C400,LF-C400-x163,156,170,435,450,163,442,visible glyph; full footprint enclosure
+LF-C480,LF-C480-x327,320,334,474,489,327,,open-square bottom/white interior visible; center unresolved
+LF-C480,LF-C480-x655,648,662,454,468,655,,open-square lower outline beneath upper triangle; center unresolved
+LF-C480,LF-C480-x737,730,744,437,451,737,444,visible glyph; full footprint enclosure
+LF-E480,LF-E480-x163,157,169,389,401,163,395,visible glyph; full footprint enclosure
+LF-E480,LF-E480-x245,238,252,445,460,245,,open-circle upper arc/interior visible at dense overlap; center unresolved
+LF-E480,LF-E480-x491,483,499,476,494,491,,rounded lower footprint on isolated late open-circle trace; center unresolved
+LF-E480,LF-E480-x573,567,579,480,492,573,486,visible glyph; full footprint enclosure
+LF-E480,LF-E480-x655,649,661,479,491,655,485,visible glyph; full footprint enclosure
+LF-E480,LF-E480-x737,731,743,477,489,737,483,visible glyph; full footprint enclosure
+LF-triangle-early-upper,LF-triangle-early-upper-x163,156,170,415,429,163,422,visible glyph; full footprint enclosure
+LF-triangle-early-lower,LF-triangle-early-lower-x163,156,170,446,460,163,453,visible glyph; full footprint enclosure
+LF-triangle-early-lower,LF-triangle-early-lower-x245,238,252,467,480,245,473,visible glyph; full footprint enclosure
+LF-triangle-late-upper,LF-triangle-late-upper-x655,647,663,449,463,655,456,visible glyph; full footprint enclosure
+LF-triangle-late-upper,LF-triangle-late-upper-x737,729,745,429,444,737,437,visible glyph; full footprint enclosure
+LF-triangle-late-lower,LF-triangle-late-lower-x655,648,662,466,479,655,,lower open triangular outline visible below central bundle; center unresolved
+LF-triangle-late-lower,LF-triangle-late-lower-x737,730,744,465,478,737,471,visible glyph; full footprint enclosure

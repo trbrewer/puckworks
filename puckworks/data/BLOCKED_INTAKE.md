@@ -113,28 +113,28 @@ mo2023, liang2021, foster2025_2, and fasano are **stale** — each has working
 loaders and gated components (data already on disk). With bruno2026 done, **no
 transcription item remains outstanding**.
 
-### 🟡 melrose2019bed — Figs 1/2/8 digitization + the batch companion (added 2026-07-25)
-- **Card:** `docs/cards/melrose2019bed.md` (verdict: data-only; **no runtime port** — it is the
-  foundational Melrose base already covered at equal-or-higher fidelity by romancorrochano2017 /
-  mo2023_2, and it cannot run standalone because it consumes a *measured* flow trace rather than a
-  pressure model).
-- **Unblocks:** the **κ(t) bed_dynamics backlog**, where this is the highest-value item — **Fig. 2**
-  carries *measured* transient flow-resistance traces (resistance rises to a maximum at ~20–50 s,
-  then declines to steady state by 60–80 s, attributed qualitatively to fines plugging + CO₂).
-  The registry's κ(t) evidence is currently dominated by model-side claims; this would be measured
-  espresso-scale evidence of the rising-then-falling shape.
-- **Also wanted:** Fig. 1a/1b espresso-scale packed-bed yield-vs-time curves (4 grinds × 2 packing
-  densities × 2 flow regimes, ~8–9 points each) and Figs 8a–c fitted `D_mol`/`D_cho`/`W_mol`
-  vs d₄,₃ parameter maps, plus the reported point fits and the g̃ = τ(R)/τ_bed values.
-- **Blocked by TWO things:** (a) it is a **pre-print with no published data or code**, so the curves
-  are figure-digitization only; (b) `Y_max` and the PSD live in the **batch companion**
-  (Melrose et al. 2019, Table 1), *not* in this paper — **without the companion the fitted
-  parameters are unusable**, so acquire it before digitizing.
-- **Note on provenance overlap:** this re-analyses the *same* Corrochano-2017 packed-bed brews that
-  romancorrochano2017 already draws on — it is **not independent data**, it is a cleaner packaging
-  of the bed curves and flow transients. Do not treat it as corroboration of that card.
-- **Cheap win available now, no data needed:** the g̃ ranking (E≅D>C>B) is a sanity gate for any
-  bed-extraction-efficiency closure the registry adds later.
+### 🟡 melrose2019bed — Figure 2 partial intake complete; yield/fit work outstanding
+- **Figure 2 completed scope (2026-10-21):**
+  [SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001](../../docs/analysis/sci_md_melrose_transient_hydraulics_001/RESULT.md)
+  recovers 57 visible interval-rate markers in 14 partial profile fragments,
+  10 assigned conditions against 16 intended slots. Eight fragments resolve
+  decline; three HF profiles have shared-trough decline/recovery witnesses.
+  Native-raster reading bounds, all identifiable markers, explicit overlap
+  dispositions and unassigned LF triangle fragments replace representative
+  envelope sampling. Hidden counts remain unknown; no sixteenth curve invented.
+- **Limits retained:** unspecified Figure 2 aggregate membership/weights;
+  preprint LF/HF pressure values versus thesis grind/density-selected tank
+  settings; pressure-node, thermal and storage/collection applicability gaps.
+  Flow is not intrinsic permeability. Rising resistance would mean falling
+  conductance at fixed relevant drop, not rising permeability. No causal
+  mechanism or physical validation established; no unrelated raw-data gap closed.
+- **Still outstanding:** Figure 1 yield curves, Figures 8a–c fitted parameter
+  maps and batch companion Y_max/PSD needed for their extraction/parameter uses.
+  Those prerequisites do not block finite temporal-order analysis of Figure 2.
+- **Card/disposition:** `docs/cards/melrose2019bed.md`; data-only, no runtime port.
+  Same Corrochano campaign as thesis/other cards, not independent replication.
+  The measured-flow-driven extraction model is already covered at equal or
+  higher fidelity by registered extraction components.
 
 ### Acquisition instruments on disk (`docs/sourcing/`)
 For the still-blocked items, ready-to-send request drafts + measurement schemas

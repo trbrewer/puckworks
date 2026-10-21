@@ -1,0 +1,17 @@
+condition_id,status,confirmed_profile_ids,candidate_profile_ids,retained_condition_assigned_points,candidate_points_not_credited,nondecreasing,nonincreasing,constant,eligibility,hydraulic_applicability,aggregation_status,physical_validation
+B400LF,ambiguous_mapping,,LF-triangle-early-upper;LF-triangle-early-lower;LF-triangle-late-upper;LF-triangle-late-lower,0,7,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+B480LF,ambiguous_mapping,,LF-triangle-early-upper;LF-triangle-early-lower;LF-triangle-late-upper;LF-triangle-late-lower,0,7,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+C400LF,confirmed_represented_partial_recovery,LF-C400,,1,0,True,True,True,single_point,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+C480LF,confirmed_represented_partial_recovery,LF-C480,,3,0,True,False,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+D400LF,not_distinguishable_in_figure,,,0,0,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+D480LF,not_distinguishable_in_figure,,,0,0,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+E400LF,not_distinguishable_in_figure,,,0,0,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+E480LF,confirmed_represented_partial_recovery,LF-E480,,6,0,False,True,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+B400HF,confirmed_represented_partial_recovery,HF-B400,,6,0,True,False,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+B480HF,not_distinguishable_in_figure,,,0,0,,,,condition_unresolved,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+C400HF,confirmed_represented_partial_recovery,HF-C400,,7,0,False,False,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+C480HF,confirmed_represented_partial_recovery,HF-C480,,7,0,False,False,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+D400HF,confirmed_represented_partial_recovery,HF-D400,,3,0,False,True,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+D480HF,confirmed_represented_partial_recovery,HF-D480,,6,0,False,False,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+E400HF,confirmed_represented_partial_recovery,HF-E400,,5,0,False,True,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED
+E480HF,confirmed_represented_partial_recovery,HF-E480,,6,0,False,True,False,informative_temporal,UNQUALIFIED,UNSPECIFIED_PUBLISHED_AGGREGATE,NOT_ESTABLISHED

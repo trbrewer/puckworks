@@ -136,7 +136,12 @@ def denominators() -> dict:
 
     comps = list(R.components())
     rows = list(csv.DictReader(MANIFEST_CSV.open(encoding="utf-8")))
-    dataset_sources = {r["dataset_id"].split("/")[0] for r in rows if r.get("dataset_id")}
+    # Melrose2019bed re-presents the Corrochano thesis campaign, not a new
+    # independent campaign (SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001).
+    campaign_aliases = {"melrose2019bed": "romancorrochano2017"}
+    dataset_sources = {campaign_aliases.get(r["dataset_id"].split("/")[0],
+                                           r["dataset_id"].split("/")[0])
+                       for r in rows if r.get("dataset_id")}
 
     by_provenance = collections.Counter(c.provenance_class for c in comps)
     by_evidence = collections.Counter(c.evidence_strength for c in comps)
