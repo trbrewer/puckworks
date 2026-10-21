@@ -1,0 +1,57 @@
+# UNKNOWN counts do not become zero; visible lower bounds are conservative, not a census.
+reading_id,represented_trace_count,visible_count_lower_bound,published_repetitions,recoverable_joint_trajectories,coverage,unsupported_region,ambiguity,floor,claim_scope
+cold_flow_10,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_20,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_30,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_40,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_50,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_60,UNKNOWN,UNKNOWN,3,0,INCOMPLETE,Full band extends beyond visible endpoint,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_05,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_15,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_25,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_35,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_45,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_flow_55,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_10,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_20,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_30,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_40,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,FLOOR_INDICATION,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_50,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,FLOOR_INDICATION,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_60,UNKNOWN,UNKNOWN,3,0,INCOMPLETE,Full band extends beyond visible endpoint,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_05,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_15,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_25,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_35,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,FLOOR_INDICATION,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_45,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,FLOOR_INDICATION,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_55,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,FLOOR_INDICATION,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_10,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_20,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_30,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_40,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_50,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_60,UNKNOWN,UNKNOWN,3,0,INCOMPLETE,Full band extends beyond visible endpoint,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_05,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_15,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_25,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_35,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_45,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+cold_pressure_55,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Within-panel identity not asserted; all coloured strokes enclosed,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_10,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_20,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_30,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_40,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_50,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_60,UNKNOWN,UNKNOWN,3,0,INCOMPLETE,Full band extends beyond visible endpoint,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_05,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_15,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_25,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_35,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_45,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_pressure_55,UNKNOWN,2,3,0,COMPLETE_REPRESENTED_INK,,Merged hot pressure strokes; identities unknown,NONE,Represented plotted support only; exact physical membership UNKNOWN
+hot_flow_late_upper_25,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_30,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_35,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_40,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_45,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_50,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope
+hot_flow_late_upper_55,1,1,3,0,SUBSET_FRAGMENT,No extension before25s or after55s,Pressure partner unknown; entire hot pressure envelope used,NONE,One plotted flow fragment; every pressure partner contained in condition envelope

@@ -29,6 +29,7 @@ from __future__ import annotations
 import collections
 import csv
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -266,12 +267,22 @@ def splice(write_it: bool = True) -> str:
     if _BEGIN not in text or _END not in text:
         return "corpus markers missing from the manuscript"
     block = _block()
-    current = _BEGIN + text.split(_BEGIN, 1)[1].split(_END, 1)[0] + _END
-    if current.strip() == block.strip():
+    fresh = text.split(_BEGIN, 1)[0] + block + text.split(_END, 1)[1]
+    # Four existing prose projections quote this same manifest denominator.
+    # Refresh them from the owner instead of hand-incrementing a hardcoded count.
+    count = denominators()["n_manifest_records"]
+    for pattern in (
+        r"(described by )\d+( provenance-manifest records)",
+        r"(data manifest contains )\d+( records)",
+        r"(The current )\d+(-row manifest)",
+        r"(\| Data provenance \| )\d+(-row manifest snapshot)",
+    ):
+        fresh = re.sub(pattern, lambda m: m[1] + str(count) + m[2], fresh)
+    if text == fresh:
         return ""
     if not write_it:
-        return "corpus block is STALE -- run --splice"
-    MANUSCRIPT.write_text(text.split(_BEGIN)[0] + block + text.split(_END, 1)[1], encoding="utf-8")
+        return "corpus block or manifest-count prose is STALE -- run --splice"
+    MANUSCRIPT.write_text(fresh, encoding="utf-8")
     return ""
 
 

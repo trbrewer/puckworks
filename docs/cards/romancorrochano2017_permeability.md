@@ -89,7 +89,7 @@ per-grind n supplied as a fitted input (it is not predictive standalone).
 - Fitted n and K–C pre-factors per grind (Fig. 6.13 text).
 - Ch. 6.2 permeability vs bed density/aspect-ratio/temperature and flaked-coffee series;
   Ch. 6.4 non-steady flow-rate/ΔP transients (qualitative).
-Raw data/code: none published; Table 6.1 transcribable; Ch. 6 curves need plot digitising.
+Raw data/code: no authenticated Figure6.23 raw records or run-level pairing found in the bounded holdings check; this does not establish absence. Table6.1 is served by the2015 intake; Figure6.23 now has bounded raster readings (below).
 
 ## Overlaps and conflicts
 - COMPETES with / is LOWER-fidelity than wadsworth2026.permeability (registry #6): both
@@ -117,3 +117,37 @@ needed. Dependency: transcribe Table 6.1 first.
 VERDICT: data-only — the two K–C closures are lower-fidelity than the registered Wadsworth
 model and only fit with an unphysical per-grind n, but Table 6.1's tamped/consolidated
 permeabilities fill a named validation gap — take the data, skip the equations — effort S.
+
+
+## Figure 6.23 transient pressure-flow intake (2026-10-21)
+
+[SCI-MD-CORROCHANO-PRESSURE-FLOW-001](../analysis/sci_md_corrochano_pressure_flow_001/RESULT.md)
+adds `romancorrochano2017/fig6_23_pressure_flow_temperature`, loaded by
+`rc17_fig6_23_pressure_flow()`. G1 / NO_GOVERNING_PHYSICS_CHANGE;
+RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. No permeability mechanism is implemented.
+
+Figure6.23 (printed266/PDF291) uses Psi_B, initial400kg/m³,15°C/80°C.
+Three repetitions are stated; no authenticated individual pressure-flow pairing
+is recovered. Native-image enclosures cover44/48 requested condition-panel slots;
+the full60s bands exceed visible endpoints. One hot upper-flow fragment is
+recoverable only over25–55s. Cold condition envelopes resolve a decline in
+**inlet-referenced apparent conductance** Q_meter/DeltaP_bed_reported on both
+separate grids. Complete hot-condition envelopes do not resolve temporal change;
+the late hot fragment has a small secondary-grid recovery under the declared
+reading bounds. Every supported cold condition envelope lies above the hot one.
+These are finite figure-level comparisons, not individual physical-brew counts.
+
+The upstream ultrasonic meter precedes the heaters; its volume reference and
+mapping to through-bed discharge remain unqualified. Reported bed pressure
+subtracts Q-dependent empty-cell losses from a pre-cell transducer; it is not a
+direct two-tap differential. Figure3.3's printed positive-intercept polynomial
+gives25200Pa at1e-5m³/s while the displayed calibration is near21000Pa. The intake
+uses reported pressure, applies no second correction, and records low hot flows
+below calibration observations and floor indications without physical-zero claims.
+Generic20°C methods versus figure-specific15°C remain distinct. Figure6.20's
+other-condition inferred viscosity and printed Pa s unit do not supply a
+synchronized viscosity bound. Equal-alpha/common-geometry viscosity ratios are
+explicitly conditional. See the source reconciliation for fixed-property,
+pressure-equivalence, storage and timing premises. Same Corrochano/Melrose
+campaign; historical steady-state tables and their evidence strengths unchanged.

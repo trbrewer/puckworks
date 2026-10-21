@@ -175,7 +175,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 119 dataset rows; 109 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 120 dataset rows; 110 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -797,9 +797,9 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 11 files / 18,701 bytes; 10 structured files, 10 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-Comment-prefixed CSV tables/figures carry diffusivity, hindrance, partition coefficients, tamped permeability, extraction inventory and model prediction error. Printed thesis pages are retained in comment provenance.
+Comment-prefixed CSV tables/figures carry diffusivity, hindrance, partition coefficients, tamped permeability, extraction inventory and model prediction error. Printed thesis pages are retained in comment provenance. The later Figure6.23 intake adds bounded inlet-flow/reported-pressure raster readings; it is not raw run data.
 
-Source reconstruction and mass-basis/unit adapters. Fitted transport parameters and digitized model error are not direct independent observables; strip comments before parsing, preserving source notes.
+Source reconstruction and mass-basis/unit adapters. Fitted transport parameters and digitized model error are not direct independent observables; strip comments before parsing, preserving source notes. Figure6.23 observer/exposure/eligibility are dataset-scoped in AVAILABLE_DATA_REGISTER; no stronger older label transfers to it.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
@@ -813,6 +813,7 @@ Source reconstruction and mass-basis/unit adapters. Fitted transport parameters 
 | `romancorrochano2017/fig5_13_mpe` — `romancorrochano2017`; Fig 5.13 (p.198) | digitisation (raster, ~+/-0.5 pp); published: %; registry: % | University of Birmingham e-theses (open access; non-commercial research use); no DOI; multiple-Deff drops MPE ~50% vs best single; two dialysis/diafiltration weightings |
 | `romancorrochano2017/fig7_4_espresso` — `romancorrochano2017`; Fig 7.4 (p.283) + Tables 7.1/7.2 | digitisation (MPE) + transcription (conditions); published: x1e-6 m^3/s; C; kg/m^3; %; registry: SI; % | University of Birmingham e-theses (open access; non-commercial research use); no DOI; 15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class) |
 | `romancorrochano2017/y0_extractable` — `romancorrochano2017`; Section 4.4.1 (p.139) + Fig 4.19 (p.140) | transcription (PsiA exact) + digitisation (Fig 4.19 norm, ~+/-0.5 pp); published: kg SS/100 kg RGC (=%); registry: fraction | University of Birmingham e-theses (open access; non-commercial research use); no DOI; PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest |
+| `romancorrochano2017/fig6_23_pressure_flow_temperature` — [romancorrochano2017_permeability](../cards/romancorrochano2017_permeability.md); EngD thesis Figure6.23 printed266 / PDF291; exact PDF and native JPEG hashes in dataset contract.json | Native-raster full-band condition envelopes and one late flow fragment; shared affine reading bounds; published: m^3/s; Pa; seconds; nominal15/80degC; initial400kg/m^3; registry: m^3/s; Pa; s; inlet-referenced apparent conductance m^3/(Pa s) | Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion; 44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign |
 
 Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 

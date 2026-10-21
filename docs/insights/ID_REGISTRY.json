@@ -41,6 +41,7 @@
     "5fb87985ab65115e3a1475e865e74a99bd4f05641f035d6f480901c8bd611efb": "I-010",
     "60b376d233132e5c88cc224fb31133c43cb825cb6a107b475f3c29f6b31c1542": "I-087",
     "68723030a97b8d85edcf1a1ab46f2a0bd75f0e333af57749aa7c564da8e4f843": "I-083",
+    "6a20cabbdc80abcf4a077b2b0b9764f65de7973b32484c1e47becc61929c81f2": "I-100",
     "6b946542d271a99ccde539820d48ebcfa748391987b5b3f8f22f9c53e633d869": "I-012",
     "70699f09526f229e424efface4133a972d782713426b27431179a6fe20861c36": "I-035",
     "77f45fd34c64ef342c4f1340878e871cc8782713dbb20ff71baee444a641f822": "I-039",
@@ -101,12 +102,12 @@
     "fe7f10f40ec341e79fe3d0f4c9640052a211e5b923219addcfcc984ab0b93f2e": "I-017"
   },
   "counts": {
-    "candidates": 99,
-    "tensions": 182
+    "candidates": 100,
+    "tensions": 183
   },
   "high_water": {
-    "I": 99,
-    "T": 182
+    "I": 100,
+    "T": 183
   },
   "note": "Fingerprint -> stable ID. APPEND-ONLY: an entry is never removed and a number is never reused, so a stale reference resolves to what it always meant or to nothing — never to a different record. Regenerate with `python -m puckworks.insights write`.",
   "registry_version": 1,
@@ -171,6 +172,7 @@
     "546f8b7fbca66c8ede3b5142a6fda9fac82361519d077143d41cfcb076f5ec40": "T-0010",
     "56ed1e49737308473bb394a6e503c5d8f46cf4ab048a5fcd1efc142d86b19d70": "T-0113",
     "58f3fa0a6f09b98a9d70a03fe9b4e892d34b07738c4093f946920bdc65a33120": "T-0168",
+    "5974f39464a8d1abc8bd57350cdc26374d4168f7eaf106028dfbd90c688dc1d4": "T-0183",
     "59cb6e2a3bbc8fc0c14da361102c207ac415e1d701ab0214285edcdf2101ad05": "T-0081",
     "5b9b7890c2f3f504a9da5370494c31a17c94395b310d624a525b95e3bf3d0bdb": "T-0025",
     "5beb359732ac69f0909475568c996e4a44fac44dce6d64296a1d2a856093f383": "T-0045",

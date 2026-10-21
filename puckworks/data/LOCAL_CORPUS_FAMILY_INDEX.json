@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "e9a0342e2b4867be5b9ff4a048abe7d0b8ef85fa2f65cefbe70ba6a4c6be1dfc",
+  "available_data_register_sha256": "36d5b72c1e9c93331bff293b00ff5883a376512c901fded77d1f3940427688d0",
   "families": [
     {
       "aliases": [
@@ -1085,12 +1085,13 @@
     },
     {
       "aliases": [
-        "romancorrochano2017"
+        "romancorrochano2017",
+        "romancorrochano2017_permeability"
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "Comment-prefixed CSV tables/figures carry diffusivity, hindrance, partition coefficients, tamped permeability, extraction inventory and model prediction error. Printed thesis pages are retained in comment provenance.",
-        "practical_use_and_limits": "Source reconstruction and mass-basis/unit adapters. Fitted transport parameters and digitized model error are not direct independent observables; strip comments before parsing, preserving source notes.",
+        "observed_structure": "Comment-prefixed CSV tables/figures carry diffusivity, hindrance, partition coefficients, tamped permeability, extraction inventory and model prediction error. Printed thesis pages are retained in comment provenance. The later Figure6.23 intake adds bounded inlet-flow/reported-pressure raster readings; it is not raw run data.",
+        "practical_use_and_limits": "Source reconstruction and mass-basis/unit adapters. Fitted transport parameters and digitized model error are not direct independent observables; strip comments before parsing, preserving source notes. Figure6.23 observer/exposure/eligibility are dataset-scoped in AVAILABLE_DATA_REGISTER; no stronger older label transfers to it.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,
@@ -1106,7 +1107,8 @@
         "y-axis max 80%; min-MPE class per grind matches thesis text within ~0.2pp",
         "multiple-Deff drops MPE ~50% vs best single; two dialysis/diafiltration weightings",
         "15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class)",
-        "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest"
+        "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest",
+        "44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign"
       ],
       "manifest_dataset_ids": [
         "romancorrochano2017/tamped_kappa",
@@ -1118,7 +1120,8 @@
         "romancorrochano2017/fig5_11_mpe",
         "romancorrochano2017/fig5_13_mpe",
         "romancorrochano2017/fig7_4_espresso",
-        "romancorrochano2017/y0_extractable"
+        "romancorrochano2017/y0_extractable",
+        "romancorrochano2017/fig6_23_pressure_flow_temperature"
       ],
       "model_chain_stages": [
         "extraction",
@@ -1127,7 +1130,8 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "University of Birmingham e-theses (open access; non-commercial research use); no DOI"
+        "University of Birmingham e-theses (open access; non-commercial research use); no DOI",
+        "Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:ROMANCORROCHANO2017",
       "strongest_current_uses": [

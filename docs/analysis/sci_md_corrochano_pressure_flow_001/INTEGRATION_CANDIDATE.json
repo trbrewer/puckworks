@@ -1,0 +1,17 @@
+{
+  "base": "96d8fe8779f065f12eeeed3c96de0a2d0c4a758b",
+  "description": "Integration bytes examined by final focused/local generated QA; review is separately bound to SCIENTIFIC_CANDIDATE.json",
+  "scientific_candidate_sha256": "4e3cff5cd6fc1fc51544fcc03c7e96132c6a780569b297a136209df0add29546",
+  "sha256": {
+    "docs/CLAIM_BINDING_AUDIT.json": "4108b5bd85a2d0c58521298cbcc343bc7266c148724e847b71075c4f91dcf64c",
+    "docs/CLAIM_BINDING_AUDIT.md": "b0e6eb8a1562eb18bfa6177947f28674aff05ae464691276d2dec404e794a819",
+    "docs/PAPER_3_PUCKWORKS_DRAFT.md": "003d900df06615749118938c78882f90e5954bd38d6d4b1d8d4d055434fd0594",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "36d5b72c1e9c93331bff293b00ff5883a376512c901fded77d1f3940427688d0",
+    "puckworks/data/LOCAL_CORPUS_FAMILY_INDEX.json": "e859d0a884a8e16f81aab2ca60d74ce56b12d08aaa37a6097cabc6cff2a3c21d",
+    "puckworks/data/MANIFEST.csv": "d4aac24bf5058392de3e8b2db467e5f928fe3a32fc238892a7ecad8ed6139156",
+    "puckworks/data/__init__.py": "3894e96017baf38da6b59e2ee32d19b8931da37461177b7af54e9efcec7beaf6",
+    "puckworks/paper3/corpus.py": "80fa1256e89c100209561ece0815941c3234e4c0a7390b84d4c8b5f60186d178",
+    "tools/build_available_data_register.py": "1dc12a4b160b97bbad04dd37aaee9f16c45724feea8e67996d45ee19bbd5860e",
+    "tools/build_local_corpus_family_index.py": "3ae1f3bc90480e1d76e21eda21b80531fd902ce1acb810fc12acb1d70ad0aabc"
+  }
+}
