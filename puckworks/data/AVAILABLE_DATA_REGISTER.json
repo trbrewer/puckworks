@@ -1,5 +1,5 @@
 {
-  "dataset_count": 118,
+  "dataset_count": 119,
   "families": [
     {
       "analytes": [
@@ -1577,6 +1577,87 @@
       ],
       "validation_strength": [
         "reference/qualitative (single-specimen hobbyist imaging; open-area direct, diameters figure-read)"
+      ]
+    },
+    {
+      "analytes": [
+        "UNKNOWN"
+      ],
+      "apparatus_count_if_known": "UNKNOWN",
+      "blocked_uses": [
+        "intrinsic permeability",
+        "cross-pressure reversal",
+        "independent replication",
+        "physical validation",
+        "unqualified individual-run inference"
+      ],
+      "coffee_count_if_known": "UNKNOWN",
+      "coffee_lot_count_if_known": "UNKNOWN",
+      "conditionally_eligible_uses": [
+        "opening-only hydraulic implication with qualified pressure, constitutive factors, storage, collection and fixed aggregation"
+      ],
+      "consumed_comparison_status": "RETROSPECTIVE_FIGURE_READING_NOT_PREDICTIVE_VALIDATION",
+      "directness": [
+        "native-raster visible-marker coordinate transcription; shared affine calibration outer enclosures"
+      ],
+      "eligible_uses": [
+        "finite within-profile ordinate compatibility under declared reading bounds"
+      ],
+      "external_corpus_id": null,
+      "external_source_manifest_hash": null,
+      "family_id": "MELROSE2019BED",
+      "fraction_resolution": "UNKNOWN",
+      "grinder_count_if_known": "UNKNOWN",
+      "historical_task_uses": [
+        "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001 retrospective finite-order analysis; no production gate"
+      ],
+      "laboratory_count_if_known": "UNKNOWN",
+      "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+      "last_qualified_task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
+      "manifest_dataset_ids": [
+        "melrose2019bed/fig2_flow_transient"
+      ],
+      "measurement_resolution": "57 visible markers; 14 profile fragments; 10 assigned conditions; partial coverage",
+      "missing_joins": [
+        "replicate membership and weights",
+        "exact interval endpoints",
+        "pressure-node/value reconciliation",
+        "hydraulic observer and fixed fluid properties",
+        "obscured markers and LF triangle condition identity"
+      ],
+      "notes": [
+        "57 markers in 14 partial profile fragments; 10 assigned conditions of 16 intended; unresolved triangular identities and hidden counts; same Corrochano campaign; interval-average outlet rate not intrinsic permeability; hydraulic aggregation premises unqualified"
+      ],
+      "observables": [
+        "published collected-volume interval-average flow rate"
+      ],
+      "physical_replicate_structure": "UNSPECIFIED_PUBLISHED_AGGREGATE; Figure1 repetition count does not establish Figure2 members/weights",
+      "physical_shot_count_if_known": "UNKNOWN",
+      "publication_or_repository": "26 September 2019 preprint Figure 2 p11; exact PDF and native image hashes in contract.json",
+      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "rights": [
+        "Public author-uploaded preprint; no reuse license identified; compact factual derived readings only; manuscripts/images excluded; not MIT"
+      ],
+      "roast_batch_count_if_known": "UNKNOWN",
+      "source_cards": [
+        "melrose2019bed"
+      ],
+      "source_identifiers": [
+        "preprint 2019-09-26; SHA256 in melrose2019bed/contract.json"
+      ],
+      "source_internal_or_external": "SOURCE_INTERNAL",
+      "spatial_resolution": "UNKNOWN",
+      "stages": [
+        "bed_dynamics"
+      ],
+      "target_exposure": "TARGET_EXPOSED",
+      "time_resolution": "plotted times; exact interval endpoints unknown; campaign 5/10 s HF/LF aliquots",
+      "title": "Melrose 2019 Figure 2 partial transient-flow readings",
+      "uncertainty_status": [
+        "reading bounds retained; experimental errors and Figure2 replicate weights unknown"
+      ],
+      "validation_strength": [
+        "SOURCE_INTERNAL; TARGET_EXPOSED; figure-reading bounds; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
       ]
     },
     {
@@ -3346,6 +3427,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "eee002dab1074a8412180735a7347f866c5fbe9959be1b0bf0133425b04b3eb1",
+  "manifest_sha256": "b26886be8dbee41b58aaab0514a843be037762ee2e4788d11d94d183f4eec019",
   "schema_version": 1
 }

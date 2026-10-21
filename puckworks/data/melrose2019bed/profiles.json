@@ -1,0 +1,160 @@
+[
+  {
+    "profile_id": "HF-B400",
+    "condition_id": "B400HF",
+    "identity_candidates": [
+      "B400HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-C400",
+    "condition_id": "C400HF",
+    "identity_candidates": [
+      "C400HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-C480",
+    "condition_id": "C480HF",
+    "identity_candidates": [
+      "C480HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-D400",
+    "condition_id": "D400HF",
+    "identity_candidates": [
+      "D400HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-D480",
+    "condition_id": "D480HF",
+    "identity_candidates": [
+      "D480HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-E400",
+    "condition_id": "E400HF",
+    "identity_candidates": [
+      "E400HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "HF-E480",
+    "condition_id": "E480HF",
+    "identity_candidates": [
+      "E480HF"
+    ],
+    "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "HF"
+  },
+  {
+    "profile_id": "LF-C400",
+    "condition_id": "C400LF",
+    "identity_candidates": [
+      "C400LF"
+    ],
+    "identity_support": "closed square at first LF column; later square blobs cannot be individually assigned",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-C480",
+    "condition_id": "C480LF",
+    "identity_candidates": [
+      "C480LF"
+    ],
+    "identity_support": "open square bottom at x327 and open squares at x655/737; early points obscured",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-E480",
+    "condition_id": "E480LF",
+    "identity_candidates": [
+      "E480LF"
+    ],
+    "identity_support": "distinct open circles; x491 round lower footprint joined to isolated later open-circle trace; center unresolved there",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-triangle-early-upper",
+    "condition_id": "",
+    "identity_candidates": [
+      "B400LF",
+      "B480LF"
+    ],
+    "identity_support": "isolated open-looking upper triangle at x163; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-triangle-early-lower",
+    "condition_id": "",
+    "identity_candidates": [
+      "B400LF",
+      "B480LF"
+    ],
+    "identity_support": "lower open-looking triangles at x163/245; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-triangle-late-upper",
+    "condition_id": "",
+    "identity_candidates": [
+      "B400LF",
+      "B480LF"
+    ],
+    "identity_support": "upper triangles at x655/737; fill inconsistent with early open glyph; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  },
+  {
+    "profile_id": "LF-triangle-late-lower",
+    "condition_id": "",
+    "identity_candidates": [
+      "B400LF",
+      "B480LF"
+    ],
+    "identity_support": "lower open-looking triangles at x655/737; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+    "coverage": "partial visible-marker recovery; obscured markers not inferred",
+    "experimental_unit": "published profile/fragment, not a physical brew",
+    "pressure_regime": "LF"
+  }
+]

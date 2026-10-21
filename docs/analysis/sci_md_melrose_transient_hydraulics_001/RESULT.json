@@ -1,0 +1,2728 @@
+{
+  "task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL"
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "implementation_base": "58075bbbce548e63d94106c96b918c1464221514",
+  "source_hashes": {
+    "preprint": "20b7990af4a9026b44d56a29b559ab0d02f4a094d5a3e171b8d1bb41ae58c6ed",
+    "thesis": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818"
+  },
+  "input_sha256": {
+    "contract.json": "adbae189e233b7f07d47da3eafdb9040323077a007de0f21a698c67819f85bba",
+    "profiles.json": "d673fd600f238d2766c43e108c1d908c03d72b144694f8626ffea0e4d8782fc6",
+    "source_coordinates.csv": "6772af45837e92302b32e8522eeaa4cee9def19aba87ab4706f2de25ce72c6db",
+    "ambiguous_regions.csv": "d772d3dca5b4a983d6f3c7987629ed650a39d37ee7091d0de699ba65c99b5070"
+  },
+  "units": "mL/s",
+  "profile_results": [
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 6,
+      "comparable_pairs": 15,
+      "supported_chains": 20,
+      "nondecreasing": true,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 0.0,
+      "D_down": 1.0163265306122446,
+      "delta_up": 0.0,
+      "delta_down": 0.5081632653061223,
+      "delta_constant": 0.5081632653061223,
+      "decline_witness": null,
+      "increase_witness": {
+        "earlier": "HF-B400-x122",
+        "later": "HF-B400-x327",
+        "lower": 3.2448979591836733,
+        "upper": 2.2285714285714286,
+        "difference": 1.0163265306122446,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "HF-B400-x327",
+        "min_upper_point": "HF-B400-x122",
+        "gap": 1.0163265306122446
+      },
+      "witness_up": {
+        "HF-B400-x122": 2.0081632653061225,
+        "HF-B400-x163": 2.3387755102040817,
+        "HF-B400-x204": 2.657142857142857,
+        "HF-B400-x245": 2.804081632653061,
+        "HF-B400-x286": 3.024489795918367,
+        "HF-B400-x327": 3.2448979591836733
+      },
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-B400-x122": 2.0081632653061225,
+        "HF-B400-x163": 2.3387755102040817,
+        "HF-B400-x204": 2.657142857142857,
+        "HF-B400-x245": 2.804081632653061,
+        "HF-B400-x286": 3.024489795918367,
+        "HF-B400-x327": 3.2448979591836733
+      },
+      "expanded_witness_down": {
+        "HF-B400-x122": 2.736734693877551,
+        "HF-B400-x163": 2.736734693877551,
+        "HF-B400-x204": 2.736734693877551,
+        "HF-B400-x245": 2.736734693877551,
+        "HF-B400-x286": 2.736734693877551,
+        "HF-B400-x327": 2.736734693877551
+      },
+      "expanded_witness_constant": 2.736734693877551,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "HF-B400-x122",
+          "HF-B400-x163"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x204"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x204"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x245",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x245",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x286",
+          "HF-B400-x327"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-B400",
+      "condition_id": "B400HF",
+      "identity_candidates": [
+        "B400HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-B400-x122",
+          "HF-B400-x163"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x204"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x122",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x204"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x163",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x245"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x204",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x245",
+          "HF-B400-x286"
+        ],
+        [
+          "HF-B400-x245",
+          "HF-B400-x327"
+        ],
+        [
+          "HF-B400-x286",
+          "HF-B400-x327"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 7,
+      "comparable_pairs": 21,
+      "supported_chains": 35,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 1.0163265306122446,
+      "D_down": 1.2612244897959184,
+      "delta_up": 0.5081632653061223,
+      "delta_down": 0.6306122448979592,
+      "delta_constant": 0.6306122448979592,
+      "decline_witness": {
+        "earlier": "HF-C400-x122",
+        "later": "HF-C400-x245",
+        "lower": 3.6489795918367345,
+        "upper": 2.63265306122449,
+        "difference": 1.0163265306122446,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": {
+        "earlier": "HF-C400-x245",
+        "later": "HF-C400-x368",
+        "lower": 3.8938775510204082,
+        "upper": 2.63265306122449,
+        "difference": 1.2612244897959184,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "HF-C400-x368",
+        "min_upper_point": "HF-C400-x245",
+        "gap": 1.2612244897959184
+      },
+      "witness_up": null,
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-C400-x122": 3.1408163265306124,
+        "HF-C400-x163": 3.1408163265306124,
+        "HF-C400-x204": 3.1408163265306124,
+        "HF-C400-x245": 3.1408163265306124,
+        "HF-C400-x286": 3.1408163265306124,
+        "HF-C400-x327": 3.1408163265306124,
+        "HF-C400-x368": 3.385714285714286
+      },
+      "expanded_witness_down": {
+        "HF-C400-x122": 3.263265306122449,
+        "HF-C400-x163": 3.263265306122449,
+        "HF-C400-x204": 3.263265306122449,
+        "HF-C400-x245": 3.263265306122449,
+        "HF-C400-x286": 3.263265306122449,
+        "HF-C400-x327": 3.263265306122449,
+        "HF-C400-x368": 3.263265306122449
+      },
+      "expanded_witness_constant": 3.263265306122449,
+      "decline_recovery": [
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x163",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.6612244897959183,
+          "recovery_margin": 0.906122448979592
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x204",
+          "later": "HF-C400-x327",
+          "decline_margin": 0.8816326530612244,
+          "recovery_margin": 0.02448979591836764
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x204",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.8816326530612244,
+          "recovery_margin": 1.1265306122448981
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x245",
+          "later": "HF-C400-x327",
+          "decline_margin": 1.0163265306122446,
+          "recovery_margin": 0.1591836734693879
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x245",
+          "later": "HF-C400-x368",
+          "decline_margin": 1.0163265306122446,
+          "recovery_margin": 1.2612244897959184
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x286",
+          "later": "HF-C400-x327",
+          "decline_margin": 0.9428571428571426,
+          "recovery_margin": 0.08571428571428585
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x286",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.9428571428571426,
+          "recovery_margin": 1.1877551020408164
+        },
+        {
+          "earlier": "HF-C400-x122",
+          "trough": "HF-C400-x327",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.6244897959183673,
+          "recovery_margin": 0.869387755102041
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x204",
+          "later": "HF-C400-x327",
+          "decline_margin": 0.02448979591836764,
+          "recovery_margin": 0.02448979591836764
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x204",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.02448979591836764,
+          "recovery_margin": 1.1265306122448981
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x245",
+          "later": "HF-C400-x327",
+          "decline_margin": 0.1591836734693879,
+          "recovery_margin": 0.1591836734693879
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x245",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.1591836734693879,
+          "recovery_margin": 1.2612244897959184
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x286",
+          "later": "HF-C400-x327",
+          "decline_margin": 0.08571428571428585,
+          "recovery_margin": 0.08571428571428585
+        },
+        {
+          "earlier": "HF-C400-x163",
+          "trough": "HF-C400-x286",
+          "later": "HF-C400-x368",
+          "decline_margin": 0.08571428571428585,
+          "recovery_margin": 1.1877551020408164
+        }
+      ],
+      "supported_pairs": [
+        [
+          "HF-C400-x122",
+          "HF-C400-x163"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x204"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x204"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x286",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x286",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x327",
+          "HF-C400-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-C400",
+      "condition_id": "C400HF",
+      "identity_candidates": [
+        "C400HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-C400-x122",
+          "HF-C400-x163"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x204"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x122",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x204"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x163",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x245"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x204",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x286"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x245",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x286",
+          "HF-C400-x327"
+        ],
+        [
+          "HF-C400-x286",
+          "HF-C400-x368"
+        ],
+        [
+          "HF-C400-x327",
+          "HF-C400-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 7,
+      "comparable_pairs": 21,
+      "supported_chains": 35,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 0.39183673469387736,
+      "D_down": 1.9102040816326529,
+      "delta_up": 0.19591836734693868,
+      "delta_down": 0.9551020408163264,
+      "delta_constant": 0.9551020408163264,
+      "decline_witness": {
+        "earlier": "HF-C480-x122",
+        "later": "HF-C480-x204",
+        "lower": 3.1714285714285713,
+        "upper": 2.779591836734694,
+        "difference": 0.39183673469387736,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": {
+        "earlier": "HF-C480-x204",
+        "later": "HF-C480-x368",
+        "lower": 4.689795918367347,
+        "upper": 2.779591836734694,
+        "difference": 1.9102040816326529,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "HF-C480-x368",
+        "min_upper_point": "HF-C480-x204",
+        "gap": 1.9102040816326529
+      },
+      "witness_up": null,
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-C480-x122": 2.9755102040816324,
+        "HF-C480-x163": 2.9755102040816324,
+        "HF-C480-x204": 2.9755102040816324,
+        "HF-C480-x245": 2.9755102040816324,
+        "HF-C480-x286": 2.9755102040816324,
+        "HF-C480-x327": 3.3061224489795915,
+        "HF-C480-x368": 4.493877551020408
+      },
+      "expanded_witness_down": {
+        "HF-C480-x122": 3.7346938775510203,
+        "HF-C480-x163": 3.7346938775510203,
+        "HF-C480-x204": 3.7346938775510203,
+        "HF-C480-x245": 3.7346938775510203,
+        "HF-C480-x286": 3.7346938775510203,
+        "HF-C480-x327": 3.7346938775510203,
+        "HF-C480-x368": 3.7346938775510203
+      },
+      "expanded_witness_constant": 3.7346938775510203,
+      "decline_recovery": [
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x163",
+          "later": "HF-C480-x245",
+          "decline_margin": 0.36734693877551017,
+          "recovery_margin": 0.09795918367346967
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x163",
+          "later": "HF-C480-x286",
+          "decline_margin": 0.36734693877551017,
+          "recovery_margin": 0.33061224489795915
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x163",
+          "later": "HF-C480-x327",
+          "decline_margin": 0.36734693877551017,
+          "recovery_margin": 0.6979591836734693
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x163",
+          "later": "HF-C480-x368",
+          "decline_margin": 0.36734693877551017,
+          "recovery_margin": 1.8857142857142857
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x204",
+          "later": "HF-C480-x245",
+          "decline_margin": 0.39183673469387736,
+          "recovery_margin": 0.12244897959183687
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x204",
+          "later": "HF-C480-x286",
+          "decline_margin": 0.39183673469387736,
+          "recovery_margin": 0.35510204081632635
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x204",
+          "later": "HF-C480-x327",
+          "decline_margin": 0.39183673469387736,
+          "recovery_margin": 0.7224489795918365
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x204",
+          "later": "HF-C480-x368",
+          "decline_margin": 0.39183673469387736,
+          "recovery_margin": 1.9102040816326529
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x245",
+          "later": "HF-C480-x286",
+          "decline_margin": 0.04897959183673439,
+          "recovery_margin": 0.012244897959183376
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x245",
+          "later": "HF-C480-x327",
+          "decline_margin": 0.04897959183673439,
+          "recovery_margin": 0.37959183673469354
+        },
+        {
+          "earlier": "HF-C480-x122",
+          "trough": "HF-C480-x245",
+          "later": "HF-C480-x368",
+          "decline_margin": 0.04897959183673439,
+          "recovery_margin": 1.56734693877551
+        }
+      ],
+      "supported_pairs": [
+        [
+          "HF-C480-x122",
+          "HF-C480-x163"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x204"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x204"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x286",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x286",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x327",
+          "HF-C480-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-C480",
+      "condition_id": "C480HF",
+      "identity_candidates": [
+        "C480HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-C480-x122",
+          "HF-C480-x163"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x204"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x122",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x204"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x163",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x245"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x204",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x286"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x245",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x286",
+          "HF-C480-x327"
+        ],
+        [
+          "HF-C480-x286",
+          "HF-C480-x368"
+        ],
+        [
+          "HF-C480-x327",
+          "HF-C480-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 3,
+      "comparable_pairs": 3,
+      "supported_chains": 1,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "D_up": 0.9306122448979597,
+      "D_down": 0.0,
+      "delta_up": 0.46530612244897984,
+      "delta_down": 0.0,
+      "delta_constant": 0.46530612244897984,
+      "decline_witness": {
+        "earlier": "HF-D400-x122",
+        "later": "HF-D400-x163",
+        "lower": 5.069387755102041,
+        "upper": 4.1387755102040815,
+        "difference": 0.9306122448979597,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "HF-D400-x122",
+        "min_upper_point": "HF-D400-x163",
+        "gap": 0.9306122448979597
+      },
+      "witness_up": null,
+      "witness_down": {
+        "HF-D400-x122": 5.069387755102041,
+        "HF-D400-x163": 3.9183673469387754,
+        "HF-D400-x368": 3.9183673469387754
+      },
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-D400-x122": 4.604081632653061,
+        "HF-D400-x163": 4.604081632653061,
+        "HF-D400-x368": 4.604081632653061
+      },
+      "expanded_witness_down": {
+        "HF-D400-x122": 5.069387755102041,
+        "HF-D400-x163": 3.9183673469387754,
+        "HF-D400-x368": 3.9183673469387754
+      },
+      "expanded_witness_constant": 4.604081632653061,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "HF-D400-x122",
+          "HF-D400-x163"
+        ],
+        [
+          "HF-D400-x122",
+          "HF-D400-x368"
+        ],
+        [
+          "HF-D400-x163",
+          "HF-D400-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-D400",
+      "condition_id": "D400HF",
+      "identity_candidates": [
+        "D400HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-D400-x122",
+          "HF-D400-x163"
+        ],
+        [
+          "HF-D400-x122",
+          "HF-D400-x368"
+        ],
+        [
+          "HF-D400-x163",
+          "HF-D400-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 6,
+      "comparable_pairs": 15,
+      "supported_chains": 20,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 1.151020408163265,
+      "D_down": 1.3102040816326532,
+      "delta_up": 0.5755102040816324,
+      "delta_down": 0.6551020408163266,
+      "delta_constant": 0.6551020408163266,
+      "decline_witness": {
+        "earlier": "HF-D480-x122",
+        "later": "HF-D480-x204",
+        "lower": 4.33469387755102,
+        "upper": 3.183673469387755,
+        "difference": 1.151020408163265,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": {
+        "earlier": "HF-D480-x204",
+        "later": "HF-D480-x368",
+        "lower": 4.493877551020408,
+        "upper": 3.183673469387755,
+        "difference": 1.3102040816326532,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "HF-D480-x368",
+        "min_upper_point": "HF-D480-x204",
+        "gap": 1.3102040816326532
+      },
+      "witness_up": null,
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-D480-x122": 3.7591836734693875,
+        "HF-D480-x163": 3.7591836734693875,
+        "HF-D480-x204": 3.7591836734693875,
+        "HF-D480-x286": 3.7591836734693875,
+        "HF-D480-x327": 3.7591836734693875,
+        "HF-D480-x368": 3.918367346938776
+      },
+      "expanded_witness_down": {
+        "HF-D480-x122": 3.8387755102040817,
+        "HF-D480-x163": 3.8387755102040817,
+        "HF-D480-x204": 3.8387755102040817,
+        "HF-D480-x286": 3.8387755102040817,
+        "HF-D480-x327": 3.8387755102040817,
+        "HF-D480-x368": 3.8387755102040817
+      },
+      "expanded_witness_constant": 3.8387755102040817,
+      "decline_recovery": [
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x163",
+          "later": "HF-D480-x327",
+          "decline_margin": 0.9428571428571426,
+          "recovery_margin": 0.44081632653061265
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x163",
+          "later": "HF-D480-x368",
+          "decline_margin": 0.9428571428571426,
+          "recovery_margin": 1.102040816326531
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x204",
+          "later": "HF-D480-x286",
+          "decline_margin": 1.151020408163265,
+          "recovery_margin": 0.09795918367346923
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x204",
+          "later": "HF-D480-x327",
+          "decline_margin": 1.151020408163265,
+          "recovery_margin": 0.6489795918367349
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x204",
+          "later": "HF-D480-x368",
+          "decline_margin": 1.151020408163265,
+          "recovery_margin": 1.3102040816326532
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x286",
+          "later": "HF-D480-x327",
+          "decline_margin": 0.7591836734693875,
+          "recovery_margin": 0.25714285714285756
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x286",
+          "later": "HF-D480-x368",
+          "decline_margin": 0.7591836734693875,
+          "recovery_margin": 0.9183673469387759
+        },
+        {
+          "earlier": "HF-D480-x122",
+          "trough": "HF-D480-x327",
+          "later": "HF-D480-x368",
+          "decline_margin": 0.25714285714285623,
+          "recovery_margin": 0.41632653061224456
+        }
+      ],
+      "supported_pairs": [
+        [
+          "HF-D480-x122",
+          "HF-D480-x163"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x204"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x204"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x286",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x286",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x327",
+          "HF-D480-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-D480",
+      "condition_id": "D480HF",
+      "identity_candidates": [
+        "D480HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-D480-x122",
+          "HF-D480-x163"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x204"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x122",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x204"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x163",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x286"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x204",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x286",
+          "HF-D480-x327"
+        ],
+        [
+          "HF-D480-x286",
+          "HF-D480-x368"
+        ],
+        [
+          "HF-D480-x327",
+          "HF-D480-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 5,
+      "comparable_pairs": 10,
+      "supported_chains": 10,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "D_up": 1.1510204081632653,
+      "D_down": 0.0,
+      "delta_up": 0.5755102040816327,
+      "delta_down": 0.0,
+      "delta_constant": 0.5755102040816327,
+      "decline_witness": {
+        "earlier": "HF-E400-x122",
+        "later": "HF-E400-x368",
+        "lower": 4.714285714285714,
+        "upper": 3.563265306122449,
+        "difference": 1.1510204081632653,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "HF-E400-x122",
+        "min_upper_point": "HF-E400-x368",
+        "gap": 1.1510204081632653
+      },
+      "witness_up": null,
+      "witness_down": {
+        "HF-E400-x122": 4.714285714285714,
+        "HF-E400-x204": 3.6,
+        "HF-E400-x245": 3.3918367346938774,
+        "HF-E400-x286": 3.36734693877551,
+        "HF-E400-x368": 3.36734693877551
+      },
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-E400-x122": 4.1387755102040815,
+        "HF-E400-x204": 4.1387755102040815,
+        "HF-E400-x245": 4.1387755102040815,
+        "HF-E400-x286": 4.1387755102040815,
+        "HF-E400-x368": 4.1387755102040815
+      },
+      "expanded_witness_down": {
+        "HF-E400-x122": 4.714285714285714,
+        "HF-E400-x204": 3.6,
+        "HF-E400-x245": 3.3918367346938774,
+        "HF-E400-x286": 3.36734693877551,
+        "HF-E400-x368": 3.36734693877551
+      },
+      "expanded_witness_constant": 4.1387755102040815,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "HF-E400-x122",
+          "HF-E400-x204"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x245"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x245"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x245",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x245",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x286",
+          "HF-E400-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-E400",
+      "condition_id": "E400HF",
+      "identity_candidates": [
+        "E400HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-E400-x122",
+          "HF-E400-x204"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x245"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x122",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x245"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x204",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x245",
+          "HF-E400-x286"
+        ],
+        [
+          "HF-E400-x245",
+          "HF-E400-x368"
+        ],
+        [
+          "HF-E400-x286",
+          "HF-E400-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 6,
+      "comparable_pairs": 15,
+      "supported_chains": 20,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "D_up": 2.3020408163265302,
+      "D_down": 0.0,
+      "delta_up": 1.1510204081632651,
+      "delta_down": 0.0,
+      "delta_constant": 1.1510204081632651,
+      "decline_witness": {
+        "earlier": "HF-E480-x122",
+        "later": "HF-E480-x368",
+        "lower": 5.277551020408163,
+        "upper": 2.975510204081633,
+        "difference": 2.3020408163265302,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "HF-E480-x122",
+        "min_upper_point": "HF-E480-x368",
+        "gap": 2.3020408163265302
+      },
+      "witness_up": null,
+      "witness_down": {
+        "HF-E480-x122": 5.277551020408163,
+        "HF-E480-x163": 3.6979591836734693,
+        "HF-E480-x204": 3.440816326530612,
+        "HF-E480-x245": 3.2448979591836733,
+        "HF-E480-x286": 2.938775510204082,
+        "HF-E480-x368": 2.779591836734694
+      },
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "HF-E480-x122": 4.126530612244898,
+        "HF-E480-x163": 4.126530612244898,
+        "HF-E480-x204": 4.126530612244898,
+        "HF-E480-x245": 4.126530612244898,
+        "HF-E480-x286": 4.126530612244898,
+        "HF-E480-x368": 4.126530612244898
+      },
+      "expanded_witness_down": {
+        "HF-E480-x122": 5.277551020408163,
+        "HF-E480-x163": 3.6979591836734693,
+        "HF-E480-x204": 3.440816326530612,
+        "HF-E480-x245": 3.2448979591836733,
+        "HF-E480-x286": 2.938775510204082,
+        "HF-E480-x368": 2.779591836734694
+      },
+      "expanded_witness_constant": 4.126530612244898,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "HF-E480-x122",
+          "HF-E480-x163"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x204"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x204"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x245",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x245",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x286",
+          "HF-E480-x368"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "HF-E480",
+      "condition_id": "E480HF",
+      "identity_candidates": [
+        "E480HF"
+      ],
+      "identity_support": "Figure1 marker convention authenticated in Figure2; gaps retain identity through recognizable matching markers",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "HF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 3.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "HF-E480-x122",
+          "HF-E480-x163"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x204"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x122",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x204"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x163",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x245"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x204",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x245",
+          "HF-E480-x286"
+        ],
+        [
+          "HF-E480-x245",
+          "HF-E480-x368"
+        ],
+        [
+          "HF-E480-x286",
+          "HF-E480-x368"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "single_point",
+      "point_count": 1,
+      "comparable_pairs": 0,
+      "supported_chains": 0,
+      "nondecreasing": true,
+      "nonincreasing": true,
+      "constant": true,
+      "D_up": 0.0,
+      "D_down": 0.0,
+      "delta_up": 0.0,
+      "delta_down": 0.0,
+      "delta_constant": 0.0,
+      "decline_witness": null,
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "LF-C400-x163",
+        "min_upper_point": "LF-C400-x163",
+        "gap": 0.0
+      },
+      "witness_up": {
+        "LF-C400-x163": 1.1755102040816325
+      },
+      "witness_down": {
+        "LF-C400-x163": 1.1755102040816325
+      },
+      "witness_constant": 1.1755102040816325,
+      "expanded_witness_up": {
+        "LF-C400-x163": 1.1755102040816325
+      },
+      "expanded_witness_down": {
+        "LF-C400-x163": 1.1755102040816325
+      },
+      "expanded_witness_constant": 1.1755102040816325,
+      "decline_recovery": [],
+      "supported_pairs": [],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "not_excluded_by_relaxation"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-C400",
+      "condition_id": "C400LF",
+      "identity_candidates": [
+        "C400LF"
+      ],
+      "identity_support": "closed square at first LF column; later square blobs cannot be individually assigned",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 3,
+      "comparable_pairs": 3,
+      "supported_chains": 1,
+      "nondecreasing": true,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 0.0,
+      "D_down": 0.23265306122449037,
+      "delta_up": 0.0,
+      "delta_down": 0.11632653061224518,
+      "delta_constant": 0.11632653061224518,
+      "decline_witness": null,
+      "increase_witness": {
+        "earlier": "LF-C480-x327",
+        "later": "LF-C480-x737",
+        "lower": 1.1632653061224492,
+        "upper": 0.9306122448979588,
+        "difference": 0.23265306122449037,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "LF-C480-x737",
+        "min_upper_point": "LF-C480-x327",
+        "gap": 0.23265306122449037
+      },
+      "witness_up": {
+        "LF-C480-x327": 0.6979591836734693,
+        "LF-C480-x655": 0.9551020408163264,
+        "LF-C480-x737": 1.1632653061224492
+      },
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "LF-C480-x327": 0.6979591836734693,
+        "LF-C480-x655": 0.9551020408163264,
+        "LF-C480-x737": 1.1632653061224492
+      },
+      "expanded_witness_down": {
+        "LF-C480-x327": 1.046938775510204,
+        "LF-C480-x655": 1.046938775510204,
+        "LF-C480-x737": 1.046938775510204
+      },
+      "expanded_witness_constant": 1.046938775510204,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "LF-C480-x327",
+          "LF-C480-x655"
+        ],
+        [
+          "LF-C480-x327",
+          "LF-C480-x737"
+        ],
+        [
+          "LF-C480-x655",
+          "LF-C480-x737"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-C480",
+      "condition_id": "C480LF",
+      "identity_candidates": [
+        "C480LF"
+      ],
+      "identity_support": "open square bottom at x327 and open squares at x655/737; early points obscured",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "LF-C480-x327",
+          "LF-C480-x655"
+        ],
+        [
+          "LF-C480-x327",
+          "LF-C480-x737"
+        ],
+        [
+          "LF-C480-x655",
+          "LF-C480-x737"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 6,
+      "comparable_pairs": 15,
+      "supported_chains": 20,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "D_up": 0.9183673469387763,
+      "D_down": 0.0,
+      "delta_up": 0.45918367346938815,
+      "delta_down": 0.0,
+      "delta_constant": 0.45918367346938815,
+      "decline_witness": {
+        "earlier": "LF-E480-x163",
+        "later": "LF-E480-x573",
+        "lower": 1.775510204081633,
+        "upper": 0.8571428571428568,
+        "difference": 0.9183673469387763,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "LF-E480-x163",
+        "min_upper_point": "LF-E480-x573",
+        "gap": 0.9183673469387763
+      },
+      "witness_up": null,
+      "witness_down": {
+        "LF-E480-x163": 1.775510204081633,
+        "LF-E480-x245": 1.053061224489796,
+        "LF-E480-x491": 0.6979591836734693,
+        "LF-E480-x573": 0.6979591836734693,
+        "LF-E480-x655": 0.6979591836734693,
+        "LF-E480-x737": 0.6979591836734693
+      },
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "LF-E480-x163": 1.316326530612245,
+        "LF-E480-x245": 1.316326530612245,
+        "LF-E480-x491": 1.316326530612245,
+        "LF-E480-x573": 1.316326530612245,
+        "LF-E480-x655": 1.316326530612245,
+        "LF-E480-x737": 1.316326530612245
+      },
+      "expanded_witness_down": {
+        "LF-E480-x163": 1.775510204081633,
+        "LF-E480-x245": 1.053061224489796,
+        "LF-E480-x491": 0.6979591836734693,
+        "LF-E480-x573": 0.6979591836734693,
+        "LF-E480-x655": 0.6979591836734693,
+        "LF-E480-x737": 0.6979591836734693
+      },
+      "expanded_witness_constant": 1.316326530612245,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "LF-E480-x163",
+          "LF-E480-x245"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x491"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x491"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x573",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x573",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x655",
+          "LF-E480-x737"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-E480",
+      "condition_id": "E480LF",
+      "identity_candidates": [
+        "E480LF"
+      ],
+      "identity_support": "distinct open circles; x491 round lower footprint joined to isolated later open-circle trace; center unresolved there",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "LF-E480-x163",
+          "LF-E480-x245"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x491"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x163",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x491"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x245",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x573"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x491",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x573",
+          "LF-E480-x655"
+        ],
+        [
+          "LF-E480-x573",
+          "LF-E480-x737"
+        ],
+        [
+          "LF-E480-x655",
+          "LF-E480-x737"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "single_point",
+      "point_count": 1,
+      "comparable_pairs": 0,
+      "supported_chains": 0,
+      "nondecreasing": true,
+      "nonincreasing": true,
+      "constant": true,
+      "D_up": 0.0,
+      "D_down": 0.0,
+      "delta_up": 0.0,
+      "delta_down": 0.0,
+      "delta_constant": 0.0,
+      "decline_witness": null,
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "LF-triangle-early-upper-x163",
+        "min_upper_point": "LF-triangle-early-upper-x163",
+        "gap": 0.0
+      },
+      "witness_up": {
+        "LF-triangle-early-upper-x163": 1.4326530612244897
+      },
+      "witness_down": {
+        "LF-triangle-early-upper-x163": 1.4326530612244897
+      },
+      "witness_constant": 1.4326530612244897,
+      "expanded_witness_up": {
+        "LF-triangle-early-upper-x163": 1.4326530612244897
+      },
+      "expanded_witness_down": {
+        "LF-triangle-early-upper-x163": 1.4326530612244897
+      },
+      "expanded_witness_constant": 1.4326530612244897,
+      "decline_recovery": [],
+      "supported_pairs": [],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "not_excluded_by_relaxation"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-triangle-early-upper",
+      "condition_id": "",
+      "identity_candidates": [
+        "B400LF",
+        "B480LF"
+      ],
+      "identity_support": "isolated open-looking upper triangle at x163; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 2,
+      "comparable_pairs": 1,
+      "supported_chains": 0,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "D_up": 0.03673469387755102,
+      "D_down": 0.0,
+      "delta_up": 0.01836734693877551,
+      "delta_down": 0.0,
+      "delta_constant": 0.01836734693877551,
+      "decline_witness": {
+        "earlier": "LF-triangle-early-lower-x163",
+        "later": "LF-triangle-early-lower-x245",
+        "lower": 1.053061224489796,
+        "upper": 1.016326530612245,
+        "difference": 0.03673469387755102,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "LF-triangle-early-lower-x163",
+        "min_upper_point": "LF-triangle-early-lower-x245",
+        "gap": 0.03673469387755102
+      },
+      "witness_up": null,
+      "witness_down": {
+        "LF-triangle-early-lower-x163": 1.053061224489796,
+        "LF-triangle-early-lower-x245": 0.8081632653061224
+      },
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "LF-triangle-early-lower-x163": 1.0346938775510206,
+        "LF-triangle-early-lower-x245": 1.0346938775510206
+      },
+      "expanded_witness_down": {
+        "LF-triangle-early-lower-x163": 1.053061224489796,
+        "LF-triangle-early-lower-x245": 0.8081632653061224
+      },
+      "expanded_witness_constant": 1.0346938775510206,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "LF-triangle-early-lower-x163",
+          "LF-triangle-early-lower-x245"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "excluded",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-triangle-early-lower",
+      "condition_id": "",
+      "identity_candidates": [
+        "B400LF",
+        "B480LF"
+      ],
+      "identity_support": "lower open-looking triangles at x163/245; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "LF-triangle-early-lower-x163",
+          "LF-triangle-early-lower-x245"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 2,
+      "comparable_pairs": 1,
+      "supported_chains": 0,
+      "nondecreasing": true,
+      "nonincreasing": false,
+      "constant": false,
+      "D_up": 0.0,
+      "D_down": 0.012244897959183376,
+      "delta_up": 0.0,
+      "delta_down": 0.006122448979591688,
+      "delta_constant": 0.006122448979591688,
+      "decline_witness": null,
+      "increase_witness": {
+        "earlier": "LF-triangle-late-upper-x655",
+        "later": "LF-triangle-late-upper-x737",
+        "lower": 1.2489795918367346,
+        "upper": 1.2367346938775512,
+        "difference": 0.012244897959183376,
+        "order_support": "transitive_closure_of_retained_edges"
+      },
+      "constant_extremes": {
+        "max_lower_point": "LF-triangle-late-upper-x737",
+        "min_upper_point": "LF-triangle-late-upper-x655",
+        "gap": 0.012244897959183376
+      },
+      "witness_up": {
+        "LF-triangle-late-upper-x655": 1.016326530612245,
+        "LF-triangle-late-upper-x737": 1.2489795918367346
+      },
+      "witness_down": null,
+      "witness_constant": null,
+      "expanded_witness_up": {
+        "LF-triangle-late-upper-x655": 1.016326530612245,
+        "LF-triangle-late-upper-x737": 1.2489795918367346
+      },
+      "expanded_witness_down": {
+        "LF-triangle-late-upper-x655": 1.2428571428571429,
+        "LF-triangle-late-upper-x737": 1.2428571428571429
+      },
+      "expanded_witness_constant": 1.2428571428571429,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "LF-triangle-late-upper-x655",
+          "LF-triangle-late-upper-x737"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "excluded",
+        "constant": "excluded"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-triangle-late-upper",
+      "condition_id": "",
+      "identity_candidates": [
+        "B400LF",
+        "B480LF"
+      ],
+      "identity_support": "upper triangles at x655/737; fill inconsistent with early open glyph; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "LF-triangle-late-upper-x655",
+          "LF-triangle-late-upper-x737"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    },
+    {
+      "eligibility": "informative_temporal",
+      "point_count": 2,
+      "comparable_pairs": 1,
+      "supported_chains": 0,
+      "nondecreasing": true,
+      "nonincreasing": true,
+      "constant": true,
+      "D_up": 0.0,
+      "D_down": 0.0,
+      "delta_up": 0.0,
+      "delta_down": 0.0,
+      "delta_constant": 0.0,
+      "decline_witness": null,
+      "increase_witness": null,
+      "constant_extremes": {
+        "max_lower_point": "LF-triangle-late-lower-x737",
+        "min_upper_point": "LF-triangle-late-lower-x655",
+        "gap": 0.0
+      },
+      "witness_up": {
+        "LF-triangle-late-lower-x655": 0.8204081632653057,
+        "LF-triangle-late-lower-x737": 0.83265306122449
+      },
+      "witness_down": {
+        "LF-triangle-late-lower-x655": 0.83265306122449,
+        "LF-triangle-late-lower-x737": 0.83265306122449
+      },
+      "witness_constant": 0.83265306122449,
+      "expanded_witness_up": {
+        "LF-triangle-late-lower-x655": 0.8204081632653057,
+        "LF-triangle-late-lower-x737": 0.83265306122449
+      },
+      "expanded_witness_down": {
+        "LF-triangle-late-lower-x655": 0.83265306122449,
+        "LF-triangle-late-lower-x737": 0.83265306122449
+      },
+      "expanded_witness_constant": 0.83265306122449,
+      "decline_recovery": [],
+      "supported_pairs": [
+        [
+          "LF-triangle-late-lower-x655",
+          "LF-triangle-late-lower-x737"
+        ]
+      ],
+      "rectangular_interpretation": {
+        "nondecreasing": "not_excluded_by_relaxation",
+        "nonincreasing": "not_excluded_by_relaxation",
+        "constant": "not_excluded_by_relaxation"
+      },
+      "joint_witness_status": "NOT_TESTED",
+      "profile_id": "LF-triangle-late-lower",
+      "condition_id": "",
+      "identity_candidates": [
+        "B400LF",
+        "B480LF"
+      ],
+      "identity_support": "lower open-looking triangles at x655/737; two open-looking LF triangles prevent unique density assignment; no join across obscured middle",
+      "coverage": "partial visible-marker recovery; obscured markers not inferred",
+      "experimental_unit": "published profile/fragment, not a physical brew",
+      "pressure_regime": "LF",
+      "source_id": "Melrose2019bed_20190926",
+      "figure_id": "Figure_2",
+      "observer_contract_reference": "contract.json#/observer",
+      "preparation_contract_reference": "contract.json#/preparation",
+      "pressure_statement_reference": "contract.json#/pressure",
+      "preprint_reported_applied_overpressure_bar": 1.75,
+      "pressure_value_applicability": "REPORTED_PREPRINT_VALUE; THESIS_MAPPING_DISCREPANCY_UNRESOLVED",
+      "collection_interval_endpoints": null,
+      "replicate_membership": null,
+      "replicate_weights": null,
+      "order_edges": [
+        [
+          "LF-triangle-late-lower-x655",
+          "LF-triangle-late-lower-x737"
+        ]
+      ],
+      "order_support": "disjoint_time_enclosures_and_sequential_aliquots",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "collection_order_support": "campaign_methods; exact endpoints unknown",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "physical_validation": "NOT_ESTABLISHED",
+      "jointly_admissible_monotone_witness": "NOT_TESTED",
+      "uncertainty_model": "rectangular_outer_envelope_of_shared_calibration",
+      "delta_interpretation": "exact_uniform_rectangular_expansion_only",
+      "units": "mL/s; SI values in normalized observations",
+      "early_thermal_relation": "first HF reading near reported 5\u201310 s transient; LF first reading near its reported end; interval endpoints unknown; later outlet temperature does not establish isothermality"
+    }
+  ],
+  "condition_coverage": [
+    {
+      "condition_id": "B400LF",
+      "status": "ambiguous_mapping",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "LF-triangle-early-upper;LF-triangle-early-lower;LF-triangle-late-upper;LF-triangle-late-lower",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 7,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "B480LF",
+      "status": "ambiguous_mapping",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "LF-triangle-early-upper;LF-triangle-early-lower;LF-triangle-late-upper;LF-triangle-late-lower",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 7,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "C400LF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "LF-C400",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 1,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": true,
+      "nonincreasing": true,
+      "constant": true,
+      "eligibility": "single_point",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "C480LF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "LF-C480",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 3,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": true,
+      "nonincreasing": false,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "D400LF",
+      "status": "not_distinguishable_in_figure",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "D480LF",
+      "status": "not_distinguishable_in_figure",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "E400LF",
+      "status": "not_distinguishable_in_figure",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "E480LF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "LF-E480",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 6,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "B400HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-B400",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 6,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": true,
+      "nonincreasing": false,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "B480HF",
+      "status": "not_distinguishable_in_figure",
+      "confirmed_profile_ids": "",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 0,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": null,
+      "nonincreasing": null,
+      "constant": null,
+      "eligibility": "condition_unresolved",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "C400HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-C400",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 7,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "C480HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-C480",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 7,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "D400HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-D400",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 3,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "D480HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-D480",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 6,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": false,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "E400HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-E400",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 5,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    },
+    {
+      "condition_id": "E480HF",
+      "status": "confirmed_represented_partial_recovery",
+      "confirmed_profile_ids": "HF-E480",
+      "candidate_profile_ids": "",
+      "retained_condition_assigned_points": 6,
+      "candidate_points_not_credited": 0,
+      "nondecreasing": false,
+      "nonincreasing": true,
+      "constant": false,
+      "eligibility": "informative_temporal",
+      "hydraulic_applicability": "UNQUALIFIED",
+      "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+      "physical_validation": "NOT_ESTABLISHED"
+    }
+  ],
+  "coverage": {
+    "intended_conditions": 16,
+    "observed_profile_fragments": 14,
+    "condition_assigned_profiles": 10,
+    "retained_points": 57,
+    "confirmed_conditions": 10,
+    "physically_qualified_profiles": 0,
+    "obscured_point_count": null,
+    "distinguishable_trace_lower_bound": 12,
+    "total_source_profiles": null
+  },
+  "ewp_reference": {
+    "commit": "aace2cc6b6c2a393d2dbfb0274104192ca6c7203",
+    "conclusion": "UNRESOLVED_BOUNDED_ANALYSIS",
+    "line_pressure": "NOT_ASSESSED"
+  },
+  "missing_facts": [
+    "Figure2 pointwise replicate membership and fixed weights or exact aggregation operation",
+    "Exact collection endpoints and replicate alignment, abscissa-end/midpoint convention",
+    "Per-condition applied-pressure reconciliation and bed-pressure time histories/common pressure reference",
+    "Fixed constitutive factors including viscosity/temperature/composition",
+    "Negligible storage/inertia and collected-volume mapping throughout compared intervals",
+    "Condition identity of LF triangular fragments and obscured glyphs; no hidden-point count",
+    "Jointly admissible monotone witness not tested"
+  ]
+}

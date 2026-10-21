@@ -1,0 +1,18 @@
+region_id,x_min,x_max,y_min,y_max,disposition,observation_count,count_status,reason
+HF-x163-top,154,172,209,232,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,E400/D400 blend; only unmistakable D400 diamond retained; no inferred E400 center
+HF-x204-D400,194,214,239,318,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,D400 middle glyph not separable; other identifiable markers retained individually
+HF-x245-D400,235,255,239,318,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,D400 middle glyph not separable; other identifiable markers retained individually
+HF-x286-D400,276,296,239,318,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,D400 middle glyph not separable; other identifiable markers retained individually
+HF-x327-D400,317,337,239,318,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,D400 middle glyph not separable; other identifiable markers retained individually
+HF-x245-D480,235,255,292,321,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,D480 at crossing has no separable diamond center/outline; no inferred point
+HF-x327-E400,317,337,257,278,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,nearly horizontal thick stroke overlapped by square/triangle traces; circle not separately identifiable
+HF-x327-E480,317,337,302,321,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,open circle hidden by filled square; only square retained
+HF-x368-B400,357,378,207,230,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,filled triangle not separable from diamond/square end cluster
+LF-x163-bundle,152,174,433,460,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x245-bundle,234,256,445,480,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x327-bundle,316,338,464,489,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x409-bundle,398,420,468,489,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x491-bundle,480,502,468,494,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x573-bundle,562,584,464,493,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x655-bundle,644,666,449,493,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership
+LF-x737-bundle,726,748,454,480,ambiguous_or_obscured_no_invented_observation,,not_reliably_determinable,dense LF glyph/line blend; retain only individually listed visible glyphs; no count of wholly obscured markers or forced eight-series membership

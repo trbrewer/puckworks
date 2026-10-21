@@ -1459,3 +1459,13 @@ def moroney2015_data():
 from puckworks.data.visualizer_store import (   # noqa: E402,F401  (public re-exports)
     CorpusSnapshot, measurement_dictionary, is_pooling_safe, freeze_snapshot,
 )
+
+
+def melrose2019bed_fig2_flow_transient():
+    """Partial Figure-2 marker readings; mL/s and explicit SI enclosures.
+
+    Published profile fragments, not individual physical brews. Blank central
+    estimates/condition IDs remain blank; see source-specific PROVENANCE.md.
+    Reading bounds are not experimental uncertainty or permeability data.
+    """
+    return _typed_rows(DATA_DIR / "melrose2019bed" / "observations.csv")

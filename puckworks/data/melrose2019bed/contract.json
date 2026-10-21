@@ -1,0 +1,155 @@
+{
+  "source_id": "Melrose2019bed_20190926",
+  "implementation_base": "58075bbbce548e63d94106c96b918c1464221514",
+  "source_hashes": {
+    "preprint": "20b7990af4a9026b44d56a29b559ab0d02f4a094d5a3e171b8d1bb41ae58c6ed",
+    "thesis": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818"
+  },
+  "source_urls": {
+    "preprint": "https://www.researchgate.net/profile/John-Melrose/publication/333220524_Modelling_polydisperse_diffusion_kinetics_of_Coffee_Brewing-bed/links/5da0b0d5299bf116fe9ec762/Modelling-polydisperse-diffusion-kinetics-of-Coffee-Brewing-bed.pdf",
+    "thesis": "https://etheses.bham.ac.uk/7176/2/Roman-Corrochano17EngD.pdf"
+  },
+  "figure": {
+    "id": "Figure_2",
+    "printed_page": 11,
+    "pdf_page": 11,
+    "native_width": 957,
+    "native_height": 678,
+    "pdf_object": 29,
+    "encoding": "JPEG",
+    "native_image_sha256": "f8134a95b7c15dea6f8e8f5a4288b7aa0960999d8e7c75320d265ac0e838b82e"
+  },
+  "intended_conditions": [
+    "B400LF",
+    "B480LF",
+    "C400LF",
+    "C480LF",
+    "D400LF",
+    "D480LF",
+    "E400LF",
+    "E480LF",
+    "B400HF",
+    "B480HF",
+    "C400HF",
+    "C480HF",
+    "D400HF",
+    "D480HF",
+    "E400HF",
+    "E480HF"
+  ],
+  "calibration": {
+    "id": "native_jpeg_affine_1",
+    "coordinate_origin": "zero-based top-left; x right y down",
+    "x_anchors": [
+      [
+        79,
+        81
+      ],
+      [
+        899,
+        901
+      ]
+    ],
+    "y_anchors": [
+      [
+        57,
+        59
+      ],
+      [
+        547,
+        549
+      ]
+    ],
+    "x_values_s": [
+      0,
+      100
+    ],
+    "y_values_ml_s": [
+      6,
+      0
+    ],
+    "raster_guard_px": 1,
+    "shared_parameters": true,
+    "joint_constraints": "one common affine x and y calibration for every marker; independent visible-glyph center within native rectangle",
+    "analysis_relaxation": "pointwise rectangular outer envelope",
+    "internal_tick_checks": {
+      "x_20_40_60_80": [
+        245,
+        409,
+        573,
+        737
+      ],
+      "y_1_2_3_4_5": [
+        467,
+        385,
+        304,
+        222,
+        140
+      ]
+    }
+  },
+  "observer": {
+    "quantity": "aliquot volume divided by collection duration; published interval-average outlet rate",
+    "measurement_chain": "aliquot weighed -> volume using approximately water density -> divided by sampling time -> published ordinate; exact Figure2 replicate reduction unspecified",
+    "time_origin": "first drop observed leaving bed (preprint p11)",
+    "abscissa_convention": "NOT_REPORTED: endpoint versus midpoint",
+    "durations_s": {
+      "HF": 5,
+      "LF": 10
+    },
+    "duration_support": "thesis pp90/274 same-campaign method; exact Figure2 endpoints and replicate-specific timing not authenticated",
+    "sequential_nonoverlap_support": "successive collected aliquots with rate = volume/interval time; preprint pp10-11 and thesis p90; profile/replicate alignment remains unknown",
+    "aggregation_status": "UNSPECIFIED_PUBLISHED_AGGREGATE",
+    "replicate_membership": null,
+    "replicate_weights": null,
+    "repetition_support": "Figure1 reports means over 3-4 repetitions and sample SD; not a Figure2 pointwise membership/weight specification",
+    "experimental_uncertainty": "Figure2 has no identifiable experimental error bars; Figure1 bars are sample SD. Thesis general SD wording does not quantify Figure2 errors.",
+    "density_approximation": "thesis p274: approximately water (~1000 kg/m3) at same temperature; concentration-dependent 1-3% error, not independent symmetric reading uncertainty"
+  },
+  "pressure": {
+    "within_run": "fixed applied pressure supported by preprint pp4/10 and thesis p63 tank regulation; no time-resolved Figure2 bed-pressure record",
+    "preprint_bar": {
+      "LF": 1.75,
+      "HF": 3.75
+    },
+    "preprint_Pa": {
+      "LF": 175000,
+      "HF": 375000
+    },
+    "node_reference": "preprint applied overpressure; thesis regulated tank and separate pre-cell transducer, empty-cell correction; not established fixed bed drop",
+    "discrepancy": "thesis pp90/273 selects tank pressure by grind/density; exact Figure2 per-condition pressure mapping unresolved"
+  },
+  "preparation": {
+    "B": {
+      "d43_um": 200,
+      "fines_volume_fraction": 0.36
+    },
+    "C": {
+      "d43_um": 260,
+      "fines_volume_fraction": 0.27
+    },
+    "D": {
+      "d43_um": 325,
+      "fines_volume_fraction": 0.2
+    },
+    "E": {
+      "d43_um": 360,
+      "fines_volume_fraction": 0.17
+    },
+    "cell_diameter_m": 0.037,
+    "bulk_density_400_dose_kg": 0.008,
+    "bulk_density_480_dose_kg": 0.0095,
+    "reported_480_height_m": 0.018,
+    "inlet_set_C": 85,
+    "outlet_reported_C": "initial ~60 rising to 75-80 after 5-10 s"
+  },
+  "missing_facts": [
+    "Figure2 pointwise replicate membership and fixed weights or exact aggregation operation",
+    "Exact collection endpoints and replicate alignment, abscissa-end/midpoint convention",
+    "Per-condition applied-pressure reconciliation and bed-pressure time histories/common pressure reference",
+    "Fixed constitutive factors including viscosity/temperature/composition",
+    "Negligible storage/inertia and collected-volume mapping throughout compared intervals",
+    "Condition identity of LF triangular fragments and obscured glyphs; no hidden-point count",
+    "Jointly admissible monotone witness not tested"
+  ]
+}

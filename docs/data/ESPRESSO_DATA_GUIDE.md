@@ -175,7 +175,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 118 dataset rows; 109 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 119 dataset rows; 109 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -192,6 +192,14 @@ assigned an established dataset ID. Nested repository copies do not become new
 source families.
 
 Additional canonical rows outside the historical 39-family index:
+
+- `melrose2019bed/fig2_flow_transient`: new bounded Figure 2 intake,
+  [SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001](../analysis/sci_md_melrose_transient_hydraulics_001/RESULT.md).
+  57 visible markers in 14 partial fragments; 10 assigned conditions of 16
+  intended, unresolved overlaps/triangle identities. Reading-bound finite-order
+  evidence only; unspecified aggregation and hydraulic-observer premises;
+  PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same Corrochano campaign, no additional
+  independent brews. This is not a refresh of the historical disk census.
 
 - `de1_fixtureA` and `wadsworth2026_table1`: root-level files are held and hashed;
   these are existing fixture/compact-table records, not new independent families.

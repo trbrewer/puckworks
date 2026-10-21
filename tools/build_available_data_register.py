@@ -144,6 +144,25 @@ def build() -> dict:
             "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
             "physical_shot_count_if_known": 0,
         })
+    if "MELROSE2019BED" in families:
+        families["MELROSE2019BED"].update({
+            "title": "Melrose 2019 Figure 2 partial transient-flow readings",
+            "source_identifiers": ["preprint 2019-09-26; SHA256 in melrose2019bed/contract.json"],
+            "stages": ["bed_dynamics"],
+            "observables": ["published collected-volume interval-average flow rate"],
+            "measurement_resolution": "57 visible markers; 14 profile fragments; 10 assigned conditions; partial coverage",
+            "time_resolution": "plotted times; exact interval endpoints unknown; campaign 5/10 s HF/LF aliquots",
+            "physical_replicate_structure": "UNSPECIFIED_PUBLISHED_AGGREGATE; Figure1 repetition count does not establish Figure2 members/weights",
+            "source_internal_or_external": "SOURCE_INTERNAL",
+            "target_exposure": "TARGET_EXPOSED",
+            "consumed_comparison_status": "RETROSPECTIVE_FIGURE_READING_NOT_PREDICTIVE_VALIDATION",
+            "eligible_uses": ["finite within-profile ordinate compatibility under declared reading bounds"],
+            "conditionally_eligible_uses": ["opening-only hydraulic implication with qualified pressure, constitutive factors, storage, collection and fixed aggregation"],
+            "blocked_uses": ["intrinsic permeability", "cross-pressure reversal", "independent replication", "physical validation", "unqualified individual-run inference"],
+            "missing_joins": ["replicate membership and weights", "exact interval endpoints", "pressure-node/value reconciliation", "hydraulic observer and fixed fluid properties", "obscured markers and LF triangle condition identity"],
+            "last_qualified_task": "SCI-MD-MELROSE-TRANSIENT-HYDRAULICS-001",
+            "last_qualified_commit": "TASK_SOURCE_HASH_BOUND_NOT_PRODUCTION_AUTHORITY",
+        })
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

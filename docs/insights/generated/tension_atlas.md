@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `9ed5a5436c` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `58075bbbce` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -174,13 +174,13 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0044** [discriminator_with_data] 6 registered models name permeability among their interface outputs and 15 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, lee2023.feedback, wadsworth2026.inertial, waszkiewicz2025.poroelastic
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-029
   - sources: `puckworks/registry.py`
-- **T-0045** [discriminator_with_data] 5 registered models name flow among their interface outputs and 22 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, wadsworth2026.inertial, waszkiewicz2025.poroelastic
+- **T-0045** [discriminator_with_data] 5 registered models name flow among their interface outputs and 23 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, wadsworth2026.inertial, waszkiewicz2025.poroelastic
   - discriminator: flow · data: YES · cheap test: YES · candidate: I-030
   - sources: `puckworks/registry.py`
 - **T-0176** [discriminator_with_data] 2 registered models name porosity among their interface outputs and 6 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, wadsworth2026.grindmap
   - discriminator: porosity · data: YES · cheap test: YES · candidate: I-094
   - sources: `puckworks/registry.py`
-- **T-0047** [discriminator_with_data] 2 registered models name pressure among their interface outputs and 23 manifest dataset(s) measure it: cameron2020.extraction_bdf, waszkiewicz2025.poroelastic
+- **T-0047** [discriminator_with_data] 2 registered models name pressure among their interface outputs and 24 manifest dataset(s) measure it: cameron2020.extraction_bdf, waszkiewicz2025.poroelastic
   - discriminator: pressure · data: YES · cheap test: YES · candidate: I-032
   - sources: `puckworks/registry.py`
 - **T-0171** [discriminator_with_data] 2 registered models name first_drip_time among their interface outputs and 1 manifest dataset(s) measure it: foster2025.infiltration, foster2025.machine_mode
@@ -543,13 +543,13 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0162** [unclaimed_contrast_with_data] permeability is predicted by 6 model(s) and measured by 15 manifest dataset(s), of which 14 are not cited by any existing public claim
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-081
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0163** [unclaimed_contrast_with_data] flow is predicted by 5 model(s) and measured by 22 manifest dataset(s), of which 20 are not cited by any existing public claim
+- **T-0163** [unclaimed_contrast_with_data] flow is predicted by 5 model(s) and measured by 23 manifest dataset(s), of which 21 are not cited by any existing public claim
   - discriminator: flow · data: YES · cheap test: YES · candidate: I-082
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0177** [unclaimed_contrast_with_data] porosity is predicted by 2 model(s) and measured by 6 manifest dataset(s), of which 6 are not cited by any existing public claim
   - discriminator: porosity · data: YES · cheap test: YES · candidate: I-095
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0165** [unclaimed_contrast_with_data] pressure is predicted by 2 model(s) and measured by 23 manifest dataset(s), of which 20 are not cited by any existing public claim
+- **T-0165** [unclaimed_contrast_with_data] pressure is predicted by 2 model(s) and measured by 24 manifest dataset(s), of which 21 are not cited by any existing public claim
   - discriminator: pressure · data: YES · cheap test: YES · candidate: I-084
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0173** [unclaimed_contrast_with_data] first_drip_time is predicted by 2 model(s) and measured by 1 manifest dataset(s), of which 1 are not cited by any existing public claim
