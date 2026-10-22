@@ -59,6 +59,8 @@ def extract(pdf, output):
         chunk = dict(chunk=f'C{k:02}', drawing_index=index, seqno=d['seqno'],
                      raw_stream_offset=match.start(), raw_stream_length=match.end()-match.start(),
                      raw_path_sha256=hashlib.sha256(match.group(8).encode()).hexdigest(),
+                     raw_path_offset=match.start(8), raw_path_length=len(match.group(8)),
+                     raw_path_hash_scope='path operands only; raw_path_offset/length in decoded content',
                      color=d['color'], width_api_pt=d['width'], local_width=3,
                      graphics_scale=[sx, sy], graphics_translation=[tx, ty],
                      local_translation=[ox, oy], effective_width_upper_pt=3*max(sx, sy),
@@ -91,7 +93,8 @@ def extract(pdf, output):
                          items=[[item[0],*[list(p) for p in item[1:]]]
                                 for item in d['items']]))
     # Repeated frame lines are retained in axes but are not observations.
-    metadata=dict(pdf_sha256=PDF_SHA,pdf_pages=359,printed_page=264,pdf_page=289,
+    metadata=dict(source_url="https://etheses.bham.ac.uk/7176/2/Roman-Corrochano17EngD.pdf",
+                  pdf_sha256=PDF_SHA,pdf_pages=359,printed_page=264,pdf_page=289,
                   page_xref=3193,content_xrefs=[3194],
                   decoded_content_sha256=hashlib.sha256(stream).hexdigest(),
                   extractor='PyMuPDF 2.0', coordinate_convention='page points; top-left origin; y downward',

@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] **SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001:** both reported-flow ratios leave complete represented-condition separation on both fixed grids; 26/30 rescaled and10/15 same-clock envelopes supported. [Result](analysis/sci_md_corrochano_hydration_flow_rescaling_001/RESULT.md). G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Normalization/physical clock/flow mapping unresolved; no mechanism, EWP change or successor.
+
 - [x] **SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001:** four Figure6.9 means/eight endpoints; fixed consolidation nominal/reading mismatches and separate geometry/length accounting. [Result](analysis/sci_md_corrochano_aspect_ratio_consolidation_001/RESULT.md). G1 / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Temperature synthesis unavailable; no fit, EWP change or successor.
 
 - [x] **R-05/T06 — Cameron conservation-gate portion only (G0):** registered

@@ -846,6 +846,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- 2026-10-22 — **SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001:** both reported-flow ratios leave complete represented-condition separation on both fixed grids; 26/30 rescaled and10/15 same-clock envelopes supported. [Result](analysis/sci_md_corrochano_hydration_flow_rescaling_001/RESULT.md). G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Normalization/physical clock/flow mapping unresolved; no mechanism, EWP change or successor.
+
 - **2026-10-20 — R-05/T06 Cameron conservation-gate correction (G0):** connected
   the actual registered gate to existing independent shell/phase-volume inventory
   verification at GS 1.9 (40x24), 1.1/2.1 (20x12), with absolute 2e-11 kg and

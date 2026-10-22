@@ -1,0 +1,463 @@
+{
+  "arithmetic": "EXACT_RATIONAL",
+  "calibration_checks": {
+    "Y_ticks_pt": [
+      "0",
+      "-2003173828127/100000000000000",
+      "-2035217285157/50000000000000",
+      "-129203796387/12500000000000",
+      "-1518402099609/50000000000000",
+      "0"
+    ],
+    "time_ticks_pt": [
+      "0",
+      "-33569335937/150000000000000",
+      "28991699219/150000000000000",
+      "0"
+    ]
+  },
+  "classification": [
+    "G1",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NO_GOVERNING_PHYSICS_CHANGE"
+  ],
+  "contract_sha256": "657a3e8a8f06f912b2f08cd466cce046ba24e4154e13dce462438b6ec237156d",
+  "input_hashes": {
+    "contract.json": "657a3e8a8f06f912b2f08cd466cce046ba24e4154e13dce462438b6ec237156d",
+    "coordinates.csv": "31d4f572eef67c4bca647c7b0b4cf28dc7a2b91e9c658e8785dbd04533e107e9",
+    "paths.json": "6c057d14acc2741becdd907a5b22d021fe668bf2ccd0b977eeffe1969da5827e"
+  },
+  "left_frame_time_s": "9412841796875020/9413481140136719",
+  "numerical_unresolved": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "shared_axis_treatment": "Shared anchors; independent marginal Cartesian outer relaxation, no endpoint attainment claim",
+  "summary": [
+    {
+      "complete": 5,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 8,
+      "family": "same-clock",
+      "grid": "PRIMARY",
+      "incomplete": 3,
+      "interpretation": "not_applicable",
+      "not_excluded": 1,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 9,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 36,
+        "UNSUPPORTED": 27
+      },
+      "pair_requests": 72,
+      "separated": 4,
+      "unsupported": 3,
+      "witnesses": [
+        {
+          "difference": [
+            "-1488439628546990252209888647/2416787697168672309696542720",
+            "-88232985465473014509225463867/263053050318273731326675415040"
+          ],
+          "display_difference": [
+            "-0.615876",
+            "-0.335418"
+          ],
+          "high_time_s": "10",
+          "low_time_s": "10"
+        },
+        {
+          "difference": [
+            "24152248273577/309378651210240",
+            "486226860555013/1443767038981120"
+          ],
+          "display_difference": [
+            "0.078066",
+            "0.336777"
+          ],
+          "high_time_s": "30",
+          "low_time_s": "30"
+        },
+        {
+          "difference": [
+            "1073540020751953/8662602233886720",
+            "6487642858886719/17325204467773440"
+          ],
+          "display_difference": [
+            "0.123928",
+            "0.374463"
+          ],
+          "high_time_s": "40",
+          "low_time_s": "40"
+        },
+        {
+          "difference": [
+            "34765073396041998438787841797/263039832236245312500000000000",
+            "3170419024658203/8662602233886720"
+          ],
+          "display_difference": [
+            "0.132166",
+            "0.365990"
+          ],
+          "high_time_s": "50",
+          "low_time_s": "50"
+        }
+      ]
+    },
+    {
+      "complete": 5,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 7,
+      "family": "same-clock",
+      "grid": "SECONDARY",
+      "incomplete": 2,
+      "interpretation": "not_applicable",
+      "not_excluded": 1,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 4,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 41,
+        "UNSUPPORTED": 18
+      },
+      "pair_requests": 63,
+      "separated": 4,
+      "unsupported": 2,
+      "witnesses": [
+        {
+          "difference": [
+            "-1286401862792969/3465040893554688",
+            "-376781120605469/3465040893554688"
+          ],
+          "display_difference": [
+            "-0.371252",
+            "-0.108737"
+          ],
+          "high_time_s": "15",
+          "low_time_s": "15"
+        },
+        {
+          "difference": [
+            "876175213623047/8662602233886720",
+            "533464383951823/1443767038981120"
+          ],
+          "display_difference": [
+            "0.101144",
+            "0.369495"
+          ],
+          "high_time_s": "35",
+          "low_time_s": "35"
+        },
+        {
+          "difference": [
+            "118697297668457/1082825279235840",
+            "251970839436849/721883519490560"
+          ],
+          "display_difference": [
+            "0.109618",
+            "0.349047"
+          ],
+          "high_time_s": "45",
+          "low_time_s": "45"
+        },
+        {
+          "difference": [
+            "7240491267613/154689325605120",
+            "763504719543457/2165650558471680"
+          ],
+          "display_difference": [
+            "0.046806",
+            "0.352553"
+          ],
+          "high_time_s": "55",
+          "low_time_s": "55"
+        }
+      ]
+    },
+    {
+      "complete": 7,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 8,
+      "family": "fixed-rescaling",
+      "grid": "PRIMARY",
+      "incomplete": 1,
+      "interpretation": "caption",
+      "not_excluded": 4,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 24,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 39,
+        "UNSUPPORTED": 9
+      },
+      "pair_requests": 72,
+      "separated": 3,
+      "unsupported": 1,
+      "witnesses": [
+        {
+          "difference": [
+            "-60379419496809174400842761/241678769716867230969654272",
+            "-192603826904297/4331301116943360"
+          ],
+          "display_difference": [
+            "-0.249834",
+            "-0.044467"
+          ],
+          "high_time_s": "630/61",
+          "low_time_s": "60"
+        },
+        {
+          "difference": [
+            "-603439259338379/2165650558471680",
+            "-156340762765067/2475029209681920"
+          ],
+          "display_difference": [
+            "-0.278642",
+            "-0.063167"
+          ],
+          "high_time_s": "735/61",
+          "low_time_s": "70"
+        },
+        {
+          "difference": [
+            "-885568141682943/2887534077962240",
+            "-55627858553/15580219845120"
+          ],
+          "display_difference": [
+            "-0.306687",
+            "-0.003570"
+          ],
+          "high_time_s": "840/61",
+          "low_time_s": "80"
+        }
+      ]
+    },
+    {
+      "complete": 6,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 7,
+      "family": "fixed-rescaling",
+      "grid": "SECONDARY",
+      "incomplete": 1,
+      "interpretation": "caption",
+      "not_excluded": 4,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 23,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 31,
+        "UNSUPPORTED": 9
+      },
+      "pair_requests": 63,
+      "separated": 2,
+      "unsupported": 1,
+      "witnesses": [
+        {
+          "difference": [
+            "-2133320722170540550026910007/7250363091506016929089628160",
+            "-648941613769531/17325204467773440"
+          ],
+          "display_difference": [
+            "-0.294237",
+            "-0.037456"
+          ],
+          "high_time_s": "1365/122",
+          "low_time_s": "65"
+        },
+        {
+          "difference": [
+            "-2902173327636719/8662602233886720",
+            "-276397991943359/8662602233886720"
+          ],
+          "display_difference": [
+            "-0.335024",
+            "-0.031907"
+          ],
+          "high_time_s": "1575/122",
+          "low_time_s": "75"
+        }
+      ]
+    },
+    {
+      "complete": 7,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 8,
+      "family": "fixed-rescaling",
+      "grid": "PRIMARY",
+      "incomplete": 1,
+      "interpretation": "prose",
+      "not_excluded": 4,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 25,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 38,
+        "UNSUPPORTED": 9
+      },
+      "pair_requests": 72,
+      "separated": 3,
+      "unsupported": 1,
+      "witnesses": [
+        {
+          "difference": [
+            "-60379419496809174400842761/241678769716867230969654272",
+            "-73500576171875/1732520446777344"
+          ],
+          "display_difference": [
+            "-0.249834",
+            "-0.042424"
+          ],
+          "high_time_s": "627/61",
+          "low_time_s": "60"
+        },
+        {
+          "difference": [
+            "-603439259338379/2165650558471680",
+            "-20447137656144502059993972778183/320908595328229849624725341798400"
+          ],
+          "display_difference": [
+            "-0.278642",
+            "-0.063716"
+          ],
+          "high_time_s": "1463/122",
+          "low_time_s": "70"
+        },
+        {
+          "difference": [
+            "-885568141682943/2887534077962240",
+            "-55627858553/15580219845120"
+          ],
+          "display_difference": [
+            "-0.306687",
+            "-0.003570"
+          ],
+          "high_time_s": "836/61",
+          "low_time_s": "80"
+        }
+      ]
+    },
+    {
+      "complete": 6,
+      "disposition": "SUPPORTED_DISCREPANCY",
+      "envelope_requests": 7,
+      "family": "fixed-rescaling",
+      "grid": "SECONDARY",
+      "incomplete": 1,
+      "interpretation": "prose",
+      "not_excluded": 4,
+      "pair_classes": {
+        "NOT_EXCLUDED_BY_DECLARED_COMPARISON": 23,
+        "SEPARATED_UNDER_DECLARED_READING_CONTRACT": 31,
+        "UNSUPPORTED": 9
+      },
+      "pair_requests": 63,
+      "separated": 2,
+      "unsupported": 1,
+      "witnesses": [
+        {
+          "difference": [
+            "-2133320722170540550026910007/7250363091506016929089628160",
+            "-648941613769531/17325204467773440"
+          ],
+          "display_difference": [
+            "-0.294237",
+            "-0.037456"
+          ],
+          "high_time_s": "2717/244",
+          "low_time_s": "65"
+        },
+        {
+          "difference": [
+            "-2902173327636719/8662602233886720",
+            "-276397991943359/8662602233886720"
+          ],
+          "display_difference": [
+            "-0.335024",
+            "-0.031907"
+          ],
+          "high_time_s": "3135/244",
+          "low_time_s": "75"
+        }
+      ]
+    }
+  ],
+  "target_exposure": "TARGET_EXPOSED",
+  "task": "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001",
+  "trace_support": {
+    "H1": {
+      "full_contract": [
+        [
+          "24675219360351620/9505481140136719",
+          "561256684326171820/9413481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "17309219360351620/9413481140136719",
+          "566782684326171820/9413481140136719"
+        ]
+      ]
+    },
+    "H2": {
+      "full_contract": [
+        [
+          "25130694213867200/9505481140136719",
+          "561256684326171820/9413481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "17764694213867200/9413481140136719",
+          "566782684326171820/9413481140136719"
+        ]
+      ]
+    },
+    "H3": {
+      "full_contract": [
+        [
+          "27255129638671880/9505481140136719",
+          "562167634033203220/9413481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "19889129638671880/9413481140136719",
+          "567693634033203220/9413481140136719"
+        ]
+      ]
+    },
+    "L1": {
+      "full_contract": [
+        [
+          "16778841796875020/9505481140136719",
+          "795449295410156270/9505481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "9412841796875020/9413481140136719",
+          "793615295410156270/9413481140136719"
+        ]
+      ]
+    },
+    "L2": {
+      "full_contract": [
+        [
+          "26344134155273420/9505481140136719",
+          "786037033447265720/9505481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "18978134155273420/9413481140136719",
+          "784203033447265720/9413481140136719"
+        ]
+      ]
+    },
+    "L3": {
+      "full_contract": [
+        [
+          "23459948364257840/9505481140136719",
+          "786037033447265720/9505481140136719"
+        ]
+      ],
+      "nominal": [
+        [
+          "16093948364257840/9413481140136719",
+          "784203033447265720/9413481140136719"
+        ]
+      ]
+    }
+  }
+}

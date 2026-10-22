@@ -1,5 +1,5 @@
 {
-  "dataset_count": 121,
+  "dataset_count": 122,
   "families": [
     {
       "analytes": [
@@ -2543,6 +2543,39 @@
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
       "dataset_scopes": {
+        "romancorrochano2017/fig6_22_hydration_flow": {
+          "blocked_uses": [
+            "absolute HR law exclusion",
+            "actual cumulative-volume interpretation",
+            "physical repetition matching",
+            "mechanism identification",
+            "population/statistical rejection",
+            "independent campaign replication",
+            "physical validation"
+          ],
+          "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
+          "conditionally_eligible_uses": [],
+          "coverage": "6 graphical traces; 15 chunks; 9 bounded joins; 26/30 rescaled and 10/15 same-clock complete envelope requests; all unsupported rows retained",
+          "eligible_uses": [
+            "fixed reported-mean-flow rescaling on published clock under graphical-reading contract",
+            "same-clock descriptive condition-envelope comparisons"
+          ],
+          "last_qualified_task": "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001",
+          "missing_joins": [
+            "maximum normalization algorithm and window",
+            "mean-flow averaging interval",
+            "common physical clock origin",
+            "instrument-file repetition identity and cross-figure reuse",
+            "instantaneous flow and through-bed observation mapping",
+            "sensor/correction/thermal alignment"
+          ],
+          "observer": "published HR / HR_max; reported corrected bed pressure / inlet-meter flow before unqualified maximum normalization",
+          "physical_validation": "NOT_ESTABLISHED",
+          "source_card": "romancorrochano2017_permeability",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "target_exposure": "TARGET_EXPOSED",
+          "validation_strength": "SOURCE_INTERNAL; TARGET_EXPOSED; figure-reading evidence; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
+        },
         "romancorrochano2017/fig6_23_pressure_flow_temperature": {
           "blocked_uses": [
             "authenticated individual pairing",
@@ -2614,7 +2647,8 @@
         "digitisation (MPE) + transcription (conditions)",
         "transcription (PsiA exact) + digitisation (Fig 4.19 norm, ~+/-0.5 pp)",
         "Native-raster full-band condition envelopes and one late flow fragment; shared affine reading bounds",
-        "Verified native-vector centres; repeated graphical paths deduplicated; common-axis reading bounds"
+        "Verified native-vector centres; repeated graphical paths deduplicated; common-axis reading bounds",
+        "Native vector path recovery; source-stream membership; bounded joins; full horizontal and vertical reading enclosures"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -2634,7 +2668,8 @@
         "3.5 parameter-free bed gate (<=14%)",
         "gate_roman_y0_ceiling_sizeexclusion: \u00a75.5 nested ceilings + P3 hyp #4 size-exclusion",
         "SCI-MD-CORROCHANO-PRESSURE-FLOW-001 retrospective compatibility; research only; no production gate",
-        "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001; fixed offline representative states; no production gate"
+        "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001; fixed offline representative states; no production gate",
+        "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001; research-only retrospective descriptive comparison; no production gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -2651,7 +2686,8 @@
         "romancorrochano2017/fig7_4_espresso",
         "romancorrochano2017/y0_extractable",
         "romancorrochano2017/fig6_23_pressure_flow_temperature",
-        "romancorrochano2017/fig6_9_aspect_ratio"
+        "romancorrochano2017/fig6_9_aspect_ratio",
+        "romancorrochano2017/fig6_22_hydration_flow"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
@@ -2667,7 +2703,8 @@
         "15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class)",
         "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest",
         "44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign",
-        "4 means and 8 error endpoints; same thesis/journal/Melrose campaign; narrow bars linked aggregate presentations not independent table observations; no authenticated bed pairing; nominal zero consolidation only; common-viscosity scenario conditional"
+        "4 means and 8 error endpoints; same thesis/journal/Melrose campaign; narrow bars linked aggregate presentations not independent table observations; no authenticated bed pairing; nominal zero consolidation only; common-viscosity scenario conditional",
+        "6 graphical identities not instrument files; normalized HR preserved; caption/prose low means separate; normalization algorithm/window and mean-flow window unresolved; published clock only; mean-throughput proxy not actual volume; same existing Corrochano/Melrose campaign"
       ],
       "observables": [
         "UNKNOWN"
@@ -2679,7 +2716,8 @@
       "rights": [
         "University of Birmingham e-theses (open access; non-commercial research use); no DOI",
         "Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion",
-        "Birmingham thesis; compact factual derived coordinates only; no PDF/images/overlays redistributed; no licence promotion"
+        "Birmingham thesis; compact factual derived coordinates only; no PDF/images/overlays redistributed; no licence promotion",
+        "Birmingham thesis rights retained; compact factual derived coordinates only; no PDF/images/overlays; repository software licence not assigned to thesis"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
@@ -2705,7 +2743,8 @@
         "y (Qave/Tave +/-1 SD)",
         "partial (PsiA +/-0.4; derived rows none)",
         "Source-reading bounds only; experimental and apparatus-correction uncertainty unbounded by source",
-        "Stroke-based reading bounds separate from displayed variability; experimental/calibration uncertainty unquantified"
+        "Stroke-based reading bounds separate from displayed variability; experimental/calibration uncertainty unquantified",
+        "Source-reading bounds only; shared-axis Cartesian outer relaxation; no experimental error distribution"
       ],
       "validation_strength": [
         "independent (measured Darcy permeability, tamped beds)",
@@ -3506,6 +3545,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "d4d35a138c14f612f78f61e7d05249093651db9aa86d17bc6a55cea4dfa075ef",
+  "manifest_sha256": "a15c3604b9af0381f7eac0f09f3b8f2d8fa99bc040469c7d26035ce9a60bdf5c",
   "schema_version": 1
 }

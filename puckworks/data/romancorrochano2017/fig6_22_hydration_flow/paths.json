@@ -1,4 +1,5 @@
 {
+  "source_url": "https://etheses.bham.ac.uk/7176/2/Roman-Corrochano17EngD.pdf",
   "pdf_sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
   "pdf_pages": 359,
   "printed_page": 264,
@@ -19,6 +20,9 @@
       "raw_stream_offset": 8888,
       "raw_stream_length": 4724,
       "raw_path_sha256": "8a49f85b789c1ca1341c2f4ac8de4972506df717875cdd108736068e917d3a9b",
+      "raw_path_offset": 9001,
+      "raw_path_length": 4605,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -59,6 +63,9 @@
       "raw_stream_offset": 13613,
       "raw_stream_length": 4777,
       "raw_path_sha256": "a88cf510182ed029820a8a03192bd758a3d1f0ceb93a35b465d851376bf73605",
+      "raw_path_offset": 13723,
+      "raw_path_length": 4661,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -99,6 +106,9 @@
       "raw_stream_offset": 18391,
       "raw_stream_length": 4619,
       "raw_path_sha256": "4546df507ce4d2886fa130f62761233a18f17aee35070b546a3cb8eece752090",
+      "raw_path_offset": 18500,
+      "raw_path_length": 4504,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -139,6 +149,9 @@
       "raw_stream_offset": 23011,
       "raw_stream_length": 4553,
       "raw_path_sha256": "911fbcc54cc8cda3f43fcda2ce5dda7e413135c996a0887c06c4f69a39223eff",
+      "raw_path_offset": 23122,
+      "raw_path_length": 4436,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -179,6 +192,9 @@
       "raw_stream_offset": 27565,
       "raw_stream_length": 3743,
       "raw_path_sha256": "ed5ea74fda39fe7925a9df7a09f2297fac7f4820a8a8700aedba3170fbd684d5",
+      "raw_path_offset": 27675,
+      "raw_path_length": 3627,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -219,6 +235,9 @@
       "raw_stream_offset": 31309,
       "raw_stream_length": 4722,
       "raw_path_sha256": "85805f15890ef139680c0cf52849519a10640e1321c9f11c52c122c54ad1c0ee",
+      "raw_path_offset": 31422,
+      "raw_path_length": 4603,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -259,6 +278,9 @@
       "raw_stream_offset": 36032,
       "raw_stream_length": 4829,
       "raw_path_sha256": "57bc6c3c2828f0a44a492401cb303f5f227acac773b92372d9a9267777e2847f",
+      "raw_path_offset": 36142,
+      "raw_path_length": 4713,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -299,6 +321,9 @@
       "raw_stream_offset": 40862,
       "raw_stream_length": 4822,
       "raw_path_sha256": "44370c66a6498116d91da2e05ff9f0dcd5ff51993f1920da95e4552112ada5f5",
+      "raw_path_offset": 40973,
+      "raw_path_length": 4705,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -339,6 +364,9 @@
       "raw_stream_offset": 45685,
       "raw_stream_length": 4610,
       "raw_path_sha256": "591215f75b1287a2f81be5a7bd8e0b7ebf91229d80e5a042faa0cff398138eed",
+      "raw_path_offset": 45795,
+      "raw_path_length": 4494,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -379,6 +407,9 @@
       "raw_stream_offset": 50296,
       "raw_stream_length": 4887,
       "raw_path_sha256": "4a2082f947cd7c33286ec9b6f2a368fc920420e2c5bfb72aae0a6a8d505d0444",
+      "raw_path_offset": 50409,
+      "raw_path_length": 4768,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -419,6 +450,9 @@
       "raw_stream_offset": 55184,
       "raw_stream_length": 4553,
       "raw_path_sha256": "695fa1f042111d8f04a1e3891963291ba2546f8bd5bb899298e7b81b55c43d2a",
+      "raw_path_offset": 55297,
+      "raw_path_length": 4434,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -459,6 +493,9 @@
       "raw_stream_offset": 59738,
       "raw_stream_length": 3426,
       "raw_path_sha256": "31dd8967b82b949c620971b19ba193054ce259633155948547a0ee7b01bf28af",
+      "raw_path_offset": 59848,
+      "raw_path_length": 3310,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -499,6 +536,9 @@
       "raw_stream_offset": 63165,
       "raw_stream_length": 4903,
       "raw_path_sha256": "fc2fb8ea1c2ae4fb3672cbd1a0fe698669e0e67dee7e1b93f6ec08a763a22dea",
+      "raw_path_offset": 63278,
+      "raw_path_length": 4784,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -539,6 +579,9 @@
       "raw_stream_offset": 68069,
       "raw_stream_length": 4503,
       "raw_path_sha256": "81a4590a2222b95995dc4d92e5f354756d8a8284b2708f0f5c76aa269267c632",
+      "raw_path_offset": 68181,
+      "raw_path_length": 4385,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -579,6 +622,9 @@
       "raw_stream_offset": 72573,
       "raw_stream_length": 3551,
       "raw_path_sha256": "b34f12c7ec56cd5a7081aa1f3e2e49ed6d9ae8c8b92a20b9cff63308953aeba2",
+      "raw_path_offset": 72681,
+      "raw_path_length": 3437,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
@@ -619,6 +665,9 @@
       "raw_stream_offset": 77238,
       "raw_stream_length": 133,
       "raw_path_sha256": "5941dedda7e6d20db3987c894acc2584874e3ad320205465c399403a32ed0634",
+      "raw_path_offset": 77349,
+      "raw_path_length": 16,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         0.0,
         0.0,
@@ -659,6 +708,9 @@
       "raw_stream_offset": 77701,
       "raw_stream_length": 132,
       "raw_path_sha256": "5941dedda7e6d20db3987c894acc2584874e3ad320205465c399403a32ed0634",
+      "raw_path_offset": 77811,
+      "raw_path_length": 16,
+      "raw_path_hash_scope": "path operands only; raw_path_offset/length in decoded content",
       "color": [
         1.0,
         0.0,
