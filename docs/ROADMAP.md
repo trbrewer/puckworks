@@ -846,6 +846,8 @@ them. **Status promotions (`verification-gated` → `gated`, `gated` →
 
 ### 7.1 Change log
 
+- 2026-10-22 — **SCI-MD-CORROCHANO-DRY-COMPACTION-001:** limited additive-force-offset null excluded by complete increment separations: E>B at480→500 and500→520 kg/m³, D>B at500→520. Twelve graphical samples;156 requests retained (141 supported,4 fully supported ambiguous,11 unsupported); all8 increment envelopes complete. [Result](analysis/sci_md_corrochano_dry_compaction_001/RESULT.md). G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. No population, constitutive-law, horizontal-density-shift or wet-bed inference; same campaign, EWP unchanged.
+
 - 2026-10-22 — **SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001:** both reported-flow ratios leave complete represented-condition separation on both fixed grids; 26/30 rescaled and10/15 same-clock envelopes supported. [Result](analysis/sci_md_corrochano_hydration_flow_rescaling_001/RESULT.md). G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Normalization/physical clock/flow mapping unresolved; no mechanism, EWP change or successor.
 
 - **2026-10-20 — R-05/T06 Cameron conservation-gate correction (G0):** connected

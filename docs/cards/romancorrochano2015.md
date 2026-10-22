@@ -150,3 +150,16 @@ double counting or new independent campaign. Wide-chamber observations add a
 source-internal protocol contrast. Fixed consolidation predictions show nominal
 reading mismatches under declared inputs; no fitted closure or physical
 validation is established. Historical Table2 values and evidence are unchanged.
+
+
+## Related dry-force presentation
+
+The [thesis Figure6.2 intake](../analysis/sci_md_corrochano_dry_compaction_001/RESULT.md)
+checks journal A–D against thesis Psi_B–Psi_E using the directly inspected dry PSD
+tables and methods. Journal Figure7 displays four monochrome paths; its per-sample
+membership/averaging is unresolved. The twelve thesis paths alone supply this
+analysis; identical path coordinates and independent campaigns are not assumed.
+Native numerical mechanical records were **Not recovered in the scoped check.**
+This qualifies the earlier broad raw-data note for this observable without claiming
+that every possible external holding was inspected or raw data do not exist.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.

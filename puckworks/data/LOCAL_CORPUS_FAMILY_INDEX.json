@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "0e0236ce085cecdd6a7201645a1726873ce19b0bfd963aef49edd8f36b1b1946",
+  "available_data_register_sha256": "2c1627a036a08e73c56951c9737e53e57b991b0800ae2fcf421cb16b949cc607",
   "families": [
     {
       "aliases": [
@@ -1110,7 +1110,8 @@
         "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest",
         "44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign",
         "4 means and 8 error endpoints; same thesis/journal/Melrose campaign; narrow bars linked aggregate presentations not independent table observations; no authenticated bed pairing; nominal zero consolidation only; common-viscosity scenario conditional",
-        "6 graphical identities not instrument files; normalized HR preserved; caption/prose low means separate; normalization algorithm/window and mean-flow window unresolved; published clock only; mean-throughput proxy not actual volume; same existing Corrochano/Melrose campaign"
+        "6 graphical identities not instrument files; normalized HR preserved; caption/prose low means separate; normalization algorithm/window and mean-flow window unresolved; published clock only; mean-throughput proxy not actual volume; same existing Corrochano/Melrose campaign",
+        "12 graphical samples;76 unique chunks painted twice;4 legends excluded;156 sample requests and12 complete-grind comparison requests retained; source identities not instrument IDs; same existing thesis/journal campaign; no constitutive law or wet-bed inference"
       ],
       "manifest_dataset_ids": [
         "romancorrochano2017/tamped_kappa",
@@ -1125,7 +1126,8 @@
         "romancorrochano2017/y0_extractable",
         "romancorrochano2017/fig6_23_pressure_flow_temperature",
         "romancorrochano2017/fig6_9_aspect_ratio",
-        "romancorrochano2017/fig6_22_hydration_flow"
+        "romancorrochano2017/fig6_22_hydration_flow",
+        "romancorrochano2017/fig6_2_dry_compaction"
       ],
       "model_chain_stages": [
         "extraction",
@@ -1137,7 +1139,8 @@
         "University of Birmingham e-theses (open access; non-commercial research use); no DOI",
         "Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion",
         "Birmingham thesis; compact factual derived coordinates only; no PDF/images/overlays redistributed; no licence promotion",
-        "Birmingham thesis rights retained; compact factual derived coordinates only; no PDF/images/overlays; repository software licence not assigned to thesis"
+        "Birmingham thesis rights retained; compact factual derived coordinates only; no PDF/images/overlays; repository software licence not assigned to thesis",
+        "Birmingham thesis rights retained; compact factual derived coordinates only; no PDF/source artwork redistributed; no thesis licence promotion"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:ROMANCORROCHANO2017",
       "strongest_current_uses": [

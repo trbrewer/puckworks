@@ -603,6 +603,16 @@ def egidi_table2():
 RC17 = DATA_DIR / "romancorrochano2017"
 
 
+def rc17_fig6_2_dry_compaction():
+    """Figure 6.2 factual path coordinates, including separately labelled legends.
+
+    Twelve graphical samples, not instrument records. Page-point coordinates and
+    raw operands retain source provenance; contract supplies force/density mapping.
+    SOURCE_INTERNAL / TARGET_EXPOSED; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+    """
+    return _typed_rows_hashskip(RC17 / "fig6_2_dry_compaction" / "coordinates.csv")
+
+
 def rc17_fig6_22_hydration_flow():
     """Figure 6.22 factual path vertices in page points, with graphical identities.
 

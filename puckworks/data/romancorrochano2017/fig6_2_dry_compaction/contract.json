@@ -1,0 +1,89 @@
+{
+  "task": "SCI-MD-CORROCHANO-DRY-COMPACTION-001",
+  "status": "FROZEN_BEFORE_FORMAL_COMPARISON",
+  "force_targets_N": [
+    25,
+    50,
+    100,
+    150,
+    200,
+    250
+  ],
+  "density_targets_kg_m3": [
+    360,
+    400,
+    480,
+    500,
+    520
+  ],
+  "increments_kg_m3": [
+    [
+      480,
+      500
+    ],
+    [
+      500,
+      520
+    ]
+  ],
+  "axes": {
+    "force": {
+      "values": [
+        0,
+        300
+      ],
+      "positions_pt": [
+        "174.8008395262",
+        "438.4293421238"
+      ]
+    },
+    "density": {
+      "values": [
+        300,
+        650
+      ],
+      "positions_pt": [
+        "424.861933375",
+        "216.98582035"
+      ]
+    }
+  },
+  "anchor_guard_pt": "1",
+  "trace_guard_pt": "1",
+  "join_limit_pt": "0.001",
+  "tick_check_limit_pt": "0.044",
+  "display_places": 6,
+  "reading_qualification": "GRAPHICAL_READING_OUTER_ENCLOSURE_NOT_CONFIDENCE_INTERVAL",
+  "shared_dependencies": [
+    "axis anchors",
+    "trace geometry",
+    "density500 reading"
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "support_rule": "ENTIRE_QUERY_INTERVAL_IN_EXPLICIT_SEGMENT_PROJECTION_UNION",
+  "multiple_crossings": "RETAIN_ALL_COMPONENTS_AND_HULL; LABEL_MULTIPLE_INTERSECTIONS",
+  "rounding": "EXACT_RATIONAL_CLASSIFICATION_THEN_OUTWARD_DISPLAY",
+  "null": "F_j(rho_k)=a_j+f_k",
+  "null_rule": "ANY_COMPLETE_SEPARATION_EXCLUDES; ALL12_COMPLETE_WITHOUT_SEPARATION_NONEXCLUSION; OTHERWISE_UNRESOLVED",
+  "dash_policy": "Explicit continuous PDF path recovered beneath dash styling; dash spaces are not missing path data",
+  "plan_sha256": "603cd72ed50f6e072a114b9c0047d04e1b2abc7ec577a41133a1d1ac9c139c55",
+  "source_pdf_sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
+  "related_journal": {
+    "doi": "10.1016/j.jfoodeng.2014.11.006",
+    "held_pdf_sha256": "a67e855f52472589dd35c878a16a6825866a5a901958a1ea46752c50138b800f",
+    "pages": 12,
+    "figure7_printed_page": 111,
+    "figure7_pdf_page": 7,
+    "figure7_pdf_index": 6,
+    "use": "CORRESPONDENCE_CONTEXT_ONLY; NOT_EXTRACTION_INPUT",
+    "mapping": {
+      "A": "Psi_B",
+      "B": "Psi_C",
+      "C": "Psi_D",
+      "D": "Psi_E"
+    },
+    "path_identity": "NOT_ESTABLISHED; four-path journal presentation versus twelve thesis sample paths",
+    "campaign": "SHARED; NOT_INDEPENDENT"
+  },
+  "source_rights": "Thesis copyright retained; compact factual source-derived coordinates only; not relicensed MIT"
+}

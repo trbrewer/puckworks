@@ -1,0 +1,510 @@
+{
+  "bounded_delta": {
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.md": {
+      "candidate_sha256": "b056b5d72402e3d9cc46ac29ecf84bdb9fdbf151d9c99fbbc1b3b1a6d100d2e7",
+      "disposition": "ACCEPTED_SPACING_AND_PDF_OBJECT_LABEL_CLARIFICATION_ONLY",
+      "reviewed_sha256": "e5892969b0306338d106c03b1e3168306fdfccd4563a898589e3a1146d183bc2"
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/SOURCE_RECONCILIATION.md": {
+      "candidate_sha256": "b90d2db6d018dd97c19f505b81f517cd16c63f710c00e07bc6c904d8c787ad32",
+      "disposition": "ACCEPTED_SPACING_AND_PDF_OBJECT_LABEL_CLARIFICATION_ONLY",
+      "reviewed_sha256": "65bec6cbbb837d297f81fe60a5307070bd2fa30898c7c54c1ed78d6b867fd2c3"
+    }
+  },
+  "claim_ceiling": [
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "PHYSICAL_VALIDATION=NOT_ESTABLISHED",
+    "HORIZONTAL_DENSITY_SHIFT_NULL_UNTESTED",
+    "SHARED_EXISTING_CAMPAIGN"
+  ],
+  "direct_source_inspection": {
+    "external_inventory_csv_reopened_by_reviewer": false,
+    "journal_printed_pages": [
+      108,
+      109,
+      111
+    ],
+    "thesis_printed_pages": [
+      59,
+      60,
+      62,
+      63,
+      85,
+      111,
+      222,
+      223
+    ],
+    "visual_inspection": [
+      "thesis Figure 6.2",
+      "journal Figure 7"
+    ]
+  },
+  "executions": [
+    {
+      "command": "python docs/analysis/sci_md_corrochano_dry_compaction_001/review_check.py --pdf SOURCE.pdf",
+      "exit_code": 0,
+      "result_sha256": "38f52e5dd0ad70948c4f83ecaaa325965f0f3305eca47694e659a64f4880a45d"
+    },
+    {
+      "command": "python docs/analysis/sci_md_corrochano_dry_compaction_001/review_check.py",
+      "exit_code": 0,
+      "numerical_result_equals_pdf_audited_run": true,
+      "result_sha256": "2494b1ad0cf1d37f99ce08fe746f1a7a4a47e1acd2dfbd25006260274f95cd9e"
+    }
+  ],
+  "hash_exclusions": [
+    "REVIEW.md",
+    "review_receipt.json",
+    "VERIFICATION.md"
+  ],
+  "human_github_approval": false,
+  "independent_check": {
+    "D2_rho360": {
+      "bounds": null,
+      "full_support": false,
+      "nominal_branches": 1,
+      "nominal_support": true,
+      "query_pt": [
+        "77445205657/200000000",
+        "78245205657/200000000"
+      ],
+      "status": "UNSUPPORTED",
+      "strip_branches": null,
+      "support_pt": [
+        [
+          "26805616782661/100000000000",
+          "3892797381103/10000000000"
+        ]
+      ]
+    },
+    "E2_rho500": {
+      "bounds": [
+        "1314516472618127931200/7910834598446879729",
+        "3045691648430537581275/15916980457116011021"
+      ],
+      "full_support": true,
+      "nominal_branches": 1,
+      "nominal_support": true,
+      "output_set": [
+        [
+          "1314516472618127931200/7910834598446879729",
+          "3045691648430537581275/15916980457116011021"
+        ]
+      ],
+      "path_parameter_components": [
+        [
+          "656545966144/504126147",
+          "657206772938/504126147"
+        ],
+        [
+          "658058344585/504126147",
+          "197241094898/144903729"
+        ]
+      ],
+      "query_pt": [
+        "12163023323/40000000",
+        "12323023323/40000000"
+      ],
+      "status": "AMBIGUOUS",
+      "strip_branches": 2,
+      "support_pt": [
+        [
+          "359682119/1250000",
+          "4015792013353/10000000000"
+        ]
+      ]
+    },
+    "all_saved_reading_increment_bounds_and_comparison_signs_match": true,
+    "comparisons": [
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "-65983791389086078976245/6597636055104697693986",
+          "839023836606202371595/29737113189342487656"
+        ],
+        "first": "B",
+        "second": "C"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "-74065978364168756285/79489591025357803542",
+          "162198162530256550969175/3300819564017016129816"
+        ],
+        "first": "B",
+        "second": "D"
+      },
+      {
+        "classification": "STRICTLY_SEPARATED",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "1875945630338891861721955/171538537432722140043636",
+          "65898562068893017589325/822726798238475491816"
+        ],
+        "first": "B",
+        "second": "E"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "-2137948759100789315/163390731809574108",
+          "16211640690026444227175/376329703040401564251"
+        ],
+        "first": "C",
+        "second": "D"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "-53643843325308411610/44074649905632615633",
+          "1171393399241703194975/15821669196893759458"
+        ],
+        "first": "C",
+        "second": "E"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 480,
+        "density_to": 500,
+        "difference": [
+          "-3032985506734234183752275/136984011906706169387364",
+          "146843005241154559815/2260238456699108494"
+        ],
+        "first": "D",
+        "second": "E"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "-6551702568639387307901/634772993080195409580",
+          "821905191915062677339805/23210960579404478634264"
+        ],
+        "first": "B",
+        "second": "C"
+      },
+      {
+        "classification": "STRICTLY_SEPARATED",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "171713823966968163066283/106007089844392633399860",
+          "679545256531146133745/11355655860765400506"
+        ],
+        "first": "B",
+        "second": "D"
+      },
+      {
+        "classification": "STRICTLY_SEPARATED",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "1390511821936618926393533/106007089844392633399860",
+          "101468469127020459898088615/1101805221202484514895662"
+        ],
+        "first": "B",
+        "second": "E"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "-47018641861743619082660275/3095407023456264895275912",
+          "4098703026840394747975/79489591025357803542"
+        ],
+        "first": "C",
+        "second": "D"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "-102970633522791142283825/27886549760867251308792",
+          "664362260263364428639525/7926656267643773488458"
+        ],
+        "first": "C",
+        "second": "E"
+      },
+      {
+        "classification": "NOT_EXCLUDED_BY_THIS_COMPARISON",
+        "density_from": 500,
+        "density_to": 520,
+        "difference": [
+          "-53334718804425720216875/1896394528747821884502",
+          "31618835609958280539027775/439929422854229428609419"
+        ],
+        "first": "D",
+        "second": "E"
+      }
+    ],
+    "complete_envelopes": 8,
+    "curves": 12,
+    "decisive_primary": {
+      "B_envelope": [
+        "8119514532312462525/9912371063114162552",
+        "1341841423373873726165/79489591025357803542"
+      ],
+      "B_samples": {
+        "B1": {
+          "bounds": [
+            "49771211549733187435/31643338393787518916",
+            "1341841423373873726165/79489591025357803542"
+          ],
+          "status": "SUPPORTED"
+        },
+        "B2": {
+          "bounds": [
+            "41679719501132946250/31738649654009770479",
+            "5328314342383151180917/317386496540097704790"
+          ],
+          "status": "SUPPORTED"
+        },
+        "B3": {
+          "bounds": [
+            "8119514532312462525/9912371063114162552",
+            "250919864027997093775/15916980457116011021"
+          ],
+          "status": "SUPPORTED"
+        }
+      },
+      "E_envelope": [
+        "11442780388440554826825/411363399119237745908",
+        "1280240034136056768825/15821669196893759458"
+      ],
+      "E_samples": {
+        "E1": {
+          "bounds": [
+            "266666600132464226350/7910834598446879729",
+            "1280240034136056768825/15821669196893759458"
+          ],
+          "status": "SUPPORTED"
+        },
+        "E2": {
+          "bounds": [
+            "239903428822622131225/7910834598446879729",
+            "57650124361098346887500/757193498888518809999"
+          ],
+          "status": "AMBIGUOUS"
+        },
+        "E3": {
+          "bounds": [
+            "11442780388440554826825/411363399119237745908",
+            "91615623733708019375/1295455087918766142"
+          ],
+          "status": "SUPPORTED"
+        }
+      },
+      "minimum_gap_N": "1875945630338891861721955/171538537432722140043636"
+    },
+    "endpoint_requests": 132,
+    "increment_requests": 24,
+    "independence": "standard-library raw-coordinate computation; no producer/extractor imports",
+    "maximum_half_stroke_pt": "18221427/20000000",
+    "maximum_tick_residual_pt": "867687/20000000",
+    "original_pdf_audit": {
+      "all_retained_raw_operands_and_transform_matrices_match": true,
+      "decoded_content_sha256": "4a1693b867400d68a19ba52a5f495e537c78c5644195e57f7569ef73c303f60e",
+      "duplicate_curve_paintings": 76,
+      "legend_strokes": 4,
+      "pages": 359,
+      "paintings": 156,
+      "pdf_sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
+      "unique_curve_chunks": 76
+    },
+    "original_vertices": 17971,
+    "rounding_joins": 64,
+    "statuses": {
+      "AMBIGUOUS": 4,
+      "SUPPORTED": 141,
+      "UNSUPPORTED": 11
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "python_version": "3.12.3",
+  "review_completed_utc": "2026-10-22T18:38:39.584961+00:00",
+  "review_disposition": "PASS",
+  "review_kind": "ONE_INDEPENDENT_AI_SCIENTIFIC_REVIEW_WITH_BOUNDED_PROSE_DELTA",
+  "reviewed_files": {
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/PLAN.md": {
+      "bytes": 7208,
+      "candidate_sha256": "603cd72ed50f6e072a114b9c0047d04e1b2abc7ec577a41133a1d1ac9c139c55",
+      "sha256": "603cd72ed50f6e072a114b9c0047d04e1b2abc7ec577a41133a1d1ac9c139c55",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.json": {
+      "bytes": 3776,
+      "candidate_sha256": "ea92b207e2047aa81210e18f1c84ab09a1b53fa3a59b5a27a01aad99d5f68eb7",
+      "sha256": "ea92b207e2047aa81210e18f1c84ab09a1b53fa3a59b5a27a01aad99d5f68eb7",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.md": {
+      "bytes": 11814,
+      "candidate_sha256": "b056b5d72402e3d9cc46ac29ecf84bdb9fdbf151d9c99fbbc1b3b1a6d100d2e7",
+      "sha256": "e5892969b0306338d106c03b1e3168306fdfccd4563a898589e3a1146d183bc2",
+      "unchanged_from_candidate": false
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/SOURCE_RECONCILIATION.md": {
+      "bytes": 7635,
+      "candidate_sha256": "b90d2db6d018dd97c19f505b81f517cd16c63f710c00e07bc6c904d8c787ad32",
+      "sha256": "65bec6cbbb837d297f81fe60a5307070bd2fa30898c7c54c1ed78d6b867fd2c3",
+      "unchanged_from_candidate": false
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/comparison.svg": {
+      "bytes": 613723,
+      "candidate_sha256": "ed3b9f86b0c7da7875ffd988e4c098330ea45719d2957456f1e0da97633c00c3",
+      "sha256": "ed3b9f86b0c7da7875ffd988e4c098330ea45719d2957456f1e0da97633c00c3",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/cross_grind_comparisons.csv": {
+      "bytes": 39144,
+      "candidate_sha256": "33e6a3bd3076d018fd7b21881a78e58875428a2a16fe15cc88cb9e31ddb2c1e8",
+      "sha256": "33e6a3bd3076d018fd7b21881a78e58875428a2a16fe15cc88cb9e31ddb2c1e8",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/density_at_force.csv": {
+      "bytes": 34160,
+      "candidate_sha256": "95e21cc2cde327e8d713cbf06e926d3192296308bf368f32374e1218d769c4e5",
+      "sha256": "95e21cc2cde327e8d713cbf06e926d3192296308bf368f32374e1218d769c4e5",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/force_at_density.csv": {
+      "bytes": 26300,
+      "candidate_sha256": "2498cc1f510e1f75fc3c40da9d42c7653c174952e0ef9ca95c8bd4aeb923c63f",
+      "sha256": "2498cc1f510e1f75fc3c40da9d42c7653c174952e0ef9ca95c8bd4aeb923c63f",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/grind_increment_envelopes.csv": {
+      "bytes": 1563,
+      "candidate_sha256": "6df27f0938f639c825b5d514a78f182686c0edfa89ced35865da333b58652a33",
+      "sha256": "6df27f0938f639c825b5d514a78f182686c0edfa89ced35865da333b58652a33",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/review_check.py": {
+      "bytes": 16088,
+      "sha256": "e30509cb46f6d97a0612dcacbfd2402c3f9f71b24c6aa0c55e4e468cedb5b1f6"
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/sample_force_increments.csv": {
+      "bytes": 11087,
+      "candidate_sha256": "e77b3783900ac78419b8e3286487764294d7c1ab0ce5fd55a59facb8ab9a0b46",
+      "sha256": "e77b3783900ac78419b8e3286487764294d7c1ab0ce5fd55a59facb8ab9a0b46",
+      "unchanged_from_candidate": true
+    },
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/support_accounting.csv": {
+      "bytes": 29166,
+      "candidate_sha256": "c1414048f3943bb2dce0b13198e7fcb7eb53d63d2936cbc1d021fa1f9b441954",
+      "sha256": "c1414048f3943bb2dce0b13198e7fcb7eb53d63d2936cbc1d021fa1f9b441954",
+      "unchanged_from_candidate": true
+    },
+    "docs/cards/romancorrochano2017_permeability.md": {
+      "bytes": 15020,
+      "candidate_sha256": "d0b8ef48fa4c06023fef4c0a8d47ebe399bd0fcd1c4c6cbb237f9daf16f7b8a2",
+      "sha256": "d0b8ef48fa4c06023fef4c0a8d47ebe399bd0fcd1c4c6cbb237f9daf16f7b8a2",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/analysis/corrochano2017_dry_compaction.py": {
+      "bytes": 22495,
+      "candidate_sha256": "0f97cdba564da5a83f174d5f34974eacdad765393e2469eef79ba00de76f0ac7",
+      "sha256": "0f97cdba564da5a83f174d5f34974eacdad765393e2469eef79ba00de76f0ac7",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": {
+      "bytes": 155907,
+      "candidate_sha256": "2c1627a036a08e73c56951c9737e53e57b991b0800ae2fcf421cb16b949cc607",
+      "sha256": "2c1627a036a08e73c56951c9737e53e57b991b0800ae2fcf421cb16b949cc607",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/MANIFEST.csv": {
+      "bytes": 79853,
+      "candidate_sha256": "dd38d9f73edec4f2f2f99e77e7230dcac84400c3ecd3d42b8b2c5b8a4d1f01fa",
+      "sha256": "dd38d9f73edec4f2f2f99e77e7230dcac84400c3ecd3d42b8b2c5b8a4d1f01fa",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/__init__.py": {
+      "bytes": 71580,
+      "candidate_sha256": "c533dcc133e23450fe54ce0411e69cab2b68e514e76f6835ddb87f51a215f967",
+      "sha256": "c533dcc133e23450fe54ce0411e69cab2b68e514e76f6835ddb87f51a215f967",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/PROVENANCE.md": {
+      "bytes": 2934,
+      "candidate_sha256": "76d7f8faa95f568f23175fad748f74c4add943cfbff67543d2f9fa261184d4c2",
+      "sha256": "76d7f8faa95f568f23175fad748f74c4add943cfbff67543d2f9fa261184d4c2",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/contract.json": {
+      "bytes": 2432,
+      "candidate_sha256": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+      "sha256": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/coordinates.csv": {
+      "bytes": 1014999,
+      "candidate_sha256": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+      "sha256": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/holdings_checked.json": {
+      "bytes": 3557,
+      "candidate_sha256": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+      "sha256": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+      "unchanged_from_candidate": true
+    },
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/paths.json": {
+      "bytes": 184916,
+      "candidate_sha256": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721",
+      "sha256": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721",
+      "unchanged_from_candidate": true
+    },
+    "tests/test_corrochano2017_dry_compaction.py": {
+      "bytes": 11891,
+      "candidate_sha256": "1bc9ea37701eba9547af72291fd4c5b8f49274ad249128c65f357d54aa2904ba",
+      "sha256": "1bc9ea37701eba9547af72291fd4c5b8f49274ad249128c65f357d54aa2904ba",
+      "unchanged_from_candidate": true
+    },
+    "tools/extract_corrochano2017_dry_compaction.py": {
+      "bytes": 10329,
+      "candidate_sha256": "eb3d9b8047ac5340c244f6bb28b1a3aa6e042c201509ce9625561463272f3360",
+      "sha256": "eb3d9b8047ac5340c244f6bb28b1a3aa6e042c201509ce9625561463272f3360",
+      "unchanged_from_candidate": true
+    }
+  },
+  "reviewer": "Independent Codex AI scientific-review agent /root/scientific_review",
+  "scientific_candidate_commit": "a9b6fe4160dfd0c092b2a922399fdabfd0e8cb5a",
+  "scope": "Authenticated sources, original retained coordinates, reading geometry/support, complete same-sample increments and finite additive-force-offset null; no independent physical validation or hosted-CI approval",
+  "source_identities": {
+    "journal": {
+      "pages": 12,
+      "pdf_figure_page": 7,
+      "printed_figure_page": 111,
+      "sha256": "a67e855f52472589dd35c878a16a6825866a5a901958a1ea46752c50138b800f",
+      "use": "METHOD_AND_GRIND_CORRESPONDENCE_CONTEXT_ONLY_NOT_EXTRACTION_INPUT"
+    },
+    "thesis": {
+      "content_xref": 2653,
+      "decoded_content_sha256": "4a1693b867400d68a19ba52a5f495e537c78c5644195e57f7569ef73c303f60e",
+      "page_xref": 2652,
+      "pages": 359,
+      "pdf_figure_page": 248,
+      "printed_figure_page": 223,
+      "sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818"
+    }
+  },
+  "task": "SCI-MD-CORROCHANO-DRY-COMPACTION-001",
+  "unresolved_material_findings": []
+}

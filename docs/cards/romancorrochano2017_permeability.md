@@ -205,3 +205,21 @@ identities remain unauthenticated. Q_mean*t is a mean-throughput proxy, not
 actual volume. No absolute-HR law, population behavior or mechanism is excluded;
 no new campaign. Existing meter/corrected-pressure qualifications persist.
 PDF/source artwork remain external; thesis rights are not the software licence.
+
+
+## Dry-loading measurement constraint (Figure 6.2)
+
+[SCI-MD-CORROCHANO-DRY-COMPACTION-001](../analysis/sci_md_corrochano_dry_compaction_001/RESULT.md)
+adds `romancorrochano2017/fig6_2_dry_compaction` and loader
+`rc17_fig6_2_dry_compaction`: twelve graphical sample curves, 76 unique vector
+chunks painted twice, distinct legend provenance and full two-axis reading support.
+Applied force (N) and dry bulk density (kg/m³) are preserved. Same-sample force
+increments precede grind aggregation; the finite null permits only constant
+sample-specific force offsets. All 156 declared sample requests and twelve grind
+comparisons remain visible, including unsupported/ambiguous dispositions.
+Source method: Z030 tester, nominal0.1 mm/s, maximum300 N; actual drawn endpoints
+control reading support. Instrument IDs/calibration/zero and preparation histories
+remain unresolved. Graphical bounds are not population or instrument uncertainty.
+This source-internal, target-exposed analysis supplies no constitutive law, modulus,
+wet-bed mechanism or EWP validation and does not test horizontal density shifts.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED; no independent campaign is added.
