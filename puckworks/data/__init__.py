@@ -603,6 +603,15 @@ def egidi_table2():
 RC17 = DATA_DIR / "romancorrochano2017"
 
 
+def rc17_fig6_9_aspect_ratio():
+    """Four published steady-permeability means and displayed endpoints in m².
+
+    Source-reading bounds only; no physical-bed pairing or independent campaign.
+    Statistical, calibration and representative-state limits are in provenance.
+    """
+    return _typed_rows_hashskip(RC17 / "fig6_9_aspect_ratio" / "readings.csv")
+
+
 def rc17_fig6_23_pressure_flow():
     """Figure6.23 SI reading enclosures; missing cells remain None, never zero.
 

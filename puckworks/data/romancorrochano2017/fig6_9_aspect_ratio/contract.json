@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "dataset_id": "romancorrochano2017/fig6_9_aspect_ratio",
+  "task": "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001",
+  "source_url": "https://etheses.bham.ac.uk/7176/2/Roman-Corrochano17EngD.pdf",
+  "plan_sha256": "01d08dbce34a53d21c2a085deae6cd2558c10c74020c3987efd11961d8447987",
+  "units": {
+    "coordinates": "pt",
+    "permeability": "m^2",
+    "density": "kg/m^3",
+    "length": "m",
+    "area": "m^2",
+    "S_geom": "m",
+    "C_geom": "m^3",
+    "G": "m^3/(Pa*s)",
+    "R_hyd": "Pa*s/m^3"
+  },
+  "calibration": {
+    "zero_y_pt": 312.3118896484375,
+    "top_y_pt": 104.43576049804688,
+    "published_multiplier_m2": 1e-13,
+    "anchor_guard_pt": 0.61,
+    "mean_guard_pt": 0.16,
+    "endpoint_guard_pt": 0.92,
+    "axis_width_pt": 1.2147022485733032,
+    "mean_outline_width_pt": 0.3036755621433258,
+    "error_width_pt": 1.8220534324645996,
+    "tick_y_pt": [
+      312.3118896484375,
+      270.706298828125,
+      229.15118408203125,
+      187.5455780029297,
+      145.9910125732422,
+      104.43582153320312
+    ],
+    "tick_mantissas": [
+      0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1
+    ]
+  },
+  "condition": {
+    "bulk_density_kg_m3": 480,
+    "nominal_temperature_degC": 80,
+    "initial_volume_m3": 2e-05,
+    "hydration_tank_pressure_Pa": {
+      "2:1": 450000,
+      "6:1": 150000
+    }
+  },
+  "registered_material_input": "puckworks/data/romancorrochano2015/sci_val_tamped_k_001_inputs.json",
+  "scenarios": [
+    {
+      "id": "A",
+      "grind": "Psi_B",
+      "particle_porosity_route": "registered_adopted_average",
+      "lambda_2": 0.13,
+      "lambda_6": 0
+    },
+    {
+      "id": "B",
+      "grind": "Psi_B",
+      "particle_porosity_route": "thesis_p231_grind_specific",
+      "particle_porosity": 0.5,
+      "lambda_2": 0.13,
+      "lambda_6": 0
+    },
+    {
+      "id": "C",
+      "grind": "Psi_E",
+      "particle_porosity_route": "any_common_admissible_symbolic",
+      "particle_porosity": null,
+      "lambda_2": 0,
+      "lambda_6": 0
+    }
+  ],
+  "printed_dimensions_m": {
+    "2:1": {
+      "diameter": 0.037,
+      "initial_length": 0.0185
+    },
+    "6:1": {
+      "diameter": 0.054,
+      "initial_length": 0.009
+    }
+  },
+  "status": {
+    "physical_validation": "NOT_ESTABLISHED",
+    "temperature_study_synthesis": "UNAVAILABLE",
+    "statistical_interpretation": "DISPLAYED_VARIABILITY_GENERIC_SD_WORDING_AMBIGUOUS",
+    "cohort_join": "UNAUTHENTICATED",
+    "input_uncertainty": "NOT_QUANTIFIED",
+    "common_viscosity": "DECLARED_SCENARIO_ONLY",
+    "none_observed": "NOMINAL_ZERO_ONLY"
+  }
+}

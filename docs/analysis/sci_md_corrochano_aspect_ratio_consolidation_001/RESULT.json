@@ -1,0 +1,766 @@
+{
+  "classifications": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL"
+  ],
+  "coverage": {
+    "intended_means": 4,
+    "new_independent_campaigns": 0,
+    "paired_bed_ratios": 0,
+    "recovered_error_endpoints": 8,
+    "recovered_means": 4
+  },
+  "input_sha256": {
+    "puckworks/analysis/corrochano2017_aspect_ratio.py": "ea81fb8ec94d3a8248503f380eacc68751ec4a4c028af421b9e4b374ed8826d5",
+    "puckworks/data/romancorrochano2015/sci_val_tamped_k_001_inputs.json": "a3a0384394cae7bf17ab15ee8e528c63dc876a83a76b9397f7df250940411a99",
+    "puckworks/data/romancorrochano2017/fig6_9_aspect_ratio/contract.json": "75a0e4809c741efaec386b6df968d859213c8ee4800d81db1e47e40e1a1c7c82",
+    "puckworks/data/romancorrochano2017/fig6_9_aspect_ratio/source_coordinates.csv": "0d76c18f11111818ef8ab07516911412b0b52afa332f7b902e49f6712cd1084e",
+    "puckworks/data/romancorrochano2017/fig6_9_aspect_ratio/source_paths.json": "fab12949bab2af751453ce049f0d16892b12dd0aa05c01841c149bcb54906a07"
+  },
+  "observations": [
+    {
+      "chamber": "2:1",
+      "condition": "Psi_B_2:1",
+      "displayed_minus": 2.483570511554765e-15,
+      "displayed_plus": 2.5078156139046542e-15,
+      "grind": "Psi_B",
+      "journal_grind": "A",
+      "lower_endpoint": {
+        "bounds": [
+          2.2687498908126256e-14,
+          2.415952939691134e-14
+        ],
+        "central": 2.3423514152518798e-14,
+        "exact_bounds": [
+          "2414689/106432578124999997440",
+          "2571361/106432578124999997440"
+        ]
+      },
+      "mean": {
+        "bounds": [
+          2.5536671763300847e-14,
+          2.6277497564846277e-14
+        ],
+        "central": 2.5907084664073562e-14,
+        "exact_bounds": [
+          "265423223876953/10393806457519531000000000000",
+          "273123223876953/10393806457519531000000000000"
+        ]
+      },
+      "unit": "m^2",
+      "upper_endpoint": {
+        "bounds": [
+          2.7678885033585675e-14,
+          2.9150915522370754e-14
+        ],
+        "central": 2.8414900277978216e-14,
+        "exact_bounds": [
+          "575377947998047/20787612915039062000000000000",
+          "605977947998047/20787612915039062000000000000"
+        ]
+      }
+    },
+    {
+      "chamber": "6:1",
+      "condition": "Psi_B_6:1",
+      "displayed_minus": 6.622641827976481e-15,
+      "displayed_plus": 6.622935441083967e-15,
+      "grind": "Psi_B",
+      "journal_grind": "A",
+      "lower_endpoint": {
+        "bounds": [
+          5.4754704012296517e-14,
+          5.62267345010816e-14
+        ],
+        "central": 5.5490719256689055e-14,
+        "exact_bounds": [
+          "5691097961425781/103938064575195310000000000000",
+          "5844097961425781/103938064575195310000000000000"
+        ]
+      },
+      "mean": {
+        "bounds": [
+          6.174294818389283e-14,
+          6.248377398543825e-14
+        ],
+        "central": 6.211336108466553e-14,
+        "exact_bounds": [
+          "641744253540039/10393806457519531000000000000",
+          "649444253540039/10393806457519531000000000000"
+        ]
+      },
+      "unit": "m^2",
+      "upper_endpoint": {
+        "bounds": [
+          6.800028128135697e-14,
+          6.947231177014204e-14
+        ],
+        "central": 6.87362965257495e-14,
+        "exact_bounds": [
+          "28949781/425730312499999989760",
+          "29576469/425730312499999989760"
+        ]
+      }
+    },
+    {
+      "chamber": "2:1",
+      "condition": "Psi_E_2:1",
+      "displayed_minus": 7.499194399036359e-15,
+      "displayed_plus": 7.49948801214384e-15,
+      "grind": "Psi_E",
+      "journal_grind": "D",
+      "lower_endpoint": {
+        "bounds": [
+          8.127041194653012e-14,
+          8.27424424353152e-14
+        ],
+        "central": 8.200642719092266e-14,
+        "exact_bounds": [
+          "2111772331237793/25984516143798827500000000000",
+          "2150022331237793/25984516143798827500000000000"
+        ]
+      },
+      "mean": {
+        "bounds": [
+          8.91352086891863e-14,
+          8.987603449073174e-14
+        ],
+        "central": 8.950562158995902e-14,
+        "exact_bounds": [
+          "2316135269165039/25984516143798827500000000000",
+          "2335385269165039/25984516143798827500000000000"
+        ]
+      },
+      "unit": "m^2",
+      "upper_endpoint": {
+        "bounds": [
+          9.626909435771032e-14,
+          9.774112484649539e-14
+        ],
+        "central": 9.700510960210286e-14,
+        "exact_bounds": [
+          "20012046691894531/207876129150390620000000000000",
+          "20318046691894531/207876129150390620000000000000"
+        ]
+      }
+    },
+    {
+      "chamber": "6:1",
+      "condition": "Psi_E_6:1",
+      "displayed_minus": 1.5827581574896606e-15,
+      "displayed_plus": 1.607017940494902e-15,
+      "grind": "Psi_E",
+      "journal_grind": "D",
+      "lower_endpoint": {
+        "bounds": [
+          8.168414217627504e-14,
+          8.315617266506012e-14
+        ],
+        "central": 8.242015742066758e-14,
+        "exact_bounds": [
+          "849009164428711/10393806457519531000000000000",
+          "864309164428711/10393806457519531000000000000"
+        ]
+      },
+      "mean": {
+        "bounds": [
+          8.363250267738453e-14,
+          8.437332847892996e-14
+        ],
+        "central": 8.400291557815724e-14,
+        "exact_bounds": [
+          "71209783/851460624999999979520",
+          "71840567/851460624999999979520"
+        ]
+      },
+      "unit": "m^2",
+      "upper_endpoint": {
+        "bounds": [
+          8.487391827425961e-14,
+          8.634594876304468e-14
+        ],
+        "central": 8.560993351865215e-14,
+        "exact_bounds": [
+          "2205407699584961/25984516143798827500000000000",
+          "2243657699584961/25984516143798827500000000000"
+        ]
+      }
+    }
+  ],
+  "ratios": {
+    "Psi_B": {
+      "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+      "bounds": [
+        2.37198523195488,
+        2.4238431141891548
+      ],
+      "central": 2.397543447673243,
+      "exact_bounds": [
+        "647844253540039/273123223876953",
+        "643344253540039/265423223876953"
+      ],
+      "marginal_outer_bounds": [
+        2.349650990606191,
+        2.446825277961033
+      ],
+      "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+    },
+    "Psi_E": {
+      "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+      "bounds": [
+        0.9366480242976788,
+        0.9403851628315305
+      ],
+      "central": 0.9385211128189173,
+      "exact_bounds": [
+        "17385200927734375/18561082153320312",
+        "17539200927734375/18651082153320312"
+      ],
+      "marginal_outer_bounds": [
+        0.9305317390923488,
+        0.9465768882994263
+      ],
+      "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+    }
+  },
+  "scenarios": [
+    {
+      "F_required": {
+        "bounds": [
+          0.24759544566772315,
+          0.2530085381651826
+        ],
+        "central": 0.2502632944072554,
+        "exact_bounds": [
+          "7119847227354933861470415876949/28755970079150312306945526670000",
+          "63633527615550831767733742892541/251507431634604283762509740030000"
+        ],
+        "unity_in_reading_bounds": false
+      },
+      "R_KC": 9.580084260265918,
+      "R_kappa": {
+        "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+        "bounds": [
+          2.37198523195488,
+          2.4238431141891548
+        ],
+        "central": 2.397543447673243,
+        "exact_bounds": [
+          "647844253540039/273123223876953",
+          "643344253540039/265423223876953"
+        ],
+        "marginal_outer_bounds": [
+          2.349650990606191,
+          2.446825277961033
+        ],
+        "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+      },
+      "disposition": "NOMINAL_READING_MISMATCH",
+      "epsilon0": 0.2361431595028565,
+      "epsilon_2": 0.12200363161247875,
+      "epsilon_6": 0.2361431595028565,
+      "geometry": [
+        {
+          "C_geom_m3": {
+            "2:1": 1.7338407484160737e-15,
+            "6:1": 1.564791999981527e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              8.928796118877983,
+              9.124003260722207
+            ],
+            "central": 9.025004178792205
+          },
+          "H": 3.764271378502337,
+          "H0": 4.326748710922226,
+          "S_geom_m": {
+            "2:1": 0.06692535153600139,
+            "6:1": 0.2519251852831775
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010791205292859669,
+            "6:1": 0.002244661156090949
+          },
+          "bed_length_adjustment": 0.87,
+          "consolidated_length_m": {
+            "2:1": 0.01612424147978471,
+            "6:1": 0.008910030783813175
+          },
+          "initial_length_m": {
+            "2:1": 0.018533610896304262,
+            "6:1": 0.008910030783813175
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "equal_initial_volume",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        },
+        {
+          "C_geom_m3": {
+            "2:1": 1.730696410168704e-15,
+            "6:1": 1.5805925188741787e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              9.035340502478942,
+              9.232876986859987
+            ],
+            "central": 9.132696581488295
+          },
+          "H": 3.8091891891891896,
+          "H0": 4.378378378378379,
+          "S_geom_m": {
+            "2:1": 0.06680398171426571,
+            "6:1": 0.25446900494077324
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010752100856911066,
+            "6:1": 0.002290221044466959
+          },
+          "bed_length_adjustment": 0.87,
+          "consolidated_length_m": {
+            "2:1": 0.016094999999999998,
+            "6:1": 0.009
+          },
+          "initial_length_m": {
+            "2:1": 0.0185,
+            "6:1": 0.009
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "printed_dimensions",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        }
+      ],
+      "grind": "Psi_B",
+      "id": "A",
+      "lambda_2": 0.13,
+      "lambda_6": 0,
+      "particle_porosity": 0.53,
+      "particle_porosity_route": "registered_adopted_average",
+      "physical_disposition": "UNRESOLVED_UNQUANTIFIED_MEASUREMENT_AND_COHORT_JOINS"
+    },
+    {
+      "F_required": {
+        "bounds": [
+          0.42685037619480604,
+          0.4361824564464706
+        ],
+        "central": 0.4314497024668588,
+        "exact_bounds": [
+          "91618627345109259349679/214638741007683549770000",
+          "818840105285483334147111/1877288032069151947930000"
+        ],
+        "unity_in_reading_bounds": false
+      },
+      "R_KC": 5.5569477368162215,
+      "R_kappa": {
+        "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+        "bounds": [
+          2.37198523195488,
+          2.4238431141891548
+        ],
+        "central": 2.397543447673243,
+        "exact_bounds": [
+          "647844253540039/273123223876953",
+          "643344253540039/265423223876953"
+        ],
+        "marginal_outer_bounds": [
+          2.349650990606191,
+          2.446825277961033
+        ],
+        "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+      },
+      "disposition": "NOMINAL_READING_MISMATCH",
+      "epsilon0": 0.2819745699326851,
+      "epsilon_2": 0.17468341371573,
+      "epsilon_6": 0.2819745699326851,
+      "geometry": [
+        {
+          "C_geom_m3": {
+            "2:1": 1.7338407484160737e-15,
+            "6:1": 1.564791999981527e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              8.928796118877983,
+              9.124003260722207
+            ],
+            "central": 9.025004178792205
+          },
+          "H": 3.764271378502337,
+          "H0": 4.326748710922226,
+          "S_geom_m": {
+            "2:1": 0.06692535153600139,
+            "6:1": 0.2519251852831775
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010791205292859669,
+            "6:1": 0.002244661156090949
+          },
+          "bed_length_adjustment": 0.87,
+          "consolidated_length_m": {
+            "2:1": 0.01612424147978471,
+            "6:1": 0.008910030783813175
+          },
+          "initial_length_m": {
+            "2:1": 0.018533610896304262,
+            "6:1": 0.008910030783813175
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "equal_initial_volume",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        },
+        {
+          "C_geom_m3": {
+            "2:1": 1.730696410168704e-15,
+            "6:1": 1.5805925188741787e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              9.035340502478942,
+              9.232876986859987
+            ],
+            "central": 9.132696581488295
+          },
+          "H": 3.8091891891891896,
+          "H0": 4.378378378378379,
+          "S_geom_m": {
+            "2:1": 0.06680398171426571,
+            "6:1": 0.25446900494077324
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010752100856911066,
+            "6:1": 0.002290221044466959
+          },
+          "bed_length_adjustment": 0.87,
+          "consolidated_length_m": {
+            "2:1": 0.016094999999999998,
+            "6:1": 0.009
+          },
+          "initial_length_m": {
+            "2:1": 0.0185,
+            "6:1": 0.009
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "printed_dimensions",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        }
+      ],
+      "grind": "Psi_B",
+      "id": "B",
+      "lambda_2": 0.13,
+      "lambda_6": 0,
+      "particle_porosity": 0.5,
+      "particle_porosity_route": "thesis_p231_grind_specific",
+      "physical_disposition": "UNRESOLVED_UNQUANTIFIED_MEASUREMENT_AND_COHORT_JOINS"
+    },
+    {
+      "F_required": {
+        "bounds": [
+          0.9366480242976788,
+          0.9403851628315305
+        ],
+        "central": 0.9385211128189173,
+        "exact_bounds": [
+          "17385200927734375/18561082153320312",
+          "17539200927734375/18651082153320312"
+        ],
+        "unity_in_reading_bounds": false
+      },
+      "R_KC": 1.0,
+      "R_kappa": {
+        "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+        "bounds": [
+          0.9366480242976788,
+          0.9403851628315305
+        ],
+        "central": 0.9385211128189173,
+        "exact_bounds": [
+          "17385200927734375/18561082153320312",
+          "17539200927734375/18651082153320312"
+        ],
+        "marginal_outer_bounds": [
+          0.9305317390923488,
+          0.9465768882994263
+        ],
+        "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+      },
+      "disposition": "NOMINAL_READING_MISMATCH",
+      "epsilon0": null,
+      "epsilon_2": null,
+      "epsilon_6": null,
+      "geometry": [
+        {
+          "C_geom_m3": {
+            "2:1": 5.211469814740001e-15,
+            "6:1": 2.1162450071354377e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              4.052640631717832,
+              4.0688102910517125
+            ],
+            "central": 4.060745015062544
+          },
+          "H": 4.326748710922226,
+          "H0": 4.326748710922226,
+          "S_geom_m": {
+            "2:1": 0.05822505583632121,
+            "6:1": 0.2519251852831775
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010791205292859669,
+            "6:1": 0.002244661156090949
+          },
+          "bed_length_adjustment": 1.0,
+          "consolidated_length_m": {
+            "2:1": 0.018533610896304262,
+            "6:1": 0.008910030783813175
+          },
+          "initial_length_m": {
+            "2:1": 0.018533610896304262,
+            "6:1": 0.008910030783813175
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "equal_initial_volume",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        },
+        {
+          "C_geom_m3": {
+            "2:1": 5.20201875997706e-15,
+            "6:1": 2.137613833929745e-14
+          },
+          "G6_over_G2_equals_Rhyd2_over_Rhyd6": {
+            "bounds": [
+              4.100999457735783,
+              4.117362064289404
+            ],
+            "central": 4.109200548017963
+          },
+          "H": 4.378378378378379,
+          "H0": 4.378378378378379,
+          "S_geom_m": {
+            "2:1": 0.05811946409141117,
+            "6:1": 0.25446900494077324
+          },
+          "aggregation": "REPRESENTATIVE_STATE_NOT_MEAN_OF_BED_CONDUCTANCES",
+          "area_m2": {
+            "2:1": 0.0010752100856911066,
+            "6:1": 0.002290221044466959
+          },
+          "bed_length_adjustment": 1.0,
+          "consolidated_length_m": {
+            "2:1": 0.0185,
+            "6:1": 0.009
+          },
+          "initial_length_m": {
+            "2:1": 0.0185,
+            "6:1": 0.009
+          },
+          "observer_status": "CONDITIONAL_VALID_DARCY_PRESSURE_AND_THROUGH_BED_FLOW_MAPPING",
+          "representation": "printed_dimensions",
+          "viscosity_ratio_mu2_mu6": 1,
+          "viscosity_status": "EXPLICIT_COMMON_VISCOSITY_SCENARIO"
+        }
+      ],
+      "grind": "Psi_E",
+      "id": "C",
+      "lambda_2": 0,
+      "lambda_6": 0,
+      "particle_porosity": null,
+      "particle_porosity_route": "any_common_admissible_symbolic",
+      "physical_disposition": "UNRESOLVED_UNQUANTIFIED_MEASUREMENT_AND_COHORT_JOINS"
+    }
+  ],
+  "source_arithmetic": {
+    "fine_prose_ratio": {
+      "figure_ratio": {
+        "bound_semantics": "JOINT_SHARED_AXIS_READING_BOUNDS_ONLY",
+        "bounds": [
+          2.37198523195488,
+          2.4238431141891548
+        ],
+        "central": 2.397543447673243,
+        "exact_bounds": [
+          "647844253540039/273123223876953",
+          "643344253540039/265423223876953"
+        ],
+        "marginal_outer_bounds": [
+          2.349650990606191,
+          2.446825277961033
+        ],
+        "marginal_outer_semantics": "CONSERVATIVE_RELAXATION_NOT_ALL_COMBINATIONS_JOINTLY_ADMISSIBLE"
+      },
+      "printed_approximation": 3,
+      "status": "LOOSE_PROSE_APPROXIMATION_NOT_REPLACEMENT_OBSERVATION"
+    },
+    "full_chamber_pressure_ratios": [
+      {
+        "grind": "Psi_B",
+        "implied_permeability_ratio": 2.396718805005361,
+        "length_qualification": "FULL_CHAMBER_VS_CONSOLIDATED_LENGTH_JOIN_UNRESOLVED",
+        "printed": 10.37,
+        "printed_rounding_interval": [
+          10.364999999999998,
+          10.375
+        ],
+        "reading_bounds": [
+          10.26298404468733,
+          10.487360069795635
+        ],
+        "reconstructed": 10.37356802160023,
+        "rounding_interval_overlaps_reading_bounds": true,
+        "status": "DERIVED_SOURCE_ARITHMETIC_NOT_PRESSURE_OBSERVATION"
+      },
+      {
+        "grind": "Psi_E",
+        "implied_permeability_ratio": 0.9383489246211923,
+        "length_qualification": "NOMINAL_ZERO_CONSOLIDATION",
+        "printed": 4.06,
+        "printed_rounding_interval": [
+          4.055,
+          4.0649999999999995
+        ],
+        "reading_bounds": [
+          4.05264063171783,
+          4.068810291051711
+        ],
+        "reconstructed": 4.060745015062542,
+        "rounding_interval_overlaps_reading_bounds": true,
+        "status": "DERIVED_SOURCE_ARITHMETIC_NOT_PRESSURE_OBSERVATION"
+      }
+    ],
+    "printed_10_6": {
+      "author_intermediate_input": "UNAUTHENTICATED",
+      "epsilon0_0_23_reconstruction": 10.58529,
+      "registered_epsilon0_rounded_two_decimals": 0.24
+    }
+  },
+  "status": {
+    "cohort_join": "UNAUTHENTICATED",
+    "common_viscosity": "DECLARED_SCENARIO_ONLY",
+    "input_uncertainty": "NOT_QUANTIFIED",
+    "none_observed": "NOMINAL_ZERO_ONLY",
+    "physical_validation": "NOT_ESTABLISHED",
+    "statistical_interpretation": "DISPLAYED_VARIABILITY_GENERIC_SD_WORDING_AMBIGUOUS",
+    "temperature_study_synthesis": "UNAVAILABLE"
+  },
+  "task": "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001",
+  "tick_checks": [
+    {
+      "mantissa": 0,
+      "nominal_axis_residual_pt": 0.0,
+      "recovered": {
+        "bounds": [
+          -5.903526815370498e-16,
+          5.868879726528752e-16
+        ],
+        "central": 0.0,
+        "exact_bounds": [
+          "-61/103328064575195310",
+          "61/103938064575195310"
+        ]
+      }
+    },
+    {
+      "mantissa": 0.2,
+      "nominal_axis_residual_pt": -0.030364990234375,
+      "recovered": {
+        "bounds": [
+          1.9427719279444073e-14,
+          2.0601495224749824e-14
+        ],
+        "central": 2.0014607252096947e-14,
+        "exact_bounds": [
+          "8270969/425730312499999989760",
+          "8770681/425730312499999989760"
+        ]
+      }
+    },
+    {
+      "mantissa": 0.4,
+      "nominal_axis_residual_pt": -0.01025390625,
+      "recovered": {
+        "bounds": [
+          3.941804472755273e-14,
+          4.059182067285848e-14
+        ],
+        "central": 4.00049327002056e-14,
+        "exact_bounds": [
+          "33562913/851460624999999979520",
+          "34562337/851460624999999979520"
+        ]
+      }
+    },
+    {
+      "mantissa": 0.6,
+      "nominal_axis_residual_pt": -0.0406341552734375,
+      "recovered": {
+        "bounds": [
+          5.943265931997736e-14,
+          6.06064352652831e-14
+        ],
+        "central": 6.001954729263023e-14,
+        "exact_bounds": [
+          "617731558227539/10393806457519531000000000000",
+          "629931558227539/10393806457519531000000000000"
+        ]
+      }
+    },
+    {
+      "mantissa": 0.8,
+      "nominal_axis_residual_pt": -0.0199737548828125,
+      "recovered": {
+        "bounds": [
+          7.942272051628929e-14,
+          8.059649646159503e-14
+        ],
+        "central": 8.000960848894216e-14,
+        "exact_bounds": [
+          "1651008770751953/20787612915039062000000000000",
+          "1675408770751953/20787612915039062000000000000"
+        ]
+      }
+    },
+    {
+      "mantissa": 1,
+      "nominal_axis_residual_pt": 6.103515625e-05,
+      "recovered": {
+        "bounds": [
+          9.941308266603638e-14,
+          1.0059032314689103e-13
+        ],
+        "central": 9.999997063868926e-14,
+        "exact_bounds": [
+          "10332803405761719/103938064575195310000000000000",
+          "10393803405761719/103328064575195310000000000000"
+        ]
+      }
+    }
+  ],
+  "units": {
+    "C_geom": "m^3",
+    "G": "m^3/(Pa*s)",
+    "R_hyd": "Pa*s/m^3",
+    "S_geom": "m",
+    "area": "m^2",
+    "coordinates": "pt",
+    "density": "kg/m^3",
+    "length": "m",
+    "permeability": "m^2"
+  }
+}
