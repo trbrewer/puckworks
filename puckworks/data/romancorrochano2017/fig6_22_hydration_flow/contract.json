@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "task": "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001",
+  "dataset_id": "romancorrochano2017/fig6_22_hydration_flow",
+  "plan_sha256": "e23c768ec10f19b005aef216cedf56c4b1afc1d615b8647ee9a7ebed2e8f7f44",
+  "classification": [
+    "G1",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NO_GOVERNING_PHYSICS_CHANGE"
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "observable": "HR / HR_max as published",
+  "units": {
+    "time": "s",
+    "flow": "m^3/s",
+    "Y": "dimensionless",
+    "coordinates": "page pt",
+    "mean_throughput_proxy": "m^3"
+  },
+  "flows": {
+    "high": "0.0000122",
+    "caption": "0.0000021",
+    "prose": "0.00000209"
+  },
+  "ratios": {
+    "caption": "21/122",
+    "prose": "209/1220"
+  },
+  "grids": {
+    "PRIMARY": [
+      10,
+      20,
+      30,
+      40,
+      50,
+      60,
+      70,
+      80
+    ],
+    "SECONDARY": [
+      15,
+      25,
+      35,
+      45,
+      55,
+      65,
+      75
+    ]
+  },
+  "calibration": {
+    "x_20": "245.99478149414062",
+    "x_80": "434.264404296875",
+    "y_0": "312.3074645996094",
+    "y_1": "139.055419921875",
+    "anchor_guard_pt": "0.92",
+    "stroke_guard_pt": "0.92",
+    "reconstruction_guard_pt": "0.002",
+    "tick_residual_limit_pt": "0.05",
+    "x_ticks": [
+      "245.99478149414062",
+      "308.7510986328125",
+      "371.508056640625",
+      "434.264404296875"
+    ],
+    "y_ticks": [
+      "312.3074645996094",
+      "277.63702392578125",
+      "242.9659423828125",
+      "208.3459014892578",
+      "173.6754608154297",
+      "139.055419921875"
+    ]
+  },
+  "dependence": "Shared anchors; independent marginal Cartesian outer relaxation, no endpoint attainment claim",
+  "support_rule": "entire admitted horizontal range contained in one supported segment; gaps never truncated",
+  "envelope_rule": "COMPLETE only with all H1/H2/H3 and L1/L2/L3 fully supported",
+  "decision_rule": "at least one complete separated predeclared location per ratio/grid",
+  "arithmetic": "exact rational; decimal inputs; outward presentation only",
+  "display_decimals": 6,
+  "normalization_rule": "UNAUTHENTICATED",
+  "maximum_window": "UNAUTHENTICATED",
+  "mean_flow_averaging_window": "UNAUTHENTICATED",
+  "clock_physical_origin": "UNAUTHENTICATED",
+  "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign"
+}

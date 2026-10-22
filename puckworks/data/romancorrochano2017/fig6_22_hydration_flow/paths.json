@@ -1,0 +1,1362 @@
+{
+  "pdf_sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
+  "pdf_pages": 359,
+  "printed_page": 264,
+  "pdf_page": 289,
+  "page_xref": 3193,
+  "content_xrefs": [
+    3194
+  ],
+  "decoded_content_sha256": "294624d6b652dff893e135cdbff4da00c05d3b2d4cdaad9a28adb1f296c9a42d",
+  "extractor": "PyMuPDF 2.0",
+  "coordinate_convention": "page points; top-left origin; y downward",
+  "page_height_pt": 841.8897705078125,
+  "chunks": [
+    {
+      "chunk": "C00",
+      "drawing_index": 15,
+      "seqno": 30,
+      "raw_stream_offset": 8888,
+      "raw_stream_length": 4724,
+      "raw_path_sha256": "8a49f85b789c1ca1341c2f4ac8de4972506df717875cdd108736068e917d3a9b",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        224.167,
+        240.0831
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.9905887490476744e-05,
+      "subpath": 0,
+      "item_count": 298,
+      "start": [
+        278.28424072265625,
+        194.5792236328125
+      ],
+      "end": [
+        372.1658020019531,
+        201.71580505371094
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C01",
+      "drawing_index": 16,
+      "seqno": 31,
+      "raw_stream_offset": 13613,
+      "raw_stream_length": 4777,
+      "raw_path_sha256": "a88cf510182ed029820a8a03192bd758a3d1f0ceb93a35b465d851376bf73605",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        77.167,
+        46.167
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.8578515610888644e-05,
+      "subpath": 0,
+      "item_count": 283,
+      "start": [
+        189.0079803466797,
+        312.3578796386719
+      ],
+      "end": [
+        278.28363037109375,
+        194.57928466796875
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C02",
+      "drawing_index": 17,
+      "seqno": 32,
+      "raw_stream_offset": 18391,
+      "raw_stream_length": 4619,
+      "raw_path_sha256": "4546df507ce4d2886fa130f62761233a18f17aee35070b546a3cb8eece752090",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        348.75,
+        275.5
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.4930887434493343e-05,
+      "subpath": 0,
+      "item_count": 298,
+      "start": [
+        353.9461364746094,
+        173.06808471679688
+      ],
+      "end": [
+        447.77667236328125,
+        177.92703247070312
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C03",
+      "drawing_index": 18,
+      "seqno": 33,
+      "raw_stream_offset": 23011,
+      "raw_stream_length": 4553,
+      "raw_path_sha256": "911fbcc54cc8cda3f43fcda2ce5dda7e413135c996a0887c06c4f69a39223eff",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        194.25,
+        279.083
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.9108231274221907e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        260.114990234375,
+        170.89187622070312
+      ],
+      "end": [
+        353.9461364746094,
+        173.06808471679688
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C04",
+      "drawing_index": 19,
+      "seqno": 34,
+      "raw_stream_offset": 27565,
+      "raw_stream_length": 3743,
+      "raw_path_sha256": "ed5ea74fda39fe7925a9df7a09f2297fac7f4820a8a8700aedba3170fbd684d5",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        72.833,
+        47.583
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.0284318768281082e-05,
+      "subpath": 0,
+      "item_count": 235,
+      "start": [
+        186.3758544921875,
+        311.4978332519531
+      ],
+      "end": [
+        260.1143798828125,
+        170.89187622070312
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C05",
+      "drawing_index": 20,
+      "seqno": 35,
+      "raw_stream_offset": 31309,
+      "raw_stream_length": 4722,
+      "raw_path_sha256": "85805f15890ef139680c0cf52849519a10640e1321c9f11c52c122c54ad1c0ee",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        224.167,
+        240.0001
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.9905887490476744e-05,
+      "subpath": 0,
+      "item_count": 298,
+      "start": [
+        278.28424072265625,
+        194.62962341308594
+      ],
+      "end": [
+        372.1658020019531,
+        201.10842895507812
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C06",
+      "drawing_index": 21,
+      "seqno": 36,
+      "raw_stream_offset": 36032,
+      "raw_stream_length": 4829,
+      "raw_path_sha256": "57bc6c3c2828f0a44a492401cb303f5f227acac773b92372d9a9267777e2847f",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        77.417,
+        46.167
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.232592496260622e-05,
+      "subpath": 0,
+      "item_count": 285,
+      "start": [
+        189.15980529785156,
+        312.3578796386719
+      ],
+      "end": [
+        278.2835998535156,
+        194.62969970703125
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C07",
+      "drawing_index": 22,
+      "seqno": 37,
+      "raw_stream_offset": 40862,
+      "raw_stream_length": 4822,
+      "raw_path_sha256": "44370c66a6498116d91da2e05ff9f0dcd5ff51993f1920da95e4552112ada5f5",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        224.75,
+        248.917
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 4.18379187294704e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        278.6383056640625,
+        189.21377563476562
+      ],
+      "end": [
+        372.4694519042969,
+        198.62799072265625
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C08",
+      "drawing_index": 23,
+      "seqno": 38,
+      "raw_stream_offset": 45685,
+      "raw_stream_length": 4610,
+      "raw_path_sha256": "591215f75b1287a2f81be5a7bd8e0b7ebf91229d80e5a042faa0cff398138eed",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        78.583,
+        46.167
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.8604268777598918e-05,
+      "subpath": 0,
+      "item_count": 283,
+      "start": [
+        189.86795043945312,
+        312.3578796386719
+      ],
+      "end": [
+        278.6376953125,
+        189.2137908935547
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C09",
+      "drawing_index": 24,
+      "seqno": 39,
+      "raw_stream_offset": 50296,
+      "raw_stream_length": 4887,
+      "raw_path_sha256": "4a2082f947cd7c33286ec9b6f2a368fc920420e2c5bfb72aae0a6a8d505d0444",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        343.583,
+        294.4171
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.5296931312368542e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        350.80810546875,
+        161.5784149169922
+      ],
+      "end": [
+        444.6392517089844,
+        184.1020965576172
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C10",
+      "drawing_index": 25,
+      "seqno": 40,
+      "raw_stream_offset": 55184,
+      "raw_stream_length": 4553,
+      "raw_path_sha256": "695fa1f042111d8f04a1e3891963291ba2546f8bd5bb899298e7b81b55c43d2a",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        189.083,
+        284.0831
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.6810156214196468e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        256.9769592285156,
+        167.85498046875
+      ],
+      "end": [
+        350.80810546875,
+        161.57843017578125
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C11",
+      "drawing_index": 26,
+      "seqno": 41,
+      "raw_stream_offset": 59738,
+      "raw_stream_length": 3426,
+      "raw_path_sha256": "31dd8967b82b949c620971b19ba193054ce259633155948547a0ee7b01bf28af",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        78.083,
+        46.167
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.262812498405765e-05,
+      "subpath": 0,
+      "item_count": 215,
+      "start": [
+        189.5642852783203,
+        312.3578796386719
+      ],
+      "end": [
+        256.9769592285156,
+        167.85504150390625
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C12",
+      "drawing_index": 27,
+      "seqno": 42,
+      "raw_stream_offset": 63165,
+      "raw_stream_length": 4903,
+      "raw_path_sha256": "fc2fb8ea1c2ae4fb3672cbd1a0fe698669e0e67dee7e1b93f6ec08a763a22dea",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        343.583,
+        316.1671
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.5296931312368542e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        350.80810546875,
+        148.36814880371094
+      ],
+      "end": [
+        444.6392517089844,
+        200.6529083251953
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C13",
+      "drawing_index": 28,
+      "seqno": 43,
+      "raw_stream_offset": 68069,
+      "raw_stream_length": 4503,
+      "raw_path_sha256": "81a4590a2222b95995dc4d92e5f354756d8a8284b2708f0f5c76aa269267c632",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        189.083,
+        292.583
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.6810156214196468e-05,
+      "subpath": 0,
+      "item_count": 299,
+      "start": [
+        256.9769592285156,
+        162.69239807128906
+      ],
+      "end": [
+        350.80810546875,
+        148.3682098388672
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C14",
+      "drawing_index": 29,
+      "seqno": 44,
+      "raw_stream_offset": 72573,
+      "raw_stream_length": 3551,
+      "raw_path_sha256": "b34f12c7ec56cd5a7081aa1f3e2e49ed6d9ae8c8b92a20b9cff63308953aeba2",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        76.5,
+        46.167
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 3.311342499046077e-05,
+      "subpath": 0,
+      "item_count": 218,
+      "start": [
+        188.60289001464844,
+        312.3578796386719
+      ],
+      "end": [
+        256.9769592285156,
+        162.69241333007812
+      ],
+      "role": "curve"
+    },
+    {
+      "chunk": "C15",
+      "drawing_index": 33,
+      "seqno": 50,
+      "raw_stream_offset": 77238,
+      "raw_stream_length": 133,
+      "raw_path_sha256": "5941dedda7e6d20db3987c894acc2584874e3ad320205465c399403a32ed0634",
+      "color": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        331.75,
+        92.0831
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 9.820284390116285e-06,
+      "subpath": 0,
+      "item_count": 1,
+      "start": [
+        343.6216735839844,
+        284.4698486328125
+      ],
+      "end": [
+        361.6390686035156,
+        284.4698486328125
+      ],
+      "role": "legend_excluded"
+    },
+    {
+      "chunk": "C16",
+      "drawing_index": 34,
+      "seqno": 52,
+      "raw_stream_offset": 77701,
+      "raw_stream_length": 132,
+      "raw_path_sha256": "5941dedda7e6d20db3987c894acc2584874e3ad320205465c399403a32ed0634",
+      "color": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "width_api_pt": 1.822035789489746,
+      "local_width": 3,
+      "graphics_scale": [
+        0.6073214,
+        0.6073691
+      ],
+      "graphics_translation": [
+        142.1428,
+        501.4915
+      ],
+      "local_translation": [
+        331.75,
+        65.833
+      ],
+      "effective_width_upper_pt": 1.8221072999999999,
+      "transform_check_max_pt": 2.004819060630325e-05,
+      "subpath": 0,
+      "item_count": 1,
+      "start": [
+        343.6216735839844,
+        300.4133605957031
+      ],
+      "end": [
+        361.6390686035156,
+        300.4133605957031
+      ],
+      "role": "legend_excluded"
+    }
+  ],
+  "joins": [
+    {
+      "trace": "H1",
+      "left": "C01",
+      "right": "C00",
+      "delta_pt": [
+        0.0006103515625,
+        -6.103515625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L1",
+      "left": "C04",
+      "right": "C03",
+      "delta_pt": [
+        0.0006103515625,
+        0.0
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L1",
+      "left": "C03",
+      "right": "C02",
+      "delta_pt": [
+        0.0,
+        0.0
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "H2",
+      "left": "C06",
+      "right": "C05",
+      "delta_pt": [
+        0.000640869140625,
+        -7.62939453125e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "H3",
+      "left": "C08",
+      "right": "C07",
+      "delta_pt": [
+        0.0006103515625,
+        -1.52587890625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L2",
+      "left": "C11",
+      "right": "C10",
+      "delta_pt": [
+        0.0,
+        -6.103515625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L2",
+      "left": "C10",
+      "right": "C09",
+      "delta_pt": [
+        0.0,
+        -1.52587890625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L3",
+      "left": "C14",
+      "right": "C13",
+      "delta_pt": [
+        0.0,
+        -1.52587890625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    },
+    {
+      "trace": "L3",
+      "left": "C13",
+      "right": "C12",
+      "delta_pt": [
+        0.0,
+        -6.103515625e-05
+      ],
+      "bound_pt": 0.002,
+      "treatment": "bounded straight connector; original endpoints retained"
+    }
+  ],
+  "trace_chunks": {
+    "H1": [
+      "C01",
+      "C00"
+    ],
+    "L1": [
+      "C04",
+      "C03",
+      "C02"
+    ],
+    "H2": [
+      "C06",
+      "C05"
+    ],
+    "H3": [
+      "C08",
+      "C07"
+    ],
+    "L2": [
+      "C11",
+      "C10",
+      "C09"
+    ],
+    "L3": [
+      "C14",
+      "C13",
+      "C12"
+    ]
+  },
+  "axes": [
+    {
+      "drawing_index": 3,
+      "seqno": 8,
+      "width_pt": 1.2146905660629272,
+      "items": [
+        [
+          "l",
+          [
+            245.99476623535156,
+            312.3074645996094
+          ],
+          [
+            245.99476623535156,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            308.7510986328125,
+            312.3074645996094
+          ],
+          [
+            308.7510986328125,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            371.508056640625,
+            312.3074645996094
+          ],
+          [
+            371.508056640625,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            434.264404296875,
+            312.3074645996094
+          ],
+          [
+            434.264404296875,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            450.00433349609375,
+            312.3074645996094
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            277.63702392578125
+          ],
+          [
+            450.00433349609375,
+            277.63702392578125
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            242.96595764160156
+          ],
+          [
+            450.00433349609375,
+            242.96595764160156
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            208.34591674804688
+          ],
+          [
+            450.00433349609375,
+            208.34591674804688
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            173.6754608154297
+          ],
+          [
+            450.00433349609375,
+            173.6754608154297
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            139.055419921875
+          ],
+          [
+            450.00433349609375,
+            139.055419921875
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 4,
+      "seqno": 9,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            450.0043640136719,
+            312.3074645996094
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            104.43537902832031
+          ],
+          [
+            450.0043640136719,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            186.3758544921875,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            312.3074645996094
+          ],
+          [
+            450.0043640136719,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            450.0043640136719,
+            312.3074645996094
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            186.3758544921875,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            245.99478149414062,
+            312.3074645996094
+          ],
+          [
+            245.99478149414062,
+            309.6247253417969
+          ]
+        ],
+        [
+          "l",
+          [
+            245.99478149414062,
+            104.43537902832031
+          ],
+          [
+            245.99478149414062,
+            107.06712341308594
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 5,
+      "seqno": 11,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            308.7510986328125,
+            312.3074645996094
+          ],
+          [
+            308.7510986328125,
+            309.6247253417969
+          ]
+        ],
+        [
+          "l",
+          [
+            308.7510986328125,
+            104.43537902832031
+          ],
+          [
+            308.7510986328125,
+            107.06712341308594
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 6,
+      "seqno": 13,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            371.508056640625,
+            312.3074645996094
+          ],
+          [
+            371.508056640625,
+            309.6247253417969
+          ]
+        ],
+        [
+          "l",
+          [
+            371.508056640625,
+            104.43537902832031
+          ],
+          [
+            371.508056640625,
+            107.06712341308594
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 7,
+      "seqno": 15,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            434.264404296875,
+            312.3074645996094
+          ],
+          [
+            434.264404296875,
+            309.6247253417969
+          ]
+        ],
+        [
+          "l",
+          [
+            434.264404296875,
+            104.43537902832031
+          ],
+          [
+            434.264404296875,
+            107.06712341308594
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 8,
+      "seqno": 17,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            189.0079803466797,
+            312.3074645996094
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            312.3074645996094
+          ],
+          [
+            447.3218078613281,
+            312.3074645996094
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 9,
+      "seqno": 19,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            277.63702392578125
+          ],
+          [
+            189.0079803466797,
+            277.63702392578125
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            277.63702392578125
+          ],
+          [
+            447.3218078613281,
+            277.63702392578125
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 10,
+      "seqno": 21,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            242.9659423828125
+          ],
+          [
+            189.0079803466797,
+            242.9659423828125
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            242.9659423828125
+          ],
+          [
+            447.3218078613281,
+            242.9659423828125
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 11,
+      "seqno": 23,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            208.3459014892578
+          ],
+          [
+            189.0079803466797,
+            208.3459014892578
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            208.3459014892578
+          ],
+          [
+            447.3218078613281,
+            208.3459014892578
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 12,
+      "seqno": 25,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            173.6754608154297
+          ],
+          [
+            189.0079803466797,
+            173.6754608154297
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            173.6754608154297
+          ],
+          [
+            447.3218078613281,
+            173.6754608154297
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 13,
+      "seqno": 27,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            139.055419921875
+          ],
+          [
+            189.0079803466797,
+            139.055419921875
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            139.055419921875
+          ],
+          [
+            447.3218078613281,
+            139.055419921875
+          ]
+        ]
+      ]
+    },
+    {
+      "drawing_index": 14,
+      "seqno": 29,
+      "width_pt": 1.822035789489746,
+      "items": [
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            450.0043640136719,
+            312.3074645996094
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            104.43537902832031
+          ],
+          [
+            450.0043640136719,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            186.3758544921875,
+            312.3074645996094
+          ],
+          [
+            186.3758544921875,
+            104.43537902832031
+          ]
+        ],
+        [
+          "l",
+          [
+            450.0043640136719,
+            312.3074645996094
+          ],
+          [
+            450.0043640136719,
+            104.43537902832031
+          ]
+        ]
+      ]
+    }
+  ],
+  "curve_clip_pt": [
+    186.37600708007812,
+    104.434814453125,
+    450.05499267578125,
+    312.3577880859375
+  ],
+  "clipping_note": "Centreline differs from clip at earliest boundary by <0.0002 pt; enclosed by 0.002 pt reconstruction guard. No terminal support extension.",
+  "duplicate_curve_chunks": [],
+  "duplicate_artwork": "Repeated black frame/tick items retained; no identical coloured curve chunks; legend excluded",
+  "physical_repetition_ids": "UNAUTHENTICATED"
+}
