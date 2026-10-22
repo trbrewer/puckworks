@@ -218,6 +218,23 @@ def build() -> dict:
         "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
         "last_qualified_task": "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001",
     }
+    dry_id = "romancorrochano2017/fig6_2_dry_compaction"
+    dry_row = next(row for row in rows if row["dataset_id"] == dry_id)
+    families["ROMANCORROCHANO2017"]["dataset_scopes"][dry_id] = {
+        "source_card": dry_row["source_card"],
+        "observer": "published applied axial force and dry coffee mass per bulk bed volume",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "validation_strength": dry_row["validation_strength"],
+        "physical_validation": "NOT_ESTABLISHED",
+        "eligible_uses": ["fixed-density force and fixed-force density graphical readings", "same-sample force increments and limited additive-force-offset null"],
+        "conditionally_eligible_uses": [],
+        "blocked_uses": ["population significance", "intrinsic modulus or constitutive law", "wet-bed or hydraulic inference", "exclusion of horizontal density shifts", "independent campaign replication", "physical validation"],
+        "missing_joins": ["native force/displacement records", "instrument/sample IDs", "load-cell/displacement calibration and compliance", "force zero and initial state", "individual preparation and loading histories", "journal Figure7 path membership or averaging"],
+        "coverage": "12 graphical samples;76 unique chunks painted twice;156 declared sample requests and12 cross-grind comparisons; unsupported/ambiguous requests retained",
+        "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
+        "last_qualified_task": "SCI-MD-CORROCHANO-DRY-COMPACTION-001",
+    }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

@@ -1,0 +1,210 @@
+{
+  "arithmetic": "EXACT_RATIONAL",
+  "input_hashes": {
+    "contract.json": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+    "coordinates.csv": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+    "holdings_checked.json": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+    "paths.json": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721"
+  },
+  "null_disposition": "EXCLUDED_BY_COMPLETE_INCREMENT_SEPARATION",
+  "numerical_unresolved": 0,
+  "physical_validation": "NOT_ESTABLISHED",
+  "summary": {
+    "density_at_force": {
+      "full_support": 72,
+      "statuses": {
+        "SUPPORTED": 72
+      },
+      "total": 72
+    },
+    "force_at_density": {
+      "full_support": 49,
+      "statuses": {
+        "AMBIGUOUS": 2,
+        "SUPPORTED": 47,
+        "UNSUPPORTED": 11
+      },
+      "total": 60
+    },
+    "sample_force_increments": {
+      "full_support": 24,
+      "statuses": {
+        "AMBIGUOUS": 2,
+        "SUPPORTED": 22
+      },
+      "total": 24
+    }
+  },
+  "target_exposure": "TARGET_EXPOSED",
+  "task": "SCI-MD-CORROCHANO-DRY-COMPACTION-001",
+  "trace_support": {
+    "B1": {
+      "density": [
+        [
+          "2714419/6845",
+          "4359419/6845"
+        ]
+      ],
+      "force": [
+        [
+          "168750/108521",
+          "4340175/15503"
+        ]
+      ]
+    },
+    "B2": {
+      "density": [
+        [
+          "2754669/6845",
+          "868850/1369"
+        ]
+      ],
+      "force": [
+        [
+          "175050/108521",
+          "4284825/15503"
+        ]
+      ]
+    },
+    "B3": {
+      "density": [
+        [
+          "2850919/6845",
+          "870950/1369"
+        ]
+      ],
+      "force": [
+        [
+          "168750/108521",
+          "30924975/108521"
+        ]
+      ]
+    },
+    "C1": {
+      "density": [
+        [
+          "14250/37",
+          "4116169/6845"
+        ]
+      ],
+      "force": [
+        [
+          "175050/108521",
+          "30431250/108521"
+        ]
+      ]
+    },
+    "C2": {
+      "density": [
+        [
+          "2600669/6845",
+          "821600/1369"
+        ]
+      ],
+      "force": [
+        [
+          "143775/108521",
+          "30787500/108521"
+        ]
+      ]
+    },
+    "C3": {
+      "density": [
+        [
+          "2570919/6845",
+          "4119669/6845"
+        ]
+      ],
+      "force": [
+        [
+          "168750/108521",
+          "30612525/108521"
+        ]
+      ]
+    },
+    "D1": {
+      "density": [
+        [
+          "2495081/6845",
+          "38805007/68450"
+        ]
+      ],
+      "force": [
+        [
+          "181275/108521",
+          "30856275/108521"
+        ]
+      ]
+    },
+    "D2": {
+      "density": [
+        [
+          "2463581/6845",
+          "38606697/68450"
+        ]
+      ],
+      "force": [
+        [
+          "181275/108521",
+          "31156275/108521"
+        ]
+      ]
+    },
+    "D3": {
+      "density": [
+        [
+          "2451331/6845",
+          "3870588/6845"
+        ]
+      ],
+      "force": [
+        [
+          "162525/108521",
+          "30775050/108521"
+        ]
+      ]
+    },
+    "E1": {
+      "density": [
+        [
+          "456200/1369",
+          "3602831/6845"
+        ]
+      ],
+      "force": [
+        [
+          "175050/108521",
+          "31062525/108521"
+        ]
+      ]
+    },
+    "E2": {
+      "density": [
+        [
+          "2321831/6845",
+          "726750/1369"
+        ]
+      ],
+      "force": [
+        [
+          "175050/108521",
+          "30862500/108521"
+        ]
+      ]
+    },
+    "E3": {
+      "density": [
+        [
+          "2381331/6845",
+          "3683919/6845"
+        ]
+      ],
+      "force": [
+        [
+          "168750/108521",
+          "30875025/108521"
+        ]
+      ]
+    }
+  }
+}
