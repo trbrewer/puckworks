@@ -201,6 +201,23 @@ def build() -> dict:
         "campaign": "existing thesis/journal/Melrose lineage; narrow bars linked to table aggregates, physical-bed identity unresolved",
         "last_qualified_task": "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001",
     }
+    hydration_id = "romancorrochano2017/fig6_22_hydration_flow"
+    hydration_row = next(row for row in rows if row["dataset_id"] == hydration_id)
+    families["ROMANCORROCHANO2017"]["dataset_scopes"][hydration_id] = {
+        "source_card": hydration_row["source_card"],
+        "observer": "published HR / HR_max; reported corrected bed pressure / inlet-meter flow before unqualified maximum normalization",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "validation_strength": hydration_row["validation_strength"],
+        "physical_validation": "NOT_ESTABLISHED",
+        "eligible_uses": ["fixed reported-mean-flow rescaling on published clock under graphical-reading contract", "same-clock descriptive condition-envelope comparisons"],
+        "conditionally_eligible_uses": [],
+        "blocked_uses": ["absolute HR law exclusion", "actual cumulative-volume interpretation", "physical repetition matching", "mechanism identification", "population/statistical rejection", "independent campaign replication", "physical validation"],
+        "missing_joins": ["maximum normalization algorithm and window", "mean-flow averaging interval", "common physical clock origin", "instrument-file repetition identity and cross-figure reuse", "instantaneous flow and through-bed observation mapping", "sensor/correction/thermal alignment"],
+        "coverage": "6 graphical traces; 15 chunks; 9 bounded joins; 26/30 rescaled and 10/15 same-clock complete envelope requests; all unsupported rows retained",
+        "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
+        "last_qualified_task": "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001",
+    }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

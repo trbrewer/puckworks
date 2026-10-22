@@ -603,6 +603,16 @@ def egidi_table2():
 RC17 = DATA_DIR / "romancorrochano2017"
 
 
+def rc17_fig6_22_hydration_flow():
+    """Figure 6.22 factual path vertices in page points, with graphical identities.
+
+    These are graphical vertices, not instrument samples. The dataset contract
+    supplies time/Y calibration; the offline producer retains reading enclosures.
+    Source internal and target exposed; physical validation not established.
+    """
+    return _typed_rows_hashskip(RC17 / "fig6_22_hydration_flow" / "coordinates.csv")
+
+
 def rc17_fig6_9_aspect_ratio():
     """Four published steady-permeability means and displayed endpoints in m².
 

@@ -184,3 +184,24 @@ calibration, including wall losses; #349's polynomial/curve discrepancy persists
 Figure6.8 supports qualitative resistance ordering only. Actual merged
 temperature-consolidation result remains inaccessible; synthesis is UNAVAILABLE,
 not inferred or rerun. Same campaign, no production/EWP/lock change or successor.
+
+## Figure 6.22 fixed reported-flow rescaling (2026-10-22)
+
+[SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001](../analysis/sci_md_corrochano_hydration_flow_rescaling_001/RESULT.md)
+adds `romancorrochano2017/fig6_22_hydration_flow` and loader
+`rc17_fig6_22_hydration_flow()`: six graphical histories,15 curve chunks,nine
+bounded joins, original page coordinates. At Psi_E/initial400kg/m³ the reported
+mean-flow ratio alone does not align published HR/HR_max under the declared
+published-clock/support/graphical-reading contract. Both caption21/122 and
+prose209/1220 separate complete represented-condition envelopes at PRIMARY
+60/70/80s and SECONDARY65/75s. Caption60s D=[−0.249834,−0.044467] outward rounded.
+26/30 rescaled and10/15 same-clock envelopes are complete; all requested
+unsupported rows and nine descriptive graphical pairings are retained.
+
+G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL /
+NO_GOVERNING_PHYSICS_CHANGE / PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+HR_max rule/window, flow-mean window, common physical start and instrument-file
+identities remain unauthenticated. Q_mean*t is a mean-throughput proxy, not
+actual volume. No absolute-HR law, population behavior or mechanism is excluded;
+no new campaign. Existing meter/corrected-pressure qualifications persist.
+PDF/source artwork remain external; thesis rights are not the software licence.

@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "1337b1d3f4b35b85c92cacfbc8cddaed25bde4d9ee7a060d8aee69bef8d6dfff",
+  "available_data_register_sha256": "0e0236ce085cecdd6a7201645a1726873ce19b0bfd963aef49edd8f36b1b1946",
   "families": [
     {
       "aliases": [
@@ -1109,7 +1109,8 @@
         "15 conditions; MPE_med_MW is the non-fitted headline 8.6-14.3%; low/high-MW columns worse (wrong class)",
         "PsiC/PsiD not measured; non-PsiA absolute = Fig 4.19 norm x 31.7; Flakes ~ finest",
         "44/48 condition-panel slots;60s endpoint unsupported; unpaired condition envelopes plus late hot-flow fragment; upstream-meter volume reference unknown; reported pressure already apparatus-corrected with formula/curve discrepancy; hot floor not physical zero; same Corrochano/Melrose campaign",
-        "4 means and 8 error endpoints; same thesis/journal/Melrose campaign; narrow bars linked aggregate presentations not independent table observations; no authenticated bed pairing; nominal zero consolidation only; common-viscosity scenario conditional"
+        "4 means and 8 error endpoints; same thesis/journal/Melrose campaign; narrow bars linked aggregate presentations not independent table observations; no authenticated bed pairing; nominal zero consolidation only; common-viscosity scenario conditional",
+        "6 graphical identities not instrument files; normalized HR preserved; caption/prose low means separate; normalization algorithm/window and mean-flow window unresolved; published clock only; mean-throughput proxy not actual volume; same existing Corrochano/Melrose campaign"
       ],
       "manifest_dataset_ids": [
         "romancorrochano2017/tamped_kappa",
@@ -1123,7 +1124,8 @@
         "romancorrochano2017/fig7_4_espresso",
         "romancorrochano2017/y0_extractable",
         "romancorrochano2017/fig6_23_pressure_flow_temperature",
-        "romancorrochano2017/fig6_9_aspect_ratio"
+        "romancorrochano2017/fig6_9_aspect_ratio",
+        "romancorrochano2017/fig6_22_hydration_flow"
       ],
       "model_chain_stages": [
         "extraction",
@@ -1134,7 +1136,8 @@
       "rights_access_status": [
         "University of Birmingham e-theses (open access; non-commercial research use); no DOI",
         "Birmingham thesis; compact derived factual coordinates/readings only; no PDF/images/overlays redistributed; no source licence promotion",
-        "Birmingham thesis; compact factual derived coordinates only; no PDF/images/overlays redistributed; no licence promotion"
+        "Birmingham thesis; compact factual derived coordinates only; no PDF/images/overlays redistributed; no licence promotion",
+        "Birmingham thesis rights retained; compact factual derived coordinates only; no PDF/images/overlays; repository software licence not assigned to thesis"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:ROMANCORROCHANO2017",
       "strongest_current_uses": [
