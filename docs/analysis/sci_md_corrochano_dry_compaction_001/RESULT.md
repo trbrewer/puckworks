@@ -9,10 +9,10 @@ G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL /
 NO_GOVERNING_PHYSICS_CHANGE. **PHYSICAL_VALIDATION=NOT_ESTABLISHED.**
 
 The authenticated thesis supplies twelve graphical sample curves (three each for
-Psi_B/C/D/E), recovered from76 unique chunks painted twice. Duplicated painting
-adds no samples. The offline producer preserves all source vertices,64 bounded
+Psi_B/C/D/E), recovered from 76 unique chunks painted twice. Duplicated painting
+adds no samples. The offline producer preserves all source vertices, 64 bounded
 rounding joins, four excluded legend strokes, both-axis calibration and full query
-support. Source method: Z030 tester, nominal0.1 mm/s and maximum300 N. The observed
+support. Source method: Z030 tester, nominal 0.1 mm/s and maximum 300 N. The observed
 curve endpoints, not that capacity, define support. See [source reconciliation](SOURCE_RECONCILIATION.md)
 and [frozen plan](PLAN.md); the latter was committed at
 ffb9a4d922fd0cef96c53a5e23324a3ae8d5fde9 before formal comparison.
@@ -29,12 +29,12 @@ ffb9a4d922fd0cef96c53a5e23324a3ae8d5fde9 before formal comparison.
 AMBIGUOUS is a separate disposition: those four requests have full supported
 outer enclosures, not omitted branches. Zero numerically unresolved requests.
 All eight grind increment envelopes are COMPLETE and all twelve cross-grind
-comparisons qualify. Eleven unsupported rows are F(360) for B1–B3,C1–C3,D1–D3,
-and F(400) for B2/B3. D2/D3 at360 have a nominal crossing, but the complete
+comparisons qualify. Eleven unsupported rows are F(360) for B1–B3, C1–C3, D1–D3,
+and F(400) for B2/B3. D2/D3 at 360 have a nominal crossing, but the complete
 admissible density interval crosses their recorded starts; the other nine are
 outside nominal support too. No extrapolation repairs them.
 
-B1 at400 and E2 at500 kg/m³ each have one nominal crossing but respectively three
+B1 at 400 and E2 at 500 kg/m³ each have one nominal crossing but respectively three
 and two disconnected intersections with the **admissible query strip**. Small
 source path reversals near a strip boundary make the inverse ambiguous under
 reading uncertainty. All intersections and their conservative force union/hull
@@ -61,8 +61,8 @@ and is not a complete grind conclusion. Units N; outward six-decimal bounds.
 | D | UNSUPPORTED (0/3) | [2.672343, 11.491198] | [53.434655, 78.032022] | [84.933332, 110.966905] | [126.886928, 157.089551] |
 | E | [0.315734, 7.286481] | [8.892337, 23.353259] | [100.617527, 148.295289] | [147.873096, 207.646415] † | [206.909866, 277.951054] |
 
-† Contains a fully supported ambiguous reading. All72 density-at-force requests
-at25,50,100,150,200,250 N are supported; their full numerical readings are in the
+† Contains a fully supported ambiguous reading. All 72 density-at-force requests
+at 25, 50, 100, 150, 200, 250 N are supported; their full numerical readings are in the
 linked table. No stress, porosity or strain conversion is applied.
 
 ## Same-sample force increments
@@ -76,7 +76,7 @@ multiple-intersection status, enclosed using its full force hull.
 
 ### 480→500 kg/m³
 
-| Grind | Sample1 | Sample2 | Sample3 | Grind envelope | Status |
+| Grind | Sample 1 | Sample 2 | Sample 3 | Grind envelope | Status |
 |---|---|---|---|---|---|
 | B | [1.572881, 16.880719] | [1.313216, 16.788095] | [0.819129, 15.764289] | [0.819129, 16.880719] | COMPLETE (3/3) |
 | C | [6.879592, 27.827959] | [7.671459, 29.033834] | [7.650116, 28.474135] | [6.879592, 29.033834] | COMPLETE (3/3) |
@@ -85,7 +85,7 @@ multiple-intersection status, enclosed using its full force hull.
 
 ### 500→520 kg/m³
 
-| Grind | Sample1 | Sample2 | Sample3 | Grind envelope | Status |
+| Grind | Sample 1 | Sample 2 | Sample 3 | Grind envelope | Status |
 |---|---|---|---|---|---|
 | B | [3.853801, 22.100711] | [4.081724, 22.454378] | [4.182865, 22.420981] | [3.853801, 22.454378] | COMPLETE (3/3) |
 | C | [12.879448, 39.264021] | [12.742541, 39.051178] | [12.133046, 38.284822] | [12.133046, 39.264021] | COMPLETE (3/3) |
@@ -128,15 +128,15 @@ none is incomplete. Conservative minimum gaps from **unrounded** bounds are:
 | 500→520 | E above B | [13.117158, 13.117159] |
 
 For the primary B/E comparison, the bound that limits B is B1's upper increment,
-approximately16.880718671025 N; E is limited by E3's lower increment,
-approximately27.816719749352 N. Their exact difference is approximately
-10.936001078327 N >0. The secondary E/B gap is approximately13.117158710590 N;
-the secondary D/B gap is approximately1.619833392455 N. Exact fractions and all
+approximately 16.880718671025 N; E is limited by E3's lower increment,
+approximately 27.816719749352 N. Their exact difference is approximately
+10.936001078327 N > 0. The secondary E/B gap is approximately 13.117158710590 N;
+the secondary D/B gap is approximately 1.619833392455 N. Exact fractions and all
 bounds producing these gaps are retained in
 [cross_grind_comparisons.csv](cross_grind_comparisons.csv).
 
-That table also preserves108 descriptive sample-pair comparisons (nine per grind
-pair/increment). They are supporting evidence, not108 independent experiments or
+That table also preserves 108 descriptive sample-pair comparisons (nine per grind
+pair/increment). They are supporting evidence, not 108 independent experiments or
 an alternative decision surface. No individual separation is promoted to a
 complete-envelope claim. Every primary decision uses all three samples per grind.
 
@@ -150,10 +150,10 @@ sample offset, common curve or constitutive parameter was fitted.
 
 Nonseparation in the other nine comparisons is only
 NOT_EXCLUDED_BY_THIS_COMPARISON. Overlapping marginal increments do not prove
-jointly compatible a_j and f_k: both increments share the500 kg/m³ reading and
+jointly compatible a_j and f_k: both increments share the 500 kg/m³ reading and
 all readings share axes/calibration. No joint-feasibility analysis was performed.
-The unsupported360/400 requests remain missing; they are not needed for the
-sufficient contradiction at480/500/520 kg/m³.
+The unsupported 360/400 requests remain missing; they are not needed for the
+sufficient contradiction at 480/500/520 kg/m³.
 
 Selection followed a **non-blinded exploratory extraction**. The preliminary
 whole-newton F480 and increment envelopes disclosed in PLAN.md are all reproduced
@@ -178,7 +178,7 @@ to the source's larger hydrodynamic-force estimate is made.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 The [original four-panel analysis](comparison.svg) shows all twelve source curves,
-fixed density levels, all156 support dispositions, individual increment enclosures
+fixed density levels, all 156 support dispositions, individual increment enclosures
 and complete grind envelopes. It uses a local VizSpec and does not bridge
 unsupported gaps or extend curve endpoints. Source artwork remains external.
 
