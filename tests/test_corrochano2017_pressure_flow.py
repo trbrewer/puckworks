@@ -239,7 +239,13 @@ def test_dataset_scoped_register_and_unchanged_campaign_count():
     assert scope['source_card'] == 'romancorrochano2017_permeability'
     assert scope['target_exposure'] == 'TARGET_EXPOSED'
     assert family['target_exposure'] == 'UNKNOWN'  # older heterogeneous subsets not overwritten
-    assert len(family['dataset_scopes']) == 1
+    assert set(family['dataset_scopes']) == {
+        'romancorrochano2017/fig6_23_pressure_flow_temperature',
+        'romancorrochano2017/fig6_9_aspect_ratio',
+    }
+    aspect = family['dataset_scopes']['romancorrochano2017/fig6_9_aspect_ratio']
+    assert aspect['target_exposure'] == 'TARGET_EXPOSED'
+    assert aspect['physical_validation'] == 'NOT_ESTABLISHED'
     rows = list(csv.DictReader((c.ROOT / 'puckworks/data/MANIFEST.csv').open()))
     alias = {'melrose2019bed': 'romancorrochano2017'}
     def families(rr):

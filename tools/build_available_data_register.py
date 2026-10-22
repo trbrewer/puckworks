@@ -184,6 +184,23 @@ def build() -> dict:
             "last_qualified_task": "SCI-MD-CORROCHANO-PRESSURE-FLOW-001",
         }
     }
+    aspect_id = "romancorrochano2017/fig6_9_aspect_ratio"
+    aspect_row = next(row for row in rows if row["dataset_id"] == aspect_id)
+    families["ROMANCORROCHANO2017"]["dataset_scopes"][aspect_id] = {
+        "source_card": aspect_row["source_card"],
+        "observer": "four condition-mean Darcy permeabilities; displayed variability and vector-reading bounds separate",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "validation_strength": aspect_row["validation_strength"],
+        "physical_validation": "NOT_ESTABLISHED",
+        "eligible_uses": ["declared figure-reading ratios", "fixed representative-state consolidation comparison"],
+        "conditionally_eligible_uses": ["geometry and conductance accounting with declared lengths, viscosity and qualified Darcy observer"],
+        "blocked_uses": ["independent campaign replication", "paired-bed residuals", "causal mechanism identification", "physical validation"],
+        "missing_joins": ["bed-level permeability/consolidation identity and covariance", "actual viscosity and extraction state", "wide-cell calibration and correction implementation", "meter volume reference", "temperature-study executed result unavailable"],
+        "coverage": "4/4 means and 8/8 displayed endpoints; duplicate graphics removed; no authenticated bed pairs",
+        "campaign": "existing thesis/journal/Melrose lineage; narrow bars linked to table aggregates, physical-bed identity unresolved",
+        "last_qualified_task": "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001",
+    }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

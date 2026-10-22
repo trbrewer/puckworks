@@ -1,0 +1,74 @@
+[
+  {
+    "name": "romancorrochano2015/table2.csv",
+    "sha256": "cd81b18db8bc799b1b67a2c765f96e70ae41db1f0b88be0f1566a1327278737e",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/.DS_Store",
+    "sha256": "4f7819c33c4023d01474d6e890c973bae5f2548f4e9df41ef24d7081c866a4c6",
+    "matches_inventory": true,
+    "inspection": "HASH_ONLY"
+  },
+  {
+    "name": "romancorrochano2017/fig5_11_mpe_single_deff.csv",
+    "sha256": "110d6c99030168b40ce3bd3ab9df2ccb87c27e115f8624dc89d3a4105aaf7d09",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/fig5_13_mpe_scenarios.csv",
+    "sha256": "3c048821247515d66af62928b6954fcf74767f416c653a69deecca0c4b8bf4fd",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/fig7_4_mpe_espresso.csv",
+    "sha256": "c549d5f70b72d29bf1c64fb7e0dc0675abd7c79cb94e205fd6c16a0e6a737e34",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table3_4_Db.csv",
+    "sha256": "c43f748208220269b4d13acf3ed6e8c54361efe9b0ee16248f20957ccb28f74a",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table4_10_partition_K.csv",
+    "sha256": "0532dc016342fc718d8f6e88fd0f32f30fe40cd62e76a557e990b24f1f742c69",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table4_8_hindrance.csv",
+    "sha256": "67c568a61c739bab2880be49747611639f47fc931787d37e51c461c9e13353f4",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table4_9_deff.csv",
+    "sha256": "3af53112def6c5da7b27b576fc661fcb04dad8c6e57f2bcc720ed86307ce2279",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table5_3_mpe.csv",
+    "sha256": "17e4af026959de8baf8135cabeb304cc776b0b81efa22771631f844dc62c9069",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/table6_1_tamped_kappa.csv",
+    "sha256": "aa42f1c6d438a39e042e207106ae9c251040f2be2dc5ce7028611c84410477ce",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  },
+  {
+    "name": "romancorrochano2017/y0_extractable.csv",
+    "sha256": "e80079ea3d9bd7910f81d169e6ea7b108c7e62c071811c5996aeffa922a77226",
+    "matches_inventory": true,
+    "inspection": "FULL_TEXT"
+  }
+]

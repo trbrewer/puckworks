@@ -138,3 +138,15 @@ campaign; equations duplicate `romancorrochano2017_permeability` and remain non-
 but the fully printed Table 2 (tamped-bed K with SDs and ANOVA groups) is the registry's
 named transcription target with clean CC-BY provenance — take the table, skip the models —
 effort S
+
+
+## Linked aspect-ratio presentation
+
+The [Figure6.9 intake](../analysis/sci_md_corrochano_aspect_ratio_consolidation_001/RESULT.md)
+links its narrow Psi_B/E bars to journal A/D at 480 kg/m³ using conditions,
+means and variability. It retains figure means, the thesis coarse 9.00 versus
+journal 8.95 precision discrepancy and unresolved physical-bed identity; no
+double counting or new independent campaign. Wide-chamber observations add a
+source-internal protocol contrast. Fixed consolidation predictions show nominal
+reading mismatches under declared inputs; no fitted closure or physical
+validation is established. Historical Table2 values and evidence are unchanged.

@@ -151,3 +151,36 @@ synchronized viscosity bound. Equal-alpha/common-geometry viscosity ratios are
 explicitly conditional. See the source reconciliation for fixed-property,
 pressure-equivalence, storage and timing premises. Same Corrochano/Melrose
 campaign; historical steady-state tables and their evidence strengths unchanged.
+
+
+## Figure 6.9 chamber/consolidation comparison (2026-10-21)
+
+[SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001](../analysis/sci_md_corrochano_aspect_ratio_consolidation_001/RESULT.md)
+adds `romancorrochano2017/fig6_9_aspect_ratio` and loader
+`rc17_fig6_9_aspect_ratio()`: four vector-recovered means and eight displayed
+error endpoints at initial 480 kg/m³ and nominal 80°C. G1 / research only /
+retrospective / target exposed / source internal; NO_GOVERNING_PHYSICS_CHANGE.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED. No fitted thesis closure is implemented.
+
+Fine Psi_B (journal A) mean ratio is 2.39754 [2.37198, 2.42385] under shared-axis
+reading bounds; fixed adopted-average/grind-specific porosity routes predict
+9.58008/5.55695 and require conditional residual prefactor ratios 0.25026/0.43145.
+Coarse Psi_E (journal D) ratio is 0.93852 [0.936648, 0.940386] against nominal
+equal-consolidation R_KC=1. These are nominal/reading mismatches, not physical
+rejections. No coarse material fit, paired-bed prefactor or causal attribution.
+
+Geometry contributes H0=4.32675 (equal initial volume) or 4.37838 (printed
+dimensions), with a separate fine length factor 0.87. Under explicit common
+viscosity/valid-observer premises, fine conductance ratios are 9.0250/9.1327 and
+coarse 4.0607/4.1092. These are representative states, not mean bed conductances.
+The source's full-chamber 10.37/4.06 arithmetic is reproduced separately.
+
+The 13% Psi_B statement is supported by Figure6.1e's two-method average and
+p.230, not the miscited Psi_C panel6.1b or Psi_B depth-only endpoint. Narrow bars
+are linked to Table6.1/journal Table2 aggregate presentations without counting
+them twice; exact bed identity and literal thesis 9.00 versus journal 8.95
+precision remain unresolved. Wider-cell correction reused the original without
+calibration, including wall losses; #349's polynomial/curve discrepancy persists.
+Figure6.8 supports qualitative resistance ordering only. Actual merged
+temperature-consolidation result remains inaccessible; synthesis is UNAVAILABLE,
+not inferred or rerun. Same campaign, no production/EWP/lock change or successor.

@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `96d8fe8779` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `f7bd168685` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -171,7 +171,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 
 ## hidden_discriminator (G)
 
-- **T-0044** [discriminator_with_data] 6 registered models name permeability among their interface outputs and 15 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, lee2023.feedback, wadsworth2026.inertial, waszkiewicz2025.poroelastic
+- **T-0044** [discriminator_with_data] 6 registered models name permeability among their interface outputs and 16 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, lee2023.feedback, wadsworth2026.inertial, waszkiewicz2025.poroelastic
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-029
   - sources: `puckworks/registry.py`
 - **T-0045** [discriminator_with_data] 5 registered models name flow among their interface outputs and 24 manifest dataset(s) measure it: brewer2026.coupled_kappa_t, cameron2020.extraction_bdf, fasano2000_partI.fines_migration, wadsworth2026.inertial, waszkiewicz2025.poroelastic
@@ -540,7 +540,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 
 ## public_story (M)
 
-- **T-0162** [unclaimed_contrast_with_data] permeability is predicted by 6 model(s) and measured by 15 manifest dataset(s), of which 14 are not cited by any existing public claim
+- **T-0162** [unclaimed_contrast_with_data] permeability is predicted by 6 model(s) and measured by 16 manifest dataset(s), of which 15 are not cited by any existing public claim
   - discriminator: permeability · data: YES · cheap test: YES · candidate: I-081
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0163** [unclaimed_contrast_with_data] flow is predicted by 5 model(s) and measured by 24 manifest dataset(s), of which 22 are not cited by any existing public claim

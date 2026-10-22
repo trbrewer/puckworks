@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] **SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001:** four Figure6.9 means/eight endpoints; fixed consolidation nominal/reading mismatches and separate geometry/length accounting. [Result](analysis/sci_md_corrochano_aspect_ratio_consolidation_001/RESULT.md). G1 / NO_GOVERNING_PHYSICS_CHANGE; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Temperature synthesis unavailable; no fit, EWP change or successor.
+
 - [x] **R-05/T06 — Cameron conservation-gate portion only (G0):** registered
   gate now applies existing independent inventory requirements to GS 1.9
   (40x24), 1.1/2.1 (20x12); actual-gate regression passes/fails/passes across
