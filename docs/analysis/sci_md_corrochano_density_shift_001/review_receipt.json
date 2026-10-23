@@ -1,0 +1,210 @@
+{
+  "actual_base": "e21631e741ff739aaf4a6b9c58e5e11b161436cc",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL"
+  ],
+  "independent_calculation": {
+    "compared_rows": {
+      "cross_grind_comparisons": 90,
+      "density_at_force_coordinates": 72,
+      "grind_increment_envelopes": 60,
+      "predecessor_exact_density_marginal_replay": 72,
+      "sample_density_increments": 180,
+      "sample_pair_contrasts": 990
+    },
+    "density_beta_kg_m3_per_pt": [
+      "14000000000/8395044521",
+      "14000000000/8235044521"
+    ],
+    "grind_comparison_counts": {
+      "NOT_EXCLUDED_BY_THIS_COMPARISON": 90
+    },
+    "independence": "Original-decimal reconstruction; standard library only; no producer/helper imports",
+    "native_records_reopened": false,
+    "output_comparison_performed": true,
+    "primary_B1_E2": {
+      "B1_delta_z": [
+        "335012613471649337316259/4832065958900000000000",
+        "51526921579100310031/650701500000000000"
+      ],
+      "E2_delta_z": [
+        "2367745027/40000000",
+        "293393408851486406531/4338010000000000000"
+      ],
+      "first_minus_second": {
+        "bounds": [
+          "5743240500247000761810387/2028270442668702809345000",
+          "91066783933575082717/2679277911190740750"
+        ],
+        "classification": "STRICTLY_SEPARATED",
+        "z_bounds": [
+          "820462928606714394544341/483206595890000000000000",
+          "13009540561939297531/650701500000000000"
+        ]
+      }
+    },
+    "primary_grind_comparison_counts": {
+      "NOT_EXCLUDED_BY_THIS_COMPARISON": 6
+    },
+    "primary_sample_comparison_counts": {
+      "NOT_EXCLUDED_BY_THIS_COMPARISON": 61,
+      "STRICTLY_SEPARATED": 5
+    },
+    "reading_status_counts": {
+      "SUPPORTED": 72
+    },
+    "row_counts": {
+      "cross_grind_comparisons": 90,
+      "density_at_force_coordinates": 72,
+      "grind_increment_envelopes": 60,
+      "sample_density_increments": 180,
+      "sample_pair_contrasts": 990
+    },
+    "sample_comparison_counts": {
+      "NOT_EXCLUDED_BY_THIS_COMPARISON": 980,
+      "STRICTLY_SEPARATED": 10
+    },
+    "source_and_predecessor_hashes_verified": true,
+    "source_pdf_reopened": false,
+    "source_reconstruction": {
+      "approved_joins": 64,
+      "duplicate_paintings_ignored": 76,
+      "legends_excluded": 4,
+      "raw_vertices_including_legends": 17971,
+      "unique_curve_chunks": 76
+    },
+    "synthetic_review_controls_passed": true,
+    "task": "SCI-MD-CORROCHANO-DENSITY-SHIFT-001"
+  },
+  "independent_execution_order": [
+    "prepare checker and execute synthetic controls only",
+    "receive plan commit notice",
+    "reconstruct entire reporting set from retained raw decimals before opening candidate outputs",
+    "reconstruct again then compare every candidate table and accepted marginal replay",
+    "inspect final report and curated capability wording",
+    "review nonsemantic precision and manifest corrections without rerunning unchanged numerical evidence"
+  ],
+  "interpretation_checks": {
+    "all_trace_guards_retained_once": true,
+    "arbitrary_noninjective_G_with_sample_dependent_branches_untested": true,
+    "contact_overlap_and_containment_are_nonexclusion": true,
+    "finite_null_common_affine_invariance": true,
+    "first_minus_second_contrast_then_common_beta": true,
+    "instrument_uncertainty_not_quantified_by_graphical_bounds": true,
+    "inverse_connection_requires_common_single_valued_loading_branch": true,
+    "joint_feasibility_not_established": true,
+    "outer_endpoints_need_not_be_jointly_attainable": true,
+    "qualified_sample_witness_sufficient_without_grind_separation": true,
+    "separate_force_and_density_offset_rejections_do_not_reject_both_offsets": true,
+    "strict_exact_sign_before_outward_display": true,
+    "unsupported_ambiguous_and_numerical_states_distinct": true,
+    "within_sample_subtraction_before_grind_hull": true
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_contract_commit_before_formal_comparison": "b7a0364eecf46c57d768bc1e6a68b8af968b825a",
+  "predecessor_input_hashes": {
+    "contract.json": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+    "coordinates.csv": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+    "holdings_checked.json": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+    "paths.json": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721"
+  },
+  "preserved_file_hashes_verified": {
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/PLAN.md": "603cd72ed50f6e072a114b9c0047d04e1b2abc7ec577a41133a1d1ac9c139c55",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.json": "ea92b207e2047aa81210e18f1c84ab09a1b53fa3a59b5a27a01aad99d5f68eb7",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.md": "e5892969b0306338d106c03b1e3168306fdfccd4563a898589e3a1146d183bc2",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/REVIEW.md": "a833b5c553dfe49d04556d92db7f93169983d8680d7de2498fa3345241e282f9",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/SOURCE_RECONCILIATION.md": "65bec6cbbb837d297f81fe60a5307070bd2fa30898c7c54c1ed78d6b867fd2c3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/VERIFICATION.md": "e4c68efe497c1e27efefe1aa212e3c2b287d9cafbe621b84698b2afcce20c39b",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/comparison.svg": "ed3b9f86b0c7da7875ffd988e4c098330ea45719d2957456f1e0da97633c00c3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/cross_grind_comparisons.csv": "33e6a3bd3076d018fd7b21881a78e58875428a2a16fe15cc88cb9e31ddb2c1e8",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/density_at_force.csv": "95e21cc2cde327e8d713cbf06e926d3192296308bf368f32374e1218d769c4e5",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/force_at_density.csv": "2498cc1f510e1f75fc3c40da9d42c7653c174952e0ef9ca95c8bd4aeb923c63f",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/grind_increment_envelopes.csv": "6df27f0938f639c825b5d514a78f182686c0edfa89ced35865da333b58652a33",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/review_check.py": "e30509cb46f6d97a0612dcacbfd2402c3f9f71b24c6aa0c55e4e468cedb5b1f6",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/review_receipt.json": "1afbb55133ae5b46d33b5df5bed0e42a2b0b389f4ea13045e0403e1ddf2954b3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/sample_force_increments.csv": "e77b3783900ac78419b8e3286487764294d7c1ab0ce5fd55a59facb8ab9a0b46",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/support_accounting.csv": "c1414048f3943bb2dce0b13198e7fcb7eb53d63d2936cbc1d021fa1f9b441954",
+    "puckworks/analysis/corrochano2017_dry_compaction.py": "0f97cdba564da5a83f174d5f34974eacdad765393e2469eef79ba00de76f0ac7",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/PROVENANCE.md": "76d7f8faa95f568f23175fad748f74c4add943cfbff67543d2f9fa261184d4c2",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/contract.json": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/coordinates.csv": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/holdings_checked.json": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/paths.json": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721",
+    "tests/test_corrochano2017_dry_compaction.py": "1bc9ea37701eba9547af72291fd4c5b8f49274ad249128c65f357d54aa2904ba"
+  },
+  "reproduction_command": "python docs/analysis/sci_md_corrochano_density_shift_001/review_check.py",
+  "resolved_findings": [
+    {
+      "category": "NONSEMANTIC_REPORT_PRECISION",
+      "finding": "A six-decimal outward-display statement also scoped over approximate diagnostic decimals",
+      "id": "R1",
+      "resolution": "Statement narrowed to table displays; approximate diagnostics explicitly marked; reviewer table also uses six-decimal outward bounds",
+      "scientific_result_changed": false
+    },
+    {
+      "category": "NONSEMANTIC_MANIFEST_BYTE_SCOPE",
+      "finding": "An intended single metadata phrase update also normalized unrelated mixed line endings",
+      "id": "R2",
+      "resolution": "Manifest restored from accepted bytes and only intended unique phrase replaced; dependent metadata regenerated",
+      "scientific_result_changed": false
+    }
+  ],
+  "review_disposition": "PASS_NO_UNRESOLVED_MATERIAL_SCIENTIFIC_FINDINGS",
+  "review_identity": "Scientific worktree bytes identified below; the plan commit is an anchor, not a claim that uncommitted candidate files were present in that commit",
+  "review_kind": "ONE_INDEPENDENT_AI_SCIENTIFIC_REVIEW_NOT_HUMAN_APPROVAL",
+  "reviewed_file_sha256": {
+    "docs/ROADMAP.md": "44dff6d9853f31e46bbf5154a54d2bfa79444f4cee40aa24fb062c0165bae50e",
+    "docs/SPRINTS.md": "810c07a2922f44d247b5ee0c054a5a693fec6c2e958dfb748fa73a03897714f4",
+    "docs/analysis/sci_md_corrochano_density_shift_001/PLAN.md": "19bed4d81ce0b62a447840ad230d84b19a09f1678175b701056ed64694539fe3",
+    "docs/analysis/sci_md_corrochano_density_shift_001/RESULT.json": "3b7206057354a8dfc0d51c441bef8d65e0b3bd6c0e43b1a887a7a7970bd539cb",
+    "docs/analysis/sci_md_corrochano_density_shift_001/RESULT.md": "04208177c1f3ece26a3d3d535d795cbcc435e49ad146091c0b2c261b56a538e0",
+    "docs/analysis/sci_md_corrochano_density_shift_001/REVIEW.md": "b7b20e9a7d463ba919fcbbfbb5c5727607aa76abb21f63e39908eb170bc0aaa6",
+    "docs/analysis/sci_md_corrochano_density_shift_001/calculation_contract.json": "f197453c5b51d0e2fad0f226a4b46c4b6892933aedb782c8f1efba2a8773cc27",
+    "docs/analysis/sci_md_corrochano_density_shift_001/comparison.svg": "ab5bd1444c2463f355cec3b72b857b1e776279859131c314d727b799f74823a1",
+    "docs/analysis/sci_md_corrochano_density_shift_001/cross_grind_comparisons.csv": "319ce65a872b2ef648805e26bc7651415bfb7f5fa5b4f2770f6776af488250e5",
+    "docs/analysis/sci_md_corrochano_density_shift_001/density_at_force_coordinates.csv": "7f8f6aea2d1491632f9b164a8ed9d0fbcd1fa7e72bd6f31063c722d572e05b0c",
+    "docs/analysis/sci_md_corrochano_density_shift_001/grind_increment_envelopes.csv": "c52dc25b511fdcb008e8d428007c170ead99e42c8df3f2631140ce615fc84735",
+    "docs/analysis/sci_md_corrochano_density_shift_001/review_check.py": "71e6b599f1bde0eaa2676eb92b8033be1f52e861e75ea84085d1c97beb91f0b4",
+    "docs/analysis/sci_md_corrochano_density_shift_001/sample_density_increments.csv": "9d276a7ee0053214e0f040d56f3f31e59b5646fb046ede1179ad983a89a86788",
+    "docs/analysis/sci_md_corrochano_density_shift_001/sample_pair_contrasts.csv": "d8b9201ced7defe884c838c79a052afd1ec18f1dadb2b3c49d9a296815511a38",
+    "docs/cards/romancorrochano2017_permeability.md": "d431867db6b9d9ac40aca4ffb03d7134bc41b4b2d8e8e4b825e58ddfbb668994",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "67644d545ad0444ce7177f45c31d7e1507f58bb0efab6a4086f966a40b868f03",
+    "docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md": "f2fc1048c11942f0d0fa0a53c8888d3c09b49c97865118f89ba0b66d46e0a95e",
+    "puckworks/analysis/corrochano2017_density_shift.py": "5538fefd13576cbb0b9494ffb279301ed978d64ad61abbcd82bf62d6ff7e138c",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "6d7d9907a41a788be25327637c289b49cb71f300b857bb6fd3abce2c76f931e6",
+    "puckworks/data/LOCAL_CORPUS_FAMILY_INDEX.json": "05e9c399f02f5423e2ad96a0d700a76fdc3a8d0b4911c92395c46a44d1ad2655",
+    "puckworks/data/MANIFEST.csv": "1ec568be481c54cbf87a608ee38cb0452a3b333c84e1b4b5238f75540e553349",
+    "tests/test_corrochano2017_density_shift.py": "9c6701538bc6e475e554be19cb9c04996a1d98d80d283b2604c15efdbbeab665",
+    "tools/build_available_data_register.py": "87288e6da7f1e65703820f40c606005fc5c88592ff00d40833c9832691cc1d65"
+  },
+  "reviewed_hash_exclusions": [
+    "review_receipt.json (self-reference)",
+    "VERIFICATION.md and later software/hosted-CI receipts",
+    "derived Insight Foundry fingerprint propagation (QA; not new scientific authority)"
+  ],
+  "reviewer": "Independent Codex agent /root/scientific_review; separate from implementation author",
+  "software_and_hosted_ci": "Separate author receipts; this scientific review does not assert hosted success or human approval",
+  "source_inspection": {
+    "external_holdings_csvs_reopened": false,
+    "figure_review": "Inspected plot construction and SVG labels; no claim of new source-PDF rendering",
+    "native_mechanical_records_reopened": false,
+    "no_new_campaign_or_raw_record_absence_claim": true,
+    "original_pdf_reopened": false,
+    "retained_underlying_files": [
+      "coordinates.csv",
+      "paths.json",
+      "contract.json",
+      "holdings_checked.json",
+      "PROVENANCE.md"
+    ],
+    "source_pdf_audit": "Accepted predecessor audit reused; no new PDF or native-record audit",
+    "source_pdf_sha256_accepted_identity": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818"
+  },
+  "task": "SCI-MD-CORROCHANO-DENSITY-SHIFT-001",
+  "unresolved_findings": []
+}

@@ -220,6 +220,42 @@ comparisons remain visible, including unsupported/ambiguous dispositions.
 Source method: Z030 tester, nominal0.1 mm/s, maximum300 N; actual drawn endpoints
 control reading support. Instrument IDs/calibration/zero and preparation histories
 remain unresolved. Graphical bounds are not population or instrument uncertainty.
-This source-internal, target-exposed analysis supplies no constitutive law, modulus,
-wet-bed mechanism or EWP validation and does not test horizontal density shifts.
+The original #352 source-internal, target-exposed analysis supplies no constitutive law,
+modulus, wet-bed mechanism or EWP validation; its original scope did not test horizontal
+density shifts. The qualified new comparison below extends only that named scope.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED; no independent campaign is added.
+
+
+## Density-at-force additive offsets (Figure 6.2; 2026-10-22)
+
+[SCI-MD-CORROCHANO-DENSITY-SHIFT-001](../analysis/sci_md_corrochano_density_shift_001/RESULT.md)
+reuses the accepted `romancorrochano2017/fig6_2_dry_compaction` geometry. Under the
+retained graphical-reading contract, the twelve represented dry-loading curves
+cannot share one density-at-force response whose only sample-specific freedom is
+a constant additive density offset: `rho_j(F_k)=b_j+h_k`, with unrestricted finite
+constants and no fitted curve. Common density-calibration intercept cancellation
+retains full independent trace allowances; the common positive slope scales the
+page-coordinate contrast directly. Primary 25→250 N separates 5/66 sample pairs;
+all 15 declared force intervals separate 10/990. All 72 readings, 180 increments,
+990 sample comparisons, 60 complete grind envelopes and 90 grind comparisons are
+retained with full support and zero ambiguity/numerical unresolved cases. All 90
+complete-grind comparisons overlap; sample separation establishes no whole-grind
+ordering. These counts are reporting rows, not independent replications.
+
+B1−E2 at 25→250 N has common-scale contrast [2.831595, 33.989302] kg/m³, rounded
+outward. Primary interval and B1/E2 were previously exposed; their preview values
+were not inputs or regression oracles. The conclusion connects to horizontal
+density shifts `F_j(rho)=G(rho-b_j)` only under a common single-valued inverse
+loading branch over the tested forces. Arbitrary non-injective G with different
+branch selections, both force and density offsets simultaneously, density
+rescaling, relative-initial-state strain and broader preparation effects remain
+untested. Separate rejection of force offsets in #352 and density offsets here
+does not reject a common curve with both offsets. b_j is not measured initial density.
+
+G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED /
+SOURCE_INTERNAL. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Graphical calibration does
+not quantify or remove instrument calibration, force zero, compliance, initial
+states or per-run preparation histories. No population/significance, modulus,
+constitutive law, mechanism, wet-bed/permeability or EWP claim follows. Same dataset
+and thesis/journal campaign; no new loader, cohort or experiment. #352's source,
+producer, tests and historical analysis bundle remain byte-identical.

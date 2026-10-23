@@ -2613,18 +2613,23 @@
             "population significance",
             "intrinsic modulus or constitutive law",
             "wet-bed or hydraulic inference",
-            "exclusion of horizontal density shifts",
+            "exclusion of arbitrary non-injective horizontal-shift curves with sample-dependent branch choices",
+            "exclusion of both force and density offsets simultaneously",
+            "exclusion of density rescaling, relative-initial-state strain or broader preparation effects",
             "independent campaign replication",
             "physical validation"
           ],
           "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
-          "conditionally_eligible_uses": [],
-          "coverage": "12 graphical samples;76 unique chunks painted twice;156 declared sample requests and12 cross-grind comparisons; unsupported/ambiguous requests retained",
+          "conditionally_eligible_uses": [
+            "horizontal density-shift exclusion only under a common single-valued inverse loading branch over tested forces"
+          ],
+          "coverage": "12 graphical samples; 76 unique chunks painted twice; #352 retains 156 sample requests and 12 cross-grind comparisons; density-shift analysis retains 72 readings, 180 increments, 990 sample contrasts, 60 complete envelopes, 90 overlapping grind contrasts; all new rows fully supported with zero ambiguity; primary 5/66 and overall 10/990 sample separations",
           "eligible_uses": [
             "fixed-density force and fixed-force density graphical readings",
-            "same-sample force increments and limited additive-force-offset null"
+            "same-sample force increments and limited additive-force-offset null",
+            "same-force-interval density increments and finite additive-density-offset exclusion under retained graphical-reading contract"
           ],
-          "last_qualified_task": "SCI-MD-CORROCHANO-DRY-COMPACTION-001",
+          "last_qualified_task": "SCI-MD-CORROCHANO-DENSITY-SHIFT-001",
           "missing_joins": [
             "native force/displacement records",
             "instrument/sample IDs",
@@ -2703,7 +2708,7 @@
         "SCI-MD-CORROCHANO-PRESSURE-FLOW-001 retrospective compatibility; research only; no production gate",
         "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001; fixed offline representative states; no production gate",
         "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001; research-only retrospective descriptive comparison; no production gate",
-        "SCI-MD-CORROCHANO-DRY-COMPACTION-001; offline limited additive-force-offset comparison; no production gate"
+        "SCI-MD-CORROCHANO-DRY-COMPACTION-001; offline limited additive-force-offset comparison; SCI-MD-CORROCHANO-DENSITY-SHIFT-001 common-calibration finite additive-density-offset comparison; no production gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -3584,6 +3589,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "dd38d9f73edec4f2f2f99e77e7230dcac84400c3ecd3d42b8b2c5b8a4d1f01fa",
+  "manifest_sha256": "1ec568be481c54cbf87a608ee38cb0452a3b333c84e1b4b5238f75540e553349",
   "schema_version": 1
 }
