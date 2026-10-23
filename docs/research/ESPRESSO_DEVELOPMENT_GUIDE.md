@@ -1,5 +1,11 @@
 # Espresso development guide
 
+**2026-10-23 Hargarten update:** [bounded wet-PSD result](../analysis/sci_md_hargarten_wet_psd_001/RESULT.md)
+adds CDF readings and necessary quantile-scale constraints. G excludes uniform
+non-sieved dilation for both wet protocols; prepared G ranges remain unexcluded
+outer candidates. P and physical-cutoff mapping remain unresolved. No hydraulic
+or mobile-fines mapping, native-Mo rejection or physical-validation upgrade.
+
 **ESPRESSO-DEVELOPMENT-GUIDE-001 · reviewed 2026-10-06 · G0 · NO_GOVERNING_PHYSICS_CHANGE.**
 This is the cross-repository development guide; cards, result bundles and existing
 planning authorities retain their responsibilities. **PHYSICAL_VALIDATION=NOT_ESTABLISHED.**

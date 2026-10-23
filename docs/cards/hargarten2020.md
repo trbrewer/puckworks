@@ -1,12 +1,37 @@
 # Model card: Hargarten 2020 coffee-particle swelling & erosion
 
 **Paper/thesis:** Hargarten, V.B.; Kuhn, M.; Briesen, H. "Swelling properties of roasted
-coffee particles." J. Sci. Food Agric. 100(11), 2020. DOI 10.1002/jsfa.10440 (open access,
+coffee particles." J. Sci. Food Agric. 100(10), 2020. DOI 10.1002/jsfa.10440 (open access,
 CC BY-NC). Reprinted as Article 1 (§4.1, Appendix B.1) of Pannusch (V.B.), PhD dissertation,
 TU Munich, 2024. Note: first author V.B. Hargarten is the same person as V.B. Pannusch
 (Article 3 → `pannusch2024.md`); cite as Hargarten 2020 per the published name.
 **Stage(s):** bed_dynamics (swelling/erosion during wetting); grind (dry→wet PSD shift) · **Kind:** calibration
-**Status:** card-only
+**Status:** data-only; scalar anchors and bounded CDF marker intake (no runtime component)
+
+## Current measured-representation capability (2026-10-23)
+
+[SCI-MD-HARGARTEN-WET-PSD-001](../analysis/sci_md_hargarten_wet_psd_001/RESULT.md)
+retains original raster CDF marker coordinates from Figures 2, 3(b), 5(b), with
+separate graphical G and published-interval P layers. On plotted interval-midpoint
+coordinates, G excludes uniform diameter dilation for both non-sieved wet protocols.
+The fixed 40 µm contrast excludes wet90 but not wet25; other declared cutoffs exclude
+wet25. Complete G quantile constraints leave necessary-only outer multiplier ranges
+for medium S/M/L and light S/M; no simultaneous compatibility is established.
+P dilation decisions remain unresolved because required cumulative CI endpoints are
+obscured. Exact physical-cutoff/bin mapping remains unresolved in both layers.
+The hot protocol cools from 90 to about 60 °C over 20 minutes; prepared coarse fractions
+are washed retained selections, unlike the non-sieved/ultrasound observations.
+Figure5's caption lists L incorrectly relative to its artwork and adjacent text;
+only light S/M are authenticated. Source rights remain CC BY-NC. This is the same
+campaign, not independent validation. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+The source authors interpret the distribution changes as swelling and erosion.
+The retained analysis measures normalized diffraction-equivalent volume distributions;
+it does not identify a mobile-fines inventory, erosion rate, permeability correction
+or EWP calibration. Rejecting uniform enlargement does not reject size-dependent
+swelling (which can change volume weights), every swelling-only process, or native Mo.
+Historical qualitative summaries below are source interpretations, not new quantitative
+closure authority; a nonsignificant slope alone does not establish size independence.
 
 ## Scope and mechanism
 An empirical characterization — **not a predictive model** — of how roasted coffee particles
@@ -124,15 +149,15 @@ saturated extraction cards. Any runtime use requires pairing with an actual mode
 swelling, Mo 2021 / Ellero–Navarini erosion) that this data would calibrate.
 
 ## Extractable data
-Open-access article (CC BY-NC); **no raw-data repository is stated**, so numeric series must be
-digitized from the figures/tables (values themselves are printed for the scalar summaries).
+Open-access article (CC BY-NC); **no matching original dry/wet table was authenticated in the bounded configured-holdings check**; required numeric series were
+read from the figures/tables (values themselves are printed for the scalar summaries).
 - **Table 2** → data/hargarten2020_progress.csv: progress of swelling at 30 s and 4 min for
   medium/light roast × 80/25 °C (8 values). Directly transcribable.
 - **Table 1**: sieve-fraction definitions F/S/M/L and laser-diffraction lens measuring ranges
   per grinding degree (2.0/5.0/8.0 on EK43) — needed to interpret the sieved-fraction PSDs.
 - **Figures 2, 3, 5**: dry vs. wet volume PSDs (non-sieved medium at 25/90 °C; sieved medium
   F/S/M/L; sieved light F/S/M) — the swelling+erosion mode/cumulative shifts. Digitizable; the
-  highest-value curves for a swelling/erosion closure.
+  CDF portions of Figures 2/3b/5b now retained by the bounded task above; fine F, density and microscopy intake remain outside it.
 - **Figures 4, 6**: Δd_rel vs. initial particle diameter (medium; light) — the size-independence
   evidence.
 - **Figures 7, 10**: single-particle Δd_rel(t) and Progress(t) over the first 5 min, with the

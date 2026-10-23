@@ -1,0 +1,82 @@
+[
+  {
+    "layer": "G",
+    "table": "marker_bounds",
+    "required": 176,
+    "supported": 173,
+    "unresolved": 3,
+    "retained_ambiguities": 3
+  },
+  {
+    "layer": "G",
+    "table": "cdf_readings",
+    "required": 18,
+    "supported": 18,
+    "unresolved": 0,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "G",
+    "table": "contrasts",
+    "required": 18,
+    "supported": 18,
+    "unresolved": 0,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "G",
+    "table": "quantile_diameters",
+    "required": 60,
+    "supported": 60,
+    "unresolved": 0,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "G",
+    "table": "multiplier_intervals",
+    "required": 30,
+    "supported": 30,
+    "unresolved": 0,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "P",
+    "table": "marker_bounds",
+    "required": 176,
+    "supported": 49,
+    "unresolved": 127,
+    "retained_ambiguities": 3
+  },
+  {
+    "layer": "P",
+    "table": "cdf_readings",
+    "required": 18,
+    "supported": 9,
+    "unresolved": 9,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "P",
+    "table": "contrasts",
+    "required": 18,
+    "supported": 4,
+    "unresolved": 14,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "P",
+    "table": "quantile_diameters",
+    "required": 60,
+    "supported": 9,
+    "unresolved": 51,
+    "retained_ambiguities": 0
+  },
+  {
+    "layer": "P",
+    "table": "multiplier_intervals",
+    "required": 30,
+    "supported": 0,
+    "unresolved": 30,
+    "retained_ambiguities": 0
+  }
+]

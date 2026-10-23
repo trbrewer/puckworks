@@ -1,0 +1,54 @@
+{
+  "resolver": "tools/inventory_local_corpus.py query configured inventory.manifest; configured source root resolved; no new collection scan",
+  "snapshot_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+  "catalogued": {
+    "pannusch2024_files": 559,
+    "all_query_identities_match": true,
+    "meaning": "query rehashed registered files; structure metadata only except named workbook"
+  },
+  "inspected": [
+    {
+      "id": "hargarten2020/scalar_anchors",
+      "scope": "all 14 accepted rows and configured external copy; not analysis inputs"
+    },
+    {
+      "id": "hargarten2020/swelling_progress",
+      "scope": "all 8 accepted rows and configured external copy; not analysis inputs"
+    },
+    {
+      "source_relative_path": "pannusch2024/Data Repository for Research Article Model-Based Kinetic Espresso Brewing Control Chart for Representative Taste Components/Experimental_data/Particle size distribution/particle_size_distribution_dry.xlsx",
+      "sha256": "865d15c072a9518e9ee5b57c467d2f39659a0ff4770a6d9e0a6322d0b84e5096",
+      "scope": "all five sheet structures; raw-sheet headers/dates and analysis headers/initial rows",
+      "finding": "dry RODOS measurements dated 2022-02-04; grinds 0/1.4/1.7/2.0; not authenticated Hargarten 2020 dry/wet pairs; not substituted"
+    },
+    {
+      "source": "published Hargarten article TUM copy",
+      "scope": "original methods/Table1/captions; Figures2,3b,5b artwork; Figures4/6 and prose consistency only"
+    }
+  ],
+  "not_claimed": "No compatible original dry/wet table located in this bounded search; not absence of all external data. Other registered files only catalogued, not semantically inspected. Thesis reprint is not a new campaign.",
+  "protected_sha256": {
+    "puckworks/data/hargarten2020/hargarten2020_scalar_anchors.csv": "d31f0b87fe136dc13773d5f8a08bba238266b0ea64a6706607e67d379c141125",
+    "puckworks/data/hargarten2020/hargarten2020_swelling_progress.csv": "51c7c469afde14e6ee80a727d4cccd434f834f2c8c6f17c5b96ef3c7eac63c21",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/cross_grind_comparisons.csv": "b0391d9cfef1761eeffaf17ab38c29130667af1f45409cbaa6b6cf28c0786152",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/RESULT.md": "d57c937395a78d336b2592eac7a41a4c8cf23d22972e19d681970e6461c93665",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/sample_pair_contrasts.csv": "2afcb36f8a14c12cc6590282cda6f3f69ec5961d5907839b0abb95e4b9658c76",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_intersections.csv": "2be09876dbe6477fca40a9919add3e2f57489ea9aad8d2926e06fefa08b860e2",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/review_check.py": "5b1548a10f6269f4279732710f1d32a1d476ec2b3092ae828c46a2f8363cf20d",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/PLAN.md": "1552190c3ae1583df08cc6fd3ef0422591a402bef796c16cb9510e8dfe65ae60",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/density_at_force_coordinates.csv": "7f8f6aea2d1491632f9b164a8ed9d0fbcd1fa7e72bd6f31063c722d572e05b0c",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/comparison.svg": "9c309c47392ee0d4bf4192d789fff6aecb89fcf06881a22e075f9d79ce26e3d2",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/calculation_contract.json": "344f22efc52d331d6aa9e4c00d6633652b6f059caaac18b5faa08ed642e056c3",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/sample_density_ratios.csv": "3d04442b8826b362a23dd0fe30f03d2eb754ba695feab026df64103f91d0c793",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/RESULT.json": "a56067ffc0d5a847e9311342854187388bd13519c18248e57b6f123a92da2724",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/grind_ratio_envelopes.csv": "a724149e0a7fb59b8fe6abdcd9e73eaa6c648f909e080af07fa5529d2119ba8f",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_levels.csv": "10dfe50f4e7d6f8e25bac47aa425f3acc0f94d399944be326908ec049cdcf017",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/VERIFICATION.md": "64c629c07254b8763e4db94e8d93ba33a41eeb51f7c9de5b6a6f016c02c01d6e",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_witness.json": "fc89eff642d05e9dd60c285328fbda43c95be7299755e3cd861802e7b0add28f",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_parameters.csv": "9a87f1a34f448b51ae583a40cd89c42eb6fb497be20ea6da9cbfb41cbe2081ae",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/REVIEW.md": "292916aa13d5a50673f26eb3db6f937ab002f6e35ade172e155f7781943f22a0",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_certificates.csv": "b3c2b0da840ee7ea3b7cb178e00d197e3c5c0b16c576586e1a14b373f082b9a8",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/review_receipt.json": "e8572f05e16b0e5dcdec5b3ec2cea80e727df60f14a35dfcbde011aa3366f8da",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_readings.csv": "c8785b50c60361a548a6c23e3bc1bae0e22f4a5ba5d1fb39356b59af51de4697"
+  }
+}

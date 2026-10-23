@@ -1,5 +1,5 @@
 {
-  "dataset_count": 123,
+  "dataset_count": 124,
   "families": [
     {
       "analytes": [
@@ -1208,68 +1208,93 @@
         "UNKNOWN"
       ],
       "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
+      "blocked_uses": [
+        "physical-cutoff fractions without bin mapping",
+        "simultaneous compatibility from outer ranges",
+        "mobile-fines mass or erosion rate",
+        "hydraulic closure calibration",
+        "physical validation"
+      ],
       "coffee_count_if_known": "UNKNOWN",
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
       "directness": [
-        "transcription (printed scalars from card)"
+        "transcription (printed scalars from card)",
+        "manual original-raster CDF marker/CI endpoint readings with shared axis calibration"
       ],
-      "eligible_uses": [],
+      "eligible_uses": [
+        "bounded graphical-representation exclusion and necessary quantile constraints"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "HARGARTEN2020",
-      "fraction_resolution": "UNKNOWN",
+      "fraction_resolution": "non-sieved medium; prepared medium S/M/L and light S/M",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
         "DATA-ONLY empirical anchor for the (not-yet-open) bed_dynamics swelling/erosion backlog; NOT a registered component",
-        "DATA-ONLY calibration targets for a future swelling/erosion closure; NOT a registered component"
+        "DATA-ONLY calibration targets for a future swelling/erosion closure; NOT a registered component",
+        "SCI-MD-HARGARTEN-WET-PSD-001 research-only representation constraints; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-HARGARTEN-WET-PSD-001",
       "manifest_dataset_ids": [
         "hargarten2020/swelling_progress",
-        "hargarten2020/scalar_anchors"
+        "hargarten2020/scalar_anchors",
+        "hargarten2020/wet_psd_001"
       ],
-      "measurement_resolution": "UNKNOWN",
-      "missing_joins": [],
+      "measurement_resolution": "RETAINED_GRAPHICAL_MARKERS_AND_PUBLISHED_SCALARS",
+      "missing_joins": [
+        "instrument bin edges/scaling observation map",
+        "obscured cumulative CI endpoints",
+        "same-particle dry/wet pairing",
+        "PSD-to-hydraulic mapping"
+      ],
       "notes": [
-        "Ambient pressure ONLY -- the ~9 bar espresso regime is explicitly NOT covered (card's key silence). Progress >100% @4min = 20-min-normalization artifact, not overshoot. Two roasts, demineralized water. Pairs with Mo 2021/2022 swelling/erosion models (not implemented) to become runtime-relevant. Figures (PSD dry/wet, single-particle time-courses) OWED as a digitization drop.",
-        "~15% ISOTROPIC swelling, size- and roast-INDEPENDENT (non-significant slopes), erosion-corrected via sieving; temperature-enhanced fines erosion (sign only, mass not quantified). No k(swelling) or porosity(t) relation -- direction only. Ambient pressure only."
+        "Figures 2/3b/5b: G dilation excluded for both non-sieved protocols; prepared quantile intersections remain necessary-only outer candidates. P dilation unresolved. Physical-cutoff mapping unresolved; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+        "Hot label 90 C cools to about 60 C; washed retained coarse fractions and non-sieved/ultrasound operators differ. Figure5 caption L conflicts with artwork; only light S/M retained.",
+        "Same Hargarten article/reprint campaign; scalar CSVs unchanged. Fine F, density and microscopy figures not newly intaken."
       ],
       "observables": [
-        "UNKNOWN"
+        "normalized diffraction-equivalent volume CDF on plotted interval midpoints",
+        "scalar swelling summaries",
+        "microscopy swelling progress"
       ],
       "physical_replicate_structure": "UNKNOWN",
       "physical_shot_count_if_known": "UNKNOWN",
       "publication_or_repository": "Hargarten, Kuhn & Briesen, J. Sci. Food Agric. 100(11) (2020) Table 2 (swelling progress % at 30s/4min, medium/light roast x 80/25C; 8 printed values)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "CC BY-NC (JSFA, open access); PSD/single-particle figures NOT digitized (owed)",
-        "CC BY-NC (JSFA)"
+        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; single-particle figures not digitized",
+        "CC BY-NC (JSFA)",
+        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
         "hargarten2020"
       ],
-      "source_identifiers": [],
-      "source_internal_or_external": "UNKNOWN",
+      "source_identifiers": [
+        "10.1002/jsfa.10440"
+      ],
+      "source_internal_or_external": "SOURCE_INTERNAL",
       "spatial_resolution": "UNKNOWN",
       "stages": [
-        "UNKNOWN"
+        "grind",
+        "bed_dynamics"
       ],
-      "target_exposure": "UNKNOWN",
+      "target_exposure": "TARGET_EXPOSED",
       "time_resolution": "UNKNOWN",
-      "title": "hargarten2020",
+      "title": "Hargarten 2020 swelling and dry/wet particle-size observations",
       "uncertainty_status": [
         "partial (population-level; no per-value SD printed)",
-        "partial (SD on \u0394d_rel only; slopes carry p-values)"
+        "partial (SD on \u0394d_rel only; slopes carry p-values)",
+        "graphical G; identifiable cumulative 95% CI endpoints P only; no simultaneous coverage"
       ],
       "validation_strength": [
         "qualitative (measurement study; no predictive model in source)",
-        "qualitative (measurement study)"
+        "qualitative (measurement study)",
+        "source-internal graphical representation comparison; not physical validation"
       ]
     },
     {
@@ -3592,6 +3617,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "e609ed5292c6850ca0bc9c8d8c704b5ffac41ee562babca98c68d3d20bddc534",
+  "manifest_sha256": "01c58165ca8940fc7215e52e15f2a38bb6aee515e60a0a0a4e19f46f4fe92f2e",
   "schema_version": 1
 }

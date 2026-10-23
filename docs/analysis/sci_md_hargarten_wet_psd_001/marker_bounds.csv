@@ -1,0 +1,353 @@
+point_id,series_id,panel,layer,diameter_um,bounds,reason
+non_sieved_dry:p01,non_sieved_dry,fig2,G,"[""578649/125000"", ""496023/100000""]","[""0"", ""5/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p02,non_sieved_dry,fig2,G,"[""605261/62500"", ""10324973/1000000""]","[""0"", ""2/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p03,non_sieved_dry,fig2,G,"[""2346791/200000"", ""1250899/100000""]","[""3/524"", ""11/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p04,non_sieved_dry,fig2,G,"[""13658929/1000000"", ""14561109/1000000""]","[""3/262"", ""7/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p05,non_sieved_dry,fig2,G,"[""16027327/1000000"", ""17085941/1000000""]","[""3/131"", ""5/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p06,non_sieved_dry,fig2,G,"[""388351/20000"", ""2070009/100000""]","[""5/131"", ""7/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p07,non_sieved_dry,fig2,G,"[""4667513/200000"", ""1554939/62500""]","[""29/524"", ""37/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p08,non_sieved_dry,fig2,G,"[""13912797/500000"", ""29663489/1000000""]","[""39/524"", ""47/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p09,non_sieved_dry,fig2,G,"[""16456259/500000"", ""35086407/1000000""]","[""51/524"", ""59/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p10,non_sieved_dry,fig2,G,"[""19464703/500000"", ""41500713/1000000""]","[""63/524"", ""71/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p11,non_sieved_dry,fig2,G,"[""11328959/250000"", ""4830897/100000""]","[""37/262"", ""41/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p12,non_sieved_dry,fig2,G,"[""53600231/1000000"", ""28570277/500000""]","[""43/262"", ""47/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p13,non_sieved_dry,fig2,G,"[""6545943/100000"", ""69783059/1000000""]","[""99/524"", ""107/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p14,non_sieved_dry,fig2,G,"[""40292109/500000"", ""85906847/1000000""]","[""27/131"", ""29/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p15,non_sieved_dry,fig2,G,"[""18911433/200000"", ""50401357/500000""]","[""29/131"", ""31/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p16,non_sieved_dry,fig2,G,"[""1761584/15625"", ""120188001/1000000""]","[""125/524"", ""133/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p17,non_sieved_dry,fig2,G,"[""133352143/1000000"", ""142160119/1000000""]","[""34/131"", ""36/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p18,non_sieved_dry,fig2,G,"[""80136637/500000"", ""34171881/200000""]","[""151/524"", ""159/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p19,non_sieved_dry,fig2,G,"[""37914713/200000"", ""101047497/500000""]","[""42/131"", ""44/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p20,non_sieved_dry,fig2,G,"[""1793843/8000"", ""29880113/125000""]","[""195/524"", ""203/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p21,non_sieved_dry,fig2,G,"[""53470387/200000"", ""57002133/200000""]","[""119/262"", ""123/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p22,non_sieved_dry,fig2,G,"[""160662473/500000"", ""17127431/50000""]","[""299/524"", ""307/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p23,non_sieved_dry,fig2,G,"[""95779671/250000"", ""204211933/500000""]","[""371/524"", ""379/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p24,non_sieved_dry,fig2,G,"[""228397963/500000"", ""243483763/500000""]","[""110/131"", ""112/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p25,non_sieved_dry,fig2,G,"[""544641977/1000000"", ""580615853/1000000""]","[""489/524"", ""497/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p26,non_sieved_dry,fig2,G,"[""649381631/1000000"", ""692273613/1000000""]","[""259/262"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p27,non_sieved_dry,fig2,G,"[""387131841/500000"", ""412702093/500000""]","[""130/131"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p01,non_sieved_wet25,fig2,G,"[""578649/125000"", ""496023/100000""]","[""13/524"", ""21/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p02,non_sieved_wet25,fig2,G,"[""605261/62500"", ""10324973/1000000""]","[""19/524"", ""27/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p03,non_sieved_wet25,fig2,G,"[""2346791/200000"", ""1250899/100000""]","[""6/131"", ""8/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p04,non_sieved_wet25,fig2,G,"[""13658929/1000000"", ""14561109/1000000""]","[""31/524"", ""39/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p05,non_sieved_wet25,fig2,G,"[""16027327/1000000"", ""17085941/1000000""]","[""39/524"", ""47/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p06,non_sieved_wet25,fig2,G,"[""388351/20000"", ""2070009/100000""]","[""12/131"", ""14/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p07,non_sieved_wet25,fig2,G,"[""4667513/200000"", ""1554939/62500""]","[""29/262"", ""33/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p08,non_sieved_wet25,fig2,G,"[""13912797/500000"", ""29663489/1000000""]","[""69/524"", ""77/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p09,non_sieved_wet25,fig2,G,"[""16456259/500000"", ""35086407/1000000""]","[""20/131"", ""22/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p10,non_sieved_wet25,fig2,G,"[""19464703/500000"", ""41500713/1000000""]","[""91/524"", ""99/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p11,non_sieved_wet25,fig2,G,"[""11328959/250000"", ""4830897/100000""]","[""101/524"", ""109/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p12,non_sieved_wet25,fig2,G,"[""53600231/1000000"", ""28570277/500000""]","[""111/524"", ""119/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p13,non_sieved_wet25,fig2,G,"[""6545943/100000"", ""69783059/1000000""]","[""125/524"", ""133/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p14,non_sieved_wet25,fig2,G,"[""40292109/500000"", ""85906847/1000000""]","[""34/131"", ""36/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p15,non_sieved_wet25,fig2,G,"[""18911433/200000"", ""50401357/500000""]","[""145/524"", ""153/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p16,non_sieved_wet25,fig2,G,"[""1761584/15625"", ""120188001/1000000""]","[""159/524"", ""167/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p17,non_sieved_wet25,fig2,G,"[""133352143/1000000"", ""142160119/1000000""]","[""171/524"", ""179/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p18,non_sieved_wet25,fig2,G,"[""80136637/500000"", ""34171881/200000""]","[""185/524"", ""193/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p19,non_sieved_wet25,fig2,G,"[""37914713/200000"", ""101047497/500000""]","[""203/524"", ""211/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p20,non_sieved_wet25,fig2,G,"[""1793843/8000"", ""29880113/125000""]","[""231/524"", ""239/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p21,non_sieved_wet25,fig2,G,"[""53470387/200000"", ""57002133/200000""]","[""135/262"", ""139/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p22,non_sieved_wet25,fig2,G,"[""160662473/500000"", ""17127431/50000""]","[""163/262"", ""167/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p23,non_sieved_wet25,fig2,G,"[""95779671/250000"", ""204211933/500000""]","[""195/262"", ""199/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p24,non_sieved_wet25,fig2,G,"[""228397963/500000"", ""243483763/500000""]","[""225/262"", ""229/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p25,non_sieved_wet25,fig2,G,"[""544641977/1000000"", ""580615853/1000000""]","[""491/524"", ""499/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p26,non_sieved_wet25,fig2,G,"[""649381631/1000000"", ""692273613/1000000""]","[""259/262"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p27,non_sieved_wet25,fig2,G,"[""387131841/500000"", ""412702093/500000""]","[""130/131"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p01,non_sieved_wet90,fig2,G,"[""578649/125000"", ""496023/100000""]","[""29/524"", ""37/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p02,non_sieved_wet90,fig2,G,"[""605261/62500"", ""10324973/1000000""]","[""37/524"", ""45/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p03,non_sieved_wet90,fig2,G,"[""2346791/200000"", ""1250899/100000""]","[""45/524"", ""53/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p04,non_sieved_wet90,fig2,G,"[""13658929/1000000"", ""14561109/1000000""]","[""27/262"", ""31/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p05,non_sieved_wet90,fig2,G,"[""16027327/1000000"", ""17085941/1000000""]","[""33/262"", ""37/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p06,non_sieved_wet90,fig2,G,"[""388351/20000"", ""2070009/100000""]","[""20/131"", ""22/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p07,non_sieved_wet90,fig2,G,"[""4667513/200000"", ""1554939/62500""]","[""95/524"", ""103/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p08,non_sieved_wet90,fig2,G,"[""13912797/500000"", ""29663489/1000000""]","[""111/524"", ""119/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p09,non_sieved_wet90,fig2,G,"[""16456259/500000"", ""35086407/1000000""]","[""125/524"", ""133/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p10,non_sieved_wet90,fig2,G,"[""19464703/500000"", ""41500713/1000000""]","[""69/262"", ""73/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p11,non_sieved_wet90,fig2,G,"[""11328959/250000"", ""4830897/100000""]","[""151/524"", ""159/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p12,non_sieved_wet90,fig2,G,"[""53600231/1000000"", ""28570277/500000""]","[""161/524"", ""169/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p13,non_sieved_wet90,fig2,G,"[""6545943/100000"", ""69783059/1000000""]","[""44/131"", ""46/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p14,non_sieved_wet90,fig2,G,"[""40292109/500000"", ""85906847/1000000""]","[""185/524"", ""193/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p15,non_sieved_wet90,fig2,G,"[""18911433/200000"", ""50401357/500000""]","[""97/262"", ""101/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p16,non_sieved_wet90,fig2,G,"[""1761584/15625"", ""120188001/1000000""]","[""205/524"", ""213/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p17,non_sieved_wet90,fig2,G,"[""133352143/1000000"", ""142160119/1000000""]","[""217/524"", ""225/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p18,non_sieved_wet90,fig2,G,"[""80136637/500000"", ""34171881/200000""]","[""235/524"", ""243/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p19,non_sieved_wet90,fig2,G,"[""37914713/200000"", ""101047497/500000""]","[""251/524"", ""259/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p20,non_sieved_wet90,fig2,G,"[""1793843/8000"", ""29880113/125000""]","[""137/262"", ""141/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p21,non_sieved_wet90,fig2,G,"[""53470387/200000"", ""57002133/200000""]","[""78/131"", ""80/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p22,non_sieved_wet90,fig2,G,"[""160662473/500000"", ""17127431/50000""]","[""179/262"", ""183/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p23,non_sieved_wet90,fig2,G,"[""95779671/250000"", ""204211933/500000""]","[""411/524"", ""419/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p24,non_sieved_wet90,fig2,G,"[""228397963/500000"", ""243483763/500000""]","[""457/524"", ""465/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p25,non_sieved_wet90,fig2,G,"[""544641977/1000000"", ""580615853/1000000""]","[""495/524"", ""503/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p26,non_sieved_wet90,fig2,G,"[""649381631/1000000"", ""692273613/1000000""]","[""259/262"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p27,non_sieved_wet90,fig2,G,"[""387131841/500000"", ""412702093/500000""]","[""130/131"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p01,medium_S_dry,fig3b,G,"[""68775149/500000"", ""147649089/1000000""]","[""3/518"", ""11/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p02,medium_S_dry,fig3b,G,"[""164204333/1000000"", ""176260033/1000000""]","[""9/518"", ""17/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p03,medium_S_dry,fig3b,G,"[""98011649/500000"", ""21041511/100000""]","[""29/518"", ""1/14""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p04,medium_S_dry,fig3b,G,"[""115972393/500000"", ""124486957/500000""]","[""57/518"", ""65/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p05,medium_S_dry,fig3b,G,"[""69222567/250000"", ""297219243/1000000""]","[""15/74"", ""113/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p06,medium_S_dry,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]","[""13/37"", ""95/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p07,medium_S_dry,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]","[""277/518"", ""285/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p08,medium_S_dry,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]","[""187/259"", ""191/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p09,medium_S_dry,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""465/518"", ""473/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p10,medium_S_dry,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p11,medium_S_dry,fig3b,G,"[""411485579/500000"", ""441696391/500000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p01,medium_S_wet90,fig3b,G,"[""164204333/1000000"", ""176260033/1000000""]","[""0"", ""1/74""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p02,medium_S_wet90,fig3b,G,"[""98011649/500000"", ""21041511/100000""]","[""1/37"", ""11/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p03,medium_S_wet90,fig3b,G,"[""115972393/500000"", ""124486957/500000""]","[""15/259"", ""19/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p04,medium_S_wet90,fig3b,G,"[""69222567/250000"", ""297219243/1000000""]","[""59/518"", ""67/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p05,medium_S_wet90,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]","[""59/259"", ""9/37""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p06,medium_S_wet90,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]","[""201/518"", ""209/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p07,medium_S_wet90,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]","[""152/259"", ""156/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p08,medium_S_wet90,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""30/37"", ""214/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p09,medium_S_wet90,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""509/518"", ""517/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_wet90:p10,medium_S_wet90,fig3b,G,"[""411485579/500000"", ""441696391/500000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p01,medium_M_dry,fig3b,G,"[""69222567/250000"", ""297219243/1000000""]","[""15/518"", ""23/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p02,medium_M_dry,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]","[""7/74"", ""57/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p03,medium_M_dry,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]","[""115/518"", ""123/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p04,medium_M_dry,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]","[""233/518"", ""241/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p05,medium_M_dry,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""191/259"", ""195/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p06,medium_M_dry,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p07,medium_M_dry,fig3b,G,"[""411485579/500000"", ""441696391/500000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p01,medium_M_wet90,fig3b,G,"[""69222567/250000"", ""297219243/1000000""]","[""3/518"", ""11/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p02,medium_M_wet90,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]","[""23/518"", ""31/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p03,medium_M_wet90,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]","[""31/259"", ""5/37""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p04,medium_M_wet90,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]","[""143/518"", ""151/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p05,medium_M_wet90,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""139/259"", ""143/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p06,medium_M_wet90,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""423/518"", ""431/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p07,medium_M_wet90,fig3b,G,"[""411485579/500000"", ""441696391/500000""]","[""250/259"", ""254/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_wet90:p08,medium_M_wet90,fig3b,G,"[""965195713/1000000"", ""51810051/50000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p01,medium_L_dry,fig3b,G,"[""69222567/250000"", ""297219243/1000000""]","[""0"", ""3/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p02,medium_L_dry,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p03,medium_L_dry,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p04,medium_L_dry,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p05,medium_L_dry,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""33/518"", ""41/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p06,medium_L_dry,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""95/518"", ""103/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p07,medium_L_dry,fig3b,G,"[""808522867/1000000"", ""433941857/500000""]","[""215/518"", ""223/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p08,medium_L_dry,fig3b,G,"[""965195713/1000000"", ""51810051/50000""]","[""367/518"", ""375/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p09,medium_L_dry,fig3b,G,"[""570743887/500000"", ""1226882831/1000000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_dry:p10,medium_L_dry,fig3b,G,"[""274764759/200000"", ""29574279/20000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p01,medium_L_wet90,fig3b,G,"[""13339419/40000"", ""357969607/1000000""]","[""0"", ""5/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p02,medium_L_wet90,fig3b,G,"[""50206063/125000"", ""431137089/1000000""]","[""1/518"", ""9/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p03,medium_L_wet90,fig3b,G,"[""475251041/1000000"", ""255071721/500000""]","[""4/259"", ""8/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p04,medium_L_wet90,fig3b,G,"[""114478071/200000"", ""614414617/1000000""]","[""15/518"", ""23/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p05,medium_L_wet90,fig3b,G,"[""170826559/250000"", ""366736909/500000""]","[""25/259"", ""29/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p06,medium_L_wet90,fig3b,G,"[""808522867/1000000"", ""433941857/500000""]","[""137/518"", ""145/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p07,medium_L_wet90,fig3b,G,"[""965195713/1000000"", ""51810051/50000""]","[""265/518"", ""39/74""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p08,medium_L_wet90,fig3b,G,"[""570743887/500000"", ""1226882831/1000000""]","[""421/518"", ""429/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p09,medium_L_wet90,fig3b,G,"[""274764759/200000"", ""29574279/20000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_L_wet90:p10,medium_L_wet90,fig3b,G,"[""819463079/500000"", ""441615447/250000""]","[""515/518"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p01,light_S_dry,fig5b,G,"[""65830011/500000"", ""140203121/1000000""]","[""12/523"", ""20/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p02,light_S_dry,fig5b,G,"[""15774377/100000"", ""8398969/50000""]","[""26/523"", ""34/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p03,light_S_dry,fig5b,G,"[""93023907/500000"", ""49530001/250000""]","[""51/523"", ""59/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p04,light_S_dry,fig5b,G,"[""219430467/1000000"", ""29208597/125000""]","[""96/523"", ""104/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p05,light_S_dry,fig5b,G,"[""131451403/500000"", ""279961929/1000000""]","[""169/523"", ""177/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p06,light_S_dry,fig5b,G,"[""157493821/500000"", ""335426423/1000000""]","[""263/523"", ""271/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p07,light_S_dry,fig5b,G,"[""188695617/500000"", ""6279363/15625""]","[""368/523"", ""376/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p08,light_S_dry,fig5b,G,"[""112154613/250000"", ""477728211/1000000""]","[""456/523"", ""464/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p09,light_S_dry,fig5b,G,"[""533288793/1000000"", ""567892603/1000000""]","[""512/523"", ""520/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p10,light_S_dry,fig5b,G,"[""63894099/100000"", ""340200157/500000""]","[""520/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p01,light_S_wet90,fig5b,G,"[""65830011/500000"", ""140203121/1000000""]","[""6/523"", ""14/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p02,light_S_wet90,fig5b,G,"[""15774377/100000"", ""8398969/50000""]","[""14/523"", ""22/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p03,light_S_wet90,fig5b,G,"[""93023907/500000"", ""49530001/250000""]","[""25/523"", ""33/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p04,light_S_wet90,fig5b,G,"[""219430467/1000000"", ""29208597/125000""]","[""49/523"", ""57/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p05,light_S_wet90,fig5b,G,"[""131451403/500000"", ""279961929/1000000""]","[""101/523"", ""109/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p06,light_S_wet90,fig5b,G,"[""157493821/500000"", ""335426423/1000000""]","[""182/523"", ""190/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p07,light_S_wet90,fig5b,G,"[""188695617/500000"", ""6279363/15625""]","[""291/523"", ""299/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p08,light_S_wet90,fig5b,G,"[""112154613/250000"", ""477728211/1000000""]","[""394/523"", ""402/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p09,light_S_wet90,fig5b,G,"[""533288793/1000000"", ""567892603/1000000""]","[""478/523"", ""486/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p10,light_S_wet90,fig5b,G,"[""63894099/100000"", ""340200157/500000""]","[""513/523"", ""521/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_wet90:p11,light_S_wet90,fig5b,G,"[""765524411/1000000"", ""50949839/62500""]","[""519/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p01,light_M_dry,fig5b,G,"[""219430467/1000000"", ""29208597/125000""]","[""8/523"", ""16/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p02,light_M_dry,fig5b,G,"[""131451403/500000"", ""279961929/1000000""]","[""17/523"", ""25/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p03,light_M_dry,fig5b,G,"[""157493821/500000"", ""335426423/1000000""]","[""50/523"", ""58/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p04,light_M_dry,fig5b,G,"[""188695617/500000"", ""6279363/15625""]","[""118/523"", ""126/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p05,light_M_dry,fig5b,G,"[""112154613/250000"", ""477728211/1000000""]","[""236/523"", ""244/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p06,light_M_dry,fig5b,G,"[""533288793/1000000"", ""567892603/1000000""]","[""390/523"", ""398/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p07,light_M_dry,fig5b,G,"[""63894099/100000"", ""340200157/500000""]","[""519/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p08,light_M_dry,fig5b,G,"[""765524411/1000000"", ""50949839/62500""]","[""519/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p01,light_M_wet90,fig5b,G,"[""219430467/1000000"", ""29208597/125000""]","[""1/523"", ""9/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p02,light_M_wet90,fig5b,G,"[""131451403/500000"", ""279961929/1000000""]","[""8/523"", ""16/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p03,light_M_wet90,fig5b,G,"[""157493821/500000"", ""335426423/1000000""]","[""27/523"", ""35/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p04,light_M_wet90,fig5b,G,"[""188695617/500000"", ""6279363/15625""]","[""64/523"", ""72/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p05,light_M_wet90,fig5b,G,"[""112154613/250000"", ""477728211/1000000""]","[""140/523"", ""148/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p06,light_M_wet90,fig5b,G,"[""533288793/1000000"", ""567892603/1000000""]","[""276/523"", ""284/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p07,light_M_wet90,fig5b,G,"[""63894099/100000"", ""340200157/500000""]","[""422/523"", ""430/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p08,light_M_wet90,fig5b,G,"[""765524411/1000000"", ""50949839/62500""]","[""498/523"", ""506/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p09,light_M_wet90,fig5b,G,"[""22572071/25000"", ""961468707/1000000""]","[""519/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p10,light_M_wet90,fig5b,G,"[""53651547/50000"", ""35732977/31250""]","[""519/523"", ""1""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_dry:p01,non_sieved_dry,fig2,P,"[""578649/125000"", ""496023/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p02,non_sieved_dry,fig2,P,"[""605261/62500"", ""10324973/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p03,non_sieved_dry,fig2,P,"[""2346791/200000"", ""1250899/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p04,non_sieved_dry,fig2,P,"[""13658929/1000000"", ""14561109/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p05,non_sieved_dry,fig2,P,"[""16027327/1000000"", ""17085941/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p06,non_sieved_dry,fig2,P,"[""388351/20000"", ""2070009/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p07,non_sieved_dry,fig2,P,"[""4667513/200000"", ""1554939/62500""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p08,non_sieved_dry,fig2,P,"[""13912797/500000"", ""29663489/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p09,non_sieved_dry,fig2,P,"[""16456259/500000"", ""35086407/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p10,non_sieved_dry,fig2,P,"[""19464703/500000"", ""41500713/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p11,non_sieved_dry,fig2,P,"[""11328959/250000"", ""4830897/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p12,non_sieved_dry,fig2,P,"[""53600231/1000000"", ""28570277/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p13,non_sieved_dry,fig2,P,"[""6545943/100000"", ""69783059/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p14,non_sieved_dry,fig2,P,"[""40292109/500000"", ""85906847/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p15,non_sieved_dry,fig2,P,"[""18911433/200000"", ""50401357/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p16,non_sieved_dry,fig2,P,"[""1761584/15625"", ""120188001/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p17,non_sieved_dry,fig2,P,"[""133352143/1000000"", ""142160119/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p18,non_sieved_dry,fig2,P,"[""80136637/500000"", ""34171881/200000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p19,non_sieved_dry,fig2,P,"[""37914713/200000"", ""101047497/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p20,non_sieved_dry,fig2,P,"[""1793843/8000"", ""29880113/125000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p21,non_sieved_dry,fig2,P,"[""53470387/200000"", ""57002133/200000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p22,non_sieved_dry,fig2,P,"[""160662473/500000"", ""17127431/50000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p23,non_sieved_dry,fig2,P,"[""95779671/250000"", ""204211933/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p24,non_sieved_dry,fig2,P,"[""228397963/500000"", ""243483763/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p25,non_sieved_dry,fig2,P,"[""544641977/1000000"", ""580615853/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p26,non_sieved_dry,fig2,P,"[""649381631/1000000"", ""692273613/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p27,non_sieved_dry,fig2,P,"[""387131841/500000"", ""412702093/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p01,non_sieved_wet25,fig2,P,"[""578649/125000"", ""496023/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p02,non_sieved_wet25,fig2,P,"[""605261/62500"", ""10324973/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p03,non_sieved_wet25,fig2,P,"[""2346791/200000"", ""1250899/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p04,non_sieved_wet25,fig2,P,"[""13658929/1000000"", ""14561109/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p05,non_sieved_wet25,fig2,P,"[""16027327/1000000"", ""17085941/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p06,non_sieved_wet25,fig2,P,"[""388351/20000"", ""2070009/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p07,non_sieved_wet25,fig2,P,"[""4667513/200000"", ""1554939/62500""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p08,non_sieved_wet25,fig2,P,"[""13912797/500000"", ""29663489/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p09,non_sieved_wet25,fig2,P,"[""16456259/500000"", ""35086407/1000000""]","[""75/524"", ""47/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p10,non_sieved_wet25,fig2,P,"[""19464703/500000"", ""41500713/1000000""]","[""43/262"", ""105/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p11,non_sieved_wet25,fig2,P,"[""11328959/250000"", ""4830897/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p12,non_sieved_wet25,fig2,P,"[""53600231/1000000"", ""28570277/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p13,non_sieved_wet25,fig2,P,"[""6545943/100000"", ""69783059/1000000""]","[""59/262"", ""35/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p14,non_sieved_wet25,fig2,P,"[""40292109/500000"", ""85906847/1000000""]","[""129/524"", ""38/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p15,non_sieved_wet25,fig2,P,"[""18911433/200000"", ""50401357/500000""]","[""137/524"", ""81/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p16,non_sieved_wet25,fig2,P,"[""1761584/15625"", ""120188001/1000000""]","[""147/524"", ""44/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p17,non_sieved_wet25,fig2,P,"[""133352143/1000000"", ""142160119/1000000""]","[""159/524"", ""95/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p18,non_sieved_wet25,fig2,P,"[""80136637/500000"", ""34171881/200000""]","[""173/524"", ""205/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p19,non_sieved_wet25,fig2,P,"[""37914713/200000"", ""101047497/500000""]","[""95/262"", ""56/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p20,non_sieved_wet25,fig2,P,"[""1793843/8000"", ""29880113/125000""]","[""219/524"", ""63/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p21,non_sieved_wet25,fig2,P,"[""53470387/200000"", ""57002133/200000""]","[""129/262"", ""291/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p22,non_sieved_wet25,fig2,P,"[""160662473/500000"", ""17127431/50000""]","[""157/262"", ""173/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet25:p23,non_sieved_wet25,fig2,P,"[""95779671/250000"", ""204211933/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p24,non_sieved_wet25,fig2,P,"[""228397963/500000"", ""243483763/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p25,non_sieved_wet25,fig2,P,"[""544641977/1000000"", ""580615853/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p26,non_sieved_wet25,fig2,P,"[""649381631/1000000"", ""692273613/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p27,non_sieved_wet25,fig2,P,"[""387131841/500000"", ""412702093/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p01,non_sieved_wet90,fig2,P,"[""578649/125000"", ""496023/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p02,non_sieved_wet90,fig2,P,"[""605261/62500"", ""10324973/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p03,non_sieved_wet90,fig2,P,"[""2346791/200000"", ""1250899/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p04,non_sieved_wet90,fig2,P,"[""13658929/1000000"", ""14561109/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p05,non_sieved_wet90,fig2,P,"[""16027327/1000000"", ""17085941/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p06,non_sieved_wet90,fig2,P,"[""388351/20000"", ""2070009/100000""]","[""75/524"", ""93/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p07,non_sieved_wet90,fig2,P,"[""4667513/200000"", ""1554939/62500""]","[""45/262"", ""55/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p08,non_sieved_wet90,fig2,P,"[""13912797/500000"", ""29663489/1000000""]","[""105/524"", ""63/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p09,non_sieved_wet90,fig2,P,"[""16456259/500000"", ""35086407/1000000""]","[""119/524"", ""35/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p10,non_sieved_wet90,fig2,P,"[""19464703/500000"", ""41500713/1000000""]","[""33/131"", ""153/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p11,non_sieved_wet90,fig2,P,"[""11328959/250000"", ""4830897/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p12,non_sieved_wet90,fig2,P,"[""53600231/1000000"", ""28570277/500000""]","[""153/524"", ""177/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p13,non_sieved_wet90,fig2,P,"[""6545943/100000"", ""69783059/1000000""]","[""169/524"", ""48/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p14,non_sieved_wet90,fig2,P,"[""40292109/500000"", ""85906847/1000000""]","[""177/524"", ""101/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p15,non_sieved_wet90,fig2,P,"[""18911433/200000"", ""50401357/500000""]","[""46/131"", ""53/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p16,non_sieved_wet90,fig2,P,"[""1761584/15625"", ""120188001/1000000""]","[""97/262"", ""111/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p17,non_sieved_wet90,fig2,P,"[""133352143/1000000"", ""142160119/1000000""]","[""207/524"", ""235/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p18,non_sieved_wet90,fig2,P,"[""80136637/500000"", ""34171881/200000""]","[""56/131"", ""127/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p19,non_sieved_wet90,fig2,P,"[""37914713/200000"", ""101047497/500000""]","[""60/131"", ""135/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p20,non_sieved_wet90,fig2,P,"[""1793843/8000"", ""29880113/125000""]","[""1/2"", ""147/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p21,non_sieved_wet90,fig2,P,"[""53470387/200000"", ""57002133/200000""]","[""75/131"", ""83/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p22,non_sieved_wet90,fig2,P,"[""160662473/500000"", ""17127431/50000""]","[""87/131"", ""94/131""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p23,non_sieved_wet90,fig2,P,"[""95779671/250000"", ""204211933/500000""]","[""401/524"", ""429/524""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p24,non_sieved_wet90,fig2,P,"[""228397963/500000"", ""243483763/500000""]","[""112/131"", ""237/262""]",GRAPHICAL_OUTER_ENCLOSURE
+non_sieved_wet90:p25,non_sieved_wet90,fig2,P,"[""544641977/1000000"", ""580615853/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p26,non_sieved_wet90,fig2,P,"[""649381631/1000000"", ""692273613/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p27,non_sieved_wet90,fig2,P,"[""387131841/500000"", ""412702093/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p01,medium_S_dry,fig3b,P,"[""68775149/500000"", ""147649089/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p02,medium_S_dry,fig3b,P,"[""164204333/1000000"", ""176260033/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p03,medium_S_dry,fig3b,P,"[""98011649/500000"", ""21041511/100000""]","[""9/259"", ""7/74""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p04,medium_S_dry,fig3b,P,"[""115972393/500000"", ""124486957/500000""]","[""22/259"", ""39/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p05,medium_S_dry,fig3b,P,"[""69222567/250000"", ""297219243/1000000""]","[""46/259"", ""9/37""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p06,medium_S_dry,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]","[""169/518"", ""29/74""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p07,medium_S_dry,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]","[""132/259"", ""299/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p08,medium_S_dry,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]","[""361/518"", ""197/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_S_dry:p09,medium_S_dry,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p10,medium_S_dry,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p11,medium_S_dry,fig3b,P,"[""411485579/500000"", ""441696391/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p01,medium_S_wet90,fig3b,P,"[""164204333/1000000"", ""176260033/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p02,medium_S_wet90,fig3b,P,"[""98011649/500000"", ""21041511/100000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p03,medium_S_wet90,fig3b,P,"[""115972393/500000"", ""124486957/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p04,medium_S_wet90,fig3b,P,"[""69222567/250000"", ""297219243/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p05,medium_S_wet90,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p06,medium_S_wet90,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p07,medium_S_wet90,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p08,medium_S_wet90,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p09,medium_S_wet90,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p10,medium_S_wet90,fig3b,P,"[""411485579/500000"", ""441696391/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p01,medium_M_dry,fig3b,P,"[""69222567/250000"", ""297219243/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p02,medium_M_dry,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p03,medium_M_dry,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]","[""103/518"", ""67/259""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p04,medium_M_dry,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p05,medium_M_dry,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]","[""5/7"", ""401/518""]",GRAPHICAL_OUTER_ENCLOSURE
+medium_M_dry:p06,medium_M_dry,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p07,medium_M_dry,fig3b,P,"[""411485579/500000"", ""441696391/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p01,medium_M_wet90,fig3b,P,"[""69222567/250000"", ""297219243/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p02,medium_M_wet90,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p03,medium_M_wet90,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p04,medium_M_wet90,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p05,medium_M_wet90,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p06,medium_M_wet90,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p07,medium_M_wet90,fig3b,P,"[""411485579/500000"", ""441696391/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p08,medium_M_wet90,fig3b,P,"[""965195713/1000000"", ""51810051/50000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p01,medium_L_dry,fig3b,P,"[""69222567/250000"", ""297219243/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p02,medium_L_dry,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p03,medium_L_dry,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p04,medium_L_dry,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]",,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p05,medium_L_dry,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p06,medium_L_dry,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p07,medium_L_dry,fig3b,P,"[""808522867/1000000"", ""433941857/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p08,medium_L_dry,fig3b,P,"[""965195713/1000000"", ""51810051/50000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p09,medium_L_dry,fig3b,P,"[""570743887/500000"", ""1226882831/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p10,medium_L_dry,fig3b,P,"[""274764759/200000"", ""29574279/20000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p01,medium_L_wet90,fig3b,P,"[""13339419/40000"", ""357969607/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p02,medium_L_wet90,fig3b,P,"[""50206063/125000"", ""431137089/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p03,medium_L_wet90,fig3b,P,"[""475251041/1000000"", ""255071721/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p04,medium_L_wet90,fig3b,P,"[""114478071/200000"", ""614414617/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p05,medium_L_wet90,fig3b,P,"[""170826559/250000"", ""366736909/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p06,medium_L_wet90,fig3b,P,"[""808522867/1000000"", ""433941857/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p07,medium_L_wet90,fig3b,P,"[""965195713/1000000"", ""51810051/50000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p08,medium_L_wet90,fig3b,P,"[""570743887/500000"", ""1226882831/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p09,medium_L_wet90,fig3b,P,"[""274764759/200000"", ""29574279/20000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p10,medium_L_wet90,fig3b,P,"[""819463079/500000"", ""441615447/250000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p01,light_S_dry,fig5b,P,"[""65830011/500000"", ""140203121/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p02,light_S_dry,fig5b,P,"[""15774377/100000"", ""8398969/50000""]","[""18/523"", ""42/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p03,light_S_dry,fig5b,P,"[""93023907/500000"", ""49530001/250000""]","[""42/523"", ""68/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p04,light_S_dry,fig5b,P,"[""219430467/1000000"", ""29208597/125000""]","[""86/523"", ""114/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p05,light_S_dry,fig5b,P,"[""131451403/500000"", ""279961929/1000000""]","[""157/523"", ""190/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p06,light_S_dry,fig5b,P,"[""157493821/500000"", ""335426423/1000000""]","[""249/523"", ""285/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p07,light_S_dry,fig5b,P,"[""188695617/500000"", ""6279363/15625""]","[""357/523"", ""388/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p08,light_S_dry,fig5b,P,"[""112154613/250000"", ""477728211/1000000""]","[""448/523"", ""472/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_S_dry:p09,light_S_dry,fig5b,P,"[""533288793/1000000"", ""567892603/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p10,light_S_dry,fig5b,P,"[""63894099/100000"", ""340200157/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p01,light_S_wet90,fig5b,P,"[""65830011/500000"", ""140203121/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p02,light_S_wet90,fig5b,P,"[""15774377/100000"", ""8398969/50000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p03,light_S_wet90,fig5b,P,"[""93023907/500000"", ""49530001/250000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p04,light_S_wet90,fig5b,P,"[""219430467/1000000"", ""29208597/125000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p05,light_S_wet90,fig5b,P,"[""131451403/500000"", ""279961929/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p06,light_S_wet90,fig5b,P,"[""157493821/500000"", ""335426423/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p07,light_S_wet90,fig5b,P,"[""188695617/500000"", ""6279363/15625""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p08,light_S_wet90,fig5b,P,"[""112154613/250000"", ""477728211/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p09,light_S_wet90,fig5b,P,"[""533288793/1000000"", ""567892603/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p10,light_S_wet90,fig5b,P,"[""63894099/100000"", ""340200157/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p11,light_S_wet90,fig5b,P,"[""765524411/1000000"", ""50949839/62500""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p01,light_M_dry,fig5b,P,"[""219430467/1000000"", ""29208597/125000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p02,light_M_dry,fig5b,P,"[""131451403/500000"", ""279961929/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p03,light_M_dry,fig5b,P,"[""157493821/500000"", ""335426423/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p04,light_M_dry,fig5b,P,"[""188695617/500000"", ""6279363/15625""]","[""104/523"", ""139/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p05,light_M_dry,fig5b,P,"[""112154613/250000"", ""477728211/1000000""]","[""223/523"", ""257/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p06,light_M_dry,fig5b,P,"[""533288793/1000000"", ""567892603/1000000""]","[""371/523"", ""416/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_dry:p07,light_M_dry,fig5b,P,"[""63894099/100000"", ""340200157/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p08,light_M_dry,fig5b,P,"[""765524411/1000000"", ""50949839/62500""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p01,light_M_wet90,fig5b,P,"[""219430467/1000000"", ""29208597/125000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p02,light_M_wet90,fig5b,P,"[""131451403/500000"", ""279961929/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p03,light_M_wet90,fig5b,P,"[""157493821/500000"", ""335426423/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p04,light_M_wet90,fig5b,P,"[""188695617/500000"", ""6279363/15625""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p05,light_M_wet90,fig5b,P,"[""112154613/250000"", ""477728211/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p06,light_M_wet90,fig5b,P,"[""533288793/1000000"", ""567892603/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p07,light_M_wet90,fig5b,P,"[""63894099/100000"", ""340200157/500000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p08,light_M_wet90,fig5b,P,"[""765524411/1000000"", ""50949839/62500""]","[""492/523"", ""512/523""]",GRAPHICAL_OUTER_ENCLOSURE
+light_M_wet90:p09,light_M_wet90,fig5b,P,"[""22572071/25000"", ""961468707/1000000""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p10,light_M_wet90,fig5b,P,"[""53651547/50000"", ""35732977/31250""]",,CI endpoints missing or not separable from marker/density/other series; not zero-width

@@ -183,7 +183,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 123 dataset rows; 113 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 124 dataset rows; 114 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -555,16 +555,17 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 2 files / 1,597 bytes; 2 structured files, 2 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-Eight roast/temperature/time/swelling-progress rows plus 14 scalar anchors with units and uncertainty.
+The external census contains eight swelling-progress rows and 14 scalar anchors. The repository additionally retains 176 proposed CDF marker coordinates from Figures 2/3b/5b (173 admitted in G), with separate identifiable P endpoints and fixed-cutoff/quantile requests.
 
-Wetting/swelling timescale priors and sensitivity. These are source transcriptions; no synchronized espresso pressure, flow and wet-bed geometry.
+SCI-MD-HARGARTEN-WET-PSD-001: G uniform dilation excluded for both non-sieved protocols on plotted midpoint coordinates; prepared G ranges are necessary-only outer candidates. P dilation and exact physical-cutoff mapping unresolved. No mobile-fines mass or hydraulic mapping, new campaign or physical-validation upgrade.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `hargarten2020/swelling_progress` — [hargarten2020](../cards/hargarten2020.md); Hargarten, Kuhn & Briesen, J. Sci. Food Agric. 100(11) (2020) Table 2 (swelling progress % at 30s/4min, medium/light roast x 80/25C; 8 printed values) | transcription (printed scalars from card); published: percent; degC; s; registry: percent; degC; s | CC BY-NC (JSFA, open access); PSD/single-particle figures NOT digitized (owed); Ambient pressure ONLY -- the ~9 bar espresso regime is explicitly NOT covered (card's key silence). Progress >100% @4min = 20-min-normalization artifact, not overshoot. Two roasts, demineralized water. Pairs with Mo 2021/2022 swelling/erosion models (not implemented) to become runtime-relevant. Figures (PSD dry/wet, single-particle time-courses) OWED as a digitization drop. |
+| `hargarten2020/swelling_progress` — [hargarten2020](../cards/hargarten2020.md); Hargarten, Kuhn & Briesen, J. Sci. Food Agric. 100(11) (2020) Table 2 (swelling progress % at 30s/4min, medium/light roast x 80/25C; 8 printed values) | transcription (printed scalars from card); published: percent; degC; s; registry: percent; degC; s | CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; single-particle figures not digitized; Ambient pressure ONLY -- the ~9 bar espresso regime is explicitly NOT covered (card's key silence). Progress >100% @4min = 20-min-normalization artifact, not overshoot. Two roasts, demineralized water. Pairs with Mo 2021/2022 swelling/erosion models (not implemented) to become runtime-relevant. Figures 2/3b/5b CDF readings now retained separately in wet_psd_001; other figure intake remains outside that task. |
 | `hargarten2020/scalar_anchors` — [hargarten2020](../cards/hargarten2020.md); Hargarten et al. 2020 printed scalar anchors (Δd_rel ~15%, size-independence slopes, dry/wet PSD modes, aspect ratio, EK43 dials) | transcription (printed scalars from card); published: percent; um; dimensionless; EK43-dial; registry: percent; um; dimensionless; EK43-dial | CC BY-NC (JSFA); ~15% ISOTROPIC swelling, size- and roast-INDEPENDENT (non-significant slopes), erosion-corrected via sieving; temperature-enhanced fines erosion (sign only, mass not quantified). No k(swelling) or porosity(t) relation -- direction only. Ambient pressure only. |
+| `hargarten2020/wet_psd_001` — [hargarten2020](../cards/hargarten2020.md); Hargarten et al. 2020 DOI 10.1002/jsfa.10440 Figures 2/3b/5b; TUM published article copy | manual original-raster CDF marker/CI endpoint readings with shared axis calibration; published: pixel; um; percent; registry: pixel; um; volume fraction [0,1]; percentage points | CC BY-NC (2020 The Authors; source-derived readings; source artwork external); Interval-midpoint coordinates; exact physical-cutoff mapping unresolved. G non-sieved dilation excluded for both protocols; prepared quantile intersections are necessary-only outer candidates. P dilation unresolved. Same source campaign; no mobile-fines mass or hydraulic mapping. |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-HARGARTEN-WET-PSD-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### khamitova2020
 
