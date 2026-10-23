@@ -259,3 +259,37 @@ states or per-run preparation histories. No population/significance, modulus,
 constitutive law, mechanism, wet-bed/permeability or EWP claim follows. Same dataset
 and thesis/journal campaign; no new loader, cohort or experiment. #352's source,
 producer, tests and historical analysis bundle remain byte-identical.
+
+
+## Density normalization (Figure 6.2; 2026-10-23)
+
+[SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001](../analysis/sci_md_corrochano_density_normalization_001/RESULT.md)
+qualifies the earlier dated scope: pure positive sample-specific density scaling
+alone cannot align the twelve represented samples under the retained graphical
+reading contract. B3 minus D2 at 50→250 N is the only strict sample ratio contrast
+(1/66 primary, 1/990 overall); all 72 readings qualify, all 60 grind envelopes are
+complete, and none of 90 direct grind comparisons establishes whole-grind ordering.
+
+A wider finite affine family remains compatible: one common nominal calibration,
+twelve constant density baselines/positive amplitudes, six common normalized
+levels with h_25=0 and h_250=1, and 72 independently checked source-point certificates.
+The selected baseline is density at 25 N, and amplitude is the 25-to-250 N increase;
+neither is an unloaded density, modulus or identified preparation mechanism.
+The full horizontal and vertical trace allowances remain. Hull points alone never
+certify existence. These six-force readings do not require distinct normalized
+shapes; identical actual material shapes or a continuous common law are not established.
+
+For fixed mass, shared relative volume compression requires shared density ratios;
+with constant area within a sample the same holds for relative height. Equal force
+is not authenticated equal material stress. General strain histories, mass/area
+changes, effective stress and preparation explanations remain outside this bridge.
+The affine family contains both #353's offset-only and this pure-scaling family;
+separate exclusion of restricted families does not exclude their combination.
+Unrestricted simultaneous force/density translations remain unexcluded; inverse
+connections still require an appropriate common single-valued branch.
+
+G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED /
+SOURCE_INTERNAL / NONSCORING. PHYSICAL_VALIDATION=NOT_ESTABLISHED. Graphical reading
+choices are not measured instrument errors or preparation parameters. No new cohort,
+loader, campaign, population/significance, wet-bed, hydraulic/permeability, causal
+mechanism or EWP-validation claim. Both accepted historical bundles are preserved.
