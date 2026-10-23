@@ -744,6 +744,14 @@ No same shots may serve as both a fitted permeability map and untouched confirma
 
 ## Completed and negative work index
 
+[Corrochano density normalization](../analysis/sci_md_corrochano_density_normalization_001/RESULT.md)
+(2026-10-23) excludes pure positive density scaling (one sample-pair contrast), while
+one simultaneous 72-reading baseline-plus-positive-amplitude witness is compatible
+at all six retained forces. These observations do not require different finite
+normalized shapes; actual shape identity, continuous laws and physical preparation
+explanations remain unestablished. This qualifies the earlier dated scope below,
+without changing #352/#353, EWP, campaign identity or physical-validation status.
+
 [Corrochano density-offset comparison](../analysis/sci_md_corrochano_density_shift_001/RESULT.md)
 (2026-10-22) reuses Figure 6.2 and excludes the finite density-at-force additive-offset
 null under its retained graphical-reading contract: 5/66 primary and 10/990 overall

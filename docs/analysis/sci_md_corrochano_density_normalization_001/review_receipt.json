@@ -1,0 +1,168 @@
+{
+  "actual_base": "81cfcebebf0625992fcbb60b93a9c6e965838b36",
+  "bounded_software_addendum": {
+    "affected_and_hosted_checks": "SEPARATE_NORMAL_VERIFICATION_NOT_INFERRED",
+    "cause": "I040 name-based static call graph followed new generic helper names into unrelated functions; dynamic gate inventory included non-callable gate_numerics",
+    "classification": "SOFTWARE_OR_QA_FAILURE",
+    "correction": {
+      "contrast": "density_ratio_contrast",
+      "qualify": "qualify_coordinate_readings",
+      "ratio": "density_ratio"
+    },
+    "full_scientific_reconstruction": "NOT_REPEATED_UNCHANGED_ARTIFACT_HASHES_AND_NONSEMANTIC_AST_DELTA",
+    "independent_delta_check": "Producer and tests AST-identical after exactly the declared helper renames; all other 28 reviewed-file hashes matched before review addendum",
+    "ordinary_local_failed_run": {
+      "deselected": 72,
+      "failed": 1,
+      "failing_test": "tests/test_screen_i040.py::test_dynamic_trace_ran_every_statically_flagged_gate",
+      "passed": 7075,
+      "skipped": 36
+    },
+    "previous_hashes": {
+      "docs/analysis/sci_md_corrochano_density_normalization_001/REVIEW.md": "f73701a42167c2fdb268062e2f7c517482edff16cba8c7dae4643b3160702250",
+      "puckworks/analysis/corrochano2017_density_normalization.py": "ba9cc942845746cafc6846cc87ca43b92e0c792fa7f7cd96e88297b9724daf59",
+      "tests/test_corrochano2017_density_normalization.py": "65c6625cd7493bc153d60431fefaa69151e7233be9581b2f6529348d2c80ae8e"
+    },
+    "prior_tested_head": "6995fc51b41875a0fe183a9ab1b6e7b325aceb85",
+    "scientific_disposition": "UNCHANGED_PASS"
+  },
+  "excluded_from_receipt": [
+    "later verification/hosted-CI/PR handoff",
+    "derived Insight projection fingerprints except unchanged append-only ID registry"
+  ],
+  "independent_check": {
+    "affine_certificate_count": 72,
+    "affine_levels": [
+      {
+        "force_N": 25,
+        "h": "0"
+      },
+      {
+        "force_N": 50,
+        "h": "20494157055841883013768724588485606580989811/84617521541809250089792960713411425826500602"
+      },
+      {
+        "force_N": 100,
+        "h": "44202956472824471529332562367791075372166371/84617521541809250089792960713411425826500602"
+      },
+      {
+        "force_N": 150,
+        "h": "154972565848507568100573016460170946760500/217060027430191419421481934725051052242523"
+      },
+      {
+        "force_N": 200,
+        "h": "440148439738085384861193858602054847060033/506691745759336826884987788703062430098806"
+      },
+      {
+        "force_N": 250,
+        "h": "1"
+      }
+    ],
+    "beta": [
+      "14000000000/8395044521",
+      "14000000000/8235044521"
+    ],
+    "candidate_verification": {
+      "certificates": {
+        "calibrations": 1,
+        "count": 72,
+        "intersections": 4,
+        "levels": 6,
+        "parameters": 12,
+        "status": "ALL_72_CERTIFICATES_INDEPENDENTLY_VERIFIED"
+      },
+      "tables": {
+        "cross_grind_comparisons": 90,
+        "density_at_force_coordinates": 72,
+        "grind_ratio_envelopes": 60,
+        "sample_density_ratios": 180,
+        "sample_pair_contrasts": 990
+      }
+    },
+    "counts": {
+      "contrasts": 990,
+      "envelopes": 60,
+      "grind_pairs": 90,
+      "ratios": 180,
+      "readings": 72
+    },
+    "preserved_files": 38,
+    "reading_statuses": {
+      "SUPPORTED": 72
+    },
+    "status": "INDEPENDENT_SCIENTIFIC_CHECK_PASS",
+    "strict_grind_comparisons": 0,
+    "strict_sample_contrasts": [
+      {
+        "classification": "STRICTLY_SEPARATED",
+        "denominator": [
+          "414775122098827756452310909/4900000000000000000000",
+          "886717371353196749896829/9800000000000000000"
+        ],
+        "determinant": [
+          "-34982641761297691243633789/7000000000000000000000",
+          "-1051410241132768446007235767226833/4302872119000000000000000000000"
+        ],
+        "direct": [
+          "-244878492329083838705436523/4147751220988277564523109090",
+          "-7359871687929379122050650370587831/2725308181877599711894629736150465000"
+        ],
+        "first": "B3",
+        "force_from_N": 50,
+        "force_to_N": 250,
+        "marginal": [
+          "-258173565893294038705436523/4278113173471886959712189090",
+          "936806732435044432685529629412169/2642263044616586994006458510570465000"
+        ],
+        "second": "D2",
+        "sign": -1
+      }
+    ],
+    "tau": [
+      "168091608471/280000000",
+      "169611608471/280000000"
+    ]
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_commit": "5de7169502871fc599e8502fe60954dd57e7896e",
+  "resolved_implementation_observation": "Explicit component-index bounds check added; no arithmetic or scientific output changed",
+  "review_kind": "ONE_BOUNDED_INDEPENDENT_SCIENTIFIC_REVIEW",
+  "reviewed_file_hashes": {
+    "docs/ROADMAP.md": "ec07dace066dd6e8eb48fcaf41b1223dd360dd8c09a9340ccf55786c39b222c5",
+    "docs/SPRINTS.md": "1510c1b87a3e159031be7e28e093ffc8cc0d11577fa245a17de6364546956013",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/PLAN.md": "1552190c3ae1583df08cc6fd3ef0422591a402bef796c16cb9510e8dfe65ae60",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/RESULT.json": "a56067ffc0d5a847e9311342854187388bd13519c18248e57b6f123a92da2724",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/RESULT.md": "d57c937395a78d336b2592eac7a41a4c8cf23d22972e19d681970e6461c93665",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/REVIEW.md": "292916aa13d5a50673f26eb3db6f937ab002f6e35ade172e155f7781943f22a0",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_certificates.csv": "b3c2b0da840ee7ea3b7cb178e00d197e3c5c0b16c576586e1a14b373f082b9a8",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_intersections.csv": "2be09876dbe6477fca40a9919add3e2f57489ea9aad8d2926e06fefa08b860e2",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_levels.csv": "10dfe50f4e7d6f8e25bac47aa425f3acc0f94d399944be326908ec049cdcf017",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_parameters.csv": "9a87f1a34f448b51ae583a40cd89c42eb6fb497be20ea6da9cbfb41cbe2081ae",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_readings.csv": "c8785b50c60361a548a6c23e3bc1bae0e22f4a5ba5d1fb39356b59af51de4697",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/affine_witness.json": "fc89eff642d05e9dd60c285328fbda43c95be7299755e3cd861802e7b0add28f",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/calculation_contract.json": "344f22efc52d331d6aa9e4c00d6633652b6f059caaac18b5faa08ed642e056c3",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/comparison.svg": "9c309c47392ee0d4bf4192d789fff6aecb89fcf06881a22e075f9d79ce26e3d2",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/cross_grind_comparisons.csv": "b0391d9cfef1761eeffaf17ab38c29130667af1f45409cbaa6b6cf28c0786152",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/density_at_force_coordinates.csv": "7f8f6aea2d1491632f9b164a8ed9d0fbcd1fa7e72bd6f31063c722d572e05b0c",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/grind_ratio_envelopes.csv": "a724149e0a7fb59b8fe6abdcd9e73eaa6c648f909e080af07fa5529d2119ba8f",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/review_check.py": "5b1548a10f6269f4279732710f1d32a1d476ec2b3092ae828c46a2f8363cf20d",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/sample_density_ratios.csv": "3d04442b8826b362a23dd0fe30f03d2eb754ba695feab026df64103f91d0c793",
+    "docs/analysis/sci_md_corrochano_density_normalization_001/sample_pair_contrasts.csv": "2afcb36f8a14c12cc6590282cda6f3f69ec5961d5907839b0abb95e4b9658c76",
+    "docs/cards/romancorrochano2017_permeability.md": "8300d945a457e9fe338b1ff7f668cea46efd3d9109f59e493a16308c5898e86b",
+    "docs/data/ESPRESSO_DATA_GUIDE.md": "33437af261d55ebc8527600390cb58667db30fc3227ab0aeef1c911d7cf54751",
+    "docs/insights/ID_REGISTRY.json": "3abf855b3e1f663d52f3267ea94b0ff90662f018e362c15bf682c08fcf927d86",
+    "docs/research/ESPRESSO_DEVELOPMENT_GUIDE.md": "dd3ac6a82f1ff3411057ee14bc29e472c107a3bf878beeeda1d9063a5d7e2ac5",
+    "puckworks/analysis/corrochano2017_density_normalization.py": "0c2dd62122d021196d1ab3169fcf56c4203fb684d4e7cb2da5fc0081d48a4a6c",
+    "puckworks/data/AVAILABLE_DATA_REGISTER.json": "ed06e3989f20fadf713b73bd0027c8e3946c530af4fb395183ae4ef3c02e81a4",
+    "puckworks/data/LOCAL_CORPUS_FAMILY_INDEX.json": "1e11a9c3784f34b930499826690bcbd23c883100c89b42c7154d546ccca21047",
+    "puckworks/data/MANIFEST.csv": "e609ed5292c6850ca0bc9c8d8c704b5ffac41ee562babca98c68d3d20bddc534",
+    "tests/test_corrochano2017_density_normalization.py": "d20fad40b360862e55b4903652c662adda34d59ee257fb2c59dde829f4f21b6e",
+    "tools/build_available_data_register.py": "cfd20c5c73bb7b929afb7b64f564c5a937e4bfbb284004d2f663f8846626a16d"
+  },
+  "reviewer": "independent AI Codex agent /root/scientific_review",
+  "software_and_hosted_status": "SEPARATE_NOT_INFERRED_FROM_SCIENTIFIC_PASS",
+  "source_authentication": "Accepted predecessor hashes reused; original raw decimal operands/transforms reconstructed; no fresh PDF or native records inspected",
+  "status": "PASS",
+  "task": "SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001",
+  "unresolved_material_findings": []
+}

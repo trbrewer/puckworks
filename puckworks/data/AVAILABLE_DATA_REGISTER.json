@@ -2615,7 +2615,8 @@
             "wet-bed or hydraulic inference",
             "exclusion of arbitrary non-injective horizontal-shift curves with sample-dependent branch choices",
             "exclusion of both force and density offsets simultaneously",
-            "exclusion of density rescaling, relative-initial-state strain or broader preparation effects",
+            "exclusion of general density transformations, relative-initial-state strain or broader preparation explanations beyond the tested pure positive scaling family",
+            "identical actual or continuous normalized material response shapes",
             "independent campaign replication",
             "physical validation"
           ],
@@ -2623,13 +2624,15 @@
           "conditionally_eligible_uses": [
             "horizontal density-shift exclusion only under a common single-valued inverse loading branch over tested forces"
           ],
-          "coverage": "12 graphical samples; 76 unique chunks painted twice; #352 retains 156 sample requests and 12 cross-grind comparisons; density-shift analysis retains 72 readings, 180 increments, 990 sample contrasts, 60 complete envelopes, 90 overlapping grind contrasts; all new rows fully supported with zero ambiguity; primary 5/66 and overall 10/990 sample separations",
+          "coverage": "12 graphical samples; 76 unique chunks painted twice; #352 retains 156 sample requests and 12 cross-grind comparisons; density-shift analysis retains 72 readings, 180 increments, 990 sample contrasts, 60 complete envelopes, 90 overlapping grind contrasts; all new rows fully supported with zero ambiguity; primary 5/66 and overall 10/990 sample separations; density normalization: 72 readings, 180 ratios, 990 sample contrasts, 60 complete envelopes, 90 grind comparisons; pure scaling 1/66 primary and 1/990 overall separations, no whole-grind ordering; affine compatibility: one common six-level vector and 72 certified points",
           "eligible_uses": [
             "fixed-density force and fixed-force density graphical readings",
             "same-sample force increments and limited additive-force-offset null",
-            "same-force-interval density increments and finite additive-density-offset exclusion under retained graphical-reading contract"
+            "same-force-interval density increments and finite additive-density-offset exclusion under retained graphical-reading contract",
+            "pure positive sample-specific density-scaling exclusion at six retained forces",
+            "finite graphical compatibility with sample-specific constant density baseline and positive amplitude by one 72-reading witness"
           ],
-          "last_qualified_task": "SCI-MD-CORROCHANO-DENSITY-SHIFT-001",
+          "last_qualified_task": "SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001",
           "missing_joins": [
             "native force/displacement records",
             "instrument/sample IDs",
@@ -2708,7 +2711,7 @@
         "SCI-MD-CORROCHANO-PRESSURE-FLOW-001 retrospective compatibility; research only; no production gate",
         "SCI-MD-CORROCHANO-ASPECT-RATIO-CONSOLIDATION-001; fixed offline representative states; no production gate",
         "SCI-MD-CORROCHANO-HYDRATION-FLOW-RESCALING-001; research-only retrospective descriptive comparison; no production gate",
-        "SCI-MD-CORROCHANO-DRY-COMPACTION-001; offline limited additive-force-offset comparison; SCI-MD-CORROCHANO-DENSITY-SHIFT-001 common-calibration finite additive-density-offset comparison; no production gate"
+        "SCI-MD-CORROCHANO-DRY-COMPACTION-001; offline limited additive-force-offset comparison; SCI-MD-CORROCHANO-DENSITY-SHIFT-001 common-calibration finite additive-density-offset comparison; SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001 pure positive density-scaling exclusion and finite baseline-plus-amplitude graphical compatibility; no production gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -3589,6 +3592,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "1ec568be481c54cbf87a608ee38cb0452a3b333c84e1b4b5238f75540e553349",
+  "manifest_sha256": "e609ed5292c6850ca0bc9c8d8c704b5ffac41ee562babca98c68d3d20bddc534",
   "schema_version": 1
 }
