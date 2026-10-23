@@ -1,0 +1,177 @@
+[
+  {
+    "observation_id": "f10a-edge-914",
+    "before": {
+      "observation_id": "f10a-edge-914",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f10a",
+      "trace_id": "medium_914",
+      "marker_id": "f10a-edge-914",
+      "marker": "triangle",
+      "roast": "medium",
+      "protocol": "room25",
+      "diameter_um": "914",
+      "x_px": "982",
+      "y_px": "258",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "0",
+      "reading_layer": "native_progress",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "Black triangle is left of the right frame; its base touches the horizontal tick. Current x982 creates a false 300s time.",
+    "after_changes": {
+      "x_px": 967.5,
+      "y_px": 257.5
+    }
+  },
+  {
+    "observation_id": "f10b-edge-589",
+    "before": {
+      "observation_id": "f10b-edge-589",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f10b",
+      "trace_id": "light_589",
+      "marker_id": "f10b-edge-589",
+      "marker": "triangle",
+      "roast": "light",
+      "protocol": "room25",
+      "diameter_um": "589",
+      "x_px": "986",
+      "y_px": "983",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "176",
+      "reading_layer": "native_progress",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "Interior gray level about106 identifies light520, not light589.",
+    "after_changes": {
+      "trace_id": "light_520",
+      "diameter_um": 520,
+      "gray": 106
+    }
+  },
+  {
+    "observation_id": "f10b-edge-520",
+    "before": {
+      "observation_id": "f10b-edge-520",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f10b",
+      "trace_id": "light_520",
+      "marker_id": "f10b-edge-520",
+      "marker": "triangle",
+      "roast": "light",
+      "protocol": "room25",
+      "diameter_um": "520",
+      "x_px": "986",
+      "y_px": "1037",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "106",
+      "reading_layer": "native_progress",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "Interior gray level about46 identifies light568, not light520; adjacent circle partly overlaps.",
+    "after_changes": {
+      "trace_id": "light_568",
+      "diameter_um": 568,
+      "gray": 46
+    }
+  },
+  {
+    "observation_id": "f7b-edge-589",
+    "before": {
+      "observation_id": "f7b-edge-589",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f7b",
+      "trace_id": "light_589",
+      "marker_id": "f7b-edge-589",
+      "marker": "triangle",
+      "roast": "light",
+      "protocol": "room25",
+      "diameter_um": "589",
+      "x_px": "972",
+      "y_px": "1197",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "176",
+      "reading_layer": "native_relative_diameter_change",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "Single upper gray176 triangle extends abouty1188\u20131198, center1193; current1197 shifted downward.",
+    "after_changes": {
+      "y_px": 1193
+    }
+  },
+  {
+    "observation_id": "f7b-edge-520",
+    "before": {
+      "observation_id": "f7b-edge-520",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f7b",
+      "trace_id": "light_520",
+      "marker_id": "f7b-edge-520",
+      "marker": "triangle",
+      "roast": "light",
+      "protocol": "room25",
+      "diameter_um": "520",
+      "x_px": "972",
+      "y_px": "1192",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "106",
+      "reading_layer": "native_relative_diameter_change",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "At y1192 this is the same upper light589 triangle, not an independent light520 reference.",
+    "after_changes": {
+      "support_status": "unsupported_overlap_or_identity",
+      "notes": "Incorrect initial proposed light520 identity; same upper589 feature. Lower dark triangle cluster may contain520 but does not authenticate its own center."
+    }
+  },
+  {
+    "observation_id": "f7b-edge-568",
+    "before": {
+      "observation_id": "f7b-edge-568",
+      "doi": "10.1002/jsfa.10440",
+      "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+      "panel_id": "f7b",
+      "trace_id": "light_568",
+      "marker_id": "f7b-edge-568",
+      "marker": "triangle",
+      "roast": "light",
+      "protocol": "room25",
+      "diameter_um": "568",
+      "x_px": "972",
+      "y_px": "1221",
+      "width_px": "15",
+      "height_px": "13",
+      "gray": "46",
+      "reading_layer": "native_relative_diameter_change",
+      "units": "percent",
+      "support_status": "supported",
+      "notes": "Manual center of marker on right frame; visual identity; shared edge calibration"
+    },
+    "finding": "Lower cluster extendsy1211\u20131225; dominant dark568 outline centerabout1217 overlaps second triangle base. Current1221 is not secure independent center.",
+    "after_changes": {
+      "support_status": "unsupported_overlap_or_identity",
+      "notes": "Overlapping568/520 triangle cluster; no independent reference assigned."
+    }
+  }
+]

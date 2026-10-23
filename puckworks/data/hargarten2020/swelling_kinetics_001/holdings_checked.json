@@ -1,0 +1,22 @@
+{
+  "scope": "One targeted configured-manifest filename/family query: hargarten2020 OR microscopy/swelling/hargarten; no general catalogue refresh",
+  "snapshot_identity": "f46181ee8c461fab055b73511148dd26888c7c5b3cb1bc908aad6ab9db2bb766",
+  "matches": [
+    {
+      "relative_path": "hargarten2020/hargarten2020_scalar_anchors.csv",
+      "sha256": "d31f0b87fe136dc13773d5f8a08bba238266b0ea64a6706607e67d379c141125",
+      "role": "normalized_data",
+      "actual_sha256": "d31f0b87fe136dc13773d5f8a08bba238266b0ea64a6706607e67d379c141125",
+      "content_checked": "CSV headers and all scalar rows; no individual trajectories"
+    },
+    {
+      "relative_path": "hargarten2020/hargarten2020_swelling_progress.csv",
+      "sha256": "51c7c469afde14e6ee80a727d4cccd434f834f2c8c6f17c5b96ef3c7eac63c21",
+      "role": "normalized_data",
+      "actual_sha256": "51c7c469afde14e6ee80a727d4cccd434f834f2c8c6f17c5b96ef3c7eac63c21",
+      "content_checked": "CSV headers and all scalar rows; no individual trajectories"
+    }
+  ],
+  "finding": "Only catalogued scalar/aggregate Hargarten transcriptions and model source found; no original particle microscopy measurement file authenticated in checked holdings. Other locations/originals remain unsearched.",
+  "manifest_sha256": "ef487730d603c3303d9af1d329388cc9fa8259c62edb7c5028f6a5387088f842"
+}

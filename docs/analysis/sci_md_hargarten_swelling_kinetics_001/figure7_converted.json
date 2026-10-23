@@ -1,0 +1,780 @@
+[
+  {
+    "lower": "34/75",
+    "observation_id": "f7a-m002",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "175/9",
+    "trace_id": "medium_543",
+    "upper": "38/71"
+  },
+  {
+    "lower": "59/100",
+    "observation_id": "f7a-m004",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/36",
+    "trace_id": "medium_543",
+    "upper": "193/284"
+  },
+  {
+    "observation_id": "f7a-m006",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_519"
+  },
+  {
+    "lower": "407/408",
+    "observation_id": "f7a-m010",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/18",
+    "trace_id": "medium_585",
+    "upper": "83/80"
+  },
+  {
+    "lower": "25/24",
+    "observation_id": "f7a-m011",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/12",
+    "trace_id": "medium_585",
+    "upper": "433/400"
+  },
+  {
+    "lower": "373/566",
+    "observation_id": "f7a-m012",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/12",
+    "trace_id": "medium_914",
+    "upper": "389/550"
+  },
+  {
+    "observation_id": "f7a-m015",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_519"
+  },
+  {
+    "lower": "133/136",
+    "observation_id": "f7a-m016",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/9",
+    "trace_id": "medium_585",
+    "upper": "407/400"
+  },
+  {
+    "lower": "202/283",
+    "observation_id": "f7a-m017",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/9",
+    "trace_id": "medium_914",
+    "upper": "42/55"
+  },
+  {
+    "lower": "64/75",
+    "observation_id": "f7a-m018",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/9",
+    "trace_id": "medium_543",
+    "upper": "68/71"
+  },
+  {
+    "observation_id": "f7a-m020",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_675"
+  },
+  {
+    "lower": "228/283",
+    "observation_id": "f7a-m021",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "175",
+    "trace_id": "medium_914",
+    "upper": "236/275"
+  },
+  {
+    "lower": "223/204",
+    "observation_id": "f7a-m022",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1075/6",
+    "trace_id": "medium_585",
+    "upper": "227/200"
+  },
+  {
+    "lower": "255/283",
+    "observation_id": "f7a-m025",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "4225/18",
+    "trace_id": "medium_914",
+    "upper": "263/275"
+  },
+  {
+    "lower": "41/34",
+    "observation_id": "f7a-m026",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "2875/12",
+    "trace_id": "medium_585",
+    "upper": "5/4"
+  },
+  {
+    "lower": "13/15",
+    "observation_id": "f7a-m027",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "2875/12",
+    "trace_id": "medium_543",
+    "upper": "69/71"
+  },
+  {
+    "observation_id": "f7a-m029",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_675"
+  },
+  {
+    "lower": "279/283",
+    "observation_id": "f7a-m030",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "2650/9",
+    "trace_id": "medium_914",
+    "upper": "287/275"
+  },
+  {
+    "lower": "299/272",
+    "observation_id": "f7a-m031",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "10775/36",
+    "trace_id": "medium_585",
+    "upper": "913/800"
+  },
+  {
+    "lower": "133/150",
+    "observation_id": "f7a-m032",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "300",
+    "trace_id": "medium_543",
+    "upper": "141/142"
+  },
+  {
+    "lower": "287/283",
+    "observation_id": "f7a-m033",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "475",
+    "trace_id": "medium_914",
+    "upper": "59/55"
+  },
+  {
+    "lower": "73/68",
+    "observation_id": "f7a-m034",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "2875/6",
+    "trace_id": "medium_585",
+    "upper": "223/200"
+  },
+  {
+    "lower": "23/25",
+    "observation_id": "f7a-m035",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "2875/6",
+    "trace_id": "medium_543",
+    "upper": "73/71"
+  },
+  {
+    "observation_id": "f7a-m036",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_519"
+  },
+  {
+    "observation_id": "f7a-m037",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_608"
+  },
+  {
+    "observation_id": "f7a-m038",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_675"
+  },
+  {
+    "lower": "269/283",
+    "observation_id": "f7a-m039",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "23575/36",
+    "trace_id": "medium_914",
+    "upper": "277/275"
+  },
+  {
+    "lower": "437/408",
+    "observation_id": "f7a-m040",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "23725/36",
+    "trace_id": "medium_585",
+    "upper": "89/80"
+  },
+  {
+    "lower": "68/75",
+    "observation_id": "f7a-m041",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "11875/18",
+    "trace_id": "medium_543",
+    "upper": "72/71"
+  },
+  {
+    "lower": "531/566",
+    "observation_id": "f7a-m042",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "30025/36",
+    "trace_id": "medium_914",
+    "upper": "547/550"
+  },
+  {
+    "lower": "52/51",
+    "observation_id": "f7a-m043",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "7550/9",
+    "trace_id": "medium_585",
+    "upper": "53/50"
+  },
+  {
+    "lower": "11/12",
+    "observation_id": "f7a-m044",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "7550/9",
+    "trace_id": "medium_543",
+    "upper": "291/284"
+  },
+  {
+    "observation_id": "f7a-m045",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_519"
+  },
+  {
+    "observation_id": "f7a-m046",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_608"
+  },
+  {
+    "observation_id": "f7a-m047",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_675"
+  },
+  {
+    "lower": "519/566",
+    "observation_id": "f7a-m048",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "9125/9",
+    "trace_id": "medium_914",
+    "upper": "107/110"
+  },
+  {
+    "lower": "199/204",
+    "observation_id": "f7a-m049",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "4075/4",
+    "trace_id": "medium_585",
+    "upper": "203/200"
+  },
+  {
+    "lower": "29/30",
+    "observation_id": "f7a-m050",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "4075/4",
+    "trace_id": "medium_543",
+    "upper": "153/142"
+  },
+  {
+    "observation_id": "f7a-m051",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_519"
+  },
+  {
+    "observation_id": "f7a-m052",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_608"
+  },
+  {
+    "observation_id": "f7a-m053",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "medium_675"
+  },
+  {
+    "lower": "253/479",
+    "observation_id": "f7b-m004",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "51000/863",
+    "trace_id": "light_592",
+    "upper": "87/157"
+  },
+  {
+    "lower": "15/14",
+    "observation_id": "f7b-m005",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "51000/863",
+    "trace_id": "light_472",
+    "upper": "79/66"
+  },
+  {
+    "lower": "609/958",
+    "observation_id": "f7b-m006",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "76800/863",
+    "trace_id": "light_592",
+    "upper": "625/942"
+  },
+  {
+    "lower": "79/88",
+    "observation_id": "f7b-m007",
+    "reference_id": "f7b-edge-589",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "76800/863",
+    "trace_id": "light_589",
+    "upper": "245/256"
+  },
+  {
+    "lower": "69/70",
+    "observation_id": "f7b-m009",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "76800/863",
+    "trace_id": "light_472",
+    "upper": "73/66"
+  },
+  {
+    "observation_id": "f7b-m010",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "lower": "387/479",
+    "observation_id": "f7b-m013",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "102600/863",
+    "trace_id": "light_592",
+    "upper": "395/471"
+  },
+  {
+    "lower": "499/528",
+    "observation_id": "f7b-m014",
+    "reference_id": "f7b-edge-589",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "102600/863",
+    "trace_id": "light_589",
+    "upper": "515/512"
+  },
+  {
+    "lower": "271/280",
+    "observation_id": "f7b-m015",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "102600/863",
+    "trace_id": "light_472",
+    "upper": "287/264"
+  },
+  {
+    "observation_id": "f7b-m016",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m017",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "observation_id": "f7b-m019",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "observation_id": "f7b-m020",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m021",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "observation_id": "f7b-m023",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "observation_id": "f7b-m024",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_652"
+  },
+  {
+    "lower": "492/479",
+    "observation_id": "f7b-m025",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "154200/863",
+    "trace_id": "light_592",
+    "upper": "500/471"
+  },
+  {
+    "lower": "89/88",
+    "observation_id": "f7b-m026",
+    "reference_id": "f7b-edge-589",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "154200/863",
+    "trace_id": "light_589",
+    "upper": "275/256"
+  },
+  {
+    "observation_id": "f7b-m027",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_520"
+  },
+  {
+    "observation_id": "f7b-m028",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "lower": "37/35",
+    "observation_id": "f7b-m029",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "154200/863",
+    "trace_id": "light_472",
+    "upper": "13/11"
+  },
+  {
+    "observation_id": "f7b-m030",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m032",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_462"
+  },
+  {
+    "lower": "497/479",
+    "observation_id": "f7b-m034",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "206400/863",
+    "trace_id": "light_592",
+    "upper": "505/471"
+  },
+  {
+    "observation_id": "f7b-m035",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_520"
+  },
+  {
+    "lower": "127/132",
+    "observation_id": "f7b-m036",
+    "reference_id": "f7b-edge-589",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "206400/863",
+    "trace_id": "light_589",
+    "upper": "131/128"
+  },
+  {
+    "observation_id": "f7b-m037",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "lower": "159/140",
+    "observation_id": "f7b-m038",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "206400/863",
+    "trace_id": "light_472",
+    "upper": "167/132"
+  },
+  {
+    "observation_id": "f7b-m039",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m042",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "lower": "500/479",
+    "observation_id": "f7b-m043",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "258000/863",
+    "trace_id": "light_592",
+    "upper": "508/471"
+  },
+  {
+    "observation_id": "f7b-m045",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "lower": "293/280",
+    "observation_id": "f7b-m046",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "258000/863",
+    "trace_id": "light_472",
+    "upper": "103/88"
+  },
+  {
+    "observation_id": "f7b-m047",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m048",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "observation_id": "f7b-m049",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_462"
+  },
+  {
+    "observation_id": "f7b-m050",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "lower": "477/479",
+    "observation_id": "f7b-m051",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "413400/863",
+    "trace_id": "light_592",
+    "upper": "485/471"
+  },
+  {
+    "lower": "67/70",
+    "observation_id": "f7b-m053",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "413400/863",
+    "trace_id": "light_472",
+    "upper": "71/66"
+  },
+  {
+    "observation_id": "f7b-m054",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "observation_id": "f7b-m055",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_626"
+  },
+  {
+    "observation_id": "f7b-m056",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_652"
+  },
+  {
+    "observation_id": "f7b-m057",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m058",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_462"
+  },
+  {
+    "observation_id": "f7b-m059",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "lower": "458/479",
+    "observation_id": "f7b-m061",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "568800/863",
+    "trace_id": "light_592",
+    "upper": "466/471"
+  },
+  {
+    "observation_id": "f7b-m063",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "observation_id": "f7b-m064",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m065",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "observation_id": "f7b-m066",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_462"
+  },
+  {
+    "observation_id": "f7b-m067",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "observation_id": "f7b-m069",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "lower": "139/140",
+    "observation_id": "f7b-m070",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "724200/863",
+    "trace_id": "light_472",
+    "upper": "49/44"
+  },
+  {
+    "lower": "480/479",
+    "observation_id": "f7b-m071",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "724800/863",
+    "trace_id": "light_592",
+    "upper": "488/471"
+  },
+  {
+    "observation_id": "f7b-m072",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_626"
+  },
+  {
+    "observation_id": "f7b-m073",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_652"
+  },
+  {
+    "observation_id": "f7b-m074",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_665"
+  },
+  {
+    "observation_id": "f7b-m075",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_462"
+  },
+  {
+    "observation_id": "f7b-m076",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_653"
+  },
+  {
+    "observation_id": "f7b-m077",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_547"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7b-m078",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "879600/863",
+    "trace_id": "light_592",
+    "upper": "487/471"
+  },
+  {
+    "observation_id": "f7b-m080",
+    "status": "NO_AUTHENTICATED_EXACT_T_GRAPHICAL_REFERENCE",
+    "trace_id": "light_568"
+  },
+  {
+    "lower": "69/70",
+    "observation_id": "f7b-m081",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "879600/863",
+    "trace_id": "light_472",
+    "upper": "73/66"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7a-edge-585",
+    "reference_id": "f7a-edge-585",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "medium_585",
+    "upper": "1"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7a-edge-543",
+    "reference_id": "f7a-edge-543",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "medium_543",
+    "upper": "1"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7a-edge-914",
+    "reference_id": "f7a-edge-914",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "medium_914",
+    "upper": "1"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7b-edge-472",
+    "reference_id": "f7b-edge-472",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "light_472",
+    "upper": "1"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7b-edge-589",
+    "reference_id": "f7b-edge-589",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "light_589",
+    "upper": "1"
+  },
+  {
+    "lower": "1",
+    "observation_id": "f7b-edge-592",
+    "reference_id": "f7b-edge-592",
+    "status": "CONDITIONAL_FIG7_CONVERSION_SHARED_REFERENCE_OUTER_ONLY",
+    "t": "1200",
+    "trace_id": "light_592",
+    "upper": "1"
+  }
+]

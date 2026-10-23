@@ -1,5 +1,5 @@
 {
-  "dataset_count": 124,
+  "dataset_count": 125,
   "families": [
     {
       "analytes": [
@@ -1221,7 +1221,8 @@
       "consumed_comparison_status": "UNKNOWN",
       "directness": [
         "transcription (printed scalars from card)",
-        "manual original-raster CDF marker/CI endpoint readings with shared axis calibration"
+        "manual original-raster CDF marker/CI endpoint readings with shared axis calibration",
+        "original-raster marker centers and unsupported clusters retained"
       ],
       "eligible_uses": [
         "bounded graphical-representation exclusion and necessary quantile constraints"
@@ -1234,7 +1235,8 @@
       "historical_task_uses": [
         "DATA-ONLY empirical anchor for the (not-yet-open) bed_dynamics swelling/erosion backlog; NOT a registered component",
         "DATA-ONLY calibration targets for a future swelling/erosion closure; NOT a registered component",
-        "SCI-MD-HARGARTEN-WET-PSD-001 research-only representation constraints; no runtime gate"
+        "SCI-MD-HARGARTEN-WET-PSD-001 research-only representation constraints; no runtime gate",
+        "SCI-MD-HARGARTEN-SWELLING-KINETICS-001 research-only finite-reference comparison; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": null,
@@ -1242,7 +1244,8 @@
       "manifest_dataset_ids": [
         "hargarten2020/swelling_progress",
         "hargarten2020/scalar_anchors",
-        "hargarten2020/wet_psd_001"
+        "hargarten2020/wet_psd_001",
+        "hargarten2020/swelling_kinetics_001"
       ],
       "measurement_resolution": "RETAINED_GRAPHICAL_MARKERS_AND_PUBLISHED_SCALARS",
       "missing_joins": [
@@ -1266,9 +1269,10 @@
       "publication_or_repository": "Hargarten, Kuhn & Briesen, J. Sci. Food Agric. 100(11) (2020) Table 2 (swelling progress % at 30s/4min, medium/light roast x 80/25C; 8 printed values)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; single-particle figures not digitized",
+        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; bounded individual graphical readings: hargarten2020/swelling_kinetics_001",
         "CC BY-NC (JSFA)",
-        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)"
+        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)",
+        "CC BY-NC (2020 The Authors; source-derived coordinates; artwork external)"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
@@ -1289,12 +1293,14 @@
       "uncertainty_status": [
         "partial (population-level; no per-value SD printed)",
         "partial (SD on \u0394d_rel only; slopes carry p-values)",
-        "graphical G; identifiable cumulative 95% CI endpoints P only; no simultaneous coverage"
+        "graphical G; identifiable cumulative 95% CI endpoints P only; no simultaneous coverage",
+        "graphical reading allowances only; no experimental uncertainty authority"
       ],
       "validation_strength": [
         "qualitative (measurement study; no predictive model in source)",
         "qualitative (measurement study)",
-        "source-internal graphical representation comparison; not physical validation"
+        "source-internal graphical representation comparison; not physical validation",
+        "source-internal retrospective target-exposed nonscoring; not physical validation"
       ]
     },
     {
@@ -3617,6 +3623,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "01c58165ca8940fc7215e52e15f2a38bb6aee515e60a0a0a4e19f46f4fe92f2e",
+  "manifest_sha256": "8fb26837aeab003fb63092717b17e16e8a30af8eb1d4d719f8007e23c2f6a631",
   "schema_version": 1
 }

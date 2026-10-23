@@ -1,0 +1,81 @@
+{
+  "task": "SCI-MD-HARGARTEN-SWELLING-KINETICS-001",
+  "source": {
+    "doi": "10.1002/jsfa.10440",
+    "sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+    "url": "https://mediatum.ub.tum.de/doc/1580140/document.pdf",
+    "rights": "CC BY-NC; Copyright2020 The Authors"
+  },
+  "base_sha": "35cc43ae82909b4936e0d15edcc31e541f0c1283",
+  "ewp_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "panels": {
+    "f10a": {
+      "figure": 10,
+      "panel": "a",
+      "x0": 130,
+      "x1": 982,
+      "y0": 647,
+      "y1": 72,
+      "t_max": 300,
+      "y_max_percent": 150,
+      "image_width": 1018,
+      "image_height": 1522,
+      "image_sha256": "b72da3f77a13e0e2838b143cea351738b95abbb5817fbb8c0528d2709e8a6aae"
+    },
+    "f10b": {
+      "figure": 10,
+      "panel": "b",
+      "x0": 134,
+      "x1": 986,
+      "y0": 1426,
+      "y1": 852,
+      "t_max": 300,
+      "y_max_percent": 150,
+      "image_width": 1018,
+      "image_height": 1522,
+      "image_sha256": "b72da3f77a13e0e2838b143cea351738b95abbb5817fbb8c0528d2709e8a6aae"
+    },
+    "f7a": {
+      "figure": 7,
+      "panel": "a",
+      "x0": 106,
+      "x1": 970,
+      "y0": 662,
+      "y1": 80,
+      "t_max": 1200,
+      "y_max_percent": 20,
+      "image_width": 1016,
+      "image_height": 1550,
+      "image_sha256": "2a5301252639f148ee561e160a5d03818886b2ed41ee5cc212e043b265f4c32b"
+    },
+    "f7b": {
+      "figure": 7,
+      "panel": "b",
+      "x0": 109,
+      "x1": 972,
+      "y0": 1453,
+      "y1": 871,
+      "t_max": 1200,
+      "y_max_percent": 35,
+      "image_width": 1016,
+      "image_height": 1550,
+      "image_sha256": "2a5301252639f148ee561e160a5d03818886b2ed41ee5cc212e043b265f4c32b"
+    }
+  },
+  "marker_allowance_px": 3,
+  "axis_allowance_px": 1,
+  "diameter_rounding_um": "0.5",
+  "reference_s": 1200,
+  "primary_figure": 10,
+  "shared_epsilon_bracket_fraction": "0.0001",
+  "model": {
+    "D_W": 1.25e-10,
+    "C_M": 0.1,
+    "resolutions": [
+      60,
+      120,
+      240
+    ]
+  },
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}
