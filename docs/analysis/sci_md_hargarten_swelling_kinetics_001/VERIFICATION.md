@@ -20,8 +20,9 @@ before formal numerical outputs. Source-reading corrections and clarified protoc
 wording remained in the same bounded retrospective task; this is not prospective
 preregistration or an untouched holdout. No model parameter, scientific threshold,
 CI selector or accepted gate was changed to obtain a pass. Final tested head and
-live hosted receipts are in the draft PR, avoiding a self-referential commit hash.
-Leave OPEN / DRAFT / UNMERGED; auto-merge disabled.
+live hosted receipts are in the PR, avoiding a self-referential commit hash.
+Initial delivery was OPEN / DRAFT / UNMERGED with auto-merge disabled. Subsequent
+owner acceptance and merge authorization are recorded in the follow-up below.
 
 ## Scientific verification
 
@@ -163,3 +164,41 @@ The required protected hosted checks were refreshed using
 `quick (3.10)`, `quick (3.12)`, `verify-generated`, `paper3-scope-strict`,
 `all-scope-strict`. Local PASS does not imply hosted PASS. Final exact-head check
 conclusions and links are recorded in the PR description after observation.
+
+## Owner-authorized merge and CI runtime follow-up — 2026-10-23
+
+The owner accepted the scientific package and authorized merging when ready.
+At scientific/test head `46f2edb2fabf00763e14e8ad40b9de3538d0a08d`, all hosted
+checks except required `quick (3.12)` passed. Python 3.10, 3.11, 3.13 and min-deps
+each reported 7,026 passed / 71 skipped / 64 deselected. The three Python 3.12
+attempts hit the existing 30-minute job limit at 98%, 99%, and 98%, respectively,
+without a reported test failure. Those cancelled runs remain incomplete, not PASS:
+
+- [First attempt](https://github.com/trbrewer/puckworks/actions/runs/40008934941/job/120604584456).
+- [Second attempt](https://github.com/trbrewer/puckworks/actions/runs/40008934941/job/120677425857).
+- [Third attempt](https://github.com/trbrewer/puckworks/actions/runs/40008934941/job/120688855493).
+
+The logs show broad slowdown across existing test blocks. Predecessor #355's
+Python 3.12 suite passed in 1,260.96 s; this head's Python 3.10 retry and min-deps
+retry passed in 1,363.17 s and 1,266.89 s. The new Hargarten tests were absent from
+the successful jobs' 15 longest durations. This comparison does not establish a
+unique cause of runner performance variation.
+
+After the blocked merge was reported, the owner explicitly instructed:
+“please try and merge again with no time limit”. This supersedes the earlier
+instruction to retain the repository timeout for this merge attempt. The four
+jobs in `.github/workflows/gates.yml` now use 360 minutes only for Puckworks PR
+#356; main and other PRs retain their existing 30/30/25/45-minute limits.
+[GitHub's hosted-runner execution limit](https://docs.github.com/en/actions/reference/limits)
+is six hours, so unlimited execution cannot be promised. This is an explicit
+runtime-budget exception, not a waiver of test outcomes. Interpreters, selectors,
+test code, assertions, coverage floor and required checks are unchanged.
+
+Only workflow runtime allowances and this verification narrative change in this
+follow-up. Scientific inputs, producer, outputs, independent review bindings,
+production physics and EWP remain unchanged. Local YAML comparison passed with
+only the four timeout values permitted to differ. Existing CI-lane tests passed:
+4 passed in 10.08 s. Registry gates passed: 66 PASS and one pre-existing
+ACKNOWLEDGED_EXCEPTION. `git diff --check` passed. Fresh hosted checks must pass on the new
+head before merging. Their actual conclusions and the merge receipt are recorded
+in PR #356; no earlier-head result is relabelled as a new-head pass.
