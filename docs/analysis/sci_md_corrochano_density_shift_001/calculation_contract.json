@@ -1,0 +1,169 @@
+{
+  "actual_base": "e21631e741ff739aaf4a6b9c58e5e11b161436cc",
+  "arithmetic": "EXACT_RATIONAL_PAGE_SUBTRACTION_THEN_COMMON_BETA_ENDPOINT_PRODUCTS",
+  "calibration": "rho=alpha+beta*z; beta_min=(v1-v0)/(p0-p1+2*anchor_guard); beta_max=(v1-v0)/(p0-p1-2*anchor_guard)",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL"
+  ],
+  "contrast_orientation": "first_minus_second",
+  "coordinate": "z=-y; upward page points",
+  "counts": {
+    "cross_grind_comparisons": 90,
+    "density_at_force_coordinates": 72,
+    "grind_increment_envelopes": 60,
+    "sample_density_increments": 180,
+    "sample_pair_contrasts": 990
+  },
+  "dataset_id": "romancorrochano2017/fig6_2_dry_compaction",
+  "decision": "ANY_QUALIFIED_SAMPLE_SEPARATION_EXCLUDES; otherwise all required qualified gives nonexclusion; otherwise unresolved",
+  "display_places": 6,
+  "ewp_read_only_main": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "exposure": "Primary 25->250 N and B1/E2 already inspected; preview values in PLAN.md are not inputs or test oracles",
+  "forces_N": [
+    25,
+    50,
+    100,
+    150,
+    200,
+    250
+  ],
+  "grind_rule": "WITHIN_SAMPLE_SUBTRACTION_THEN_HULL; all three samples required for COMPLETE",
+  "grinds": [
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "hypothesis": "rho_j(F_k)=b_j+h_k; unrestricted finite constants; no fit",
+  "inherited_input_hashes": {
+    "contract.json": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+    "coordinates.csv": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+    "holdings_checked.json": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+    "paths.json": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721"
+  },
+  "intervals_N": [
+    [
+      25,
+      50
+    ],
+    [
+      25,
+      100
+    ],
+    [
+      25,
+      150
+    ],
+    [
+      25,
+      200
+    ],
+    [
+      25,
+      250
+    ],
+    [
+      50,
+      100
+    ],
+    [
+      50,
+      150
+    ],
+    [
+      50,
+      200
+    ],
+    [
+      50,
+      250
+    ],
+    [
+      100,
+      150
+    ],
+    [
+      100,
+      200
+    ],
+    [
+      100,
+      250
+    ],
+    [
+      150,
+      200
+    ],
+    [
+      150,
+      250
+    ],
+    [
+      200,
+      250
+    ]
+  ],
+  "limits": [
+    "Outer enclosure endpoints need not be jointly attainable",
+    "No joint feasibility conclusion",
+    "Inverse connection only under common single-valued loading branch",
+    "Non-injective curves with sample-dependent branches and both-offset models untested",
+    "No physical, population, mechanism or EWP validation"
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "plan_sha256": "19bed4d81ce0b62a447840ad230d84b19a09f1678175b701056ed64694539fe3",
+  "predecessor_tested_head": "a0e1adf40b3b3633e433f1c797de084113f522f2",
+  "preserved_file_hashes": {
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/PLAN.md": "603cd72ed50f6e072a114b9c0047d04e1b2abc7ec577a41133a1d1ac9c139c55",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.json": "ea92b207e2047aa81210e18f1c84ab09a1b53fa3a59b5a27a01aad99d5f68eb7",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/RESULT.md": "e5892969b0306338d106c03b1e3168306fdfccd4563a898589e3a1146d183bc2",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/REVIEW.md": "a833b5c553dfe49d04556d92db7f93169983d8680d7de2498fa3345241e282f9",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/SOURCE_RECONCILIATION.md": "65bec6cbbb837d297f81fe60a5307070bd2fa30898c7c54c1ed78d6b867fd2c3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/VERIFICATION.md": "e4c68efe497c1e27efefe1aa212e3c2b287d9cafbe621b84698b2afcce20c39b",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/comparison.svg": "ed3b9f86b0c7da7875ffd988e4c098330ea45719d2957456f1e0da97633c00c3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/cross_grind_comparisons.csv": "33e6a3bd3076d018fd7b21881a78e58875428a2a16fe15cc88cb9e31ddb2c1e8",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/density_at_force.csv": "95e21cc2cde327e8d713cbf06e926d3192296308bf368f32374e1218d769c4e5",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/force_at_density.csv": "2498cc1f510e1f75fc3c40da9d42c7653c174952e0ef9ca95c8bd4aeb923c63f",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/grind_increment_envelopes.csv": "6df27f0938f639c825b5d514a78f182686c0edfa89ced35865da333b58652a33",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/review_check.py": "e30509cb46f6d97a0612dcacbfd2402c3f9f71b24c6aa0c55e4e468cedb5b1f6",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/review_receipt.json": "1afbb55133ae5b46d33b5df5bed0e42a2b0b389f4ea13045e0403e1ddf2954b3",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/sample_force_increments.csv": "e77b3783900ac78419b8e3286487764294d7c1ab0ce5fd55a59facb8ab9a0b46",
+    "docs/analysis/sci_md_corrochano_dry_compaction_001/support_accounting.csv": "c1414048f3943bb2dce0b13198e7fcb7eb53d63d2936cbc1d021fa1f9b441954",
+    "puckworks/analysis/corrochano2017_dry_compaction.py": "0f97cdba564da5a83f174d5f34974eacdad765393e2469eef79ba00de76f0ac7",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/PROVENANCE.md": "76d7f8faa95f568f23175fad748f74c4add943cfbff67543d2f9fa261184d4c2",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/contract.json": "9cc66a253067716c0760f83ecbeaec492792adf71b147ad5476151b68686a1d5",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/coordinates.csv": "5ab26a89105e9eb73d4331c517135510c21defc4bad325837d0ef815c1da47c1",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/holdings_checked.json": "4f85e920fd4d5ac1f7acbbbed8d1b7fd1fa1bd719eb6d9fd9dc28c8ba55b0fa9",
+    "puckworks/data/romancorrochano2017/fig6_2_dry_compaction/paths.json": "09e1d493ee39a1baf216ac9c2188f7b982743f1992dc2099609d9cc0052b2721",
+    "tests/test_corrochano2017_dry_compaction.py": "1bc9ea37701eba9547af72291fd4c5b8f49274ad249128c65f357d54aa2904ba"
+  },
+  "primary_interval_N": [
+    25,
+    250
+  ],
+  "reading": "INHERITED_FULL_QUERY_STRIP_ALL_SEGMENTS_ALL_BRANCHES_PLUS_FULL_TRACE_GUARD",
+  "samples": [
+    "B1",
+    "B2",
+    "B3",
+    "C1",
+    "C2",
+    "C3",
+    "D1",
+    "D2",
+    "D3",
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "source_pdf_sha256": "f131d9893e2ac78ce0664d5528beac4be51a02cf1ae684e41920fbc6cadc8818",
+  "status": "FIXED_BEFORE_FORMAL_COMPARISON",
+  "strict_sign": "lower>0 or upper<0; exact zero contact is nonexclusion",
+  "support": "FULL_QUERY_INTERVAL_IN_EXPLICIT_PROJECTION_UNION; supported all-branch ambiguity qualifies",
+  "task": "SCI-MD-CORROCHANO-DENSITY-SHIFT-001"
+}
