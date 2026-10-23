@@ -1,0 +1,4892 @@
+[
+  {
+    "point_id": "non_sieved_dry:p01",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": [
+      "0",
+      "5/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p02",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": [
+      "0",
+      "2/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p03",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": [
+      "3/524",
+      "11/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p04",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": [
+      "3/262",
+      "7/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p05",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": [
+      "3/131",
+      "5/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p06",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": [
+      "5/131",
+      "7/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p07",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": [
+      "29/524",
+      "37/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p08",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": [
+      "39/524",
+      "47/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p09",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": [
+      "51/524",
+      "59/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p10",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": [
+      "63/524",
+      "71/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p11",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": [
+      "37/262",
+      "41/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p12",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": [
+      "43/262",
+      "47/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p13",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": [
+      "99/524",
+      "107/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p14",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": [
+      "27/131",
+      "29/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p15",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": [
+      "29/131",
+      "31/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p16",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": [
+      "125/524",
+      "133/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p17",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": [
+      "34/131",
+      "36/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p18",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": [
+      "151/524",
+      "159/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p19",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": [
+      "42/131",
+      "44/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p20",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": [
+      "195/524",
+      "203/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p21",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": [
+      "119/262",
+      "123/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p22",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": [
+      "299/524",
+      "307/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p23",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": [
+      "371/524",
+      "379/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p24",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": [
+      "110/131",
+      "112/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p25",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": [
+      "489/524",
+      "497/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p26",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": [
+      "259/262",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p27",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": [
+      "130/131",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p01",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": [
+      "13/524",
+      "21/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p02",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": [
+      "19/524",
+      "27/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p03",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": [
+      "6/131",
+      "8/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p04",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": [
+      "31/524",
+      "39/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p05",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": [
+      "39/524",
+      "47/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p06",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": [
+      "12/131",
+      "14/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p07",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": [
+      "29/262",
+      "33/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p08",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": [
+      "69/524",
+      "77/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p09",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": [
+      "20/131",
+      "22/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p10",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": [
+      "91/524",
+      "99/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p11",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": [
+      "101/524",
+      "109/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p12",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": [
+      "111/524",
+      "119/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p13",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": [
+      "125/524",
+      "133/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p14",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": [
+      "34/131",
+      "36/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p15",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": [
+      "145/524",
+      "153/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p16",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": [
+      "159/524",
+      "167/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p17",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": [
+      "171/524",
+      "179/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p18",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": [
+      "185/524",
+      "193/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p19",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": [
+      "203/524",
+      "211/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p20",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": [
+      "231/524",
+      "239/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p21",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": [
+      "135/262",
+      "139/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p22",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": [
+      "163/262",
+      "167/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p23",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": [
+      "195/262",
+      "199/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p24",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": [
+      "225/262",
+      "229/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p25",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": [
+      "491/524",
+      "499/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p26",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": [
+      "259/262",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p27",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": [
+      "130/131",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p01",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": [
+      "29/524",
+      "37/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p02",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": [
+      "37/524",
+      "45/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p03",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": [
+      "45/524",
+      "53/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p04",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": [
+      "27/262",
+      "31/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p05",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": [
+      "33/262",
+      "37/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p06",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": [
+      "20/131",
+      "22/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p07",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": [
+      "95/524",
+      "103/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p08",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": [
+      "111/524",
+      "119/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p09",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": [
+      "125/524",
+      "133/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p10",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": [
+      "69/262",
+      "73/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p11",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": [
+      "151/524",
+      "159/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p12",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": [
+      "161/524",
+      "169/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p13",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": [
+      "44/131",
+      "46/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p14",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": [
+      "185/524",
+      "193/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p15",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": [
+      "97/262",
+      "101/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p16",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": [
+      "205/524",
+      "213/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p17",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": [
+      "217/524",
+      "225/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p18",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": [
+      "235/524",
+      "243/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p19",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": [
+      "251/524",
+      "259/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p20",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": [
+      "137/262",
+      "141/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p21",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": [
+      "78/131",
+      "80/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p22",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": [
+      "179/262",
+      "183/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p23",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": [
+      "411/524",
+      "419/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p24",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": [
+      "457/524",
+      "465/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p25",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": [
+      "495/524",
+      "503/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p26",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": [
+      "259/262",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p27",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "G",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": [
+      "130/131",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p01",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "68775149/500000",
+      "147649089/1000000"
+    ],
+    "bounds": [
+      "3/518",
+      "11/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p02",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "164204333/1000000",
+      "176260033/1000000"
+    ],
+    "bounds": [
+      "9/518",
+      "17/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p03",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "98011649/500000",
+      "21041511/100000"
+    ],
+    "bounds": [
+      "29/518",
+      "1/14"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p04",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "115972393/500000",
+      "124486957/500000"
+    ],
+    "bounds": [
+      "57/518",
+      "65/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p05",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "15/74",
+      "113/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p06",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "13/37",
+      "95/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p07",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "277/518",
+      "285/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p08",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "187/259",
+      "191/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p09",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "465/518",
+      "473/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p10",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p11",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p01",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "164204333/1000000",
+      "176260033/1000000"
+    ],
+    "bounds": [
+      "0",
+      "1/74"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p02",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "98011649/500000",
+      "21041511/100000"
+    ],
+    "bounds": [
+      "1/37",
+      "11/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p03",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "115972393/500000",
+      "124486957/500000"
+    ],
+    "bounds": [
+      "15/259",
+      "19/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p04",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "59/518",
+      "67/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p05",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "59/259",
+      "9/37"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p06",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "201/518",
+      "209/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p07",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "152/259",
+      "156/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p08",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "30/37",
+      "214/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p09",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "509/518",
+      "517/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_wet90:p10",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p01",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "15/518",
+      "23/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p02",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "7/74",
+      "57/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p03",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "115/518",
+      "123/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p04",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "233/518",
+      "241/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p05",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "191/259",
+      "195/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p06",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p07",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p01",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "3/518",
+      "11/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p02",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "23/518",
+      "31/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p03",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "31/259",
+      "5/37"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p04",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "143/518",
+      "151/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p05",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "139/259",
+      "143/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p06",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "423/518",
+      "431/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p07",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": [
+      "250/259",
+      "254/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_wet90:p08",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p01",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "0",
+      "3/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p02",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p03",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p04",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p05",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "33/518",
+      "41/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p06",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "95/518",
+      "103/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p07",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "808522867/1000000",
+      "433941857/500000"
+    ],
+    "bounds": [
+      "215/518",
+      "223/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p08",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": [
+      "367/518",
+      "375/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p09",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "570743887/500000",
+      "1226882831/1000000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_dry:p10",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "274764759/200000",
+      "29574279/20000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p01",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "0",
+      "5/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p02",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "1/518",
+      "9/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p03",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "4/259",
+      "8/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p04",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "15/518",
+      "23/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p05",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": [
+      "25/259",
+      "29/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p06",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "808522867/1000000",
+      "433941857/500000"
+    ],
+    "bounds": [
+      "137/518",
+      "145/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p07",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": [
+      "265/518",
+      "39/74"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p08",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "570743887/500000",
+      "1226882831/1000000"
+    ],
+    "bounds": [
+      "421/518",
+      "429/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p09",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "274764759/200000",
+      "29574279/20000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_L_wet90:p10",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "G",
+    "diameter_um": [
+      "819463079/500000",
+      "441615447/250000"
+    ],
+    "bounds": [
+      "515/518",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p01",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "65830011/500000",
+      "140203121/1000000"
+    ],
+    "bounds": [
+      "12/523",
+      "20/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p02",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "15774377/100000",
+      "8398969/50000"
+    ],
+    "bounds": [
+      "26/523",
+      "34/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p03",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "93023907/500000",
+      "49530001/250000"
+    ],
+    "bounds": [
+      "51/523",
+      "59/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p04",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": [
+      "96/523",
+      "104/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p05",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": [
+      "169/523",
+      "177/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p06",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": [
+      "263/523",
+      "271/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p07",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "368/523",
+      "376/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p08",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "456/523",
+      "464/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p09",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": [
+      "512/523",
+      "520/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p10",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": [
+      "520/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p01",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "65830011/500000",
+      "140203121/1000000"
+    ],
+    "bounds": [
+      "6/523",
+      "14/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p02",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "15774377/100000",
+      "8398969/50000"
+    ],
+    "bounds": [
+      "14/523",
+      "22/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p03",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "93023907/500000",
+      "49530001/250000"
+    ],
+    "bounds": [
+      "25/523",
+      "33/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p04",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": [
+      "49/523",
+      "57/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p05",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": [
+      "101/523",
+      "109/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p06",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": [
+      "182/523",
+      "190/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p07",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "291/523",
+      "299/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p08",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "394/523",
+      "402/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p09",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": [
+      "478/523",
+      "486/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p10",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": [
+      "513/523",
+      "521/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_wet90:p11",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": [
+      "519/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p01",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": [
+      "8/523",
+      "16/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p02",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": [
+      "17/523",
+      "25/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p03",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": [
+      "50/523",
+      "58/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p04",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "118/523",
+      "126/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p05",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "236/523",
+      "244/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p06",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": [
+      "390/523",
+      "398/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p07",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": [
+      "519/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p08",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": [
+      "519/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p01",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": [
+      "1/523",
+      "9/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p02",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": [
+      "8/523",
+      "16/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p03",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": [
+      "27/523",
+      "35/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p04",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "64/523",
+      "72/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p05",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "140/523",
+      "148/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p06",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": [
+      "276/523",
+      "284/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p07",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": [
+      "422/523",
+      "430/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p08",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": [
+      "498/523",
+      "506/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p09",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "22572071/25000",
+      "961468707/1000000"
+    ],
+    "bounds": [
+      "519/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p10",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "G",
+    "diameter_um": [
+      "53651547/50000",
+      "35732977/31250"
+    ],
+    "bounds": [
+      "519/523",
+      "1"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_dry:p01",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p02",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p03",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p04",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p05",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p06",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p07",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p08",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p09",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p10",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p11",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p12",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p13",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p14",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p15",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p16",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p17",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p18",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p19",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p20",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p21",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p22",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p23",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p24",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p25",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p26",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_dry:p27",
+    "series_id": "non_sieved_dry",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p01",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p02",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p03",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p04",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p05",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p06",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p07",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p08",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p09",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": [
+      "75/524",
+      "47/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p10",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": [
+      "43/262",
+      "105/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p11",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p12",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p13",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": [
+      "59/262",
+      "35/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p14",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": [
+      "129/524",
+      "38/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p15",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": [
+      "137/524",
+      "81/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p16",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": [
+      "147/524",
+      "44/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p17",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": [
+      "159/524",
+      "95/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p18",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": [
+      "173/524",
+      "205/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p19",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": [
+      "95/262",
+      "56/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p20",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": [
+      "219/524",
+      "63/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p21",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": [
+      "129/262",
+      "291/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p22",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": [
+      "157/262",
+      "173/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet25:p23",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p24",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p25",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p26",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet25:p27",
+    "series_id": "non_sieved_wet25",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p01",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "578649/125000",
+      "496023/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p02",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "605261/62500",
+      "10324973/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p03",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "2346791/200000",
+      "1250899/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p04",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13658929/1000000",
+      "14561109/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p05",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16027327/1000000",
+      "17085941/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p06",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "388351/20000",
+      "2070009/100000"
+    ],
+    "bounds": [
+      "75/524",
+      "93/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p07",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "4667513/200000",
+      "1554939/62500"
+    ],
+    "bounds": [
+      "45/262",
+      "55/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p08",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "13912797/500000",
+      "29663489/1000000"
+    ],
+    "bounds": [
+      "105/524",
+      "63/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p09",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "16456259/500000",
+      "35086407/1000000"
+    ],
+    "bounds": [
+      "119/524",
+      "35/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p10",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "19464703/500000",
+      "41500713/1000000"
+    ],
+    "bounds": [
+      "33/131",
+      "153/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p11",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "11328959/250000",
+      "4830897/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p12",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53600231/1000000",
+      "28570277/500000"
+    ],
+    "bounds": [
+      "153/524",
+      "177/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p13",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "6545943/100000",
+      "69783059/1000000"
+    ],
+    "bounds": [
+      "169/524",
+      "48/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p14",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "40292109/500000",
+      "85906847/1000000"
+    ],
+    "bounds": [
+      "177/524",
+      "101/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p15",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "18911433/200000",
+      "50401357/500000"
+    ],
+    "bounds": [
+      "46/131",
+      "53/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p16",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1761584/15625",
+      "120188001/1000000"
+    ],
+    "bounds": [
+      "97/262",
+      "111/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p17",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "133352143/1000000",
+      "142160119/1000000"
+    ],
+    "bounds": [
+      "207/524",
+      "235/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p18",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "80136637/500000",
+      "34171881/200000"
+    ],
+    "bounds": [
+      "56/131",
+      "127/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p19",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "37914713/200000",
+      "101047497/500000"
+    ],
+    "bounds": [
+      "60/131",
+      "135/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p20",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "1793843/8000",
+      "29880113/125000"
+    ],
+    "bounds": [
+      "1/2",
+      "147/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p21",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "53470387/200000",
+      "57002133/200000"
+    ],
+    "bounds": [
+      "75/131",
+      "83/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p22",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "160662473/500000",
+      "17127431/50000"
+    ],
+    "bounds": [
+      "87/131",
+      "94/131"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p23",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "95779671/250000",
+      "204211933/500000"
+    ],
+    "bounds": [
+      "401/524",
+      "429/524"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p24",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "228397963/500000",
+      "243483763/500000"
+    ],
+    "bounds": [
+      "112/131",
+      "237/262"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "non_sieved_wet90:p25",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "544641977/1000000",
+      "580615853/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p26",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "649381631/1000000",
+      "692273613/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "non_sieved_wet90:p27",
+    "series_id": "non_sieved_wet90",
+    "panel": "fig2",
+    "layer": "P",
+    "diameter_um": [
+      "387131841/500000",
+      "412702093/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_dry:p01",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "68775149/500000",
+      "147649089/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_dry:p02",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "164204333/1000000",
+      "176260033/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_dry:p03",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "98011649/500000",
+      "21041511/100000"
+    ],
+    "bounds": [
+      "9/259",
+      "7/74"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p04",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "115972393/500000",
+      "124486957/500000"
+    ],
+    "bounds": [
+      "22/259",
+      "39/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p05",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": [
+      "46/259",
+      "9/37"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p06",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": [
+      "169/518",
+      "29/74"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p07",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "132/259",
+      "299/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p08",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": [
+      "361/518",
+      "197/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_S_dry:p09",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_dry:p10",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_dry:p11",
+    "series_id": "medium_S_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p01",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "164204333/1000000",
+      "176260033/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p02",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "98011649/500000",
+      "21041511/100000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p03",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "115972393/500000",
+      "124486957/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p04",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p05",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p06",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p07",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p08",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p09",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_S_wet90:p10",
+    "series_id": "medium_S_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_dry:p01",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_dry:p02",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_dry:p03",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": [
+      "103/518",
+      "67/259"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p04",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_dry:p05",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": [
+      "5/7",
+      "401/518"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "medium_M_dry:p06",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_dry:p07",
+    "series_id": "medium_M_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p01",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p02",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p03",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p04",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p05",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p06",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p07",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "411485579/500000",
+      "441696391/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_M_wet90:p08",
+    "series_id": "medium_M_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p01",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "69222567/250000",
+      "297219243/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p02",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p03",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p04",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p05",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p06",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p07",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "808522867/1000000",
+      "433941857/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p08",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p09",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "570743887/500000",
+      "1226882831/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_dry:p10",
+    "series_id": "medium_L_dry",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "274764759/200000",
+      "29574279/20000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p01",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "13339419/40000",
+      "357969607/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p02",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "50206063/125000",
+      "431137089/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p03",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "475251041/1000000",
+      "255071721/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p04",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "114478071/200000",
+      "614414617/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p05",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "170826559/250000",
+      "366736909/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p06",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "808522867/1000000",
+      "433941857/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p07",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "965195713/1000000",
+      "51810051/50000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p08",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "570743887/500000",
+      "1226882831/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p09",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "274764759/200000",
+      "29574279/20000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "medium_L_wet90:p10",
+    "series_id": "medium_L_wet90",
+    "panel": "fig3b",
+    "layer": "P",
+    "diameter_um": [
+      "819463079/500000",
+      "441615447/250000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_dry:p01",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "65830011/500000",
+      "140203121/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_dry:p02",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "15774377/100000",
+      "8398969/50000"
+    ],
+    "bounds": [
+      "18/523",
+      "42/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p03",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "93023907/500000",
+      "49530001/250000"
+    ],
+    "bounds": [
+      "42/523",
+      "68/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p04",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": [
+      "86/523",
+      "114/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p05",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": [
+      "157/523",
+      "190/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p06",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": [
+      "249/523",
+      "285/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p07",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "357/523",
+      "388/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p08",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "448/523",
+      "472/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_S_dry:p09",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_dry:p10",
+    "series_id": "light_S_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p01",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "65830011/500000",
+      "140203121/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p02",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "15774377/100000",
+      "8398969/50000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p03",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "93023907/500000",
+      "49530001/250000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p04",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p05",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p06",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p07",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p08",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p09",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p10",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_S_wet90:p11",
+    "series_id": "light_S_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_dry:p01",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_dry:p02",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_dry:p03",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_dry:p04",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": [
+      "104/523",
+      "139/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p05",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": [
+      "223/523",
+      "257/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p06",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": [
+      "371/523",
+      "416/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_dry:p07",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_dry:p08",
+    "series_id": "light_M_dry",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p01",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "219430467/1000000",
+      "29208597/125000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p02",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "131451403/500000",
+      "279961929/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p03",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "157493821/500000",
+      "335426423/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p04",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "188695617/500000",
+      "6279363/15625"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p05",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "112154613/250000",
+      "477728211/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p06",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "533288793/1000000",
+      "567892603/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p07",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "63894099/100000",
+      "340200157/500000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p08",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "765524411/1000000",
+      "50949839/62500"
+    ],
+    "bounds": [
+      "492/523",
+      "512/523"
+    ],
+    "reason": "GRAPHICAL_OUTER_ENCLOSURE"
+  },
+  {
+    "point_id": "light_M_wet90:p09",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "22572071/25000",
+      "961468707/1000000"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  },
+  {
+    "point_id": "light_M_wet90:p10",
+    "series_id": "light_M_wet90",
+    "panel": "fig5b",
+    "layer": "P",
+    "diameter_um": [
+      "53651547/50000",
+      "35732977/31250"
+    ],
+    "bounds": null,
+    "reason": "CI endpoints missing or not separable from marker/density/other series; not zero-width"
+  }
+]

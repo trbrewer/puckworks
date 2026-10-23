@@ -1,0 +1,15 @@
+id,layer,scope,roast,fraction,outcome,bounds,supported,required,lower_operand,upper_operand,separation,necessary_only,display_ratio
+G:medium_S,G,fraction,medium,S,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""1"", ""297219243/196023298""]",6,6,lambda>=1,G:medium_S:q0.10,,True,"[""1.000000"", ""1.516245""]"
+G:medium_M,G,fraction,medium,M,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""411485579/366736909"", ""614414617/475251041""]",6,6,G:medium_M:q0.99,G:medium_M:q0.50,,True,"[""1.122018"", ""1.292822""]"
+G:medium_L,G,fraction,medium,L,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""1"", ""1036201020/808522867""]",6,6,lambda>=1,G:medium_L:q0.50,,True,"[""1.000000"", ""1.281598""]"
+G:medium,G,within_roast,medium,,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""411485579/366736909"", ""1036201020/808522867""]",18,18,G:medium_M:q0.99,G:medium_L:q0.50,,True,"[""1.122018"", ""1.281598""]"
+G:light_S,G,fraction,light,S,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""1"", ""567892603/448618452""]",6,6,lambda>=1,G:light_S:q0.90,,True,"[""1.000000"", ""1.265870""]"
+G:light_M,G,fraction,light,M,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""765524411/680400314"", ""567892603/448618452""]",6,6,G:light_M:q0.99,G:light_M:q0.50,,True,"[""1.125108"", ""1.265870""]"
+G:light,G,within_roast,light,,NONEMPTY_OUTER_CANDIDATE_RANGE,"[""765524411/680400314"", ""567892603/448618452""]",12,12,G:light_M:q0.99,G:light_S:q0.90,,True,"[""1.125108"", ""1.265870""]"
+P:medium_S,P,fraction,medium,S,UNRESOLVED_SOURCE_OR_READING,,0,6,lambda>=1,,,True,
+P:medium_M,P,fraction,medium,M,UNRESOLVED_SOURCE_OR_READING,,0,6,lambda>=1,,,True,
+P:medium_L,P,fraction,medium,L,UNRESOLVED_SOURCE_OR_READING,,0,6,lambda>=1,,,True,
+P:medium,P,within_roast,medium,,UNRESOLVED_SOURCE_OR_READING,,0,18,lambda>=1,,,True,
+P:light_S,P,fraction,light,S,UNRESOLVED_SOURCE_OR_READING,,0,6,lambda>=1,,,True,
+P:light_M,P,fraction,light,M,UNRESOLVED_SOURCE_OR_READING,,0,6,lambda>=1,,,True,
+P:light,P,within_roast,light,,UNRESOLVED_SOURCE_OR_READING,,0,12,lambda>=1,,,True,

@@ -1,0 +1,11 @@
+layer,table,required,supported,unresolved,retained_ambiguities
+G,marker_bounds,176,173,3,3
+G,cdf_readings,18,18,0,0
+G,contrasts,18,18,0,0
+G,quantile_diameters,60,60,0,0
+G,multiplier_intervals,30,30,0,0
+P,marker_bounds,176,49,127,3
+P,cdf_readings,18,9,9,0
+P,contrasts,18,4,14,0
+P,quantile_diameters,60,9,51,0
+P,multiplier_intervals,30,0,30,0

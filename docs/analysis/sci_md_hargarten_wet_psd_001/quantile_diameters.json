@@ -1,0 +1,2162 @@
+[
+  {
+    "id": "G:medium_S_dry:q0.10",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "98011649/500000",
+      "124486957/500000"
+    ],
+    "lower_anchor": "medium_S_dry:p03",
+    "upper_anchor": "medium_S_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "196.023298",
+      "248.973914"
+    ]
+  },
+  {
+    "id": "G:medium_S_dry:q0.16",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "115972393/500000",
+      "297219243/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p04",
+    "upper_anchor": "medium_S_dry:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "231.944786",
+      "297.219243"
+    ]
+  },
+  {
+    "id": "G:medium_S_dry:q0.50",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "13339419/40000",
+      "431137089/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p06",
+    "upper_anchor": "medium_S_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "333.485475",
+      "431.137089"
+    ]
+  },
+  {
+    "id": "G:medium_S_dry:q0.84",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "475251041/1000000",
+      "614414617/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p08",
+    "upper_anchor": "medium_S_dry:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      "614.414617"
+    ]
+  },
+  {
+    "id": "G:medium_S_dry:q0.90",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "475251041/1000000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_S_dry:p08",
+    "upper_anchor": "medium_S_dry:p10",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_S_dry:q0.99",
+    "series_id": "medium_S_dry",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_S_dry:p09",
+    "upper_anchor": "medium_S_dry:p10",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.10",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "115972393/500000",
+      "297219243/1000000"
+    ],
+    "lower_anchor": "medium_S_wet90:p03",
+    "upper_anchor": "medium_S_wet90:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "231.944786",
+      "297.219243"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.16",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "69222567/250000",
+      "357969607/1000000"
+    ],
+    "lower_anchor": "medium_S_wet90:p04",
+    "upper_anchor": "medium_S_wet90:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "276.890268",
+      "357.969607"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.50",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "50206063/125000",
+      "255071721/500000"
+    ],
+    "lower_anchor": "medium_S_wet90:p06",
+    "upper_anchor": "medium_S_wet90:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "401.648504",
+      "510.143442"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.84",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_S_wet90:p08",
+    "upper_anchor": "medium_S_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.90",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_S_wet90:p08",
+    "upper_anchor": "medium_S_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_S_wet90:q0.99",
+    "series_id": "medium_S_wet90",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "114478071/200000",
+      "441696391/500000"
+    ],
+    "lower_anchor": "medium_S_wet90:p08",
+    "upper_anchor": "medium_S_wet90:p10",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "883.392782"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.10",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "69222567/250000",
+      "431137089/1000000"
+    ],
+    "lower_anchor": "medium_M_dry:p01",
+    "upper_anchor": "medium_M_dry:p03",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "276.890268",
+      "431.137089"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.16",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "13339419/40000",
+      "431137089/1000000"
+    ],
+    "lower_anchor": "medium_M_dry:p02",
+    "upper_anchor": "medium_M_dry:p03",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "333.485475",
+      "431.137089"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.50",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "475251041/1000000",
+      "614414617/1000000"
+    ],
+    "lower_anchor": "medium_M_dry:p04",
+    "upper_anchor": "medium_M_dry:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      "614.414617"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.84",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": "medium_M_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.90",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": "medium_M_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_M_dry:q0.99",
+    "series_id": "medium_M_dry",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": "medium_M_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.10",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "13339419/40000",
+      "431137089/1000000"
+    ],
+    "lower_anchor": "medium_M_wet90:p02",
+    "upper_anchor": "medium_M_wet90:p03",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "333.485475",
+      "431.137089"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.16",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "50206063/125000",
+      "255071721/500000"
+    ],
+    "lower_anchor": "medium_M_wet90:p03",
+    "upper_anchor": "medium_M_wet90:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "401.648504",
+      "510.143442"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.50",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "475251041/1000000",
+      "614414617/1000000"
+    ],
+    "lower_anchor": "medium_M_wet90:p04",
+    "upper_anchor": "medium_M_wet90:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      "614.414617"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.84",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "170826559/250000",
+      "441696391/500000"
+    ],
+    "lower_anchor": "medium_M_wet90:p06",
+    "upper_anchor": "medium_M_wet90:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "683.306236",
+      "883.392782"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.90",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "170826559/250000",
+      "441696391/500000"
+    ],
+    "lower_anchor": "medium_M_wet90:p06",
+    "upper_anchor": "medium_M_wet90:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "683.306236",
+      "883.392782"
+    ]
+  },
+  {
+    "id": "G:medium_M_wet90:q0.99",
+    "series_id": "medium_M_wet90",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "411485579/500000",
+      "51810051/50000"
+    ],
+    "lower_anchor": "medium_M_wet90:p07",
+    "upper_anchor": "medium_M_wet90:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "822.971158",
+      "1036.201020"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.10",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_L_dry:p05",
+    "upper_anchor": "medium_L_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.16",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "114478071/200000",
+      "366736909/500000"
+    ],
+    "lower_anchor": "medium_L_dry:p05",
+    "upper_anchor": "medium_L_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "733.473818"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.50",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "808522867/1000000",
+      "51810051/50000"
+    ],
+    "lower_anchor": "medium_L_dry:p07",
+    "upper_anchor": "medium_L_dry:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "808.522867",
+      "1036.201020"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.84",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "965195713/1000000",
+      "1226882831/1000000"
+    ],
+    "lower_anchor": "medium_L_dry:p08",
+    "upper_anchor": "medium_L_dry:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "965.195713",
+      "1226.882831"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.90",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "965195713/1000000",
+      "1226882831/1000000"
+    ],
+    "lower_anchor": "medium_L_dry:p08",
+    "upper_anchor": "medium_L_dry:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "965.195713",
+      "1226.882831"
+    ]
+  },
+  {
+    "id": "G:medium_L_dry:q0.99",
+    "series_id": "medium_L_dry",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "965195713/1000000",
+      "1226882831/1000000"
+    ],
+    "lower_anchor": "medium_L_dry:p08",
+    "upper_anchor": "medium_L_dry:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "965.195713",
+      "1226.882831"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.10",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "114478071/200000",
+      "433941857/500000"
+    ],
+    "lower_anchor": "medium_L_wet90:p04",
+    "upper_anchor": "medium_L_wet90:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      "867.883714"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.16",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "170826559/250000",
+      "433941857/500000"
+    ],
+    "lower_anchor": "medium_L_wet90:p05",
+    "upper_anchor": "medium_L_wet90:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "683.306236",
+      "867.883714"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.50",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "808522867/1000000",
+      "51810051/50000"
+    ],
+    "lower_anchor": "medium_L_wet90:p06",
+    "upper_anchor": "medium_L_wet90:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "808.522867",
+      "1036.201020"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.84",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "570743887/500000",
+      "29574279/20000"
+    ],
+    "lower_anchor": "medium_L_wet90:p08",
+    "upper_anchor": "medium_L_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "1141.487774",
+      "1478.713950"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.90",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "570743887/500000",
+      "29574279/20000"
+    ],
+    "lower_anchor": "medium_L_wet90:p08",
+    "upper_anchor": "medium_L_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "1141.487774",
+      "1478.713950"
+    ]
+  },
+  {
+    "id": "G:medium_L_wet90:q0.99",
+    "series_id": "medium_L_wet90",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "570743887/500000",
+      "29574279/20000"
+    ],
+    "lower_anchor": "medium_L_wet90:p08",
+    "upper_anchor": "medium_L_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "1141.487774",
+      "1478.713950"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.10",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "15774377/100000",
+      "29208597/125000"
+    ],
+    "lower_anchor": "light_S_dry:p02",
+    "upper_anchor": "light_S_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "157.743770",
+      "233.668776"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.16",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "93023907/500000",
+      "29208597/125000"
+    ],
+    "lower_anchor": "light_S_dry:p03",
+    "upper_anchor": "light_S_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "186.047814",
+      "233.668776"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.50",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "131451403/500000",
+      "335426423/1000000"
+    ],
+    "lower_anchor": "light_S_dry:p05",
+    "upper_anchor": "light_S_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "262.902806",
+      "335.426423"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.84",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "188695617/500000",
+      "477728211/1000000"
+    ],
+    "lower_anchor": "light_S_dry:p07",
+    "upper_anchor": "light_S_dry:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "377.391234",
+      "477.728211"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.90",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_S_dry:p08",
+    "upper_anchor": "light_S_dry:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "G:light_S_dry:q0.99",
+    "series_id": "light_S_dry",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "112154613/250000",
+      "340200157/500000"
+    ],
+    "lower_anchor": "light_S_dry:p08",
+    "upper_anchor": "light_S_dry:p10",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "680.400314"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.10",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "93023907/500000",
+      "279961929/1000000"
+    ],
+    "lower_anchor": "light_S_wet90:p03",
+    "upper_anchor": "light_S_wet90:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "186.047814",
+      "279.961929"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.16",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "219430467/1000000",
+      "279961929/1000000"
+    ],
+    "lower_anchor": "light_S_wet90:p04",
+    "upper_anchor": "light_S_wet90:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "219.430467",
+      "279.961929"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.50",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "157493821/500000",
+      "6279363/15625"
+    ],
+    "lower_anchor": "light_S_wet90:p06",
+    "upper_anchor": "light_S_wet90:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "314.987642",
+      "401.879232"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.84",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_S_wet90:p08",
+    "upper_anchor": "light_S_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.90",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_S_wet90:p08",
+    "upper_anchor": "light_S_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "G:light_S_wet90:q0.99",
+    "series_id": "light_S_wet90",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "533288793/1000000",
+      "50949839/62500"
+    ],
+    "lower_anchor": "light_S_wet90:p09",
+    "upper_anchor": "light_S_wet90:p11",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      "815.197424"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.10",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "131451403/500000",
+      "6279363/15625"
+    ],
+    "lower_anchor": "light_M_dry:p02",
+    "upper_anchor": "light_M_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "262.902806",
+      "401.879232"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.16",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "157493821/500000",
+      "6279363/15625"
+    ],
+    "lower_anchor": "light_M_dry:p03",
+    "upper_anchor": "light_M_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "314.987642",
+      "401.879232"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.50",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_M_dry:p05",
+    "upper_anchor": "light_M_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.84",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "533288793/1000000",
+      "340200157/500000"
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": "light_M_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      "680.400314"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.90",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "533288793/1000000",
+      "340200157/500000"
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": "light_M_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      "680.400314"
+    ]
+  },
+  {
+    "id": "G:light_M_dry:q0.99",
+    "series_id": "light_M_dry",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "533288793/1000000",
+      "340200157/500000"
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": "light_M_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      "680.400314"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.10",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.10",
+    "bounds_um": [
+      "157493821/500000",
+      "6279363/15625"
+    ],
+    "lower_anchor": "light_M_wet90:p03",
+    "upper_anchor": "light_M_wet90:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "314.987642",
+      "401.879232"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.16",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.16",
+    "bounds_um": [
+      "188695617/500000",
+      "477728211/1000000"
+    ],
+    "lower_anchor": "light_M_wet90:p04",
+    "upper_anchor": "light_M_wet90:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "377.391234",
+      "477.728211"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.50",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.50",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_M_wet90:p05",
+    "upper_anchor": "light_M_wet90:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.84",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.84",
+    "bounds_um": [
+      "63894099/100000",
+      "50949839/62500"
+    ],
+    "lower_anchor": "light_M_wet90:p07",
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "638.940990",
+      "815.197424"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.90",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.90",
+    "bounds_um": [
+      "63894099/100000",
+      "50949839/62500"
+    ],
+    "lower_anchor": "light_M_wet90:p07",
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "638.940990",
+      "815.197424"
+    ]
+  },
+  {
+    "id": "G:light_M_wet90:q0.99",
+    "series_id": "light_M_wet90",
+    "layer": "G",
+    "q": "0.99",
+    "bounds_um": [
+      "765524411/1000000",
+      "961468707/1000000"
+    ],
+    "lower_anchor": "light_M_wet90:p08",
+    "upper_anchor": "light_M_wet90:p09",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "765.524411",
+      "961.468707"
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.10",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      "98011649/500000",
+      "297219243/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p03",
+    "upper_anchor": "medium_S_dry:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "196.023298",
+      "297.219243"
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.16",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      "115972393/500000",
+      "297219243/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p04",
+    "upper_anchor": "medium_S_dry:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "231.944786",
+      "297.219243"
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.50",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      "13339419/40000",
+      "431137089/1000000"
+    ],
+    "lower_anchor": "medium_S_dry:p06",
+    "upper_anchor": "medium_S_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "333.485475",
+      "431.137089"
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.84",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      "475251041/1000000",
+      null
+    ],
+    "lower_anchor": "medium_S_dry:p08",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.90",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      "475251041/1000000",
+      null
+    ],
+    "lower_anchor": "medium_S_dry:p08",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_dry:q0.99",
+    "series_id": "medium_S_dry",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      "475251041/1000000",
+      null
+    ],
+    "lower_anchor": "medium_S_dry:p08",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "475.251041",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.10",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.16",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.50",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.84",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.90",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_S_wet90:q0.99",
+    "series_id": "medium_S_wet90",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.10",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      "431137089/1000000"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "medium_M_dry:p03",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "431.137089"
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.16",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      "431137089/1000000"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "medium_M_dry:p03",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "431.137089"
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.50",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      "50206063/125000",
+      "614414617/1000000"
+    ],
+    "lower_anchor": "medium_M_dry:p03",
+    "upper_anchor": "medium_M_dry:p05",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "401.648504",
+      "614.414617"
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.84",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      "114478071/200000",
+      null
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.90",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      "114478071/200000",
+      null
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_dry:q0.99",
+    "series_id": "medium_M_dry",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      "114478071/200000",
+      null
+    ],
+    "lower_anchor": "medium_M_dry:p05",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "572.390355",
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.10",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.16",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.50",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.84",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.90",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_M_wet90:q0.99",
+    "series_id": "medium_M_wet90",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.10",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.16",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.50",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.84",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.90",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_dry:q0.99",
+    "series_id": "medium_L_dry",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.10",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.16",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.50",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.84",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.90",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:medium_L_wet90:q0.99",
+    "series_id": "medium_L_wet90",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.10",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      "15774377/100000",
+      "29208597/125000"
+    ],
+    "lower_anchor": "light_S_dry:p02",
+    "upper_anchor": "light_S_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "157.743770",
+      "233.668776"
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.16",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      "93023907/500000",
+      "29208597/125000"
+    ],
+    "lower_anchor": "light_S_dry:p03",
+    "upper_anchor": "light_S_dry:p04",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "186.047814",
+      "233.668776"
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.50",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      "131451403/500000",
+      "6279363/15625"
+    ],
+    "lower_anchor": "light_S_dry:p05",
+    "upper_anchor": "light_S_dry:p07",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "262.902806",
+      "401.879232"
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.84",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      "188695617/500000",
+      "477728211/1000000"
+    ],
+    "lower_anchor": "light_S_dry:p07",
+    "upper_anchor": "light_S_dry:p08",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "377.391234",
+      "477.728211"
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.90",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      "188695617/500000",
+      null
+    ],
+    "lower_anchor": "light_S_dry:p07",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "377.391234",
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_dry:q0.99",
+    "series_id": "light_S_dry",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      "112154613/250000",
+      null
+    ],
+    "lower_anchor": "light_S_dry:p08",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.10",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.16",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.50",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.84",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.90",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_S_wet90:q0.99",
+    "series_id": "light_S_wet90",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      null,
+      null
+    ],
+    "lower_anchor": null,
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      null
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.10",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      "6279363/15625"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_dry:p04",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "401.879232"
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.16",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      "6279363/15625"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_dry:p04",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "401.879232"
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.50",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      "112154613/250000",
+      "567892603/1000000"
+    ],
+    "lower_anchor": "light_M_dry:p05",
+    "upper_anchor": "light_M_dry:p06",
+    "status": "SUPPORTED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "448.618452",
+      "567.892603"
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.84",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      "533288793/1000000",
+      null
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      null
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.90",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      "533288793/1000000",
+      null
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      null
+    ]
+  },
+  {
+    "id": "P:light_M_dry:q0.99",
+    "series_id": "light_M_dry",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      "533288793/1000000",
+      null
+    ],
+    "lower_anchor": "light_M_dry:p06",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "533.288793",
+      null
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.10",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.10",
+    "bounds_um": [
+      null,
+      "50949839/62500"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "815.197424"
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.16",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.16",
+    "bounds_um": [
+      null,
+      "50949839/62500"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "815.197424"
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.50",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.50",
+    "bounds_um": [
+      null,
+      "50949839/62500"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "815.197424"
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.84",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.84",
+    "bounds_um": [
+      null,
+      "50949839/62500"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "815.197424"
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.90",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.90",
+    "bounds_um": [
+      null,
+      "50949839/62500"
+    ],
+    "lower_anchor": null,
+    "upper_anchor": "light_M_wet90:p08",
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      null,
+      "815.197424"
+    ]
+  },
+  {
+    "id": "P:light_M_wet90:q0.99",
+    "series_id": "light_M_wet90",
+    "layer": "P",
+    "q": "0.99",
+    "bounds_um": [
+      "765524411/1000000",
+      null
+    ],
+    "lower_anchor": "light_M_wet90:p08",
+    "upper_anchor": null,
+    "status": "UNSUPPORTED_OR_ONE_SIDED",
+    "reason": "STRICT_BELOW_AND_WEAK_ABOVE_BRACKET",
+    "display_um": [
+      "765.524411",
+      null
+    ]
+  }
+]

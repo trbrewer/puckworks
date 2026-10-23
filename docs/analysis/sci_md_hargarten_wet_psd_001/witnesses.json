@@ -1,0 +1,632 @@
+[
+  {
+    "id": "G:wet25-dry:10",
+    "layer": "G",
+    "contrast": "wet25-dry",
+    "cutoff_um": 10,
+    "bounds": [
+      "1/262",
+      "8/131"
+    ],
+    "operands": [
+      "G:non_sieved_wet25:10",
+      "G:non_sieved_dry:10"
+    ],
+    "display_fraction": [
+      "0.003816",
+      "0.061069"
+    ],
+    "display_pp": [
+      "0.381679",
+      "6.106871"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "1/262",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet25:10",
+        "series_id": "non_sieved_wet25",
+        "layer": "G",
+        "cutoff_um": 10,
+        "bounds": [
+          "13/524",
+          "8/131"
+        ],
+        "lower_anchor": "non_sieved_wet25:p01",
+        "upper_anchor": "non_sieved_wet25:p03",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.024809",
+          "0.061069"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:10",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 10,
+        "bounds": [
+          "0",
+          "11/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p01",
+        "upper_anchor": "non_sieved_dry:p03",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.000000",
+          "0.020993"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:10",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 10,
+    "bounds": [
+      "9/262",
+      "53/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:10",
+      "G:non_sieved_dry:10"
+    ],
+    "display_fraction": [
+      "0.034351",
+      "0.101146"
+    ],
+    "display_pp": [
+      "3.435114",
+      "10.114504"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "9/262",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:10",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 10,
+        "bounds": [
+          "29/524",
+          "53/524"
+        ],
+        "lower_anchor": "non_sieved_wet90:p01",
+        "upper_anchor": "non_sieved_wet90:p03",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.055343",
+          "0.101146"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:10",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 10,
+        "bounds": [
+          "0",
+          "11/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p01",
+        "upper_anchor": "non_sieved_dry:p03",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.000000",
+          "0.020993"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet25-dry:25",
+    "layer": "G",
+    "contrast": "wet25-dry",
+    "cutoff_um": 25,
+    "bounds": [
+      "11/524",
+      "12/131"
+    ],
+    "operands": [
+      "G:non_sieved_wet25:25",
+      "G:non_sieved_dry:25"
+    ],
+    "display_fraction": [
+      "0.020992",
+      "0.091604"
+    ],
+    "display_pp": [
+      "2.099236",
+      "9.160306"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "11/524",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet25:25",
+        "series_id": "non_sieved_wet25",
+        "layer": "G",
+        "cutoff_um": 25,
+        "bounds": [
+          "29/262",
+          "77/524"
+        ],
+        "lower_anchor": "non_sieved_wet25:p07",
+        "upper_anchor": "non_sieved_wet25:p08",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.110687",
+          "0.146947"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:25",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 25,
+        "bounds": [
+          "29/524",
+          "47/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p07",
+        "upper_anchor": "non_sieved_dry:p08",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.055343",
+          "0.089695"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:25",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 25,
+    "bounds": [
+      "12/131",
+      "45/262"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:25",
+      "G:non_sieved_dry:25"
+    ],
+    "display_fraction": [
+      "0.091603",
+      "0.171756"
+    ],
+    "display_pp": [
+      "9.160305",
+      "17.175573"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "12/131",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:25",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 25,
+        "bounds": [
+          "95/524",
+          "119/524"
+        ],
+        "lower_anchor": "non_sieved_wet90:p07",
+        "upper_anchor": "non_sieved_wet90:p08",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.181297",
+          "0.227100"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:25",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 25,
+        "bounds": [
+          "29/524",
+          "47/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p07",
+        "upper_anchor": "non_sieved_dry:p08",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.055343",
+          "0.089695"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:40",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 40,
+    "bounds": [
+      "43/524",
+      "27/131"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:40",
+      "G:non_sieved_dry:40"
+    ],
+    "display_fraction": [
+      "0.082061",
+      "0.206107"
+    ],
+    "display_pp": [
+      "8.206106",
+      "20.610688"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "43/524",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:40",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 40,
+        "bounds": [
+          "125/524",
+          "159/524"
+        ],
+        "lower_anchor": "non_sieved_wet90:p09",
+        "upper_anchor": "non_sieved_wet90:p11",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.238549",
+          "0.303436"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:40",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 40,
+        "bounds": [
+          "51/524",
+          "41/262"
+        ],
+        "lower_anchor": "non_sieved_dry:p09",
+        "upper_anchor": "non_sieved_dry:p11",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.097328",
+          "0.156489"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet25-dry:50",
+    "layer": "G",
+    "contrast": "wet25-dry",
+    "cutoff_um": 50,
+    "bounds": [
+      "7/524",
+      "45/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet25:50",
+      "G:non_sieved_dry:50"
+    ],
+    "display_fraction": [
+      "0.013358",
+      "0.085878"
+    ],
+    "display_pp": [
+      "1.335877",
+      "8.587787"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "7/524",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet25:50",
+        "series_id": "non_sieved_wet25",
+        "layer": "G",
+        "cutoff_um": 50,
+        "bounds": [
+          "101/524",
+          "119/524"
+        ],
+        "lower_anchor": "non_sieved_wet25:p11",
+        "upper_anchor": "non_sieved_wet25:p12",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.192748",
+          "0.227100"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:50",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 50,
+        "bounds": [
+          "37/262",
+          "47/262"
+        ],
+        "lower_anchor": "non_sieved_dry:p11",
+        "upper_anchor": "non_sieved_dry:p12",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.141221",
+          "0.179390"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:50",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 50,
+    "bounds": [
+      "57/524",
+      "95/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:50",
+      "G:non_sieved_dry:50"
+    ],
+    "display_fraction": [
+      "0.108778",
+      "0.181298"
+    ],
+    "display_pp": [
+      "10.877862",
+      "18.129771"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "57/524",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:50",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 50,
+        "bounds": [
+          "151/524",
+          "169/524"
+        ],
+        "lower_anchor": "non_sieved_wet90:p11",
+        "upper_anchor": "non_sieved_wet90:p12",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.288167",
+          "0.322520"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:50",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 50,
+        "bounds": [
+          "37/262",
+          "47/262"
+        ],
+        "lower_anchor": "non_sieved_dry:p11",
+        "upper_anchor": "non_sieved_dry:p12",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.141221",
+          "0.179390"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet25-dry:100",
+    "layer": "G",
+    "contrast": "wet25-dry",
+    "cutoff_um": 100,
+    "bounds": [
+      "3/524",
+      "59/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet25:100",
+      "G:non_sieved_dry:100"
+    ],
+    "display_fraction": [
+      "0.005725",
+      "0.112596"
+    ],
+    "display_pp": [
+      "0.572519",
+      "11.259542"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "3/524",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet25:100",
+        "series_id": "non_sieved_wet25",
+        "layer": "G",
+        "cutoff_um": 100,
+        "bounds": [
+          "34/131",
+          "167/524"
+        ],
+        "lower_anchor": "non_sieved_wet25:p14",
+        "upper_anchor": "non_sieved_wet25:p16",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.259541",
+          "0.318703"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:100",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 100,
+        "bounds": [
+          "27/131",
+          "133/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p14",
+        "upper_anchor": "non_sieved_dry:p16",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.206106",
+          "0.253817"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:100",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 100,
+    "bounds": [
+      "13/131",
+      "105/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:100",
+      "G:non_sieved_dry:100"
+    ],
+    "display_fraction": [
+      "0.099236",
+      "0.200382"
+    ],
+    "display_pp": [
+      "9.923664",
+      "20.038168"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "13/131",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:100",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 100,
+        "bounds": [
+          "185/524",
+          "213/524"
+        ],
+        "lower_anchor": "non_sieved_wet90:p14",
+        "upper_anchor": "non_sieved_wet90:p16",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.353053",
+          "0.406489"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:100",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 100,
+        "bounds": [
+          "27/131",
+          "133/524"
+        ],
+        "lower_anchor": "non_sieved_dry:p14",
+        "upper_anchor": "non_sieved_dry:p16",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.206106",
+          "0.253817"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  },
+  {
+    "id": "G:wet90-dry:250",
+    "layer": "G",
+    "contrast": "wet90-dry",
+    "cutoff_um": 250,
+    "bounds": [
+      "7/131",
+      "125/524"
+    ],
+    "operands": [
+      "G:non_sieved_wet90:250",
+      "G:non_sieved_dry:250"
+    ],
+    "display_fraction": [
+      "0.053435",
+      "0.238550"
+    ],
+    "display_pp": [
+      "5.343511",
+      "23.854962"
+    ],
+    "sign": "POSITIVE",
+    "type": "CDF_EXCESS",
+    "certified_excess": "7/131",
+    "source_operands": [
+      {
+        "id": "G:non_sieved_wet90:250",
+        "series_id": "non_sieved_wet90",
+        "layer": "G",
+        "cutoff_um": 250,
+        "bounds": [
+          "137/262",
+          "80/131"
+        ],
+        "lower_anchor": "non_sieved_wet90:p20",
+        "upper_anchor": "non_sieved_wet90:p21",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.522900",
+          "0.610688"
+        ],
+        "status": "SUPPORTED"
+      },
+      {
+        "id": "G:non_sieved_dry:250",
+        "series_id": "non_sieved_dry",
+        "layer": "G",
+        "cutoff_um": 250,
+        "bounds": [
+          "195/524",
+          "123/262"
+        ],
+        "lower_anchor": "non_sieved_dry:p20",
+        "upper_anchor": "non_sieved_dry:p21",
+        "reason": "MONOTONICITY_BRACKET",
+        "display_fraction": [
+          "0.372137",
+          "0.469466"
+        ],
+        "status": "SUPPORTED"
+      }
+    ]
+  }
+]

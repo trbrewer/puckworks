@@ -1,0 +1,268 @@
+[
+  {
+    "id": "G:medium_S",
+    "layer": "G",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "S",
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "1",
+      "297219243/196023298"
+    ],
+    "supported": 6,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": "G:medium_S:q0.10",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.000000",
+      "1.516245"
+    ]
+  },
+  {
+    "id": "G:medium_M",
+    "layer": "G",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "M",
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "411485579/366736909",
+      "614414617/475251041"
+    ],
+    "supported": 6,
+    "required": 6,
+    "lower_operand": "G:medium_M:q0.99",
+    "upper_operand": "G:medium_M:q0.50",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.122018",
+      "1.292822"
+    ]
+  },
+  {
+    "id": "G:medium_L",
+    "layer": "G",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "L",
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "1",
+      "1036201020/808522867"
+    ],
+    "supported": 6,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": "G:medium_L:q0.50",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.000000",
+      "1.281598"
+    ]
+  },
+  {
+    "id": "G:medium",
+    "layer": "G",
+    "scope": "within_roast",
+    "roast": "medium",
+    "fraction": null,
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "411485579/366736909",
+      "1036201020/808522867"
+    ],
+    "supported": 18,
+    "required": 18,
+    "lower_operand": "G:medium_M:q0.99",
+    "upper_operand": "G:medium_L:q0.50",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.122018",
+      "1.281598"
+    ]
+  },
+  {
+    "id": "G:light_S",
+    "layer": "G",
+    "scope": "fraction",
+    "roast": "light",
+    "fraction": "S",
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "1",
+      "567892603/448618452"
+    ],
+    "supported": 6,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": "G:light_S:q0.90",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.000000",
+      "1.265870"
+    ]
+  },
+  {
+    "id": "G:light_M",
+    "layer": "G",
+    "scope": "fraction",
+    "roast": "light",
+    "fraction": "M",
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "765524411/680400314",
+      "567892603/448618452"
+    ],
+    "supported": 6,
+    "required": 6,
+    "lower_operand": "G:light_M:q0.99",
+    "upper_operand": "G:light_M:q0.50",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.125108",
+      "1.265870"
+    ]
+  },
+  {
+    "id": "G:light",
+    "layer": "G",
+    "scope": "within_roast",
+    "roast": "light",
+    "fraction": null,
+    "outcome": "NONEMPTY_OUTER_CANDIDATE_RANGE",
+    "bounds": [
+      "765524411/680400314",
+      "567892603/448618452"
+    ],
+    "supported": 12,
+    "required": 12,
+    "lower_operand": "G:light_M:q0.99",
+    "upper_operand": "G:light_S:q0.90",
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": [
+      "1.125108",
+      "1.265870"
+    ]
+  },
+  {
+    "id": "P:medium_S",
+    "layer": "P",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "S",
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:medium_M",
+    "layer": "P",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "M",
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:medium_L",
+    "layer": "P",
+    "scope": "fraction",
+    "roast": "medium",
+    "fraction": "L",
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:medium",
+    "layer": "P",
+    "scope": "within_roast",
+    "roast": "medium",
+    "fraction": null,
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 18,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:light_S",
+    "layer": "P",
+    "scope": "fraction",
+    "roast": "light",
+    "fraction": "S",
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:light_M",
+    "layer": "P",
+    "scope": "fraction",
+    "roast": "light",
+    "fraction": "M",
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 6,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  },
+  {
+    "id": "P:light",
+    "layer": "P",
+    "scope": "within_roast",
+    "roast": "light",
+    "fraction": null,
+    "outcome": "UNRESOLVED_SOURCE_OR_READING",
+    "bounds": null,
+    "supported": 0,
+    "required": 12,
+    "lower_operand": "lambda>=1",
+    "upper_operand": null,
+    "separation": null,
+    "necessary_only": true,
+    "display_ratio": null
+  }
+]

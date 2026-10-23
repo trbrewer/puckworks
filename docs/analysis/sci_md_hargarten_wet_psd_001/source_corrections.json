@@ -1,0 +1,29 @@
+[
+  {
+    "point_id": "medium_M_dry:p04",
+    "original_draft_y": "1082",
+    "corrected_y": "1074",
+    "reason": "independent original-raster inspection: wrong ordinate in dense overlap"
+  },
+  {
+    "point_id": "medium_L_dry:p02",
+    "correction": "G unsupported; proposed coordinates retained but not admitted",
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p03",
+    "correction": "G unsupported; proposed coordinates retained but not admitted",
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p04",
+    "correction": "G unsupported; proposed coordinates retained but not admitted",
+    "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+  },
+  {
+    "point_id": "medium_L_dry:p05",
+    "original_draft_y": "1239",
+    "corrected_y": "1274",
+    "reason": "independent original-raster inspection: wrong ordinate in dense overlap"
+  }
+]

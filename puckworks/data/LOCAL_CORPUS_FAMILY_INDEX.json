@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "ed06e3989f20fadf713b73bd0027c8e3946c530af4fb395183ae4ef3c02e81a4",
+  "available_data_register_sha256": "78bd3491ce6d5c333d1eaea04c709deeda44e5173306bd587995beb8f67a4d1c",
   "families": [
     {
       "aliases": [
@@ -487,20 +487,27 @@
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "Eight roast/temperature/time/swelling-progress rows plus 14 scalar anchors with units and uncertainty.",
-        "practical_use_and_limits": "Wetting/swelling timescale priors and sensitivity. These are source transcriptions; no synchronized espresso pressure, flow and wet-bed geometry.",
+        "observed_structure": "The external census contains eight swelling-progress rows and 14 scalar anchors. The repository additionally retains 176 proposed CDF marker coordinates from Figures 2/3b/5b (173 admitted in G), with separate identifiable P endpoints and fixed-cutoff/quantile requests.",
+        "practical_use_and_limits": "SCI-MD-HARGARTEN-WET-PSD-001: G uniform dilation excluded for both non-sieved protocols on plotted midpoint coordinates; prepared G ranges are necessary-only outer candidates. P dilation and exact physical-cutoff mapping unresolved. No mobile-fines mass or hydraulic mapping, new campaign or physical-validation upgrade.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,
       "family_id": "hargarten2020",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-HARGARTEN-WET-PSD-001",
       "limits": [
-        "Ambient pressure ONLY -- the ~9 bar espresso regime is explicitly NOT covered (card's key silence). Progress >100% @4min = 20-min-normalization artifact, not overshoot. Two roasts, demineralized water. Pairs with Mo 2021/2022 swelling/erosion models (not implemented) to become runtime-relevant. Figures (PSD dry/wet, single-particle time-courses) OWED as a digitization drop.",
-        "~15% ISOTROPIC swelling, size- and roast-INDEPENDENT (non-significant slopes), erosion-corrected via sieving; temperature-enhanced fines erosion (sign only, mass not quantified). No k(swelling) or porosity(t) relation -- direction only. Ambient pressure only."
+        "physical-cutoff fractions without bin mapping",
+        "simultaneous compatibility from outer ranges",
+        "mobile-fines mass or erosion rate",
+        "hydraulic closure calibration",
+        "physical validation",
+        "Figures 2/3b/5b: G dilation excluded for both non-sieved protocols; prepared quantile intersections remain necessary-only outer candidates. P dilation unresolved. Physical-cutoff mapping unresolved; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+        "Hot label 90 C cools to about 60 C; washed retained coarse fractions and non-sieved/ultrasound operators differ. Figure5 caption L conflicts with artwork; only light S/M retained.",
+        "Same Hargarten article/reprint campaign; scalar CSVs unchanged. Fine F, density and microscopy figures not newly intaken."
       ],
       "manifest_dataset_ids": [
         "hargarten2020/swelling_progress",
-        "hargarten2020/scalar_anchors"
+        "hargarten2020/scalar_anchors",
+        "hargarten2020/wet_psd_001"
       ],
       "model_chain_stages": [
         "source_material",
@@ -509,12 +516,13 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "CC BY-NC (JSFA, open access); PSD/single-particle figures NOT digitized (owed)",
-        "CC BY-NC (JSFA)"
+        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; single-particle figures not digitized",
+        "CC BY-NC (JSFA)",
+        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:HARGARTEN2020",
       "strongest_current_uses": [
-        "DATA-ONLY empirical anchor for the (not-yet-open) bed_dynamics swelling/erosion backlog; NOT a registered component"
+        "bounded graphical-representation exclusion and necessary quantile constraints"
       ]
     },
     {

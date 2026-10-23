@@ -1,0 +1,114 @@
+{
+  "task": "SCI-MD-HARGARTEN-WET-PSD-001",
+  "review_kind": "ONE_BOUNDED_INDEPENDENT_SCIENTIFIC_REVIEW",
+  "reviewer": "independent AI Codex agent /root/scientific_review",
+  "review_date": "2026-10-23",
+  "verdict": "PASS",
+  "unresolved_material_scientific_findings": [],
+  "governance": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "base": "853cc0b609e0abaf9713579f7c0237a859692400",
+  "plan_commit": "64c6a1a9",
+  "source_authentication": "Fresh inspection of actual published PDF methods/Table1/captions/prose and original Figures2/3b/5b embedded raster artwork; per-series coordinate/CI overlays; Figures4/6 consistency only. PDF and image hashes independently recomputed.",
+  "source_sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+  "source_image_sha256": {
+    "p5-image0.png": "0ec48564a9ee34b05617a01d1651f58fb5322acc653a0b8e0880e1a3098d074d",
+    "p6-image1.png": "98bef0f7ebda4ed0a7f2f7a9e08e972789d4a34d53dc9b2625f8259bdcfcb137",
+    "p6-image0.png": "d568473eadeb69a32937afbdcc8858cde364b4efb182a6c2b735c44d0155d44d"
+  },
+  "external_corpus_search": "Not independently repeated; author holdings receipt reviewed without converting cataloguing into semantic inspection.",
+  "independent_algorithm": "Fraction ordinate/calibration bounds; exact integer nth-root log-diameter enclosure; original-coordinate monotone feasibility; independent contrasts, generalized-inverse brackets, ratios, intersections, classifications; no producer imports; result opened after reconstruction.",
+  "independent_check": {
+    "status": "PASS",
+    "marker_rows": 352,
+    "cdf_readings": 36,
+    "contrasts": 36,
+    "quantile_diameters": 120,
+    "ratios": 60,
+    "intersections": 14,
+    "independently_verified_positive_witnesses": 10,
+    "independently_verified_empty_intersections": 0
+  },
+  "corrected_source_findings": [
+    {
+      "point_id": "medium_M_dry:p04",
+      "original_draft_y": "1082",
+      "corrected_y": "1074",
+      "reason": "independent original-raster inspection: wrong ordinate in dense overlap"
+    },
+    {
+      "point_id": "medium_L_dry:p02",
+      "correction": "G unsupported; proposed coordinates retained but not admitted",
+      "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+    },
+    {
+      "point_id": "medium_L_dry:p03",
+      "correction": "G unsupported; proposed coordinates retained but not admitted",
+      "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+    },
+    {
+      "point_id": "medium_L_dry:p04",
+      "correction": "G unsupported; proposed coordinates retained but not admitted",
+      "reason": "proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+    },
+    {
+      "point_id": "medium_L_dry:p05",
+      "original_draft_y": "1239",
+      "corrected_y": "1274",
+      "reason": "independent original-raster inspection: wrong ordinate in dense overlap"
+    }
+  ],
+  "other_correction": "Third-panel figure label now distinguishes thin quantile ratios from thick intersections imposing lambda>=1; no scientific output changed.",
+  "limitations": [
+    "G is graphical reading layer on displayed midpoint coordinates, not exact physical-cutoff CDF.",
+    "P wet/dry dilation and every prepared ratio remain unresolved from missing cumulative interval endpoints.",
+    "Nonempty G scale ranges are necessary outer candidates, without simultaneous dilation witness.",
+    "Graphical allowances do not quantify all experimental/operator uncertainty or simultaneous confidence coverage."
+  ],
+  "software_and_hosted_status": "SEPARATE_NOT_INFERRED_FROM_SCIENTIFIC_PASS",
+  "excluded_from_receipt": [
+    "later verification/hosted-CI/PR handoff",
+    "generated register/Insight projections outside bounded source-arithmetic review"
+  ],
+  "reviewed_file_hashes": {
+    "docs/analysis/sci_md_hargarten_wet_psd_001/PLAN.md": "9e8856a3c77b9e93f1c298e52e63bb99fb7b034dc64364f030bc9f96521365ab",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/RESULT.md": "60c8064d0429bf73d6473a6bea71921466882bd7977f3486acb052d6035dda71",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/RESULT.json": "1af752890ca2d8d7bb7f89722db364b10455b2ad98f872ae5fdaed2791bb13c5",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/comparison.svg": "faf2de8f5c50edd09e1dd795bef090410c6d3d076d1879878d665d3a5819c5c7",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/REVIEW.md": "da6ed54845b7a18a70b4c3cd32f5b6ca38ddec0b02f95a85df290003ba944638",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/review_check.py": "d1c55cc9e15d06ff46956da55cf960dde497d36383a7620b49f8ce6d7cb86a51",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/source_corrections.json": "0eb79b036828e26f7efda7ef350d01ed0fc0f9cd0d674eaf3e8f629ccfe1a8b5",
+    "puckworks/analysis/hargarten2020_wet_psd.py": "da1921bd6f4c7d18bd4083db56ee8795e12c404ec74e6bfb317d6022dd6a25d8",
+    "tests/test_hargarten2020_wet_psd.py": "2fbee1328e94f954bae86b881687e7841ef4119693aba2a6655c11ebb189ed62",
+    "puckworks/data/hargarten2020/wet_psd_001/PROVENANCE.md": "0f4eea0d9efd787e7613f8e0d1bb491e22cb2ab6153432b907b3cedb62322874",
+    "puckworks/data/hargarten2020/wet_psd_001/contract.json": "001f762c75d71066cbfee701a1f9e628c81d2a874cce4892c01947cae47a426d",
+    "puckworks/data/hargarten2020/wet_psd_001/coordinates.csv": "02b5eafd4d120268a5d6149b84075cac9cb6442969f760327e1124561acd7fcc",
+    "puckworks/data/hargarten2020/wet_psd_001/holdings_checked.json": "1536432da14b0161e10bb8d4a2cc05eb0d64a8d66ac5c502176fddad4658830e",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/cdf_readings.csv": "f70ee79dfa84c479b203407bc1e24e43d1e224aa2b1045f98deb56c7dc1398e6",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/contrasts.csv": "69b9bb5fd4fd32261ece35d8003bf60c87dd861fb9312f3ef6637399aacadb8c",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/coverage.csv": "54fde78fd56cdf3f0feed730f38adcb6088e920d5722026e1cdd5cad3c5f3c4c",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/feasibility.csv": "49ab0a5ab67b636c2e40b7885a429dbc616e56f50709c39c49c2405c91d38f8f",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/intersections.csv": "ef43dc49d5df889d6a308d8a100035971556b47870de4c7b90109d16ca950ab3",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/marker_bounds.csv": "e40ac006bf9b62024746f56a2c979081d08b51dd52b5e98975520050f269b155",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/multiplier_intervals.csv": "cd64f509abf26b4e49af725a50ecd14e352561c23b7e4d3a3a64f56bf13f8f2c",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/quantile_diameters.csv": "54484db9d4198b58079ded2bbd98469253dd443df0160c66995c811e0482464c",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/witnesses.csv": "ff09fa5b2de8706f76fb0f41dfac414ea62de2ed5e31c5c9aa37da270108af64",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/cdf_readings.json": "5b29fd8b6d861f08792cac2ade9c39695b543f4d8073a6990409380e8eada153",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/contrasts.json": "9db9f4c2355979e7b8222ea6f285b15cf025885bacbd1e182b2af867a9259a02",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/coverage.json": "cef7b69d2b58302fd1009b6d6eb53dc3a37718d121b99a76775e1949baa92be0",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/feasibility.json": "ba09e2d5c78695ece63b6d465aac53e64f557ab5ebbb091f5cc463de2b02b277",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/intersections.json": "e80b250d4c127153e740faaec57693d33c67fdbc8c351ee952ff03abc351b51e",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/marker_bounds.json": "d3457186d8a7f84f739e3a4c4765c431463e5efebb3fa8923a7a568265ab1077",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/multiplier_intervals.json": "85ba31365816bebeefc9eeae150c3b58c52ca00137b39b920ccbc3f212ff4909",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/quantile_diameters.json": "aeb23080eb88b762fc38795908ca517a419bf737aef26c95f525c8b862dff77a",
+    "docs/analysis/sci_md_hargarten_wet_psd_001/witnesses.json": "e1214c290ae6510968fc0eece14463936b8e3d68315d6f6ce2bbfa3b88254502"
+  }
+}

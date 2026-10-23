@@ -1,0 +1,131 @@
+{
+  "task": "SCI-MD-HARGARTEN-WET-PSD-001",
+  "base": "853cc0b609e0abaf9713579f7c0237a859692400",
+  "scientific_review": "PASS; review_receipt.json binds reviewed bytes",
+  "focused": {
+    "passed": 59,
+    "seconds": "67.23",
+    "new_tests": 21,
+    "predecessor_tests": 38
+  },
+  "projection_tests": {
+    "passed": 9,
+    "seconds": "0.20"
+  },
+  "corpus_tests": {
+    "passed": 12,
+    "seconds": "0.47"
+  },
+  "registry": {
+    "PASS": 66,
+    "ACKNOWLEDGED_EXCEPTION": 1
+  },
+  "ordinary_suite": "RUNNING_AT_PACKAGING; completed receipt/counts/hash in final exact-head PR handoff",
+  "hosted_CI": "NOT_YET_RUN_AT_PACKAGING; final exact-head PR handoff is authoritative",
+  "offline_artifact_sha256": {
+    "RESULT.json": "1af752890ca2d8d7bb7f89722db364b10455b2ad98f872ae5fdaed2791bb13c5",
+    "comparison.svg": "faf2de8f5c50edd09e1dd795bef090410c6d3d076d1879878d665d3a5819c5c7",
+    "marker_bounds.json": "d3457186d8a7f84f739e3a4c4765c431463e5efebb3fa8923a7a568265ab1077",
+    "marker_bounds.csv": "e40ac006bf9b62024746f56a2c979081d08b51dd52b5e98975520050f269b155",
+    "feasibility.json": "ba09e2d5c78695ece63b6d465aac53e64f557ab5ebbb091f5cc463de2b02b277",
+    "feasibility.csv": "49ab0a5ab67b636c2e40b7885a429dbc616e56f50709c39c49c2405c91d38f8f",
+    "cdf_readings.json": "5b29fd8b6d861f08792cac2ade9c39695b543f4d8073a6990409380e8eada153",
+    "cdf_readings.csv": "f70ee79dfa84c479b203407bc1e24e43d1e224aa2b1045f98deb56c7dc1398e6",
+    "contrasts.json": "9db9f4c2355979e7b8222ea6f285b15cf025885bacbd1e182b2af867a9259a02",
+    "contrasts.csv": "69b9bb5fd4fd32261ece35d8003bf60c87dd861fb9312f3ef6637399aacadb8c",
+    "quantile_diameters.json": "aeb23080eb88b762fc38795908ca517a419bf737aef26c95f525c8b862dff77a",
+    "quantile_diameters.csv": "54484db9d4198b58079ded2bbd98469253dd443df0160c66995c811e0482464c",
+    "multiplier_intervals.json": "85ba31365816bebeefc9eeae150c3b58c52ca00137b39b920ccbc3f212ff4909",
+    "multiplier_intervals.csv": "cd64f509abf26b4e49af725a50ecd14e352561c23b7e4d3a3a64f56bf13f8f2c",
+    "intersections.json": "e80b250d4c127153e740faaec57693d33c67fdbc8c351ee952ff03abc351b51e",
+    "intersections.csv": "ef43dc49d5df889d6a308d8a100035971556b47870de4c7b90109d16ca950ab3",
+    "witnesses.json": "e1214c290ae6510968fc0eece14463936b8e3d68315d6f6ce2bbfa3b88254502",
+    "witnesses.csv": "ff09fa5b2de8706f76fb0f41dfac414ea62de2ed5e31c5c9aa37da270108af64",
+    "coverage.json": "cef7b69d2b58302fd1009b6d6eb53dc3a37718d121b99a76775e1949baa92be0",
+    "coverage.csv": "54fde78fd56cdf3f0feed730f38adcb6088e920d5722026e1cdd5cad3c5f3c4c"
+  },
+  "ordinary_failed_collection": {
+    "classification": "ENVIRONMENT_IMPORT_FAILURE",
+    "errors": 7,
+    "deselected": 63,
+    "seconds": "12.32",
+    "cause": "system NumPy1-compiled Matplotlib loaded alongside NumPy2; isolated venv corrected",
+    "log_sha256": "d5c2bc8694813e18a6a0cf59dce85aae9e1a157db57746b3259332143ce78940"
+  },
+  "initial_generated_checks": [
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.evidence_graph --verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.insights verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.statusdoc --verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python tools/validate_local_corpus_coverage.py",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper_a.claim_coverage",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper_b2.claim_coverage",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.claim_coverage",
+      "exit": 1
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.analysis.lateral_coupling_discrimination --verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.registry_artifacts --verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.build verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.availability --verify",
+      "exit": 0
+    },
+    {
+      "command": "/tmp/hargarten-wet-psd-venv/bin/python -m puckworks.paper3.corpus --verify",
+      "exit": 1
+    }
+  ],
+  "corpus_correction": "existing corpus --splice; affected corpus verify and paper3 claim audit then pass",
+  "independent_negative_controls": [
+    "altered contrast bound rejected",
+    "altered condition flag rejected",
+    "altered excess witness rejected",
+    "altered ratio endpoint rejected"
+  ],
+  "protected_files": 22,
+  "reviewed_files": 31,
+  "source_corrections": "source_corrections.json",
+  "rights": "source-derived measurements retain CC BY-NC; original artwork external",
+  "required_checks": [
+    "quick (3.10)",
+    "quick (3.12)",
+    "verify-generated",
+    "paper3-scope-strict",
+    "all-scope-strict"
+  ]
+}

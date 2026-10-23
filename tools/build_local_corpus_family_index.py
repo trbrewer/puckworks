@@ -117,10 +117,13 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                  'Source reconstruction and fraction observation support. Means are not new replicate '
                  'records; permission documented in the existing permission card does not create an SPDX '
                  'license or resolve the grain/bed-volume basis bridge.'),
- 'hargarten2020': ('Eight roast/temperature/time/swelling-progress rows plus 14 scalar anchors with units '
-                   'and uncertainty.',
-                   'Wetting/swelling timescale priors and sensitivity. These are source transcriptions; no '
-                   'synchronized espresso pressure, flow and wet-bed geometry.'),
+ 'hargarten2020': ('The external census contains eight swelling-progress rows and 14 scalar anchors. '
+                   'The repository additionally retains 176 proposed CDF marker coordinates from Figures 2/3b/5b '
+                   '(173 admitted in G), with separate identifiable P endpoints and fixed-cutoff/quantile requests.',
+                   'SCI-MD-HARGARTEN-WET-PSD-001: G uniform dilation excluded for both non-sieved protocols on '
+                   'plotted midpoint coordinates; prepared G ranges are necessary-only outer candidates. '
+                   'P dilation and exact physical-cutoff mapping unresolved. No mobile-fines mass or hydraulic '
+                   'mapping, new campaign or physical-validation upgrade.'),
  'khamitova2020': ('Tables 5.2–5.5 each have nine pressure/temperature rows and four tamp-force groups, '
                    'analytes in mg/40 mL and mg/mL with RSD. Table 5.6 holds ground-coffee context.',
                    'Endpoint analyte response to conditions. Concentration bases must remain explicit; no '

@@ -59,6 +59,27 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    families["HARGARTEN2020"].update({
+        "title": "Hargarten 2020 swelling and dry/wet particle-size observations",
+        "source_identifiers": ["10.1002/jsfa.10440"],
+        "stages": ["grind", "bed_dynamics"],
+        "observables": ["normalized diffraction-equivalent volume CDF on plotted interval midpoints",
+                        "scalar swelling summaries", "microscopy swelling progress"],
+        "measurement_resolution": "RETAINED_GRAPHICAL_MARKERS_AND_PUBLISHED_SCALARS",
+        "fraction_resolution": "non-sieved medium; prepared medium S/M/L and light S/M",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "eligible_uses": ["bounded graphical-representation exclusion and necessary quantile constraints"],
+        "blocked_uses": ["physical-cutoff fractions without bin mapping", "simultaneous compatibility from outer ranges",
+                         "mobile-fines mass or erosion rate", "hydraulic closure calibration", "physical validation"],
+        "missing_joins": ["instrument bin edges/scaling observation map", "obscured cumulative CI endpoints",
+                          "same-particle dry/wet pairing", "PSD-to-hydraulic mapping"],
+        "last_qualified_task": "SCI-MD-HARGARTEN-WET-PSD-001",
+        "last_qualified_commit": None,
+        "notes": ["Figures 2/3b/5b: G dilation excluded for both non-sieved protocols; prepared quantile intersections remain necessary-only outer candidates. P dilation unresolved. Physical-cutoff mapping unresolved; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+                  "Hot label 90 C cools to about 60 C; washed retained coarse fractions and non-sieved/ultrasound operators differ. Figure5 caption L conflicts with artwork; only light S/M retained.",
+                  "Same Hargarten article/reprint campaign; scalar CSVs unchanged. Fine F, density and microscopy figures not newly intaken."]
+    })
     pannusch = families["PANNUSCH2024"]
     pannusch.update({
         "title": "Pannusch 2024 full source repository and qualified reconstructions",

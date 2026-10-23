@@ -1,0 +1,177 @@
+point_id,series_id,x_px,y_px,ci_top_px,ci_bottom_px,G_status,P_status,reason
+non_sieved_dry:p01,non_sieved_dry,122,537,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p02,non_sieved_dry,214,534,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p03,non_sieved_dry,238,531,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p04,non_sieved_dry,257,528,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p05,non_sieved_dry,277,522,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p06,non_sieved_dry,301,514,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p07,non_sieved_dry,324,505,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p08,non_sieved_dry,346,495,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p09,non_sieved_dry,367,483,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p10,non_sieved_dry,388,471,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p11,non_sieved_dry,407,460,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p12,non_sieved_dry,428,448,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p13,non_sieved_dry,453,435,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p14,non_sieved_dry,479,426,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p15,non_sieved_dry,499,418,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p16,non_sieved_dry,521,409,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p17,non_sieved_dry,542,398,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p18,non_sieved_dry,565,383,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p19,non_sieved_dry,586,366,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p20,non_sieved_dry,607,339,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p21,non_sieved_dry,629,296,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p22,non_sieved_dry,652,235,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p23,non_sieved_dry,674,163,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p24,non_sieved_dry,696,94,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p25,non_sieved_dry,718,45,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p26,non_sieved_dry,740,16,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_dry:p27,non_sieved_dry,762,14,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p01,non_sieved_wet25,122,521,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p02,non_sieved_wet25,214,515,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p03,non_sieved_wet25,238,510,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p04,non_sieved_wet25,257,503,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p05,non_sieved_wet25,277,495,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p06,non_sieved_wet25,301,486,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p07,non_sieved_wet25,324,476,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p08,non_sieved_wet25,346,465,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p09,non_sieved_wet25,367,454,448,459,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p10,non_sieved_wet25,388,443,437,448,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p11,non_sieved_wet25,407,433,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p12,non_sieved_wet25,428,423,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p13,non_sieved_wet25,453,409,402,416,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p14,non_sieved_wet25,479,398,390,405,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p15,non_sieved_wet25,499,389,380,397,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p16,non_sieved_wet25,521,375,366,387,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p17,non_sieved_wet25,542,363,352,375,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p18,non_sieved_wet25,565,349,337,361,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p19,non_sieved_wet25,586,331,318,344,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p20,non_sieved_wet25,607,303,290,315,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p21,non_sieved_wet25,629,264,251,276,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p22,non_sieved_wet25,652,208,196,220,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet25:p23,non_sieved_wet25,674,144,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p24,non_sieved_wet25,696,84,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p25,non_sieved_wet25,718,43,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p26,non_sieved_wet25,740,16,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet25:p27,non_sieved_wet25,762,14,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p01,non_sieved_wet90,122,505,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p02,non_sieved_wet90,214,497,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p03,non_sieved_wet90,238,489,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p04,non_sieved_wet90,257,480,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p05,non_sieved_wet90,277,468,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p06,non_sieved_wet90,301,454,449,459,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p07,non_sieved_wet90,324,439,432,444,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p08,non_sieved_wet90,346,423,416,429,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p09,non_sieved_wet90,367,409,402,415,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p10,non_sieved_wet90,388,396,389,402,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p11,non_sieved_wet90,407,383,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p12,non_sieved_wet90,428,373,365,381,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p13,non_sieved_wet90,453,358,350,365,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p14,non_sieved_wet90,479,349,340,357,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p15,non_sieved_wet90,499,340,330,350,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p16,non_sieved_wet90,521,329,320,340,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p17,non_sieved_wet90,542,317,307,327,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p18,non_sieved_wet90,565,299,288,310,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p19,non_sieved_wet90,586,283,272,294,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p20,non_sieved_wet90,607,260,248,272,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p21,non_sieved_wet90,629,222,210,234,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p22,non_sieved_wet90,652,176,166,186,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p23,non_sieved_wet90,674,123,113,133,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p24,non_sieved_wet90,696,77,68,86,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+non_sieved_wet90:p25,non_sieved_wet90,718,39,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p26,non_sieved_wet90,740,16,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+non_sieved_wet90:p27,non_sieved_wet90,762,14,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p01,medium_S_dry,513,1304,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p02,medium_S_dry,533,1298,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p03,medium_S_dry,553,1278,1266,1289,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p04,medium_S_dry,572,1250,1237,1263,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p05,medium_S_dry,592,1202,1189,1215,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p06,medium_S_dry,613,1125,1112,1138,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p07,medium_S_dry,634,1030,1016,1043,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p08,medium_S_dry,653,933,921,946,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_S_dry:p09,medium_S_dry,674,842,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p10,medium_S_dry,694,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_dry:p11,medium_S_dry,715,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p01,medium_S_wet90,533,1308,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p02,medium_S_wet90,553,1293,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p03,medium_S_wet90,572,1277,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p04,medium_S_wet90,592,1248,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p05,medium_S_wet90,613,1189,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p06,medium_S_wet90,634,1106,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p07,medium_S_wet90,653,1003,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p08,medium_S_wet90,674,887,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p09,medium_S_wet90,694,798,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_S_wet90:p10,medium_S_wet90,715,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p01,medium_M_dry,592,1292,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p02,medium_M_dry,613,1258,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p03,medium_M_dry,634,1192,1181,1204,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_M_dry:p04,medium_M_dry,653,1074,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p05,medium_M_dry,674,925,914,937,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+medium_M_dry:p06,medium_M_dry,694,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_dry:p07,medium_M_dry,715,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p01,medium_M_wet90,592,1304,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p02,medium_M_wet90,613,1284,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p03,medium_M_wet90,634,1245,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p04,medium_M_wet90,653,1164,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p05,medium_M_wet90,674,1029,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p06,medium_M_wet90,694,884,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p07,medium_M_wet90,715,807,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_M_wet90:p08,medium_M_wet90,733,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p01,medium_L_dry,592,1309,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p02,medium_L_dry,613,1299,,,UNSUPPORTED_IDENTITY,UNSUPPORTED_ENDPOINTS,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p03,medium_L_dry,634,1283,,,UNSUPPORTED_IDENTITY,UNSUPPORTED_ENDPOINTS,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p04,medium_L_dry,653,1267,,,UNSUPPORTED_IDENTITY,UNSUPPORTED_ENDPOINTS,"proposed centre not authenticated as L cumulative marker in dense overlap; retained as unsupported, not used"
+medium_L_dry:p05,medium_L_dry,674,1274,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p06,medium_L_dry,694,1212,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p07,medium_L_dry,713,1092,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p08,medium_L_dry,733,940,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p09,medium_L_dry,752,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_dry:p10,medium_L_dry,773,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p01,medium_L_wet90,613,1310,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p02,medium_L_wet90,634,1306,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p03,medium_L_wet90,653,1299,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p04,medium_L_wet90,674,1292,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p05,medium_L_wet90,694,1257,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p06,medium_L_wet90,713,1170,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p07,medium_L_wet90,733,1042,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p08,medium_L_wet90,752,886,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p09,medium_L_wet90,773,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+medium_L_wet90:p10,medium_L_wet90,793,792,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p01,light_S_dry,553,1309,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p02,light_S_dry,576,1295,1287,1303,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p03,light_S_dry,597,1270,1261,1279,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p04,light_S_dry,618,1225,1215,1235,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p05,light_S_dry,641,1152,1139,1164,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p06,light_S_dry,664,1058,1044,1072,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p07,light_S_dry,687,953,941,964,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p08,light_S_dry,709,865,857,873,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_S_dry:p09,light_S_dry,731,809,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_dry:p10,light_S_dry,754,801,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p01,light_S_wet90,553,1315,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p02,light_S_wet90,576,1307,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p03,light_S_wet90,597,1296,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p04,light_S_wet90,618,1272,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p05,light_S_wet90,641,1220,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p06,light_S_wet90,664,1139,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p07,light_S_wet90,687,1030,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p08,light_S_wet90,709,927,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p09,light_S_wet90,731,843,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p10,light_S_wet90,754,808,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_S_wet90:p11,light_S_wet90,777,802,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p01,light_M_dry,618,1313,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p02,light_M_dry,641,1304,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p03,light_M_dry,664,1271,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p04,light_M_dry,687,1203,1190,1217,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_M_dry:p05,light_M_dry,709,1085,1072,1098,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_M_dry:p06,light_M_dry,731,931,913,950,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_M_dry:p07,light_M_dry,754,802,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_dry:p08,light_M_dry,777,802,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p01,light_M_wet90,618,1320,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p02,light_M_wet90,641,1313,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p03,light_M_wet90,664,1294,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p04,light_M_wet90,687,1257,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p05,light_M_wet90,709,1181,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p06,light_M_wet90,731,1045,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p07,light_M_wet90,754,899,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p08,light_M_wet90,777,823,817,829,SUPPORTED,SUPPORTED,identifiable cumulative vertical CI caps
+light_M_wet90:p09,light_M_wet90,798,802,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
+light_M_wet90:p10,light_M_wet90,820,802,,,SUPPORTED,UNSUPPORTED_ENDPOINTS,CI endpoints missing or not separable from marker/density/other series; not zero-width
