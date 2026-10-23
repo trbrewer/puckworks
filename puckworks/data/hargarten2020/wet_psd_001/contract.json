@@ -1,0 +1,333 @@
+{
+  "task": "SCI-MD-HARGARTEN-WET-PSD-001",
+  "base": "853cc0b609e0abaf9713579f7c0237a859692400",
+  "governance": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "source": {
+    "doi": "10.1002/jsfa.10440",
+    "publisher": "https://scijournals.onlinelibrary.wiley.com/doi/10.1002/jsfa.10440",
+    "bytes_locator": "https://mediatum.ub.tum.de/doc/1580140/document.pdf",
+    "sha256": "4a41545954e6748a33ec1d956fd690bea58aba9c2e38955dfbb3ae9f5bffbfb0",
+    "version": "published journal article; TUM repository copy",
+    "rights": "Copyright 2020 The Authors; CC BY-NC; source artwork is not repository software"
+  },
+  "observable": "normalized diffraction-equivalent sphere-volume cumulative distribution on displayed interval-midpoint coordinates",
+  "physical_cutoff_mapping": "UNRESOLVED: actual instrument bin boundaries and scaling/binning observation map unavailable",
+  "interpolation": "NONE; monotonic brackets through retained marker gaps; no connecting-line or tail reconstruction",
+  "panels": {
+    "fig2": {
+      "figure": "2",
+      "pdf_page_1based": 5,
+      "printed_page": 3964,
+      "image": "p5-image0.png",
+      "image_sha256": "0ec48564a9ee34b05617a01d1651f58fb5322acc653a0b8e0880e1a3098d074d",
+      "coordinate_system": "original embedded raster pixels; origin top-left; x right; y down",
+      "x_scale": "log10",
+      "x_anchors_px": [
+        214,
+        790
+      ],
+      "x_anchor_um": [
+        "10",
+        "1000"
+      ],
+      "y_scale": "linear",
+      "y_anchors_px": [
+        538,
+        14
+      ],
+      "y_anchor_fraction": [
+        "0",
+        "1"
+      ],
+      "anchor_allowance_px": "1",
+      "reading_allowance_px": "3",
+      "marker": "triangle",
+      "ordinate": "right cumulative Q3 / percent; divide by 100",
+      "excluded_marker": "circle / left density q3 per mm"
+    },
+    "fig3b": {
+      "figure": "3(b)",
+      "pdf_page_1based": 6,
+      "printed_page": 3965,
+      "image": "p6-image1.png",
+      "image_sha256": "98bef0f7ebda4ed0a7f2f7a9e08e972789d4a34d53dc9b2625f8259bdcfcb137",
+      "coordinate_system": "original embedded raster pixels; origin top-left; x right; y down",
+      "x_scale": "log10",
+      "x_anchors_px": [
+        213,
+        733
+      ],
+      "x_anchor_um": [
+        "10",
+        "1000"
+      ],
+      "y_scale": "linear",
+      "y_anchors_px": [
+        1311,
+        793
+      ],
+      "y_anchor_fraction": [
+        "0",
+        "1"
+      ],
+      "anchor_allowance_px": "1",
+      "reading_allowance_px": "3",
+      "marker": "triangle",
+      "ordinate": "right cumulative Q3 / percent; divide by 100",
+      "excluded_marker": "circle / left density q3 per mm"
+    },
+    "fig5b": {
+      "figure": "5(b)",
+      "pdf_page_1based": 6,
+      "printed_page": 3965,
+      "image": "p6-image0.png",
+      "image_sha256": "d568473eadeb69a32937afbdcc8858cde364b4efb182a6c2b735c44d0155d44d",
+      "coordinate_system": "original embedded raster pixels; origin top-left; x right; y down",
+      "x_scale": "log10",
+      "x_anchors_px": [
+        221,
+        807
+      ],
+      "x_anchor_um": [
+        "10",
+        "1000"
+      ],
+      "y_scale": "linear",
+      "y_anchors_px": [
+        1325,
+        802
+      ],
+      "y_anchor_fraction": [
+        "0",
+        "1"
+      ],
+      "anchor_allowance_px": "1",
+      "reading_allowance_px": "3",
+      "marker": "triangle",
+      "ordinate": "right cumulative Q3 / percent; divide by 100",
+      "excluded_marker": "circle / left density q3 per mm"
+    }
+  },
+  "series": [
+    {
+      "id": "non_sieved_dry",
+      "panel": "fig2",
+      "roast": "medium",
+      "fraction": "non_sieved",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "non_sieved_wet25",
+      "panel": "fig2",
+      "roast": "medium",
+      "fraction": "non_sieved",
+      "condition": "wet25",
+      "fill": "gray"
+    },
+    {
+      "id": "non_sieved_wet90",
+      "panel": "fig2",
+      "roast": "medium",
+      "fraction": "non_sieved",
+      "condition": "wet90",
+      "fill": "black"
+    },
+    {
+      "id": "medium_S_dry",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "S",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "medium_S_wet90",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "S",
+      "condition": "wet90",
+      "fill": "black"
+    },
+    {
+      "id": "medium_M_dry",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "M",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "medium_M_wet90",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "M",
+      "condition": "wet90",
+      "fill": "black"
+    },
+    {
+      "id": "medium_L_dry",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "L",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "medium_L_wet90",
+      "panel": "fig3b",
+      "roast": "medium",
+      "fraction": "L",
+      "condition": "wet90",
+      "fill": "black"
+    },
+    {
+      "id": "light_S_dry",
+      "panel": "fig5b",
+      "roast": "light",
+      "fraction": "S",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "light_S_wet90",
+      "panel": "fig5b",
+      "roast": "light",
+      "fraction": "S",
+      "condition": "wet90",
+      "fill": "black"
+    },
+    {
+      "id": "light_M_dry",
+      "panel": "fig5b",
+      "roast": "light",
+      "fraction": "M",
+      "condition": "dry",
+      "fill": "white"
+    },
+    {
+      "id": "light_M_wet90",
+      "panel": "fig5b",
+      "roast": "light",
+      "fraction": "M",
+      "condition": "wet90",
+      "fill": "black"
+    }
+  ],
+  "conditions": {
+    "dry": "air dispersion VIBRI/RODOS; sieved 10 g; 80% conveying speed; 2.5 bar primary dispersion pressure (not brewing pressure)",
+    "wet25": "non-sieved: 10 g in 300 mL demineralized water, stirred 20 min at 25 C; direct aliquot; ultrasound 60 s; pause 10 s; four 10 s readings with 5 s pauses; pump 30%",
+    "wet90": "10 g in 300 mL boiled demineralized water; starts 90 C and cools to about 60 C over 20 min stirring; not isothermal",
+    "prepared_wet90": "after hot treatment: retain on 200 um sieve; wash 5 min; add to dispersant, wait 5 min; no ultrasound; four 120 s readings with 5 s pauses; pump 30%"
+  },
+  "preparation": {
+    "common": "EK43; vibrational sieving plus brush; air-jet 5 min, 70 m3/hour, 50 rpm for prepared fractions",
+    "fractions": {
+      "S": {
+        "dial": "2",
+        "sieve_um": [
+          200,
+          300
+        ],
+        "lens_range_um": [
+          "0.5",
+          "1750"
+        ]
+      },
+      "M": {
+        "dial": "5",
+        "sieve_um": [
+          400,
+          500
+        ],
+        "lens_range_um": [
+          "0.5",
+          "1750"
+        ]
+      },
+      "L": {
+        "dial": "8",
+        "sieve_um": [
+          710,
+          800
+        ],
+        "lens_range_um": [
+          "0.5",
+          "3500"
+        ]
+      }
+    },
+    "non_sieved": {
+      "dial": "2",
+      "lens_range_um": [
+        "0.5",
+        "1750"
+      ]
+    },
+    "limitation": "prepared retained selections, not particle-level pairs or interchangeable with non-sieved operators"
+  },
+  "ambiguities": [
+    {
+      "id": "light_L_caption",
+      "resolution": "caption names L; artwork shows two pairs and p3964 prose/figure6 name S/M; exclude invented light L"
+    },
+    {
+      "id": "bin_edges",
+      "resolution": "midpoint coordinates authenticated; exact physical cutoff mapping unresolved"
+    },
+    {
+      "id": "hidden_CI",
+      "resolution": "missing/obscured endpoints unsupported; never zero-width"
+    }
+  ],
+  "published_uncertainty": "displayed PSD error bars: 95% confidence intervals, source t-distribution; simultaneous coverage/covariance and raw replicates unavailable; no family-wide test",
+  "unquantified_uncertainty": [
+    "experimental and operator differences",
+    "instrument calibration",
+    "sampling and normalized-volume response",
+    "particle release/fragmentation/deagglomeration"
+  ],
+  "layers": {
+    "G": "marker centres widened by graphical reading/calibration uncertainty",
+    "P": "identifiable cumulative CI endpoints widened by same allowances; unsupported otherwise"
+  },
+  "cutoffs_um": [
+    10,
+    25,
+    40,
+    50,
+    100,
+    250
+  ],
+  "primary_cutoff_um": 40,
+  "quantiles": [
+    "0.10",
+    "0.16",
+    "0.50",
+    "0.84",
+    "0.90",
+    "0.99"
+  ],
+  "hypotheses": {
+    "B": "separate lambda_c>=1 per wet condition; Fwet(d)=Fdry(d/lambda_c)",
+    "C": "lambda>=1 shared across fixed quantiles within each fraction, then across designated fractions within roast"
+  },
+  "classification_precedence": [
+    "inconsistent retained CDFs block affected decisions",
+    "any supported strict witness excludes despite unrelated missing requests",
+    "complete non-excluding comparisons / nonempty outer intersection",
+    "otherwise unresolved / partial candidate range"
+  ],
+  "rounding": "exact Fraction arithmetic; Decimal correctly-rounded ln/exp with directed enclosure, then outward to 0.000001 um; displays outward",
+  "relaxation": "shared-axis provenance retained; marginal rectangular outer enclosure used for exclusions, not joint feasibility",
+  "source_outlier_exclusions": "provenance only; retain all requested quantiles including q=.99"
+}
