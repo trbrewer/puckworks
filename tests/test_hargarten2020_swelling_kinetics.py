@@ -169,10 +169,13 @@ def test_retained_certificate_deltas_and_tamper(tmp_path):
     assert checker.exists()
     subprocess.run([sys.executable,str(checker),'--output',str(bundle)],check=True,capture_output=True)
     import shutil
-    for f in bundle.glob('*.json'):shutil.copy(f,tmp_path/f.name)
+    for f in bundle.iterdir():
+        if f.is_file():
+            shutil.copy(f,tmp_path/f.name)
     p=tmp_path/'groups.json';gs=json.loads(p.read_text());gs[0]['delta_lower']='-1';p.write_text(json.dumps(gs))
     bad=subprocess.run([sys.executable,str(checker),'--output',str(tmp_path)],capture_output=True)
     assert bad.returncode!=0
+    assert b'group penalty summary' in bad.stderr
 
 
 def test_shared_witness_satisfies_all_exact_inequalities():

@@ -75,6 +75,14 @@ feasibility tolerances. The outer relaxation remains necessary-only.
 - Integration regression after matching the new oracle LP to the repository's
   one-thread HiGHS setting: **222 passed**, 30.98 s.
 
+Final fixture-only QA correction: the automated tamper test now copies the
+complete bundle and asserts the specific `group penalty summary` rejection,
+preventing an unrelated missing-file failure from giving a false positive.
+All19task tests passed again (18.93s), including deterministic regeneration.
+The full ordinary run above completed before this test-only correction; scientific
+inputs, producer, outputs and review bindings are byte-unchanged. Exact final-head
+hosted checks are reported separately in the PR.
+
 The new manifest row increases retained dataset records from 124 to 125. Existing
 owner tools regenerated the available-data register, local family projection,
 data guide, corpus counts, claim-binding audit and Insight Foundry projections.

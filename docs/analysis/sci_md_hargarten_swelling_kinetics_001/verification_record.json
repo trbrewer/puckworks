@@ -222,7 +222,14 @@
     "deselected": 73,
     "seconds": 1494.98,
     "selector": "not slow and not live and not gpu and not external_data",
-    "sha256": "cf443d201f3445ae1119f3a3688f9972185d5824706ca4809e63ffdd83f62bb1"
+    "sha256": "cf443d201f3445ae1119f3a3688f9972185d5824706ca4809e63ffdd83f62bb1",
+    "tree_note": "Full ordinary run before final test-fixture-only correction; exact final head hosted CI separately reported"
   },
-  "final_hosted_status": "Recorded live in draft PR; not inferred from local PASS"
+  "final_hosted_status": "Recorded live in draft PR; not inferred from local PASS",
+  "final_fixture_check": {
+    "passed": 19,
+    "seconds": 18.93,
+    "scope": "Complete artifact copying and specific semantic rejection asserted in tamper test; science/producer/review bindings unchanged",
+    "sha256": "91e1ae2ac0b8949c8f4d9014b732af1981722bfdeae85ff6ec5e7a8d3a9ca649"
+  }
 }
