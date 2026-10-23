@@ -744,6 +744,15 @@ No same shots may serve as both a fitted permeability map and untouched confirma
 
 ## Completed and negative work index
 
+[Corrochano density-offset comparison](../analysis/sci_md_corrochano_density_shift_001/RESULT.md)
+(2026-10-22) reuses Figure 6.2 and excludes the finite density-at-force additive-offset
+null under its retained graphical-reading contract: 5/66 primary and 10/990 overall
+sample comparisons separate, while all 90 complete-grind comparisons overlap. The
+qualified horizontal-shift connection requires one common single-valued inverse
+loading branch; non-injective curves with sample-dependent branches and both-offset
+models remain untested. Original #352 force-offset scope is preserved. No new
+campaign, physical validation, EWP change or successor.
+
 [5-CQA observation provenance](../analysis/sci_md_5cqa_observation_provenance_001/RESULTS.md)
 completes a bounded retrospective source check: three FIT preparation-entry
 conflicts, reproduced calibration regressions, and unresolved causal attribution.
