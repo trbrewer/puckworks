@@ -20,7 +20,26 @@
     "PASS": 66,
     "ACKNOWLEDGED_EXCEPTION": 1
   },
-  "ordinary_suite": "RUNNING_AT_PACKAGING; completed receipt/counts/hash in final exact-head PR handoff",
+  "ordinary_suite": {
+    "status": "FAILED_GENERATED_DOCUMENTS_CORRECTED",
+    "passed": 7078,
+    "failed": 2,
+    "skipped": 32,
+    "deselected": 72,
+    "seconds": "1483.68",
+    "log_sha256": "0dd8d876a513e82ba88ba711ad74b1e800e9e044622a98b22df6de50221adba0",
+    "failures": [
+      "tests/test_manuscript_structure.py::test_paper_3_generated_blocks_are_current",
+      "tests/test_paper_a_model_contract.py::test_claim_binding_audit_is_not_stale"
+    ],
+    "correction": "Existing corpus splice and claim_binding_audit --write; no science/test-selector/gate changes",
+    "affected_files_rerun": {
+      "passed": 56,
+      "seconds": "24.15",
+      "log_sha256": "9f81a02016b86d189e43954d513e1f01c09a64427d725286deb1ab0a9fbe2627"
+    },
+    "full_suite_final_head": "Required hosted CI; final exact-head PR handoff is authoritative"
+  },
   "hosted_CI": "NOT_YET_RUN_AT_PACKAGING; final exact-head PR handoff is authoritative",
   "offline_artifact_sha256": {
     "RESULT.json": "1af752890ca2d8d7bb7f89722db364b10455b2ad98f872ae5fdaed2791bb13c5",

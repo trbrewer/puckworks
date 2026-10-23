@@ -48,11 +48,12 @@ matched supported cutoffs.
 - Two archive builds byte-identical; archive contents/hash verification passed.
 - All protected scalar/predecessor files authenticate against retained SHA256s.
   Unrelated MANIFEST lines/endings and append-only Insight IDs are preserved.
-- Ordinary offline suite was still running without observed failures when this
-  implementation commit was packaged. Its completed status/counts and log hash are
-  recorded against the submitted head in the final PR handoff; this is not a local
-  PASS claim before completion. The focused suite above includes the new tests,
-  which were added after ordinary-suite collection.
+- Ordinary offline suite: **7,078 passed,2 failed,32 skipped,72 deselected**,
+  1,483.68 s. The two generated-document failures and corrections are retained below;
+  this run is not relabelled PASS. Both affected test files then passed **56 tests**,
+  24.15 s. The focused suite above includes the new tests, which were added after
+  ordinary-suite collection. Required hosted checks run the final submitted head;
+  their exact statuses and links are recorded in the final PR handoff.
 
 Tests cover panel-specific log axes, fraction/percentage-point units, physical-bin
 mapping remaining unsupported, nominal shared-calibration CDF feasibility,
@@ -91,6 +92,14 @@ retained-input production run.
    unrelated source bytes. The plot xlabel was clarified to distinguish thin raw
    ratio enclosures from thick λ≥1 intersections, with no numerical change.
 
+8. The completed ordinary suite reported a stale corpus block before the earlier
+   regeneration and a stale claim-binding audit fingerprint after the manuscript
+   count update. Corpus verification passed on the submitted implementation;
+   `python tools/claim_binding_audit.py --write` regenerated its two audit artifacts.
+   Rerunning both complete affected test files passed56 tests. Scientific inputs,
+   reviewed outputs, test selectors and accepted gates did not change. Full failed
+   run and correction-run log SHA256s are retained in verification_record.json.
+
 These failures are not scientific hypothesis failures. No timeout/cancellation is
 reported as passing. Hosted infrastructure retries follow the repository's single
 same-head retry policy, with final details retained in the PR if needed.
@@ -121,6 +130,7 @@ python tools/build_local_corpus_family_index.py
 python tools/build_espresso_data_guide.py
 python -m puckworks.insights write
 python -m puckworks.paper3.corpus --splice
+python tools/claim_binding_audit.py --write
 ```
 
 Required protected checks, refreshed by `python -m puckworks.statusdoc --audit-ruleset`:
