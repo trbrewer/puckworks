@@ -83,7 +83,7 @@ def determinant_bounds(ia, ib, ja, jb, tau):
     return min(values), max(values)
 
 
-def qualify(readings):
+def qualify_coordinate_readings(readings):
     numerical = any(r['status'] == 'NUMERICALLY_UNRESOLVED' for r in readings)
     full = all(inherited.qualified(r) for r in readings)
     ambiguous = any(r['status'] == 'AMBIGUOUS' for r in readings)
@@ -95,8 +95,8 @@ def qualify(readings):
                     if not inherited.qualified(r)))
 
 
-def ratio(before, after, tau):
-    r = qualify([before, after])
+def density_ratio(before, after, tau):
+    r = qualify_coordinate_readings([before, after])
     r.update(bounds_ratio=None, display_ratio=None)
     if r['full_support']:
         try:
@@ -108,8 +108,8 @@ def ratio(before, after, tau):
     return r
 
 
-def contrast(ia, ib, ja, jb, tau):
-    r = qualify([ia, ib, ja, jb])
+def density_ratio_contrast(ia, ib, ja, jb, tau):
+    r = qualify_coordinate_readings([ia, ib, ja, jb])
     r.update(difference_orientation='first_minus_second', determinant_pt2=None,
              determinant_display_pt2=None, denominator_pt2=None, ratio_difference=None,
              ratio_difference_display=None, sign=None)
@@ -427,7 +427,7 @@ def analyze():
             before, after = readings[sample, a], readings[sample, b]
             r = dict(id=f'ratio:{sample}:{a}:{b}', trace=sample, grind=sample[0],
                      force_from_N=a, force_to_N=b, endpoints=[before['id'], after['id']],
-                     **ratio(before, after, tau))
+                     **density_ratio(before, after, tau))
             tables[TABLES[1]].append(r)
             ratios[sample] = r
         for first, second in combinations(fixed['samples'], 2):
@@ -435,7 +435,7 @@ def analyze():
             r = dict(id=f'contrast:{first}:{second}:{a}:{b}', first=first, second=second,
                      within_grind=first[0] == second[0], force_from_N=a, force_to_N=b,
                      endpoints=[q['id'] for q in endpoints],
-                     **contrast(*endpoints, tau))
+                     **density_ratio_contrast(*endpoints, tau))
             tables[TABLES[2]].append(r)
             pairs.append(r)
         for grind in fixed['grinds']:

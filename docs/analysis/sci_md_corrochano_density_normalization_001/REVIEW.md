@@ -190,3 +190,30 @@ scientific receipt. Reproduce without network or PDF access:
 ```sh
 python docs/analysis/sci_md_corrochano_density_normalization_001/review_check.py
 ```
+
+## Bounded software-check addendum
+
+The ordinary local suite on `6995fc51` completed with 7075 passed, 36 skipped,
+72 deselected and one failure in the unchanged I-040 screen test
+`test_dynamic_trace_ran_every_statically_flagged_gate`. This is a
+**SOFTWARE_OR_QA_FAILURE**, separate from the scientific dispositions. I inspected
+the failure receipt and the screen's function-name-based static call graph: it
+can traverse unrelated functions sharing a short name and flag a non-callable
+`gate_numerics` in the dynamic gate inventory. The failed run is retained in the
+normal verification record; it is not reported as a pass.
+
+The bounded correction renames only this new analysis's helpers and their call
+sites: `ratio` to `density_ratio`, `contrast` to `density_ratio_contrast`, and
+`qualify` to `qualify_coordinate_readings`. Its corresponding new tests use those
+names. No inherited screen, gate, selector or production path changes. I compared
+the pre-correction and corrected Python ASTs after exactly those substitutions;
+they are identical for both producer and tests. All 28 other previously reviewed
+file hashes matched before adding this note, including every exact table and
+witness, the scientific report, figure, fixed plan/contract and independent checker.
+
+Scientific **PASS** therefore remains valid without a new full scientific
+reconstruction or review stage. This is a naming-only software correction within
+the same bounded review. The receipt refreshes the producer/test hashes and this
+review note. Affected-test reruns, deterministic artifact byte comparisons and
+final hosted checks remain separate normal-verification evidence; this addendum
+does not infer their results.

@@ -81,11 +81,28 @@ python tools/build_espresso_data_guide.py
 python -m puckworks.insights write
 ```
 
-The final ordinary suite was launched after scientific code, tests, outputs and
-curated updates were finalized. Its final counts/timing and the exact submitted /
-tested head are recorded in the draft PR handoff, together with hosted statuses.
-A running/missing check is not a pass; focused results above do not substitute for
-that final ordinary-suite record. No unchanged expensive scientific campaign is rerun.
+The ordinary suite on implementation head
+`6995fc51b41875a0fe183a9ab1b6e7b325aceb85` finished with **7,075 passed, 36 skipped,
+72 deselected and one failure**, in 1492.71 s. The failure was
+`tests/test_screen_i040.py::test_dynamic_trace_ran_every_statically_flagged_gate`;
+an isolated rerun reproduced it. The I-040 name-based static scan invented a path
+through the new generic `ratio`/`qualify` helpers and then tried to invoke
+`correction_i045_lineage.gate_numerics` in `puckworks.validation.gates`, where no
+such callable exists. Its diagnostic had zero loader calls and an AttributeError.
+A fixed-hash-seed comparison against the accepted base isolated the false edge.
+
+The same bounded task renames only the new helpers to `density_ratio`,
+`density_ratio_contrast` and `qualify_coordinate_readings`, with their call sites
+and new tests. No I-040 code/test, production behavior or mathematical operation
+changes. The fixed-seed static scan again matches the base with no missing gate
+callables. All thirteen scientific/figure artifacts are byte-identical. Independent
+review confirms AST equivalence after exactly these helper renames. The affected
+new/I-040 suite passed all 52 tests in 95.59 s; Ruff and Insight verification also
+passed, and offline reproduction again matched all 13 artifacts byte-for-byte.
+The corrected final submitted/tested head and final hosted contexts are recorded
+in the PR handoff. The failed full local run remains a
+failed run; targeted correction results are not relabelled as a second full run.
+No unchanged expensive scientific campaign is rerun.
 
 The GitHub connector has no ruleset inspection operation, so the active branch
 rules were read with `gh api repos/trbrewer/puckworks/rules/branches/main`.

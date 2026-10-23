@@ -35,7 +35,7 @@ def test_synthetic_pure_scaling_with_nonzero_intercept_and_nonzero_first_level()
         z = [[s*h/beta-tau for h in levels] for s in amplitudes]
         for i, j in combinations(range(3), 2):
             for a, b in combinations(range(3), 2):
-                result = n.contrast(*(reading(z[s][k]) for s, k in
+                result = n.density_ratio_contrast(*(reading(z[s][k]) for s, k in
                                       [(i, a), (i, b), (j, a), (j, b)]), (tau, tau))
                 assert result['determinant_pt2'] == (0, 0)
                 assert result['classification'] == 'NOT_EXCLUDED_BY_THIS_COMPARISON'
@@ -45,8 +45,8 @@ def test_synthetic_pure_scaling_with_nonzero_intercept_and_nonzero_first_level()
 @pytest.mark.parametrize('value,sign', [(F(2), 0), (F(2)+F(1, 10**10), 1),
                                         (F(2)-F(1, 10**10), -1)])
 def test_contact_strict_signs_pair_reversal_and_display_not_used(value, sign):
-    r = n.contrast(reading(1), reading(value), reading(1), reading(2), (F(0), F(0)))
-    reverse = n.contrast(reading(1), reading(2), reading(1), reading(value), (F(0), F(0)))
+    r = n.density_ratio_contrast(reading(1), reading(value), reading(1), reading(2), (F(0), F(0)))
+    reverse = n.density_ratio_contrast(reading(1), reading(2), reading(1), reading(value), (F(0), F(0)))
     assert r['sign'] == sign and reverse['sign'] == -sign
     assert reverse['determinant_pt2'] == tuple(-x for x in reversed(r['determinant_pt2']))
     assert r['classification'] == ('STRICTLY_SEPARATED' if sign else 'NOT_EXCLUDED_BY_THIS_COMPARISON')
@@ -57,7 +57,7 @@ def test_shared_tau_separates_despite_overlapping_marginal_ratios():
     a = n.ratio_bounds((F(1),)*2, (F(2),)*2, tau)
     b = n.ratio_bounds((F(10),)*2, (F(21),)*2, tau)
     assert max(a[0], b[0]) < min(a[1], b[1])
-    c = n.contrast(reading(1), reading(2), reading(10), reading(21), tau)
+    c = n.density_ratio_contrast(reading(1), reading(2), reading(10), reading(21), tau)
     assert c['determinant_pt2'] == (-101, -1)
     assert c['ratio_difference'][1] < 0
     for t in map(F, range(11)):
@@ -107,10 +107,10 @@ def test_positive_slope_denominator_and_bad_arithmetic_are_visible():
         n.calibration(contract)
     with pytest.raises(ValueError, match='denominator'):
         n.divide_positive((F(-1), F(2)), (F(0), F(5)))
-    bad = n.contrast(reading(-1), reading(3), reading(2), reading(4), (F(0), F(1)))
+    bad = n.density_ratio_contrast(reading(-1), reading(3), reading(2), reading(4), (F(0), F(1)))
     assert bad['classification'] == 'INVALID_POSITIVITY_OR_ENCLOSURE'
     numeric = d.numerical_failure(ArithmeticError('synthetic arithmetic failure'))
-    r = n.contrast(numeric, reading(3), reading(2), reading(4), (F(1), F(1)))
+    r = n.density_ratio_contrast(numeric, reading(3), reading(2), reading(4), (F(1), F(1)))
     assert r['classification'] == 'NUMERICALLY_UNRESOLVED'
     assert 'synthetic arithmetic failure' in r['reason']
 
@@ -130,7 +130,7 @@ def test_full_strip_components_extrema_both_trace_allowances_and_no_gap_fill():
                                   5, axis(), axis())
     assert branches['status'] == 'AMBIGUOUS'
     assert branches['components_z_pt'] == [(5, 5), (15, 15), (25, 25)]
-    assert n.ratio(branches, reading(40), (F(100), F(100)))['ambiguous']
+    assert n.density_ratio(branches, reading(40), (F(100), F(100)))['ambiguous']
 
 
 def test_constant_reversed_segment_constraints_and_frozen_tie_break():
@@ -148,9 +148,9 @@ def test_sample_exclusion_is_not_complete_grind_order_and_missing_rows_stay_visi
     ratios = {s: dict(full_support=True, ambiguous=False, bounds_ratio=(F(1), F(3)))
               for s in ['B1', 'B2', 'B3']}
     env = n.envelope(ratios, ['B1', 'B2', 'B3'])
-    pair = n.contrast(reading(1), reading(2), reading(1), reading(3), (F(0),)*2)
+    pair = n.density_ratio_contrast(reading(1), reading(2), reading(1), reading(3), (F(0),)*2)
     pair['id'] = 'synthetic'
-    touching = n.contrast(reading(1), reading(2), reading(1), reading(2), (F(0),)*2)
+    touching = n.density_ratio_contrast(reading(1), reading(2), reading(1), reading(2), (F(0),)*2)
     touching['id'] = 'contact'
     grind = n.grind_comparison(env, env, [pair]+[touching]*8)
     assert grind['sign'] == 0 and grind['marginal_envelope_classification'] == 'OVERLAPPING_OR_CONTACTING'
