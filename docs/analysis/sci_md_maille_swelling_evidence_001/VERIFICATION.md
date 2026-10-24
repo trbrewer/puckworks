@@ -121,6 +121,20 @@ not offline reproduction. Their rights and exact hashes remain in provenance.
 
 ## Hosted CI and final handoff
 
+The first submitted head `f329bdc3ea7f5c05303ae4c5bd9ce4ae161b4de8` failed
+the minimum-dependency lane: 7,030 passed, 71 skipped, 64 deselected, one failure.
+`test_frozen_contract_and_historical_preservation` detected the new paragraph in
+`THIRD_PARTY_NOTICES.md`, whose exact bytes are bound by an older Grudeva contract.
+The shared notice was restored to the base; the complete source-specific rights
+statement remains in the unchanged Maille dataset PROVENANCE.md and source records.
+No historic contract, test, tolerance or scientific artifact was changed. The
+failing test and affected suite pass after restoration. The independent review
+and its file-hash receipt remain applicable without another scientific review.
+The earlier broad local run reached this test before the notice edit, so it did
+not detect that late integration defect. The PR preserves first-head CI results
+and records the subsequent final head and checks. Superseded runs are not passes.
+
+
 The live ruleset audit identifies required checks: quick(3.10), quick(3.12),
 verify-generated, paper3-scope-strict and all-scope-strict. CI configuration,
 timeouts, selectors, tolerances, floors and requirements are unchanged.
