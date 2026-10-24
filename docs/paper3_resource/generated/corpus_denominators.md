@@ -7,9 +7,9 @@
 | registered components | 28 |
 | unique source publications | 20 |
 | unique DOIs recorded | 11 |
-| unique dataset sources (empirical campaigns) | 46 |
-| dataset manifest records | 125 |
-| model/source cards written | 113 |
+| unique dataset sources (empirical campaigns) | 47 |
+| dataset manifest records | 126 |
+| model/source cards written | 114 |
 | components with evidence beyond reconstruction of their own source | 10 |
 | components rights- or data-blocked | 0 |
 | components that are calibration objects only | 15 |

@@ -1,0 +1,115 @@
+{
+  "task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+  "review_reuse": "Original independent review receipt preserved. Implementer verified exact invertible formatting/record-only changes against every reviewed hash; no new scientific review or numerical change.",
+  "files": [
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/PLAN.md",
+      "reviewed_sha256": "03ba1498fafe7d263a266ad2143c309ecc80be7d2d16c8cb246a21f7c68be282",
+      "submitted_sha256": "03ba1498fafe7d263a266ad2143c309ecc80be7d2d16c8cb246a21f7c68be282",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.md",
+      "reviewed_sha256": "3fe0d7e385ef5f40c9d50f1ec645738ed6b56b4e47480089814190dda4bab2ee",
+      "submitted_sha256": "3fe0d7e385ef5f40c9d50f1ec645738ed6b56b4e47480089814190dda4bab2ee",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.json",
+      "reviewed_sha256": "bb71c34d7cd174c0df1728535f13e5f6c58f917d36c9a3fa3b9b4b9227a83e0d",
+      "submitted_sha256": "bb71c34d7cd174c0df1728535f13e5f6c58f917d36c9a3fa3b9b4b9227a83e0d",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/SOURCE.md",
+      "reviewed_sha256": "ffbc8ba6c2a2a683d70f552809bd11c00abd6ed8b1c8ca2cdb571b215b4c05ef",
+      "submitted_sha256": "ffbc8ba6c2a2a683d70f552809bd11c00abd6ed8b1c8ca2cdb571b215b4c05ef",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/COMPARISON.md",
+      "reviewed_sha256": "d77d38018d24aef214e7ac6dd48419aaa1f0fa5acdbb07169aa2cf83696c885b",
+      "submitted_sha256": "d77d38018d24aef214e7ac6dd48419aaa1f0fa5acdbb07169aa2cf83696c885b",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/intervals.csv",
+      "reviewed_sha256": "6b4b691e71e28b8e22e786fc34773b01c53a57640280c9b8ed340db745a43a51",
+      "submitted_sha256": "7b848fd90909f8dbc2d0b47edc10dbe3079a6b959a9eb39cee3821b24ca0f6a2",
+      "reuse": "CSV_CRLF_TO_LF_ONLY"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/comparison.svg",
+      "reviewed_sha256": "515cc51fdb4af38296ae4778deca0329d40328878e23d18742da90c6f7b7fd54",
+      "submitted_sha256": "6a73e813e30b9faddc721529383ea9a2639c8ad193e8ef11cd5fe0d43a3d6321",
+      "reuse": "SVG_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "path": "docs/analysis/sci_md_maille_swelling_evidence_001/review_check.py",
+      "reviewed_sha256": "88de04fe0d791fb0b900650153ae794220a45b8e9fb1b6234a4922b632b15642",
+      "submitted_sha256": "88de04fe0d791fb0b900650153ae794220a45b8e9fb1b6234a4922b632b15642",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/PROVENANCE.md",
+      "reviewed_sha256": "a56c98cb435c21d5876220e17c35e208b5bc61fb19d218a3ffef7000ee0b8de9",
+      "submitted_sha256": "a56c98cb435c21d5876220e17c35e208b5bc61fb19d218a3ffef7000ee0b8de9",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/contract.json",
+      "reviewed_sha256": "8903a834b08adf79e33b641bb0cbdcbecdee413da46217957eecaba956f964d9",
+      "submitted_sha256": "8903a834b08adf79e33b641bb0cbdcbecdee413da46217957eecaba956f964d9",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/coordinates.csv",
+      "reviewed_sha256": "01dbd3e4075331c2c594b30f61b559fd8df24cfcf020db14fa1bdf76a32f6da4",
+      "submitted_sha256": "5a1a33d9f858b6099cb3dcceb898dbbad4c97952e69266c97f45f4cc8914ca4b",
+      "reuse": "CSV_CRLF_TO_LF_ONLY"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/features.csv",
+      "reviewed_sha256": "44a6c0ae8ca55eb16aac7bd3e58b0596e5281d49d07b797bf4c6a600a6add348",
+      "submitted_sha256": "342371b7ec56879f53fe68aba0374dd2e64e0042a65bde094e921c9cfd621557",
+      "reuse": "CSV_CRLF_TO_LF_ONLY"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/holdings_checked.json",
+      "reviewed_sha256": "33aa82b8182791835746d8ef317455b070063c545bcfb7de1968b512755feb02",
+      "submitted_sha256": "33aa82b8182791835746d8ef317455b070063c545bcfb7de1968b512755feb02",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/intake_freeze.json",
+      "reviewed_sha256": "9980f6294afbd22b412a0b1a0757d64319429a68c49d570e68f225fefceeabcb",
+      "submitted_sha256": "c1822ce88e394b670fd099671897f424339e917b27305fe4c737bdd0dd401ebf",
+      "reuse": "APPEND_TWO_FORMATTING_CORRECTION_RECORDS"
+    },
+    {
+      "path": "puckworks/data/maille2021/swelling_evidence_001/sources.json",
+      "reviewed_sha256": "74068d266c493a12a4b7558a4cec0d0d68cff26bed02d697601db189e64f11c4",
+      "submitted_sha256": "74068d266c493a12a4b7558a4cec0d0d68cff26bed02d697601db189e64f11c4",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "puckworks/analysis/maille2021_swelling_evidence.py",
+      "reviewed_sha256": "d2cbe2a7dc6f28f0b81a397025395d9997ec1b4112c2e0467c313bf1166b4da9",
+      "submitted_sha256": "51a4483bbb43706afa5f83a8653d15989e041c0768aec79990bdbd44ecab2d9a",
+      "reuse": "OUTPUT_WHITESPACE_NORMALIZATION_ONLY"
+    },
+    {
+      "path": "tests/test_maille2021_swelling_evidence.py",
+      "reviewed_sha256": "391a42857c3c512643cf92b796802aa76cfb116a275b256aa02fe809a84fd18c",
+      "submitted_sha256": "391a42857c3c512643cf92b796802aa76cfb116a275b256aa02fe809a84fd18c",
+      "reuse": "UNCHANGED"
+    },
+    {
+      "path": "docs/cards/maille2021.md",
+      "reviewed_sha256": "0a25b023f717163225615b0f45b43f208e9401ef48b53f47bee48eeaef3216b2",
+      "submitted_sha256": "0a25b023f717163225615b0f45b43f208e9401ef48b53f47bee48eeaef3216b2",
+      "reuse": "UNCHANGED"
+    }
+  ],
+  "offline_replay": "Re-run after formatting normalization; see VERIFICATION and PR for final check results."
+}

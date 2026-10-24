@@ -1,0 +1,89 @@
+{
+  "task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+  "experiment_id": "M21-LD-01",
+  "depiction_id": "ASIC2021-F4-left",
+  "source_id": "M21-ASIC",
+  "coordinate_system": "native embedded raster pixels; origin top-left; x right; y down",
+  "image": {
+    "pdf_page_1based": 1,
+    "xref": 36,
+    "width_px": 710,
+    "height_px": 268,
+    "sha256": "9533ea98cd89cfda8c3dc945186a330d19ff09187e2aa79f035e3379c3c1b9b9"
+  },
+  "reading_allowance_px": "4",
+  "anchor_allowance_px": "1",
+  "allowance_authority": "Analyst graphical enclosure: full 7-9 pixel glyph diameter and 1-2 pixel axis strokes; not experimental uncertainty.",
+  "axes": {
+    "time_s": {
+      "pixels": [
+        "66",
+        "340"
+      ],
+      "values": [
+        "0",
+        "300"
+      ]
+    },
+    "size_um": {
+      "pixels": [
+        "216",
+        "11"
+      ],
+      "values": [
+        "0",
+        "1600"
+      ]
+    },
+    "concentration_vol_percent": {
+      "pixels": [
+        "216",
+        "11"
+      ],
+      "values": [
+        "0",
+        "0.4"
+      ]
+    }
+  },
+  "series": {
+    "x50": {
+      "marker": "red filled square",
+      "axis": "size_um",
+      "meaning": "reported laser-diffraction median size"
+    },
+    "x90": {
+      "marker": "red filled diamond",
+      "axis": "size_um",
+      "meaning": "reported laser-diffraction 90th-percentile size"
+    },
+    "C_V": {
+      "marker": "blue open circle",
+      "axis": "concentration_vol_percent",
+      "meaning": "reported laser-diffraction volume concentration; divide vol% by100 to obtain volume fraction"
+    }
+  },
+  "time_pairing": "Common plotted abscissae of the three markers; graphical pairing only; exact scan timestamps UNKNOWN.",
+  "weighting": "UNKNOWN in accessible 2021 text; a consistent distribution basis is an explicit hypothesis, not an authenticated instrument setting.",
+  "concentration_calibration": "UNKNOWN; physical suspension reference volume and inversion details not supplied in admitted poster/thesis material.",
+  "size_concentration_dependence": "Both from laser diffraction per caption; independent instrument channels NOT_ESTABLISHED. Shared scattering/inversion dependence possible; never independent laboratory errors.",
+  "baseline": "first plotted wet reading at native x79; no observed dry baseline; immersion-axis zero not a recovered measurement",
+  "experimental_uncertainty": "UNKNOWN; no error bars, per-scan repeatability, covariance or replicate structure supplied for this depiction.",
+  "relaxation": "Rectangular marginal outer enclosures include shared anchor and reading dependence. No joint attainability is claimed.",
+  "tested_hypothesis": "H_FIXED_SCALE",
+  "assumptions": [
+    "fixed observed membership and particle number",
+    "common positive shape-preserving size multiplier",
+    "fixed relevant suspension volume",
+    "unchanged optical and concentration mappings",
+    "consistent quantile distribution basis"
+  ],
+  "invariants": {
+    "R": "x90/x50",
+    "K": "C_V/x50^3; C_V volume fraction and x50 metres; units m^-3"
+  },
+  "right_panel": "ASIC2021-F4-right; separate unpooled depiction of the same apparent relation; no unique time join; features.csv retains all visible support; no added independent observations",
+  "microscopy": "M21-MIC-01, same particle: ASIC Figure1 and thesis Figure2.5; four original frames and four overlays, not eight observations. Quantitative segmentation not admitted; see SOURCE.md.",
+  "physical_validation": "NOT_ESTABLISHED",
+  "measurement_map_condition": "Conditional scale equivariance: reported size quantiles must scale with geometric lambda and reported volume concentration with lambda^3. An unchanged arbitrary nonlinear/offset map alone is insufficient. This condition is not established by readable axes."
+}

@@ -88,6 +88,17 @@ relicense them under Puckworks’ MIT licence. This notice does not cover raw XC
 supplementary downloads, or future associated data. Rights clearance does not alter scientific evidence,
 validation status, or the component’s untamped validity boundary.
 
+### Maille et al. (2021) graphical observations
+
+`puckworks/data/maille2021/swelling_evidence_001/` and the associated analysis
+retain attributed factual numerical readings from Sala, Maille, Scott and
+Zukswert's official ASIC2021 poster S8-PO-01, citing Maille et al.(2021),
+DOI10.1016/j.jfoodeng.2020.110420. No open reuse licence was stated in the poster;
+source artwork/PDFs are external and are not relicensed MIT. The supporting
+Maille2024 thesis record specifies CC BY-NC-ND4.0; no thesis image or adapted
+artwork is redistributed. Provenance records identify the exact sources and
+reading changes. This notice grants no new third-party reproduction permission.
+
 ### Pannusch et al. (2024) reconstructed source data
 
 The normalized tables in `puckworks/data/pannusch2024/` derived from Mendeley Data DOI

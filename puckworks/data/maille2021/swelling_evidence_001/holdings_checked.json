@@ -1,0 +1,129 @@
+{
+  "configuration": "existing owner inventory configuration; private absolute locators omitted",
+  "inventory_filename_search": "110420|S8-PO-01|critical.examination|maille.*pdf|swelling; one Hargarten scalar-file match, no Maille2021 original",
+  "registered_Maille2024_files": [
+    {
+      "relative_locator": "maille2024/Figure 4.10 - Quinic acid extraction kinetics for material Omega_A.csv",
+      "sha256": "aee77fd849d7295c260635e95a674641defbb7c3976598eb4cec8c64f3eb12e0",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Figure 4.7 - 3-CQA extraction kinetics for material Omega_A.csv",
+      "sha256": "90b34583c30392e7a7e653544aeed27f482614574238498e94505733814e053a",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Figure 4.8 - Citric acid extraction kinetics for material Omega_A.csv",
+      "sha256": "0df5562e62d2c1e0a8e354d8697f4c630839e0772a6bcc288deb17cb85b0baa2",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Figure 4.9 - Malic acid extraction kinetics for material Omega_A.csv",
+      "sha256": "59328ceffc0e9f26d427509f1526221daeb8fd4f49ab728596f0b5ceeda370f8",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Figure_4.6_Caffeine_extraction_kinetics_for_material_Omega_A.csv",
+      "sha256": "7e904199b070970b9af5ce95f079b21c654462e8e41a79b1a9c2a1d88b435fcd",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/PROVENANCE.md",
+      "sha256": "710397a165a1a3ae05004a449ca9a8ae3b2a9ed36be4ec0cc54eb449cb39172c",
+      "canonical_identical": true,
+      "inspection": "FILES_INSPECTED"
+    },
+    {
+      "relative_locator": "maille2024/Table 3.2 - Coffee Roasting batch data for Colombian green coffee.csv",
+      "sha256": "47cd1694faae37217d781464a061d1a583a9f65ef489c548a4a480c571103705",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.1 - List of coffee materials for extraction testing.csv",
+      "sha256": "bf5d6297eb11e080857b0bfab5f875b0a0104cb6972c929593a72abf39b890e4",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.10 - Normalized chemical compound extraction concentrations for coffee materials Omega_A - Omega_C.csv",
+      "sha256": "b694d82dc46c44d111e357668b7c91083190ec67fb104778a00adafb09621774",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.11 - Average and standard deviation of absolute concentrations for each chemical compound for each coffee material at 180 300 and 600 s.csv",
+      "sha256": "9243633a5f9acc8f4b52de4a13d05f88d5baf996cc98403092fb441e0511ffbb",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.2 - Comparison of particle size distribution statistics for all coffee materials measured with laser diffraction by liquid and air dispersion methods.csv",
+      "sha256": "39d71c2436feba2f6ec466f5d8c04861c3e4b4e439dc979acea5a0adb9f8383b",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.4 - Key particle size values for hybrid particle size distribution for all coffee materials.csv",
+      "sha256": "d5679b5325d5b1692ff2201eed2d484989c62a3bb46fecf179600f68aebc7e5b",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.6 - Specific surface area for all coffee materials measured by krypton gas adsorption.csv",
+      "sha256": "9303a221c1990f0ab31eb0b5461b15676188df247e84ba385e1d702ed2fa7e74",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.7 - Comparison of measured and calculated specific surface areas for sieved coffee materials.csv",
+      "sha256": "04cd8c6ada348780819906c2e27ae2d7875fab64d0469a1f51b34c167aad11b8",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 5.9 - Particle porosity values calculated from mercury intrusion data.csv",
+      "sha256": "9fb8b6b915d5b12d4634f7bf947050a2827aa376d3c0dc7722901229ca2aea6a",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 6.1 - Variable values for estimating hydration time of large coffee particles.csv",
+      "sha256": "263a85ab17ac45cbea92a5780a595f5b29aff8994de95b6894643d5904db28f9",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 6.2 - Variable values for estimating Bim and Fom.csv",
+      "sha256": "f83cf455fa08e85daf418f187446f066e70a890b39f8e67c46f4f2d11fb8d4ab",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 6.3 - Calculated values for phi theta_v_fines and theta_v_coarse.csv",
+      "sha256": "c1d8a45e12fad229e1de604f552510f0279f32ef1f6f5508a440d3973738dce0",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 6.4 - Model parameter values with 95pct CI R2 and MPE for caffeine and 3-CQA extraction kinetic models.csv",
+      "sha256": "1c1e52f487a54f749c86942fdf94518b6b52fd5e2a01e3a5e38bed621e87ef7f",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    },
+    {
+      "relative_locator": "maille2024/Table 6.5 - Model parameter values with 95pct CI R2 and MPE for citric acid malic acid and quinic acid extraction kinetic models.csv",
+      "sha256": "8f5922573699604a5d374f0edbeaf120e196479cbe22797e08604851d1138ccf",
+      "canonical_identical": true,
+      "inspection": "CATALOG_ONLY"
+    }
+  ],
+  "matching_2021_originals": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+  "known_unavailable": "Full journal identified but unavailable through authorized access here; underlying original records location UNKNOWN",
+  "other_collections": "CATALOG_ONLY; no general exhaustion conclusion"
+}

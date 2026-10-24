@@ -25,8 +25,8 @@ model remains a separate, testable module, with its conditions of use and suppor
 
 ## External espresso data — start here
 
-[Open the data guide](docs/data/ESPRESSO_DATA_GUIDE.md) for the external collection,
-inspected subsets, limits and local access. Private source files remain outside Git.
+[Data guide](docs/data/ESPRESSO_DATA_GUIDE.md): sources, inspection limits and access.
+Private originals remain outside Git.
 
 <table align="center">
   <tr>
@@ -393,10 +393,11 @@ Published sources and cards are listed below.
 35. Sobolík, V.; Žitný, R.; Tovcigrecko, V.; Delgado, M.; Allaf, K. "Viscosity and electrical conductivity of concentrated solutions of soluble coffee." *Journal of Food Engineering* 51 (2002): 93–98. [https://doi.org/10.1016/S0260-8774(01)00042-5](https://doi.org/10.1016/S0260-8774(01)00042-5). Related cards: [sobolik2002](docs/cards/sobolik2002.md).
 36. Moroney, K.; Lee, W.; O'Brien, S.; Suijver, F.; Marra, J. "Modelling of coffee extraction during brewing using multiscale methods: an experimentally validated model." *Chemical Engineering Science* 137 (2015): 216–234. [https://doi.org/10.1016/j.ces.2015.06.003](https://doi.org/10.1016/j.ces.2015.06.003). Related cards: [moroney2015](docs/cards/moroney2015.md).
 37. Vaca Guerra, M.; Harshe, Y. M.; Fries, L.; Rothberg, S.; Palzer, S.; Heinrich, S. "Influence of particle size distribution on espresso extraction via packed bed compression." *Journal of Food Engineering* 340 (2023): 111301. [https://doi.org/10.1016/j.jfoodeng.2022.111301](https://doi.org/10.1016/j.jfoodeng.2022.111301). Related cards: [vacaguerra2023a](docs/cards/vacaguerra2023a.md).
-38. Maille, M. J. "Measuring Coffee Extraction Kinetics at Early Time Scales." PhD thesis, University of Sheffield, 2024. No DOI is recorded in the model card (White Rose eTheses Online). Related cards: [maille2024](docs/cards/maille2024.md).
+38. Maille (2024), *Measuring Coffee Extraction Kinetics at Early Time Scales*. Sheffield PhD thesis. [Card](docs/cards/maille2024.md).
 39. Gloess, A. N.; Schönbächler, B.; Klopprogge, B.; D'Ambrosio, L.; Chatelain, K.; Bongartz, A.; Strittmatter, A.; Rast, M.; Yeretzian, C. "Comparison of nine common coffee extraction methods: instrumental and sensory analysis." *European Food Research and Technology* 236 (2013): 607–627. [https://doi.org/10.1007/s00217-013-1917-x](https://doi.org/10.1007/s00217-013-1917-x). Related cards: [gloess2013](docs/cards/gloess2013.md).
 40. SCI-MD-007-R1 cards: [Dias](docs/cards/dias2015.md), [Viencz](docs/cards/viencz2023.md), [Acre](docs/cards/acre2024.md), and [register package](docs/cards/sci_md_007_r1.md).
 41. Melrose et al. (2019), packed-bed preprint. [Card](docs/cards/melrose2019bed.md).
+42. Maille et al. (2021), particle swelling. [DOI](https://doi.org/10.1016/j.jfoodeng.2020.110420); [data card](docs/cards/maille2021.md).
 
 ### Puckworks synthesis and sourcing notes
 

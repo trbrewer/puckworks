@@ -1,0 +1,33 @@
+{
+  "chronology": "retrospective source inspected; selected readings/allowances frozen before formal derived comparison; not a holdout",
+  "sha256": {
+    "docs/analysis/sci_md_maille_swelling_evidence_001/PLAN.md": "03ba1498fafe7d263a266ad2143c309ecc80be7d2d16c8cb246a21f7c68be282",
+    "puckworks/data/maille2021/swelling_evidence_001/contract.json": "a498764f88738638fa55cd2372515f655a550ed010c030c4bf6b272125a9a6ab",
+    "puckworks/data/maille2021/swelling_evidence_001/coordinates.csv": "01dbd3e4075331c2c594b30f61b559fd8df24cfcf020db14fa1bdf76a32f6da4",
+    "puckworks/data/maille2021/swelling_evidence_001/features.csv": "44a6c0ae8ca55eb16aac7bd3e58b0596e5281d49d07b797bf4c6a600a6add348"
+  },
+  "corrections": [
+    {
+      "kind": "independent-review interpretation clarification after first formal result",
+      "file": "puckworks/data/maille2021/swelling_evidence_001/contract.json",
+      "original_sha256": "a498764f88738638fa55cd2372515f655a550ed010c030c4bf6b272125a9a6ab",
+      "clarified_sha256": "8903a834b08adf79e33b641bb0cbdcbecdee413da46217957eecaba956f964d9",
+      "reason": "Unchanged instrument mapping alone is not necessarily scale-equivariant. Make the conditional quantile/volume mapping required by the invariants explicit; do not imply exclusion of physical common scaling under arbitrary fixed optical maps.",
+      "numeric_impact": "NONE; coordinates, axes, allowances, invariants, intervals and decisive operands unchanged."
+    },
+    {
+      "kind": "delivery formatting only",
+      "file": "puckworks/data/maille2021/swelling_evidence_001/coordinates.csv",
+      "original_sha256": "01dbd3e4075331c2c594b30f61b559fd8df24cfcf020db14fa1bdf76a32f6da4",
+      "normalized_sha256": "5a1a33d9f858b6099cb3dcceb898dbbad4c97952e69266c97f45f4cc8914ca4b",
+      "reason": "Normalize CSV CRLF to LF for repository whitespace check; parsed cells and scientific meaning identical."
+    },
+    {
+      "kind": "delivery formatting only",
+      "file": "puckworks/data/maille2021/swelling_evidence_001/features.csv",
+      "original_sha256": "44a6c0ae8ca55eb16aac7bd3e58b0596e5281d49d07b797bf4c6a600a6add348",
+      "normalized_sha256": "342371b7ec56879f53fe68aba0374dd2e64e0042a65bde094e921c9cfd621557",
+      "reason": "Normalize CSV CRLF to LF for repository whitespace check; parsed cells and scientific meaning identical."
+    }
+  ]
+}

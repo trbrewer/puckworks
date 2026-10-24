@@ -1,0 +1,84 @@
+{
+  "task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+  "reviewer": "Codex independent AI agent /root/scientific_review",
+  "outcome": "PASS_AFTER_BOUNDED_CORRECTIONS",
+  "review_scope": "source artwork, mathematical calculation, observation-map and physical-claim limits, accepted Hargarten/Maille2024 identities, unchanged Mo meanings; not hosted CI or human approval",
+  "base_sha": "4f378aa6757e9d61c4231d078aa4e7718736a394",
+  "candidate_binding": "uncommitted scientific files by SHA256; final submitted/tested commit is separate delivery metadata",
+  "reviewed_sha256": {
+    "docs/analysis/sci_md_maille_swelling_evidence_001/PLAN.md": "03ba1498fafe7d263a266ad2143c309ecc80be7d2d16c8cb246a21f7c68be282",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.md": "3fe0d7e385ef5f40c9d50f1ec645738ed6b56b4e47480089814190dda4bab2ee",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.json": "bb71c34d7cd174c0df1728535f13e5f6c58f917d36c9a3fa3b9b4b9227a83e0d",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/SOURCE.md": "ffbc8ba6c2a2a683d70f552809bd11c00abd6ed8b1c8ca2cdb571b215b4c05ef",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/COMPARISON.md": "d77d38018d24aef214e7ac6dd48419aaa1f0fa5acdbb07169aa2cf83696c885b",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/intervals.csv": "6b4b691e71e28b8e22e786fc34773b01c53a57640280c9b8ed340db745a43a51",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/comparison.svg": "515cc51fdb4af38296ae4778deca0329d40328878e23d18742da90c6f7b7fd54",
+    "docs/analysis/sci_md_maille_swelling_evidence_001/review_check.py": "88de04fe0d791fb0b900650153ae794220a45b8e9fb1b6234a4922b632b15642",
+    "puckworks/data/maille2021/swelling_evidence_001/PROVENANCE.md": "a56c98cb435c21d5876220e17c35e208b5bc61fb19d218a3ffef7000ee0b8de9",
+    "puckworks/data/maille2021/swelling_evidence_001/contract.json": "8903a834b08adf79e33b641bb0cbdcbecdee413da46217957eecaba956f964d9",
+    "puckworks/data/maille2021/swelling_evidence_001/coordinates.csv": "01dbd3e4075331c2c594b30f61b559fd8df24cfcf020db14fa1bdf76a32f6da4",
+    "puckworks/data/maille2021/swelling_evidence_001/features.csv": "44a6c0ae8ca55eb16aac7bd3e58b0596e5281d49d07b797bf4c6a600a6add348",
+    "puckworks/data/maille2021/swelling_evidence_001/holdings_checked.json": "33aa82b8182791835746d8ef317455b070063c545bcfb7de1968b512755feb02",
+    "puckworks/data/maille2021/swelling_evidence_001/intake_freeze.json": "9980f6294afbd22b412a0b1a0757d64319429a68c49d570e68f225fefceeabcb",
+    "puckworks/data/maille2021/swelling_evidence_001/sources.json": "74068d266c493a12a4b7558a4cec0d0d68cff26bed02d697601db189e64f11c4",
+    "puckworks/analysis/maille2021_swelling_evidence.py": "d2cbe2a7dc6f28f0b81a397025395d9997ec1b4112c2e0467c313bf1166b4da9",
+    "tests/test_maille2021_swelling_evidence.py": "391a42857c3c512643cf92b796802aa76cfb116a275b256aa02fe809a84fd18c",
+    "docs/cards/maille2021.md": "0a25b023f717163225615b0f45b43f208e9401ef48b53f47bee48eeaef3216b2"
+  },
+  "external_source_sha256": {
+    "ASIC2021_S8-PO-01_poster.pdf": "75740726613515012a2a5ccf593b799add001dbcdbca195f21bc5b01eb438b73",
+    "Maille2024_redacted_V1.pdf": "840c22d792fe32662bdf4c9f77f75fda41f3b3fc5b05b26293913af88f6fb0ea",
+    "poster_Figure4_xref36.png": "9533ea98cd89cfda8c3dc945186a330d19ff09187e2aa79f035e3379c3c1b9b9",
+    "thesis_Figure2.5_xref182.jpeg": "abf945929205b75e779ca4d16f874583d0b5e8dd1974943a15c7ede5c44ec4e4"
+  },
+  "independent_calculation": {
+    "producer_helpers_imported": false,
+    "interval_pairs_checked": 48,
+    "all_rational_endpoints_and_outward_displays": "MATCH",
+    "R_intersection": [
+      "158/87",
+      "134/65"
+    ],
+    "K_max_lower": "2462402343750/148877",
+    "K_min_upper": "246240234375/18634",
+    "K_strict_gap": "9224897900390625/2774174018",
+    "K_units": "m^-3"
+  },
+  "offline_replay": {
+    "RESULT.json": "BYTE_IDENTICAL",
+    "intervals.csv": "BYTE_IDENTICAL",
+    "comparison.svg": "BYTE_IDENTICAL"
+  },
+  "analytical_controls": "5 passed",
+  "corrections": [
+    {
+      "id": "R1",
+      "issue": "short prose endpoints were rounded inward in some cases",
+      "disposition": "corrected to existing six-decimal outward intervals; no numerical-result change"
+    },
+    {
+      "id": "R2",
+      "issue": "unchanged arbitrary instrument mapping is not necessarily scale-equivariant",
+      "disposition": "conditional scale-equivariance made explicit in contract/result/card; original freeze hash and reason preserved; no data/allowance/invariant/result change"
+    }
+  ],
+  "physical_validation": "NOT_ESTABLISHED",
+  "remaining_material_findings": [],
+  "limitations": [
+    "full journal and original records not independently accessed",
+    "producer holdings/public acquisition search reviewed but not rerun",
+    "no physical growth or entrainment-fraction bound",
+    "hosted CI and final submitted head separately reported"
+  ],
+  "same_review_metadata_delta": {
+    "scope": "Exact public thesis PDF bytes locator added to sources.json and regenerated RESULT.json.",
+    "old_sha256": {
+      "puckworks/data/maille2021/swelling_evidence_001/sources.json": "095de1cd076053acb4ddc4b02738758be9b5ceca6349112beb7de6ae2cc1e990",
+      "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.json": "64f7b5b6974d9f080c08f3b8e0654eebdef9388562035441ef61dad492d67743"
+    },
+    "source_locator_check": "URL found verbatim in already-held institutional record HTML; no new acquisition.",
+    "unchanged_numeric_evidence": "Removing only bytes_locator reconstructs both previous receipt-bound JSON hashes exactly. All other reviewed scientific file hashes match, including intervals.csv and comparison.svg.",
+    "offline_replay": "Reexecuted after metadata addition: RESULT.json, intervals.csv and comparison.svg byte-identical. Earlier replay predated propagation of the already-reviewed mapping clarification; current replay includes it.",
+    "review_disposition": "Existing PASS retained; no new scientific review."
+  }
+}

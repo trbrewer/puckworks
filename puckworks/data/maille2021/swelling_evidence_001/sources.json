@@ -1,0 +1,60 @@
+{
+  "retrieved_date": "2026-10-23",
+  "sources": [
+    {
+      "source_id": "M21-JOURNAL",
+      "version": "Journal of Food Engineering295(2021),110420; DOI10.1016/j.jfoodeng.2020.110420",
+      "locator": "https://www.sciencedirect.com/science/article/pii/S0260877420305069",
+      "sha256": null,
+      "status": "PARTIAL_TEXT_RETRIEVED; FULL_TEXT_RETRIEVAL_FAILED_HTTP403",
+      "inspection": "publisher-indexed abstract/highlights/materials/individual-particle/discussion/conclusion snippets only; tables/figures not inspected",
+      "rights": "publisher-controlled; no full text or artwork redistributed"
+    },
+    {
+      "source_id": "M21-ASIC",
+      "version": "ASIC2021 official S8-PO-01 poster; Sala, Maille, Scott, Zukswert; cited2021 study",
+      "locator": "https://www.alphavisa.com/asic/2021/documents/eposters-presentation/S8-PO-01_KYLE.pdf",
+      "sha256": "75740726613515012a2a5ccf593b799add001dbcdbca195f21bc5b01eb438b73",
+      "status": "RETRIEVED_AUTHENTICATED",
+      "inspection": "FILES_INSPECTED: whole poster, Figures1-4, captions and conclusions",
+      "rights": "No reuse licence stated in inspected poster; numeric factual readings with attribution only; PDF/artwork external"
+    },
+    {
+      "source_id": "M24-THESIS",
+      "version": "Final_012825_Redacted_V1;225PDFpages; Matthew James Maille2024, University of Sheffield",
+      "locator": "https://etheses.whiterose.ac.uk/id/eprint/36281/",
+      "sha256": "840c22d792fe32662bdf4c9f77f75fda41f3b3fc5b05b26293913af88f6fb0ea",
+      "status": "RETRIEVED_AUTHENTICATED",
+      "inspection": "FILES_INSPECTED: title, printed pp30-31/PDF52-53, Figure2.5 and explicit Maille2021 attribution; later extraction methods not imported",
+      "rights": "institutional CC BY-NC-ND4.0; reproduced2021 image may retain its original rights; no PDF/artwork/adapted image distributed",
+      "bytes_locator": "https://etheses.whiterose.ac.uk/id/eprint/36281/2/Measuring%20Coffee%20Extraction%20Kinetics%20at%20Early%20Time%20Scales_Doctoral%20Thesis_MJMaille_Final_012825_Redacted_V1.pdf"
+    },
+    {
+      "source_id": "M21-ORIGINALS",
+      "version": "UNKNOWN",
+      "locator": null,
+      "sha256": null,
+      "status": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+      "inspection": "repository and configured holdings filenames/provenance; legitimate public exact-title/DOI search",
+      "rights": "UNKNOWN"
+    },
+    {
+      "source_id": "M21-SUPPLEMENT",
+      "version": "UNKNOWN",
+      "locator": null,
+      "sha256": null,
+      "status": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+      "inspection": "no authenticated directly linked supplementary record located in admitted pages/search; inaccessible publisher full page limits coverage",
+      "rights": "UNKNOWN"
+    }
+  ],
+  "lineage": "2021 journal, ASIC poster and thesis reproduction are one study lineage; distinct LD, same-particle and before/after depictions have no authenticated replicate join. 2024 extraction datasets are distinct and unchanged.",
+  "search_queries": [
+    "\"Critical examination of particle swelling\" Maille full text supplementary",
+    "\"10.1016/j.jfoodeng.2020.110420\" manuscript",
+    "site.sciencedirect.com/science/article/pii/S0260877420305069 \"Materials\" \"laser\"",
+    "\"Critical examination of particle swelling\" \"supplementary\"",
+    "\"Critical examination of particle swelling\" \"Scott\" \"pdf\""
+  ],
+  "search_end": "No additional public search planned; no author requests or purchases."
+}
