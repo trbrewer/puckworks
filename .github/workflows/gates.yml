@@ -27,17 +27,15 @@ concurrency:
 jobs:
   quick:
     runs-on: ubuntu-latest
-    # BUDGET, raised 15 -> 30 at head fb3d530. The quick lane had outgrown 15 minutes and the
-    # ceiling was destroying the signal rather than enforcing it: at fb3d530, 3.10 passed in
-    # 11m33s and 3.11 in 14m54s, while 3.12 and 3.13 were KILLED at the 15-minute ceiling (15m15s
-    # each) — i.e. two interpreters reported red for elapsed time, not for a failing test, and a
-    # real failure on them would have been indistinguishable from the timeout.
-    #
-    # This is a budget correction, NOT a waiver: the selector, the four interpreters, fail-fast:
-    # false, the lint step, the generated checks and the coverage floor are all unchanged, and no
-    # test was marked `slow` to duck under the limit. Reaching 30 minutes requires runtime
-    # diagnosis; the explicitly authorized PR #356 exception is documented above.
-    timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 30 }}
+    # Ordinary budget raised 30 -> 60 minutes in the PR #357 G0 completion (2026-10-24).
+    # At head 3e22e7c5, Python 3.12 timed out at 98% and 99%; coverage completed the
+    # same selected suite in 1821.72 s: 7031 passed, 71 skipped, 64 deselected, 80% coverage.
+    # Other interpreter runtimes varied substantially. This supports cumulative budget
+    # exhaustion, not a particular hung test or a guarantee that unfinished runs pass.
+    # The finite 60-minute ordinary budget preserves every test, interpreter, selector,
+    # assertion and check. Retain the PR #356 exception above; another limit hit requires
+    # concrete runtime diagnosis, not another automatic increase.
+    timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 60 }}
     strategy:
       fail-fast: false          # R0: one Python version must not cancel/hide the other
       matrix:
@@ -99,11 +97,12 @@ jobs:
     # oldest supported interpreter and run the offline suite. If this goes red, the pyproject floor
     # is wrong — not a mystery. Not a required check until the maintainer opts in.
     runs-on: ubuntu-latest
-    # BUDGET, raised 15 -> 30 at head fb3d530, for the same reason as `quick`: this lane was
-    # KILLED at the ceiling (15m16s), reporting red for elapsed time rather than for a broken
-    # dependency floor — which is the one thing it exists to detect. Nothing else about the lane
-    # changed; it is still the minimum numpy/scipy on the oldest interpreter, offline.
-    timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 30 }}
+    # Ordinary budget raised 30 -> 60 minutes with `quick` in the PR #357 G0 completion.
+    # At head 3e22e7c5 this lane timed out on both attempts; the Python 3.12 coverage
+    # run needed 1821.72 s for the same selected suite, before job setup/cleanup costs.
+    # Keep the complete offline suite and minimum dependencies. This finite budget is
+    # not a pass guarantee; another limit hit requires observed runtime diagnosis.
+    timeout-minutes: ${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 60 }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:

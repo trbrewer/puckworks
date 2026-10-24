@@ -111,5 +111,154 @@
       "reuse": "UNCHANGED"
     }
   ],
-  "offline_replay": "Re-run after formatting normalization; see VERIFICATION and PR for final check results."
+  "offline_replay": "Re-run after formatting normalization; see VERIFICATION and PR for final check results.",
+  "ci_completion": {
+    "governance": "G0 / CI_ONLY / NO_SCIENTIFIC_CHANGE",
+    "starting_head": "3e22e7c5882a81235392237481f3cdda8e7bfb69",
+    "base_sha": "4f378aa6757e9d61c4231d078aa4e7718736a394",
+    "intervening_commits": 0,
+    "workflow_parser": "PyYAML 6.0.3 BaseLoader (preserves the on key)",
+    "parsed_structure_changes": [
+      {
+        "path": "jobs.quick.timeout-minutes",
+        "before": "${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 30 }}",
+        "after": "${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 60 }}"
+      },
+      {
+        "path": "jobs.min-deps.timeout-minutes",
+        "before": "${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 30 }}",
+        "after": "${{ github.repository == 'trbrewer/puckworks' && github.event_name == 'pull_request' && github.event.pull_request.number == 356 && 360 || 60 }}"
+      }
+    ],
+    "noncomment_text_check": "PASS: exactly two ordinary fallback replacements; no other noncomment change",
+    "workflow_sha256_before": "18c28ca6a423e4df511cbb8cf897f2e087cd965bec89021f887757ddbe2a967b",
+    "workflow_sha256_after": "3ab493368b7e0b3ed66d0a219a13a9a668dd58700fbb56a2cc7512f844d99383",
+    "unchanged_scientific_files": [
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/COMPARISON.md",
+        "sha256": "d77d38018d24aef214e7ac6dd48419aaa1f0fa5acdbb07169aa2cf83696c885b",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/PLAN.md",
+        "sha256": "03ba1498fafe7d263a266ad2143c309ecc80be7d2d16c8cb246a21f7c68be282",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.json",
+        "sha256": "bb71c34d7cd174c0df1728535f13e5f6c58f917d36c9a3fa3b9b4b9227a83e0d",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/RESULT.md",
+        "sha256": "3fe0d7e385ef5f40c9d50f1ec645738ed6b56b4e47480089814190dda4bab2ee",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/REVIEW.md",
+        "sha256": "1b06ace54da1711c73eb15c655cdbafd24287dd393c7abf79128163b31365a00",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/SOURCE.md",
+        "sha256": "ffbc8ba6c2a2a683d70f552809bd11c00abd6ed8b1c8ca2cdb571b215b4c05ef",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/comparison.svg",
+        "sha256": "6a73e813e30b9faddc721529383ea9a2639c8ad193e8ef11cd5fe0d43a3d6321",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/intervals.csv",
+        "sha256": "7b848fd90909f8dbc2d0b47edc10dbe3079a6b959a9eb39cee3821b24ca0f6a2",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/review_check.py",
+        "sha256": "88de04fe0d791fb0b900650153ae794220a45b8e9fb1b6234a4922b632b15642",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/analysis/sci_md_maille_swelling_evidence_001/review_receipt.json",
+        "sha256": "b18feb29924a93e896b65c1abdf3b2e69cca583b45ad768e4c8095a1def5f515",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "docs/cards/maille2021.md",
+        "sha256": "0a25b023f717163225615b0f45b43f208e9401ef48b53f47bee48eeaef3216b2",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/analysis/maille2021_swelling_evidence.py",
+        "sha256": "51a4483bbb43706afa5f83a8653d15989e041c0768aec79990bdbd44ecab2d9a",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/PROVENANCE.md",
+        "sha256": "a56c98cb435c21d5876220e17c35e208b5bc61fb19d218a3ffef7000ee0b8de9",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/contract.json",
+        "sha256": "8903a834b08adf79e33b641bb0cbdcbecdee413da46217957eecaba956f964d9",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/coordinates.csv",
+        "sha256": "5a1a33d9f858b6099cb3dcceb898dbbad4c97952e69266c97f45f4cc8914ca4b",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/features.csv",
+        "sha256": "342371b7ec56879f53fe68aba0374dd2e64e0042a65bde094e921c9cfd621557",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/holdings_checked.json",
+        "sha256": "33aa82b8182791835746d8ef317455b070063c545bcfb7de1968b512755feb02",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/intake_freeze.json",
+        "sha256": "c1822ce88e394b670fd099671897f424339e917b27305fe4c737bdd0dd401ebf",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "puckworks/data/maille2021/swelling_evidence_001/sources.json",
+        "sha256": "74068d266c493a12a4b7558a4cec0d0d68cff26bed02d697601db189e64f11c4",
+        "byte_identical_to_starting_head": true
+      },
+      {
+        "path": "tests/test_maille2021_swelling_evidence.py",
+        "sha256": "391a42857c3c512643cf92b796802aa76cfb116a275b256aa02fe809a84fd18c",
+        "byte_identical_to_starting_head": true
+      }
+    ],
+    "scientific_review": "REUSED; no scientific analysis or independent review repeated",
+    "final_head_and_hosted_checks_authority": "https://github.com/trbrewer/puckworks/pull/357 (exact final commit and job URLs recorded after this commit; prior-head results retained separately)",
+    "local_affected_checks": {
+      "command": "python -m pytest -q tests/test_ci_lanes.py",
+      "result": "4 passed in 10.06s",
+      "tests_modified": false
+    },
+    "allowed_changed_paths": [
+      ".github/workflows/gates.yml",
+      "docs/analysis/sci_md_maille_swelling_evidence_001/VERIFICATION.md",
+      "docs/analysis/sci_md_maille_swelling_evidence_001/verification_record.json"
+    ],
+    "ewp": {
+      "observed_local_HEAD": "78cbd59c751393cddfe539e4c69e43a224329bca",
+      "working_tree": "CLEAN",
+      "changes_by_this_completion": "NONE"
+    },
+    "prior_head_ci": {
+      "quick_3_12": "30-minute timeouts at 98% and 99%",
+      "min_deps": "30-minute timeouts on both attempts",
+      "coverage": "7031 passed, 71 skipped, 64 deselected in 1821.72 s; 80% against 70% floor",
+      "run": "https://github.com/trbrewer/puckworks/actions/runs/40060138574",
+      "interpretation": "Cumulative budget exhaustion; no identified hung test or guarantee of a pass."
+    },
+    "budget_boundary": "One finite 30-to-60-minute correction; no PR357 exception or automatic further increase."
+  }
 }

@@ -146,3 +146,57 @@ For cancellation/timeout, preserve the run and retry once at the same head under
 the existing policy. Repeated infrastructure incompleteness remains reported,
 not a scientific failure or a reason to change this task's CI. Leave the PR
 OPEN/DRAFT/UNMERGED with auto-merge disabled. No merge or successor is authorized.
+
+
+## G0 CI-only completion — 2026-10-24
+
+The owner explicitly authorized this bounded completion in PR #357, superseding
+only the original restriction on CI configuration. Statements above about unchanged
+CI describe the earlier research delivery and remain part of its historical record.
+The refreshed live PR head is `3e22e7c5882a81235392237481f3cdda8e7bfb69`, with
+base `4f378aa6757e9d61c4231d078aa4e7718736a394`; no intervening commits or local
+changes were present. The existing PR branch/worktree is reused.
+
+Only the ordinary fallback in `jobs.quick.timeout-minutes` and
+`jobs.min-deps.timeout-minutes` changes from 30 to 60 minutes, with nearby explanatory
+comments. Both retain the same PR #356 condition and 360-minute exception. There is
+no PR #357-specific exception. Ordinary quality=45 and quality-mypy=25 remain.
+All tests, four interpreters, selectors/deselections, assertions, fixtures/markers,
+dependencies/locks, coverage scope/floor, required checks, concurrency and fail-fast
+behavior remain unchanged. No production physics, Mo parameters or EWP changes.
+
+The earlier [run and its two attempts](https://github.com/trbrewer/puckworks/actions/runs/40060138574)
+remain evidence: quick (3.12) timed out at 98% and 99%, min-deps timed out twice,
+and Python 3.12 coverage completed the same selected suite in 1821.72 seconds
+(7031 passed, 71 skipped, 64 deselected; 80% coverage). Other interpreter runtimes
+varied substantially. This supports cumulative budget exhaustion, not a particular
+hung test or a guarantee that unfinished tests pass. This is one finite correction;
+a new 60-minute limit hit requires a concrete runtime diagnosis, not another
+automatic increase or loss of test coverage.
+
+Preflight checks:
+
+- Existing PyYAML 6.0.3 BaseLoader parses both workflow versions, preserving the
+  `on` key. Deep comparison after replacing the two authorized values is identical.
+- Removing only full-line comments yields exactly two `|| 30` to `|| 60`
+  replacements and no other text change. The complete workflow diff was reviewed.
+- `python -m pytest -q tests/test_ci_lanes.py`: **4 passed in 10.06s**. No tests changed.
+- **20 scientific files are byte-identical to the starting head**: the producer,
+  readings, contract/source records, derived JSON/CSV/SVG, result prose, comparison,
+  plan, source card, analytical tests and independent review/receipt. Their SHA256
+  hashes and the exact workflow structural delta are appended to
+  [verification_record.json](verification_record.json). Existing review evidence is
+  reused; no scientific analysis, fit, producer run or independent review is repeated.
+- The complete delta from the starting head is restricted to the workflow and these
+  two verification records. `tests/conftest.py`, all production files and locks are
+  unchanged. EWP is observed read-only with a clean worktree; its existing local
+  checkout is preserved.
+
+This preflight record is committed with the correction. The resulting final head
+SHA and every new-head required/optional check are bound in the
+[PR #357 completion record](https://github.com/trbrewer/puckworks/pull/357), avoiding
+a self-referential commit hash or a documentation-only CI restart. Prior-head
+passes are not new-head passes. The PR description preserves earlier software
+failures and timeouts separately and records any remaining blocker after the new
+workflows finish. Leave OPEN/DRAFT/UNMERGED with auto-merge disabled.
+Scientific conclusions remain unchanged: **PHYSICAL_VALIDATION=NOT_ESTABLISHED**.
