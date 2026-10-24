@@ -1,5 +1,14 @@
 # Espresso development guide
 
+**2026-10-24 Cameron S2:** [pressure/grind/tamp result](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
+adds 16 qualified plotted summaries, 12 recovered bars and four missing extents.
+Central reading bounds support opposite 9−6-bar signs at grinds 1.3/1.5 and a
+negative lowest-to-highest tamp change in both pressure contrasts. Displayed-extent
+sensitivity supports three grind-1.3 pressure contrasts and the first-force
+interaction; tamp endpoints remain unresolved/incomplete. Native pressure labels,
+unknown S2 replicate/bar semantics, source-internal scope and existing evidence
+are preserved. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-23 Maille swelling evidence:** [conditional graphical result](../analysis/sci_md_maille_swelling_evidence_001/RESULT.md) excludes fixed-population/common-scaling C_V/x50³ on retained poster support. Physical geometric-growth bound remains null/NOT_IDENTIFIABLE; entrainment is qualitative, no C_M/D_W constraint. The2021 study and its republications are distinct from2024 extraction. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 **2026-10-23 Hargarten update:** [bounded wet-PSD result](../analysis/sci_md_hargarten_wet_psd_001/RESULT.md)

@@ -1,0 +1,3039 @@
+{
+  "dataset_id": "cameron2020/figS2_pressure_tamp",
+  "source_sha256": "37530ec8c450c6fe5b231a7d4e3b65347555454b366ed4730ec106a4fb56775f",
+  "pdf_page": 7,
+  "printed_page": 6,
+  "coordinate_system": "PDF page points; origin top left, y increases down",
+  "extraction": {
+    "library": "PyMuPDF",
+    "version": "2.0",
+    "page_content_xref": 33,
+    "figure_form_xref": 74,
+    "form_to_page_xy": "x=54.141+0.93796*u; y=657.721-0.93796*v",
+    "form_source_name": "Figures/FigureS2_Tamp.pdf"
+  },
+  "calibration": {
+    "x_ticks": [
+      {
+        "force_N": 100,
+        "coordinate_pt": 99.565185546875,
+        "object": 96
+      },
+      {
+        "force_N": 200,
+        "coordinate_pt": 184.98641967773438,
+        "object": 97
+      },
+      {
+        "force_N": 300,
+        "coordinate_pt": 270.40765380859375,
+        "object": 98
+      }
+    ],
+    "y_ticks": [
+      {
+        "time_s": 55,
+        "coordinate_pt": 424.7945556640625,
+        "object": 84
+      },
+      {
+        "time_s": 50,
+        "coordinate_pt": 459.96807861328125,
+        "object": 147
+      },
+      {
+        "time_s": 45,
+        "coordinate_pt": 495.1416015625,
+        "object": 148
+      },
+      {
+        "time_s": 40,
+        "coordinate_pt": 530.3150634765625,
+        "object": 149
+      },
+      {
+        "time_s": 35,
+        "coordinate_pt": 565.4885864257812,
+        "object": 150
+      },
+      {
+        "time_s": 30,
+        "coordinate_pt": 600.662109375,
+        "object": 151
+      },
+      {
+        "time_s": 25,
+        "coordinate_pt": 635.8355712890625,
+        "object": 84
+      }
+    ],
+    "tick_allowance_pt": 0.7189800143241882,
+    "stroke_width_pt": 0.9379600286483765,
+    "graphical_floor_pt": 0.25,
+    "method": "outer labelled ticks; all interior ticks checked for affine consistency",
+    "x_max_affine_tick_residual_pt": 5e-15,
+    "y_max_affine_tick_residual_pt": 4.0690104166666664e-05,
+    "signed_time_scale_s_per_pt": [
+      -0.14312768444451143,
+      -0.14119043970214512
+    ]
+  },
+  "source_object_accounting": {
+    "frame": 84,
+    "tick_paths": [
+      86,
+      87,
+      88,
+      92,
+      93,
+      96,
+      97,
+      98,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154
+    ],
+    "connector_paths": [
+      85,
+      89,
+      90,
+      91,
+      94,
+      95,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106
+    ],
+    "marker_paths": [
+      113,
+      116,
+      119,
+      122,
+      125,
+      107,
+      128,
+      131,
+      134,
+      140,
+      143,
+      146,
+      137,
+      108,
+      109,
+      110
+    ],
+    "bar_segment_paths": [
+      111,
+      112,
+      114,
+      115,
+      117,
+      118,
+      120,
+      121,
+      123,
+      124,
+      126,
+      127,
+      129,
+      130,
+      132,
+      133,
+      138,
+      139,
+      141,
+      142,
+      144,
+      145,
+      135,
+      136
+    ],
+    "excluded_paths": [
+      155,
+      156,
+      157,
+      158
+    ],
+    "exclusion_reason": "off-plot curve artwork; all x <=77.590 pt, left of S2 frame x=79.466 pt; no force-group association",
+    "bar_count_unit": "12 paired vertical bar objects = 24 separately drawn segments",
+    "unassigned_in_frame_paths": []
+  },
+  "observations": [
+    {
+      "observation_id": "S2-P9-G1.3-F1",
+      "pressure_label_bar": 9,
+      "grind_label": "1.3",
+      "force_group": "F1",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 113,
+        "paint_sequence": 180,
+        "bbox_pt": [
+          91.30128479003906,
+          467.6073303222656,
+          103.08300018310547,
+          477.80950927734375
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            91.30128479003906,
+            477.80950927734375
+          ],
+          [
+            97.1916732788086,
+            467.6073303222656
+          ],
+          [
+            103.08300018310547,
+            477.80950927734375
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 102,
+          "paint_sequence": 165,
+          "bbox_pt": [
+            97.35675811767578,
+            473.9888916015625,
+            98.75337982177734,
+            474.1549072265625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              473.9888916015625
+            ],
+            [
+              98.75337982177734,
+              474.1549072265625
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 111,
+          "paint_sequence": 178,
+          "bbox_pt": [
+            97.19186401367188,
+            446.48321533203125,
+            97.19186401367188,
+            474.10614013671875
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              474.10614013671875
+            ],
+            [
+              97.19186401367188,
+              446.48321533203125
+            ]
+          ]
+        },
+        {
+          "path_index": 112,
+          "paint_sequence": 179,
+          "bbox_pt": [
+            97.19186401367188,
+            474.1058349609375,
+            97.19186401367188,
+            501.728759765625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              501.728759765625
+            ],
+            [
+              97.19186401367188,
+              474.1058349609375
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 113,
+          "xy_pt": [
+            97.19214248657227,
+            472.7084197998047
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 113,
+          "xy_pt": [
+            97.19198608398438,
+            474.4087829589844
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 102,
+          "endpoint": 0,
+          "xy_pt": [
+            97.35675811767578,
+            473.9888916015625
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 111,
+          "xy_pt": [
+            97.19186401367188,
+            474.10614013671875
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 112,
+          "xy_pt": [
+            97.19186401367188,
+            474.1058349609375
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        97.35675811767578,
+        473.9888916015625
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          96.47288399934769,
+          98.07573813199997
+        ],
+        [
+          471.9894397854805,
+          475.12776297330856
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        446.48321533203125,
+        501.728759765625
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 97.4146622304519,
+      "plotted_force_N_bounds": [
+        95.50037764448646,
+        99.1055659563926
+      ],
+      "plotted_time_s": 48.00690401932385,
+      "plotted_time_s_bounds": [
+        47.742805870359554,
+        48.39333579738683
+      ],
+      "displayed_time_endpoints_s": [
+        44.06361345821032,
+        51.91690362599835
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        43.85920389956744,
+        52.12131318464123
+      ]
+    },
+    {
+      "observation_id": "S2-P9-G1.3-F2",
+      "pressure_label_bar": 9,
+      "grind_label": "1.3",
+      "force_group": "F2",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 116,
+        "paint_sequence": 184,
+        "bbox_pt": [
+          174.0707244873047,
+          477.8094177246094,
+          185.85244750976562,
+          488.0115966796875
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            174.0707244873047,
+            488.0115966796875
+          ],
+          [
+            179.96112060546875,
+            477.8094177246094
+          ],
+          [
+            185.85244750976562,
+            488.0115966796875
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 104,
+          "paint_sequence": 167,
+          "bbox_pt": [
+            178.5644989013672,
+            483.6131286621094,
+            179.96112060546875,
+            483.7791442871094
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              178.5644989013672,
+              483.6131286621094
+            ],
+            [
+              179.96112060546875,
+              483.7791442871094
+            ]
+          ]
+        },
+        {
+          "path_index": 105,
+          "paint_sequence": 168,
+          "bbox_pt": [
+            179.96139526367188,
+            483.77886962890625,
+            220.82550048828125,
+            493.0946960449219
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              483.77886962890625
+            ],
+            [
+              220.82550048828125,
+              493.0946960449219
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 114,
+          "paint_sequence": 182,
+          "bbox_pt": [
+            179.96139526367188,
+            455.4571533203125,
+            179.96139526367188,
+            483.77886962890625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              483.77886962890625
+            ],
+            [
+              179.96139526367188,
+              455.4571533203125
+            ]
+          ]
+        },
+        {
+          "path_index": 115,
+          "paint_sequence": 183,
+          "bbox_pt": [
+            179.96139526367188,
+            483.77911376953125,
+            179.96139526367188,
+            512.100830078125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              512.100830078125
+            ],
+            [
+              179.96139526367188,
+              483.77911376953125
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 116,
+          "xy_pt": [
+            179.96158599853516,
+            482.91050720214844
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 116,
+          "xy_pt": [
+            179.96143086751303,
+            484.6108703613281
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 104,
+          "endpoint": 1,
+          "xy_pt": [
+            179.96112060546875,
+            483.7791442871094
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 105,
+          "endpoint": 0,
+          "xy_pt": [
+            179.96139526367188,
+            483.77886962890625
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 114,
+          "xy_pt": [
+            179.96139526367188,
+            483.77886962890625
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 115,
+          "xy_pt": [
+            179.96139526367188,
+            483.77911376953125
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        179.96112060546875,
+        483.7791442871094
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          179.24214059114456,
+          180.68056601285934
+        ],
+        [
+          482.19152718782425,
+          485.3298503756523
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        455.4571533203125,
+        512.100830078125
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 194.11703761553338,
+      "plotted_force_N_bounds": [
+        192.43366223085383,
+        195.80095782149903
+      ],
+      "plotted_time_s": 46.61519549434074,
+      "plotted_time_s_bounds": [
+        46.292554026357074,
+        46.943083953384345
+      ],
+      "displayed_time_endpoints_s": [
+        42.58919812499422,
+        50.64123624517598
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        42.38478856635134,
+        50.84564580381886
+      ]
+    },
+    {
+      "observation_id": "S2-P9-G1.3-F3",
+      "pressure_label_bar": 9,
+      "grind_label": "1.3",
+      "force_group": "F3",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 119,
+        "paint_sequence": 188,
+        "bbox_pt": [
+          214.93521118164062,
+          486.5675354003906,
+          226.7169189453125,
+          496.76971435546875
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            214.93521118164062,
+            496.76971435546875
+          ],
+          [
+            220.8256072998047,
+            486.5675354003906
+          ],
+          [
+            226.7169189453125,
+            496.76971435546875
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 105,
+          "paint_sequence": 168,
+          "bbox_pt": [
+            179.96139526367188,
+            483.77886962890625,
+            220.82550048828125,
+            493.0946960449219
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              483.77886962890625
+            ],
+            [
+              220.82550048828125,
+              493.0946960449219
+            ]
+          ]
+        },
+        {
+          "path_index": 106,
+          "paint_sequence": 169,
+          "bbox_pt": [
+            220.82586669921875,
+            493.0943908691406,
+            261.6899719238281,
+            506.38714599609375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              493.0943908691406
+            ],
+            [
+              261.6899719238281,
+              506.38714599609375
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 117,
+          "paint_sequence": 186,
+          "bbox_pt": [
+            220.82586669921875,
+            470.4820556640625,
+            220.82586669921875,
+            493.0943908691406
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              493.0943908691406
+            ],
+            [
+              220.82586669921875,
+              470.4820556640625
+            ]
+          ]
+        },
+        {
+          "path_index": 118,
+          "paint_sequence": 187,
+          "bbox_pt": [
+            220.82586669921875,
+            492.8703308105469,
+            220.82586669921875,
+            515.482666015625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              515.482666015625
+            ],
+            [
+              220.82586669921875,
+              492.8703308105469
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 119,
+          "xy_pt": [
+            220.82606506347656,
+            491.6686248779297
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 119,
+          "xy_pt": [
+            220.82591247558594,
+            493.3689880371094
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 105,
+          "endpoint": 1,
+          "xy_pt": [
+            220.82550048828125,
+            493.0946960449219
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 106,
+          "endpoint": 0,
+          "xy_pt": [
+            220.82586669921875,
+            493.0943908691406
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 117,
+          "xy_pt": [
+            220.82586669921875,
+            493.0943908691406
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 118,
+          "xy_pt": [
+            220.82586669921875,
+            492.8703308105469
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        220.82550048828125,
+        493.0946960449219
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          220.10652047395706,
+          221.54504507780075
+        ],
+        [
+          490.9496448636055,
+          494.08796805143356
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        470.4820556640625,
+        515.482666015625
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 241.95570477902942,
+      "plotted_force_N_bounds": [
+        240.27232939434987,
+        243.6397410944495
+      ],
+      "plotted_time_s": 45.29096687505206,
+      "plotted_time_s_bounds": [
+        45.04756603435315,
+        45.698095961380425
+      ],
+      "displayed_time_endpoints_s": [
+        42.10846181966257,
+        48.505409382432696
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        41.90405226101969,
+        48.709818941075575
+      ]
+    },
+    {
+      "observation_id": "S2-P9-G1.3-F4",
+      "pressure_label_bar": 9,
+      "grind_label": "1.3",
+      "force_group": "F4",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 122,
+        "paint_sequence": 192,
+        "bbox_pt": [
+          255.800537109375,
+          500.52520751953125,
+          267.5813293457031,
+          510.7273864746094
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            255.800537109375,
+            510.7273864746094
+          ],
+          [
+            261.69000244140625,
+            500.52520751953125
+          ],
+          [
+            267.5813293457031,
+            510.7273864746094
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 106,
+          "paint_sequence": 169,
+          "bbox_pt": [
+            220.82586669921875,
+            493.0943908691406,
+            261.6899719238281,
+            506.38714599609375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              493.0943908691406
+            ],
+            [
+              261.6899719238281,
+              506.38714599609375
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 120,
+          "paint_sequence": 190,
+          "bbox_pt": [
+            261.69024658203125,
+            493.0943298339844,
+            261.69024658203125,
+            506.3870849609375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              506.3870849609375
+            ],
+            [
+              261.69024658203125,
+              493.0943298339844
+            ]
+          ]
+        },
+        {
+          "path_index": 121,
+          "paint_sequence": 191,
+          "bbox_pt": [
+            261.69024658203125,
+            506.3873596191406,
+            261.69024658203125,
+            519.67919921875
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              519.67919921875
+            ],
+            [
+              261.69024658203125,
+              506.3873596191406
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 122,
+          "xy_pt": [
+            261.69093322753906,
+            505.6262969970703
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 122,
+          "xy_pt": [
+            261.6906229654948,
+            507.32666015625
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 106,
+          "endpoint": 1,
+          "xy_pt": [
+            261.6899719238281,
+            506.38714599609375
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 120,
+          "xy_pt": [
+            261.69024658203125,
+            506.3870849609375
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 121,
+          "xy_pt": [
+            261.69024658203125,
+            506.3873596191406
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        261.6899719238281,
+        506.38714599609375
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          260.97099190950394,
+          262.40991324186325
+        ],
+        [
+          504.9073169827461,
+          508.0456401705742
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        493.0943298339844,
+        519.67919921875
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 289.79447912048335,
+      "plotted_force_N_bounds": [
+        288.11110373580385,
+        291.47897987372113
+      ],
+      "plotted_time_s": 43.40141238558856,
+      "plotted_time_s_bounds": [
+        43.06344857579115,
+        43.71397850281843
+      ],
+      "displayed_time_endpoints_s": [
+        41.511914292060375,
+        45.29101893283851
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        41.307504733417495,
+        45.49542849148139
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.3-F1",
+      "pressure_label_bar": 6,
+      "grind_label": "1.3",
+      "force_group": "F1",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 125,
+        "paint_sequence": 196,
+        "bbox_pt": [
+          92.16767883300781,
+          545.5641479492188,
+          102.21697998046875,
+          555.6134643554688
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 89,
+          "paint_sequence": 147,
+          "bbox_pt": [
+            97.35675811767578,
+            550.5636596679688,
+            179.96102905273438,
+            559.1685180664062
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              550.5636596679688
+            ],
+            [
+              179.96102905273438,
+              559.1685180664062
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 123,
+          "paint_sequence": 194,
+          "bbox_pt": [
+            97.35675811767578,
+            540.086669921875,
+            97.35675811767578,
+            550.5636596679688
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              550.5636596679688
+            ],
+            [
+              97.35675811767578,
+              540.086669921875
+            ]
+          ]
+        },
+        {
+          "path_index": 124,
+          "paint_sequence": 195,
+          "bbox_pt": [
+            97.35675811767578,
+            550.5888061523438,
+            97.35675811767578,
+            561.0657958984375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              561.0657958984375
+            ],
+            [
+              97.35675811767578,
+              550.5888061523438
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 125,
+          "xy_pt": [
+            97.19232940673828,
+            550.5888061523438
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 89,
+          "endpoint": 0,
+          "xy_pt": [
+            97.35675811767578,
+            550.5636596679688
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 123,
+          "xy_pt": [
+            97.35675811767578,
+            550.5636596679688
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 124,
+          "xy_pt": [
+            97.35675811767578,
+            550.5888061523438
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        97.35675811767578,
+        550.5636596679688
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          96.4733493924141,
+          98.07573813199997
+        ],
+        [
+          549.8446796536446,
+          551.3077861666679
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        540.086669921875,
+        561.0657958984375
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 97.4146622304519,
+      "plotted_force_N_bounds": [
+        95.50092709039114,
+        99.1055659563926
+      ],
+      "plotted_time_s": 37.12161219494136,
+      "plotted_time_s_bounds": [
+        36.913628001628474,
+        37.32602175358424
+      ],
+      "displayed_time_endpoints_s": [
+        35.62870767123541,
+        38.61094208397731
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        35.42429811259253,
+        38.815351642620186
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.3-F2",
+      "pressure_label_bar": 6,
+      "grind_label": "1.3",
+      "force_group": "F2",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 107,
+        "paint_sequence": 170,
+        "bbox_pt": [
+          174.93711853027344,
+          554.1436767578125,
+          184.98641967773438,
+          564.1929931640625
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 89,
+          "paint_sequence": 147,
+          "bbox_pt": [
+            97.35675811767578,
+            550.5636596679688,
+            179.96102905273438,
+            559.1685180664062
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              550.5636596679688
+            ],
+            [
+              179.96102905273438,
+              559.1685180664062
+            ]
+          ]
+        },
+        {
+          "path_index": 90,
+          "paint_sequence": 148,
+          "bbox_pt": [
+            179.96139526367188,
+            555.2598266601562,
+            220.82550048828125,
+            559.1683349609375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              559.1683349609375
+            ],
+            [
+              220.82550048828125,
+              555.2598266601562
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 107,
+          "xy_pt": [
+            179.9617691040039,
+            559.1683349609375
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 89,
+          "endpoint": 1,
+          "xy_pt": [
+            179.96102905273438,
+            559.1685180664062
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 90,
+          "endpoint": 0,
+          "xy_pt": [
+            179.96139526367188,
+            559.1683349609375
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        179.96102905273438,
+        559.1685180664062
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          179.2420490384102,
+          180.6807491183281
+        ],
+        [
+          558.4493549466133,
+          559.8874980807304
+        ]
+      ],
+      "bar_y_endpoints_pt": null,
+      "bar_endpoint_allowance_pt": null,
+      "bar_recovery_status": "NO_RECOVERABLE_VERTICAL_PATH",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 194.11693043757546,
+      "plotted_force_N_bounds": [
+        192.4335550528959,
+        195.80117217741488
+      ],
+      "plotted_time_s": 35.89841038656956,
+      "plotted_time_s_bounds": [
+        35.69400082792668,
+        36.10284597410566
+      ],
+      "displayed_time_endpoints_s": null,
+      "displayed_time_extent_with_reading_bounds_s": null
+    },
+    {
+      "observation_id": "S2-P6-G1.3-F3",
+      "pressure_label_bar": 6,
+      "grind_label": "1.3",
+      "force_group": "F3",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 128,
+        "paint_sequence": 200,
+        "bbox_pt": [
+          215.8015899658203,
+          550.2356567382812,
+          225.85089111328125,
+          560.2849731445312
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 90,
+          "paint_sequence": 148,
+          "bbox_pt": [
+            179.96139526367188,
+            555.2598266601562,
+            220.82550048828125,
+            559.1683349609375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              559.1683349609375
+            ],
+            [
+              220.82550048828125,
+              555.2598266601562
+            ]
+          ]
+        },
+        {
+          "path_index": 91,
+          "paint_sequence": 149,
+          "bbox_pt": [
+            220.82586669921875,
+            555.2603149414062,
+            261.6899719238281,
+            557.214111328125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              555.2603149414062
+            ],
+            [
+              261.6899719238281,
+              557.214111328125
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 126,
+          "paint_sequence": 198,
+          "bbox_pt": [
+            220.82586669921875,
+            547.76416015625,
+            220.82586669921875,
+            555.2603149414062
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              555.2603149414062
+            ],
+            [
+              220.82586669921875,
+              547.76416015625
+            ]
+          ]
+        },
+        {
+          "path_index": 127,
+          "paint_sequence": 199,
+          "bbox_pt": [
+            220.82586669921875,
+            555.260498046875,
+            220.82586669921875,
+            562.7557373046875
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              562.7557373046875
+            ],
+            [
+              220.82586669921875,
+              555.260498046875
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 128,
+          "xy_pt": [
+            220.82624053955078,
+            555.2603149414062
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 90,
+          "endpoint": 1,
+          "xy_pt": [
+            220.82550048828125,
+            555.2598266601562
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 91,
+          "endpoint": 0,
+          "xy_pt": [
+            220.82586669921875,
+            555.2603149414062
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 126,
+          "xy_pt": [
+            220.82586669921875,
+            555.2603149414062
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 127,
+          "xy_pt": [
+            220.82586669921875,
+            555.260498046875
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        220.82550048828125,
+        555.2598266601562
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          220.10652047395706,
+          221.54522055387497
+        ],
+        [
+          554.5408466458321,
+          555.9794780611992
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        547.76416015625,
+        562.7557373046875
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 241.95570477902942,
+      "plotted_force_N_bounds": [
+        240.27232939434987,
+        243.63994651886887
+      ],
+      "plotted_time_s": 36.45404049401683,
+      "plotted_time_s_bounds": [
+        36.24953549609877,
+        36.6584500526597
+      ],
+      "displayed_time_endpoints_s": [
+        35.388478339333474,
+        37.5195679435092
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        35.184068780690595,
+        37.72397750215208
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.3-F4",
+      "pressure_label_bar": 6,
+      "grind_label": "1.3",
+      "force_group": "F4",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "dark",
+      "marker_object": {
+        "path_index": 131,
+        "paint_sequence": 204,
+        "bbox_pt": [
+          256.66607666015625,
+          552.189453125,
+          266.71539306640625,
+          562.23876953125
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 91,
+          "paint_sequence": 149,
+          "bbox_pt": [
+            220.82586669921875,
+            555.2603149414062,
+            261.6899719238281,
+            557.214111328125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              555.2603149414062
+            ],
+            [
+              261.6899719238281,
+              557.214111328125
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 129,
+          "paint_sequence": 202,
+          "bbox_pt": [
+            261.69024658203125,
+            547.0663452148438,
+            261.69024658203125,
+            557.214111328125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              557.214111328125
+            ],
+            [
+              261.69024658203125,
+              547.0663452148438
+            ]
+          ]
+        },
+        {
+          "path_index": 130,
+          "paint_sequence": 203,
+          "bbox_pt": [
+            261.69024658203125,
+            557.1649780273438,
+            261.69024658203125,
+            567.312744140625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              567.312744140625
+            ],
+            [
+              261.69024658203125,
+              557.1649780273438
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 131,
+          "xy_pt": [
+            261.69073486328125,
+            557.214111328125
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 91,
+          "endpoint": 1,
+          "xy_pt": [
+            261.6899719238281,
+            557.214111328125
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 129,
+          "xy_pt": [
+            261.69024658203125,
+            557.214111328125
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 130,
+          "xy_pt": [
+            261.69024658203125,
+            557.1649780273438
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        261.6899719238281,
+        557.214111328125
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          260.97099190950394,
+          262.40971487760544
+        ],
+        [
+          556.4459980130196,
+          557.9330913424492
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        547.0663452148438,
+        567.312744140625
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 289.79447912048335,
+      "plotted_force_N_bounds": [
+        288.11110373580385,
+        291.4787476548123
+      ],
+      "plotted_time_s": 36.17623411659093,
+      "plotted_time_s_bounds": [
+        35.971824557948054,
+        36.38762809491674
+      ],
+      "displayed_time_endpoints_s": [
+        34.740688597262455,
+        37.618764055602334
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        34.536279038619575,
+        37.82317361424521
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.5-F1",
+      "pressure_label_bar": 6,
+      "grind_label": "1.5",
+      "force_group": "F1",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 134,
+        "paint_sequence": 208,
+        "bbox_pt": [
+          92.16767883300781,
+          582.93603515625,
+          102.21697998046875,
+          592.9853515625
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 94,
+          "paint_sequence": 153,
+          "bbox_pt": [
+            97.19186401367188,
+            583.6339111328125,
+            179.96121215820312,
+            587.960693359375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              587.960693359375
+            ],
+            [
+              179.96121215820312,
+              583.6339111328125
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 132,
+          "paint_sequence": 206,
+          "bbox_pt": [
+            97.19186401367188,
+            577.484619140625,
+            97.19186401367188,
+            587.960693359375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              587.960693359375
+            ],
+            [
+              97.19186401367188,
+              577.484619140625
+            ]
+          ]
+        },
+        {
+          "path_index": 133,
+          "paint_sequence": 207,
+          "bbox_pt": [
+            97.19186401367188,
+            587.7467651367188,
+            97.19186401367188,
+            598.2228393554688
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              598.2228393554688
+            ],
+            [
+              97.19186401367188,
+              587.7467651367188
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 134,
+          "xy_pt": [
+            97.19232940673828,
+            587.960693359375
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 94,
+          "endpoint": 0,
+          "xy_pt": [
+            97.19186401367188,
+            587.960693359375
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 132,
+          "xy_pt": [
+            97.19186401367188,
+            587.960693359375
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 133,
+          "xy_pt": [
+            97.19186401367188,
+            587.7467651367188
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        97.19186401367188,
+        587.960693359375
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          96.47288399934769,
+          97.91130942106247
+        ],
+        [
+          587.0277851223946,
+          588.6796733736992
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        577.484619140625,
+        598.2228393554688
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 97.22162579673414,
+      "plotted_force_N_bounds": [
+        95.50037764448646,
+        98.91468099915257
+      ],
+      "plotted_time_s": 31.805531776072854,
+      "plotted_time_s_bounds": [
+        31.60112221742997,
+        32.040351758304155
+      ],
+      "displayed_time_endpoints_s": [
+        30.346742455091476,
+        33.29473152064265
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        30.142332896448597,
+        33.49914107928553
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.5-F2",
+      "pressure_label_bar": 6,
+      "grind_label": "1.5",
+      "force_group": "F2",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 140,
+        "paint_sequence": 216,
+        "bbox_pt": [
+          174.93711853027344,
+          578.6089477539062,
+          184.98641967773438,
+          588.6582641601562
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 94,
+          "paint_sequence": 153,
+          "bbox_pt": [
+            97.19186401367188,
+            583.6339111328125,
+            179.96121215820312,
+            587.960693359375
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              587.960693359375
+            ],
+            [
+              179.96121215820312,
+              583.6339111328125
+            ]
+          ]
+        },
+        {
+          "path_index": 85,
+          "paint_sequence": 143,
+          "bbox_pt": [
+            179.96176147460938,
+            570.6528930664062,
+            220.82586669921875,
+            583.63330078125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              570.6528930664062
+            ],
+            [
+              179.96176147460938,
+              583.63330078125
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 138,
+          "paint_sequence": 214,
+          "bbox_pt": [
+            179.96139526367188,
+            572.590087890625,
+            179.96139526367188,
+            583.6336059570312
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              583.6336059570312
+            ],
+            [
+              179.96139526367188,
+              572.590087890625
+            ]
+          ]
+        },
+        {
+          "path_index": 139,
+          "paint_sequence": 215,
+          "bbox_pt": [
+            179.96139526367188,
+            583.634033203125,
+            179.96139526367188,
+            594.6775512695312
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              594.6775512695312
+            ],
+            [
+              179.96139526367188,
+              583.634033203125
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 140,
+          "xy_pt": [
+            179.9617691040039,
+            583.6336059570312
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 94,
+          "endpoint": 1,
+          "xy_pt": [
+            179.96121215820312,
+            583.6339111328125
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 85,
+          "endpoint": 1,
+          "xy_pt": [
+            179.96176147460938,
+            583.63330078125
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 138,
+          "xy_pt": [
+            179.96139526367188,
+            583.6336059570312
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 139,
+          "xy_pt": [
+            179.96139526367188,
+            583.634033203125
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        179.96121215820312,
+        583.6339111328125
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          179.24223214387894,
+          180.6807491183281
+        ],
+        [
+          582.9143207669258,
+          584.3530132174492
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        572.590087890625,
+        594.6775512695312
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 194.1171447934913,
+      "plotted_force_N_bounds": [
+        192.43376940881174,
+        195.80117217741488
+      ],
+      "plotted_time_s": 32.42059452305813,
+      "plotted_time_s_bounds": [
+        32.21616761181976,
+        32.62509084467844
+      ],
+      "displayed_time_endpoints_s": [
+        30.850713885778283,
+        33.99050118923121
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        30.646304327135404,
+        34.19491074787409
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.5-F3",
+      "pressure_label_bar": 6,
+      "grind_label": "1.5",
+      "force_group": "F3",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 143,
+        "paint_sequence": 220,
+        "bbox_pt": [
+          215.8015899658203,
+          565.6282348632812,
+          225.85089111328125,
+          575.6775512695312
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 85,
+          "paint_sequence": 143,
+          "bbox_pt": [
+            179.96176147460938,
+            570.6528930664062,
+            220.82586669921875,
+            583.63330078125
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              570.6528930664062
+            ],
+            [
+              179.96176147460938,
+              583.63330078125
+            ]
+          ]
+        },
+        {
+          "path_index": 95,
+          "paint_sequence": 155,
+          "bbox_pt": [
+            220.82586669921875,
+            570.6528930664062,
+            261.6899719238281,
+            581.4197387695312
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              570.6528930664062
+            ],
+            [
+              261.6899719238281,
+              581.4197387695312
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 141,
+          "paint_sequence": 218,
+          "bbox_pt": [
+            220.82586669921875,
+            562.4515991210938,
+            220.82586669921875,
+            570.3482666015625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              570.3482666015625
+            ],
+            [
+              220.82586669921875,
+              562.4515991210938
+            ]
+          ]
+        },
+        {
+          "path_index": 142,
+          "paint_sequence": 219,
+          "bbox_pt": [
+            220.82586669921875,
+            570.2674560546875,
+            220.82586669921875,
+            578.8544921875
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              578.8544921875
+            ],
+            [
+              220.82586669921875,
+              570.2674560546875
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 143,
+          "xy_pt": [
+            220.82624053955078,
+            570.6528930664062
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 85,
+          "endpoint": 0,
+          "xy_pt": [
+            220.82586669921875,
+            570.6528930664062
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 95,
+          "endpoint": 0,
+          "xy_pt": [
+            220.82586669921875,
+            570.6528930664062
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 141,
+          "xy_pt": [
+            220.82586669921875,
+            570.3482666015625
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 142,
+          "xy_pt": [
+            220.82586669921875,
+            570.2674560546875
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        220.82586669921875,
+        570.6528930664062
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          220.10688668489456,
+          221.54522055387497
+        ],
+        [
+          569.5484760403633,
+          571.3718730807304
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        562.4515991210938,
+        578.8544921875
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 241.9561334908611,
+      "plotted_force_N_bounds": [
+        240.27275810618156,
+        243.63994651886887
+      ],
+      "plotted_time_s": 34.265878203289134,
+      "plotted_time_s_bounds": [
+        34.061468644646254,
+        34.52507858217763
+      ],
+      "displayed_time_endpoints_s": [
+        33.10000069410382,
+        35.43171233098571
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        32.89559113546094,
+        35.63612188962859
+      ]
+    },
+    {
+      "observation_id": "S2-P6-G1.5-F4",
+      "pressure_label_bar": 6,
+      "grind_label": "1.5",
+      "force_group": "F4",
+      "nominal_force_N": null,
+      "marker_shape": "circle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 146,
+        "paint_sequence": 224,
+        "bbox_pt": [
+          256.66607666015625,
+          576.2708740234375,
+          266.71539306640625,
+          586.3201904296875
+        ],
+        "stroke_width_pt": 0.9379600286483765
+      },
+      "connector_objects": [
+        {
+          "path_index": 95,
+          "paint_sequence": 155,
+          "bbox_pt": [
+            220.82586669921875,
+            570.6528930664062,
+            261.6899719238281,
+            581.4197387695312
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              570.6528930664062
+            ],
+            [
+              261.6899719238281,
+              581.4197387695312
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 144,
+          "paint_sequence": 222,
+          "bbox_pt": [
+            261.69024658203125,
+            572.332275390625,
+            261.69024658203125,
+            581.4192504882812
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              581.4192504882812
+            ],
+            [
+              261.69024658203125,
+              572.332275390625
+            ]
+          ]
+        },
+        {
+          "path_index": 145,
+          "paint_sequence": 223,
+          "bbox_pt": [
+            261.69024658203125,
+            581.0377197265625,
+            261.69024658203125,
+            590.1256103515625
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              261.69024658203125,
+              590.1256103515625
+            ],
+            [
+              261.69024658203125,
+              581.0377197265625
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 146,
+          "xy_pt": [
+            261.69073486328125,
+            581.2955322265625
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 95,
+          "endpoint": 1,
+          "xy_pt": [
+            261.6899719238281,
+            581.4197387695312
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 144,
+          "xy_pt": [
+            261.69024658203125,
+            581.4192504882812
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 145,
+          "xy_pt": [
+            261.69024658203125,
+            581.0377197265625
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        261.6899719238281,
+        581.4197387695312
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          260.97099190950394,
+          262.40971487760544
+        ],
+        [
+          580.3187397122383,
+          582.1387187838554
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        572.332275390625,
+        590.1256103515625
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 289.79447912048335,
+      "plotted_force_N_bounds": [
+        288.11110373580385,
+        291.4787476548123
+      ],
+      "plotted_time_s": 32.73534457627276,
+      "plotted_time_s_bounds": [
+        32.53093501762988,
+        32.99405908248766
+      ],
+      "displayed_time_endpoints_s": [
+        31.497783495136645,
+        34.02714987089669
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        31.293373936493765,
+        34.23155942953957
+      ]
+    },
+    {
+      "observation_id": "S2-P9-G1.5-F1",
+      "pressure_label_bar": 9,
+      "grind_label": "1.5",
+      "force_group": "F1",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 137,
+        "paint_sequence": 212,
+        "bbox_pt": [
+          91.30128479003906,
+          589.9006958007812,
+          103.08300018310547,
+          600.1029052734375
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            91.30128479003906,
+            600.1029052734375
+          ],
+          [
+            97.1916732788086,
+            589.9006958007812
+          ],
+          [
+            103.08300018310547,
+            600.1029052734375
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 99,
+          "paint_sequence": 162,
+          "bbox_pt": [
+            97.35675811767578,
+            595.6668090820312,
+            179.96102905273438,
+            603.7229614257812
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              595.6668090820312
+            ],
+            [
+              179.96102905273438,
+              603.7229614257812
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [
+        {
+          "path_index": 135,
+          "paint_sequence": 210,
+          "bbox_pt": [
+            97.19186401367188,
+            595.6665649414062,
+            97.19186401367188,
+            604.2123413085938
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              604.2123413085938
+            ],
+            [
+              97.19186401367188,
+              595.6665649414062
+            ]
+          ]
+        },
+        {
+          "path_index": 136,
+          "paint_sequence": 211,
+          "bbox_pt": [
+            97.19186401367188,
+            587.1210327148438,
+            97.19186401367188,
+            595.6668090820312
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.19186401367188,
+              595.6668090820312
+            ],
+            [
+              97.19186401367188,
+              587.1210327148438
+            ]
+          ]
+        }
+      ],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 137,
+          "xy_pt": [
+            97.19214248657227,
+            595.0018005371094
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 137,
+          "xy_pt": [
+            97.19198608398438,
+            596.7021687825521
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 99,
+          "endpoint": 0,
+          "xy_pt": [
+            97.35675811767578,
+            595.6668090820312
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 135,
+          "xy_pt": [
+            97.19186401367188,
+            595.6665649414062
+          ]
+        },
+        {
+          "role": "bar_segment_junction",
+          "object": 136,
+          "xy_pt": [
+            97.19186401367188,
+            595.6668090820312
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        97.35675811767578,
+        595.6668090820312
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          96.47288399934769,
+          98.07573813199997
+        ],
+        [
+          594.2828205227852,
+          597.4211487968763
+        ]
+      ],
+      "bar_y_endpoints_pt": [
+        587.1210327148438,
+        604.2123413085938
+      ],
+      "bar_endpoint_allowance_pt": 0.7189800143241882,
+      "bar_recovery_status": "ENCODED_ENDPOINTS_RECOVERED",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 97.4146622304519,
+      "plotted_force_N_bounds": [
+        95.50037764448646,
+        99.1055659563926
+      ],
+      "plotted_time_s": 30.710088451963397,
+      "plotted_time_s_bounds": [
+        30.358499962610576,
+        31.009030612662663
+      ],
+      "displayed_time_endpoints_s": [
+        29.49532000499754,
+        31.924891604120194
+      ],
+      "displayed_time_extent_with_reading_bounds_s": [
+        29.290910446354662,
+        32.12930116276307
+      ]
+    },
+    {
+      "observation_id": "S2-P9-G1.5-F2",
+      "pressure_label_bar": 9,
+      "grind_label": "1.5",
+      "force_group": "F2",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 108,
+        "paint_sequence": 172,
+        "bbox_pt": [
+          174.0707244873047,
+          597.1409912109375,
+          185.85244750976562,
+          607.3432006835938
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            174.0707244873047,
+            607.3432006835938
+          ],
+          [
+            179.96112060546875,
+            597.1409912109375
+          ],
+          [
+            185.85244750976562,
+            607.3432006835938
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 99,
+          "paint_sequence": 162,
+          "bbox_pt": [
+            97.35675811767578,
+            595.6668090820312,
+            179.96102905273438,
+            603.7229614257812
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              97.35675811767578,
+              595.6668090820312
+            ],
+            [
+              179.96102905273438,
+              603.7229614257812
+            ]
+          ]
+        },
+        {
+          "path_index": 100,
+          "paint_sequence": 163,
+          "bbox_pt": [
+            179.96139526367188,
+            603.7228393554688,
+            220.82550048828125,
+            607.1848754882812
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              603.7228393554688
+            ],
+            [
+              220.82550048828125,
+              607.1848754882812
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 108,
+          "xy_pt": [
+            179.96158599853516,
+            602.2420959472656
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 108,
+          "xy_pt": [
+            179.96143086751303,
+            603.9424641927084
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 99,
+          "endpoint": 1,
+          "xy_pt": [
+            179.96102905273438,
+            603.7229614257812
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 100,
+          "endpoint": 0,
+          "xy_pt": [
+            179.96139526367188,
+            603.7228393554688
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        179.96102905273438,
+        603.7229614257812
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          179.2420490384102,
+          180.68056601285934
+        ],
+        [
+          601.5231159329414,
+          604.6614442070326
+        ]
+      ],
+      "bar_y_endpoints_pt": null,
+      "bar_endpoint_allowance_pt": null,
+      "bar_recovery_status": "NO_RECOVERABLE_VERTICAL_PATH",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 194.11693043757546,
+      "plotted_force_N_bounds": [
+        192.4335550528959,
+        195.80095782149903
+      ],
+      "plotted_time_s": 29.56488656029912,
+      "plotted_time_s_bounds": [
+        29.329274142873956,
+        29.97980479292606
+      ],
+      "displayed_time_endpoints_s": null,
+      "displayed_time_extent_with_reading_bounds_s": null
+    },
+    {
+      "observation_id": "S2-P9-G1.5-F3",
+      "pressure_label_bar": 9,
+      "grind_label": "1.5",
+      "force_group": "F3",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 109,
+        "paint_sequence": 174,
+        "bbox_pt": [
+          214.93521118164062,
+          600.9216918945312,
+          226.7169189453125,
+          611.1239013671875
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            214.93521118164062,
+            611.1239013671875
+          ],
+          [
+            220.8256072998047,
+            600.9216918945312
+          ],
+          [
+            226.7169189453125,
+            611.1239013671875
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 100,
+          "paint_sequence": 163,
+          "bbox_pt": [
+            179.96139526367188,
+            603.7228393554688,
+            220.82550048828125,
+            607.1848754882812
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              179.96139526367188,
+              603.7228393554688
+            ],
+            [
+              220.82550048828125,
+              607.1848754882812
+            ]
+          ]
+        },
+        {
+          "path_index": 101,
+          "paint_sequence": 164,
+          "bbox_pt": [
+            220.82586669921875,
+            606.0226440429688,
+            261.6899719238281,
+            607.1847534179688
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              607.1847534179688
+            ],
+            [
+              261.6899719238281,
+              606.0226440429688
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 109,
+          "xy_pt": [
+            220.82606506347656,
+            606.0227966308594
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 109,
+          "xy_pt": [
+            220.82591247558594,
+            607.7231648763021
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 100,
+          "endpoint": 1,
+          "xy_pt": [
+            220.82550048828125,
+            607.1848754882812
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 101,
+          "endpoint": 0,
+          "xy_pt": [
+            220.82586669921875,
+            607.1847534179688
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        220.82550048828125,
+        607.1848754882812
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          220.10652047395706,
+          221.54504507780075
+        ],
+        [
+          605.3038166165352,
+          608.4421448906263
+        ]
+      ],
+      "bar_y_endpoints_pt": null,
+      "bar_endpoint_allowance_pt": null,
+      "bar_recovery_status": "NO_RECOVERABLE_VERTICAL_PATH",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 241.95570477902942,
+      "plotted_force_N_bounds": [
+        240.27232939434987,
+        243.6397410944495
+      ],
+      "plotted_time_s": 29.07276695232896,
+      "plotted_time_s_bounds": [
+        28.791838231793292,
+        29.44236888184538
+      ],
+      "displayed_time_endpoints_s": null,
+      "displayed_time_extent_with_reading_bounds_s": null
+    },
+    {
+      "observation_id": "S2-P9-G1.5-F4",
+      "pressure_label_bar": 9,
+      "grind_label": "1.5",
+      "force_group": "F4",
+      "nominal_force_N": null,
+      "marker_shape": "triangle",
+      "marker_fill": "light",
+      "marker_object": {
+        "path_index": 110,
+        "paint_sequence": 176,
+        "bbox_pt": [
+          255.800537109375,
+          599.5257568359375,
+          267.5813293457031,
+          609.7279663085938
+        ],
+        "stroke_width_pt": 0.9379600286483765,
+        "vertices_pt": [
+          [
+            255.800537109375,
+            609.7279663085938
+          ],
+          [
+            261.69000244140625,
+            599.5257568359375
+          ],
+          [
+            267.5813293457031,
+            609.7279663085938
+          ]
+        ]
+      },
+      "connector_objects": [
+        {
+          "path_index": 101,
+          "paint_sequence": 164,
+          "bbox_pt": [
+            220.82586669921875,
+            606.0226440429688,
+            261.6899719238281,
+            607.1847534179688
+          ],
+          "stroke_width_pt": 0.9379600286483765,
+          "line_pt": [
+            [
+              220.82586669921875,
+              607.1847534179688
+            ],
+            [
+              261.6899719238281,
+              606.0226440429688
+            ]
+          ]
+        }
+      ],
+      "bar_objects": [],
+      "anchor_candidates": [
+        {
+          "role": "marker_bbox_centre",
+          "object": 110,
+          "xy_pt": [
+            261.69093322753906,
+            604.6268615722656
+          ]
+        },
+        {
+          "role": "triangle_vertex_centroid_candidate",
+          "object": 110,
+          "xy_pt": [
+            261.6906229654948,
+            606.3272298177084
+          ]
+        },
+        {
+          "role": "connector_endpoint",
+          "object": 101,
+          "endpoint": 1,
+          "xy_pt": [
+            261.6899719238281,
+            606.0226440429688
+          ]
+        }
+      ],
+      "nominal_anchor_rule": "first associated connector endpoint nearest marker horizontal symmetry axis in declared series order",
+      "nominal_xy_pt": [
+        261.6899719238281,
+        606.0226440429688
+      ],
+      "central_xy_enclosure_pt": [
+        [
+          260.97099190950394,
+          262.40991324186325
+        ],
+        [
+          603.9078815579414,
+          607.0462098320326
+        ]
+      ],
+      "bar_y_endpoints_pt": null,
+      "bar_endpoint_allowance_pt": null,
+      "bar_recovery_status": "NO_RECOVERABLE_VERTICAL_PATH",
+      "summary_statistic": "UNRESOLVED_S2_SPECIFIC",
+      "replicate_n": null,
+      "bar_semantics": "UNRESOLVED_S2_SPECIFIC",
+      "shot_clock_origin": "UNRESOLVED",
+      "plotted_force_N": 289.79447912048335,
+      "plotted_force_N_bounds": [
+        288.11110373580385,
+        291.47897987372113
+      ],
+      "plotted_time_s": 29.237981013946854,
+      "plotted_time_s_bounds": [
+        28.990273837468276,
+        29.64080448752038
+      ],
+      "displayed_time_endpoints_s": null,
+      "displayed_time_extent_with_reading_bounds_s": null
+    }
+  ],
+  "force_groups": [
+    {
+      "force_group": "F1",
+      "observation_ids": [
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1",
+        "S2-P6-G1.5-F1",
+        "S2-P9-G1.5-F1"
+      ],
+      "common_x_intersection_pt": [
+        96.4733493924141,
+        97.91130942106247
+      ],
+      "plotted_force_union_N": [
+        95.50037764448646,
+        99.1055659563926
+      ],
+      "nominal_force_N": null,
+      "join_basis": "shared x cluster across all four labelled series; common reading intersection; widely separated ordered groups",
+      "actual_equal_applied_force": "NOT_ESTABLISHED"
+    },
+    {
+      "force_group": "F2",
+      "observation_ids": [
+        "S2-P9-G1.3-F2",
+        "S2-P6-G1.3-F2",
+        "S2-P6-G1.5-F2",
+        "S2-P9-G1.5-F2"
+      ],
+      "common_x_intersection_pt": [
+        179.24223214387894,
+        180.68056601285934
+      ],
+      "plotted_force_union_N": [
+        192.4335550528959,
+        195.80117217741488
+      ],
+      "nominal_force_N": null,
+      "join_basis": "shared x cluster across all four labelled series; common reading intersection; widely separated ordered groups",
+      "actual_equal_applied_force": "NOT_ESTABLISHED"
+    },
+    {
+      "force_group": "F3",
+      "observation_ids": [
+        "S2-P9-G1.3-F3",
+        "S2-P6-G1.3-F3",
+        "S2-P6-G1.5-F3",
+        "S2-P9-G1.5-F3"
+      ],
+      "common_x_intersection_pt": [
+        220.10688668489456,
+        221.54504507780075
+      ],
+      "plotted_force_union_N": [
+        240.27232939434987,
+        243.63994651886887
+      ],
+      "nominal_force_N": null,
+      "join_basis": "shared x cluster across all four labelled series; common reading intersection; widely separated ordered groups",
+      "actual_equal_applied_force": "NOT_ESTABLISHED"
+    },
+    {
+      "force_group": "F4",
+      "observation_ids": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4",
+        "S2-P6-G1.5-F4",
+        "S2-P9-G1.5-F4"
+      ],
+      "common_x_intersection_pt": [
+        260.97099190950394,
+        262.40971487760544
+      ],
+      "plotted_force_union_N": [
+        288.11110373580385,
+        291.47897987372113
+      ],
+      "nominal_force_N": null,
+      "join_basis": "shared x cluster across all four labelled series; common reading intersection; widely separated ordered groups",
+      "actual_equal_applied_force": "NOT_ESTABLISHED"
+    }
+  ]
+}

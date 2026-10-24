@@ -52,3 +52,11 @@ the prior convergence study bounding default-grid bias ~0.15 pts. These were
 not newly established by the gate correction. See paper SI Tables S1–S5 (transcribed in
 `extraction_bdf.py`) and Fig. 5 (EY-vs-grind curve). [corrected 2026-07-11: the
 earlier "Tables 2, 7, 8" do not exist in the paper.]
+
+## Separate S2 source observations
+
+[Figure S2 pressure/grind/tamp analysis](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
+adds 16 plotted shot-duration summaries under native 6/9-bar labels, with separate
+central-reading and partial displayed-extent comparisons. It does not repair
+Figure 5, change this model or establish a pressure-boundary mapping. The
+[SI card](cameron2020_si.md) records the dataset and unresolved pressure convention.

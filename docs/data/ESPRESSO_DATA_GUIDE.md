@@ -1,5 +1,14 @@
 # External espresso data — start here
 
+**2026-10-24 Cameron S2:** [pressure/grind/tamp result](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
+adds 16 qualified plotted summaries, 12 recovered bars and four missing extents.
+Central reading bounds support opposite 9−6-bar signs at grinds 1.3/1.5 and a
+negative lowest-to-highest tamp change in both pressure contrasts. Displayed-extent
+sensitivity supports three grind-1.3 pressure contrasts and the first-force
+interaction; tamp endpoints remain unresolved/incomplete. Native pressure labels,
+unknown S2 replicate/bar semantics, source-internal scope and existing evidence
+are preserved. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-24 Smrke S1 correction:** the active `smrke2024/figures` S1 route now serves native-coordinate observations with explicit support/identity limits. One partial setting250,1g-vs2g window contrast qualifies; zero-added-fines comparisons and temporal shapes remain unresolved. Figure3 and accepted endpoint evidence are unchanged. [Result](../analysis/sci_md_smrke_transient_hydraulics_001/RESULT.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 **2026-10-23 Maille swelling evidence:** [conditional graphical result](../analysis/sci_md_maille_swelling_evidence_001/RESULT.md) excludes fixed-population/common-scaling C_V/x50³ on retained poster support. Physical geometric-growth bound remains null/NOT_IDENTIFIABLE; entrainment is qualitative, no C_M/D_W constraint. The2021 study and its republications are distinct from2024 extraction. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
@@ -187,7 +196,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 126 dataset rows; 115 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 127 dataset rows; 116 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -390,14 +399,15 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 2 files / 20,094 bytes; 2 structured files, 2 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-Figure 2 PSD: 618 diameter bins, particle_diameter_um and four volume-percent grind columns. fig5_grind_deviation has three points.
+Figure 2 PSD: 618 diameter bins and four volume-percent grind columns; fig5_grind_deviation: three points. New packaged figS2_pressure_tamp: 16 central shot-time summaries, four common force groups, 12 recovered bars and four missing extents.
 
-The PSD file is a provisional subset without its own MANIFEST row; fig5_grind_deviation does not register it. Verify its source/rights locator before adding a stable subset ID. Grind-specific PSD and coarse/fine behavior reconstruction. Bins are not shots; dial cannot be mapped to a different grinder. Local holdings do not imply the entire experimental supplement.
+Figure 2 and Figure 5 retain their existing IDs/evidence. S2 supports source-internal pressure/grind and endpoint tamp contrasts under reading bounds; displayed-extent coverage is partial. Native 6/9-bar labels are not automatically converted. Summary n/bar semantics unresolved; summaries and PSD bins are not shots; no cross-grinder mapping, permeability or mechanism inference. See docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
 | `cameron2020/fig5_grind_deviation` — [cameron2020](../cards/cameron2020.md); Matter 2, 631-648 (2020) Fig 5 (measured EY deviation below the homogeneous-flow model vs grind) | transcription (values stated in the streamtube module docstring, from Cameron Fig 5); published: percent; registry: fraction | paper (DOI 10.1016/j.matt.2019.12.019); 3 in-campaign grinds GS 1.1/1.3/1.5 (rel deviation 0.131/0.061/0.026); LOO over only 3 points |
 | `cameron2020/psd_figure2` — [cameron2020](../cards/cameron2020.md); Figure 2 (measured PSD) | figure digitization (volume% vs diameter, 4 grind settings); published: um ; volume percent; registry: um ; volume percent | Cameron et al., Matter 2 (2020) 631-648; Fig 2 PSD digitized 2026-07-25; Gs 1.0/1.5/2.0/2.5, ~1-1900 um; enables maille's phi closure to be applied to Cameron's grind (an extrapolation above maille's own coarse-grind range) |
+| `cameron2020/figS2_pressure_tamp` — [cameron2020](../cards/cameron2020.md); Matter 2 (2020) 631-648; DOI 10.1016/j.matt.2019.12.019; standalone SI Figure S2 PDF p7 / printed p6; SHA256 37530ec8c450c6fe5b231a7d4e3b65347555454b366ed4730ec106a4fb56775f | native PDF vector extraction checked against rendered figure; candidate central-anchor enclosures; published: N; s; nominal bar; grinder dial; registry: N; s; nominal bar; grinder dial | Elsevier source; attributable numerical extraction and new plots only under existing Cameron intake practice; restricted PDF/page renders outside Git; no blanket source licence; 16 central summaries not authenticated shots; four common nominal force groups F1-F4 with native x retained; native 6/9 bar labels without automatic conversion; 18/18 layer A complete; 9/18 layer B complete; no mechanism or population inference; PHYSICAL_VALIDATION=NOT_ESTABLISHED; docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md |
 
 Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 

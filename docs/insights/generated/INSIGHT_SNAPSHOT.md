@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `52df324ee809249eacad1233e407434260e22d46` · **schema** v1 · **generator** v1
+**Commit** `72769feddee3fc38a4f716643bca9c567a595919` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -12,19 +12,19 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 |---|---|
 | card | 113 |
 | claim | 5 |
-| dataset | 126 |
+| dataset | 127 |
 | model | 28 |
 | observable | 15 |
 | result | 5 |
 
 | relation type | count |
 |---|---|
-| CALIBRATED_FROM | 90 |
+| CALIBRATED_FROM | 91 |
 | CARD_NAMES_IN_OVERLAPS | 17 |
 | COMPETES_WITH | 13 |
 | COMPLEMENTS | 20 |
-| DERIVED_FROM | 115 |
-| MEASURES | 137 |
+| DERIVED_FROM | 116 |
+| MEASURES | 138 |
 | PREDICTS | 49 |
 | SHARES_OBSERVABLE_WITH | 119 |
 | SUPPORTS_CLAIM | 10 |
@@ -110,7 +110,7 @@ The repository has already published these; a candidate restating one is a dupli
 
 ## Build warnings
 
-39 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
+40 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
 
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 31 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 37 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
@@ -127,6 +127,7 @@ The repository has already published these; a candidate restating one is a dupli
 - NO_INTERFACE_MAPPING: docs/cards/wadsworth2026.md (component wadsworth2026.permeability) — no observable edges inferred
 - TEMPLATE_DEVIATION: docs/cards/acre2024.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/cameron2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
+- TEMPLATE_DEVIATION: docs/cards/cameron2020_si.md is missing Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/dias2015.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/foster2025.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/g10_liquor_rheology.md is missing Governing equations, Parameters
