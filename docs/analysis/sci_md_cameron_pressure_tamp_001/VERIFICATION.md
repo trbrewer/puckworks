@@ -40,6 +40,11 @@ closeout, rather than embedding a commit's own hash in its tree.
 - A broad local suite was started at the base before edits, while later files
   were still being updated; it is not claimed as final-head qualification.
   Final full-suite attribution belongs to the exact-head hosted checks below.
+- A fresh generated-document check identified a stale claim-binding fingerprint
+  after the Paper 3 corpus count update. The existing claim-binding producer
+  refreshed that fingerprint, followed by its dependent Insight outputs. The
+  affected staleness test and Insight verification then passed. The scientific
+  observations, contrasts and figure were unchanged.
 
 Commands (from the checkout; use an environment satisfying pyproject.toml):
 
@@ -58,7 +63,8 @@ python -c 'from puckworks.registry import run_all_gates; run_all_gates()'
 
 Only affected producers ran: `tools/build_available_data_register.py`,
 `tools/build_local_corpus_family_index.py`, `tools/build_espresso_data_guide.py`,
-`python -m puckworks.paper3.corpus --splice`, then
+`python -m puckworks.paper3.corpus --splice`,
+`tools/claim_binding_audit.py --write`, then
 `python -m puckworks.insights write`. The corpus producer was required by the new
 manifest row: 126→127 records, with campaign/component counts unchanged. It also
 refreshes its existing manuscript count projections. No generated block was
