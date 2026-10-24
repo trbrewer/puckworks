@@ -2,7 +2,7 @@
 
 # Puckworks insight snapshot
 
-**Commit** `55de3028fc456deb2fc6e9016cd3c43d51cc277a` · **schema** v1 · **generator** v1
+**Commit** `1398d38ff1986aa85150d55ad9f797bc1aaff1eb` · **schema** v1 · **generator** v1
 
 Every count below is generated from the tree at that commit (blueprint §4.3). Nothing here is an authority: follow `card_path` / `source_path` to the card, the manifest row, or the registry entry that owns each statement.
 
@@ -24,7 +24,7 @@ Every count below is generated from the tree at that commit (blueprint §4.3). N
 | COMPETES_WITH | 13 |
 | COMPLEMENTS | 20 |
 | DERIVED_FROM | 116 |
-| MEASURES | 137 |
+| MEASURES | 135 |
 | PREDICTS | 49 |
 | SHARES_OBSERVABLE_WITH | 119 |
 | SUPPORTS_CLAIM | 10 |
@@ -110,7 +110,7 @@ The repository has already published these; a candidate restating one is a dupli
 
 ## Build warnings
 
-41 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
+43 warnings. These are corpus findings, not build failures — an unresolved card or an untraceable manifest cell is exactly the kind of thing the Foundry exists to surface.
 
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 31 (dataset de1_fixtureA) names source_card '(registry [RS])', which is not a card stem under docs/cards/
 - MANIFEST_SOURCE_CARD_UNRESOLVED: row 37 (dataset romancorrochano2017/tamped_kappa) names source_card 'romancorrochano2017', which is not a card stem under docs/cards/
@@ -126,6 +126,8 @@ The repository has already published these; a candidate restating one is a dupli
 - NO_INTERFACE_MAPPING: cameron2020/figS2_pressure_tamp has nominal pressure labels, not measured pressure; shot duration is outside the current observable vocabulary
 - NO_INTERFACE_MAPPING: docs/cards/grudeva2026_2.md (component grudeva2026.reduced) — no observable edges inferred
 - NO_INTERFACE_MAPPING: docs/cards/wadsworth2026.md (component wadsworth2026.permeability) — no observable edges inferred
+- NO_INTERFACE_MAPPING: egidi2024/table2 has nominal machine pressure labels; reported duration is outside the current observable vocabulary
+- NO_INTERFACE_MAPPING: perticarini2024/ey_tds_cibao has nominal machine pressure labels; reported duration is outside the current observable vocabulary
 - TEMPLATE_DEVIATION: docs/cards/acre2024.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Interface mapping, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/cameron2020.md is missing Scope and mechanism, Governing equations, Parameters, Calibration and validation offered by the source, Assumptions and validity range, Extractable data, Overlaps and conflicts, Implementation estimate
 - TEMPLATE_DEVIATION: docs/cards/cameron2020_si.md is missing Implementation estimate

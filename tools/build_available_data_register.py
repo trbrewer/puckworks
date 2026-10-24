@@ -330,6 +330,34 @@ def build() -> dict:
         "result": "docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md",
         "last_qualified_task": "SCI-MD-CAMERON-PRESSURE-TAMP-001",
     }
+    # Duration eligibility is scoped to the two existing canonical tables. Their
+    # historical chemistry/model qualifications and all other datasets stay intact.
+    for dataset_id, coverage in [
+        ("perticarini2024/ey_tds_cibao", "18 Cibao rows; 12 at 93.4 C and 6 at 90.4 C"),
+        ("egidi2024/table2", "12 Modoetia rows; 6 at each temperature; thesis Table 4.3 is the same observations"),
+    ]:
+        family = family_id(dataset_id)
+        families[family].setdefault("dataset_scopes", {})[dataset_id] = {
+            "observer": "reported condition duration in seconds; statistic/spread/rounding/clock unspecified",
+            "source_internal_or_external": "SOURCE_INTERNAL",
+            "target_exposure": "TARGET_EXPOSED",
+            "physical_validation": "NOT_ESTABLISHED",
+            "eligible_uses": ["retrospective nominal-pressure duration contrasts within coffee-temperature strata",
+                              "additive pressure-by-grind contrasts and separate reversal diagnostics",
+                              "exact deterministic entrywise perturbation sensitivity; not timing variability"],
+            "blocked_uses": ["measured puck pressure-drop or flow calibration", "40/tau as measured flow",
+                             "per-shot masses from EY/TDS", "duration n=3 or uncertainty from TDS sigma",
+                             "intrinsic permeability/resistance or mechanism inference", "population inference",
+                             "independent replication from duplicate publications", "physical validation"],
+            "missing_joins": ["duration statistic/spread/rounding/start-stop clock", "duration replicate identities",
+                              "actual condition beverage masses", "pressure reference/node/history"],
+            "coverage": coverage,
+            "campaign": "Perticarini Extraction Procedure 1; egidi2024/table2 is the canonical Modoetia identity",
+            "units": "s; degC; native nominal machine bar; ordinal source grind labels",
+            "result": "docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md",
+            "last_qualified_task": "SCI-MD-PERTICARINI-PRESSURE-GRIND-001",
+            "prior_use_limit": "EY/TDS qualification and model pressure/temperature prediction strength unchanged",
+        }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

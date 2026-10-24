@@ -120,6 +120,24 @@ discretisation is an implementation choice, not a contract concern.
   backlog; low priority.
 - Code: not published. "Data are contained in the article" (no repository).
 
+## Verified publication lineage and duration consumer (2026-10-24)
+
+Table 2 (article/PDF p.6) and Perticarini thesis Table 4.3 (printed p.91/PDF p.103)
+present the same 12 Modœtia observations; all condition labels and numerical cells
+agree. Keep **`egidi2024/table2`** as the canonical identity, with no duplicate
+campaign or replicate count. [Source authentication and methods](../analysis/sci_md_perticarini_pressure_grind_001/SOURCE_NOTES.md)
+and the [reported-duration result](../analysis/sci_md_perticarini_pressure_grind_001/RESULT.md)
+record the new consumer `puckworks.analysis.perticarini2024_pressure_grind`.
+
+The source-internal duration contrasts use native nominal machine pressure labels
+and four separate coffee-temperature strata across the two canonical tables.
+The duration statistic, spread, rounding and clock convention are unspecified;
+three chemical extractions and TDS sigma do not establish duration n or timing
+uncertainty. Conditional perturbation ranges are assumptions, not experimental
+variability. The existing independent **EY/TDS range bracket only** qualification
+remains: this descriptive use does not upgrade the model's p/T response prediction,
+preliminary validation or historical receipts. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 ## Overlaps and conflicts
 - **cameron2020.extraction_bdf (competes):** same stage, same model family.
   Differences: per-grain-volume inventory c_0 = 200 kg/m³ with c_sat cap

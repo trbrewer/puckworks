@@ -2,7 +2,7 @@
 
 # Insight portfolio
 
-Commit `55de3028fc` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
+Commit `1398d38ff1` · **90 candidates, all `SEED`**. Every candidate is a QUESTION with provenance. None is scored, ranked, or adjudicated: scoring is a human triage aid applied after a person reads the portfolio, and none of these has been read yet.
 
 Next step is blueprint §12 Stage B — human triage down to 10–15, then three cheap screens. Do not start manuscript work on any of these.
 
@@ -518,22 +518,6 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0045
 - **Status.** SEED
 
-### I-032 — Can pressure discriminate between the models that predict it?
-
-- **Question.** Does pressure, measured by data already in the manifest, separate the models that predict it by more than their within-model uncertainty?
-- **Lens.** hidden_discriminator · tracks: technical_note, experiment_design, public_story
-- **Cheap screen.** Signature atlas: predicted pressure per model over a matched domain, against the manifest measurements, with replicate variation drawn.
-- **Minimum figure.** Predicted pressure per model versus its controlling input, with the measured points and their spread overlaid.
-- **Decision rule.**
-    - SURVIVE if Between-model separation exceeds within-model uncertainty somewhere the data lands.
-    - RETIRE if Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.
-    - INCONCLUSIVE if The measurements are single-replicate and no spread can be drawn.
-- **Stop condition.** Predictions overlap after declared uncertainty.
-- **Strongest alternative.** The observable is defined differently by each model, so the separation is a convention artifact.
-- **Entities.** `model:cameron2020.extraction_bdf`, `model:waszkiewicz2025.poroelastic`, `dataset:angeloni2023/bioactives`, `dataset:de1_fixtureA`, `dataset:egidi2024/table2`, `dataset:fasano2000_partI/fig8_1_experimental`, `dataset:g3_pump_characteristic/ulka_envelope`, `dataset:gagne2021/shots`
-- **Tension rows.** T-0047
-- **Status.** SEED
-
 ### I-033 — Can extraction_yield discriminate between the models that predict it?
 
 - **Question.** Does extraction_yield, measured by data already in the manifest, separate the models that predict it by more than their within-model uncertainty?
@@ -628,6 +612,22 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Strongest alternative.** The observable is defined differently by each model, so the separation is a convention artifact.
 - **Entities.** `model:brewer2026.coupled_kappa_t`, `model:wadsworth2026.grindmap`, `dataset:maille2024/particle_porosity`, `dataset:maille2024/ssa`, `dataset:romancorrochano2015/sci_val_tamped_k_001_inputs`, `dataset:vacaguerra2023a/dry_porosity_validation`, `dataset:vacaguerra2023a/omega_coefficients`, `dataset:wadsworth2026/table1_full`
 - **Tension rows.** T-0176
+- **Status.** SEED
+
+### I-103 — Can pressure discriminate between the models that predict it?
+
+- **Question.** Does pressure, measured by data already in the manifest, separate the models that predict it by more than their within-model uncertainty?
+- **Lens.** hidden_discriminator · tracks: technical_note, experiment_design, public_story
+- **Cheap screen.** Signature atlas: predicted pressure per model over a matched domain, against the manifest measurements, with replicate variation drawn.
+- **Minimum figure.** Predicted pressure per model versus its controlling input, with the measured points and their spread overlaid.
+- **Decision rule.**
+    - SURVIVE if Between-model separation exceeds within-model uncertainty somewhere the data lands.
+    - RETIRE if Model predictions overlap once uncertainty is drawn, or the measurements fall outside every model's validity range.
+    - INCONCLUSIVE if The measurements are single-replicate and no spread can be drawn.
+- **Stop condition.** Predictions overlap after declared uncertainty.
+- **Strongest alternative.** The observable is defined differently by each model, so the separation is a convention artifact.
+- **Entities.** `model:cameron2020.extraction_bdf`, `model:waszkiewicz2025.poroelastic`, `dataset:angeloni2023/bioactives`, `dataset:de1_fixtureA`, `dataset:fasano2000_partI/fig8_1_experimental`, `dataset:g3_pump_characteristic/ulka_envelope`, `dataset:gagne2021/shots`, `dataset:gloess2013/de_espresso_endpoint`
+- **Tension rows.** T-0186
 - **Status.** SEED
 
 ### I-100 — temperature is measured but no card claims to produce it
@@ -1350,22 +1350,6 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Tension rows.** T-0163
 - **Status.** SEED
 
-### I-084 — Is pressure a public story the repository has not told?
-
-- **Question.** Does pressure carry one defensible surprise, with data already in the manifest and no existing public claim covering it?
-- **Lens.** public_story · tracks: public_story, practitioner
-- **Cheap screen.** Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.
-- **Minimum figure.** The contrast in one panel, with the badge and scope sentence on the figure itself.
-- **Decision rule.**
-    - SURVIVE if The contrast is defensible at a badge the evidence supports and no existing claim already makes it.
-    - RETIRE if It needs a badge the evidence does not support, or duplicates a claim.
-    - INCONCLUSIVE if The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.
-- **Stop condition.** The contrast cannot be stated without exceeding its evidence badge.
-- **Strongest alternative.** The contrast is an artifact of pooling datasets from different rigs and coffees.
-- **Entities.** `model:cameron2020.extraction_bdf`, `model:waszkiewicz2025.poroelastic`, `dataset:de1_fixtureA`, `dataset:egidi2024/table2`, `dataset:fasano2000_partI/fig8_1_experimental`, `dataset:g3_pump_characteristic/ulka_envelope`, `dataset:gagne2021/shots`, `dataset:gloess2013/de_espresso_endpoint`
-- **Tension rows.** T-0165
-- **Status.** SEED
-
 ### I-085 — Is extraction_yield a public story the repository has not told?
 
 - **Question.** Does extraction_yield carry one defensible surprise, with data already in the manifest and no existing public claim covering it?
@@ -1460,6 +1444,22 @@ Tracks overlap by design — public value and academic value are separate axes (
 - **Strongest alternative.** The contrast is an artifact of pooling datasets from different rigs and coffees.
 - **Entities.** `model:brewer2026.coupled_kappa_t`, `model:wadsworth2026.grindmap`, `dataset:maille2024/particle_porosity`, `dataset:maille2024/ssa`, `dataset:romancorrochano2015/sci_val_tamped_k_001_inputs`, `dataset:vacaguerra2023a/dry_porosity_validation`, `dataset:vacaguerra2023a/omega_coefficients`, `dataset:wadsworth2026/table1_full`
 - **Tension rows.** T-0177
+- **Status.** SEED
+
+### I-104 — Is pressure a public story the repository has not told?
+
+- **Question.** Does pressure carry one defensible surprise, with data already in the manifest and no existing public claim covering it?
+- **Lens.** public_story · tracks: public_story, practitioner
+- **Cheap screen.** Draft the contrast against the existing claim inventory and check it can be stated within the badge its weakest supporting evidence allows.
+- **Minimum figure.** The contrast in one panel, with the badge and scope sentence on the figure itself.
+- **Decision rule.**
+    - SURVIVE if The contrast is defensible at a badge the evidence supports and no existing claim already makes it.
+    - RETIRE if It needs a badge the evidence does not support, or duplicates a claim.
+    - INCONCLUSIVE if The supporting datasets are single-replicate, so the contrast cannot be separated from run-to-run variation.
+- **Stop condition.** The contrast cannot be stated without exceeding its evidence badge.
+- **Strongest alternative.** The contrast is an artifact of pooling datasets from different rigs and coffees.
+- **Entities.** `model:cameron2020.extraction_bdf`, `model:waszkiewicz2025.poroelastic`, `dataset:de1_fixtureA`, `dataset:fasano2000_partI/fig8_1_experimental`, `dataset:g3_pump_characteristic/ulka_envelope`, `dataset:gagne2021/shots`, `dataset:gloess2013/de_espresso_endpoint`, `dataset:khamitova2020/tamping`
+- **Tension rows.** T-0187
 - **Status.** SEED
 
 ### I-093 — Do the continuum permeability closures preserve the pore-scale trend?

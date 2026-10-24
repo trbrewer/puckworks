@@ -74,8 +74,13 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                  'See docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md.'),
  'egidi2024': ('table2_egidi2024_tds_ey: 12 condition rows, T [degC], p [bar], tau [s], Granulometry, TDS '
                '[%], TDS sigma, EY [%].',
-               'Endpoint condition contrasts; no measured pressure history, fraction chemistry or individual '
-               'shot join. Replicate identities UNKNOWN in held table.'),
+               'Table 2 and Perticarini thesis Table 4.3 verified to present the same 12 Modoetia '
+               'observations; canonical egidi2024/table2, no duplicate campaign/replicates. '
+               'Reported-duration contrasts within temperature strata and conditional perturbation '
+               'sensitivity: docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md. '
+               'Nominal machine pressure only; tau statistic/spread/rounding/clock and actual endpoint '
+               'masses unknown. TDS/EY averages and TDS sigma do not establish duration n/uncertainty. '
+               'No measured flow/permeability or model p/T prediction upgrade; PHYSICAL_VALIDATION=NOT_ESTABLISHED.'),
  'ellero2019': ('Figures 2–4 contain nondimensional t_over_tnu, Reynolds number, applied forcing and '
                 'concentration curves across theta, Db and Dr; reference-8 experimental Reynolds points are '
                 'separate.',
@@ -184,8 +189,14 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
  'perticarini2024': ('bed_height_time: eight coffee/granulometry/height/time rows; ey_tds_cibao: 18 '
                      'condition rows with T, p, tau, TDS uncertainty and EY; six granulometry parameter '
                      'rows.',
-                     'Geometry and endpoint condition context. Approximate grain-family parameters and '
-                     'prescribed conditions are not matched instantaneous hydraulic measurements.'),
+                     'All 18 Cibao rows authenticated against thesis Table 4.2. Reported-duration '
+                     'contrasts within temperature strata, with restricted 12-bar extreme extension: '
+                     'docs/analysis/sci_md_perticarini_pressure_grind_001/RESULT.md. Table 4.3 is '
+                     'verified identical to canonical egidi2024/table2; no duplicate observations. '
+                     'TDS/EY condition means; tau statistic/spread/rounding/clock unknown; TDS sigma '
+                     'is not timing uncertainty. Table 4.1 pooled mean times excluded. Native nominal '
+                     'machine bar, unknown actual endpoint masses; no measured flow/permeability '
+                     'or physical-validation upgrade. Approximate grain-family parameters remain context.'),
  'pocketscience2024': ('Three source-style CSV exports include LRR dose/water/beverage quantities and '
                        'multirow basket sheets. Derived edge-EY means have 12 condition rows; LRR summary '
                        'has two grinder rows.',

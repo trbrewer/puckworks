@@ -502,6 +502,15 @@ def dataset_relations(dataset_entities, model_entities, commit: str = "") -> tup
             warnings.append("NO_INTERFACE_MAPPING: cameron2020/figS2_pressure_tamp "
                             "has nominal pressure labels, not measured pressure; "
                             "shot duration is outside the current observable vocabulary")
+        if d.label in {"egidi2024/table2", "perticarini2024/ey_tds_cibao"}:
+            # Procedure 1 source authentication establishes nominal machine
+            # labels only. The duration consumer's name contains "pressure";
+            # that name must not manufacture a measured-pressure edge. Keep
+            # existing chemistry and publication-lineage relationships intact.
+            matched_observables.pop("pressure", None)
+            warnings.append(f"NO_INTERFACE_MAPPING: {d.label} has nominal machine "
+                            "pressure labels; reported duration is outside the "
+                            "current observable vocabulary")
         for obs, alias in matched_observables.items():
             rels.append(Relation(
                 type="MEASURES", source=d.id, target="observable:" + obs,

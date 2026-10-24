@@ -1,0 +1,634 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1370" viewBox="0 0 1600 1370">
+<title>Reported duration response to nominal pressure by grind</title>
+<desc>39 dependent contrasts in seconds. D is higher minus lower nominal pressure; I is finer minus coarser D. Lines are conditional h=0.5 second entrywise perturbation ranges, not timing variability. All four strata and separate extreme-grind secondary comparisons are shown.</desc>
+<rect width="1600" height="1370" fill="white"/>
+<g font-family="sans-serif" font-size="15" fill="#17212b">
+<text x="30" y="32" font-size="25" >Perticarini Procedure 1 · reported condition duration</text>
+<text x="30" y="60" font-size="15" >Dots: exact printed-value contrasts. Lines: conditional perturbation ranges at h=0.5 s per original condition.</text>
+<text x="30" y="83" font-size="15" >Blue: strictly positive range · red: strictly negative · grey: unresolved. Hollow dot: reported zero (not physical equality).</text>
+<text x="30" y="106" font-size="15" >Native nominal pressure labels; unknown duration statistic / clock / spread. Categorical grinds are not particle-size distances.</text>
+<text x="30" y="140" font-size="20" >PRIMARY: 9 − 6 bar · duration D</text>
+<text x="815" y="140" font-size="20" >PRIMARY: finer D − coarser D · interaction I</text>
+<text x="30" y="175" font-size="17" >Cibao Altura · 93.4 °C</text>
+<line x1="475.00" y1="187.00" x2="475.00" y2="450.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="208" font-size="14" >Extra Fine</text>
+<g data-contrast-id="D-cibao-T93.4-extra_fine-P6to9" data-nominal-s="1" data-lower-s="0" data-upper-s="2">
+<line x1="475.00" y1="203.00" x2="510.00" y2="203.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="475.00" y1="199.00" x2="475.00" y2="207.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="510.00" y1="199.00" x2="510.00" y2="207.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="492.50" cy="203" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="208" font-size="13" >1 [0, 2]</text>
+<text x="30" y="234" font-size="14" >Fine</text>
+<g data-contrast-id="D-cibao-T93.4-fine-P6to9" data-nominal-s="0" data-lower-s="-1" data-upper-s="1">
+<line x1="457.50" y1="229.00" x2="492.50" y2="229.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="457.50" y1="225.00" x2="457.50" y2="233.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="492.50" y1="225.00" x2="492.50" y2="233.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="475.00" cy="229" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="234" font-size="13" >0 [-1, 1]</text>
+<text x="30" y="260" font-size="14" >Optimal</text>
+<g data-contrast-id="D-cibao-T93.4-optimal-P6to9" data-nominal-s="-6" data-lower-s="-7" data-upper-s="-5">
+<line x1="352.50" y1="255.00" x2="387.50" y2="255.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="352.50" y1="251.00" x2="352.50" y2="259.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="387.50" y1="251.00" x2="387.50" y2="259.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="370.00" cy="255" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="260" font-size="13" >-6 [-7, -5]</text>
+<text x="30" y="286" font-size="14" >Coarse</text>
+<g data-contrast-id="D-cibao-T93.4-coarse-P6to9" data-nominal-s="-5" data-lower-s="-6" data-upper-s="-4">
+<line x1="370.00" y1="281.00" x2="405.00" y2="281.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="370.00" y1="277.00" x2="370.00" y2="285.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="405.00" y1="277.00" x2="405.00" y2="285.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="387.50" cy="281" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="286" font-size="13" >-5 [-6, -4]</text>
+<text x="30" y="312" font-size="14" >Extra Coarse</text>
+<g data-contrast-id="D-cibao-T93.4-extra_coarse-P6to9" data-nominal-s="-6" data-lower-s="-7" data-upper-s="-5">
+<line x1="352.50" y1="307.00" x2="387.50" y2="307.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="352.50" y1="303.00" x2="352.50" y2="311.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="387.50" y1="303.00" x2="387.50" y2="311.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="370.00" cy="307" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="312" font-size="13" >-6 [-7, -5]</text>
+<line x1="300.00" y1="465.00" x2="650.00" y2="465.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="465.00" x2="300.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="483" font-size="12" text-anchor="middle">-10</text>
+<line x1="335.00" y1="465.00" x2="335.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="335.00" y="483" font-size="12" text-anchor="middle">-8</text>
+<line x1="370.00" y1="465.00" x2="370.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="370.00" y="483" font-size="12" text-anchor="middle">-6</text>
+<line x1="405.00" y1="465.00" x2="405.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="405.00" y="483" font-size="12" text-anchor="middle">-4</text>
+<line x1="440.00" y1="465.00" x2="440.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="440.00" y="483" font-size="12" text-anchor="middle">-2</text>
+<line x1="475.00" y1="465.00" x2="475.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="483" font-size="12" text-anchor="middle">0</text>
+<line x1="510.00" y1="465.00" x2="510.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="510.00" y="483" font-size="12" text-anchor="middle">2</text>
+<line x1="545.00" y1="465.00" x2="545.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="545.00" y="483" font-size="12" text-anchor="middle">4</text>
+<line x1="580.00" y1="465.00" x2="580.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="580.00" y="483" font-size="12" text-anchor="middle">6</text>
+<line x1="615.00" y1="465.00" x2="615.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="615.00" y="483" font-size="12" text-anchor="middle">8</text>
+<line x1="650.00" y1="465.00" x2="650.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="483" font-size="12" text-anchor="middle">10</text>
+<text x="665" y="483" font-size="12" >seconds</text>
+<text x="815" y="175" font-size="17" >Cibao Altura · 93.4 °C</text>
+<line x1="1260.00" y1="187.00" x2="1260.00" y2="450.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="208" font-size="14" >Extra Fine − Fine</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_fine-P6to9" data-nominal-s="1" data-lower-s="-1" data-upper-s="3">
+<line x1="1242.50" y1="203.00" x2="1312.50" y2="203.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1242.50" y1="199.00" x2="1242.50" y2="207.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1312.50" y1="199.00" x2="1312.50" y2="207.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1277.50" cy="203" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="208" font-size="13" >1 [-1, 3]</text>
+<text x="815" y="234" font-size="14" >Extra Fine − Optimal</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_optimal-P6to9" data-nominal-s="7" data-lower-s="5" data-upper-s="9">
+<line x1="1347.50" y1="229.00" x2="1417.50" y2="229.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1347.50" y1="225.00" x2="1347.50" y2="233.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1417.50" y1="225.00" x2="1417.50" y2="233.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1382.50" cy="229" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="234" font-size="13" >7 [5, 9]</text>
+<text x="815" y="260" font-size="14" >Extra Fine − Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_coarse-P6to9" data-nominal-s="6" data-lower-s="4" data-upper-s="8">
+<line x1="1330.00" y1="255.00" x2="1400.00" y2="255.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1330.00" y1="251.00" x2="1330.00" y2="259.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1400.00" y1="251.00" x2="1400.00" y2="259.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1365.00" cy="255" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="260" font-size="13" >6 [4, 8]</text>
+<text x="815" y="286" font-size="14" >Extra Fine − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_extra_coarse-P6to9" data-nominal-s="7" data-lower-s="5" data-upper-s="9">
+<line x1="1347.50" y1="281.00" x2="1417.50" y2="281.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1347.50" y1="277.00" x2="1347.50" y2="285.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1417.50" y1="277.00" x2="1417.50" y2="285.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1382.50" cy="281" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="286" font-size="13" >7 [5, 9]</text>
+<text x="815" y="312" font-size="14" >Fine − Optimal</text>
+<g data-contrast-id="I-cibao-T93.4-fine_minus_optimal-P6to9" data-nominal-s="6" data-lower-s="4" data-upper-s="8">
+<line x1="1330.00" y1="307.00" x2="1400.00" y2="307.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1330.00" y1="303.00" x2="1330.00" y2="311.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1400.00" y1="303.00" x2="1400.00" y2="311.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1365.00" cy="307" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="312" font-size="13" >6 [4, 8]</text>
+<text x="815" y="338" font-size="14" >Fine − Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-fine_minus_coarse-P6to9" data-nominal-s="5" data-lower-s="3" data-upper-s="7">
+<line x1="1312.50" y1="333.00" x2="1382.50" y2="333.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1312.50" y1="329.00" x2="1312.50" y2="337.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1382.50" y1="329.00" x2="1382.50" y2="337.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1347.50" cy="333" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="338" font-size="13" >5 [3, 7]</text>
+<text x="815" y="364" font-size="14" >Fine − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-fine_minus_extra_coarse-P6to9" data-nominal-s="6" data-lower-s="4" data-upper-s="8">
+<line x1="1330.00" y1="359.00" x2="1400.00" y2="359.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1330.00" y1="355.00" x2="1330.00" y2="363.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1400.00" y1="355.00" x2="1400.00" y2="363.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1365.00" cy="359" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="364" font-size="13" >6 [4, 8]</text>
+<text x="815" y="390" font-size="14" >Optimal − Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-optimal_minus_coarse-P6to9" data-nominal-s="-1" data-lower-s="-3" data-upper-s="1">
+<line x1="1207.50" y1="385.00" x2="1277.50" y2="385.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1207.50" y1="381.00" x2="1207.50" y2="389.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1277.50" y1="381.00" x2="1277.50" y2="389.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1242.50" cy="385" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="390" font-size="13" >-1 [-3, 1]</text>
+<text x="815" y="416" font-size="14" >Optimal − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-optimal_minus_extra_coarse-P6to9" data-nominal-s="0" data-lower-s="-2" data-upper-s="2">
+<line x1="1225.00" y1="411.00" x2="1295.00" y2="411.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1225.00" y1="407.00" x2="1225.00" y2="415.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1295.00" y1="407.00" x2="1295.00" y2="415.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1260.00" cy="411" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="416" font-size="13" >0 [-2, 2]</text>
+<text x="815" y="442" font-size="14" >Coarse − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-coarse_minus_extra_coarse-P6to9" data-nominal-s="1" data-lower-s="-1" data-upper-s="3">
+<line x1="1242.50" y1="437.00" x2="1312.50" y2="437.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1242.50" y1="433.00" x2="1242.50" y2="441.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1312.50" y1="433.00" x2="1312.50" y2="441.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1277.50" cy="437" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="442" font-size="13" >1 [-1, 3]</text>
+<line x1="1085.00" y1="465.00" x2="1435.00" y2="465.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="465.00" x2="1085.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="483" font-size="12" text-anchor="middle">-10</text>
+<line x1="1120.00" y1="465.00" x2="1120.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1120.00" y="483" font-size="12" text-anchor="middle">-8</text>
+<line x1="1155.00" y1="465.00" x2="1155.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1155.00" y="483" font-size="12" text-anchor="middle">-6</text>
+<line x1="1190.00" y1="465.00" x2="1190.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1190.00" y="483" font-size="12" text-anchor="middle">-4</text>
+<line x1="1225.00" y1="465.00" x2="1225.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1225.00" y="483" font-size="12" text-anchor="middle">-2</text>
+<line x1="1260.00" y1="465.00" x2="1260.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="483" font-size="12" text-anchor="middle">0</text>
+<line x1="1295.00" y1="465.00" x2="1295.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1295.00" y="483" font-size="12" text-anchor="middle">2</text>
+<line x1="1330.00" y1="465.00" x2="1330.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1330.00" y="483" font-size="12" text-anchor="middle">4</text>
+<line x1="1365.00" y1="465.00" x2="1365.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1365.00" y="483" font-size="12" text-anchor="middle">6</text>
+<line x1="1400.00" y1="465.00" x2="1400.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1400.00" y="483" font-size="12" text-anchor="middle">8</text>
+<line x1="1435.00" y1="465.00" x2="1435.00" y2="469.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="483" font-size="12" text-anchor="middle">10</text>
+<text x="1450" y="483" font-size="12" >seconds</text>
+<text x="30" y="510" font-size="17" >Cibao Altura · 90.4 °C</text>
+<line x1="475.00" y1="522.00" x2="475.00" y2="603.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="543" font-size="14" >Fine</text>
+<g data-contrast-id="D-cibao-T90.4-fine-P6to9" data-nominal-s="-2" data-lower-s="-3" data-upper-s="-1">
+<line x1="422.50" y1="538.00" x2="457.50" y2="538.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="422.50" y1="534.00" x2="422.50" y2="542.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="457.50" y1="534.00" x2="457.50" y2="542.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="440.00" cy="538" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="543" font-size="13" >-2 [-3, -1]</text>
+<text x="30" y="569" font-size="14" >Optimal</text>
+<g data-contrast-id="D-cibao-T90.4-optimal-P6to9" data-nominal-s="-6" data-lower-s="-7" data-upper-s="-5">
+<line x1="352.50" y1="564.00" x2="387.50" y2="564.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="352.50" y1="560.00" x2="352.50" y2="568.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="387.50" y1="560.00" x2="387.50" y2="568.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="370.00" cy="564" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="569" font-size="13" >-6 [-7, -5]</text>
+<text x="30" y="595" font-size="14" >Coarse</text>
+<g data-contrast-id="D-cibao-T90.4-coarse-P6to9" data-nominal-s="-5" data-lower-s="-6" data-upper-s="-4">
+<line x1="370.00" y1="590.00" x2="405.00" y2="590.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="370.00" y1="586.00" x2="370.00" y2="594.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="405.00" y1="586.00" x2="405.00" y2="594.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="387.50" cy="590" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="595" font-size="13" >-5 [-6, -4]</text>
+<line x1="300.00" y1="618.00" x2="650.00" y2="618.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="618.00" x2="300.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="636" font-size="12" text-anchor="middle">-10</text>
+<line x1="335.00" y1="618.00" x2="335.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="335.00" y="636" font-size="12" text-anchor="middle">-8</text>
+<line x1="370.00" y1="618.00" x2="370.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="370.00" y="636" font-size="12" text-anchor="middle">-6</text>
+<line x1="405.00" y1="618.00" x2="405.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="405.00" y="636" font-size="12" text-anchor="middle">-4</text>
+<line x1="440.00" y1="618.00" x2="440.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="440.00" y="636" font-size="12" text-anchor="middle">-2</text>
+<line x1="475.00" y1="618.00" x2="475.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="636" font-size="12" text-anchor="middle">0</text>
+<line x1="510.00" y1="618.00" x2="510.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="510.00" y="636" font-size="12" text-anchor="middle">2</text>
+<line x1="545.00" y1="618.00" x2="545.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="545.00" y="636" font-size="12" text-anchor="middle">4</text>
+<line x1="580.00" y1="618.00" x2="580.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="580.00" y="636" font-size="12" text-anchor="middle">6</text>
+<line x1="615.00" y1="618.00" x2="615.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="615.00" y="636" font-size="12" text-anchor="middle">8</text>
+<line x1="650.00" y1="618.00" x2="650.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="636" font-size="12" text-anchor="middle">10</text>
+<text x="665" y="636" font-size="12" >seconds</text>
+<text x="815" y="510" font-size="17" >Cibao Altura · 90.4 °C</text>
+<line x1="1260.00" y1="522.00" x2="1260.00" y2="603.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="543" font-size="14" >Fine − Optimal</text>
+<g data-contrast-id="I-cibao-T90.4-fine_minus_optimal-P6to9" data-nominal-s="4" data-lower-s="2" data-upper-s="6">
+<line x1="1295.00" y1="538.00" x2="1365.00" y2="538.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1295.00" y1="534.00" x2="1295.00" y2="542.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1365.00" y1="534.00" x2="1365.00" y2="542.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1330.00" cy="538" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="543" font-size="13" >4 [2, 6]</text>
+<text x="815" y="569" font-size="14" >Fine − Coarse</text>
+<g data-contrast-id="I-cibao-T90.4-fine_minus_coarse-P6to9" data-nominal-s="3" data-lower-s="1" data-upper-s="5">
+<line x1="1277.50" y1="564.00" x2="1347.50" y2="564.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1277.50" y1="560.00" x2="1277.50" y2="568.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1347.50" y1="560.00" x2="1347.50" y2="568.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1312.50" cy="564" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="569" font-size="13" >3 [1, 5]</text>
+<text x="815" y="595" font-size="14" >Optimal − Coarse</text>
+<g data-contrast-id="I-cibao-T90.4-optimal_minus_coarse-P6to9" data-nominal-s="-1" data-lower-s="-3" data-upper-s="1">
+<line x1="1207.50" y1="590.00" x2="1277.50" y2="590.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1207.50" y1="586.00" x2="1207.50" y2="594.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1277.50" y1="586.00" x2="1277.50" y2="594.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1242.50" cy="590" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="595" font-size="13" >-1 [-3, 1]</text>
+<line x1="1085.00" y1="618.00" x2="1435.00" y2="618.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="618.00" x2="1085.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="636" font-size="12" text-anchor="middle">-10</text>
+<line x1="1120.00" y1="618.00" x2="1120.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1120.00" y="636" font-size="12" text-anchor="middle">-8</text>
+<line x1="1155.00" y1="618.00" x2="1155.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1155.00" y="636" font-size="12" text-anchor="middle">-6</text>
+<line x1="1190.00" y1="618.00" x2="1190.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1190.00" y="636" font-size="12" text-anchor="middle">-4</text>
+<line x1="1225.00" y1="618.00" x2="1225.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1225.00" y="636" font-size="12" text-anchor="middle">-2</text>
+<line x1="1260.00" y1="618.00" x2="1260.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="636" font-size="12" text-anchor="middle">0</text>
+<line x1="1295.00" y1="618.00" x2="1295.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1295.00" y="636" font-size="12" text-anchor="middle">2</text>
+<line x1="1330.00" y1="618.00" x2="1330.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1330.00" y="636" font-size="12" text-anchor="middle">4</text>
+<line x1="1365.00" y1="618.00" x2="1365.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1365.00" y="636" font-size="12" text-anchor="middle">6</text>
+<line x1="1400.00" y1="618.00" x2="1400.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1400.00" y="636" font-size="12" text-anchor="middle">8</text>
+<line x1="1435.00" y1="618.00" x2="1435.00" y2="622.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="636" font-size="12" text-anchor="middle">10</text>
+<text x="1450" y="636" font-size="12" >seconds</text>
+<text x="30" y="663" font-size="17" >Modœtia · 93.4 °C</text>
+<line x1="475.00" y1="675.00" x2="475.00" y2="756.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="696" font-size="14" >Fine</text>
+<g data-contrast-id="D-modoetia-T93.4-fine-P6to9" data-nominal-s="0" data-lower-s="-1" data-upper-s="1">
+<line x1="457.50" y1="691.00" x2="492.50" y2="691.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="457.50" y1="687.00" x2="457.50" y2="695.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="492.50" y1="687.00" x2="492.50" y2="695.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="475.00" cy="691" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="696" font-size="13" >0 [-1, 1]</text>
+<text x="30" y="722" font-size="14" >Optimal</text>
+<g data-contrast-id="D-modoetia-T93.4-optimal-P6to9" data-nominal-s="0" data-lower-s="-1" data-upper-s="1">
+<line x1="457.50" y1="717.00" x2="492.50" y2="717.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="457.50" y1="713.00" x2="457.50" y2="721.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="492.50" y1="713.00" x2="492.50" y2="721.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="475.00" cy="717" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="722" font-size="13" >0 [-1, 1]</text>
+<text x="30" y="748" font-size="14" >Coarse</text>
+<g data-contrast-id="D-modoetia-T93.4-coarse-P6to9" data-nominal-s="-4" data-lower-s="-5" data-upper-s="-3">
+<line x1="387.50" y1="743.00" x2="422.50" y2="743.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="387.50" y1="739.00" x2="387.50" y2="747.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="422.50" y1="739.00" x2="422.50" y2="747.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="405.00" cy="743" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="748" font-size="13" >-4 [-5, -3]</text>
+<line x1="300.00" y1="771.00" x2="650.00" y2="771.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="771.00" x2="300.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="789" font-size="12" text-anchor="middle">-10</text>
+<line x1="335.00" y1="771.00" x2="335.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="335.00" y="789" font-size="12" text-anchor="middle">-8</text>
+<line x1="370.00" y1="771.00" x2="370.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="370.00" y="789" font-size="12" text-anchor="middle">-6</text>
+<line x1="405.00" y1="771.00" x2="405.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="405.00" y="789" font-size="12" text-anchor="middle">-4</text>
+<line x1="440.00" y1="771.00" x2="440.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="440.00" y="789" font-size="12" text-anchor="middle">-2</text>
+<line x1="475.00" y1="771.00" x2="475.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="789" font-size="12" text-anchor="middle">0</text>
+<line x1="510.00" y1="771.00" x2="510.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="510.00" y="789" font-size="12" text-anchor="middle">2</text>
+<line x1="545.00" y1="771.00" x2="545.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="545.00" y="789" font-size="12" text-anchor="middle">4</text>
+<line x1="580.00" y1="771.00" x2="580.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="580.00" y="789" font-size="12" text-anchor="middle">6</text>
+<line x1="615.00" y1="771.00" x2="615.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="615.00" y="789" font-size="12" text-anchor="middle">8</text>
+<line x1="650.00" y1="771.00" x2="650.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="789" font-size="12" text-anchor="middle">10</text>
+<text x="665" y="789" font-size="12" >seconds</text>
+<text x="815" y="663" font-size="17" >Modœtia · 93.4 °C</text>
+<line x1="1260.00" y1="675.00" x2="1260.00" y2="756.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="696" font-size="14" >Fine − Optimal</text>
+<g data-contrast-id="I-modoetia-T93.4-fine_minus_optimal-P6to9" data-nominal-s="0" data-lower-s="-2" data-upper-s="2">
+<line x1="1225.00" y1="691.00" x2="1295.00" y2="691.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1225.00" y1="687.00" x2="1225.00" y2="695.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1295.00" y1="687.00" x2="1295.00" y2="695.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1260.00" cy="691" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="696" font-size="13" >0 [-2, 2]</text>
+<text x="815" y="722" font-size="14" >Fine − Coarse</text>
+<g data-contrast-id="I-modoetia-T93.4-fine_minus_coarse-P6to9" data-nominal-s="4" data-lower-s="2" data-upper-s="6">
+<line x1="1295.00" y1="717.00" x2="1365.00" y2="717.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1295.00" y1="713.00" x2="1295.00" y2="721.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1365.00" y1="713.00" x2="1365.00" y2="721.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1330.00" cy="717" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="722" font-size="13" >4 [2, 6]</text>
+<text x="815" y="748" font-size="14" >Optimal − Coarse</text>
+<g data-contrast-id="I-modoetia-T93.4-optimal_minus_coarse-P6to9" data-nominal-s="4" data-lower-s="2" data-upper-s="6">
+<line x1="1295.00" y1="743.00" x2="1365.00" y2="743.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1295.00" y1="739.00" x2="1295.00" y2="747.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1365.00" y1="739.00" x2="1365.00" y2="747.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1330.00" cy="743" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="748" font-size="13" >4 [2, 6]</text>
+<line x1="1085.00" y1="771.00" x2="1435.00" y2="771.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="771.00" x2="1085.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="789" font-size="12" text-anchor="middle">-10</text>
+<line x1="1120.00" y1="771.00" x2="1120.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1120.00" y="789" font-size="12" text-anchor="middle">-8</text>
+<line x1="1155.00" y1="771.00" x2="1155.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1155.00" y="789" font-size="12" text-anchor="middle">-6</text>
+<line x1="1190.00" y1="771.00" x2="1190.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1190.00" y="789" font-size="12" text-anchor="middle">-4</text>
+<line x1="1225.00" y1="771.00" x2="1225.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1225.00" y="789" font-size="12" text-anchor="middle">-2</text>
+<line x1="1260.00" y1="771.00" x2="1260.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="789" font-size="12" text-anchor="middle">0</text>
+<line x1="1295.00" y1="771.00" x2="1295.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1295.00" y="789" font-size="12" text-anchor="middle">2</text>
+<line x1="1330.00" y1="771.00" x2="1330.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1330.00" y="789" font-size="12" text-anchor="middle">4</text>
+<line x1="1365.00" y1="771.00" x2="1365.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1365.00" y="789" font-size="12" text-anchor="middle">6</text>
+<line x1="1400.00" y1="771.00" x2="1400.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1400.00" y="789" font-size="12" text-anchor="middle">8</text>
+<line x1="1435.00" y1="771.00" x2="1435.00" y2="775.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="789" font-size="12" text-anchor="middle">10</text>
+<text x="1450" y="789" font-size="12" >seconds</text>
+<text x="30" y="816" font-size="17" >Modœtia · 90.4 °C</text>
+<line x1="475.00" y1="828.00" x2="475.00" y2="909.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="849" font-size="14" >Fine</text>
+<g data-contrast-id="D-modoetia-T90.4-fine-P6to9" data-nominal-s="1" data-lower-s="0" data-upper-s="2">
+<line x1="475.00" y1="844.00" x2="510.00" y2="844.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="475.00" y1="840.00" x2="475.00" y2="848.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="510.00" y1="840.00" x2="510.00" y2="848.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="492.50" cy="844" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="849" font-size="13" >1 [0, 2]</text>
+<text x="30" y="875" font-size="14" >Optimal</text>
+<g data-contrast-id="D-modoetia-T90.4-optimal-P6to9" data-nominal-s="1" data-lower-s="0" data-upper-s="2">
+<line x1="475.00" y1="870.00" x2="510.00" y2="870.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="475.00" y1="866.00" x2="475.00" y2="874.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="510.00" y1="866.00" x2="510.00" y2="874.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="492.50" cy="870" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="875" font-size="13" >1 [0, 2]</text>
+<text x="30" y="901" font-size="14" >Coarse</text>
+<g data-contrast-id="D-modoetia-T90.4-coarse-P6to9" data-nominal-s="-3" data-lower-s="-4" data-upper-s="-2">
+<line x1="405.00" y1="896.00" x2="440.00" y2="896.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="405.00" y1="892.00" x2="405.00" y2="900.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="440.00" y1="892.00" x2="440.00" y2="900.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="422.50" cy="896" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="901" font-size="13" >-3 [-4, -2]</text>
+<line x1="300.00" y1="924.00" x2="650.00" y2="924.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="924.00" x2="300.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="942" font-size="12" text-anchor="middle">-10</text>
+<line x1="335.00" y1="924.00" x2="335.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="335.00" y="942" font-size="12" text-anchor="middle">-8</text>
+<line x1="370.00" y1="924.00" x2="370.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="370.00" y="942" font-size="12" text-anchor="middle">-6</text>
+<line x1="405.00" y1="924.00" x2="405.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="405.00" y="942" font-size="12" text-anchor="middle">-4</text>
+<line x1="440.00" y1="924.00" x2="440.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="440.00" y="942" font-size="12" text-anchor="middle">-2</text>
+<line x1="475.00" y1="924.00" x2="475.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="942" font-size="12" text-anchor="middle">0</text>
+<line x1="510.00" y1="924.00" x2="510.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="510.00" y="942" font-size="12" text-anchor="middle">2</text>
+<line x1="545.00" y1="924.00" x2="545.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="545.00" y="942" font-size="12" text-anchor="middle">4</text>
+<line x1="580.00" y1="924.00" x2="580.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="580.00" y="942" font-size="12" text-anchor="middle">6</text>
+<line x1="615.00" y1="924.00" x2="615.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="615.00" y="942" font-size="12" text-anchor="middle">8</text>
+<line x1="650.00" y1="924.00" x2="650.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="942" font-size="12" text-anchor="middle">10</text>
+<text x="665" y="942" font-size="12" >seconds</text>
+<text x="815" y="816" font-size="17" >Modœtia · 90.4 °C</text>
+<line x1="1260.00" y1="828.00" x2="1260.00" y2="909.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="849" font-size="14" >Fine − Optimal</text>
+<g data-contrast-id="I-modoetia-T90.4-fine_minus_optimal-P6to9" data-nominal-s="0" data-lower-s="-2" data-upper-s="2">
+<line x1="1225.00" y1="844.00" x2="1295.00" y2="844.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="1225.00" y1="840.00" x2="1225.00" y2="848.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="1295.00" y1="840.00" x2="1295.00" y2="848.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1260.00" cy="844" r="4" fill="white" stroke="#626b73" stroke-width="2"/></g>
+<text x="1450" y="849" font-size="13" >0 [-2, 2]</text>
+<text x="815" y="875" font-size="14" >Fine − Coarse</text>
+<g data-contrast-id="I-modoetia-T90.4-fine_minus_coarse-P6to9" data-nominal-s="4" data-lower-s="2" data-upper-s="6">
+<line x1="1295.00" y1="870.00" x2="1365.00" y2="870.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1295.00" y1="866.00" x2="1295.00" y2="874.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1365.00" y1="866.00" x2="1365.00" y2="874.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1330.00" cy="870" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="875" font-size="13" >4 [2, 6]</text>
+<text x="815" y="901" font-size="14" >Optimal − Coarse</text>
+<g data-contrast-id="I-modoetia-T90.4-optimal_minus_coarse-P6to9" data-nominal-s="4" data-lower-s="2" data-upper-s="6">
+<line x1="1295.00" y1="896.00" x2="1365.00" y2="896.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1295.00" y1="892.00" x2="1295.00" y2="900.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1365.00" y1="892.00" x2="1365.00" y2="900.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1330.00" cy="896" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="901" font-size="13" >4 [2, 6]</text>
+<line x1="1085.00" y1="924.00" x2="1435.00" y2="924.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="924.00" x2="1085.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="942" font-size="12" text-anchor="middle">-10</text>
+<line x1="1120.00" y1="924.00" x2="1120.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1120.00" y="942" font-size="12" text-anchor="middle">-8</text>
+<line x1="1155.00" y1="924.00" x2="1155.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1155.00" y="942" font-size="12" text-anchor="middle">-6</text>
+<line x1="1190.00" y1="924.00" x2="1190.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1190.00" y="942" font-size="12" text-anchor="middle">-4</text>
+<line x1="1225.00" y1="924.00" x2="1225.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1225.00" y="942" font-size="12" text-anchor="middle">-2</text>
+<line x1="1260.00" y1="924.00" x2="1260.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="942" font-size="12" text-anchor="middle">0</text>
+<line x1="1295.00" y1="924.00" x2="1295.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1295.00" y="942" font-size="12" text-anchor="middle">2</text>
+<line x1="1330.00" y1="924.00" x2="1330.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1330.00" y="942" font-size="12" text-anchor="middle">4</text>
+<line x1="1365.00" y1="924.00" x2="1365.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1365.00" y="942" font-size="12" text-anchor="middle">6</text>
+<line x1="1400.00" y1="924.00" x2="1400.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1400.00" y="942" font-size="12" text-anchor="middle">8</text>
+<line x1="1435.00" y1="924.00" x2="1435.00" y2="928.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="942" font-size="12" text-anchor="middle">10</text>
+<text x="1450" y="942" font-size="12" >seconds</text>
+<text x="30" y="981" font-size="20" >SECONDARY ONLY: Cibao Altura · 93.4 °C · Extra Fine / Extra Coarse</text>
+<text x="30" y="1017" font-size="17" >12 − 9 bar</text>
+<line x1="425.00" y1="1029.00" x2="425.00" y2="1084.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="1050" font-size="14" >Extra Fine</text>
+<g data-contrast-id="D-cibao-T93.4-extra_fine-P9to12" data-nominal-s="7" data-lower-s="6" data-upper-s="8">
+<line x1="500.00" y1="1045.00" x2="525.00" y2="1045.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="500.00" y1="1041.00" x2="500.00" y2="1049.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="525.00" y1="1041.00" x2="525.00" y2="1049.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="512.50" cy="1045" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="665" y="1050" font-size="13" >7 [6, 8]</text>
+<text x="30" y="1076" font-size="14" >Extra Coarse</text>
+<g data-contrast-id="D-cibao-T93.4-extra_coarse-P9to12" data-nominal-s="-1" data-lower-s="-2" data-upper-s="0">
+<line x1="400.00" y1="1071.00" x2="425.00" y2="1071.00" stroke="#626b73" stroke-width="3" stroke-dasharray=""/>
+<line x1="400.00" y1="1067.00" x2="400.00" y2="1075.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<line x1="425.00" y1="1067.00" x2="425.00" y2="1075.00" stroke="#626b73" stroke-width="2" stroke-dasharray=""/>
+<circle cx="412.50" cy="1071" r="4" fill="#626b73" stroke="#626b73" stroke-width="2"/></g>
+<text x="665" y="1076" font-size="13" >-1 [-2, 0]</text>
+<line x1="300.00" y1="1099.00" x2="650.00" y2="1099.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="1099.00" x2="300.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="1117" font-size="12" text-anchor="middle">-10</text>
+<line x1="325.00" y1="1099.00" x2="325.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="325.00" y="1117" font-size="12" text-anchor="middle">-8</text>
+<line x1="350.00" y1="1099.00" x2="350.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="350.00" y="1117" font-size="12" text-anchor="middle">-6</text>
+<line x1="375.00" y1="1099.00" x2="375.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="375.00" y="1117" font-size="12" text-anchor="middle">-4</text>
+<line x1="400.00" y1="1099.00" x2="400.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="400.00" y="1117" font-size="12" text-anchor="middle">-2</text>
+<line x1="425.00" y1="1099.00" x2="425.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="425.00" y="1117" font-size="12" text-anchor="middle">0</text>
+<line x1="450.00" y1="1099.00" x2="450.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="450.00" y="1117" font-size="12" text-anchor="middle">2</text>
+<line x1="475.00" y1="1099.00" x2="475.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="1117" font-size="12" text-anchor="middle">4</text>
+<line x1="500.00" y1="1099.00" x2="500.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="500.00" y="1117" font-size="12" text-anchor="middle">6</text>
+<line x1="525.00" y1="1099.00" x2="525.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="525.00" y="1117" font-size="12" text-anchor="middle">8</text>
+<line x1="550.00" y1="1099.00" x2="550.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="550.00" y="1117" font-size="12" text-anchor="middle">10</text>
+<line x1="575.00" y1="1099.00" x2="575.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="575.00" y="1117" font-size="12" text-anchor="middle">12</text>
+<line x1="600.00" y1="1099.00" x2="600.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="600.00" y="1117" font-size="12" text-anchor="middle">14</text>
+<line x1="625.00" y1="1099.00" x2="625.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="625.00" y="1117" font-size="12" text-anchor="middle">16</text>
+<line x1="650.00" y1="1099.00" x2="650.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="1117" font-size="12" text-anchor="middle">18</text>
+<text x="665" y="1117" font-size="12" >seconds</text>
+<text x="815" y="1017" font-size="17" >12 − 9 bar</text>
+<line x1="1210.00" y1="1029.00" x2="1210.00" y2="1084.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="1050" font-size="14" >Extra Fine − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_extra_coarse-P9to12" data-nominal-s="8" data-lower-s="6" data-upper-s="10">
+<line x1="1285.00" y1="1045.00" x2="1335.00" y2="1045.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1285.00" y1="1041.00" x2="1285.00" y2="1049.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1335.00" y1="1041.00" x2="1335.00" y2="1049.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1310.00" cy="1045" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="1050" font-size="13" >8 [6, 10]</text>
+<line x1="1085.00" y1="1099.00" x2="1435.00" y2="1099.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="1099.00" x2="1085.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="1117" font-size="12" text-anchor="middle">-10</text>
+<line x1="1110.00" y1="1099.00" x2="1110.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1110.00" y="1117" font-size="12" text-anchor="middle">-8</text>
+<line x1="1135.00" y1="1099.00" x2="1135.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1135.00" y="1117" font-size="12" text-anchor="middle">-6</text>
+<line x1="1160.00" y1="1099.00" x2="1160.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1160.00" y="1117" font-size="12" text-anchor="middle">-4</text>
+<line x1="1185.00" y1="1099.00" x2="1185.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1185.00" y="1117" font-size="12" text-anchor="middle">-2</text>
+<line x1="1210.00" y1="1099.00" x2="1210.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1210.00" y="1117" font-size="12" text-anchor="middle">0</text>
+<line x1="1235.00" y1="1099.00" x2="1235.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1235.00" y="1117" font-size="12" text-anchor="middle">2</text>
+<line x1="1260.00" y1="1099.00" x2="1260.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="1117" font-size="12" text-anchor="middle">4</text>
+<line x1="1285.00" y1="1099.00" x2="1285.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1285.00" y="1117" font-size="12" text-anchor="middle">6</text>
+<line x1="1310.00" y1="1099.00" x2="1310.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1310.00" y="1117" font-size="12" text-anchor="middle">8</text>
+<line x1="1335.00" y1="1099.00" x2="1335.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1335.00" y="1117" font-size="12" text-anchor="middle">10</text>
+<line x1="1360.00" y1="1099.00" x2="1360.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1360.00" y="1117" font-size="12" text-anchor="middle">12</text>
+<line x1="1385.00" y1="1099.00" x2="1385.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1385.00" y="1117" font-size="12" text-anchor="middle">14</text>
+<line x1="1410.00" y1="1099.00" x2="1410.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1410.00" y="1117" font-size="12" text-anchor="middle">16</text>
+<line x1="1435.00" y1="1099.00" x2="1435.00" y2="1103.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="1117" font-size="12" text-anchor="middle">18</text>
+<text x="1450" y="1117" font-size="12" >seconds</text>
+<text x="30" y="1144" font-size="17" >12 − 6 bar</text>
+<line x1="425.00" y1="1156.00" x2="425.00" y2="1211.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="30" y="1177" font-size="14" >Extra Fine</text>
+<g data-contrast-id="D-cibao-T93.4-extra_fine-P6to12" data-nominal-s="8" data-lower-s="7" data-upper-s="9">
+<line x1="512.50" y1="1172.00" x2="537.50" y2="1172.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="512.50" y1="1168.00" x2="512.50" y2="1176.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="537.50" y1="1168.00" x2="537.50" y2="1176.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="525.00" cy="1172" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="665" y="1177" font-size="13" >8 [7, 9]</text>
+<text x="30" y="1203" font-size="14" >Extra Coarse</text>
+<g data-contrast-id="D-cibao-T93.4-extra_coarse-P6to12" data-nominal-s="-7" data-lower-s="-8" data-upper-s="-6">
+<line x1="325.00" y1="1198.00" x2="350.00" y2="1198.00" stroke="#ac3535" stroke-width="3" stroke-dasharray=""/>
+<line x1="325.00" y1="1194.00" x2="325.00" y2="1202.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<line x1="350.00" y1="1194.00" x2="350.00" y2="1202.00" stroke="#ac3535" stroke-width="2" stroke-dasharray=""/>
+<circle cx="337.50" cy="1198" r="4" fill="#ac3535" stroke="#ac3535" stroke-width="2"/></g>
+<text x="665" y="1203" font-size="13" >-7 [-8, -6]</text>
+<line x1="300.00" y1="1226.00" x2="650.00" y2="1226.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="300.00" y1="1226.00" x2="300.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="300.00" y="1244" font-size="12" text-anchor="middle">-10</text>
+<line x1="325.00" y1="1226.00" x2="325.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="325.00" y="1244" font-size="12" text-anchor="middle">-8</text>
+<line x1="350.00" y1="1226.00" x2="350.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="350.00" y="1244" font-size="12" text-anchor="middle">-6</text>
+<line x1="375.00" y1="1226.00" x2="375.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="375.00" y="1244" font-size="12" text-anchor="middle">-4</text>
+<line x1="400.00" y1="1226.00" x2="400.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="400.00" y="1244" font-size="12" text-anchor="middle">-2</text>
+<line x1="425.00" y1="1226.00" x2="425.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="425.00" y="1244" font-size="12" text-anchor="middle">0</text>
+<line x1="450.00" y1="1226.00" x2="450.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="450.00" y="1244" font-size="12" text-anchor="middle">2</text>
+<line x1="475.00" y1="1226.00" x2="475.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="475.00" y="1244" font-size="12" text-anchor="middle">4</text>
+<line x1="500.00" y1="1226.00" x2="500.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="500.00" y="1244" font-size="12" text-anchor="middle">6</text>
+<line x1="525.00" y1="1226.00" x2="525.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="525.00" y="1244" font-size="12" text-anchor="middle">8</text>
+<line x1="550.00" y1="1226.00" x2="550.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="550.00" y="1244" font-size="12" text-anchor="middle">10</text>
+<line x1="575.00" y1="1226.00" x2="575.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="575.00" y="1244" font-size="12" text-anchor="middle">12</text>
+<line x1="600.00" y1="1226.00" x2="600.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="600.00" y="1244" font-size="12" text-anchor="middle">14</text>
+<line x1="625.00" y1="1226.00" x2="625.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="625.00" y="1244" font-size="12" text-anchor="middle">16</text>
+<line x1="650.00" y1="1226.00" x2="650.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="650.00" y="1244" font-size="12" text-anchor="middle">18</text>
+<text x="665" y="1244" font-size="12" >seconds</text>
+<text x="815" y="1144" font-size="17" >12 − 6 bar</text>
+<line x1="1210.00" y1="1156.00" x2="1210.00" y2="1211.00" stroke="#81909c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="815" y="1177" font-size="14" >Extra Fine − Extra Coarse</text>
+<g data-contrast-id="I-cibao-T93.4-extra_fine_minus_extra_coarse-P6to12" data-nominal-s="15" data-lower-s="13" data-upper-s="17">
+<line x1="1372.50" y1="1172.00" x2="1422.50" y2="1172.00" stroke="#176a94" stroke-width="3" stroke-dasharray=""/>
+<line x1="1372.50" y1="1168.00" x2="1372.50" y2="1176.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<line x1="1422.50" y1="1168.00" x2="1422.50" y2="1176.00" stroke="#176a94" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1397.50" cy="1172" r="4" fill="#176a94" stroke="#176a94" stroke-width="2"/></g>
+<text x="1450" y="1177" font-size="13" >15 [13, 17]</text>
+<line x1="1085.00" y1="1226.00" x2="1435.00" y2="1226.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<line x1="1085.00" y1="1226.00" x2="1085.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1085.00" y="1244" font-size="12" text-anchor="middle">-10</text>
+<line x1="1110.00" y1="1226.00" x2="1110.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1110.00" y="1244" font-size="12" text-anchor="middle">-8</text>
+<line x1="1135.00" y1="1226.00" x2="1135.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1135.00" y="1244" font-size="12" text-anchor="middle">-6</text>
+<line x1="1160.00" y1="1226.00" x2="1160.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1160.00" y="1244" font-size="12" text-anchor="middle">-4</text>
+<line x1="1185.00" y1="1226.00" x2="1185.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1185.00" y="1244" font-size="12" text-anchor="middle">-2</text>
+<line x1="1210.00" y1="1226.00" x2="1210.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1210.00" y="1244" font-size="12" text-anchor="middle">0</text>
+<line x1="1235.00" y1="1226.00" x2="1235.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1235.00" y="1244" font-size="12" text-anchor="middle">2</text>
+<line x1="1260.00" y1="1226.00" x2="1260.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1260.00" y="1244" font-size="12" text-anchor="middle">4</text>
+<line x1="1285.00" y1="1226.00" x2="1285.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1285.00" y="1244" font-size="12" text-anchor="middle">6</text>
+<line x1="1310.00" y1="1226.00" x2="1310.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1310.00" y="1244" font-size="12" text-anchor="middle">8</text>
+<line x1="1335.00" y1="1226.00" x2="1335.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1335.00" y="1244" font-size="12" text-anchor="middle">10</text>
+<line x1="1360.00" y1="1226.00" x2="1360.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1360.00" y="1244" font-size="12" text-anchor="middle">12</text>
+<line x1="1385.00" y1="1226.00" x2="1385.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1385.00" y="1244" font-size="12" text-anchor="middle">14</text>
+<line x1="1410.00" y1="1226.00" x2="1410.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1410.00" y="1244" font-size="12" text-anchor="middle">16</text>
+<line x1="1435.00" y1="1226.00" x2="1435.00" y2="1230.00" stroke="#a2acb3" stroke-width="1" stroke-dasharray=""/>
+<text x="1435.00" y="1244" font-size="12" text-anchor="middle">18</text>
+<text x="1450" y="1244" font-size="12" >seconds</text>
+<text x="30" y="1281" font-size="15" >Primary: 5 nominal reversal pairs; 0 retain strict reversal at h=0.5 s. Interaction resolution does not imply reversal.</text>
+<text x="30" y="1305" font-size="15" >Secondary strict reversal: 0≤h&lt;0.5 s (12−9); 0≤h&lt;3.5 s (12−6). No primary reversal claim from 12-bar evidence.</text>
+<text x="30" y="1329" font-size="16" >SOURCE_INTERNAL / RETROSPECTIVE / NONSCORING · PHYSICAL_VALIDATION=NOT_ESTABLISHED</text>
+</g>
+</svg>
