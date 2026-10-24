@@ -1,0 +1,195 @@
+{
+  "capsule_histories": 2,
+  "counted_profiles": 24,
+  "method": "Match path/segment endpoints in original order after separate per-panel tick affine scaling; do not count arXiv again.",
+  "profiles": [
+    {
+      "max_abs_signal_after_tick_scaling": 2.4353664400122987e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r0.92",
+      "same_operators_and_topology": true,
+      "segments": 586
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.1822352679334855e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r2.77",
+      "same_operators_and_topology": true,
+      "segments": 576
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.132407337318565e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r4.61",
+      "same_operators_and_topology": true,
+      "segments": 550
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.084540498048515e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r6.45",
+      "same_operators_and_topology": true,
+      "segments": 540
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.084540498048515e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r8.30",
+      "same_operators_and_topology": true,
+      "segments": 537
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.13273960608662e-06,
+      "max_abs_y_mm_after_tick_scaling": 7.536177472466932e-05,
+      "profile_id": "14a_r10.14",
+      "same_operators_and_topology": true,
+      "segments": 507
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.8997311614098464e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.467287736024787e-05,
+      "profile_id": "14b_r0.92",
+      "same_operators_and_topology": true,
+      "segments": 503
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.6158795759512188e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.467287736024787e-05,
+      "profile_id": "14b_r2.77",
+      "same_operators_and_topology": true,
+      "segments": 533
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.8027833336441432e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.467287736024787e-05,
+      "profile_id": "14b_r4.61",
+      "same_operators_and_topology": true,
+      "segments": 514
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.569069370572663e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.467287736024787e-05,
+      "profile_id": "14b_r6.45",
+      "same_operators_and_topology": true,
+      "segments": 506
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.754028016416221e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.467287736024787e-05,
+      "profile_id": "14b_r8.30",
+      "same_operators_and_topology": true,
+      "segments": 475
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 2.691475382343711e-06,
+      "max_abs_y_mm_after_tick_scaling": 8.201215105785309e-05,
+      "profile_id": "14b_r10.14",
+      "same_operators_and_topology": true,
+      "segments": 475
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.362405109730293e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.431607099382063e-05,
+      "profile_id": "16a_r0.92",
+      "same_operators_and_topology": true,
+      "segments": 561
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.13622788983281e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.431607099382063e-05,
+      "profile_id": "16a_r2.77",
+      "same_operators_and_topology": true,
+      "segments": 541
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.2505400777149696e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.431607099382063e-05,
+      "profile_id": "16a_r4.61",
+      "same_operators_and_topology": true,
+      "segments": 542
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.341783853472169e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.2989188951357846e-05,
+      "profile_id": "16a_r6.45",
+      "same_operators_and_topology": true,
+      "segments": 547
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.429995730219737e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.431607099382063e-05,
+      "profile_id": "16a_r8.30",
+      "same_operators_and_topology": true,
+      "segments": 524
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.416180940907232e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.431607099382063e-05,
+      "profile_id": "16a_r10.14",
+      "same_operators_and_topology": true,
+      "segments": 540
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 4.064390097813231e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.933863281271101e-05,
+      "profile_id": "16b_r0.92",
+      "same_operators_and_topology": true,
+      "segments": 519
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.612701803379359e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.8592631255294236e-05,
+      "profile_id": "16b_r2.77",
+      "same_operators_and_topology": true,
+      "segments": 483
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.3073626239388254e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.933863281271101e-05,
+      "profile_id": "16b_r4.61",
+      "same_operators_and_topology": true,
+      "segments": 491
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.1238549298429064e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.933863281271101e-05,
+      "profile_id": "16b_r6.45",
+      "same_operators_and_topology": true,
+      "segments": 473
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.0539610114121984e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.933863281271101e-05,
+      "profile_id": "16b_r8.30",
+      "same_operators_and_topology": true,
+      "segments": 480
+    },
+    {
+      "max_abs_signal_after_tick_scaling": 3.1559277839932065e-06,
+      "max_abs_y_mm_after_tick_scaling": 5.8592631255294236e-05,
+      "profile_id": "16b_r10.14",
+      "same_operators_and_topology": true,
+      "segments": 491
+    }
+  ],
+  "sources": {
+    "arxiv-v2.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "5cb62413c80f70916f4ccf6e2a432bffdc5def0cc817e5f0e1685502720ece0c",
+      "url": "https://arxiv.org/pdf/2305.03911v2",
+      "version": "arXiv v2 8 October 2023"
+    },
+    "final.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "101720c58cabd32ce2852025a3d61e2b41c3f4d315f32c853f303a929542ffb8",
+      "url": "https://www.nature.com/articles/s41598-023-42380-y.pdf",
+      "version": "journal 29 September 2023"
+    },
+    "supplement.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "9ba14a679900eb1f460c13ab164272d19b9ea896b88798a35a20d57f05cba464",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41598-023-42380-y/MediaObjects/41598_2023_42380_MOESM1_ESM.pdf",
+      "version": "journal final supplementary information"
+    }
+  }
+}

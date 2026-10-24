@@ -36,14 +36,14 @@ cannot see that; these protocols can.
 
 | Mechanism (component) | Fixed-p sign | Flow-reversal replay | Pressure step-up | Rebrew (spent puck) | Depth porosity gradient |
 |---|---|---|---|---|---|
-| **Dissolution Φ(t)** (`waszkiewicz2025` / `cameron2020`) | rising (correct) | **no decay to replay** — porosity change is irreversible mass loss, direction-independent | flux tracks the static κ(P) jump; **no extra restart** (matrix already opened by dissolution, not pressure) | **flat at endpoint** — solute already removed, no fresh opening | ~uniform opening (bulk dissolution) |
-| **Fines migration** (`fasano2000_partI`) | falling (refuted at fixed p) | **asymmetric**: reversing flow re-mobilises the outlet-deposited compact layer → decay does **not** replay symmetrically (Fasano Fig. 8.4) | flux may rise only if p₀ rises (Part III), but the compact layer persists | responds to pressure cycling; partial re-open then re-clog | **bottom-high** (fines deposited at the outlet; mo2023 Figs. 6/14/16 sectioning) |
+| **Dissolution Φ(t)** (`waszkiewicz2025` / `cameron2020`) | rising (correct) | **no decay to replay** — porosity change is irreversible mass loss, direction-independent | flux tracks the static κ(P) jump; **no extra restart** (matrix already opened by dissolution, not pressure) | **flat at endpoint** — solute already removed, no fresh opening | uniform opening only under a spatially uniform dissolution assumption; not implied by absence of a resolved signal gradient |
+| **Fines migration** (`fasano2000_partI`) | falling (refuted at fixed p) | **asymmetric**: reversing flow re-mobilises the outlet-deposited compact layer → decay does **not** replay symmetrically (Fasano Fig. 8.4) | flux may rise only if p₀ rises (Part III), but the compact layer persists | responds to pressure cycling; partial re-open then re-clog | conditional deposited-layer picture: outlet-high **solid occupancy**, hence outlet-low geometric void fraction in a common representative bulk volume; Mo segmented signal is not a fines discriminator |
 | **Compaction / swelling** (`fasano2000_partII`, `mo2023_2`) | falling (refuted at fixed p) | **symmetric** — porosity change is a local grain rearrangement, direction-independent, so reversal replays the decay | Part III: with ∂K/∂ε ≥ 0, removal may **restart** under rising pressure — a distinct restart signature | elastic recovery on unload (partII h·ξ₂ term) | depends on strain field; not necessarily bottom-high |
 
 The three protocol columns are exactly the card-named observables: **flow-reversal replay
 (Fasano Fig. 8.4)**, **pressure-step (Fasano Part II/III endpoint result)**, **on/off
 rebrewing without dissolution (Waszkiewicz Fig. 10 delamination)**, plus the **post-extraction
-depth porosity gradient (mo2023)**.
+depth structural profile (mo2023 segmented signal; observation limits below)**.
 
 ## Protocol 1 — Flow-reversal replay (migration vs compaction; Fasano Fig. 8.4)
 
@@ -91,43 +91,59 @@ governed by the stress state."
 yields the near-flat dissolution rebrew prediction; the poroelastic curve yields the
 pressure-cycled alternative.
 
-## Protocol 4 — Post-extraction depth-resolved porosity (mo2023 sectioning)
+## Protocol 4 — Depth structure and observation qualification (Mo profiles)
 
-*Procedure.* Sacrificially freeze/section the spent puck and measure porosity vs depth
-(or image the fines distribution).
-*Discriminator.* **Fines migration predicts a bottom-high (outlet-side) porosity/solids
-gradient** — the deposited compact layer (mo2023 Figs. 6/14/16). **Bulk dissolution**
-predicts a comparatively uniform opening; **swelling** predicts a strain-set profile that
-need not be bottom-heavy. This is a static end-state observable, complementary to the
-three dynamic protocols.
+*Observable.* Distinguish geometric void fraction, solid occupancy, liquid
+saturation and the segmented-image signal. The new
+[Mo Figure 14/16 analysis](analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md)
+qualifies displayed band contrasts for two capsule histories. Wet imaging does
+not adequately distinguish liquid from solid; a signal gradient cannot by itself
+identify geometric-porosity ordering or fines migration.
+
+*Conditional geometric expectation.* Within a deposited-layer picture and a
+common representative bulk volume, more solid occupancy means less geometric
+void space. Outlet accumulation is therefore outlet-high solids and outlet-low
+porosity under that assumption; “porosity/solids” cannot be used interchangeably.
+Other structural changes and saturation/segmentation can change the observed signal.
+
+*Discrimination limit.* Even an independently measured geometric-porosity gradient
+generally needs other discriminators to isolate a mechanism. Absence of a resolved
+gradient neither establishes uniform dissolution nor excludes migration. Protocol 4
+is a structural/observation qualification input, not a standalone mechanism verdict.
+No experiment is commissioned by this correction; Protocols 1–3 remain as proposed.
 
 ## Decision logic
 
-1. If **Protocol 3 (rebrew) is flat** and **Protocol 4 shows no outlet gradient** →
-   dissolution-opening is the dominant source (consistent with the fixed-p sign result).
-2. If **Protocol 1 shows reversal asymmetry** or **Protocol 4 shows a bottom-high
-   gradient** → a fines-migration contribution is present that the fixed-p flow trace
-   could not see.
+1. A **flat Protocol 3 rebrew** is consistent with its dissolution-opening prediction
+   under that protocol's assumptions. **No resolved Protocol 4 gradient** adds no
+   dissolution-dominance verdict and does not establish uniform dissolution.
+2. **Protocol 1 reversal asymmetry** supplies its proposed directional discriminator.
+   **Protocol 4 alone**, whether its signal gradient is positive, negative or unresolved,
+   does not establish a fines-migration contribution or its absence.
 3. If **Protocol 2 shows a restart beyond the static jump** → a genuine ∂K/∂ε matrix
    coupling contributes, and the Part II κ(t) closure earns a (constrained) fit.
    Absent that restart, the Part II closure stays an untested skeleton.
 
-A clean dissolution verdict is outcomes (1) with null results on (2). Any positive matrix
-signal upgrades one of the currently-refuted branches from "wrong sign at fixed p" to "a
-history/stress contribution visible only under changing p or reversed flow" — which the
-paper should then report, not suppress.
+These branches do not supply a “clean dissolution verdict” from a flat rebrew plus
+an absent spatial gradient. Interpretation must retain each dynamic protocol's
+assumptions and the structural observation operator; Protocol 4 does not upgrade
+or reject a mechanism in either direction.
 
 ## Blocked inputs (why this is a proposal, not a result)
 
-- **No reversal / pressure-step / rebrew / sectioning data** exists in-repo (single-rig,
-  forward, constant-9-bar traces only). These require a second rig or a collaborator run.
+- The existing **Mo segmented profiles are now packaged**, but are not matched to
+  the Waszkiewicz rig or its pressure/reversal/rebrew histories. They do not provide
+  independently qualified geometric void/solid/liquid fields or a mechanism-specific
+  join. The proposed dynamic protocols' matched observations remain unavailable here;
+  this is a named support limit, not a corpus-exhaustion or new-measurement instruction.
 - **The Fasano Part II porosity-evolution law has no published constitutive constants**
   (`docs/cards/fasano2000_partII.md`: δᵢ, g, h, ξ₁, ξ₂, ε_*, ε* "not provided"), so its
   restart branch (Protocol 2) cannot be *predicted* quantitatively until either the
   constants are supplied or fitted to Protocol-2 data — it is deliberately **not**
   invented here.
-- Depth-porosity and reversal fixtures are the same instrumentation gaps listed as
-  external blocks in PAPER_B §7.
+- Protocol 4 specifically lacks a qualified segmented-signal-to-geometric-porosity
+  observation operator and matched independent mechanism discriminators. Historical
+  depth/reversal instrumentation proposals in PAPER_B §7 do not supply those joins.
 
 ## Cross-references
 - `ANALYSIS_P2.md` §2.2 — the partial verdict this protocol would close.

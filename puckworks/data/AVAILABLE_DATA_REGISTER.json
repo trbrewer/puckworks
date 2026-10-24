@@ -1,5 +1,5 @@
 {
-  "dataset_count": 127,
+  "dataset_count": 128,
   "families": [
     {
       "analytes": [
@@ -1866,9 +1866,44 @@
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
+      "dataset_scopes": {
+        "mo2023/fig14_fig16_segmented_profiles": {
+          "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+          "blocked_uses": [
+            "intrinsic geometric porosity ordering/change",
+            "measured permeability",
+            "independent replication",
+            "mechanism validation",
+            "unqualified evolving-bed calibration"
+          ],
+          "conditionally_eligible_uses": [
+            "future comparison with a separately qualified observation operator"
+          ],
+          "directness": "native vector segments authenticated against final publication renders",
+          "eligible_uses": [
+            "descriptive spatial signal band contrasts",
+            "display-coordinate contrast differences"
+          ],
+          "measurement_resolution": "24 annular-region graphical profiles; 48 dependent contrast requests",
+          "missing_joins": [
+            "wet liquid/solid distinction",
+            "material registration",
+            "physical observation operator"
+          ],
+          "observables": [
+            "published_segmented_signal; native epsilon/source porosity metadata"
+          ],
+          "physical_replicate_structure": "two capsule histories, medium/delayed and dark/immediate; not 24 extractions",
+          "result": "docs/analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "target_exposure": "TARGET_EXPOSED; RETROSPECTIVE; NONSCORING",
+          "uncertainty_status": "graphical outer reading enclosures only; physical variability unquantified"
+        }
+      },
       "directness": [
         "digitization/transcription (Tim)",
-        "digitization (Tim)"
+        "digitization (Tim)",
+        "native vector line-segment transcription; authenticated render and visibility masks"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -1878,20 +1913,23 @@
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
         "1.1 \u00a75.2 Mo Re overlay; P6 Forchheimer priors",
-        "1.1 \u00a75.2: Re 0.84-3.86 band (SPH conds mu=1e-3,rho=1000,d43)"
+        "1.1 \u00a75.2: Re 0.84-3.86 band (SPH conds mu=1e-3,rho=1000,d43)",
+        "SCI-MD-MO-WET-CT-PROFILES-001 descriptive spatial and display-coordinate differences; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-MO-WET-CT-PROFILES-001 (new graphical subset only; prior SPH labels retained)",
       "manifest_dataset_ids": [
         "mo2023/forchheimer",
-        "mo2023/fig8a"
+        "mo2023/fig8a",
+        "mo2023/fig14_fig16_segmented_profiles"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
         "K1 UNITS CAVEAT (\u00a75.3): Eq.2 needs [k1]=m but tables give 1e-9 m2; inconsistent ~1e4 vs Fig 8b -> do NOT use k1 quantitatively (author corresp pending)",
-        "Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (\u00a75.2)"
+        "Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (\u00a75.2)",
+        "24 annular profiles from two histories; 48 dependent requests; dry/wet operators differ; wet liquid/solid unresolved; no intrinsic porosity or permeability or mechanism validation; no independent replication"
       ],
       "observables": [
         "UNKNOWN"
@@ -1901,14 +1939,18 @@
       "publication_or_repository": "arXiv:2305.03911 Tables 2-5 (24 microCT samples)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "preprint arXiv:2305.03911 (no journal DOI)",
-        "preprint arXiv:2305.03911"
+        "original arXiv:2305.03911 intake; final DOI 10.1038/s41598-023-42380-y CC BY 4.0",
+        "preprint arXiv:2305.03911",
+        "CC-BY-4.0; attributed source crops and modified numerical redraw"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
         "mo2023"
       ],
-      "source_identifiers": [],
+      "source_identifiers": [
+        "10.1038/s41598-023-42380-y",
+        "arXiv:2305.03911v2"
+      ],
       "source_internal_or_external": "UNKNOWN",
       "spatial_resolution": "UNKNOWN",
       "stages": [
@@ -1918,11 +1960,13 @@
       "time_resolution": "UNKNOWN",
       "title": "mo2023",
       "uncertainty_status": [
-        "n"
+        "n",
+        "deterministic graphical outer enclosures only; measurement/segmentation variability unquantified"
       ],
       "validation_strength": [
         "independent (SPH-derived, seg. circular to eps=0.17)",
-        "independent (SPH)"
+        "independent (SPH)",
+        "graphical source-internal retrospective target-exposed nonscoring; PHYSICAL_VALIDATION=NOT_ESTABLISHED"
       ]
     },
     {
@@ -3842,6 +3886,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "fe572ee4d332dc356d9ddf6edb28a7ca5736de6038bf0389d1b7b74165fa42df",
+  "manifest_sha256": "5784f200f85679b980995b77d497f8b86a2b613de6fbd3a79a354d79013747a0",
   "schema_version": 1
 }

@@ -1,0 +1,187 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "all_six_primary": {
+    "dark_immediate": true,
+    "medium_delayed": false
+  },
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "counts": [
+    {
+      "NEGATIVE": 1,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 4,
+      "SIGN_UNRESOLVED": 1,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "post_primary",
+      "finite_membership_ambiguity": 0,
+      "history": "medium_delayed",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 0,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 6,
+      "SIGN_UNRESOLVED": 0,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "post_primary",
+      "finite_membership_ambiguity": 0,
+      "history": "dark_immediate",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 2,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 3,
+      "SIGN_UNRESOLVED": 1,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "pre_context",
+      "finite_membership_ambiguity": 0,
+      "history": "medium_delayed",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 6,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 0,
+      "SIGN_UNRESOLVED": 0,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "pre_context",
+      "finite_membership_ambiguity": 0,
+      "history": "dark_immediate",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 0,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 4,
+      "SIGN_UNRESOLVED": 2,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "delta",
+      "finite_membership_ambiguity": 0,
+      "history": "medium_delayed",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 0,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 6,
+      "SIGN_UNRESOLVED": 0,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "delta",
+      "finite_membership_ambiguity": 0,
+      "history": "dark_immediate",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 1,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 4,
+      "SIGN_UNRESOLVED": 0,
+      "UNSUPPORTED": 1,
+      "complete": 5,
+      "family": "post_late",
+      "finite_membership_ambiguity": 0,
+      "history": "medium_delayed",
+      "requests": 6
+    },
+    {
+      "NEGATIVE": 0,
+      "NUMERICALLY_UNRESOLVED": 0,
+      "POSITIVE": 6,
+      "SIGN_UNRESOLVED": 0,
+      "UNSUPPORTED": 0,
+      "complete": 6,
+      "family": "post_late",
+      "finite_membership_ambiguity": 0,
+      "history": "dark_immediate",
+      "requests": 6
+    }
+  ],
+  "enclosure": "outer graphical reading bounds, not experimental error bars; endpoints need not be jointly attainable",
+  "histories": 2,
+  "input_identities": {
+    "canonical_csv_sha256": "a76a3cb534ad3174d38fecf7f3cb84dfbdc8bea1e18c7a093ede75f118c85602",
+    "metadata_sha256": "a40a90741f0448f9b906ff9b8a50b342dc04c2a731f84856769a3dda22524018"
+  },
+  "overall_sign_counts": {
+    "NEGATIVE": 10,
+    "POSITIVE": 33,
+    "SIGN_UNRESOLVED": 4,
+    "UNSUPPORTED": 1
+  },
+  "physical_identification": "geometric porosity ordering/change and mechanism NOT_IDENTIFIED",
+  "profiles": 24,
+  "requests": 48,
+  "segment_count": 12494,
+  "task_id": "SCI-MD-MO-WET-CT-PROFILES-001",
+  "unsupported": [
+    {
+      "id": "post_late_14b_r0.92",
+      "reason": "[19.0, 21.0]: SOURCE_SUBPATH_GAP_OR_NOT_SINGLE_VALUED; [19.0, 21.0]: AXIS_CLIPPED; [19.0, 21.0]: LEGEND_OCCLUDED"
+    }
+  ],
+  "witness": [
+    {
+      "g": [
+        "3/25",
+        "2/25"
+      ],
+      "phi": [
+        "6/25",
+        "4/25"
+      ],
+      "physical_ranges_verified": true,
+      "porosity_contrast": "2/25",
+      "saturation": [
+        "1/2",
+        "1/2"
+      ]
+    },
+    {
+      "g": [
+        "3/25",
+        "2/25"
+      ],
+      "phi": [
+        "1/5",
+        "1/5"
+      ],
+      "physical_ranges_verified": true,
+      "porosity_contrast": "0",
+      "saturation": [
+        "2/5",
+        "3/5"
+      ]
+    },
+    {
+      "g": [
+        "3/25",
+        "2/25"
+      ],
+      "phi": [
+        "4/25",
+        "6/25"
+      ],
+      "physical_ranges_verified": true,
+      "porosity_contrast": "-2/25",
+      "saturation": [
+        "1/4",
+        "2/3"
+      ]
+    }
+  ]
+}

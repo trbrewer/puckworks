@@ -1,0 +1,1550 @@
+[
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03615311871868823,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r0.92"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.02724205984466208,
+    "qualified_upper": 0.04542074894957089,
+    "radius_mm": 0.92,
+    "request_id": "post_primary_16b_r0.92",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.0733788702701796,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r2.77"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.06558614279266206,
+    "qualified_upper": 0.08124009537391333,
+    "radius_mm": 2.77,
+    "request_id": "post_primary_16b_r2.77",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.09953445683381622,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r4.61"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.09287927724026226,
+    "qualified_upper": 0.1062342315133339,
+    "radius_mm": 4.61,
+    "request_id": "post_primary_16b_r4.61",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.0950879002062699,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r6.45"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.08844197495360913,
+    "qualified_upper": 0.10183788948987595,
+    "radius_mm": 6.45,
+    "request_id": "post_primary_16b_r6.45",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.05199546587300928,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r8.30"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.04657990885138507,
+    "qualified_upper": 0.05755204501677613,
+    "radius_mm": 8.3,
+    "request_id": "post_primary_16b_r8.30",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.024636954242858763,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r10.14"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.01970472964139237,
+    "qualified_upper": 0.029647076665721528,
+    "radius_mm": 10.14,
+    "request_id": "post_primary_16b_r10.14",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.06006803013986444,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r0.92"
+    ],
+    "panel": "14b",
+    "qualified_lower": -0.07469423102977324,
+    "qualified_upper": -0.04546090681864727,
+    "radius_mm": 0.92,
+    "request_id": "post_primary_14b_r0.92",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.001112067926760328,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r2.77"
+    ],
+    "panel": "14b",
+    "qualified_lower": -0.008582243514895237,
+    "qualified_upper": 0.006103181459337659,
+    "radius_mm": 2.77,
+    "request_id": "post_primary_14b_r2.77",
+    "scientific_interpretation": "ORDERING_WITHHELD_NOT_EQUALITY",
+    "sign": "SIGN_UNRESOLVED",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03801781489732232,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r4.61"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.03253714471494636,
+    "qualified_upper": 0.04351355808921669,
+    "radius_mm": 4.61,
+    "request_id": "post_primary_14b_r4.61",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.05009223457119283,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r6.45"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.04452000928221389,
+    "qualified_upper": 0.05577445136026367,
+    "radius_mm": 6.45,
+    "request_id": "post_primary_14b_r6.45",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03692071641651673,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r8.30"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.03240530999401127,
+    "qualified_upper": 0.04149497469892993,
+    "radius_mm": 8.3,
+    "request_id": "post_primary_14b_r8.30",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_primary",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.01706404332083907,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r10.14"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.012119549191930739,
+    "qualified_upper": 0.02201138353938553,
+    "radius_mm": 10.14,
+    "request_id": "post_primary_14b_r10.14",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.03140516822297494,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r0.92"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.04373770343150294,
+    "qualified_upper": -0.019563337310818545,
+    "radius_mm": 0.92,
+    "request_id": "pre_context_16a_r0.92",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.01606886157977786,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r2.77"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.02354346499715579,
+    "qualified_upper": -0.008580981335015867,
+    "radius_mm": 2.77,
+    "request_id": "pre_context_16a_r2.77",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.01925076790441394,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r4.61"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.025588286767472806,
+    "qualified_upper": -0.012965783585068242,
+    "radius_mm": 4.61,
+    "request_id": "pre_context_16a_r4.61",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.014262617961046935,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r6.45"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.019661715733484013,
+    "qualified_upper": -0.008891093159360526,
+    "radius_mm": 6.45,
+    "request_id": "pre_context_16a_r6.45",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.01101195144143255,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r8.30"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.016282606267279218,
+    "qualified_upper": -0.0057118424704212965,
+    "radius_mm": 8.3,
+    "request_id": "pre_context_16a_r8.30",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.016925912950586965,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16a_r10.14"
+    ],
+    "panel": "16a",
+    "qualified_lower": -0.021879114115027305,
+    "qualified_upper": -0.011998273385493122,
+    "radius_mm": 10.14,
+    "request_id": "pre_context_16a_r10.14",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.03587681976442317,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r0.92"
+    ],
+    "panel": "14a",
+    "qualified_lower": -0.04863618184524972,
+    "qualified_upper": -0.0232417168443929,
+    "radius_mm": 0.92,
+    "request_id": "pre_context_14a_r0.92",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.040318538511757984,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r2.77"
+    ],
+    "panel": "14a",
+    "qualified_lower": -0.04882806156067349,
+    "qualified_upper": -0.03179084025678257,
+    "radius_mm": 2.77,
+    "request_id": "pre_context_14a_r2.77",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.003189155108301511,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r4.61"
+    ],
+    "panel": "14a",
+    "qualified_lower": -0.009527239354793715,
+    "qualified_upper": 0.0030484882960391956,
+    "radius_mm": 4.61,
+    "request_id": "pre_context_14a_r4.61",
+    "scientific_interpretation": "ORDERING_WITHHELD_NOT_EQUALITY",
+    "sign": "SIGN_UNRESOLVED",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.013894323945070605,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r6.45"
+    ],
+    "panel": "14a",
+    "qualified_lower": 0.008219496161356175,
+    "qualified_upper": 0.019455998067422747,
+    "radius_mm": 6.45,
+    "request_id": "pre_context_14a_r6.45",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.010594608796955082,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r8.30"
+    ],
+    "panel": "14a",
+    "qualified_lower": 0.005573049883055719,
+    "qualified_upper": 0.01567445656123628,
+    "radius_mm": 8.3,
+    "request_id": "pre_context_14a_r8.30",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "pre_context",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.008462461475979717,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14a_r10.14"
+    ],
+    "panel": "14a",
+    "qualified_lower": 0.003385320852743629,
+    "qualified_upper": 0.013679084532975633,
+    "radius_mm": 10.14,
+    "request_id": "pre_context_14a_r10.14",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.06755828694166317,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r0.92",
+      "pre_context_16a_r0.92"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.04680539715548062,
+    "qualified_upper": 0.08915845238107385,
+    "radius_mm": 0.92,
+    "request_id": "delta_dark_immediate_r0.92",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.08944773184995747,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r2.77",
+      "pre_context_16a_r2.77"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.07416712412767791,
+    "qualified_upper": 0.10478356037106913,
+    "radius_mm": 2.77,
+    "request_id": "delta_dark_immediate_r2.77",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.11878522473823017,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r4.61",
+      "pre_context_16a_r4.61"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.10584506082533049,
+    "qualified_upper": 0.13182251828080674,
+    "radius_mm": 4.61,
+    "request_id": "delta_dark_immediate_r4.61",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.10935051816731683,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r6.45",
+      "pre_context_16a_r6.45"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.09733306811296964,
+    "qualified_upper": 0.12149960522335997,
+    "radius_mm": 6.45,
+    "request_id": "delta_dark_immediate_r6.45",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.06300741731444183,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r8.30",
+      "pre_context_16a_r8.30"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.05229175132180636,
+    "qualified_upper": 0.07383465128405536,
+    "radius_mm": 8.3,
+    "request_id": "delta_dark_immediate_r8.30",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.04156286719344573,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_16b_r10.14",
+      "pre_context_16a_r10.14"
+    ],
+    "panel": "16b-16a",
+    "qualified_lower": 0.03170300302688549,
+    "qualified_upper": 0.05152619078074884,
+    "radius_mm": 10.14,
+    "request_id": "delta_dark_immediate_r10.14",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.024191210375441273,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r0.92",
+      "pre_context_14a_r0.92"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": -0.05145251418538035,
+    "qualified_upper": 0.003175275026602448,
+    "radius_mm": 0.92,
+    "request_id": "delta_medium_delayed_r0.92",
+    "scientific_interpretation": "ORDERING_WITHHELD_NOT_EQUALITY",
+    "sign": "SIGN_UNRESOLVED",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.039206470584997655,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r2.77",
+      "pre_context_14a_r2.77"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": 0.023208596741887327,
+    "qualified_upper": 0.05493124302001116,
+    "radius_mm": 2.77,
+    "request_id": "delta_medium_delayed_r2.77",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.04120697000562383,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r4.61",
+      "pre_context_14a_r4.61"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": 0.029488656418907164,
+    "qualified_upper": 0.05304079744401041,
+    "radius_mm": 4.61,
+    "request_id": "delta_medium_delayed_r4.61",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03619791062612222,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r6.45",
+      "pre_context_14a_r6.45"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": 0.02506401121479114,
+    "qualified_upper": 0.047554955198907504,
+    "radius_mm": 6.45,
+    "request_id": "delta_medium_delayed_r6.45",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.026326107619561646,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r8.30",
+      "pre_context_14a_r8.30"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": 0.016730853432774986,
+    "qualified_upper": 0.035921924815874216,
+    "radius_mm": 8.3,
+    "request_id": "delta_medium_delayed_r8.30",
+    "scientific_interpretation": "CONTRAST_INCREASED",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        17.0,
+        19.0
+      ]
+    ],
+    "claim_scope": "display-coordinate contrast difference; no measured geometric change or causal extraction effect",
+    "family": "delta",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.008601581844859355,
+    "nominal_support": true,
+    "nominal_support_reason": "both primary operands",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "post_primary_14b_r10.14",
+      "pre_context_14a_r10.14"
+    ],
+    "panel": "14b-14a",
+    "qualified_lower": -0.0015595353410448947,
+    "qualified_upper": 0.018626062686641905,
+    "radius_mm": 10.14,
+    "request_id": "delta_medium_delayed_r10.14",
+    "scientific_interpretation": "ORDERING_WITHHELD_NOT_EQUALITY",
+    "sign": "SIGN_UNRESOLVED",
+    "support_reason": "complete displayed operands; no material registration",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03389368906855458,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r0.92"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.024980129878925037,
+    "qualified_upper": 0.04331560269997039,
+    "radius_mm": 0.92,
+    "request_id": "post_late_16b_r0.92",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.07415834585886155,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r2.77"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.0664291939501215,
+    "qualified_upper": 0.08193072776232131,
+    "radius_mm": 2.77,
+    "request_id": "post_late_16b_r2.77",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.10213211533476318,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r4.61"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.09546675424719868,
+    "qualified_upper": 0.10891798456000881,
+    "radius_mm": 4.61,
+    "request_id": "post_late_16b_r4.61",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.10026837002171955,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r6.45"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.09368861863400921,
+    "qualified_upper": 0.10684810558317737,
+    "radius_mm": 6.45,
+    "request_id": "post_late_16b_r6.45",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.058997685221321046,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r8.30"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.05358688543072322,
+    "qualified_upper": 0.06448517920274364,
+    "radius_mm": 8.3,
+    "request_id": "post_late_16b_r8.30",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "dark_immediate",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.030825922564402464,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "16b_r10.14"
+    ],
+    "panel": "16b",
+    "qualified_lower": 0.026080135405866765,
+    "qualified_upper": 0.03564632452223437,
+    "radius_mm": 10.14,
+    "request_id": "post_late_16b_r10.14",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": null,
+    "nominal_support": false,
+    "nominal_support_reason": "[19.0, 21.0]: SOURCE_SUBPATH_GAP_OR_NOT_SINGLE_VALUED; [19.0, 21.0]: AXIS_CLIPPED; [19.0, 21.0]: LEGEND_OCCLUDED",
+    "numerical_qualification": "NOT_EVALUATED_SOURCE_SUPPORT",
+    "operand_ids": [
+      "14b_r0.92"
+    ],
+    "panel": "14b",
+    "qualified_lower": null,
+    "qualified_upper": null,
+    "radius_mm": 0.92,
+    "request_id": "post_late_14b_r0.92",
+    "scientific_interpretation": "ORDERING_WITHHELD_MISSING_DISPLAY_SUPPORT",
+    "sign": "UNSUPPORTED",
+    "support_reason": "[19.0, 21.0]: SOURCE_SUBPATH_GAP_OR_NOT_SINGLE_VALUED; [19.0, 21.0]: AXIS_CLIPPED; [19.0, 21.0]: LEGEND_OCCLUDED",
+    "support_status": "INCOMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": -0.12187933442585851,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r2.77"
+    ],
+    "panel": "14b",
+    "qualified_lower": -0.13173706698674112,
+    "qualified_upper": -0.11187940075097337,
+    "radius_mm": 2.77,
+    "request_id": "post_late_14b_r2.77",
+    "scientific_interpretation": "UPPER_INTERIOR_HIGHER",
+    "sign": "NEGATIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.01080572603406135,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r4.61"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.004451212300624215,
+    "qualified_upper": 0.01726958140978115,
+    "radius_mm": 4.61,
+    "request_id": "post_late_14b_r4.61",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.05495817607840523,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r6.45"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.04953220148311674,
+    "qualified_upper": 0.060469904157992596,
+    "radius_mm": 6.45,
+    "request_id": "post_late_14b_r6.45",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.0604305923667007,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r8.30"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.05629364869281786,
+    "qualified_upper": 0.06465461144922888,
+    "radius_mm": 8.3,
+    "request_id": "post_late_14b_r8.30",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  },
+  {
+    "bands_mm": [
+      [
+        12.0,
+        14.0
+      ],
+      [
+        19.0,
+        21.0
+      ]
+    ],
+    "claim_scope": "displayed signal only; no geometric porosity or mechanism identification",
+    "family": "post_late",
+    "history": "medium_delayed",
+    "membership_status": "AUTHENTICATED",
+    "nominal_estimate": 0.03195930938967246,
+    "nominal_support": true,
+    "nominal_support_reason": "complete displayed support",
+    "numerical_qualification": "QUALIFIED",
+    "operand_ids": [
+      "14b_r10.14"
+    ],
+    "panel": "14b",
+    "qualified_lower": 0.027483674962956575,
+    "qualified_upper": 0.036432436118677185,
+    "radius_mm": 10.14,
+    "request_id": "post_late_14b_r10.14",
+    "scientific_interpretation": "LOWER_INTERIOR_HIGHER",
+    "sign": "POSITIVE",
+    "support_reason": "complete displayed support",
+    "support_status": "COMPLETE"
+  }
+]

@@ -192,8 +192,9 @@ read from the figures/tables (values themselves are printed for the scalar summa
   temperature-enhanced fines-erosion source term — that any such closure must reproduce.
   Complement, not competitor (it has no model).
 - **mo2023.microCT-SPH (flow, packing) + Mo 2021/2022:** direct complement. Mo 2023's
-  post-extraction bottom-high porosity gradient is attributed to pressure-dependent erosion (Mo
-  2021 SPH erosion model); Mo 2022 is a swelling model. Hargarten is the ambient-pressure
+  post-extraction segmented-signal profiles are interpreted by the authors in terms of erosion
+  (Mo 2021 SPH model); [qualified band contrasts](../analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md)
+  do not identify geometric porosity or that mechanism; Mo 2022 is a swelling model. Hargarten is the ambient-pressure
   *measurement* companion those models would be calibrated against — and its "no-pressure"
   caveat is exactly the regime Mo 2023 extends. The Hargarten card and the Mo 2021/2022 intake
   flagged in `mo2023.md` should be picked up together if the bed_dynamics backlog is opened.

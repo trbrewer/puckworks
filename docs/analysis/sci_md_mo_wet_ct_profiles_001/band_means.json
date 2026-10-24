@@ -1,0 +1,662 @@
+[
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.16350434164127414,
+    "profile_id": "14a_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.19938116140569728,
+    "profile_id": "14a_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.17043156089895856,
+    "profile_id": "14a_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.16196909942297882,
+    "profile_id": "14a_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.14046680049060872,
+    "profile_id": "14a_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.18078533900236676,
+    "profile_id": "14a_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.15751799060706612,
+    "profile_id": "14a_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.16070714571536765,
+    "profile_id": "14a_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.16703201336348178,
+    "profile_id": "14a_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.15313768941841116,
+    "profile_id": "14a_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.16704360855480144,
+    "profile_id": "14a_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.15644899975784632,
+    "profile_id": "14a_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.07344238798937619,
+    "profile_id": "14b_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.13351041812924058,
+    "profile_id": "14b_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": null,
+    "profile_id": "14b_r0.92",
+    "reason": "[19.0, 21.0]: SOURCE_SUBPATH_GAP_OR_NOT_SINGLE_VALUED; [19.0, 21.0]: AXIS_CLIPPED; [19.0, 21.0]: LEGEND_OCCLUDED",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": false
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.06762038303398465,
+    "profile_id": "14b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.05055633971314555,
+    "profile_id": "14b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.03566107364431215,
+    "profile_id": "14b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.058528822400659486,
+    "profile_id": "14b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.059640890327419815,
+    "profile_id": "14b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.180408156826518,
+    "profile_id": "14b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.06898361383601825,
+    "profile_id": "14b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.030965798938695888,
+    "profile_id": "14b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.058177887801956985,
+    "profile_id": "14b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.0859525332749167,
+    "profile_id": "14b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.03586029870372387,
+    "profile_id": "14b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.030994357196511557,
+    "profile_id": "14b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.08054938507437437,
+    "profile_id": "14b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.04362866865785775,
+    "profile_id": "14b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.020118792707673694,
+    "profile_id": "14b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.1718822684922064,
+    "profile_id": "16a_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.20328743671518135,
+    "profile_id": "16a_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.14086838398045037,
+    "profile_id": "16a_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.1577942969310373,
+    "profile_id": "16a_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.1765190315141239,
+    "profile_id": "16a_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.1925878930939019,
+    "profile_id": "16a_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.1668030928916075,
+    "profile_id": "16a_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.1860538607960215,
+    "profile_id": "16a_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.15405238176971103,
+    "profile_id": "16a_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.16831499973075797,
+    "profile_id": "16a_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.14902684476335631,
+    "profile_id": "16a_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.16003879620478884,
+    "profile_id": "16a_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.0482447630133207,
+    "profile_id": "16b_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.012091644294632609,
+    "profile_id": "16b_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.014351073944766202,
+    "profile_id": "16b_r0.92",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.08856561167162247,
+    "profile_id": "16b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.06392865742876375,
+    "profile_id": "16b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.05773968910721994,
+    "profile_id": "16b_r10.14",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.0877476516130472,
+    "profile_id": "16b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.014368781342867565,
+    "profile_id": "16b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.01358930575418571,
+    "profile_id": "16b_r2.77",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.12113358072487584,
+    "profile_id": "16b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.021599123891059557,
+    "profile_id": "16b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.019001465390112715,
+    "profile_id": "16b_r4.61",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.1281336077443448,
+    "profile_id": "16b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.03304570753807479,
+    "profile_id": "16b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.02786523772262528,
+    "profile_id": "16b_r6.45",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      12.0,
+      14.0
+    ],
+    "nominal_mean": 0.10344724273788303,
+    "profile_id": "16b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      17.0,
+      19.0
+    ],
+    "nominal_mean": 0.05145177686487379,
+    "profile_id": "16b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  },
+  {
+    "band_mm": [
+      19.0,
+      21.0
+    ],
+    "nominal_mean": 0.04444955751656199,
+    "profile_id": "16b_r8.30",
+    "reason": "complete displayed support",
+    "role": "supporting diagnostic, not a contrast request",
+    "support": true
+  }
+]

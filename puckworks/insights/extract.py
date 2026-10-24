@@ -492,6 +492,13 @@ def dataset_relations(dataset_entities, model_entities, commit: str = "") -> tup
         blob = " ".join([d.attrs.get("source_artifact", ""), d.attrs.get("units_as_published", ""),
                          d.attrs.get("gate_use", ""), d.label])
         matched_observables = observables_in_text(blob)
+        if d.label == "mo2023/fig14_fig16_segmented_profiles":
+            # Native epsilon / the source word "porosity" is metadata, not an
+            # identified geometric-void measurement. Wet liquid/solid distinction
+            # is unresolved; the displayed signal has no interface in this vocabulary.
+            matched_observables.pop("porosity", None)
+            warnings.append("NO_INTERFACE_MAPPING: mo2023/fig14_fig16_segmented_profiles "
+                            "is a published segmented signal, not identified geometric porosity")
         cameron_s2 = d.label == "cameron2020/figS2_pressure_tamp"
         if cameron_s2:
             # SOURCE_NOTES for SCI-MD-CAMERON-PRESSURE-TAMP-001 authenticates

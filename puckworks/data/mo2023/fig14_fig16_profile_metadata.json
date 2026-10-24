@@ -1,0 +1,1143 @@
+{
+  "canonical_csv_sha256": "a76a3cb534ad3174d38fecf7f3cb84dfbdc8bea1e18c7a093ede75f118c85602",
+  "chronology": {
+    "arxiv_v1": "2023-05-06",
+    "arxiv_v2": "2023-10-08",
+    "journal": "2023-09-29"
+  },
+  "csv_coordinate_serialization": "full Python float repr of parsed PDF coordinates",
+  "dataset_id": "mo2023/fig14_fig16_segmented_profiles",
+  "extraction_tool": "PyMuPDF 1.26.7 / MuPDF 1.26.12",
+  "native_ordinate": {
+    "symbol": "epsilon",
+    "word": "porosity"
+  },
+  "ordinate": "published_segmented_signal",
+  "panels": {
+    "14a": {
+      "arxiv_page": 14,
+      "axis_path_id": 93,
+      "axis_rectangle_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "calibration": {
+        "alpha": 0.060597245699103644,
+        "anchor_allowance_pt": 0.22400000083446503,
+        "beta": 4.205188287799562,
+        "delta": 0.6014601699671864,
+        "gamma": 0.002759493020633459,
+        "max_x_tick_residual_pt": 0.0016052246093636313,
+        "max_z_tick_residual_pt": 0.00283050537109375,
+        "s_tick_values": [
+          0.0,
+          0.05,
+          0.1,
+          0.15000000000000002,
+          0.2,
+          0.25,
+          0.30000000000000004,
+          0.35000000000000003,
+          0.4
+        ],
+        "tick_stroke_width_pt": 0.44200000166893005,
+        "x12": 128.6331024169922,
+        "x22": 293.6571044921875,
+        "x_tick_values_mm": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "x_ticks_pt": [
+          128.6331024169922,
+          161.6374969482422,
+          194.64109802246094,
+          227.6490936279297,
+          260.6531066894531,
+          293.6571044921875
+        ],
+        "z0": -217.96038818359375,
+        "z04": -73.0062255859375,
+        "z_ticks_pt": [
+          -217.96038818359375,
+          -199.84332275390625,
+          -181.723388671875,
+          -163.60540771484375,
+          -145.4852294921875,
+          -127.36407470703125,
+          -109.24346923828125,
+          -91.12640380859375,
+          -73.0062255859375
+        ]
+      },
+      "capsule_type": "H",
+      "history": "medium_delayed",
+      "legend_border_width_pt": 0.5529999732971191,
+      "legend_path_id": 94,
+      "legend_rectangle_pdf_pt": [
+        134.32769775390625,
+        76.87898254394531,
+        295.0076904296875,
+        113.281982421875
+      ],
+      "opaque_mask_pdf_pt": [
+        134.0511977672577,
+        76.60248255729675,
+        295.28419041633606,
+        113.55848240852356
+      ],
+      "roast": "medium",
+      "source_page": 12,
+      "stage": "pre",
+      "timing": "before extraction"
+    },
+    "14b": {
+      "arxiv_page": 14,
+      "axis_path_id": 226,
+      "axis_rectangle_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "calibration": {
+        "alpha": 0.060597251302171466,
+        "anchor_allowance_pt": 0.22400000083446503,
+        "beta": -11.25159509762911,
+        "delta": 0.6020902850404051,
+        "gamma": 0.0027681239978982262,
+        "max_x_tick_residual_pt": 0.0017761230468522626,
+        "max_z_tick_residual_pt": 0.002777099609375,
+        "s_tick_values": [
+          0.0,
+          0.05,
+          0.1,
+          0.15000000000000002,
+          0.2,
+          0.25,
+          0.30000000000000004,
+          0.35000000000000003,
+          0.4
+        ],
+        "tick_stroke_width_pt": 0.44200000166893005,
+        "x12": 383.70709228515625,
+        "x22": 548.7310791015625,
+        "x_tick_values_mm": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "x_ticks_pt": [
+          383.70709228515625,
+          416.7101135253906,
+          449.715087890625,
+          482.7231140136719,
+          515.72607421875,
+          548.7310791015625
+        ],
+        "z0": -217.5084228515625,
+        "z04": -73.0062255859375,
+        "z_ticks_pt": [
+          -217.5084228515625,
+          -199.44342041015625,
+          -181.38238525390625,
+          -163.31732177734375,
+          -145.257080078125,
+          -127.19232177734375,
+          -109.1312255859375,
+          -91.0706787109375,
+          -73.0062255859375
+        ]
+      },
+      "capsule_type": "H",
+      "history": "medium_delayed",
+      "legend_border_width_pt": 0.5529999732971191,
+      "legend_path_id": 227,
+      "legend_rectangle_pdf_pt": [
+        389.402099609375,
+        76.87898254394531,
+        550.0820922851562,
+        113.281982421875
+      ],
+      "opaque_mask_pdf_pt": [
+        389.12559962272644,
+        76.60248255729675,
+        550.3585922718048,
+        113.55848240852356
+      ],
+      "roast": "medium",
+      "source_page": 12,
+      "stage": "post",
+      "timing": "three days after extraction"
+    },
+    "16a": {
+      "arxiv_page": 15,
+      "axis_path_id": 93,
+      "axis_rectangle_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "calibration": {
+        "alpha": 0.060070993325424815,
+        "anchor_allowance_pt": 0.22600000488758087,
+        "beta": 4.243248658677856,
+        "delta": 0.6006531079633733,
+        "gamma": 0.0027269421182235264,
+        "max_x_tick_residual_pt": 0.0021850585937386313,
+        "max_z_tick_residual_pt": 0.0030975341796875,
+        "s_tick_values": [
+          0.0,
+          0.05,
+          0.1,
+          0.15000000000000002,
+          0.2,
+          0.25,
+          0.30000000000000004,
+          0.35000000000000003,
+          0.4
+        ],
+        "tick_stroke_width_pt": 0.44600000977516174,
+        "x12": 129.12640380859375,
+        "x22": 295.5960998535156,
+        "x_tick_values_mm": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "x_ticks_pt": [
+          129.12640380859375,
+          162.41990661621094,
+          195.71209716796875,
+          229.00909423828125,
+          262.3031005859375,
+          295.5960998535156
+        ],
+        "z0": -220.26617431640625,
+        "z04": -73.58172607421875,
+        "z_ticks_pt": [
+          -220.26617431640625,
+          -201.93017578125,
+          -183.59417724609375,
+          -165.2581787109375,
+          -146.92108154296875,
+          -128.58612060546875,
+          -110.25311279296875,
+          -91.9141845703125,
+          -73.58172607421875
+        ]
+      },
+      "capsule_type": "H",
+      "history": "dark_immediate",
+      "legend_border_width_pt": 0.5580000281333923,
+      "legend_path_id": 94,
+      "legend_rectangle_pdf_pt": [
+        134.87159729003906,
+        77.4842300415039,
+        296.95758056640625,
+        114.209228515625
+      ],
+      "opaque_mask_pdf_pt": [
+        134.59259727597237,
+        77.20523002743721,
+        297.23658058047295,
+        114.4882285296917
+      ],
+      "roast": "dark",
+      "source_page": 13,
+      "stage": "pre",
+      "timing": "before extraction"
+    },
+    "16b": {
+      "arxiv_page": 15,
+      "axis_path_id": 226,
+      "axis_rectangle_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "calibration": {
+        "alpha": 0.06007124661035965,
+        "anchor_allowance_pt": 0.22600000488758087,
+        "beta": -10.960078139551257,
+        "delta": 0.5982981463669789,
+        "gamma": 0.0026949374110490955,
+        "max_x_tick_residual_pt": 0.0018066406249772626,
+        "max_z_tick_residual_pt": 0.001861572265625,
+        "s_tick_values": [
+          0.0,
+          0.05,
+          0.1,
+          0.15000000000000002,
+          0.2,
+          0.25,
+          0.30000000000000004,
+          0.35000000000000003,
+          0.4
+        ],
+        "tick_stroke_width_pt": 0.44600000977516174,
+        "x12": 382.214111328125,
+        "x22": 548.68310546875,
+        "x_tick_values_mm": [
+          12,
+          14,
+          16,
+          18,
+          20,
+          22
+        ],
+        "x_ticks_pt": [
+          382.214111328125,
+          415.506103515625,
+          448.80010986328125,
+          482.09710693359375,
+          515.3890991210938,
+          548.68310546875
+        ],
+        "z0": -222.0081787109375,
+        "z04": -73.58172607421875,
+        "z_ticks_pt": [
+          -222.0081787109375,
+          -203.4561767578125,
+          -184.90020751953125,
+          -166.34918212890625,
+          -147.7930908203125,
+          -129.24041748046875,
+          -110.6895751953125,
+          -92.13348388671875,
+          -73.58172607421875
+        ]
+      },
+      "capsule_type": "H",
+      "history": "dark_immediate",
+      "legend_border_width_pt": 0.5580000281333923,
+      "legend_path_id": 227,
+      "legend_rectangle_pdf_pt": [
+        387.9580993652344,
+        77.4842300415039,
+        550.0460815429688,
+        114.209228515625
+      ],
+      "opaque_mask_pdf_pt": [
+        387.6790993511677,
+        77.20523002743721,
+        550.3250815570354,
+        114.4882285296917
+      ],
+      "roast": "dark",
+      "source_page": 13,
+      "stage": "post",
+      "timing": "immediately after extraction"
+    }
+  },
+  "profiles": {
+    "14a_r0.92": {
+      "alternatives": [
+        "14a_r0.92"
+      ],
+      "arxiv_path_id": 71,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 116,
+      "panel": "14a",
+      "path_id": 87,
+      "radius_mm": 0.92,
+      "segment_count": 586,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.0,
+        0.49799999594688416
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14a_r10.14": {
+      "alternatives": [
+        "14a_r10.14"
+      ],
+      "arxiv_path_id": 76,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 121,
+      "panel": "14a",
+      "path_id": 92,
+      "radius_mm": 10.14,
+      "segment_count": 507,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        1.0,
+        0.2709999978542328,
+        0.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14a_r2.77": {
+      "alternatives": [
+        "14a_r2.77"
+      ],
+      "arxiv_path_id": 72,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 117,
+      "panel": "14a",
+      "path_id": 88,
+      "radius_mm": 2.77,
+      "segment_count": 576,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.14900000393390656,
+        1.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14a_r4.61": {
+      "alternatives": [
+        "14a_r4.61"
+      ],
+      "arxiv_path_id": 73,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 118,
+      "panel": "14a",
+      "path_id": 89,
+      "radius_mm": 4.61,
+      "segment_count": 550,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.8309999704360962,
+        1.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14a_r6.45": {
+      "alternatives": [
+        "14a_r6.45"
+      ],
+      "arxiv_path_id": 74,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 119,
+      "panel": "14a",
+      "path_id": 90,
+      "radius_mm": 6.45,
+      "segment_count": 540,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.4779999852180481,
+        1.0,
+        0.47099998593330383
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14a_r8.30": {
+      "alternatives": [
+        "14a_r8.30"
+      ],
+      "arxiv_path_id": 75,
+      "effective_clip_pdf_pt": [
+        101.418701171875,
+        73.00639343261719,
+        298.877685546875,
+        217.96038818359375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 120,
+      "panel": "14a",
+      "path_id": 91,
+      "radius_mm": 8.3,
+      "segment_count": 537,
+      "source_page": 12,
+      "stage": "pre",
+      "stroke_rgb": [
+        1.0,
+        0.9020000100135803,
+        0.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14b_r0.92": {
+      "alternatives": [
+        "14b_r0.92"
+      ],
+      "arxiv_path_id": 208,
+      "effective_clip_pdf_pt": [
+        364.4540100097656,
+        73.00642395019531,
+        545.8389892578125,
+        204.38397216796875
+      ],
+      "gaps_pdf_x_pt": [
+        [
+          526.2869873046875,
+          530.3359985351562
+        ],
+        [
+          540.0130004882812,
+          541.4240112304688
+        ],
+        [
+          542.1510009765625,
+          543.1900024414062
+        ]
+      ],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 250,
+      "panel": "14b",
+      "path_id": 220,
+      "radius_mm": 0.92,
+      "segment_count": 503,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.0,
+        0.49799999594688416
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 4
+    },
+    "14b_r10.14": {
+      "alternatives": [
+        "14b_r10.14"
+      ],
+      "arxiv_path_id": 213,
+      "effective_clip_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 255,
+      "panel": "14b",
+      "path_id": 225,
+      "radius_mm": 10.14,
+      "segment_count": 475,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        1.0,
+        0.2709999978542328,
+        0.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14b_r2.77": {
+      "alternatives": [
+        "14b_r2.77"
+      ],
+      "arxiv_path_id": 209,
+      "effective_clip_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 251,
+      "panel": "14b",
+      "path_id": 221,
+      "radius_mm": 2.77,
+      "segment_count": 533,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.14900000393390656,
+        1.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14b_r4.61": {
+      "alternatives": [
+        "14b_r4.61"
+      ],
+      "arxiv_path_id": 210,
+      "effective_clip_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 252,
+      "panel": "14b",
+      "path_id": 222,
+      "radius_mm": 4.61,
+      "segment_count": 514,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.8309999704360962,
+        1.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14b_r6.45": {
+      "alternatives": [
+        "14b_r6.45"
+      ],
+      "arxiv_path_id": 211,
+      "effective_clip_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 253,
+      "panel": "14b",
+      "path_id": 223,
+      "radius_mm": 6.45,
+      "segment_count": 506,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        0.4779999852180481,
+        1.0,
+        0.47099998593330383
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "14b_r8.30": {
+      "alternatives": [
+        "14b_r8.30"
+      ],
+      "arxiv_path_id": 212,
+      "effective_clip_pdf_pt": [
+        356.49200439453125,
+        73.00642395019531,
+        553.9509887695312,
+        217.5084228515625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "medium_delayed",
+      "local_allowance_pt": 0.41749999809265137,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 254,
+      "panel": "14b",
+      "path_id": 224,
+      "radius_mm": 8.3,
+      "segment_count": 475,
+      "source_page": 12,
+      "stage": "post",
+      "stroke_rgb": [
+        1.0,
+        0.9020000100135803,
+        0.0
+      ],
+      "stroke_width_pt": 0.8289999961853027,
+      "subpath_count": 1
+    },
+    "16a_r0.92": {
+      "alternatives": [
+        "16a_r0.92"
+      ],
+      "arxiv_path_id": 71,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 134,
+      "panel": "16a",
+      "path_id": 87,
+      "radius_mm": 0.92,
+      "segment_count": 561,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.0,
+        0.49799999594688416
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16a_r10.14": {
+      "alternatives": [
+        "16a_r10.14"
+      ],
+      "arxiv_path_id": 76,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 139,
+      "panel": "16a",
+      "path_id": 92,
+      "radius_mm": 10.14,
+      "segment_count": 540,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        1.0,
+        0.2709999978542328,
+        0.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16a_r2.77": {
+      "alternatives": [
+        "16a_r2.77"
+      ],
+      "arxiv_path_id": 72,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 135,
+      "panel": "16a",
+      "path_id": 88,
+      "radius_mm": 2.77,
+      "segment_count": 541,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.14900000393390656,
+        1.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16a_r4.61": {
+      "alternatives": [
+        "16a_r4.61"
+      ],
+      "arxiv_path_id": 73,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 136,
+      "panel": "16a",
+      "path_id": 89,
+      "radius_mm": 4.61,
+      "segment_count": 542,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.0,
+        0.8309999704360962,
+        1.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16a_r6.45": {
+      "alternatives": [
+        "16a_r6.45"
+      ],
+      "arxiv_path_id": 74,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 137,
+      "panel": "16a",
+      "path_id": 90,
+      "radius_mm": 6.45,
+      "segment_count": 547,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        0.4779999852180481,
+        1.0,
+        0.47099998593330383
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16a_r8.30": {
+      "alternatives": [
+        "16a_r8.30"
+      ],
+      "arxiv_path_id": 75,
+      "effective_clip_pdf_pt": [
+        101.67379760742188,
+        73.58216857910156,
+        300.86181640625,
+        220.26617431640625
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 138,
+      "panel": "16a",
+      "path_id": 91,
+      "radius_mm": 8.3,
+      "segment_count": 524,
+      "source_page": 13,
+      "stage": "pre",
+      "stroke_rgb": [
+        1.0,
+        0.9020000100135803,
+        0.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r0.92": {
+      "alternatives": [
+        "16b_r0.92"
+      ],
+      "arxiv_path_id": 208,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 268,
+      "panel": "16b",
+      "path_id": 220,
+      "radius_mm": 0.92,
+      "segment_count": 519,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.0,
+        0.49799999594688416
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r10.14": {
+      "alternatives": [
+        "16b_r10.14"
+      ],
+      "arxiv_path_id": 213,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 273,
+      "panel": "16b",
+      "path_id": 225,
+      "radius_mm": 10.14,
+      "segment_count": 491,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        1.0,
+        0.2709999978542328,
+        0.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r2.77": {
+      "alternatives": [
+        "16b_r2.77"
+      ],
+      "arxiv_path_id": 209,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 269,
+      "panel": "16b",
+      "path_id": 221,
+      "radius_mm": 2.77,
+      "segment_count": 483,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.14900000393390656,
+        1.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r4.61": {
+      "alternatives": [
+        "16b_r4.61"
+      ],
+      "arxiv_path_id": 210,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 270,
+      "panel": "16b",
+      "path_id": 222,
+      "radius_mm": 4.61,
+      "segment_count": 491,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        0.0,
+        0.8309999704360962,
+        1.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r6.45": {
+      "alternatives": [
+        "16b_r6.45"
+      ],
+      "arxiv_path_id": 211,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 271,
+      "panel": "16b",
+      "path_id": 223,
+      "radius_mm": 6.45,
+      "segment_count": 473,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        0.4779999852180481,
+        1.0,
+        0.47099998593330383
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    },
+    "16b_r8.30": {
+      "alternatives": [
+        "16b_r8.30"
+      ],
+      "arxiv_path_id": 212,
+      "effective_clip_pdf_pt": [
+        354.7611083984375,
+        73.58218383789062,
+        553.9500732421875,
+        222.0081787109375
+      ],
+      "gaps_pdf_x_pt": [],
+      "hidden_coordinates": "AUDIT_ONLY; masked fractions excluded from displayed means/bounds",
+      "history": "dark_immediate",
+      "local_allowance_pt": 0.42150000619888306,
+      "membership_status": "AUTHENTICATED",
+      "paint_sequence_id": 272,
+      "panel": "16b",
+      "path_id": 224,
+      "radius_mm": 8.3,
+      "segment_count": 480,
+      "source_page": 13,
+      "stage": "post",
+      "stroke_rgb": [
+        1.0,
+        0.9020000100135803,
+        0.0
+      ],
+      "stroke_width_pt": 0.8370000123977661,
+      "subpath_count": 1
+    }
+  },
+  "reading_contract": {
+    "anchor_extra_pt": 0.003,
+    "arithmetic_guard_signal": 1e-07,
+    "enclosure": "deterministic outer graphical enclosure; not experimental confidence interval",
+    "integration_cells_per_band": 256,
+    "local_extra_pt": 0.003,
+    "membership": "AUTHENTICATED; unique stroke RGB matches legend; crossings retained",
+    "parameter_cells_per_axis": 4
+  },
+  "rights": {
+    "attribution": "Mo, Johnston, Navarini, Suggi Liverani & Ellero (2023), Scientific Reports 13, 16374, DOI 10.1038/s41598-023-42380-y",
+    "exceptions": "No separate credit-line exception in Figures 14/16 or their captions.",
+    "license": "CC-BY-4.0",
+    "modifications": "Panel crops rendered at 144 dpi; canonical vector transcription, visibility masks and numerical redraw are derivatives.",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "source_coordinate": "PDF page points, x right, page_y down; z=-page_y",
+  "sources": {
+    "arxiv-v2.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "5cb62413c80f70916f4ccf6e2a432bffdc5def0cc817e5f0e1685502720ece0c",
+      "url": "https://arxiv.org/pdf/2305.03911v2",
+      "version": "arXiv v2 8 October 2023"
+    },
+    "final.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "101720c58cabd32ce2852025a3d61e2b41c3f4d315f32c853f303a929542ffb8",
+      "url": "https://www.nature.com/articles/s41598-023-42380-y.pdf",
+      "version": "journal 29 September 2023"
+    },
+    "supplement.pdf": {
+      "retrieval_method": "HTTPS GET; requests; 2026-10-24",
+      "sha256": "9ba14a679900eb1f460c13ab164272d19b9ea896b88798a35a20d57f05cba464",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41598-023-42380-y/MediaObjects/41598_2023_42380_MOESM1_ESM.pdf",
+      "version": "journal final supplementary information"
+    }
+  },
+  "spatial_coordinate": "y_mm; bottom/outlet to top/inlet; annular regions, not points"
+}

@@ -59,6 +59,29 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    mo_profile_id = "mo2023/fig14_fig16_segmented_profiles"
+    families["MO2023"].update({
+        "source_identifiers": ["10.1038/s41598-023-42380-y", "arXiv:2305.03911v2"],
+        "dataset_scopes": {mo_profile_id: {
+            "observables": ["published_segmented_signal; native epsilon/source porosity metadata"],
+            "measurement_resolution": "24 annular-region graphical profiles; 48 dependent contrast requests",
+            "physical_replicate_structure": "two capsule histories, medium/delayed and dark/immediate; not 24 extractions",
+            "directness": "native vector segments authenticated against final publication renders",
+            "source_internal_or_external": "SOURCE_INTERNAL",
+            "target_exposure": "TARGET_EXPOSED; RETROSPECTIVE; NONSCORING",
+            "eligible_uses": ["descriptive spatial signal band contrasts", "display-coordinate contrast differences"],
+            "conditionally_eligible_uses": ["future comparison with a separately qualified observation operator"],
+            "blocked_uses": ["intrinsic geometric porosity ordering/change", "measured permeability",
+                             "independent replication", "mechanism validation", "unqualified evolving-bed calibration"],
+            "uncertainty_status": "graphical outer reading enclosures only; physical variability unquantified",
+            "missing_joins": ["wet liquid/solid distinction", "material registration", "physical observation operator"],
+            "result": "docs/analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md",
+            "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        }},
+        "last_qualified_task": "SCI-MD-MO-WET-CT-PROFILES-001 (new graphical subset only; prior SPH labels retained)",
+        "last_qualified_commit": None,
+    })
+
     families["HARGARTEN2020"].update({
         "title": "Hargarten 2020 swelling and dry/wet particle-size observations",
         "source_identifiers": ["10.1002/jsfa.10440"],

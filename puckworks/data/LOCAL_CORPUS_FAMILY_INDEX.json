@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "fc03e0dffbf82069ea3f68e841b513ac2ce6e33d1bfcca70be5e9bfcf1aa68e7",
+  "available_data_register_sha256": "5141bf77cde7ae1ec082ce7423a630abbb2920166f5f88133fba268261001891",
   "families": [
     {
       "aliases": [
@@ -693,20 +693,22 @@
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "PSD table has four capsule types. Four sample tables have six microCT-derived geometries each, porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero.",
-        "practical_use_and_limits": "Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-derived on measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains.",
+        "observed_structure": "PSD table has four capsule types. Four sample tables have six microCT-derived geometries each, porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero. The dated external snapshot is unchanged. New repository intake: Figures14/16 retain 24 annular-region segmented-signal profiles from two capsule histories, not 24 extractions.",
+        "practical_use_and_limits": "Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-derived on measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains. The new graphical subset supports descriptive spatial signal contrasts and display-coordinate differences only; wet liquid/solid distinction and material registration unresolved. No intrinsic porosity, measured permeability, independent replication or mechanism validation. See docs/analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,
       "family_id": "mo2023",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-MO-WET-CT-PROFILES-001 (new graphical subset only; prior SPH labels retained)",
       "limits": [
         "K1 UNITS CAVEAT (\u00a75.3): Eq.2 needs [k1]=m but tables give 1e-9 m2; inconsistent ~1e4 vs Fig 8b -> do NOT use k1 quantitatively (author corresp pending)",
-        "Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (\u00a75.2)"
+        "Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (\u00a75.2)",
+        "24 annular profiles from two histories; 48 dependent requests; dry/wet operators differ; wet liquid/solid unresolved; no intrinsic porosity or permeability or mechanism validation; no independent replication"
       ],
       "manifest_dataset_ids": [
         "mo2023/forchheimer",
-        "mo2023/fig8a"
+        "mo2023/fig8a",
+        "mo2023/fig14_fig16_segmented_profiles"
       ],
       "model_chain_stages": [
         "bed_structure",
@@ -715,8 +717,9 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "preprint arXiv:2305.03911 (no journal DOI)",
-        "preprint arXiv:2305.03911"
+        "original arXiv:2305.03911 intake; final DOI 10.1038/s41598-023-42380-y CC BY 4.0",
+        "preprint arXiv:2305.03911",
+        "CC-BY-4.0; attributed source crops and modified numerical redraw"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:MO2023",
       "strongest_current_uses": [

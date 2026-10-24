@@ -223,8 +223,9 @@ below it on the same traces before claiming a residual):
 Discriminating observables named on the cards: Fasano Fig. 8.4 flow-reversal
 replay (migration vs compaction), pressure-step protocols (partII/III endpoint
 result), on/off rebrewing without dissolution (waszkiewicz Fig. 10
-delamination), post-extraction bottom-high porosity gradient (mo2023 Figs.
-6/14/16).
+delamination), post-extraction segmented-signal profiles (Mo Figures 14/16; Figure 6 is context).
+[Qualified band contrasts](analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md) do not identify
+geometric porosity or a mechanism; Protocol 4 retains this observation limit.
 
 **P3 — fine-grind EY dip hypotheses (COMPETE — hypothesis registry, not a slot).**
 
