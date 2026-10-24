@@ -82,11 +82,15 @@ After the final serialization changes, a fresh focused/discovery process passed
 reproduced all **12** canonical/evidence/report outputs byte-for-byte. All **46**
 substantive file bindings in the final independent-review receipt were checked
 against the final files. Receipt SHA-256:
-`d95cdf1e5392f1e72fbccd6a88feef8389fa33564ac1fabd9a5f05d98844056e`.
+`79d088c376e6513672592ae6d041baf19ca4ca52fade3135ccc81c455551e3a2`.
 After the dependent claim-binding fingerprint repair described below, another
 fresh process passed **183 tests in 38.56 s**: the full affected Paper-A model
 contract module plus the same task/discovery selection. All 46 final review
 bindings match. No scientific file changed during this repair.
+
+After the subsequent BLAS-portability correction below, the fresh affected
+selection passed **184 tests in 39.06 s**; full repository Ruff also passed.
+The alternate-kernel replay matches all five scientific output files exactly.
 
 Extraction replay into separate temporary directories reproduces canonical CSV,
 metadata, two source crops and geometry comparison **byte-identically**. Offline
@@ -134,6 +138,20 @@ the producer-owned Paper-3 manifest-count change. Running the existing
 and the audit's source-commit field in its Markdown/JSON pair; all audit text and
 numbers remain unchanged. The reviewer independently verified those substitutions
 and added the two generated files to the receipt, reusing the scientific evidence.
+
+A subsequent portability probe set `OPENBLAS_CORETYPE=Nehalem`. CPU-specific
+BLAS reduction order changed the last bits of 40 nominal contrasts and eight
+diagnostic means, breaking byte-identical regeneration despite unchanged bounds
+and signs. All three dot products now use fixed scalar binary64 products with
+`math.fsum`. Relative to the initial committed outputs, 33 nominal contrasts
+change by at most 2.7755575615628914e-17 and 12 means by at most
+1.1102230246251565e-16. All bounds, signs, support fields, summary, RESULT.md,
+SVG and PNG are unchanged. Alternate-kernel regeneration is byte-identical.
+A cancellation-sensitive regression forbids BLAS dot calls, and the fresh-process
+offline regression now selects the alternate kernel. No allowance, scientific
+decision, arithmetic guard or test criterion was weakened. The same independent
+review checks this bounded numerical correction while retaining unaffected
+source, membership, mask, enclosure and visual evidence.
 
 Discovery now contains one new canonical dataset (127→128 manifest rows),
 retains existing Mo datasets/strengths, and separates segmented signal from

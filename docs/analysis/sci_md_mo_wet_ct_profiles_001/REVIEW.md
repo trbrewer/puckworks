@@ -1,6 +1,6 @@
 # Independent substantive review — SCI-MD-MO-WET-CT-PROFILES-001
 
-**Disposition: acceptable after one bounded factual correction; no unresolved
+**Disposition: acceptable after bounded corrections; no unresolved
 material scientific finding.** Reviewed 2026-10-24 by the separate nonhuman
 review agent, against the frozen PLAN.md and accepted base
 `13c750c7d08d1fc868e24ad500dced5fb34127e4`. This is the requested single
@@ -8,7 +8,7 @@ substantive review, not physical validation or approval to merge.
 
 The final reviewed substantive identities are the 46 SHA-256 entries in
 [independent_review_receipt.json](independent_review_receipt.json). That receipt's
-SHA-256 is `d95cdf1e5392f1e72fbccd6a88feef8389fa33564ac1fabd9a5f05d98844056e`.
+SHA-256 is `79d088c376e6513672592ae6d041baf19ca4ca52fade3135ccc81c455551e3a2`.
 It binds the producer, extractor, canonical data/metadata, frozen plan, results,
 figures/crops, source notes, tests, affected cards/protocol, and discovery files.
 Verification/hosting receipts and this review are excluded from that substantive
@@ -32,7 +32,8 @@ The generated CLAIM_BINDING_AUDIT.md/json correction was also checked against
 the accepted base: only the source-commit identity and Paper 3 input fingerprint
 changed, with all claim text and numbers unchanged. The fingerprint matches the
 reviewed Paper 3 bytes. Both audit files are added to the final binding set; the
-previous 44 bound files and all substantive scientific review evidence are unchanged.
+previous 44 bound files and all substantive scientific review evidence were unchanged
+for that generated-identity correction.
 
 ## Finding and disposition
 
@@ -44,6 +45,30 @@ denominator bound still supports the arithmetic guard. No scientific code, data,
 calibration allowance, window, result, or figure changed for this correction.
 This was a real factual defect, not an objection to conservative bounds; it did
 not invalidate the computed enclosures or alter any classification.
+
+**R2 — bounded numerical portability correction, verified.** The producer's
+alternate-BLAS regression exposed last-bit dependence in nominal dot products.
+The correction replaces the three BLAS reductions with scalar binary64 products
+and `math.fsum`; the reviewer inspected the cancellation/forbidden-BLAS test and
+alternate-kernel subprocess regression. Comparing saved, hash-authenticated
+pre-correction artifacts independently confirms that only 33 nominal contrast
+estimates changed (maximum 2.776e-17) and 12 diagnostic means changed (maximum
+1.111e-16). All other request fields, bounds, support and classifications are
+unchanged. RESULT.md, summary.json, and both rendered figure formats retain their
+reviewed bytes. Canonical data, calibration, graphical allowances, and continuous
+interval code are unchanged. Source/membership/mask/continuous-bound/visual
+evidence is reused within this same bounded review.
+
+The independent exact-source checker was replayed for the corrected nominal
+values. A separate exact-rational audit, now retained in the same checker, of all
+94 actual nominal/mean reductions
+also confirmed that each `fsum` result correctly rounds the exact sum of its
+binary64 products. With unit roundoff u=2^-53, each reduction's error is bounded by
+u times the sum of absolute exact products plus u times the absolute sum of the
+rounded products. The maximum product norm was 7242.114 and the maximum
+signal-scaled bound was 1.302e-16. This argument does not assume an internal
+operation count for `fsum`; it leaves the 1e-7 guard ample for the unchanged
+weight/integration arithmetic. No allowance or sign was retuned.
 
 ## Sources, membership, and display support
 
@@ -92,15 +117,21 @@ Executed successfully with the separate supplied Python/PyMuPDF environment:
   --receipt-output /tmp/mo-independent-review-replay.json
 ```
 
-This checker imports neither the scientific producer nor its extractor and does
-not call producer tests. It reads original PDF segments, independently integrates
-them with exact rational arithmetic, and separately computes all **35 supported
+The source/geometry, exact-integral, and enclosure oracles do not use producer
+functions or the extractor and do not call producer tests. They read original PDF
+segments, integrate them with exact rational arithmetic, and separately compute all **35 supported
 within-panel enclosures** in extended precision (63 stored mantissa bits), then
-checks the **12 cross-panel differences**. It checks all 48 unique request IDs and
+check the **12 cross-panel differences**. They check all 48 unique request IDs and
 classifications, and all supported diagnostic means. Maximum nominal-contrast
-disagreement was 2.23e-16; maximum mean disagreement was 5.04e-16. Every independent
+disagreement after R2 was 2.36e-16; maximum mean disagreement was 4.78e-16. Every independent
 enclosure lies inside the delivered guarded enclosure. The maximum difference
 between the observed guard expansion and 1e-7 was 7.48e-16.
+
+R2 adds an explicitly separate reduction audit that imports the producer only to
+obtain its actual weight vectors and `deterministic_dot` outputs, then checks
+scalar-product and summation errors against exact Fraction arithmetic. The receipt
+discloses this limited producer use and retains the 94-reduction audit metrics;
+the independent source/integral/enclosure oracles remain unchanged.
 
 The mathematical inspection supports the implementation: partial-segment
 trapezoid integration includes the affine Jacobian; common ordinate offsets and
@@ -117,8 +148,10 @@ and a grid of sampled extrema has not been substituted for a continuous proof.
 The reviewer independently checked the stated coordinate/slope/denominator
 bounds with R1 corrected: maximum coordinate <545 pt, maximum absolute slope
 24.600186, horizontal separation >164 pt, vertical separation >144 pt, and maximum
-gamma <0.0028. The stated 10,000-operation/1e6-intermediate forward-error estimate
-is about 6.22e-9 signal units before the larger 1e-7 guard; the outward coordinate
+gamma <0.0028. The 10,000-operation/1e6-intermediate estimate for the unchanged
+weight/cell-integration arithmetic is about 6.22e-9 signal units before the larger
+1e-7 guard; R2's separate product/sum bound covers the changed reduction without
+counting `fsum` internal operations. The outward coordinate
 pad and final endpoint expansion are retained. The extended-precision replay is
 corroboration, not the sole reason the continuous enclosure is valid.
 

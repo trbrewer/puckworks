@@ -187,11 +187,16 @@ extremum claim is used. Support is checked on the entire union before subdivisio
 
 Floating-point audit bounds for these canonical inputs: |native coordinate|<600,
 max absolute segment slope<24.601, segment dx>0.117, horizontal anchor separation
->164 pt, vertical separation>144 pt, gamma<0.0028. Each scalar partial integral
-or cell-sum evaluation uses fewer than 10,000 floating operations; intermediates
+>164 pt, vertical separation>144 pt, gamma<0.0028. Each unchanged partial-integral
+weight or interval-cell evaluation uses fewer than 10,000 floating operations; intermediates
 are bounded by 1e6. A conservative binary64 forward-error allowance using
 10,000*epsilon/(1−10,000*epsilon), with the above denominator/range bounds,
-is below 1e-7 in signal units. Every inverse-cell interval is additionally expanded
+is below 1e-7 in signal units. The nominal reduction is bounded separately:
+independent exact rational replay verifies that all 94 actual reductions return
+the correctly rounded sum of their binary64 products. Their sum of absolute exact
+products is <7243; scalar-product roundoff plus final-sum rounding contributes
+<1.4e-16 signal units under the actual per-case scaling. This does not assume an
+internal operation count for `math.fsum`. Every inverse-cell interval is additionally expanded
 outward by 1e-10 pt; final bounds expand by **1e-7 signal** and `nextafter`.
 DeltaA inherits both guards and outward subtraction. This guard is much larger
 than observed roundoff and is not an experimental allowance. Source PDF/parser
@@ -231,6 +236,12 @@ After installing existing repository dependencies (`pip install -e '.[dev,figure
 python -m puckworks.analysis.mo2023_wet_ct_profiles --output /tmp/mo-wet-ct-replay --plot
 python -m pytest -q tests/test_mo2023_wet_ct_profiles.py
 ```
+
+Nominal dot products use scalar binary64 products and `math.fsum`, avoiding
+CPU-specific BLAS reduction order. A portability check exposed last-bit changes
+under the Nehalem BLAS kernel; the fixed reduction changes no enclosures or signs.
+The offline regression test selects that alternate kernel as well as denying
+network/PDF dependencies. The 1e-7 outward arithmetic guard is unchanged.
 
 Offline regeneration consumes the committed CSV/JSON only. Tests deny network and
 PDF-reader imports in a fresh process. All five numerical/report artifacts and

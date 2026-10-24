@@ -12,6 +12,7 @@ from fractions import Fraction
 import hashlib
 import itertools
 import json
+import math
 from pathlib import Path
 
 import numpy as np
@@ -32,6 +33,11 @@ def sha256(path):
 
 def json_write(path, value):
     Path(path).write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False)+'\n')
+
+
+def deterministic_dot(left, right):
+    """Fixed scalar products and compensated sum; no CPU-specific BLAS reduction."""
+    return math.fsum(float(a)*float(b) for a,b in zip(left,right,strict=True))
 
 
 @dataclass
@@ -111,11 +117,11 @@ def nominal_contrast(curve, cal, terms):
     if abs(sum(c for c,_ in terms)) > 1e-12:
         raise ValueError('Contrast coefficients must sum to zero')
     weights = source_coefficients(curve,cal,terms)
-    return float(cal['gamma']*np.dot(weights,curve.z))
+    return float(cal['gamma']*deterministic_dot(weights,curve.z))
 
 
 def local_box_radius(weights, heights):
-    return float(np.dot(np.abs(weights), np.broadcast_to(heights, np.shape(weights))))
+    return deterministic_dot(np.abs(weights), np.broadcast_to(heights, np.shape(weights)))
 
 
 def inverse_union(cal, band, allowance):
@@ -302,7 +308,7 @@ def analyze(data_dir=DATA):
             if ok:
                 lo,hi=inverse(cal,band)
                 part=next(p for p in parts if p.x[0]<=lo and hi<=p.x[-1])
-                value=float(cal['delta']+cal['gamma']*cal['alpha']/(band[1]-band[0])*np.dot(
+                value=float(cal['delta']+cal['gamma']*cal['alpha']/(band[1]-band[0])*deterministic_dot(
                     integral_weights(part.x,lo,hi),part.z))
             diagnostics.append({'profile_id':pid,'band_mm':list(band),'nominal_mean':value,
                                 'support':ok,'reason':reason,'role':'supporting diagnostic, not a contrast request'})

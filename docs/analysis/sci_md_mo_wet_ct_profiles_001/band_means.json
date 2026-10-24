@@ -224,7 +224,7 @@
       19.0,
       21.0
     ],
-    "nominal_mean": 0.180408156826518,
+    "nominal_mean": 0.18040815682651806,
     "profile_id": "14b_r2.77",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -257,7 +257,7 @@
       19.0,
       21.0
     ],
-    "nominal_mean": 0.058177887801956985,
+    "nominal_mean": 0.058177887801956873,
     "profile_id": "14b_r4.61",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -268,7 +268,7 @@
       12.0,
       14.0
     ],
-    "nominal_mean": 0.0859525332749167,
+    "nominal_mean": 0.08595253327491681,
     "profile_id": "14b_r6.45",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -345,7 +345,7 @@
       17.0,
       19.0
     ],
-    "nominal_mean": 0.20328743671518135,
+    "nominal_mean": 0.2032874367151813,
     "profile_id": "16a_r0.92",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -378,7 +378,7 @@
       12.0,
       14.0
     ],
-    "nominal_mean": 0.1765190315141239,
+    "nominal_mean": 0.17651903151412396,
     "profile_id": "16a_r2.77",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -389,7 +389,7 @@
       17.0,
       19.0
     ],
-    "nominal_mean": 0.1925878930939019,
+    "nominal_mean": 0.19258789309390179,
     "profile_id": "16a_r2.77",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -411,7 +411,7 @@
       17.0,
       19.0
     ],
-    "nominal_mean": 0.1860538607960215,
+    "nominal_mean": 0.18605386079602138,
     "profile_id": "16a_r4.61",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -466,7 +466,7 @@
       12.0,
       14.0
     ],
-    "nominal_mean": 0.0482447630133207,
+    "nominal_mean": 0.04824476301332081,
     "profile_id": "16b_r0.92",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -510,7 +510,7 @@
       17.0,
       19.0
     ],
-    "nominal_mean": 0.06392865742876375,
+    "nominal_mean": 0.06392865742876364,
     "profile_id": "16b_r10.14",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -554,7 +554,7 @@
       19.0,
       21.0
     ],
-    "nominal_mean": 0.01358930575418571,
+    "nominal_mean": 0.013589305754185599,
     "profile_id": "16b_r2.77",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -587,7 +587,7 @@
       19.0,
       21.0
     ],
-    "nominal_mean": 0.019001465390112715,
+    "nominal_mean": 0.019001465390112604,
     "profile_id": "16b_r4.61",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",
@@ -609,7 +609,7 @@
       17.0,
       19.0
     ],
-    "nominal_mean": 0.03304570753807479,
+    "nominal_mean": 0.0330457075380749,
     "profile_id": "16b_r6.45",
     "reason": "complete displayed support",
     "role": "supporting diagnostic, not a contrast request",

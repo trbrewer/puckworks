@@ -1,6 +1,7 @@
-"""Independent review checks; does not import the producer or its extraction code.
+"""Independent source/enclosure oracles plus a separate exact reduction audit.
 
-Run with the task's separate PDF environment. Source PDFs remain external.
+The reduction audit alone imports the producer to obtain its actual weights and
+sum outputs, then checks them with Fraction arithmetic. Source PDFs stay external.
 """
 from collections import Counter
 import argparse
@@ -11,6 +12,7 @@ import itertools
 import json
 from pathlib import Path
 import subprocess
+import sys
 
 import numpy as np
 import pymupdf
@@ -105,6 +107,66 @@ def check_support(segments, gaps, cal, band, clip, mask, h, q):
             if max(pp)+h >= mask[1] and min(pp)-h <= mask[3]:
                 return False
     return True
+
+
+def audit_actual_reductions(requests, diagnostics):
+    """Audit actual scalar products/sums; no producer result is used as an oracle."""
+    sys.path.insert(0, str(ROOT))
+    from puckworks.analysis import mo2023_wet_ct_profiles as producer
+
+    meta, _, curves = producer.load()
+    unit_roundoff = F(1, 2**53)
+    count = 0
+    max_error = max_bound = max_signal_bound = max_product_norm = F(0)
+
+    def audit(left, right, scale):
+        nonlocal count, max_error, max_bound, max_signal_bound, max_product_norm
+        exact_products = [F(float(a))*F(float(b)) for a,b in zip(left,right,strict=True)]
+        rounded_products = [float(a)*float(b) for a,b in zip(left,right,strict=True)]
+        rounded_sum = sum(map(F, rounded_products), F(0))
+        value = producer.deterministic_dot(left, right)
+        assert value == float(rounded_sum)
+        error = abs(F(value)-sum(exact_products, F(0)))
+        norm = sum(map(abs, exact_products), F(0))
+        # Each scalar product rounds once; the checked sum rounds once. No
+        # assumption about the number of internal math.fsum operations is used.
+        bound = unit_roundoff*norm + unit_roundoff*abs(rounded_sum)
+        assert error <= bound
+        count += 1
+        max_error = max(max_error, error)
+        max_bound = max(max_bound, bound)
+        max_signal_bound = max(max_signal_bound, bound*abs(F(scale)))
+        max_product_norm = max(max_product_norm, norm)
+
+    for request in requests:
+        if request['family'] == 'delta' or request['support_status'] != 'COMPLETE':
+            continue
+        pid = request['operand_ids'][0]
+        cal = meta['panels'][meta['profiles'][pid]['panel']]['calibration']
+        lower, upper = request['bands_mm']
+        part = next(p for p in curves[pid] if p.x[0] <= producer.inverse(cal,lower[0])
+                    and p.x[-1] >= producer.inverse(cal,upper[1]))
+        weights = producer.source_coefficients(part, cal, [(1.,lower),(-1.,upper)])
+        audit(weights, part.z, cal['gamma'])
+    for diagnostic in diagnostics:
+        if not diagnostic['support']:
+            continue
+        pid = diagnostic['profile_id']; band = diagnostic['band_mm']
+        cal = meta['panels'][meta['profiles'][pid]['panel']]['calibration']
+        lo, hi = producer.inverse(cal, band)
+        part = next(p for p in curves[pid] if p.x[0] <= lo and hi <= p.x[-1])
+        weights = producer.integral_weights(part.x, lo, hi)
+        audit(weights, part.z, cal['gamma']*cal['alpha']/(band[1]-band[0]))
+    assert count == 94 and max_product_norm < 7243 and max_signal_bound < F(14, 10**17)
+    return {
+        'count': count,
+        'all_sums_correctly_round_exact_binary64_product_sums': True,
+        'maximum_sum_absolute_exact_products': float(max_product_norm),
+        'maximum_native_reduction_error': float(max_error),
+        'maximum_native_error_bound': float(max_bound),
+        'maximum_scaled_signal_error_bound': float(max_signal_bound),
+        'internal_fsum_operation_count_assumed': False,
+    }
 
 
 def main(source_dir, receipt_output):
@@ -272,7 +334,10 @@ def main(source_dir, receipt_output):
         'task':'SCI-MD-MO-WET-CT-PROFILES-001','reviewer':'independent nonhuman review agent',
         'date':'2026-10-24',
         'base_head':BASE,
-        'producer_imported':False,'source_pages':[15,18,7],
+        'producer_imported':True,
+        'producer_use':'actual weight vectors and sums for separate Fraction reduction audit only; source/enclosure oracles do not use producer functions',
+        'source_pages':[15,18,7],
+        'bounded_reduction_audit':audit_actual_reductions(requests, diagnostics),
         'source_sha256':{n:digest(source_dir/n) for n in sources},
         'fresh_source_crop_sha256':crop_hashes,
         'minimum_segment_dx_pt':minimum_dx,

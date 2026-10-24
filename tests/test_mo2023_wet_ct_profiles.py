@@ -159,6 +159,19 @@ def test_continuous_box_affine_oracle():
     assert lo<=min(values) and hi>=max(values)
 
 
+def test_reduction_preserves_small_terms_without_blas(monkeypatch):
+    # A cancellation-sensitive sum must retain the small term. CPU-specific
+    # BLAS reductions previously changed committed nominal values' last bits.
+    def forbidden(*args,**kwargs):
+        raise AssertionError('BLAS reduction is not a reproducible serialization contract')
+    monkeypatch.setattr(np,'dot',forbidden)
+    assert m.deterministic_dot([1e16,1.,-1e16],[1.,1.,1.])==1.
+    curve=m.Curve([10.,15.,20.,22.],[1.,1.5,2.,2.2])
+    cal={'x12':12.,'x22':22.,'gamma':1.}
+    assert m.nominal_contrast(curve,cal,[(1.,m.LOWER),(-1.,m.UPPER)])==pytest.approx(-.5)
+    assert m.local_box_radius([1.,-2.],[.1,.2])==pytest.approx(.5)
+
+
 def test_offline_regeneration_in_fresh_process(tmp_path,calculated):
     # A fresh interpreter denies network and PDF parser imports; canonical bytes
     # and scientific artifacts must still reproduce exactly.
@@ -176,7 +189,8 @@ socket.create_connection=denied
 from puckworks.analysis.mo2023_wet_ct_profiles import generate
 generate(Path(OUTPUT))
 '''.replace('OUTPUT',repr(str(tmp_path)))
-    subprocess.run([sys.executable,'-c',script],cwd=m.ROOT,check=True,env={**os.environ,'PYTHONHASHSEED':'7'})
+    subprocess.run([sys.executable,'-c',script],cwd=m.ROOT,check=True,
+                   env={**os.environ,'PYTHONHASHSEED':'7','OPENBLAS_CORETYPE':'Nehalem'})
     for name in ['contrasts.csv','contrasts.json','band_means.json','summary.json','RESULT.md']:
         assert (tmp_path/name).read_bytes()==(m.BUNDLE/name).read_bytes(),name
 
