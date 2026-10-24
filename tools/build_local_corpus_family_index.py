@@ -63,11 +63,15 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                'four origins. mean, sd, unit, basis and n_measurements are explicit columns.',
                'Upstream roasted-inventory context and uncertainty priors; long/wide are alternate '
                'representations, not independent batches. No matched brew, pressure or fraction delivery.'),
- 'cameron2020': ('Figure 2 PSD: 618 diameter bins, particle_diameter_um and four volume-percent grind '
-                 'columns. fig5_grind_deviation has three points.',
-                 'The PSD file is a provisional subset without its own MANIFEST row; fig5_grind_deviation does not register it. Verify its source/rights locator before adding a stable subset ID. Grind-specific PSD and coarse/fine behavior reconstruction. Bins are not shots; dial '
-                 'cannot be mapped to a different grinder. Local holdings do not imply the entire '
-                 'experimental supplement.'),
+ 'cameron2020': ('Figure 2 PSD: 618 diameter bins and four volume-percent grind columns; '
+                 'fig5_grind_deviation: three points. New packaged figS2_pressure_tamp: 16 central '
+                 'shot-time summaries, four common force groups, 12 recovered bars and four missing extents.',
+                 'Figure 2 and Figure 5 retain their existing IDs/evidence. S2 supports source-internal '
+                 'pressure/grind and endpoint tamp contrasts under reading bounds; displayed-extent '
+                 'coverage is partial. Native 6/9-bar labels are not automatically converted. '
+                 'Summary n/bar semantics unresolved; summaries and PSD bins are not shots; '
+                 'no cross-grinder mapping, permeability or mechanism inference. '
+                 'See docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md.'),
  'egidi2024': ('table2_egidi2024_tds_ey: 12 condition rows, T [degC], p [bar], tau [s], Granulometry, TDS '
                '[%], TDS sigma, EY [%].',
                'Endpoint condition contrasts; no measured pressure history, fraction chemistry or individual '

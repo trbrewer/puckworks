@@ -1,0 +1,16 @@
+{
+  "role": "descriptive source endpoint and graphical contrast comparison",
+  "producer": "puckworks.analysis.cameron2020_pressure_tamp",
+  "outputs": ["COMPARISON.svg"],
+  "dataset_id": "cameron2020/figS2_pressure_tamp",
+  "badge": "SOURCE_INTERNAL / GRAPHICAL_READING_CONDITIONAL",
+  "source": "Cameron et al. (2020), DOI 10.1016/j.matt.2019.12.019, standalone SI Figure S2, PDF page 7 / printed page 6",
+  "source_sha256": "37530ec8c450c6fe5b231a7d4e3b65347555454b366ed4730ec106a4fb56775f",
+  "rights": "New numerical redraw from attributable extraction; restricted publisher PDF and page artwork excluded from Git; no blanket source licence asserted.",
+  "encodings": {
+    "observations": "native plotted force/time, coloured central reading rectangles and marker reference; grey displayed extents including endpoint reading allowances",
+    "contrasts": "coloured A intervals and grey B intervals; same IDs, small horizontal visual displacement only",
+    "missing_extents": "orange cross; missingness symbol is not a zero-width interval or a plotted time/contrast value"
+  },
+  "ceiling": "16 plotted summaries, not 16 shots. No error-bar statistical interpretation, mechanism rendering, population inference or physical validation."
+}

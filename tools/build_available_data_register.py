@@ -305,6 +305,31 @@ def build() -> dict:
         "campaign": "existing Corrochano thesis/journal/Melrose lineage; no new independent campaign",
         "last_qualified_task": "SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001",
     }
+    # S2 eligibility is dataset-scoped; existing Figure 2/5 evidence is unchanged.
+    s2_id = "cameron2020/figS2_pressure_tamp"
+    s2_row = next(row for row in rows if row["dataset_id"] == s2_id)
+    families["CAMERON2020"].setdefault("dataset_scopes", {})[s2_id] = {
+        "source_card": s2_row["source_card"],
+        "supplement_card": "docs/cards/cameron2020_si.md",
+        "observer": "plotted shot-duration central summaries against native nominal pressure/grind/force groups",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "TARGET_EXPOSED",
+        "validation_strength": s2_row["validation_strength"],
+        "physical_validation": "NOT_ESTABLISHED",
+        "eligible_uses": ["declared pressure, additive pressure-by-grind and endpoint tamp contrasts under graphical bounds",
+                          "descriptive displayed-extent sensitivity where endpoints are recoverable"],
+        "blocked_uses": ["automatic minus-one-bar or MachineState conversion", "measured puck pressure-drop law",
+                         "permeability or mechanism identification", "replicate/population inference",
+                         "Figure 5 repair", "physical validation"],
+        "missing_joins": ["exact nominal/applied forces", "pressure node/reference and histories",
+                          "S2 per-point replicate count and summary/bar semantics", "shot-clock origin",
+                          "four displayed bar extents", "source-specific trajectories and covariance"],
+        "coverage": "16 central summaries; 12 bars recovered / 4 missing; 18 contrast IDs per layer; A 18 complete, B 9 complete / 9 incomplete",
+        "units": "N; s; native nominal bar; source grinder dial",
+        "rights": s2_row["license_access"],
+        "result": "docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md",
+        "last_qualified_task": "SCI-MD-CAMERON-PRESSURE-TAMP-001",
+    }
     return {"schema_version": 1, "manifest_path": "puckworks/data/MANIFEST.csv",
             "manifest_sha256": sha256(MANIFEST), "dataset_count": len(rows),
             "families": [families[k] for k in sorted(families)]}

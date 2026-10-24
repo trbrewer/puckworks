@@ -51,6 +51,7 @@
     "83bee5900586e6998199e1121a76a951e02fac3fc0e6544be7802abc54782bd5": "I-084",
     "854289fe938a4eefb768eba255184c64ed73760791036c2293933d1b4501477e": "I-001",
     "884589cca4923a58e8a15845946dd80ef668f5d18884ca080e327a0694dc994b": "I-036",
+    "88d418df7f17ff8d98ac0be3642d1c673e5d5e6c30925063c2c1c7c783e04883": "I-102",
     "89385914e4de81b667b8e4e711263a56bde70c02b7da2b9eeb182717854e0588": "I-049",
     "8b11caa6ce46095db1326808d9e4129166e36a3216d8c447336b7f5dba3c5d00": "I-003",
     "9194269fdaacfdc72bc46438b1202866dc7097f35c3c1e7be703c5649967ce17": "I-034",
@@ -59,6 +60,7 @@
     "9950ecf3af15f77ca8707f584ff0b010e1f41e82614a8f942a062f4b808e4f26": "I-086",
     "9b39e4ab4f63284c370cc6dc5e915f831640ba20d8abbafa98e7256f9683fef5": "I-079",
     "9f607ec4f9b9eec78aae9573234c88aac7f923e1bd39a6e479513d82aa6a5543": "I-031",
+    "a13d3fd49fe32cdfe36db9c3fd574b2cf9249ec606cc74955e4924335a426d35": "I-101",
     "a595ff324ed6960cccbd12f4c5b82120d71c20669b5a526c1f90ba2d521ff4a8": "I-042",
     "a5f8592e4ba3c441accbeba4dc1f07182e4f0fc3805576f88718900ab08dfea8": "I-018",
     "a764d00b98ae8884a9cdb03b661594b15ceda8990898a92c6b4b86e3c2e27bbb": "I-009",
@@ -102,12 +104,12 @@
     "fe7f10f40ec341e79fe3d0f4c9640052a211e5b923219addcfcc984ab0b93f2e": "I-017"
   },
   "counts": {
-    "candidates": 100,
-    "tensions": 183
+    "candidates": 102,
+    "tensions": 185
   },
   "high_water": {
-    "I": 100,
-    "T": 183
+    "I": 102,
+    "T": 185
   },
   "note": "Fingerprint -> stable ID. APPEND-ONLY: an entry is never removed and a number is never reused, so a stale reference resolves to what it always meant or to nothing — never to a different record. Regenerate with `python -m puckworks.insights write`.",
   "registry_version": 1,
@@ -185,6 +187,7 @@
     "6aab5683be533680f55ca0d02c7ebb7628cd01adce2ba1bf0afdd14dc09ff5f0": "T-0105",
     "6cdfc653dbcc117b7e6f627fc0457d6411d226004d8d804e2a1284fcd64e5095": "T-0148",
     "6e3dbf1695285a4f3e4d61a85bbfc61fe87c6136b3eea7c7dd2813301ddcccc2": "T-0174",
+    "6e9fd33187d05d5539d57d99016a1245b0508c994ed911bf0af1f8e69bcab99a": "T-0185",
     "74a184389b715fdfc467ae4d9990d1cabebdd36e833b58c7c06bdba19cc36543": "T-0173",
     "79e546034745875cd52dda149765e21a0838ff29bdbd50d4546773fa67c448f6": "T-0014",
     "7bded875a263ed56dfbc0dd359ab466f0708b9c97830c8f628bb310e68c4dc92": "T-0167",
@@ -240,6 +243,7 @@
     "b1ec83f0cba757e3ed3fc851977c5d18ae43ad0fa9d0d898510c930651dc2236": "T-0004",
     "b263db7b1b68cf8ade2e401e70fad3d79e8e6329c89ba43949927ab57cb38bab": "T-0051",
     "b379bcd7c471ccd49b2a66488714853687789276caa1f312b00c7b03d21969dd": "T-0120",
+    "b4374005192cc7dc0ddd48f021898bf9e6b62266f509a2c526ad1e3b591206ba": "T-0184",
     "b44b8c532e48115da10274a11e1b724795d7c9ee957bb64c0dbb90aadc1fd9b3": "T-0005",
     "b57a022ee86b025707bc11bf286ab8617989b51e27d2635243636a3cebd6b0d0": "T-0103",
     "b64a5f20d812c0e82b64ef0e80f2a81fbc26b7831b1b0f264a102e1c041700c6": "T-0023",

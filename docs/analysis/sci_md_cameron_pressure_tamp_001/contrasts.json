@@ -1,0 +1,1487 @@
+{
+  "dataset_id": "cameron2020/figS2_pressure_tamp",
+  "source_sha256": "37530ec8c450c6fe5b231a7d4e3b65347555454b366ed4730ec106a4fb56775f",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "layer_A": "central-summary graphical reading enclosure",
+  "layer_B": "sensitivity to displayed extents, not statistical inference",
+  "method": "signed coordinate sum followed by one common negative axis scale; affine offset cancels; exact rational arithmetic; outward report rounding",
+  "contrasts": [
+    {
+      "contrast_id": "DP-G1.3-F1",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F1": 1,
+        "S2-P6-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 10.885291824382486,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        10.549314319285186,
+        11.352651251507044
+      ],
+      "exact_bounds_s": [
+        "5603768751025203000/531197439134120941",
+        "5948875978589055000/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "10.54",
+        "11.36"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F2",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F2": 1,
+        "S2-P6-G1.3-F2": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 10.716785107771175,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F2",
+        "S2-P6-G1.3-F2"
+      ],
+      "bounds_s": [
+        10.323775001176992,
+        11.120444404569817
+      ],
+      "exact_bounds_s": [
+        "5483962842822075000/531197439134120941",
+        "5827197816967961250/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "10.32",
+        "11.13"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F3",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F3": 1,
+        "S2-P6-G1.3-F3": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 8.836926381035221,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F3",
+        "S2-P6-G1.3-F3"
+      ],
+      "bounds_s": [
+        8.535368510003526,
+        9.307569445384404
+      ],
+      "exact_bounds_s": [
+        "4533965894579890500/531197439134120941",
+        "4877237489819527500/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "8.53",
+        "9.31"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F4",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 7.225178268997621,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4"
+      ],
+      "bounds_s": [
+        6.833667805516034,
+        7.5894562999814505
+      ],
+      "exact_bounds_s": [
+        "3630026838183405000/531197439134120941",
+        "3976933076977732500/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "6.83",
+        "7.59"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.5-F1",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F1": 1,
+        "S2-P6-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -1.0954433241094577,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        -1.4875780763182644,
+        -0.7911108096952731
+      ],
+      "exact_bounds_s": [
+        "-779502275586127500/524007638990879059",
+        "-420236036181450000/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-1.49",
+        "-0.79"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DP-G1.5-F2",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F2": 1,
+        "S2-P6-G1.5-F2": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -2.855707962759009,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F2",
+        "S2-P6-G1.5-F2"
+      ],
+      "bounds_s": [
+        -3.112615421311444,
+        -2.4242543521313396
+      ],
+      "exact_bounds_s": [
+        "-1631034258008010000/524007638990879059",
+        "-1287757703661915000/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-3.12",
+        "-2.42"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DP-G1.5-F3",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F3": 1,
+        "S2-P6-G1.5-F3": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -5.193111250960177,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F3",
+        "S2-P6-G1.5-F3"
+      ],
+      "bounds_s": [
+        -5.566760762089766,
+        -4.79086602776864
+      ],
+      "exact_bounds_s": [
+        "-2917025163769725000/524007638990879059",
+        "-2544895765185360000/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-5.57",
+        "-4.79"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DP-G1.5-F4",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P6-G1.5-F4": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -3.49736356232591,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4"
+      ],
+      "bounds_s": [
+        -3.8254409093060264,
+        -3.073597664020771
+      ],
+      "exact_bounds_s": [
+        "-42650218276267500/11149098701933597",
+        "-17941617670950000/5837334495979351"
+      ],
+      "reported_bounds_s": [
+        "-3.83",
+        "-3.07"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "I-F1",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F1": 1,
+        "S2-P6-G1.3-F1": -1,
+        "S2-P9-G1.5-F1": -1,
+        "S2-P6-G1.5-F1": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 11.980735148491943,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1",
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        11.34042512898046,
+        12.840229327825309
+      ],
+      "exact_bounds_s": [
+        "463384983631281000/40861341471855457",
+        "6728378254175182500/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "11.34",
+        "12.85"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "I-F2",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F2": 1,
+        "S2-P6-G1.3-F2": -1,
+        "S2-P9-G1.5-F2": -1,
+        "S2-P6-G1.5-F2": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 13.572493070530186,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F2",
+        "S2-P6-G1.3-F2",
+        "S2-P9-G1.5-F2",
+        "S2-P6-G1.5-F2"
+      ],
+      "bounds_s": [
+        12.748029353308333,
+        14.23305982588126
+      ],
+      "exact_bounds_s": [
+        "6771720546483990000/531197439134120941",
+        "7458232074975971250/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "12.74",
+        "14.24"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "I-F3",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F3": 1,
+        "S2-P6-G1.3-F3": -1,
+        "S2-P9-G1.5-F3": -1,
+        "S2-P6-G1.5-F3": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 14.030037631995398,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F3",
+        "S2-P6-G1.3-F3",
+        "S2-P9-G1.5-F3",
+        "S2-P6-G1.5-F3"
+      ],
+      "bounds_s": [
+        13.326234537772166,
+        14.874330207474172
+      ],
+      "exact_bounds_s": [
+        "7078861659765250500/531197439134120941",
+        "7794262653589252500/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "13.32",
+        "14.88"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "I-F4",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1,
+        "S2-P9-G1.5-F4": -1,
+        "S2-P6-G1.5-F4": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 10.72254183132353,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4",
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4"
+      ],
+      "bounds_s": [
+        9.907265469536805,
+        11.414897209287476
+      ],
+      "exact_bounds_s": [
+        "5262714046239855000/531197439134120941",
+        "5981493335962305000/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "9.90",
+        "11.42"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DF-P6-G1.3",
+      "family": "DF",
+      "terms": {
+        "S2-P6-G1.3-F4": 1,
+        "S2-P6-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -0.9453780783504321,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P6-G1.3-F4",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        -1.1576756358525226,
+        -0.7254663898691674
+      ],
+      "exact_bounds_s": [
+        "-606630876660345000/524007638990879059",
+        "-385365888476377500/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-1.16",
+        "-0.72"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DF-P6-G1.5",
+      "family": "DF",
+      "terms": {
+        "S2-P6-G1.5-F4": 1,
+        "S2-P6-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": 0.929812800199909,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P6-G1.5-F4",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        0.6902894260713063,
+        1.1966810747590693
+      ],
+      "exact_bounds_s": [
+        "366679975390440000/531197439134120941",
+        "627070024609567500/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "0.69",
+        "1.20"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DF-P9-G1.3",
+      "family": "DF",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P9-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -4.605491633735297,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P9-G1.3-F1"
+      ],
+      "bounds_s": [
+        -5.160640470985762,
+        -4.204588324726265
+      ],
+      "exact_bounds_s": [
+        "-2704215028882027500/524007638990879059",
+        "-319066650101116500/75885348447731563"
+      ],
+      "reported_bounds_s": [
+        "-5.17",
+        "-4.20"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DF-P9-G1.5",
+      "family": "DF",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P9-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -1.472107438016543,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P9-G1.5-F1"
+      ],
+      "bounds_s": [
+        -1.8267943574964125,
+        -0.9158646507650913
+      ],
+      "exact_bounds_s": [
+        "-957254198193555000/524007638990879059",
+        "-486504957079882500/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-1.83",
+        "-0.91"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "J-G1.3",
+      "family": "J",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1,
+        "S2-P9-G1.3-F1": -1,
+        "S2-P6-G1.3-F1": 1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -3.6601135553848647,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4",
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        -4.425220107232086,
+        -3.062581921891973
+      ],
+      "exact_bounds_s": [
+        "-2318849140405650000/524007638990879059",
+        "-1626835674047470500/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-4.43",
+        "-3.06"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "J-G1.5",
+      "family": "J",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P6-G1.5-F4": -1,
+        "S2-P9-G1.5-F1": -1,
+        "S2-P6-G1.5-F1": 1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "A",
+      "units": "s",
+      "nominal_central_contrast_s": -2.401920238216452,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4",
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        -3.0234754322554815,
+        -1.6061540768363975
+      ],
+      "exact_bounds_s": [
+        "-1584324222803122500/524007638990879059",
+        "-853184932470322500/531197439134120941"
+      ],
+      "reported_bounds_s": [
+        "-3.03",
+        "-1.60"
+      ],
+      "sign": "NEGATIVE",
+      "reason": "Entire supported interval < 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F1",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F1": 1,
+        "S2-P6-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 10.885291824382486,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        5.212743992297342,
+        16.605751323370608
+      ],
+      "exact_bounds_s": [
+        "395570894224303110/75885348447731563",
+        "185139160524023340/11149098701933597"
+      ],
+      "reported_bounds_s": [
+        "5.21",
+        "16.61"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F2",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F2": 1,
+        "S2-P6-G1.3-F2": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 10.716785107771175,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P6-G1.3-F2",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F2",
+        "S2-P6-G1.3-F2"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "DP-G1.3-F3",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F3": 1,
+        "S2-P6-G1.3-F3": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 8.836926381035221,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F3",
+        "S2-P6-G1.3-F3"
+      ],
+      "bounds_s": [
+        4.3548121432380915,
+        13.412730277616888
+      ],
+      "exact_bounds_s": [
+        "2313265058398246770/531197439134120941",
+        "7028373125195503230/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "4.35",
+        "13.42"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.3-F4",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 7.225178268997621,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4"
+      ],
+      "bounds_s": [
+        3.663776976656353,
+        10.828521672077073
+      ],
+      "exact_bounds_s": [
+        "1946188947558406770/531197439134120941",
+        "5674228075146673230/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "3.66",
+        "10.83"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "DP-G1.5-F1",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F1": 1,
+        "S2-P6-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -1.0954433241094577,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        -4.031288873601817,
+        1.7947877668475618
+      ],
+      "exact_bounds_s": [
+        "-2112426164746288230/524007638990879059",
+        "940482500195503230/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "-4.04",
+        "1.80"
+      ],
+      "sign": "UNRESOLVED",
+      "reason": "Interval includes zero; equality/equivalence not established."
+    },
+    {
+      "contrast_id": "DP-G1.5-F2",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F2": 1,
+        "S2-P6-G1.5-F2": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -2.855707962759009,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F2",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F2",
+        "S2-P6-G1.5-F2"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "DP-G1.5-F3",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F3": 1,
+        "S2-P6-G1.5-F3": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -5.193111250960177,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F3",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F3",
+        "S2-P6-G1.5-F3"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "DP-G1.5-F4",
+      "family": "DP",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P6-G1.5-F4": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -3.49736356232591,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F4",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "I-F1",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F1": 1,
+        "S2-P6-G1.3-F1": -1,
+        "S2-P9-G1.5-F1": -1,
+        "S2-P6-G1.5-F1": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F1"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 11.980735148491943,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1",
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        3.44224882250033,
+        20.637040196972425
+      ],
+      "exact_bounds_s": [
+        "261216251339231220/75885348447731563",
+        "10813966709375385210/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "3.44",
+        "20.64"
+      ],
+      "sign": "POSITIVE",
+      "reason": "Entire supported interval > 0."
+    },
+    {
+      "contrast_id": "I-F2",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F2": 1,
+        "S2-P6-G1.3-F2": -1,
+        "S2-P9-G1.5-F2": -1,
+        "S2-P6-G1.5-F2": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F2"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 13.572493070530186,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P6-G1.3-F2",
+          "object": "displayed bar endpoints"
+        },
+        {
+          "observation_id": "S2-P9-G1.5-F2",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F2",
+        "S2-P6-G1.3-F2",
+        "S2-P9-G1.5-F2",
+        "S2-P6-G1.5-F2"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "I-F3",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F3": 1,
+        "S2-P6-G1.3-F3": -1,
+        "S2-P9-G1.5-F3": -1,
+        "S2-P6-G1.5-F3": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F3"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 14.030037631995398,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F3",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F3",
+        "S2-P6-G1.3-F3",
+        "S2-P9-G1.5-F3",
+        "S2-P6-G1.5-F3"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "I-F4",
+      "family": "I",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1,
+        "S2-P9-G1.5-F4": -1,
+        "S2-P6-G1.5-F4": 1
+      },
+      "grind_labels": [
+        "1.3",
+        "1.5"
+      ],
+      "force_groups": [
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 10.72254183132353,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F4",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4",
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "DF-P6-G1.3",
+      "family": "DF",
+      "terms": {
+        "S2-P6-G1.3-F4": 1,
+        "S2-P6-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -0.9453780783504321,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P6-G1.3-F4",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        -4.102616848668303,
+        2.209520849062104
+      ],
+      "exact_bounds_s": [
+        "-2149802568554878230/524007638990879059",
+        "1157805803418155730/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "-4.11",
+        "2.21"
+      ],
+      "sign": "UNRESOLVED",
+      "reason": "Interval includes zero; equality/equivalence not established."
+    },
+    {
+      "contrast_id": "DF-P6-G1.5",
+      "family": "DF",
+      "terms": {
+        "S2-P6-G1.5-F4": 1,
+        "S2-P6-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": 0.929812800199909,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P6-G1.5-F4",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": [
+        -2.01508769032911,
+        3.9114683584748073
+      ],
+      "exact_bounds_s": [
+        "-1055921342968940730/524007638990879059",
+        "2049639299511913230/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "-2.02",
+        "3.92"
+      ],
+      "sign": "UNRESOLVED",
+      "reason": "Interval includes zero; equality/equivalence not established."
+    },
+    {
+      "contrast_id": "DF-P9-G1.3",
+      "family": "DF",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P9-G1.3-F1": -1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -4.605491633735297,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P9-G1.3-F1"
+      ],
+      "bounds_s": [
+        -10.682183573568029,
+        1.4416378518383055
+      ],
+      "exact_bounds_s": [
+        "-5597545793652534480/524007638990879059",
+        "755429247021673230/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "-10.69",
+        "1.45"
+      ],
+      "sign": "UNRESOLVED",
+      "reason": "Interval includes zero; equality/equivalence not established."
+    },
+    {
+      "contrast_id": "DF-P9-G1.5",
+      "family": "DF",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P9-G1.5-F1": -1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -1.472107438016543,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F4",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P9-G1.5-F1"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    },
+    {
+      "contrast_id": "J-G1.3",
+      "family": "J",
+      "terms": {
+        "S2-P9-G1.3-F4": 1,
+        "S2-P6-G1.3-F4": -1,
+        "S2-P9-G1.3-F1": -1,
+        "S2-P6-G1.3-F1": 1
+      },
+      "grind_labels": [
+        "1.3"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -3.6601135553848647,
+      "missing_source_objects": [],
+      "anchor_ambiguities": [
+        "S2-P9-G1.3-F4",
+        "S2-P6-G1.3-F4",
+        "S2-P9-G1.3-F1",
+        "S2-P6-G1.3-F1"
+      ],
+      "bounds_s": [
+        -12.891704422630134,
+        5.544254700506609
+      ],
+      "exact_bounds_s": [
+        "-6755351597070690210/524007638990879059",
+        "2905231815576551460/524007638990879059"
+      ],
+      "reported_bounds_s": [
+        "-12.90",
+        "5.55"
+      ],
+      "sign": "UNRESOLVED",
+      "reason": "Interval includes zero; equality/equivalence not established."
+    },
+    {
+      "contrast_id": "J-G1.5",
+      "family": "J",
+      "terms": {
+        "S2-P9-G1.5-F4": 1,
+        "S2-P6-G1.5-F4": -1,
+        "S2-P9-G1.5-F1": -1,
+        "S2-P6-G1.5-F1": 1
+      },
+      "grind_labels": [
+        "1.5"
+      ],
+      "force_groups": [
+        "F1",
+        "F4"
+      ],
+      "pressure_labels_bar": [
+        9,
+        6
+      ],
+      "layer": "B",
+      "units": "s",
+      "nominal_central_contrast_s": -2.401920238216452,
+      "missing_source_objects": [
+        {
+          "observation_id": "S2-P9-G1.5-F4",
+          "object": "displayed bar endpoints"
+        }
+      ],
+      "anchor_ambiguities": [
+        "S2-P9-G1.5-F4",
+        "S2-P6-G1.5-F4",
+        "S2-P9-G1.5-F1",
+        "S2-P6-G1.5-F1"
+      ],
+      "bounds_s": null,
+      "exact_bounds_s": null,
+      "reported_bounds_s": null,
+      "sign": "UNSUPPORTED/INCOMPLETE",
+      "reason": "Required source endpoints are unrecoverable; no zero-width substitution."
+    }
+  ]
+}

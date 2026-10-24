@@ -491,7 +491,18 @@ def dataset_relations(dataset_entities, model_entities, commit: str = "") -> tup
                 attrs={"source_card_as_written": src_card, "resolved_to": resolved}))
         blob = " ".join([d.attrs.get("source_artifact", ""), d.attrs.get("units_as_published", ""),
                          d.attrs.get("gate_use", ""), d.label])
-        for obs, alias in observables_in_text(blob).items():
+        matched_observables = observables_in_text(blob)
+        cameron_s2 = d.label == "cameron2020/figS2_pressure_tamp"
+        if cameron_s2:
+            # SOURCE_NOTES for SCI-MD-CAMERON-PRESSURE-TAMP-001 authenticates
+            # nominal 6/9-bar conditions, not measured pressure. Shot duration
+            # has no entry in this existing observable vocabulary. Retain the
+            # source/dataset discovery node without inventing a pressure edge.
+            matched_observables.pop("pressure", None)
+            warnings.append("NO_INTERFACE_MAPPING: cameron2020/figS2_pressure_tamp "
+                            "has nominal pressure labels, not measured pressure; "
+                            "shot duration is outside the current observable vocabulary")
+        for obs, alias in matched_observables.items():
             rels.append(Relation(
                 type="MEASURES", source=d.id, target="observable:" + obs,
                 provenance=Provenance(source_path=_rel(MANIFEST_PATH),
@@ -501,6 +512,10 @@ def dataset_relations(dataset_entities, model_entities, commit: str = "") -> tup
                                       extraction_mode="manifest_alias_match",
                                       confidence="deterministically_inferred"),
                 attrs={"matched_alias": alias}))
+        if cameron_s2:
+            # This retrospective S2 intake did not calibrate either Cameron
+            # component or repair Figure 5. DERIVED_FROM above retains lineage.
+            continue
         # match the component's source prefix against the cell as written AND as resolved, so a
         # card stem carrying a suffix (romancorrochano2017_extraction) still finds its component
         keys = {k for k in (src_card, resolved) if k}

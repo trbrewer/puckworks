@@ -1,11 +1,11 @@
 {
-  "commit": "52df324ee809249eacad1233e407434260e22d46",
+  "commit": "55de3028fc456deb2fc6e9016cd3c43d51cc277a",
   "counts": {
     "candidates": 90,
-    "entities": 292,
-    "relations": 634,
+    "entities": 293,
+    "relations": 635,
     "tensions": 171,
-    "warnings": 39
+    "warnings": 41
   },
   "generator_version": 1,
   "inputs": [
@@ -15,7 +15,7 @@
     },
     {
       "path": "puckworks/data/MANIFEST.csv",
-      "sha256": "9d19894c9c065665460c33d106f0354529327c05ba096113820540a9d32df1ad"
+      "sha256": "e52b2216d41d2e765bdacb4fc041d6b7d21bee6d55202d59e0d5d8caaa5ad195"
     },
     {
       "path": "docs/public/generated/claims.json",
@@ -103,11 +103,11 @@
     },
     {
       "path": "docs/cards/cameron2020.md",
-      "sha256": "adc0ef895a37db302a43b49b1b6e3ea5fc8682a30b6c0444edd40b375049c6e5"
+      "sha256": "f6f7d311051973d79d00a72685c9e9d1f8ac4f5a1f056e4776c81af695273cb9"
     },
     {
       "path": "docs/cards/cameron2020_si.md",
-      "sha256": "546ff2e5e95dd0d0e8ece883928142f635cb90ba9cc7b3481acf15a097ade223"
+      "sha256": "fdcfc96f9dc202091f7935760a19f4b868b066bac0c1136f79edcdf78cc4f3a1"
     },
     {
       "path": "docs/cards/champion2025.md",
@@ -501,7 +501,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "483a961a57f1097bc0af40c641216180978b12a4d068713d32583ffe010be523"
+      "sha256": "a3f08eb2d3addf2457ff30e35785dc8d45347549e7e0e9549d967a6baa82e7a7"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -509,19 +509,19 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "721326f1830443e120e55597edc195bfe571080fde65ccda52a92def95c8e4d2"
+      "sha256": "918b394695a69d10e8da583b8390089351fbee213e5cebeb25f1a4c3b5a3ce26"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "d2ae473b2d09d7df4a367b2f500040b8cda953b398671f6137b8e693093fa667"
+      "sha256": "6877893487e2ca598568d8d9f355316c1fcb047080fad16b410470f4c3031883"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "da5872402cdacb9595d9d9db1bf41036414ac252dcd7862d628b0a95243dd16b"
+      "sha256": "0f41e5d1228ba6750e6e486b97f26e7b92da4c9634d2f91776210a061b543840"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
-      "sha256": "a25cf975e20e900f7672ae401073026555df0a3eafbd292ec6e38b3513f1ef52"
+      "sha256": "f0eb76645fe40cd118d21dcd97c19399f7fb23a67920eff691704fddddb2516f"
     },
     {
       "path": "docs/insights/generated/observable_index.csv",
@@ -529,15 +529,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "5dbf4ceebac457044b7efa62e9d26014185127d6d502ef477e2df1da9d724e4b"
+      "sha256": "d926f92ef68618cf1bc024ef22f4a02959c3d69d76afa20da2d5ad6978b960b7"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "ba666ca754de2116149f3b59237ea6241eb9e96e7ffa1188592bba25c1778356"
+      "sha256": "04f060214e6a8c8d40a3b992edbc5a4647480bba7f21f03fa36203736ed3e74f"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "c3c03b065bc0c333ff13728f613fa82f2780c54eb8245c80f0c8a065c95a08df"
+      "sha256": "564e44111855a24e5bbfbd23e12351acee9abf143908d42ef08a60b81ecdf715"
     }
   ],
   "pack": [
