@@ -93,13 +93,28 @@
       "passed": 207,
       "log": "isolated-focused.log",
       "log_sha256": "f9a100248ee1d420f4f99f055aa58c0f607067ece0a892ea2d138e53b9afdaa4"
+    },
+    {
+      "command": "python -m pytest -q tests/test_sci_md_004_silent_qa.py tests/test_smrke2024_transient.py tests/test_data_loaders.py",
+      "returncode": 0,
+      "passed": 94,
+      "duration_s": 15.75,
+      "log": "manifest-correction-tests.log",
+      "log_sha256": "c13d7100d12dd9142d65e76300a6dfe0bad1bac2190bcda4bfbf6f27b9edf1bf"
     }
   ],
   "full_local_quick": {
-    "status": "IN_PROGRESS_AT_RECORD_CREATION",
+    "status": "SOFTWARE_OR_QA_FAILURE_CORRECTED_BY_TARGETED_REGENERATION",
     "command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data' --junitxml=isolated-quick-report.xml --durations=15",
     "log": "isolated-quick-full.log",
-    "handoff": "Actual completion and tested head recorded in PR handoff; no pass implied."
+    "handoff": "Actual completion and tested head recorded in PR handoff; no pass implied.",
+    "passed": 7152,
+    "failed": 1,
+    "skipped": 36,
+    "deselected": 73,
+    "duration_s": 1494.43,
+    "log_sha256": "09336239d33af230487c11f8fbe9eedace74dbfe3eadb7cb257dcd56cd537e7d",
+    "failure": "tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current"
   },
   "failed_local_attempts": [
     {
@@ -160,7 +175,7 @@
     "separate_arithmetic_rerun_byte_identical": true
   },
   "hosted_ci": {
-    "status": "NOT_STARTED_AT_PRE_PUSH_RECORD",
+    "status": "FIRST_HEAD_QA_ASSERTION_FAILED_CORRECTED_HEAD_PENDING",
     "required": [
       "all-scope-strict",
       "paper3-scope-strict",
@@ -169,7 +184,59 @@
       "verify-generated"
     ],
     "handoff": "Final head, exact-head check conclusions and preserved run links recorded in PR body/handoff. No hosted success claimed by this pre-push record.",
-    "budgets_locks_selectors_coverage_unchanged": true
+    "budgets_locks_selectors_coverage_unchanged": true,
+    "first_attempt": {
+      "head": "dc5345d6b099e635d092e6012e26a2e8125ea318",
+      "run_id": 40111529675,
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675",
+      "classification": "SOFTWARE_OR_QA_FAILURE",
+      "cause": "Generated protected-test manifest source-selector hash stale after line offsets changed in test_data_loaders.py. No selector membership or policy change.",
+      "jobs": [
+        {
+          "job_id": 120924091016,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091016",
+          "summary": [
+            "2026-10-24T16:41:26.9149967Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:41:27.2589361Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 907.70s (0:15:07)"
+          ]
+        },
+        {
+          "job_id": 120924090844,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924090844",
+          "summary": [
+            "2026-10-24T16:42:14.2666350Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:42:14.4659610Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 957.06s (0:15:57)"
+          ]
+        },
+        {
+          "job_id": 120924091140,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091140",
+          "summary": [
+            "2026-10-24T16:42:25.6162134Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:42:25.9869708Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 966.07s (0:16:06)"
+          ]
+        },
+        {
+          "job_id": 120924091182,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091182",
+          "summary": [
+            "2026-10-24T16:41:32.1813633Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:41:32.5494806Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 897.88s (0:14:57)"
+          ]
+        }
+      ]
+    },
+    "correction": {
+      "command": "python -m tools.generate_protected_test_manifest",
+      "file": "tests/protected_target_test_manifest.json",
+      "changed_fields": [
+        "source_selector_sha256"
+      ],
+      "old_hash": "e4433714e3fdf8ef55755db50b844fcd042a533a7f02f7bbe444756242a613e6",
+      "new_hash": "091c222265ecf484010887997b1e5fab910bb3bd2000e753efad7629deca3aee",
+      "selector_membership_unchanged": true,
+      "scientific_review_bound_files_unchanged": 26
+    }
   },
   "external_log_directory": "/home/tim/smrke-transient-evidence"
 }

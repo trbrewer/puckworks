@@ -2,7 +2,7 @@
   "coverage_violations": [],
   "generation_basis": "STATIC_AST_NO_TEST_IMPORT_NO_API_EXECUTION",
   "schema_version": "puckworks.protected-target-test-manifest/v2",
-  "source_selector_sha256": "e4433714e3fdf8ef55755db50b844fcd042a533a7f02f7bbe444756242a613e6",
+  "source_selector_sha256": "091c222265ecf484010887997b1e5fab910bb3bd2000e753efad7629deca3aee",
   "static_target_reference_coverage": [
     {
       "module_path": "tests/test_data_loaders.py",

@@ -45,8 +45,10 @@ python -m pytest -q -m 'not slow and not live and not gpu and not external_data'
   --junitxml=isolated-quick-report.xml --durations=15
 ```
 
-It was running when this record was created. Its actual completion and final
-tested head are recorded in the PR handoff; startup is not a passing result.
+The first complete isolated run finished with 7,152 passes, one failure,
+36 skips and 73 deselections in 1,494.43 s. The failure and its correction are
+recorded below; this is not labelled a passing full-suite run. The final tested
+head and hosted completion are recorded in the PR handoff.
 The isolated environment is Python 3.12 with the current worktree installed
 editable. [VERIFICATION.json](VERIFICATION.json) records exact versions,
 commands, log hashes, reproduction hashes and dispositions.
@@ -70,6 +72,21 @@ previous failures. Full failed logs remain in the external evidence directory,
 with identities and resolutions in VERIFICATION.json. Scientific producer
 corrections and withdrawn initial witnesses have their separate preserved
 identities in the data family's CORRECTION.md; they are not hidden by test status.
+
+The first hosted quick workflow on `dc5345d6b099e635d092e6012e26a2e8125ea318`
+also found the single stale generated-test-manifest assertion. The S1 intake
+test edit moved later protected-test source line numbers, changing the static
+selector hash. `python -m tools.generate_protected_test_manifest` updates only
+`source_selector_sha256` in `tests/protected_target_test_manifest.json`.
+Every selector, marker, category, reference and coverage rule is identical.
+No protected measurements are read by this static AST generator. This is a
+normal projection correction, not a weakening of the test or historical verifier.
+The failed [workflow 40111529675](https://github.com/trbrewer/puckworks/actions/runs/40111529675)
+is retained as SOFTWARE_OR_QA_FAILURE. The corrected affected selection passed
+94 tests (silent-QA manifest checks, S1 analysis and data loaders) in 15.75 s.
+All independent-review-bound scientific files and the 42 protected historical
+files remain unchanged. Final hosted runs test the follow-up commit; unchanged
+scientific calculations and the independent review are reused by hash.
 
 ## Hosted CI and final handoff
 
