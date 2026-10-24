@@ -39,12 +39,27 @@ closeout, rather than embedding a commit's own hash in its tree.
   affected corpus checks passed 82/82. No source/test/gate relaxation was made.
 - A broad local suite was started at the base before edits, while later files
   were still being updated; it is not claimed as final-head qualification.
+  It completed with 7,151 passes and two failures (the changing family-index
+  snapshot and stale claim-binding audit), both passing in fresh focused runs.
   Final full-suite attribution belongs to the exact-head hosted checks below.
 - A fresh generated-document check identified a stale claim-binding fingerprint
   after the Paper 3 corpus count update. The existing claim-binding producer
   refreshed that fingerprint, followed by its dependent Insight outputs. The
   affected staleness test and Insight verification then passed. The scientific
   observations, contrasts and figure were unchanged.
+- Hosted coverage on intermediate head `55de3028` found two integration defects:
+  the added README paragraph exceeded its existing byte bound, and discovery
+  alias-matched S2's nominal pressure label into a measured-pressure edge,
+  replacing two active candidate identities. The redundant paragraph was removed
+  (README returns to the base); a dataset-specific discovery correction retains
+  source lineage without unsupported pressure-measurement/calibration edges.
+  Existing warning categories, tests and thresholds are unchanged. The original
+  reviewer accepted this narrow correction; all 342 unrelated discovery relations
+  and all 90 base active candidate IDs/memberships remain unchanged. Numerical
+  observations, contrasts and figure retain their reviewed hashes.
+  The full Insight structural suite, bounded README checks and eight S2 checks
+  then passed together: **127 passed**. Insight regeneration verification, Ruff
+  on the changed extractor/test, and whitespace checks also passed.
 
 Commands (from the checkout; use an environment satisfying pyproject.toml):
 
@@ -57,6 +72,8 @@ python -m pytest -q tests/test_cameron2020_pressure_tamp.py \
   tests/test_espresso_data_guide.py tests/test_data_loaders.py \
   tests/test_readme_governance.py tests/test_paper3_corpus.py
 python -c 'from puckworks.registry import run_all_gates; run_all_gates()'
+python -m pytest -q tests/insights/test_foundry.py tests/test_readme.py \
+  tests/test_cameron2020_pressure_tamp.py
 ```
 
 ## Generated surfaces and preservation

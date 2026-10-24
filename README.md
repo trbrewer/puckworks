@@ -186,10 +186,6 @@ a model predicts observations it was not fitted to. These are different levels o
 independent measurement is a stronger test than reproducing a curve that was used to tune the model.
 Every dataset and its evidence level is recorded, one row per artifact, in
 [`puckworks/data/MANIFEST.csv`](puckworks/data/MANIFEST.csv).
-The [Cameron S2 pressure/tamp dataset](docs/analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
-adds 16 plotted summaries with separate reading bounds and partial displayed
-extents; its pressure-by-grind relationship is source-internal, with no physical
-validation or automatic pressure conversion.
 
 <!-- puckworks-data-inventory:start -->
 

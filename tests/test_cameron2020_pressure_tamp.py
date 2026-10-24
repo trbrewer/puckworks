@@ -129,3 +129,20 @@ def test_reproduction_and_qualified_projection(tmp_path):
     m.write(d,tmp_path)
     for name in ['contrasts.json','contrasts.csv','observations.csv','CONTRASTS.md','COMPARISON.svg']:
         assert (tmp_path/name).read_bytes()==(m.OUTPUT/name).read_bytes()
+
+
+def test_discovery_does_not_promote_nominal_pressure_or_invent_calibration():
+    from puckworks.insights import extract
+
+    datasets, _ = extract.extract_manifest()
+    models, _ = extract.extract_registry()
+    relations, warnings = extract.dataset_relations(datasets, models)
+    source = 'dataset:cameron2020/figS2_pressure_tamp'
+    assert any(r.type == 'DERIVED_FROM' and r.source == source
+               and r.target == 'card:cameron2020' for r in relations)
+    assert not any(r.type == 'MEASURES' and r.source == source
+                   and r.target == 'observable:pressure' for r in relations)
+    assert not any(r.type == 'CALIBRATED_FROM' and r.target == source
+                   for r in relations)
+    assert any('NO_INTERFACE_MAPPING: cameron2020/figS2_pressure_tamp' in w
+               for w in warnings)

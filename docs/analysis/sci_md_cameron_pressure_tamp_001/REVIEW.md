@@ -125,3 +125,16 @@ necessarily difficult to see at the full figure scale.
 These corrections change no question, allowance, contrast choice or scientific
 conclusion. No further scientific review round or successor study is needed for
 this bounded result. **PHYSICAL_VALIDATION=NOT_ESTABLISHED.**
+
+## Closure of a hosted-CI discovery defect
+
+The same reviewer narrowly checked the subsequent S2 discovery correction.
+The general alias matcher had incorrectly treated the nominal pressure label as
+a measured-pressure observable and inferred calibration from a shared source
+card. The dataset-specific correction retains S2's source lineage, suppresses
+those unsupported edges, and uses the existing `NO_INTERFACE_MAPPING` warning
+to identify the shot-duration vocabulary limitation. The reviewer confirmed all
+342 unrelated relations are unchanged, all 90 active candidate IDs/memberships
+match the base, and original registry mappings remain preserved. The focused
+regression passed. **Correction accepted; no outstanding defect.** No scientific
+artifact changed and no broader source review or successor study was performed.
