@@ -1,0 +1,80 @@
+schema_version: 1
+trigger_id: PW-PUB-2026-002
+publication_trigger: true
+source:
+  repository: puckworks
+  event_type: public_explainer
+  identifier: commit:40246bb3a5dbee3be2b539251c5191584666ecdd
+  source_url: null
+  detected_at: "2026-08-28T19:36:41Z"
+scientific_state:
+  disposition: PW_PUB_002_R1_FOSTER_WETTING_AND_FIRST_DRIP_READER_EXPLAINER_AUTHORIZED_CURRENT_SCIENTIFIC_CLAIM_CEILING_UNCHANGED
+  claim_ceiling_path: docs/publishing/PUBLISHING_SYSTEM.md
+  project_state_path: docs/status/current.json
+  evidence_level: mixed
+  hypothesis_ids: []
+  changes_claim_ceiling: false
+recommended_content:
+  archetype: finding_report
+  provisional_title: "What happens before the first drop of espresso?"
+  slug: what-happens-before-the-first-drop
+  public_value_summary: "Explains what is physically happening during the quiet delay before espresso appears and how first-drip time can be used as a bounded diagnostic."
+  urgency: routine
+  target_platforms: [substack, medium]
+artifacts:
+  - repository: puckworks
+    path: docs/publishing/PUBLISHING_SYSTEM.md
+    commit_sha: 40246bb3a5dbee3be2b539251c5191584666ecdd
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the reader-first publication ceiling, internal evidence controls, bounded practical-guidance rules, and human editorial gate
+  - repository: puckworks
+    path: docs/status/current.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the canonical current project state and bounded status of the Foster first-drip reference case
+  - repository: puckworks
+    path: docs/cards/foster2025_2.md
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the Foster source experiment, implementation scope, fitted-model boundary, wetting observations, first-drip values, and applicability limits
+  - repository: puckworks
+    path: puckworks/validation/gates.py
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the executable first-drip bracket gate, observation crossing, porosity bracket, and pass criterion
+  - repository: puckworks
+    path: puckworks/data/de1_fixtureA.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the exact DE1 fixture inputs, recorded pressure and weight traces, fitted permeability multiplier, and observation context used by the gate
+  - repository: puckworks
+    path: puckworks/paper3/EVIDENCE_LINKS.json
+    commit_sha: dfe0bdc761574e3327fa96f1d84e8199e156c192
+    issue_number: null
+    pull_request_number: null
+    release_tag: null
+    run_id: null
+    sha256: null
+    purpose: establishes the adjudicated same-campaign compatibility classification and the limit on calling the first-drip comparison parameter-free
+stop_reasons: []
+owner_notes: "Reader-first replacement master for Tim Brewer's human scientific and editorial review only; no platform preparation, approval, or publication is authorized."
