@@ -1,0 +1,25 @@
+{
+  "source": {
+    "doi": "10.1038/s41598-024-55831-x",
+    "authors": "Smrke, Eiermann and Yeretzian (2024)",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "docx": "41598_2024_55831_MOESM1_ESM.docx",
+    "docx_sha256": "3979d56519975550a7bf6b67684f7b6243b0b1f527795b94201d9d8ea91e2859",
+    "image_member": "word/media/image1.jpeg",
+    "image_sha256": "79a208a13500b230eaae9e89d66e641e8f459e5fa0797f769a838b6f8bfba36e",
+    "image_size_px": [
+      1680,
+      1041
+    ]
+  },
+  "observations": 14753,
+  "generic_ink_fragments": 5866,
+  "excluded_colour_runs": 515,
+  "selected_regions": 3,
+  "qualified_objects": 4,
+  "physical_shots_recovered": 0,
+  "cells": 225,
+  "bridge_cells": 20,
+  "note": "Ink fragments and selected objects overlap; do not sum them as traces or shots."
+}

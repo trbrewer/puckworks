@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+**2026-10-24 Smrke S1 correction:** the active `smrke2024/figures` S1 route now serves native-coordinate observations with explicit support/identity limits. One partial setting250,1g-vs2g window contrast qualifies; zero-added-fines comparisons and temporal shapes remain unresolved. Figure3 and accepted endpoint evidence are unchanged. [Result](../analysis/sci_md_smrke_transient_hydraulics_001/RESULT.md). PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-23 Maille swelling evidence:** [conditional graphical result](../analysis/sci_md_maille_swelling_evidence_001/RESULT.md) excludes fixed-population/common-scaling C_V/x50³ on retained poster support. Physical geometric-growth bound remains null/NOT_IDENTIFIABLE; entrainment is qualitative, no C_M/D_W constraint. The2021 study and its republications are distinct from2024 extraction. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 **SCI-MD-CORROCHANO-DENSITY-NORMALIZATION-001:** pure positive density scaling is excluded under the retained Figure 6.2 reading contract (1/66 primary 50→250 N; 1/990 overall). A simultaneous 72-reading witness remains compatible with one finite six-level response after sample-specific constant density baseline and positive amplitude. No whole-grind ordering or identical actual/continuous shape is established. [Result](../analysis/sci_md_corrochano_density_normalization_001/RESULT.md). G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NONSCORING; PHYSICAL_VALIDATION=NOT_ESTABLISHED. Same dataset/campaign; EWP and accepted predecessors unchanged. Earlier dated scope statements below remain historical.
@@ -868,15 +870,15 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 18 files / 1,798,156 bytes; 10 structured files, 18 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-Figures 2–7 and supplementary Fig S1 are present as digitized CSVs and images. Fig S1: 18,001 time/flow/series/run-index rows; PSD curves: 4,342 sampled curve rows. Fitted PLSR/sensory curves are separate from experimental marker digitizations.
+The historical corpus snapshot includes the legacy18,001-row S1 digitization; its wrong y scale, legend contamination and nonpersistent run_index were corrected in the active repository route by SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001. The authenticated supplement is held. Historical snapshot counts remain unchanged.
 
-Fines/PSD/flow-shape and observation-operator context. Dense pixel-derived points are not independent shots. The card statement that the supplement was not held at intake is historical; this census confirms its digitization is held, without recovering native machine logs.
+Current S1 uses native source-coordinate ink with explicit identity/support limits and conditional graphical windows; no native machine logs or physical shot identities were recovered. Figure3 endpoints, S-A and blocked S-B remain unchanged.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `smrke2024/figures` — [smrke2024](../cards/smrke2024.md); Sci. Rep. 14:5612 digitized figures Fig 2-7 + Supp Fig S1 (EY-vs-time across 0/1/2/4 g added fines; PSD; PLSR; predicted-vs-measured; PTR-MS; sensory; per-shot flow profiles) | figure digitization (axis-tick calibration + colour-masked marker centroids with overlap-split flags); SI Fig S1 from MOESM1; published: s ; % ; um ; g/s ; ncps; registry: s ; % ; um ; g/s ; - | Smrke et al. 2024, Scientific Reports (CC BY 4.0); DOI 10.1038/s41598-024-55831-x; raw on request from S. Smrke; no published coefficients/error stats so no reproduction gate is possible; the fines-mechanism claim is an absence-of-effect argument at n=3/condition; sensory is single Q-grader (not double-blind); PTR-MS IDs tentative; marker-overlap uncertainty on some Fig 3 clusters |
+| `smrke2024/figures` — [smrke2024](../cards/smrke2024.md); Sci. Rep. 14:5612 Figures 2-7 plus authenticated Supp Fig S1; corrected S1 native ink observations and conditional fragment/bundle windows; Figure3 endpoint rows unchanged | Figures2-7 historical digitization; S1 fresh native-image colour runs and audited graphical enclosures with source coordinates; no run-index shot identity; published: s ; % ; um ; g/s ; ncps; registry: s ; % ; um ; g/s ; - | Smrke et al. 2024, Scientific Reports (CC BY 4.0); DOI 10.1038/s41598-024-55831-x; raw on request from S. Smrke; S1 derivative of beverage mass g/s on literal published time; 12 intended conditions/36 nominal extractions; no recovered physical-shot identities; incomplete represented-condition coverage; authors permeability-only interpretation not demonstrated; Figure3 accepted endpoint evidence preserved historically |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### sobolik2002
 

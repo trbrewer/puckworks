@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820">
+<rect width="1200" height="820" fill="white"/>
+<text x="25" y="30" font-size="22">S1 window-mean plotted flow: conditional graphical bounds; missingness retained</text>
+<text x="20" y="55" font-size="16">4 g replacement, setting 250: B250-U.1; partial condition support</text>
+<path d="M86.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M122.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M158.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M194.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M230.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M266.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M302.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M338.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M374.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M410.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M446.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M482.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M518.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M554.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M590.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M626.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M662.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M698.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M734.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M770.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M806.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M842.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M878.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M914.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M950.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M986.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1022.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1058.0,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1082.0612661674609,180 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M77.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M104.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M140.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M176.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M212.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<rect x="232.0" y="147.06520231213872" width="36.0" height="2.9521387283236993" fill="#b54572" fill-opacity="0.25" stroke="#b54572" stroke-width="2"><title>SHIFTED:B250-U.1:05: mean over 13.5–16.5 s, 1.665703..1.829711 g/s; not an instantaneous flow band</title></rect>
+<path d="M284.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M320.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M356.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M392.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M428.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M464.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M500.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M536.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M572.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M608.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M644.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M680.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M716.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M752.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M788.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M824.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M860.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M896.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M932.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M968.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1004.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1040.0,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1073.0612661674609,184 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M70,180 H1090" stroke="black"/>
+<text x="70" y="203" font-size="14">0 s</text>
+<text x="310" y="203" font-size="14">20 s</text>
+<text x="550" y="203" font-size="14">40 s</text>
+<text x="790" y="203" font-size="14">60 s</text>
+<text x="1030" y="203" font-size="14">80 s</text>
+<text x="28" y="185" font-size="12">0</text>
+<text x="28" y="149" font-size="12">2</text>
+<text x="28" y="113" font-size="12">4</text>
+<text x="28" y="77" font-size="12">6</text>
+<text x="20" y="225" font-size="16">4 g replacement, setting 250: B250-U.2; partial condition support</text>
+<path d="M86.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M122.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M158.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M194.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M230.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M266.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<rect x="286.0" y="305.89271676300575" width="36.0" height="2.653526011560695" fill="#005b82" fill-opacity="0.25" stroke="#005b82" stroke-width="2"><title>PRIMARY:B250-U.2:06: mean over 18.0–21.0 s, 2.302987..2.450405 g/s; not an instantaneous flow band</title></rect>
+<path d="M338.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M374.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M410.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M446.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M482.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M518.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M554.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M590.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M626.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M662.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M698.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M734.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M770.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M806.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M842.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M878.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M914.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M950.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M986.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1022.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1058.0,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1082.0612661674609,350 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M77.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M104.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M140.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M176.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M212.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M248.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M284.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M320.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M356.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M392.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M428.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M464.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M500.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M536.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M572.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M608.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M644.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M680.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M716.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M752.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M788.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M824.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M860.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M896.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M932.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M968.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1004.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1040.0,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1073.0612661674609,354 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M70,350 H1090" stroke="black"/>
+<text x="70" y="373" font-size="14">0 s</text>
+<text x="310" y="373" font-size="14">20 s</text>
+<text x="550" y="373" font-size="14">40 s</text>
+<text x="790" y="373" font-size="14">60 s</text>
+<text x="1030" y="373" font-size="14">80 s</text>
+<text x="28" y="355" font-size="12">0</text>
+<text x="28" y="319" font-size="12">2</text>
+<text x="28" y="283" font-size="12">4</text>
+<text x="28" y="247" font-size="12">6</text>
+<text x="20" y="395" font-size="16">1 g replacement, setting 250: M250-BUNDLE; partial condition support</text>
+<path d="M86.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M122.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<rect x="142.0" y="421.53063583815026" width="36.0" height="31.463583815028894" fill="#005b82" fill-opacity="0.25" stroke="#005b82" stroke-width="2"><title>PRIMARY:M250-BUNDLE:02: mean over 6.0–9.0 s, 3.722543..5.470520 g/s; not an instantaneous flow band</title></rect>
+<path d="M194.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M230.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M266.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M302.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M338.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M374.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M410.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M446.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M482.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M518.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M554.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M590.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M626.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M662.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M698.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M734.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M770.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M806.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M842.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M878.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M914.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M950.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M986.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1022.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1058.0,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1082.0612661674609,520 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M77.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M104.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M140.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M176.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M212.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M248.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M284.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M320.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M356.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M392.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M428.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M464.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M500.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M536.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M572.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M608.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M644.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M680.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M716.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M752.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M788.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M824.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M860.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M896.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M932.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M968.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1004.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1040.0,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1073.0612661674609,524 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M70,520 H1090" stroke="black"/>
+<text x="70" y="543" font-size="14">0 s</text>
+<text x="310" y="543" font-size="14">20 s</text>
+<text x="550" y="543" font-size="14">40 s</text>
+<text x="790" y="543" font-size="14">60 s</text>
+<text x="1030" y="543" font-size="14">80 s</text>
+<text x="28" y="525" font-size="12">0</text>
+<text x="28" y="489" font-size="12">2</text>
+<text x="28" y="453" font-size="12">4</text>
+<text x="28" y="417" font-size="12">6</text>
+<text x="20" y="565" font-size="16">2 g replacement, setting 250: P250-BUNDLE; partial condition support</text>
+<path d="M86.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M122.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<rect x="142.0" y="636.6867052023122" width="36.0" height="40.20346820809249" fill="#005b82" fill-opacity="0.25" stroke="#005b82" stroke-width="2"><title>PRIMARY:P250-BUNDLE:02: mean over 6.0–9.0 s, 0.728324..2.961850 g/s; not an instantaneous flow band</title></rect>
+<path d="M194.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M230.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M266.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M302.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M338.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M374.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M410.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M446.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M482.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M518.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M554.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M590.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M626.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M662.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M698.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M734.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M770.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M806.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M842.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M878.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M914.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M950.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M986.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1022.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1058.0,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1082.0612661674609,690 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M77.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M104.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M140.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M176.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M212.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M248.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M284.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M320.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M356.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M392.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M428.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M464.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M500.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M536.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M572.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M608.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M644.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M680.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M716.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M752.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M788.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M824.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M860.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M896.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M932.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M968.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1004.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1040.0,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M1073.0612661674609,694 l4,4 m-4,0 l4,-4" stroke="#aaa"/>
+<path d="M70,690 H1090" stroke="black"/>
+<text x="70" y="713" font-size="14">0 s</text>
+<text x="310" y="713" font-size="14">20 s</text>
+<text x="550" y="713" font-size="14">40 s</text>
+<text x="790" y="713" font-size="14">60 s</text>
+<text x="1030" y="713" font-size="14">80 s</text>
+<text x="28" y="695" font-size="12">0</text>
+<text x="28" y="659" font-size="12">2</text>
+<text x="28" y="623" font-size="12">4</text>
+<text x="28" y="587" font-size="12">6</text>
+<text x="25" y="780" font-size="15">Boxes: window-mean bounds across averaging windows (not instantaneous bands). Blue: primary; magenta: shifted; ×: unsupported. g/s.</text>
+<text x="25" y="805" font-size="15">Source: Smrke et al. 2024, S1 (CC BY 4.0). Not laboratory uncertainty, shot replicates or physical validation.</text>
+</svg>

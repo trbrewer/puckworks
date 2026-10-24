@@ -1,0 +1,15 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
+  "phase": "RETROSPECTIVE_CONTRACT_BEFORE_NUMERICAL_CONTRASTS",
+  "files": {
+    "puckworks/data/smrke2024/s1/contract.json": "22d74189fe2879adefcc847a3671867ce21f5112cb32fdbd5afff5b55e4d92a3",
+    "puckworks/data/smrke2024/s1/regions.json": "2a535b65181a71d86f95fcd9a3135a0214baff32e8350080ad7f4b7af44e3c42"
+  },
+  "material_corrections": [
+    {
+      "file": "puckworks/data/smrke2024/s1/qualification_correction.json",
+      "sha256": "5876dddb9be65d3810e98367dfaf9b992a938ee5c86eafbff0634b2d665a80fd",
+      "chronology": "After initial producer calculations and independent review, before corrected calculation. Original contract/regions hashes remain unchanged."
+    }
+  ]
+}

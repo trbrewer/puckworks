@@ -1,0 +1,165 @@
+[
+  {
+    "grinder_setting": 190,
+    "replacement_fines_g": 0,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 190,
+    "replacement_fines_g": 1,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 190,
+    "replacement_fines_g": 2,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 190,
+    "replacement_fines_g": 4,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 210,
+    "replacement_fines_g": 0,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 210,
+    "replacement_fines_g": 1,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 210,
+    "replacement_fines_g": 2,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 210,
+    "replacement_fines_g": 4,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 250,
+    "replacement_fines_g": 0,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 250,
+    "replacement_fines_g": 1,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [
+      "M250-BUNDLE"
+    ],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 250,
+    "replacement_fines_g": 2,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [
+      "P250-BUNDLE"
+    ],
+    "retained_persistent_fragments": 0,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  },
+  {
+    "grinder_setting": 250,
+    "replacement_fines_g": 4,
+    "nominal_extractions": 3,
+    "recovered_physical_shots": 0,
+    "source_visible_trace_count": null,
+    "generic_fragments_with_admissible_membership": 5866,
+    "retained_objects": [
+      "B250-U.1",
+      "B250-U.2"
+    ],
+    "retained_persistent_fragments": 2,
+    "condition_envelope_complete": false,
+    "unknown_fully_hidden_support": "UNKNOWN",
+    "reason": "Visible complete trajectory counts not identifiable; generic memberships overlap settings."
+  }
+]

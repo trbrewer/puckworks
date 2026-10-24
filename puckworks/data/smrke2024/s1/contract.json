@@ -1,0 +1,184 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
+  "version": 1,
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NONSCORING",
+  "parent_dataset": "smrke2024/figures",
+  "subset": "Supplementary Figure S1",
+  "source": {
+    "doi": "10.1038/s41598-024-55831-x",
+    "authors": "Smrke, Eiermann and Yeretzian (2024)",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "docx": "41598_2024_55831_MOESM1_ESM.docx",
+    "docx_sha256": "3979d56519975550a7bf6b67684f7b6243b0b1f527795b94201d9d8ea91e2859",
+    "image_member": "word/media/image1.jpeg",
+    "image_sha256": "79a208a13500b230eaae9e89d66e641e8f459e5fa0797f769a838b6f8bfba36e",
+    "image_size_px": [
+      1680,
+      1041
+    ]
+  },
+  "calibration": {
+    "pixel_origin": "top-left; native integer pixel centers; x right, y down",
+    "x_ticks_px": [
+      78,
+      446,
+      813,
+      1180,
+      1547
+    ],
+    "x_tick_values_s": [
+      0,
+      20,
+      40,
+      60,
+      80
+    ],
+    "y_ticks_px": [
+      943,
+      819,
+      696,
+      572,
+      449,
+      325,
+      202,
+      78
+    ],
+    "y_tick_values_g_s": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "x_anchors_px": [
+      78,
+      1547
+    ],
+    "x_values_s": [
+      0,
+      80
+    ],
+    "y_anchors_px": [
+      943,
+      78
+    ],
+    "y_values_g_s": [
+      0,
+      7
+    ],
+    "anchor_allowance_px": "1",
+    "reading_allowance_y_px": "2",
+    "nominal_x_tick_residual_px": [
+      "0",
+      "3/4",
+      "1/2",
+      "1/4",
+      "0"
+    ],
+    "nominal_y_tick_residual_px": [
+      "0",
+      "-3/7",
+      "1/7",
+      "-2/7",
+      "2/7",
+      "-1/7",
+      "3/7",
+      "0"
+    ],
+    "transform": "t=80*(x-78)/1469; q=7*(943-y)/865; uncertain anchors vary independently +/-1 px; positive orientation required",
+    "dependence": "One shared affine calibration is physically admitted; computations use conservative pointwise outer relaxation containing every global choice, not independent calibration evidence."
+  },
+  "masks": [
+    {
+      "id": "outside_plot",
+      "kind": "outside_rectangle",
+      "box": [
+        78,
+        78,
+        1639,
+        943
+      ],
+      "reason": "axis labels, text and outer whitespace; black axes excluded also by colour mask"
+    },
+    {
+      "id": "legend",
+      "kind": "rectangle",
+      "box": [
+        1200,
+        78,
+        1639,
+        286
+      ],
+      "reason": "all legend samples, text, frame; known legacy yellow 65.01 s /3.3948 g/s is legend ink at native x~1272,y~104"
+    },
+    {
+      "id": "axis_ink",
+      "kind": "achromatic",
+      "reason": "saturation below 0.25 excludes black axes/ticks and text"
+    }
+  ],
+  "colour_rules": {
+    "space": "HSV from native decoded JPEG RGB; hue degrees; saturation>=0.25; value>=0.15",
+    "yellow": [
+      30,
+      50,
+      0
+    ],
+    "magenta": [
+      330,
+      355,
+      1
+    ],
+    "purple": [
+      265,
+      300,
+      2
+    ],
+    "blue": [
+      185,
+      210,
+      4
+    ]
+  },
+  "style_rules": {
+    "solid": 250,
+    "dashed": 210,
+    "dotted": 190,
+    "unresolved_alternatives": [
+      190,
+      210,
+      250
+    ],
+    "rule": "Colour alone supplies replacement mass. Generic source-ink fragments have ambiguous style. Definite solid regions below are visually recognized from continuity and context, never from flow magnitude or run rank."
+  },
+  "gap_rule": {
+    "max_missing_columns": 4,
+    "occlusion_guard_y_px": 4,
+    "bridge": "Only selected blue solid corridor, or visually audited solid bundles: bounded other-colour/raster occlusions. Blue missing columns use full endpoint ordinate hull expanded by 4px, not a physical smoothness claim. All intervening values are assumed within this hull; conclusion conditional on this graphical rule. Known dash/dot gaps are never bridged.",
+    "unknown_gap": "UNSUPPORTED: no finite enclosure; no renormalization"
+  },
+  "identity_rule": "Generic fragments are maximal one-to-one adjacent-column ink-run chains; branch/merge terminates identity. They are connected raster fragments, not shots. Selected blue corridor is isolated from other blue branches; no rank-following across same-colour crossing. Bundles enclose all retained continuations without labeling individual trajectories.",
+  "phase_rule": "Before comparison, selected regions are GRAPHICAL_INTERIOR because baseline departures precede them and visible continuation follows. A terminal candidate requires a falling branch continuing to a near-baseline endpoint/tail; low or falling flow alone is insufficient. Operational brewing phase remains UNRESOLVED. Other ink is UNRESOLVED unless audited region assigns startup, terminal-candidate or tail.",
+  "clipping": "Any retained target touching an axis boundary lacks a finite enclosure of unseen continuation. Do not cap at 0 or7. Whole affected window unsupported. Yellow top contact x188..192,y78..82 and right blue contact x1637..1639,y~770..880 explicitly retained as censoring diagnostics.",
+  "window_design": {
+    "duration_s": "3",
+    "primary_offset_s": "0",
+    "sensitivity_offset_s": "3/2",
+    "display_domain_s": [
+      "0",
+      "85"
+    ],
+    "integration_cell_s": "1/20",
+    "remainders": "Keep [0,1.5] sensitivity leading and all terminal remainders; no full-window status for remainders. Every fragment/bundle has every domain window request, including unsupported requests.",
+    "comparisons": "All ordered pairs of complete interior windows on each persistent fragment; all successive triples; constant intersection across all maximal supported windows per lattice. All 18 fixed-setting fines pairs on every common complete interior window; 0 versus1/2/4 primary.",
+    "multiplier": "All fixed persistent fragment pairings per intended condition pair. Use every maximal common supported interior window per lattice, no interval search or partner switching; at least2 complete common windows. Union of intersections over fixed alternatives. Bundles with unresolved persistent identity cannot supply multiplier evidence."
+  },
+  "units": "Derivative of beverage mass, g/s; literal published time, s. Not volumetric flow, puck throughput or permeability.",
+  "reading_uncertainty": "Graphical enclosure allowances only; not lab error bars, replicate uncertainty, confidence intervals or bounds on balance response.",
+  "normalized_shape_support": "UNRESOLVED_SOURCE_SUPPORT",
+  "physical_validation": "NOT_ESTABLISHED"
+}

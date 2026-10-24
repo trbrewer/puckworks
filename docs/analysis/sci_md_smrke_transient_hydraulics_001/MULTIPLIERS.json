@@ -1,0 +1,290 @@
+[
+  {
+    "pair_id": "190:0:1",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:0:1",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:0:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:0:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:0:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:0:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:1:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:1:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:1:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:1:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:2:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "190:2:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:1",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:1",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:0:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:1:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:1:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:1:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:1:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:2:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "210:2:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:1",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:1",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:0:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:1:2",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:1:2",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:1:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:1:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:2:4",
+    "lattice": "PRIMARY",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  },
+  {
+    "pair_id": "250:2:4",
+    "lattice": "SHIFTED",
+    "fixed_pairings": [],
+    "status": "UNSUPPORTED",
+    "reason": "NO_TWO_PERSISTENT_CONDITION_MEMBERS",
+    "condition_coverage": "INCOMPLETE"
+  }
+]

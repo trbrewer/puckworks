@@ -1,0 +1,229 @@
+{
+  "retained": [
+    {
+      "id": "B250-U",
+      "kind": "persistent_fragment",
+      "colour": "blue",
+      "fines_g": 4,
+      "grinder_setting": 250,
+      "membership": "DEFINITE",
+      "alternatives": [
+        "250:4"
+      ],
+      "phase": "GRAPHICAL_INTERIOR",
+      "x_support_px": [
+        300,
+        528
+      ],
+      "polygon": [
+        [
+          300,
+          550
+        ],
+        [
+          528,
+          550
+        ],
+        [
+          528,
+          675
+        ],
+        [
+          500,
+          690
+        ],
+        [
+          460,
+          700
+        ],
+        [
+          420,
+          730
+        ],
+        [
+          380,
+          760
+        ],
+        [
+          340,
+          800
+        ],
+        [
+          300,
+          815
+        ]
+      ],
+      "reading": "All blue ink inside corridor; complete one-branch support only where per-column/gap rule succeeds. End before same-colour mergers near x530 onward.",
+      "coverage": "ONE_RETAINED_FRAGMENT_NOT_COMPLETE_CONDITION",
+      "persistent": true
+    },
+    {
+      "id": "M250-BUNDLE",
+      "kind": "branch_bundle",
+      "colour": "magenta",
+      "fines_g": 1,
+      "grinder_setting": 250,
+      "membership": "DEFINITE",
+      "alternatives": [
+        "250:1"
+      ],
+      "phase": "GRAPHICAL_INTERIOR",
+      "x_support_px": [
+        185,
+        247
+      ],
+      "y_enclosure_px": [
+        270,
+        480
+      ],
+      "reading": "Broad whole-slab enclosure of visible continuous magenta cluster, including crossings and narrow yellow occlusions; no individual partner assigned.",
+      "coverage": "RETAINED_SOLID_BRANCH_BUNDLE_CONDITION_COMPLETENESS_UNRESOLVED",
+      "persistent": false
+    },
+    {
+      "id": "P250-BUNDLE",
+      "kind": "branch_bundle",
+      "colour": "purple",
+      "fines_g": 2,
+      "grinder_setting": 250,
+      "membership": "DEFINITE",
+      "alternatives": [
+        "250:2"
+      ],
+      "phase": "GRAPHICAL_INTERIOR",
+      "x_support_px": [
+        185,
+        247
+      ],
+      "y_enclosure_px": [
+        580,
+        850
+      ],
+      "reading": "Broad whole-slab enclosure of visible continuous purple cluster, including all retained crossings/continuations. Lower strokes outside slab have dashed/dotted context, but full condition completeness is not certified.",
+      "coverage": "RETAINED_SOLID_BRANCH_BUNDLE_CONDITION_COMPLETENESS_UNRESOLVED",
+      "persistent": false
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "yellow_top_contact",
+      "box": [
+        188,
+        78,
+        192,
+        84
+      ],
+      "colour": "yellow",
+      "phase": "UNRESOLVED",
+      "reason": "UPPER_BOUNDARY_CONTACT_UNBOUNDED_CONTINUATION"
+    },
+    {
+      "id": "blue_right_contact",
+      "box": [
+        1637,
+        760,
+        1639,
+        890
+      ],
+      "colour": "blue",
+      "phase": "UNRESOLVED",
+      "reason": "RIGHT_BOUNDARY_CENSORING_NOT_ENDPOINT"
+    },
+    {
+      "id": "magenta_startup",
+      "box": [
+        140,
+        320,
+        158,
+        940
+      ],
+      "colour": "magenta",
+      "phase": "STARTUP_CANDIDATE",
+      "reason": "baseline departure before sustained cluster; no pump-on claim"
+    },
+    {
+      "id": "blue_terminal_candidate",
+      "box": [
+        568,
+        640,
+        597,
+        930
+      ],
+      "colour": "blue",
+      "phase": "TERMINAL_CANDIDATE",
+      "reason": "branch continues into near-baseline tail x597..620; not authenticated pump-off"
+    },
+    {
+      "id": "blue_tail",
+      "box": [
+        600,
+        925,
+        628,
+        943
+      ],
+      "colour": "blue",
+      "phase": "TAIL_CANDIDATE",
+      "reason": "continuation following visible terminal fall; identity near baseline unresolved"
+    },
+    {
+      "id": "purple_crossing",
+      "box": [
+        181,
+        695,
+        207,
+        740
+      ],
+      "colour": "purple",
+      "phase": "GRAPHICAL_INTERIOR",
+      "reason": "same-colour mergers; bundle includes alternatives, no trajectory rank join"
+    },
+    {
+      "id": "purple_occludes_blue",
+      "box": [
+        434,
+        650,
+        442,
+        766
+      ],
+      "colour": "blue",
+      "phase": "GRAPHICAL_INTERIOR",
+      "reason": "other-colour occlusion; finite bridge rule conditional"
+    },
+    {
+      "id": "blue_dash_gap",
+      "box": [
+        970,
+        700,
+        1040,
+        780
+      ],
+      "colour": "blue",
+      "phase": "UNRESOLVED",
+      "reason": "dashed context; no hidden-curve enclosure or gap bridge"
+    },
+    {
+      "id": "lower_magenta_patterns",
+      "box": [
+        185,
+        480,
+        247,
+        943
+      ],
+      "colour": "magenta",
+      "phase": "UNRESOLVED",
+      "reason": "lower dashed/dotted support kept; no whole-condition completeness inferred"
+    },
+    {
+      "id": "lower_purple_patterns",
+      "box": [
+        185,
+        850,
+        247,
+        943
+      ],
+      "colour": "purple",
+      "phase": "UNRESOLVED",
+      "reason": "lower patterned support retained with explicit190/210/250 alternatives where unassigned"
+    }
+  ]
+}

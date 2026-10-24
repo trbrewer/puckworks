@@ -1416,8 +1416,12 @@ def khamitova2020_tamping():
 def smrke2024_figures():
     """smrke2024 — digitized figures of the fines-vs-extraction study (data-only; card
     `smrke2024`). Returns {figure: rows}. Core assets: `fig3_ey_vs_time` (~46 EY-vs-time
-    points across 4 added-fines levels 0/1/2/4 g) and `figS1_flow_profiles` (per-shot
-    flow-rate traces across the PSD grid — a second-machine complement to DE1 fixture A).
+    points across 4 replacement-fines levels 0/1/2/4 g) and S1 source-coordinate
+    ink observations. `figS1_flow_profiles` is a compatibility KEY alias for
+    `figS1_source_observations`, NOT the former four-column trajectory schema.
+    Its rows retain pixel extents, graphical bounds and unsupported temporal
+    status; `run_index` never supplied shot identity. Use `smrke2024_s1()` for
+    the complete correction contract, fragments and qualified-support metadata.
     Also fig2 PSD summary, fig4 PLSR points + PSD curves, fig5 predicted-vs-measured,
     fig6 PTR-MS groups, fig7 sensory. Figure digitization (see the dir's
     DIGITIZATION_NOTES.md); overlap-split flags on marker clusters. No published
@@ -1432,9 +1436,38 @@ def smrke2024_figures():
         "fig5_predicted_yield": P + "Fig5_HTML_panel_b_yield.csv",
         "fig6_ptrms": P + "Fig6_HTML.csv",
         "fig7_sensory": P + "Fig7_HTML.csv",
-        "figS1_flow_profiles": P + "MOESM1_ESM_FigS1.csv",
     }
-    return {k: _rows(DATA_DIR / "smrke2024" / v) for k, v in files.items()}
+    result = {k: _rows(DATA_DIR / "smrke2024" / v) for k, v in files.items()}
+    s1 = _rows(DATA_DIR / "smrke2024/s1/source_observations.csv")
+    result['figS1_source_observations'] = s1
+    result['figS1_flow_profiles'] = s1
+    return result
+
+
+def smrke2024_s1():
+    """Corrected S1 subset of smrke2024/figures, with explicit support limits.
+
+    CSV tokens remain strings, as in smrke2024_figures. Native ink fragments
+    and selected reading regions overlap; neither counts physical shots.
+    ``reading_cells`` are audit candidates, including explicitly retired rows;
+    use ``qualified_fragments`` and ``qualification_correction`` for support.
+    The correction supersedes the original retrospective contract where stated.
+    Source/calibration/identity rules live in the returned contract. The legacy
+    CSV is preserved only at the pinned Git base recorded in CORRECTION.md.
+    """
+    import json
+    root = DATA_DIR / 'smrke2024/s1'
+    return {
+        'contract': json.loads((root/'contract.json').read_text()),
+        'regions': json.loads((root/'regions.json').read_text()),
+        'qualification_correction': json.loads((root/'qualification_correction.json').read_text()),
+        'qualified_fragments': json.loads((root/'qualified_fragments.json').read_text()),
+        'reconstruction': json.loads((root/'reconstruction.json').read_text()),
+        'observations': _rows(root/'source_observations.csv'),
+        'fragments': _rows(root/'ink_fragments.csv'),
+        'reading_cells': _rows(root/'reading_cells.csv'),
+        'excluded_ink': _rows(root/'excluded_ink.csv'),
+    }
 
 
 # --- sobolik2002 (coffee-extract viscosity & conductivity; G10 third source) --------

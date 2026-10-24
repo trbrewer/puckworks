@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "e13f9228f5a509c4440591ae13d55924336406f453b151e73bbb329855d2469c",
+  "available_data_register_sha256": "72440af8a6ccfff2a90d239ce5c8b789dca211192b70d836b179a17f5bbda6e5",
   "families": [
     {
       "aliases": [
@@ -1237,15 +1237,23 @@
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "Figures 2\u20137 and supplementary Fig S1 are present as digitized CSVs and images. Fig S1: 18,001 time/flow/series/run-index rows; PSD curves: 4,342 sampled curve rows. Fitted PLSR/sensory curves are separate from experimental marker digitizations.",
-        "practical_use_and_limits": "Fines/PSD/flow-shape and observation-operator context. Dense pixel-derived points are not independent shots. The card statement that the supplement was not held at intake is historical; this census confirms its digitization is held, without recovering native machine logs.",
+        "observed_structure": "The historical corpus snapshot includes the legacy18,001-row S1 digitization; its wrong y scale, legend contamination and nonpersistent run_index were corrected in the active repository route by SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001. The authenticated supplement is held. Historical snapshot counts remain unchanged.",
+        "practical_use_and_limits": "Current S1 uses native source-coordinate ink with explicit identity/support limits and conditional graphical windows; no native machine logs or physical shot identities were recovered. Figure3 endpoints, S-A and blocked S-B remain unchanged.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,
       "family_id": "smrke2024",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
       "limits": [
-        "no published coefficients/error stats so no reproduction gate is possible; the fines-mechanism claim is an absence-of-effect argument at n=3/condition; sensory is single Q-grader (not double-blind); PTR-MS IDs tentative; marker-overlap uncertainty on some Fig 3 clusters"
+        "run_index as shot identity",
+        "legacy S1 values",
+        "S-B quantitative gate",
+        "intrinsic permeability inference",
+        "physical validation",
+        "Same smrke2024/figures family, corrected S1 subset; no new physical experiment.",
+        "S1 full0-7 g/s scale; nondata legend/text rejected; native coordinates retained.",
+        "Figure3 bytes/ordering and accepted endpoint evidence preserved at historical identities.",
+        "Graphical reading bounds are not replicate or laboratory uncertainty; PHYSICAL_VALIDATION=NOT_ESTABLISHED."
       ],
       "manifest_dataset_ids": [
         "smrke2024/figures"
@@ -1261,7 +1269,8 @@
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:SMRKE2024",
       "strongest_current_uses": [
-        "consumer gate target: an extraction config at 20 g/40 g/9 bar lands its (EY, t_shot) on the Fig 3 curve within scatter; Fig S1 is a second-machine flow-profile complement to DE1 fixture A"
+        "qualified S1 graphical windows with explicit support and coverage",
+        "unchanged Figure3 S-A qualitative gate"
       ]
     },
     {

@@ -1,0 +1,242 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY",
+  "scientific_result": "See RESULT.json; software PASS is not scientific or physical validation.",
+  "puckworks_base": "52df324ee809249eacad1233e407434260e22d46",
+  "ewp_base": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "environment": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pillow": "13.0.0",
+    "editable_source": "/home/tim/sci-md-smrke-transient-hydraulics-001",
+    "dependency_locks_changed": false
+  },
+  "protected_files_byte_identical": 42,
+  "ewp_unchanged": true,
+  "checks": [
+    {
+      "command": "python -m puckworks.statusdoc --verify",
+      "returncode": 0,
+      "log": "isolated-check-0.log",
+      "log_sha256": "78f6c7f6237bf550373ff7955c1cc10d4756d6fa8041b8473a365c53f9ae0311"
+    },
+    {
+      "command": "python -m puckworks.validate --scope all --strict",
+      "returncode": 0,
+      "log": "isolated-check-1.log",
+      "log_sha256": "44dcc2c930874add462d48bce72a99a895f705d416b1597c0e290ce693f02e00"
+    },
+    {
+      "command": "python -m puckworks.paper3.registry_artifacts --verify",
+      "returncode": 0,
+      "log": "isolated-check-2.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": "python -m puckworks.paper3.build verify",
+      "returncode": 0,
+      "log": "isolated-check-3.log",
+      "log_sha256": "499fb9f4088d82fdca5fe38bae7610721f1d44eabf8e86456ea8bc64c3bfee44"
+    },
+    {
+      "command": "python -m puckworks.paper3.availability --verify",
+      "returncode": 0,
+      "log": "isolated-check-4.log",
+      "log_sha256": "ff79004438c5056979202a643c4efe67c412b795aac513126affb25fb2f4027a"
+    },
+    {
+      "command": "python -m puckworks.paper3.corpus --verify",
+      "returncode": 0,
+      "log": "isolated-check-5.log",
+      "log_sha256": "b23c6303b8b01cead7096ea4a8b0bfbd7adcf479858782f1ac741851d3bd26be"
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile",
+      "returncode": 0,
+      "log": "isolated-check-6.log",
+      "log_sha256": "7518f4d2994ae21d51e5d2da93bb1a700cfa372da90578f0c5f7a713b980d912"
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --verify",
+      "returncode": 0,
+      "log": "isolated-check-7.log",
+      "log_sha256": "7316b9d005a2fbc3a7a98c4b7a697983bcc4fdabe8ecc9a168a95fdea571023d"
+    },
+    {
+      "command": "python -m puckworks.insights verify",
+      "returncode": 0,
+      "log": "isolated-check-8.log",
+      "log_sha256": "a12b7cb43c9d9134b5bb1b35e9096b66775d9e92e7611d1cc92b02edd6782a87"
+    },
+    {
+      "command": "python -m tools.readme_governance verify",
+      "returncode": 0,
+      "log": "isolated-check-9.log",
+      "log_sha256": "253c0901d6c13399109e044e104782e693039c2409e2c00f07a6772c0862f88e"
+    },
+    {
+      "command": "ruff check puckworks tests docs/analysis/sci_md_smrke_transient_hydraulics_001/review_check.py",
+      "returncode": 0,
+      "log": "isolated-ruff.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": "mypy",
+      "returncode": 0,
+      "log": "isolated-mypy.log",
+      "log_sha256": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2"
+    },
+    {
+      "command": "python -m pytest -q tests/test_smrke2024_transient.py tests/test_data_loaders.py tests/test_smrke2024_envelope.py tests/test_smrke2024_transfer.py tests/test_available_data_register.py tests/test_local_corpus_family_index.py tests/test_espresso_data_guide.py tests/insights/test_foundry.py tests/test_readme_governance.py",
+      "returncode": 0,
+      "passed": 207,
+      "log": "isolated-focused.log",
+      "log_sha256": "f9a100248ee1d420f4f99f055aa58c0f607067ece0a892ea2d138e53b9afdaa4"
+    },
+    {
+      "command": "python -m pytest -q tests/test_sci_md_004_silent_qa.py tests/test_smrke2024_transient.py tests/test_data_loaders.py",
+      "returncode": 0,
+      "passed": 94,
+      "duration_s": 15.75,
+      "log": "manifest-correction-tests.log",
+      "log_sha256": "c13d7100d12dd9142d65e76300a6dfe0bad1bac2190bcda4bfbf6f27b9edf1bf"
+    }
+  ],
+  "full_local_quick": {
+    "status": "SOFTWARE_OR_QA_FAILURE_CORRECTED_BY_TARGETED_REGENERATION",
+    "command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data' --junitxml=isolated-quick-report.xml --durations=15",
+    "log": "isolated-quick-full.log",
+    "handoff": "Actual completion and tested head recorded in PR handoff; no pass implied.",
+    "passed": 7152,
+    "failed": 1,
+    "skipped": 36,
+    "deselected": 73,
+    "duration_s": 1494.43,
+    "log_sha256": "09336239d33af230487c11f8fbe9eedace74dbfe3eadb7cb257dcd56cd537e7d",
+    "failure": "tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current"
+  },
+  "failed_local_attempts": [
+    {
+      "log": "focused-first.log",
+      "sha256": "af430fdc1964134be40e55fab8eeb42b0025fbc02bca987325b569559867b560",
+      "disposition": "1 failed / 133 passed: caption text split across XML runs; test reads concatenated XML text after correction."
+    },
+    {
+      "log": "quick-full.log",
+      "sha256": "d3150e5707164db8a92da91efe1b88b37e7dfdc6c147d6c571f2fb161e127471",
+      "disposition": "3 failed / 2754 passed / 26 skipped / 73 deselected; interrupted after 834.57 s. Generated projections had drift; some subprocesses imported an older editable installation. Not a current-root suite pass. Logs retained; projections regenerated and isolated worktree environment installed."
+    },
+    {
+      "log": "readme-tests.log",
+      "sha256": "acd85adc0ab02f8c0ab4f500ee5884e8cac51d12736bc59d23c635bd381429f8",
+      "disposition": "2 failed / 60 passed: README byte budget and stale pulse due to older installed package in subprocess. Shortened Smrke sentence; isolated current-worktree installation resolves pulse check."
+    },
+    {
+      "log": "projections-readme-final.log",
+      "sha256": "96761288cb8753dbcd7491e1824101cc7f0ba23ddf601377748412892ff38155",
+      "disposition": "Intermediate README verification before final shortening/environment correction; superseded by 207 passing isolated tests."
+    }
+  ],
+  "reproduction": {
+    "status": "PASS",
+    "network": "DENIED_BY_SOCKET_GUARD",
+    "full_native_reconstruction_byte_identical": true,
+    "analysis_byte_identical": true,
+    "files": {
+      "data/CORRECTION.md": "027f6a1d8fa59e56d4e3f9185abbc332a9de02da6741765270c5f12bfb95d0a6",
+      "data/contract.json": "22d74189fe2879adefcc847a3671867ce21f5112cb32fdbd5afff5b55e4d92a3",
+      "data/excluded_ink.csv": "1c7184a2b16cecabbc6dd688ee76f178fa02bca71d5afbac631cbcbe3f86a325",
+      "data/ink_fragments.csv": "5491d665fc00bff91d3f3556fcfbed18f3cd26a6dacdc83ba40db98eead8ffda",
+      "data/qualification_correction.json": "5876dddb9be65d3810e98367dfaf9b992a938ee5c86eafbff0634b2d665a80fd",
+      "data/qualified_fragments.json": "9b31cc0124bd17c7ecffc93671c87fae696821dce44301cb0f0517d7258c9175",
+      "data/reading_cells.csv": "9f5796d1f539775c9cf209ffb57e67566429a2b71c9103989c115f78415cdb6b",
+      "data/reconstruction.json": "758fced967e7f6858598206c1d18f7b570fc177dce58b3304b572c909747104c",
+      "data/regions.json": "2a535b65181a71d86f95fcd9a3135a0214baff32e8350080ad7f4b7af44e3c42",
+      "data/source_observations.csv": "28aa1b2fdb8ac684e1eac00c9353444f6861d1d804e4ba39365163edc52bb30b",
+      "analysis/COMPARISON.svg": "5738fd1ab84f6c051fe858b1a3d7b978b6e04b316c1e1df093d4192fbf862f53",
+      "analysis/COVERAGE.json": "7f425959f06b59c6617ac5dd5f5b3fa10ad835e3b576be1670a41dae691e53bf",
+      "analysis/DOMAIN_COVERAGE.json": "3f7bcd0e65f95927b45be915bdc824998de67994fe0ca34332f5486c4bb87111",
+      "analysis/FINES_COMPARISONS.json": "384904e4b9454fcc00e0f7c9dc8107acfd9641d4d569dea03b56f6eca4754250",
+      "analysis/GENERIC_WINDOW_REQUESTS.json": "1a1bbf063cd0ecf146b813c4efd94642335a4d15e9872e93c6adbd354f889930",
+      "analysis/MULTIPLIERS.json": "04bc20f6f6f1ef8b8d5655e533854273f0b43ee579945e4014806ae2c6a81e3f",
+      "analysis/QUALIFIED_OBJECTS.json": "9b31cc0124bd17c7ecffc93671c87fae696821dce44301cb0f0517d7258c9175",
+      "analysis/RESULT.json": "a78ddd30e3dffa7758f777ef5ffa75c74addcbb94533bb2df14c8943eaf39204",
+      "analysis/SOURCE_OVERLAY.svg": "20b62acb84542b95c7ea3794e4000be117462c8b49228ef7789d2b0a81b9e5aa",
+      "analysis/TEMPORAL_COMPARISONS.json": "60a0f38c72df069f4862c22cdb5815ff43718adbecc13e595b8e11750a7ad072",
+      "analysis/WINDOWS.csv": "cedf9b0ff1e7e2a23c55d22d3632b4361295c6d89e6039924e83239b00a3fe92",
+      "analysis/WINDOW_WITNESSES.json": "37d919959146ddea17e15bae9b9083026f9db5679124c693fc155762268a606f"
+    }
+  },
+  "independent_review": {
+    "disposition": "ACCEPTED_BOUNDED_CONDITIONAL_CLAIMS",
+    "receipt": "INDEPENDENT_CHECK.json",
+    "sha256": "e401972a860508f6fb277c10c515cef7e1eaf65765e68c422b6fe9418dda0233",
+    "separate_arithmetic_rerun_byte_identical": true
+  },
+  "hosted_ci": {
+    "status": "FIRST_HEAD_QA_ASSERTION_FAILED_CORRECTED_HEAD_PENDING",
+    "required": [
+      "all-scope-strict",
+      "paper3-scope-strict",
+      "quick (3.10)",
+      "quick (3.12)",
+      "verify-generated"
+    ],
+    "handoff": "Final head, exact-head check conclusions and preserved run links recorded in PR body/handoff. No hosted success claimed by this pre-push record.",
+    "budgets_locks_selectors_coverage_unchanged": true,
+    "first_attempt": {
+      "head": "dc5345d6b099e635d092e6012e26a2e8125ea318",
+      "run_id": 40111529675,
+      "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675",
+      "classification": "SOFTWARE_OR_QA_FAILURE",
+      "cause": "Generated protected-test manifest source-selector hash stale after line offsets changed in test_data_loaders.py. No selector membership or policy change.",
+      "jobs": [
+        {
+          "job_id": 120924091016,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091016",
+          "summary": [
+            "2026-10-24T16:41:26.9149967Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:41:27.2589361Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 907.70s (0:15:07)"
+          ]
+        },
+        {
+          "job_id": 120924090844,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924090844",
+          "summary": [
+            "2026-10-24T16:42:14.2666350Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:42:14.4659610Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 957.06s (0:15:57)"
+          ]
+        },
+        {
+          "job_id": 120924091140,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091140",
+          "summary": [
+            "2026-10-24T16:42:25.6162134Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:42:25.9869708Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 966.07s (0:16:06)"
+          ]
+        },
+        {
+          "job_id": 120924091182,
+          "url": "https://github.com/trbrewer/puckworks/actions/runs/40111529675/job/120924091182",
+          "summary": [
+            "2026-10-24T16:41:32.1813633Z FAILED tests/test_sci_md_004_silent_qa.py::test_static_protected_test_manifest_is_current - AssertionError: assert {'coverage_vi...2a613e6', ...} == {'schema_vers....}, ...], ...}",
+            "2026-10-24T16:41:32.5494806Z 1 failed, 7063 passed, 71 skipped, 64 deselected, 1 warning in 897.88s (0:14:57)"
+          ]
+        }
+      ]
+    },
+    "correction": {
+      "command": "python -m tools.generate_protected_test_manifest",
+      "file": "tests/protected_target_test_manifest.json",
+      "changed_fields": [
+        "source_selector_sha256"
+      ],
+      "old_hash": "e4433714e3fdf8ef55755db50b844fcd042a533a7f02f7bbe444756242a613e6",
+      "new_hash": "091c222265ecf484010887997b1e5fab910bb3bd2000e753efad7629deca3aee",
+      "selector_membership_unchanged": true,
+      "scientific_review_bound_files_unchanged": 26
+    }
+  },
+  "external_log_directory": "/home/tim/smrke-transient-evidence"
+}

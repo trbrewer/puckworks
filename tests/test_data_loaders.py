@@ -625,16 +625,21 @@ def test_khamitova2020_tamping_intake():
 
 def test_smrke2024_figures_intake():
     """smrke2024 digitized figures (data-only): the figure set loads; the core Fig 3
-    EY-vs-time (46 pts across added-fines levels) and the Supp Fig S1 per-shot flow
-    profiles carry their expected columns; declared in the MANIFEST."""
+    EY-vs-time remains unchanged; S1 exposes qualified native ink, not shots."""
     figs = pwdata.smrke2024_figures()
     assert "fig3_ey_vs_time" in figs and "figS1_flow_profiles" in figs
     fig3 = figs["fig3_ey_vs_time"]
     assert len(fig3) == 46
     assert {"extraction_time_s", "extraction_pct", "series"} <= set(fig3[0].keys())
     s1 = figs["figS1_flow_profiles"]
-    assert len(s1) > 1000
-    assert {"time_s", "flow_rate_g_per_s"} <= set(s1[0].keys())
+    assert s1 is figs['figS1_source_observations']
+    assert {'x_px', 'y_min_px', 'y_max_px', 'source_id', 'temporal_status',
+            'flow_lower_g_s', 'flow_upper_g_s', 'condition_membership'} <= set(s1[0])
+    assert 'run_index' not in s1[0] and 'flow_rate_g_per_s' not in s1[0]
+    assert all(r['temporal_status'].startswith('UNSUPPORTED') for r in s1)
+    assert not any(1200 <= int(r['x_px']) <= 1639 and int(r['y_min_px']) <= 286 for r in s1)
+    contract = pwdata.smrke2024_s1()['contract']
+    assert contract['calibration']['y_tick_values_g_s'] == list(range(8))
     assert "smrke2024/figures" in _manifest_ids()
 
 

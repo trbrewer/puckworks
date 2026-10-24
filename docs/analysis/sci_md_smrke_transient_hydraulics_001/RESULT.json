@@ -1,0 +1,113 @@
+{
+  "task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
+  "classification": "G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NONSCORING",
+  "SOURCE_RECONSTRUCTION": "CORRECTED_NATIVE_INK_WITH_QUALIFIED_SUBSETS",
+  "INTERIOR_FLOW_BEHAVIOUR": {
+    "rises": 0,
+    "declines": 0,
+    "decline_recovery": 0,
+    "constant": [
+      {
+        "object_id": "B250-U.1",
+        "lattice": "PRIMARY",
+        "windows": [],
+        "status": "UNINFORMATIVE",
+        "intersection": null
+      },
+      {
+        "object_id": "B250-U.2",
+        "lattice": "PRIMARY",
+        "windows": [
+          "PRIMARY:B250-U.2:06"
+        ],
+        "status": "UNINFORMATIVE",
+        "intersection": null
+      },
+      {
+        "object_id": "M250-BUNDLE",
+        "lattice": "PRIMARY",
+        "windows": [
+          "PRIMARY:M250-BUNDLE:02"
+        ],
+        "status": "UNSUPPORTED",
+        "reason": "NO_PERSISTENT_IDENTITY",
+        "intersection": null
+      },
+      {
+        "object_id": "P250-BUNDLE",
+        "lattice": "PRIMARY",
+        "windows": [
+          "PRIMARY:P250-BUNDLE:02"
+        ],
+        "status": "UNSUPPORTED",
+        "reason": "NO_PERSISTENT_IDENTITY",
+        "intersection": null
+      },
+      {
+        "object_id": "B250-U.1",
+        "lattice": "SHIFTED",
+        "windows": [
+          "SHIFTED:B250-U.1:05"
+        ],
+        "status": "UNINFORMATIVE",
+        "intersection": null
+      },
+      {
+        "object_id": "B250-U.2",
+        "lattice": "SHIFTED",
+        "windows": [],
+        "status": "UNINFORMATIVE",
+        "intersection": null
+      },
+      {
+        "object_id": "M250-BUNDLE",
+        "lattice": "SHIFTED",
+        "windows": [],
+        "status": "UNSUPPORTED",
+        "reason": "NO_PERSISTENT_IDENTITY",
+        "intersection": null
+      },
+      {
+        "object_id": "P250-BUNDLE",
+        "lattice": "SHIFTED",
+        "windows": [],
+        "status": "UNSUPPORTED",
+        "reason": "NO_PERSISTENT_IDENTITY",
+        "intersection": null
+      }
+    ],
+    "coverage": "DISCONNECTED_FRAGMENTS_OF_ONE_RETAINED_CORRIDOR; OPERATIONAL_INTERIOR_UNRESOLVED"
+  },
+  "FIXED_GRIND_FINES_CONTRASTS": {
+    "intended_pairs": 18,
+    "requested_window_pairs": 1044,
+    "supported_window_pairs": 1,
+    "supported_intended_pairs": 1,
+    "unsupported_primary_intended_pairs": 9,
+    "complete_condition_envelopes": 0,
+    "interpretation": "RETAINED_SOLID_BUNDLES_ONLY; NOT_FINES_WIDE_SHAPE"
+  },
+  "CONSTANT_MULTIPLIER_COMPATIBILITY": {
+    "status": "UNSUPPORTED",
+    "intended_pairs": 18,
+    "reason": "NO_FIXED_PERSISTENT_CROSS_CONDITION_PAIR_WITH_TWO_COMMON_WINDOWS"
+  },
+  "NORMALIZED_SHAPE_SUPPORT": "UNRESOLVED_SOURCE_SUPPORT",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "nominal_conditions": 12,
+  "nominal_extractions": 36,
+  "recovered_physical_shots": 0,
+  "generic_fragments": 5866,
+  "selected_objects": 4,
+  "supported_selected_windows": 4,
+  "requested_selected_windows": 232,
+  "generic_window_requests": 340228,
+  "hashes": {
+    "contract.json": "22d74189fe2879adefcc847a3671867ce21f5112cb32fdbd5afff5b55e4d92a3",
+    "regions.json": "2a535b65181a71d86f95fcd9a3135a0214baff32e8350080ad7f4b7af44e3c42",
+    "qualification_correction.json": "5876dddb9be65d3810e98367dfaf9b992a938ee5c86eafbff0634b2d665a80fd",
+    "source_observations.csv": "28aa1b2fdb8ac684e1eac00c9353444f6861d1d804e4ba39365163edc52bb30b",
+    "ink_fragments.csv": "5491d665fc00bff91d3f3556fcfbed18f3cd26a6dacdc83ba40db98eead8ffda",
+    "reading_cells.csv": "9f5796d1f539775c9cf209ffb57e67566429a2b71c9103989c115f78415cdb6b"
+  }
+}
