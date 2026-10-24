@@ -1,0 +1,708 @@
+[
+  {
+    "B": "73/575",
+    "B_outer": "143/1150",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-m043",
+      "endpoint_T"
+    ],
+    "diameter_um": 608,
+    "earliest_lower": "72/115",
+    "earliest_p": "729/1150",
+    "earliest_s": "575/71",
+    "earliest_upper": "369/575",
+    "group_id": "medium_hot80",
+    "latest_s": "27675/142",
+    "mo_discrepancy240": 0.39446754538339635,
+    "mo_increment": 0.26751102364426593,
+    "modeled_radius_m": "19/62500",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "4250/71"
+      ],
+      "ids": [
+        "f10a-m015",
+        "f10a-m030"
+      ],
+      "lower": "459123/488750",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "466773/488750"
+    },
+    "supported_count": 9,
+    "trace_id": "medium_608"
+  },
+  {
+    "B": "89/1150",
+    "B_outer": "43/575",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-m041",
+      "endpoint_T"
+    ],
+    "diameter_um": 519,
+    "earliest_lower": "849/1150",
+    "earliest_p": "429/575",
+    "earliest_s": "575/71",
+    "earliest_upper": "867/1150",
+    "group_id": "medium_hot80",
+    "latest_s": "18100/71",
+    "mo_discrepancy240": 0.3777759201856068,
+    "mo_increment": 0.3003846158377807,
+    "modeled_radius_m": "519/2000000",
+    "progress240": {
+      "bracket_s": [
+        "27675/142",
+        "18100/71"
+      ],
+      "ids": [
+        "f10a-m054",
+        "f10a-m059"
+      ],
+      "lower": "4093407/3921500",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "4154787/3921500"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10a-m017",
+        "f10a-m023"
+      ],
+      "lower": "152027/218500",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "155447/218500"
+    },
+    "supported_count": 10,
+    "trace_id": "medium_519"
+  },
+  {
+    "B": "81/575",
+    "B_outer": "159/1150",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-m009",
+      "f10a-m049"
+    ],
+    "diameter_um": 675,
+    "earliest_lower": "18/23",
+    "earliest_p": "909/1150",
+    "earliest_s": "575/71",
+    "earliest_upper": "459/575",
+    "group_id": "medium_hot80",
+    "latest_s": "27675/142",
+    "mo_discrepancy240": 0.5723305555061473,
+    "mo_increment": 0.431460990288756,
+    "modeled_radius_m": "27/80000",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10a-m016",
+        "f10a-m022"
+      ],
+      "lower": "1959/2300",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "399/460"
+    },
+    "supported_count": 10,
+    "trace_id": "medium_675"
+  },
+  {
+    "B": "167/1150",
+    "B_outer": "82/575",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-edge-585",
+      "endpoint_T"
+    ],
+    "diameter_um": 585,
+    "earliest_lower": "1527/2300",
+    "earliest_p": "309/460",
+    "earliest_s": "975/142",
+    "earliest_upper": "1563/2300",
+    "group_id": "medium_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.3626216047102088,
+    "mo_increment": 0.217404213405861,
+    "modeled_radius_m": "117/400000",
+    "progress240": {
+      "bracket_s": [
+        "12775/71",
+        "300"
+      ],
+      "ids": [
+        "f10a-m052",
+        "f10a-edge-585"
+      ],
+      "lower": "2179029/1960750",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "2209719/1960750"
+    },
+    "progress30": {
+      "bracket_s": [
+        "975/142",
+        "4275/142"
+      ],
+      "ids": [
+        "f10a-m000",
+        "f10a-m019"
+      ],
+      "lower": "3921/4400",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "91767/101200"
+    },
+    "supported_count": 7,
+    "trace_id": "medium_585"
+  },
+  {
+    "B": "109/230",
+    "B_outer": "271/575",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-m035",
+      "endpoint_T"
+    ],
+    "diameter_um": 543,
+    "earliest_lower": "219/230",
+    "earliest_p": "24/25",
+    "earliest_s": "500/71",
+    "earliest_upper": "1113/1150",
+    "group_id": "medium_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.626698441658369,
+    "mo_increment": 0.1527853981801081,
+    "modeled_radius_m": "543/2000000",
+    "progress240": {
+      "bracket_s": [
+        "25525/142",
+        "300"
+      ],
+      "ids": [
+        "f10a-m051",
+        "f10a-edge-543"
+      ],
+      "lower": "2171877/1963625",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "2202612/1963625"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10a-m014",
+        "f10a-m020"
+      ],
+      "lower": "115231/109250",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "116941/109250"
+    },
+    "supported_count": 10,
+    "trace_id": "medium_543"
+  },
+  {
+    "B": "19/2300",
+    "B_outer": "13/2300",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10a-edge-914",
+      "endpoint_T"
+    ],
+    "diameter_um": 914,
+    "earliest_lower": "981/2300",
+    "earliest_p": "999/2300",
+    "earliest_s": "1425/142",
+    "earliest_upper": "1017/2300",
+    "group_id": "medium_room25",
+    "latest_s": "41875/142",
+    "mo_discrepancy240": 0.18776676301012968,
+    "mo_increment": 0.1795058934449123,
+    "modeled_radius_m": "457/1000000",
+    "progress240": {
+      "bracket_s": [
+        "33325/142",
+        "41875/142"
+      ],
+      "ids": [
+        "f10a-m056",
+        "f10a-edge-914"
+      ],
+      "lower": "10613/11400",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "248203/262200"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10a-m018",
+        "f10a-m024"
+      ],
+      "lower": "28226/54625",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "29081/54625"
+    },
+    "supported_count": 11,
+    "trace_id": "medium_914"
+  },
+  {
+    "B": "0",
+    "B_outer": "0",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "diameter_um": 652,
+    "earliest_lower": "12/41",
+    "earliest_p": "345/1148",
+    "earliest_s": "5675/142",
+    "earliest_upper": "177/574",
+    "group_id": "light_hot80",
+    "latest_s": "21025/71",
+    "mo_discrepancy240": 0.30667296659900034,
+    "mo_increment": 0.30667296659900034,
+    "modeled_radius_m": "163/500000",
+    "progress240": {
+      "bracket_s": [
+        "16750/71",
+        "21025/71"
+      ],
+      "ids": [
+        "f10b-m068",
+        "f10b-m075"
+      ],
+      "lower": "89389/109060",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "91099/109060"
+    },
+    "progress30": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "supported_count": 6,
+    "trace_id": "light_652"
+  },
+  {
+    "B": "0",
+    "B_outer": "0",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "diameter_um": 626,
+    "earliest_lower": "108/287",
+    "earliest_p": "63/164",
+    "earliest_s": "5675/142",
+    "earliest_upper": "225/574",
+    "group_id": "light_hot80",
+    "latest_s": "21025/71",
+    "mo_discrepancy240": 0.37348614807151886,
+    "mo_increment": 0.37348614807151886,
+    "modeled_radius_m": "313/1000000",
+    "progress240": {
+      "bracket_s": [
+        "16750/71",
+        "21025/71"
+      ],
+      "ids": [
+        "f10b-m069",
+        "f10b-m076"
+      ],
+      "lower": "42011/54530",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "21433/27265"
+    },
+    "progress30": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "supported_count": 6,
+    "trace_id": "light_626"
+  },
+  {
+    "B": "29/82",
+    "B_outer": "403/1148",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-m000",
+      "endpoint_T"
+    ],
+    "diameter_um": 462,
+    "earliest_lower": "111/82",
+    "earliest_p": "1563/1148",
+    "earliest_s": "700/71",
+    "earliest_upper": "393/287",
+    "group_id": "light_hot80",
+    "latest_s": "1425/71",
+    "mo_discrepancy240": 0.9202073298313871,
+    "mo_increment": 0.5665487932460213,
+    "modeled_radius_m": "231/1000000",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "supported_count": 2,
+    "trace_id": "light_462"
+  },
+  {
+    "B": "67/1148",
+    "B_outer": "16/287",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-m067",
+      "endpoint_T"
+    ],
+    "diameter_um": 665,
+    "earliest_lower": "1047/1148",
+    "earliest_p": "264/287",
+    "earliest_s": "2125/71",
+    "earliest_upper": "1065/1148",
+    "group_id": "light_hot80",
+    "latest_s": "16750/71",
+    "mo_discrepancy240": 0.40474548779464137,
+    "mo_increment": 0.34638311845666225,
+    "modeled_radius_m": "133/400000",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "50"
+      ],
+      "ids": [
+        "f10b-m017",
+        "f10b-m035"
+      ],
+      "lower": "24868/27265",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "50591/54530"
+    },
+    "supported_count": 4,
+    "trace_id": "light_665"
+  },
+  {
+    "B": "52/287",
+    "B_outer": "5/28",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-m061",
+      "endpoint_T"
+    ],
+    "diameter_um": 653,
+    "earliest_lower": "195/287",
+    "earliest_p": "789/1148",
+    "earliest_s": "700/71",
+    "earliest_upper": "57/82",
+    "group_id": "light_hot80",
+    "latest_s": "21025/71",
+    "mo_discrepancy240": 0.35841145118372936,
+    "mo_increment": 0.1772267821941823,
+    "modeled_radius_m": "653/2000000",
+    "progress240": {
+      "bracket_s": [
+        "24975/142",
+        "21025/71"
+      ],
+      "ids": [
+        "f10b-m061",
+        "f10b-m073"
+      ],
+      "lower": "1108518/980105",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "2247771/1960210"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "12775/142"
+      ],
+      "ids": [
+        "f10b-m019",
+        "f10b-m051"
+      ],
+      "lower": "309501/489335",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "90621/139810"
+    },
+    "supported_count": 5,
+    "trace_id": "light_653"
+  },
+  {
+    "B": "251/2296",
+    "B_outer": "35/328",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-m016",
+      "endpoint_T"
+    ],
+    "diameter_um": 547,
+    "earliest_lower": "915/1148",
+    "earliest_p": "33/41",
+    "earliest_s": "700/71",
+    "earliest_upper": "933/1148",
+    "group_id": "light_hot80",
+    "latest_s": "4250/71",
+    "mo_discrepancy240": 0.5233372695588492,
+    "mo_increment": 0.41401671206755997,
+    "modeled_radius_m": "547/2000000",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10b-m016",
+        "f10b-m024"
+      ],
+      "lower": "1819/1640",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "12913/11480"
+    },
+    "supported_count": 6,
+    "trace_id": "light_547"
+  },
+  {
+    "B": "139/1148",
+    "B_outer": "34/287",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-m040",
+      "endpoint_T"
+    ],
+    "diameter_um": 472,
+    "earliest_lower": "63/82",
+    "earliest_p": "891/1148",
+    "earliest_s": "925/71",
+    "earliest_upper": "225/287",
+    "group_id": "light_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.30150626604054687,
+    "mo_increment": 0.18042612666772456,
+    "modeled_radius_m": "59/250000",
+    "progress240": {
+      "bracket_s": [
+        "4250/71",
+        "300"
+      ],
+      "ids": [
+        "f10b-m040",
+        "f10b-edge-472"
+      ],
+      "lower": "1079901/978670",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "547623/489335"
+    },
+    "progress30": {
+      "bracket_s": [
+        "925/71",
+        "50"
+      ],
+      "ids": [
+        "f10b-m005",
+        "f10b-m034"
+      ],
+      "lower": "354731/401800",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "361031/401800"
+    },
+    "supported_count": 4,
+    "trace_id": "light_472"
+  },
+  {
+    "B": "0",
+    "B_outer": "0",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "diameter_um": 589,
+    "earliest_lower": "1587/2296",
+    "earliest_p": "1605/2296",
+    "earliest_s": "1425/71",
+    "earliest_upper": "1623/2296",
+    "group_id": "light_room25",
+    "latest_s": "17025/142",
+    "mo_discrepancy240": 0.21524125781449038,
+    "mo_increment": 0.21524125781449038,
+    "modeled_radius_m": "589/2000000",
+    "progress240": {
+      "status": "INSUFFICIENT_SOURCE_SUPPORT"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "50"
+      ],
+      "ids": [
+        "f10b-m018",
+        "f10b-m036"
+      ],
+      "lower": "21883/31160",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "156601/218120"
+    },
+    "supported_count": 6,
+    "trace_id": "light_589"
+  },
+  {
+    "B": "43/287",
+    "B_outer": "169/1148",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-edge-589",
+      "endpoint_T"
+    ],
+    "diameter_um": 520,
+    "earliest_lower": "213/328",
+    "earliest_p": "1509/2296",
+    "earliest_s": "1425/71",
+    "earliest_upper": "1527/2296",
+    "group_id": "light_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.15404678030767105,
+    "mo_increment": 0.004220996335545624,
+    "modeled_radius_m": "13/50000",
+    "progress240": {
+      "bracket_s": [
+        "12775/142",
+        "300"
+      ],
+      "ids": [
+        "f10b-m050",
+        "f10b-edge-589"
+      ],
+      "lower": "259116/244565",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "3681309/3423910"
+    },
+    "progress30": {
+      "bracket_s": [
+        "1425/71",
+        "4275/142"
+      ],
+      "ids": [
+        "f10b-m012",
+        "f10b-m022"
+      ],
+      "lower": "3159/5320",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "132939/218120"
+    },
+    "supported_count": 5,
+    "trace_id": "light_520"
+  },
+  {
+    "B": "5/574",
+    "B_outer": "1/164",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-edge-520",
+      "endpoint_T"
+    ],
+    "diameter_um": 568,
+    "earliest_lower": "108/287",
+    "earliest_p": "63/164",
+    "earliest_s": "925/71",
+    "earliest_upper": "225/574",
+    "group_id": "light_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.08648058176756102,
+    "mo_increment": 0.0777697803738328,
+    "modeled_radius_m": "71/250000",
+    "progress240": {
+      "bracket_s": [
+        "12775/142",
+        "300"
+      ],
+      "ids": [
+        "f10b-m049",
+        "f10b-edge-520"
+      ],
+      "lower": "665187/684782",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "337962/342391"
+    },
+    "progress30": {
+      "bracket_s": [
+        "2125/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10b-m020",
+        "f10b-m028"
+      ],
+      "lower": "5197/10906",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "2684/5453"
+    },
+    "supported_count": 7,
+    "trace_id": "light_568"
+  },
+  {
+    "B": "67/1148",
+    "B_outer": "16/287",
+    "coverage": "PARTIAL_NATIVE_FIGURE10_MARKERS; OVERLAPS_RETAINED_UNSUPPORTED",
+    "decisive": [
+      "f10b-edge-592",
+      "endpoint_T"
+    ],
+    "diameter_um": 592,
+    "earliest_lower": "327/1148",
+    "earliest_p": "12/41",
+    "earliest_s": "925/71",
+    "earliest_upper": "345/1148",
+    "group_id": "light_room25",
+    "latest_s": "300",
+    "mo_discrepancy240": 0.17479564645591567,
+    "mo_increment": 0.11643327711793658,
+    "modeled_radius_m": "37/125000",
+    "progress240": {
+      "bracket_s": [
+        "17025/71",
+        "300"
+      ],
+      "ids": [
+        "f10b-m071",
+        "f10b-edge-592"
+      ],
+      "lower": "114573/109060",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "116283/109060"
+    },
+    "progress30": {
+      "bracket_s": [
+        "1425/71",
+        "5675/142"
+      ],
+      "ids": [
+        "f10b-m014",
+        "f10b-m029"
+      ],
+      "lower": "64719/162155",
+      "status": "CONDITIONAL_LINEAR_INTERPOLATION_NOT_MEASURED",
+      "upper": "134523/324310"
+    },
+    "supported_count": 8,
+    "trace_id": "light_592"
+  }
+]

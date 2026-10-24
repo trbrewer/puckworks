@@ -33,6 +33,24 @@ swelling (which can change volume weights), every swelling-only process, or nati
 Historical qualitative summaries below are source interpretations, not new quantitative
 closure authority; a nonsignificant slope alone does not establish size independence.
 
+## Individual graphical kinetics (2026-10-23)
+
+[SCI-MD-HARGARTEN-SWELLING-KINETICS-001](../analysis/sci_md_hargarten_swelling_kinetics_001/RESULT.md)
+retains Figure 7/10 native markers and unsupported overlaps for the same17 particles.
+Figure 7 extends1200s; Figure 10 only 300 s. Eq. 4 normalizes projected-diameter growth
+to20 minutes. Material figure-transformation discrepancies and departures from the
+methods' frame times leave a jointly consistent measurement history unresolved.
+The primary supported Figure 10 subset admits exact conditional graphical
+monotone/shared-clock comparisons, not physical or experimental-error certification.
+Incremental shared-clock penalties are about16.90pp(light/hot),6.78pp(medium/hot),
+2.13pp(light/25°C), and0pp(medium/25°C); coverage is incomplete at overlapping markers.
+Hot microscopy is approximately 80 °C inside the cell, with reservoir cooling to 60 °C;
+the 90 °C starting protocol belongs to the separate PSD preparation. Constant t/R²
+in the hot groups is conditional. The fixed Mo parameterization has substantial
+supported graphical discrepancies, plus a finite-grid initial-endpoint defect.
+No parameter is fitted, no diffusivity is inferred, no mechanism is validated.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED; source campaign identity is unchanged.
+
 ## Scope and mechanism
 An empirical characterization — **not a predictive model** — of how roasted coffee particles
 change size when wetted, and of the fines released during wetting. Two mechanisms are
@@ -157,10 +175,10 @@ read from the figures/tables (values themselves are printed for the scalar summa
   per grinding degree (2.0/5.0/8.0 on EK43) — needed to interpret the sieved-fraction PSDs.
 - **Figures 2, 3, 5**: dry vs. wet volume PSDs (non-sieved medium at 25/90 °C; sieved medium
   F/S/M/L; sieved light F/S/M) — the swelling+erosion mode/cumulative shifts. Digitizable; the
-  CDF portions of Figures 2/3b/5b now retained by the bounded task above; fine F, density and microscopy intake remain outside it.
+  CDF portions of Figures 2/3b/5b retained by the wet-PSD task; microscopy readings are now retained separately in swelling_kinetics_001.
 - **Figures 4, 6**: Δd_rel vs. initial particle diameter (medium; light) — the size-independence
   evidence.
-- **Figures 7, 10**: single-particle Δd_rel(t) and Progress(t) over the first 5 min, with the
+- **Figures 7, 10**: single-particle Δd_rel(t) through 20 min and Progress(t) over the first 5 min, with the
   listed initial diameters (medium: 608/519/675/585/543/914 µm; light: 652/626/462/665/653/547/
   472/589/520/568/592 µm) at 80 and 25 °C — noisy but the only time-resolved series.
 - **Figure 9**: aspect ratio vs. time (isotropy evidence).

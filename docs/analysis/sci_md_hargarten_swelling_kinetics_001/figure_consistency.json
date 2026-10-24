@@ -1,0 +1,376 @@
+[
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-m010",
+    "figure10_progress_outer": [
+      "2067/2300",
+      "423/460"
+    ],
+    "figure7_id": "f7a-m002",
+    "figure7_progress_outer": [
+      "34/75",
+      "38/71"
+    ],
+    "reference_id": "f7a-edge-543",
+    "separated_by": "59357/163300",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_543"
+  },
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-m014",
+    "figure10_progress_outer": [
+      "1209/1150",
+      "1233/1150"
+    ],
+    "figure7_id": "f7a-m004",
+    "figure7_progress_outer": [
+      "59/100",
+      "193/284"
+    ],
+    "reference_id": "f7a-edge-543",
+    "separated_by": "60703/163300",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_543"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m033",
+    "figure10_progress_outer": [
+      "2313/2300",
+      "2361/2300"
+    ],
+    "figure7_id": "f7a-m010",
+    "figure7_progress_outer": [
+      "407/408",
+      "83/80"
+    ],
+    "reference_id": "f7a-edge-585",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_585"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m037",
+    "figure10_progress_outer": [
+      "1233/1150",
+      "1257/1150"
+    ],
+    "figure7_id": "f7a-m011",
+    "figure7_progress_outer": [
+      "25/24",
+      "433/400"
+    ],
+    "reference_id": "f7a-edge-585",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_585"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m040",
+    "figure10_progress_outer": [
+      "387/575",
+      "399/575"
+    ],
+    "figure7_id": "f7a-m012",
+    "figure7_progress_outer": [
+      "373/566",
+      "389/550"
+    ],
+    "reference_id": "f7a-edge-914",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_914"
+  },
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-m045",
+    "figure10_progress_outer": [
+      "588/575",
+      "24/23"
+    ],
+    "figure7_id": "f7a-m016",
+    "figure7_progress_outer": [
+      "133/136",
+      "407/400"
+    ],
+    "reference_id": "f7a-edge-585",
+    "separated_by": "47/9200",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_585"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m046",
+    "figure10_progress_outer": [
+      "84/115",
+      "432/575"
+    ],
+    "figure7_id": "f7a-m017",
+    "figure7_progress_outer": [
+      "202/283",
+      "42/55"
+    ],
+    "reference_id": "f7a-edge-914",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_914"
+  },
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-m044",
+    "figure10_progress_outer": [
+      "159/115",
+      "807/575"
+    ],
+    "figure7_id": "f7a-m018",
+    "figure7_progress_outer": [
+      "64/75",
+      "68/71"
+    ],
+    "reference_id": "f7a-edge-543",
+    "separated_by": "3469/8165",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_543"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m050",
+    "figure10_progress_outer": [
+      "951/1150",
+      "39/46"
+    ],
+    "figure7_id": "f7a-m021",
+    "figure7_progress_outer": [
+      "228/283",
+      "236/275"
+    ],
+    "reference_id": "f7a-edge-914",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_914"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m052",
+    "figure10_progress_outer": [
+      "618/575",
+      "126/115"
+    ],
+    "figure7_id": "f7a-m022",
+    "figure7_progress_outer": [
+      "223/204",
+      "227/200"
+    ],
+    "reference_id": "f7a-edge-585",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_585"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-m056",
+    "figure10_progress_outer": [
+      "1059/1150",
+      "1083/1150"
+    ],
+    "figure7_id": "f7a-m025",
+    "figure7_progress_outer": [
+      "255/283",
+      "263/275"
+    ],
+    "reference_id": "f7a-edge-914",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_914"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10a-edge-914",
+    "figure10_progress_outer": [
+      "2313/2300",
+      "2361/2300"
+    ],
+    "figure7_id": "f7a-m030",
+    "figure7_progress_outer": [
+      "279/283",
+      "287/275"
+    ],
+    "reference_id": "f7a-edge-914",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_914"
+  },
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-edge-585",
+    "figure10_progress_outer": [
+      "657/575",
+      "669/575"
+    ],
+    "figure7_id": "f7a-m031",
+    "figure7_progress_outer": [
+      "299/272",
+      "913/800"
+    ],
+    "reference_id": "f7a-edge-585",
+    "separated_by": "1/736",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_585"
+  },
+  {
+    "disposition": "INCONSISTENT_UNDER_SAME_FRAME_MAPPING",
+    "figure10_id": "f10a-edge-543",
+    "figure10_progress_outer": [
+      "1251/1150",
+      "51/46"
+    ],
+    "figure7_id": "f7a-m032",
+    "figure7_progress_outer": [
+      "133/150",
+      "141/142"
+    ],
+    "reference_id": "f7a-edge-543",
+    "separated_by": "3873/40825",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "medium_543"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m040",
+    "figure10_progress_outer": [
+      "321/287",
+      "327/287"
+    ],
+    "figure7_id": "f7b-m005",
+    "figure7_progress_outer": [
+      "15/14",
+      "79/66"
+    ],
+    "reference_id": "f7b-edge-472",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_472"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m052",
+    "figure10_progress_outer": [
+      "1509/2296",
+      "1557/2296"
+    ],
+    "figure7_id": "f7b-m006",
+    "figure7_progress_outer": [
+      "609/958",
+      "625/942"
+    ],
+    "reference_id": "f7b-edge-592",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_592"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m048",
+    "figure10_progress_outer": [
+      "264/287",
+      "270/287"
+    ],
+    "figure7_id": "f7b-m007",
+    "figure7_progress_outer": [
+      "79/88",
+      "245/256"
+    ],
+    "reference_id": "f7b-edge-589",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_589"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m060",
+    "figure10_progress_outer": [
+      "237/287",
+      "243/287"
+    ],
+    "figure7_id": "f7b-m013",
+    "figure7_progress_outer": [
+      "387/479",
+      "395/471"
+    ],
+    "reference_id": "f7b-edge-592",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_592"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m056",
+    "figure10_progress_outer": [
+      "279/287",
+      "285/287"
+    ],
+    "figure7_id": "f7b-m014",
+    "figure7_progress_outer": [
+      "499/528",
+      "515/512"
+    ],
+    "reference_id": "f7b-edge-589",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_589"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-m071",
+    "figure10_progress_outer": [
+      "1203/1148",
+      "1227/1148"
+    ],
+    "figure7_id": "f7b-m034",
+    "figure7_progress_outer": [
+      "497/479",
+      "505/471"
+    ],
+    "reference_id": "f7b-edge-592",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_592"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-edge-592",
+    "figure10_progress_outer": [
+      "303/287",
+      "309/287"
+    ],
+    "figure7_id": "f7b-m043",
+    "figure7_progress_outer": [
+      "500/479",
+      "508/471"
+    ],
+    "reference_id": "f7b-edge-592",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_592"
+  },
+  {
+    "disposition": "NOT_SEPARATED",
+    "figure10_id": "f10b-edge-472",
+    "figure10_progress_outer": [
+      "1257/1148",
+      "183/164"
+    ],
+    "figure7_id": "f7b-m046",
+    "figure7_progress_outer": [
+      "293/280",
+      "103/88"
+    ],
+    "reference_id": "f7b-edge-472",
+    "separated_by": "0",
+    "time_relation": "overlapping_graphical_time_bounds; conditional same-source-frame correspondence",
+    "trace_id": "light_472"
+  }
+]

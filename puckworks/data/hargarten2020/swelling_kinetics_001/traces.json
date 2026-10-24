@@ -1,0 +1,172 @@
+[
+  {
+    "trace_id": "medium_608",
+    "roast": "medium",
+    "protocol": "hot80",
+    "group_id": "medium_hot80",
+    "diameter_um": 608,
+    "marker": "circle",
+    "gray": 255,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "medium_519",
+    "roast": "medium",
+    "protocol": "hot80",
+    "group_id": "medium_hot80",
+    "diameter_um": 519,
+    "marker": "circle",
+    "gray": 106,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "medium_675",
+    "roast": "medium",
+    "protocol": "hot80",
+    "group_id": "medium_hot80",
+    "diameter_um": 675,
+    "marker": "circle",
+    "gray": 0,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "medium_585",
+    "roast": "medium",
+    "protocol": "room25",
+    "group_id": "medium_room25",
+    "diameter_um": 585,
+    "marker": "triangle",
+    "gray": 255,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "medium_543",
+    "roast": "medium",
+    "protocol": "room25",
+    "group_id": "medium_room25",
+    "diameter_um": 543,
+    "marker": "triangle",
+    "gray": 106,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "medium_914",
+    "roast": "medium",
+    "protocol": "room25",
+    "group_id": "medium_room25",
+    "diameter_um": 914,
+    "marker": "triangle",
+    "gray": 0,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_652",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 652,
+    "marker": "circle",
+    "gray": 255,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_626",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 626,
+    "marker": "circle",
+    "gray": 191,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_462",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 462,
+    "marker": "circle",
+    "gray": 132,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_665",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 665,
+    "marker": "circle",
+    "gray": 80,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_653",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 653,
+    "marker": "circle",
+    "gray": 36,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_547",
+    "roast": "light",
+    "protocol": "hot80",
+    "group_id": "light_hot80",
+    "diameter_um": 547,
+    "marker": "circle",
+    "gray": 0,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_472",
+    "roast": "light",
+    "protocol": "room25",
+    "group_id": "light_room25",
+    "diameter_um": 472,
+    "marker": "triangle",
+    "gray": 255,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_589",
+    "roast": "light",
+    "protocol": "room25",
+    "group_id": "light_room25",
+    "diameter_um": 589,
+    "marker": "triangle",
+    "gray": 176,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_520",
+    "roast": "light",
+    "protocol": "room25",
+    "group_id": "light_room25",
+    "diameter_um": 520,
+    "marker": "triangle",
+    "gray": 106,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_568",
+    "roast": "light",
+    "protocol": "room25",
+    "group_id": "light_room25",
+    "diameter_um": 568,
+    "marker": "triangle",
+    "gray": 46,
+    "reference_s": 1200
+  },
+  {
+    "trace_id": "light_592",
+    "roast": "light",
+    "protocol": "room25",
+    "group_id": "light_room25",
+    "diameter_um": 592,
+    "marker": "triangle",
+    "gray": 0,
+    "reference_s": 1200
+  }
+]

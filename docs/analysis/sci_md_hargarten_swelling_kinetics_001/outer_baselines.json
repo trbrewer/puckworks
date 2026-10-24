@@ -1,0 +1,766 @@
+{
+  "light_462": {
+    "B": "403/1148",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-m000",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m000",
+        "p": "1",
+        "t": "700/71"
+      },
+      {
+        "observation_id": "f10b-m009",
+        "p": "1",
+        "t": "1425/71"
+      }
+    ]
+  },
+  "light_472": {
+    "B": "34/287",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-m040",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m005",
+        "p": "743/1148",
+        "t": "925/71"
+      },
+      {
+        "observation_id": "f10b-m034",
+        "p": "2059/2296",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m040",
+        "p": "1",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10b-edge-472",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "light_520": {
+    "B": "169/1148",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-edge-589",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m012",
+        "p": "1147/2296",
+        "t": "1425/71"
+      },
+      {
+        "observation_id": "f10b-m022",
+        "p": "1147/2296",
+        "t": "4275/142"
+      },
+      {
+        "observation_id": "f10b-m032",
+        "p": "179/287",
+        "t": "7075/142"
+      },
+      {
+        "observation_id": "f10b-m050",
+        "p": "785/1148",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-edge-589",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "light_547": {
+    "B": "35/328",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-m016",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m001",
+        "p": "1579/2296",
+        "t": "700/71"
+      },
+      {
+        "observation_id": "f10b-m008",
+        "p": "301/328",
+        "t": "2825/142"
+      },
+      {
+        "observation_id": "f10b-m016",
+        "p": "1",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10b-m024",
+        "p": "1",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10b-m033",
+        "p": "1",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m041",
+        "p": "1",
+        "t": "4250/71"
+      }
+    ]
+  },
+  "light_568": {
+    "B": "1/164",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-edge-520",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m006",
+        "p": "211/574",
+        "t": "925/71"
+      },
+      {
+        "observation_id": "f10b-m013",
+        "p": "271/574",
+        "t": "1425/71"
+      },
+      {
+        "observation_id": "f10b-m020",
+        "p": "271/574",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10b-m028",
+        "p": "49/82",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10b-m044",
+        "p": "233/287",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10b-m049",
+        "p": "499/574",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-edge-520",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "light_589": {
+    "B": "0",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m011",
+        "p": "1581/2296",
+        "t": "1425/71"
+      },
+      {
+        "observation_id": "f10b-m018",
+        "p": "1605/2296",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10b-m036",
+        "p": "2013/2296",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m043",
+        "p": "2013/2296",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10b-m048",
+        "p": "264/287",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-m056",
+        "p": "279/287",
+        "t": "17025/142"
+      }
+    ]
+  },
+  "light_592": {
+    "B": "16/287",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-edge-592",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m007",
+        "p": "65/287",
+        "t": "925/71"
+      },
+      {
+        "observation_id": "f10b-m014",
+        "p": "89/287",
+        "t": "1425/71"
+      },
+      {
+        "observation_id": "f10b-m029",
+        "p": "853/2296",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10b-m038",
+        "p": "515/1148",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m052",
+        "p": "1381/2296",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-m060",
+        "p": "221/287",
+        "t": "8525/71"
+      },
+      {
+        "observation_id": "f10b-m071",
+        "p": "1139/1148",
+        "t": "17025/71"
+      },
+      {
+        "observation_id": "f10b-edge-592",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "light_626": {
+    "B": "0",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m030",
+        "p": "429/1148",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10b-m054",
+        "p": "243/574",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-m059",
+        "p": "1047/2296",
+        "t": "17025/142"
+      },
+      {
+        "observation_id": "f10b-m064",
+        "p": "111/164",
+        "t": "12500/71"
+      },
+      {
+        "observation_id": "f10b-m069",
+        "p": "879/1148",
+        "t": "16750/71"
+      },
+      {
+        "observation_id": "f10b-m076",
+        "p": "915/1148",
+        "t": "21025/71"
+      }
+    ]
+  },
+  "light_652": {
+    "B": "0",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "nonnegative_discrepancy"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m031",
+        "p": "333/1148",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10b-m039",
+        "p": "471/1148",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m053",
+        "p": "309/574",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-m062",
+        "p": "1335/2296",
+        "t": "24975/142"
+      },
+      {
+        "observation_id": "f10b-m068",
+        "p": "465/574",
+        "t": "16750/71"
+      },
+      {
+        "observation_id": "f10b-m075",
+        "p": "1047/1148",
+        "t": "21025/71"
+      }
+    ]
+  },
+  "light_653": {
+    "B": "5/28",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-m061",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m002",
+        "p": "143/287",
+        "t": "700/71"
+      },
+      {
+        "observation_id": "f10b-m019",
+        "p": "143/287",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10b-m051",
+        "p": "605/1148",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10b-m061",
+        "p": "1",
+        "t": "24975/142"
+      },
+      {
+        "observation_id": "f10b-m073",
+        "p": "1",
+        "t": "21025/71"
+      }
+    ]
+  },
+  "light_665": {
+    "B": "16/287",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10b-m067",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10b-m017",
+        "p": "35/41",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10b-m035",
+        "p": "143/164",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10b-m042",
+        "p": "143/164",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10b-m067",
+        "p": "1",
+        "t": "16750/71"
+      }
+    ]
+  },
+  "medium_519": {
+    "B": "43/575",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-m041",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m003",
+        "p": "76/115",
+        "t": "575/71"
+      },
+      {
+        "observation_id": "f10a-m007",
+        "p": "76/115",
+        "t": "1975/142"
+      },
+      {
+        "observation_id": "f10a-m017",
+        "p": "76/115",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10a-m023",
+        "p": "401/575",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10a-m031",
+        "p": "458/575",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10a-m038",
+        "p": "2147/2300",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m041",
+        "p": "1",
+        "t": "14325/142"
+      },
+      {
+        "observation_id": "f10a-m048",
+        "p": "1",
+        "t": "9575/71"
+      },
+      {
+        "observation_id": "f10a-m054",
+        "p": "1",
+        "t": "27675/142"
+      },
+      {
+        "observation_id": "f10a-m059",
+        "p": "1",
+        "t": "18100/71"
+      }
+    ]
+  },
+  "medium_543": {
+    "B": "271/575",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-m035",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m001",
+        "p": "11/23",
+        "t": "500/71"
+      },
+      {
+        "observation_id": "f10a-m010",
+        "p": "11/23",
+        "t": "2825/142"
+      },
+      {
+        "observation_id": "f10a-m014",
+        "p": "29/50",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10a-m020",
+        "p": "1607/2300",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10a-m025",
+        "p": "1829/2300",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10a-m029",
+        "p": "197/230",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10a-m035",
+        "p": "1",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m044",
+        "p": "1",
+        "t": "17025/142"
+      },
+      {
+        "observation_id": "f10a-m051",
+        "p": "1",
+        "t": "25525/142"
+      },
+      {
+        "observation_id": "f10a-edge-543",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "medium_585": {
+    "B": "82/575",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-edge-585",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m000",
+        "p": "1193/2300",
+        "t": "975/142"
+      },
+      {
+        "observation_id": "f10a-m019",
+        "p": "859/1150",
+        "t": "4275/142"
+      },
+      {
+        "observation_id": "f10a-m033",
+        "p": "397/460",
+        "t": "8525/142"
+      },
+      {
+        "observation_id": "f10a-m037",
+        "p": "1069/1150",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m045",
+        "p": "1069/1150",
+        "t": "17025/142"
+      },
+      {
+        "observation_id": "f10a-m052",
+        "p": "536/575",
+        "t": "12775/71"
+      },
+      {
+        "observation_id": "f10a-edge-585",
+        "p": "1",
+        "t": "300"
+      }
+    ]
+  },
+  "medium_608": {
+    "B": "143/1150",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-m043",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m004",
+        "p": "287/575",
+        "t": "575/71"
+      },
+      {
+        "observation_id": "f10a-m008",
+        "p": "751/1150",
+        "t": "1000/71"
+      },
+      {
+        "observation_id": "f10a-m011",
+        "p": "82/115",
+        "t": "2825/142"
+      },
+      {
+        "observation_id": "f10a-m015",
+        "p": "467/575",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10a-m030",
+        "p": "1057/1150",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10a-m036",
+        "p": "1141/1150",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m043",
+        "p": "1",
+        "t": "7175/71"
+      },
+      {
+        "observation_id": "f10a-m047",
+        "p": "1",
+        "t": "9575/71"
+      },
+      {
+        "observation_id": "f10a-m053",
+        "p": "1",
+        "t": "27675/142"
+      }
+    ]
+  },
+  "medium_675": {
+    "B": "159/1150",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-m009",
+      "f10a-m049"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m002",
+        "p": "369/575",
+        "t": "575/71"
+      },
+      {
+        "observation_id": "f10a-m006",
+        "p": "1827/2300",
+        "t": "1975/142"
+      },
+      {
+        "observation_id": "f10a-m009",
+        "p": "489/575",
+        "t": "2825/142"
+      },
+      {
+        "observation_id": "f10a-m016",
+        "p": "489/575",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10a-m022",
+        "p": "489/575",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10a-m032",
+        "p": "489/575",
+        "t": "4250/71"
+      },
+      {
+        "observation_id": "f10a-m039",
+        "p": "489/575",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m042",
+        "p": "489/575",
+        "t": "14325/142"
+      },
+      {
+        "observation_id": "f10a-m049",
+        "p": "489/575",
+        "t": "9575/71"
+      },
+      {
+        "observation_id": "f10a-m055",
+        "p": "489/575",
+        "t": "27675/142"
+      }
+    ]
+  },
+  "medium_914": {
+    "B": "13/2300",
+    "coordinate_layer": "outer_partial_order",
+    "decisive": [
+      "f10a-edge-914",
+      "endpoint_T"
+    ],
+    "disposition": "EXACT_PARTIAL_ORDER_OUTER_OPTIMUM_NECESSARY_ONLY",
+    "witness": [
+      {
+        "observation_id": "f10a-m005",
+        "p": "481/1150",
+        "t": "1425/142"
+      },
+      {
+        "observation_id": "f10a-m013",
+        "p": "107/230",
+        "t": "2825/142"
+      },
+      {
+        "observation_id": "f10a-m018",
+        "p": "1169/2300",
+        "t": "2125/71"
+      },
+      {
+        "observation_id": "f10a-m024",
+        "p": "247/460",
+        "t": "5675/142"
+      },
+      {
+        "observation_id": "f10a-m028",
+        "p": "1289/2300",
+        "t": "50"
+      },
+      {
+        "observation_id": "f10a-m034",
+        "p": "1349/2300",
+        "t": "8525/142"
+      },
+      {
+        "observation_id": "f10a-m040",
+        "p": "307/460",
+        "t": "12775/142"
+      },
+      {
+        "observation_id": "f10a-m046",
+        "p": "1667/2300",
+        "t": "17025/142"
+      },
+      {
+        "observation_id": "f10a-m050",
+        "p": "1889/2300",
+        "t": "24825/142"
+      },
+      {
+        "observation_id": "f10a-m056",
+        "p": "421/460",
+        "t": "33325/142"
+      },
+      {
+        "observation_id": "f10a-edge-914",
+        "p": "1",
+        "t": "41875/142"
+      }
+    ]
+  }
+}

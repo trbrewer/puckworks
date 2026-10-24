@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "78bd3491ce6d5c333d1eaea04c709deeda44e5173306bd587995beb8f67a4d1c",
+  "available_data_register_sha256": "82058bb836884e250a3ec4cc8f60e27af1e8072a7d98c133158c4748b09a470e",
   "families": [
     {
       "aliases": [
@@ -507,7 +507,8 @@
       "manifest_dataset_ids": [
         "hargarten2020/swelling_progress",
         "hargarten2020/scalar_anchors",
-        "hargarten2020/wet_psd_001"
+        "hargarten2020/wet_psd_001",
+        "hargarten2020/swelling_kinetics_001"
       ],
       "model_chain_stages": [
         "source_material",
@@ -516,9 +517,10 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; single-particle figures not digitized",
+        "CC BY-NC (JSFA, open access); bounded CDF intake: hargarten2020/wet_psd_001; bounded individual graphical readings: hargarten2020/swelling_kinetics_001",
         "CC BY-NC (JSFA)",
-        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)"
+        "CC BY-NC (2020 The Authors; source-derived readings; source artwork external)",
+        "CC BY-NC (2020 The Authors; source-derived coordinates; artwork external)"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:HARGARTEN2020",
       "strongest_current_uses": [
