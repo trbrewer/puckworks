@@ -1,0 +1,895 @@
+{
+  "task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+  "base_sha": "4f378aa6757e9d61c4231d078aa4e7718736a394",
+  "ewp_read_only_sha": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+  "scope": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "NONSCORING"
+  ],
+  "source_access": {
+    "retrieved_date": "2026-10-23",
+    "sources": [
+      {
+        "source_id": "M21-JOURNAL",
+        "version": "Journal of Food Engineering295(2021),110420; DOI10.1016/j.jfoodeng.2020.110420",
+        "locator": "https://www.sciencedirect.com/science/article/pii/S0260877420305069",
+        "sha256": null,
+        "status": "PARTIAL_TEXT_RETRIEVED; FULL_TEXT_RETRIEVAL_FAILED_HTTP403",
+        "inspection": "publisher-indexed abstract/highlights/materials/individual-particle/discussion/conclusion snippets only; tables/figures not inspected",
+        "rights": "publisher-controlled; no full text or artwork redistributed"
+      },
+      {
+        "source_id": "M21-ASIC",
+        "version": "ASIC2021 official S8-PO-01 poster; Sala, Maille, Scott, Zukswert; cited2021 study",
+        "locator": "https://www.alphavisa.com/asic/2021/documents/eposters-presentation/S8-PO-01_KYLE.pdf",
+        "sha256": "75740726613515012a2a5ccf593b799add001dbcdbca195f21bc5b01eb438b73",
+        "status": "RETRIEVED_AUTHENTICATED",
+        "inspection": "FILES_INSPECTED: whole poster, Figures1-4, captions and conclusions",
+        "rights": "No reuse licence stated in inspected poster; numeric factual readings with attribution only; PDF/artwork external"
+      },
+      {
+        "source_id": "M24-THESIS",
+        "version": "Final_012825_Redacted_V1;225PDFpages; Matthew James Maille2024, University of Sheffield",
+        "locator": "https://etheses.whiterose.ac.uk/id/eprint/36281/",
+        "sha256": "840c22d792fe32662bdf4c9f77f75fda41f3b3fc5b05b26293913af88f6fb0ea",
+        "status": "RETRIEVED_AUTHENTICATED",
+        "inspection": "FILES_INSPECTED: title, printed pp30-31/PDF52-53, Figure2.5 and explicit Maille2021 attribution; later extraction methods not imported",
+        "rights": "institutional CC BY-NC-ND4.0; reproduced2021 image may retain its original rights; no PDF/artwork/adapted image distributed",
+        "bytes_locator": "https://etheses.whiterose.ac.uk/id/eprint/36281/2/Measuring%20Coffee%20Extraction%20Kinetics%20at%20Early%20Time%20Scales_Doctoral%20Thesis_MJMaille_Final_012825_Redacted_V1.pdf"
+      },
+      {
+        "source_id": "M21-ORIGINALS",
+        "version": "UNKNOWN",
+        "locator": null,
+        "sha256": null,
+        "status": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+        "inspection": "repository and configured holdings filenames/provenance; legitimate public exact-title/DOI search",
+        "rights": "UNKNOWN"
+      },
+      {
+        "source_id": "M21-SUPPLEMENT",
+        "version": "UNKNOWN",
+        "locator": null,
+        "sha256": null,
+        "status": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+        "inspection": "no authenticated directly linked supplementary record located in admitted pages/search; inaccessible publisher full page limits coverage",
+        "rights": "UNKNOWN"
+      }
+    ],
+    "lineage": "2021 journal, ASIC poster and thesis reproduction are one study lineage; distinct LD, same-particle and before/after depictions have no authenticated replicate join. 2024 extraction datasets are distinct and unchanged.",
+    "search_queries": [
+      "\"Critical examination of particle swelling\" Maille full text supplementary",
+      "\"10.1016/j.jfoodeng.2020.110420\" manuscript",
+      "site.sciencedirect.com/science/article/pii/S0260877420305069 \"Materials\" \"laser\"",
+      "\"Critical examination of particle swelling\" \"supplementary\"",
+      "\"Critical examination of particle swelling\" \"Scott\" \"pdf\""
+    ],
+    "search_end": "No additional public search planned; no author requests or purchases."
+  },
+  "quantitative_coverage": {
+    "native_marker_rows": 24,
+    "time_groups": 8,
+    "qualified_R": 8,
+    "qualified_K": 8,
+    "coverage_scope": "all interpreted left-panel markers; not a complete raw history",
+    "right_panel": "unpooled depiction only; ambiguous cluster retained",
+    "original_numerical_records": "NOT_LOCATED_IN_BOUNDED_SEARCH",
+    "published_numerical_growth_summaries": "NOT_RECOVERED",
+    "quantitative_microscopy": "NOT_ADMITTED_BOUNDARY_AND_MAPPING_UNRESOLVED"
+  },
+  "graphical_representation_result": {
+    "hypothesis": "H_FIXED_SCALE",
+    "status": "CONDITIONAL_EXCLUSION_ON_RETAINED_SUPPORT",
+    "measurement_map_condition": "Conditional scale equivariance: reported size quantiles must scale with geometric lambda and reported volume concentration with lambda^3. An unchanged arbitrary nonlinear/offset map alone is insufficient. This condition is not established by readable axes.",
+    "invariants": {
+      "R": {
+        "status": "NOT_EXCLUDED_BY_OUTER_RELAXATION",
+        "supported": 8,
+        "required": 8,
+        "intersection": {
+          "exact": [
+            "158/87",
+            "134/65"
+          ],
+          "outward_decimal": [
+            "1.816091",
+            "2.061539"
+          ]
+        },
+        "limiting_lower_observation": "M21-LD-01-O08",
+        "limiting_upper_observation": "M21-LD-01-O03",
+        "certificate": null
+      },
+      "K_m_minus3": {
+        "status": "CONDITIONAL_EXCLUSION_ON_RETAINED_SUPPORT",
+        "supported": 8,
+        "required": 8,
+        "intersection": null,
+        "limiting_lower_observation": "M21-LD-01-O01",
+        "limiting_upper_observation": "M21-LD-01-O08",
+        "certificate": {
+          "lower_observation": "M21-LD-01-O01",
+          "lower_interval": {
+            "exact": [
+              "2462402343750/148877",
+              "2872802734375/79507"
+            ],
+            "outward_decimal": [
+              "16539843.923171",
+              "36132701.955489"
+            ]
+          },
+          "upper_observation": "M21-LD-01-O08",
+          "upper_interval": {
+            "exact": [
+              "11244970703125/1317006",
+              "246240234375/18634"
+            ],
+            "outward_decimal": [
+              "8538283.578909",
+              "13214566.618816"
+            ]
+          },
+          "strict_gap": "9224897900390625/2774174018"
+        }
+      }
+    },
+    "uncertainty_scope": "graphical outer relaxation only; no experimental-error authority",
+    "physical_observation_mapping": "OBSERVATION_MAPPING_UNRESOLVED"
+  },
+  "geometric_growth_bound": {
+    "value": null,
+    "status": "NOT_IDENTIFIABLE",
+    "reason": "LD population/optical mappings unresolved; microscopy coffee edges obscured by bubbles and unbounded projection/focus changes; no calibrated detection limit.",
+    "microscopy_baseline_s": 18,
+    "microscopy_last_frame_s": 283,
+    "dry_to_wet_bound": null,
+    "equilibrium_bound": null,
+    "population_maximum_bound": null
+  },
+  "entrainment_attribution": {
+    "source_report": "floating large particles enter recirculating flow later",
+    "quantitative_fraction": null,
+    "rate": null,
+    "status": "QUALITATIVE_SOURCE_EVIDENCE; CONTRIBUTIONS_CONFOUNDED",
+    "corrected_trace_recovered": false
+  },
+  "hargarten_comparability": {
+    "status": "DIFFERING_PUBLISHED_CONCLUSIONS",
+    "actual_quantitative_contradiction": "NOT_ESTABLISHED",
+    "table": "COMPARISON.md"
+  },
+  "mo_parameter_implications": {
+    "s_max_percent_equation": "100*((1-C_M)**(-1/3)-1)",
+    "s_max_percent_at_C_M_0_1_approx": 3.5744,
+    "meaning": "model-implied equilibrium diameter/radius expansion, not empirical estimate",
+    "C_M_bound": null,
+    "D_W_bound": null,
+    "kinetic_timescale": null,
+    "dry_to_wet_growth": null,
+    "finite_window_projected_growth": null,
+    "temperature_or_water_chemistry_dependence": null,
+    "observation_mapping": "must allow departures from excluded fixed-population/common-scale conjunction on retained support",
+    "parameters_fitted": 0,
+    "Mo_solver_runs": 0
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "observations": [
+    {
+      "observation_id": "M21-LD-01-O01",
+      "time_s": {
+        "exact": [
+          "1200/137",
+          "2700/137"
+        ],
+        "outward_decimal": [
+          "8.759124",
+          "19.708030"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "13760/41",
+          "16960/41"
+        ],
+        "outward_decimal": [
+          "335.609756",
+          "413.658537"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "28160/41",
+          "31360/41"
+        ],
+        "outward_decimal": [
+          "686.829268",
+          "764.878049"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "24/205",
+          "28/205"
+        ],
+        "outward_decimal": [
+          "0.117073",
+          "0.136586"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "43/128125",
+          "53/128125"
+        ],
+        "outward_decimal": [
+          "0.000335",
+          "0.000414"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "6/5125",
+          "7/5125"
+        ],
+        "outward_decimal": [
+          "0.001170",
+          "0.001366"
+        ]
+      },
+      "R": {
+        "exact": [
+          "88/53",
+          "98/43"
+        ],
+        "outward_decimal": [
+          "1.660377",
+          "2.279070"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "2462402343750/148877",
+          "2872802734375/79507"
+        ],
+        "outward_decimal": [
+          "16539843.923171",
+          "36132701.955489"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O01-x50",
+        "F4L-O01-x90",
+        "F4L-O01-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O02",
+      "time_s": {
+        "exact": [
+          "6150/137",
+          "7650/137"
+        ],
+        "outward_decimal": [
+          "44.890510",
+          "55.839417"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "18240/41",
+          "21440/41"
+        ],
+        "outward_decimal": [
+          "444.878048",
+          "522.926830"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "34560/41",
+          "37760/41"
+        ],
+        "outward_decimal": [
+          "842.926829",
+          "920.975610"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "36/205",
+          "8/41"
+        ],
+        "outward_decimal": [
+          "0.175609",
+          "0.195122"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "57/128125",
+          "67/128125"
+        ],
+        "outward_decimal": [
+          "0.000444",
+          "0.000523"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "9/5125",
+          "2/1025"
+        ],
+        "outward_decimal": [
+          "0.001756",
+          "0.001952"
+        ]
+      },
+      "R": {
+        "exact": [
+          "108/67",
+          "118/57"
+        ],
+        "outward_decimal": [
+          "1.611940",
+          "2.070176"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "3693603515625/300763",
+          "4104003906250/185193"
+        ],
+        "outward_decimal": [
+          "12280777.607701",
+          "22160685.912805"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O02-x50",
+        "F4L-O02-x90",
+        "F4L-O02-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O03",
+      "time_s": {
+        "exact": [
+          "10950/137",
+          "12450/137"
+        ],
+        "outward_decimal": [
+          "79.927007",
+          "90.875913"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "20800/41",
+          "24000/41"
+        ],
+        "outward_decimal": [
+          "507.317073",
+          "585.365854"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "39680/41",
+          "42880/41"
+        ],
+        "outward_decimal": [
+          "967.804878",
+          "1045.853659"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "44/205",
+          "48/205"
+        ],
+        "outward_decimal": [
+          "0.214634",
+          "0.234147"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "13/25625",
+          "3/5125"
+        ],
+        "outward_decimal": [
+          "0.000507",
+          "0.000586"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "11/5125",
+          "12/5125"
+        ],
+        "outward_decimal": [
+          "0.002146",
+          "0.002342"
+        ]
+      },
+      "R": {
+        "exact": [
+          "124/75",
+          "134/65"
+        ],
+        "outward_decimal": [
+          "1.653333",
+          "2.061539"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "288921875/27",
+          "39398437500/2197"
+        ],
+        "outward_decimal": [
+          "10700810.185185",
+          "17932834.547110"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O03-x50",
+        "F4L-O03-x90",
+        "F4L-O03-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O04",
+      "time_s": {
+        "exact": [
+          "15900/137",
+          "17400/137"
+        ],
+        "outward_decimal": [
+          "116.058394",
+          "127.007300"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "23360/41",
+          "26560/41"
+        ],
+        "outward_decimal": [
+          "569.756097",
+          "647.804879"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "47680/41",
+          "50880/41"
+        ],
+        "outward_decimal": [
+          "1162.926829",
+          "1240.975610"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "254/1025",
+          "274/1025"
+        ],
+        "outward_decimal": [
+          "0.247804",
+          "0.267318"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "73/128125",
+          "83/128125"
+        ],
+        "outward_decimal": [
+          "0.000569",
+          "0.000648"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "127/51250",
+          "137/51250"
+        ],
+        "outward_decimal": [
+          "0.002478",
+          "0.002674"
+        ]
+      },
+      "R": {
+        "exact": [
+          "149/83",
+          "159/73"
+        ],
+        "outward_decimal": [
+          "1.795180",
+          "2.178083"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "10424169921875/1143574",
+          "11244970703125/778034"
+        ],
+        "outward_decimal": [
+          "9115431.027528",
+          "14453058.225123"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O04-x50",
+        "F4L-O04-x90",
+        "F4L-O04-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O05",
+      "time_s": {
+        "exact": [
+          "20700/137",
+          "22200/137"
+        ],
+        "outward_decimal": [
+          "151.094890",
+          "162.043796"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "24320/41",
+          "27520/41"
+        ],
+        "outward_decimal": [
+          "593.170731",
+          "671.219513"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "49920/41",
+          "53120/41"
+        ],
+        "outward_decimal": [
+          "1217.560975",
+          "1295.609757"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "54/205",
+          "58/205"
+        ],
+        "outward_decimal": [
+          "0.263414",
+          "0.282927"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "76/128125",
+          "86/128125"
+        ],
+        "outward_decimal": [
+          "0.000593",
+          "0.000672"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "27/10250",
+          "29/10250"
+        ],
+        "outward_decimal": [
+          "0.002634",
+          "0.002830"
+        ]
+      },
+      "R": {
+        "exact": [
+          "78/43",
+          "83/38"
+        ],
+        "outward_decimal": [
+          "1.813953",
+          "2.184211"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "11080810546875/1272112",
+          "11901611328125/877952"
+        ],
+        "outward_decimal": [
+          "8710562.078555",
+          "13556107.085724"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O05-x50",
+        "F4L-O05-x90",
+        "F4L-O05-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O06",
+      "time_s": {
+        "exact": [
+          "25500/137",
+          "27000/137"
+        ],
+        "outward_decimal": [
+          "186.131386",
+          "197.080292"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "24320/41",
+          "27520/41"
+        ],
+        "outward_decimal": [
+          "593.170731",
+          "671.219513"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "48640/41",
+          "51840/41"
+        ],
+        "outward_decimal": [
+          "1186.341463",
+          "1264.390244"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "268/1025",
+          "288/1025"
+        ],
+        "outward_decimal": [
+          "0.261463",
+          "0.280976"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "76/128125",
+          "86/128125"
+        ],
+        "outward_decimal": [
+          "0.000593",
+          "0.000672"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "67/25625",
+          "72/25625"
+        ],
+        "outward_decimal": [
+          "0.002614",
+          "0.002810"
+        ]
+      },
+      "R": {
+        "exact": [
+          "76/43",
+          "81/38"
+        ],
+        "outward_decimal": [
+          "1.767441",
+          "2.131579"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "5499365234375/636056",
+          "738720703125/54872"
+        ],
+        "outward_decimal": [
+          "8646039.396491",
+          "13462616.692029"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O06-x50",
+        "F4L-O06-x90",
+        "F4L-O06-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O07",
+      "time_s": {
+        "exact": [
+          "30450/137",
+          "31950/137"
+        ],
+        "outward_decimal": [
+          "222.262773",
+          "233.211679"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "23680/41",
+          "26880/41"
+        ],
+        "outward_decimal": [
+          "577.560975",
+          "655.609757"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "47680/41",
+          "50880/41"
+        ],
+        "outward_decimal": [
+          "1162.926829",
+          "1240.975610"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "266/1025",
+          "286/1025"
+        ],
+        "outward_decimal": [
+          "0.259512",
+          "0.279025"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "74/128125",
+          "84/128125"
+        ],
+        "outward_decimal": [
+          "0.000577",
+          "0.000656"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "133/51250",
+          "143/51250"
+        ],
+        "outward_decimal": [
+          "0.002595",
+          "0.002791"
+        ]
+      },
+      "R": {
+        "exact": [
+          "149/84",
+          "159/74"
+        ],
+        "outward_decimal": [
+          "1.773809",
+          "2.148649"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "1559521484375/169344",
+          "11737451171875/810448"
+        ],
+        "outward_decimal": [
+          "9209192.438911",
+          "14482670.290846"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O07-x50",
+        "F4L-O07-x90",
+        "F4L-O07-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    },
+    {
+      "observation_id": "M21-LD-01-O08",
+      "time_s": {
+        "exact": [
+          "35250/137",
+          "36750/137"
+        ],
+        "outward_decimal": [
+          "257.299270",
+          "268.248176"
+        ]
+      },
+      "x50_um": {
+        "exact": [
+          "24640/41",
+          "27840/41"
+        ],
+        "outward_decimal": [
+          "600.975609",
+          "679.024391"
+        ]
+      },
+      "x90_um": {
+        "exact": [
+          "50560/41",
+          "53760/41"
+        ],
+        "outward_decimal": [
+          "1233.170731",
+          "1311.219513"
+        ]
+      },
+      "C_vol_percent": {
+        "exact": [
+          "274/1025",
+          "294/1025"
+        ],
+        "outward_decimal": [
+          "0.267317",
+          "0.286830"
+        ]
+      },
+      "x50_m": {
+        "exact": [
+          "77/128125",
+          "87/128125"
+        ],
+        "outward_decimal": [
+          "0.000600",
+          "0.000680"
+        ]
+      },
+      "C_volume_fraction": {
+        "exact": [
+          "137/51250",
+          "147/51250"
+        ],
+        "outward_decimal": [
+          "0.002673",
+          "0.002869"
+        ]
+      },
+      "R": {
+        "exact": [
+          "158/87",
+          "24/11"
+        ],
+        "outward_decimal": [
+          "1.816091",
+          "2.181819"
+        ]
+      },
+      "K_m_minus3": {
+        "exact": [
+          "11244970703125/1317006",
+          "246240234375/18634"
+        ],
+        "outward_decimal": [
+          "8538283.578909",
+          "13214566.618816"
+        ]
+      },
+      "reading_ids": [
+        "F4L-O08-x50",
+        "F4L-O08-x90",
+        "F4L-O08-C_V"
+      ],
+      "reason": "GRAPHICAL_TIME_PAIRING"
+    }
+  ]
+}

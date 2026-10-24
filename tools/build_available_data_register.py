@@ -80,6 +80,33 @@ def build() -> dict:
                   "Hot label 90 C cools to about 60 C; washed retained coarse fractions and non-sieved/ultrasound operators differ. Figure5 caption L conflicts with artwork; only light S/M retained.",
                   "Same Hargarten article/reprint campaign; scalar CSVs unchanged. Fine F, density and microscopy figures not newly intaken."]
     })
+    families["MAILLE2021"].update({
+        "title": "Maille 2021 particle swelling and observed-population effects",
+        "source_identifiers": ["10.1016/j.jfoodeng.2020.110420", "ASIC2021 S8-PO-01"],
+        "stages": ["grind", "bed_dynamics"],
+        "observables": ["reported LD x50 and x90", "LD volume concentration",
+                        "same-particle microscopy depictions; qualitative only"],
+        "measurement_resolution": "24_GRAPHICAL_MARKERS_IN_8_ALIGNED_TIME_GROUPS",
+        "time_resolution": "native poster abscissae; approximately 14-263 s; not a dry baseline",
+        "physical_replicate_structure": "UNKNOWN; journal/poster/thesis are one study lineage",
+        "source_internal_or_external": "SEPARATE_SOURCE_FROM_HARGARTEN; SOURCE_INTERNAL_REPRESENTATION_TEST",
+        "target_exposure": "TARGET_EXPOSED",
+        "raw_access_status": "DERIVED_READINGS_PACKAGED; ORIGINALS_NOT_LOCATED_IN_BOUNDED_SEARCH",
+        "eligible_uses": ["conditional fixed-population/common-scaling graphical invariant test",
+                          "source-grounded qualitative population-sampling evidence"],
+        "conditionally_eligible_uses": ["future observation-model assessment with exact source contract"],
+        "blocked_uses": ["physical geometric-growth bound", "entrainment fraction or rate fit",
+                         "C_M or D_W calibration", "equilibrium or dry-to-wet growth bound",
+                         "permeability closure", "physical validation"],
+        "missing_joins": ["LD material/protocol and optical/concentration mapping",
+                          "experimental uncertainty and replicate identities",
+                          "microscopy coffee boundaries and projection uncertainty",
+                          "dry baseline and saturation premise"],
+        "last_qualified_task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+        "last_qualified_commit": None,
+        "notes": ["K=C_V/x50^3 conditionally excluded on retained graphical support; x90/x50 has necessary-only outer overlap. Geometric bound null/NOT_IDENTIFIABLE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+                  "Full journal inaccessible; authenticated official poster and attributed thesis reproduction. No extra campaigns from republication; Maille2024 extraction identity/limitations unchanged."]
+    })
     pannusch = families["PANNUSCH2024"]
     pannusch.update({
         "title": "Pannusch 2024 full source repository and qualified reconstructions",

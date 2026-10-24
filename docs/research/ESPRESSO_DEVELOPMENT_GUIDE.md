@@ -1,5 +1,7 @@
 # Espresso development guide
 
+**2026-10-23 Maille swelling evidence:** [conditional graphical result](../analysis/sci_md_maille_swelling_evidence_001/RESULT.md) excludes fixed-population/common-scaling C_V/x50³ on retained poster support. Physical geometric-growth bound remains null/NOT_IDENTIFIABLE; entrainment is qualitative, no C_M/D_W constraint. The2021 study and its republications are distinct from2024 extraction. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-23 Hargarten update:** [bounded wet-PSD result](../analysis/sci_md_hargarten_wet_psd_001/RESULT.md)
 adds CDF readings and necessary quantile-scale constraints. G excludes uniform
 non-sieved dilation for both wet protocols; prepared G ranges remain unexcluded

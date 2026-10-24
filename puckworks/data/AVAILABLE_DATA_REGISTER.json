@@ -1,5 +1,5 @@
 {
-  "dataset_count": 125,
+  "dataset_count": 126,
   "families": [
     {
       "analytes": [
@@ -1435,6 +1435,93 @@
         "post-fit reconstruction (digitized)",
         "independent (E flat) / kernel check",
         "qualitative"
+      ]
+    },
+    {
+      "analytes": [
+        "UNKNOWN"
+      ],
+      "apparatus_count_if_known": "UNKNOWN",
+      "blocked_uses": [
+        "physical geometric-growth bound",
+        "entrainment fraction or rate fit",
+        "C_M or D_W calibration",
+        "equilibrium or dry-to-wet growth bound",
+        "permeability closure",
+        "physical validation"
+      ],
+      "coffee_count_if_known": "UNKNOWN",
+      "coffee_lot_count_if_known": "UNKNOWN",
+      "conditionally_eligible_uses": [
+        "future observation-model assessment with exact source contract"
+      ],
+      "consumed_comparison_status": "UNKNOWN",
+      "directness": [
+        "manual native-raster marker readings; no raw-data reconstruction"
+      ],
+      "eligible_uses": [
+        "conditional fixed-population/common-scaling graphical invariant test",
+        "source-grounded qualitative population-sampling evidence"
+      ],
+      "external_corpus_id": null,
+      "external_source_manifest_hash": null,
+      "family_id": "MAILLE2021",
+      "fraction_resolution": "UNKNOWN",
+      "grinder_count_if_known": "UNKNOWN",
+      "historical_task_uses": [
+        "SCI-MD-MAILLE-SWELLING-EVIDENCE-001 research-only invariant comparison; no runtime gate"
+      ],
+      "laboratory_count_if_known": "UNKNOWN",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-MAILLE-SWELLING-EVIDENCE-001",
+      "manifest_dataset_ids": [
+        "maille2021/swelling_evidence_001"
+      ],
+      "measurement_resolution": "24_GRAPHICAL_MARKERS_IN_8_ALIGNED_TIME_GROUPS",
+      "missing_joins": [
+        "LD material/protocol and optical/concentration mapping",
+        "experimental uncertainty and replicate identities",
+        "microscopy coffee boundaries and projection uncertainty",
+        "dry baseline and saturation premise"
+      ],
+      "notes": [
+        "K=C_V/x50^3 conditionally excluded on retained graphical support; x90/x50 has necessary-only outer overlap. Geometric bound null/NOT_IDENTIFIABLE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
+        "Full journal inaccessible; authenticated official poster and attributed thesis reproduction. No extra campaigns from republication; Maille2024 extraction identity/limitations unchanged."
+      ],
+      "observables": [
+        "reported LD x50 and x90",
+        "LD volume concentration",
+        "same-particle microscopy depictions; qualitative only"
+      ],
+      "physical_replicate_structure": "UNKNOWN; journal/poster/thesis are one study lineage",
+      "physical_shot_count_if_known": "UNKNOWN",
+      "publication_or_repository": "Maille et al.2021 DOI10.1016/j.jfoodeng.2020.110420; official ASIC2021 S8-PO-01 poster Figure4; attributed thesis Figure2.5 provenance",
+      "raw_access_status": "DERIVED_READINGS_PACKAGED; ORIGINALS_NOT_LOCATED_IN_BOUNDED_SEARCH",
+      "rights": [
+        "Attributed factual readings; poster licence unspecified; PDF/artwork external; thesis CC BY-NC-ND4.0 not redistributed"
+      ],
+      "roast_batch_count_if_known": "UNKNOWN",
+      "source_cards": [
+        "maille2021"
+      ],
+      "source_identifiers": [
+        "10.1016/j.jfoodeng.2020.110420",
+        "ASIC2021 S8-PO-01"
+      ],
+      "source_internal_or_external": "SEPARATE_SOURCE_FROM_HARGARTEN; SOURCE_INTERNAL_REPRESENTATION_TEST",
+      "spatial_resolution": "UNKNOWN",
+      "stages": [
+        "grind",
+        "bed_dynamics"
+      ],
+      "target_exposure": "TARGET_EXPOSED",
+      "time_resolution": "native poster abscissae; approximately 14-263 s; not a dry baseline",
+      "title": "Maille 2021 particle swelling and observed-population effects",
+      "uncertainty_status": [
+        "graphical allowances only; experimental uncertainty UNKNOWN"
+      ],
+      "validation_strength": [
+        "conditional graphical representation comparison; not physical validation"
       ]
     },
     {
@@ -3623,6 +3710,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "8fb26837aeab003fb63092717b17e16e8a30af8eb1d4d719f8007e23c2f6a631",
+  "manifest_sha256": "6de7fd54f7c7cabf3028c6f16d5590ff9523efba570d7a707f278c4ace93ffe9",
   "schema_version": 1
 }

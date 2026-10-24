@@ -1,0 +1,25 @@
+experiment_id,observation_id,series_id,depiction_id,reading_id,x_px,y_px,status,reason
+M21-LD-01,M21-LD-01-O01,x50,ASIC2021-F4-left,F4L-O01-x50,79,168,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O01,x90,ASIC2021-F4-left,F4L-O01-x90,79,123,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O01,C_V,ASIC2021-F4-left,F4L-O01-C_V,79,151,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O02,x50,ASIC2021-F4-left,F4L-O02-x50,112,154,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O02,x90,ASIC2021-F4-left,F4L-O02-x90,112,103,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O02,C_V,ASIC2021-F4-left,F4L-O02-C_V,112,121,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O03,x50,ASIC2021-F4-left,F4L-O03-x50,144,146,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O03,x90,ASIC2021-F4-left,F4L-O03-x90,144,87,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O03,C_V,ASIC2021-F4-left,F4L-O03-C_V,144,101,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O04,x50,ASIC2021-F4-left,F4L-O04-x50,177,138,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O04,x90,ASIC2021-F4-left,F4L-O04-x90,177,62,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O04,C_V,ASIC2021-F4-left,F4L-O04-C_V,177,84,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O05,x50,ASIC2021-F4-left,F4L-O05-x50,209,135,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O05,x90,ASIC2021-F4-left,F4L-O05-x90,209,55,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O05,C_V,ASIC2021-F4-left,F4L-O05-C_V,209,76,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O06,x50,ASIC2021-F4-left,F4L-O06-x50,241,135,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O06,x90,ASIC2021-F4-left,F4L-O06-x90,241,59,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O06,C_V,ASIC2021-F4-left,F4L-O06-C_V,241,77,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O07,x50,ASIC2021-F4-left,F4L-O07-x50,274,137,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O07,x90,ASIC2021-F4-left,F4L-O07-x90,274,62,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O07,C_V,ASIC2021-F4-left,F4L-O07-C_V,274,78,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O08,x50,ASIC2021-F4-left,F4L-O08-x50,306,134,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O08,x90,ASIC2021-F4-left,F4L-O08-x90,306,53,SUPPORTED,isolated marker; same plotted abscissa across series
+M21-LD-01,M21-LD-01-O08,C_V,ASIC2021-F4-left,F4L-O08-C_V,306,74,SUPPORTED,isolated marker; same plotted abscissa across series

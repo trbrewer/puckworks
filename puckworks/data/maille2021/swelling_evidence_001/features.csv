@@ -1,0 +1,8 @@
+feature_id,x_px,y_px,status,reason
+F4R-P01,453,151,SUPPORTED_DEPICTION_ONLY,isolated open circle; time join not authenticated
+F4R-P02,501,122,SUPPORTED_DEPICTION_ONLY,isolated open circle; time join not authenticated
+F4R-P03,529,101,SUPPORTED_DEPICTION_ONLY,isolated open circle; time join not authenticated
+F4R-CL01,,,AMBIGUOUS_OVERLAPPING_CLUSTER,open circles spanning approximately x551..577/y69..89; multiplicity and time identities unresolved; do not create nominal rows
+F4L-LINES,,,NOT_OBSERVATIONS,three dotted connecting/fitted lines; extrapolated support towards0 and300s is not measured
+F4R-LINE,,,NOT_OBSERVATIONS,dashed regression annotated R2=.9976; not used for mechanism selection
+F4L-DRY,,,NOT_SHOWN,no dry-reference marker
