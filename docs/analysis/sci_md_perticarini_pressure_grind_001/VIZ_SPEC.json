@@ -1,0 +1,22 @@
+{
+  "role": "retrospective reported-duration contrast comparison",
+  "producer": "puckworks.analysis.perticarini2024_pressure_grind",
+  "outputs": ["COMPARISON.svg"],
+  "dataset_ids": ["perticarini2024/ey_tds_cibao", "egidi2024/table2"],
+  "badge": "SOURCE_INTERNAL / CONDITIONAL_PERTURBATION_SENSITIVITY",
+  "sources": [
+    {"location": "Perticarini thesis Tables 4.2/4.3, printed90/91, PDF102/103", "file_sha256": "248d480cc2ab3353799fcaa886bb1be3f6cfbe7a9f15e1cdf9d4950827424c7f"},
+    {"location": "Egidi et al. Table 2, article/PDF6; same Modoetia observations as thesis Table 4.3", "file_sha256": "1aba69278444d107ce5172eb29ba7b37883491fe0b32dfd9bc8898632e203a33"}
+  ],
+  "rights": "New numerical redraw of attributable factual table values; source PDFs/facsimiles outside Git; no blanket source-artwork license.",
+  "encodings": {
+    "panels": "four coffee-temperature strata; primary D left, primary I right; separate secondary extreme-grind intervals below",
+    "position": "horizontal seconds with visible zero; ordinal native grind labels on categorical rows, no particle-size distance mapping",
+    "dots": "exact printed-value contrasts; hollow for reported zero, not physical equality",
+    "lines": "conditional perturbation ranges under common h=0.5 s entrywise box; D radius 1 s, I radius 2 s",
+    "color": "blue strictly positive; red strictly negative; grey unresolved including zero touch",
+    "labels": "native grind labels; nominal value and exact conditional bounds in seconds; pressure labels are nominal machine bar"
+  },
+  "data_binding": "All 39 glyphs generated from contrasts.json records; SVG data attributes retain contrast ID and exact nominal/lower/upper values; no source artwork.",
+  "ceiling": "30 reported condition rows, 39 dependent contrasts, 21 separate reversal diagnostics. Assumed perturbation allowance is not experimental timing variability or Cameron displayed extents. No flow/permeability/mechanism/population inference. PHYSICAL_VALIDATION=NOT_ESTABLISHED."
+}

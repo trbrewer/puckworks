@@ -215,8 +215,9 @@ fitted q as a flow-stage value** (see the mass-balance failure above).
   TDS mean + σ, EY, per-condition τ (14–81 s). **Highest value in the thesis and new to the
   registry**: egidi2024 holds only the Modœtia 12-condition set. This extends the registry's
   grind envelope well past the registered range in both directions.
-- **Table 4.3** — the Modœtia 12-condition set; expected to be identical to egidi2024's
-  Table 2. Cross-check before storing; do not duplicate.
+- **Table 4.3** — verified identical in all 12 condition labels and numerical rows to
+  Egidi Table 2 (PDF p.6). Retained under canonical `egidi2024/table2`; same Modœtia
+  observations, not a second dataset, campaign or replicate set.
 - **Table 4.1 → same csv** — L and mean τ per granulometry per coffee (5 × 2).
 - **Table 4.6 / 4.13 / 4.10** — a_f, a_b, φ_f, τ, q per sample. Store **with the factor-2 a_s
   convention flag** attached.
@@ -235,8 +236,32 @@ fitted q as a flow-stage value** (see the mass-balance failure above).
   Fig. 4.1's extra-fine/extra-coarse curves are the only ones not already available via
   egidi2024/angeloni2023.
 - Figures 4.5, 4.9–4.11 (c^l, c^f, c^b traces at z = L/2) — simulation output, not data.
-- Availability: no repository, no code (MATLAB, described only), no raw per-shot values —
-  all tables are condition means. Transcription from the thesis is the only route.
+- Availability: no repository, no code (MATLAB, described only), no raw per-shot values.
+  Tables 4.2/4.3 expressly average TDS and EY over three extractions; their per-condition
+  τ statistic, spread, rounding rule and clock start/stop convention are unspecified.
+  Table 4.1 gives mean durations pooled across pressures/temperatures within grind and
+  coffee; these are excluded from pressure contrasts. Other tables include model outputs
+  and parameters, not a blanket set of condition means. Transcription is the table route.
+
+## Reported-duration analysis (2026-10-24)
+
+[SCI-MD-PERTICARINI-PRESSURE-GRIND-001](../analysis/sci_md_perticarini_pressure_grind_001/RESULT.md)
+uses all 18 canonical `perticarini2024/ey_tds_cibao` rows plus the 12 Modœtia rows
+under `egidi2024/table2`. Original PDFs, rendered tables and every numerical cell
+were authenticated; [source notes](../analysis/sci_md_perticarini_pressure_grind_001/SOURCE_NOTES.md)
+record hashes and publication lineage. This is a retrospective source-internal,
+nonscoring comparison of **reported condition duration**, with a conditional
+entrywise perturbation sensitivity, not an estimate of timing variability.
+The chemical campaign's three extractions per configuration do not establish
+90 timed shots or n=3 duration means. TDS sigma is not duration uncertainty.
+
+Native nominal 6/9/12-bar machine labels retain unknown reference, sensor node
+and actual history. Actual condition beverage masses and timing convention are
+unknown; no 40/τ measured flow, per-shot mass from chemical summaries, permeability
+or mechanism inference is made. The restricted 12-bar extension stays separate.
+The source's recipe-defined grind names are ordinal within coffee, not calibrated
+cross-coffee particle sizes. This analysis does not change the model, fitted-flux
+qualification, EY/TDS evidence strength or backlog. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 ## Overlaps and conflicts
 - **egidi2024 (registered card; same model, same group) — this supersedes it as the reference

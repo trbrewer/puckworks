@@ -594,7 +594,20 @@ def test_the_seeded_ids_from_the_previous_head_survived(state):
 
     live_i = {c.id for c in state["candidates"]}
     seeded_i = {i for i in live_i if int(i.split("-")[1]) <= SEED_HIGH_WATER["I"]}
-    assert len(seeded_i) >= SEED_HIGH_WATER["I"] - 10, len(seeded_i)
+    # Procedure 1's nominal pressure labels are not measured pressure. Removing
+    # those two false MEASURES edges changes these pressure-family memberships;
+    # reserve their old identities and verify the corrected memberships rather
+    # than retaining the false edges to satisfy a historical survival count.
+    pressure_replaced = {"I-032", "I-084"}
+    assert not pressure_replaced & live_i
+    assert pressure_replaced <= set(IDS.load()["candidates"].values())
+    for lens in ("hidden_discriminator", "public_story"):
+        rows = [c for c in state["candidates"] if c.lens == lens
+                and c.title in ("Can pressure discriminate between the models that predict it?",
+                                "Is pressure a public story the repository has not told?")]
+        assert len(rows) == 1
+        assert not {"dataset:egidi2024/table2", "dataset:perticarini2024/ey_tds_cibao"} & set(rows[0].entity_ids)
+    assert len(seeded_i | pressure_replaced) >= SEED_HIGH_WATER["I"] - 10, len(seeded_i)
 
     # and every newly minted ID is strictly above the seed watermark, never slotted into a gap
     for i in live_t - seeded_t:
