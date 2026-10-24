@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "reason": "Independent native-image inspection found neighbour-branch admission and lost upper ink; evidence-driven qualification correction after first calculation, not window/contrast selection.",
+  "retire_from_temporal_support": [
+    {
+      "region_id": "B250-U",
+      "x_lower_px": 479,
+      "x_upper_px": 528,
+      "status": "UNSUPPORTED_IDENTITY_AND_ENCLOSURE",
+      "witnesses": [
+        {
+          "x_px": 479,
+          "selected_y_px": [
+            601,
+            695
+          ],
+          "reason": "first second blue branch admitted"
+        },
+        {
+          "x_px": 500,
+          "selected_y_px": [
+            685,
+            689
+          ],
+          "upper_branch_visual_y_px": [
+            632,
+            643
+          ],
+          "reason": "mask retains neighbour and misses intended upper curve"
+        }
+      ]
+    }
+  ],
+  "generic_ink_condition_membership": "Colour is a nominal raster mask class; mixed/antialiased pixels at crossings may have ambiguous fines membership. Generic ink admits all12 conditions; only audited selected regions have definite condition membership.",
+  "original_contract_unchanged": true,
+  "boundary_contact_guard_px": 4,
+  "boundary_contact_reason": "Black axis overprints boundary pixels; exact y==78 detection missed known yellow contact atx189..191,y79..80. Retire finite bounds within4px of plot boundary (anchor1+reading2+half-pixel footprint, rounded outwards).",
+  "displayed_right_frame_nominal_s": "124880/1469",
+  "domain_correction": "Nominal85 omitted0.010211...s between85 and native rightframe. Extend only incomplete remainders to exact nominal affine edge; no complete window or contrast changes."
+}

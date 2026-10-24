@@ -1,0 +1,72 @@
+{
+  "review": "INDEPENDENT_SOURCE_AND_EXACT_ARITHMETIC_CHECK",
+  "status": "PASS",
+  "source_sha256": "79a208a13500b230eaae9e89d66e641e8f459e5fa0797f769a838b6f8bfba36e",
+  "native_pixel_readbacks": 1181,
+  "independently_recomputed_windows": {
+    "PRIMARY:B250-U.2:06": {
+      "lower": "4781/2076",
+      "upper": "10598/4325",
+      "integration_pieces": 60
+    },
+    "PRIMARY:M250-BUNDLE:02": {
+      "lower": "644/173",
+      "upper": "4732/865",
+      "integration_pieces": 60
+    },
+    "PRIMARY:P250-BUNDLE:02": {
+      "lower": "126/173",
+      "upper": "2562/865",
+      "integration_pieces": 60
+    },
+    "SHIFTED:B250-U.1:05": {
+      "lower": "1729/1038",
+      "upper": "15827/8650",
+      "integration_pieces": 60
+    }
+  },
+  "strict_partial_bundle_witnesses": [
+    {
+      "pair_id": "250:1:2",
+      "start_s": "6",
+      "end_s": "9",
+      "difference": [
+        "-4102/865",
+        "-658/865"
+      ],
+      "windows": [
+        "PRIMARY:M250-BUNDLE:02",
+        "PRIMARY:P250-BUNDLE:02"
+      ]
+    }
+  ],
+  "limitation": "Checks the declared graphical enclosures; no physical uncertainty or replicate validation.",
+  "hashes": {
+    "puckworks/data/smrke2024/s1/contract.json": "22d74189fe2879adefcc847a3671867ce21f5112cb32fdbd5afff5b55e4d92a3",
+    "puckworks/data/smrke2024/s1/regions.json": "2a535b65181a71d86f95fcd9a3135a0214baff32e8350080ad7f4b7af44e3c42",
+    "puckworks/data/smrke2024/s1/qualification_correction.json": "5876dddb9be65d3810e98367dfaf9b992a938ee5c86eafbff0634b2d665a80fd",
+    "puckworks/data/smrke2024/s1/source_observations.csv": "28aa1b2fdb8ac684e1eac00c9353444f6861d1d804e4ba39365163edc52bb30b",
+    "puckworks/data/smrke2024/s1/excluded_ink.csv": "1c7184a2b16cecabbc6dd688ee76f178fa02bca71d5afbac631cbcbe3f86a325",
+    "puckworks/data/smrke2024/s1/ink_fragments.csv": "5491d665fc00bff91d3f3556fcfbed18f3cd26a6dacdc83ba40db98eead8ffda",
+    "puckworks/data/smrke2024/s1/reading_cells.csv": "9f5796d1f539775c9cf209ffb57e67566429a2b71c9103989c115f78415cdb6b",
+    "puckworks/data/smrke2024/s1/qualified_fragments.json": "9b31cc0124bd17c7ecffc93671c87fae696821dce44301cb0f0517d7258c9175",
+    "puckworks/data/smrke2024/s1/CORRECTION.md": "027f6a1d8fa59e56d4e3f9185abbc332a9de02da6741765270c5f12bfb95d0a6",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/CONTRACT_FREEZE.json": "e78b3a1eb990b959554fd742a47f95d2b6118071114c8c1b4502826457c71b64",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/CONTRACT.md": "03803992af61531187c13ca2c97e516f01827179fa2154b3f55099d5134ef9ad",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/QUALIFIED_OBJECTS.json": "9b31cc0124bd17c7ecffc93671c87fae696821dce44301cb0f0517d7258c9175",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/WINDOW_WITNESSES.json": "37d919959146ddea17e15bae9b9083026f9db5679124c693fc155762268a606f",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/FINES_COMPARISONS.json": "384904e4b9454fcc00e0f7c9dc8107acfd9641d4d569dea03b56f6eca4754250",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/COVERAGE.json": "7f425959f06b59c6617ac5dd5f5b3fa10ad835e3b576be1670a41dae691e53bf",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/TEMPORAL_COMPARISONS.json": "60a0f38c72df069f4862c22cdb5815ff43718adbecc13e595b8e11750a7ad072",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/MULTIPLIERS.json": "04bc20f6f6f1ef8b8d5655e533854273f0b43ee579945e4014806ae2c6a81e3f",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/DOMAIN_COVERAGE.json": "3f7bcd0e65f95927b45be915bdc824998de67994fe0ca34332f5486c4bb87111",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/SOURCE_OVERLAY.svg": "20b62acb84542b95c7ea3794e4000be117462c8b49228ef7789d2b0a81b9e5aa",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/COMPARISON.svg": "5738fd1ab84f6c051fe858b1a3d7b978b6e04b316c1e1df093d4192fbf862f53",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/RESULT.json": "a78ddd30e3dffa7758f777ef5ffa75c74addcbb94533bb2df14c8943eaf39204",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/RESULT.md": "d6bc05390db8a2ff31d5c6fd3845d7993418dbe880a90c96ec4440c8c3606455",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/REVIEW.md": "6a2987d1b9c1c5eedfd0c31ebc75f15ef625860ef5930bef2e88bdaef198dd3c",
+    "puckworks/analysis/smrke2024_transient.py": "3b2c00a552c12b45815de8568fd3115009c3b12b7874746a91e58cbcedc0fae2",
+    "puckworks/data/__init__.py": "5c3d6289e95dd2f9c5b586112408ead9b8bc9102dbe680db2b5e634338ab01bf",
+    "docs/analysis/sci_md_smrke_transient_hydraulics_001/review_check.py": "d33a4a0a0d3bbd3b7140aa65f903ee9f39b40854bcf1d54473d738d253f824ce"
+  }
+}

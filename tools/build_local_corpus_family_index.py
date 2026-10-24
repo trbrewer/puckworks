@@ -222,13 +222,13 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                   'is not a new scientific qualification: face-side hole area has tapered-hole bias, '
                   'hole count is derived and plate thickness assumed. Check source conventions for '
                   'any adapter. No pressure-loss experiment held.'),
- 'smrke2024': ('Figures 2–7 and supplementary Fig S1 are present as digitized CSVs and images. Fig S1: '
-               '18,001 time/flow/series/run-index rows; PSD curves: 4,342 sampled curve rows. Fitted '
-               'PLSR/sensory curves are separate from experimental marker digitizations.',
-               'Fines/PSD/flow-shape and observation-operator context. Dense pixel-derived points are not '
-               'independent shots. The card statement that the supplement was not held at intake is '
-               'historical; this census confirms its digitization is held, without recovering native machine '
-               'logs.'),
+ 'smrke2024': ('The historical corpus snapshot includes the legacy18,001-row S1 digitization; '
+               'its wrong y scale, legend contamination and nonpersistent run_index were corrected '
+               'in the active repository route by SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001. '
+               'The authenticated supplement is held. Historical snapshot counts remain unchanged.',
+               'Current S1 uses native source-coordinate ink with explicit identity/support limits '
+               'and conditional graphical windows; no native machine logs or physical shot identities '
+               'were recovered. Figure3 endpoints, S-A and blocked S-B remain unchanged.'),
  'sobolik2002': ('Tables 1–2 coefficients, figures 1–3 and 6 digitizations, apparatus dimensions and '
                  'equation-evaluated grids are distinct subsets. omega is solids mass fraction, T in degC, '
                  'viscosity Pa s; shear-rate/shear-stress columns exist in Fig 1.',

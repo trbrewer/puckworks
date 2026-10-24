@@ -1,0 +1,24 @@
+{
+  "role": "source reconstruction QA and interval comparison bookkeeping",
+  "producer": "puckworks.analysis.smrke2024_transient",
+  "outputs": [
+    "SOURCE_OVERLAY.svg",
+    "COMPARISON.svg"
+  ],
+  "badge": "SOURCE_INTERNAL / GRAPHICAL_READING_CONDITIONAL",
+  "source": {
+    "doi": "10.1038/s41598-024-55831-x",
+    "authors": "Smrke, Eiermann and Yeretzian (2024)",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "docx": "41598_2024_55831_MOESM1_ESM.docx",
+    "docx_sha256": "3979d56519975550a7bf6b67684f7b6243b0b1f527795b94201d9d8ea91e2859",
+    "image_member": "word/media/image1.jpeg",
+    "image_sha256": "79a208a13500b230eaae9e89d66e641e8f459e5fa0797f769a838b6f8bfba36e",
+    "image_size_px": [
+      1680,
+      1041
+    ]
+  },
+  "ceiling": "Native source ink, calibration, masks, identity boundaries, interval bounds and missingness only; no physical mechanism rendering."
+}

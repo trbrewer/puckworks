@@ -1,0 +1,16 @@
+{
+  "lattice_domain_s": [
+    "0",
+    "124880/1469"
+  ],
+  "native_x_domain_px": [
+    78,
+    1639
+  ],
+  "right_frame_time_outer_s": [
+    "124960/1471",
+    "41600/489"
+  ],
+  "edge_status": "UNSUPPORTED_CENSORING_AND_CALIBRATION_EDGE",
+  "note": "Incomplete remainders extend to nominal native right frame; uncertain frame neighbourhood is unsupported. Chart limits never bound unseen continuation."
+}

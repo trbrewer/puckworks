@@ -1,0 +1,186 @@
+[
+  {
+    "id": "B250-U.1",
+    "kind": "persistent_fragment",
+    "colour": "blue",
+    "fines_g": 4,
+    "grinder_setting": 250,
+    "membership": "DEFINITE",
+    "alternatives": [
+      "250:4"
+    ],
+    "phase": "GRAPHICAL_INTERIOR",
+    "x_support_px": [
+      300,
+      528
+    ],
+    "polygon": [
+      [
+        300,
+        550
+      ],
+      [
+        528,
+        550
+      ],
+      [
+        528,
+        675
+      ],
+      [
+        500,
+        690
+      ],
+      [
+        460,
+        700
+      ],
+      [
+        420,
+        730
+      ],
+      [
+        380,
+        760
+      ],
+      [
+        340,
+        800
+      ],
+      [
+        300,
+        815
+      ]
+    ],
+    "reading": "All blue ink inside corridor; complete one-branch support only where per-column/gap rule succeeds. End before same-colour mergers near x530 onward.",
+    "coverage": "ONE_RETAINED_FRAGMENT_NOT_COMPLETE_CONDITION",
+    "persistent": true,
+    "parent_region_id": "B250-U",
+    "support_x_px": [
+      "601/2",
+      "803/2"
+    ],
+    "identity_note": "No identity continuation across any unbridged gap"
+  },
+  {
+    "id": "B250-U.2",
+    "kind": "persistent_fragment",
+    "colour": "blue",
+    "fines_g": 4,
+    "grinder_setting": 250,
+    "membership": "DEFINITE",
+    "alternatives": [
+      "250:4"
+    ],
+    "phase": "GRAPHICAL_INTERIOR",
+    "x_support_px": [
+      300,
+      528
+    ],
+    "polygon": [
+      [
+        300,
+        550
+      ],
+      [
+        528,
+        550
+      ],
+      [
+        528,
+        675
+      ],
+      [
+        500,
+        690
+      ],
+      [
+        460,
+        700
+      ],
+      [
+        420,
+        730
+      ],
+      [
+        380,
+        760
+      ],
+      [
+        340,
+        800
+      ],
+      [
+        300,
+        815
+      ]
+    ],
+    "reading": "All blue ink inside corridor; complete one-branch support only where per-column/gap rule succeeds. End before same-colour mergers near x530 onward.",
+    "coverage": "ONE_RETAINED_FRAGMENT_NOT_COMPLETE_CONDITION",
+    "persistent": true,
+    "parent_region_id": "B250-U",
+    "support_x_px": [
+      "813/2",
+      "957/2"
+    ],
+    "identity_note": "No identity continuation across any unbridged gap"
+  },
+  {
+    "id": "M250-BUNDLE",
+    "kind": "branch_bundle",
+    "colour": "magenta",
+    "fines_g": 1,
+    "grinder_setting": 250,
+    "membership": "DEFINITE",
+    "alternatives": [
+      "250:1"
+    ],
+    "phase": "GRAPHICAL_INTERIOR",
+    "x_support_px": [
+      185,
+      247
+    ],
+    "y_enclosure_px": [
+      270,
+      480
+    ],
+    "reading": "Broad whole-slab enclosure of visible continuous magenta cluster, including crossings and narrow yellow occlusions; no individual partner assigned.",
+    "coverage": "RETAINED_SOLID_BRANCH_BUNDLE_CONDITION_COMPLETENESS_UNRESOLVED",
+    "persistent": false,
+    "parent_region_id": "M250-BUNDLE",
+    "support_x_px": [
+      "185",
+      "247"
+    ],
+    "identity_note": "No identity continuation across any unbridged gap"
+  },
+  {
+    "id": "P250-BUNDLE",
+    "kind": "branch_bundle",
+    "colour": "purple",
+    "fines_g": 2,
+    "grinder_setting": 250,
+    "membership": "DEFINITE",
+    "alternatives": [
+      "250:2"
+    ],
+    "phase": "GRAPHICAL_INTERIOR",
+    "x_support_px": [
+      185,
+      247
+    ],
+    "y_enclosure_px": [
+      580,
+      850
+    ],
+    "reading": "Broad whole-slab enclosure of visible continuous purple cluster, including all retained crossings/continuations. Lower strokes outside slab have dashed/dotted context, but full condition completeness is not certified.",
+    "coverage": "RETAINED_SOLID_BRANCH_BUNDLE_CONDITION_COMPLETENESS_UNRESOLVED",
+    "persistent": false,
+    "parent_region_id": "P250-BUNDLE",
+    "support_x_px": [
+      "185",
+      "247"
+    ],
+    "identity_note": "No identity continuation across any unbridged gap"
+  }
+]

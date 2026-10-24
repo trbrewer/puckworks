@@ -107,6 +107,28 @@ def build() -> dict:
         "notes": ["K=C_V/x50^3 conditionally excluded on retained graphical support; x90/x50 has necessary-only outer overlap. Geometric bound null/NOT_IDENTIFIABLE; PHYSICAL_VALIDATION=NOT_ESTABLISHED.",
                   "Full journal inaccessible; authenticated official poster and attributed thesis reproduction. No extra campaigns from republication; Maille2024 extraction identity/limitations unchanged."]
     })
+    families["SMRKE2024"].update({
+        "source_identifiers": ["10.1038/s41598-024-55831-x"],
+        "stages": ["grind", "observables"],
+        "observables": ["Figure3 endpoint EY/time", "S1 derivative of beverage mass, g/s"],
+        "measurement_resolution": "S1 native raster ink and qualified graphical reading enclosures",
+        "time_resolution": "literal plotted seconds; sampling and derivative processing UNKNOWN",
+        "physical_replicate_structure": "S1 nominal3 per12 intended cells; recovered physical shot identity UNKNOWN",
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "RETROSPECTIVE / TARGET_EXPOSED / NONSCORING",
+        "eligible_uses": ["qualified S1 graphical windows with explicit support and coverage",
+                          "unchanged Figure3 S-A qualitative gate"],
+        "blocked_uses": ["run_index as shot identity", "legacy S1 values", "S-B quantitative gate",
+                         "intrinsic permeability inference", "physical validation"],
+        "missing_joins": ["persistent full trajectories and complete condition envelopes",
+                          "pump events, clock alignment, measured pressure, balance/derivative response"],
+        "last_qualified_task": "SCI-MD-SMRKE-TRANSIENT-HYDRAULICS-001",
+        "last_qualified_commit": None,
+        "notes": ["Same smrke2024/figures family, corrected S1 subset; no new physical experiment.",
+                  "S1 full0-7 g/s scale; nondata legend/text rejected; native coordinates retained.",
+                  "Figure3 bytes/ordering and accepted endpoint evidence preserved at historical identities.",
+                  "Graphical reading bounds are not replicate or laboratory uncertainty; PHYSICAL_VALIDATION=NOT_ESTABLISHED."]
+    })
     pannusch = families["PANNUSCH2024"]
     pannusch.update({
         "title": "Pannusch 2024 full source repository and qualified reconstructions",
