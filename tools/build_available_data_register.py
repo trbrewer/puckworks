@@ -59,6 +59,39 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    families["KHAMITOVA2020"].update({
+        "title": "Khamitova 2020 nominal tamping-force-labelled endpoint chemistry",
+        "source_identifiers": ["10.15165/khamitova-gulzhan_phd2020-06-25",
+                               "https://pubblicazioni.unicam.it/handle/11581/480144"],
+        "stages": ["extraction", "observables"],
+        "observables": ["reported amount per reference 40 mL", "related concentration mg/mL",
+                        "reported RSD percent; aggregation unresolved", "ground-coffee assay context"],
+        "analytes": ["total CQA", "caffeine", "trigonelline", "nicotinic acid"],
+        "measurement_resolution": "144 analyte means / 36 configurations; 432 chemistry entries; 8 ground entries",
+        "fraction_resolution": "endpoint only; related-unit columns are not separate observations",
+        "time_resolution": "nominal 25+/-1 s; no cell-specific clock or transient series",
+        "physical_shot_count_if_known": 72,
+        "physical_replicate_structure": "36 duplicated configurations; mean/RSD analysis count and pooling UNKNOWN",
+        "coffee_count_if_known": 1, "apparatus_count_if_known": 1, "grinder_count_if_known": 1,
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+        "raw_access_status": "PACKAGED_TRANSCRIPTIONS; OFFICIAL_PDF_AUDITED_NOT_REDISTRIBUTED; RAW_REPLICATES_UNKNOWN",
+        "eligible_uses": ["source-specific four-level constant representation cost",
+                          "fixed 30-minus-10 kgF contrasts and intermediate-force range",
+                          "conditional decimal-rounding sensitivity", "secondary reported-RSD scale diagnostic"],
+        "conditionally_eligible_uses": ["future collapse decision with independently justified application error budget and observation basis"],
+        "blocked_uses": ["isolated causal tamping effect", "equivalence or practical adequacy claim",
+                         "population inference from reported RSD", "extraction yield or inventory recovery",
+                         "species-matched 5-CQA comparison", "independent validation or production calibration"],
+        "missing_joins": ["shot-to-assay aggregation and RSD basis", "grinder tuning chronology",
+                          "measured beverage volume/density", "ground assay dilution/unit reconciliation"],
+        "consumed_comparison_status": "DESCRIPTIVE_REPRESENTATION_BENCHMARK; NO_ACCEPTANCE_THRESHOLD",
+        "last_qualified_task": "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001",
+        "last_qualified_commit": None,
+        "result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    })
+
     radial_id = "foster2025_2/fig8_fig9_radial_front"
     families["FOSTER2025_2"].update({
         "dataset_scopes": {radial_id: {

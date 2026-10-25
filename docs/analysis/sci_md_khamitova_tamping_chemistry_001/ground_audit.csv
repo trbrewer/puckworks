@@ -1,0 +1,9 @@
+analyte,table,printed_page,pdf_page,source_row_label,source_column_label,source_string,decimal_places,csv_column,audit_status
+total CQA,5.6,101,118,1 g,mg/10ml,37.17,2,total_CQA_mg_per_10ml,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+total CQA,5.6,101,118,1 g,RSD,0.1,1,total_CQA_RSD_pct,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+caffeine,5.6,101,118,1 g,mg/10ml,16.24,2,caffeine_mg_per_10ml,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+caffeine,5.6,101,118,1 g,RSD,7.0,1,caffeine_RSD_pct,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+trigonelline,5.6,101,118,1 g,mg/10ml,8.55,2,trigonelline_mg_per_10ml,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+trigonelline,5.6,101,118,1 g,RSD,9.9,1,trigonelline_RSD_pct,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+nicotinic acid,5.6,101,118,1 g,mg/10ml,0.36,2,nicotinic_acid_mg_per_10ml,NUMERIC_AGREEMENT_VISUALLY_CHECKED
+nicotinic acid,5.6,101,118,1 g,RSD,2.6,1,nicotinic_acid_RSD_pct,NUMERIC_AGREEMENT_VISUALLY_CHECKED

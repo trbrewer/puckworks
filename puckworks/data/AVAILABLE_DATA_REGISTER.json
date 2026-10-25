@@ -1418,63 +1418,94 @@
       ]
     },
     {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
       "analytes": [
-        "UNKNOWN"
+        "total CQA",
+        "caffeine",
+        "trigonelline",
+        "nicotinic acid"
       ],
-      "apparatus_count_if_known": "UNKNOWN",
-      "blocked_uses": [],
-      "coffee_count_if_known": "UNKNOWN",
+      "apparatus_count_if_known": 1,
+      "blocked_uses": [
+        "isolated causal tamping effect",
+        "equivalence or practical adequacy claim",
+        "population inference from reported RSD",
+        "extraction yield or inventory recovery",
+        "species-matched 5-CQA comparison",
+        "independent validation or production calibration"
+      ],
+      "coffee_count_if_known": 1,
       "coffee_lot_count_if_known": "UNKNOWN",
-      "conditionally_eligible_uses": [],
-      "consumed_comparison_status": "UNKNOWN",
-      "directness": [
-        "card/dissertation table transcription (HPLC-VWD lab means + RSD %)"
+      "conditionally_eligible_uses": [
+        "future collapse decision with independently justified application error budget and observation basis"
       ],
-      "eligible_uses": [],
+      "consumed_comparison_status": "DESCRIPTIVE_REPRESENTATION_BENCHMARK; NO_ACCEPTANCE_THRESHOLD",
+      "directness": [
+        "existing table transcription; all 432 chemistry and eight ground entries numerically audited; source display strings and precision retained in task bundle"
+      ],
+      "eligible_uses": [
+        "source-specific four-level constant representation cost",
+        "fixed 30-minus-10 kgF contrasts and intermediate-force range",
+        "conditional decimal-rounding sensitivity",
+        "secondary reported-RSD scale diagnostic"
+      ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
       "family_id": "KHAMITOVA2020",
-      "fraction_resolution": "UNKNOWN",
-      "grinder_count_if_known": "UNKNOWN",
+      "fraction_resolution": "endpoint only; related-unit columns are not separate observations",
+      "grinder_count_if_known": 1,
       "historical_task_uses": [
-        "weak-effect reference (tamping ~ null on per-species concentration at fixed 1:2 ratio); multi-compound espresso chemistry beside pannusch/schmieder"
+        "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001 descriptive four-level constant representation benchmark and fixed endpoint contrasts; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001",
       "manifest_dataset_ids": [
         "khamitova2020/tamping"
       ],
-      "measurement_resolution": "UNKNOWN",
-      "missing_joins": [],
+      "measurement_resolution": "144 analyte means / 36 configurations; 432 chemistry entries; 8 ground entries",
+      "missing_joins": [
+        "shot-to-assay aggregation and RSD basis",
+        "grinder tuning chronology",
+        "measured beverage volume/density",
+        "ground assay dilution/unit reconciliation"
+      ],
       "notes": [
-        "tamping-force effect is approximately null (narrow variation) at fixed 1:2 ratio; single rig/coffee; the 3D model params (Tables 5.8-5.10) are NOT transcribed (rig-specific, superseded); precursor of the angeloni2023 lineage"
+        "144 analyte means; 72 extractions/36 duplicated configurations; RSD basis unresolved; fixed-grind assertion and tuning ambiguity; reference volume not authenticated cup volume; one source unit-pair inconsistency retained; Table 5.6 context only; no equivalence/causal null/EY or physical-validation claim; no new campaign"
       ],
       "observables": [
-        "UNKNOWN"
+        "reported amount per reference 40 mL",
+        "related concentration mg/mL",
+        "reported RSD percent; aggregation unresolved",
+        "ground-coffee assay context"
       ],
-      "physical_replicate_structure": "UNKNOWN",
-      "physical_shot_count_if_known": "UNKNOWN",
-      "publication_or_repository": "PhD dissertation Tables 5.2-5.6 \u2014 total CQA / caffeine / trigonelline / nicotinic acid (mg per 40 mL & per mL + RSD) across pressure x temperature x tamping force 10/15/20/30 kgF; Table 5.6 ground-coffee assay",
-      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "physical_replicate_structure": "36 duplicated configurations; mean/RSD analysis count and pooling UNKNOWN",
+      "physical_shot_count_if_known": 72,
+      "publication_or_repository": "Khamitova PhD dissertation (2020-06-25); DOI 10.15165/khamitova-gulzhan_phd2020-06-25; https://pubblicazioni.unicam.it/handle/11581/480144; Tables 5.2-5.6; printed 98-101 / PDF 115-118; total CQA / caffeine / trigonelline / nicotinic acid across pressure x temperature x nominal tamping force",
+      "raw_access_status": "PACKAGED_TRANSCRIPTIONS; OFFICIAL_PDF_AUDITED_NOT_REDISTRIBUTED; RAW_REPLICATES_UNKNOWN",
+      "result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
       "rights": [
-        "Khamitova PhD dissertation, University of Camerino (2020); no DOI"
+        "Open access dissertation; no explicit redistribution licence; PDF/artwork external; factual table audit; DOI 10.15165/khamitova-gulzhan_phd2020-06-25"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
         "khamitova2020"
       ],
-      "source_identifiers": [],
-      "source_internal_or_external": "UNKNOWN",
+      "source_identifiers": [
+        "10.15165/khamitova-gulzhan_phd2020-06-25",
+        "https://pubblicazioni.unicam.it/handle/11581/480144"
+      ],
+      "source_internal_or_external": "SOURCE_INTERNAL",
       "spatial_resolution": "UNKNOWN",
       "stages": [
-        "UNKNOWN"
+        "extraction",
+        "observables"
       ],
-      "target_exposure": "UNKNOWN",
-      "time_resolution": "UNKNOWN",
-      "title": "khamitova2020",
+      "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+      "time_resolution": "nominal 25+/-1 s; no cell-specific clock or transient series",
+      "title": "Khamitova 2020 nominal tamping-force-labelled endpoint chemistry",
       "uncertainty_status": [
-        "y (per-condition RSD %)"
+        "reported RSD percent with unresolved aggregation; conditional decimal-rounding sensitivity separate from experimental uncertainty"
       ],
       "validation_strength": [
         "reference (measured HPLC means; the source's 3D solver is superseded by angeloni2023 and not intaken)"
@@ -3922,6 +3953,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "32d3c39aa26daff4028fa74eccb24b714f2f12c19a0bf59dabc41cd4620cb48a",
+  "manifest_sha256": "3cd0dfa14a65bcd25e167d3e1c9da12f3c9fcd7a146910c561a0b1590579822e",
   "schema_version": 1
 }

@@ -1,8 +1,35 @@
 # Model card: Khamitova 2020 3D percolation model (caffeine + CQA + fines, FeFlow)
 
-**Paper/thesis:** G. Khamitova, "Advanced experimental and analytical study for the optimization of the Espresso Coffee extraction," Ph.D. Dissertation, University of Camerino, School of Advanced Studies, XXXII Cycle (Chemical and Pharmaceutical Sciences and Biotechnology), supervisor Prof. Sauro Vittori, Camerino, 20 April 2020. Model in **Chapter 5 ("Study 3. Mathematical simulation model"), §5.2–5.4.** No DOI. Developed as an "interdisciplinary collaboration with mathematicians" (Camerino group — Galerkin scheme cited to Egidi et al. 2018).
+**Paper/thesis:** G. Khamitova, "Advanced experimental and analytical study for the optimization of the Espresso Coffee extraction," Ph.D. Dissertation, University of Camerino, School of Advanced Studies, XXXII Cycle (Chemical and Pharmaceutical Sciences and Biotechnology), supervisor Prof. Sauro Vittori, official metadata issue date **25 June 2020** (20 April is the acknowledgements date). Model in **Chapter 5 ("Study 3. Mathematical simulation model"), §5.2–5.4.** [DOI 10.15165/khamitova-gulzhan_phd2020-06-25](https://doi.org/10.15165/khamitova-gulzhan_phd2020-06-25); [official record](https://pubblicazioni.unicam.it/handle/11581/480144). Developed as an "interdisciplinary collaboration with mathematicians" (Camerino group — Galerkin scheme cited to Egidi et al. 2018).
 **Stage(s):** flow, extraction, observables (+ qualitative bed_dynamics for fines) · **Kind:** calibration
 **Status:** card-only
+
+## Audited chemistry use (2026-10-25)
+
+[SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001](../analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md)
+qualifies the existing `khamitova2020/tamping` transcription: 144 reported analyte
+means across 36 configurations; 72 extractions reported, mean/RSD aggregation
+unresolved. The source describes variations as narrow but appreciable relative
+to RSD, and retains condition variability in §5.4.4. It does not establish
+force-label equivalence or an isolated causal null. All 36 four-level and fixed
+endpoint requests are retained; endpoints miss some range in 28/36 blocks.
+
+Primary units are **reported amount per reference 40 mL**, not measured whole-cup
+recovered mass or EY. Total CQA is not species-matched 5-CQA. §5.3.3 describes
+manual tuning including the grinder; §5.4.3 explicitly asserts unchanged grind
+settings/granulometry. Both are retained with unresolved scope/chronology.
+The 40±2 g and 1:2±0.02 tolerances do not agree under the beverage/dose-ratio
+reading. The model explicitly assumes mass–volume equivalence. Table 5.6 retains
+its caption/header unit and dilution-basis ambiguity as context only.
+
+The source-level Table 5.2 7 bar / 88°C / 10 kgF pair 131.84 mg/40 mL versus
+3.29 mg/mL is retained unchanged. The other 143 related-unit pairs overlap under
+the declared half-last-place convention. See [source audit and preparation basis](../analysis/sci_md_khamitova_tamping_chemistry_001/SOURCE_NOTES.md).
+Printed precision sensitivity and reported-RSD scales are separate from
+experimental uncertainty. No practical adequacy threshold, significance test,
+causal/population inference, fitted law or validation upgrade is supplied.
+Data-only/reference status and the model equations below are unchanged.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 ## Scope and mechanism
 3D axisymmetric saturated percolation of an espresso puck (cylinder, symmetry axis z), solving one coupled system: Richards mass balance + Darcy flux for the fluid, an advection–dispersion–reaction (ADR) transport equation for each traced compound, a companion matrix-bound solid balance per compound, and a convective–diffusive heat equation. The implemented case (§5.4.1) traces three compounds — caffeine (C), total chlorogenic acids (CQA), and **Fines** (<100 µm particles treated as an advected/dispersed tracer). Grain→liquid transfer is a **lumped first-order-in-solid-loading dissolution** term R_k = α_k C_k^s (no intra-grain diffusion, no saturation cap, no liquid-deficit driving force); all T,p sensitivity is pushed into the fitted rate α_k(T,p). Imbibition (first ~5 s) is discarded; the bed starts saturated. This is a **precursor** of the same group's later multi-species FeFlow model (Giacomini 2020 → angeloni2023).
@@ -63,30 +90,30 @@ Simulation vs. the authors' own HPLC-VWD lab means (Tables 5.3, 5.2) across all 
 - Liquid/solid decoupling via a compressibility-based porosity(pressure) closure; solid momentum never solved.
 - Oberbeck–Boussinesq (density varies only in buoyancy); local thermal equilibrium after imbibition; T₀ uniform 70 °C (unmeasured guess).
 - Fickian (not Maxwell–Stefan) diffusion; single lumped CQA; caffeine near-constant by construction (its α polynomial's leading term dominates).
-- Fixed brew ratio 1:2, fixed 25 s, single coffee (100 % Arabica), single grind. **Silent on:** transient/kinetic profiles, EY vs. time, TDS, sensory, grind/PSD effects (held constant), variety, unsaturated fine-grind flow.
+- Nominal brew ratio 1:2 and 25±1 s, single coffee (100 % Arabica); reported tolerance discrepancy and fixed-grind/tuning ambiguity as above. **Silent on:** measured transient/kinetic profiles, EY vs. time, TDS, sensory, isolated grind/PSD effects, variety, unsaturated fine-grind flow.
 
 ## Interface mapping
-Inputs consumed: MachineState (P_of_t → imposed inlet pressure/temperature), BedState (porosity ε, geometry H, R; K would need supplying), GrindState (fines fraction → Fines C₀^s; PSD held fixed). Outputs produced: ShotResultState-adjacent per-compound cup concentrations (mg/40 mL) and beverage volume; **no EY_pct, no tds_pct, no time traces** as delivered (means only).
+Inputs consumed: MachineState (P_of_t → imposed inlet pressure/temperature), BedState (porosity ε, geometry H, R; K would need supplying), GrindState (fines fraction → Fines C₀^s; PSD held fixed). Outputs produced: ShotResultState-adjacent per-compound reported amounts per reference 40 mL and beverage volume; **no EY_pct, no tds_pct, no time traces** as delivered (means only).
 Couplings: **offline calibration chain, not runtime.** The dissolution rates and K are fit to the rig's own data before any prediction, so the model can only reproduce, not forecast, a new configuration. Would need a full FeFlow-class 3D coupled solver (Richards+ADR×3+heat) to run — large, and it duplicates the angeloni2023 solver.
 
 ## Extractable data
-The model is superseded (below); the **chemical campaign is the only transcribable asset**, and it is the *only tamping-force-resolved* multi-compound set in this lineage:
-- **Tables 5.2–5.5** — total CQA, caffeine, trigonelline, nicotinic acid in EC (mg/40 mL and mg/mL, +RSD) across 3 T × 3 p × 4 tamping = 36 conditions (duplicate; 72 shots). Rig: VA388 Black Eagle, Mythos 2 grinder, VST 20 g Competition basket, 100 % Arabica "Cibao Altura," 20 g→40 g, 25±1 s.
-- **Table 5.6** — ground-coffee assay (mg/10 mL per 1 g) for the four compounds (feeds C₀^s).
+The model is superseded (below); the **chemical campaign is already transcribed**, and it is the *only tamping-force-resolved* multi-compound set in this lineage:
+- **Tables 5.2–5.5** — total CQA, caffeine, trigonelline, nicotinic acid in EC (mg/40 mL and mg/mL, +RSD) across 3 T × 3 p × 4 tamping = 36 configurations (duplicated; 72 extractions; mean/RSD analysis count unresolved). Rig: VA388 Black Eagle, Mythos 2 grinder, VST 20 g Competition basket, 100 % Arabica "Cibao Altura," 20 g→40 g, 25±1 s.
+- **Table 5.6** — ground-coffee context for four compounds: header mg/10 mL, caption mg/mL, 1 g preparation with dilution. The model uses it for C₀^s; this audit does not qualify it as an inventory/recovery denominator.
 - **Figure 5.2** — ground-coffee PSD (Mastersizer 3000); 26 % <100 µm by volume.
-Weak discriminating power: variation across all conditions is "quite narrow" (~2–3× RSD), means only, no time series, non-standard 20 g dose. Raw per-condition means are in-thesis; per-shot raw and the α-calibration dataset are unreported (available-on-request at best). No code published.
+The author describes variation across conditions as narrow but appreciable relative to mean RSD (roughly 2–3×). This is not a tamping equivalence test; the new block-wise benchmark retains all means and contrasts. Means/RSD only, no time series, 20 g dose. Raw per-condition means are in-thesis; per-shot raw and the α-calibration dataset are unreported (available-on-request at best). No code published.
 
 ## Overlaps and conflicts
-- **angeloni2023 (extraction/flow/observables, calibration) — SUPERSEDES this card.** Same Camerino/Vittori group, same FeFlow Richards+Darcy+ADR+solid+heat system (their formula (1) is *identical* in structure), same first-order fitted-α(T,p) dissolution closure (their Eq. 8–9 = this thesis's formulas 12–13), same VST cylinder, same imbibition exclusion. angeloni2023 does it with **8 species, Arabica + Robusta, O/C/F granulometry, 66 shots, full coefficient appendix** — strictly higher fidelity and more data. This thesis is the 2-compound, single-variety, single-grind precursor.
+- **angeloni2023 (extraction/flow/observables, calibration) — SUPERSEDES this card.** Same Camerino/Vittori group, same FeFlow Richards+Darcy+ADR+solid+heat system (their formula (1) is *identical* in structure), same first-order fitted-α(T,p) dissolution closure (their Eq. 8–9 = this thesis's formulas 12–13), same VST cylinder, same imbibition exclusion. angeloni2023 does it with **8 species, Arabica + Robusta, O/C/F granulometry, 66 shots, full coefficient appendix** — strictly higher fidelity and more data. This thesis is the 2-compound, single-variety precursor with the fixed-grind/tuning qualification above.
 - **Only non-redundant element vs. angeloni2023:** the **Fines advected-tracer** (compact-layer formation). But it is qualitative, size-less, mass-non-conserving, and does **not** satisfy the backlog's "mass-conserving 5-state mobile-fines transport" nor brewer2026.streamtube's fines migration.
 - **egidi2024 (extraction, runtime)** — same group, later, but a *different* physical model (1D, intra-grain spherical diffusion, quadratic dissolution, c_sat cap). This thesis's lumped first-order α closure is lower-fidelity chemistry than egidi2024/Cameron.
 - **egidi2018 (infiltration)** — same first author of the numerical lineage; unrelated soil-Richards content.
 - **grudeva2025 (infiltration/extraction, runtime)** — competing lineage; grudeva *models* imbibition and gives mechanistic (parameter-free) validation, which this model explicitly does not.
-- **Backlog "multi-class solute chemistry"** — the data partially touches this (4 compounds) but with weak effect sizes; angeloni2023's campaign already dominates it.
+- **Backlog "multi-class solute chemistry"** — the data partially touches this (4 source analyte labels); descriptive spread and observation basis are quantified in the chemistry bundle. No cross-source score is made.
 
 **Erratum flags (thesis cross-references):** §5.3.3 attributes the caffeine values to "Table 5.4," but caffeine is Table 5.3 (5.4 is trigonelline); §5.4.4 discussion swaps Figure 5.3 (caffeine) and Figure 5.4 (CQA). Content is internally identifiable; labels are transposed.
 
 ## Implementation estimate
-No model implementation warranted — the coupled 3D solver would replicate angeloni2023 (L effort) for lower fidelity. If the tamping-resolved tables are wanted, transcribe Tables 5.2–5.6 to `puckworks/data/khamitova2020_tamping/` (effort S) as a weak-effect reference; tag "tamping ≈ null on per-species EY at fixed 1:2 ratio, narrow variation."
+No model implementation warranted — the coupled 3D solver would replicate angeloni2023 (L effort) for lower fidelity. Tables 5.2–5.6 already reside in `puckworks/data/khamitova2020/` and load through `puckworks.data.khamitova2020_tamping()`. The source-specific analysis quantifies the cost of suppressing nominal force labels; retain those labels unless a later consumer supplies its own justified error budget and observation basis.
 
-VERDICT: data-only — model is a lower-fidelity precursor superseded by angeloni2023 (same group/solver/closure, fewer species, circular validation), but its Tables 5.2–5.6 are the registry's only tamping-force-resolved multi-compound EC chemistry, worth transcribing despite weak effect sizes — effort S.
+VERDICT: data-only — model is a lower-fidelity precursor superseded by angeloni2023 (same group/solver/closure, fewer species, circular validation), but its Tables 5.2–5.6 are the registry's only tamping-force-resolved multi-compound EC chemistry, already transcribed and source-audited as a descriptive representation benchmark. No production adoption or force-label interchangeability is established.

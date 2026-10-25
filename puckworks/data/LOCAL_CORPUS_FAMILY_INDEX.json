@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "80cfb68717ec1cf441cc50ca9136e5db5fcb219c69a29cc6e832d64cfcb8f370",
+  "available_data_register_sha256": "895958c0f1b8e6b2b198c4c9527362c6475a6443346d3b6c1df7cacc4395fb0b",
   "families": [
     {
       "aliases": [
@@ -545,9 +545,15 @@
       },
       "external_corpus_id": null,
       "family_id": "khamitova2020",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001",
       "limits": [
-        "tamping-force effect is approximately null (narrow variation) at fixed 1:2 ratio; single rig/coffee; the 3D model params (Tables 5.8-5.10) are NOT transcribed (rig-specific, superseded); precursor of the angeloni2023 lineage"
+        "isolated causal tamping effect",
+        "equivalence or practical adequacy claim",
+        "population inference from reported RSD",
+        "extraction yield or inventory recovery",
+        "species-matched 5-CQA comparison",
+        "independent validation or production calibration",
+        "144 analyte means; 72 extractions/36 duplicated configurations; RSD basis unresolved; fixed-grind assertion and tuning ambiguity; reference volume not authenticated cup volume; one source unit-pair inconsistency retained; Table 5.6 context only; no equivalence/causal null/EY or physical-validation claim; no new campaign"
       ],
       "manifest_dataset_ids": [
         "khamitova2020/tamping"
@@ -556,14 +562,17 @@
         "source_material",
         "chemistry"
       ],
-      "raw_access_status": "PACKAGED_IN_REPOSITORY",
+      "raw_access_status": "PACKAGED_TRANSCRIPTIONS; OFFICIAL_PDF_AUDITED_NOT_REDISTRIBUTED; RAW_REPLICATES_UNKNOWN",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "Khamitova PhD dissertation, University of Camerino (2020); no DOI"
+        "Open access dissertation; no explicit redistribution licence; PDF/artwork external; factual table audit; DOI 10.15165/khamitova-gulzhan_phd2020-06-25"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:KHAMITOVA2020",
       "strongest_current_uses": [
-        "weak-effect reference (tamping ~ null on per-species concentration at fixed 1:2 ratio); multi-compound espresso chemistry beside pannusch/schmieder"
+        "source-specific four-level constant representation cost",
+        "fixed 30-minus-10 kgF contrasts and intermediate-force range",
+        "conditional decimal-rounding sensitivity",
+        "secondary reported-RSD scale diagnostic"
       ]
     },
     {

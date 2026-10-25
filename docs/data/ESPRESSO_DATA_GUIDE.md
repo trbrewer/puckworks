@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+**2026-10-25 Khamitova chemistry:** [representation benchmark](../analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md) retains all 144 reported means / 36 blocks, fixed endpoint contrasts and intermediate excursions. All 440 table entries audited; one source unit-pair mismatch retained. Reference 40 mL amounts, unresolved mean/RSD aggregation and fixed-grind/tuning ambiguity; no equivalence, causal null, practical adequacy threshold or physical-validation upgrade. Existing data-only/reference status and historical I-024 exclusion unchanged.
+
 **2026-10-24 Cameron S2:** [pressure/grind/tamp result](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
 adds 16 qualified plotted summaries, 12 recovered bars and four missing extents.
 Central reading bounds support opposite 9−6-bar signs at grinds 1.3/1.5 and a
@@ -593,9 +595,9 @@ Endpoint analyte response to conditions. Concentration bases must remain explici
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `khamitova2020/tamping` — [khamitova2020](../cards/khamitova2020.md); PhD dissertation Tables 5.2-5.6 — total CQA / caffeine / trigonelline / nicotinic acid (mg per 40 mL & per mL + RSD) across pressure x temperature x tamping force 10/15/20/30 kgF; Table 5.6 ground-coffee assay | card/dissertation table transcription (HPLC-VWD lab means + RSD %); published: mg/40mL ; mg/mL ; % RSD ; bar ; degC; registry: mg ; mg/mL ; % ; bar ; degC | Khamitova PhD dissertation, University of Camerino (2020); no DOI; tamping-force effect is approximately null (narrow variation) at fixed 1:2 ratio; single rig/coffee; the 3D model params (Tables 5.8-5.10) are NOT transcribed (rig-specific, superseded); precursor of the angeloni2023 lineage |
+| `khamitova2020/tamping` — [khamitova2020](../cards/khamitova2020.md); Khamitova PhD dissertation (2020-06-25); DOI 10.15165/khamitova-gulzhan_phd2020-06-25; https://pubblicazioni.unicam.it/handle/11581/480144; Tables 5.2-5.6; printed 98-101 / PDF 115-118; total CQA / caffeine / trigonelline / nicotinic acid across pressure x temperature x nominal tamping force | existing table transcription; all 432 chemistry and eight ground entries numerically audited; source display strings and precision retained in task bundle; published: mg/40ml; mg/ml; percent RSD; bar; degC; kgF; ground caption mg/ml versus header mg/10ml; registry: reported mg per reference 40 mL; mg/mL; percent RSD; bar; degC; kgF; ground header-labelled context | Open access dissertation; no explicit redistribution licence; PDF/artwork external; factual table audit; DOI 10.15165/khamitova-gulzhan_phd2020-06-25; 144 analyte means; 72 extractions/36 duplicated configurations; RSD basis unresolved; fixed-grind assertion and tuning ambiguity; reference volume not authenticated cup volume; one source unit-pair inconsistency retained; Table 5.6 context only; no equivalence/causal null/EY or physical-validation claim; no new campaign |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### liang2021
 

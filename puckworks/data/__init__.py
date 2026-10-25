@@ -1395,13 +1395,22 @@ def gagne2021_resistance_decline():
 
 # --- khamitova2020 (tamping-force-resolved espresso chemistry; data-only) ----------
 def khamitova2020_tamping():
-    """khamitova2020 — tamping-force-resolved espresso chemistry (data-only; card
-    `khamitova2020`). Returns {compound: rows} for total CQA / caffeine / trigonelline /
-    nicotinic acid (Tables 5.2–5.5: mg per 40 mL and per mL + RSD %, across pressure ×
-    temperature × tamping force 10/15/20/30 kgF), plus `ground_coffee` (Table 5.6, the
-    dry-coffee assay). The registry's only tamping-force-resolved multi-compound set;
-    the tamping effect is ≈ null on per-species concentration at fixed 1:2 ratio. NOT a
-    model (the 3D solver duplicates angeloni2023); no gate against the source."""
+    """Khamitova nominal-force-labelled endpoint chemistry (data-only/reference).
+
+    Returns the unchanged {compound: rows} interface for total CQA, caffeine,
+    trigonelline, nicotinic acid (Tables 5.2–5.5) and ground_coffee (Table 5.6).
+    Primary amounts are reported mg per reference 40 mL, with related mg/mL and
+    RSD percent; not measured whole-cup recovered mass or extraction yield.
+    The source reports 72 extractions / 36 duplicated configurations; mean/RSD
+    aggregation is unresolved. Fixed-grind assertion and manual tuning ambiguity
+    coexist. Total CQA is not species-matched 5-CQA. Table 5.6 is context only.
+    Original CSV bytes retain the Table 5.2 7 bar/88 C/10 kgF unit-pair mismatch.
+    Exact printed precision and descriptive costs are in the task-local audit:
+    docs/analysis/sci_md_khamitova_tamping_chemistry_001/. No blanket tamping null,
+    causal effect, equivalence, practical adequacy or physical validation is
+    established. The source's own qualified interpretation is in the card.
+    DOI: 10.15165/khamitova-gulzhan_phd2020-06-25. No model or runtime gate.
+    """
     files = {
         "total_cqa": "Table_5.2_Total_CQA_concentration.csv",
         "caffeine": "Table_5.3_Caffeine_concentration.csv",
