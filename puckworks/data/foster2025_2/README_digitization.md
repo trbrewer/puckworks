@@ -21,3 +21,15 @@
 - Similarly Fig. 6 s(t) (whole-bed fit) and Fig. 12 s-data (5-line mean) differ by roughly 1 s of apparent onset and in early values; both are provided as printed.
 - Digitization precision: ~1 px, i.e. about +/-0.03 mm and +/-0.02 s for Figs. 12-14 data; about +/-0.03 in dimensionless z (+/-0.3 mm) for Figs. 6/8.
 - Calibration anchors were the printed tick marks/labels and the z=0 axis line; all calibrations were verified by overlaying the reproduced model curves on the rasterized pages.
+
+## Separate radial interface intake (2026-10-24)
+
+`fig8_fig9_radial_front.json` and `.csv` belong to the new bounded
+[radial-front analysis](../../../docs/analysis/sci_md_foster_radial_front_001/RESULT.md).
+Its native pixels, independent endpoint support, shared calibration, exact
+90-slot cohort and fit/rule-zero distinctions are governed by that task's PLAN.
+The earlier digitization precision and Figure 12–14 uncertainty labels above
+do not govern this new intake. Empty CSV fields are null/unsupported, never zero.
+The new bars are `published_front_position_extents`, with no authenticated
+confidence level or unique transition-width multiplier. Source-derived values
+retain the article's CC BY-NC 4.0 attribution.

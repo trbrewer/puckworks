@@ -92,12 +92,13 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                       'Pressure-response shape and qualitative fines-mechanism context. Separate digitized '
                       'observations from theoretical curves; published apparatus and original clocks are '
                       'needed for transfer.'),
- 'foster2025_2': ('fig6_front_position and fig8_headspace each have nine time points in seconds/mm with '
-                  'error columns. fig12_14 separates fitted and data front/bed/headspace; fig15 has '
-                  'normalized Q and headspace pressure.',
-                  'Wetting/bed-change observation operators and source reconstruction. Nine points are not '
-                  'nine independent shots; normalized modeled machine response is not a measured '
-                  'inlet-pressure schedule.'),
+ 'foster2025_2': ('Existing fig6_front_position is whole-bed s; fig8_headspace aggregates radial headspace. '
+                  'New fig8_fig9_radial_front retains 90 canonical shell/scan slots with separate center/cap '
+                  'support and fit/rule status. fig12_14 uses vertical lines; fig15 is equation-generated.',
+                  'Primary 3/4/5 s center variation is graphically resolved; 4/5 s displayed extents admit common '
+                  'positions for every reading; complete 3 s is unsupported (one hidden cap). No physical uniformity, binary saturation, first-arrival or '
+                  'independent-validation claim. Missing plateau features remain null; dependent observations, '
+                  'not independent shots. Existing source roles and EWP authority unchanged.'),
  'g10_liquor_rheology': ('Telis-Romero Table 1: 24 eta_Pas cells indexed by Xw_pct/T_K; Table 2: 27 K_Pasn/n '
                          'cells. Khomyakov: 60 kinematic-viscosity cells indexed by solids fraction and '
                          'temperature; regression/density conflicts are flagged.',

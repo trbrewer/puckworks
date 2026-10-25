@@ -87,7 +87,12 @@ def test_controlling_card_carries_the_circularity_note():
     """This sentence is what settles which SENSE of 'independent' the CT half can carry."""
     text = (REPO / S.SOURCE_CARD).read_text(encoding="utf-8")
     norm = " ".join(text.split())
-    assert " ".join(S.CARD_CIRCULARITY_NOTE.split()) in norm
+    # The historical screen quote remains frozen in S and its result bundle.
+    # SCI-MD-FOSTER-RADIAL-FRONT-001 withdraws its model-form-validation clause;
+    # live authority must retain the fitting premise and explicit claim ceiling.
+    premise = S.CARD_CIRCULARITY_NOTE.split(", so ")[0]
+    assert " ".join(premise.split()) in norm
+    assert "does not independently validate model form or parameter-free prediction" in norm
 
 
 # --------------------------------------------------------------------------------------------
@@ -145,7 +150,12 @@ def test_ct_observations_belong_to_the_fitting_campaign():
     """Proved from the controlling card, which is what makes the CT arm post-fit."""
     card = (REPO / S.SOURCE_CARD).read_text(encoding="utf-8")
     norm = " ".join(card.split())
-    assert " ".join(S.CARD_CIRCULARITY_NOTE.split()) in norm
+    # The historical screen quote remains frozen in S and its result bundle.
+    # SCI-MD-FOSTER-RADIAL-FRONT-001 withdraws its model-form-validation clause;
+    # live authority must retain the fitting premise and explicit claim ceiling.
+    premise = S.CARD_CIRCULARITY_NOTE.split(", so ")[0]
+    assert " ".join(premise.split()) in norm
+    assert "does not independently validate model form or parameter-free prediction" in norm
     # the specific quantities and the specific curves
     assert "fitted" in norm and "s/H curves being reproduced" in norm
     assert "k" in S.CARD_CIRCULARITY_NOTE and "phi_T" in S.CARD_CIRCULARITY_NOTE.replace(

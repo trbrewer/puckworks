@@ -1,0 +1,4802 @@
+{
+  "schema_version": 1,
+  "task_id": "SCI-MD-FOSTER-RADIAL-FRONT-001",
+  "dataset_id": "foster2025_2/fig8_fig9_radial_front",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "plan_sha256": "f9678296172593186779f723a4e9f110f567e793188a87d004750f96ffc96dc3",
+  "freeze_utc": "2026-10-25T01:40:07Z",
+  "calibrations": {
+    "fig9_ticks": {
+      "image_id": "fig9",
+      "ticks": [
+        {
+          "z": 0.0,
+          "p": 180,
+          "allowance": 1.5
+        },
+        {
+          "z": 0.2,
+          "p": 326,
+          "allowance": 1.5
+        },
+        {
+          "z": 0.4,
+          "p": 473,
+          "allowance": 1.5
+        },
+        {
+          "z": 0.6,
+          "p": 619,
+          "allowance": 1.5
+        },
+        {
+          "z": 0.8,
+          "p": 765,
+          "allowance": 1.5
+        },
+        {
+          "z": 1.0,
+          "p": 911,
+          "allowance": 1.5
+        }
+      ],
+      "nominal_alpha": "1/731",
+      "nominal_beta": "-180/731"
+    },
+    "fig8_ticks": {
+      "image_id": "fig8",
+      "ticks": [
+        {
+          "z": -1,
+          "p": 123,
+          "allowance": 1.5
+        },
+        {
+          "z": -0.5,
+          "p": 324,
+          "allowance": 1.5
+        },
+        {
+          "z": 0,
+          "p": 525,
+          "allowance": 1.5
+        },
+        {
+          "z": 0.5,
+          "p": 727,
+          "allowance": 1.5
+        },
+        {
+          "z": 1,
+          "p": 928,
+          "allowance": 1.5
+        }
+      ],
+      "nominal_alpha": "2/805",
+      "nominal_beta": "-1050/805"
+    }
+  },
+  "graphical_set": "one continuous branch; affine tick constraints, primary pixel boxes, endpoint ordering, center-in-bar where available, three shared centers with fig8; all other fig8 audit records are nonconstraining",
+  "images": {
+    "fig6": {
+      "path": "docs/analysis/sci_md_foster_radial_front_001/source_figures/fig6.jpeg",
+      "sha256": "980b958d34178441a4133f25d017d91dc0667f6d59b09d6d0aca280057c3910c",
+      "license": "CC BY-NC 4.0; Foster et al. 2025 DOI 10.1063/5.0245167; extracted without content alteration"
+    },
+    "fig7": {
+      "path": "docs/analysis/sci_md_foster_radial_front_001/source_figures/fig7.jpeg",
+      "sha256": "40e732cd70f5749a63fa714ded1c38a0f8c66593b35b4bc879ef63a67d53b9b2",
+      "license": "CC BY-NC 4.0; Foster et al. 2025 DOI 10.1063/5.0245167; extracted without content alteration"
+    },
+    "fig8": {
+      "path": "docs/analysis/sci_md_foster_radial_front_001/source_figures/fig8.png",
+      "sha256": "a123b23236306844a0b480b1001302e3d621a01c3cc20324176902e76d2282b5",
+      "license": "CC BY-NC 4.0; Foster et al. 2025 DOI 10.1063/5.0245167; extracted without content alteration"
+    },
+    "fig9": {
+      "path": "docs/analysis/sci_md_foster_radial_front_001/source_figures/fig9.jpeg",
+      "sha256": "b626e8e851c67daac56452e8b57d8021bcd4b2819be4b9e54fe007b0f53ca613",
+      "license": "CC BY-NC 4.0; Foster et al. 2025 DOI 10.1063/5.0245167; extracted without content alteration"
+    }
+  },
+  "observations": [
+    {
+      "observation_id": "foster-r00-t00",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 1; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t00",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 2; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t00",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 3; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t00",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 4; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t00",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 5; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t00",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 6; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t00",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 7; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t00",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 8; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t00",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 9; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t00",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 0,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 10; blue baseline below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t01",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=1 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 210,
+        "enclosure_px": [
+          208,
+          212
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "orange rim strongly blended with blue disk; attribution insufficient; independent review correction; no symmetry/line inference"
+      },
+      "upper_endpoint": {
+        "nominal_px": 233,
+        "enclosure_px": [
+          231,
+          235
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t01",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=1 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 219,
+        "enclosure_px": [
+          217,
+          221
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 196,
+        "enclosure_px": [
+          194,
+          198
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 241,
+        "enclosure_px": [
+          239,
+          243
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t01",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=1 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 212,
+        "enclosure_px": [
+          210,
+          214
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 187,
+        "enclosure_px": [
+          183,
+          191
+        ],
+        "support": "SUPPORTED",
+        "reason": "orange cap-end pixels at blue-disk lower corners; partial-overlap +/-4 native pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 235,
+        "enclosure_px": [
+          233,
+          237
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t01",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 4; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t01",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 5; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t01",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 6; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t01",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 7; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t01",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 8; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t01",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 9; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t01",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 1,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 10; orange profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "rule authenticated by absorption; marker occluded by later scan; no pixel inference"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t02",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 266,
+        "enclosure_px": [
+          264,
+          268
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 248,
+        "enclosure_px": [
+          246,
+          250
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 285,
+        "enclosure_px": [
+          283,
+          287
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t02",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 258,
+        "enclosure_px": [
+          256,
+          260
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 237,
+        "enclosure_px": [
+          235,
+          239
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 281,
+        "enclosure_px": [
+          279,
+          283
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t02",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 247,
+        "enclosure_px": [
+          245,
+          249
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 223,
+        "enclosure_px": [
+          221,
+          225
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 271,
+        "enclosure_px": [
+          269,
+          273
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t02",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 240,
+        "enclosure_px": [
+          238,
+          242
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 209,
+        "enclosure_px": [
+          207,
+          211
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 273,
+        "enclosure_px": [
+          271,
+          275
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t02",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 243,
+        "enclosure_px": [
+          241,
+          245
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 205,
+        "enclosure_px": [
+          203,
+          207
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 280,
+        "enclosure_px": [
+          276,
+          284
+        ],
+        "support": "SUPPORTED",
+        "reason": "two green cap-end fragments outside red disk; partial-overlap +/-4 native pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t02",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 294,
+        "enclosure_px": [
+          292,
+          296
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 263,
+        "enclosure_px": [
+          259,
+          267
+        ],
+        "support": "SUPPORTED",
+        "reason": "green cap-end fragments survive red disk overlap; partial-overlap +/-4 native pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "green rim beneath red cap insufficient for independent endpoint localization; independent review correction; no symmetry/line inference"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t02",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 298,
+        "enclosure_px": [
+          296,
+          300
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "green cap hidden by red t3 disk; independent review correction; no symmetry/line inference"
+      },
+      "upper_endpoint": {
+        "nominal_px": 335,
+        "enclosure_px": [
+          333,
+          337
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t02",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 227,
+        "enclosure_px": [
+          225,
+          229
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 162,
+        "enclosure_px": [
+          160,
+          164
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 293,
+        "enclosure_px": [
+          291,
+          295
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t02",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=2 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 264,
+        "enclosure_px": [
+          262,
+          266
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 137,
+        "enclosure_px": [
+          135,
+          139
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 391,
+        "enclosure_px": [
+          389,
+          393
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t02",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 2,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_SOURCE_RULE_ZERO",
+      "eligibility_evidence": "Figure7 panel 10; green outer profile below 0.2; methods II C; Figure6/9 time-color map",
+      "source_rule_value": 0,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 180,
+        "enclosure_px": [
+          178,
+          182
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "NOT_APPLICABLE_SOURCE_RULE",
+        "reason": "source-rule zero; no independently supported nonzero extent"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t03",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r00-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 321,
+        "enclosure_px": [
+          319,
+          323
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 302,
+        "enclosure_px": [
+          300,
+          304
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 341,
+        "enclosure_px": [
+          337,
+          345
+        ],
+        "support": "SUPPORTED",
+        "reason": "pale red cap survives translucent legend border; partial-overlap +/-4 native pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t03",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r01-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 313,
+        "enclosure_px": [
+          311,
+          315
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 292,
+        "enclosure_px": [
+          290,
+          294
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 334,
+        "enclosure_px": [
+          332,
+          336
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t03",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r02-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 299,
+        "enclosure_px": [
+          297,
+          301
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 271,
+        "enclosure_px": [
+          269,
+          273
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 327,
+        "enclosure_px": [
+          325,
+          329
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t03",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r03-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 290,
+        "enclosure_px": [
+          288,
+          292
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 258,
+        "enclosure_px": [
+          256,
+          260
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 323,
+        "enclosure_px": [
+          321,
+          325
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t03",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r04-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 287,
+        "enclosure_px": [
+          285,
+          289
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "cap hidden by green t2 marker; red stem is not endpoint support; independent review correction; no symmetry/line inference"
+      },
+      "upper_endpoint": {
+        "nominal_px": 328,
+        "enclosure_px": [
+          326,
+          330
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t03",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r05-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 274,
+        "enclosure_px": [
+          272,
+          276
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 222,
+        "enclosure_px": [
+          220,
+          224
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 326,
+        "enclosure_px": [
+          324,
+          328
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t03",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r06-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 261,
+        "enclosure_px": [
+          259,
+          263
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 198,
+        "enclosure_px": [
+          196,
+          200
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 323,
+        "enclosure_px": [
+          321,
+          325
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t03",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r07-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 277,
+        "enclosure_px": [
+          275,
+          279
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 209,
+        "enclosure_px": [
+          207,
+          211
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 344,
+        "enclosure_px": [
+          342,
+          346
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t03",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r08-t03-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 239,
+        "enclosure_px": [
+          237,
+          241
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 143,
+        "enclosure_px": [
+          141,
+          145
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 335,
+        "enclosure_px": [
+          333,
+          337
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t03",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 3,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=3 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r09-t03-fig8",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "AUTHENTICATED_SHARED_CENTER",
+          "x_px": 631,
+          "x_enclosure_px": [
+            629,
+            633
+          ],
+          "center": {
+            "nominal_px": 554,
+            "enclosure_px": [
+              552,
+              556
+            ],
+            "support": "SUPPORTED",
+            "reason": "cyan outer-shell disk at printed scan; positive s branch"
+          },
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null
+        }
+      ],
+      "center": {
+        "nominal_px": 232,
+        "enclosure_px": [
+          230,
+          234
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 85,
+        "enclosure_px": [
+          83,
+          87
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 378,
+        "enclosure_px": [
+          376,
+          380
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t04",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r00-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 490,
+        "enclosure_px": [
+          486,
+          494
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      },
+      "lower_endpoint": {
+        "nominal_px": 457,
+        "enclosure_px": [
+          453,
+          461
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      },
+      "upper_endpoint": {
+        "nominal_px": 523,
+        "enclosure_px": [
+          519,
+          527
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t04",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r01-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 493,
+        "enclosure_px": [
+          489,
+          497
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      },
+      "lower_endpoint": {
+        "nominal_px": 456,
+        "enclosure_px": [
+          452,
+          460
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      },
+      "upper_endpoint": {
+        "nominal_px": 529,
+        "enclosure_px": [
+          525,
+          533
+        ],
+        "support": "SUPPORTED",
+        "reason": "translucent legend: distinct pale-purple disk/cap pixels; foreground excluded; local overlay"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t04",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r02-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 484,
+        "enclosure_px": [
+          482,
+          486
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 447,
+        "enclosure_px": [
+          445,
+          449
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 522,
+        "enclosure_px": [
+          520,
+          524
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t04",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r03-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 485,
+        "enclosure_px": [
+          483,
+          487
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 445,
+        "enclosure_px": [
+          443,
+          447
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 525,
+        "enclosure_px": [
+          523,
+          527
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t04",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r04-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 487,
+        "enclosure_px": [
+          485,
+          489
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 445,
+        "enclosure_px": [
+          443,
+          447
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 528,
+        "enclosure_px": [
+          526,
+          530
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t04",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r05-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 484,
+        "enclosure_px": [
+          482,
+          486
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 435,
+        "enclosure_px": [
+          433,
+          437
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 532,
+        "enclosure_px": [
+          530,
+          534
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t04",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r06-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 473,
+        "enclosure_px": [
+          471,
+          475
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 418,
+        "enclosure_px": [
+          416,
+          420
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 527,
+        "enclosure_px": [
+          525,
+          529
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t04",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r07-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 459,
+        "enclosure_px": [
+          457,
+          461
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 390,
+        "enclosure_px": [
+          388,
+          392
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 528,
+        "enclosure_px": [
+          526,
+          530
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t04",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r08-t04-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 416,
+        "enclosure_px": [
+          414,
+          418
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 324,
+        "enclosure_px": [
+          322,
+          326
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 508,
+        "enclosure_px": [
+          506,
+          510
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t04",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 4,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=4 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r09-t04-fig8",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "AUTHENTICATED_SHARED_CENTER",
+          "x_px": 781,
+          "x_enclosure_px": [
+            779,
+            783
+          ],
+          "center": {
+            "nominal_px": 654,
+            "enclosure_px": [
+              652,
+              656
+            ],
+            "support": "SUPPORTED",
+            "reason": "cyan outer-shell disk at printed scan; positive s branch"
+          },
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null
+        }
+      ],
+      "center": {
+        "nominal_px": 413,
+        "enclosure_px": [
+          411,
+          415
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 319,
+        "enclosure_px": [
+          317,
+          321
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 508,
+        "enclosure_px": [
+          506,
+          510
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t05",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r00-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 733,
+        "enclosure_px": [
+          731,
+          735
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 698,
+        "enclosure_px": [
+          696,
+          700
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 768,
+        "enclosure_px": [
+          766,
+          770
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t05",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r01-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 736,
+        "enclosure_px": [
+          734,
+          738
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 699,
+        "enclosure_px": [
+          697,
+          701
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 772,
+        "enclosure_px": [
+          770,
+          774
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t05",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r02-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 730,
+        "enclosure_px": [
+          728,
+          732
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 692,
+        "enclosure_px": [
+          690,
+          694
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 767,
+        "enclosure_px": [
+          765,
+          769
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t05",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r03-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 732,
+        "enclosure_px": [
+          730,
+          734
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 691,
+        "enclosure_px": [
+          689,
+          693
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 773,
+        "enclosure_px": [
+          771,
+          775
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t05",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r04-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 738,
+        "enclosure_px": [
+          736,
+          740
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 695,
+        "enclosure_px": [
+          693,
+          697
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 780,
+        "enclosure_px": [
+          778,
+          782
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t05",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r05-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 738,
+        "enclosure_px": [
+          736,
+          740
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 692,
+        "enclosure_px": [
+          690,
+          694
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 785,
+        "enclosure_px": [
+          783,
+          787
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t05",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r06-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 735,
+        "enclosure_px": [
+          733,
+          737
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 681,
+        "enclosure_px": [
+          679,
+          683
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 790,
+        "enclosure_px": [
+          788,
+          792
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t05",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r07-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 727,
+        "enclosure_px": [
+          725,
+          729
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 668,
+        "enclosure_px": [
+          666,
+          670
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 787,
+        "enclosure_px": [
+          785,
+          789
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t05",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r08-t05-fig8-audit",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "CORROBORATION_ONLY_NO_NUMERICAL_CONSTRAINT",
+          "center": null,
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null,
+          "reason": "shell overlap; no independent center assigned; Figure9 supplies retained reading"
+        }
+      ],
+      "center": {
+        "nominal_px": 726,
+        "enclosure_px": [
+          724,
+          728
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 658,
+        "enclosure_px": [
+          656,
+          660
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 794,
+        "enclosure_px": [
+          792,
+          796
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t05",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 5,
+      "role": "primary",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=5 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [
+        {
+          "record_id": "foster-r09-t05-fig8",
+          "image_id": "fig8",
+          "calibration_id": "fig8_ticks",
+          "linkage": "AUTHENTICATED_SHARED_CENTER",
+          "x_px": 932,
+          "x_enclosure_px": [
+            930,
+            934
+          ],
+          "center": {
+            "nominal_px": 820,
+            "enclosure_px": [
+              818,
+              822
+            ],
+            "support": "SUPPORTED",
+            "reason": "cyan outer-shell disk at printed scan; positive s branch"
+          },
+          "endpoint_linkage": "NOT_AUTHENTICATED_NOT_TRANSFERRED",
+          "lower_endpoint": null,
+          "upper_endpoint": null
+        }
+      ],
+      "center": {
+        "nominal_px": 716,
+        "enclosure_px": [
+          714,
+          718
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 641,
+        "enclosure_px": [
+          639,
+          643
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      },
+      "upper_endpoint": {
+        "nominal_px": 791,
+        "enclosure_px": [
+          789,
+          793
+        ],
+        "support": "SUPPORTED",
+        "reason": "visible cap centerline, independently read"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t06",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 922,
+        "enclosure_px": [
+          918,
+          926
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 898,
+        "enclosure_px": [
+          894,
+          902
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 947,
+        "enclosure_px": [
+          943,
+          951
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t06",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 892,
+        "enclosure_px": [
+          888,
+          896
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 942,
+        "enclosure_px": [
+          938,
+          946
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t06",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "upper_endpoint": {
+        "nominal_px": 937,
+        "enclosure_px": [
+          933,
+          941
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t06",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 881,
+        "enclosure_px": [
+          877,
+          885
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 930,
+        "enclosure_px": [
+          926,
+          934
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t06",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 883,
+        "enclosure_px": [
+          879,
+          887
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t06",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 879,
+        "enclosure_px": [
+          875,
+          883
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "pink cap not independently identifiable through gray/olive cap overlap; independent review correction; no symmetry/line inference"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t06",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 876,
+        "enclosure_px": [
+          872,
+          880
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 927,
+        "enclosure_px": [
+          923,
+          931
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t06",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 871,
+        "enclosure_px": [
+          867,
+          875
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 927,
+        "enclosure_px": [
+          923,
+          931
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t06",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 868,
+        "enclosure_px": [
+          864,
+          872
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 926,
+        "enclosure_px": [
+          922,
+          930
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t06",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 6,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=6 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": 854,
+        "enclosure_px": [
+          850,
+          858
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 915,
+        "enclosure_px": [
+          911,
+          919
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t07",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 911,
+        "enclosure_px": [
+          907,
+          915
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 892,
+        "enclosure_px": [
+          888,
+          896
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 929,
+        "enclosure_px": [
+          925,
+          933
+        ],
+        "support": "SUPPORTED",
+        "reason": "distinct gray outer cap-end pixels around pink disk; partial-overlap +/-4 native pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t07",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 914,
+        "enclosure_px": [
+          910,
+          918
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 896,
+        "enclosure_px": [
+          892,
+          900
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 932,
+        "enclosure_px": [
+          928,
+          936
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t07",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 910,
+        "enclosure_px": [
+          906,
+          914
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 895,
+        "enclosure_px": [
+          891,
+          899
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 923,
+        "enclosure_px": [
+          919,
+          927
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t07",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 911,
+        "enclosure_px": [
+          907,
+          915
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 896,
+        "enclosure_px": [
+          892,
+          900
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t07",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 911,
+        "enclosure_px": [
+          907,
+          915
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 896,
+        "enclosure_px": [
+          892,
+          900
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "gray endpoint identity unresolved amid coincident olive/pink caps; independent review correction; no symmetry/line inference"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t07",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 911,
+        "enclosure_px": [
+          907,
+          915
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": 894,
+        "enclosure_px": [
+          890,
+          898
+        ],
+        "support": "SUPPORTED",
+        "reason": "distinct gray outer cap-end pixels around pink disk; partial-overlap +/-4 native pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 927,
+        "enclosure_px": [
+          923,
+          931
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t07",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 910,
+        "enclosure_px": [
+          906,
+          914
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t07",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 909,
+        "enclosure_px": [
+          905,
+          913
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "upper_endpoint": {
+        "nominal_px": 922,
+        "enclosure_px": [
+          918,
+          926
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t07",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 905,
+        "enclosure_px": [
+          901,
+          909
+        ],
+        "support": "SUPPORTED",
+        "reason": "partial overlap: opposing side contours remain visible; separate gray/pink identity"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "upper_endpoint": {
+        "nominal_px": 919,
+        "enclosure_px": [
+          915,
+          923
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t07",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 7,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=7 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "lower_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      },
+      "upper_endpoint": {
+        "nominal_px": 911,
+        "enclosure_px": [
+          907,
+          915
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r00-t08",
+      "shell_id": "r00",
+      "shell_lower": 0.0,
+      "shell_upper": 0.1,
+      "shell_midpoint": 0.05,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 1; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 159,
+      "x_enclosure_px": [
+        157,
+        161
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 905,
+        "enclosure_px": [
+          903,
+          907
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 883,
+        "enclosure_px": [
+          879,
+          887
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": null,
+        "enclosure_px": null,
+        "support": "UNSUPPORTED_READING",
+        "reason": "overlap prevents independent feature localization; no line/symmetry recovery"
+      }
+    },
+    {
+      "observation_id": "foster-r01-t08",
+      "shell_id": "r01",
+      "shell_lower": 0.1,
+      "shell_upper": 0.2,
+      "shell_midpoint": 0.15,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 2; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 294,
+      "x_enclosure_px": [
+        292,
+        296
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 904,
+        "enclosure_px": [
+          902,
+          906
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 882,
+        "enclosure_px": [
+          878,
+          886
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 926,
+        "enclosure_px": [
+          922,
+          930
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r02-t08",
+      "shell_id": "r02",
+      "shell_lower": 0.2,
+      "shell_upper": 0.3,
+      "shell_midpoint": 0.25,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 3; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 431,
+      "x_enclosure_px": [
+        429,
+        433
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 904,
+        "enclosure_px": [
+          902,
+          906
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 885,
+        "enclosure_px": [
+          881,
+          889
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 921,
+        "enclosure_px": [
+          917,
+          925
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r03-t08",
+      "shell_id": "r03",
+      "shell_lower": 0.3,
+      "shell_upper": 0.4,
+      "shell_midpoint": 0.35,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 4; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 566,
+      "x_enclosure_px": [
+        564,
+        568
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 909,
+        "enclosure_px": [
+          907,
+          911
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 889,
+        "enclosure_px": [
+          885,
+          893
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 925,
+        "enclosure_px": [
+          921,
+          929
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r04-t08",
+      "shell_id": "r04",
+      "shell_lower": 0.4,
+      "shell_upper": 0.5,
+      "shell_midpoint": 0.45,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 5; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 702,
+      "x_enclosure_px": [
+        700,
+        704
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 906,
+        "enclosure_px": [
+          904,
+          908
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 886,
+        "enclosure_px": [
+          882,
+          890
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 926,
+        "enclosure_px": [
+          922,
+          930
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r05-t08",
+      "shell_id": "r05",
+      "shell_lower": 0.5,
+      "shell_upper": 0.6,
+      "shell_midpoint": 0.55,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 6; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 838,
+      "x_enclosure_px": [
+        836,
+        840
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 904,
+        "enclosure_px": [
+          902,
+          906
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 884,
+        "enclosure_px": [
+          880,
+          888
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 923,
+        "enclosure_px": [
+          919,
+          927
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r06-t08",
+      "shell_id": "r06",
+      "shell_lower": 0.6,
+      "shell_upper": 0.7,
+      "shell_midpoint": 0.65,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 7; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 974,
+      "x_enclosure_px": [
+        972,
+        976
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 904,
+        "enclosure_px": [
+          902,
+          906
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 884,
+        "enclosure_px": [
+          880,
+          888
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 924,
+        "enclosure_px": [
+          920,
+          928
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r07-t08",
+      "shell_id": "r07",
+      "shell_lower": 0.7,
+      "shell_upper": 0.8,
+      "shell_midpoint": 0.75,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 8; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1109,
+      "x_enclosure_px": [
+        1107,
+        1111
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 903,
+        "enclosure_px": [
+          901,
+          905
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 884,
+        "enclosure_px": [
+          880,
+          888
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 920,
+        "enclosure_px": [
+          916,
+          924
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r08-t08",
+      "shell_id": "r08",
+      "shell_lower": 0.8,
+      "shell_upper": 0.9,
+      "shell_midpoint": 0.85,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 9; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1245,
+      "x_enclosure_px": [
+        1243,
+        1247
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 895,
+        "enclosure_px": [
+          893,
+          897
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 878,
+        "enclosure_px": [
+          874,
+          882
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 912,
+        "enclosure_px": [
+          908,
+          916
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    },
+    {
+      "observation_id": "foster-r09-t08",
+      "shell_id": "r09",
+      "shell_lower": 0.9,
+      "shell_upper": 1.0,
+      "shell_midpoint": 0.95,
+      "scan_label_s": 8,
+      "role": "context",
+      "observable": "published_fitted_infiltration_interface",
+      "eligibility": "AUTHENTICATED_FITTED_ESTIMATE",
+      "eligibility_evidence": "Figure7 panel 10; color for t=8 exceeds 0.2 with visible sigmoid fit; methods II C; Figure6/9 time-color map",
+      "source_rule_value": null,
+      "image_id": "fig9",
+      "calibration_id": "fig9_ticks",
+      "x_px": 1381,
+      "x_enclosure_px": [
+        1379,
+        1383
+      ],
+      "extent_quantity": "published_front_position_extents",
+      "alternative_identities": [],
+      "duplicate_records": [],
+      "center": {
+        "nominal_px": 886,
+        "enclosure_px": [
+          884,
+          888
+        ],
+        "support": "SUPPORTED",
+        "reason": "clear marker opposing contours"
+      },
+      "lower_endpoint": {
+        "nominal_px": 864,
+        "enclosure_px": [
+          860,
+          868
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      },
+      "upper_endpoint": {
+        "nominal_px": 908,
+        "enclosure_px": [
+          904,
+          912
+        ],
+        "support": "SUPPORTED",
+        "reason": "terminal cap close to other scans; distinct colored endpoint pixels"
+      }
+    }
+  ]
+}

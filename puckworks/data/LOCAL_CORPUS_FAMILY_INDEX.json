@@ -1,5 +1,5 @@
 {
-  "available_data_register_sha256": "5141bf77cde7ae1ec082ce7423a630abbb2920166f5f88133fba268261001891",
+  "available_data_register_sha256": "80cfb68717ec1cf441cc50ca9136e5db5fcb219c69a29cc6e832d64cfcb8f370",
   "families": [
     {
       "aliases": [
@@ -232,22 +232,24 @@
       ],
       "discovery": {
         "guide": "docs/data/ESPRESSO_DATA_GUIDE.md",
-        "observed_structure": "fig6_front_position and fig8_headspace each have nine time points in seconds/mm with error columns. fig12_14 separates fitted and data front/bed/headspace; fig15 has normalized Q and headspace pressure.",
-        "practical_use_and_limits": "Wetting/bed-change observation operators and source reconstruction. Nine points are not nine independent shots; normalized modeled machine response is not a measured inlet-pressure schedule.",
+        "observed_structure": "Existing fig6_front_position is whole-bed s; fig8_headspace aggregates radial headspace. New fig8_fig9_radial_front retains 90 canonical shell/scan slots with separate center/cap support and fit/rule status. fig12_14 uses vertical lines; fig15 is equation-generated.",
+        "practical_use_and_limits": "Primary 3/4/5 s center variation is graphically resolved; 4/5 s displayed extents admit common positions for every reading; complete 3 s is unsupported (one hidden cap). No physical uniformity, binary saturation, first-arrival or independent-validation claim. Missing plateau features remain null; dependent observations, not independent shots. Existing source roles and EWP authority unchanged.",
         "snapshot": "puckworks/data/LOCAL_CORPUS_SNAPSHOT.json"
       },
       "external_corpus_id": null,
       "family_id": "foster2025_2",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_task": "SCI-MD-FOSTER-RADIAL-FRONT-001 (new radial subset only; prior roles unchanged)",
       "limits": [
         "fine grind fit; t_shift=0.796 start-align; reported t_p/t_s = model + t_shift; Fig 15 flow-min pending 0.11",
         "Q_norm = bed flow min(Qp,f)/Qm (Eq18); flow-min 0.181 @ t=2.0s; reproduced by solving Eqs 32-38, not pixel-traced",
-        "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)"
+        "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)",
+        "90 dependent shell/scan slots; 3/4/5 s centers vary; 4/5 s displayed extents compatible for every reading; complete 3 s unsupported (hidden cap); not physical uniformity or first arrival; mixed early eligibility and missing plateau features; no physical-validation upgrade"
       ],
       "manifest_dataset_ids": [
         "foster2025_2/params",
         "foster2025_2/fig15_flow",
-        "foster2025_2/fig12_14_curves"
+        "foster2025_2/fig12_14_curves",
+        "foster2025_2/fig8_fig9_radial_front"
       ],
       "model_chain_stages": [
         "wetting",
@@ -256,7 +258,8 @@
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "review_trigger": "after the next substantive task or a material rights/source change",
       "rights_access_status": [
-        "paper (DOI 10.1063/5.0245167)"
+        "paper (DOI 10.1063/5.0245167)",
+        "CC BY-NC 4.0 article; UL wrapper separately CC BY-NC-SA 4.0; attribution in task SOURCE_NOTES"
       ],
       "source_registration": "AVAILABLE_DATA_REGISTER:FOSTER2025_2",
       "strongest_current_uses": [

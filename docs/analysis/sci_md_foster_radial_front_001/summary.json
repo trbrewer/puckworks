@@ -1,0 +1,236 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "canonical_file_sha256": "12735f86c5cb98a950c9d38e83ebbfbe12613f05c3419b6d83d26ad36e500b31",
+  "counts": {
+    "canonical_slots": 90,
+    "primary_slots": 30
+  },
+  "dataset_id": "foster2025_2/fig8_fig9_radial_front",
+  "feasibility": "NONEMPTY_CHECKED_RATIONAL_WITNESS",
+  "primary": [
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-93/728",
+          "exact_upper": "-85/734",
+          "lower": -0.127748,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.115803
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.12175102599179206,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "85/1468",
+          "exact_upper": "93/1456",
+          "lower": 0.057901,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.063874
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [
+            "r00"
+          ],
+          "minimum": [
+            "r09"
+          ]
+        },
+        "nominal": 0.06087551299589603,
+        "nominal_max_shells": [
+          "r00"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.1320109439124487,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 9
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 3
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-83/728",
+          "exact_upper": "-71/734",
+          "lower": -0.114011,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.09673
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.10533515731874145,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "37/734",
+          "exact_upper": "43/728",
+          "lower": 0.050408,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.059066
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [],
+          "minimum": []
+        },
+        "nominal": 0.05471956224350205,
+        "nominal_max_shells": [
+          "r01"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.3734610123119015,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "H_bounds": {
+          "exact_lower": "0",
+          "exact_upper": "0",
+          "lower": 0.0,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.0
+        },
+        "bounds": {
+          "exact_lower": "-57/728",
+          "exact_upper": "-45/734",
+          "lower": -0.078297,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.061307
+        },
+        "nominal": -0.06976744186046512,
+        "nominal_A": 0.3789329685362517,
+        "nominal_A_shells": [
+          "r00"
+        ],
+        "nominal_B": 0.4487004103967168,
+        "nominal_B_shells": [
+          "r08",
+          "r09"
+        ],
+        "nominal_common_interval": [
+          0.3789329685362517,
+          0.4487004103967168
+        ],
+        "status": "COMPATIBLE_FOR_EVERY_ADMISSIBLE_READING",
+        "supported_complete_extents": 10,
+        "witness_label": "checked joint nominal reading; c may depend on reading"
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 4
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-3/104",
+          "exact_upper": "-13/734",
+          "lower": -0.028847,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.017711
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.023255813953488372,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "9/734",
+          "exact_upper": "1/56",
+          "lower": 0.012261,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.017858
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [],
+          "minimum": [
+            "r09"
+          ]
+        },
+        "nominal": 0.015047879616963064,
+        "nominal_max_shells": [
+          "r04",
+          "r05"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.7482900136798906,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "H_bounds": {
+          "exact_lower": "0",
+          "exact_upper": "0",
+          "lower": 0.0,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.0
+        },
+        "bounds": {
+          "exact_lower": "-9/91",
+          "exact_upper": "-32/367",
+          "lower": -0.098902,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.087193
+        },
+        "nominal": -0.09302325581395349,
+        "nominal_A": 0.7099863201094391,
+        "nominal_A_shells": [
+          "r01"
+        ],
+        "nominal_B": 0.8030095759233926,
+        "nominal_B_shells": [
+          "r02"
+        ],
+        "nominal_common_interval": [
+          0.7099863201094391,
+          0.8030095759233926
+        ],
+        "status": "COMPATIBLE_FOR_EVERY_ADMISSIBLE_READING",
+        "supported_complete_extents": 10,
+        "witness_label": "checked joint nominal reading; c may depend on reading"
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 5
+    }
+  ],
+  "source_image_sha256": {
+    "fig6": "980b958d34178441a4133f25d017d91dc0667f6d59b09d6d0aca280057c3910c",
+    "fig7": "40e732cd70f5749a63fa714ded1c38a0f8c66593b35b4bc879ef63a67d53b9b2",
+    "fig8": "a123b23236306844a0b480b1001302e3d621a01c3cc20324176902e76d2282b5",
+    "fig9": "b626e8e851c67daac56452e8b57d8021bcd4b2819be4b9e54fe007b0f53ca613"
+  },
+  "task_id": "SCI-MD-FOSTER-RADIAL-FRONT-001"
+}

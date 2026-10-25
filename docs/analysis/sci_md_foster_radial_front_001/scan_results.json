@@ -1,0 +1,471 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "calibration_certificates": {
+    "fig8_ticks": {
+      "alpha_bounds": [
+        "1/404",
+        "1/401"
+      ],
+      "nominal": [
+        "2/805",
+        "-30/23"
+      ],
+      "vertices": [
+        [
+          "1/404",
+          "-1051/808"
+        ],
+        [
+          "1/403",
+          "-81/62"
+        ],
+        [
+          "3/1208",
+          "-3145/2416"
+        ],
+        [
+          "1/402",
+          "-351/268"
+        ],
+        [
+          "1/402",
+          "-1049/804"
+        ],
+        [
+          "1/401",
+          "-1051/802"
+        ]
+      ]
+    },
+    "fig9_ticks": {
+      "alpha_bounds": [
+        "1/734",
+        "1/728"
+      ],
+      "nominal": [
+        "1/731",
+        "-180/731"
+      ],
+      "vertices": [
+        [
+          "1/734",
+          "-357/1468"
+        ],
+        [
+          "2/1465",
+          "-357/1465"
+        ],
+        [
+          "4/2925",
+          "-29/117"
+        ],
+        [
+          "1/730",
+          "-363/1460"
+        ],
+        [
+          "1/730",
+          "-359/1460"
+        ],
+        [
+          "1/728",
+          "-363/1456"
+        ]
+      ]
+    }
+  },
+  "classification": [
+    "G1",
+    "NO_GOVERNING_PHYSICS_CHANGE",
+    "RESEARCH_ONLY",
+    "RETROSPECTIVE",
+    "TARGET_EXPOSED",
+    "SOURCE_INTERNAL",
+    "NONSCORING"
+  ],
+  "dataset_id": "foster2025_2/fig8_fig9_radial_front",
+  "enclosure_scope": "Full continuous admissible set covered by conservative supersets; shared-figure offsets cancel; duplicate constraints checked for feasibility but not used to tighten bounds.",
+  "feasibility": "NONEMPTY_CHECKED_RATIONAL_WITNESS",
+  "input_sha256": "307b61c459fb8cfea9aa3ff6a78c5f61408b572c7f707d0b578ce0fd83b85e51",
+  "qualification_failure": null,
+  "scans": [
+    {
+      "D": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT"
+      },
+      "E": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_centers": 0
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 0
+      },
+      "eligibility": "MIXED_OR_SOURCE_RULE",
+      "fit_eligible_count": 0,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 0
+    },
+    {
+      "D": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT"
+      },
+      "E": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_centers": 3
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 2
+      },
+      "eligibility": "MIXED_OR_SOURCE_RULE",
+      "fit_eligible_count": 3,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 1
+    },
+    {
+      "D": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT"
+      },
+      "E": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_centers": 9
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 7
+      },
+      "eligibility": "MIXED_OR_SOURCE_RULE",
+      "fit_eligible_count": 9,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 2
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-93/728",
+          "exact_upper": "-85/734",
+          "lower": -0.127748,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.115803
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.12175102599179206,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "85/1468",
+          "exact_upper": "93/1456",
+          "lower": 0.057901,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.063874
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [
+            "r00"
+          ],
+          "minimum": [
+            "r09"
+          ]
+        },
+        "nominal": 0.06087551299589603,
+        "nominal_max_shells": [
+          "r00"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.1320109439124487,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 9
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 3
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-83/728",
+          "exact_upper": "-71/734",
+          "lower": -0.114011,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.09673
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.10533515731874145,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "37/734",
+          "exact_upper": "43/728",
+          "lower": 0.050408,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.059066
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [],
+          "minimum": []
+        },
+        "nominal": 0.05471956224350205,
+        "nominal_max_shells": [
+          "r01"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.3734610123119015,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "H_bounds": {
+          "exact_lower": "0",
+          "exact_upper": "0",
+          "lower": 0.0,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.0
+        },
+        "bounds": {
+          "exact_lower": "-57/728",
+          "exact_upper": "-45/734",
+          "lower": -0.078297,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.061307
+        },
+        "nominal": -0.06976744186046512,
+        "nominal_A": 0.3789329685362517,
+        "nominal_A_shells": [
+          "r00"
+        ],
+        "nominal_B": 0.4487004103967168,
+        "nominal_B_shells": [
+          "r08",
+          "r09"
+        ],
+        "nominal_common_interval": [
+          0.3789329685362517,
+          0.4487004103967168
+        ],
+        "status": "COMPATIBLE_FOR_EVERY_ADMISSIBLE_READING",
+        "supported_complete_extents": 10,
+        "witness_label": "checked joint nominal reading; c may depend on reading"
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 4
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-3/104",
+          "exact_upper": "-13/734",
+          "lower": -0.028847,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.017711
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.023255813953488372,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "9/734",
+          "exact_upper": "1/56",
+          "lower": 0.012261,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.017858
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [],
+          "minimum": [
+            "r09"
+          ]
+        },
+        "nominal": 0.015047879616963064,
+        "nominal_max_shells": [
+          "r04",
+          "r05"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.7482900136798906,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "H_bounds": {
+          "exact_lower": "0",
+          "exact_upper": "0",
+          "lower": 0.0,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.0
+        },
+        "bounds": {
+          "exact_lower": "-9/91",
+          "exact_upper": "-32/367",
+          "lower": -0.098902,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.087193
+        },
+        "nominal": -0.09302325581395349,
+        "nominal_A": 0.7099863201094391,
+        "nominal_A_shells": [
+          "r01"
+        ],
+        "nominal_B": 0.8030095759233926,
+        "nominal_B_shells": [
+          "r02"
+        ],
+        "nominal_common_interval": [
+          0.7099863201094391,
+          0.8030095759233926
+        ],
+        "status": "COMPATIBLE_FOR_EVERY_ADMISSIBLE_READING",
+        "supported_complete_extents": 10,
+        "witness_label": "checked joint nominal reading; c may depend on reading"
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "primary",
+      "scan_label_s": 5
+    },
+    {
+      "D": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT"
+      },
+      "E": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_centers": 1
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 7
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 6
+    },
+    {
+      "D": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT"
+      },
+      "E": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_centers": 9
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 4
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 7
+    },
+    {
+      "D": {
+        "bounds": {
+          "exact_lower": "-23/728",
+          "exact_upper": "-15/734",
+          "lower": -0.031594,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": -0.020435
+        },
+        "direction": "OUTER_SHALLOWER",
+        "nominal": -0.025991792065663474,
+        "shell_ids": [
+          "r09",
+          "r00"
+        ],
+        "status": "QUALIFIED"
+      },
+      "E": {
+        "bounds": {
+          "exact_lower": "19/1468",
+          "exact_upper": "27/1456",
+          "lower": 0.012942,
+          "method": "conservative rational outer enclosure; not claimed sharp",
+          "upper": 0.018544
+        },
+        "certified_invariant_extremal_shells": {
+          "maximum": [],
+          "minimum": [
+            "r09"
+          ]
+        },
+        "nominal": 0.01573187414500684,
+        "nominal_max_shells": [
+          "r03"
+        ],
+        "nominal_min_shells": [
+          "r09"
+        ],
+        "nominal_representative": 0.981532147742818,
+        "status": "QUALIFIED",
+        "supported_centers": 10,
+        "variation": "GRAPHICALLY_RESOLVED"
+      },
+      "G": {
+        "status": "UNSUPPORTED_COMPLETE_COHORT",
+        "supported_complete_extents": 9
+      },
+      "eligibility": "ALL_FITTED",
+      "fit_eligible_count": 10,
+      "partial_obstruction": null,
+      "role": "context",
+      "scan_label_s": 8
+    }
+  ],
+  "shared_center_witnesses": [
+    {
+      "fig8_feasible_pixel": "404705/731",
+      "observation_id": "foster-r09-t03",
+      "shared_z": "52/731"
+    },
+    {
+      "fig8_feasible_pixel": "955115/1462",
+      "observation_id": "foster-r09-t04",
+      "shared_z": "233/731"
+    },
+    {
+      "fig8_feasible_pixel": "599515/731",
+      "observation_id": "foster-r09-t05",
+      "shared_z": "536/731"
+    }
+  ],
+  "task_id": "SCI-MD-FOSTER-RADIAL-FRONT-001"
+}

@@ -59,6 +59,28 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    radial_id = "foster2025_2/fig8_fig9_radial_front"
+    families["FOSTER2025_2"].update({
+        "dataset_scopes": {radial_id: {
+            "observables": ["published_fitted_infiltration_interface", "published_front_position_extents"],
+            "measurement_resolution": "90 canonical shell/scan slots; 30 primary; independent feature support",
+            "spatial_resolution": "ten native annuli, r=0.0 to 1.0; equal widths, unequal areas",
+            "time_resolution": "printed scans 0-8 s; one-second reconstructions; window convention unknown",
+            "physical_replicate_structure": "dependent shells/scans of displayed fine-grind experiment",
+            "source_internal_or_external": "SOURCE_INTERNAL",
+            "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+            "eligible_uses": ["finite center minimax discrepancy", "outer-minus-inner center contrast",
+                              "literal displayed-extent compatibility under graphical reading contract"],
+            "blocked_uses": ["physical uniformity or binary saturation", "first liquid/extraction arrival",
+                             "measured permeability/porosity/flow", "independent validation", "causal grind effect"],
+            "uncertainty_status": "graphical outer enclosures; displayed extents not confidence or physical bounds",
+            "result": "docs/analysis/sci_md_foster_radial_front_001/RESULT.md",
+            "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+        }},
+        "last_qualified_task": "SCI-MD-FOSTER-RADIAL-FRONT-001 (new radial subset only; prior roles unchanged)",
+        "last_qualified_commit": None,
+    })
+
     mo_profile_id = "mo2023/fig14_fig16_segmented_profiles"
     families["MO2023"].update({
         "source_identifiers": ["10.1038/s41598-023-42380-y", "arXiv:2305.03911v2"],

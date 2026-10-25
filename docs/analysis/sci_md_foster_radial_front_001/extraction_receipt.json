@@ -1,0 +1,42 @@
+{
+  "pdf_sha256": "a813c890e4a9ca66514896d9174d5c8d4ea9442678bc314a59b901fe0fe09d8b",
+  "pdf_bytes": 5790202,
+  "pages": 22,
+  "PyMuPDF": "1.26.6",
+  "MuPDF": "1.26.11",
+  "images": {
+    "fig6": {
+      "sha256": "980b958d34178441a4133f25d017d91dc0667f6d59b09d6d0aca280057c3910c",
+      "pdf_page": 8,
+      "xref": 334,
+      "width": 1995,
+      "height": 821,
+      "format": "jpeg"
+    },
+    "fig7": {
+      "sha256": "40e732cd70f5749a63fa714ded1c38a0f8c66593b35b4bc879ef63a67d53b9b2",
+      "pdf_page": 9,
+      "xref": 324,
+      "width": 1013,
+      "height": 2034,
+      "format": "jpeg"
+    },
+    "fig9": {
+      "sha256": "b626e8e851c67daac56452e8b57d8021bcd4b2819be4b9e54fe007b0f53ca613",
+      "pdf_page": 10,
+      "xref": 405,
+      "width": 1447,
+      "height": 1070,
+      "format": "jpeg"
+    },
+    "fig8": {
+      "sha256": "a123b23236306844a0b480b1001302e3d621a01c3cc20324176902e76d2282b5",
+      "pdf_page": 10,
+      "xref": 406,
+      "width": 1447,
+      "height": 1069,
+      "format": "png"
+    }
+  },
+  "rights": "Article CC BY-NC 4.0; UL cover CC BY-NC-SA 4.0"
+}
