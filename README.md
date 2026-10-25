@@ -340,10 +340,8 @@ per-lineage inventories side by side rather than merging them.
 
 ## Contribute
 
-1. Write the **model card** from `docs/cards/TEMPLATE.md` (this is where papers get interrogated —
-   before any code).
-2. Implement under `puckworks/models/<key>/`, consuming and producing the typed interface (contract)
-   types.
+1. Write the **model card** from `docs/cards/TEMPLATE.md` before coding.
+2. Implement under `puckworks/models/<key>/`, using typed contracts.
 3. Register in `puckworks/models/__init__.py` with assumptions and the conditions where it applies.
 4. Add at least one automated check wired to real data in `puckworks/data/`.
 
@@ -398,6 +396,8 @@ Published sources and cards are listed below.
 40. SCI-MD-007-R1 cards: [Dias](docs/cards/dias2015.md), [Viencz](docs/cards/viencz2023.md), [Acre](docs/cards/acre2024.md), and [register package](docs/cards/sci_md_007_r1.md).
 41. Melrose et al. (2019), packed-bed preprint. [Card](docs/cards/melrose2019bed.md).
 42. Maille et al. (2021), particle swelling. [DOI](https://doi.org/10.1016/j.jfoodeng.2020.110420); [data card](docs/cards/maille2021.md).
+
+43. Matias et al. (2023), *Physics of Fluids* 35, 123611. [Card and benchmark](docs/cards/matias2023.md).
 
 ### Puckworks synthesis and sourcing notes
 

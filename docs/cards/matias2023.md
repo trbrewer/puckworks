@@ -1,8 +1,8 @@
 # Model card: Matias 2023 continuum dissolution–transport with plug invasion front
 
-**Paper/thesis:** Matias, A.F.V., Valente-Matias, D.F., Neng, N.R., Nogueira, J.M.F., Andrade Jr., J.S., Coelho, R.C.V., Araújo, N.A.M., "Continuum model for extraction and retention in porous media," arXiv:2304.03161v2 [physics.flu-dyn], 20 Dec 2023. (A journal version likely exists — Physics of Fluids group, same authors as Matias 2021 J. Comput. Sci. 53, 101360 — but is not verified here; cite the arXiv until confirmed.)
+**Paper:** Matias, A.F.V., Valente-Matias, D.F., Neng, N.R., Nogueira, J.M.F., Andrade Jr., J.S., Coelho, R.C.V., Araújo, N.A.M., “Continuum model for extraction and retention in porous media,” *Physics of Fluids* **35**(12), 123611 (2023), [DOI 10.1063/5.0176273](https://doi.org/10.1063/5.0176273). Publisher-deposited Crossref metadata authenticates the journal citation. Numerical Figure 3 identity remains [arXiv:2304.03161v2](https://arxiv.org/abs/2304.03161v2), revised 19 December 2023; see [source qualification](../analysis/sci_md_matias_caffeine_fraction_shape_001/SOURCE_NOTES.md).
 **Stage(s):** extraction (with a degenerate infiltration gate) · **Kind:** calibration
-**Status:** card-only
+**Status:** model card-only in Puckworks; empirical Figure 3 intake and bounded one-rate representation benchmark complete (data-only). EWP analytical quasi-steady references remain NO_EXPERIMENTAL_VALIDATION.
 
 ## Scope and mechanism
 1D (in practice) continuum advection–diffusion–dissolution model for a single lumped solute (caffeine) leaving a fixed solid matrix, gated by a plug-like water-invasion front: dissolution at position x switches on only after the front arrives at t* = x·u_m/‖u_m‖². Dissolution is a linear-driving-force mass-transfer law between a solid-surface concentration C_s (which depletes) and the bulk liquid concentration C_l; hydrodynamic dispersion enters via a Taylor–Aris closure. Solid matrix is static: no swelling, erosion, porosity change, or intragranular diffusion. Benchmarked three ways: capsule-espresso caffeine-vs-volume data (Pe ~ 10⁵), 2D lattice-Boltzmann pore-scale simulations (Pe ~ 10²), and an analytical quasi-steady solution for the slow-mass-transfer limit.
@@ -17,7 +17,7 @@ C̊ + u_m·∇C = D*∇²C + S·Θ(t/t* − 1)
 
 Dissolution source, Eqs. (6), (8): ṁ = k_c(C_s − C_l)A, S = ṁ/v_l = k_c(C_s − C_l)A/v_l, with k_c the mass-transfer coefficient (k_c ≡ D/h, h the interface transition width), C_s the microscopic surface concentration, C_l the bulk liquid concentration, A the interface surface area in the REV, v_l the REV liquid volume. Buffering (saturation cap) is stated as representable but neglected (C_s ≪ C_sat assumed).
 
-Solid depletion, Eq. (9): C̊_s = −(ṁ/v_s)·Θ(t/t* − 1), v_s the REV solid volume. Total inventory Eq. (7): m_T = ∫C_s dV. Intragranular diffusion neglected (authors flag this as the cause of late-time misfit).
+Solid depletion, Eq. (9): C̊_s = −(ṁ/v_s)·Θ(t/t* − 1), v_s the REV solid volume. Total inventory Eq. (7): m_T = ∫C_s dV. Intragranular diffusion neglected; the authors suggest it as a possible explanation of late-stage deviation, not a demonstrated cause.
 
 Dimensionless form, Eqs. (10)–(15): with x → Lx, t → (L/U)t,
 
@@ -51,7 +51,7 @@ Pore-scale/LB parameters (Table II, lattice units) are simulation settings, not 
 Plausibility flag (ours, not the authors'): k_c = 0.1 m/s is orders of magnitude above typical liquid-side dissolution mass-transfer coefficients (10⁻⁶–10⁻⁴ m/s); via k_c = D/h it implies h = 10 nm. As fitted it lumps unresolved surface area (A/v_l is never measured), so it must not be reused as a physical constant elsewhere.
 
 ## Calibration and validation offered by the source
-1. **Espresso experiment (Fig. 3):** caffeine concentration per 5 mL vial vs cumulative volume (10 vials × 4 replicate extractions, HPLC-DAD, calibration R² = 0.9999, Eq. A1: I = 77.221 [L·mg⁻¹]·[caffeine]). The continuum solution with k_c fitted to this same curve overlaps the data and reproduces the exponential decay of concentration with volume, deviating at late stages (attributed to neglected intragranular diffusion). This is post-fit reconstruction with one free parameter against one curve — no held-out condition, no error metric, no parameter sweep of the recipe. Not independent validation.
+1. **Espresso experiment (Fig. 3):** caffeine concentration per 5 mL vial vs cumulative volume (10 vials × 4 replicate extractions, HPLC-DAD, calibration R² = 0.9999, Eq. A1: I = 77.221 [L·mg⁻¹]·[caffeine]). The authors report agreement of their continuum solution, with k_c fitted to the same aggregate curve, and suggest internal diffusion as a possible explanation of late-stage deviation. The completed ten-fraction benchmark below separately quantifies the cost of one-rate representation after finite-bin averaging; it does not test the full continuum model. This is post-fit reconstruction with one free parameter against one curve — no held-out condition, no error metric, no parameter sweep of the recipe. Not independent validation.
 2. **Pore-scale LB comparison (Fig. 4, Pe ≈ 10²):** continuum solution vs 2D LB with cylinders; hydrodynamic dispersion D* was "the only fitting parameter, estimated using the Taylor-Aris dispersion" — i.e., the closure form supplied the fitted value. Agreement in curve shape and peak timing; concentration rises before front arrival because the plug front only gates dissolution, not diffusion (authors state the approximation is valid for very large Pe).
 3. **Analytical limit (Figs. 5, 10):** quasi-steady solution vs LB for circle arrays and point sources across Pe = 10⁻²–10²·⁺ and several source densities ξ; agreement in both Pe limits, requiring the pore-geometry-corrected D* (Eq. 25) for circles and no correction for point sources. This is verification (model vs model with all parameters defined), and it is the strongest-gated piece of the paper.
 4. **Invasion-term error study (Appendix B, Fig. 9):** dropping the Heaviside gate produces relative error growing linearly with Sh/Pe, stabilizing by Sh/Pe = 10²; at espresso conditions (Sh/Pe ~ 10) the gate matters, particularly at early times.
@@ -59,7 +59,7 @@ Plausibility flag (ours, not the authors'): k_c = 0.1 m/s is orders of magnitude
 ## Assumptions and validity range
 - Single lumped solute; no multi-species chemistry.
 - Static solid matrix: no swelling, erosion, fines migration, or porosity/velocity evolution (authors flag this as future work; contrast their own refs. 8, 9, 14).
-- No intragranular diffusion — authors identify this as the late-extraction failure mode; predictive capability degrades for large extraction volumes (visible beyond ~30 mL in Fig. 3).
+- No intragranular diffusion — a source-proposed possible mechanism, not established by the aggregate sequence. No approximately-30-mL cutoff is qualified by this task; all ten fractions are retained.
 - C_s ≪ C_sat assumed: no saturation/buffering. Invalid where the liquid approaches saturation (e.g., early ristretto-like regimes, low-flow high-dose beds) — exactly the regime grudeva2025's saturated plateau addresses.
 - Uniform porosity, uniform velocity, plug (flat) invasion front normal to flow; no pressure, no permeability, no machine coupling — u_m is prescribed, not solved.
 - Front gates dissolution only, not transport: solute can diffuse ahead of the water front (unphysical); acceptable per authors only at very high Pe.
@@ -68,14 +68,47 @@ Plausibility flag (ours, not the authors'): k_c = 0.1 m/s is orders of magnitude
 
 ## Interface mapping
 Inputs consumed: BedState (depth_m → L, area via R_e, porosity only implicitly through ξ); a prescribed superficial/interstitial velocity (no MachineState coupling — would need a flow stage upstream); GrindState not consumed (no particle-size dependence anywhere; A/v_l is lumped into the fitted k_c).
-Outputs produced: c_exit(t) → ShotResultState.traces, per-vial masses → tds/EY with density assumption.
+Candidate model output: c_exit(t); a finite-vial adapter must integrate concentration over each collection window. The empirical caffeine intake alone supplies neither TDS/EY nor a time/mass mapping. No runtime interface is added by this benchmark.
 Couplings: none worth building at runtime. As a component it would duplicate cameron2020.extraction_bdf and the grudeva reduced model at strictly lower fidelity (no two-population inventory, no saturation region, no grind coupling, velocity prescribed). Its Heaviside front is a degenerate constant-velocity special case of the front the registry already has (foster2025.infiltration; grudeva s_w(t)). Offline value: Eq. (24)/(C2) analytic limits are cheap closed-form verification targets for any extraction-stage solver's advection–dissolution kernel (Pe and Sh sweeps against exact answers).
 
-## Extractable data
-- **Fig. 3 (highest value):** caffeine [mg/L] per 5 mL vial vs V_l up to 50 mL, mean ± SE over 4 replicate capsule extractions, with absolute inventory anchor m_T = 70 mg per 5.579 g dose (≈1.25 wt% caffeine). A per-volume absolute-caffeine validation series — complements the multi-class solute backlog (single species, but absolute-mass calibrated via Soxhlet, which Angeloni's per-species set lacks in this form). Published as a figure only; digitize (~10 points). Data "available from the corresponding author upon reasonable request"; no code or repository published.
-- Table I → data/matias2023_params.csv (small; mostly nominal).
-- Eq. (A1) HPLC calibration and Soxhlet protocol: methodological reference only.
-- Figs. 4, 5, 10 are model-vs-model; transcription value only if we implement the verification gates, in which case regenerating them ourselves is better than digitizing.
+## Qualified empirical intake and use limits
+
+`matias2023/fig3_caffeine_fractions` contains all ten aggregate caffeine means,
+ten vertical SE segments and ten horizontal segments from Figure 3. Nominal
+finite-vial windows are [0,5],...,[45,50] mL; mg/L is concentration per vial,
+not instantaneous outlet concentration or a cumulative cup average. Four
+extractions contribute to each aggregate; forty individual concentrations are
+not available in the inspected public materials. Temperature was uncontrolled.
+General espresso settings at the beginning of Section II are background, not
+authenticated settings for these extractions.
+
+[Benchmark and exact certificates](../analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md):
+minimum multiplicative factors are N ≈1.201496385, G ≈1.200389045,
+P_outer ≈1.124890709 and P_inner ≈1.127058491. All are positive discrepancies:
+exact one-rate compression loses supported aggregate shape under nominal equal
+windows. The G/P optima use conservative rectangular relaxations of shared
+figure calibration. P brackets every admissible displayed-SE endpoint reading;
+SE is descriptive sensitivity, not a simultaneous confidence region. Native
+PDF geometry recovers covered bars and the last clipped marker/segment.
+Horizontal semantics remain undocumented; actual unequal-volume robustness
+is NOT_ESTABLISHED. Graphical precision is distinct from HPLC precision.
+
+Eligible uses: offline source-specific finite-fraction observation comparisons,
+exact one-rate representation cost, graphical and displayed-extent sensitivity,
+and adjacent ratio/curvature diagnostics. Blocked uses: independent validation,
+statistical rejection/equivalence, practical adequacy without an authorized
+tolerance, causal mechanism inference, production calibration, physical-rate
+identification, and unequal-volume robustness. An aggregate can curve even when
+individual extractions are exponential; that explanation is neither fitted nor
+established, and cannot rescue arbitrary shapes by assumption. Failure of this
+narrower family does not reject the complete Matias continuum model.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+The one-capsule Soxhlet measurement (5.57943 g, 70 mg) and Table I are separate
+inventory/model context, not a common four-shot dose or normalization. Eq. A1
+and the HPLC protocol remain methodological references. Figs. 4, 5 and 10 are
+model-vs-model verification material, not additional experimental observations.
+Source-derived intake: Matias et al., CC BY 4.0; first-party code: repository MIT.
 
 ## Overlaps and conflicts
 - **cameron2020.extraction_bdf (competes, lower fidelity):** same stage; Cameron has two grain populations, per-bed-volume inventory, saturation-aware kinetics, and experimental gates. No reason to swap.
@@ -83,9 +116,9 @@ Couplings: none worth building at runtime. As a component it would duplicate cam
 - **foster2025.infiltration (complements trivially):** t* = x/‖u_m‖ is the zeroth-order front foster2025 replaces with pump/headspace/capillary physics.
 - **egidi2018/2024 precedent:** same card class — continuum single/lumped-solute extraction with prescribed q, verdict data-only on the strength of its dataset; Matias lands identically but with a smaller dataset (one recipe, one coffee).
 - **ellero2019_jfe / mo2021 / mo2023 (adjacent, cited kin):** Matias 2021 (their ref. 14) is this group's swelling/erosion pore-scale line; this paper deliberately excludes those mechanisms. No conflict.
-- **Backlog "multi-class solute chemistry":** single-species only; contributes the absolute-caffeine anchor dataset, not a model.
+- **Backlog "multi-class solute chemistry":** single-species only; contributes aggregate finite-vial caffeine concentrations, without a shared Soxhlet normalization or a new model.
 
 ## Implementation estimate
-As runtime: not recommended (duplicative). As intake: S — digitize Fig. 3 + transcribe Table I; optionally define two verification gates from Eq. (24)/(C2) (analytic outlet concentration vs our extraction kernel at Pe ≪ 1 and Pe ≫ 1, and the Sh/Pe front-gating error trend of Fig. 9) — closed-form, parameter-free, cheap.
+As runtime: not recommended (duplicative). Figure 3 intake and bounded shape benchmark are complete. Table I remains context. Optional future analytical verification gates from Eq. (24)/(C2) (analytic outlet concentration vs our extraction kernel at Pe ≪ 1 and Pe ≫ 1, and the Sh/Pe front-gating error trend of Fig. 9) — closed-form, parameter-free, cheap.
 
-VERDICT: data-only — physics duplicates registered extraction/coupling components at lower fidelity with a single fitted parameter and post-fit-only experimental comparison, but the Soxhlet-anchored caffeine-vs-volume series (Fig. 3) and the closed-form Pe/Sh verification limits (Eqs. 24/C2) are worth holding — effort S
+VERDICT: data-only — physics duplicates registered extraction/coupling components at lower fidelity with a single fitted parameter and post-fit-only experimental comparison, but the qualified aggregate caffeine finite-fraction series (Fig. 3) and the closed-form Pe/Sh verification limits (Eqs. 24/C2) have distinct empirical and verification uses. No production adoption.

@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `0547471e85` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `49cf29104e` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 
@@ -144,16 +144,16 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 
 ## cross_species_inconsistency (H)
 
-- **T-0037** [one_state_many_species] maille2024.phi_closure predicts per-species concentration (evidence code_verification). 9 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
+- **T-0037** [one_state_many_species] maille2024.phi_closure predicts per-species concentration (evidence code_verification). 10 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
   - discriminator: per-species residual structure under one shared fit · data: YES · cheap test: YES · candidate: I-024
   - sources: `puckworks/data/MANIFEST.csv`, `puckworks/registry.py`
-- **T-0038** [one_state_many_species] maille2024.two_regime predicts per-species concentration (evidence source_curve_reproduction). 9 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
+- **T-0038** [one_state_many_species] maille2024.two_regime predicts per-species concentration (evidence source_curve_reproduction). 10 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
   - discriminator: per-species residual structure under one shared fit · data: YES · cheap test: YES · candidate: I-024
   - sources: `puckworks/data/MANIFEST.csv`, `puckworks/registry.py`
-- **T-0039** [one_state_many_species] pannusch2024.closures predicts per-species concentration (evidence code_verification). 9 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
+- **T-0039** [one_state_many_species] pannusch2024.closures predicts per-species concentration (evidence code_verification). 10 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
   - discriminator: per-species residual structure under one shared fit · data: YES · cheap test: YES · candidate: I-024
   - sources: `puckworks/data/MANIFEST.csv`, `puckworks/registry.py`
-- **T-0040** [one_state_many_species] pannusch2024.solver predicts per-species concentration (evidence post_fit_reconstruction). 9 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
+- **T-0040** [one_state_many_species] pannusch2024.solver predicts per-species concentration (evidence post_fit_reconstruction). 10 manifest datasets measure species concentration. Whether one hydraulic+transport state explains every species at once is not established by the corpus map.
   - discriminator: per-species residual structure under one shared fit · data: YES · cheap test: YES · candidate: I-024
   - sources: `puckworks/data/MANIFEST.csv`, `puckworks/registry.py`
 
@@ -195,7 +195,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0182** [card_without_interface_mapping] grudeva2026.reduced is registered but its card docs/cards/grudeva2026_2.md has no `Interface mapping` section, so it contributes NO observable edges. Any observable it predicts is under-reported by the matrix.
   - discriminator: add the template section to the card, then re-run the map · data: YES · cheap test: YES · candidate: I-028
   - sources: `puckworks/registry.py`
-- **T-0052** [discriminator_with_data] 4 registered models name species_concentration among their interface outputs and 9 manifest dataset(s) measure it: maille2024.phi_closure, maille2024.two_regime, pannusch2024.closures, pannusch2024.solver
+- **T-0052** [discriminator_with_data] 4 registered models name species_concentration among their interface outputs and 10 manifest dataset(s) measure it: maille2024.phi_closure, maille2024.two_regime, pannusch2024.closures, pannusch2024.solver
   - discriminator: species_concentration · data: YES · cheap test: YES · candidate: I-035
   - sources: `puckworks/registry.py`
 - **T-0053** [discriminator_with_data] 3 registered models name cumulative_mass among their interface outputs and 1 manifest dataset(s) measure it: pannusch2024.closures, pannusch2024.solver, waszkiewicz2025.poroelastic
@@ -561,7 +561,7 @@ Absent by decision, not oversight — each needs component EXECUTION this layer 
 - **T-0167** [unclaimed_contrast_with_data] tds is predicted by 9 model(s) and measured by 16 manifest dataset(s), of which 12 are not cited by any existing public claim
   - discriminator: tds · data: YES · cheap test: YES · candidate: I-086
   - sources: `puckworks/data/MANIFEST.csv`
-- **T-0168** [unclaimed_contrast_with_data] species_concentration is predicted by 4 model(s) and measured by 9 manifest dataset(s), of which 6 are not cited by any existing public claim
+- **T-0168** [unclaimed_contrast_with_data] species_concentration is predicted by 4 model(s) and measured by 10 manifest dataset(s), of which 7 are not cited by any existing public claim
   - discriminator: species_concentration · data: YES · cheap test: YES · candidate: I-087
   - sources: `puckworks/data/MANIFEST.csv`
 - **T-0169** [unclaimed_contrast_with_data] cumulative_mass is predicted by 3 model(s) and measured by 1 manifest dataset(s), of which 1 are not cited by any existing public claim

@@ -1,0 +1,42 @@
+{
+  "center_vertical_horizontal_counts": [
+    10,
+    20,
+    10
+  ],
+  "disposition": "PASS",
+  "layers": {
+    "G": {
+      "epsilon_exact": "69264217/873202854",
+      "feasible_vertices": 7,
+      "original_witness_and_lower_constraints": "PASS"
+    },
+    "N": {
+      "epsilon_exact": "8813/110546",
+      "feasible_vertices": 7,
+      "original_witness_and_lower_constraints": "PASS"
+    },
+    "P_inner": {
+      "epsilon_exact": "1269155405/24431992552",
+      "feasible_vertices": 6,
+      "original_witness_and_lower_constraints": "PASS"
+    },
+    "P_outer": {
+      "epsilon_exact": "416543735/8149893304",
+      "feasible_vertices": 6,
+      "original_witness_and_lower_constraints": "PASS"
+    }
+  },
+  "method": "same-session independent-method review; exact LP vertex enumeration; no producer import",
+  "reviewed_sha256": {
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/comparison.png": "e6fadbcbb7078488820cb3b523a4b5fd6dbc6ca10149df999fc6e4a4e9b094be",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/results.json": "1a2e6d6f69b6fafe1982a4bacb25108921604ee0b03da60f00986d230fdaf94b",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/source_overlay.png": "35c0901edb2905009b1527fa3c72a9d62997cbc2062cfc8aae63b49559601afd",
+    "puckworks/analysis/matias2023_caffeine_fraction_shape.py": "3535c53ba080c980971fc2b0b07b942fdbdc6663297b8e855f651159e22a8730",
+    "puckworks/data/matias2023/figure_geometry.json": "6f56f7a6548d38df0db12602b6528768fb8eecafb15ae61ba59ead0af935928e",
+    "tests/test_matias_caffeine_fraction_shape.py": "cc5245f5b39a9484e6067a3ebd68a1b0bef83c919b12d64e1ac7ea4b523a31b1",
+    "tools/recover_matias2023_figure.py": "0963b15a8fcd0123fc9ec01de670b17496971040995e144e60feecbe52ffe416"
+  },
+  "separate_human_audit": false,
+  "source_geometry_check": "PASS; pypdf independently authenticates original member and article streams"
+}

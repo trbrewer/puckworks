@@ -1,0 +1,31 @@
+{
+  "files": {
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/PLAN.md": "b4b7eb2d14eeea22d8c86be9cdd4294fb52e6a6cd862808548eed95b6df5bf5c",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md": "c59393a431f7b7cd9eead0f4e0faa3924f3d153ccbc6493ed04d0ff9ed94dde8",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/REVIEW.md": "e633039faad267774fdcfb9ffebe72e6372167fd0a1bd77ea596e2e2b017e11a",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/SOURCE_NOTES.md": "e2c22593bfaec24665a71697ecd4681ec53c4b549db59b0ec847d4b9189225f1",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/VIZ_SPEC.json": "f92a9e39e8efa1ce2634ec959f10c505b39987fa5c4a67f2946529dc0918544e",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/calibration_checks.csv": "b8fcdee94533986dda9dbb4a6ce8072b1ee97c47da1df4bc9dc87fdb2f9fbaf9",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/certificates.csv": "2cb686bb355c2ea96c82a8d72f62f4b08dcbdb80464cec9b65b9ba65cb2b06c1",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/comparison.png": "e6fadbcbb7078488820cb3b523a4b5fd6dbc6ca10149df999fc6e4a4e9b094be",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/diagnostics.csv": "9fb4d998601995e35196c016ecdca588ba4b012e566e89298bb3812e61391a01",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/observations.csv": "6f2f8a426159de950a518768a11b326376ead1f2a1de91f8ca6f0c77d5f6cd0a",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/results.json": "1a2e6d6f69b6fafe1982a4bacb25108921604ee0b03da60f00986d230fdaf94b",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/review.json": "4c621b0cbe775d1b4f15ff50dc37a12ab4352db3a4dafaedf455998829779d2f",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/review_packet.py": "a7f78a2fd972ed3bc005e3758f87ee09c1b949f9bcb58ba658b3394d5971a4fe",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/source_overlay.png": "35c0901edb2905009b1527fa3c72a9d62997cbc2062cfc8aae63b49559601afd",
+    "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/witness_residuals.csv": "c871e47c9bcc86d2c53920ee9caa9abdac6442d5e4287aba211f739ffd1ec4a5",
+    "puckworks/analysis/matias2023_caffeine_fraction_shape.py": "3535c53ba080c980971fc2b0b07b942fdbdc6663297b8e855f651159e22a8730",
+    "puckworks/data/matias2023/PLAN.md": "b4b7eb2d14eeea22d8c86be9cdd4294fb52e6a6cd862808548eed95b6df5bf5c",
+    "puckworks/data/matias2023/PROVENANCE.md": "93ea8c79a8249695cd05eb8eb2c0fb6aaa8a24fa8540a5a50905ab986ba3b3a6",
+    "puckworks/data/matias2023/SOURCE_NOTES.md": "e2c22593bfaec24665a71697ecd4681ec53c4b549db59b0ec847d4b9189225f1",
+    "puckworks/data/matias2023/VIZ_SPEC.json": "f92a9e39e8efa1ce2634ec959f10c505b39987fa5c4a67f2946529dc0918544e",
+    "puckworks/data/matias2023/figure_geometry.json": "6f56f7a6548d38df0db12602b6528768fb8eecafb15ae61ba59ead0af935928e",
+    "puckworks/data/matias2023/observations.csv": "6f2f8a426159de950a518768a11b326376ead1f2a1de91f8ca6f0c77d5f6cd0a",
+    "tests/test_matias_caffeine_fraction_shape.py": "cc5245f5b39a9484e6067a3ebd68a1b0bef83c919b12d64e1ac7ea4b523a31b1",
+    "tools/overlay_matias2023_figure.py": "2effe6e88a695246b36733a4272784fac0cca12ebd2bc9f59f3b39dae761d5a8",
+    "tools/recover_matias2023_figure.py": "0963b15a8fcd0123fc9ec01de670b17496971040995e144e60feecbe52ffe416"
+  },
+  "identity_definition": "SHA256 of sorted compact JSON mapping of scientific packet file names to SHA256; excludes this manifest and operational VERIFICATION.md",
+  "scientific_packet_identity": "fdb531f2806114feec1dab388a0e6751e1a18b07c49086127bdfc7d96cffc2e8"
+}
