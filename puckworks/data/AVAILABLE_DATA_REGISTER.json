@@ -1,5 +1,5 @@
 {
-  "dataset_count": 129,
+  "dataset_count": 130,
   "families": [
     {
       "analytes": [
@@ -1777,6 +1777,99 @@
         "reference (measured normalized curves)",
         "reference (measured; unredacted table)",
         "source_curve_reproduction (tabulated phi/lambda reproduce the digitized Omega_A curves to ~model MPE 4-10%)"
+      ]
+    },
+    {
+      "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "analytes": [
+        "caffeine"
+      ],
+      "apparatus_count_if_known": 1,
+      "blocked_uses": [
+        "independent validation",
+        "physical validation",
+        "individual extraction inference",
+        "particular mechanism or full continuum-model rejection",
+        "production calibration",
+        "unequal-volume robustness",
+        "common 70 mg normalization",
+        "simultaneous-confidence or equivalence claim"
+      ],
+      "coffee_count_if_known": 1,
+      "coffee_lot_count_if_known": "UNKNOWN",
+      "conditionally_eligible_uses": [
+        "practical adequacy only with separately authorized tolerance"
+      ],
+      "consumed_comparison_status": "EXACT_ONE_RATE_REPRESENTATION_EXCLUDED_ON_DECLARED_N_G_P_OUTER_CONTRACTS",
+      "directness": [
+        "authenticated native PDF decimal geometry; shared linear volume/log concentration calibration; exact rational strip minimax; offline source-qualified intake"
+      ],
+      "eligible_uses": [
+        "nominal equal-bin finite-fraction observation comparison",
+        "one nonincreasing exponential representation cost",
+        "graphical recovery sensitivity",
+        "descriptive reported-SE endpoint sensitivity",
+        "adjacent log ratios and curvatures"
+      ],
+      "external_corpus_id": null,
+      "external_source_manifest_hash": null,
+      "family_id": "MATIAS2023",
+      "fraction_resolution": "ten sequential nominal 5 mL fractions; endpoints 5,...,50 mL",
+      "grinder_count_if_known": "UNKNOWN",
+      "historical_task_uses": [
+        "SCI-MD-MATIAS-CAFFEINE-FRACTION-SHAPE-001; descriptive source-internal representation benchmark; no production gate"
+      ],
+      "laboratory_count_if_known": "UNKNOWN",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-MATIAS-CAFFEINE-FRACTION-SHAPE-001",
+      "manifest_dataset_ids": [
+        "matias2023/fig3_caffeine_fractions"
+      ],
+      "measurement_resolution": "10 means; 10 centers, 20 vertical endpoints, 10 horizontal segments recovered",
+      "missing_joins": [
+        "individual extraction concentrations",
+        "actual collection boundaries",
+        "horizontal-segment semantics",
+        "common dose/inventory normalization",
+        "controlled extraction temperature"
+      ],
+      "notes": [
+        "10 aggregate finite-vial means over 4 extractions; 10 centers/20 vertical endpoints/10 horizontal segments supported; no 40 individual values; uncontrolled temperature; nominal equal 5 mL windows; common calibration relaxed to rectangles; no common Soxhlet normalization; no practical tolerance or independent/physical validation; unequal-volume robustness NOT_ESTABLISHED"
+      ],
+      "observables": [
+        "finite-vial aggregate concentration mg/L",
+        "reported vertical SE"
+      ],
+      "physical_replicate_structure": "four extractions aggregated; forty individual concentrations unavailable in inspected source",
+      "physical_shot_count_if_known": 4,
+      "publication_or_repository": "Matias et al. Physics of Fluids 35(12) 123611 (2023); DOI 10.1063/5.0176273; arXiv:2304.03161v2 Fig3 printed4; source img/experiment.pdf; Appendix A.1 printed7",
+      "raw_access_status": "PACKAGED_QUALIFIED_GEOMETRY; PUBLIC_PINNED_PDF_ARCHIVE_EXTERNAL",
+      "result": "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md",
+      "rights": [
+        "Matias et al. (2023) CC-BY-4.0; derived geometry/replot; first-party code MIT"
+      ],
+      "roast_batch_count_if_known": "UNKNOWN",
+      "source_cards": [
+        "matias2023"
+      ],
+      "source_identifiers": [
+        "10.1063/5.0176273",
+        "arXiv:2304.03161v2"
+      ],
+      "source_internal_or_external": "SOURCE_INTERNAL",
+      "spatial_resolution": "UNKNOWN",
+      "stages": [
+        "extraction",
+        "observables"
+      ],
+      "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+      "time_resolution": "UNKNOWN; no volume-to-time mapping",
+      "title": "Matias 2023 aggregate caffeine finite-vial fractions",
+      "uncertainty_status": [
+        "separate G coordinate/calibration rectangle and P reported-SE outer/inner extents; horizontal semantics unresolved"
+      ],
+      "validation_strength": [
+        "post-fit reconstruction"
       ]
     },
     {
@@ -3953,6 +4046,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "3cd0dfa14a65bcd25e167d3e1c9da12f3c9fcd7a146910c561a0b1590579822e",
+  "manifest_sha256": "badb542927e14552398d89530f0a6093174a52084aabfb3154f38fa75908c3c6",
   "schema_version": 1
 }

@@ -1,5 +1,7 @@
 # External espresso data — start here
 
+**2026-10-25 Matias caffeine fractions:** [qualified ten-fraction benchmark](../analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md) recovers 10 centers, 20 vertical SE endpoints and 10 horizontal segments. Nominal/G/SE-outer/SE-inner multiplicative costs are approximately 1.201496/1.200389/1.124891/1.127058 under nominal equal 5 mL windows. Shared-calibration graphical rectangles are conservative relaxations. Aggregate-only descriptive representation; no practical adequacy threshold, causal mechanism, unequal-volume robustness or independent validation. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-25 Khamitova chemistry:** [representation benchmark](../analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md) retains all 144 reported means / 36 blocks, fixed endpoint contrasts and intermediate excursions. All 440 table entries audited; one source unit-pair mismatch retained. Reference 40 mL amounts, unresolved mean/RSD aggregation and fixed-grind/tuning ambiguity; no equivalence, causal null, practical adequacy threshold or physical-validation upgrade. Existing data-only/reference status and historical I-024 exclusion unchanged.
 
 **2026-10-24 Cameron S2:** [pressure/grind/tamp result](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
@@ -198,7 +200,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 129 dataset rows; 118 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 130 dataset rows; 118 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `matias2023/fig3_caffeine_fractions`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->

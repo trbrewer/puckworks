@@ -59,6 +59,35 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    families["MATIAS2023"].update({
+        "title": "Matias 2023 aggregate caffeine finite-vial fractions",
+        "source_identifiers": ["10.1063/5.0176273", "arXiv:2304.03161v2"],
+        "stages": ["extraction", "observables"], "analytes": ["caffeine"],
+        "observables": ["finite-vial aggregate concentration mg/L", "reported vertical SE"],
+        "measurement_resolution": "10 means; 10 centers, 20 vertical endpoints, 10 horizontal segments recovered",
+        "fraction_resolution": "ten sequential nominal 5 mL fractions; endpoints 5,...,50 mL",
+        "time_resolution": "UNKNOWN; no volume-to-time mapping",
+        "physical_shot_count_if_known": 4,
+        "physical_replicate_structure": "four extractions aggregated; forty individual concentrations unavailable in inspected source",
+        "coffee_count_if_known": 1, "apparatus_count_if_known": 1,
+        "source_internal_or_external": "SOURCE_INTERNAL",
+        "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+        "raw_access_status": "PACKAGED_QUALIFIED_GEOMETRY; PUBLIC_PINNED_PDF_ARCHIVE_EXTERNAL",
+        "eligible_uses": ["nominal equal-bin finite-fraction observation comparison",
+                          "one nonincreasing exponential representation cost", "graphical recovery sensitivity",
+                          "descriptive reported-SE endpoint sensitivity", "adjacent log ratios and curvatures"],
+        "conditionally_eligible_uses": ["practical adequacy only with separately authorized tolerance"],
+        "blocked_uses": ["independent validation", "physical validation", "individual extraction inference",
+                         "particular mechanism or full continuum-model rejection", "production calibration",
+                         "unequal-volume robustness", "common 70 mg normalization", "simultaneous-confidence or equivalence claim"],
+        "missing_joins": ["individual extraction concentrations", "actual collection boundaries",
+                          "horizontal-segment semantics", "common dose/inventory normalization", "controlled extraction temperature"],
+        "consumed_comparison_status": "EXACT_ONE_RATE_REPRESENTATION_EXCLUDED_ON_DECLARED_N_G_P_OUTER_CONTRACTS",
+        "last_qualified_task": "SCI-MD-MATIAS-CAFFEINE-FRACTION-SHAPE-001", "last_qualified_commit": None,
+        "result": "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md",
+        "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+    })
+
     families["KHAMITOVA2020"].update({
         "title": "Khamitova 2020 nominal tamping-force-labelled endpoint chemistry",
         "source_identifiers": ["10.15165/khamitova-gulzhan_phd2020-06-25",

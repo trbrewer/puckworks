@@ -1,0 +1,28 @@
+{
+  "producer": "python -m puckworks.analysis.matias2023_caffeine_fraction_shape --output OUTPUT --plot",
+  "artifact": "comparison.png",
+  "badge": "reference",
+  "evidence_strength": "post-fit reconstruction",
+  "comparison_role": "source-internal descriptive finite-fraction observation comparison; retrospective target-exposed nonscoring",
+  "fidelity_ceiling": "Ten aggregate means and displayed SE; nominal equal windows; exact one-rate compression cost, not physical validation, practical adequacy or mechanism inference",
+  "source_dataset": "matias2023/fig3_caffeine_fractions",
+  "source_doi": "10.1063/5.0176273",
+  "source_rights": "Matias et al. (2023), CC BY 4.0; derived replot",
+  "mapping": {
+    "x": "nominal cumulative endpoints 5 to 50 mL; each mark is a finite 5 mL vial",
+    "y": "caffeine mg/L; logarithmic axis",
+    "black_squares": "all ten aggregate fraction means",
+    "blue_line_and_circles": "N minimax representative geometric sequence, not source continuum curve",
+    "gray_vertical_segments": "reported SE endpoint readings; no confidence interpretation",
+    "orange_caps": "G marginal recovery bands at true scale, often subpixel; horizontal cap width display only",
+    "horizontal_source_segments": "omitted; semantics unresolved"
+  },
+  "source_overlay": {
+    "artifact": "source_overlay.png",
+    "producer": "tools/overlay_matias2023_figure.py",
+    "role": "source recovery verification only; original blue curve visible as source context, not an observation",
+    "mapping": "source raster plus recovered rectangle, center and both segment directions; F02 covered endpoints and F10 clipping magnified",
+    "fidelity_ceiling": "Authentication of stored geometry and occlusion; no experimental inference"
+  },
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}
