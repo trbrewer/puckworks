@@ -11,8 +11,7 @@ PR #362 merged). Remote main was rechecked during implementation and still
 matched; no intervening changes. Git grep at that base and remote PR search found
 no landed implementation of this task. Work is isolated on
 `research/sci-md-khamitova-tamping-chemistry-001`; unrelated user work is preserved.
-The submitted head and live hosted statuses are recorded in the draft PR and
-final handoff, avoiding a self-referential commit hash in this document.
+Draft [PR #363](https://github.com/trbrewer/puckworks/pull/363) contains the submitted head and live hosted statuses; the final handoff records its exact hash, avoiding a self-referential commit hash in this document.
 
 EWP remote main remains `f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516`. Its lock was
 read at that exact remote revision and locally: the adopted Puckworks checkout
@@ -60,7 +59,7 @@ verify implementation and do not authenticate the source.
 
 From a source checkout, ordinary reproduction needs only committed CSVs/audit
 metadata. `--plot` uses the existing optional `figures` extra; omit it for standard
-library-only numeric analysis. No PDF parser, PDF download or network is needed.
+library arithmetic in the existing Puckworks NumPy/SciPy environment. No PDF parser, PDF download or network is needed.
 
 ```bash
 python -m puckworks.analysis.khamitova2020_tamping_chemistry \
@@ -91,10 +90,10 @@ No JSON NaN/Infinity or finite unbounded sentinel is emitted.
 Affected combined checks: **158 passed in 28.67 s** (37 task + 121 existing
 checks). A subsequent test-only cleanup removed an inconsistent synthetic
 precision subcase; the final task module still has **37 passed**. The final
-submitted-head affected rerun is recorded below.
+submitted implementation head `55700a0838cc916deb0fd8de3196c1bf426f8516` passed the same **158 checks in 28.17 s**. The final documentation-only head is checked again in the handoff.
 
 Loaded registry: **28 components, 66 PASS, one pre-existing ACKNOWLEDGED_EXCEPTION**.
-An earlier empty-registry invocation is not counted. These baseline gate results
+The component count was explicitly checked. These baseline gate results
 are reused with the unchanged model/validation tree proof. Configured Ruff scope
 `puckworks/ tests/` plus `tools/` and this bundle's review scripts passes; mypy
 passes its 19 configured modules. A broader `ruff check .` also visited unrelated
@@ -116,8 +115,7 @@ One early affected run checked the guide before RESULT existed: **1 link failure
 70 passed**, then intentionally interrupted during an unnecessary historical
 I-024 solver check. The completed guide passes fresh. I-024's unchanged evidence
 is reused instead of completing that redundant solver exercise. The broad local
-suite began during implementation and is not represented as an exact submitted-
-head run; its final disposition and the fresh affected-head check follow below.
+suite began during implementation and is not represented as an exact submitted-head run. It completed with **7,213 passed, 36 skipped, 73 deselected and one failure** in 1,530.34 s: the same in-progress guide link to RESULT. The completed link passes in the fresh 158-check submitted-head run. This is a resolved construction-time QA failure, not a scientific failure or a claim that the original full run passed.
 No assertion, selector, coverage floor or CI timeout was weakened.
 
 Environment: Python 3.12.3, NumPy 2.5.4, SciPy 1.18.1, pytest 9.1.1,
@@ -126,9 +124,20 @@ from the host. These optional tools are not core project dependencies.
 
 ## Submitted-head and hosted CI disposition
 
-Pending submission at this document's preparation. The PR will remain draft and
-unmerged with auto-merge disabled. Scientific qualification and software checks
-above do not imply completed hosted CI. Final submitted/tested head, hosted pass/
-pending/failure status and any infrastructure-only dispositions are recorded in
-the final handoff and PR; this section is updated at submission. No protected
-merge or production adoption is requested.
+Implementation head `55700a0838cc916deb0fd8de3196c1bf426f8516` was submitted
+and tested as above. At the 2026-10-25 submission check, the PR was OPEN / DRAFT /
+UNMERGED, with `autoMergeRequest=null`. That head's hosted scientific-baseline,
+generated-artifacts, packaging, readme-governance, paper3-evidence, security,
+notebook-smoke, platform-smoke and research-impact workflows **passed**;
+quick-pr was **still in progress**, not passed. Example receipts:
+[scientific baseline](https://github.com/trbrewer/puckworks/actions/runs/40216199052),
+[generated artifacts](https://github.com/trbrewer/puckworks/actions/runs/40216199056),
+[quick-pr](https://github.com/trbrewer/puckworks/actions/runs/40216198994).
+
+The final commit updates only this verification record. Scientific source,
+calculation, tests, output and review hashes are unchanged; those results are
+reused. Its new hosted runs are **PENDING_AT_SUBMISSION**, not assumed to inherit
+older runs' status. Final exact head, affected rerun and observed hosted status
+are in the PR/final handoff; the [live PR checks](https://github.com/trbrewer/puckworks/pull/363/checks)
+remain authoritative as runs finish. No timeout, CI assertion or selection was
+changed. No merge, production adoption or automatic successor is authorized.
