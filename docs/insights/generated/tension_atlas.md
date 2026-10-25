@@ -2,7 +2,7 @@
 
 # Tension atlas
 
-Commit `13c750c7d0` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
+Commit `236853feb4` · 171 rows across 11 lenses. A row is a source-bound statement that two parts of the corpus are comparable and differ in some declared respect. **A row is not a finding**, and `human_status` stays `UNREVIEWED` until a person rules.
 
 ## Rows per lens
 

@@ -528,7 +528,8 @@ def dataset_relations(dataset_entities, model_entities, commit: str = "") -> tup
                                       extraction_mode="manifest_alias_match",
                                       confidence="deterministically_inferred"),
                 attrs={"matched_alias": alias}))
-        if cameron_s2:
+        if cameron_s2 or d.label == "foster2025_2/fig8_fig9_radial_front":
+            # The Foster annular intake also supplies no component calibration.
             # This retrospective S2 intake did not calibrate either Cameron
             # component or repair Figure 5. DERIVED_FROM above retains lineage.
             continue

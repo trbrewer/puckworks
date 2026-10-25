@@ -50,3 +50,24 @@ Canonical dataset IDs are `foster2025_2/params`, `foster2025_2/fig15_flow`, and
 `foster2025_2/fig12_14_curves`. No data bytes, roles, rights or fitting changed.
 Figure 15 is equation-generated verification; Figure 12–14 retains the I-045
 post-fit/same-campaign role. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+## Dated radial observer intake — 2026-10-24
+
+`foster2025_2/fig8_fig9_radial_front` adds JSON plus flat CSV with exactly 90
+canonical annulus/scan slots. Methods/Figures 6–9, native pixel identities, rights,
+fit-versus-rule eligibility, visibility, duplicate linkage and calibration are
+recorded in [SOURCE_NOTES](../../../docs/analysis/sci_md_foster_radial_front_001/SOURCE_NOTES.md).
+The historical line above describing both Figure 6/8 files as whole-bed-fit is
+over-broad: Figure 6 is a whole-bed s fit; Figure 8 CSV is the mean and across-shell
+SD of radial **headspace** estimates, not the ten infiltration interfaces.
+The new intake preserves those old bytes and the different Figure 12–14 observer.
+
+Primary t=3/4/5 s: center variation resolves graphically, with nominal minimax
+costs 0.061/0.055/0.015 bed depths; outermost is shallower than innermost.
+The 4/5 s displayed-extent cohorts admit a common position for every reading
+under the frozen contract; complete 3 s is unsupported due to one hidden cap. This does not prove physical uniformity, sharpness,
+binary saturation or model form. [Bounded result](../../../docs/analysis/sci_md_foster_radial_front_001/RESULT.md).
+Source-derived numerical/visual assets retain Foster et al. ©2025 CC BY-NC 4.0;
+UL wrapper separately states CC BY-NC-SA 4.0. Not relicensed under MIT.
+G1 / NO_GOVERNING_PHYSICS_CHANGE / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED /
+SOURCE_INTERNAL / NONSCORING. PHYSICAL_VALIDATION=NOT_ESTABLISHED.

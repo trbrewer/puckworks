@@ -1,5 +1,12 @@
 # Espresso development guide
 
+**2026-10-24 Foster radial interface:** [bounded result](../analysis/sci_md_foster_radial_front_001/RESULT.md)
+adds 90 shell/scan slots. At 3/4/5 s, fitted-center variation resolves and the
+outer end-shell is shallower. Published extents at 4/5 s admit common depths
+for every reading; complete 3 s is unsupported because one cap is hidden. Radial position, sharpness, binary saturation and physical
+validity remain separate. Existing fits/parameters and EWP authority unchanged.
+PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-24 Cameron S2:** [pressure/grind/tamp result](../analysis/sci_md_cameron_pressure_tamp_001/RESULT.md)
 adds 16 qualified plotted summaries, 12 recovered bars and four missing extents.
 Central reading bounds support opposite 9−6-bar signs at grinds 1.3/1.5 and a

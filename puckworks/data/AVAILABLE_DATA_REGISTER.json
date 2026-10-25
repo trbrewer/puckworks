@@ -1,5 +1,5 @@
 {
-  "dataset_count": 128,
+  "dataset_count": 129,
   "families": [
     {
       "analytes": [
@@ -707,10 +707,40 @@
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
+      "dataset_scopes": {
+        "foster2025_2/fig8_fig9_radial_front": {
+          "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+          "blocked_uses": [
+            "physical uniformity or binary saturation",
+            "first liquid/extraction arrival",
+            "measured permeability/porosity/flow",
+            "independent validation",
+            "causal grind effect"
+          ],
+          "eligible_uses": [
+            "finite center minimax discrepancy",
+            "outer-minus-inner center contrast",
+            "literal displayed-extent compatibility under graphical reading contract"
+          ],
+          "measurement_resolution": "90 canonical shell/scan slots; 30 primary; independent feature support",
+          "observables": [
+            "published_fitted_infiltration_interface",
+            "published_front_position_extents"
+          ],
+          "physical_replicate_structure": "dependent shells/scans of displayed fine-grind experiment",
+          "result": "docs/analysis/sci_md_foster_radial_front_001/RESULT.md",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "spatial_resolution": "ten native annuli, r=0.0 to 1.0; equal widths, unequal areas",
+          "target_exposure": "RETROSPECTIVE; TARGET_EXPOSED; NONSCORING",
+          "time_resolution": "printed scans 0-8 s; one-second reconstructions; window convention unknown",
+          "uncertainty_status": "graphical outer enclosures; displayed extents not confidence or physical bounds"
+        }
+      },
       "directness": [
         "transcription (from card)",
         "digitization/model-repro (Tim)",
-        "digitization (Tim)"
+        "digitization (Tim)",
+        "native-raster pixel digitization; Figure9 primary; Figure8 shared-center corroboration; no endpoint transfer"
       ],
       "eligible_uses": [],
       "external_corpus_id": null,
@@ -721,22 +751,25 @@
       "historical_task_uses": [
         "item 1.6: machine-mode t_p/t_s reproduction",
         "item 1.6: flow-minimum validation (P2 null baseline)",
-        "item 1.6: front s(t)/headspace H(t) trajectory validation"
+        "item 1.6: front s(t)/headspace H(t) trajectory validation",
+        "SCI-MD-FOSTER-RADIAL-FRONT-001 finite representation research only; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
-      "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
-      "last_qualified_task": "PANNUSCH-PRIOR-IMPACT-001",
+      "last_qualified_commit": null,
+      "last_qualified_task": "SCI-MD-FOSTER-RADIAL-FRONT-001 (new radial subset only; prior roles unchanged)",
       "manifest_dataset_ids": [
         "foster2025_2/params",
         "foster2025_2/fig15_flow",
-        "foster2025_2/fig12_14_curves"
+        "foster2025_2/fig12_14_curves",
+        "foster2025_2/fig8_fig9_radial_front"
       ],
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
         "fine grind fit; t_shift=0.796 start-align; reported t_p/t_s = model + t_shift; Fig 15 flow-min pending 0.11",
         "Q_norm = bed flow min(Qp,f)/Qm (Eq18); flow-min 0.181 @ t=2.0s; reproduced by solving Eqs 32-38, not pixel-traced",
-        "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)"
+        "s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix)",
+        "90 dependent shell/scan slots; 3/4/5 s centers vary; 4/5 s displayed extents compatible for every reading; complete 3 s unsupported (hidden cap); not physical uniformity or first arrival; mixed early eligibility and missing plateau features; no physical-validation upgrade"
       ],
       "observables": [
         "UNKNOWN"
@@ -746,7 +779,8 @@
       "publication_or_repository": "Phys.Fluids 37,013383 Table I/II (transcribed from card)",
       "raw_access_status": "PACKAGED_IN_REPOSITORY",
       "rights": [
-        "paper (DOI 10.1063/5.0245167)"
+        "paper (DOI 10.1063/5.0245167)",
+        "CC BY-NC 4.0 article; UL wrapper separately CC BY-NC-SA 4.0; attribution in task SOURCE_NOTES"
       ],
       "roast_batch_count_if_known": "UNKNOWN",
       "source_cards": [
@@ -763,12 +797,14 @@
       "title": "foster2025_2",
       "uncertainty_status": [
         "n",
-        "y (data err)"
+        "y (data err)",
+        "graphical reading boxes and literal published_front_position_extents; independent missing support"
       ],
       "validation_strength": [
         "verification (post-fit params)",
         "verification (model curve)",
-        "post-fit, same-campaign CT observations / verification of fitted trajectories"
+        "post-fit, same-campaign CT observations / verification of fitted trajectories",
+        "source-internal graphical observation; retrospective target-exposed nonscoring"
       ]
     },
     {
@@ -3886,6 +3922,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "5784f200f85679b980995b77d497f8b86a2b613de6fbd3a79a354d79013747a0",
+  "manifest_sha256": "32d3c39aa26daff4028fa74eccb24b714f2f12c19a0bf59dabc41cd4620cb48a",
   "schema_version": 1
 }

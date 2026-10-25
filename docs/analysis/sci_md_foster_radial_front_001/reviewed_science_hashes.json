@@ -1,0 +1,13 @@
+{
+  "puckworks/analysis/foster2025_radial_front.py": "43d5204790d195eeea0c6147ecf59b4f759008547c4a5c4938e944bd131fdd44",
+  "puckworks/data/foster2025_2/fig8_fig9_radial_front.json": "12735f86c5cb98a950c9d38e83ebbfbe12613f05c3419b6d83d26ad36e500b31",
+  "puckworks/data/foster2025_2/fig8_fig9_radial_front.csv": "2d3eddaa3b3e978a446539fa91955ddf84e3bc3f45e7be767e2a9a9dafc47168",
+  "tests/test_foster_radial_front.py": "676ecbc47b4b9617a71110cb3782bc72fce60ef7dc6b8c05bf0d59b0f711aabb",
+  "docs/analysis/sci_md_foster_radial_front_001/PLAN.md": "f9678296172593186779f723a4e9f110f567e793188a87d004750f96ffc96dc3",
+  "docs/analysis/sci_md_foster_radial_front_001/SOURCE_NOTES.md": "269aef0f0259475a8f55ca41be6bec6fa603348e301273dfecd59f790b40d5e1",
+  "docs/analysis/sci_md_foster_radial_front_001/RESULT.md": "12edf7bfce4442057577136857359a57d2428fe16be169dde3eb22fa819bb7cb",
+  "docs/analysis/sci_md_foster_radial_front_001/scan_results.json": "c116ad4be2889f9b40f3b9b2a92c3b29866d264f0254a8176d3882ed2f0f9e98",
+  "docs/analysis/sci_md_foster_radial_front_001/summary.json": "0fc7b399e9889bf41282b6e95a25357b7228919d814e89db4814b109f8f94518",
+  "docs/analysis/sci_md_foster_radial_front_001/comparison.png": "2f65d4bc0873c1ffc0192b3bb43fe50d0ce9c42619107845efccbaeda4ccd2f3",
+  "docs/analysis/sci_md_foster_radial_front_001/VIZ_SPEC.json": "5f51cff41e1032dc2544d1d9e65ec44319a17fcde18e0b1d3b5fb248ac5fce75"
+}

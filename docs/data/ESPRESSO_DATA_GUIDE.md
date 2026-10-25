@@ -196,7 +196,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 128 dataset rows; 117 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 129 dataset rows; 118 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -462,17 +462,18 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 7 files / 30,068 bytes; 5 structured files, 7 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-fig6_front_position and fig8_headspace each have nine time points in seconds/mm with error columns. fig12_14 separates fitted and data front/bed/headspace; fig15 has normalized Q and headspace pressure.
+Existing fig6_front_position is whole-bed s; fig8_headspace aggregates radial headspace. New fig8_fig9_radial_front retains 90 canonical shell/scan slots with separate center/cap support and fit/rule status. fig12_14 uses vertical lines; fig15 is equation-generated.
 
-Wetting/bed-change observation operators and source reconstruction. Nine points are not nine independent shots; normalized modeled machine response is not a measured inlet-pressure schedule.
+Primary 3/4/5 s center variation is graphically resolved; 4/5 s displayed extents admit common positions for every reading; complete 3 s is unsupported (one hidden cap). No physical uniformity, binary saturation, first-arrival or independent-validation claim. Missing plateau features remain null; dependent observations, not independent shots. Existing source roles and EWP authority unchanged.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
 | `foster2025_2/params` — [foster2025_2](../cards/foster2025_2.md); Phys.Fluids 37,013383 Table I/II (transcribed from card) | transcription (from card); published: SI; registry: SI | paper (DOI 10.1063/5.0245167); fine grind fit; t_shift=0.796 start-align; reported t_p/t_s = model + t_shift; Fig 15 flow-min pending 0.11 |
 | `foster2025_2/fig15_flow` — [foster2025_2](../cards/foster2025_2.md); Phys.Fluids 37,013383 Fig 15 (model-reproduced curve) | digitization/model-repro (Tim); published: s; -; -; registry: s; -; - | paper (DOI 10.1063/5.0245167); Q_norm = bed flow min(Qp,f)/Qm (Eq18); flow-min 0.181 @ t=2.0s; reproduced by solving Eqs 32-38, not pixel-traced |
 | `foster2025_2/fig12_14_curves` — [foster2025_2](../cards/foster2025_2.md); Phys.Fluids 37,013383 Figs 12-14 (fitted curves + CT data) | digitization (Tim); published: s; mm; registry: s; mm | paper (DOI 10.1063/5.0245167); s_fit/H_fit = paper ODE (0.02s grid); s_data/H_data = pixel-digitized CT (5-line mean); Fig8 -H differs from Fig14 H (do not mix) |
+| `foster2025_2/fig8_fig9_radial_front` — [foster2025_2](../cards/foster2025_2.md); Phys.Fluids 37,013383 Figures 7-9; DOI 10.1063/5.0245167 | native-raster pixel digitization; Figure9 primary; Figure8 shared-center corroboration; no endpoint transfer; published: s; dimensionless radius and bed depth; registry: s; dimensionless radius and bed depth | CC BY-NC 4.0 article; UL wrapper separately CC BY-NC-SA 4.0; attribution in task SOURCE_NOTES; 90 dependent shell/scan slots; 3/4/5 s centers vary; 4/5 s displayed extents compatible for every reading; complete 3 s unsupported (hidden cap); not physical uniformity or first arrival; mixed early eligibility and missing plateau features; no physical-validation upgrade |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-FOSTER-RADIAL-FRONT-001 (new radial subset only; prior roles unchanged)`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### g10_liquor_rheology
 

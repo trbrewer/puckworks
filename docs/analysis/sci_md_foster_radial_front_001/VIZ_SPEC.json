@@ -1,0 +1,20 @@
+{
+  "producer": "python -m puckworks.analysis.foster2025_radial_front --output OUTPUT --plot",
+  "artifact": "comparison.png",
+  "badge": "SOURCE_INTERNAL_GRAPHICAL_ANALYSIS",
+  "evidence_strength": "source-internal graphical observation; retrospective target-exposed nonscoring",
+  "fidelity_ceiling": "Published fitted annular interface positions and literal displayed extents; not physical uniformity, sharpness, binary saturation or full-model validity",
+  "source_dataset": "foster2025_2/fig8_fig9_radial_front",
+  "source_doi": "10.1063/5.0245167",
+  "source_rights": "Foster et al. \u00a92025 CC BY-NC 4.0; derived replot",
+  "mapping": {
+    "panels": "all nine printed scans; outlined primary t=3,4,5",
+    "black": "center nominal plus marginal graphical reading enclosure",
+    "colored": "published_front_position_extents; independent endpoints",
+    "pale_bands": "endpoint graphical reading enclosures",
+    "hollow_squares": "source-rule zero",
+    "crosses_at_bottom": "unsupported center, not a physical location",
+    "summary_row": "E/D/G primary nominal plus conservative graphical enclosure"
+  },
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}

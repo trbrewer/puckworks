@@ -108,7 +108,11 @@ Fine-grind experiment only: 10 g Arabica, <300 μm grind, 12 kg tamp,
 Delonghi EC685, ROXS micro-CT at 1 reconstruction/s. Front positions s(t) and
 headspace level H(t) extracted by fitting triple-sigmoid profiles (their
 Eq. 1) to depth-resolved absorption; radial-shell analysis (Figs. 7–9)
-supports the uniform-sharp-front assumption for the fine grind. Three
+provides a source-observer constraint on radial fitted positions. The bounded
+2026-10-24 intake resolves center variation at 3/4/5 s while retaining common
+positions within the displayed extents at 4/5 s for every admissible graphical
+reading; the 3 s extent test lacks one hidden cap;
+this does not establish a uniform sharp binary physical front. Three
 parameters (K i.e. k, φ_T, t_shift) fitted by fmincon least squares on s and
 H simultaneously; Multistart used to check against local minima. Agreement is
 qualitative-good: s(t) shape captured well; model H(t) rises slightly faster
@@ -117,8 +121,8 @@ t_s = 6.669 s. Plausibility checks on fitted values: k = 2.97e-15 m²
 consistent with literature; φ_T = 0.322 below the literature 0.4–0.6 range
 (authors call it "a little low" and offer delayed intragranular wetting or
 closed pores as explanations). Note the circularity: k and φ_T are fitted to
-the same s/H curves being reproduced, so the source validates model FORM, not
-parameter-free prediction. No error metrics (RMSE etc.) are reported.
+the same s/H curves being reproduced, so the source reports a post-fit same-campaign reconstruction, which does not
+independently validate model form or parameter-free prediction. No error metrics (RMSE etc.) are reported.
 Sensitivity study (Appendix B): φ_T, K, P_m, β matter substantially; P_c and
 R negligible over the ranges scanned (P_c ×0.25–2). Coarse grind: front
 visibly non-uniform (faster near walls); authors explicitly decline to apply
@@ -127,9 +131,12 @@ the 1D model to it. Our own gate (registry): parameter-free first-drip window
 7.5–14.0 g brackets fitted W_dead 8.8 g.
 
 ## Assumptions and validity range
-- Sharp binary saturation front, flat and 1D. Holds for fine grind
-  (<300 μm); demonstrably fails for coarse grind (300–1000 μm), where the
-  front is non-uniform — model is silent there.
+- Sharp binary saturation front, flat and 1D: a modeling assumption. The fine-grind
+  (<300 μm) radial fitted centers vary; their displayed extents admit common
+  depths at 4/5 s under the graphical reading contract; 3 s lacks one cap.
+  Radial compatibility does not establish transition sharpness, binary saturation
+  or physical validity. Coarse-grind (300–1000 μm) images are qualitatively
+  non-uniform; the source does not apply this observer/model to a matched coarse cohort.
 - Rigid bed: z = 0 fixed, no compaction/swelling/expansion during wetting.
 - Headspace air trapped by a water film from t = 0; fixed moles; heating to
   T1 instantaneous. β and p_c enter only through the combination
@@ -206,3 +213,19 @@ constitutive physics or machine–extraction coupling is authorized.
 
 VERDICT: existing component completion; evidence strength remains
 `source_curve_reproduction`; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
+## Dated radial observer result — 2026-10-24
+
+[SCI-MD-FOSTER-RADIAL-FRONT-001](../analysis/sci_md_foster_radial_front_001/RESULT.md)
+adds `foster2025_2/fig8_fig9_radial_front`: 90 canonical shell/scan slots,
+30 fixed primary slots. Nominal center minimax costs at 3/4/5 s are
+0.061/0.055/0.015 bed depths; graphical lower bounds are positive. Outer-minus-inner
+center bounds are negative. Displayed-extent tests at 4/5 s are
+COMPATIBLE_FOR_EVERY_ADMISSIBLE_READING; 3 s is UNSUPPORTED_COMPLETE_COHORT
+because one cap is hidden. No positive partial obstruction is certified.
+Context retains threshold-rule zeros and missing plateau features explicitly.
+This is retrospective, target-exposed, source-internal, nonscoring research.
+Fitted crossing is not authenticated first arrival or extraction onset.
+Physical wetting, sharpness, binary saturation and full-model validity remain
+unestablished. Existing numerical data, fitted parameters and evidence strengths
+are unchanged. PHYSICAL_VALIDATION=NOT_ESTABLISHED.
