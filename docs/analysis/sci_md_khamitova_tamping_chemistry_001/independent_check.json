@@ -1,0 +1,134 @@
+{
+  "disposition": "PASS_INDEPENDENT_METHOD_CHECK",
+  "independence": "Separate extraction engine and direct-CSV calculation; same-session audit, not a claim of an independent human reviewer.",
+  "pdf_sha256": "59065ee31eb23c694c53dd1c7702c141d5c29bdd79413933e1b62e2fc70aa229",
+  "source_strings_rechecked": 440,
+  "observation_keys_rechecked": 144,
+  "complete_blocks_recomputed": 36,
+  "source_pair_mismatches": [
+    [
+      "total CQA",
+      88,
+      7,
+      10
+    ]
+  ],
+  "selected_calculations": [
+    {
+      "analyte": "total CQA",
+      "temperature_C": 88,
+      "pressure_bar": 7,
+      "E": "1247/200",
+      "Delta": "133/20",
+      "missed_range": "291/50",
+      "lambda_star": "49880/26261"
+    },
+    {
+      "analyte": "total CQA",
+      "temperature_C": 93,
+      "pressure_bar": 7,
+      "E": "102/25",
+      "Delta": "511/100",
+      "missed_range": "61/20",
+      "lambda_star": "767000/209373"
+    },
+    {
+      "analyte": "total CQA",
+      "temperature_C": 98,
+      "pressure_bar": 9,
+      "E": "263/100",
+      "Delta": "-263/50",
+      "missed_range": "0",
+      "lambda_star": "215000/400367"
+    },
+    {
+      "analyte": "caffeine",
+      "temperature_C": 88,
+      "pressure_bar": 7,
+      "E": "1599/200",
+      "Delta": "288/25",
+      "missed_range": "447/100",
+      "lambda_star": "106600/48273"
+    },
+    {
+      "analyte": "caffeine",
+      "temperature_C": 93,
+      "pressure_bar": 7,
+      "E": "127/20",
+      "Delta": "1159/100",
+      "missed_range": "111/100",
+      "lambda_star": "9050/1027"
+    },
+    {
+      "analyte": "caffeine",
+      "temperature_C": 98,
+      "pressure_bar": 9,
+      "E": "1059/200",
+      "Delta": "-1059/100",
+      "missed_range": "0",
+      "lambda_star": "353000/624559"
+    },
+    {
+      "analyte": "trigonelline",
+      "temperature_C": 88,
+      "pressure_bar": 7,
+      "E": "187/40",
+      "Delta": "681/100",
+      "missed_range": "127/50",
+      "lambda_star": "37400/3611"
+    },
+    {
+      "analyte": "trigonelline",
+      "temperature_C": 93,
+      "pressure_bar": 7,
+      "E": "287/100",
+      "Delta": "207/50",
+      "missed_range": "8/5",
+      "lambda_star": "382000/88411"
+    },
+    {
+      "analyte": "trigonelline",
+      "temperature_C": 98,
+      "pressure_bar": 9,
+      "E": "763/200",
+      "Delta": "-763/100",
+      "missed_range": "0",
+      "lambda_star": "109000/72743"
+    },
+    {
+      "analyte": "nicotinic acid",
+      "temperature_C": 88,
+      "pressure_bar": 7,
+      "E": "9/40",
+      "Delta": "7/25",
+      "missed_range": "17/100",
+      "lambda_star": "39000/44927"
+    },
+    {
+      "analyte": "nicotinic acid",
+      "temperature_C": 93,
+      "pressure_bar": 7,
+      "E": "22/25",
+      "Delta": "-3/100",
+      "missed_range": "173/100",
+      "lambda_star": "29500/11193"
+    },
+    {
+      "analyte": "nicotinic acid",
+      "temperature_C": 98,
+      "pressure_bar": 9,
+      "E": "101/200",
+      "Delta": "-101/100",
+      "missed_range": "0",
+      "lambda_star": "25000/4701"
+    }
+  ],
+  "reviewed_sha256": {
+    "puckworks/analysis/khamitova2020_tamping_chemistry.py": "e407aecc9388573fe454f3f2b33dbc71d432792ba316b0463fa02877e2910ade",
+    "docs/analysis/sci_md_khamitova_tamping_chemistry_001/cell_audit.csv": "fb2413a76a3b9957043a56540f1b8a6c432021f8eb6243f4c64856d7379ec0d4",
+    "docs/analysis/sci_md_khamitova_tamping_chemistry_001/ground_audit.csv": "44e3c8bd1854f3ac67735fa45deb7a30a981dde0bb8601acb4ac144dbb11bd73",
+    "docs/analysis/sci_md_khamitova_tamping_chemistry_001/source_metadata.json": "34ed92f9eaa193f4795c2e7ad4f1de4261142b60af10a1b58d523a9bfdda164c",
+    "docs/analysis/sci_md_khamitova_tamping_chemistry_001/results.json": "46992ed2326b8139173bd4717a7605aa5cbeadd35cf83226efb46de80b1c569e",
+    "docs/analysis/sci_md_khamitova_tamping_chemistry_001/chemistry.png": "8754f227fa21bdcb99cea4060ca42f871859b849d4f4e87c45ed9dffb647233a"
+  }
+}

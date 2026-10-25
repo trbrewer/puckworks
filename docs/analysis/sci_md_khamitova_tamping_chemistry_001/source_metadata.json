@@ -1,0 +1,210 @@
+{
+  "dataset": "khamitova2020/tamping",
+  "author": "Gulzhan Khamitova",
+  "title": "Advanced experimental and analytical study for the optimization of the Espresso Coffee extraction.",
+  "institution": "University of Camerino, School of Advanced Studies",
+  "degree": "PhD; XXXII Cycle; Chemical and Pharmaceutical Sciences and Biotechnology, Pharmaceutical Sciences curriculum",
+  "supervisor": "Sauro Vittori",
+  "official_metadata_url": "https://pubblicazioni.unicam.it/handle/11581/480144?mode=full",
+  "landing_url": "https://pubblicazioni.unicam.it/handle/11581/480144",
+  "doi": "10.15165/khamitova-gulzhan_phd2020-06-25",
+  "nbn": "URN:NBN:IT:UNICAM-117172",
+  "metadata_date_issued": "2020-06-25",
+  "metadata_accessioned": "2024-03-22",
+  "acknowledgement_date": "2020-04-20",
+  "date_qualification": "June 25 is dc.date.issued; do not substitute the April acknowledgements/Word creation date or infer a separate defence record.",
+  "pdf": {
+    "url": "https://pubblicazioni.unicam.it/retrieve/3a8685a5-32a6-4ecd-aff2-eb85df19990f/Khamitova%20Gulzhan%2025.06.2020pdf.pdf",
+    "sha256": "59065ee31eb23c694c53dd1c7702c141d5c29bdd79413933e1b62e2fc70aa229",
+    "bytes": 5146825,
+    "pages": 189,
+    "http_status": 200,
+    "http_content_length": 5146825,
+    "completeness": "curl exit 0; no Content-Range; received bytes equal Content-Length; terminal %%EOF and 189 pages parsed before numerical audit",
+    "embedded_title": "Advanced experimental and analytical study on espresso coffee preparation: to enhance the quality of beverage",
+    "title_qualification": "Embedded PDF title differs; official metadata and cover identify the dissertation."
+  },
+  "rights": "Open access; landing-page licence field blank; all-rights-reserved default. Factual table audit only; PDF and page images external. No broader redistribution licence inferred.",
+  "inspected_pages": [
+    {
+      "section": "3.1.4-3.1.5",
+      "printed": "29-30",
+      "pdf": "46-47"
+    },
+    {
+      "section": "5.3.1-5.3.3",
+      "printed": "95-101",
+      "pdf": "112-118"
+    },
+    {
+      "section": "5.4.3 fixed settings",
+      "printed": "105",
+      "pdf": "122"
+    },
+    {
+      "section": "5.4.4",
+      "printed": "111-114",
+      "pdf": "128-131"
+    }
+  ],
+  "table_labels": {
+    "5.2": {
+      "analyte": "total CQA",
+      "printed_pages": [
+        98
+      ],
+      "pdf_pages": [
+        115
+      ],
+      "condition_header": "Conditions; P, T",
+      "force_groups": [
+        "10kgF",
+        "15kgF",
+        "20kgF",
+        "30kgF"
+      ],
+      "group_columns": [
+        "mg/40ml",
+        "mg/ml",
+        "RSD"
+      ],
+      "caption_units": [
+        "bar",
+        "⁰C",
+        "kgF",
+        "mg/40 ml",
+        "mg/ml",
+        "percentage RSD"
+      ]
+    },
+    "5.3": {
+      "analyte": "caffeine",
+      "printed_pages": [
+        99
+      ],
+      "pdf_pages": [
+        116
+      ],
+      "condition_header": "Conditions; P, T",
+      "force_groups": [
+        "10kgF",
+        "15kgF",
+        "20kgF",
+        "30kgF"
+      ],
+      "group_columns": [
+        "mg/40ml",
+        "mg/ml",
+        "RSD"
+      ],
+      "caption_units": [
+        "bar",
+        "⁰C",
+        "kgF",
+        "mg/40 ml",
+        "mg/ml",
+        "percentage RSD"
+      ]
+    },
+    "5.4": {
+      "analyte": "trigonelline",
+      "printed_pages": [
+        99,
+        100
+      ],
+      "pdf_pages": [
+        116,
+        117
+      ],
+      "condition_header": "Conditions; P,T",
+      "force_groups": [
+        "10kgF",
+        "15kgF",
+        "20kgF",
+        "30kgF"
+      ],
+      "group_columns": [
+        "mg/40ml",
+        "mg/ml",
+        "RSD"
+      ],
+      "caption_units": [
+        "bar",
+        "⁰C",
+        "kgF",
+        "mg/40 ml",
+        "mg/ml",
+        "percentage RSD"
+      ]
+    },
+    "5.5": {
+      "analyte": "nicotinic acid",
+      "printed_pages": [
+        100
+      ],
+      "pdf_pages": [
+        117
+      ],
+      "condition_header": "Conditions; P,T",
+      "force_groups": [
+        "10kgF",
+        "15kgF",
+        "20kgF",
+        "30kgF"
+      ],
+      "group_columns": [
+        "mg/40ml",
+        "mg/ml",
+        "RSD"
+      ],
+      "caption_units": [
+        "bar",
+        "⁰C",
+        "kgF",
+        "mg/40 ml",
+        "mg/ml",
+        "percentage RSD"
+      ]
+    }
+  },
+  "ground_table": {
+    "table": "5.6",
+    "printed_page": 101,
+    "pdf_page": 118,
+    "row": "1 g",
+    "caption_unit": "mg/ml",
+    "header_unit": "mg/10ml",
+    "columns": [
+      "Total CQA",
+      "Caffeine",
+      "Trigonelline",
+      "Nicotinic acid"
+    ],
+    "preparation": "1 g ground coffee + 10 ml water; stirred 30 min at 80 C; 0.5 ml aliquot + 0.5 ml mobile phase; centrifuged 13000 rpm for 10 min; 0.45 um PTFE filter; HPLC-VWD",
+    "disposition": "Retain header-labelled values; caption/header ambiguity and dilution back-calculation unresolved; not an exhaustive inventory assay or recovery denominator."
+  },
+  "audit": {
+    "chemistry_records": 144,
+    "chemistry_numeric_cells": 432,
+    "ground_numeric_cells": 8,
+    "method": "Poppler layout text joined by source table, pressure, temperature, force and column; all table pages visually checked; literal strings preserved, not inferred from CSV floats.",
+    "numeric_agreement": "440/440 with existing CSV numerical values; original CSV bytes preserved",
+    "label_qualifications": [
+      "Source superscript zero used for degrees retained as ⁰C in row strings.",
+      "Table 5.5 row 11 bar 93⁰C lacks comma; retained.",
+      "Caption/header mg/ml vs mg/10ml disagreement in Table 5.6 retained.",
+      "Narrative caffeine Table 5.4 reference is wrong: caffeine Table 5.3, trigonelline Table 5.4.",
+      "5.4.4 inconsistent figure/table cross-references; Figure 5.3 caffeine, Figure 5.4 CQA; primary values from Tables 5.2-5.5."
+    ],
+    "source_pair_flag": {
+      "table": "5.2",
+      "pressure_bar": 7,
+      "temperature_C": 88,
+      "tamp_force_kgf": 10,
+      "amount_string": "131.84",
+      "concentration_string": "3.29",
+      "disposition": "Retain faithful values; amount only for primary arithmetic; no actual-cup-mass claim."
+    }
+  },
+  "external_inspection": "Configured inventory queried only for Khamitova; five underlying CSVs accessed and byte-identical to packaged originals; not a new campaign or corpus exhaustion."
+}
