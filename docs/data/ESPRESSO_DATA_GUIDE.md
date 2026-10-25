@@ -196,7 +196,7 @@ not freshly reviewed scientific results. Source-specific claim ceilings persist.
 | unrelated | 0 | 0 |
 | unresolved | 89 | 158,536,511 |
 
-The canonical MANIFEST contains 127 dataset rows; 116 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
+The canonical MANIFEST contains 128 dataset rows; 117 IDs route through the reviewed family index. Remaining canonical rows: `acre2024/tables1_2`, `de1_fixtureA`, `dias2015/table2`, `grudeva2026/analytic_reference`, `grudeva2026/publication_reference`, `maille2021/swelling_evidence_001`, `melrose2019bed/fig2_flow_transient`, `pannusch2024 (Mendeley repo)`, `sci_md_007_r1/registers`, `viencz2023/tables1_2`, `wadsworth2026_table1`. These are reconciled below, not silently omitted.
 
 Roles are conservative routing classifications; mixed/unknown files remain unresolved. Duplicate groups are an orthogonal field in the private manifest, not a second experiment class.
 <!-- reconciliation:end -->
@@ -654,16 +654,17 @@ Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional u
 
 **Access:** FOUND on 2026-09-23; 7 files / 3,807 bytes; 6 structured files, 7 exact repository byte matches. Remaining mappings are provisional at family level; source adapters establish subset identity.
 
-PSD table has four capsule types. Four sample tables have six microCT-derived geometries each, porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero.
+PSD table has four capsule types. Four sample tables have six microCT-derived geometries each, porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero. The dated external snapshot is unchanged. New repository intake: Figures14/16 retain 24 annular-region segmented-signal profiles from two capsule histories, not 24 extractions.
 
-Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-derived on measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains.
+Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-derived on measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains. The new graphical subset supports descriptive spatial signal contrasts and display-coordinate differences only; wet liquid/solid distinction and material registration unresolved. No intrinsic porosity, measured permeability, independent replication or mechanism validation. See docs/analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md.
 
 | Dataset / source locator | Directness and units | Rights; use limits |
 |---|---|---|
-| `mo2023/forchheimer` — [mo2023](../cards/mo2023.md); arXiv:2305.03911 Tables 2-5 (24 microCT samples) | digitization/transcription (Tim); published: 1e-13 m2 (kD,kF); 1e-9 m2 (k1F); registry: m2 (kD,kF); flagged (k1F) | preprint arXiv:2305.03911 (no journal DOI); K1 UNITS CAVEAT (§5.3): Eq.2 needs [k1]=m but tables give 1e-9 m2; inconsistent ~1e4 vs Fig 8b -> do NOT use k1 quantitatively (author corresp pending) |
+| `mo2023/forchheimer` — [mo2023](../cards/mo2023.md); arXiv:2305.03911 Tables 2-5 (24 microCT samples) | digitization/transcription (Tim); published: 1e-13 m2 (kD,kF); 1e-9 m2 (k1F); registry: m2 (kD,kF); flagged (k1F) | original arXiv:2305.03911 intake; final DOI 10.1038/s41598-023-42380-y CC BY 4.0; K1 UNITS CAVEAT (§5.3): Eq.2 needs [k1]=m but tables give 1e-9 m2; inconsistent ~1e4 vs Fig 8b -> do NOT use k1 quantitatively (author corresp pending) |
 | `mo2023/fig8a` — [mo2023](../cards/mo2023.md); arXiv:2305.03911 Fig 8a (kD vs grad P) | digitization (Tim); published: bar/m; 1e-13 m2; registry: Pa/m; m2 | preprint arXiv:2305.03911; Darcy->Forchheimer decline 5.2->2.5e-13; Re NOT interchangeable with wadsworth Fo_F (§5.2) |
+| `mo2023/fig14_fig16_segmented_profiles` — [mo2023](../cards/mo2023.md); Mo et al. Scientific Reports 13 16374 (2023) DOI 10.1038/s41598-023-42380-y Figures 14/16 final PDF12/13 | native vector line-segment transcription; authenticated render and visibility masks; published: mm; epsilon (source porosity); PDF pt; registry: mm; dimensionless published_segmented_signal; PDF pt | CC-BY-4.0; attributed source crops and modified numerical redraw; 24 annular profiles from two histories; 48 dependent requests; dry/wet operators differ; wet liquid/solid unresolved; no intrinsic porosity or permeability or mechanism validation; no independent replication |
 
-Prior authority: `PANNUSCH-PRIOR-IMPACT-001`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
+Prior authority: `SCI-MD-MO-WET-CT-PROFILES-001 (new graphical subset only; prior SPH labels retained)`; scientific labels and additional uncertainty/use metadata remain in [AVAILABLE_DATA_REGISTER](../../puckworks/data/AVAILABLE_DATA_REGISTER.json).
 
 ### mo2023_2
 

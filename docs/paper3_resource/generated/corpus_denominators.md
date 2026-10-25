@@ -8,7 +8,7 @@
 | unique source publications | 20 |
 | unique DOIs recorded | 11 |
 | unique dataset sources (empirical campaigns) | 47 |
-| dataset manifest records | 127 |
+| dataset manifest records | 128 |
 | model/source cards written | 114 |
 | components with evidence beyond reconstruction of their own source | 10 |
 | components rights- or data-blocked | 0 |

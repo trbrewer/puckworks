@@ -1,0 +1,23 @@
+{
+  "task": "SCI-MD-MO-WET-CT-PROFILES-001",
+  "producer": "puckworks.analysis.mo2023_wet_ct_profiles",
+  "command": "python -m puckworks.analysis.mo2023_wet_ct_profiles --output /tmp/mo-wet-ct-replay --plot",
+  "outputs": ["COMPARISON.svg", "COMPARISON.png"],
+  "dataset_id": "mo2023/fig14_fig16_segmented_profiles",
+  "badge": "SOURCE_INTERNAL / RETROSPECTIVE / TARGET_EXPOSED / NONSCORING",
+  "source": "Mo et al. Scientific Reports 13, 16374 (2023), DOI 10.1038/s41598-023-42380-y, final PDF pp.12/13 Figures14/16",
+  "source_sha256": "101720c58cabd32ce2852025a3d61e2b41c3f4d315f32c853f303a929542ffb8",
+  "rights": "Mo, Johnston, Navarini, Suggi Liverani & Ellero (2023), CC BY 4.0 https://creativecommons.org/licenses/by/4.0/; modified numerical redraw; source crops separately attributed in SOURCE_NOTES.md",
+  "panels": "four full-available-profile panels: medium before/three days post, dark before/immediately post; six printed radial labels each",
+  "coordinate": "horizontal y mm increases bottom/outlet to top/inlet; vertical published_segmented_signal (native epsilon metadata)",
+  "encoding": {
+    "profiles": "six distinct colors keyed to printed annular radial labels; all original visible segments, no smoothing or gap connection",
+    "bands": "green [12,14], ochre [17,19], purple [19,21] mm",
+    "masks": "hatched gray source-legend rectangle; hidden/clipped portions absent, delayed central rise annotated",
+    "summary": "all 48 requests in four family columns; dot nominal; line conservative graphical outer enclosure; zero reference",
+    "sign": "teal positive, red negative, gray unresolved; text cross unsupported",
+    "dependence": "two capsule histories; 48 dependent requests, not sample sizes"
+  },
+  "fidelity_ceiling": "No intrinsic porosity ordering/change, permeability conversion, monotonicity, population trend or mechanism identification. Graphical enclosures are not experimental error bars and endpoints need not be jointly attainable.",
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}

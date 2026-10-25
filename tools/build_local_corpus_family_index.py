@@ -154,9 +154,15 @@ DISCOVERY_NOTES = {'angeloni2023': ('Fraction and endpoint chemistry; protected 
                     'are not independent specimens; no measured hydraulic pressure loss or coffee '
                     'extraction.'),
  'mo2023': ('PSD table has four capsule types. Four sample tables have six microCT-derived geometries each, '
-            'porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero.',
+            'porosity/tortuosity and simulated kD/kF/kF1; some entries are missing or zero. '
+            'The dated external snapshot is unchanged. New repository intake: Figures14/16 retain '
+            '24 annular-region segmented-signal profiles from two capsule histories, not 24 extractions.',
             'Geometry-conditioned transport priors and unit auditing. Permeabilities are SPH-derived on '
-            'measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains.'),
+            'measured geometry, not 24 independent wet espresso measurements; inertial-unit caveat remains. '
+            'The new graphical subset supports descriptive spatial signal contrasts and display-coordinate '
+            'differences only; wet liquid/solid distinction and material registration unresolved. '
+            'No intrinsic porosity, measured permeability, independent replication or mechanism validation. '
+            'See docs/analysis/sci_md_mo_wet_ct_profiles_001/RESULT.md.'),
  'mo2023_2': ('fig3a_qdecay contains powder/swelling setting/time/flow curves; figs6_9 has cup mass, '
               'yield/strength and errors; fig6_Ksweep contains model sensitivity curves.',
               'Separate experiment digitizations from simulated swelling and partition sweeps. Source '
