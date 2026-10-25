@@ -322,7 +322,12 @@ def test_the_card_was_checked_against_the_paper_not_assumed(result):
     assert c["contradiction_found"] is False
     assert c["stop_condition_S2_triggered"] is False
     card = (REPO / "docs/cards/foster2025_2.md").read_text(encoding="utf-8")
-    assert " ".join(c["circularity_note"].split()) in " ".join(card.split())
+    # Preserve the historical screen quote while checking the corrected live
+    # authority's fitting premise and explicit nonvalidation clause.
+    norm = " ".join(card.split())
+    premise = c["circularity_note"].split(", so ")[0]
+    assert " ".join(premise.split()) in norm
+    assert "does not independently validate model form or parameter-free prediction" in norm
 
 
 def test_source_access_is_recorded_including_what_was_blocked(result):

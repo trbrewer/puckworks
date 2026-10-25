@@ -117,6 +117,32 @@ The failure is an active-wording/test dependency, not a numerical result failure
 Fresh affected I-045/family/task checks passed **64 tests, 8 pre-existing
 skips** in 19.87 s; full Ruff and staged whitespace checks passed.
 
+## Submitted-head integration correction
+
+The first submitted head `5439b6fa8570343eb2d368f06bc2ae7fa3d5c45b` passed
+nine hosted workflows, including scientific baselines. Its quick lanes exposed
+two additional integration dependencies: the deep I-045 live-card assertion
+still required the withdrawn model-form-validation clause, and the unrelated
+frozen Grudeva 009 contract binds `THIRD_PARTY_NOTICES.md` byte-for-byte.
+The local run contained the same failures and was stopped after diagnosis;
+it is not final-head passing evidence. Earlier tail-only progress observations
+missed those failure markers; the full log controls the disposition.
+
+The deep-screen assertion now checks the preserved fitting premise and explicit
+nonvalidation clause, matching the two already corrected cheap-screen assertions.
+All historical screen constants and result bundles remain unchanged. The Foster
+notice was moved verbatim to adjacent [NOTICE.md](NOTICE.md), restoring the global
+notices file to its accepted-base bytes. SOURCE_NOTES already contains the full
+attribution, article/wrapper license distinction and modification notice.
+The Grudeva contract, its tests and all bound historical inputs are unchanged.
+These narrow integration corrections leave every reviewed scientific file,
+canonical pixel input, numerical output and comparison image byte-identical;
+unaffected independent review evidence is reused. No CI selector, timeout,
+scientific threshold or source role was changed. Final-head local and hosted
+outcomes are recorded in the draft PR description. The corrected affected selection
+passed **168 tests / 20 skips** in 25.75 s; full Ruff, Insight verification and
+whitespace checks passed before submission.
+
 ## Producers and preservation
 
 Ran existing producers: `tools/build_available_data_register.py`,
