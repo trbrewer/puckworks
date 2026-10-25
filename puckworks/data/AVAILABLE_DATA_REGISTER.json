@@ -1781,6 +1781,7 @@
     },
     {
       "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+      "accepted_one_rate_result": "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md",
       "analytes": [
         "caffeine"
       ],
@@ -1791,6 +1792,8 @@
         "individual extraction inference",
         "particular mechanism or full continuum-model rejection",
         "production calibration",
+        "exact mixture optimum from relaxed shape cost",
+        "mixture reconstruction from shape compatibility",
         "unequal-volume robustness",
         "common 70 mg normalization",
         "simultaneous-confidence or equivalence claim"
@@ -1800,13 +1803,14 @@
       "conditionally_eligible_uses": [
         "practical adequacy only with separately authorized tolerance"
       ],
-      "consumed_comparison_status": "EXACT_ONE_RATE_REPRESENTATION_EXCLUDED_ON_DECLARED_N_G_P_OUTER_CONTRACTS",
+      "consumed_comparison_status": "FIXED_POSITIVE_EXPONENTIAL_MIXTURE_EXCLUDED_BY_NECESSARY_SHAPE_ON_DECLARED_N_G_P_OUTER_CONTRACTS",
       "directness": [
         "authenticated native PDF decimal geometry; shared linear volume/log concentration calibration; exact rational strip minimax; offline source-qualified intake"
       ],
       "eligible_uses": [
         "nominal equal-bin finite-fraction observation comparison",
         "one nonincreasing exponential representation cost",
+        "exact nonincreasing log-convex relaxation; positive-mixture discrepancy lower bound",
         "graphical recovery sensitivity",
         "descriptive reported-SE endpoint sensitivity",
         "adjacent log ratios and curvatures"
@@ -1821,7 +1825,7 @@
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": null,
-      "last_qualified_task": "SCI-MD-MATIAS-CAFFEINE-FRACTION-SHAPE-001",
+      "last_qualified_task": "SCI-MD-MATIAS-CAFFEINE-AGGREGATION-001",
       "manifest_dataset_ids": [
         "matias2023/fig3_caffeine_fractions"
       ],
@@ -1844,7 +1848,7 @@
       "physical_shot_count_if_known": 4,
       "publication_or_repository": "Matias et al. Physics of Fluids 35(12) 123611 (2023); DOI 10.1063/5.0176273; arXiv:2304.03161v2 Fig3 printed4; source img/experiment.pdf; Appendix A.1 printed7",
       "raw_access_status": "PACKAGED_QUALIFIED_GEOMETRY; PUBLIC_PINNED_PDF_ARCHIVE_EXTERNAL",
-      "result": "docs/analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md",
+      "result": "docs/analysis/sci_md_matias_caffeine_aggregation_001/RESULT.md",
       "rights": [
         "Matias et al. (2023) CC-BY-4.0; derived geometry/replot; first-party code MIT"
       ],

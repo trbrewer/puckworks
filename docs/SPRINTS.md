@@ -1,5 +1,7 @@
 # docs/SPRINTS.md — development sprints (rev. 1, from ROADMAP rev. 2)
 
+- [x] **SCI-MD-MATIAS-CAFFEINE-AGGREGATION-001:** exact ten-point necessary-shape aggregation bound and certificates; same accepted ten means/four extractions, positive N/G/P_outer/P_inner relaxed costs. [Result](analysis/sci_md_matias_caffeine_aggregation_001/RESULT.md). Fixed-positive-mixture exclusion conditional on equal windows/weights/bands; no exact mixture optimum or mechanism. G1 / retrospective / target-exposed / source-internal / nonscoring; PHYSICAL_VALIDATION=NOT_ESTABLISHED. One draft PR, no merge/adoption/successor; EWP unchanged.
+
 - [x] **SCI-MD-MATIAS-CAFFEINE-FRACTION-SHAPE-001:** qualified Figure 3 intake and exact one-rate finite-fraction representation cost complete; all ten means/20 vertical endpoints/ten horizontal segments. N/G/P_outer/P_inner M≈1.201496/1.200389/1.124891/1.127058. [Result](analysis/sci_md_matias_caffeine_fraction_shape_001/RESULT.md). Source-internal, retrospective, nonscoring; practical adequacy unadjudicated. PHYSICAL_VALIDATION=NOT_ESTABLISHED. EWP/lock and accepted predecessors unchanged; one draft PR, no adoption or successor.
 
 - [x] SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001: [source-audited descriptive chemistry benchmark](analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md), all 144 records / 36 blocks retained; rounding and RSD diagnostics separate. G1 / RESEARCH_ONLY / RETROSPECTIVE / TARGET_EXPOSED / SOURCE_INTERNAL / NONSCORING. No production/EWP adoption or successor; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
