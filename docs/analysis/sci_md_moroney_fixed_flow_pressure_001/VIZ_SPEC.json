@@ -1,0 +1,19 @@
+{
+  "role": "source-qualified descriptive concentration and fixed-mass contrast comparison",
+  "producer": "puckworks.analysis.moroney2015_fixed_flow_pressure",
+  "outputs": ["COMPARISON.svg"],
+  "dataset_id": "moroney2015/data",
+  "scope": "Figure 12 a/b only; low-pressure observations reused from Figure 3",
+  "badge": "SOURCE_INTERNAL / GRAPHICAL_READING_CONDITIONAL / NONSCORING",
+  "source": "Moroney et al. (2015), DOI 10.1016/j.ces.2015.06.003, printed page 233, PDF index 17",
+  "source_sha256": "896672a997e585a50d97f988caa66259a9a8ed0067300ea7d19725a13c01c4a8",
+  "rights": "New attributable numerical redraw; restricted PDF and source renders excluded from Git; no blanket licence asserted.",
+  "encodings": {
+    "columns": "pot and filter exit, separate observables",
+    "top": "native centers, blue circles 2.3 bar labelled, red squares 9.0 bar labelled; lines explicitly declared piecewise-linear representation",
+    "bottom": "central interpolant difference on common components; discrete graphical sensitivity bars at 50/100/200/400/600/800/900 g, never a continuous ribbon",
+    "sign": "red interval: NEGATIVE; purple interval: SIGN_UNRESOLVED",
+    "support": "No extrapolation or connections across gaps. All actual components are gap-free; signed tails and zero axes visible."
+  },
+  "ceiling": "90 plotted markers, not 90 physical extractions. Source-conditioned observational differences only; no experimental confidence, causal pressure effect, practical equivalence, kinetics independence or physical validation."
+}

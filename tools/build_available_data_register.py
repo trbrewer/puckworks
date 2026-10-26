@@ -59,6 +59,29 @@ def build() -> dict:
             if value not in item[key]:
                 item[key].append(value)
 
+    # Scope this qualification to Figure 12 inside the existing dataset family.
+    families["MORONEY2015"].setdefault("dataset_scopes", {})["moroney2015/data"] = {
+        "scope": "Figure 12 a/b only; other family subsets retain previous authority",
+        "observer": "separate pot/exit mg solubles per g beverage on native mass coordinates",
+        "source_internal_or_external": "SOURCE_INTERNAL", "target_exposure": "TARGET_EXPOSED",
+        "physical_validation": "NOT_ESTABLISHED",
+        "eligible_uses": ["source-qualified piecewise-linear fixed-mass concentration contrasts",
+                          "discrete graphical reading sensitivity with horizontal and vertical allowances"],
+        "blocked_uses": ["raw Figure 12 legend rows as observations", "physical/statistical validation",
+                         "causal pressure coefficient or pressure-independent kinetics",
+                         "equality or practical equivalence from zero inclusion",
+                         "automatic gauge/absolute or EWP boundary conversion",
+                         "high-pressure cumulative solute mass without denominator/withdrawal qualification"],
+        "missing_joins": ["pressure reference/sensor/outlet reconciliation", "replicates and assay uncertainty",
+                          "sampling windows, pot mixing/withdrawals and cross-observable run joins"],
+        "coverage": "94 raw rows; 90 retained (22 low + 23 high per panel); four legends; zero ambiguous; 44 reused Figure 3 markers; all 14 requests supported; only pot 800 g negative under graphical sensitivity",
+        "campaign": "existing Philips drip-filter lineage; physical extraction count UNKNOWN",
+        "qualified_loader": "puckworks.analysis.moroney2015_fixed_flow_pressure.load_qualified",
+        "result": "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/RESULT.md",
+        "predecessor": "docs/analysis/sci_md_moroney_transfer_001/RESULT.md; CALIBRATION_INADEQUATE unchanged",
+        "last_qualified_task": "SCI-MD-MORONEY-FIXED-FLOW-PRESSURE-001",
+    }
+
     families["MATIAS2023"].update({
         "title": "Matias 2023 aggregate caffeine finite-vial fractions",
         "source_identifiers": ["10.1063/5.0176273", "arXiv:2304.03161v2"],
