@@ -1447,7 +1447,9 @@
         "source-specific four-level constant representation cost",
         "fixed 30-minus-10 kgF contrasts and intermediate-force range",
         "conditional decimal-rounding sensitivity",
-        "secondary reported-RSD scale diagnostic"
+        "secondary reported-RSD scale diagnostic",
+        "exact within-stratum common concentration-scaling cost and full witnesses",
+        "symmetric analyte-influence diagnostics; not cross-validation"
       ],
       "external_corpus_id": null,
       "external_source_manifest_hash": null,
@@ -1455,11 +1457,11 @@
       "fraction_resolution": "endpoint only; related-unit columns are not separate observations",
       "grinder_count_if_known": 1,
       "historical_task_uses": [
-        "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001 descriptive four-level constant representation benchmark and fixed endpoint contrasts; no runtime gate"
+        "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001 descriptive four-level constant representation benchmark and fixed endpoint contrasts; SCI-MD-KHAMITOVA-COMMON-SCALING-001 exact per-stratum cross-analyte common-factor costs with rounding/RSD-scale sensitivity and symmetric omission diagnostics; no runtime gate"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": null,
-      "last_qualified_task": "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001",
+      "last_qualified_task": "SCI-MD-KHAMITOVA-COMMON-SCALING-001",
       "manifest_dataset_ids": [
         "khamitova2020/tamping"
       ],
@@ -1481,9 +1483,10 @@
       ],
       "physical_replicate_structure": "36 duplicated configurations; mean/RSD analysis count and pooling UNKNOWN",
       "physical_shot_count_if_known": 72,
+      "predecessor_result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
       "publication_or_repository": "Khamitova PhD dissertation (2020-06-25); DOI 10.15165/khamitova-gulzhan_phd2020-06-25; https://pubblicazioni.unicam.it/handle/11581/480144; Tables 5.2-5.6; printed 98-101 / PDF 115-118; total CQA / caffeine / trigonelline / nicotinic acid across pressure x temperature x nominal tamping force",
       "raw_access_status": "PACKAGED_TRANSCRIPTIONS; OFFICIAL_PDF_AUDITED_NOT_REDISTRIBUTED; RAW_REPLICATES_UNKNOWN",
-      "result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
+      "result": "docs/analysis/sci_md_khamitova_common_scaling_001/RESULT.md",
       "rights": [
         "Open access dissertation; no explicit redistribution licence; PDF/artwork external; factual table audit; DOI 10.15165/khamitova-gulzhan_phd2020-06-25"
       ],
@@ -4050,6 +4053,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "badb542927e14552398d89530f0a6093174a52084aabfb3154f38fa75908c3c6",
+  "manifest_sha256": "12b91350542be395e777cf399918a42241003d2bba02579d13487c795e4b9ab6",
   "schema_version": 1
 }

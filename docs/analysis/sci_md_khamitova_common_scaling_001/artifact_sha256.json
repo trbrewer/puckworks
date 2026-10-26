@@ -1,0 +1,19 @@
+{
+  "docs/analysis/sci_md_khamitova_common_scaling_001/PLAN.md": "cd819aefe781b2463c2ad481a849c597a812143927ced697cc38a10b73e36200",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/RESULT.md": "35ec7d7ef37ce37b2d8dff8ed2903ba32c7974a1fd6a811a619999cd9f2dc9c8",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/REVIEW.md": "7da0b8f482eb9ee41b1da3bc458df62ed74dde8f73874574f3c4539a112e0576",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/VERIFICATION.md": "8a0bd1fc817a2d846995048b3f11619e3e17e475a1aba1c9c56aa7567d450311",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/VIZ_SPEC.json": "21fe97b245cdb82d0074041e3906b5db5fd4f981a92314f29b0f2700c9ce25f8",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/analyte_influence.csv": "f9f47a4095f2cdeb11756ea54ced519a4023b9bce9ad943c12a837b0cf370d4d",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/comparison.png": "84b1295b6b6c8dceedd9e12010105b1c44ee65055f4ed32d50abc42aaa9574e4",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/factors_predictions.csv": "1b80d88aef17983402c5239e86f8ff0f89d283680b3c9a48bc576ade046613dc",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/independent_check.json": "95c6538171c58341dfe3d9ae7c744af8feba8ecb18505cfcb3ee7dc755ed6abc",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/input_sha256.json": "c460bc81a09be7b60fc1ab2b49ba6fa027964a163c989cc184419f3920584125",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/pairwise_ratios.csv": "64f0ad6c93da79a919b492f82ceb5d0ff1c47052d4d404966a71aff8b59ade27",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/plot_environment.json": "ecb287aeacfd074fa34807c46abd06d2d4a0a553f5d41fbd27b2bd2591cf1ae3",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/primary_summary.csv": "b760465101d05041fa9f106dc1eca8320a1adc5393d5edab4c4338f92a633c27",
+  "docs/analysis/sci_md_khamitova_common_scaling_001/results.json": "9baf6706fc6c6f8ef1a62a6069e7ccdfab91c8e510e3ba00968635e99b2e0930",
+  "puckworks/analysis/khamitova2020_common_scaling.py": "d2be1c38400e9e3617d1c28144c149441f60f87f0c43c8625ef229627c4b400d",
+  "puckworks/analysis/khamitova2020_common_scaling_check.py": "ffc0287c6b033f587080417cc2dbeed3a7d8ccaa6efea8f9d8caca4415e4506f",
+  "tests/test_khamitova_common_scaling.py": "06b6fd2fa856fd93c043327336ab6159407b372a251982014d6df7eae8e7862c"
+}

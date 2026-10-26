@@ -1,5 +1,5 @@
 {
-  "commit": "91a8d92a027ffde1c15a841d694b2c8a51f2e637",
+  "commit": "43a0d0cc70a556de6892772b735952675a04666d",
   "counts": {
     "candidates": 90,
     "entities": 296,
@@ -15,7 +15,7 @@
     },
     {
       "path": "puckworks/data/MANIFEST.csv",
-      "sha256": "badb542927e14552398d89530f0a6093174a52084aabfb3154f38fa75908c3c6"
+      "sha256": "12b91350542be395e777cf399918a42241003d2bba02579d13487c795e4b9ab6"
     },
     {
       "path": "docs/public/generated/claims.json",
@@ -231,7 +231,7 @@
     },
     {
       "path": "docs/cards/khamitova2020.md",
-      "sha256": "6a7ab4cd142e932c3e2207e9f7b12b59caec92e3daf362daaea3c99658f7ede0"
+      "sha256": "53e35b602aa0e79170559768ce76729fc64c859db28b2ceac5803d6b240d20c0"
     },
     {
       "path": "docs/cards/khomyakov2020.md",
@@ -501,7 +501,7 @@
   "outputs": [
     {
       "path": "docs/insights/generated/INSIGHT_SNAPSHOT.md",
-      "sha256": "3fb5b2eda517e88f0d15cd29e25cbdb88dfe3b928ea5bd3e41df4b8574beb8cb"
+      "sha256": "e8df598fe54508d23df0be510a0aa568f6728475b0c0715b84c7050441556679"
     },
     {
       "path": "docs/insights/generated/calibration_artifact_portability_index.csv",
@@ -509,15 +509,15 @@
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.json",
-      "sha256": "b4913f2af95ea8cc6512ccdb723c8627daa46a54d3b1e4885a10c1fc5c6e9402"
+      "sha256": "20122d4162afcd11371d9e92204fa72e4e7f62cd20648f2793ab6318732d83ad"
     },
     {
       "path": "docs/insights/generated/candidate_portfolio.md",
-      "sha256": "1bd534317795b1db7c40ec12decd7b7c4646d9fe3cada17ea8f86e17ee6270b2"
+      "sha256": "0582c7920ff0906e90cd8df1989fe3e30569f17ea5cb655560b65b89fe76959b"
     },
     {
       "path": "docs/insights/generated/corpus_map.json",
-      "sha256": "be2dd247cb75ec731567e910bc9ddf911d7d36cb3144c6dc2727d7ba7e7cfbd9"
+      "sha256": "a006e7a9a5c4b5965c6177d2786c665265b887b2ef818d2c3d0735a749aef841"
     },
     {
       "path": "docs/insights/generated/evidence_lineage_index.csv",
@@ -529,15 +529,15 @@
     },
     {
       "path": "docs/insights/generated/public_claim_inventory.md",
-      "sha256": "8244ea63c33a22c8edd6c63e24cdbaef17845fa4e70aecbb367f958b069d9d48"
+      "sha256": "61eec164fec1f1703d910ee8a4b12550e7affe5cf2e13be1ff247e861575cdc2"
     },
     {
       "path": "docs/insights/generated/tension_atlas.csv",
-      "sha256": "5827f969b4963b618c641e3a91e5ae5a174e60203c8ad2aeac67b3f64ec38683"
+      "sha256": "7c1f71ea416847d7057a3805574932d8871ddd6936eebfc0f7d97b2788f51115"
     },
     {
       "path": "docs/insights/generated/tension_atlas.md",
-      "sha256": "40b45488e8563d81a1ed5365657a98669f3ce994345ce8ddbf01071897b71a58"
+      "sha256": "856ed68e02747f50a642ec16d926b8066da4cd0934ce8f7ee03476229afa0a06"
     }
   ],
   "pack": [
