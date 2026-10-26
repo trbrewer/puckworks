@@ -1,0 +1,3952 @@
+{
+  "band_sensitivity": [
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.3125
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.3125
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "large"
+      ],
+      "comparison": "D_vs_A",
+      "graphical_bands": [
+        "large"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "large"
+      ],
+      "point_band": "large",
+      "upper_boundary": 0.3125
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.07500000000000001,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.3125
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.1,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.3125
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.1875
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.25
+    },
+    {
+      "combined_bands": [
+        "worse"
+      ],
+      "comparison": "D_vs_B",
+      "graphical_bands": [
+        "worse"
+      ],
+      "lower_boundary": 0.125,
+      "numerical_bands": [
+        "worse"
+      ],
+      "point_band": "worse",
+      "upper_boundary": 0.3125
+    }
+  ],
+  "change_class": "NO_GOVERNING_PHYSICS_CHANGE",
+  "checks": {
+    "focused": {
+      "checks": [
+        "EY units",
+        "physical ceiling and constant",
+        "signed residuals and three metrics",
+        "paired gains and all9 boundary combinations per comparison",
+        "hash identities",
+        "no model import or new integration",
+        "private-locator exclusion",
+        "visual figure inspection"
+      ],
+      "coverage": "All7 points in every arm; all15 objectives and126 successful integrations retained",
+      "independent_endpoint_mass_max_abs_residual_kg": 3.2959746043559335e-17,
+      "score_reproduction": "Scientific JSON sections identical; all three score CSVs byte-identical",
+      "status": "PASS"
+    },
+    "git_diff_check": "PASS",
+    "hosted_CI": "Not run at local sign-off; consult draft PR for live state",
+    "mypy": "PASS:19 source files",
+    "production_and_dependencies": "Unchanged from starting main",
+    "registry_gates": {
+      "acknowledged_exceptions": 1,
+      "elapsed_s": 42.26397311198525,
+      "passed": 66,
+      "returncode": 0
+    },
+    "repository_quick": {
+      "command": "pytest -q -m \"not slow and not live and not gpu and not external_data\"",
+      "deselected": 65,
+      "elapsed_s": 1459.29291993496,
+      "passed": 7318,
+      "returncode": 0,
+      "skipped": 72,
+      "warning": "Existing development visualization salt warning; no production harvest performed",
+      "warnings": 1
+    },
+    "ruff": "PASS: tools/cameron_ds_baseline.py, puckworks, tests",
+    "scientific_baseline": {
+      "deselected": 7443,
+      "elapsed_s": 216.65770316892304,
+      "passed": 5,
+      "returncode": 0,
+      "skipped": 7
+    }
+  },
+  "configuration_table_sha256": "8c2e12e268552cece60e37ed64f3de4b3170b2836a210517d76f658e30892970",
+  "constant_control": {
+    "bound_active": false,
+    "constrained_EY_pp": 22.679261645056787,
+    "unrestricted_diagnostic": {
+      "MAE_pp": 0.9828599276222114,
+      "RMSE_pp": 1.2399887090524637,
+      "max_absolute_error_pp": 2.178434911071495,
+      "signed_residuals_pp": [
+        -1.8696335253095526,
+        -1.1572911313653975,
+        -0.4130850900028058,
+        0.0069548037257298745,
+        0.29201188479852647,
+        0.9626081470819727,
+        2.178434911071495
+      ]
+    },
+    "unrestricted_target_mean_EY_pp": 22.679261645056787
+  },
+  "draft_author_request": "Could you share the exact revision and grind-sweep script that generated Figure5, its parameter files and numerical theoretical ordinates, and the EY normalization/endpoint definitions (dry dose, beverage mass and clock)? The released single-example driver differs from the paper settings and reports a different denominator under printed Eq25, so we cannot yet authenticate the generating configuration. We have preserved physical mass accounting in a conditional reconstruction; no parameter adoption is proposed.",
+  "environment": {
+    "numpy": "2.5.2",
+    "python": "3.12.3",
+    "scipy": "1.18.0",
+    "worker_threads": "OPENBLAS_NUM_THREADS=1; OMP_NUM_THREADS=1"
+  },
+  "execution": {
+    "baseline_frozen_sha256": "bb2093dfe47395ed1e55bdeedcc2813b8322ab1bdb0922d57d6964d795590102",
+    "boundary_selected": true,
+    "config_sha256": "1294705fe1011d881735379d3d59c5e93c1074f0cc39a61ca3496d1f7acbfbb7",
+    "elapsed_model_s": 82.5673768860288,
+    "evaluations": [
+      {
+        "D_S_m2_s": 6.25e-10,
+        "RMSE_pp": 7.102391314047248,
+        "evaluation": 1,
+        "log10_factor": 0.0,
+        "objective_SSE_pp2": 353.1077366449765,
+        "predictions_EY_pp": [
+          16.86463920221372,
+          16.376744503743375,
+          15.865497270896547,
+          15.58955057575527,
+          15.39053076447912,
+          14.929996567161066,
+          14.097262968543864
+        ]
+      },
+      {
+        "D_S_m2_s": 6.25e-11,
+        "RMSE_pp": 12.845642175021716,
+        "evaluation": 2,
+        "log10_factor": -1.0,
+        "objective_SSE_pp2": 1155.0736602208765,
+        "predictions_EY_pp": [
+          11.487294216823232,
+          10.784091706360465,
+          10.110022853207631,
+          9.783448179191979,
+          9.536947628043308,
+          9.006308675930583,
+          8.141419005642254
+        ]
+      },
+      {
+        "D_S_m2_s": 6.25e-09,
+        "RMSE_pp": 4.019845241482245,
+        "evaluation": 3,
+        "log10_factor": 1.0,
+        "objective_SSE_pp2": 113.11409035827215,
+        "predictions_EY_pp": [
+          19.07684264343844,
+          18.98317597332659,
+          18.875154741615294,
+          18.811393594051694,
+          18.764077971998223,
+          18.647502166927744,
+          18.408688594356775
+        ]
+      },
+      {
+        "D_S_m2_s": 3.6292095067406965e-10,
+        "RMSE_pp": 8.435871693851533,
+        "evaluation": 4,
+        "log10_factor": -0.2360679774997898,
+        "objective_SSE_pp2": 498.14751864587885,
+        "predictions_EY_pp": [
+          15.75076534660666,
+          15.15190021652445,
+          14.545635819677708,
+          14.228460254407832,
+          13.999889168655747,
+          13.48182818665749,
+          12.575408012685523
+        ]
+      },
+      {
+        "D_S_m2_s": 1.0763363186238605e-09,
+        "RMSE_pp": 5.967531178987276,
+        "evaluation": 5,
+        "log10_factor": 0.23606797749978958,
+        "objective_SSE_pp2": 249.27999860529687,
+        "predictions_EY_pp": [
+          17.730061984337166,
+          17.367340485877865,
+          16.97492005042818,
+          16.756733998048677,
+          16.59823698179946,
+          16.223317616352425,
+          15.518208389904075
+        ]
+      },
+      {
+        "D_S_m2_s": 2.107385863010729e-09,
+        "RMSE_pp": 4.932800026438695,
+        "evaluation": 6,
+        "log10_factor": 0.5278640450004205,
+        "objective_SSE_pp2": 170.32761270583515,
+        "predictions_EY_pp": [
+          18.462749352519882,
+          18.233327426771186,
+          17.977959561956308,
+          17.832228205134523,
+          17.725415120570595,
+          17.467639582489355,
+          16.962441700100023
+        ]
+      },
+      {
+        "D_S_m2_s": 3.808145188027201e-09,
+        "RMSE_pp": 4.339964259788592,
+        "evaluation": 7,
+        "log10_factor": 0.7848334804453159,
+        "objective_SSE_pp2": 131.84702843369635,
+        "predictions_EY_pp": [
+          18.86454159822506,
+          18.72075994694079,
+          18.55731824628128,
+          18.4622540222257,
+          18.392090925456102,
+          18.22066699509174,
+          17.876027170383995
+        ]
+      },
+      {
+        "D_S_m2_s": 3.0378051044462823e-09,
+        "RMSE_pp": 4.535592527747465,
+        "evaluation": 8,
+        "log10_factor": 0.6866798901752378,
+        "objective_SSE_pp2": 144.00119704431043,
+        "predictions_EY_pp": [
+          18.73322873696259,
+          18.560259470838716,
+          18.365138380523806,
+          18.252451885269,
+          18.169501781324257,
+          17.967728895623992,
+          17.56577995660439
+        ]
+      },
+      {
+        "D_S_m2_s": 4.601503906035932e-09,
+        "RMSE_pp": 4.201577950806147,
+        "evaluation": 9,
+        "log10_factor": 0.8670197776741864,
+        "objective_SSE_pp2": 123.57280093690265,
+        "predictions_EY_pp": [
+          18.956700736406187,
+          18.834200712013406,
+          18.694121056675,
+          18.612172775544668,
+          18.551559505275343,
+          18.402957411829277,
+          18.10198181617066
+        ]
+      },
+      {
+        "D_S_m2_s": 5.172419259266442e-09,
+        "RMSE_pp": 4.12642438136304,
+        "evaluation": 10,
+        "log10_factor": 0.9178137027711296,
+        "objective_SSE_pp2": 119.19164722575142,
+        "predictions_EY_pp": [
+          19.00650269356108,
+          18.895799161396123,
+          18.768775489048974,
+          18.6942060146509,
+          18.638979421394566,
+          18.503313912700396,
+          18.227316178841395
+        ]
+      },
+      {
+        "D_S_m2_s": 5.560144677213051e-09,
+        "RMSE_pp": 4.083618909065419,
+        "evaluation": 11,
+        "log10_factor": 0.9492060749030568,
+        "objective_SSE_pp2": 116.7316037613365,
+        "predictions_EY_pp": [
+          19.03479299771609,
+          18.930887610929712,
+          18.811424913270827,
+          18.741145904119804,
+          18.689056555660194,
+          18.56094801996402,
+          18.299622001576594
+        ]
+      },
+      {
+        "D_S_m2_s": 5.814168919543124e-09,
+        "RMSE_pp": 4.058481185185188,
+        "evaluation": 12,
+        "log10_factor": 0.9686076278680728,
+        "objective_SSE_pp2": 115.29888671351516,
+        "predictions_EY_pp": [
+          19.051381640063262,
+          18.951496064182173,
+          18.836517495400866,
+          18.768789221703152,
+          18.718566927236775,
+          18.594963964945215,
+          18.342415044331123
+        ]
+      },
+      {
+        "D_S_m2_s": 5.976934057724674e-09,
+        "RMSE_pp": 4.043431434346138,
+        "evaluation": 13,
+        "log10_factor": 0.980598447034984,
+        "objective_SSE_pp2": 114.44536434980925,
+        "predictions_EY_pp": [
+          19.06130442128366,
+          18.963835388393733,
+          18.851557382795338,
+          18.785367566880343,
+          18.736272090112106,
+          18.6153913792053,
+          18.368156706524253
+        ]
+      },
+      {
+        "D_S_m2_s": 6.079798672059977e-09,
+        "RMSE_pp": 4.0343119360587005,
+        "evaluation": 14,
+        "log10_factor": 0.9880091808330889,
+        "objective_SSE_pp2": 113.92970958197989,
+        "predictions_EY_pp": [
+          19.06731406293668,
+          18.971312986534727,
+          18.86067728033541,
+          18.795423950052268,
+          18.747014599194365,
+          18.62779275017899,
+          18.383800551414453
+        ]
+      },
+      {
+        "D_S_m2_s": 6.144255735383125e-09,
+        "RMSE_pp": 4.028744264250116,
+        "evaluation": 15,
+        "log10_factor": 0.9925892662018952,
+        "objective_SSE_pp2": 113.61546242709743,
+        "predictions_EY_pp": [
+          19.070981947237577,
+          18.975878454493415,
+          18.86624760985049,
+          18.801567580757464,
+          18.753578434013924,
+          18.63537285469641,
+          18.393368470137734
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "label": "A-ordinary",
+        "output_sha256": "bb2093dfe47395ed1e55bdeedcc2813b8322ab1bdb0922d57d6964d795590102",
+        "request": {
+          "D_S_m2_s": 6.25e-10,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": false
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 163.3366750270567,
+            "Ds2_dimensionless": 0.28720896747469027,
+            "EY_minus_solid_pp": -6.394884621840902e-14,
+            "EY_pp": 16.86463920221372,
+            "balance_residual_kg": 1.1709383462843448e-17,
+            "cup_solute_kg": 0.0033729278404427444,
+            "elapsed_s": 0.327931541018188,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.001332650565486889,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018791620740368865,
+            "minimum_final_concentration_kg_m3": 0.29785674165689513,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 154.78094443040138,
+            "Ds2_dimensionless": 0.23075223248737964,
+            "EY_minus_solid_pp": -6.039613253960852e-14,
+            "EY_pp": 16.376744503743375,
+            "balance_residual_kg": 1.214306433183765e-17,
+            "cup_solute_kg": 0.003275348900748675,
+            "elapsed_s": 0.3233524200040847,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0014315451023299444,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018660061025470176,
+            "minimum_final_concentration_kg_m3": 0.40302774297788896,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 147.07691552210082,
+            "Ds2_dimensionless": 0.18825867259112386,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 15.865497270896547,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0031730994541793096,
+            "elapsed_s": 0.2972150689456612,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0015363488807704408,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018404627838357262,
+            "minimum_final_concentration_kg_m3": 0.49350477350645905,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 132.3991785351702,
+            "Ds2_dimensionless": 0.16947114722052292,
+            "EY_minus_solid_pp": -5.861977570020827e-14,
+            "EY_pp": 15.58955057575527,
+            "balance_residual_kg": 1.0842021724855044e-17,
+            "cup_solute_kg": 0.0031179101151510543,
+            "elapsed_s": 0.2964082558173686,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0015935250912112902,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018205940697097825,
+            "minimum_final_concentration_kg_m3": 0.5332994588543044,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 123.58934726381857,
+            "Ds2_dimensionless": 0.15819454997200902,
+            "EY_minus_solid_pp": -5.684341886080802e-14,
+            "EY_pp": 15.39053076447912,
+            "balance_residual_kg": 1.0408340855860843e-17,
+            "cup_solute_kg": 0.003078106152895824,
+            "elapsed_s": 0.2967582861892879,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0016346695799434846,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018071888049401446,
+            "minimum_final_concentration_kg_m3": 0.5580510711521691,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 115.46713438857651,
+            "Ds2_dimensionless": 0.13535662902910178,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 14.929996567161066,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0029859993134322134,
+            "elapsed_s": 0.2949250878300518,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0017304716977243272,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001770236021767832,
+            "minimum_final_concentration_kg_m3": 0.6041895162286416,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 104.17948182815475,
+            "Ds2_dimensionless": 0.10354291791338617,
+            "EY_minus_solid_pp": -5.1514348342607263e-14,
+            "EY_pp": 14.097262968543864,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0028194525937087728,
+            "elapsed_s": 0.2974249490071088,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0019050672784201878,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00016897474120436217,
+            "minimum_final_concentration_kg_m3": 0.6541248584091224,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-01",
+        "output_sha256": "73abcf050a73bf8f58c3afc8d7cb1aec2c3bd2b4e9859aa8d31afc6fcea4afdb",
+        "request": {
+          "D_S_m2_s": 6.25e-10,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 163.3366750270567,
+            "Ds2_dimensionless": 0.28720896747469027,
+            "EY_minus_solid_pp": -6.394884621840902e-14,
+            "EY_pp": 16.86463920221372,
+            "balance_residual_kg": 1.1709383462843448e-17,
+            "cup_solute_kg": 0.0033729278404427444,
+            "elapsed_s": 0.326439649797976,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.001332650565486889,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018791620740368865,
+            "minimum_final_concentration_kg_m3": 0.29785674165689513,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 154.78094443040138,
+            "Ds2_dimensionless": 0.23075223248737964,
+            "EY_minus_solid_pp": -6.039613253960852e-14,
+            "EY_pp": 16.376744503743375,
+            "balance_residual_kg": 1.214306433183765e-17,
+            "cup_solute_kg": 0.003275348900748675,
+            "elapsed_s": 0.3222805520053953,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0014315451023299444,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018660061025470176,
+            "minimum_final_concentration_kg_m3": 0.40302774297788896,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 147.07691552210082,
+            "Ds2_dimensionless": 0.18825867259112386,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 15.865497270896547,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0031730994541793096,
+            "elapsed_s": 0.2967788639944047,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0015363488807704408,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018404627838357262,
+            "minimum_final_concentration_kg_m3": 0.49350477350645905,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 132.3991785351702,
+            "Ds2_dimensionless": 0.16947114722052292,
+            "EY_minus_solid_pp": -5.861977570020827e-14,
+            "EY_pp": 15.58955057575527,
+            "balance_residual_kg": 1.0842021724855044e-17,
+            "cup_solute_kg": 0.0031179101151510543,
+            "elapsed_s": 0.2950233200099319,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0015935250912112902,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018205940697097825,
+            "minimum_final_concentration_kg_m3": 0.5332994588543044,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 123.58934726381857,
+            "Ds2_dimensionless": 0.15819454997200902,
+            "EY_minus_solid_pp": -5.684341886080802e-14,
+            "EY_pp": 15.39053076447912,
+            "balance_residual_kg": 1.0408340855860843e-17,
+            "cup_solute_kg": 0.003078106152895824,
+            "elapsed_s": 0.2950076481793076,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0016346695799434846,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018071888049401446,
+            "minimum_final_concentration_kg_m3": 0.5580510711521691,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 115.46713438857651,
+            "Ds2_dimensionless": 0.13535662902910178,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 14.929996567161066,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0029859993134322134,
+            "elapsed_s": 0.2933917730115354,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0017304716977243272,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001770236021767832,
+            "minimum_final_concentration_kg_m3": 0.6041895162286416,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 104.17948182815475,
+            "Ds2_dimensionless": 0.10354291791338617,
+            "EY_minus_solid_pp": -5.1514348342607263e-14,
+            "EY_pp": 14.097262968543864,
+            "balance_residual_kg": 9.974659986866641e-18,
+            "cup_solute_kg": 0.0028194525937087728,
+            "elapsed_s": 0.2986567479092628,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0019050672784201878,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00016897474120436217,
+            "minimum_final_concentration_kg_m3": 0.6541248584091224,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-02",
+        "output_sha256": "50520e5f68a1f89612b56d1a166e77c530eb6752defee3d102180bcbcdd9d87c",
+        "request": {
+          "D_S_m2_s": 6.25e-11,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 16.33366750270567,
+            "Ds2_dimensionless": 0.028720896747469027,
+            "EY_minus_solid_pp": -4.618527782440651e-14,
+            "EY_pp": 11.487294216823232,
+            "balance_residual_kg": 8.239936510889834e-18,
+            "cup_solute_kg": 0.0022974588433646464,
+            "elapsed_s": 0.33853101497516036,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.002486805932223813,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001092298377448664,
+            "minimum_final_concentration_kg_m3": 0.4957621177926772,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 15.478094443040137,
+            "Ds2_dimensionless": 0.023075223248737963,
+            "EY_minus_solid_pp": -4.440892098500626e-14,
+            "EY_pp": 10.784091706360465,
+            "balance_residual_kg": 8.673617379884035e-18,
+            "cup_solute_kg": 0.002156818341272093,
+            "elapsed_s": 0.35290559590794146,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0026352643905804655,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00010141188148076579,
+            "minimum_final_concentration_kg_m3": 0.472230319902874,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 14.707691552210084,
+            "Ds2_dimensionless": 0.018825867259112387,
+            "EY_minus_solid_pp": -2.3092638912203256e-14,
+            "EY_pp": 10.110022853207631,
+            "balance_residual_kg": 4.336808689942018e-18,
+            "cup_solute_kg": 0.002022004570641526,
+            "elapsed_s": 0.3307236291002482,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0027770327092878975,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 9.445733340390496e-05,
+            "minimum_final_concentration_kg_m3": 0.4493539224310297,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 13.239917853517019,
+            "Ds2_dimensionless": 0.016947114722052292,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 9.783448179191979,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.001956689635838396,
+            "elapsed_s": 0.33623035391792655,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0028459242956527598,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 9.088068184216878e-05,
+            "minimum_final_concentration_kg_m3": 0.4362244975621551,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 12.358934726381857,
+            "Ds2_dimensionless": 0.015819454997200905,
+            "EY_minus_solid_pp": -2.3092638912203256e-14,
+            "EY_pp": 9.536947628043308,
+            "balance_residual_kg": 4.336808689942018e-18,
+            "cup_solute_kg": 0.0019073895256086614,
+            "elapsed_s": 0.3238929130602628,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0028974021369265754,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 8.870295079809246e-05,
+            "minimum_final_concentration_kg_m3": 0.42872671273220603,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 11.546713438857651,
+            "Ds2_dimensionless": 0.013535662902910178,
+            "EY_minus_solid_pp": -2.4868995751603507e-14,
+            "EY_pp": 9.006308675930583,
+            "balance_residual_kg": 3.2526065174565133e-18,
+            "cup_solute_kg": 0.0018012617351861166,
+            "elapsed_s": 0.33614794514141977,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0030084534282171574,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 8.377944993005652e-05,
+            "minimum_final_concentration_kg_m3": 0.41051992518307634,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-11,
+            "Ds1_dimensionless": 10.417948182815476,
+            "Ds2_dimensionless": 0.01035429179133862,
+            "EY_minus_solid_pp": -4.085620730620576e-14,
+            "EY_pp": 8.141419005642254,
+            "balance_residual_kg": 7.15573433840433e-18,
+            "cup_solute_kg": 0.0016282838011284506,
+            "elapsed_s": 0.32798006595112383,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.003189629149928437,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 7.558166227643798e-05,
+            "minimum_final_concentration_kg_m3": 0.3776535587491993,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-03",
+        "output_sha256": "8e2a5b48feb4897615b4daea2afe648354165f6ae3a43f738d80eed1e7fbceac",
+        "request": {
+          "D_S_m2_s": 6.25e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1633.3667502705669,
+            "Ds2_dimensionless": 2.8720896747469022,
+            "EY_minus_solid_pp": -1.4921397450962104e-13,
+            "EY_pp": 19.07684264343844,
+            "balance_residual_kg": 2.992397996059992e-17,
+            "cup_solute_kg": 0.0038153685286876882,
+            "elapsed_s": 0.44756083306856453,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.000901155313260806,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017697077138480955,
+            "minimum_final_concentration_kg_m3": 0.0014434987394604283,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1547.8094443040138,
+            "Ds2_dimensionless": 2.3075223248737964,
+            "EY_minus_solid_pp": -1.3500311979441904e-13,
+            "EY_pp": 18.98317597332659,
+            "balance_residual_kg": 2.6020852139652106e-17,
+            "cup_solute_kg": 0.0037966351946653177,
+            "elapsed_s": 0.40927507588639855,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009189204735512838,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001779389451167048,
+            "minimum_final_concentration_kg_m3": 0.0020431454289907506,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1470.7691552210083,
+            "Ds2_dimensionless": 1.8825867259112385,
+            "EY_minus_solid_pp": -1.0658141036401503e-13,
+            "EY_pp": 18.875154741615294,
+            "balance_residual_kg": 2.0383000842727483e-17,
+            "cup_solute_kg": 0.0037750309483230585,
+            "elapsed_s": 0.390426442027092,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009393879925392596,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001790756724709941,
+            "minimum_final_concentration_kg_m3": 0.0029794247976019507,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1323.991785351702,
+            "Ds2_dimensionless": 1.694711472205229,
+            "EY_minus_solid_pp": -1.5987211554602254e-13,
+            "EY_pp": 18.811393594051694,
+            "balance_residual_kg": 3.0791341698588326e-17,
+            "cup_solute_kg": 0.003762278718810339,
+            "elapsed_s": 0.38543346198275685,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009514908718861589,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001797250226368053,
+            "minimum_final_concentration_kg_m3": 0.0038015401127458703,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1235.8934726381856,
+            "Ds2_dimensionless": 1.5819454997200904,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.764077971998223,
+            "balance_residual_kg": 2.8189256484623115e-17,
+            "cup_solute_kg": 0.003752815594399645,
+            "elapsed_s": 0.38227226701565087,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009604635445600313,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001802154743736288,
+            "minimum_final_concentration_kg_m3": 0.004509596052978137,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1154.671343885765,
+            "Ds2_dimensionless": 1.3535662902910177,
+            "EY_minus_solid_pp": -1.3855583347321954e-13,
+            "EY_pp": 18.647502166927744,
+            "balance_residual_kg": 2.8189256484623115e-17,
+            "cup_solute_kg": 0.003729500433385549,
+            "elapsed_s": 0.3531548499595374,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009825607125996914,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018143346734806503,
+            "minimum_final_concentration_kg_m3": 0.006600693242270395,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1041.7948182815474,
+            "Ds2_dimensionless": 1.0354291791338617,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.408688594356775,
+            "balance_residual_kg": 2.47198095326695e-17,
+            "cup_solute_kg": 0.0036817377188713553,
+            "elapsed_s": 0.35167854907922447,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010279043107843874,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018385258367756562,
+            "minimum_final_concentration_kg_m3": 0.013796902681270096,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-04",
+        "output_sha256": "36cbfdf9ad18107908a85d9bc018205680d7742fbd85fefa688a8449bb2d7b1d",
+        "request": {
+          "D_S_m2_s": 3.6292095067406965e-10,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 94.84528220921759,
+            "Ds2_dimensionless": 0.16677464242885207,
+            "EY_minus_solid_pp": -4.973799150320701e-14,
+            "EY_pp": 15.75076534660666,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.0031501530693213322,
+            "elapsed_s": 0.318897713907063,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0015643061188203161,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017903542519167638,
+            "minimum_final_concentration_kg_m3": 0.5123257458202942,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 89.87719599825859,
+            "Ds2_dimensionless": 0.133991711335174,
+            "EY_minus_solid_pp": -3.552713678800501e-14,
+            "EY_pp": 15.15190021652445,
+            "balance_residual_kg": 6.5052130349130266e-18,
+            "cup_solute_kg": 0.00303038004330489,
+            "elapsed_s": 0.3239815749693662,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.00168940252314652,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017371204688191636,
+            "minimum_final_concentration_kg_m3": 0.5754403327668927,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 85.40367040558506,
+            "Ds2_dimensionless": 0.10931682628705454,
+            "EY_minus_solid_pp": -4.440892098500626e-14,
+            "EY_pp": 14.545635819677708,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.0029091271639355414,
+            "elapsed_s": 0.3110993201844394,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0018166261982951457,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001677412511026363,
+            "minimum_final_concentration_kg_m3": 0.6151254156150938,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 76.88069718791975,
+            "Ds2_dimensionless": 0.09840740777775582,
+            "EY_minus_solid_pp": -5.3290705182007514e-14,
+            "EY_pp": 14.228460254407832,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.0028456920508815667,
+            "elapsed_s": 0.299808104056865,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0018836081755552784,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00016419438689647975,
+            "minimum_final_concentration_kg_m3": 0.6275670617289444,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 71.76506144347643,
+            "Ds2_dimensionless": 0.09185938634767701,
+            "EY_minus_solid_pp": -4.085620730620576e-14,
+            "EY_pp": 13.999889168655747,
+            "balance_residual_kg": 7.806255641895632e-18,
+            "cup_solute_kg": 0.002799977833731149,
+            "elapsed_s": 0.2971426099538803,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0019315746743545064,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00016194210524767024,
+            "minimum_final_concentration_kg_m3": 0.6351527763253709,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 67.0487074942604,
+            "Ds2_dimensionless": 0.0785980103796464,
+            "EY_minus_solid_pp": -4.440892098500626e-14,
+            "EY_pp": 13.48182818665749,
+            "balance_residual_kg": 7.806255641895632e-18,
+            "cup_solute_kg": 0.0026963656373314984,
+            "elapsed_s": 0.29584950883872807,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.00204066985526667,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00015645912073515748,
+            "minimum_final_concentration_kg_m3": 0.6449140780738859,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.6292095067406965e-10,
+            "Ds1_dimensionless": 60.49426653728942,
+            "Ds2_dimensionless": 0.06012463072750923,
+            "EY_minus_solid_pp": -3.907985046680551e-14,
+            "EY_pp": 12.575408012685523,
+            "balance_residual_kg": 6.938893903907228e-18,
+            "cup_solute_kg": 0.002515081602537105,
+            "elapsed_s": 0.2980170880910009,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.002232145917583205,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001462670932130157,
+            "minimum_final_concentration_kg_m3": 0.6436266350931712,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-05",
+        "output_sha256": "5d999ded0d3ea9a5daf0f6dadb8a2d67828f38bef6f16be9e03cee4c180a5943",
+        "request": {
+          "D_S_m2_s": 1.0763363186238605e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 281.28831279181446,
+            "Ds2_dimensionless": 0.4946135083639491,
+            "EY_minus_solid_pp": -1.2789769243681803e-13,
+            "EY_pp": 17.730061984337166,
+            "balance_residual_kg": 2.5153490401663703e-17,
+            "cup_solute_kg": 0.0035460123968674333,
+            "elapsed_s": 0.3356180030386895,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0011597369512604326,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001877452652054426,
+            "minimum_final_concentration_kg_m3": 0.09311386633929356,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 266.55416307414805,
+            "Ds2_dimensionless": 0.39738721348752537,
+            "EY_minus_solid_pp": 7.105427357601002e-14,
+            "EY_pp": 17.367340485877865,
+            "balance_residual_kg": -1.431146867680866e-17,
+            "cup_solute_kg": 0.003473468097175573,
+            "elapsed_s": 0.33710227301344275,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0012307780643183608,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018924845183941347,
+            "minimum_final_concentration_kg_m3": 0.16635155237276705,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 253.28676129217686,
+            "Ds2_dimensionless": 0.3242074345691919,
+            "EY_minus_solid_pp": -4.618527782440651e-14,
+            "EY_pp": 16.97492005042818,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.0033949840100856365,
+            "elapsed_s": 0.31988361314870417,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0013084529106522635,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001900576925954239,
+            "minimum_final_concentration_kg_m3": 0.2560398134165521,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 228.00967106138935,
+            "Ds2_dimensionless": 0.29185272113967986,
+            "EY_minus_solid_pp": -3.907985046680551e-14,
+            "EY_pp": 16.756733998048677,
+            "balance_residual_kg": 6.5052130349130266e-18,
+            "cup_solute_kg": 0.003351346799609736,
+            "elapsed_s": 0.3041581381112337,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0013521246668043094,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001900231469192821,
+            "minimum_final_concentration_kg_m3": 0.30742990403533527,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 212.837924888103,
+            "Ds2_dimensionless": 0.2724328632691689,
+            "EY_minus_solid_pp": -7.105427357601002e-14,
+            "EY_pp": 16.59823698179946,
+            "balance_residual_kg": 1.3010426069826053e-17,
+            "cup_solute_kg": 0.003319647396359892,
+            "elapsed_s": 0.3006785698235035,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.001383886340265444,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018996087670798432,
+            "minimum_final_concentration_kg_m3": 0.3428393676726683,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 198.8503525597552,
+            "Ds2_dimensionless": 0.23310280926483037,
+            "EY_minus_solid_pp": -5.684341886080802e-14,
+            "EY_pp": 16.223317616352425,
+            "balance_residual_kg": 1.1275702593849246e-17,
+            "cup_solute_kg": 0.003244663523270485,
+            "elapsed_s": 0.3033487140201032,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.001459634668061192,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018919642200164547,
+            "minimum_final_concentration_kg_m3": 0.42183879570621835,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 1.0763363186238605e-09,
+            "Ds1_dimensionless": 179.41145591529195,
+            "Ds2_dimensionless": 0.17831520493834666,
+            "EY_minus_solid_pp": -6.217248937900877e-14,
+            "EY_pp": 15.518208389904075,
+            "balance_residual_kg": 1.1709383462843448e-17,
+            "cup_solute_kg": 0.003103641677980815,
+            "elapsed_s": 0.29231199296191335,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0016040692853269665,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018578365002553946,
+            "minimum_final_concentration_kg_m3": 0.5425506555341443,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-06",
+        "output_sha256": "bac2492d6edefe5f70d6cd704969be3036fb8f1dad2ab3972a2900720d9cb368",
+        "request": {
+          "D_S_m2_s": 2.107385863010729e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 550.741439781115,
+            "Ds2_dimensionless": 0.9684161884577128,
+            "EY_minus_solid_pp": -4.618527782440651e-14,
+            "EY_pp": 18.462749352519882,
+            "balance_residual_kg": 9.107298248878237e-18,
+            "cup_solute_kg": 0.0036925498705039765,
+            "elapsed_s": 0.37387571507133543,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.001017935315388835,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018300942744051314,
+            "minimum_final_concentration_kg_m3": 0.010849812462040337,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 521.8930786497233,
+            "Ds2_dimensionless": 0.7780543881633103,
+            "EY_minus_solid_pp": -3.907985046680551e-14,
+            "EY_pp": 18.233327426771186,
+            "balance_residual_kg": 7.806255641895632e-18,
+            "cup_solute_kg": 0.003646665485354237,
+            "elapsed_s": 0.3617728401441127,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.001061792469105138,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018503665887394954,
+            "minimum_final_concentration_kg_m3": 0.02350091920723175,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 495.9165000743976,
+            "Ds2_dimensionless": 0.6347738643323197,
+            "EY_minus_solid_pp": -1.2079226507921703e-13,
+            "EY_pp": 17.977959561956308,
+            "balance_residual_kg": 2.42861286636753e-17,
+            "cup_solute_kg": 0.003595591912391262,
+            "elapsed_s": 0.33759888680651784,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0011108183493043645,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018708435163768217,
+            "minimum_final_concentration_kg_m3": 0.047618292636519254,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 446.425851390802,
+            "Ds2_dimensionless": 0.571425759745184,
+            "EY_minus_solid_pp": -1.4210854715202004e-13,
+            "EY_pp": 17.832228205134523,
+            "balance_residual_kg": 2.7755575615628914e-17,
+            "cup_solute_kg": 0.003566445641026905,
+            "elapsed_s": 0.33183144498616457,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0011389628903961694,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018808608191023187,
+            "minimum_final_concentration_kg_m3": 0.06726442728949551,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 416.720709187992,
+            "Ds2_dimensionless": 0.5334031331461698,
+            "EY_minus_solid_pp": -1.4210854715202004e-14,
+            "EY_pp": 17.725415120570595,
+            "balance_residual_kg": 2.6020852139652106e-18,
+            "cup_solute_kg": 0.003545083024114119,
+            "elapsed_s": 0.3218405810184777,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0011596056756990648,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018880591352014734,
+            "minimum_final_concentration_kg_m3": 0.08349747555326259,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 389.3340906445538,
+            "Ds2_dimensionless": 0.4563978343691467,
+            "EY_minus_solid_pp": -7.815970093361102e-14,
+            "EY_pp": 17.467639582489355,
+            "balance_residual_kg": 1.5612511283791264e-17,
+            "cup_solute_kg": 0.003493527916497871,
+            "elapsed_s": 0.3259531259536743,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0012096665759570727,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001903001208783744,
+            "minimum_final_concentration_kg_m3": 0.1298046881547495,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 2.107385863010729e-09,
+            "Ds1_dimensionless": 351.2741875526983,
+            "Ds2_dimensionless": 0.34912781028088063,
+            "EY_minus_solid_pp": -5.3290705182007514e-14,
+            "EY_pp": 16.962441700100023,
+            "balance_residual_kg": 9.540979117872439e-18,
+            "cup_solute_kg": 0.0033924883400200047,
+            "elapsed_s": 0.3180569359101355,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.001308865428494295,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00019214084481902354,
+            "minimum_final_concentration_kg_m3": 0.24078091985140535,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-07",
+        "output_sha256": "4f4d8c946cca9d7db6c5aa4fbeb7b935252289e4ba0e731573be792e2c692613",
+        "request": {
+          "D_S_m2_s": 3.808145188027201e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 995.2156368522378,
+            "Ds2_dimensionless": 1.749973515915204,
+            "EY_minus_solid_pp": -1.0302869668521453e-13,
+            "EY_pp": 18.86454159822506,
+            "balance_residual_kg": 2.0383000842727483e-17,
+            "cup_solute_kg": 0.003772908319645012,
+            "elapsed_s": 0.39540600194595754,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009414031327655822,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017918316092271948,
+            "minimum_final_concentration_kg_m3": 0.002638084000957103,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 943.0852939695018,
+            "Ds2_dimensionless": 1.405980806037358,
+            "EY_minus_solid_pp": -7.460698725481052e-14,
+            "EY_pp": 18.72075994694079,
+            "balance_residual_kg": 1.431146867680866e-17,
+            "cup_solute_kg": 0.0037441519893881585,
+            "elapsed_s": 0.39884726400487125,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009686828347583232,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018065978918683676,
+            "minimum_final_concentration_kg_m3": 0.00446113871984891,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 896.1443969845941,
+            "Ds2_dimensionless": 1.1470661730116425,
+            "EY_minus_solid_pp": -7.460698725481052e-14,
+            "EY_pp": 18.55731824628128,
+            "balance_residual_kg": 1.5178830414797062e-17,
+            "cup_solute_kg": 0.003711463649256256,
+            "elapsed_s": 0.3710959970485419,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.000999717601967441,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018231336210962075,
+            "minimum_final_concentration_kg_m3": 0.00790511028679689,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 806.7124714199402,
+            "Ds2_dimensionless": 1.032593174075654,
+            "EY_minus_solid_pp": -8.171241461241152e-14,
+            "EY_pp": 18.4622540222257,
+            "balance_residual_kg": 1.5612511283791264e-17,
+            "cup_solute_kg": 0.0036924508044451397,
+            "elapsed_s": 0.3666446041315794,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0010178226169801207,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018322119190805814,
+            "minimum_final_concentration_kg_m3": 0.011104551836914434,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 753.0338849186135,
+            "Ds2_dimensionless": 0.9638845027968556,
+            "EY_minus_solid_pp": -7.460698725481052e-14,
+            "EY_pp": 18.392090925456102,
+            "balance_residual_kg": 1.431146867680866e-17,
+            "cup_solute_kg": 0.0036784181850912207,
+            "elapsed_s": 0.36746689095161855,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0010311801622621833,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018389626597991546,
+            "minimum_final_concentration_kg_m3": 0.014000125232777607,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 703.5449795154364,
+            "Ds2_dimensionless": 0.824732312807611,
+            "EY_minus_solid_pp": -7.460698725481052e-14,
+            "EY_pp": 18.22066699509174,
+            "balance_residual_kg": 1.5178830414797062e-17,
+            "cup_solute_kg": 0.0036441333990183482,
+            "elapsed_s": 0.3412272799760103,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0010638661441081732,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001854950702067968,
+            "minimum_final_concentration_kg_m3": 0.023450012422305575,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.808145188027201e-09,
+            "Ds1_dimensionless": 634.7689478640876,
+            "Ds2_dimensionless": 0.6308903433698513,
+            "EY_minus_solid_pp": -6.750155989720952e-14,
+            "EY_pp": 17.876027170383995,
+            "balance_residual_kg": 1.3010426069826053e-17,
+            "cup_solute_kg": 0.0035752054340767994,
+            "elapsed_s": 0.32930103898979723,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0011299082556487509,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018838092360776927,
+            "minimum_final_concentration_kg_m3": 0.056213550507274904,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-08",
+        "output_sha256": "8a678fbddebc2e70033031ca0ef4079f9d8cf24f2229c3d58312bf50b3b10949",
+        "request": {
+          "D_S_m2_s": 3.0378051044462823e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 793.8959762247623,
+            "Ds2_dimensionless": 1.3959757878997765,
+            "EY_minus_solid_pp": -6.394884621840902e-14,
+            "EY_pp": 18.73322873696259,
+            "balance_residual_kg": 1.2576745200831851e-17,
+            "cup_solute_kg": 0.003746645747392518,
+            "elapsed_s": 0.4022003260906786,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009663481065890218,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018050075935178143,
+            "minimum_final_concentration_kg_m3": 0.004073029711313501,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 752.3109488987034,
+            "Ds2_dimensionless": 1.1215684955400593,
+            "EY_minus_solid_pp": -7.815970093361102e-14,
+            "EY_pp": 18.560259470838716,
+            "balance_residual_kg": 1.5178830414797062e-17,
+            "cup_solute_kg": 0.0037120518941677434,
+            "elapsed_s": 0.37409008387476206,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009992240247332486,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018221869443232585,
+            "minimum_final_concentration_kg_m3": 0.007690521764091632,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 714.865607550804,
+            "Ds2_dimensionless": 0.915029050485756,
+            "EY_minus_solid_pp": -6.039613253960852e-14,
+            "EY_pp": 18.365138380523806,
+            "balance_residual_kg": 1.1709383462843448e-17,
+            "cup_solute_kg": 0.0036730276761047613,
+            "elapsed_s": 0.3495337769854814,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0010363815569619647,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018408538026659538,
+            "minimum_final_concentration_kg_m3": 0.014952387975981946,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 643.5246406058154,
+            "Ds2_dimensionless": 0.8237125057325949,
+            "EY_minus_solid_pp": -8.171241461241152e-14,
+            "EY_pp": 18.252451885269,
+            "balance_residual_kg": 1.6479873021779667e-17,
+            "cup_solute_kg": 0.0036504903770538,
+            "elapsed_s": 0.3431645310483873,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0010579241784036061,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001850800578759115,
+            "minimum_final_concentration_kg_m3": 0.021623331458046673,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 600.7045599571396,
+            "Ds2_dimensionless": 0.7689027382408824,
+            "EY_minus_solid_pp": -6.750155989720952e-14,
+            "EY_pp": 18.169501781324257,
+            "balance_residual_kg": 1.3877787807814457e-17,
+            "cup_solute_kg": 0.003633900356264851,
+            "elapsed_s": 0.34475486096926033,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0010737815847441038,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018581267232436476,
+            "minimum_final_concentration_kg_m3": 0.02758511976642804,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 561.2266403862441,
+            "Ds2_dimensionless": 0.6578992937363956,
+            "EY_minus_solid_pp": -8.881784197001252e-14,
+            "EY_pp": 17.967728895623992,
+            "balance_residual_kg": 1.6046192152785466e-17,
+            "cup_solute_kg": 0.003593545779124799,
+            "elapsed_s": 0.3316652961075306,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0011124564326150687,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018749240159344972,
+            "minimum_final_concentration_kg_m3": 0.046615121502788535,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 3.0378051044462823e-09,
+            "Ds1_dimensionless": 506.3631386818195,
+            "Ds2_dimensionless": 0.5032691273064751,
+            "EY_minus_solid_pp": -7.460698725481052e-14,
+            "EY_pp": 17.56577995660439,
+            "balance_residual_kg": 1.431146867680866e-17,
+            "cup_solute_kg": 0.0035131559913208783,
+            "elapsed_s": 0.31456089089624584,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.001190043072151015,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00019029554986142497,
+            "minimum_final_concentration_kg_m3": 0.10550897812025221,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-09",
+        "output_sha256": "84c95fbc5dd6b1faccba49c2d766d1a95a2bd1e01cdc7a242158097ace47d832",
+        "request": {
+          "D_S_m2_s": 4.601503906035932e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 1202.550957017477,
+            "Ds2_dimensionless": 2.1145490970933345,
+            "EY_minus_solid_pp": -9.237055564881302e-14,
+            "EY_pp": 18.956700736406187,
+            "balance_residual_kg": 1.734723475976807e-17,
+            "cup_solute_kg": 0.0037913401472812374,
+            "elapsed_s": 0.4099852580111474,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009239232569815938,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017823120907048493,
+            "minimum_final_concentration_kg_m3": 0.0019982109966393043,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 1139.560192602276,
+            "Ds2_dimensionless": 1.6988916785875023,
+            "EY_minus_solid_pp": -9.237055564881302e-14,
+            "EY_pp": 18.834200712013406,
+            "balance_residual_kg": 1.9081958235744878e-17,
+            "cup_solute_kg": 0.0037668401424026813,
+            "elapsed_s": 0.38758945697918534,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009471501438146104,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017950432711602246,
+            "minimum_final_concentration_kg_m3": 0.003118927435594507,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 1082.840002020262,
+            "Ds2_dimensionless": 1.3860368276371138,
+            "EY_minus_solid_pp": -9.592326932761353e-14,
+            "EY_pp": 18.694121056675,
+            "balance_residual_kg": 1.9081958235744878e-17,
+            "cup_solute_kg": 0.0037388242113350002,
+            "elapsed_s": 0.3709086279850453,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009737108762929959,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.000180959525705318,
+            "minimum_final_concentration_kg_m3": 0.005085745412946967,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 974.776539496855,
+            "Ds2_dimensionless": 1.2477154334330025,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.612172775544668,
+            "balance_residual_kg": 2.47198095326695e-17,
+            "cup_solute_kg": 0.003722434555108934,
+            "elapsed_s": 0.35377772408537567,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009892867447687198,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018177331345565546,
+            "minimum_final_concentration_kg_m3": 0.006882170687806736,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 909.9149826862279,
+            "Ds2_dimensionless": 1.1646925433756736,
+            "EY_minus_solid_pp": -8.881784197001252e-14,
+            "EY_pp": 18.551559505275343,
+            "balance_residual_kg": 1.7780915628762273e-17,
+            "cup_solute_kg": 0.0037103119010550682,
+            "elapsed_s": 0.35954579105600715,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0010008002645586862,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001823824477195616,
+            "minimum_final_concentration_kg_m3": 0.00848963201788948,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 850.1159518524971,
+            "Ds2_dimensionless": 0.9965504914964296,
+            "EY_minus_solid_pp": -1.3500311979441904e-13,
+            "EY_pp": 18.402957411829277,
+            "balance_residual_kg": 2.688821387764051e-17,
+            "cup_solute_kg": 0.003680591482365855,
+            "elapsed_s": 0.34881820995360613,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0010290481264904048,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018385500447704682,
+            "minimum_final_concentration_kg_m3": 0.013635408420066036,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 4.601503906035932e-09,
+            "Ds1_dimensionless": 767.0116680976856,
+            "Ds2_dimensionless": 0.7623250259532871,
+            "EY_minus_solid_pp": -1.2789769243681803e-13,
+            "EY_pp": 18.10198181617066,
+            "balance_residual_kg": 2.6020852139652106e-17,
+            "cup_solute_kg": 0.0036203963632341317,
+            "elapsed_s": 0.3254241531249136,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010864652070456905,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018663304305348473,
+            "minimum_final_concentration_kg_m3": 0.0321969968678783,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-10",
+        "output_sha256": "934f6d95f73542ad9ddd25a8f7b8f7d778c2825c2d0ce0e9875de87c1213db32",
+        "request": {
+          "D_S_m2_s": 5.172419259266442e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 1351.7532218471877,
+            "Ds2_dimensionless": 2.376904311680187,
+            "EY_minus_solid_pp": -1.2079226507921703e-13,
+            "EY_pp": 19.00650269356108,
+            "balance_residual_kg": 2.3418766925686896e-17,
+            "cup_solute_kg": 0.0038013005387122164,
+            "elapsed_s": 0.4181086579337716,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009144836572443872,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017771041737670663,
+            "minimum_final_concentration_kg_m3": 0.0017372150950674145,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 1280.9471007028114,
+            "Ds2_dimensionless": 1.90967566629832,
+            "EY_minus_solid_pp": -1.2789769243681803e-13,
+            "EY_pp": 18.895799161396123,
+            "balance_residual_kg": 2.5587171270657905e-17,
+            "cup_solute_kg": 0.0037791598322792245,
+            "elapsed_s": 0.3995641260407865,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009354724381008599,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001788623429532229,
+            "minimum_final_concentration_kg_m3": 0.0026004494958713088,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 1217.1895527040285,
+            "Ds2_dimensionless": 1.5580044541348232,
+            "EY_minus_solid_pp": -9.947598300641403e-14,
+            "EY_pp": 18.768775489048974,
+            "balance_residual_kg": 1.951563910473908e-17,
+            "cup_solute_kg": 0.003753755097809795,
+            "elapsed_s": 0.3861185668502003,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009595458606905681,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018019365483294998,
+            "minimum_final_concentration_kg_m3": 0.004046342724488342,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 1095.7184975461928,
+            "Ds2_dimensionless": 1.402521321237458,
+            "EY_minus_solid_pp": -1.4921397450962104e-13,
+            "EY_pp": 18.6942060146509,
+            "balance_residual_kg": 2.992397996059992e-17,
+            "cup_solute_kg": 0.0037388412029301797,
+            "elapsed_s": 0.3717749600764364,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009737083450133672,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018094506538975718,
+            "minimum_final_concentration_kg_m3": 0.005347050541162024,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 1022.8094720440697,
+            "Ds2_dimensionless": 1.3091976591779315,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.638979421394566,
+            "balance_residual_kg": 2.2985086056692694e-17,
+            "cup_solute_kg": 0.0037277958842789134,
+            "elapsed_s": 0.36779757705517113,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009841891685512473,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018150956050314975,
+            "minimum_final_concentration_kg_m3": 0.006495667978157831,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 955.5910875580474,
+            "Ds2_dimensionless": 1.1201939757752148,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.503313912700396,
+            "balance_residual_kg": 2.42861286636753e-17,
+            "cup_solute_kg": 0.0037006627825400787,
+            "elapsed_s": 0.3447347660548985,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0010099426007594767,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.000182889230033754,
+            "minimum_final_concentration_kg_m3": 0.010078514835176609,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.172419259266442e-09,
+            "Ds1_dimensionless": 862.1759331653535,
+            "Ds2_dimensionless": 0.8569078124413487,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.227316178841395,
+            "balance_residual_kg": 2.47198095326695e-17,
+            "cup_solute_kg": 0.0036454632357682793,
+            "elapsed_s": 0.33635336603038013,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010624819453898848,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018554943217514408,
+            "minimum_final_concentration_kg_m3": 0.022951893573139374,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-11",
+        "output_sha256": "95804bebf272ee412cc1fc92cf89164ca3e5e23016c1962bc75118e02a4e2e2e",
+        "request": {
+          "D_S_m2_s": 5.560144677213051e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1453.0808707925873,
+            "Ds2_dimensionless": 2.5550774588036083,
+            "EY_minus_solid_pp": -1.4210854715202004e-13,
+            "EY_pp": 19.03479299771609,
+            "balance_residual_kg": 2.905661822261152e-17,
+            "cup_solute_kg": 0.0038069585995432176,
+            "elapsed_s": 0.41975740995258093,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009091227112491735,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017741330254091373,
+            "minimum_final_concentration_kg_m3": 0.001609662005698734,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1376.9671108939283,
+            "Ds2_dimensionless": 2.0528252755515717,
+            "EY_minus_solid_pp": -1.3855583347321954e-13,
+            "EY_pp": 18.930887610929712,
+            "balance_residual_kg": 2.7755575615628914e-17,
+            "cup_solute_kg": 0.0037861775221859424,
+            "elapsed_s": 0.41054160380735993,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009288240526049272,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017849303854243533,
+            "minimum_final_concentration_kg_m3": 0.0023547216155156963,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1308.4302863697958,
+            "Ds2_dimensionless": 1.6747927301547707,
+            "EY_minus_solid_pp": -1.2079226507921703e-13,
+            "EY_pp": 18.811424913270827,
+            "balance_residual_kg": 2.3852447794681098e-17,
+            "cup_solute_kg": 0.0037622849826541654,
+            "elapsed_s": 0.37781882495619357,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009514608116071916,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017974881907195238,
+            "minimum_final_concentration_kg_m3": 0.003568463494280821,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1177.853740479531,
+            "Ds2_dimensionless": 1.5076545554550074,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.741145904119804,
+            "balance_residual_kg": 2.8189256484623115e-17,
+            "cup_solute_kg": 0.003748229180823961,
+            "elapsed_s": 0.3692151780705899,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009648042835260675,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001804611489832771,
+            "minimum_final_concentration_kg_m3": 0.0046498700525503586,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1099.47944215865,
+            "Ds2_dimensionless": 1.407335335985568,
+            "EY_minus_solid_pp": -1.3855583347321954e-13,
+            "EY_pp": 18.689056555660194,
+            "balance_residual_kg": 2.7755575615628914e-17,
+            "cup_solute_kg": 0.0037378113111320387,
+            "elapsed_s": 0.3541040380951017,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009746858801212698,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001809974220799976,
+            "minimum_final_concentration_kg_m3": 0.005595981775370748,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 1027.2223562619004,
+            "Ds2_dimensionless": 1.2041639046746588,
+            "EY_minus_solid_pp": -1.5631940186722204e-13,
+            "EY_pp": 18.56094801996402,
+            "balance_residual_kg": 3.122502256758253e-17,
+            "cup_solute_kg": 0.0037121896039928035,
+            "elapsed_s": 0.35824482794851065,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009989885973898274,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018231641195067173,
+            "minimum_final_concentration_kg_m3": 0.008489932882616957,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.560144677213051e-09,
+            "Ds1_dimensionless": 926.8047861786054,
+            "Ds2_dimensionless": 0.9211417662387552,
+            "EY_minus_solid_pp": -1.3145040611561853e-13,
+            "EY_pp": 18.299622001576594,
+            "balance_residual_kg": 2.5587171270657905e-17,
+            "cup_solute_kg": 0.0036599244003153193,
+            "elapsed_s": 0.3420850031543523,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010486798388280394,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001848903741899485,
+            "minimum_final_concentration_kg_m3": 0.018764628221091373,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-12",
+        "output_sha256": "6f0353b147772950324618a922ded2b7301ca006901cf8fec67305685bf7ba33",
+        "request": {
+          "D_S_m2_s": 5.814168919543124e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1519.4672309821258,
+            "Ds2_dimensionless": 2.671810323368666,
+            "EY_minus_solid_pp": -1.4210854715202004e-13,
+            "EY_pp": 19.051381640063262,
+            "balance_residual_kg": 2.7321894746634712e-17,
+            "cup_solute_kg": 0.003810276328012653,
+            "elapsed_s": 0.42090935609303415,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009059794779874167,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017723880733323686,
+            "minimum_final_concentration_kg_m3": 0.0015409697436484157,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1439.8760903116336,
+            "Ds2_dimensionless": 2.1466119331892988,
+            "EY_minus_solid_pp": -1.3145040611561853e-13,
+            "EY_pp": 18.951496064182173,
+            "balance_residual_kg": 2.5587171270657905e-17,
+            "cup_solute_kg": 0.003790299212836435,
+            "elapsed_s": 0.4102195599116385,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.000924920273989759,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017827512650711344,
+            "minimum_final_concentration_kg_m3": 0.0022246944954226657,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1368.2080496173892,
+            "Ds2_dimensionless": 1.7513083568220118,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.836517495400866,
+            "balance_residual_kg": 2.3418766925686896e-17,
+            "cup_solute_kg": 0.0037673034990801735,
+            "elapsed_s": 0.3923385520465672,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009467062127672113,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017948490148592456,
+            "minimum_final_concentration_kg_m3": 0.003320171717145383,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1231.6659020995642,
+            "Ds2_dimensionless": 1.5765342030862102,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.768789221703152,
+            "balance_residual_kg": 2.42861286636753e-17,
+            "cup_solute_kg": 0.0037537578443406308,
+            "elapsed_s": 0.371156909968704,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009595636842808569,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018017308471182178,
+            "minimum_final_concentration_kg_m3": 0.004290598380936126,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1149.7109466366655,
+            "Ds2_dimensionless": 1.4716317371013863,
+            "EY_minus_solid_pp": -1.3855583347321954e-13,
+            "EY_pp": 18.718566927236775,
+            "balance_residual_kg": 2.7321894746634712e-17,
+            "cup_solute_kg": 0.003743713385447355,
+            "elapsed_s": 0.36628228006884456,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.000969089392571865,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001806918353140864,
+            "minimum_final_concentration_kg_m3": 0.005134560099779722,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 1074.152678385233,
+            "Ds2_dimensionless": 1.2591780888882114,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.594963964945215,
+            "balance_residual_kg": 2.862293735361732e-17,
+            "cup_solute_kg": 0.0037189927929890433,
+            "elapsed_s": 0.36116896802559495,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009925292849974796,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018197253534678255,
+            "minimum_final_concentration_kg_m3": 0.007682659759202246,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.814168919543124e-09,
+            "Ds1_dimensionless": 969.1473684789839,
+            "Ds2_dimensionless": 0.9632256242733038,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.342415044331123,
+            "balance_residual_kg": 2.2551405187698492e-17,
+            "cup_solute_kg": 0.0036684830088662243,
+            "elapsed_s": 0.33054156694561243,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010405223377710534,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001844892666960325,
+            "minimum_final_concentration_kg_m3": 0.016635810008880515,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-13",
+        "output_sha256": "cd912f2c258dc3236a2bba0be5f26fdad8e0e24d3a4bef15fefb8d986b16f1a6",
+        "request": {
+          "D_S_m2_s": 5.976934057724674e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1562.004057351556,
+            "Ds2_dimensionless": 2.746606495013463,
+            "EY_minus_solid_pp": -1.5276668818842154e-13,
+            "EY_pp": 19.06130442128366,
+            "balance_residual_kg": 3.0791341698588326e-17,
+            "cup_solute_kg": 0.0038122608842567317,
+            "elapsed_s": 0.4462354378774762,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009040993617552248,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017713436732134618,
+            "minimum_final_concentration_kg_m3": 0.0015018776450952558,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1480.18479720457,
+            "Ds2_dimensionless": 2.2067054035997145,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.963835388393733,
+            "balance_residual_kg": 2.2985086056692694e-17,
+            "cup_solute_kg": 0.0037927670776787465,
+            "elapsed_s": 0.41259829909540713,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009225831933770177,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017814434227754548,
+            "minimum_final_concentration_kg_m3": 0.002151455992349596,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1406.5104407826227,
+            "Ds2_dimensionless": 1.8003354749950828,
+            "EY_minus_solid_pp": -1.2789769243681803e-13,
+            "EY_pp": 18.851557382795338,
+            "balance_residual_kg": 2.42861286636753e-17,
+            "cup_solute_kg": 0.003770311476559068,
+            "elapsed_s": 0.3950138029176742,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009438571399745726,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001793259967996677,
+            "minimum_final_concentration_kg_m3": 0.0031818393557887124,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1266.1458550426053,
+            "Ds2_dimensionless": 1.620668594598425,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.785367566880343,
+            "balance_residual_kg": 2.905661822261152e-17,
+            "cup_solute_kg": 0.0037570735133760683,
+            "elapsed_s": 0.3770558498799801,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009564217984633414,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017999930149389506,
+            "minimum_final_concentration_kg_m3": 0.004091468342181854,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1181.8966061329265,
+            "Ds2_dimensionless": 1.512829429558606,
+            "EY_minus_solid_pp": -1.3855583347321954e-13,
+            "EY_pp": 18.736272090112106,
+            "balance_residual_kg": 2.8189256484623115e-17,
+            "cup_solute_kg": 0.0037472544180224207,
+            "elapsed_s": 0.37420791503973305,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009657329700230446,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018050722528784003,
+            "minimum_final_concentration_kg_m3": 0.004879614889312385,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 1104.2231169199279,
+            "Ds2_dimensionless": 1.2944282335725483,
+            "EY_minus_solid_pp": -1.4210854715202004e-13,
+            "EY_pp": 18.6153913792053,
+            "balance_residual_kg": 2.7321894746634712e-17,
+            "cup_solute_kg": 0.0037230782758410604,
+            "elapsed_s": 0.3507629910018295,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009886522801325394,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018176405735970675,
+            "minimum_final_concentration_kg_m3": 0.007239505382645029,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 5.976934057724674e-09,
+            "Ds1_dimensionless": 996.2782288876912,
+            "Ds2_dimensionless": 0.990190708020333,
+            "EY_minus_solid_pp": -1.5276668818842154e-13,
+            "EY_pp": 18.368156706524253,
+            "balance_residual_kg": 2.949029909160572e-17,
+            "cup_solute_kg": 0.003673631341304851,
+            "elapsed_s": 0.3484989679418504,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010356191083236627,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018424416370478995,
+            "minimum_final_concentration_kg_m3": 0.015470044389517209,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-14",
+        "output_sha256": "89eb7d1251c1972d9c615043b99d00c2ab9816aeea69d6b785cf35d330e24870",
+        "request": {
+          "D_S_m2_s": 6.079798672059977e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1588.8865598851062,
+            "Ds2_dimensionless": 2.7938763184901423,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 19.06731406293668,
+            "balance_residual_kg": 2.47198095326695e-17,
+            "cup_solute_kg": 0.003813462812587336,
+            "elapsed_s": 0.4221387910656631,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009029607014825747,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017707109926339815,
+            "minimum_final_concentration_kg_m3": 0.0014788964254218962,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1505.6591686530294,
+            "Ds2_dimensionless": 2.2446833866426332,
+            "EY_minus_solid_pp": -1.3145040611561853e-13,
+            "EY_pp": 18.971312986534727,
+            "balance_residual_kg": 2.6454533008646308e-17,
+            "cup_solute_kg": 0.0037942625973069453,
+            "elapsed_s": 0.41947422083467245,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009211670299755681,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017806498605079272,
+            "minimum_final_concentration_kg_m3": 0.002108668959754085,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1430.7168570911138,
+            "Ds2_dimensionless": 1.831319724197262,
+            "EY_minus_solid_pp": -1.2079226507921703e-13,
+            "EY_pp": 18.86067728033541,
+            "balance_residual_kg": 2.2985086056692694e-17,
+            "cup_solute_kg": 0.0037721354560670823,
+            "elapsed_s": 0.38735013105906546,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009421297640910323,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017922939317519484,
+            "minimum_final_concentration_kg_m3": 0.0031015655321767637,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1287.9365597439353,
+            "Ds2_dimensionless": 1.6485607293181057,
+            "EY_minus_solid_pp": -1.2079226507921703e-13,
+            "EY_pp": 18.795423950052268,
+            "balance_residual_kg": 2.3418766925686896e-17,
+            "cup_solute_kg": 0.0037590847900104535,
+            "elapsed_s": 0.3638587750028819,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009545162960859922,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001798935272368642,
+            "minimum_final_concentration_kg_m3": 0.003976264093905541,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1202.2373590005177,
+            "Ds2_dimensionless": 1.538865623755114,
+            "EY_minus_solid_pp": -1.6342482922482304e-13,
+            "EY_pp": 18.747014599194365,
+            "balance_residual_kg": 3.252606517456513e-17,
+            "cup_solute_kg": 0.0037494029198388737,
+            "elapsed_s": 0.36283696186728776,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009636969242870126,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018039476920741516,
+            "minimum_final_concentration_kg_m3": 0.004732407127413525,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1123.2270885155815,
+            "Ds2_dimensionless": 1.3167056854810368,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.62779275017899,
+            "balance_residual_kg": 2.862293735361732e-17,
+            "cup_solute_kg": 0.0037255585500357985,
+            "elapsed_s": 0.3490388949867338,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009862992724038256,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018163679089368105,
+            "minimum_final_concentration_kg_m3": 0.006984696363248233,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.079798672059977e-09,
+            "Ds1_dimensionless": 1013.4244404395389,
+            "Ds2_dimensionless": 1.007232151729633,
+            "EY_minus_solid_pp": -1.4566126083082054e-13,
+            "EY_pp": 18.383800551414453,
+            "balance_residual_kg": 2.905661822261152e-17,
+            "cup_solute_kg": 0.0036767601102828907,
+            "elapsed_s": 0.35227876901626587,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0010326406673343926,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018409383571602037,
+            "minimum_final_concentration_kg_m3": 0.014801392155961766,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-eval-15",
+        "output_sha256": "a70147edf0b6d01d5904754c1f6a5dc558a195bfcf6550dba315d5f5b2159af3",
+        "request": {
+          "D_S_m2_s": 6.144255735383125e-09,
+          "method": {
+            "M": 24,
+            "N": 40,
+            "atol": 1e-08,
+            "rtol": 1e-06
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1605.7316837334447,
+            "Ds2_dimensionless": 2.82349655305573,
+            "EY_minus_solid_pp": -1.6697754290362354e-13,
+            "EY_pp": 19.070981947237577,
+            "balance_residual_kg": 3.3393426912553537e-17,
+            "cup_solute_kg": 0.0038141963894475156,
+            "elapsed_s": 0.43884953297674656,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0009022657435196292,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017703248036615596,
+            "minimum_final_concentration_kg_m3": 0.0014651205299728656,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1521.6219288712168,
+            "Ds2_dimensionless": 2.268481164660868,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.975878454493415,
+            "balance_residual_kg": 2.47198095326695e-17,
+            "cup_solute_kg": 0.003795175690898683,
+            "elapsed_s": 0.40963751799426973,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0009203024233128892,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017801649912173575,
+            "minimum_final_concentration_kg_m3": 0.002083110063816632,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1445.8850907826038,
+            "Ds2_dimensionless": 1.8507350860858027,
+            "EY_minus_solid_pp": -1.1723955140041653e-13,
+            "EY_pp": 18.86624760985049,
+            "balance_residual_kg": 2.3418766925686896e-17,
+            "cup_solute_kg": 0.003773249521970098,
+            "elapsed_s": 0.381413685856387,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0009410747915880815,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017917029977512972,
+            "minimum_final_concentration_kg_m3": 0.003053811566291617,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1301.5910593195742,
+            "Ds2_dimensionless": 1.6660385092666496,
+            "EY_minus_solid_pp": -1.4921397450962104e-13,
+            "EY_pp": 18.801567580757464,
+            "balance_residual_kg": 2.905661822261152e-17,
+            "cup_solute_kg": 0.003760313516151493,
+            "elapsed_s": 0.36580483498983085,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009533523180965445,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001798287790852667,
+            "minimum_final_concentration_kg_m3": 0.003907879019642478,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1214.9832892127583,
+            "Ds2_dimensionless": 1.5551804335549901,
+            "EY_minus_solid_pp": -1.5631940186722204e-13,
+            "EY_pp": 18.753578434013924,
+            "balance_residual_kg": 3.122502256758253e-17,
+            "cup_solute_kg": 0.003750715686802785,
+            "elapsed_s": 0.3750509060919285,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009624530323432918,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001803258941872258,
+            "minimum_final_concentration_kg_m3": 0.004645129891583984,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1135.1353643444245,
+            "Ds2_dimensionless": 1.3306651907746954,
+            "EY_minus_solid_pp": -1.4921397450962104e-13,
+            "EY_pp": 18.63537285469641,
+            "balance_residual_kg": 2.905661822261152e-17,
+            "cup_solute_kg": 0.0037270745709392823,
+            "elapsed_s": 0.3546747690998018,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0009848612977116141,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00018155874468240825,
+            "minimum_final_concentration_kg_m3": 0.00683402516206757,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.144255735383125e-09,
+            "Ds1_dimensionless": 1024.168605971011,
+            "Ds2_dimensionless": 1.0179106675962035,
+            "EY_minus_solid_pp": -1.2434497875801753e-13,
+            "EY_pp": 18.393368470137734,
+            "balance_residual_kg": 2.42861286636753e-17,
+            "cup_solute_kg": 0.0036786736940275467,
+            "elapsed_s": 0.34746251604519784,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.001030819526883964,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00018400139242179795,
+            "minimum_final_concentration_kg_m3": 0.014406782417004327,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "A-refinement",
+        "output_sha256": "9199e53e9ec3db93f5fedb585985ad524971b428d3c4755844566c8002be1ffc",
+        "request": {
+          "D_S_m2_s": 6.25e-10,
+          "method": {
+            "M": 48,
+            "N": 160,
+            "atol": 1e-09,
+            "rtol": 1e-07
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 163.3366750270567,
+            "Ds2_dimensionless": 0.28720896747469027,
+            "EY_minus_solid_pp": 0.0,
+            "EY_pp": 17.03996087501552,
+            "balance_residual_kg": -8.673617379884035e-19,
+            "cup_solute_kg": 0.0034079921750031043,
+            "elapsed_s": 2.3824450040701777,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.001304660341490721,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.000180842096839509,
+            "minimum_final_concentration_kg_m3": 0.06783046943462043,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 154.78094443040138,
+            "Ds2_dimensionless": 0.23075223248737964,
+            "EY_minus_solid_pp": 7.105427357601002e-15,
+            "EY_pp": 16.53443194957789,
+            "balance_residual_kg": -2.168404344971009e-18,
+            "cup_solute_kg": 0.0033068863899155783,
+            "elapsed_s": 2.2547334688715637,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0014064598122484249,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001801484111693319,
+            "minimum_final_concentration_kg_m3": 0.09427690043409337,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 147.07691552210082,
+            "Ds2_dimensionless": 0.18825867259112386,
+            "EY_minus_solid_pp": 3.552713678800501e-15,
+            "EY_pp": 16.006808099736933,
+            "balance_residual_kg": -4.336808689942018e-19,
+            "cup_solute_kg": 0.0032013616199473866,
+            "elapsed_s": 2.1928857848979533,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0015139713446332497,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.0001781616487526968,
+            "minimum_final_concentration_kg_m3": 0.11752680408161678,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 132.3991785351702,
+            "Ds2_dimensionless": 0.16947114722052292,
+            "EY_minus_solid_pp": -5.329070518200751e-15,
+            "EY_pp": 15.722796672418177,
+            "balance_residual_kg": 0.0,
+            "cup_solute_kg": 0.0031445593344836356,
+            "elapsed_s": 2.1856940500438213,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0015724871768402586,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001764481020094395,
+            "minimum_final_concentration_kg_m3": 0.1279270325450953,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 123.58934726381857,
+            "Ds2_dimensionless": 0.15819454997200902,
+            "EY_minus_solid_pp": 1.7763568394002505e-15,
+            "EY_pp": 15.518190364662154,
+            "balance_residual_kg": -1.3010426069826053e-18,
+            "cup_solute_kg": 0.0031036380729324306,
+            "elapsed_s": 2.18912076507695,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.001614560844961729,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017529569543917538,
+            "minimum_final_concentration_kg_m3": 0.13442144116225407,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 115.46713438857651,
+            "Ds2_dimensionless": 0.13535662902910178,
+            "EY_minus_solid_pp": -1.0658141036401503e-14,
+            "EY_pp": 15.045617510120799,
+            "balance_residual_kg": 1.3010426069826053e-18,
+            "cup_solute_kg": 0.00300912350202416,
+            "elapsed_s": 2.101722420891747,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.0017123709119473633,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017200019936180908,
+            "minimum_final_concentration_kg_m3": 0.14664843240660794,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-10,
+            "Ds1_dimensionless": 104.17948182815475,
+            "Ds2_dimensionless": 0.10354291791338617,
+            "EY_minus_solid_pp": -1.7763568394002505e-15,
+            "EY_pp": 14.193468034315712,
+            "balance_residual_kg": 4.336808689942018e-19,
+            "cup_solute_kg": 0.0028386936068631424,
+            "elapsed_s": 2.165842439979315,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.0018902229556448098,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00016457805082538044,
+            "minimum_final_concentration_kg_m3": 0.16023181293637986,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "label": "D-refinement",
+        "output_sha256": "d08b2ad109b80fc452edf158ca9d30dd0f619f4f4d039f7db361b8bef3935bce",
+        "request": {
+          "D_S_m2_s": 6.25e-09,
+          "method": {
+            "M": 48,
+            "N": 160,
+            "atol": 1e-09,
+            "rtol": 1e-07
+          },
+          "override": true
+        },
+        "returncode": 0,
+        "rows": [
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1633.3667502705669,
+            "Ds2_dimensionless": 2.8720896747469022,
+            "EY_minus_solid_pp": 7.105427357601002e-15,
+            "EY_pp": 19.32396701759977,
+            "balance_residual_kg": -8.673617379884035e-19,
+            "cup_solute_kg": 0.0038647934035199536,
+            "elapsed_s": 3.4648268290329725,
+            "endpoint_s": 37.63276992623387,
+            "final_solid_solute_kg": 0.0008610281616229079,
+            "gs": 1.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00016767304819047322,
+            "minimum_final_concentration_kg_m3": 0.00024932603690092266,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1547.8094443040138,
+            "Ds2_dimensionless": 2.3075223248737964,
+            "EY_minus_solid_pp": 1.7763568394002505e-14,
+            "EY_pp": 19.234161310184238,
+            "balance_residual_kg": -4.336808689942018e-18,
+            "cup_solute_kg": 0.0038468322620368476,
+            "elapsed_s": 3.1027124559041113,
+            "endpoint_s": 35.66152959676448,
+            "final_solid_solute_kg": 0.0008782410094663467,
+            "gs": 1.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00016842134183014238,
+            "minimum_final_concentration_kg_m3": 0.000355446192444808,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1470.7691552210083,
+            "Ds2_dimensionless": 1.8825867259112385,
+            "EY_minus_solid_pp": 3.552713678800501e-15,
+            "EY_pp": 19.126645532871446,
+            "balance_residual_kg": -4.336808689942018e-19,
+            "cup_solute_kg": 0.0038253291065742895,
+            "elapsed_s": 2.8609688400756568,
+            "endpoint_s": 33.886521336292034,
+            "final_solid_solute_kg": 0.0008986954443945731,
+            "gs": 1.5,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00016947006236447073,
+            "minimum_final_concentration_kg_m3": 0.0005207087903645452,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1323.991785351702,
+            "Ds2_dimensionless": 1.694711472205229,
+            "EY_minus_solid_pp": -1.0658141036401503e-14,
+            "EY_pp": 19.06197088053298,
+            "balance_residual_kg": 2.6020852139652106e-18,
+            "cup_solute_kg": 0.0038123941761065952,
+            "elapsed_s": 2.7944965411443263,
+            "endpoint_s": 30.504770734503218,
+            "final_solid_solute_kg": 0.0009109823948875981,
+            "gs": 1.7,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017011804233913827,
+            "minimum_final_concentration_kg_m3": 0.0006679246806151232,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1235.8934726381856,
+            "Ds2_dimensionless": 1.5819454997200904,
+            "EY_minus_solid_pp": -3.552713678800501e-15,
+            "EY_pp": 19.013445276625962,
+            "balance_residual_kg": 1.3010426069826053e-18,
+            "cup_solute_kg": 0.0038026890553251925,
+            "elapsed_s": 2.627360373036936,
+            "endpoint_s": 28.474985609583804,
+            "final_solid_solute_kg": 0.0009201750942655112,
+            "gs": 1.9,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.0001706304637426292,
+            "minimum_final_concentration_kg_m3": 0.000794986486263419,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1154.671343885765,
+            "Ds2_dimensionless": 1.3535662902910177,
+            "EY_minus_solid_pp": -3.552713678800501e-15,
+            "EY_pp": 18.892908895482503,
+            "balance_residual_kg": 8.673617379884035e-19,
+            "cup_solute_kg": 0.003778581779096501,
+            "elapsed_s": 2.599415586097166,
+            "endpoint_s": 26.60362776312803,
+            "final_solid_solute_kg": 0.000942963466603173,
+            "gs": 2.1,
+            "initial_solute_kg": 0.004893494613333334,
+            "liquid_solute_kg": 0.00017194936763365932,
+            "minimum_final_concentration_kg_m3": 0.0011706632496260104,
+            "status": "SUCCESS"
+          },
+          {
+            "D_S_m2_s": 6.25e-09,
+            "Ds1_dimensionless": 1041.7948182815474,
+            "Ds2_dimensionless": 1.0354291791338617,
+            "EY_minus_solid_pp": -1.4210854715202004e-14,
+            "EY_pp": 18.643503243746594,
+            "balance_residual_kg": 3.0357660829594124e-18,
+            "cup_solute_kg": 0.003728700648749319,
+            "elapsed_s": 2.5338852680288255,
+            "endpoint_s": 24.00295261320686,
+            "final_solid_solute_kg": 0.000990099542827951,
+            "gs": 2.3,
+            "initial_solute_kg": 0.004893494613333333,
+            "liquid_solute_kg": 0.00017469442175605988,
+            "minimum_final_concentration_kg_m3": 0.002498273040885579,
+            "status": "SUCCESS"
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ],
+    "historical_parity_max_pp": 0.0,
+    "integrations": 126,
+    "methods": {
+      "GSA": {
+        "ST_D_S_approx": 0.83,
+        "ST_K_RATE_approx": 0,
+        "fixed_parameters": "All except D_S fixed by task; K_RATE fixed; low ST does not refute kinetics and high ST does not establish identification",
+        "new_execution": false,
+        "original_priors_design_uncertainty": "UNKNOWN; no receipt hunt",
+        "source": "USER_REPORTED_CONTEXT_ONLY"
+      },
+      "bands": {
+        "boundaries": [
+          0.1,
+          0.25
+        ],
+        "combinations": 9,
+        "factors": [
+          0.75,
+          1,
+          1.25
+        ],
+        "meaning": "Descriptive reconstruction gain; not physical validation or noise floor"
+      },
+      "base": {
+        "M": 24,
+        "N": 40,
+        "atol": 1e-08,
+        "rtol": 1e-06
+      },
+      "bootstrap_replicates": 0,
+      "checks_budget": "Task model computations above are distinct from required existing repository QA; no QA result supplies fitted scientific predictions.",
+      "complete_objective_evaluations_limit": 15,
+      "constant_B": "One constant mean fitted to identical seven targets/objective, clipped to[0,inventory ceiling]; unrestricted target mean labelled algebraic diagnostic; no secondary target fit.",
+      "diffusivity_CI": "NOT_APPLICABLE_NOT_A_PHYSICAL_DIFFUSIVITY_ESTIMATE",
+      "fit": "One log10(D_S/printed D_S), all seven ordinates, unweighted sum squared EY residuals; no exclusions",
+      "log10_factor_bounds": [
+        -1,
+        1
+      ],
+      "log10_factor_xatol": 0.005,
+      "model_elapsed_limit_s": 7200,
+      "numerical_engineering_target_EY_pp": 0.05,
+      "numerical_interpretation": "Absolute per-grind single-refinement differences define a declared sensitivity envelope, not certified continuum error. Report noncompliance and ordering/band ambiguity without further tuning.",
+      "objective_integration_limit": 105,
+      "optimizer": "Bounded scalar scipy minimize_scalar; printed and both interval endpoints evaluated first, then at most12 bounded evaluations; select best evaluated result including endpoints. Retain unsuccessful termination; no global-optimum claim.",
+      "ordinary_baseline": "Seven fresh ordinary calls frozen before objective evaluation; compare retained exact corrected values within1e-7 EY pp.",
+      "ordinary_baseline_integration_limit": 7,
+      "override_parity": "First seven-grind objective at printed D_S must match ordinary calls within1e-10 EY pp.",
+      "parameter_counts": {
+        "A": 0,
+        "B": 1,
+        "D": 1
+      },
+      "physical_choices": {
+        "K_RATE_m7_kg2_s": 6e-07,
+        "beverage_recipe_kg": 0.04,
+        "c_s0_kg_m3_grain": 118,
+        "density_kg_m3": 997,
+        "dry_dose_kg": 0.02,
+        "endpoint": "40g/(area*997*source Darcy flux); source pressure convention unchanged",
+        "geometry": "Printed Eq25; conservative phase/radius interpolation; all other source defaults unchanged",
+        "overpressure_bar": 5
+      },
+      "printed_D_S_m2_s": 6.25e-10,
+      "refinement": {
+        "M": 48,
+        "N": 160,
+        "atol": 1e-09,
+        "rtol": 1e-07
+      },
+      "refinement_integration_limit": 14,
+      "refinement_rule": "One fourfold axial/twofold radial refinement with10x tighter time tolerances for all seven A and selected-D cases, no refitting or further refinement.",
+      "statistical_CI_primary": "NOT_APPLICABLE_FIXED_THEORETICAL_CURVE",
+      "statistical_CI_secondary": "NOT_ESTIMABLE",
+      "total_task_integration_limit": 126,
+      "uncertainty": "Fixed fitted predictions, coherent common reading shifts and retained second-reader vector; conservative simultaneous pointwise \u00b10.03 outer loss/gain ranges (arbitrary dependence), plus separate numerical and combined ranges. No refits under perturbations."
+    },
+    "optimizer": {
+      "fun": 113.61546242709743,
+      "message": "Maximum number of function calls reached.",
+      "method": "scipy.optimize.minimize_scalar/bounded",
+      "nfev": 12,
+      "success": false,
+      "x": 0.9925892662018952
+    },
+    "override_parity_max_pp": 0.0,
+    "selected": {
+      "D_S_m2_s": 6.25e-09,
+      "RMSE_pp": 4.019845241482245,
+      "evaluation": 3,
+      "log10_factor": 1.0,
+      "objective_SSE_pp2": 113.11409035827215,
+      "predictions_EY_pp": [
+        19.07684264343844,
+        18.98317597332659,
+        18.875154741615294,
+        18.811393594051694,
+        18.764077971998223,
+        18.647502166927744,
+        18.408688594356775
+      ]
+    },
+    "status": "COMPLETED"
+  },
+  "exposure": "EXPOSED_IN_SAMPLE_SOURCE_RECONSTRUCTION",
+  "figure": {
+    "badge": "PREDICTED",
+    "badge_display": "PREDICTED",
+    "caption": "Published curve and experimental means are different targets. Reading allowances are not experimental CIs.",
+    "class": 1,
+    "class_display": "1",
+    "components": [],
+    "composite": false,
+    "evidence_display": "post-fit reconstruction",
+    "evidence_strength": "post-fit reconstruction",
+    "fidelity_ceiling": "Exposed in-sample published-curve reconstruction; author generating configuration unresolved; not physical validation.",
+    "id": "sci-md-cameron-ds-baseline-001",
+    "outputs": [
+      "comparison.png"
+    ],
+    "producer": "tools.cameron_ds_baseline.frozen_reconstruction",
+    "slow": false,
+    "source_commit": null,
+    "title": "Cameron Figure 5 reconstruction",
+    "used_in": ""
+  },
+  "gains": {
+    "D_vs_A": {
+      "absolute_RMSE_reduction_pp": 3.0825460725650027,
+      "coherent_common_reading_g": {
+        "-0.03": 0.43571553969647614,
+        "0.0": 0.4340152402569376,
+        "0.03": 0.4323271673732183
+      },
+      "coherent_refinement_g": 0.45728179845777284,
+      "combined_outer_g": [
+        0.38161747864918927,
+        0.48385878690810413
+      ],
+      "examined_sensitivity_preserves_advantage": true,
+      "g": 0.4340152402569376,
+      "graphical_outer_g": [
+        0.42751861108547684,
+        0.44045524589865015
+      ],
+      "numerical_outer_g": [
+        0.38845409062657077,
+        0.47773769806316735
+      ]
+    },
+    "D_vs_B": {
+      "absolute_RMSE_reduction_pp": -2.7798565324297813,
+      "coherent_common_reading_g": {
+        "-0.03": -2.2175285365368227,
+        "0.0": -2.2418401975240614,
+        "0.03": -2.264267111800192
+      },
+      "coherent_refinement_g": -2.048874038273455,
+      "combined_outer_g": [
+        -2.526321295737926,
+        -1.9683661815416533
+      ],
+      "examined_sensitivity_preserves_advantage": false,
+      "g": -2.2418401975240614,
+      "graphical_outer_g": [
+        -2.3287722259537587,
+        -2.157580558346229
+      ],
+      "numerical_outer_g": [
+        -2.435533285971627,
+        -2.048874038273455
+      ]
+    }
+  },
+  "identities": {
+    "PR370_reviewed_draft_head": "b2961ff41df433a2854bf2ea26d9b215b25385a6",
+    "PR370_state": "OPEN_DRAFT_UNMERGED; reference read without merging",
+    "author_commit": "79ebefb72446eb706084e2392cab64bf0fad93a2",
+    "ewp_readonly_main": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "intervening_main_changes": [],
+    "merged_PR369_implementation": "598bb9c288a5428064d7ec4163282364e9ab7a52",
+    "puckworks_start": "f38ad4285a5daae54b9325ca52d3b0e7d04d05ac"
+  },
+  "intervals_wholly_above_inventory": [
+    1.1
+  ],
+  "inventory": {
+    "bed_volume_m3": 5.013333333333334e-05,
+    "ceiling_EY_pp": 24.46747306666667,
+    "formula": "100*(V_fine+V_coarse)*118/.020; V=pi*R0^2*bed_depth(.020)",
+    "independent_phase_volume_calculation": [
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.00028617000000000003,
+        "area1_per_m": 40494.99999999999,
+        "area2_per_m": 6973.686969283991,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.3349696000000006e-05,
+        "fine_phase_volume_m3": 8.120597333333333e-06,
+        "gs": 1.1,
+        "initial_solute_kg": 0.004893494613333334,
+        "phi1": 0.16197999999999999,
+        "phi2": 0.66522
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.00031079,
+        "area1_per_m": 37035.0,
+        "area2_per_m": 6554.844106953248,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.4043541333333336e-05,
+        "fine_phase_volume_m3": 7.426752e-06,
+        "gs": 1.3,
+        "initial_solute_kg": 0.004893494613333333,
+        "phi1": 0.14814,
+        "phi2": 0.67906
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.00033541,
+        "area1_per_m": 33575.0,
+        "area2_per_m": 6197.489639545631,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.4737386666666665e-05,
+        "fine_phase_volume_m3": 6.732906666666667e-06,
+        "gs": 1.5,
+        "initial_solute_kg": 0.004893494613333333,
+        "phi1": 0.1343,
+        "phi2": 0.6929
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.00033541,
+        "area1_per_m": 32144.999999999996,
+        "area2_per_m": 6248.650904862705,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.502414933333334e-05,
+        "fine_phase_volume_m3": 6.446144e-06,
+        "gs": 1.7,
+        "initial_solute_kg": 0.004893494613333334,
+        "phi1": 0.12858,
+        "phi2": 0.69862
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.00033541,
+        "area1_per_m": 30715.0,
+        "area2_per_m": 6299.81217017978,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.531091200000001e-05,
+        "fine_phase_volume_m3": 6.1593813333333335e-06,
+        "gs": 1.9,
+        "initial_solute_kg": 0.004893494613333334,
+        "phi1": 0.12286,
+        "phi2": 0.7043400000000001
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.000350486,
+        "area1_per_m": 27899.999999999996,
+        "area2_per_m": 6125.208995509092,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.587541333333334e-05,
+        "fine_phase_volume_m3": 5.59488e-06,
+        "gs": 2.1,
+        "initial_solute_kg": 0.004893494613333334,
+        "phi1": 0.11159999999999999,
+        "phi2": 0.7156
+      },
+      {
+        "a1_m": 1.2e-05,
+        "a2_m": 0.000380638,
+        "area1_per_m": 23700.000000000004,
+        "area2_per_m": 5772.413684393045,
+        "ceiling_EY_pp": 24.46747306666667,
+        "coarse_phase_volume_m3": 3.671765333333333e-05,
+        "fine_phase_volume_m3": 4.752640000000001e-06,
+        "gs": 2.3,
+        "initial_solute_kg": 0.004893494613333333,
+        "phi1": 0.09480000000000001,
+        "phi2": 0.7323999999999999
+      }
+    ],
+    "initial_solute_kg": 0.004893494613333334
+  },
+  "methods": {
+    "GSA": {
+      "ST_D_S_approx": 0.83,
+      "ST_K_RATE_approx": 0,
+      "fixed_parameters": "All except D_S fixed by task; K_RATE fixed; low ST does not refute kinetics and high ST does not establish identification",
+      "new_execution": false,
+      "original_priors_design_uncertainty": "UNKNOWN; no receipt hunt",
+      "source": "USER_REPORTED_CONTEXT_ONLY"
+    },
+    "bands": {
+      "boundaries": [
+        0.1,
+        0.25
+      ],
+      "combinations": 9,
+      "factors": [
+        0.75,
+        1,
+        1.25
+      ],
+      "meaning": "Descriptive reconstruction gain; not physical validation or noise floor"
+    },
+    "base": {
+      "M": 24,
+      "N": 40,
+      "atol": 1e-08,
+      "rtol": 1e-06
+    },
+    "bootstrap_replicates": 0,
+    "checks_budget": "Task model computations above are distinct from required existing repository QA; no QA result supplies fitted scientific predictions.",
+    "complete_objective_evaluations_limit": 15,
+    "constant_B": "One constant mean fitted to identical seven targets/objective, clipped to[0,inventory ceiling]; unrestricted target mean labelled algebraic diagnostic; no secondary target fit.",
+    "diffusivity_CI": "NOT_APPLICABLE_NOT_A_PHYSICAL_DIFFUSIVITY_ESTIMATE",
+    "fit": "One log10(D_S/printed D_S), all seven ordinates, unweighted sum squared EY residuals; no exclusions",
+    "log10_factor_bounds": [
+      -1,
+      1
+    ],
+    "log10_factor_xatol": 0.005,
+    "model_elapsed_limit_s": 7200,
+    "numerical_engineering_target_EY_pp": 0.05,
+    "numerical_interpretation": "Absolute per-grind single-refinement differences define a declared sensitivity envelope, not certified continuum error. Report noncompliance and ordering/band ambiguity without further tuning.",
+    "objective_integration_limit": 105,
+    "optimizer": "Bounded scalar scipy minimize_scalar; printed and both interval endpoints evaluated first, then at most12 bounded evaluations; select best evaluated result including endpoints. Retain unsuccessful termination; no global-optimum claim.",
+    "ordinary_baseline": "Seven fresh ordinary calls frozen before objective evaluation; compare retained exact corrected values within1e-7 EY pp.",
+    "ordinary_baseline_integration_limit": 7,
+    "override_parity": "First seven-grind objective at printed D_S must match ordinary calls within1e-10 EY pp.",
+    "parameter_counts": {
+      "A": 0,
+      "B": 1,
+      "D": 1
+    },
+    "physical_choices": {
+      "K_RATE_m7_kg2_s": 6e-07,
+      "beverage_recipe_kg": 0.04,
+      "c_s0_kg_m3_grain": 118,
+      "density_kg_m3": 997,
+      "dry_dose_kg": 0.02,
+      "endpoint": "40g/(area*997*source Darcy flux); source pressure convention unchanged",
+      "geometry": "Printed Eq25; conservative phase/radius interpolation; all other source defaults unchanged",
+      "overpressure_bar": 5
+    },
+    "printed_D_S_m2_s": 6.25e-10,
+    "refinement": {
+      "M": 48,
+      "N": 160,
+      "atol": 1e-09,
+      "rtol": 1e-07
+    },
+    "refinement_integration_limit": 14,
+    "refinement_rule": "One fourfold axial/twofold radial refinement with10x tighter time tolerances for all seven A and selected-D cases, no refitting or further refinement.",
+    "statistical_CI_primary": "NOT_APPLICABLE_FIXED_THEORETICAL_CURVE",
+    "statistical_CI_secondary": "NOT_ESTIMABLE",
+    "total_task_integration_limit": 126,
+    "uncertainty": "Fixed fitted predictions, coherent common reading shifts and retained second-reader vector; conservative simultaneous pointwise \u00b10.03 outer loss/gain ranges (arbitrary dependence), plus separate numerical and combined ranges. No refits under perturbations."
+  },
+  "model_sha256": "ab9ce925d07397e8effb8d17f909ecc1e42fed93ba3366de95669dd09be4b4a4",
+  "next_action": "Request existing Figure5 generating revision, grind-sweep script, parameter files, numerical ordinates and EY normalization; draft only, do not send.",
+  "primary": {
+    "A": {
+      "MAE_pp": 7.091515666086368,
+      "RMSE_pp": 7.102391314047248,
+      "combined_RMSE_outer_pp": [
+        6.936031909831417,
+        7.268782985917287
+      ],
+      "common_reading_offset_RMSE_pp": {
+        "-0.03": 7.072437446728574,
+        "0.0": 7.102391314047248,
+        "0.03": 7.132345569153179
+      },
+      "fitted_parameters": 0,
+      "graphical_RMSE_outer_pp": [
+        7.072437446728575,
+        7.132345569153178
+      ],
+      "max_absolute_error_pp": 7.68425596815262,
+      "max_numerical_delta_pp": 0.17532167280180033,
+      "numerical_RMSE_outer_pp": [
+        6.965989664689952,
+        7.2388326110497845
+      ],
+      "numerical_delta_EY_pp": [
+        0.17532167280180033,
+        0.15768744583451522,
+        0.14131082884038548,
+        0.13324609666290677,
+        0.12765960018303346,
+        0.11562094295973324,
+        0.09620506577184784
+      ],
+      "numerical_target_compliant": false,
+      "refined": {
+        "MAE_pp": 6.956222572792909,
+        "RMSE_pp": 6.965989664689952,
+        "max_absolute_error_pp": 7.508934295350819,
+        "signed_residuals_pp": [
+          -7.508934295350819,
+          -7.302120826844295,
+          -7.08553863532266,
+          -6.94951016891288,
+          -6.869059395596107,
+          -6.671035987854015,
+          -6.30735869966958
+        ]
+      },
+      "retained_second_reader": {
+        "MAE_pp": 7.089341097202817,
+        "RMSE_pp": 7.100398835510606,
+        "max_absolute_error_pp": 7.68971481235851,
+        "signed_residuals_pp": [
+          -7.68971481235851,
+          -7.466203960117898,
+          -7.225777403534284,
+          -7.07219621900102,
+          -6.9893383592407545,
+          -6.778735244567343,
+          -6.403421681599903
+        ]
+      },
+      "signed_residuals_pp": [
+        -7.68425596815262,
+        -7.45980827267881,
+        -7.226849464163045,
+        -7.082756265575787,
+        -6.9967189957791405,
+        -6.7866569308137485,
+        -6.403563765441428
+      ],
+      "statistical_CI": "NOT_APPLICABLE_FIXED_THEORETICAL_CURVE"
+    },
+    "B": {
+      "MAE_pp": 0.9828599276222114,
+      "RMSE_pp": 1.2399887090524637,
+      "combined_RMSE_outer_pp": [
+        1.2163159680756428,
+        1.263900152003681
+      ],
+      "common_reading_offset_RMSE_pp": {
+        "-0.03": 1.2403515624925034,
+        "0.0": 1.2399887090524637,
+        "0.03": 1.2403515624925037
+      },
+      "fitted_parameters": 1,
+      "graphical_RMSE_outer_pp": [
+        1.2163159680756428,
+        1.263900152003681
+      ],
+      "max_absolute_error_pp": 2.178434911071495,
+      "max_numerical_delta_pp": 0.0,
+      "numerical_RMSE_outer_pp": [
+        1.2399887090524637,
+        1.2399887090524637
+      ],
+      "numerical_delta_EY_pp": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "numerical_target_compliant": true,
+      "refined": {
+        "MAE_pp": 0.9828599276222114,
+        "RMSE_pp": 1.2399887090524637,
+        "max_absolute_error_pp": 2.178434911071495,
+        "signed_residuals_pp": [
+          -1.8696335253095526,
+          -1.1572911313653975,
+          -0.4130850900028058,
+          0.0069548037257298745,
+          0.29201188479852647,
+          0.9626081470819727,
+          2.178434911071495
+        ]
+      },
+      "retained_second_reader": {
+        "MAE_pp": 0.9881152025103971,
+        "RMSE_pp": 1.243150472147651,
+        "max_absolute_error_pp": 2.178576994913019,
+        "signed_residuals_pp": [
+          -1.8750923695154427,
+          -1.1636868188044858,
+          -0.4120130293740445,
+          0.01751485030049693,
+          0.2993925213369124,
+          0.9705298333283778,
+          2.178576994913019
+        ]
+      },
+      "signed_residuals_pp": [
+        -1.8696335253095526,
+        -1.1572911313653975,
+        -0.4130850900028058,
+        0.0069548037257298745,
+        0.29201188479852647,
+        0.9626081470819727,
+        2.178434911071495
+      ],
+      "statistical_CI": "NOT_APPLICABLE_FIXED_THEORETICAL_CURVE"
+    },
+    "D": {
+      "MAE_pp": 3.883999404240398,
+      "RMSE_pp": 4.019845241482245,
+      "combined_RMSE_outer_pp": [
+        3.7517184680530815,
+        4.2891209005712305
+      ],
+      "common_reading_offset_RMSE_pp": {
+        "-0.03": 3.990866547657666,
+        "0.0": 4.019845241482245,
+        "0.03": 4.04883881251426
+      },
+      "fitted_parameters": 1,
+      "graphical_RMSE_outer_pp": [
+        3.990866547657667,
+        4.0488388125142585
+      ],
+      "max_absolute_error_pp": 5.4720525269279,
+      "max_numerical_delta_pp": 0.2514907912561526,
+      "numerical_RMSE_outer_pp": [
+        3.7805693827822733,
+        4.260022484178727
+      ],
+      "numerical_delta_EY_pp": [
+        0.2471243741613307,
+        0.25098533685764934,
+        0.2514907912561526,
+        0.25057728648128474,
+        0.24936730462773937,
+        0.24540672855475876,
+        0.23481464938981844
+      ],
+      "numerical_target_compliant": false,
+      "refined": {
+        "MAE_pp": 3.636889908336293,
+        "RMSE_pp": 3.7805693827822733,
+        "max_absolute_error_pp": 5.224928152766569,
+        "signed_residuals_pp": [
+          -5.224928152766569,
+          -4.602391466237947,
+          -3.9657012021881464,
+          -3.6103359607980785,
+          -3.3738044836322985,
+          -2.8237446024923116,
+          -1.8573234902386986
+        ]
+      },
+      "retained_second_reader": {
+        "MAE_pp": 3.8818248353568454,
+        "RMSE_pp": 4.018580535235609,
+        "max_absolute_error_pp": 5.47751137113379,
+        "signed_residuals_pp": [
+          -5.47751137113379,
+          -4.859772490534684,
+          -4.216119932815538,
+          -3.850353200704596,
+          -3.615791151721652,
+          -3.0612296448006653,
+          -2.0919960557869928
+        ]
+      },
+      "signed_residuals_pp": [
+        -5.4720525269279,
+        -4.853376803095596,
+        -4.217191993444299,
+        -3.8609132472793632,
+        -3.623171788260038,
+        -3.0691513310470704,
+        -2.092138139628517
+      ],
+      "statistical_CI": "NOT_APPLICABLE_FIXED_THEORETICAL_CURVE"
+    }
+  },
+  "reporting_diagnostic": {
+    "definition": "A physical EY multiplied algebraically by phi_s^-2; unchanged cup output; not a physical prediction or fitted correction",
+    "factor": 1.4614331304318546,
+    "predictions_EY_pp": [
+      24.64654246289497,
+      23.933516986388348,
+      23.186363342464386,
+      22.783085699951744,
+      22.492231554140485,
+      21.81919162048304,
+      20.60220715064012
+    ],
+    "scores": {
+      "MAE_pp": 0.10118675736650726,
+      "RMSE_pp": 0.10132082160366455,
+      "max_absolute_error_pp": 0.11077885862068726,
+      "signed_residuals_pp": [
+        0.09764729252863091,
+        0.0969642099661634,
+        0.094016607404793,
+        0.11077885862068726,
+        0.1049817938822244,
+        0.10253812250822492,
+        0.10138041665482689
+      ]
+    }
+  },
+  "retained_author_execution": {
+    "Figure5_generator": "UNKNOWN; released single-example driver is not established as Figure5 sweep",
+    "actual_dry_dose_and_actual_beverage_mass": "NOT_AUTHENTICATED_BY_ENDPOINT_COLUMNS",
+    "endpoint_sha256": "63b04cd9f899b01f43594737c5137dd870f6e1739e750baace81c6a2896382ff",
+    "implied_author_denominator_g": 13.67356148233149,
+    "october_1_sparse_octave": "ALREADY_EXECUTED; not rerun; endpoints alone are not a trajectory replay package",
+    "source_identities_sha256": "05eaecdec3b21747a9d4d5d816f63b15afc82eeac875f8834f1ddc5c266bc55c",
+    "t_hat1": {
+      "author_EY_percent": 19.190051725216488,
+      "cup_solute_g": 2.6239635211386916,
+      "reference_density_throughput_g": 40,
+      "seconds": 33.9
+    },
+    "t_hat10": {
+      "author_EY_percent": 35.08235811609745,
+      "cup_solute_g": 4.797007806456296,
+      "reference_density_throughput_g": 400,
+      "seconds": 339
+    }
+  },
+  "retained_baseline_EY_pp": [
+    16.86463920221372,
+    16.376744503743375,
+    15.865497270896547,
+    15.58955057575527,
+    15.39053076447912,
+    14.929996567161066,
+    14.097262968543864
+  ],
+  "review": {
+    "checks": "Targets/calibration/extraction script matched retained checksum receipt; operator, inventory, source identity, controls, budgets and uncertainty reviewed",
+    "final": "APPROVED",
+    "final_reviewed_result_md_sha256": "a2b086b6b2fe21fdffbdd09088c5faf88da66ead7b67efae7dd30b9c32ce6c94",
+    "final_reviewed_results_sha256": "40bfd7b8302097fcae14d0c39e01d5d272e02da88dff2f3ce9542d13f4590bb3",
+    "findings": "No material revision. Independently verified126 integrations/18groups/15evaluations, mass accounting, scores/gains/bands/CSV coverage, hashes, figure/report, uncertainty limits and private-locator exclusion. All required local QA also passed before commit.",
+    "pre_execution": "APPROVED",
+    "pre_execution_runner_sha256": "36977dcde5e93d9f0d9885d9d8e23419b6dafeea0a5d87b759c67470e39bb08c",
+    "reviewer": "Independent nonhuman scientific reviewer; separate agent context",
+    "scope": "Same independent scientific review, pre-execution and final output stages; no model executions or edits by reviewer"
+  },
+  "runner_sha256": "36977dcde5e93d9f0d9885d9d8e23419b6dafeea0a5d87b759c67470e39bb08c",
+  "secondary": {
+    "A": {
+      "CI": "NOT_ESTIMABLE",
+      "MAE_pp": 6.416650769258218,
+      "RMSE_pp": 6.480779544242427,
+      "by_regime": {
+        "partially_clogged": {
+          "MAE_pp": 5.691089443451172,
+          "RMSE_pp": 5.763480427188008,
+          "max_absolute_error_pp": 6.630989345815731,
+          "signed_residuals_pp": [
+            -4.458740317309886,
+            -5.983538667227897,
+            -6.630989345815731
+          ]
+        },
+        "standard_flow": {
+          "MAE_pp": 6.960821763613502,
+          "RMSE_pp": 6.970480697264712,
+          "max_absolute_error_pp": 7.4693244620811665,
+          "signed_residuals_pp": [
+            -7.4693244620811665,
+            -7.145498788093452,
+            -6.6657898438445535,
+            -6.562673960434838
+          ]
+        }
+      },
+      "max_absolute_error_pp": 7.4693244620811665,
+      "signed_residuals_pp": [
+        -4.458740317309886,
+        -5.983538667227897,
+        -6.630989345815731,
+        -7.4693244620811665,
+        -7.145498788093452,
+        -6.6657898438445535,
+        -6.562673960434838
+      ]
+    },
+    "B": {
+      "CI": "NOT_ESTIMABLE",
+      "MAE_pp": 0.7833258661937604,
+      "RMSE_pp": 1.027464491448856,
+      "by_regime": {
+        "partially_clogged": {
+          "MAE_pp": 0.6192118759877351,
+          "RMSE_pp": 0.8110837022684809,
+          "max_absolute_error_pp": 1.3558821255331814,
+          "signed_residuals_pp": [
+            1.3558821255331814,
+            0.3189784740855153,
+            0.18277502834450843
+          ]
+        },
+        "standard_flow": {
+          "MAE_pp": 0.9064113588482794,
+          "RMSE_pp": 1.163637900300299,
+          "max_absolute_error_pp": 2.019324716078085,
+          "signed_residuals_pp": [
+            -0.37961339277964967,
+            0.1432320924842152,
+            1.0834752340511677,
+            2.019324716078085
+          ]
+        }
+      },
+      "max_absolute_error_pp": 2.019324716078085,
+      "signed_residuals_pp": [
+        1.3558821255331814,
+        0.3189784740855153,
+        0.18277502834450843,
+        -0.37961339277964967,
+        0.1432320924842152,
+        1.0834752340511677,
+        2.019324716078085
+      ]
+    },
+    "D": {
+      "CI": "NOT_ESTIMABLE",
+      "MAE_pp": 3.209134507412247,
+      "RMSE_pp": 3.286227578831221,
+      "by_regime": {
+        "partially_clogged": {
+          "MAE_pp": 3.081658649608945,
+          "RMSE_pp": 3.139311257244571,
+          "max_absolute_error_pp": 3.6213318750969847,
+          "signed_residuals_pp": [
+            -2.246536876085166,
+            -3.3771071976446834,
+            -3.6213318750969847
+          ]
+        },
+        "standard_flow": {
+          "MAE_pp": 3.3047414007647236,
+          "RMSE_pp": 3.392241751022062,
+          "max_absolute_error_pp": 4.247481443784743,
+          "signed_residuals_pp": [
+            -4.247481443784743,
+            -3.771951580574349,
+            -2.9482842440778754,
+            -2.251248334621927
+          ]
+        }
+      },
+      "max_absolute_error_pp": 4.247481443784743,
+      "signed_residuals_pp": [
+        -2.246536876085166,
+        -3.3771071976446834,
+        -3.6213318750969847,
+        -4.247481443784743,
+        -3.771951580574349,
+        -2.9482842440778754,
+        -2.251248334621927
+      ]
+    }
+  },
+  "source": {
+    "authority": "Retained September final-publisher Figure5 export, figure5_independent.csv, and figure5_calibration.json, authenticated against the prior SHA256SUMS receipt; no new digitization.",
+    "citation": "Cameron et al. (2020), Systematically Improving Espresso: Insights from Mathematical Modeling and Experiment, Matter 2,631\u2013648, DOI10.1016/j.matt.2019.12.019",
+    "coordinate_convention": {
+      "allowance_note": "\u00b10.03 EY pp for manual window/line/marker reading, separate from experimental SD; no assay uncertainty invented",
+      "blue_windows_xyxy": [
+        [
+          368,
+          381,
+          320,
+          332
+        ],
+        [
+          440,
+          457,
+          398,
+          417
+        ],
+        [
+          514,
+          527,
+          485,
+          498
+        ],
+        [
+          584,
+          601,
+          534,
+          545
+        ],
+        [
+          661,
+          673,
+          566,
+          578
+        ],
+        [
+          734,
+          747,
+          642,
+          654
+        ],
+        [
+          808,
+          820,
+          781,
+          792
+        ]
+      ],
+      "grey_center_method": "midpoint of manually inspected grey fill boundaries",
+      "render": "publisher-fig5.png",
+      "sd_bottom_px": [
+        739,
+        642,
+        592,
+        548,
+        null,
+        null,
+        null
+      ],
+      "sd_top_px": [
+        645,
+        507,
+        525,
+        445,
+        539,
+        null,
+        null
+      ],
+      "size_px": [
+        1541,
+        2000
+      ],
+      "source": "local mmc2.pdf, PDF p13, journal p642",
+      "y_intercept": 27.408597982468592,
+      "y_slope": -0.008787319080064963,
+      "y_tick_ey_pct": [
+        25,
+        24,
+        23,
+        22,
+        21
+      ],
+      "y_tick_px": [
+        274.5,
+        387.5,
+        501.5,
+        615.5,
+        729.5
+      ]
+    },
+    "experimental_target": {
+      "means": 7,
+      "native_units": "EY mass percent; source caption20g dry dose/40g beverage",
+      "physical_shot_count": "UNKNOWN",
+      "replication": "Methods mention20 calibration measurements and subsequent pentaplicate but no authenticated per-Figure5-marker replicate assignment or raw grouping",
+      "uncertainty": "Available one-SD extents, not CIs; four fully visible, one upper-only, two unquantifiable; assay/calibration error and covariance UNKNOWN"
+    },
+    "inspection": "Inspected retained ordinate/SD exports, calibration metadata and original extraction script without executing it; retained article text for recipe/SD/regime semantics; hashed original publisher file, no new image reading. Inspected all relevant pinned author parameter/driver/RHS code, not executed.",
+    "location": "Final publisher Figure5: PDFp13 / journalp642; SI Eq3: PDFp22/SIp2; S1/S2: PDFp23/SIp3",
+    "publisher_hash_rechecked": true,
+    "publisher_pdf_sha256": "85c8f50a3b8baa5ccdf1253b65df0dd4080776cfa573e056d2acff94d50410e5",
+    "reading_correlation": "All points share the retained affine y-axis calibration. No covariance/probability distribution was supplied. Preserve coherent \u00b10.03 common offsets and second-reader vectors; simultaneous outer envelopes allow arbitrary dependence, not independent Gaussian errors.",
+    "recovery_elapsed_s": 405,
+    "recovery_limit_s": 1800,
+    "rights": "Attributable existing numerical figure extractions and newly drawn analysis plot only. Publisher pages/renders and private locators remain external. Author source MIT, Copyright(c)2018 Jamie Foster; source code not copied into production.",
+    "source_sha256": {
+      "calibration_json": "42c1f4eb4ec6d57ed142a6ffd50d54b697a89e041fe8733f0b4e6a5bf7859f79",
+      "digitisation_code": "7c9053ced47b7c8f189cd21e3d7595c213eb9e4c6af1fc8404f81d1334581542",
+      "secondary_reading_csv": "51bdf5ceb1ba44a4dd9a164fe9ba31e735eff0d65676b063973bcff6bf5a53c3",
+      "target_csv": "2a104d2d86138c97db7120636fb30fec556bf5e5597f2c5cc33026d128ba765e"
+    },
+    "theoretical_target": {
+      "kind": "deterministic homogeneous theoretical curve ordinates",
+      "native_units": "EY mass percent on source Figure5 labelled dry-dose recipe",
+      "physical_shot_count": "NOT_APPLICABLE_DETERMINISTIC_CURVE",
+      "points": 7,
+      "uncertainty": "Graphical \u00b10.03 EY pp; not sampling noise; no statistical CI"
+    }
+  },
+  "status": "SCORED_EXPOSED_IN_SAMPLE_RECONSTRUCTION",
+  "targets_sha256": "7ed0a03f7718b018625252c99c40b2551cdfea9fe95dd89ef458faa80a7a540a",
+  "task": "SCI-MD-CAMERON-DS-BASELINE-001"
+}
