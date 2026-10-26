@@ -1,0 +1,76 @@
+{
+  "layers": {
+    "G": {
+      "epsilon": "474287960807/16082359097354",
+      "local_exclusion_count": 5,
+      "nonincrease_checks": 9,
+      "numerical_lp": {
+        "absolute_difference": 7.28583859910259e-17,
+        "objective": 0.029491193296699397,
+        "tolerance_QA_only": 1e-09,
+        "y_bounds": "UNBOUNDED_IN_SIGN"
+      },
+      "original_interval_checks": 10,
+      "secant_convexity_checks": 8,
+      "status": "PASS",
+      "tied_certificates": 1
+    },
+    "N": {
+      "epsilon": "9949/331638",
+      "local_exclusion_count": 5,
+      "nonincrease_checks": 9,
+      "numerical_lp": {
+        "absolute_difference": 1.942890293094024e-16,
+        "objective": 0.029999577852959963,
+        "tolerance_QA_only": 1e-09,
+        "y_bounds": "UNBOUNDED_IN_SIGN"
+      },
+      "original_interval_checks": 10,
+      "secant_convexity_checks": 8,
+      "status": "PASS",
+      "tied_certificates": 1
+    },
+    "P_inner": {
+      "epsilon": "2742769138607/168864770522217",
+      "local_exclusion_count": 1,
+      "nonincrease_checks": 9,
+      "numerical_lp": {
+        "absolute_difference": 1.4224732503009818e-16,
+        "objective": 0.016242399940052426,
+        "tolerance_QA_only": 1e-09,
+        "y_bounds": "UNBOUNDED_IN_SIGN"
+      },
+      "original_interval_checks": 10,
+      "secant_convexity_checks": 8,
+      "status": "PASS",
+      "tied_certificates": 1
+    },
+    "P_outer": {
+      "epsilon": "2571083096567/168864770522217",
+      "local_exclusion_count": 0,
+      "nonincrease_checks": 9,
+      "numerical_lp": {
+        "absolute_difference": 3.469446951953614e-18,
+        "objective": 0.015225692657005277,
+        "tolerance_QA_only": 1e-09,
+        "y_bounds": "UNBOUNDED_IN_SIGN"
+      },
+      "original_interval_checks": 10,
+      "secant_convexity_checks": 8,
+      "status": "PASS",
+      "tied_certificates": 1
+    }
+  },
+  "method": "original-constraint rational primal feasibility plus equal rational dual lower bound; no hull producer import",
+  "review_kind": "SAME_SESSION_INDEPENDENT_METHOD_NOT_HUMAN_OR_EXTERNAL_AUDIT",
+  "sha256": {
+    "puckworks/analysis/matias2023_aggregation_check.py": "125f26f16e7b019ebece34d663692c88598440240d5fe3bcdf9045132b9226aa",
+    "puckworks/analysis/matias2023_caffeine_aggregation.py": "d04d4c2ce089537f282e2251bb9ddfc7ed276be36fb83fc0acc1cbe2cdd8f6cd",
+    "puckworks/analysis/matias2023_caffeine_fraction_shape.py": "3535c53ba080c980971fc2b0b07b942fdbdc6663297b8e855f651159e22a8730",
+    "puckworks/data/matias2023/figure_geometry.json": "6f56f7a6548d38df0db12602b6528768fb8eecafb15ae61ba59ead0af935928e",
+    "puckworks/data/matias2023/observations.csv": "6f2f8a426159de950a518768a11b326376ead1f2a1de91f8ca6f0c77d5f6cd0a",
+    "results.json": "42c8b7c83b3d68cbf5dfe146b0b4b38668419439c0d3af71935d5dae03a2ecce",
+    "tests/test_matias_caffeine_aggregation.py": "9df2456274952b99837b367d94034966ac42fc583573a4d2a1f99dcdedd4bb01"
+  },
+  "status": "PASS"
+}

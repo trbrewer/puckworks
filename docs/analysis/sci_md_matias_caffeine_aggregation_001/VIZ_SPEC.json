@@ -1,0 +1,24 @@
+{
+  "producer": "python -m puckworks.analysis.matias2023_caffeine_aggregation --output OUTPUT --plot",
+  "artifact": "comparison.png",
+  "badge": "reference",
+  "evidence_strength": "post-fit reconstruction",
+  "comparison_role": "source-internal descriptive necessary-shape relaxation; retrospective target-exposed nonscoring",
+  "fidelity_ceiling": "Ten aggregate finite-vial means, graphical bands and descriptive SE; fixed weights/equal windows. Relaxed representatives are not mixture components or physical kinetics.",
+  "source_dataset": "matias2023/fig3_caffeine_fractions",
+  "source_doi": "10.1063/5.0176273",
+  "source_rights": "Matias et al. (2023), CC BY 4.0; derived replot, no source artwork",
+  "mapping": {
+    "x": "Nominal cumulative endpoints 5 to 50 mL, consecutive 5 mL vials",
+    "y": "Caffeine mg/L, logarithmic axis; display conversion from exact log values",
+    "black_squares": "All ten aggregate means across four extractions",
+    "gray_vertical_segments": "Reported SE endpoint readings, descriptive, no confidence interpretation",
+    "orange_caps": "G marginal graphical bands at true vertical scale, often subpixel; cap width display only, not volume uncertainty",
+    "blue_circles_and_line": "N attaining relaxed shape representative",
+    "purple_diamonds_and_line": "P_outer attaining relaxed shape representative",
+    "annotation": "F02 versus F01–F04 controlling hull chord, weights 2/3 and 1/3; generated from certificate",
+    "connections": "Guide the eye between finite-bin values; no instantaneous concentration law",
+    "horizontal_source_segments": "Omitted; semantics undocumented"
+  },
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED"
+}

@@ -2,7 +2,7 @@
 
 **Paper:** Matias, A.F.V., Valente-Matias, D.F., Neng, N.R., Nogueira, J.M.F., Andrade Jr., J.S., Coelho, R.C.V., Araújo, N.A.M., “Continuum model for extraction and retention in porous media,” *Physics of Fluids* **35**(12), 123611 (2023), [DOI 10.1063/5.0176273](https://doi.org/10.1063/5.0176273). Publisher-deposited Crossref metadata authenticates the journal citation. Numerical Figure 3 identity remains [arXiv:2304.03161v2](https://arxiv.org/abs/2304.03161v2), revised 19 December 2023; see [source qualification](../analysis/sci_md_matias_caffeine_fraction_shape_001/SOURCE_NOTES.md).
 **Stage(s):** extraction (with a degenerate infiltration gate) · **Kind:** calibration
-**Status:** model card-only in Puckworks; empirical Figure 3 intake and bounded one-rate representation benchmark complete (data-only). EWP analytical quasi-steady references remain NO_EXPERIMENTAL_VALIDATION.
+**Status:** model card-only in Puckworks; empirical Figure 3 intake, one-rate benchmark and necessary-shape aggregation bound complete (data-only). EWP analytical quasi-steady references remain NO_EXPERIMENTAL_VALIDATION.
 
 ## Scope and mechanism
 1D (in practice) continuum advection–diffusion–dissolution model for a single lumped solute (caffeine) leaving a fixed solid matrix, gated by a plug-like water-invasion front: dissolution at position x switches on only after the front arrives at t* = x·u_m/‖u_m‖². Dissolution is a linear-driving-force mass-transfer law between a solid-surface concentration C_s (which depletes) and the bulk liquid concentration C_l; hydrodynamic dispersion enters via a Taylor–Aris closure. Solid matrix is static: no swelling, erosion, porosity change, or intragranular diffusion. Benchmarked three ways: capsule-espresso caffeine-vs-volume data (Pe ~ 10⁵), 2D lattice-Boltzmann pore-scale simulations (Pe ~ 10²), and an analytical quasi-steady solution for the slow-mass-transfer limit.
@@ -94,14 +94,22 @@ Horizontal semantics remain undocumented; actual unequal-volume robustness
 is NOT_ESTABLISHED. Graphical precision is distinct from HPLC precision.
 
 Eligible uses: offline source-specific finite-fraction observation comparisons,
-exact one-rate representation cost, graphical and displayed-extent sensitivity,
-and adjacent ratio/curvature diagnostics. Blocked uses: independent validation,
+exact one-rate representation cost, necessary-shape aggregation lower bounds,
+graphical and displayed-extent sensitivity, and adjacent ratio/curvature diagnostics. Blocked uses: independent validation,
 statistical rejection/equivalence, practical adequacy without an authorized
 tolerance, causal mechanism inference, production calibration, physical-rate
-identification, and unequal-volume robustness. An aggregate can curve even when
-individual extractions are exponential; that explanation is neither fitted nor
-established, and cannot rescue arbitrary shapes by assumption. Failure of this
-narrower family does not reject the complete Matias continuum model.
+identification, and unequal-volume robustness. [Aggregation bound](../analysis/sci_md_matias_caffeine_aggregation_001/RESULT.md)
+now tests the broader necessary nonincreasing log-convex shape across all ten
+fractions. Exact relaxed costs are positive in N/G/P_outer/P_inner; P_outer
+M_LC lies in [1.035680245588, 1.035680245589]. Thus no fixed positive mixture
+of nonincreasing exponentials, including four extraction-specific exponentials,
+represents this aggregate exactly within the declared equal-window bands.
+This is a lower bound on mixture discrepancy, not its exact best-fit factor.
+P_inner is not a mixture upper bound. P_outer has 0/8 local exclusions but a
+positive simultaneous bound. No shots, rates or mechanism are reconstructed;
+zero relaxed cost in other cases would establish necessary-shape compatibility
+only. #364's accepted one-rate result remains historical and unchanged. Neither
+result rejects the complete Matias continuum model.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
 The one-capsule Soxhlet measurement (5.57943 g, 70 mg) and Table I are separate
