@@ -31,6 +31,20 @@ causal/population inference, fitted law or validation upgrade is supplied.
 Data-only/reference status and the model equations below are unchanged.
 PHYSICAL_VALIDATION=NOT_ESTABLISHED.
 
+[SCI-MD-KHAMITOVA-COMMON-SCALING-001](../analysis/sci_md_khamitova_common_scaling_001/RESULT.md)
+adds the separate simultaneous question: can all four analytes share one positive
+force-label multiplier within each temperature-pressure stratum? Exact complete
+cycle bounds and attaining witnesses give M>1 in all nine nominal and rounding
+strata, and six of nine researcher-defined reported-RSD-scale outer envelopes.
+Largest N/D/S_outer costs are approximately 1.110896/1.109636/1.069287 at
+98 °C/9 bar. Six-edge cycles strengthen four-cell-only bounds in two primary
+and ten symmetric omission matrices. All 27 primary and 108 analyte-influence
+matrices retain all force labels; no omitted analyte is predicted. This is an
+output-compression cost, not cross-validation, causal dilution, kinetic
+identification or a validated three-analyte alternative. The source qualifications,
+data-only/reference and card-only status remain unchanged. No practical tolerance
+or production gate; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 ## Scope and mechanism
 3D axisymmetric saturated percolation of an espresso puck (cylinder, symmetry axis z), solving one coupled system: Richards mass balance + Darcy flux for the fluid, an advection–dispersion–reaction (ADR) transport equation for each traced compound, a companion matrix-bound solid balance per compound, and a convective–diffusive heat equation. The implemented case (§5.4.1) traces three compounds — caffeine (C), total chlorogenic acids (CQA), and **Fines** (<100 µm particles treated as an advected/dispersed tracer). Grain→liquid transfer is a **lumped first-order-in-solid-loading dissolution** term R_k = α_k C_k^s (no intra-grain diffusion, no saturation cap, no liquid-deficit driving force); all T,p sensitivity is pushed into the fitted rate α_k(T,p). Imbibition (first ~5 s) is discarded; the bed starts saturated. This is a **precursor** of the same group's later multi-species FeFlow model (Giacomini 2020 → angeloni2023).
 

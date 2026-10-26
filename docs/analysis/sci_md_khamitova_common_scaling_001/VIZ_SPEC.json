@@ -1,0 +1,19 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "artifact": "comparison.png",
+  "badge": "reference",
+  "comparison_role": "retrospective target-exposed source-internal nonscoring observation-representation study",
+  "evidence_strength": "reference",
+  "fidelity_ceiling": "144 aggregate analyte means; 72 extractions/36 duplicated configurations; unresolved aggregation and tuning; no kinetic, causal, practical-adequacy or physical-validation claim",
+  "mapping": {
+    "authority": "All-strata primary_summary.csv and exact results.json; decimal rendering does not decide feasibility",
+    "limits": "Dashed +/-epsilon_N representation-error limits, not confidence bars",
+    "panel_A": "All nine strata, M in N/D/S_outer; dashed M=1 objective floor; connections guide eye only",
+    "panel_B": "16 nominal log10(x/(g*a)) residuals; largest primary nominal M, tie-break ascending temperature then pressure; one attaining representation",
+    "uncertainty": "No independent error bars or invented covariance"
+  },
+  "producer": "python -m puckworks.analysis.khamitova2020_common_scaling --output OUTPUT --plot",
+  "source_dataset": "khamitova2020/tamping",
+  "source_doi": "10.15165/khamitova-gulzhan_phd2020-06-25",
+  "source_rights": "Khamitova 2020; open access, no explicit redistribution licence, all-rights-reserved default; derived factual analysis, no source artwork"
+}

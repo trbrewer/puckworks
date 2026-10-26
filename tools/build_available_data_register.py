@@ -111,7 +111,9 @@ def build() -> dict:
         "raw_access_status": "PACKAGED_TRANSCRIPTIONS; OFFICIAL_PDF_AUDITED_NOT_REDISTRIBUTED; RAW_REPLICATES_UNKNOWN",
         "eligible_uses": ["source-specific four-level constant representation cost",
                           "fixed 30-minus-10 kgF contrasts and intermediate-force range",
-                          "conditional decimal-rounding sensitivity", "secondary reported-RSD scale diagnostic"],
+                          "conditional decimal-rounding sensitivity", "secondary reported-RSD scale diagnostic",
+                          "exact within-stratum common concentration-scaling cost and full witnesses",
+                          "symmetric analyte-influence diagnostics; not cross-validation"],
         "conditionally_eligible_uses": ["future collapse decision with independently justified application error budget and observation basis"],
         "blocked_uses": ["isolated causal tamping effect", "equivalence or practical adequacy claim",
                          "population inference from reported RSD", "extraction yield or inventory recovery",
@@ -119,9 +121,10 @@ def build() -> dict:
         "missing_joins": ["shot-to-assay aggregation and RSD basis", "grinder tuning chronology",
                           "measured beverage volume/density", "ground assay dilution/unit reconciliation"],
         "consumed_comparison_status": "DESCRIPTIVE_REPRESENTATION_BENCHMARK; NO_ACCEPTANCE_THRESHOLD",
-        "last_qualified_task": "SCI-MD-KHAMITOVA-TAMPING-CHEMISTRY-001",
+        "last_qualified_task": "SCI-MD-KHAMITOVA-COMMON-SCALING-001",
         "last_qualified_commit": None,
-        "result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
+        "predecessor_result": "docs/analysis/sci_md_khamitova_tamping_chemistry_001/RESULT.md",
+        "result": "docs/analysis/sci_md_khamitova_common_scaling_001/RESULT.md",
         "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
     })
 

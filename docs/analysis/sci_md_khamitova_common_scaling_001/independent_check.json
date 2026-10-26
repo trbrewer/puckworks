@@ -1,0 +1,1371 @@
+{
+  "PHYSICAL_VALIDATION": "NOT_ESTABLISHED",
+  "diagnostic_interval_checks": 1296,
+  "input_and_predecessor_hashes_verified": 23,
+  "interval_checks": 1728,
+  "one_sided_inequalities": 3456,
+  "primary_interval_checks": 432,
+  "proof": "Controlling directed cycle (or objective floor) and complete positive feasible witness",
+  "requested_matrices": 135,
+  "secondary_lp": {
+    "matrices": [
+      {
+        "absolute_difference_dex": 2.0816681711721685e-17,
+        "epsilon_lp": 0.012905156672378904,
+        "matrix_key": [
+          88,
+          7,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.012905156672378959,
+        "matrix_key": [
+          88,
+          7,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.418476861114186e-17,
+        "epsilon_lp": 0.01147988176745035,
+        "matrix_key": [
+          88,
+          7,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.012905156672378959,
+        "matrix_key": [
+          88,
+          7,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.729655473350135e-17,
+        "epsilon_lp": 0.0025353601992955297,
+        "matrix_key": [
+          88,
+          7,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.2959746043559335e-17,
+        "epsilon_lp": 0.012533869894648109,
+        "matrix_key": [
+          88,
+          7,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-18,
+        "epsilon_lp": 0.012533869894648081,
+        "matrix_key": [
+          88,
+          7,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.011105772920538132,
+        "matrix_key": [
+          88,
+          7,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-18,
+        "epsilon_lp": 0.012533869894648081,
+        "matrix_key": [
+          88,
+          7,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.114900252818245e-17,
+        "epsilon_lp": 0.0025213564277632994,
+        "matrix_key": [
+          88,
+          7,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          7,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          7,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          7,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          7,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          7,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.0816681711721685e-17,
+        "epsilon_lp": 0.00839107964416487,
+        "matrix_key": [
+          88,
+          9,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.0816681711721685e-17,
+        "epsilon_lp": 0.00839107964416487,
+        "matrix_key": [
+          88,
+          9,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.0816681711721685e-17,
+        "epsilon_lp": 0.00839107964416487,
+        "matrix_key": [
+          88,
+          9,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-18,
+        "epsilon_lp": 0.007657373231345868,
+        "matrix_key": [
+          88,
+          9,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.6020852139652106e-17,
+        "epsilon_lp": 0.004491026824232192,
+        "matrix_key": [
+          88,
+          9,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.008046255041147643,
+        "matrix_key": [
+          88,
+          9,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.008046255041147643,
+        "matrix_key": [
+          88,
+          9,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.008046255041147643,
+        "matrix_key": [
+          88,
+          9,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.551115123125783e-17,
+        "epsilon_lp": 0.007313197579190356,
+        "matrix_key": [
+          88,
+          9,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.168404344971009e-17,
+        "epsilon_lp": 0.0044782067226921685,
+        "matrix_key": [
+          88,
+          9,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          9,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          9,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          9,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          9,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          9,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.02409927509141277,
+        "matrix_key": [
+          88,
+          11,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.02409927509141277,
+        "matrix_key": [
+          88,
+          11,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.245004513516506e-17,
+        "epsilon_lp": 0.02319443161187909,
+        "matrix_key": [
+          88,
+          11,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.02409927509141277,
+        "matrix_key": [
+          88,
+          11,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.426078865054194e-17,
+        "epsilon_lp": 0.0028685882234145144,
+        "matrix_key": [
+          88,
+          11,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.02376742673167806,
+        "matrix_key": [
+          88,
+          11,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.02376742673167806,
+        "matrix_key": [
+          88,
+          11,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.02285834807021267,
+        "matrix_key": [
+          88,
+          11,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.02376742673167806,
+        "matrix_key": [
+          88,
+          11,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.336808689942018e-18,
+        "epsilon_lp": 0.0028551557542976225,
+        "matrix_key": [
+          88,
+          11,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.117434254131581e-17,
+        "epsilon_lp": 0.00720404964775774,
+        "matrix_key": [
+          88,
+          11,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.117434254131581e-17,
+        "epsilon_lp": 0.00720404964775774,
+        "matrix_key": [
+          88,
+          11,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.117434254131581e-17,
+        "epsilon_lp": 0.00720404964775774,
+        "matrix_key": [
+          88,
+          11,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.336808689942018e-17,
+        "epsilon_lp": 0.005106444384334052,
+        "matrix_key": [
+          88,
+          11,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          88,
+          11,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.030250291331624102,
+        "matrix_key": [
+          93,
+          7,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.030250291331624102,
+        "matrix_key": [
+          93,
+          7,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.204170427930421e-17,
+        "epsilon_lp": 0.030250291331624102,
+        "matrix_key": [
+          93,
+          7,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.7755575615628914e-17,
+        "epsilon_lp": 0.029146428805609526,
+        "matrix_key": [
+          93,
+          7,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.418476861114186e-17,
+        "epsilon_lp": 0.0027376676152024437,
+        "matrix_key": [
+          93,
+          7,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.030040392928312454,
+        "matrix_key": [
+          93,
+          7,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.030040392928312454,
+        "matrix_key": [
+          93,
+          7,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.030040392928312454,
+        "matrix_key": [
+          93,
+          7,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 7.632783294297951e-17,
+        "epsilon_lp": 0.028940527769288404,
+        "matrix_key": [
+          93,
+          7,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.0191500421363742e-16,
+        "epsilon_lp": 0.0027212972197493412,
+        "matrix_key": [
+          93,
+          7,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.004441858418351874,
+        "matrix_key": [
+          93,
+          7,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.004441858418351874,
+        "matrix_key": [
+          93,
+          7,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.004441858418351874,
+        "matrix_key": [
+          93,
+          7,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.637851296924623e-17,
+        "epsilon_lp": 0.0032526828740181424,
+        "matrix_key": [
+          93,
+          7,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 9.82287168271867e-17,
+        "epsilon_lp": 0.0007865961070152583,
+        "matrix_key": [
+          93,
+          7,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.013447276505725747,
+        "matrix_key": [
+          93,
+          9,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.013447276505725747,
+        "matrix_key": [
+          93,
+          9,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.3877787807814457e-17,
+        "epsilon_lp": 0.013447276505725747,
+        "matrix_key": [
+          93,
+          9,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.010126007999858688,
+        "matrix_key": [
+          93,
+          9,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 8.673617379884035e-19,
+        "epsilon_lp": 0.005728583528358181,
+        "matrix_key": [
+          93,
+          9,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.214306433183765e-17,
+        "epsilon_lp": 0.013286860245730003,
+        "matrix_key": [
+          93,
+          9,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.214306433183765e-17,
+        "epsilon_lp": 0.013286860245730003,
+        "matrix_key": [
+          93,
+          9,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.214306433183765e-17,
+        "epsilon_lp": 0.013286860245730003,
+        "matrix_key": [
+          93,
+          9,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.0306980803327406e-17,
+        "epsilon_lp": 0.009969967073316377,
+        "matrix_key": [
+          93,
+          9,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.9439619065339e-17,
+        "epsilon_lp": 0.005715023295780183,
+        "matrix_key": [
+          93,
+          9,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.5153490401663703e-17,
+        "epsilon_lp": 0.005284312452396772,
+        "matrix_key": [
+          93,
+          9,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.5153490401663703e-17,
+        "epsilon_lp": 0.005284312452396772,
+        "matrix_key": [
+          93,
+          9,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.5153490401663703e-17,
+        "epsilon_lp": 0.005284312452396772,
+        "matrix_key": [
+          93,
+          9,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.903127820947816e-18,
+        "epsilon_lp": 0.0037557229677330217,
+        "matrix_key": [
+          93,
+          9,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          93,
+          9,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.1882855810441129e-16,
+        "epsilon_lp": 0.004921112591171284,
+        "matrix_key": [
+          93,
+          11,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.637851296924623e-17,
+        "epsilon_lp": 0.0043064133316678965,
+        "matrix_key": [
+          93,
+          11,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.1882855810441129e-16,
+        "epsilon_lp": 0.004921112591171284,
+        "matrix_key": [
+          93,
+          11,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.642919299551295e-17,
+        "epsilon_lp": 0.004838754896444438,
+        "matrix_key": [
+          93,
+          11,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.496198998029996e-16,
+        "epsilon_lp": 0.0035997029719831986,
+        "matrix_key": [
+          93,
+          11,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 7.632783294297951e-17,
+        "epsilon_lp": 0.004752963414422884,
+        "matrix_key": [
+          93,
+          11,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.6479873021779667e-17,
+        "epsilon_lp": 0.004061904406626404,
+        "matrix_key": [
+          93,
+          11,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 7.632783294297951e-17,
+        "epsilon_lp": 0.004752963414422884,
+        "matrix_key": [
+          93,
+          11,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.984795992119984e-17,
+        "epsilon_lp": 0.00467317079539568,
+        "matrix_key": [
+          93,
+          11,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.211772431870429e-17,
+        "epsilon_lp": 0.0035870374863282706,
+        "matrix_key": [
+          93,
+          11,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.621235256101585e-17,
+        "epsilon_lp": 0.0005388072466205873,
+        "matrix_key": [
+          93,
+          11,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.929879867024198e-17,
+        "epsilon_lp": 0.0005388072466205318,
+        "matrix_key": [
+          93,
+          11,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.6725583551767684e-17,
+        "epsilon_lp": 0.0004545347959686308,
+        "matrix_key": [
+          93,
+          11,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.929879867024198e-17,
+        "epsilon_lp": 0.0005388072466205318,
+        "matrix_key": [
+          93,
+          11,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          93,
+          11,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.01728355305542345,
+        "matrix_key": [
+          98,
+          7,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.163336342344337e-17,
+        "epsilon_lp": 0.016918846510196872,
+        "matrix_key": [
+          98,
+          7,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.01728355305542345,
+        "matrix_key": [
+          98,
+          7,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.01728355305542345,
+        "matrix_key": [
+          98,
+          7,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.599551212651875e-17,
+        "epsilon_lp": 0.003255718491363302,
+        "matrix_key": [
+          98,
+          7,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.85722573273506e-17,
+        "epsilon_lp": 0.01690104460619271,
+        "matrix_key": [
+          98,
+          7,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.016539188068550953,
+        "matrix_key": [
+          98,
+          7,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.85722573273506e-17,
+        "epsilon_lp": 0.01690104460619271,
+        "matrix_key": [
+          98,
+          7,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.85722573273506e-17,
+        "epsilon_lp": 0.01690104460619271,
+        "matrix_key": [
+          98,
+          7,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.767955557622884e-17,
+        "epsilon_lp": 0.0032395655585323313,
+        "matrix_key": [
+          98,
+          7,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.00826959019533581,
+        "matrix_key": [
+          98,
+          7,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.00826959019533581,
+        "matrix_key": [
+          98,
+          7,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.6020852139652106e-17,
+        "epsilon_lp": 0.008095014710550977,
+        "matrix_key": [
+          98,
+          7,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.00826959019533581,
+        "matrix_key": [
+          98,
+          7,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          7,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.7755575615628914e-17,
+        "epsilon_lp": 0.04567353076174681,
+        "matrix_key": [
+          98,
+          9,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.7755575615628914e-17,
+        "epsilon_lp": 0.04567353076174681,
+        "matrix_key": [
+          98,
+          9,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 4.163336342344337e-17,
+        "epsilon_lp": 0.043911028492372786,
+        "matrix_key": [
+          98,
+          9,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.7755575615628914e-17,
+        "epsilon_lp": 0.04567353076174681,
+        "matrix_key": [
+          98,
+          9,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.594483210025203e-17,
+        "epsilon_lp": 0.003267341566234612,
+        "matrix_key": [
+          98,
+          9,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.551115123125783e-17,
+        "epsilon_lp": 0.04518070354582389,
+        "matrix_key": [
+          98,
+          9,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.551115123125783e-17,
+        "epsilon_lp": 0.04518070354582389,
+        "matrix_key": [
+          98,
+          9,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 2.7755575615628914e-17,
+        "epsilon_lp": 0.04341482659407532,
+        "matrix_key": [
+          98,
+          9,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 5.551115123125783e-17,
+        "epsilon_lp": 0.04518070354582389,
+        "matrix_key": [
+          98,
+          9,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 9.71445146547012e-17,
+        "epsilon_lp": 0.0032532721699454203,
+        "matrix_key": [
+          98,
+          9,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.122502256758253e-17,
+        "epsilon_lp": 0.029094196456161597,
+        "matrix_key": [
+          98,
+          9,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.122502256758253e-17,
+        "epsilon_lp": 0.029094196456161597,
+        "matrix_key": [
+          98,
+          9,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.469446951953614e-17,
+        "epsilon_lp": 0.02732831950441303,
+        "matrix_key": [
+          98,
+          9,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.122502256758253e-17,
+        "epsilon_lp": 0.029094196456161597,
+        "matrix_key": [
+          98,
+          9,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          9,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.0408340855860843e-17,
+        "epsilon_lp": 0.029672467118006612,
+        "matrix_key": [
+          98,
+          11,
+          "N",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.0408340855860843e-17,
+        "epsilon_lp": 0.029672467118006612,
+        "matrix_key": [
+          98,
+          11,
+          "N",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.0408340855860843e-17,
+        "epsilon_lp": 0.029064975483262673,
+        "matrix_key": [
+          98,
+          11,
+          "N",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.0408340855860843e-17,
+        "epsilon_lp": 0.029672467118006612,
+        "matrix_key": [
+          98,
+          11,
+          "N",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.7433970933566911e-16,
+        "epsilon_lp": 0.0026922139183743754,
+        "matrix_key": [
+          98,
+          11,
+          "N",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.029206345920536725,
+        "matrix_key": [
+          98,
+          11,
+          "D",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.029206345920536725,
+        "matrix_key": [
+          98,
+          11,
+          "D",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 6.938893903907228e-18,
+        "epsilon_lp": 0.028594593615570374,
+        "matrix_key": [
+          98,
+          11,
+          "D",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 1.734723475976807e-17,
+        "epsilon_lp": 0.029206345920536725,
+        "matrix_key": [
+          98,
+          11,
+          "D",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 3.5561831257524545e-17,
+        "epsilon_lp": 0.002675361293314027,
+        "matrix_key": [
+          98,
+          11,
+          "D",
+          "nicotinic acid"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          11,
+          "S_outer",
+          null
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          11,
+          "S_outer",
+          "total CQA"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          11,
+          "S_outer",
+          "caffeine"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          11,
+          "S_outer",
+          "trigonelline"
+        ]
+      },
+      {
+        "absolute_difference_dex": 0.0,
+        "epsilon_lp": 0.0,
+        "matrix_key": [
+          98,
+          11,
+          "S_outer",
+          "nicotinic acid"
+        ]
+      }
+    ],
+    "maximum_absolute_difference_dex": 1.7433970933566911e-16,
+    "scipy_version": "1.18.1",
+    "status": "AGREES",
+    "tolerance_dex": 1e-09
+  },
+  "status": "COMPLETE_EXACT_OPTIMA_VERIFIED",
+  "supported_matrices": 135,
+  "unsupported_matrices": []
+}
