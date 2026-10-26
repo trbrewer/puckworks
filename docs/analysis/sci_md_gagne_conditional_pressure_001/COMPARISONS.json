@@ -2293,13 +2293,28 @@
       "statusdoc": "passed",
       "offline_suite": "7318 passed, 72 skipped, 65 deselected, 1 existing dev-salt warning in 1435.40 seconds; collection preceded addition of task tests, whose 14 tests passed separately",
       "scientific_baseline_suite": "5 passed, 7 skipped, 7457 deselected in 212.21 seconds",
-      "diff_check": "passed",
+      "diff_check": "Initial strict staged check flagged CSV CRLF; normalized the two new CSVs to LF without changing any cells; final strict check passed",
       "private_path_scan": "no local absolute paths in the eight task files",
       "historical_and_EWP_changes": "none",
       "log_sha256": {
         "baseline-tests.log": "19b739a5e3f002f2641e9e25403b15561512cffcbf1a08660afeaf1d9df42e8d",
         "scientific-baseline.log": "117763ab14b694389cbdd9320c6a3fd1b357da945084e09c0dbde0f8a7476ebb",
         "gates.log": "84a2094e42d4a220c258ff65aab3de84c3404bb1b987f84a3fd98d3e18b6aa66"
+      }
+    },
+    "formatting_delta": {
+      "scope": "CSV CRLF to LF only; all parsed cells and scientific code unchanged; original reviewed hashes retained in review receipt",
+      "files": {
+        "EXPOSURE_DELTA.csv": {
+          "before_sha256": "d6f1be56fdf7e0281e5dffed1aa72f9bad6a917d02005e7822836ef9ac7c5a9e",
+          "after_sha256": "1c98d431a0f0ad793dc33ade579acc0df1d8326a929581b414b8d70b0faa762c",
+          "parsed_cells_identical": true
+        },
+        "SHOT_SCORES.csv": {
+          "before_sha256": "9f00aecfe46c9b1e860f8603d4f62c4b926b749daac0bb398edefa2d2513e812",
+          "after_sha256": "87241cfc32697f31983ceda775799b08c5163db59917b603ba1bb3c3f45a2e64",
+          "parsed_cells_identical": true
+        }
       }
     }
   }
