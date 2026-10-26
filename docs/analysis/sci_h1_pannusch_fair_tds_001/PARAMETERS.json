@@ -1,0 +1,326 @@
+{
+  "arms": {
+    "E": {
+      "admitted_starts": [
+        1
+      ],
+      "selected": {
+        "arm": "E",
+        "calls": 32,
+        "elapsed_s": 0.06295730592682958,
+        "fixed": {},
+        "free_names": [
+          "c_s0",
+          "K_ref",
+          "gamma"
+        ],
+        "objective": 14.47538824454511,
+        "parameters": {
+          "A1": 0.00304,
+          "A2": 0.0216,
+          "B1": 1.08e-07,
+          "B2": 0.86,
+          "K_ref": 1.6221106676442383,
+          "c_s0": 104.03302910076056,
+          "gamma": -106.18379437025669
+        },
+        "start": 1,
+        "status": "`ftol` termination condition is satisfied."
+      },
+      "starts": [
+        {
+          "arm": "E",
+          "calls": 32,
+          "elapsed_s": 0.06295730592682958,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma"
+          ],
+          "objective": 14.47538824454511,
+          "parameters": {
+            "A1": 0.00304,
+            "A2": 0.0216,
+            "B1": 1.08e-07,
+            "B2": 0.86,
+            "K_ref": 1.6221106676442383,
+            "c_s0": 104.03302910076056,
+            "gamma": -106.18379437025669
+          },
+          "start": 1,
+          "status": "`ftol` termination condition is satisfied."
+        },
+        {
+          "arm": "E",
+          "calls": 52,
+          "elapsed_s": 0.09526931191794574,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma"
+          ],
+          "objective": 18.668405002876113,
+          "parameters": {
+            "A1": 0.00304,
+            "A2": 0.0216,
+            "B1": 1.08e-07,
+            "B2": 0.86,
+            "K_ref": 0.8379076127923759,
+            "c_s0": 174.1203870349413,
+            "gamma": -46.93469590829136
+          },
+          "start": 2,
+          "status": "`gtol` termination condition is satisfied."
+        },
+        {
+          "arm": "E",
+          "calls": 16,
+          "elapsed_s": 0.029735820135101676,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma"
+          ],
+          "objective": 14.751509009187737,
+          "parameters": {
+            "A1": 0.00304,
+            "A2": 0.0216,
+            "B1": 1.08e-07,
+            "B2": 0.86,
+            "K_ref": 1.7780072290774738,
+            "c_s0": 97.62970917323005,
+            "gamma": -93.88335945938707
+          },
+          "start": 3,
+          "status": "`ftol` termination condition is satisfied."
+        },
+        {
+          "arm": "E",
+          "calls": 24,
+          "elapsed_s": 0.04386652517132461,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma"
+          ],
+          "objective": 18.4627817799684,
+          "parameters": {
+            "A1": 0.00304,
+            "A2": 0.0216,
+            "B1": 1.08e-07,
+            "B2": 0.86,
+            "K_ref": 0.8861667703203708,
+            "c_s0": 165.77308150762124,
+            "gamma": 544.850835401453
+          },
+          "start": 4,
+          "status": "`ftol` termination condition is satisfied."
+        }
+      ]
+    },
+    "F": {
+      "admitted_starts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "selected": {
+        "arm": "F",
+        "calls": 64,
+        "elapsed_s": 64.5560652629938,
+        "fixed": {},
+        "free_names": [
+          "c_s0",
+          "K_ref",
+          "gamma",
+          "A1",
+          "B1",
+          "A2",
+          "B2"
+        ],
+        "objective": 0.30460833673058446,
+        "parameters": {
+          "A1": 0.0031166058734371496,
+          "A2": 0.03291382835422374,
+          "B1": 2.6518009810205946e-11,
+          "B2": 1.1137387755394996,
+          "K_ref": 1.129189184213628,
+          "c_s0": 191.70316706753692,
+          "gamma": 125.65801884202028
+        },
+        "start": 1,
+        "status": "`ftol` termination condition is satisfied."
+      },
+      "starts": [
+        {
+          "arm": "F",
+          "calls": 64,
+          "elapsed_s": 64.5560652629938,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma",
+            "A1",
+            "B1",
+            "A2",
+            "B2"
+          ],
+          "objective": 0.30460833673058446,
+          "parameters": {
+            "A1": 0.0031166058734371496,
+            "A2": 0.03291382835422374,
+            "B1": 2.6518009810205946e-11,
+            "B2": 1.1137387755394996,
+            "K_ref": 1.129189184213628,
+            "c_s0": 191.70316706753692,
+            "gamma": 125.65801884202028
+          },
+          "start": 1,
+          "status": "`ftol` termination condition is satisfied."
+        },
+        {
+          "arm": "F",
+          "calls": 97,
+          "elapsed_s": 97.68029215792194,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma",
+            "A1",
+            "B1",
+            "A2",
+            "B2"
+          ],
+          "objective": 0.30460833675626975,
+          "parameters": {
+            "A1": 0.0031166333865049207,
+            "A2": 0.032913775591967585,
+            "B1": 6.741705187183695e-12,
+            "B2": 1.113746107362786,
+            "K_ref": 1.1291844796073844,
+            "c_s0": 191.70394909797253,
+            "gamma": 125.65752844698909
+          },
+          "start": 2,
+          "status": "`ftol` termination condition is satisfied."
+        },
+        {
+          "arm": "F",
+          "calls": 80,
+          "elapsed_s": 80.67061602394097,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma",
+            "A1",
+            "B1",
+            "A2",
+            "B2"
+          ],
+          "objective": 0.3046083376167047,
+          "parameters": {
+            "A1": 0.0031166530272339066,
+            "A2": 0.03291436447566121,
+            "B1": 4.616231700666318e-12,
+            "B2": 1.1137629693636268,
+            "K_ref": 1.1291806644772087,
+            "c_s0": 191.70458188491037,
+            "gamma": 125.65627965869999
+          },
+          "start": 3,
+          "status": "`ftol` termination condition is satisfied."
+        },
+        {
+          "arm": "F",
+          "calls": 72,
+          "elapsed_s": 72.67942302604206,
+          "fixed": {},
+          "free_names": [
+            "c_s0",
+            "K_ref",
+            "gamma",
+            "A1",
+            "B1",
+            "A2",
+            "B2"
+          ],
+          "objective": 0.3046083377292927,
+          "parameters": {
+            "A1": 0.003116658511672974,
+            "A2": 0.0329143960391445,
+            "B1": 9.152029383292248e-11,
+            "B2": 1.1137652607260264,
+            "K_ref": 1.129179650834774,
+            "c_s0": 191.70475006504134,
+            "gamma": 125.65630866422362
+          },
+          "start": 4,
+          "status": "`ftol` termination condition is satisfied."
+        }
+      ]
+    }
+  },
+  "diagnostic_calls": 12,
+  "model_elapsed_s": 327.8927598858718,
+  "parameter_accounting": {
+    "B": {
+      "optimization_calls": 0,
+      "training_fraction_means": 6
+    },
+    "E": {
+      "active_bound_names": [],
+      "inherited": "Source centre-grind geometry, phase capacities, diffusion/water closures and source initial-equilibrium form; common source-based nuisance starts. Independent c_s0/K_ref/gamma fits.",
+      "interior_parameter_count": 3,
+      "interpretation": "Local rank and boundary location do not prove global or physical identification",
+      "nominal": 3,
+      "optimizer_dimension": 2,
+      "permitted_after_training_rule": 3
+    },
+    "F": {
+      "active_bound_names": [
+        "B1"
+      ],
+      "inherited": "Source centre-grind geometry, phase capacities, diffusion/water closures and source initial-equilibrium form; common source-based nuisance starts. Independent c_s0/K_ref/gamma fits.",
+      "interior_parameter_count": 6,
+      "interpretation": "Local rank and boundary location do not prove global or physical identification",
+      "nominal": 7,
+      "optimizer_dimension": 6,
+      "permitted_after_training_rule": 7
+    }
+  },
+  "reduction": {
+    "derivative_norm_pp": {
+      "A1": 9.624152954833402,
+      "A2": 10.56011182210329,
+      "B1": 3.664048485833332,
+      "B2": 4.002888566496739,
+      "K_ref": 15.486140400134413,
+      "gamma": 2.8277934619499034
+    },
+    "diagnostic_model_calls": 12,
+    "effective_free_count": 7,
+    "fixed": {},
+    "intervals": "No CIs; deterministic local diagnostics, not Sobol indices",
+    "limitation": "Local numerical rank is not global or physical parameter identification",
+    "nominal_parameter_count": 7,
+    "optimizer_dimension": 6,
+    "profiled_amplitude": true,
+    "sampled_observables": "90 training window TDS values, weighted and amplitude-profiled",
+    "singular_values": [
+      17.246233581609864,
+      12.278206959126717,
+      4.886430053878728,
+      2.803422165853377,
+      1.0989452796888823,
+      0.5240383669260179
+    ]
+  }
+}

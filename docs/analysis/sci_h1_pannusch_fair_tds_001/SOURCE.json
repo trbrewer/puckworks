@@ -1,0 +1,87 @@
+{
+  "basis": "solution-mass TDS percent; rho_common=980 kg/m3",
+  "evaluation": {
+    "conditions": [
+      "PRED-C01",
+      "PRED-C02",
+      "PRED-C05",
+      "PRED-C06"
+    ],
+    "physical_shots": 12,
+    "valid_windows": 72
+  },
+  "exclusions": "other FIT; PRED temperature and flow ramps; no prefixes condition predictions",
+  "exports": {
+    "experiment_register.csv": "6d72ac3a32dc05e6ae5b204ebb6d269a6e31ff87d4ef122f17a39d729d33208e",
+    "fit_fraction_replicates.csv": "55b16b9897956e2dab5a39c1c8b54e97dca6f7355e33c6513e7933316df5b1f2",
+    "prediction_fraction_replicates.csv": "e29344bcdd87d31ba1c1bcb1fe0ba73286befd82066394ad164fdb2384e0b665",
+    "source_inputs.csv": "15b9f765d49abe45d6788d7c7891b0695fca185d9c614d122e393993ec06a83c"
+  },
+  "exposure": "SOURCE_INTERNAL / CAMPAIGN_SEPARATED / TARGET_EXPOSED",
+  "fractions": [
+    1,
+    2,
+    3,
+    5,
+    7,
+    10
+  ],
+  "max_original_export_rounding_difference": 4.996593361283885e-09,
+  "original_inspection": "FIT MAT mass/boundary/TDS and PRED MAT mass/boundary joins; FIT/PRED RI and design workbook sheet dimensions; FIT RI sample cells; FIT/PRED preprocessing formulas. PRED chemistry not accessed by preparation. Accepted exports supply qualified observation values.",
+  "physical_flow_label": "UNRESOLVED; common Q=flow_label/1000/980",
+  "rights": "Pannusch et al., Mendeley 10.17632/y2tz67f6ry.1, CC-BY-NC-3.0",
+  "source_records": [
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "7c80b1c9c7d73cbc0bfacd4901fba28318e43b460c7910ca67441f9dc1805e3c",
+      "source_id": "P24-MAT-FIT"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "b5fb0245e5cb67cf3191127f6058624243a38fc0031344f8c93344bb95a84d64",
+      "source_id": "P24-MAT-PRED"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "c8a07994ef3faff973fca104fe4c59b49e33c5146f2fec65b560d79084b48e5e",
+      "source_id": "P24-M-PREP-FIT"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "b1a219b851887af69611a9f22c810c7c07f1f3b8e714e6d4ef62500c960deee7",
+      "source_id": "P24-M-PREP-PRED"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "d2a985e40327c7812c7e79964c41a31866316cc2fb35148df83191ab42814a9f",
+      "source_id": "P24-DOE-FIT"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "b7fc864e693ddb40317a4c9493a2fb0c0892b1f1c68f5ce581d48008e21cab57",
+      "source_id": "P24-DOE-PRED"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "ab0260bcca7b3fecd8391a815af10197ddf6dfb297f19870dbf3ac93e77cee70",
+      "source_id": "P24-RI-FIT"
+    },
+    {
+      "inspection": "hash verified; content inspected as below",
+      "sha256": "717a6c15f42f1d873673336da27c274a151a2a539ee9893c87c645d2958e9be7",
+      "source_id": "P24-RI-PRED"
+    }
+  ],
+  "task": "SCI-H1-PANNUSCH-FAIR-TDS-001",
+  "training": {
+    "conditions": [
+      "FIT-C09",
+      "FIT-C10",
+      "FIT-C11",
+      "FIT-C14",
+      "FIT-C15"
+    ],
+    "physical_shots": 15,
+    "valid_windows": 90
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "between_shot_metric_SD_pp": {
+    "B": {
+      "A": 0.3422518537807632,
+      "B": 0.5852675904374371,
+      "R": 0.3933979881868873
+    },
+    "E": {
+      "A": 0.3931375422198645,
+      "B": 0.3931375422198645,
+      "R": 0.43082313839165304
+    },
+    "F": {
+      "A": 0.2908056016275351,
+      "B": 0.2908056016275351,
+      "R": 0.39753142679208175
+    }
+  },
+  "coverage": {
+    "conditions": 4,
+    "expected_windows_per_arm": 72,
+    "failures": [],
+    "physical_shots": 12,
+    "predicted_windows_per_arm": 72
+  },
+  "equal_condition": {
+    "B": {
+      "A": 0.45775656559534367,
+      "B": -0.05406234760819234,
+      "R": 0.9031681148426842
+    },
+    "E": {
+      "A": 1.0056470169291698,
+      "B": -1.0056470169291698,
+      "R": 4.282738865108129
+    },
+    "F": {
+      "A": 0.5165823165539297,
+      "B": 0.5165823165539297,
+      "R": 1.1799010975508237
+    }
+  },
+  "equal_shot": {
+    "B": {
+      "A": 0.4577565655953437,
+      "B": -0.05406234760819232,
+      "R": 0.9031681148426842
+    },
+    "E": {
+      "A": 1.0056470169291698,
+      "B": -1.0056470169291698,
+      "R": 4.282738865108129
+    },
+    "F": {
+      "A": 0.5165823165539297,
+      "B": 0.5165823165539297,
+      "R": 1.1799010975508237
+    }
+  },
+  "gains": [
+    {
+      "band": "worse",
+      "comparison": "F/B",
+      "condition_delete_g_max": -0.16362265909439566,
+      "condition_delete_g_min": -0.4433884393458085,
+      "g": -0.3064025159439352,
+      "gain_pp": -0.2767329827081395,
+      "joint_delete_numerical_g_max": -0.034927563657709104,
+      "joint_delete_numerical_g_min": -0.5884324878715885,
+      "numerical_g_high": -0.1717821506434254,
+      "numerical_g_low": -0.441022881244445,
+      "shot_delete_g_max": -0.22115865823225445,
+      "shot_delete_g_min": -0.4357035428292755
+    },
+    {
+      "band": "worse",
+      "comparison": "E/B",
+      "condition_delete_g_max": -3.3896382210448293,
+      "condition_delete_g_min": -4.145305491431048,
+      "g": -3.7419066226159963,
+      "gain_pp": -3.379570750265445,
+      "joint_delete_numerical_g_max": -3.3896382209389815,
+      "joint_delete_numerical_g_min": -4.225380742400525,
+      "numerical_g_high": -3.741906622505275,
+      "numerical_g_low": -3.7419066227267184,
+      "shot_delete_g_max": -3.39617045604571,
+      "shot_delete_g_min": -4.22538074228009
+    },
+    {
+      "band": "large",
+      "comparison": "F/E",
+      "condition_delete_g_max": 0.7349160453552301,
+      "condition_delete_g_min": 0.7160007754707143,
+      "g": 0.7244984728899566,
+      "gain_pp": 3.102837767557306,
+      "joint_delete_numerical_g_max": 0.7677927133226226,
+      "joint_delete_numerical_g_min": 0.6790121932343784,
+      "numerical_g_high": 0.7528879744220647,
+      "numerical_g_low": 0.6961089713565227,
+      "shot_delete_g_max": 0.7391080538462509,
+      "shot_delete_g_min": 0.7070243040172857
+    }
+  ],
+  "measurement_training_input_uncertainty": "Unquantified, not zero",
+  "model_elapsed_s": 416.1334113199264,
+  "numerical_compliance": false,
+  "observed_between_shot_SD_pp": {
+    "groups": 24,
+    "max": 1.9548915653450154,
+    "meaning": "Descriptive at differing actual windows; not assay repeatability or CIs",
+    "min": 0.007966252710480229
+  },
+  "optimization_g_ranges": {
+    "E/B": [
+      -3.7419066226159963,
+      -3.7419066226159963
+    ],
+    "F/B": [
+      -0.3064025159439352,
+      -0.3063961789757532
+    ],
+    "F/E": [
+      0.7244984728899566,
+      0.72449980926553
+    ]
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "practical_adequacy": "UNESTABLISHED"
+}

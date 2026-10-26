@@ -1,0 +1,59 @@
+{
+  "reviewer": "Independent nonhuman scientific reviewer; separate agent context",
+  "pre_score": "APPROVED",
+  "freeze_sha256": "509f377fc06eb69c5b5776544dd0bba862663c3bede00156347a075491695962",
+  "checks": [
+    "Actual original/export/prepared hashes and all frozen identities",
+    "15 shots/90 training windows; 12 shots/72 input-only evaluation windows",
+    "Four starts per arm; each <=250 actual objective calls",
+    "Training baseline independently reconstructed",
+    "Analytical E prediction independently reconstructed within 7.1e-15 pp",
+    "Selected F/E replay within 1e-12 pp",
+    "Six focused synthetic tests passed; no evaluation chemistry read"
+  ],
+  "limitations": [
+    "F numerical budget NONCOMPLIANT: .121585 pp allowance exceeds .05 pp target",
+    "No certified continuum error or global-optimizer proof",
+    "Practical adequacy unestablished"
+  ],
+  "review_model_elapsed_s": 4.71,
+  "final_review": "APPROVED",
+  "final_artifact_set_sha256": "b78f0068c53702bb8b204ef4f6789cd0f4419e37f8fd33cca427e29a3343114e",
+  "final_checks": [
+    "36 shot R/B/A sets; 15 arm/condition rows; 51 paired deletion comparisons; 27 threshold variants; observed spread independently reproduced from retained arrays",
+    "Maximum arithmetic discrepancy 2.22e-16 pp",
+    "Original freeze/code/config/fit/prediction identities unchanged",
+    "Figure visually checked; no second fitting campaign or primary score"
+  ],
+  "documentation_addendum": {
+    "reviewer_requested": "Add explicit native TDS % and unresolved denominator/assay uncertainty to Waszkiewicz map row",
+    "old_map_sha256": "4c1edccf877130b87d529bca673aac8448cce802d75b364f512d4819b3d23311",
+    "new_map_sha256": "60ed57dd261df7596a4f5f9f00a4875e413cd92ec99b100c4d0df105d879c965",
+    "scope": "Documentation only; reviewer explicitly nonblocking; unchanged scientific artifacts"
+  },
+  "reviewed_artifact_sha256": {
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/CAMERON.md": "595e686e26b44382c7db65ce2e70dd4b24ce0d241eb86271b1dc7e15b495c733",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/CONFIG.json": "8ec9d483a810daf758825a6f718fc1ac24c356c41688084589be89cb25ade048",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/FIGURE.json": "957aa1a6050902286fe56b3d9393ace0ba03c4227ff566661b9ea55bcddbd0f7",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/FREEZE.json": "509f377fc06eb69c5b5776544dd0bba862663c3bede00156347a075491695962",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/GAINS.csv": "a50b7dc5ca00c06da746b620fe193db37159aa6ba5828ea0c48b6d9507403c95",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/HOLDOUT_MAP.csv": "4c1edccf877130b87d529bca673aac8448cce802d75b364f512d4819b3d23311",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/NUMERICS.json": "39596efc1d19863f23a7ab06e09315689a14593e6c1e856019f66b9bc8344e52",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/PARAMETERS.json": "529b4296c1e1f961c9ee31c2be75e30489b2abac3b20e81e5c7d5fd99e0b4860",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/PLAN.md": "0bff517667f76b634d31f89efbc913f0fc30f09ec41cf53e0e82246433c5c10c",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/README.md": "6754feded43db5e7703538fad45c61eacaa4113b91c7db116741d7bc5287163b",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/RESULT.md": "f5e5ed12662888bb121fbf5d7d5c0bf4d707727f0e60f3ca19e0d7cfc8f6051c",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/RESULTS.json": "bb2d5fcb46d2e0e9676abbbf999b8baada687fb56039c91c6bc5e03812a72039",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/SCORES.csv": "04743e32f336823a4479366f8ad6ef49b37117ad35a324b79c3e7ad2a65ec5e9",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/SOURCE.json": "997bbac9420fbd0d8f06ccc28406bb1f23ab466c181875785aa17f63d99f23b1",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/THRESHOLDS.csv": "226c7dd017bcf003448b742dda4fff0d61980e9741669fd0c3d7fbd1293992ea",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/TRAINING.csv": "0924ac36028ce4171966d3ad3950cfc2ade9b05031925d3c890e23728d26b7cb",
+    "docs/analysis/sci_h1_pannusch_fair_tds_001/comparison.png": "295362c27a8694aeb52b4299271944f6295be70f75826c931f47bc7c3c7fd781",
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/analysis/pannusch_fair_tds.py": "6d942d40c1d2774ccde310d9743a24e322aa5325e9974d3e6af2c74411916388",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_fair_tds.py": "76401f6b33497f6ceafc6a0b7f61bc5a0e566ddd9f0e07f917538fdbcc82344c"
+  }
+}

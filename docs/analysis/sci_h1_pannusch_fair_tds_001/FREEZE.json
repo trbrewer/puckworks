@@ -1,0 +1,42 @@
+{
+  "bands": [
+    0,
+    0.1,
+    0.25
+  ],
+  "bundle_sha256": {
+    "CONFIG.json": "8ec9d483a810daf758825a6f718fc1ac24c356c41688084589be89cb25ade048",
+    "PARAMETERS.json": "529b4296c1e1f961c9ee31c2be75e30489b2abac3b20e81e5c7d5fd99e0b4860",
+    "PLAN.md": "0bff517667f76b634d31f89efbc913f0fc30f09ec41cf53e0e82246433c5c10c",
+    "SOURCE.json": "997bbac9420fbd0d8f06ccc28406bb1f23ab466c181875785aa17f63d99f23b1"
+  },
+  "files": {
+    "puckworks/analysis/pannusch_equilibrium_limit.py": "86089414e560d75763a2cc2759b3fce210d6b1407a76479d3ff99fdea31f22a5",
+    "puckworks/analysis/pannusch_fair_tds.py": "6d942d40c1d2774ccde310d9743a24e322aa5325e9974d3e6af2c74411916388",
+    "puckworks/models/pannusch2024/closures.py": "9d144765200b66422e72218f8ceff5d5ca531da88150fa71d023bbc490b20cf1",
+    "puckworks/models/pannusch2024/solver.py": "8f0f0108a8c44e0abbc32ca6ada676baf579a4f78265a3f7b53b38f118fa2bb4",
+    "puckworks/models/pannusch2024/temperature_history_fv.py": "8f49ec86626d4adcc1cf20d4c3321579c08cf8d169e5cd95b22a29b1898c29f9",
+    "tools/pannusch_fair_tds.py": "76401f6b33497f6ceafc6a0b7f61bc5a0e566ddd9f0e07f917538fdbcc82344c"
+  },
+  "independent_review": "required before score",
+  "model_elapsed_s": 416.1334113199264,
+  "new_evaluation_scores": 0,
+  "numerics_sha256": "39596efc1d19863f23a7ab06e09315689a14593e6c1e856019f66b9bc8344e52",
+  "observation": "100*c_l/980; solution-mass TDS; conditional on each original window and measured mass",
+  "practical_adequacy": "UNESTABLISHED",
+  "private_sha256": {
+    "PREPARED.json": "537931ef5e74b5d5765a96e8e0eee7aab0cd0e804cc9cec41c509228c0a2d8c1",
+    "fits.json": "4cfaa08dbccd515289241b72732534c663fe7b7ad4a5f0e3a360f8b454277126",
+    "predictions.json": "2552abf12b0407b1a3fc2b83dad09c8a3471877767af3ba73b6969c0a1f560b1",
+    "target_inputs.json": "7ca9a27a20917f287fad7bc69c01e215da7c413f658aeb066edf4922305762c7",
+    "training.json": "1142f3e7cc7e8c33dae20a329a68b714e9bfff035e080d0fdf1f51cf2c189313"
+  },
+  "score": "Equal-condition mean of equal-shot mass-weighted RMSE; signed and absolute shot bias",
+  "sensitivities": "12 paired whole-shot and 4 whole-condition deletions; independent numerical allowances; training-admissible start envelopes; all nine threshold combinations",
+  "stage": "PRE_SCORE",
+  "threshold_factors": [
+    0.75,
+    1.0,
+    1.25
+  ]
+}
