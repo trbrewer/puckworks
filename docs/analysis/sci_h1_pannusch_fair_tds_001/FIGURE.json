@@ -1,0 +1,21 @@
+{
+  "badge": "PREDICTED",
+  "badge_display": "PREDICTED",
+  "caption": "Aggregate research comparison; no registered production component or mechanism rendering.",
+  "class": 1,
+  "class_display": "1",
+  "components": [],
+  "composite": false,
+  "evidence_display": "reference",
+  "evidence_strength": "reference",
+  "fidelity_ceiling": "Source-internal target-exposed campaign-separated condition means; supplied windows/masses; not physical validation.",
+  "id": "sci-h1-pannusch-fair-tds-001",
+  "outputs": [
+    "comparison.png"
+  ],
+  "producer": "tools.pannusch_fair_tds.comparison_means",
+  "slow": false,
+  "source_commit": null,
+  "title": "Conditional fraction TDS",
+  "used_in": ""
+}

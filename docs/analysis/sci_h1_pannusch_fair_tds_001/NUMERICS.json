@@ -1,0 +1,60 @@
+{
+  "E_allowance_pp": 1e-10,
+  "F_allowance_pp": 0.12158482154789496,
+  "allowance_scope": "Training-derived common engineering allowance; not a continuum certificate or total uncertainty",
+  "coarse_change_weighted_rms_pp": 0.017156391961832284,
+  "fine_change_weighted_rms_pp": 0.008717473332948584,
+  "independent_Radau_TDS_max_difference_pp": 6.979306022003584e-12,
+  "numerical_budget_compliance": false,
+  "qualification_scope": "All training-admissible F starts; fine-grid objectives reported for every start; selection unchanged",
+  "temporal_max_pp": 8.029132914089132e-13,
+  "training_max_conservation_relative": 8.591341810321057e-14,
+  "training_min_phase": 0.004687275113652177,
+  "training_objective_grid_check": {
+    "E": [
+      {
+        "objective_N200": 14.47538824454511,
+        "objective_N800": 14.475388244545114,
+        "start": 1
+      },
+      {
+        "objective_N200": 18.668405002876113,
+        "objective_N800": 18.668405002876113,
+        "start": 2
+      },
+      {
+        "objective_N200": 14.751509009187737,
+        "objective_N800": 14.75150900918774,
+        "start": 3
+      },
+      {
+        "objective_N200": 18.4627817799684,
+        "objective_N800": 18.4627817799684,
+        "start": 4
+      }
+    ],
+    "F": [
+      {
+        "objective_N200": 0.30460833673058446,
+        "objective_N800": 0.31282214887574006,
+        "start": 1
+      },
+      {
+        "objective_N200": 0.30460833675626975,
+        "objective_N800": 0.31282212487129485,
+        "start": 2
+      },
+      {
+        "objective_N200": 0.3046083376167047,
+        "objective_N800": 0.31282208383776144,
+        "start": 3
+      },
+      {
+        "objective_N200": 0.3046083377292927,
+        "objective_N800": 0.3128220763876536,
+        "start": 4
+      }
+    ]
+  },
+  "training_spatial_budget_pp": 0.05
+}

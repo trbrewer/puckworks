@@ -1,0 +1,126 @@
+{
+  "task": "SCI-H1-PANNUSCH-FAIR-TDS-001",
+  "python": "3.12.3",
+  "numpy": "1.26.4",
+  "scipy": "1.11.4",
+  "matplotlib": "3.6.3",
+  "focused_tests": {
+    "passed": 23,
+    "failed": 0,
+    "scope": "6 new synthetic tests plus 17 inherited analytical/conservative-kernel checks"
+  },
+  "historical_integrity": {
+    "passed": 5,
+    "skipped": 7,
+    "deselected": 7443,
+    "elapsed_s": 213.88,
+    "scope": "scientific_baseline marker"
+  },
+  "quick_suite": {
+    "status": "PASS",
+    "scope": "Exclude slow/live/gpu/external_data/protected_target_integrity; also exclude the two named Angeloni recovered-table tests, preserving protected-outcome restrictions",
+    "passed": 6641,
+    "skipped": 50,
+    "deselected": 764,
+    "warnings": 1,
+    "elapsed_s": 1375.27,
+    "warning": "Existing visualizer test DEV-salt warning; no production harvest"
+  },
+  "quick_command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data and not protected_target_integrity' --deselect=tests/test_uncertainty_intake.py::test_angeloni_recovered_table_is_complete_and_self_consistent --deselect=tests/test_uncertainty_intake.py::test_recovered_angeloni_canonical_summary_validates",
+  "lint": "PASS full puckworks/tests and final changed tools/module/tests",
+  "mypy": "PASS 19 source files",
+  "generated_and_strict_checks": {
+    "registry_artifacts": {
+      "exit": 0,
+      "elapsed_s": 0.44346163398586214
+    },
+    "build_verify": {
+      "exit": 0,
+      "elapsed_s": 0.5219983530696481
+    },
+    "availability": {
+      "exit": 0,
+      "elapsed_s": 0.5402874271385372
+    },
+    "corpus": {
+      "exit": 0,
+      "elapsed_s": 0.4484419438522309
+    },
+    "paper_a_coverage": {
+      "exit": 0,
+      "elapsed_s": 0.6595711600966752
+    },
+    "paper_b_coverage": {
+      "exit": 0,
+      "elapsed_s": 0.8272918770089746
+    },
+    "paper3_coverage": {
+      "exit": 0,
+      "elapsed_s": 11.543361858930439
+    },
+    "lateral": {
+      "exit": 0,
+      "elapsed_s": 2.9356481118593365
+    },
+    "evidence": {
+      "exit": 0,
+      "elapsed_s": 0.45250364183448255
+    },
+    "paper3_strict": {
+      "exit": 0,
+      "elapsed_s": 0.4421382558066398
+    },
+    "all_strict": {
+      "exit": 0,
+      "elapsed_s": 0.4397256860975176
+    },
+    "status": {
+      "exit": 0,
+      "elapsed_s": 0.48958321404643357
+    },
+    "insights": {
+      "exit": 0,
+      "elapsed_s": 0.6179935508407652
+    }
+  },
+  "archive": "PASS deterministic double build and member verification",
+  "readme_governance": "PASS",
+  "readme_pulse": "PASS",
+  "artifact_checks": [
+    "JSON and CSV parsing PASS",
+    "Local Markdown links PASS",
+    "No private absolute locators in public artifacts PASS",
+    "git diff --check PASS",
+    "All frozen scientific hashes unchanged PASS",
+    "Historical tracked files and EWP unchanged PASS",
+    "Aggregate figure visually inspected PASS"
+  ],
+  "scientific_review": "Independent nonhuman pre-score and final review APPROVED; see REVIEW.json",
+  "numerical_budget": "NONCOMPLIANT; effect ranking separately resolved under declared allowance",
+  "figure_recovery": "Optional matplotlib was absent. Single score completed before plotting failed. Dependency installed; only figure rendered from saved arrays. No refit, rescore or frozen-code change. Failure log preserved privately.",
+  "execution": {
+    "optimization_starts_per_arm": 4,
+    "objective_calls_E": 124,
+    "objective_calls_F": 313,
+    "diagnostic_calls": 12,
+    "fit_qualification_prediction_elapsed_s": 416.1334113199264,
+    "initial_training_source_replay_s": 1.0709458361379802,
+    "independent_pre_score_replay_and_checks_s": 4.71,
+    "new_primary_scores": 1,
+    "new_empirical_comparisons": 1,
+    "model_elapsed_budget_s": 28800
+  },
+  "hosted_CI": "PENDING_DRAFT_PR",
+  "draft_auto_merge": "Repository allow_auto_merge=false; draft only",
+  "private_log_sha256": {
+    "fit.log": "1e1981638a53637a446cc6c309debb169857fb334da67bc61dbfea3ff7dc7d36",
+    "freeze.log": "1ca3a5e93246aa7f38395c82aded8ada44577489196d5f1194c66f23526861ec",
+    "score.log": "03ca860da1fb98aeba036eba4de5404c50dc2050b398ce727004c854ff8e616a",
+    "scientific_baseline.log": "e1150191118bac6533dd62157bfc3363f98ca111e2796243a5a313ae1b1891e5",
+    "lint.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "mypy.log": "a4fa715f1281030bc06bd12f238879606f68c772aaf299045c845e5fccaf89b2",
+    "archive.log": "ca1543325b328cc4727286d7eec344f680acbb034bed4bf1487aa69a4ec8711a",
+    "figure_dependency.log": "30b4337eb9aae1fe103eed26f662b9c32676fd399c407433e7df3d88377a5821",
+    "quick.log": "2e8911cdb2aab29f116ac23041f0467a74fe091c52a3ffd22d4f19f59ff18ed5"
+  }
+}
