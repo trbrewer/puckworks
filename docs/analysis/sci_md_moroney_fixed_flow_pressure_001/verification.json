@@ -1,0 +1,124 @@
+{
+  "checks": [
+    {
+      "command": "python -m puckworks.paper3.registry_artifacts --verify",
+      "exit_code": 0,
+      "seconds": 0.44
+    },
+    {
+      "command": "python -m puckworks.paper3.build verify",
+      "exit_code": 0,
+      "seconds": 0.458
+    },
+    {
+      "command": "python -m puckworks.paper3.availability --verify",
+      "exit_code": 0,
+      "seconds": 0.525
+    },
+    {
+      "command": "python -m puckworks.paper3.corpus --verify",
+      "exit_code": 0,
+      "seconds": 0.445
+    },
+    {
+      "command": "python -m puckworks.paper_a.claim_coverage",
+      "exit_code": 0,
+      "seconds": 0.648
+    },
+    {
+      "command": "python -m puckworks.paper_b2.claim_coverage",
+      "exit_code": 0,
+      "seconds": 0.814
+    },
+    {
+      "command": "python -m puckworks.paper3.claim_coverage",
+      "exit_code": 0,
+      "seconds": 11.424
+    },
+    {
+      "command": "python -m puckworks.analysis.lateral_coupling_discrimination --verify",
+      "exit_code": 0,
+      "seconds": 2.876
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile",
+      "exit_code": 0,
+      "seconds": 0.439
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --verify",
+      "exit_code": 0,
+      "seconds": 0.445
+    },
+    {
+      "command": "python -m puckworks.statusdoc --verify",
+      "exit_code": 0,
+      "seconds": 0.486
+    },
+    {
+      "command": "python -m puckworks.insights verify",
+      "exit_code": 0,
+      "seconds": 0.62
+    },
+    {
+      "command": "python tools/validate_local_corpus_coverage.py",
+      "exit_code": 0,
+      "seconds": 0.023
+    },
+    {
+      "command": "python -c from puckworks.registry import run_all_gates; run_all_gates()",
+      "exit_code": 0,
+      "seconds": 41.699
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope paper3",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m puckworks.paper3.evidence_graph --reconcile --strict --scope all",
+      "exit_code": 0
+    }
+  ],
+  "focused": {
+    "command": "python -m pytest -q tests/test_moroney2015_fixed_flow_pressure.py",
+    "passed": 12
+  },
+  "affected": {
+    "command": "python -m pytest -q tests/test_moroney2015_fixed_flow_pressure.py tests/test_available_data_register.py tests/test_local_corpus_family_index.py tests/test_espresso_data_guide.py tests/test_data_loaders.py",
+    "passed": 67,
+    "seconds": 7.67
+  },
+  "quick_suite": {
+    "command": "python -m pytest -q -m 'not slow and not live and not gpu and not external_data'",
+    "passed": 7377,
+    "skipped": 36,
+    "deselected": 74,
+    "warnings": 8,
+    "seconds": 1509.13,
+    "exit_code": 0,
+    "log_sha256": "83c9a8ec33c3755a0317216594144dcd19f15368321220fb4fce4fe6c59e6394",
+    "collection_note": "Collection began before the new focused test file; final affected 67-test run covers additions and changed authorities"
+  },
+  "hosted_ci": "NOT_STARTED",
+  "ruff": "PASS",
+  "mypy": "PASS: 19 files",
+  "setup_failure_preserved": "Initial old SciPy environment: five collection errors for cumulative_simpson; isolated compliant environment installed; repository dependencies unchanged",
+  "archive": {
+    "repeat_byte_identical": true,
+    "members": 160,
+    "member_hash_verification": "PASS"
+  },
+  "live_main_rules": {
+    "source": "GitHub repository ruleset 19053322; queried 2026-10-26",
+    "strict_required_checks": [
+      "quick (3.10)",
+      "quick (3.12)",
+      "verify-generated",
+      "paper3-scope-strict",
+      "all-scope-strict"
+    ],
+    "required_approving_review_count": 0,
+    "pull_request_required": true
+  },
+  "readme_governance": "PASS: internal research qualification; no README capability inventory/release change"
+}

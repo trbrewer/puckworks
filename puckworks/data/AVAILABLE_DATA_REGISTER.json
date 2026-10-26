@@ -2231,6 +2231,38 @@
       "coffee_lot_count_if_known": "UNKNOWN",
       "conditionally_eligible_uses": [],
       "consumed_comparison_status": "UNKNOWN",
+      "dataset_scopes": {
+        "moroney2015/data": {
+          "blocked_uses": [
+            "raw Figure 12 legend rows as observations",
+            "physical/statistical validation",
+            "causal pressure coefficient or pressure-independent kinetics",
+            "equality or practical equivalence from zero inclusion",
+            "automatic gauge/absolute or EWP boundary conversion",
+            "high-pressure cumulative solute mass without denominator/withdrawal qualification"
+          ],
+          "campaign": "existing Philips drip-filter lineage; physical extraction count UNKNOWN",
+          "coverage": "94 raw rows; 90 retained (22 low + 23 high per panel); four legends; zero ambiguous; 44 reused Figure 3 markers; all 14 requests supported; only pot 800 g negative under graphical sensitivity",
+          "eligible_uses": [
+            "source-qualified piecewise-linear fixed-mass concentration contrasts",
+            "discrete graphical reading sensitivity with horizontal and vertical allowances"
+          ],
+          "last_qualified_task": "SCI-MD-MORONEY-FIXED-FLOW-PRESSURE-001",
+          "missing_joins": [
+            "pressure reference/sensor/outlet reconciliation",
+            "replicates and assay uncertainty",
+            "sampling windows, pot mixing/withdrawals and cross-observable run joins"
+          ],
+          "observer": "separate pot/exit mg solubles per g beverage on native mass coordinates",
+          "physical_validation": "NOT_ESTABLISHED",
+          "predecessor": "docs/analysis/sci_md_moroney_transfer_001/RESULT.md; CALIBRATION_INADEQUATE unchanged",
+          "qualified_loader": "puckworks.analysis.moroney2015_fixed_flow_pressure.load_qualified",
+          "result": "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/RESULT.md",
+          "scope": "Figure 12 a/b only; other family subsets retain previous authority",
+          "source_internal_or_external": "SOURCE_INTERNAL",
+          "target_exposure": "TARGET_EXPOSED"
+        }
+      },
       "directness": [
         "verbatim table transcription (Tables 1-2) + figure digitization (per-file README_manifest evidence_strength MEASURED/ESTIMATED)"
       ],
@@ -2241,7 +2273,7 @@
       "fraction_resolution": "UNKNOWN",
       "grinder_count_if_known": "UNKNOWN",
       "historical_task_uses": [
-        "primary-source provenance for moroney2016/moroney2019/cooper2021 parameters; a permeability anchor + bed-depth scaling (Fig 11) and the pressure-invariance result (Fig 12); fine+coarse extraction curves; measured kappa=3.1 and c_sat=212.4 cross-checks"
+        "primary-source provenance for moroney2016/moroney2019/cooper2021 parameters; a permeability anchor + bed-depth scaling (Fig 11); Figure 12 source-qualified fixed-mass concentration contrasts via sci_md_moroney_fixed_flow_pressure_001 (14 requests; only pot 800 g graphically negative; no equivalence or causal interpretation); fine+coarse extraction curves; measured kappa=3.1 and c_sat=212.4 cross-checks"
       ],
       "laboratory_count_if_known": "UNKNOWN",
       "last_qualified_commit": "57f7e74eef92aa9d83ae0995f8b6123663b37548",
@@ -2252,7 +2284,7 @@
       "measurement_resolution": "UNKNOWN",
       "missing_joins": [],
       "notes": [
-        "Philips drip-filter chamber (60 g, 250 mL/min, ~1 L), NOT espresso brew ratio; Fig 8 y-calibration ESTIMATED (raster source); some figure series duplicate others (Fig 9=Fig 1; Fig 11/12 blue=Fig 3); a # provenance header rides on every file"
+        "Philips drip-filter chamber (60 g, 250 mL/min, ~1 L), NOT espresso brew ratio; Fig 8 y-calibration ESTIMATED (raster source); some figure series duplicate others (Fig 9=Fig 1; Fig 11/12 blue=Fig 3); a # provenance header rides on every file; raw Figure 12 retains 94 rows including four confirmed legend samples; use qualified 90-marker sidecar/analysis loader for new scientific work; pressure semantics and experimental uncertainty unresolved; Figure 12 scope only; SCI-MD-MORONEY-TRANSFER-001 remains CALIBRATION_INADEQUATE"
       ],
       "observables": [
         "UNKNOWN"
@@ -4053,6 +4085,6 @@
     }
   ],
   "manifest_path": "puckworks/data/MANIFEST.csv",
-  "manifest_sha256": "12b91350542be395e777cf399918a42241003d2bba02579d13487c795e4b9ab6",
+  "manifest_sha256": "be73982369a24037475749fdadafef603409c6e7bc68daa81d82afef586b379f",
   "schema_version": 1
 }

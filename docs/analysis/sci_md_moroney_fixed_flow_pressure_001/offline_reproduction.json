@@ -1,0 +1,36 @@
+{
+  "network": "blocked by socket guard",
+  "pdf_access": "not required or used",
+  "artifacts": [
+    {
+      "path": "qualified_observations.csv",
+      "sha256": "4fb6567402087a83049d2387339ab4da41f71e4770011a186edb1a714d1f742c",
+      "byte_identical": true
+    },
+    {
+      "path": "contrasts.csv",
+      "sha256": "f05c47c92f002b2491d5fbf478413a48e0a92ec830fb3131c2d023c31fae015e",
+      "byte_identical": true
+    },
+    {
+      "path": "union_knots.csv",
+      "sha256": "b0340e0d9ced8c68a95fe628573cdbaf92b2491b69b2456aebe4cabec174f9df",
+      "byte_identical": true
+    },
+    {
+      "path": "results.json",
+      "sha256": "2de9995470efb425119a2c03df34e48e8577fc8409b85479f0a3f7b0b025cdf3",
+      "byte_identical": true
+    },
+    {
+      "path": "RESULT.md",
+      "sha256": "2e8055ad4c9c055311ba4d27b58155b8ca573aa9e5ac6783bb59be2273a0d2df",
+      "byte_identical": true
+    },
+    {
+      "path": "COMPARISON.svg",
+      "sha256": "04af511fe6244882a838b70f2ad2f21f3c7084d560bc75b8ae054626eb7bafa7",
+      "byte_identical": true
+    }
+  ]
+}

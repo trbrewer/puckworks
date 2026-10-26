@@ -1518,10 +1518,16 @@ def moroney2015_data():
     (Delta_p, L per grind); the Fig 1/9 bimodal PSDs; the Fig 2/10 batch-extraction
     curves (five grinds); the Fig 3/7 cylindrical chamber & exit profiles (fine AND
     coarse); the Fig 6 batch model-vs-experiment; the Fig 8 per-component extraction
-    kinetics; the Fig 11/12 bed-mass / pressure-invariance comparisons; and the
+    kinetics; the Fig 11/12 bed-mass / pressure-labelled comparisons; and the
     `provenance_manifest` (per-file evidence_strength MEASURED/ESTIMATED). NOT a
     runtime model — already registered in better forms (moroney2016 surrogate,
-    cameron2020 runtime); the brew ratio is drip-filter, not espresso."""
+    cameron2020 runtime); the brew ratio is drip-filter, not espresso.
+
+    Legacy raw loading is unchanged: Figure 12 includes all 94 rows, including
+    four authenticated legend samples. New scientific use should use
+    analysis.moroney2015_fixed_flow_pressure.load_qualified and its documented
+    Figure 12 sidecar, with reading sensitivity and reuse lineage.
+    """
     files = {
         "table1_batch_params": "table1_batch_simulation_parameters.csv",
         "table2_cylindrical_params": "table2_cylindrical_simulation_parameters.csv",

@@ -1,0 +1,235 @@
+{
+  "artifact_hash_scope": "All task inputs/outputs except this identity manifest and lifecycle receipts; final submitted/tested Git head is recorded in PR handoff to avoid self-referential commit identity",
+  "artifacts": {
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/COMPARISON.svg": "04af511fe6244882a838b70f2ad2f21f3c7084d560bc75b8ae054626eb7bafa7",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/PLAN.md": "6a6688ab459c8e3dd17a3f0d594af40258ebf0ccca42e99e3a3fba0824ccbabf",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/RESULT.md": "2e8055ad4c9c055311ba4d27b58155b8ca573aa9e5ac6783bb59be2273a0d2df",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/SOURCE_NOTES.md": "be8bc855867169844ca4e84a3855c5cfbdb01f9756dccbc11a8371fe91de4e47",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/VIZ_SPEC.json": "308ba26f43f6805070505749f04a55554a39c9b48d4e33eb15596e245b2ad5ba",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/contrasts.csv": "f05c47c92f002b2491d5fbf478413a48e0a92ec830fb3131c2d023c31fae015e",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/qualified_observations.csv": "4fb6567402087a83049d2387339ab4da41f71e4770011a186edb1a714d1f742c",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/results.json": "2de9995470efb425119a2c03df34e48e8577fc8409b85479f0a3f7b0b025cdf3",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/source_objects.json": "aeab130a562a7a68c77168cdccf1c370ea9a8dd28574dc6503be29344148ca2c",
+    "docs/analysis/sci_md_moroney_fixed_flow_pressure_001/union_knots.csv": "b0340e0d9ced8c68a95fe628573cdbaf92b2491b69b2456aebe4cabec174f9df",
+    "puckworks/analysis/moroney2015_fixed_flow_pressure.py": "ebabbbb2b0645d6541d5f1a3cfccd121e961530ea22477adc8876e567314492a",
+    "tests/test_moroney2015_fixed_flow_pressure.py": "4cac5883bd5dcce21ce3e606665c3b2bb1626ad52908275139f612eac614eff1",
+    "tools/extract_moroney2015_fixed_flow_pressure.py": "be4cbf4ddbb11e0bc5b5f33612af791fd2ab0a34e380297575cdad38eedfff31"
+  },
+  "branch": "analysis/sci-md-moroney-fixed-flow-pressure-001",
+  "delivery_remote_refresh": "Both main heads reconfirmed unchanged; local EWP status clean",
+  "ewp_production_pin": {
+    "commit": "fc61c4670ec7bf801e40bb391aab16048b8da26b",
+    "lock_git_blob": "068a43a393b732eaff414c8d6e1d1a3159fe3f4b",
+    "lock_sha256": "52b15ceef87d503a3e77c6e3c1cbed785185d2dde0b79647e5fbe309395d2f10",
+    "tree": "1d553e44ee2f7480a5df521560801b478618cc84",
+    "writes": 0
+  },
+  "implementation_base": "0004749e4e72c9db9c34b653dd4e4f8a1fa128ee",
+  "implementation_base_tree": "fcd12ff323faabf812cc10e8390db798286ee2a6",
+  "inspected_local_heads": {
+    "ewp_checkout": "78cbd59c751393cddfe539e4c69e43a224329bca",
+    "puckworks_primary_checkout": "5bdedcce8d6c704cadf4f73f2979f1f131b7f067"
+  },
+  "live_remote_heads": {
+    "espresso-whole-pull": "f44c33dbb9b4fb80143e360e6f4a90f8ac0aa516",
+    "puckworks": "0004749e4e72c9db9c34b653dd4e4f8a1fa128ee"
+  },
+  "open_prs_at_start": {
+    "espresso-whole-pull": [
+      130,
+      117
+    ],
+    "puckworks": [
+      337,
+      336,
+      333,
+      321,
+      264,
+      257,
+      129,
+      128
+    ]
+  },
+  "preservation": {
+    "accepted_bundles": [
+      {
+        "base_tree": "cc7a03d23207787ccf5be93ff38ed0b58e8ed61e",
+        "changed_files": [],
+        "files_checked": 34,
+        "passed": true,
+        "path": "docs/analysis/sci_md_moroney_transfer_001"
+      },
+      {
+        "base_tree": "a4e865b8afd376b65ff529a11bf53e75c4b91b07",
+        "changed_files": [],
+        "files_checked": 18,
+        "passed": true,
+        "path": "docs/analysis/sci_md_khamitova_tamping_chemistry_001"
+      },
+      {
+        "base_tree": "390e89788a935d42d5f995f27cd7bf809ce52b61",
+        "changed_files": [],
+        "files_checked": 15,
+        "passed": true,
+        "path": "docs/analysis/sci_md_khamitova_common_scaling_001"
+      },
+      {
+        "base_tree": "c274766b625d3aafe1a18dd865be99fce95ccf21",
+        "changed_files": [],
+        "files_checked": 17,
+        "passed": true,
+        "path": "docs/analysis/sci_md_matias_caffeine_fraction_shape_001"
+      },
+      {
+        "base_tree": "260fdb43b00bb4949bd7cee5aa078a14c9597630",
+        "changed_files": [],
+        "files_checked": 16,
+        "passed": true,
+        "path": "docs/analysis/sci_md_matias_caffeine_aggregation_001"
+      },
+      {
+        "changed_files": [],
+        "files_checked": 5,
+        "passed": true,
+        "path": "puckworks/data/khamitova2020"
+      },
+      {
+        "changed_files": [],
+        "files_checked": 6,
+        "passed": true,
+        "path": "puckworks/data/matias2023"
+      }
+    ],
+    "raw_files": [
+      {
+        "actual_sha256": "a6c13d245e0301b60a2e8c894e6977eb6657023e953bb06be707ed9e7ea7c155",
+        "bytes": 5092,
+        "crlf": 77,
+        "expected_sha256": "a6c13d245e0301b60a2e8c894e6977eb6657023e953bb06be707ed9e7ea7c155",
+        "lf": 82,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig11_bed_mass_comparison.csv"
+      },
+      {
+        "actual_sha256": "a2c422f71a053408f625d34ca13853f9f1a811d13e495d7b610cf987cbd6ea86",
+        "bytes": 2045,
+        "crlf": 50,
+        "expected_sha256": "a2c422f71a053408f625d34ca13853f9f1a811d13e495d7b610cf987cbd6ea86",
+        "lf": 56,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig08_component_extraction_kinetics.csv"
+      },
+      {
+        "actual_sha256": "95305e6b74b67488c35133764ecc1acd2ecc1ae2eb57966714f516bcf1e3f7d2",
+        "bytes": 137433,
+        "crlf": 3168,
+        "expected_sha256": "95305e6b74b67488c35133764ecc1acd2ecc1ae2eb57966714f516bcf1e3f7d2",
+        "lf": 3173,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig06_batch_model_vs_experiment.csv"
+      },
+      {
+        "actual_sha256": "dcc7c4fb1ef72c3f6dd93a170914958e47b7d798f195d7c7f26dbdba0c6c0334",
+        "bytes": 7837,
+        "crlf": 205,
+        "expected_sha256": "dcc7c4fb1ef72c3f6dd93a170914958e47b7d798f195d7c7f26dbdba0c6c0334",
+        "lf": 211,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig01_grind_size_distributions.csv"
+      },
+      {
+        "actual_sha256": "0365bfcc07009712fced8c5ff3aeb62d1fbf71102f6e1c6605db2a0eeaf78dbd",
+        "bytes": 13180,
+        "crlf": 405,
+        "expected_sha256": "0365bfcc07009712fced8c5ff3aeb62d1fbf71102f6e1c6605db2a0eeaf78dbd",
+        "lf": 410,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig09_grind_size_distributions_supplementary.csv"
+      },
+      {
+        "actual_sha256": "7f3b3be8a00f48031f75213e9e843764db2819d975cc093a113b70983f6e8431",
+        "bytes": 1076,
+        "crlf": 14,
+        "expected_sha256": "7f3b3be8a00f48031f75213e9e843764db2819d975cc093a113b70983f6e8431",
+        "lf": 19,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig02_batch_extraction_cbrew.csv"
+      },
+      {
+        "actual_sha256": "3c400000574bdd7b631c769ad2fcf52a8667f4e42434b4a4337702e6ee9b7336",
+        "bytes": 1583,
+        "crlf": 29,
+        "expected_sha256": "3c400000574bdd7b631c769ad2fcf52a8667f4e42434b4a4337702e6ee9b7336",
+        "lf": 35,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig10_batch_extraction_five_grinds.csv"
+      },
+      {
+        "actual_sha256": "03716bc0938fabd5bdb58069d4445fc8702da9581ff1715625c14cde044562fa",
+        "bytes": 6078,
+        "crlf": 95,
+        "expected_sha256": "03716bc0938fabd5bdb58069d4445fc8702da9581ff1715625c14cde044562fa",
+        "lf": 100,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig12_pressure_comparison.csv"
+      },
+      {
+        "actual_sha256": "47caea0c0d041d0e4abd744fcacc3abccbacc2d555bf0f030ac794ffe4bc9e2d",
+        "bytes": 5586,
+        "crlf": 89,
+        "expected_sha256": "47caea0c0d041d0e4abd744fcacc3abccbacc2d555bf0f030ac794ffe4bc9e2d",
+        "lf": 95,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig03_cylindrical_chamber_profiles.csv"
+      },
+      {
+        "actual_sha256": "78f947b14d654c44a83210ed66fcec6bdb5d48142c89b6e3344ab503ab72894e",
+        "bytes": 1756,
+        "crlf": 0,
+        "expected_sha256": "78f947b14d654c44a83210ed66fcec6bdb5d48142c89b6e3344ab503ab72894e",
+        "lf": 16,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/README_manifest.csv"
+      },
+      {
+        "actual_sha256": "31108fa4d047be0499522412f1665fe2ffe0f3d2f9dbeaee4ad9e694ea6bee63",
+        "bytes": 1139,
+        "crlf": 13,
+        "expected_sha256": "31108fa4d047be0499522412f1665fe2ffe0f3d2f9dbeaee4ad9e694ea6bee63",
+        "lf": 16,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/table2_cylindrical_simulation_parameters.csv"
+      },
+      {
+        "actual_sha256": "60237af0206202c2af750c9e7a957291ce5620e728c7474c9e72314ecd996603",
+        "bytes": 6487,
+        "crlf": 129,
+        "expected_sha256": "60237af0206202c2af750c9e7a957291ce5620e728c7474c9e72314ecd996603",
+        "lf": 134,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/fig07_cylindrical_model_vs_experiment.csv"
+      },
+      {
+        "actual_sha256": "3354740f0efa45a171cfa44d96add20388543a55ffc26d6565cdd187e39454bc",
+        "bytes": 1418,
+        "crlf": 20,
+        "expected_sha256": "3354740f0efa45a171cfa44d96add20388543a55ffc26d6565cdd187e39454bc",
+        "lf": 23,
+        "passed": true,
+        "path": "puckworks/data/moroney2015/table1_batch_simulation_parameters.csv"
+      }
+    ]
+  },
+  "relevant_existing_branch": "analysis/sci-md-moroney-transfer-001; no overlapping fixed-flow task",
+  "source": {
+    "access": "Owner-controlled source located within established configured external collection",
+    "edition": "Publisher CES137 216\u2013234",
+    "figure12_pdf_page_index": 17,
+    "native_and_render_inspected": true,
+    "pages": 19,
+    "pdf_or_source_render_committed": false,
+    "sha256": "896672a997e585a50d97f988caa66259a9a8ed0067300ea7d19725a13c01c4a8"
+  },
+  "state": "Inspected clean primary Puckworks and EWP worktrees, existing worktrees/branches and open PRs; isolated new Puckworks worktree; no resets or EWP fetch/write",
+  "task": "SCI-MD-MORONEY-FIXED-FLOW-PRESSURE-001"
+}

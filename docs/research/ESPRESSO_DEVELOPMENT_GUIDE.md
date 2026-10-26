@@ -1,5 +1,7 @@
 # Espresso development guide
 
+**2026-10-26 Moroney fixed-flow comparison:** [Figure 12 qualification](../analysis/sci_md_moroney_fixed_flow_pressure_001/RESULT.md) retains 90 markers after four authenticated legend exclusions, with 44 Figure 3 reuse links. All 14 fixed-mass pot/exit contrasts are supported; only pot 800 g resolves graphically negative (−1.968 mg/g, outer [−3.667, −0.308]). Other signs are unresolved, not equal/equivalent. Native pressure semantics and experimental uncertainty remain unresolved; no causal pressure or universal kinetic conclusion. The completed transport calibration remains CALIBRATION_INADEQUATE. EWP unchanged; PHYSICAL_VALIDATION=NOT_ESTABLISHED.
+
 **2026-10-24 Foster radial interface:** [bounded result](../analysis/sci_md_foster_radial_front_001/RESULT.md)
 adds 90 shell/scan slots. At 3/4/5 s, fitted-center variation resolves and the
 outer end-shell is shallower. Published extents at 4/5 s admit common depths

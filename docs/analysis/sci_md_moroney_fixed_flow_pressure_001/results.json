@@ -1,0 +1,5034 @@
+{
+  "arithmetic": "Exact rational arithmetic on serialized native decimal coordinates; JSON/CSV numeric display uses nearest binary64; *_exact retains rationals; interval display rounds outward to .001 mg/g. No sign tolerance or graphical allowance hidden in arithmetic.",
+  "claim_limits": [
+    "Native pressure labels only; differential/absolute terminology unresolved",
+    "No equality, practical equivalence or pressure independence from zero inclusion",
+    "No statistical significance or causal pressure effect",
+    "Nominal common flow/loading do not establish common bed state",
+    "Extrema describe the piecewise-linear representation, not unknown physical curves",
+    "SCI-MD-MORONEY-TRANSFER-001 remains CALIBRATION_INADEQUATE"
+  ],
+  "contrasts": [
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:25",
+          "fig12_pressure_comparison.csv:data:26"
+        ],
+        "value": 172.60499394543606,
+        "value_exact": "42029417182574701370229339599660/243500586059874100899200439453",
+        "weights": [
+          0.9280641346391969,
+          0.07193586536080304
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -260.35290853623076,
+          -255.93361092187095
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:24",
+              "fig12_pressure_comparison.csv:data:25"
+            ],
+            "native_ordinate_bounds": [
+              -257.78131103515625,
+              -255.93361092187095
+            ],
+            "weight_bounds": [
+              0.8975422605577628,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:25",
+              "fig12_pressure_comparison.csv:data:26"
+            ],
+            "native_ordinate_bounds": [
+              -260.35290853623076,
+              -257.28131103515625
+            ],
+            "weight_bounds": [
+              0.0,
+              0.2566139130182948
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:1",
+          "fig12_pressure_comparison.csv:data:2"
+        ],
+        "value": 182.21787396478655,
+        "value_exact": "30501335056527623963269233703625/167389369620358876288890838623",
+        "weights": [
+          0.0189919727352466,
+          0.9810080272647534
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -257.32560899925556,
+          -252.63674781988374
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:1",
+              "fig12_pressure_comparison.csv:data:2"
+            ],
+            "native_ordinate_bounds": [
+              -255.46401977539062,
+              -252.63674781988374
+            ],
+            "weight_bounds": [
+              0.8131015581331438,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:2",
+              "fig12_pressure_comparison.csv:data:3"
+            ],
+            "native_ordinate_bounds": [
+              -257.32560899925556,
+              -254.9640121459961
+            ],
+            "weight_bounds": [
+              0.0,
+              0.14951336462694748
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 172.60499394543606,
+      "c_H_exact": "42029417182574701370229339599660/243500586059874100899200439453",
+      "c_L": 182.21787396478655,
+      "c_L_exact": "30501335056527623963269233703625/167389369620358876288890838623",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -9.612880019350488,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -22.927186317203216,
+        4.136072387110029
+      ],
+      "delta_bounds_display": [
+        "-22.928",
+        "4.137"
+      ],
+      "delta_bounds_exact": [
+        "-11292451130247700566632568990218200304990635450/492535410757076132693774445636877815859373667",
+        "107626212482150383113933984019845292942389809160/26021356110102159050274751334316797063056603301"
+      ],
+      "delta_exact": "-19169699812287789772364072852474689412117005/1994168217402033686670865863613275465965271",
+      "mass_g": 50.0,
+      "mass_g_exact": "50",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:27",
+          "fig12_pressure_comparison.csv:data:28"
+        ],
+        "value": 118.94901880700299,
+        "value_exact": "91711294198874289175908406575400/771013457014534785260518391927",
+        "weights": [
+          0.8954511132884474,
+          0.10454888671155259
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -277.89394618229704,
+          -274.8871413516322
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:26",
+              "fig12_pressure_comparison.csv:data:27"
+            ],
+            "native_ordinate_bounds": [
+              -276.1815490722656,
+              -274.8871413516322
+            ],
+            "weight_bounds": [
+              0.9051902587039847,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:27",
+              "fig12_pressure_comparison.csv:data:28"
+            ],
+            "native_ordinate_bounds": [
+              -277.89394618229704,
+              -275.6815490722656
+            ],
+            "weight_bounds": [
+              0.0,
+              0.29896491766350375
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:3",
+          "fig12_pressure_comparison.csv:data:4"
+        ],
+        "value": 123.36194223719814,
+        "value_exact": "135232910521328617935974121093800/1096228772576433607210922241211",
+        "weights": [
+          0.10403992508120154,
+          0.8959600749187985
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -276.68001046111794,
+          -273.09140908166285
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:3",
+              "fig12_pressure_comparison.csv:data:4"
+            ],
+            "native_ordinate_bounds": [
+              -276.1319885253906,
+              -273.09140908166285
+            ],
+            "weight_bounds": [
+              0.6908513696833811,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:4",
+              "fig12_pressure_comparison.csv:data:5"
+            ],
+            "native_ordinate_bounds": [
+              -276.68001046111794,
+              -275.6319885253906
+            ],
+            "weight_bounds": [
+              0.0,
+              0.07335314239578838
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 118.94901880700299,
+      "c_H_exact": "91711294198874289175908406575400/771013457014534785260518391927",
+      "c_L": 123.36194223719814,
+      "c_L_exact": "135232910521328617935974121093800/1096228772576433607210922241211",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -4.41292343019515,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -14.269876814288173,
+        5.327188692228089
+      ],
+      "delta_bounds_display": [
+        "-14.270",
+        "5.328"
+      ],
+      "delta_bounds_exact": [
+        "-437234284419564833964867183021367922404383582000/30640368526641374515537362685863931641839196263",
+        "32222433806856460247709375035402961520880403400/6048675139640956631638823143650765088789071831"
+      ],
+      "delta_exact": "-42111562422729212182031838725501019159952800/9542781126584592370861453923552520874219063",
+      "mass_g": 100.0,
+      "mass_g_exact": "100",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:30",
+          "fig12_pressure_comparison.csv:data:31"
+        ],
+        "value": 69.59540151595098,
+        "value_exact": "20764672253932760430099487304760/298362705029779641229133605957",
+        "weights": [
+          0.22113355993149492,
+          0.7788664400685051
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -294.1077958035995,
+          -292.5780815748837
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:30",
+              "fig12_pressure_comparison.csv:data:31"
+            ],
+            "native_ordinate_bounds": [
+              -294.1077958035995,
+              -292.5780815748837
+            ],
+            "weight_bounds": [
+              0.6281464872094364,
+              0.9295863929275737
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:6",
+          "fig12_pressure_comparison.csv:data:8"
+        ],
+        "value": 72.26153252618685,
+        "value_exact": "54254225727170606748779296875000/750803696385894132074483235677",
+        "weights": [
+          0.4263622601102162,
+          0.5736377398897838
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -293.18371706273405,
+          -291.68758304988376
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:6",
+              "fig12_pressure_comparison.csv:data:8"
+            ],
+            "native_ordinate_bounds": [
+              -293.18371706273405,
+              -291.68758304988376
+            ],
+            "weight_bounds": [
+              0.4738131273813065,
+              0.673840822088377
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 69.59540151595098,
+      "c_H_exact": "20764672253932760430099487304760/298362705029779641229133605957",
+      "c_L": 72.26153252618685,
+      "c_L_exact": "54254225727170606748779296875000/750803696385894132074483235677",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -2.6661310102358744,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -7.191227706566165,
+        1.799537124834483
+      ],
+      "delta_bounds_display": [
+        "-7.192",
+        "1.800"
+      ],
+      "delta_bounds_exact": [
+        "-58398919016305531697432652287573774745911357600/8120855214052345506538753062659839428714190931",
+        "21920670664639382304853058734037239721342933600/12181282821078555105796395289080732369990237041"
+      ],
+      "delta_exact": "-87661234958003952738033145036201769510904960/32879567666199757314298177681306302916208903",
+      "mass_g": 200.0,
+      "mass_g_exact": "200",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:36",
+          "fig12_pressure_comparison.csv:data:37"
+        ],
+        "value": 36.84545826048342,
+        "value_exact": "3504487190182162111553827921550/95113138922218479798158009847",
+        "weights": [
+          0.36561206319423223,
+          0.6343879368057678
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -304.8894384095114,
+          -304.10930672619423
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:36",
+              "fig12_pressure_comparison.csv:data:37"
+            ],
+            "native_ordinate_bounds": [
+              -304.8894384095114,
+              -304.10930672619423
+            ],
+            "weight_bounds": [
+              0.5358885484576634,
+              0.7328873251538721
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:11",
+          "fig12_pressure_comparison.csv:data:12"
+        ],
+        "value": 37.72580499276256,
+        "value_exact": "769111021636770016845703125000/20386868399079056878748414743",
+        "weights": [
+          0.28575482995645934,
+          0.7142451700435407
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -304.6491508821909,
+          -303.7505592857881
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:11",
+              "fig12_pressure_comparison.csv:data:12"
+            ],
+            "native_ordinate_bounds": [
+              -304.6491508821909,
+              -303.7505592857881
+            ],
+            "weight_bounds": [
+              0.6144355293036433,
+              0.8144332237103925
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 36.84545826048342,
+      "c_H_exact": "3504487190182162111553827921550/95113138922218479798158009847",
+      "c_L": 37.72580499276256,
+      "c_L_exact": "769111021636770016845703125000/20386868399079056878748414743",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -0.8803467322791423,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -3.3839748577372397,
+        1.6040499934853132
+      ],
+      "delta_bounds_display": [
+        "-3.384",
+        "1.605"
+      ],
+      "delta_bounds_exact": [
+        "-52570397985365516311097303495525324317614237500/15535103006207833102495797265732317388001301639",
+        "1245954093795065287602452846766826360781987500/776755150310390480535090292188901005020344941"
+      ],
+      "delta_exact": "-3257191577849686007603290194031584524640850/3699896254987050597956688440058607471222971",
+      "mass_g": 400.0,
+      "mass_g_exact": "400",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:40",
+          "fig12_pressure_comparison.csv:data:41"
+        ],
+        "value": 24.05374428906042,
+        "value_exact": "115683405321557240106246948242200/4809372043344194263085174560547",
+        "weights": [
+          0.35476601695996046,
+          0.6452339830400395
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -309.1703478548827,
+          -308.5435214569519
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:40",
+              "fig12_pressure_comparison.csv:data:41"
+            ],
+            "native_ordinate_bounds": [
+              -309.1703478548827,
+              -308.5435214569519
+            ],
+            "weight_bounds": [
+              0.5517306889889448,
+              0.7387372770911341
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:15",
+          "fig12_pressure_comparison.csv:data:16"
+        ],
+        "value": 25.85030103517156,
+        "value_exact": "125917336709797332649902343750000/4871020130035466100049591064453",
+        "weights": [
+          0.25936028035488246,
+          0.7406397196451175
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -308.58714631281765,
+          -307.9030706528199
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:15",
+              "fig12_pressure_comparison.csv:data:16"
+            ],
+            "native_ordinate_bounds": [
+              -308.58714631281765,
+              -307.9030706528199
+            ],
+            "weight_bounds": [
+              0.6483198120354047,
+              0.8333213832170764
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 24.05374428906042,
+      "c_H_exact": "115683405321557240106246948242200/4809372043344194263085174560547",
+      "c_L": 25.85030103517156,
+      "c_L_exact": "125917336709797332649902343750000/4871020130035466100049591064453",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -1.7965567461111467,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -3.765486696730325,
+        0.12962342740944055
+      ],
+      "delta_bounds_display": [
+        "-3.766",
+        "0.130"
+      ],
+      "delta_bounds_exact": [
+        "-3197865885490147844169015644702385544681996186000/849256986690974696588845852917072026907939463789",
+        "3058093182678062719475068134772412824705256000/23592133334188788127191659060531045676266277819"
+      ],
+      "delta_exact": "-6177381151335828433973457990234195812225341800/3438455904444699233713958547450177366828918457",
+      "mass_g": 600.0,
+      "mass_g_exact": "600",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:44",
+          "fig12_pressure_comparison.csv:data:45"
+        ],
+        "value": 17.31747322296408,
+        "value_exact": "4744980427126080037841796875000/273999582158090619958750406901",
+        "weights": [
+          0.6250026348294958,
+          0.3749973651705042
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -311.4194599720532,
+          -310.8838989856763
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:44",
+              "fig12_pressure_comparison.csv:data:45"
+            ],
+            "native_ordinate_bounds": [
+              -311.4194599720532,
+              -310.8838989856763
+            ],
+            "weight_bounds": [
+              0.2838187734960944,
+              0.46617595684491403
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:19",
+          "fig12_pressure_comparison.csv:data:20"
+        ],
+        "value": 19.28510003755362,
+        "value_exact": "1174060979159550843060302734375/60879174952337163595609664917",
+        "weights": [
+          0.52932763835614,
+          0.47067236164386
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -310.7775675757686,
+          -310.18541696509357
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:19",
+              "fig12_pressure_comparison.csv:data:20"
+            ],
+            "native_ordinate_bounds": [
+              -310.7775675757686,
+              -310.18541696509357
+            ],
+            "weight_bounds": [
+              0.378339447982909,
+              0.5633860965060391
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 17.31747322296408,
+      "c_H_exact": "4744980427126080037841796875000/273999582158090619958750406901",
+      "c_L": 19.28510003755362,
+      "c_L_exact": "1174060979159550843060302734375/60879174952337163595609664917",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -1.9676268145895428,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -3.6667372523832396,
+        -0.3084220629339027
+      ],
+      "delta_bounds_display": [
+        "-3.667",
+        "-0.308"
+      ],
+      "delta_bounds_exact": [
+        "-2217324619223210811884043507804588562011718750/604713255028577343192335534190381877898763243",
+        "-834794960109300247416680050100275600/2706664212567061329404939849400101889"
+      ],
+      "delta_exact": "-4817442630573100635364067275064874267578125/2448351788485889289295062461548558296362559",
+      "mass_g": 800.0,
+      "mass_g_exact": "800",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "NEGATIVE",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:46",
+          "fig12_pressure_comparison.csv:data:47"
+        ],
+        "value": 15.80648044934796,
+        "value_exact": "319403669511843949640/20207134063485954007",
+        "weights": [
+          0.6510155959575001,
+          0.34898440404249986
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -311.9466952500472,
+          -311.38611837503305
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:46",
+              "fig12_pressure_comparison.csv:data:47"
+            ],
+            "native_ordinate_bounds": [
+              -311.9466952500472,
+              -311.38611837503305
+            ],
+            "weight_bounds": [
+              0.2554942457689841,
+              0.4424745623160156
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          24.3839629075625,
+          928.5646848387552
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:21",
+          "fig12_pressure_comparison.csv:data:22"
+        ],
+        "value": 16.81611271851145,
+        "value_exact": "40952927254373320361030578613600/2435338531555611500199890136719",
+        "weights": [
+          0.6768338754706336,
+          0.3231661245293664
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -311.59554920325155,
+          -311.0494818490417
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:21",
+              "fig12_pressure_comparison.csv:data:22"
+            ],
+            "native_ordinate_bounds": [
+              -311.59554920325155,
+              -311.0494818490417
+            ],
+            "weight_bounds": [
+              0.23083971435207618,
+              0.41585442972760944
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.804271932424026,
+          980.884641342512
+        ]
+      },
+      "c_H": 15.80648044934796,
+      "c_H_exact": "319403669511843949640/20207134063485954007",
+      "c_L": 16.81611271851145,
+      "c_L_exact": "40952927254373320361030578613600/2435338531555611500199890136719",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -1.0096322691634905,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -2.665908547960285,
+        0.622286107773668
+      ],
+      "delta_bounds_display": [
+        "-2.666",
+        "0.623"
+      ],
+      "delta_bounds_exact": [
+        "-61827757088727489219537164715872797200/23192002267306793648709058251466484591",
+        "55515745659470554937446242409723700/89212574354403254744967195723329329"
+      ],
+      "delta_exact": "-94803811553101696869209734611090040/93899347761189712613207164001474483",
+      "mass_g": 900.0,
+      "mass_g_exact": "900",
+      "panel": "a",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Cumulative mass denominator/withdrawal accounting not authenticated for high-pressure record",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:71",
+          "fig12_pressure_comparison.csv:data:72"
+        ],
+        "value": 147.04432121171308,
+        "value_exact": "48601322934089902040758132934575/330521590589779799527931213379",
+        "weights": [
+          0.025534114945783386,
+          0.9744658850542166
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -271.3656308789751,
+          -262.70723903310846
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:71",
+              "fig12_pressure_comparison.csv:data:72"
+            ],
+            "native_ordinate_bounds": [
+              -267.81329345703125,
+              -262.70723903310846
+            ],
+            "weight_bounds": [
+              0.8051889929834753,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:72",
+              "fig12_pressure_comparison.csv:data:73"
+            ],
+            "native_ordinate_bounds": [
+              -271.3656308789751,
+              -267.31329345703125
+            ],
+            "weight_bounds": [
+              0.0,
+              0.17089010704177648
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:48",
+          "fig12_pressure_comparison.csv:data:49"
+        ],
+        "value": 157.93787428283412,
+        "value_exact": "390667566350054083315793005000/2473552136395410276509184317",
+        "weights": [
+          0.04018082026991441,
+          0.9598191797300856
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -268.0509112394578,
+          -259.5128478207075
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:48",
+              "fig12_pressure_comparison.csv:data:49"
+            ],
+            "native_ordinate_bounds": [
+              -264.3639831542969,
+              -259.5128478207075
+            ],
+            "weight_bounds": [
+              0.7979647366992786,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:49",
+              "fig12_pressure_comparison.csv:data:50"
+            ],
+            "native_ordinate_bounds": [
+              -268.0509112394578,
+              -263.8639831542969
+            ],
+            "weight_bounds": [
+              0.0,
+              0.1407976564594344
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": 147.04432121171308,
+      "c_H_exact": "48601322934089902040758132934575/330521590589779799527931213379",
+      "c_L": 157.93787428283412,
+      "c_L_exact": "390667566350054083315793005000/2473552136395410276509184317",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -10.893553071121055,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -35.21841697498283,
+        15.877762633102911
+      ],
+      "delta_bounds_display": [
+        "-35.219",
+        "15.878"
+      ],
+      "delta_bounds_exact": [
+        "-3926381254534403644778433740782608827653713538000/111486591158355664259629986762788284212666004961",
+        "943142818596294410199448182913025742797200100/59400234175939480920658500747636079931842143"
+      ],
+      "delta_exact": "-16993739982729479096946593165136465665905975/1559981382729946689465725523694115229540093",
+      "mass_g": 50.0,
+      "mass_g_exact": "50",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:74",
+          "fig12_pressure_comparison.csv:data:75"
+        ],
+        "value": 47.62191589002427,
+        "value_exact": "2718090378679314790817260742200/57076460026436995042610168457",
+        "weights": [
+          0.9481353308137193,
+          0.05186466918628069
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -302.20090603472363,
+          -298.52583827991225
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:73",
+              "fig12_pressure_comparison.csv:data:74"
+            ],
+            "native_ordinate_bounds": [
+              -300.7813415527344,
+              -298.52583827991225
+            ],
+            "weight_bounds": [
+              0.8558793124120969,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:74",
+              "fig12_pressure_comparison.csv:data:75"
+            ],
+            "native_ordinate_bounds": [
+              -302.20090603472363,
+              -300.2813415527344
+            ],
+            "weight_bounds": [
+              0.0,
+              0.2479163079578541
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:50",
+          "fig12_pressure_comparison.csv:data:51"
+        ],
+        "value": 45.62848504994125,
+        "value_exact": "548441070362325804791099146800/12019708078452452636863306949",
+        "weights": [
+          0.045853893916489176,
+          0.9541461060835108
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -302.91664704701975,
+          -298.95525893757326
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:50",
+              "fig12_pressure_comparison.csv:data:51"
+            ],
+            "native_ordinate_bounds": [
+              -302.2959899902344,
+              -298.95525893757326
+            ],
+            "weight_bounds": [
+              0.7581533695505006,
+              1.0
+            ]
+          },
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:51",
+              "fig12_pressure_comparison.csv:data:52"
+            ],
+            "native_ordinate_bounds": [
+              -302.91664704701975,
+              -301.7959899902344
+            ],
+            "weight_bounds": [
+              0.0,
+              0.11026066780197628
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": 47.62191589002427,
+      "c_H_exact": "2718090378679314790817260742200/57076460026436995042610168457",
+      "c_L": 45.62848504994125,
+      "c_L_exact": "548441070362325804791099146800/12019708078452452636863306949",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": 1.9934308400830163,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -9.643857671161292,
+        13.046499987151837
+      ],
+      "delta_bounds_display": [
+        "-9.644",
+        "13.047"
+      ],
+      "delta_bounds_exact": [
+        "-239846050567761554790574471117486499158371400/24870343253301023232201489305735427632092647",
+        "12276737647037670378573305485822113525745545200/940998555867686675146201883191203527051670973"
+      ],
+      "delta_exact": "200727688285171188221841952294687823245400/100694583553654610843346981146678534056011",
+      "mass_g": 100.0,
+      "mass_g_exact": "100",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:77",
+          "fig12_pressure_comparison.csv:data:78"
+        ],
+        "value": 11.638645857792273,
+        "value_exact": "8868404583458590290367482400/761979073151456146690182947",
+        "weights": [
+          0.23654169462913036,
+          0.7634583053708697
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -313.61144962818764,
+          -312.56095188105894
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:77",
+              "fig12_pressure_comparison.csv:data:78"
+            ],
+            "native_ordinate_bounds": [
+              -313.61144962818764,
+              -312.56095188105894
+            ],
+            "weight_bounds": [
+              0.614519609272844,
+              0.9123970014688954
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:53",
+          "fig12_pressure_comparison.csv:data:55"
+        ],
+        "value": 13.582256751970764,
+        "value_exact": "3775512525142421781344413757350/277973873862648110588550567627",
+        "weights": [
+          0.39926557554848113,
+          0.6007344244515189
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -312.8968848993766,
+          -311.95244395049843
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:53",
+              "fig12_pressure_comparison.csv:data:55"
+            ],
+            "native_ordinate_bounds": [
+              -312.8968848993766,
+              -311.95244395049843
+            ],
+            "weight_bounds": [
+              0.5000960679760438,
+              0.70172500114663
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": 11.638645857792273,
+      "c_H_exact": "8868404583458590290367482400/761979073151456146690182947",
+      "c_L": 13.582256751970764,
+      "c_L_exact": "3775512525142421781344413757350/277973873862648110588550567627",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -1.9436108941784913,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -4.929437536610211,
+        0.9981646552218528
+      ],
+      "delta_bounds_display": [
+        "-4.930",
+        "0.999"
+      ],
+      "delta_bounds_exact": [
+        "-643463834040333091998666740524840933065379750/130534940195797487898846369496582771777259667",
+        "341614170991967257362176047393791500/342242303616771364041679963092482133"
+      ],
+      "delta_exact": "-1027212817842514124662277403120112604108350/528507439899223046488795175558151199283271",
+      "mass_g": 200.0,
+      "mass_g_exact": "200",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:83",
+          "fig12_pressure_comparison.csv:data:84"
+        ],
+        "value": 1.8154086152070255,
+        "value_exact": "57578291294502182633611891000/31716436075156596819183561537",
+        "weights": [
+          0.4134858110584301,
+          0.5865141889415699
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -316.72685872432874,
+          -316.13821372580674
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:83",
+              "fig12_pressure_comparison.csv:data:84"
+            ],
+            "native_ordinate_bounds": [
+              -316.72685872432874,
+              -316.13821372580674
+            ],
+            "weight_bounds": [
+              0.4885109057144423,
+              0.6845174721686975
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:58",
+          "fig12_pressure_comparison.csv:data:59"
+        ],
+        "value": 2.7887516808475827,
+        "value_exact": "12404216439463527910919189453000/4447945840661412590760040283203",
+        "weights": [
+          0.2857920827947929,
+          0.714207917205207
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -316.4004744272817,
+          -315.80165420683886
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:58",
+              "fig12_pressure_comparison.csv:data:59"
+            ],
+            "native_ordinate_bounds": [
+              -316.4004744272817,
+              -315.80165420683886
+            ],
+            "weight_bounds": [
+              0.6135777933294251,
+              0.8152557320109796
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": 1.8154086152070255,
+      "c_H_exact": "57578291294502182633611891000/31716436075156596819183561537",
+      "c_L": 2.7887516808475827,
+      "c_L_exact": "12404216439463527910919189453000/4447945840661412590760040283203",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -0.9733430656405571,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -2.749079125460482,
+        0.7792605918198345
+      ],
+      "delta_bounds_display": [
+        "-2.750",
+        "0.780"
+      ],
+      "delta_bounds_exact": [
+        "-42177729317748032977099802991806781100616789500/15342493756225764695258842508598572826691080507",
+        "10916013093184973866327600534185208286996500/14008167752577384501400424733662688611170569"
+      ],
+      "delta_exact": "-20154172458743194724354758770327068567276000/20706134527685501438075649720204525978035397",
+      "mass_g": 400.0,
+      "mass_g_exact": "400",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:87",
+          "fig12_pressure_comparison.csv:data:88"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.4025177799484843,
+          0.5974822200515156
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.5185546875,
+          -317.0185546875
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:87",
+              "fig12_pressure_comparison.csv:data:88"
+            ],
+            "native_ordinate_bounds": [
+              -317.5185546875,
+              -317.0185546875
+            ],
+            "weight_bounds": [
+              0.5066469888739462,
+              0.6883174512290852
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:62",
+          "fig12_pressure_comparison.csv:data:63"
+        ],
+        "value": 0.41242622581790156,
+        "value_exact": "38139085930127573242187500000/92474928951213482914058978741",
+        "weights": [
+          0.2593102643150873,
+          0.7406897356849127
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.18337216408923,
+          -316.63766493120664
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:62",
+              "fig12_pressure_comparison.csv:data:63"
+            ],
+            "native_ordinate_bounds": [
+              -317.18337216408923,
+              -316.63766493120664
+            ],
+            "weight_bounds": [
+              0.6476089269779837,
+              0.8341727793815744
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": 0.41242622581790156,
+      "c_L_exact": "38139085930127573242187500000/92474928951213482914058978741",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -1.051167162617039,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -2.6174057682166776,
+        0.4897255426635412
+      ],
+      "delta_bounds_display": [
+        "-2.618",
+        "0.490"
+      ],
+      "delta_bounds_exact": [
+        "-777166519799268085347900390625000/296922444825502357242232783139141",
+        "47641315695494501206800/97281664003843427071561"
+      ],
+      "delta_exact": "-74334465460304207763671875000/70716122139163251640162748449",
+      "mass_g": 600.0,
+      "mass_g_exact": "600",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:91",
+          "fig12_pressure_comparison.csv:data:92"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.7076097109546636,
+          0.2923902890453363
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.5185546875,
+          -317.0185546875
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:91",
+              "fig12_pressure_comparison.csv:data:92"
+            ],
+            "native_ordinate_bounds": [
+              -317.5185546875,
+              -317.0185546875
+            ],
+            "weight_bounds": [
+              0.19929619711078903,
+              0.38548438097988363
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:66",
+          "fig12_pressure_comparison.csv:data:67"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.5407590696418573,
+          0.4592409303581427
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.468994140625,
+          -316.968994140625
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:66",
+              "fig12_pressure_comparison.csv:data:67"
+            ],
+            "native_ordinate_bounds": [
+              -317.468994140625,
+              -316.968994140625
+            ],
+            "weight_bounds": [
+              0.3684181540697346,
+              0.5504447059221397
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -1.632920504635664,
+        1.3383999693704132
+      ],
+      "delta_bounds_display": [
+        "-1.633",
+        "1.339"
+      ],
+      "delta_bounds_exact": [
+        "-2747802734375000000/1682753524482251251",
+        "2252197265625000000/1682753524482251251"
+      ],
+      "delta_exact": "-991210937500000/6813101196289063",
+      "mass_g": 800.0,
+      "mass_g_exact": "800",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:93",
+          "fig12_pressure_comparison.csv:data:94"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.7158559731280957,
+          0.2841440268719043
+        ]
+      },
+      "H_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.5185546875,
+          -317.0185546875
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:93",
+              "fig12_pressure_comparison.csv:data:94"
+            ],
+            "native_ordinate_bounds": [
+              -317.5185546875,
+              -317.0185546875
+            ],
+            "weight_bounds": [
+              0.18616237752976325,
+              0.3821256762140454
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          27.32225416889046,
+          930.0645794536407
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:68",
+          "fig12_pressure_comparison.csv:data:69"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.6767440452509088,
+          0.32325595474909125
+        ]
+      },
+      "L_sensitivity": {
+        "native_ordinate_bounds": [
+          -317.468994140625,
+          -316.968994140625
+        ],
+        "possible_brackets": [
+          {
+            "ids": [
+              "fig12_pressure_comparison.csv:data:68",
+              "fig12_pressure_comparison.csv:data:69"
+            ],
+            "native_ordinate_bounds": [
+              -317.468994140625,
+              -316.968994140625
+            ],
+            "weight_bounds": [
+              0.23016186281454393,
+              0.4166332972760881
+            ]
+          }
+        ],
+        "reason": null,
+        "status": "SUPPORTED",
+        "universal_mass_domain_g": [
+          26.495078514209276,
+          981.0811639379517
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "central_reason": null,
+      "central_support_status": "SUPPORTED",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_S_bounds_mg": null,
+      "delta_S_mg": null,
+      "delta_bounds": [
+        -1.632920504635664,
+        1.3383999693704132
+      ],
+      "delta_bounds_display": [
+        "-1.633",
+        "1.339"
+      ],
+      "delta_bounds_exact": [
+        "-2747802734375000000/1682753524482251251",
+        "2252197265625000000/1682753524482251251"
+      ],
+      "delta_exact": "-991210937500000/6813101196289063",
+      "mass_g": 900.0,
+      "mass_g_exact": "900",
+      "panel": "b",
+      "relative_contrast": null,
+      "relative_contrast_status": "NOT_REQUESTED",
+      "sensitivity_reason": null,
+      "sensitivity_sign": "SIGN_UNRESOLVED",
+      "sensitivity_support_status": "SUPPORTED",
+      "solute_mass_reason": "Exit concentration is not cumulative pot concentration",
+      "solute_mass_status": "UNSUPPORTED"
+    }
+  ],
+  "counts": {
+    "ambiguous": 0,
+    "duplicate_renderings_in_fig12": 0,
+    "legend_samples": 4,
+    "marker_candidates": 94,
+    "omitted_marker_candidates": 0,
+    "physical_extraction_count": null,
+    "raw_rows": 94,
+    "retained": 90,
+    "reused_fig3_markers": 44,
+    "unsupported": 0
+  },
+  "dataset_id": "moroney2015/data",
+  "experimental_uncertainty": "UNKNOWN; graphical bounds are not experimental SD/CI or significance",
+  "optional_derivations": {
+    "relative_contrasts": "OMITTED; no denominator floor or tail ratio",
+    "solute_mass": "UNSUPPORTED; high-pressure cumulative mass/withdrawal contract unresolved"
+  },
+  "panels": {
+    "a": {
+      "common_domains_g": [
+        {
+          "component": "L1-H1",
+          "end": 933.3546311373526,
+          "end_exact": "3215336990356445250/3444925308227539",
+          "start": 22.014325633826598,
+          "start_exact": "75837707519531500/3444925308227539"
+        }
+      ],
+      "counts": {
+        "H": 23,
+        "L": 22
+      },
+      "extrema": {
+        "maximum": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 413.7136080233294,
+              "mass_g_exact": "1425212478637695250/3444925308227539",
+              "signed_delta": -0.38572419371533545,
+              "signed_delta_exact": "-36687438822507410510381062825/95113138922218479798158009847",
+              "union_knot_index": 21
+            }
+          ],
+          "value_mg_g": -0.38572419371533545,
+          "value_mg_g_exact": "-36687438822507410510381062825/95113138922218479798158009847"
+        },
+        "maximum_absolute": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 48.134218244171464,
+              "mass_g_exact": "165818786621094000/3444925308227539",
+              "signed_delta": -9.887383549291194,
+              "signed_delta_exact": "-1655042899510559595990180969250/167389369620358876288890838623",
+              "union_knot_index": 1
+            }
+          ],
+          "value_mg_g": 9.887383549291194,
+          "value_mg_g_exact": "1655042899510559595990180969250/167389369620358876288890838623"
+        },
+        "minimum": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 48.134218244171464,
+              "mass_g_exact": "165818786621094000/3444925308227539",
+              "signed_delta": -9.887383549291194,
+              "signed_delta_exact": "-1655042899510559595990180969250/167389369620358876288890838623",
+              "union_knot_index": 1
+            }
+          ],
+          "value_mg_g": -9.887383549291194,
+          "value_mg_g_exact": "-1655042899510559595990180969250/167389369620358876288890838623"
+        }
+      },
+      "observable": "pot concentration",
+      "union_knot_count": 42
+    },
+    "b": {
+      "common_domains_g": [
+        {
+          "component": "L1-H1",
+          "end": 934.8321785724966,
+          "end_exact": "4050880768014200/4333270570767",
+          "start": 22.55465505003463,
+          "start_exact": "15539932250976500/688990020751953"
+        }
+      ],
+      "counts": {
+        "H": 23,
+        "L": 22
+      },
+      "extrema": {
+        "maximum": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 101.11541370409685,
+              "mass_g_exact": "69667510986328000/688990020751953",
+              "signed_delta": 2.8035242807896203,
+              "signed_delta_exact": "160015241545634283275604248000/57076460026436995042610168457",
+              "union_knot_index": 6
+            }
+          ],
+          "value_mg_g": 2.8035242807896203,
+          "value_mg_g_exact": "160015241545634283275604248000/57076460026436995042610168457"
+        },
+        "maximum_absolute": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 51.183569877518195,
+              "mass_g_exact": "35264968872070300/688990020751953",
+              "signed_delta": -11.321757950106257,
+              "signed_delta_exact": "-25180989750660570762481689453000/2224123661858028123511505126953",
+              "union_knot_index": 2
+            }
+          ],
+          "value_mg_g": 11.321757950106257,
+          "value_mg_g_exact": "25180989750660570762481689453000/2224123661858028123511505126953"
+        },
+        "minimum": {
+          "attaining_intervals": [],
+          "attaining_knots": [
+            {
+              "component": "L1-H1",
+              "mass_g": 51.183569877518195,
+              "mass_g_exact": "35264968872070300/688990020751953",
+              "signed_delta": -11.321757950106257,
+              "signed_delta_exact": "-25180989750660570762481689453000/2224123661858028123511505126953",
+              "union_knot_index": 2
+            }
+          ],
+          "value_mg_g": -11.321757950106257,
+          "value_mg_g_exact": "-25180989750660570762481689453000/2224123661858028123511505126953"
+        }
+      },
+      "observable": "filter-exit concentration",
+      "union_knot_count": 43
+    }
+  },
+  "physical_validation": "NOT_ESTABLISHED",
+  "scientific_status": "SOURCE_QUALIFIED_OBSERVATIONAL_COMPARISON",
+  "sensitivity_method": "Rectangular x marginals include tick and center allowances once; shared x calibration/coordinate dependencies relaxed. Native -PDF_y interpolation then H-L cancels shared vertical offset; one positive uncertain vertical scale applied to the difference. Marker ordinate and x marginals vary independently; marginal extrema need not be jointly realizable; not sharp.",
+  "task": "SCI-MD-MORONEY-FIXED-FLOW-PRESSURE-001",
+  "union_knots": [
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:24",
+          "fig12_pressure_comparison.csv:data:25"
+        ],
+        "value": 210.05966898263412,
+        "value_exact": "281419611563907133160400390625000/1339712725088472018616104125977",
+        "weights": [
+          0.9151964987564802,
+          0.08480350124351975
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:1"
+        ],
+        "value": 218.0768388325822,
+        "value_exact": "1485779571533203000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 210.05966898263412,
+      "c_H_exact": "281419611563907133160400390625000/1339712725088472018616104125977",
+      "c_L": 218.0768388325822,
+      "c_L_exact": "1485779571533203000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -8.017169849948086,
+      "delta_exact": "-10740704467171087681484222412000/1339712725088472018616104125977",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:1"
+      ],
+      "mass_g": 22.014325633826598,
+      "mass_g_exact": "75837707519531500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:25"
+        ],
+        "value": 174.72117793503924,
+        "value_exact": "1190393066406250000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:1",
+          "fig12_pressure_comparison.csv:data:2"
+        ],
+        "value": 184.6085614843304,
+        "value_exact": "30901510733383332508587837219250/167389369620358876288890838623",
+        "weights": [
+          0.08439496626840526,
+          0.9156050337315947
+        ]
+      },
+      "c_H": 174.72117793503924,
+      "c_H_exact": "1190393066406250000/6813101196289063",
+      "c_L": 184.6085614843304,
+      "c_L_exact": "30901510733383332508587837219250/167389369620358876288890838623",
+      "component": "L1-H1",
+      "delta": -9.887383549291194,
+      "delta_exact": "-1655042899510559595990180969250/167389369620358876288890838623",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:25"
+      ],
+      "mass_g": 48.134218244171464,
+      "mass_g_exact": "165818786621094000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:25",
+          "fig12_pressure_comparison.csv:data:26"
+        ],
+        "value": 171.99048830185367,
+        "value_exact": "41879784698225288610870361328200/243500586059874100899200439453",
+        "weights": [
+          0.9071751214638889,
+          0.09282487853611114
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:2"
+        ],
+        "value": 181.52365693071988,
+        "value_exact": "1236739044189453000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 171.99048830185367,
+      "c_H_exact": "41879784698225288610870361328200/243500586059874100899200439453",
+      "c_L": 181.52365693071988,
+      "c_L_exact": "1236739044189453000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -9.533168628866202,
+      "delta_exact": "-2321332148136526590660095214800/243500586059874100899200439453",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:2"
+      ],
+      "mass_g": 50.541792880147774,
+      "mass_g_exact": "174112701416015500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:26"
+        ],
+        "value": 145.3035296035819,
+        "value_exact": "989967651367187000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:2",
+          "fig12_pressure_comparison.csv:data:3"
+        ],
+        "value": 151.3850629802948,
+        "value_exact": "101386575204262141148386001587000/669726412951713902869987487793",
+        "weights": [
+          0.1754182399577813,
+          0.8245817600422187
+        ]
+      },
+      "c_H": 145.3035296035819,
+      "c_H_exact": "989967651367187000/6813101196289063",
+      "c_L": 151.3850629802948,
+      "c_L_exact": "101386575204262141148386001587000/669726412951713902869987487793",
+      "component": "L1-H1",
+      "delta": -6.081533376712931,
+      "delta_exact": "-4072963533632075739564895630000/669726412951713902869987487793",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:26"
+      ],
+      "mass_g": 74.07095712220517,
+      "mass_g_exact": "255168914794921500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:26",
+          "fig12_pressure_comparison.csv:data:27"
+        ],
+        "value": 140.03151473898956,
+        "value_exact": "61402630209736713224334716797000/438491509030574805504608154297",
+        "weights": [
+          0.7856611109793943,
+          0.21433888902060572
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:3"
+        ],
+        "value": 144.97349852207165,
+        "value_exact": "987719116210937000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 140.03151473898956,
+      "c_H_exact": "61402630209736713224334716797000/438491509030574805504608154297",
+      "c_L": 144.97349852207165,
+      "c_L_exact": "987719116210937000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -4.9419837830820725,
+      "delta_exact": "-2167017926648286700744628906000/438491509030574805504608154297",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:3"
+      ],
+      "mass_g": 79.0764578245345,
+      "mass_g_exact": "272412490844726500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:27"
+        ],
+        "value": 120.7068971927202,
+        "value_exact": "822388305664063000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:3",
+          "fig12_pressure_comparison.csv:data:4"
+        ],
+        "value": 126.02247626552038,
+        "value_exact": "138149464473594149501724243164000/1096228772576433607210922241211",
+        "weights": [
+          0.21433888902060327,
+          0.7856611109793967
+        ]
+      },
+      "c_H": 120.7068971927202,
+      "c_H_exact": "822388305664063000/6813101196289063",
+      "c_L": 126.02247626552038,
+      "c_L_exact": "138149464473594149501724243164000/1096228772576433607210922241211",
+      "component": "L1-H1",
+      "delta": -5.315579072800177,
+      "delta_exact": "-448237747885285744875394381000/84325290198187200554686326247",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:27"
+      ],
+      "mass_g": 97.4241653300172,
+      "mass_g_exact": "335618972778320250/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:27",
+          "fig12_pressure_comparison.csv:data:28"
+        ],
+        "value": 117.29089320890252,
+        "value_exact": "90432857049318549834747314453000/771013457014534785260518391927",
+        "weights": [
+          0.796834970830673,
+          0.20316502916932694
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:4"
+        ],
+        "value": 120.85238320693645,
+        "value_exact": "823379516601563000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 117.29089320890252,
+      "c_H_exact": "90432857049318549834747314453000/771013457014534785260518391927",
+      "c_L": 120.85238320693645,
+      "c_L_exact": "823379516601563000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -3.561489998033935,
+      "delta_exact": "-211227439654371754882029998000/59308727462656521943116799379",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:4"
+      ],
+      "mass_g": 102.42966603234646,
+      "mass_g_exact": "352862548828125000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:28"
+        ],
+        "value": 103.89296027757011,
+        "value_exact": "707833251953125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:4",
+          "fig12_pressure_comparison.csv:data:5"
+        ],
+        "value": 107.57361640270784,
+        "value_exact": "14884742216672760635688088157000/138367963394954549519174749201",
+        "weights": [
+          0.3945289688028297,
+          0.6054710311971703
+        ]
+      },
+      "c_H": 103.89296027757011,
+      "c_H_exact": "707833251953125000/6813101196289063",
+      "c_L": 107.57361640270784,
+      "c_L_exact": "14884742216672760635688088157000/138367963394954549519174749201",
+      "component": "L1-H1",
+      "delta": -3.680656125137732,
+      "delta_exact": "-39175760922497922340339714000/10643689491919580732244211477",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:28"
+      ],
+      "mass_g": 122.06177507415008,
+      "mass_g_exact": "420493698120117000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:28",
+          "fig12_pressure_comparison.csv:data:29"
+        ],
+        "value": 95.78383108547774,
+        "value_exact": "5184508841536541170900132921000/54127181829988321834225124783",
+        "weights": [
+          0.3836616231673731,
+          0.6163383768326269
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:5"
+        ],
+        "value": 98.92108324371094,
+        "value_exact": "51843026968149000/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 95.78383108547774,
+      "c_H_exact": "5184508841536541170900132921000/54127181829988321834225124783",
+      "c_L": 98.92108324371094,
+      "c_L_exact": "51843026968149000/524084707406851",
+      "component": "L1-H1",
+      "delta": -3.1372521582332045,
+      "delta_exact": "-169810618015211946046617296000/54127181829988321834225124783",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:5"
+      ],
+      "mass_g": 134.85418847892157,
+      "mass_g_exact": "464562606811523500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:29"
+        ],
+        "value": 90.73601679180938,
+        "value_exact": "618193664550781000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:5",
+          "fig12_pressure_comparison.csv:data:6"
+        ],
+        "value": 95.05313280323789,
+        "value_exact": "83929909908445374540138244629000/882978892259997034370994567871",
+        "weights": [
+          0.7883316310461852,
+          0.21166836895381486
+        ]
+      },
+      "c_H": 90.73601679180938,
+      "c_H_exact": "618193664550781000/6813101196289063",
+      "c_L": 95.05313280323789,
+      "c_L_exact": "83929909908445374540138244629000/882978892259997034370994567871",
+      "component": "L1-H1",
+      "delta": -4.317116011428505,
+      "delta_exact": "-3811922313529037601490020752000/882978892259997034370994567871",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:29"
+      ],
+      "mass_g": 142.81727868324205,
+      "mass_g_exact": "491994857788086000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:29",
+          "fig12_pressure_comparison.csv:data:30"
+        ],
+        "value": 78.54527435534581,
+        "value_exact": "59784927914791995828676223755000/761152448768842036361789703369",
+        "weights": [
+          0.08549175471933204,
+          0.914508245280668
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:6"
+        ],
+        "value": 80.64744859725592,
+        "value_exact": "549459228515625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 78.54527435534581,
+      "c_H_exact": "59784927914791995828676223755000/761152448768842036361789703369",
+      "c_L": 80.64744859725592,
+      "c_L_exact": "549459228515625000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -2.1021742419101037,
+      "delta_exact": "-1600075071968659653501510620000/761152448768842036361789703369",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:6"
+      ],
+      "mass_g": 172.474784525835,
+      "mass_g_exact": "594162750244140500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:30"
+        ],
+        "value": 77.40563677678594,
+        "value_exact": "527372436523437000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:6",
+          "fig12_pressure_comparison.csv:data:8"
+        ],
+        "value": 79.80277092516468,
+        "value_exact": "179748646177351218707275390625000/2252411089157682396223449707031",
+        "weights": [
+          0.9422199093518943,
+          0.05778009064810579
+        ]
+      },
+      "c_H": 77.40563677678594,
+      "c_H_exact": "527372436523437000/6813101196289063",
+      "c_L": 79.80277092516468,
+      "c_L_exact": "179748646177351218707275390625000/2252411089157682396223449707031",
+      "component": "L1-H1",
+      "delta": -2.397134148378742,
+      "delta_exact": "-5399331538006836253967285156000/2252411089157682396223449707031",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:30"
+      ],
+      "mass_g": 175.24728245372842,
+      "mass_g_exact": "603713798522949000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:31"
+        ],
+        "value": 67.3779415789443,
+        "value_exact": "459052734375000000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:6",
+          "fig12_pressure_comparison.csv:data:8"
+        ],
+        "value": 70.12044541847763,
+        "value_exact": "157940068837255014556884765625000/2252411089157682396223449707031",
+        "weights": [
+          0.27990141326120915,
+          0.7200985867387909
+        ]
+      },
+      "c_H": 67.3779415789443,
+      "c_H_exact": "459052734375000000/6813101196289063",
+      "c_L": 70.12044541847763,
+      "c_L_exact": "157940068837255014556884765625000/2252411089157682396223449707031",
+      "component": "L1-H1",
+      "delta": -2.742503839533329,
+      "delta_exact": "-6177246060222391910400390625000/2252411089157682396223449707031",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:31"
+      ],
+      "mass_g": 207.02772165726435,
+      "mass_g_exact": "713195037841796500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:31",
+          "fig12_pressure_comparison.csv:data:33"
+        ],
+        "value": 64.00426667708925,
+        "value_exact": "8618002908935546875000/134647318942260752069",
+        "weights": [
+          0.6164296918484036,
+          0.38357030815159643
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:8"
+        ],
+        "value": 66.02861254807914,
+        "value_exact": "449859619140625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 64.00426667708925,
+      "c_H_exact": "8618002908935546875000/134647318942260752069",
+      "c_L": 66.02861254807914,
+      "c_L_exact": "449859619140625000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -2.0243458709898947,
+      "delta_exact": "-272572744140625000000/134647318942260752069",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:8"
+      ],
+      "mass_g": 220.45840477971436,
+      "mass_g_exact": "759462738037109000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:33"
+        ],
+        "value": 58.58248783771859,
+        "value_exact": "399128417968750000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:8",
+          "fig12_pressure_comparison.csv:data:9"
+        ],
+        "value": 60.9588134530715,
+        "value_exact": "66803892296739091293334960937500/1095885705652183694459915161133",
+        "weights": [
+          0.537729629225582,
+          0.462270370774418
+        ]
+      },
+      "c_H": 58.58248783771859,
+      "c_H_exact": "399128417968750000/6813101196289063",
+      "c_L": 60.9588134530715,
+      "c_L_exact": "66803892296739091293334960937500/1095885705652183694459915161133",
+      "component": "L1-H1",
+      "delta": -2.376325615352913,
+      "delta_exact": "-2604181273840386818237304687500/1095885705652183694459915161133",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:33"
+      ],
+      "mass_g": 242.04264027067762,
+      "mass_g_exact": "833818817138671500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:33",
+          "fig12_pressure_comparison.csv:data:34"
+        ],
+        "value": 53.69426365455937,
+        "value_exact": "12307392628699123360048181870400/229212429615915946717363245347",
+        "weights": [
+          0.39507416236348286,
+          0.6049258376365172
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:9"
+        ],
+        "value": 55.06143962173636,
+        "value_exact": "375139160156250000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 53.69426365455937,
+      "c_H_exact": "12307392628699123360048181870400/229212429615915946717363245347",
+      "c_L": 55.06143962173636,
+      "c_L_exact": "375139160156250000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.367175967176989,
+      "delta_exact": "-5327353327535165723419189453200/3896611303470571094195175170899",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:9"
+      ],
+      "mass_g": 267.1502043315747,
+      "mass_g_exact": "920312500000000000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:34"
+        ],
+        "value": 50.50178789232063,
+        "value_exact": "344073791503906200/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:9",
+          "fig12_pressure_comparison.csv:data:10"
+        ],
+        "value": 52.56394409759393,
+        "value_exact": "118413643525913085717773437500000/2252754156081932308974456787109",
+        "weights": [
+          0.6583181430120675,
+          0.3416818569879326
+        ]
+      },
+      "c_H": 50.50178789232063,
+      "c_H_exact": "344073791503906200/6813101196289063",
+      "c_L": 52.56394409759393,
+      "c_L_exact": "118413643525913085717773437500000/2252754156081932308974456787109",
+      "component": "L1-H1",
+      "delta": -2.0621562052733027,
+      "delta_exact": "-4645530961919578500595092773400/2252754156081932308974456787109",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:34"
+      ],
+      "mass_g": 283.547833963501,
+      "mass_g_exact": "976801109313964750/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:34",
+          "fig12_pressure_comparison.csv:data:35"
+        ],
+        "value": 46.14925687246618,
+        "value_exact": "188241294364910349796066284180200/4078966967661398841983413696289",
+        "weights": [
+          0.272840920530993,
+          0.727159079469007
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:10"
+        ],
+        "value": 47.752021597147966,
+        "value_exact": "325339355468750000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 46.14925687246618,
+      "c_H_exact": "188241294364910349796066284180200/4078966967661398841983413696289",
+      "c_L": 47.752021597147966,
+      "c_L_exact": "325339355468750000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.6027647246817878,
+      "delta_exact": "-6537624368909928712234497069800/4078966967661398841983413696289",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:10"
+      ],
+      "mass_g": 315.14113301733585,
+      "mass_g_exact": "1085637664794921500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:35"
+        ],
+        "value": 44.51612238563013,
+        "value_exact": "303292846679687000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:10",
+          "fig12_pressure_comparison.csv:data:11"
+        ],
+        "value": 46.381589730157124,
+        "value_exact": "36708959385752752612304687500000/791455394248479875963592529297",
+        "weights": [
+          0.7656408033521158,
+          0.23435919664788418
+        ]
+      },
+      "c_H": 44.51612238563013,
+      "c_H_exact": "303292846679687000/6813101196289063",
+      "c_L": 46.381589730157124,
+      "c_L_exact": "36708959385752752612304687500000/791455394248479875963592529297",
+      "component": "L1-H1",
+      "delta": -1.8654673445269914,
+      "delta_exact": "-1476434192620274755096435547000/791455394248479875963592529297",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:35"
+      ],
+      "mass_g": 326.99540952964145,
+      "mass_g_exact": "1126474761962890500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:35",
+          "fig12_pressure_comparison.csv:data:36"
+        ],
+        "value": 39.90194672668762,
+        "value_exact": "9869744643045128931512832641600/247349952889490172360897064209",
+        "weights": [
+          0.08130585311779255,
+          0.9186941468822074
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:11"
+        ],
+        "value": 41.90445134348361,
+        "value_exact": "285499267578125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 39.90194672668762,
+      "c_H_exact": "9869744643045128931512832641600/247349952889490172360897064209",
+      "c_L": 41.90445134348361,
+      "c_L_exact": "285499267578125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -2.0025046167959895,
+      "delta_exact": "-495319422625474563360214233400/247349952889490172360897064209",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:11"
+      ],
+      "mass_g": 365.72279007138457,
+      "mass_g_exact": "1259887695312500000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:36"
+        ],
+        "value": 39.49358504324938,
+        "value_exact": "269073791503906200/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:11",
+          "fig12_pressure_comparison.csv:data:12"
+        ],
+        "value": 41.48662180652458,
+        "value_exact": "2560519015059282357177734375000/61719149536937966715115063811",
+        "weights": [
+          0.9285814822249757,
+          0.07141851777502431
+        ]
+      },
+      "c_H": 39.49358504324938,
+      "c_H_exact": "269073791503906200/6813101196289063",
+      "c_L": 41.48662180652458,
+      "c_L_exact": "2560519015059282357177734375000/61719149536937966715115063811",
+      "component": "L1-H1",
+      "delta": -1.993036763275204,
+      "delta_exact": "-123008534025197148196076693600/61719149536937966715115063811",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:36"
+      ],
+      "mass_g": 369.1502231563235,
+      "mass_g_exact": "1271694946289062500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:36",
+          "fig12_pressure_comparison.csv:data:37"
+        ],
+        "value": 35.66829017661197,
+        "value_exact": "3392523038686094557263056437175/95113138922218479798158009847",
+        "weights": [
+          0.08360848358434596,
+          0.9163915164156541
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:12"
+        ],
+        "value": 36.0540143703273,
+        "value_exact": "245639648437500000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 35.66829017661197,
+      "c_H_exact": "3392523038686094557263056437175/95113138922218479798158009847",
+      "c_L": 36.0540143703273,
+      "c_L_exact": "245639648437500000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.38572419371533545,
+      "delta_exact": "-36687438822507410510381062825/95113138922218479798158009847",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:12"
+      ],
+      "mass_g": 413.7136080233294,
+      "mass_g_exact": "1425212478637695250/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:37"
+        ],
+        "value": 35.31928312304004,
+        "value_exact": "240633850097656200/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:12",
+          "fig12_pressure_comparison.csv:data:13"
+        ],
+        "value": 35.81926140621132,
+        "value_exact": "453655100680887637693277994792/12665115998238326048486328125",
+        "weights": [
+          0.9196304273594078,
+          0.08036957264059222
+        ]
+      },
+      "c_H": 35.31928312304004,
+      "c_H_exact": "240633850097656200/6813101196289063",
+      "c_L": 35.81926140621132,
+      "c_L_exact": "453655100680887637693277994792/12665115998238326048486328125",
+      "component": "L1-H1",
+      "delta": -0.4999782831712821,
+      "delta_exact": "-6332282952964337390543619792/12665115998238326048486328125",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:37"
+      ],
+      "mass_g": 417.7794215597633,
+      "mass_g_exact": "1439218902587890500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:38"
+        ],
+        "value": 31.191923734511306,
+        "value_exact": "212513732910156200/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:12",
+          "fig12_pressure_comparison.csv:data:13"
+        ],
+        "value": 33.15980832739793,
+        "value_exact": "419972818945844020658365885416/12665115998238326048486328125",
+        "weights": [
+          0.009145193629446019,
+          0.990854806370554
+        ]
+      },
+      "c_H": 31.191923734511306,
+      "c_H_exact": "212513732910156200/6813101196289063",
+      "c_L": 33.15980832739793,
+      "c_L_exact": "419972818945844020658365885416/12665115998238326048486328125",
+      "component": "L1-H1",
+      "delta": -1.9678845928866258,
+      "delta_exact": "-24923486640055119769694010416/12665115998238326048486328125",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:38"
+      ],
+      "mass_g": 463.83992762437765,
+      "mass_g_exact": "1597893905639648500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:38",
+          "fig12_pressure_comparison.csv:data:39"
+        ],
+        "value": 31.167912475107773,
+        "value_exact": "2371435907014527155363559722900/76085811294178663606858253479",
+        "weights": [
+          0.9910803113564851,
+          0.008919688643514919
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:13"
+        ],
+        "value": 33.13309596298699,
+        "value_exact": "225739135742187000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 31.167912475107773,
+      "c_H_exact": "2371435907014527155363559722900/76085811294178663606858253479",
+      "c_L": 33.13309596298699,
+      "c_L_exact": "225739135742187000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.9651834878792178,
+      "delta_exact": "-149522580017214015610218048100/76085811294178663606858253479",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:13"
+      ],
+      "mass_g": 464.30257350925984,
+      "mass_g_exact": "1599487686157226500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:38",
+          "fig12_pressure_comparison.csv:data:39"
+        ],
+        "value": 28.81203321864235,
+        "value_exact": "2192186922475228789062500000000/76085811294178663606858253479",
+        "weights": [
+          0.11591965875465919,
+          0.8840803412453409
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:14"
+        ],
+        "value": 30.209310836154884,
+        "value_exact": "205819091796875000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 28.81203321864235,
+      "c_H_exact": "2192186922475228789062500000000/76085811294178663606858253479",
+      "c_L": 30.209310836154884,
+      "c_L_exact": "205819091796875000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.397277617512537,
+      "delta_exact": "-106313001131638436279296875000/76085811294178663606858253479",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:14"
+      ],
+      "mass_g": 509.6953546610355,
+      "mass_g_exact": "1755862426757812500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:39"
+        ],
+        "value": 28.499984546590245,
+        "value_exact": "194173278808593800/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:14",
+          "fig12_pressure_comparison.csv:data:15"
+        ],
+        "value": 29.95482789413768,
+        "value_exact": "145890639461576890914306640625000/4870354788121765996240997314453",
+        "weights": [
+          0.884100878363235,
+          0.11589912163676501
+        ]
+      },
+      "c_H": 28.499984546590245,
+      "c_H_exact": "194173278808593800/6813101196289063",
+      "c_L": 29.95482789413768,
+      "c_L_exact": "145890639461576890914306640625000/4870354788121765996240997314453",
+      "component": "L1-H1",
+      "delta": -1.454843347547437,
+      "delta_exact": "-545046404899596774755624624400/374642676009366615095461331881",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:39"
+      ],
+      "mass_g": 515.7078686896258,
+      "mass_g_exact": "1776575088500976500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:39",
+          "fig12_pressure_comparison.csv:data:40"
+        ],
+        "value": 25.66989504454563,
+        "value_exact": "30870523690886403717279434204100/1202596412541461052517032623291",
+        "weights": [
+          0.10487739252868641,
+          0.8951226074713136
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:15"
+        ],
+        "value": 28.013582875292773,
+        "value_exact": "190859375000000000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 25.66989504454563,
+      "c_H_exact": "30870523690886403717279434204100/1202596412541461052517032623291",
+      "c_L": 28.013582875292773,
+      "c_L_exact": "190859375000000000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -2.3436878307471423,
+      "delta_exact": "-2818510577373592454595565795900/1202596412541461052517032623291",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:15"
+      ],
+      "mass_g": 561.5724866330442,
+      "mass_g_exact": "1934575271606445250/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:40"
+        ],
+        "value": 25.338306494418703,
+        "value_exact": "172632446289063000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:15",
+          "fig12_pressure_comparison.csv:data:16"
+        ],
+        "value": 27.7110671480034,
+        "value_exact": "134981165902689054084472656250000/4871020130035466100049591064453",
+        "weights": [
+          0.8964281217119235,
+          0.10357187828807646
+        ]
+      },
+      "c_H": 25.338306494418703,
+      "c_H_exact": "172632446289063000/6813101196289063",
+      "c_L": 27.7110671480034,
+      "c_L_exact": "134981165902689054084472656250000/4871020130035466100049591064453",
+      "component": "L1-H1",
+      "delta": -2.372760653584697,
+      "delta_exact": "-11557764907367167941131591797000/4871020130035466100049591064453",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:40"
+      ],
+      "mass_g": 566.9462326417822,
+      "mass_g_exact": "1953087425231933500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:40",
+          "fig12_pressure_comparison.csv:data:41"
+        ],
+        "value": 23.53077892793761,
+        "value_exact": "113168270334135818349075317383000/4809372043344194263085174560547",
+        "weights": [
+          0.09208117262801621,
+          0.9079188273719838
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:16"
+        ],
+        "value": 25.092754052936662,
+        "value_exact": "170959472656250000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 23.53077892793761,
+      "c_H_exact": "113168270334135818349075317383000/4809372043344194263085174560547",
+      "c_L": 25.092754052936662,
+      "c_L_exact": "170959472656250000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.56197512499905,
+      "delta_exact": "-441889382268793159641939051000/282904237843776133122657327091",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:16"
+      ],
+      "mass_g": 613.4567055693019,
+      "mass_g_exact": "2113312530517578000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:41"
+        ],
+        "value": 23.347459392246506,
+        "value_exact": "159068603515625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:16",
+          "fig12_pressure_comparison.csv:data:17"
+        ],
+        "value": 24.89795596861295,
+        "value_exact": "62144755556481015242652893066500/2495978209408933320604705810547",
+        "weights": [
+          0.9112867621027023,
+          0.08871323789729772
+        ]
+      },
+      "c_H": 23.347459392246506,
+      "c_H_exact": "159068603515625000/6813101196289063",
+      "c_L": 24.89795596861295,
+      "c_L_exact": "62144755556481015242652893066500/2495978209408933320604705810547",
+      "component": "L1-H1",
+      "delta": -1.5504965763664427,
+      "delta_exact": "-227647392257282051770827349500/146822247612290195329688577091",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:41"
+      ],
+      "mass_g": 618.1738000468404,
+      "mass_g_exact": "2129562568664550750/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:41",
+          "fig12_pressure_comparison.csv:data:42"
+        ],
+        "value": 21.390625868404648,
+        "value_exact": "105505855505121856520729064941400/4932340743753594628634262084961",
+        "weights": [
+          0.07769879702179902,
+          0.922301202978201
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:17"
+        ],
+        "value": 22.896936507090498,
+        "value_exact": "9176420323989000/400770658605239",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 21.390625868404648,
+      "c_H_exact": "105505855505121856520729064941400/4932340743753594628634262084961",
+      "c_L": 22.896936507090498,
+      "c_L_exact": "9176420323989000/400770658605239",
+      "component": "L1-H1",
+      "delta": -1.5063106386858525,
+      "delta_exact": "-7429637335939729625740051269600/4932340743753594628634262084961",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:17"
+      ],
+      "mass_g": 666.6290909916379,
+      "mass_g_exact": "2296487426757812500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:42"
+        ],
+        "value": 21.225773420762298,
+        "value_exact": "144613342285156200/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:17",
+          "fig12_pressure_comparison.csv:data:18"
+        ],
+        "value": 22.78191506983928,
+        "value_exact": "4623487768520145545015335083000/202945527377596499107027053833",
+        "weights": [
+          0.9213177736157133,
+          0.07868222638428665
+        ]
+      },
+      "c_H": 21.225773420762298,
+      "c_H_exact": "144613342285156200/6813101196289063",
+      "c_L": 22.78191506983928,
+      "c_L_exact": "4623487768520145545015335083000/202945527377596499107027053833",
+      "component": "L1-H1",
+      "delta": -1.556141649076982,
+      "delta_exact": "-315811987646170783476829528800/202945527377596499107027053833",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:42"
+      ],
+      "mass_g": 670.7111823990814,
+      "mass_g_exact": "2310549926757812500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:42",
+          "fig12_pressure_comparison.csv:data:43"
+        ],
+        "value": 19.831436933594873,
+        "value_exact": "54332522186916318440628051757800/2739716863122302388260269165039",
+        "weights": [
+          0.18103659265414868,
+          0.8189634073458513
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:18"
+        ],
+        "value": 21.435088736166325,
+        "value_exact": "146039428710937000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 19.831436933594873,
+      "c_H_exact": "54332522186916318440628051757800/2739716863122302388260269165039",
+      "c_L": 21.435088736166325,
+      "c_L_exact": "146039428710937000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.6036518025714501,
+      "delta_exact": "-4393551886081479314727783203200/2739716863122302388260269165039",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:18"
+      ],
+      "mass_g": 718.5098218126793,
+      "mass_g_exact": "2475212669372558500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:43"
+        ],
+        "value": 19.523210797498972,
+        "value_exact": "133013610839843800/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:18",
+          "fig12_pressure_comparison.csv:data:19"
+        ],
+        "value": 21.16443481499104,
+        "value_exact": "1012523561973852156981059483125/47840803254366554588212285723",
+        "weights": [
+          0.8148662662722865,
+          0.1851337337277135
+        ]
+      },
+      "c_H": 19.523210797498972,
+      "c_H_exact": "133013610839843800/6813101196289063",
+      "c_L": 21.16443481499104,
+      "c_L_exact": "1012523561973852156981059483125/47840803254366554588212285723",
+      "component": "L1-H1",
+      "delta": -1.6412240174920678,
+      "delta_exact": "-78517475317179064492838723325/47840803254366554588212285723",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:43"
+      ],
+      "mass_g": 729.0759872058148,
+      "mass_g_exact": "2511612319946289000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:43",
+          "fig12_pressure_comparison.csv:data:44"
+        ],
+        "value": 17.715490421950353,
+        "value_exact": "8519449094031024745162963867200/480903937238735102428207397461",
+        "weights": [
+          0.09208646157371816,
+          0.9079135384262819
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:19"
+        ],
+        "value": 19.973151380258244,
+        "value_exact": "136079101562500000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 17.715490421950353,
+      "c_H_exact": "8519449094031024745162963867200/480903937238735102428207397461",
+      "c_L": 19.973151380258244,
+      "c_L_exact": "136079101562500000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -2.2576609583078935,
+      "delta_exact": "-4912751329413763680505536800/2176035915107398653521300441",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:19"
+      ],
+      "mass_g": 775.5829720181182,
+      "mass_g_exact": "2671825408935546500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:44"
+        ],
+        "value": 17.532139732866536,
+        "value_exact": "7026367187500000/400770658605239",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:19",
+          "fig12_pressure_comparison.csv:data:20"
+        ],
+        "value": 19.840229179568308,
+        "value_exact": "1207856783317403820190429687500/60879174952337163595609664917",
+        "weights": [
+          0.9090724743480519,
+          0.09092752565194802
+        ]
+      },
+      "c_H": 17.532139732866536,
+      "c_H_exact": "7026367187500000/400770658605239",
+      "c_L": 19.840229179568308,
+      "c_L_exact": "1207856783317403820190429687500/60879174952337163595609664917",
+      "component": "L1-H1",
+      "delta": -2.3080894467017727,
+      "delta_exact": "-10808813940876947631835937500/4683013457872089507354589609",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:44"
+      ],
+      "mass_g": 780.3000111287487,
+      "mass_g_exact": "2688075256347656500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:44",
+          "fig12_pressure_comparison.csv:data:45"
+        ],
+        "value": 17.01824883344995,
+        "value_exact": "1554331023142566367187500000000/91333194052696873319583468967",
+        "weights": [
+          0.1022925124469344,
+          0.8977074875530656
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:20"
+        ],
+        "value": 18.511303609334217,
+        "value_exact": "126119384765625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 17.01824883344995,
+      "c_H_exact": "1554331023142566367187500000000/91333194052696873319583468967",
+      "c_L": 18.511303609334217,
+      "c_L_exact": "126119384765625000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.4930547758842676,
+      "delta_exact": "-136365461577143658447265625000/91333194052696873319583468967",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:20"
+      ],
+      "mass_g": 827.4598825224942,
+      "mass_g_exact": "2850537490844726500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:45"
+        ],
+        "value": 16.95969168431864,
+        "value_exact": "115548095703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:20",
+          "fig12_pressure_comparison.csv:data:21"
+        ],
+        "value": 18.37073159305206,
+        "value_exact": "1202412530826402751190185546875/65452620911470047061128616333",
+        "weights": [
+          0.9036505538271553,
+          0.09634944617284473
+        ]
+      },
+      "c_H": 16.95969168431864,
+      "c_H_exact": "115548095703125000/6813101196289063",
+      "c_L": 18.37073159305206,
+      "c_L_exact": "1202412530826402751190185546875/65452620911470047061128616333",
+      "component": "L1-H1",
+      "delta": -1.4110399087334207,
+      "delta_exact": "-92356260237283870574951171875/65452620911470047061128616333",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:45"
+      ],
+      "mass_g": 832.8336838981404,
+      "mass_g_exact": "2869049835205078000/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:46"
+        ],
+        "value": 16.138376549876213,
+        "value_exact": "109952392578125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:20",
+          "fig12_pressure_comparison.csv:data:21"
+        ],
+        "value": 17.081465854813562,
+        "value_exact": "1118026709207331653747558593750/65452620911470047061128616333",
+        "weights": [
+          0.01997510309186085,
+          0.9800248969081391
+        ]
+      },
+      "c_H": 16.138376549876213,
+      "c_H_exact": "109952392578125000/6813101196289063",
+      "c_L": 17.081465854813562,
+      "c_L_exact": "1118026709207331653747558593750/65452620911470047061128616333",
+      "component": "L1-H1",
+      "delta": -0.9430893049373461,
+      "delta_exact": "-61727666761725888366699218750/65452620911470047061128616333",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:46"
+      ],
+      "mass_g": 882.119866034229,
+      "mass_g_exact": "3038837051391601500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:46",
+          "fig12_pressure_comparison.csv:data:47"
+        ],
+        "value": 16.117696442070006,
+        "value_exact": "4234001886393229609000/262692742825317402091",
+        "weights": [
+          0.9782551374156029,
+          0.021744862584397086
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:21"
+        ],
+        "value": 17.052322557902134,
+        "value_exact": "116179199218750000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 16.117696442070006,
+      "c_H_exact": "4234001886393229609000/262692742825317402091",
+      "c_L": 17.052322557902134,
+      "c_L_exact": "116179199218750000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.9346261158321266,
+      "delta_exact": "-245519497884114141000/262692742825317402091",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:21"
+      ],
+      "mass_g": 883.2339589609402,
+      "mass_g_exact": "3042675018310546500/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:47"
+        ],
+        "value": 15.18734235842325,
+        "value_exact": "103472900390625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:21",
+          "fig12_pressure_comparison.csv:data:22"
+        ],
+        "value": 16.34619307286973,
+        "value_exact": "2341677284388651985110114602500/143255207738565382364699419807",
+        "weights": [
+          0.03392200052933051,
+          0.9660779994706695
+        ]
+      },
+      "c_H": 15.18734235842325,
+      "c_H_exact": "103472900390625000/6813101196289063",
+      "c_L": 16.34619307286973,
+      "c_L_exact": "2341677284388651985110114602500/143255207738565382364699419807",
+      "component": "L1-H1",
+      "delta": -1.1588507144464832,
+      "delta_exact": "-2822193797212269971237182617500/2435338531555611500199890136719",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:47"
+      ],
+      "mass_g": 933.3546311373526,
+      "mass_g_exact": "3215336990356445250/3444925308227539",
+      "panel": "a"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:71"
+        ],
+        "value": 214.67867881857114,
+        "value_exact": "112509812575120200/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:48",
+          "fig12_pressure_comparison.csv:data:49"
+        ],
+        "value": 216.84314521671004,
+        "value_exact": "299832409238442775730590820313000/1382715644245034344568634033203",
+        "weights": [
+          0.9719183489342542,
+          0.028081651065745748
+        ]
+      },
+      "c_H": 214.67867881857114,
+      "c_H_exact": "112509812575120200/524084707406851",
+      "c_L": 216.84314521671004,
+      "c_L_exact": "299832409238442775730590820313000/1382715644245034344568634033203",
+      "component": "L1-H1",
+      "delta": -2.164466398138906,
+      "delta_exact": "-2992841550149366038055419922400/1382715644245034344568634033203",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:71"
+      ],
+      "mass_g": 22.55465505003463,
+      "mass_g_exact": "15539932250976500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:72"
+        ],
+        "value": 145.27208527415468,
+        "value_exact": "989753417968750000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:48",
+          "fig12_pressure_comparison.csv:data:49"
+        ],
+        "value": 156.39436826378613,
+        "value_exact": "216248939670156216055679321289000/1382715644245034344568634033203",
+        "weights": [
+          0.015766324574262913,
+          0.9842336754257371
+        ]
+      },
+      "c_H": 145.27208527415468,
+      "c_H_exact": "989753417968750000/6813101196289063",
+      "c_L": 156.39436826378613,
+      "c_L_exact": "216248939670156216055679321289000/1382715644245034344568634033203",
+      "component": "L1-H1",
+      "delta": -11.12228298963147,
+      "delta_exact": "-15378954689483865608901977539000/1382715644245034344568634033203",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:72"
+      ],
+      "mass_g": 50.719155594287535,
+      "mass_g_exact": "34944992065429700/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:72",
+          "fig12_pressure_comparison.csv:data:73"
+        ],
+        "value": 144.0758493245527,
+        "value_exact": "320442505585029678494567871094000/2224123661858028123511505126953",
+        "weights": [
+          0.9803964644458066,
+          0.019603535554193332
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:49"
+        ],
+        "value": 155.39760727465895,
+        "value_exact": "1058739624023437000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 144.0758493245527,
+      "c_H_exact": "320442505585029678494567871094000/2224123661858028123511505126953",
+      "c_L": 155.39760727465895,
+      "c_L_exact": "1058739624023437000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -11.321757950106257,
+      "delta_exact": "-25180989750660570762481689453000/2224123661858028123511505126953",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:49"
+      ],
+      "mass_g": 51.183569877518195,
+      "mass_g_exact": "35264968872070300/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:73"
+        ],
+        "value": 84.25064624367914,
+        "value_exact": "574008178710937000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:49",
+          "fig12_pressure_comparison.csv:data:50"
+        ],
+        "value": 85.67432828511288,
+        "value_exact": "25745301448507579979438781738125/300501935221839266257953643799",
+        "weights": [
+          0.09296633440723678,
+          0.9070336655927632
+        ]
+      },
+      "c_H": 84.25064624367914,
+      "c_H_exact": "574008178710937000/6813101196289063",
+      "c_L": 85.67432828511288,
+      "c_L_exact": "25745301448507579979438781738125/300501935221839266257953643799",
+      "component": "L1-H1",
+      "delta": -1.4236820414337326,
+      "delta_exact": "-427819208591415378017425537125/300501935221839266257953643799",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:73"
+      ],
+      "mass_g": 74.40948849096364,
+      "mass_g_exact": "51267395019531250/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:73",
+          "fig12_pressure_comparison.csv:data:74"
+        ],
+        "value": 80.75194602747294,
+        "value_exact": "36889239546842861265411376953000/456821678753012665431365966797",
+        "weights": [
+          0.9021532831765293,
+          0.09784671682347064
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:50"
+        ],
+        "value": 78.52804704286686,
+        "value_exact": "535019531250000000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 80.75194602747294,
+      "c_H_exact": "36889239546842861265411376953000/456821678753012665431365966797",
+      "c_L": 78.52804704286686,
+      "c_L_exact": "535019531250000000/6813101196289063",
+      "component": "L1-H1",
+      "delta": 2.2238989846060844,
+      "delta_exact": "4596946911877247400758493000/2067066419696889888829710257",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:50"
+      ],
+      "mass_g": 76.79002694134381,
+      "mass_g_exact": "17635854085286500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:74"
+        ],
+        "value": 48.493695680704704,
+        "value_exact": "25414804311899000/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:50",
+          "fig12_pressure_comparison.csv:data:51"
+        ],
+        "value": 47.416274399804536,
+        "value_exact": "569929776453448756372552169000/12019708078452452636863306949",
+        "weights": [
+          0.09770298075346356,
+          0.9022970192465364
+        ]
+      },
+      "c_H": 48.493695680704704,
+      "c_H_exact": "25414804311899000/524084707406851",
+      "c_L": 47.416274399804536,
+      "c_L_exact": "569929776453448756372552169000/12019708078452452636863306949",
+      "component": "L1-H1",
+      "delta": 1.0774212809001738,
+      "delta_exact": "12950289273932408033672132000/12019708078452452636863306949",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:74"
+      ],
+      "mass_g": 98.73875090939504,
+      "mass_g_exact": "68030014038086000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:74",
+          "fig12_pressure_comparison.csv:data:75"
+        ],
+        "value": 46.85093802948664,
+        "value_exact": "2674085691641071157169342041000/57076460026436995042610168457",
+        "weights": [
+          0.9022676562998146,
+          0.09773234370018534
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:51"
+        ],
+        "value": 44.047413748697025,
+        "value_exact": "300099487304687000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 46.85093802948664,
+      "c_H_exact": "2674085691641071157169342041000/57076460026436995042610168457",
+      "c_L": 44.047413748697025,
+      "c_L_exact": "300099487304687000/6813101196289063",
+      "component": "L1-H1",
+      "delta": 2.8035242807896203,
+      "delta_exact": "160015241545634283275604248000/57076460026436995042610168457",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:51"
+      ],
+      "mass_g": 101.11541370409685,
+      "mass_g_exact": "69667510986328000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:75"
+        ],
+        "value": 31.684954694633902,
+        "value_exact": "215872802734375000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:51",
+          "fig12_pressure_comparison.csv:data:52"
+        ],
+        "value": 33.15693775738963,
+        "value_exact": "51816276555881132346496582031000/1562758205689031959600448608399",
+        "weights": [
+          0.3409313912994314,
+          0.6590686087005686
+        ]
+      },
+      "c_H": 31.684954694633902,
+      "c_H_exact": "215872802734375000/6813101196289063",
+      "c_L": 33.15693775738963,
+      "c_L_exact": "51816276555881132346496582031000/1562758205689031959600448608399",
+      "component": "L1-H1",
+      "delta": -1.4719830627557273,
+      "delta_exact": "-135314918232752131150189568000/91926953275825409388261682847",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:75"
+      ],
+      "mass_g": 123.05682929286995,
+      "mass_g_exact": "84784927368164000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:75",
+          "fig12_pressure_comparison.csv:data:76"
+        ],
+        "value": 26.440967253434877,
+        "value_exact": "10806884933263095875061035156200/408717458392495160070037841797",
+        "weights": [
+          0.47857052015769946,
+          0.5214294798423006
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:52"
+        ],
+        "value": 27.52337384217007,
+        "value_exact": "187519531250000000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 26.440967253434877,
+      "c_H_exact": "10806884933263095875061035156200/408717458392495160070037841797",
+      "c_L": 27.52337384217007,
+      "c_L_exact": "187519531250000000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.082406588735193,
+      "delta_exact": "-442398469895138871032714843800/408717458392495160070037841797",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:52"
+      ],
+      "mass_g": 134.40696377812205,
+      "mass_g_exact": "92605056762695300/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:76"
+        ],
+        "value": 21.62800999947589,
+        "value_exact": "147353820800781000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:52",
+          "fig12_pressure_comparison.csv:data:53"
+        ],
+        "value": 24.702066681375744,
+        "value_exact": "1266441130065631139551050522750/51268630532054681977440329159",
+        "weights": [
+          0.7194705201760548,
+          0.2805294798239451
+        ]
+      },
+      "c_H": 21.62800999947589,
+      "c_H_exact": "147353820800781000/6813101196289063",
+      "c_L": 24.702066681375744,
+      "c_L_exact": "1266441130065631139551050522750/51268630532054681977440329159",
+      "component": "L1-H1",
+      "delta": -3.0740566818998545,
+      "delta_exact": "-2679245496401598887519836425750/871566719044929593616485595703",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:76"
+      ],
+      "mass_g": 144.82417257519606,
+      "mass_g_exact": "33260803222656250/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:76",
+          "fig12_pressure_comparison.csv:data:77"
+        ],
+        "value": 16.545273849362413,
+        "value_exact": "47744733731728101513748168945000/2885702235358769126488494873047",
+        "weights": [
+          0.13079519704300743,
+          0.8692048029569925
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:53"
+        ],
+        "value": 17.46629476953598,
+        "value_exact": "118999633789063000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 16.545273849362413,
+      "c_H_exact": "47744733731728101513748168945000/2885702235358769126488494873047",
+      "c_L": 17.46629476953598,
+      "c_L_exact": "118999633789063000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.9210209201735687,
+      "delta_exact": "-156340713421003396952012006000/169747190315221713322852639591",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:53"
+      ],
+      "mass_g": 171.5410603572468,
+      "mass_g_exact": "118190078735351500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:77"
+        ],
+        "value": 15.780439745811558,
+        "value_exact": "712011476226200/45119875472113",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:53",
+          "fig12_pressure_comparison.csv:data:55"
+        ],
+        "value": 16.917613287597007,
+        "value_exact": "1567551500687849948797225952150/92657957954216036862850189209",
+        "weights": [
+          0.9151368105128795,
+          0.08486318948712046
+        ]
+      },
+      "c_H": 15.780439745811558,
+      "c_H_exact": "712011476226200/45119875472113",
+      "c_L": 16.917613287597007,
+      "c_L_exact": "1567551500687849948797225952150/92657957954216036862850189209",
+      "component": "L1-H1",
+      "delta": -1.1371735417854487,
+      "delta_exact": "-8105244478569464990175687350/7127535227247387450988476093",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:77"
+      ],
+      "mass_g": 175.56133335843288,
+      "mass_g_exact": "120960006713867200/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:78"
+        ],
+        "value": 10.355397069764827,
+        "value_exact": "70552368164063000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:53",
+          "fig12_pressure_comparison.csv:data:55"
+        ],
+        "value": 12.548865823377586,
+        "value_exact": "3488256845506857046375274658250/277973873862648110588550567627",
+        "weights": [
+          0.2394335909195049,
+          0.7605664090804951
+        ]
+      },
+      "c_H": 10.355397069764827,
+      "c_H_exact": "70552368164063000/6813101196289063",
+      "c_L": 12.548865823377586,
+      "c_L_exact": "3488256845506857046375274658250/277973873862648110588550567627",
+      "component": "L1-H1",
+      "delta": -2.1934687536127595,
+      "delta_exact": "-609727006638413186340332031250/277973873862648110588550567627",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:78"
+      ],
+      "mass_g": 207.5718131313858,
+      "mass_g_exact": "47671635945638000/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:78",
+          "fig12_pressure_comparison.csv:data:80"
+        ],
+        "value": 9.820400376165589,
+        "value_exact": "3363776366505796258255004882800/342529452736956012835922241211",
+        "weights": [
+          0.6891068734957472,
+          0.3108931265042528
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:55"
+        ],
+        "value": 11.000812087881084,
+        "value_exact": "74949645996093800/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 9.820400376165589,
+      "c_H_exact": "3363776366505796258255004882800/342529452736956012835922241211",
+      "c_L": 11.000812087881084,
+      "c_L_exact": "74949645996093800/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.180411711715495,
+      "delta_exact": "-404325777618201987617492675800/342529452736956012835922241211",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:55"
+      ],
+      "mass_g": 218.9146392373596,
+      "mass_g_exact": "150830001831054700/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:80"
+        ],
+        "value": 8.63455910974026,
+        "value_exact": "58828125000000000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:55",
+          "fig12_pressure_comparison.csv:data:56"
+        ],
+        "value": 8.713147263659822,
+        "value_exact": "19377712983638043059844970703000/2223962524363296214881515502929",
+        "weights": [
+          0.46932693858375746,
+          0.5306730614162426
+        ]
+      },
+      "c_H": 8.63455910974026,
+      "c_H_exact": "58828125000000000/6813101196289063",
+      "c_L": 8.713147263659822,
+      "c_L_exact": "19377712983638043059844970703000/2223962524363296214881515502929",
+      "component": "L1-H1",
+      "delta": -0.07858815391956014,
+      "delta_exact": "-13444393013538174074613131000/171074040335638170375501192533",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:80"
+      ],
+      "mass_g": 244.05646055191556,
+      "mass_g_exact": "168152465820312500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:80",
+          "fig12_pressure_comparison.csv:data:81"
+        ],
+        "value": 6.863804001846299,
+        "value_exact": "203134828956367056249765249400/29595080060812587451418363131",
+        "weights": [
+          0.45741214109305706,
+          0.5425878589069429
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:56"
+        ],
+        "value": 6.689937859375836,
+        "value_exact": "3506094125601000/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 6.863804001846299,
+      "c_H_exact": "203134828956367056249765249400/29595080060812587451418363131",
+      "c_L": 6.689937859375836,
+      "c_L_exact": "3506094125601000/524084707406851",
+      "component": "L1-H1",
+      "delta": 0.17386614247046353,
+      "delta_exact": "5145582406278015475933368400/29595080060812587451418363131",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:56"
+      ],
+      "mass_g": 266.29187230711125,
+      "mass_g_exact": "61157480875651000/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:81"
+        ],
+        "value": 5.3710229306204536,
+        "value_exact": "2152548397288600/400770658605239",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:56",
+          "fig12_pressure_comparison.csv:data:57"
+        ],
+        "value": 5.880522594706384,
+        "value_exact": "17670819677341125304882343000/3004974369667128852355663593",
+        "weights": [
+          0.6245905602089965,
+          0.3754094397910035
+        ]
+      },
+      "c_H": 5.3710229306204536,
+      "c_H_exact": "2152548397288600/400770658605239",
+      "c_L": 5.880522594706384,
+      "c_L_exact": "17670819677341125304882343000/3004974369667128852355663593",
+      "component": "L1-H1",
+      "delta": -0.5094996640859306,
+      "delta_exact": "-19903434615119032167434692400/39064666805672675080623626709",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:81"
+      ],
+      "mass_g": 285.0367578257792,
+      "mass_g_exact": "196387481689453000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:81",
+          "fig12_pressure_comparison.csv:data:82"
+        ],
+        "value": 4.263821501529833,
+        "value_exact": "66628832062706171575012207032/15626552856117488100537109375",
+        "weights": [
+          0.2505242373278201,
+          0.74947576267218
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:57"
+        ],
+        "value": 4.533851253988218,
+        "value_exact": "2376122107872600/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 4.263821501529833,
+      "c_H_exact": "66628832062706171575012207032/15626552856117488100537109375",
+      "c_L": 4.533851253988218,
+      "c_L_exact": "2376122107872600/524084707406851",
+      "component": "L1-H1",
+      "delta": -0.27002975245838534,
+      "delta_exact": "-4219634199515279469909667968/15626552856117488100537109375",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:57"
+      ],
+      "mass_g": 316.22371613369035,
+      "mass_g_exact": "72624994913737000/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:82"
+        ],
+        "value": 3.8937217499351626,
+        "value_exact": "26528320312500000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:57",
+          "fig12_pressure_comparison.csv:data:58"
+        ],
+        "value": 4.384010758690025,
+        "value_exact": "4110821442678586502868652343400/937685071718877409595489501953",
+        "weights": [
+          0.7912502633125321,
+          0.2087497366874679
+        ]
+      },
+      "c_H": 3.8937217499351626,
+      "c_H_exact": "26528320312500000/6813101196289063",
+      "c_L": 4.384010758690025,
+      "c_L_exact": "4110821442678586502868652343400/937685071718877409595489501953",
+      "component": "L1-H1",
+      "delta": -0.4902890087548627,
+      "delta_exact": "-2080256490213939938920655400/4242918876556006378260133493",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:82"
+      ],
+      "mass_g": 326.6484547760811,
+      "mass_g_exact": "75019175211588500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:82",
+          "fig12_pressure_comparison.csv:data:83"
+        ],
+        "value": 2.7479004065072705,
+        "value_exact": "105113880581814298574274236500/38252434598028140145527232777",
+        "weights": [
+          0.11836442248301372,
+          0.8816355775169863
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:58"
+        ],
+        "value": 3.816051568700334,
+        "value_exact": "25999145507813000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 2.7479004065072705,
+      "c_H_exact": "105113880581814298574274236500/38252434598028140145527232777",
+      "c_L": 3.816051568700334,
+      "c_L_exact": "25999145507813000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.0681511621930635,
+      "delta_exact": "-40859382472597909941239790500/38252434598028140145527232777",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:58"
+      ],
+      "mass_g": 366.1626468735086,
+      "mass_g_exact": "252282409667968750/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:83"
+        ],
+        "value": 2.594067592766334,
+        "value_exact": "17673645019531000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:58",
+          "fig12_pressure_comparison.csv:data:59"
+        ],
+        "value": 3.6549921824028178,
+        "value_exact": "16257207275368593184356689453000/4447945840661412590760040283203",
+        "weights": [
+          0.8880269625315237,
+          0.11197303746847637
+        ]
+      },
+      "c_H": 2.594067592766334,
+      "c_H_exact": "17673645019531000/6813101196289063",
+      "c_L": 3.6549921824028178,
+      "c_L_exact": "16257207275368593184356689453000/4447945840661412590760040283203",
+      "component": "L1-H1",
+      "delta": -1.060924589636484,
+      "delta_exact": "-4718935115729014865036010742000/4447945840661412590760040283203",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:83"
+      ],
+      "mass_g": 371.46764436540576,
+      "mass_g_exact": "28437500000000000/76554446750217",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:83",
+          "fig12_pressure_comparison.csv:data:84"
+        ],
+        "value": 1.4458940313276916,
+        "value_exact": "137575816848165600372950236000/95149308225469790457550684611",
+        "weights": [
+          0.13515402177451116,
+          0.8648459782254888
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:59"
+        ],
+        "value": 2.37767506361661,
+        "value_exact": "16199340820313000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 1.4458940313276916,
+      "c_H_exact": "137575816848165600372950236000/95149308225469790457550684611",
+      "c_L": 2.37767506361661,
+      "c_L_exact": "16199340820313000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.9317810322889185,
+      "delta_exact": "-88658320639904722900390625000/95149308225469790457550684611",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:59"
+      ],
+      "mass_g": 413.5401014092992,
+      "mass_g_exact": "94975001017252600/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:84"
+        ],
+        "value": 1.2664629205511821,
+        "value_exact": "8628540039063000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:59",
+          "fig12_pressure_comparison.csv:data:60"
+        ],
+        "value": 2.282981321720706,
+        "value_exact": "445952157257140129508972168000/195337628483539887342643737793",
+        "weights": [
+          0.8683324685001134,
+          0.1316675314998866
+        ]
+      },
+      "c_H": 1.2664629205511821,
+      "c_H_exact": "8628540039063000/6813101196289063",
+      "c_L": 2.282981321720706,
+      "c_L_exact": "445952157257140129508972168000/195337628483539887342643737793",
+      "component": "L1-H1",
+      "delta": -1.0165184011695239,
+      "delta_exact": "-11680252576137318115234375000/11490448734325875726037866929",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:84"
+      ],
+      "mass_g": 420.1149851673121,
+      "mass_g_exact": "32161670260959200/76554446750217",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:84",
+          "fig12_pressure_comparison.csv:data:85"
+        ],
+        "value": 0.605347432006095,
+        "value_exact": "159197589731794357357025146500/262985487861442611862850189209",
+        "weights": [
+          0.03254354539839242,
+          0.9674564546016076
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:60"
+        ],
+        "value": 1.6584868110747482,
+        "value_exact": "11299438476563000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 0.605347432006095,
+      "c_H_exact": "159197589731794357357025146500/262985487861442611862850189209",
+      "c_L": 1.6584868110747482,
+      "c_L_exact": "11299438476563000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.0531393790686532,
+      "delta_exact": "-276960373390466494750976562500/262985487861442611862850189209",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:60"
+      ],
+      "mass_g": 463.47559942551726,
+      "mass_g_exact": "106443354288737000/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:85"
+        ],
+        "value": 0.5831086616586408,
+        "value_exact": "3972778320313000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:60",
+          "fig12_pressure_comparison.csv:data:61"
+        ],
+        "value": 1.6370981950527705,
+        "value_exact": "1424168285159900486304873512/869934552162885729736328125",
+        "weights": [
+          0.9700172994628077,
+          0.029982700537192354
+        ]
+      },
+      "c_H": 0.5831086616586408,
+      "c_H_exact": "3972778320313000/6813101196289063",
+      "c_L": 1.6370981950527705,
+      "c_L_exact": "1424168285159900486304873512/869934552162885729736328125",
+      "component": "L1-H1",
+      "delta": -1.0539895333941298,
+      "delta_exact": "-916901912717591160132998512/869934552162885729736328125",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:85"
+      ],
+      "mass_g": 464.9341747566366,
+      "mass_g_exact": "320335006713867200/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:85",
+          "fig12_pressure_comparison.csv:data:86"
+        ],
+        "value": 0.42092420842329076,
+        "value_exact": "126469941576933923606872558500/300457752360379638007640838623",
+        "weights": [
+          0.0784434996604799,
+          0.9215565003395201
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:61"
+        ],
+        "value": 0.9451215825008275,
+        "value_exact": "6439208984375000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": 0.42092420842329076,
+      "c_H_exact": "126469941576933923606872558500/300457752360379638007640838623",
+      "c_L": 0.9451215825008275,
+      "c_L_exact": "6439208984375000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.5241973740775367,
+      "delta_exact": "-157499164808549810523986816500/300457752360379638007640838623",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:61"
+      ],
+      "mass_g": 512.1228294944043,
+      "mass_g_exact": "117615839640299500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:86"
+        ],
+        "value": 0.4071189603483055,
+        "value_exact": "2773742675781000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:61",
+          "fig12_pressure_comparison.csv:data:62"
+        ],
+        "value": 0.9451215825008275,
+        "value_exact": "6439208984375000/6813101196289063",
+        "weights": [
+          0.9195673479886327,
+          0.0804326520113673
+        ]
+      },
+      "c_H": 0.4071189603483055,
+      "c_H_exact": "2773742675781000/6813101196289063",
+      "c_L": 0.9451215825008275,
+      "c_L_exact": "6439208984375000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.5380026221525219,
+      "delta_exact": "-3665466308594000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:86"
+      ],
+      "mass_g": 516.1395590389702,
+      "mass_g_exact": "118538335164388000/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:86",
+          "fig12_pressure_comparison.csv:data:87"
+        ],
+        "value": -0.5076910768907287,
+        "value_exact": "-1839986865011545915323145250/3624225338527212235507404103",
+        "weights": [
+          0.12530345629069825,
+          0.8746965437093017
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:62"
+        ],
+        "value": 0.9451215825008275,
+        "value_exact": "6439208984375000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.5076910768907287,
+      "c_H_exact": "-1839986865011545915323145250/3624225338527212235507404103",
+      "c_L": 0.9451215825008275,
+      "c_L_exact": "6439208984375000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -1.452812659391556,
+      "delta_exact": "-89510447689099692425727844250/61611830754962608003625869751",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:62"
+      ],
+      "mass_g": 562.0618709672418,
+      "mass_g_exact": "387255020141601500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:87"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:62",
+          "fig12_pressure_comparison.csv:data:63"
+        ],
+        "value": 0.8527512756928415,
+        "value_exact": "60303263366222253417968750000/70716122139163251640162748449",
+        "weights": [
+          0.8715631039835299,
+          0.12843689601647015
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": 0.8527512756928415,
+      "c_L_exact": "60303263366222253417968750000/70716122139163251640162748449",
+      "component": "L1-H1",
+      "delta": -1.491492212491979,
+      "delta_exact": "-1793033272959291387939453125000/1202174076365775277882766723633",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:87"
+      ],
+      "mass_g": 568.6404089148942,
+      "mass_g_exact": "391787567138672000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:87",
+          "fig12_pressure_comparison.csv:data:88"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.14946338417136426,
+          0.8505366158286357
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:63"
+        ],
+        "value": 0.2259333299589656,
+        "value_exact": "118408203125000/524084707406851",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": 0.2259333299589656,
+      "c_L_exact": "118408203125000/524084707406851",
+      "component": "L1-H1",
+      "delta": -0.864674266758103,
+      "delta_exact": "-5891113281250000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:63"
+      ],
+      "mass_g": 613.2818720081324,
+      "mass_g_exact": "140848363240559900/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:88"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:63",
+          "fig12_pressure_comparison.csv:data:64"
+        ],
+        "value": 0.12102267860279944,
+        "value_exact": "22630491259473145751953125000/186993805795252549736898916739",
+        "weights": [
+          0.8541263000537407,
+          0.14587369994625932
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": 0.12102267860279944,
+      "c_L_exact": "22630491259473145751953125000/186993805795252549736898916739",
+      "component": "L1-H1",
+      "delta": -0.7597636154019368,
+      "delta_exact": "-142071089948768732910156250000/186993805795252549736898916739",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:88"
+      ],
+      "mass_g": 621.1266420322612,
+      "mass_g_exact": "142650019327799500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:88",
+          "fig12_pressure_comparison.csv:data:89"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.10334444401212091,
+          0.896655555987879
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:64"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:64"
+      ],
+      "mass_g": 667.0596950634114,
+      "mass_g_exact": "153199157714843750/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:89"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:64",
+          "fig12_pressure_comparison.csv:data:65"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.8991488329413273,
+          0.10085116705867272
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:89"
+      ],
+      "mass_g": 672.3537299863909,
+      "mass_g_exact": "463245010375976500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:89",
+          "fig12_pressure_comparison.csv:data:90"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.18075461616672023,
+          0.8192453838332798
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:65"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:65"
+      ],
+      "mass_g": 719.5532365600568,
+      "mass_g_exact": "165254999796549500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:90"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:65",
+          "fig12_pressure_comparison.csv:data:66"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.8151587694678347,
+          0.18484123053216528
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:90"
+      ],
+      "mass_g": 729.9671233665497,
+      "mass_g_exact": "502940063476562500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:90",
+          "fig12_pressure_comparison.csv:data:91"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.16587794964412034,
+          0.8341220503558797
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:66"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:66"
+      ],
+      "mass_g": 775.8928680184217,
+      "mass_g_exact": "534582443237304700/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:91"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:66",
+          "fig12_pressure_comparison.csv:data:67"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.8260156015981319,
+          0.1739843984018681
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:91"
+      ],
+      "mass_g": 785.0259059898813,
+      "mass_g_exact": "540875015258789000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:91",
+          "fig12_pressure_comparison.csv:data:92"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.15332722146304337,
+          0.8466727785369567
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:67"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:67"
+      ],
+      "mass_g": 828.3862987820476,
+      "mass_g_exact": "570749893188476500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:92"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:67",
+          "fig12_pressure_comparison.csv:data:68"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.8573836234116757,
+          0.14261637658832427
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:92"
+      ],
+      "mass_g": 836.2385986514934,
+      "mass_g_exact": "192053349812825500/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:92",
+          "fig12_pressure_comparison.csv:data:93"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.05464858943484101,
+          0.945351410565159
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:68"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:68"
+      ],
+      "mass_g": 883.4451921383989,
+      "mass_g_exact": "608684921264648500/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:93"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:68",
+          "fig12_pressure_comparison.csv:data:69"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          0.9467142931276069,
+          0.05328570687239311
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:93"
+      ],
+      "mass_g": 886.1740966677114,
+      "mass_g_exact": "203521703084309900/229663340250651",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:93",
+          "fig12_pressure_comparison.csv:data:94"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          0.003582010750581492,
+          0.9964179892494185
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:69"
+        ],
+        "value": -0.4932549225828963,
+        "value_exact": "-3360595703125000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932549225828963,
+      "c_L_exact": "-3360595703125000/6813101196289063",
+      "component": "L1-H1",
+      "delta": -0.14548601421624113,
+      "delta_exact": "-991210937500000/6813101196289063",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:69"
+      ],
+      "mass_g": 934.657884800011,
+      "mass_g_exact": "643969955444336000/688990020751953",
+      "panel": "b"
+    },
+    {
+      "H_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:94"
+        ],
+        "value": -0.6387409367991375,
+        "value_exact": "-4351806640625000/6813101196289063",
+        "weights": [
+          1.0
+        ]
+      },
+      "L_bracket": {
+        "ids": [
+          "fig12_pressure_comparison.csv:data:69",
+          "fig12_pressure_comparison.csv:data:70"
+        ],
+        "value": -0.4932448620164675,
+        "value_exact": "-36487623533377234914926382200/73974665208289703991945706881",
+        "weights": [
+          0.9965969112753821,
+          0.003403088724617952
+        ]
+      },
+      "c_H": -0.6387409367991375,
+      "c_H_exact": "-4351806640625000/6813101196289063",
+      "c_L": -0.4932448620164675,
+      "c_L_exact": "-36487623533377234914926382200/73974665208289703991945706881",
+      "component": "L1-H1",
+      "delta": -0.1454960747826699,
+      "delta_exact": "-139919304475187761291503906400/961670647707766151895294189453",
+      "knot_observation_ids": [
+        "fig12_pressure_comparison.csv:data:94"
+      ],
+      "mass_g": 934.8321785724966,
+      "mass_g_exact": "4050880768014200/4333270570767",
+      "panel": "b"
+    }
+  ]
+}
